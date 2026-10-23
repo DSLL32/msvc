@@ -106,6 +106,15 @@ addresses for inventory consumers, separate from mapped graph-equivalence checks
 Extent-only passes allow a complete final instruction at a library fragment's
 endpoint, but never an instruction operand clipped by that endpoint.
 
+Standalone `driver[].symbol` (RCPP: `functions[].symbol`) optionally names the
+actual MAP public for a function whose `name` remains its historical logical ID.
+Absent `symbol`, the actual public is `name`. Explicit mappings require a nonempty
+existing real MAP key, no logical/public-name conflict, unique logical names and
+injective symbol keys. They resolve directly against immutable raw MAP publics;
+alias chains are rejected. `symbol == name` is a valid identity mapping, and
+different real MAP keys may retain the same physical address. No wrapper function,
+MAP rewriting or archived-trace relabeling is needed.
+
 Input identity and existing profile-specific index validation still run: original
 SHA-256, symbol mapping, declared duplicate/extent checks and relevant existing
 CRT defaults. These establish the input being audited. Runtime identification is
@@ -345,3 +354,11 @@ report parity. Its historical C1 support index contains a zero-length `__stricmp
 record rejected by both versions with optional `--check-accepted-extents`; C1 did
 not adopt that flag. The source/legacy policies are preserved without weakening
 that rejection.
+
+Logical-to-MAP symbol controls:
+
+```sh
+python3 tooling/graph-audit/check-symbols.py \
+  --scratch ~/.ai-tmp/graph-audit/symbol-cli \
+  --report ~/.ai-tmp/graph-audit/symbol-cli-validation.json
+```

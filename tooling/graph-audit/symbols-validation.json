@@ -1,0 +1,360 @@
+{
+  "timestamp": "2026-10-23T13:00:29.672476+00:00",
+  "scope": "Explicit symbol metadata only; no graph-discovery changes. Exact full JSON parity for all8 coherent pinned VC1 default/legacy profiles, including existing LINK/RCPP mappings. Active workers latest frontiers not resnapshotted. No Wine/target execution.",
+  "baseline_commit": "08b1d606",
+  "binary_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "unit_tests": 28,
+  "clippy": "all-targets -D warnings passed",
+  "profiles": [
+    {
+      "profile": "cl",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.04267830215394497,
+        "after": 0.04090388771146536
+      }
+    },
+    {
+      "profile": "cl",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.030267533846199512,
+        "after": 0.027853849343955517
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.3191237160935998,
+        "after": 0.3288152264431119
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.36626699939370155,
+        "after": 0.3699098415672779
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.39280617889016867,
+        "after": 0.3787206020206213
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.4085113564506173,
+        "after": 0.41361523792147636
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.5177170997485518,
+        "after": 0.48673861287534237
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.4250039290636778,
+        "after": 0.4318237053230405
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 617,
+      "single_sample_seconds": {
+        "before": 0.32743619475513697,
+        "after": 0.31834104750305414
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 626,
+      "single_sample_seconds": {
+        "before": 0.25832361076027155,
+        "after": 0.2389269946143031
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.07086663693189621,
+        "after": 0.07184416428208351
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.07757438439875841,
+        "after": 0.05813631322234869
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.06218083668500185,
+        "after": 0.05893057584762573
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.05660594254732132,
+        "after": 0.054745991714298725
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "cfg",
+      "full_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.0393385561183095,
+        "after": 0.039412492886185646
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "legacy",
+      "full_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.04370046406984329,
+        "after": 0.04454419109970331
+      }
+    }
+  ],
+  "controls": {
+    "scope": "Synthetic CL-profile logical-to-MAP mapping controls; no source wrappers,\ncanonical MAP rewrites, target execution, compilers or Wine involved.\n",
+    "binary_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+    "positive_report": {
+      "checked_accepted_extents": {
+        "original": 2,
+        "rebuilt": 2
+      },
+      "checked_functions": 2,
+      "checked_unique_accepted_extents": {
+        "original": 2,
+        "rebuilt": 2
+      },
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "known_imports",
+        "function_references",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "accepted_index_extents"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "_historical_helper": {
+          "edges": [],
+          "imports": []
+        },
+        "_historical_main": {
+          "edges": [
+            "_historical_helper"
+          ],
+          "imports": []
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 0,
+          "slots": {}
+        },
+        "rebuilt": {
+          "normalizable_thunks": 0,
+          "slots": {}
+        }
+      },
+      "original_accepted_graphs": {
+        "_historical_helper": {
+          "calls": [],
+          "references": []
+        },
+        "_historical_main": {
+          "calls": [
+            4198432
+          ],
+          "references": []
+        }
+      },
+      "profile": "cl"
+    },
+    "results": [
+      {
+        "case": "historical_logical_names_actual_conventional_MAP",
+        "accepted": true,
+        "seconds": 0.00329787191003561,
+        "diagnostic": ""
+      },
+      {
+        "case": "explicit_identity_mapping_is_noop",
+        "accepted": true,
+        "seconds": 0.0027790535241365433,
+        "diagnostic": ""
+      },
+      {
+        "case": "distinct_MAP_keys_can_share_address",
+        "accepted": true,
+        "seconds": 0.002673860639333725,
+        "diagnostic": ""
+      },
+      {
+        "case": "no_symbol_default_unchanged",
+        "accepted": true,
+        "seconds": 0.002554132603108883,
+        "diagnostic": ""
+      },
+      {
+        "case": "missing_actual",
+        "accepted": false,
+        "seconds": 0.00237263273447752,
+        "diagnostic": "graph-audit: missing actual MAP symbol _absent for logical _historical_main"
+      },
+      {
+        "case": "empty_symbol",
+        "accepted": false,
+        "seconds": 0.0022594397887587547,
+        "diagnostic": "graph-audit: symbol must be a nonempty MAP name"
+      },
+      {
+        "case": "nonstring_symbol",
+        "accepted": false,
+        "seconds": 0.002216517925262451,
+        "diagnostic": "graph-audit: symbol must be a nonempty MAP name"
+      },
+      {
+        "case": "null_symbol",
+        "accepted": false,
+        "seconds": 0.002258644439280033,
+        "diagnostic": "graph-audit: symbol must be a nonempty MAP name"
+      },
+      {
+        "case": "logical_public_conflict",
+        "accepted": false,
+        "seconds": 0.002235657535493374,
+        "diagnostic": "graph-audit: logical name _helper conflicts with an actual MAP public"
+      },
+      {
+        "case": "duplicate_actual",
+        "accepted": false,
+        "seconds": 0.002201841212809086,
+        "diagnostic": "graph-audit: multiple logical functions map to MAP symbol _main"
+      },
+      {
+        "case": "implicit_actual_conflict",
+        "accepted": false,
+        "seconds": 0.002511069178581238,
+        "diagnostic": "graph-audit: multiple logical functions map to MAP symbol _main"
+      },
+      {
+        "case": "duplicate_logical",
+        "accepted": false,
+        "seconds": 0.0022284742444753647,
+        "diagnostic": "graph-audit: duplicate logical function name _historical_main"
+      },
+      {
+        "case": "alias_chain",
+        "accepted": false,
+        "seconds": 0.0024020876735448837,
+        "diagnostic": "graph-audit: missing actual MAP symbol _historical_main for logical _historical_helper"
+      },
+      {
+        "case": "empty_logical",
+        "accepted": false,
+        "seconds": 0.0023844540119171143,
+        "diagnostic": "graph-audit: logical function name must be nonempty"
+      }
+    ]
+  },
+  "actual_worker_candidate": "C2 independently reports actual conventional main/mainCRTStartup Win32 build passes11-source strict trial using this tool, historical logical IDs preserved. Sourceworker owns acceptance proof; this report does not claim reconstruction acceptance.",
+  "actual_C2_static_reaudit": {
+    "scope": "Read-only actual canonical Win32 candidate PE/MAP, no target invocation or reconstruction acceptance",
+    "command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "cl",
+      "--repo",
+      "/root/msvc2",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/c2",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/C2.EXE",
+      "--check-ret",
+      "--check-imports",
+      "--check-ownership",
+      "--check-extents",
+      "--config",
+      "/root/msvc2/decomp/vc5.10/c2/build/trial.json",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/c2/build/c2.map",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/c2/build/graph-metadata.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/c2/runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/c2/build/runtime.json",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/c2/build/c2.exe"
+    ],
+    "seconds": 0.019190195947885513,
+    "checked_functions": 11,
+    "main_symbol": "_main",
+    "startup_symbol": "_mainCRTStartup",
+    "historical_logical_ids_preserved": true,
+    "input_sha256_before_and_after": {
+      "config": "0f1ba5932485ba3f03ed058b2e0df4be8d2aed5197a6a30c6552aeba5ea583fb",
+      "map": "0c980c6f0b5c9069d88c6b736aa08e4ed790813648a57e9e06571863c926da78",
+      "metadata": "e62e4fde693d703e1c7ea2c09acf4de913139bd9f87b18b66bb178b598036758",
+      "runtime": "b9105a9471c1abf2a203137f88f870c0ce7243cfbde16f58a1f4634df200b2e3",
+      "rebuilt-runtime": "c4032a6e96092dc7be1f227dc0972334232f88632de67b12911f9160db03686a",
+      "rebuilt": "ee572048271788143c940cd13a537b9f2a8da15a558eafe021a46fc2c9539ed4"
+    }
+  }
+}

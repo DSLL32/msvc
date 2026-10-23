@@ -205,17 +205,14 @@ impl Inputs {
                 "driver"
             }],
         )?;
-        if a.profile == Profile::Link {
-            for d in cfg["driver"].as_array().context("driver array")? {
-                if let Some(s) = d["symbol"].as_str()
-                    && let Some(v) = publics.get(s).copied()
-                {
-                    let n = d["name"].as_str().context("driver name")?;
-                    ensure!(!publics.contains_key(n), "logical symbol already public");
-                    publics.insert(n.into(), v);
-                }
-            }
-        }
+        symbol_aliases(
+            &cfg[if a.profile == Profile::Rcpp {
+                "functions"
+            } else {
+                "driver"
+            }],
+            &mut publics,
+        )?;
         let accepted = serde_json::from_value(cfg["accepted"].clone())?;
         let driver_addresses: BTreeSet<_> = drivers.iter().map(|r| r.start).collect();
         let driver_names: BTreeSet<_> = drivers.iter().map(|r| r.name.as_str()).collect();
@@ -319,11 +316,7 @@ impl Inputs {
         });
         let addresses: BTreeSet<_> = publics.values().copied().chain([r.code_end()?]).collect();
         for (i, d) in drivers.iter().enumerate() {
-            let symbol = if a.profile == Profile::Rcpp {
-                cfg["functions"][i]["symbol"].as_str().unwrap_or(&d.name)
-            } else {
-                &d.name
-            };
+            let symbol = &d.name;
             if let Some(start) = publics.get(symbol) {
                 let end = addresses
                     .range((
@@ -416,6 +409,55 @@ impl Inputs {
         })
     }
 }
+/// Resolve explicit logical names against immutable real MAP keys. Different
+/// real keys may alias one address; metadata may not invent alias chains or map
+/// two logical vertices to the same real symbol key.
+pub(crate) fn symbol_aliases(records: &Value, publics: &mut BTreeMap<String, u32>) -> Result<()> {
+    let records = records
+        .as_array()
+        .context("function records must be an array")?;
+    if !records.iter().any(|r| r.get("symbol").is_some()) {
+        return Ok(());
+    }
+    let raw = publics.clone();
+    let mut names = BTreeSet::new();
+    let mut symbols = BTreeSet::new();
+    let mut aliases = Vec::new();
+    for record in records {
+        let name = record["name"]
+            .as_str()
+            .filter(|s| !s.is_empty())
+            .context("logical function name must be nonempty")?;
+        ensure!(names.insert(name), "duplicate logical function name {name}");
+        let explicit = record.get("symbol");
+        let symbol = match explicit {
+            None => name,
+            Some(value) => value
+                .as_str()
+                .filter(|s| !s.is_empty())
+                .context("symbol must be a nonempty MAP name")?,
+        };
+        ensure!(
+            symbols.insert(symbol),
+            "multiple logical functions map to MAP symbol {symbol}"
+        );
+        if explicit.is_some() {
+            let address = *raw.get(symbol).with_context(|| {
+                format!("missing actual MAP symbol {symbol} for logical {name}")
+            })?;
+            if symbol != name {
+                ensure!(
+                    !raw.contains_key(name),
+                    "logical name {name} conflicts with an actual MAP public"
+                );
+                aliases.push((name.to_string(), address));
+            }
+        }
+    }
+    publics.extend(aliases);
+    Ok(())
+}
+
 pub fn validate_chunk_ownership(pe: &Pe, records: &[Record]) -> Result<()> {
     for record in records {
         let mut ranges = record.code_ranges().collect::<Vec<_>>();

@@ -661,3 +661,40 @@ fn explicit_data_requires_owned_file_bytes_and_cannot_hide_execution() {
         .is_err()
     );
 }
+
+#[test]
+fn logical_symbol_mapping_is_explicit_injective_and_preserves_physical_aliases() {
+    use crate::index::symbol_aliases;
+    use serde_json::json;
+    use std::collections::BTreeMap;
+    let original = BTreeMap::from([
+        ("_main".into(), 0x401000),
+        ("_main_alias".into(), 0x401000),
+        ("_helper".into(), 0x401020),
+    ]);
+    let mut publics = original.clone();
+    symbol_aliases(&json!([{"name":"historic_main","symbol":"_main"},{"name":"historic_alias","symbol":"_main_alias"},{"name":"_helper","symbol":"_helper"}]),&mut publics).unwrap();
+    assert_eq!(publics["historic_main"], publics["historic_alias"]);
+    assert_eq!(publics["_helper"], 0x401020);
+    for records in [
+        json!([{"name":"main","symbol":"_missing"}]),
+        json!([{"name":"main","symbol":""}]),
+        json!([{"name":"main","symbol":null}]),
+        json!([{"name":"main","symbol":12}]),
+        json!([{"name":"_helper","symbol":"_main"}]),
+        json!([{"name":"one","symbol":"_main"},{"name":"two","symbol":"_main"}]),
+        json!([{"name":"_main"},{"name":"two","symbol":"_main"}]),
+        json!([{"name":"one","symbol":"_main"},{"name":"one","symbol":"_helper"}]),
+        json!([{"name":"one","symbol":"_main"},{"name":"two","symbol":"one"}]),
+    ] {
+        let mut publics = original.clone();
+        assert!(symbol_aliases(&records, &mut publics).is_err());
+        assert_eq!(
+            publics, original,
+            "invalid metadata must not partially alter the alias index"
+        );
+    }
+    let mut publics = original.clone();
+    symbol_aliases(&json!([{"name":"_main"}]), &mut publics).unwrap();
+    assert_eq!(publics, original);
+}
