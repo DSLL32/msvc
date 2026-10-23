@@ -2299,6 +2299,12 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
     return (size_t)(cursor-text);
 }
 
+WEAK WCHAR *recon_wcschr(const WCHAR *text,WCHAR character)
+{
+    (void)text;(void)character;
+    recon_unsupported("unreviewed UTF16 wcschr");return NULL;
+}
+
 WEAK WCHAR *recon_wcsdup(const WCHAR *text)
 {
     (void)text;recon_unsupported("unreviewed UTF16 _wcsdup");return NULL;

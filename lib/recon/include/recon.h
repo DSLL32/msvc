@@ -253,6 +253,7 @@ char *recon_strcpy(char *,const char *);
 char *recon_getpath(const char *,char *,int);
 void recon_searchenv(const char *,const char *,char *);
 int recon_wcscmp(const WCHAR *,const WCHAR *);
+WCHAR *recon_wcschr(const WCHAR *,WCHAR);
 size_t recon_wcslen(const WCHAR *);
 WCHAR *recon_wcscat(WCHAR *,const WCHAR *);
 WCHAR *recon_wcsdup(const WCHAR *);
@@ -399,6 +400,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __except(filter) else if (0)
 #define FILE ShimFILE
 #define wcscmp recon_wcscmp
+#define wcschr recon_wcschr
 #define wcslen recon_wcslen
 #define wcscat recon_wcscat
 #define _wcsdup recon_wcsdup
