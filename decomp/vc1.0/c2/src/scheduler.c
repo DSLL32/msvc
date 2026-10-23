@@ -2587,3 +2587,13 @@ int __fastcall scheduled_float_latency(MachineInstruction *instruction)
     }
     return 1;
 }
+
+/* Original [000466d0,000466e9). Count the two x87 argument bits in
+   the call's register-mask field, separately from its result flags. */
+int __fastcall scheduler_call_float_arguments(MachineInstruction *instruction)
+{
+    unsigned mask = instruction->operands[1].value.call->register_mask;
+    int count = (mask & 0x4000) != 0;
+    if (mask & 0x8000) ++count;
+    return count;
+}

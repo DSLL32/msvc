@@ -175,7 +175,8 @@ int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm in
 #include "float-peepholes.h"
 #include "float-machine.h"
 #include <recon.h>
-int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
+int __fastcall widen_instruction_encoding(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
+int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
@@ -319,7 +320,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall scheduler_call_float_arguments(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
 int __fastcall arrange_scheduled_float_inputs(MachineInstruction *instruction) { __asm int 3 }
@@ -331,7 +331,6 @@ void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, Machi
 void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
 void __fastcall coff_write_dword(unsigned value) { __asm int 3 }
 void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
-unsigned __fastcall coff_section_symbol(unsigned short identifier) { __asm int 3 }
 
 #include "intrinsics.h"
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }

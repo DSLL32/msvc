@@ -3,6 +3,7 @@
 #include "machine-layout.h"
 #include "records.h"
 #include "function-input.h"
+#include <recon.h>
 extern int optimize_global, codeview_debug, string_blocks;
 /* Original [000685d0,00068870), including its twelve-entry kind table. */
 void __fastcall layout_machine_stream(MachineInstruction *instruction, unsigned apply)
@@ -255,4 +256,17 @@ int __fastcall alignment_lookahead(MachineInstruction *instruction)
             scan->operands[0].value.symbol == instruction->record.symbol) return 1;
     }
     return 0;
+}
+
+/* Original [00032e60,00032eb5). Absorb alignment in a preceding
+   instruction when possible; i386 may also use a redundant one-byte prefix. */
+int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    if (operation == MC_JMP || operation == MC_RET) return 0;
+    if (bytes == 1 && cpu_model == 3) {
+        if (widen_instruction_encoding(instruction, bytes) || add_alignment_prefix(instruction)) return 1;
+        return 0;
+    }
+    return widen_instruction_encoding(instruction, bytes);
 }

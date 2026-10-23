@@ -2620,3 +2620,36 @@ Pentium floating issue and latency decisions: checkpoint1058
 @scheduler_call_float_arguments@4. 979 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1058.json for extent union, limits and measured timings.
+
+Approved optimizer queue complete: checkpoint1061
+The final floating case exits0 and its979-byte object matches the captured
+original after normalizing only COFF timestamp bytes4..7. All six native cached
+reference cases pass: minimal286, hello2289, loops620, pressure879, aliasing600
+and floating979 bytes. Original compiler/native builds and982 whole-function
+graph checks pass. The final three functions count floating call arguments,
+dispatch previous-instruction extension and retrieve COFF section symbols.
+
+Accepted code extents cover293617/399693 original code bytes (73.460631%); this
+is an extent union including source, shared text data, CRT and import thunks,
+not branch coverage. Floating added120 acceptances (119 source, one CRT seam)
+and40670 accepted extent bytes from checkpoint941. Unvisited children stay
+named traps. In particular the alignment dispatcher took its JMP/RET guard;
+widening/prefix bodies and the x87 input-arrangement/exchange helpers remain
+unvisited. Preserve the original exchange slot1..8 contract and named slot8
+aliases in any future work; do not tighten it to1..7.
+
+Final measured build times: original2.046s, native+trace1.584s; audit4.719s;
+six-case native fixture wrapper0.443s (execution/setup/check splits in receipts).
+Original-only completion capture0.902s; direct native completion0.023s.
+cases/floating-timing-validation.json retains323 measured wrappers, including
+retained retries/failures, plus separate reference/native detail. Analysis time
+is unmeasured; early combined builds are unsplit, and overlapping ledgers must
+not be added as total task time. No shared shim change was needed.
+
+C2 is paused after its approved queue. Suggested next cases target /O1 /G3
+integer cost policy (~720 analysis bytes), deep x87 live values/nested calls
+(~954 known arrangement/exchange bytes plus unrecovered operand arrangement),
+or /O2 /G4 floating stores/comparisons (~718 analysis bytes). These are suggestions
+only. See cases/floating-complete.json for evidence, limits and remaining families;
+cases/floating-completion-extension-validation.json reproduces the final cached
+reference extension and rejects five corruptions without Wine.

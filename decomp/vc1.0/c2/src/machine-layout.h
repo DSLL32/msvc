@@ -9,4 +9,6 @@ unsigned __fastcall label_has_fallthrough_predecessor(MachineInstruction *instru
 MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instruction);
 int __fastcall alignment_lookahead(MachineInstruction *instruction);
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes);
+int __fastcall widen_instruction_encoding(MachineInstruction *instruction, unsigned bytes);
+int __fastcall add_alignment_prefix(MachineInstruction *instruction);
 #endif

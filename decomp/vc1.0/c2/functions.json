@@ -1062,7 +1062,10 @@
     "@instruction_float_not_ready@4",
     "@apply_scheduled_float@4",
     "@scheduled_float_needs_exchange@4",
-    "@scheduled_float_latency@4"
+    "@scheduled_float_latency@4",
+    "@scheduler_call_float_arguments@4",
+    "@extend_previous_instruction@8",
+    "@coff_section_symbol@4"
   ],
   "driver": [
     {
@@ -3841,8 +3844,7 @@
     {
       "name": "@extend_previous_instruction@8",
       "start": 208480,
-      "end": 208481,
-      "provisional": true
+      "end": 208565
     },
     {
       "name": "@coff_symbol_type@4",
@@ -6133,8 +6135,7 @@
     {
       "name": "@coff_section_symbol@4",
       "start": 453472,
-      "end": 453473,
-      "provisional": true
+      "end": 453497
     },
     {
       "name": "_count_function_saved_registers",
@@ -7368,8 +7369,7 @@
     {
       "name": "@scheduler_call_float_arguments@4",
       "start": 288464,
-      "end": 288465,
-      "provisional": true
+      "end": 288489
     },
     {
       "name": "@scheduled_float_needs_exchange@4",
@@ -7392,6 +7392,18 @@
       "name": "@arrange_scheduled_float_operands@4",
       "start": 289472,
       "end": 289473,
+      "provisional": true
+    },
+    {
+      "name": "@widen_instruction_encoding@8",
+      "start": 208880,
+      "end": 208881,
+      "provisional": true
+    },
+    {
+      "name": "@add_alignment_prefix@4",
+      "start": 209264,
+      "end": 209265,
       "provisional": true
     }
   ],

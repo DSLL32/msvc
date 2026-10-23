@@ -1,7 +1,12 @@
-C2 ACTIVE: final approved x87 stress at1058 acceptances/979 source graphs.
-Matching original/native frontier @scheduler_call_float_arguments@4.
-Extent union293482/399693=73.4268551113%, not branch coverage.
-Five completed object regressions pass; floating979-byte object incomplete.
-Next reference BEFORE cases/floating-original-1058.json.
-After floating completion PAUSE: no additional cases authorized.
-Canonical/W3, audit and native fixtures pass; no shim requests.
+C2 PAUSED: all approved cases complete at1061 acceptances/982 source graphs.
+Accepted extent union293617/399693=73.4606310343%, not branch coverage.
+Minimal, hello, loops, register pressure, aliasing and floating cases exit0 with
+matching traces/status/streams/objects; only COFF timestamp bytes4..7 normalized.
+Final floating object979 bytes, normalized SHA256
+b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e.
+Canonical/native/W3, full graph/extent audits and six native fixtures pass.
+No shim requests or pending checks. Do not reconstruct or start another case.
+Resume only after user chooses: /O1 /G3 integer pressure/loops; deep x87 calls
+and intrinsics; or /O2 /G4 floating stores/comparisons. See floating-complete.json
+for named traps/analysis sizes and remaining-x87-exchange-analysis.json for slot8.
+Current saved native cache is complete and reproducible from durable references.

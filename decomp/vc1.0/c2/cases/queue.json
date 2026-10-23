@@ -1,5 +1,5 @@
 {
-  "active": "optimizer-floating-point",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -40,7 +40,7 @@
       "case": "optimizer-floating-point",
       "after": "optimizer-aliasing",
       "phase": "c2",
-      "status": "active; original/native initial frontier input_extended matched",
+      "status": "complete",
       "description": "x87 conversions and arithmetic, floating scheduling and late store movement",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
       "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json"
@@ -86,6 +86,15 @@
       "exit": 0,
       "object_bytes": 600,
       "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae"
+    },
+    {
+      "case": "optimizer-floating-point",
+      "accepted_frontiers": 1061,
+      "reconstructed_functions": 982,
+      "exit": 0,
+      "object_bytes": 979,
+      "normalized_sha256": "b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e"
     }
-  ]
+  ],
+  "status": "Approved queue complete; paused. Suggestions require user direction."
 }

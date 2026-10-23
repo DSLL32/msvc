@@ -1,0 +1,3903 @@
+{
+  "scope": "Retained floating-case measurements, including retained failed/retry commands; not total task wall time",
+  "analysis_seconds": null,
+  "analysis_note": "Unmeasured analysis/disassembly/decompilation time. Some overwritten attempts are unrecoverable. No time is imputed.",
+  "measurement_count": 323,
+  "wrapper_groups": {
+    "static_audit": {
+      "count": 40,
+      "seconds": 180.35381495021284,
+      "failed": 0
+    },
+    "native_fixture_wrapper": {
+      "count": 40,
+      "seconds": 16.95295723155141,
+      "failed": 0
+    },
+    "canonical_warning_check": {
+      "count": 41,
+      "seconds": 63.42852974496782,
+      "failed": 0
+    },
+    "initial_frontend_reference_capture": {
+      "count": 1,
+      "seconds": 6.083334244787693,
+      "failed": 0
+    },
+    "combined_canonical_native_build_unsplit": {
+      "count": 76,
+      "seconds": 427.10231695882976,
+      "failed": 6
+    },
+    "proof_and_other_wrappers": {
+      "count": 12,
+      "seconds": 7.450533523224294,
+      "failed": 2
+    },
+    "other_make": {
+      "count": 1,
+      "seconds": 0.42439065407961607,
+      "failed": 0
+    },
+    "canonical_build": {
+      "count": 57,
+      "seconds": 224.37829494476318,
+      "failed": 2
+    },
+    "native_build": {
+      "count": 55,
+      "seconds": 269.2737313704565,
+      "failed": 0
+    }
+  },
+  "nonadditive_note": "Wrapper timings include subprocess work; reference/native detail below may overlap proof/other wrappers. Do not add the independent ledgers as a task total. Early combined canonical/native builds are unsplit.",
+  "original_frontier_reference": {
+    "count": 121,
+    "setup_seconds": 26.14284044317901,
+    "execution_seconds": 142.88514639995992,
+    "check_seconds": 0.8210297003388405,
+    "total_seconds": 169.84907854441553
+  },
+  "native_frontier_matching": {
+    "records": 120,
+    "measured_records": 119,
+    "seconds": 16.16661863401532,
+    "includes": "118 measured trap matches and final direct complete trace/output match; one CRT seam observation has no measured seconds"
+  },
+  "final_native_fixture": {
+    "wrapper_seconds": 0.44256849959492683,
+    "suite_seconds": 0.3369140988215804,
+    "suite_setup_seconds": 0.152849773876369,
+    "execution_seconds": 0.05003475211560726,
+    "per_case_setup_seconds": 0.0889919362962246,
+    "check_seconds": 0.00805374700576067,
+    "negative_check_seconds": 0.025472017005085945
+  },
+  "measurements": {
+    "floating-arrangement-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.1656279899179935,
+      "returncode": 0,
+      "log_sha256": "eb01f65c01d965a06b6082f8885364ac7dc73bf888c504b17615e3aa6830edc6",
+      "category": "static_audit"
+    },
+    "floating-arrangement-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.40105501282960176,
+      "returncode": 0,
+      "log_sha256": "154c04fd9fcbda069e00039654f3cf81b50d3c835482fadfbeef9bc37bbb66be",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-arrangement-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "value-selection"
+      ],
+      "seconds": 2.1799704199656844,
+      "returncode": 0,
+      "log_sha256": "c1f4ad0123300e7a41f3056e30ce42513d9c6611fd3c827f7dce8bc5a3de1eb4",
+      "category": "canonical_warning_check"
+    },
+    "floating-boundary-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.530052089132369,
+      "returncode": 0,
+      "log_sha256": "9814707db4bb5e206e7b1acae17835c445b5b2945b3b4939764e767b93cd4b02",
+      "category": "static_audit"
+    },
+    "floating-boundary-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4222019948065281,
+      "returncode": 0,
+      "log_sha256": "b46aab439b52f4c9798e26b6f8eaaa7c62b73e69038a3bb10846fb27e3b5841f",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-boundary-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.8428521482273936,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-capture": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-optimizer-floating-point",
+        "--stem",
+        "floating"
+      ],
+      "seconds": 6.083334244787693,
+      "returncode": 0,
+      "log_sha256": "ddeb595deb41d727a0ab43daeae53e2c7e2436cf2045cae321e8b297a9e9aaec",
+      "category": "initial_frontend_reference_capture"
+    },
+    "floating-context-entry-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.643800520338118,
+      "returncode": 0,
+      "log_sha256": "5a008c73872260314698ef29f6c7b0e40f1067143db4928e12e079b12ae6e887",
+      "category": "static_audit"
+    },
+    "floating-context-entry-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.39871405344456434,
+      "returncode": 0,
+      "log_sha256": "eed69b72bdc000212a7e180efe148b347ee5a531d6656b61fb7ea17d63821dd8",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-context-entry-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.3652061065658927,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-context-resolution-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.705586269497871,
+      "returncode": 0,
+      "log_sha256": "493227d45dab3e4dc99dde00c48ca21302bf779316fe308be65cd7d3af4b6e2a",
+      "category": "static_audit"
+    },
+    "floating-context-resolution-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4236921202391386,
+      "returncode": 0,
+      "log_sha256": "0886c497316433ccaff22491a927ef00c8285b5379c561530f9b64840ec5381e",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-context-resolution-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.5430998699739575,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-data-cleanup-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.570652252063155,
+      "returncode": 0,
+      "log_sha256": "7b8d25f643c16b1b6d1fe369157a7a829fa29534a716f71cd3c04d56b6b2c49b",
+      "category": "static_audit"
+    },
+    "floating-data-cleanup-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4431365495547652,
+      "returncode": 0,
+      "log_sha256": "c6b78dc59edc42fb3ce526856402b5487a4a6d0ec523d21fd90d533fe357eeb4",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-data-cleanup-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.168895055539906,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-depth-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.291396575979888,
+      "returncode": 0,
+      "log_sha256": "d8595e1c27e5c68df5bffec5ce4b3ab3151e1e840bbb3dd0b52a6c980eb623c7",
+      "category": "static_audit"
+    },
+    "floating-depth-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.42151744570583105,
+      "returncode": 0,
+      "log_sha256": "a252ffdb0ab4d060e6063b89add9aab9966f5df3531eadaa24f746b7e399f3df",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-depth-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "global-registers",
+        "work-prepare"
+      ],
+      "seconds": 1.0250774817541242,
+      "returncode": 0,
+      "log_sha256": "3783cf781a99aec9f9cf389be9445d4dbfae068d98506dd782a2281c9cfe48c7",
+      "category": "canonical_warning_check"
+    },
+    "floating-folder-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.197758853435516,
+      "returncode": 0,
+      "log_sha256": "3980cc2f3b4f23a4b5808aa8005a0429dcad5a2fe411be312cc0b6e5ba4e7d7e",
+      "category": "static_audit"
+    },
+    "floating-folder-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.40303405933082104,
+      "returncode": 0,
+      "log_sha256": "0d551790b38a557bcdb1718469144a41a0ef52a7a44911e2df43eb8cae588e44",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-folder-declaration-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.696353552863002,
+      "returncode": 0,
+      "log_sha256": "755bdbdf4dbd672ff61a35533e922d41b9e011b12546bc804998741ff1cdf4b5",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating-folder-final-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.316266852430999,
+      "returncode": 0,
+      "log_sha256": "3980cc2f3b4f23a4b5808aa8005a0429dcad5a2fe411be312cc0b6e5ba4e7d7e",
+      "category": "static_audit"
+    },
+    "floating-folder-final-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.437685314565897,
+      "returncode": 0,
+      "log_sha256": "dddfdc3ed33a635d63af5a4c27dbede53a2a2584bd8aad22c5fd4e8cce4da8b9",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-folder-final-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "tree-optimizer"
+      ],
+      "seconds": 2.215157858096063,
+      "returncode": 0,
+      "log_sha256": "fb479288780833f34bd86ea79eeb676d92c29224274abc8277ead0f27bab6856",
+      "category": "canonical_warning_check"
+    },
+    "floating-folder-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "extended",
+        "tree-optimizer"
+      ],
+      "seconds": 1.209590783342719,
+      "returncode": 0,
+      "log_sha256": "3fd94a3cbd38e39fd267bf6b7f340b5145d06a6146e39eece3a72204d25d3494",
+      "category": "canonical_warning_check"
+    },
+    "floating-fread-observation": {
+      "command": [
+        "python3",
+        "scripts/capture-fread-seam.py"
+      ],
+      "seconds": 2.802498584613204,
+      "returncode": 1,
+      "log_sha256": "1975c13bd57630db617701e7cfbef336a023a4aee63448f29101cb35847e5210",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating-fread-observer-compile": {
+      "command": [
+        "python3",
+        "scripts/wine-tool.py",
+        "CL.EXE",
+        "/nologo",
+        "/I../../../lib/recon/include",
+        "/c",
+        "/O1",
+        "/G3",
+        "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\fread-observer.obj",
+        "src/reference-fread-observer.c"
+      ],
+      "seconds": 2.0621372405439615,
+      "returncode": 0,
+      "log_sha256": "6e456c085e4395029fcc405bb630188f78ef3c3fa016c4f39b6775fdc1edab0d",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating-homes-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.47436289768666,
+      "returncode": 0,
+      "log_sha256": "b6141dc5792e088c03a1d6a99f632770ea22d8fda979da7bff964900c76ccbbe",
+      "category": "static_audit"
+    },
+    "floating-homes-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.45362604316323996,
+      "returncode": 0,
+      "log_sha256": "36882fde70e04b2c4bc3aaebd1648a44ffc97b293c9c18e2de1c1adacdd45d10",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-homes-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.0837666876614094,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-input-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.196663745678961,
+      "returncode": 0,
+      "log_sha256": "740158a54f0caef123432b73df9e5f59baa3c985b5e2aab26e1f85bd22ec9876",
+      "category": "static_audit"
+    },
+    "floating-input-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.42436904087662697,
+      "returncode": 0,
+      "log_sha256": "c3cb3f6d02495193017a469975dd07a8254e6fb646dd56bb406dab07141c87a0",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-input-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "input",
+        "extended"
+      ],
+      "seconds": 1.320156174711883,
+      "returncode": 0,
+      "log_sha256": "85262ee3c48a88c1f62f7549e2367a6067dc6dc2a6c53e11ab2f667737a75fb3",
+      "category": "canonical_warning_check"
+    },
+    "floating-instruction-driver-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.587527268566191,
+      "returncode": 0,
+      "log_sha256": "d44952b7e2ad05aad6bba07208a17018e81a48f2b825d3b4c2b90ea0528ed729",
+      "category": "static_audit"
+    },
+    "floating-instruction-driver-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4285475090146065,
+      "returncode": 0,
+      "log_sha256": "e58a10804e84297ba6c3f458a3295516586c075fba7d166cf6f4b0123d279257",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-instruction-driver-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.1094437995925546,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-machine-driver-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.43987488374114,
+      "returncode": 0,
+      "log_sha256": "3d60fc9559faedbf182f201bed910ce8649712df8954545ed223e43aa9957e1c",
+      "category": "static_audit"
+    },
+    "floating-machine-driver-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.39809326734393835,
+      "returncode": 0,
+      "log_sha256": "af7b4ad5f9c668861a97d72388158c191996e76accb120f1c8861a57a575dc7a",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-machine-driver-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.1365261459723115,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-memory-uses-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.531693019904196,
+      "returncode": 0,
+      "log_sha256": "fe720318c07b3abafe4d859b95380c4b4ec0688f530302095a5c53d9109498db",
+      "category": "static_audit"
+    },
+    "floating-memory-uses-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4396863551810384,
+      "returncode": 0,
+      "log_sha256": "651d84556c44a86be4dacb51a37477676d68c81a63789d9df153f9caccfafb86",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-memory-uses-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.993503101170063,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-motion-analysis-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.746330256573856,
+      "returncode": 0,
+      "log_sha256": "a1a4d5226c973a11ae70dabe8f6759a715c4d57099846720df628e4f5f43397a",
+      "category": "static_audit"
+    },
+    "floating-motion-analysis-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4165725205093622,
+      "returncode": 0,
+      "log_sha256": "e4f13fc4d722d8c7ddf15df3cfc2f3fdabdd9582ede84d6307bae0c40bc06fac",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-motion-analysis-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.1880684094503522,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-peephole-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.104091254062951,
+      "returncode": 0,
+      "log_sha256": "3b04ee0ee0ba4b91dd78b1f91cbd3dbc44d64268b09a76a4e3889181520c4748",
+      "category": "static_audit"
+    },
+    "floating-peephole-body-alias-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 6.766514824703336,
+      "returncode": 2,
+      "log_sha256": "72b0f6cc3f7888b7269d38db2f584f8f665a196418a212192488c04b22d8b13e",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating-peephole-body-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 5.027421240694821,
+      "returncode": 2,
+      "log_sha256": "df0ea7cf7b55f7bb6f62ad5003a11537c5f68fb0f923cbf69012d8b7022c2e75",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating-peephole-body-declarations-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.919208398088813,
+      "returncode": 0,
+      "log_sha256": "4621efc09450720dc1e3ab926b90fd1f9e72b0997756c8d9ab0d2d0ef5940def",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating-peephole-body-fixed-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 0.6183226443827152,
+      "returncode": 2,
+      "log_sha256": "84a035ba2777d5a6b2e9fa7dd8c8186bf990d26cbdd92a3dff6ab70a51c5cd38",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating-peephole-body-shape-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.7486486844718456,
+      "returncode": 0,
+      "log_sha256": "4621efc09450720dc1e3ab926b90fd1f9e72b0997756c8d9ab0d2d0ef5940def",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating-peephole-body-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-peepholes"
+      ],
+      "seconds": 2.140651202760637,
+      "returncode": 0,
+      "log_sha256": "e181e357acd9266ef1afef40c1d7837b53f31a90c5688d2b21681781e721dcec",
+      "category": "canonical_warning_check"
+    },
+    "floating-peephole-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.40023147873580456,
+      "returncode": 0,
+      "log_sha256": "abf723c4c4c211343f8bf5344bb1d17a02b392277e5edd6df3c8b8c01d6e9a36",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-peephole-data-proof-final": {
+      "command": [
+        "python3",
+        "scripts/check-float-peephole-data.py"
+      ],
+      "seconds": 0.3620861181989312,
+      "returncode": 0,
+      "log_sha256": "afc8c0411e9bfa4bb2c5d65b4fd59dfa311b1c173ff800f5f1ddbf2b70379241",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating-peephole-data-proof": {
+      "command": [
+        "python3",
+        "scripts/check-float-peephole-data.py"
+      ],
+      "seconds": 0.3326780768111348,
+      "returncode": 1,
+      "log_sha256": "b56737870e7f9b2b53a1ab8120c5e4866a24d939ab8d210fb791b0a0d3a87def",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating-peephole-final-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-peepholes"
+      ],
+      "seconds": 1.4177302895113826,
+      "returncode": 0,
+      "log_sha256": "e181e357acd9266ef1afef40c1d7837b53f31a90c5688d2b21681781e721dcec",
+      "category": "canonical_warning_check"
+    },
+    "floating-peephole-runtime-index": {
+      "command": [
+        "make",
+        "-j4",
+        "build/runtime.json"
+      ],
+      "seconds": 0.42439065407961607,
+      "returncode": 0,
+      "log_sha256": "e7beda31792ac97ed021739883416d57b59baaf7e6e072d687ab7732bfec5e43",
+      "category": "other_make"
+    },
+    "floating-range-scan-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.463643246330321,
+      "returncode": 0,
+      "log_sha256": "f58f3d4ad440be241bd115b89365bc58c83d7e38d22df0491ae7e33f3868016c",
+      "category": "static_audit"
+    },
+    "floating-range-scan-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4576309807598591,
+      "returncode": 0,
+      "log_sha256": "21cb3adcd630f993cf62215bc5c79642f0ffb731fdfca9a41ea22b701ecdf7fa",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-range-scan-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.0567056834697723,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-reciprocal-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.178862938657403,
+      "returncode": 0,
+      "log_sha256": "370205f14994676460a1edd5fd7ff62602cbeb599deccfa8057fb04aec686168",
+      "category": "static_audit"
+    },
+    "floating-reciprocal-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.3810550905764103,
+      "returncode": 0,
+      "log_sha256": "08282af441096b4e165feff1bdd766b542a3a497f61a7d87a661c27be054a4a7",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-reciprocal-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "extended",
+        "global-tree",
+        "algebra"
+      ],
+      "seconds": 0.996136112138629,
+      "returncode": 0,
+      "log_sha256": "5da0c50c150d708423779fd144aff8fa8636b5a2ffad4c923182a42d38daa034",
+      "category": "canonical_warning_check"
+    },
+    "floating-runtime-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.304208070971072,
+      "returncode": 0,
+      "log_sha256": "50376b5013bb5fcb3e8aea67618c5fbc81c389cb2913620fd1be440e7b66c64b",
+      "category": "static_audit"
+    },
+    "floating-runtime-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.41720540821552277,
+      "returncode": 0,
+      "log_sha256": "0e648e101ec8e1851fea30767fd97c9870b82f6a41274c980e7a8a1390cbde44",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-runtime-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "symbols",
+        "expression-selection"
+      ],
+      "seconds": 0.9775934834033251,
+      "returncode": 0,
+      "log_sha256": "87eb878ea0275e5fe812874777239dfabfa156e730417eaffb7a0f4f7ea0db32",
+      "category": "canonical_warning_check"
+    },
+    "floating-search-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.42795595061034,
+      "returncode": 0,
+      "log_sha256": "9f31c5c210affcac1fb4217cc3b4db9564abac9e0d6aafba2e710cd3bd57e870",
+      "category": "static_audit"
+    },
+    "floating-search-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4452610407024622,
+      "returncode": 0,
+      "log_sha256": "fa3174487e287c63d100e2f2591a47ca91132b93c8a684b1e6cec510bb1fdf4d",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-search-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-peepholes",
+        "value-selection"
+      ],
+      "seconds": 1.0097021721303463,
+      "returncode": 0,
+      "log_sha256": "73b49b7aa469a236c9249415fc2e025a1d7cf45b0eadf03321499b0f4fd0acba",
+      "category": "canonical_warning_check"
+    },
+    "floating-sources-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.576417622156441,
+      "returncode": 0,
+      "log_sha256": "290eb036667b46165dfacb0d6e24b3fc92b714c4f265ade3b0f7ff00fcc27ca7",
+      "category": "static_audit"
+    },
+    "floating-sources-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.41748960595577955,
+      "returncode": 0,
+      "log_sha256": "6d814f32cf88a4297a13642267cdf7d39247cb9ee0702a5a9e218f51b0c3305d",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-sources-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine",
+        "float-peepholes",
+        "work-prepare"
+      ],
+      "seconds": 1.0489781638607383,
+      "returncode": 0,
+      "log_sha256": "df09c1acc74ca9dc489e9ac1bd568e88b0ec8869525d2d1e26926aa10affebb3",
+      "category": "canonical_warning_check"
+    },
+    "floating-spill-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.233419856056571,
+      "returncode": 0,
+      "log_sha256": "231d7d1e9b429e1771e27d72a02e6845a17ec57a67ac9504dfa75ddf0e7314c7",
+      "category": "static_audit"
+    },
+    "floating-spill-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4183655669912696,
+      "returncode": 0,
+      "log_sha256": "35a06990861caa28386694667f49e532a8758f3ddbc5653f24917608b3bf96c4",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-spill-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "value-selection"
+      ],
+      "seconds": 2.0836613280698657,
+      "returncode": 0,
+      "log_sha256": "24bc0e6bef6673180ba1ac238311652b1d0b3393e53d19dbfa87799ad9ea9472",
+      "category": "canonical_warning_check"
+    },
+    "floating-storage-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.250167588703334,
+      "returncode": 0,
+      "log_sha256": "99ef801e080875df102a7621136594f657bdc7a9a05a1155587729c5505c087f",
+      "category": "static_audit"
+    },
+    "floating-storage-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4282579766586423,
+      "returncode": 0,
+      "log_sha256": "5366c8d68367ad7f9bf9ae8e0888b86a3aaf5ab284bbd03049cccf9fd1b6e744",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-storage-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "value-selection",
+        "symbols"
+      ],
+      "seconds": 1.0282220570370555,
+      "returncode": 0,
+      "log_sha256": "8a2c03427da2176a0a5295082b376cc40a15e60c30e92e893b45e23fc38ca1c6",
+      "category": "canonical_warning_check"
+    },
+    "floating-store-driver-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.603976083919406,
+      "returncode": 0,
+      "log_sha256": "29f185fe13477a260e0bf72dc696a7f2dced50b3c60a2f7bfd3b2545ae4be84a",
+      "category": "static_audit"
+    },
+    "floating-store-driver-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4021183857694268,
+      "returncode": 0,
+      "log_sha256": "4b842159e34b1f7ef37650ba254dd5a5f5d8f6f65d595037ee80541489234890",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-store-driver-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "machine-simplify"
+      ],
+      "seconds": 1.4319323347881436,
+      "returncode": 0,
+      "log_sha256": "2c0963c36f6a6d24b9c5847c77c504a79ae7ace60a6b6f64ad5d764b80ec35d3",
+      "category": "canonical_warning_check"
+    },
+    "floating-stream-branches-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.664622886106372,
+      "returncode": 0,
+      "log_sha256": "83027dd53f7e2d2021c3986f1e694020446771500e57fff88a985b233aae2a1c",
+      "category": "static_audit"
+    },
+    "floating-stream-branches-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.40464699268341064,
+      "returncode": 0,
+      "log_sha256": "da94d3cae122210e8207e5db60a09bea0663099d836cb3d8920a1f520562a084",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-stream-branches-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.264270686544478,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating-stream-context-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.531728625297546,
+      "returncode": 0,
+      "log_sha256": "7cdb87e697bcbe85768afa2c9b582f0deb7875404fcb9ec707d7e9cd81b201f0",
+      "category": "static_audit"
+    },
+    "floating-stream-context-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.40302636474370956,
+      "returncode": 0,
+      "log_sha256": "1bf494562b4761170b39e808dde9748004d36db6b46c6dae41d398f229995612",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-stream-context-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine",
+        "scheduler"
+      ],
+      "seconds": 1.0028405422344804,
+      "returncode": 0,
+      "log_sha256": "b8023bf0a3cc072f509f692dcaa9bb16d444f1da403354577cda7936c530cd90",
+      "category": "canonical_warning_check"
+    },
+    "floating-target-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.235576956532896,
+      "returncode": 0,
+      "log_sha256": "094380961c3a76a204ea044ca4062d844ff8c0c3abcc2bbcc5cacd0b1a40bd59",
+      "category": "static_audit"
+    },
+    "floating-target-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4191613281145692,
+      "returncode": 0,
+      "log_sha256": "fc7f55be30290b7fc8e1e11a088555505e388f84f0450fddc7107816e59e16dc",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-target-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "work-prepare",
+        "machine-operands"
+      ],
+      "seconds": 0.9712092895060778,
+      "returncode": 0,
+      "log_sha256": "46f7083580779c83fdea7e9a543a876ebf89b201a73d3d8ef570231426c4563f",
+      "category": "canonical_warning_check"
+    },
+    "floating-transfer-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.365643598139286,
+      "returncode": 0,
+      "log_sha256": "c0fbad62f96d85021bf3ebe322e734acc978dc4b5801664a10d31de91502d158",
+      "category": "static_audit"
+    },
+    "floating-transfer-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4258680213242769,
+      "returncode": 0,
+      "log_sha256": "b4dec526843cb74de0a35429d9d946d235d6359e29a63df6cc591da1c9b6b579",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-transfer-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-peepholes"
+      ],
+      "seconds": 1.977440652437508,
+      "returncode": 0,
+      "log_sha256": "e181e357acd9266ef1afef40c1d7837b53f31a90c5688d2b21681781e721dcec",
+      "category": "canonical_warning_check"
+    },
+    "floating-truncation-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.256252693943679,
+      "returncode": 0,
+      "log_sha256": "34cc9fa809cfd441f16ad3bc0bd29afcc0ac6e5cd46e0147a297be753cdfbc40",
+      "category": "static_audit"
+    },
+    "floating-truncation-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4120006840676069,
+      "returncode": 0,
+      "log_sha256": "5e2785bb0fa72b8ffe1d8c844ba9f2994cb87525fb8e4a770994d9e973e3c7a2",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-truncation-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "extended",
+        "global-registers"
+      ],
+      "seconds": 1.0720764230936766,
+      "returncode": 0,
+      "log_sha256": "9315be1e830bccd93f39ad76515eb0c01eab42f27c6f5ac7ecce5afdfc66f56a",
+      "category": "canonical_warning_check"
+    },
+    "floating-use-interning-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.581624809652567,
+      "returncode": 0,
+      "log_sha256": "677d06878714c703b36eb7996f216afc1aa4dbc0b4787cafbd8ef1c237245c5f",
+      "category": "static_audit"
+    },
+    "floating-use-interning-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4670748068019748,
+      "returncode": 0,
+      "log_sha256": "de0779fbef42f1d874a14e19e4fa3dad46cd58fce4ae0a5704bf5570bbe08a0e",
+      "category": "native_fixture_wrapper"
+    },
+    "floating-use-interning-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.084617268294096,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating1000-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 12.05187202617526,
+      "returncode": 0,
+      "log_sha256": "09e932ee96ec707d7c47447207bbf6195b7745c76a947d462d046af40b900229",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1001-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.780275934375823,
+      "returncode": 0,
+      "log_sha256": "cf3130842c140555fbe87fef252347c9c90553656387e317fab835c292dfdcdc",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1002-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.949505935423076,
+      "returncode": 0,
+      "log_sha256": "8d414d8c0cff5d990674b6c11381ac5e548293b930112bdbe17542e71221f7ed",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1003-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.973846326582134,
+      "returncode": 0,
+      "log_sha256": "412f39658efe87653e32a8cc9b87459729eed1e0356302744b6926398561e299",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1004-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 12.038461131975055,
+      "returncode": 0,
+      "log_sha256": "5f813d7844454925d69c6bad88b47c13f9d370c7254de820118299b111ee217d",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1005-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.5679939035326242,
+      "returncode": 0,
+      "log_sha256": "e870f3f207c6c8b9df926de2530a1a781e26efd9e172bd7ed1bcc7422d7b3116",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1006-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 12.010618625208735,
+      "returncode": 0,
+      "log_sha256": "85877b21bc9b1327a955d437841c88702edef5b0a99137bdadef97299a569117",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating1007-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.771336925216019,
+      "returncode": 0,
+      "log_sha256": "619cb124f15ebeddf8d1869377fa8841e928745a8df85d42b26da862f92c7139",
+      "category": "canonical_build"
+    },
+    "floating1007-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.225243533961475,
+      "returncode": 0,
+      "log_sha256": "32e080c4074ba5dd8895e5889c63c590d430acd11696ea53635315f69f721284",
+      "category": "native_build"
+    },
+    "floating1008-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 1.9343458153307438,
+      "returncode": 0,
+      "log_sha256": "bc69a04ab20485e5a051bc4438c948335318c83be5fcfc1921339084eb5f1c72",
+      "category": "canonical_build"
+    },
+    "floating1008-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5842459294945002,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1009-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.24066823720932,
+      "returncode": 0,
+      "log_sha256": "d81a17901c33d463550ea674641d58e0f1234dc797ceb3fecbbce5c0896963ca",
+      "category": "canonical_build"
+    },
+    "floating1009-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.226399378851056,
+      "returncode": 0,
+      "log_sha256": "a5068f60727a0d991160b32a164311a5979e5e405866df4c03f5a28435cfbcf9",
+      "category": "native_build"
+    },
+    "floating1010-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.271467512473464,
+      "returncode": 0,
+      "log_sha256": "3a821b62cb735f43ca5ef77910e8f81335adcfbd3287a597178eede8bd0191a9",
+      "category": "canonical_build"
+    },
+    "floating1010-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5902581000700593,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1011-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 1.8436756627634168,
+      "returncode": 2,
+      "log_sha256": "c0ed3b40cf22a30e8205e7cb84fedbd0c7bcc1c9b0b041b9d34773c1f6c1dced",
+      "category": "canonical_build"
+    },
+    "floating1011-fixed-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 3.509120932780206,
+      "returncode": 0,
+      "log_sha256": "053b03f44c6341a4b3db82ee15e872bdb8903c19b59a3156ba599bcc16c99139",
+      "category": "canonical_build"
+    },
+    "floating1011-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.248262403532863,
+      "returncode": 0,
+      "log_sha256": "9d61241dafdd17cda2f7c3f060129f2e78bf849134d5c442d2102b0929fc53ea",
+      "category": "native_build"
+    },
+    "floating1012-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.4994643311947584,
+      "returncode": 0,
+      "log_sha256": "244488c52a46e07c608327cf6417d52f8e7ff4239a79623bf3ca27b0f6ac1982",
+      "category": "canonical_build"
+    },
+    "floating1012-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.27973847836256,
+      "returncode": 0,
+      "log_sha256": "ac73aa5100ce0a914258c35a4f969521bc12fbb656a2e08d7e769636b3135d76",
+      "category": "native_build"
+    },
+    "floating1013-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.106067191809416,
+      "returncode": 0,
+      "log_sha256": "9ed5c4b3e178a925393fb0f9db7fa8677db9784152ba6da6736aef23f642c11c",
+      "category": "canonical_build"
+    },
+    "floating1013-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.296455717645586,
+      "returncode": 0,
+      "log_sha256": "9b1ee9d8467a1984912a585e368b87876b3a64414fe8b51c97ee269f1a3742c6",
+      "category": "native_build"
+    },
+    "floating1014-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.457778391428292,
+      "returncode": 0,
+      "log_sha256": "06957a89ab934272ad73e5135eee5a06885aafab4792ac34cc39147c52a921da",
+      "category": "canonical_build"
+    },
+    "floating1014-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5633318480104208,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1015-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.541875634342432,
+      "returncode": 0,
+      "log_sha256": "97ad06c7d2a4c0f463b29305485b6acbfbf6b23e72f95d3f418a3d3b88f805ac",
+      "category": "canonical_build"
+    },
+    "floating1015-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.306313253939152,
+      "returncode": 0,
+      "log_sha256": "aa0df4284bcefc1de11d2851038ed23d207daf825fdf5abb96cc12835e4be66c",
+      "category": "native_build"
+    },
+    "floating1016-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.1807429417967796,
+      "returncode": 0,
+      "log_sha256": "244488c52a46e07c608327cf6417d52f8e7ff4239a79623bf3ca27b0f6ac1982",
+      "category": "canonical_build"
+    },
+    "floating1016-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.277375511825085,
+      "returncode": 0,
+      "log_sha256": "10ef25b8ce2af7f15426564234848890a7b98e880e1d14246628315e5a710f3d",
+      "category": "native_build"
+    },
+    "floating1017-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0495053436607122,
+      "returncode": 0,
+      "log_sha256": "619cb124f15ebeddf8d1869377fa8841e928745a8df85d42b26da862f92c7139",
+      "category": "canonical_build"
+    },
+    "floating1017-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.263271659612656,
+      "returncode": 0,
+      "log_sha256": "786b1f51c923752de550bf464959b7247b797b04f69a2f09ca287ae6349bf905",
+      "category": "native_build"
+    },
+    "floating1018-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.7299951501190662,
+      "returncode": 0,
+      "log_sha256": "3a821b62cb735f43ca5ef77910e8f81335adcfbd3287a597178eede8bd0191a9",
+      "category": "canonical_build"
+    },
+    "floating1018-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.578325972892344,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1019-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 1.9987451555207372,
+      "returncode": 0,
+      "log_sha256": "bc69a04ab20485e5a051bc4438c948335318c83be5fcfc1921339084eb5f1c72",
+      "category": "canonical_build"
+    },
+    "floating1019-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6068852050229907,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1020-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.2352299066260457,
+      "returncode": 0,
+      "log_sha256": "06957a89ab934272ad73e5135eee5a06885aafab4792ac34cc39147c52a921da",
+      "category": "canonical_build"
+    },
+    "floating1020-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5850195391103625,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1021-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 3.6268615974113345,
+      "returncode": 0,
+      "log_sha256": "7e832563df704b1404480c77a400294073e922697bf3a85c217ef5887146aec5",
+      "category": "canonical_build"
+    },
+    "floating1021-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.3316065538674593,
+      "returncode": 0,
+      "log_sha256": "90ee275740ac1eecb0f178a0911935233d5fad8893bffb0c3b8148ead8ce2bee",
+      "category": "native_build"
+    },
+    "floating1022-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.5221247477456927,
+      "returncode": 0,
+      "log_sha256": "bc69a04ab20485e5a051bc4438c948335318c83be5fcfc1921339084eb5f1c72",
+      "category": "canonical_build"
+    },
+    "floating1022-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5615021511912346,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1023-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.625930813141167,
+      "returncode": 0,
+      "log_sha256": "8a93fbcb21f211f8ee3980ebe64fcb3245d3b591d258db110e9a3207d41f5ebb",
+      "category": "static_audit"
+    },
+    "floating1023-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.6895200703293085,
+      "returncode": 0,
+      "log_sha256": "244488c52a46e07c608327cf6417d52f8e7ff4239a79623bf3ca27b0f6ac1982",
+      "category": "canonical_build"
+    },
+    "floating1023-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.44915390107780695,
+      "returncode": 0,
+      "log_sha256": "206d9af8f3f8b251412c41ffb5ad51218744939051f5fdbe30b83b21be54605a",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1023-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.052447879686952,
+      "returncode": 0,
+      "log_sha256": "41f6846987454a51ebdb8b00927900f3bed749cc53b434522a2e2e81161aabea",
+      "category": "native_build"
+    },
+    "floating1023-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "names",
+        "float-machine"
+      ],
+      "seconds": 1.1853916980326176,
+      "returncode": 0,
+      "log_sha256": "e3ff314348dd4e2013e9a74a590abe39cb854945c6263224658a7fe2a5fa23da",
+      "category": "canonical_warning_check"
+    },
+    "floating1024-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.1489654406905174,
+      "returncode": 0,
+      "log_sha256": "6659c2613d628015df8e46bbe4331d1fb2f06cd5a94f4439f5e5e4c31749e82e",
+      "category": "canonical_build"
+    },
+    "floating1024-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.112108535133302,
+      "returncode": 0,
+      "log_sha256": "d1bb598bf9896836b9e777f54b3d368ef7286b4b524fa3a662ef12bd28aa354f",
+      "category": "native_build"
+    },
+    "floating1025-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.7116608284413815,
+      "returncode": 0,
+      "log_sha256": "06957a89ab934272ad73e5135eee5a06885aafab4792ac34cc39147c52a921da",
+      "category": "canonical_build"
+    },
+    "floating1025-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5767437536269426,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1026-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.4270107159391046,
+      "returncode": 0,
+      "log_sha256": "9ed5c4b3e178a925393fb0f9db7fa8677db9784152ba6da6736aef23f642c11c",
+      "category": "canonical_build"
+    },
+    "floating1026-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.120102777145803,
+      "returncode": 0,
+      "log_sha256": "66e7d40146c5c1e4a83d1e39071a16201de9c9fbb7889c86cbedf01005de66dd",
+      "category": "native_build"
+    },
+    "floating1027-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.721180520020425,
+      "returncode": 0,
+      "log_sha256": "e1585dd6429204c47f14b37de7f289cb250c71746a8349fdcc58b53dde5e3dff",
+      "category": "static_audit"
+    },
+    "floating1027-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.9705154122784734,
+      "returncode": 0,
+      "log_sha256": "ba8f8c2e528f7fabb564efa07989c501b469bfef9f5774f8401cd62c1cdb4ef9",
+      "category": "canonical_build"
+    },
+    "floating1027-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.43466774746775627,
+      "returncode": 0,
+      "log_sha256": "ff5c37e072cbe9ed4b232d5c2d9bfb4bf5b1b1d0bf668492258a40417556ee5c",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1027-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5426376545801759,
+      "returncode": 0,
+      "log_sha256": "0f3579173c0fbe469aedd5cdc9343cb0944dfa91de319cbe0f95876781ae19b8",
+      "category": "native_build"
+    },
+    "floating1027-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine",
+        "scheduler"
+      ],
+      "seconds": 0.9996991474181414,
+      "returncode": 0,
+      "log_sha256": "b8023bf0a3cc072f509f692dcaa9bb16d444f1da403354577cda7936c530cd90",
+      "category": "canonical_warning_check"
+    },
+    "floating1028-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 29.63214350491762,
+      "returncode": 0,
+      "log_sha256": "c2f27f0c3481068329e298219fe409baacd63ff41eba3abac1c6cee4f4932e39",
+      "category": "canonical_build"
+    },
+    "floating1028-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.159685619175434,
+      "returncode": 0,
+      "log_sha256": "023391b1ee862ec4a5531689fd01bfac4aac9b7614536a75f9a7c844361a1221",
+      "category": "native_build"
+    },
+    "floating1029-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.7955334121361375,
+      "returncode": 0,
+      "log_sha256": "9a2220d08dfcbf66ecd905189bb32c96f327134c0f9a2667e046575b3c4f3175",
+      "category": "canonical_build"
+    },
+    "floating1029-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.105904905125499,
+      "returncode": 0,
+      "log_sha256": "5949e0acdd647e41b81de2717fe3a2143c4ce98de9c93500edee18afd1343cfd",
+      "category": "native_build"
+    },
+    "floating1030-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 1.925683045759797,
+      "returncode": 0,
+      "log_sha256": "bc69a04ab20485e5a051bc4438c948335318c83be5fcfc1921339084eb5f1c72",
+      "category": "canonical_build"
+    },
+    "floating1030-cost-proof": {
+      "command": [
+        "python3",
+        "scripts/check-float-promotion-costs.py"
+      ],
+      "seconds": 0.16579487454146147,
+      "returncode": 0,
+      "log_sha256": "236b2f45cd45a2c695f8a7476db57113bc9984609c948c9b3da789479c05456e",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1030-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5779285775497556,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1031-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.692336348816752,
+      "returncode": 0,
+      "log_sha256": "1193a6f9a5b982a4b0979b4cf7d10ca03c842bc6b4c50ad2c9ecb3f400d0c50e",
+      "category": "static_audit"
+    },
+    "floating1031-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0605975817888975,
+      "returncode": 0,
+      "log_sha256": "06957a89ab934272ad73e5135eee5a06885aafab4792ac34cc39147c52a921da",
+      "category": "canonical_build"
+    },
+    "floating1031-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4381033517420292,
+      "returncode": 0,
+      "log_sha256": "8e90c2f22c768512b8caff76865db322fffe214b389ae924961a17425294d9da",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1031-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5528973750770092,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1031-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.1254696203395724,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating1032-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0097838174551725,
+      "returncode": 0,
+      "log_sha256": "232992b88b5aa0360c0b97904468e95a9ec4f7582756cc35de6e230d606e2270",
+      "category": "canonical_build"
+    },
+    "floating1032-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.563713171519339,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1033-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.093681757338345,
+      "returncode": 0,
+      "log_sha256": "9831cb5e45cf4a6a33178f3a5dd0a74b3323a4b20605e485ff07e5df9bed8d7d",
+      "category": "canonical_build"
+    },
+    "floating1033-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.107351976446807,
+      "returncode": 0,
+      "log_sha256": "c573ebfd59cd714c65e019cee37388e8559f5437e721d4732d8d02ac01a6faf0",
+      "category": "native_build"
+    },
+    "floating1034-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.1789030572399497,
+      "returncode": 0,
+      "log_sha256": "244488c52a46e07c608327cf6417d52f8e7ff4239a79623bf3ca27b0f6ac1982",
+      "category": "canonical_build"
+    },
+    "floating1034-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.145807232707739,
+      "returncode": 0,
+      "log_sha256": "52876ee1ce2897fb32af10f21160ca54db5b116129d7580734fec3d50f1e19c9",
+      "category": "native_build"
+    },
+    "floating1035-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.746200300753117,
+      "returncode": 0,
+      "log_sha256": "794ba3d834d14e4e4329261c7a2532e382bd27cd558fe353003126e9fabf2535",
+      "category": "static_audit"
+    },
+    "floating1035-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.4647986367344856,
+      "returncode": 0,
+      "log_sha256": "06957a89ab934272ad73e5135eee5a06885aafab4792ac34cc39147c52a921da",
+      "category": "canonical_build"
+    },
+    "floating1035-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.44623354636132717,
+      "returncode": 0,
+      "log_sha256": "ac5ceca4a44c03fe41dad2f67d75371f0eb1379acc39f8dd0c69f66be8de2179",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1035-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6009158305823803,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1035-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.5673584854230285,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating1036-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.478584561496973,
+      "returncode": 0,
+      "log_sha256": "ef110fa00cff53c91f2a964c8230da77d3baac4a62c9cb059db80ae57dedf6ea",
+      "category": "canonical_build"
+    },
+    "floating1036-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.210917877964675,
+      "returncode": 0,
+      "log_sha256": "75ecb516e2c043833bf58988f9f63776a274a76ae22ed0dfda522f305f93028d",
+      "category": "native_build"
+    },
+    "floating1037-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.829126849770546,
+      "returncode": 0,
+      "log_sha256": "06957a89ab934272ad73e5135eee5a06885aafab4792ac34cc39147c52a921da",
+      "category": "canonical_build"
+    },
+    "floating1037-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5750908693298697,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1038-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.5567625388503075,
+      "returncode": 0,
+      "log_sha256": "ef110fa00cff53c91f2a964c8230da77d3baac4a62c9cb059db80ae57dedf6ea",
+      "category": "canonical_build"
+    },
+    "floating1038-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.098208233714104,
+      "returncode": 0,
+      "log_sha256": "d1dde243e6473fa0e0238c4491b5e672c3ed44ec7f86315d041a5f9d7fe3217a",
+      "category": "native_build"
+    },
+    "floating1039-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.788537282496691,
+      "returncode": 0,
+      "log_sha256": "81e64ceba994d839f4ec8ebaa4ce2f6ba7cfaddf0b3620bc6be388de6fa42099",
+      "category": "static_audit"
+    },
+    "floating1039-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.098999148234725,
+      "returncode": 0,
+      "log_sha256": "3a821b62cb735f43ca5ef77910e8f81335adcfbd3287a597178eede8bd0191a9",
+      "category": "canonical_build"
+    },
+    "floating1039-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4063859088346362,
+      "returncode": 0,
+      "log_sha256": "2842283aed21271b9627c9111f34da4a3e1fe8db73cac9e7ec2682fd4f6faa2a",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1039-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5565923135727644,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1039-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 1.8689342122524977,
+      "returncode": 0,
+      "log_sha256": "3f3caa5b6a3c7d6a537cfd717fe05a3a45368db1b5facd78830d790c04d2f124",
+      "category": "canonical_warning_check"
+    },
+    "floating1040-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.6785594997927547,
+      "returncode": 0,
+      "log_sha256": "0bf670041d1408b0fea7d166d2edaf51b667a310b544c103beb3e42466055237",
+      "category": "canonical_build"
+    },
+    "floating1040-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.143066870048642,
+      "returncode": 0,
+      "log_sha256": "15fb6f131416f8ad16efaf92970a923a9bcf94bff6689a5db779d5d5d7107629",
+      "category": "native_build"
+    },
+    "floating1041-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.283215830102563,
+      "returncode": 0,
+      "log_sha256": "bc69a04ab20485e5a051bc4438c948335318c83be5fcfc1921339084eb5f1c72",
+      "category": "canonical_build"
+    },
+    "floating1041-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5707993814721704,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1042-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.830384369008243,
+      "returncode": 0,
+      "log_sha256": "293bda4a6204c7dc4938f9fbb5fe96af472a149682b894b564d3f45be4075e24",
+      "category": "static_audit"
+    },
+    "floating1042-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0839115185663104,
+      "returncode": 0,
+      "log_sha256": "bc69a04ab20485e5a051bc4438c948335318c83be5fcfc1921339084eb5f1c72",
+      "category": "canonical_build"
+    },
+    "floating1042-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4326237356290221,
+      "returncode": 0,
+      "log_sha256": "a8b60129338e74b9d8319d1286a2ecb760c3dd7bc25a384b99b28d3ddd40ccb0",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1042-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5439704349264503,
+      "returncode": 0,
+      "log_sha256": "6bee2ed71c1dba114e54a1d98a83dab2d38e2714d84fbcdcb61ff2d26d7b5f6b",
+      "category": "native_build"
+    },
+    "floating1042-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-machine"
+      ],
+      "seconds": 2.0758592020720243,
+      "returncode": 0,
+      "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8",
+      "category": "canonical_warning_check"
+    },
+    "floating1043-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.293891429901123,
+      "returncode": 0,
+      "log_sha256": "a9f79a71d5b9db061032f27d67b0bc95a4ad29ba27f0506de5cb7efff18f35e7",
+      "category": "canonical_build"
+    },
+    "floating1043-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5485454583540559,
+      "returncode": 0,
+      "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d",
+      "category": "native_build"
+    },
+    "floating1044-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.552470149472356,
+      "returncode": 0,
+      "log_sha256": "dd5b9283b017c4af504e32e18ce2de6f0c3ddf52f231806cb87ad8c249f19bc4",
+      "category": "canonical_build"
+    },
+    "floating1044-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.547319432720542,
+      "returncode": 0,
+      "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d",
+      "category": "native_build"
+    },
+    "floating1045-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.554928987286985,
+      "returncode": 0,
+      "log_sha256": "57355fc2cc6cc46ff6fd3a0851ae85609c39717c5716ada0685de63489f36ba7",
+      "category": "canonical_build"
+    },
+    "floating1045-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.565240410156548,
+      "returncode": 0,
+      "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d",
+      "category": "native_build"
+    },
+    "floating1046-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.740906052291393,
+      "returncode": 0,
+      "log_sha256": "ae001266a4cd373c91d3eaaa72576c34410959934fd95a05744e4ecd4759df8b",
+      "category": "static_audit"
+    },
+    "floating1046-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.435475878417492,
+      "returncode": 0,
+      "log_sha256": "7f167afbee7fe0865fd4a2a9739ad861bcaedb9684f78ec619f359c52549ecb3",
+      "category": "canonical_build"
+    },
+    "floating1046-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4227087451145053,
+      "returncode": 0,
+      "log_sha256": "08d0a931977c9ff70d4f38791a0a62079b6a797bf617d973697faa11ced477a0",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1046-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5784442387521267,
+      "returncode": 0,
+      "log_sha256": "e340a7445f146dd77dd802b83b7bd18e52b4df199968e2fbb6317daa6c0df905",
+      "category": "native_build"
+    },
+    "floating1046-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-peepholes",
+        "machine-operands"
+      ],
+      "seconds": 1.1056322818621993,
+      "returncode": 0,
+      "log_sha256": "1e2a66fc650864606a2bc28e0419f4538dcddd473a8fbedca7b2c92a8cc1be49",
+      "category": "canonical_warning_check"
+    },
+    "floating1047-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.6776432562619448,
+      "returncode": 0,
+      "log_sha256": "a9f79a71d5b9db061032f27d67b0bc95a4ad29ba27f0506de5cb7efff18f35e7",
+      "category": "canonical_build"
+    },
+    "floating1047-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6032218858599663,
+      "returncode": 0,
+      "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d",
+      "category": "native_build"
+    },
+    "floating1048-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.54705248773098,
+      "returncode": 0,
+      "log_sha256": "a50481525c317bd75a8be32e7f5a68eb7e27cf7fc87bad827419b9eedae17505",
+      "category": "canonical_build"
+    },
+    "floating1048-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5707148546352983,
+      "returncode": 0,
+      "log_sha256": "1c1cb8da95bb7b17e7c009d6732e04262927911903dd4c15f284519f4fddb009",
+      "category": "native_build"
+    },
+    "floating1049-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.2335161259397864,
+      "returncode": 0,
+      "log_sha256": "f75c4ef8c3287f0caf6f9929713d5e26f6e0aa086c05faf6a82da43fbd658bc6",
+      "category": "canonical_build"
+    },
+    "floating1049-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5532598244026303,
+      "returncode": 0,
+      "log_sha256": "c6fdb3fafb869c794575b1278051040286a1b780809a69da3c00a256f43eda18",
+      "category": "native_build"
+    },
+    "floating1050-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.59373465180397,
+      "returncode": 0,
+      "log_sha256": "0f814baa9b42cc1cfc8d36b5819d7caa762a2fa788f1e6f355ed56452c43daf6",
+      "category": "static_audit"
+    },
+    "floating1050-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.063682951964438,
+      "returncode": 0,
+      "log_sha256": "441ec0a3be8ad7ac415eaea698137c5a10069ba27fb400ee1e4cc564d993c422",
+      "category": "canonical_build"
+    },
+    "floating1050-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.44297236669808626,
+      "returncode": 0,
+      "log_sha256": "e6a8bc13b5292fb65fa453e22befe9fb4173cfcf465b433c9abefd9377311eff",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1050-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5306160431355238,
+      "returncode": 0,
+      "log_sha256": "c6fdb3fafb869c794575b1278051040286a1b780809a69da3c00a256f43eda18",
+      "category": "native_build"
+    },
+    "floating1050-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "float-peepholes",
+        "value-selection",
+        "instruction-rewrite"
+      ],
+      "seconds": 0.9675353309139609,
+      "returncode": 0,
+      "log_sha256": "7522328bd24bbe35bebe953182658f4a02ed8681414c87a436cd4c573248244b",
+      "category": "canonical_warning_check"
+    },
+    "floating1051-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0501746078953147,
+      "returncode": 0,
+      "log_sha256": "156e29e24837990061639bf3c7329340e71572f7d9f3b86298b6fc8b011e1960",
+      "category": "canonical_build"
+    },
+    "floating1051-canonical-failed-regst1": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 1.3167960392311215,
+      "returncode": 2,
+      "log_sha256": "c547824b1505f07102b8e2a5b95cb85a76bab38702a0636de75ff1230f583ed4",
+      "category": "canonical_build"
+    },
+    "floating1051-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.151577153243124,
+      "returncode": 0,
+      "log_sha256": "2ab38a790a63defad732ec9a34797dcc260738a45ac1ce08e9b07208a51189fb",
+      "category": "native_build"
+    },
+    "floating1051-stack-effects-proof": {
+      "command": [
+        "python3",
+        "scripts/check-float-stack-effects.py",
+        "--scheduler"
+      ],
+      "seconds": 0.23343672696501017,
+      "returncode": 0,
+      "log_sha256": "a5e6c16a8f5d5df3c17fc87eb9038b56c8f31e24158eea52a9b28638c1914560",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1052-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.493258739821613,
+      "returncode": 0,
+      "log_sha256": "196a3a14126acb188971bfcedd2b60042b6f16760a110b01ecfe9eb1101f3b27",
+      "category": "canonical_build"
+    },
+    "floating1052-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5808329889550805,
+      "returncode": 0,
+      "log_sha256": "0f3579173c0fbe469aedd5cdc9343cb0944dfa91de319cbe0f95876781ae19b8",
+      "category": "native_build"
+    },
+    "floating1053-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 30.217820429243147,
+      "returncode": 0,
+      "log_sha256": "0dc7ce27c434f459c486e656958d5bea7ea029d5680bccae86f84e2c9e0c05f8",
+      "category": "canonical_build"
+    },
+    "floating1053-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.249421562999487,
+      "returncode": 0,
+      "log_sha256": "815ea5e60f67c1e1b0aed5ce43146231494268ba393e0834f9ae2838014c8f4b",
+      "category": "native_build"
+    },
+    "floating1054-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.721460440196097,
+      "returncode": 0,
+      "log_sha256": "f7018038ed0728a3aac101247feea422cb39be091feaa49558d1fec76efa93a8",
+      "category": "static_audit"
+    },
+    "floating1054-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.2468721214681864,
+      "returncode": 0,
+      "log_sha256": "ba8f8c2e528f7fabb564efa07989c501b469bfef9f5774f8401cd62c1cdb4ef9",
+      "category": "canonical_build"
+    },
+    "floating1054-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.42744954861700535,
+      "returncode": 0,
+      "log_sha256": "cc33ba1c82a5aff90009498d9ee8a13586fb1b53e9f6d7aa17200d8d453c1f7e",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1054-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5861472068354487,
+      "returncode": 0,
+      "log_sha256": "0f3579173c0fbe469aedd5cdc9343cb0944dfa91de319cbe0f95876781ae19b8",
+      "category": "native_build"
+    },
+    "floating1054-stack-effects-proof": {
+      "command": [
+        "python3",
+        "scripts/check-float-stack-effects.py",
+        "--scheduler"
+      ],
+      "seconds": 0.23723224829882383,
+      "returncode": 0,
+      "log_sha256": "a5e6c16a8f5d5df3c17fc87eb9038b56c8f31e24158eea52a9b28638c1914560",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1054-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "scheduler"
+      ],
+      "seconds": 2.308973176404834,
+      "returncode": 0,
+      "log_sha256": "80057aff7c027cdb566494fdfa29a48cbab6fc625d4cd7ca50795681ee583be4",
+      "category": "canonical_warning_check"
+    },
+    "floating1055-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 4.367849277332425,
+      "returncode": 0,
+      "log_sha256": "809aabca8a3b68ae5e50afad4d2c2f4f2298ddb2f7b8d2011ce4a423dce84e11",
+      "category": "canonical_build"
+    },
+    "floating1055-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.35571232996881,
+      "returncode": 0,
+      "log_sha256": "f77907785b6b46303a57f5ca00ceed8c934f3125d9ca0cf3b8e62e13d5babb06",
+      "category": "native_build"
+    },
+    "floating1056-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 4.135311281308532,
+      "returncode": 0,
+      "log_sha256": "a89731f146ceb5d27a4b6493e120f5858e76e8986e9d4de8fd426237bdd68770",
+      "category": "canonical_build"
+    },
+    "floating1056-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.198414483107626,
+      "returncode": 0,
+      "log_sha256": "0745a48d5b17d2cfe1d9f4baddf70a9962212ea85688124f9bc2b3042a6208bb",
+      "category": "native_build"
+    },
+    "floating1056-stack-operands-proof": {
+      "command": [
+        "python3",
+        "scripts/check-scheduler-stack-operands.py"
+      ],
+      "seconds": 0.23432504013180733,
+      "returncode": 0,
+      "log_sha256": "107bda06d8f91925249d658900f994736b4b4097e5a6e3d07b80625af171ebe5",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1057-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 29.983593209646642,
+      "returncode": 0,
+      "log_sha256": "bf4b5be154d1cc76c7c3ee2f59bf756b93d9d5b7c4e61ee07e67c969a59dc633",
+      "category": "canonical_build"
+    },
+    "floating1057-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.257716321386397,
+      "returncode": 0,
+      "log_sha256": "8d9e781394f19d604059d3267705ea7211609e4e3fd3d5b093cd9320ab02b257",
+      "category": "native_build"
+    },
+    "floating1058-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.998712787404656,
+      "returncode": 0,
+      "log_sha256": "4dc3d901ef5aa0d49ddf40af05e56b2a0c7242c5271a6d5410a6d6a5bc0f5b8b",
+      "category": "static_audit"
+    },
+    "floating1058-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.730830093845725,
+      "returncode": 0,
+      "log_sha256": "196a3a14126acb188971bfcedd2b60042b6f16760a110b01ecfe9eb1101f3b27",
+      "category": "canonical_build"
+    },
+    "floating1058-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.3987648617476225,
+      "returncode": 0,
+      "log_sha256": "2758be0fc04ad64a38194ed5e250dae39e358bbc3c615f0cdd85cddab1be1152",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1058-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.600510329939425,
+      "returncode": 0,
+      "log_sha256": "0f3579173c0fbe469aedd5cdc9343cb0944dfa91de319cbe0f95876781ae19b8",
+      "category": "native_build"
+    },
+    "floating1058-stack-operands-proof": {
+      "command": [
+        "python3",
+        "scripts/check-scheduler-stack-operands.py"
+      ],
+      "seconds": 0.22125089447945356,
+      "returncode": 0,
+      "log_sha256": "107bda06d8f91925249d658900f994736b4b4097e5a6e3d07b80625af171ebe5",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1058-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "scheduler"
+      ],
+      "seconds": 1.272964815609157,
+      "returncode": 0,
+      "log_sha256": "80057aff7c027cdb566494fdfa29a48cbab6fc625d4cd7ca50795681ee583be4",
+      "category": "canonical_warning_check"
+    },
+    "floating1059-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.427604841068387,
+      "returncode": 0,
+      "log_sha256": "bafccf606dfb786603ae48892d7ba2168063543d90c554aae55f1d1e64bfaf64",
+      "category": "canonical_build"
+    },
+    "floating1059-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.5865701166912913,
+      "returncode": 0,
+      "log_sha256": "0f3579173c0fbe469aedd5cdc9343cb0944dfa91de319cbe0f95876781ae19b8",
+      "category": "native_build"
+    },
+    "floating1060-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 4.366698265075684,
+      "returncode": 0,
+      "log_sha256": "60f5ffc3e7aeec20244f64121a4b7a9cfd3e2f40378a531ace9b76df48b8f36f",
+      "category": "canonical_build"
+    },
+    "floating1060-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.18425789102912,
+      "returncode": 0,
+      "log_sha256": "77e6225356feefad8b1f540ad4c8ac08eeaa76889b6f7625f407215a2ed96a0f",
+      "category": "native_build"
+    },
+    "floating1061-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.7186457281932235,
+      "returncode": 0,
+      "log_sha256": "e6b23da6324f7e2fb7b1303058435c2bfec4567ad75502fc17bc8ccf47948c75",
+      "category": "static_audit"
+    },
+    "floating1061-cache-extension": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/floating-original-1060.json",
+        "--extend-after",
+        "cases/floating-original-1061.json"
+      ],
+      "seconds": 0.25334139820188284,
+      "returncode": 0,
+      "log_sha256": "a69e06f7cf55b557d28e7a4300e9162ea280754dd37e2f2a7e31748804bc8bcf",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1061-canonical-build": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0458620665594935,
+      "returncode": 0,
+      "log_sha256": "5be447daf7502e671e8e78d10b7fb09733ea6f4bd179ab3336a002326e8ebb27",
+      "category": "canonical_build"
+    },
+    "floating1061-check": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.44256849959492683,
+      "returncode": 0,
+      "log_sha256": "8c0d9e04852a74b9a313401db1d15f29c5fdc62a25d03bd2162c4274a5046d7c",
+      "category": "native_fixture_wrapper"
+    },
+    "floating1061-completion-extension-proof": {
+      "command": [
+        "python3",
+        "scripts/check-floating-completion.py"
+      ],
+      "seconds": 0.41409581061452627,
+      "returncode": 0,
+      "log_sha256": "88d09ef730a2495017adfb035d614837b5535faab261f3d04e2a8974d3964129",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1061-final-native": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/complete-floating-native.py"
+      ],
+      "seconds": 0.13165650982409716,
+      "returncode": 0,
+      "log_sha256": "308f8b118609a37548b43e8b0e946d4a8e4c72bcb75f2694563907b5ad5ecdde",
+      "category": "proof_and_other_wrappers"
+    },
+    "floating1061-native-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.584082331508398,
+      "returncode": 0,
+      "log_sha256": "51ea7f8c760ce3304c532e4869fb39f38cf0b58523ce6cf5cacfd5f6247e9751",
+      "category": "native_build"
+    },
+    "floating1061-warnings": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+        "scheduler",
+        "machine-layout",
+        "coff-writer"
+      ],
+      "seconds": 1.005630043335259,
+      "returncode": 0,
+      "log_sha256": "53884fb450f61a18f3a2d0117885825e15d05ecc8416614ad9bf148ed01ee3ab",
+      "category": "canonical_warning_check"
+    },
+    "floating942-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.486140307970345,
+      "returncode": 0,
+      "log_sha256": "5b89a6f050be1d7b75a9e6d886ecddc93e012e54a1364403a6ad802ba9c5c79d",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating944-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.34204968996346,
+      "returncode": 0,
+      "log_sha256": "f4d43cff3015855f1de3b28e44f8898f4a5e6652a80c15b9ddc562454a4a0d9e",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating945-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 24.845379658974707,
+      "returncode": 0,
+      "log_sha256": "32539f4ebd20f202414cc47ae034aceea1404d6940024906ec367b23d9e75b91",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating946-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2825164441019297,
+      "returncode": 0,
+      "log_sha256": "6c1bfaae52a96b7f9f46382ea862b2ef1c60311602892ee29e6d9af3cbca2f2b",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating947-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.1908038975670934,
+      "returncode": 0,
+      "log_sha256": "f4d43cff3015855f1de3b28e44f8898f4a5e6652a80c15b9ddc562454a4a0d9e",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating948-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2356799794360995,
+      "returncode": 0,
+      "log_sha256": "f1472514cb62385d339fe2e7c5b0c9ac89e18d957a7c6b873fbbca2f3194a762",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating949-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.1748680053278804,
+      "returncode": 0,
+      "log_sha256": "552048699644c43dc5d0827405a957f898a24caeab7ff92cf7da6ece3a6046b2",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating950-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.1964191095903516,
+      "returncode": 0,
+      "log_sha256": "fc32cbae591ec6116de6335ba915b49c16c5e7afaf37528ad04df1fe8f33ce6a",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating951-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2777456492185593,
+      "returncode": 0,
+      "log_sha256": "2ba8b6d16250da490a097baa0b92c0187fe9dac3709e7901b7752e3eed353cf5",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating952-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 24.03360808826983,
+      "returncode": 0,
+      "log_sha256": "9cb1d77ab8ca99f8e12fbb595469e74c31eb6c137b23ca714d2eaa6cf4d7eca1",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating952-names-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.722071347758174,
+      "returncode": 0,
+      "log_sha256": "1dc984057fdc76a914271eadd1c0ac7764ef9ea9ee0935a4b76f9525da2f925e",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating953-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 23.73629102576524,
+      "returncode": 0,
+      "log_sha256": "e6b483a18aafb714055d1c44722756f041d1077360dd472aec6236dc4ad3bade",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating954-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.273469589650631,
+      "returncode": 0,
+      "log_sha256": "6c1bfaae52a96b7f9f46382ea862b2ef1c60311602892ee29e6d9af3cbca2f2b",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating955-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.0848636189475656,
+      "returncode": 0,
+      "log_sha256": "f1472514cb62385d339fe2e7c5b0c9ac89e18d957a7c6b873fbbca2f3194a762",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating956-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 23.706496414728463,
+      "returncode": 0,
+      "log_sha256": "ef9921abe2671af9523f5b22b861835312b206685c8adb855743b9d159e9d2f8",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating957-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.193738544359803,
+      "returncode": 0,
+      "log_sha256": "6c1bfaae52a96b7f9f46382ea862b2ef1c60311602892ee29e6d9af3cbca2f2b",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating958-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.5586192179471254,
+      "returncode": 0,
+      "log_sha256": "7af1b36ff2f58904212ea6a93b1ff06ba3cda817a8304da01d98d1b4f20ecd60",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating959-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.612938174046576,
+      "returncode": 0,
+      "log_sha256": "47a64161cabfff604ab6097ba8009b49392b3d05328c930dbd5b6ebc8cd43de8",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating959-name-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.1429657358676195,
+      "returncode": 0,
+      "log_sha256": "efaf5f4c8e8475c516cd334facec3a226d049b8047dec72a803fe66b7835e3c3",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating960-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.303196731954813,
+      "returncode": 0,
+      "log_sha256": "7af1b36ff2f58904212ea6a93b1ff06ba3cda817a8304da01d98d1b4f20ecd60",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating961-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.395375438965857,
+      "returncode": 0,
+      "log_sha256": "85695e60976a7d9d9b3e94cc987f823033426cbbd37043413c63fca19cfb01d7",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating962-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.30687677487731,
+      "returncode": 0,
+      "log_sha256": "85695e60976a7d9d9b3e94cc987f823033426cbbd37043413c63fca19cfb01d7",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating963-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2186789186671376,
+      "returncode": 0,
+      "log_sha256": "981703941f359210f362ec84d0611612b14e8629ed019cba43bce8e91085a48c",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating964-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.0929161198437214,
+      "returncode": 0,
+      "log_sha256": "5765c68762339b2a752cc6b25c37dea39458cb2e2bd6f2d9e955455ee92b0594",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating965-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.756299116648734,
+      "returncode": 0,
+      "log_sha256": "68e4fefe577b5dc0dc6c7f12768ca93e4561b4441f452732285aa1646e475610",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating966-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.211718245409429,
+      "returncode": 0,
+      "log_sha256": "18f42448f242a9c0b91e780ecc84bd350ddaad42fbf9fc87c7771e7b813adee8",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating967-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.570652554742992,
+      "returncode": 0,
+      "log_sha256": "0b7cd01e5917c8889b32bdca6473e7b18ac1803bdf07a2982235ba657d6d2323",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating968-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.4311441415920854,
+      "returncode": 0,
+      "log_sha256": "18f42448f242a9c0b91e780ecc84bd350ddaad42fbf9fc87c7771e7b813adee8",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating969-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.4487105682492256,
+      "returncode": 0,
+      "log_sha256": "4d5c381ba8493391299e7e82c5ce65e5bf17c5554d4077ee3f90db9a1bab52e0",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating970-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.3677100921049714,
+      "returncode": 0,
+      "log_sha256": "576c301b6c1d0f29bb39aa5c8eafa6fa416bf46e73dc86c86b03ff0d38852d6f",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating971-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.428512828424573,
+      "returncode": 0,
+      "log_sha256": "c34669f574a7be63f8bd160cce5c7d9f852b611b039624d8ce36a411731ca668",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating971-membership-name-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.1973162963986397,
+      "returncode": 0,
+      "log_sha256": "0b7cd01e5917c8889b32bdca6473e7b18ac1803bdf07a2982235ba657d6d2323",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating972-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.327197658829391,
+      "returncode": 0,
+      "log_sha256": "057c7b4b4c4cadf1e6d4af8a59c77d7e4c2966bfa4b0dbc9b76630a8eb833458",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating973-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.3319626906886697,
+      "returncode": 0,
+      "log_sha256": "909aa0f6e3f1aa894477e858935ce209d5f0d1c02022503285c8312c00fb41aa",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating975-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.368828176520765,
+      "returncode": 0,
+      "log_sha256": "a9b0e3063633a8b22f2c4b8bd076ebb55f8fcfd4451e3931ecd64ca34fbd4460",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating976-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2892190823331475,
+      "returncode": 0,
+      "log_sha256": "2d5532a3cfe7bdecd21bf3ce45d3a767d77161fd11e340238414d7b61bbb3133",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating977-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.4057048447430134,
+      "returncode": 0,
+      "log_sha256": "2d5532a3cfe7bdecd21bf3ce45d3a767d77161fd11e340238414d7b61bbb3133",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating978-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.305640389211476,
+      "returncode": 0,
+      "log_sha256": "a9b0e3063633a8b22f2c4b8bd076ebb55f8fcfd4451e3931ecd64ca34fbd4460",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating979-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.6667189402505755,
+      "returncode": 0,
+      "log_sha256": "c2b85379593a39665b519b91a565d51b3f81751d8936db87f793d47c6772b8ad",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating980-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2677549803629518,
+      "returncode": 0,
+      "log_sha256": "a9c65616302cdb7eb2bc92528e73005a60026e8e63972f0ef06adbd110ac1194",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating980-corrected-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.903163685463369,
+      "returncode": 0,
+      "log_sha256": "37e343d248b6f309228b4cc43d112f1691bf3080e20bb19cdeea43b6680adbce",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating981-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.24850020557642,
+      "returncode": 0,
+      "log_sha256": "d5199333ed2385b24a7363c2b70d2a0a777a6d387a6fa9a55cb7ef841e8c7cee",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating982-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.0733031556010246,
+      "returncode": 0,
+      "log_sha256": "d5199333ed2385b24a7363c2b70d2a0a777a6d387a6fa9a55cb7ef841e8c7cee",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating983-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.3178392816334963,
+      "returncode": 0,
+      "log_sha256": "b9157827c34a08625f7db8036a4fed713c34a1dfbbeb00a57b4e92cc8993b7ea",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating984-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 4.716975150629878,
+      "returncode": 2,
+      "log_sha256": "ff8c71d9e19948190baa23311e312de74f7680bd8b278c196ee424394f706540",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating984-fixed-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 6.873527048155665,
+      "returncode": 0,
+      "log_sha256": "6c340a6a3a1416ed1841f80682dc44b524e0c5d287a57b821f28010b7bba06da",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating985-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.52042649500072,
+      "returncode": 0,
+      "log_sha256": "f4ec8ce600715481c687138f3cf9f839f993a83623e0e8826ce9cd1ae89570b1",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating986-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.031659892760217,
+      "returncode": 0,
+      "log_sha256": "746db2c53aac67be455dece429a4bae6c477e5ec687a5397d29ecd9e71037e89",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating987-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 4.547140173614025,
+      "returncode": 2,
+      "log_sha256": "7e59d091f23ab9eee481949de8700b8b0d94561d424532589b9a188e06c915a0",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating987-fixed-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 28.300038198940456,
+      "returncode": 0,
+      "log_sha256": "9b4c379248b1eaca27301b2801870247c0bf9255d9312fa752a39251a5e8530c",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating988-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 4.5706908497959375,
+      "returncode": 2,
+      "log_sha256": "f11414288dc141a76da71de3c9cbe6f509704d065632acd4373f55a0fa4b5097",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating988-fixed-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 7.115369887091219,
+      "returncode": 0,
+      "log_sha256": "d3e219954025f40c9115c63ecb8680dccb2fa4809ada645c0f9cf3ba6d65104b",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating989-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 10.88139052130282,
+      "returncode": 0,
+      "log_sha256": "86443be1e874ddc87b1da64fd2b769b26a34abc94526d1b081ec91c4a812da26",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating990-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2454559272155166,
+      "returncode": 0,
+      "log_sha256": "45a41a08ae0bb95b1676b41c231f05ed0ad00c7916413c96e214dacd73b9ce73",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating991-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.529907502233982,
+      "returncode": 0,
+      "log_sha256": "f4ec8ce600715481c687138f3cf9f839f993a83623e0e8826ce9cd1ae89570b1",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating992-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.7453585490584373,
+      "returncode": 0,
+      "log_sha256": "2446a4c97f2904c0a5b1a56d9dfc652d100c4149eddd9516dcc4eee45f92ca1c",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating993-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.877490358427167,
+      "returncode": 0,
+      "log_sha256": "2446a4c97f2904c0a5b1a56d9dfc652d100c4149eddd9516dcc4eee45f92ca1c",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating994-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.909266419708729,
+      "returncode": 0,
+      "log_sha256": "a6bc62fd95533c649f51f7d5326decc6368ca943732271775312a3e4dc90a2e3",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating995-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.435349013656378,
+      "returncode": 0,
+      "log_sha256": "45a41a08ae0bb95b1676b41c231f05ed0ad00c7916413c96e214dacd73b9ce73",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating996-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.154095310717821,
+      "returncode": 0,
+      "log_sha256": "26e8b101283b530129f87a704ceb4d1ebef4ed86c665d2f50e122aaf36792965",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating997-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.714029982686043,
+      "returncode": 0,
+      "log_sha256": "e870f3f207c6c8b9df926de2530a1a781e26efd9e172bd7ed1bcc7422d7b3116",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating998-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 11.178483037278056,
+      "returncode": 0,
+      "log_sha256": "eb9fd3131233cbf436a2e268a7c10f06841e5ff5f7f69e836b85b939a8e2d8b8",
+      "category": "combined_canonical_native_build_unsplit"
+    },
+    "floating999-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2750139934942126,
+      "returncode": 0,
+      "log_sha256": "e870f3f207c6c8b9df926de2530a1a781e26efd9e172bd7ed1bcc7422d7b3116",
+      "category": "combined_canonical_native_build_unsplit"
+    }
+  }
+}

@@ -478,3 +478,11 @@ void __fastcall coff_add_relocation(unsigned identifier, unsigned offset,
         contribution->relocations = next;
     }
 }
+
+/* Original [0006eb60,0006eb79). Relocations to section-relative data
+   use the current contribution's existing section-symbol handle. */
+unsigned __fastcall coff_section_symbol(unsigned short identifier)
+{
+    CoffSection *section = coff_vector_get(coff_sections, identifier);
+    return section->last->symbol_index;
+}
