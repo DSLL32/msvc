@@ -25,7 +25,7 @@ def check(s, original, native, trial, text, pre, phase, state, seed, final, symb
     if aux:
         s.require(trial['auxiliary_comment_data_seed']=={'owner':'_initialize_generated_comment','point':'actual constructor entry after BSS reset','com_initialized':37,'generated_comment':'74 bytes165','comment_value_offset':23,'generated_comment_length':29,'code_or_allocator_mock':False} and 'comment-seed actual-entry=00038af9 bytes=74 value=165 com=37 offset=23 length=29 code-mock=0\n' in text,'undeclared comment auxiliary')
     else:s.require('auxiliary_comment_data_seed' not in trial and 'comment-seed ' not in text,'hidden comment auxiliary')
-    cleanup=[row for row in traps if row[1]=='000386ae'];s.require(len(cleanup)==12,'missing actual post-constructor cleanup registration')
+    cleanup=[row for row in traps if row[1]=='000386ae' and int(row[2].split(',')[1],16)==0x104346d4];s.require(len(cleanup)==1,'missing actual post-constructor cleanup registration')
     last=cleanup[-1];s.require(int(last[2].split(',')[1],16)==0x104346d4,'wrong original generated-comment cleanup callback')
     s.require(raw('%03d'%int(last[0]))==values(result)==raw(final)==values(state)==expected,'generated comment value, offset, length or COM reset differs')
     s.require(result['symbol']=='register_cleanup' and result['args']=={'cleanup':int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_generated_comment$',symbols,re.M)[1],16)},'native cleanup formal differs')

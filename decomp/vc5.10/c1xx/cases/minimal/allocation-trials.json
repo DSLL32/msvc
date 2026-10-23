@@ -1,0 +1,412 @@
+{
+  "schema": 1,
+  "trial": "_reserve_work_buffer",
+  "trials": [
+    {
+      "seed": null,
+      "group_entry_seed": false,
+      "auxiliary_BSS_seed": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocation-original-2",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocation-native-2",
+      "original_receipt_sha256": "deb674cb70e18546d01d2ad7ea8992b64de679bcf13dc26e472374e34fe8539f",
+      "native_receipt_sha256": "3e34e2f9097fb35c3810462f048594b980f95f033e9a28e25d6ea781d4be3368",
+      "audit": "build/audits/d17a7b0c4f1016f32434cd342f64aa6bd399ec7cd8844adf4f9b057a251b1506.json",
+      "comparison": {
+        "trial": "_reserve_work_buffer",
+        "frontier": "_initialize_intermediate_files",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8383,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 5.27313342038542,
+        "native_seconds": 3.994810964912176
+      },
+      "native_capture_accounting": {
+        "snapshot_provenance_setup_seconds": 0.028775610029697418,
+        "execution_seconds": 3.994810964912176,
+        "post_execution_verification_seconds": 0.7561386786401272,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_phases": {
+        "source_command_seconds": 3.1095927422866225,
+        "source_command_count": 50,
+        "gdb_total_seconds": 3.994810964912176,
+        "startup_seconds": 0.09628625400364399,
+        "breakpoint_setup_seconds": 0.3442772561684251,
+        "collection_seconds": 3.1524002850055695,
+        "serialization_io_seconds": 0.04809763468801975,
+        "residual_inferior_debugger_seconds": 0.35374953504651785,
+        "collector_count": 54,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "strict_audit_seconds": 0.09217999316751957
+    },
+    {
+      "seed": "restore-nonzero",
+      "group_entry_seed": false,
+      "auxiliary_BSS_seed": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocation-restore-nonzero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocation-restore-nonzero-aux-native-1",
+      "original_receipt_sha256": "9a7d4c4fe1b47e98b1c5728aec5f186df4ef9ae7690bb33f89022d6403f1a68c",
+      "native_receipt_sha256": "48a9fdcd69d67f8115f7627dee7659ce49f361616d474b0ce2984b5747edaaf8",
+      "audit": "build/audits/54c090785421fba4e1e65a8d98ca0a122fd8431fd7cf2f9973129e6079b86edf.json",
+      "comparison": {
+        "trial": "_reserve_work_buffer",
+        "frontier": "_initialize_intermediate_files",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8383,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 5.674973351880908,
+        "native_seconds": 4.180470233783126
+      },
+      "native_capture_accounting": {
+        "snapshot_provenance_setup_seconds": 0.029515857808291912,
+        "execution_seconds": 4.180470233783126,
+        "post_execution_verification_seconds": 0.7609112169593573,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_phases": {
+        "source_command_seconds": 3.192965302616358,
+        "source_command_count": 50,
+        "gdb_total_seconds": 4.180470233783126,
+        "startup_seconds": 0.1046091802418232,
+        "breakpoint_setup_seconds": 0.4136105263605714,
+        "collection_seconds": 3.224107388406992,
+        "serialization_io_seconds": 0.05117977596819401,
+        "residual_inferior_debugger_seconds": 0.38696336280554533,
+        "collector_count": 54,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "strict_audit_seconds": 0.0929717244580388
+    },
+    {
+      "seed": "restore-zero",
+      "group_entry_seed": false,
+      "auxiliary_BSS_seed": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocation-restore-zero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocation-restore-zero-aux-native-1",
+      "original_receipt_sha256": "ea6ea35f147c72bb24bf4c1019586707a4d66acb7219e095e17eff611be50cac",
+      "native_receipt_sha256": "afa768a1fb7630330f5d6c2a24f5a2bb656621a9a6537ac4c745d18d2bf30eaa",
+      "audit": "build/audits/f2e268ed54361b638915240303e0ed58b500e1da4232162b20b9bed488a87dc2.json",
+      "comparison": {
+        "trial": "_reserve_work_buffer",
+        "frontier": "_initialize_intermediate_files",
+        "seed": "restore-zero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8383,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 5.524988123215735,
+        "native_seconds": 4.1715332278981805
+      },
+      "native_capture_accounting": {
+        "snapshot_provenance_setup_seconds": 0.029857993125915527,
+        "execution_seconds": 4.1715332278981805,
+        "post_execution_verification_seconds": 0.7779506659135222,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_phases": {
+        "source_command_seconds": 3.252092090435326,
+        "source_command_count": 50,
+        "gdb_total_seconds": 4.1715332278981805,
+        "startup_seconds": 0.09384173154830933,
+        "breakpoint_setup_seconds": 0.3648997191339731,
+        "collection_seconds": 3.277652715332806,
+        "serialization_io_seconds": 0.051886905916035175,
+        "residual_inferior_debugger_seconds": 0.38325215596705675,
+        "collector_count": 54,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "strict_audit_seconds": 0.09202297404408455
+    }
+  ],
+  "incremental_build_audit_seconds": 0.24955880269408226,
+  "fresh_targeted_negative_controls": {
+    "result": "PASS",
+    "count": 43,
+    "seconds": 103.90185120049864,
+    "runs": [
+      {
+        "result": "PASS",
+        "count": 41,
+        "seconds": 96.22072465997189,
+        "rejected": [
+          {
+            "seed": null,
+            "rejected": "provider-hFile"
+          },
+          {
+            "seed": null,
+            "rejected": "provider-IAT"
+          },
+          {
+            "seed": null,
+            "rejected": "original-api-args"
+          },
+          {
+            "seed": null,
+            "rejected": "original-api-RET16"
+          },
+          {
+            "seed": null,
+            "rejected": "original-api-EDI"
+          },
+          {
+            "seed": null,
+            "rejected": "original-error"
+          },
+          {
+            "seed": null,
+            "rejected": "original-region"
+          },
+          {
+            "seed": null,
+            "rejected": "original-helper-args"
+          },
+          {
+            "seed": null,
+            "rejected": "original-helper-RET0"
+          },
+          {
+            "seed": null,
+            "rejected": "original-helper-ESI"
+          },
+          {
+            "seed": null,
+            "rejected": "original-zero-memory"
+          },
+          {
+            "seed": null,
+            "rejected": "original-BSS-neighbor"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-args"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-formal"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-PC"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-caller"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-RET16"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-EDI"
+          },
+          {
+            "seed": null,
+            "rejected": "native-api-result"
+          },
+          {
+            "seed": null,
+            "rejected": "native-error"
+          },
+          {
+            "seed": null,
+            "rejected": "native-FPU"
+          },
+          {
+            "seed": null,
+            "rejected": "native-reserve-map"
+          },
+          {
+            "seed": null,
+            "rejected": "native-commit-map"
+          },
+          {
+            "seed": null,
+            "rejected": "native-zero-memory"
+          },
+          {
+            "seed": null,
+            "rejected": "native-helper-formal"
+          },
+          {
+            "seed": null,
+            "rejected": "native-helper-args"
+          },
+          {
+            "seed": null,
+            "rejected": "native-helper-RET0"
+          },
+          {
+            "seed": null,
+            "rejected": "native-helper-EBX"
+          },
+          {
+            "seed": null,
+            "rejected": "native-helper-NULL"
+          },
+          {
+            "seed": null,
+            "rejected": "native-helper-alias"
+          },
+          {
+            "seed": null,
+            "rejected": "native-before-store"
+          },
+          {
+            "seed": null,
+            "rejected": "native-limit"
+          },
+          {
+            "seed": null,
+            "rejected": "native-cleanup-count"
+          },
+          {
+            "seed": null,
+            "rejected": "native-cleanup-callback"
+          },
+          {
+            "seed": null,
+            "rejected": "native-next-argv"
+          },
+          {
+            "seed": "restore-nonzero",
+            "rejected": "native-restore-neighbor"
+          },
+          {
+            "seed": "restore-nonzero",
+            "rejected": "native-limit"
+          },
+          {
+            "seed": "restore-nonzero",
+            "rejected": "original-BSS-neighbor"
+          },
+          {
+            "seed": "restore-zero",
+            "rejected": "native-restore-neighbor"
+          },
+          {
+            "seed": "restore-zero",
+            "rejected": "native-limit"
+          },
+          {
+            "seed": "restore-zero",
+            "rejected": "original-BSS-neighbor"
+          }
+        ]
+      },
+      {
+        "result": "PASS",
+        "count": 2,
+        "seconds": 7.681126540526748,
+        "rejected": [
+          {
+            "seed": null,
+            "rejected": "original-data-neighbor"
+          },
+          {
+            "seed": null,
+            "rejected": "original-snapshot-neighbor"
+          }
+        ]
+      }
+    ],
+    "cadence": "41 new allocator ABI/state controls; then add full-original initialized/snapshot invariant and revalidate all three positive pairs plus2 newly affected storage controls. No original/native reexecution for validator-only extension."
+  },
+  "static_contract_ablations": {
+    "packet": "cases/minimal/allocation-contract-checks.json",
+    "sha256": "291df206acab1854ee38e6a197e83fb73c1a2019e3f771dbc6edd8370fb90ad8",
+    "count": 2,
+    "claim": "each normal-return contract necessary for cached EDI import resolution; no callee reconstruction credit"
+  },
+  "reused_controls": {
+    "packet": "cases/minimal/work-trials.json",
+    "sha256": "3b1679c769cac22b026538fd73455b9e4faf0b1ccc41855981476ebab16ed220",
+    "kind": "previous21 work-pointer/restore controls reused, not rerun; fresh affected allocator+continuation controls above; every current paired typed state/ABI check rerun"
+  },
+  "checker_inputs": {
+    "scripts/allocation_state.py": "d4e566a4285bfa9f5bb8a4764c8acda416a04b2d79702deb22d75d91566abb8a",
+    "scripts/allocation_imports.py": "8b67d2b08f61eeae9139b935e06b6616689ac326d45d8e03336433a422997ae4",
+    "scripts/check-allocation-negative.py": "b8606c6b337a0f7acca63735b35c6db17458d7180c01423533b67c1acf393e32",
+    "scripts/check-callback.py": "51aa260ae2537441adfdbd69c76e49a0365b64288a072157f00a7e27015123a1",
+    "scripts/trial-support.py": "94849cd17188d19b2f4f7d5ea680152b70d54e1a6ebc066df32767b13d8a6f3a",
+    "cases/minimal/allocation-preservation-v1.json": "18eac3cea5b851f9dc33e1f69cb95e1b721d92a804207e0332b3104c5b83a559"
+  },
+  "runtime_scope": {
+    "helper_calls": 2,
+    "VirtualAlloc_calls": 4,
+    "per_allocation_reserve_bytes": 5242880,
+    "per_allocation_commit_bytes": 16384,
+    "LastError": 203,
+    "x87_control_word": 639,
+    "api_stack_cleanup": 16,
+    "helper_stack_cleanup": 0,
+    "whole_original_BSS_guard_bytes": 63132,
+    "original_initialized_and_saved_unchanged_bytes_each": 8520,
+    "committed_memory": "all16KiB actually read as zero on each side; owned virtual maps verified",
+    "uncommitted_remainder": "opaque, not read or compared",
+    "alignment": "no64KiB address-bit/alignment semantics consumed or certified",
+    "mocked_API_or_returns": false
+  },
+  "status": "sole genuine allocator candidate accepted using natural -2/-2 pair; two restore auxiliaries not promotion inputs",
+  "exploratory_evidence": "-1/-1 pair retained unchanged; lacks full final original BSS guard and is NOT acceptance proof. Proper natural -2/-2 captured after observer extension. A scratch Python import-path error did not alter either -2 execution; fixed orchestration then validated immutable raw."
+}

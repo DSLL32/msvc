@@ -104,6 +104,8 @@ def prepare():
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial_name=='CompilerPool::Initialize':
         trial['validation_observers'].append({'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'})
+    if '_reserve_work_buffer' in accepted:
+        trial['allocation_observers']={'owner':'_reserve_work_buffer','before':[0x38cdf,0x38cf8],'after':[0x38ce1,0x38cfa],'helper_return':'actual captured stack return, only two declared callers','provider_iat':0xc9204,'final_bss_rva':0x38d07,'scope':'validation only; no extra unmask, stub-return or API mock'}
     trial['test_action_seed']=bool(candidate.get('test_action_seed'))
     if trial['test_action_seed']:
         trial['auxiliary_action_data_seed']={'owner':'_initialize_frontend_41','point':'actual entry after BSS reset','head':'owned snapshot+4','tail':'owned snapshot+8','depth':17,'pointees_dereferenced':False,'code_or_allocator_mock':False}

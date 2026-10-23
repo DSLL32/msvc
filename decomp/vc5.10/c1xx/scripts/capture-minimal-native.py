@@ -35,13 +35,16 @@ def capture(project,output,binary,trial):
 import gdb,json,struct,time
 recon_collect_started=time.perf_counter()
 frame=gdb.newest_frame()
-value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
+value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'esi':int(gdb.parse_and_eval('(unsigned int)$esi')),'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
        'control_word':int(gdb.parse_and_eval('$fctrl')),'args':{}}
 block=frame.block()
 while block is not None and not block.is_global and not block.is_static:
     for symbol in block:
         if symbol.is_argument: value['args'][symbol.name]=int(frame.read_var(symbol))
     block=block.superblock
+if frame.name()=='reserve_work_buffer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&reserve_work_buffer')):
+    value['args']={'reserve_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)')),'commit_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+8)'))}
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['reserve_bytes'],value['args']['commit_bytes']]}
 if frame.name()=='initialize_work_buffers':
     value['caller_return_pc']=int(frame.older().pc())
 if frame.name()=='c1xx_main' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&c1xx_main')):
@@ -381,6 +384,11 @@ end
         auxiliary_collector=output/'collect-aux-call.gdb'
         auxiliary_collector.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'aux-call.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'aux-call-argv.bin'))))
         auxiliary='bt\nsource '+str(auxiliary_collector)+'\nreturn (void *)c1xx_aux_new_payload\npython\nimport gdb,json\nopen('+repr(str(output/'aux-return.json'))+',"w").write(json.dumps({"eax":int(gdb.parse_and_eval("$eax")),"pc":int(gdb.parse_and_eval("$pc")),"role":"mock-return","helper_accepted":False})+"\\n")\nend\ncontinue\n'
+    allocation_finish=''
+    if trial.get('allocation_observers'):
+        from allocation_probe import setup as setup_allocation
+        allocation_observer,allocation_finish=setup_allocation(output,binary,collector)
+        observer+=allocation_observer
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
@@ -391,7 +399,7 @@ end
     timing_before_run='python\nrecon_before_run=time.perf_counter()\nend\n'
     timing_after_run='python\nrecon_after_run=time.perf_counter()\nend\n'
     timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings,"source_commands":recon_source_timings},indent=2)+"\\n")\nend\n'
-    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+timing_finish+'quit\n')
+    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
                           stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)

@@ -69,9 +69,10 @@
     "_initialize_frontend_41",
     "_initialize_frontend_42",
     "_main",
-    "_initialize_work_buffers"
+    "_initialize_work_buffers",
+    "_reserve_work_buffer"
   ],
-  "trial": "_reserve_work_buffer",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -602,5 +603,5 @@
       "entry": 0
     }
   ],
-  "stage": "_initialize_work_buffers accepted; next frontier _reserve_work_buffer"
+  "stage": "_reserve_work_buffer accepted; next frontier _initialize_intermediate_files"
 }

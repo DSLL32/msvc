@@ -25,6 +25,7 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor=constructor_number==1
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
+    allocation_candidate=trial['trial']=='_reserve_work_buffer'
     work_candidate=trial['trial']=='_initialize_work_buffers'
     main_candidate=trial['trial']=='_main'
     comment_constructor=trial['trial']=='_initialize_generated_comment'
@@ -34,9 +35,9 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(work_candidate or main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
+    s.require(allocation_candidate or work_candidate or main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
               'no reviewed callback decoder for this function')
-    index=42 if work_candidate or main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=42 if allocation_candidate or work_candidate or main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
@@ -106,6 +107,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if index>=42:path.append(('c1xx_main',0x38bfd))
     if '_main' in trial['accepted']:path.append(('initialize_work_buffers',0x38c86))
     if '_initialize_work_buffers' in trial['accepted']:path.append(('reserve_work_buffer',0x38cc9))
+    if '_reserve_work_buffer' in trial['accepted']:path += [('reserve_work_buffer',0x38cc9),('register_cleanup',0x386ae),('initialize_intermediate_files',0x38d07)]
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -118,7 +120,7 @@ def check(original,native,require_audit=True,audit_path=None):
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize','c1xx_main','reserve_work_buffer') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize','c1xx_main','reserve_work_buffer','initialize_intermediate_files') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     if frontier=='c1xx_main':
         s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')
@@ -151,7 +153,7 @@ def check(original,native,require_audit=True,audit_path=None):
         s.require(int(traps[6][2].split(',')[1],16)==8520,'actual allocator request differs')
     original_cleanup=[];native_cleanup=[]
     for number in range(1,registered+1):
-        name='destroy_generated_comment' if number==12 else 'destroy_pdb_context_02' if number==11 else 'destroy_pdb_context_01' if number==10 else 'destroy_deferred_work' if number==9 else 'destroy_output_buffer_%02d'%number
+        name='cleanup_main' if number==13 else 'destroy_generated_comment' if number==12 else 'destroy_pdb_context_02' if number==11 else 'destroy_pdb_context_01' if number==10 else 'destroy_deferred_work' if number==9 else 'destroy_output_buffer_%02d'%number
         symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] '+name+'$',symbols,re.M)
         s.require(symbol is not None,'missing encountered native destructor boundary')
         original_cleanup.append(records['_'+name]['start']);native_cleanup.append(int(symbol[1],16))
@@ -219,6 +221,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
+    if '_reserve_work_buffer' in trial['accepted']:
+        spec=importlib.util.spec_from_file_location('allocation_state',Path(__file__).with_name('allocation_state.py'));allocation=importlib.util.module_from_spec(spec);spec.loader.exec_module(allocation)
+        allocation.check(s,d,original,native,trial,text,state,final,symbols,traps)
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],

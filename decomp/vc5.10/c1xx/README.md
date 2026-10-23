@@ -3,7 +3,8 @@
 The first case is complete: load/CRT attach, resolve both compiler exports by
 name and ordinal without calling them, then unload/CRT detach. The first real
 minimal C++ compilation is now active: InvokeCompilerPass has its full wrapper,
-and reaches the initializer stub. AbortCompilerPass remains an INT3 stub.
+and has progressed through all initializers and both virtual work-buffer allocations.
+AbortCompilerPass remains an INT3 stub.
 
 `make -j4 native` builds the i386 Linux static harness. `make -j4 fixtures`
 replays its cached original oracle with native instrumentation and no Wine.
@@ -12,10 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **two application functions (207 bytes)**, **two target CRT
-functions (451 bytes)** and **one genuine linker-generated import thunk (6 bytes)**.
-The 664 accepted bytes are 0.0884% of the 751,216-byte code extent; this is not
-a non-CRT coverage percentage. The frontend driver and initializer remain stubs.
+Accepted code is **65 application functions (2,452 bytes)**, **two historical CRT
+support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
+The 2,909 accepted bytes are 0.3872% of the 751,216-byte code extent; this is not
+a non-CRT coverage percentage. The real minimal compilation remains unfinished,
+stopping in the command-line/intermediate-file helper.
 
 ## Target and ABI
 
@@ -184,3 +186,13 @@ The67-byte work-buffer initializer is accepted, stopping at the real two-argumen
 reserve helper. Four pointer fields add16 semantic BSS bytes (1085 semantic plus31
 padding, sizeof1116). Three fresh pairs and21 new controls are in
 `cases/minimal/work-trials.json`. No VirtualAlloc behavior is yet accepted here.
+
+The 92-byte split reserve/commit helper is accepted separately. Three paired runs
+verify four actual VirtualAlloc calls, all formals, EDI/nonvolatile preservation,
+RET16, unchanged LastError203/x87 state, owned region maps and each committed16KiB
+read as zero. The reserved remainder is opaque; no64KiB alignment semantics are
+claimed. Full original BSS and initialized/saved-data guards constrain the known
+main continuation. The next helper's real argv formal is observed. The packet is
+`cases/minimal/allocation-trials.json`:43 targeted controls plus two necessary
+cached-import-contract ablations. Original captures took5.27–5.67s; native GDB
+observations3.99–4.18s. These are capture costs, separate from lifecycle fixtures.

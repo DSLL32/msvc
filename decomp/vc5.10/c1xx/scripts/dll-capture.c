@@ -11,6 +11,13 @@ static HANDLE child;
 static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
 static DWORD crt_base, return_address, return_reason;
+static DWORD kernel_base, kernelbase_base;
+static unsigned allocation_api_count, allocation_helper_count;
+static DWORD allocation_return_pc;
+static BYTE allocation_return_byte;
+static int allocation_return_active;
+static int allocation_observers;
+static BYTE allocation_before_byte[2], allocation_after_byte[2];
 static BYTE return_saved;
 static DWORD pch_return_address;
 static BYTE pch_return_saved;
@@ -104,6 +111,14 @@ static void module_loaded(DWORD address, HANDLE file)
     }
     fprintf(events, "module name=%s actual=%08lx preferred=%08lx entry=%08lx\n",
             name, address, nt.OptionalHeader.ImageBase, nt.OptionalHeader.AddressOfEntryPoint);
+    if (getenv("C1XX_OBSERVE_ALLOCATION") && !_stricmp(name, "kernel32.dll")) {
+        if (!file || kernel_base || !same_file(file, "C:\\windows\\system32\\kernel32.dll", "loaded-kernel32.bin")) fail("kernel32 provider identity");
+        kernel_base = address;
+    }
+    if (getenv("C1XX_OBSERVE_ALLOCATION") && !_stricmp(name, "kernelbase.dll")) {
+        if (!file || kernelbase_base || !same_file(file, "C:\\windows\\system32\\kernelbase.dll", "loaded-kernelbase.bin")) fail("kernelbase provider identity");
+        kernelbase_base = address;
+    }
     if (!_stricmp(name, "msvcrt.dll")) {
         if (!file || crt_seen || !same_file(file, crt_path, "loaded-msvcrt.bin")) fail("canonical MSVCRT identity");
         crt_seen = 1;
@@ -193,6 +208,21 @@ static void prepare_mask(void)
         if (snapshot[0x389d4 - code_rva] != 0xc3) fail("pool return instruction changed");
         patch(base + 0x389d4, 0xcc); pool_return_observer = 1;
         fprintf(events, "pool-return-observer rva=000389d4 byte=c3 after-mask-readback=1\n");
+    }
+    if (getenv("C1XX_OBSERVE_ALLOCATION") && !baseline) {
+        static const DWORD before[2] = { 0x38cdf, 0x38cf8 };
+        static const DWORD after[2] = { 0x38ce1, 0x38cfa };
+        if (!kernel_base || !kernelbase_base) fail("missing allocation providers");
+        readmem(base + 0xc9204, &resolved, 4);
+        fprintf(events, "allocation-provider iat=000c9204 resolved=%08lx\n", resolved);
+        for (i = 0; i < 2; ++i) {
+            allocation_before_byte[i] = snapshot[before[i] - code_rva];
+            allocation_after_byte[i] = snapshot[after[i] - code_rva];
+            if (allocation_before_byte[i] != 0xff || allocation_after_byte[i] != (i ? 0x85 : 0x8b)) fail("allocation observer instruction");
+            patch(base + before[i], 0xcc);
+        }
+        allocation_observers = 1;
+        fprintf(events, "allocation-observers before=00038cdf,00038cf8 after=00038ce1,00038cfa dynamic-return=actual-stack no-code-mock=1\n");
     }
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
@@ -570,6 +600,60 @@ static void save_state(void)
     fclose(state); fflush(events);
 }
 
+static int allocation_event(CONTEXT *context, DWORD address, HANDLE thread)
+{
+    static const DWORD before[2] = { 0x38cdf, 0x38cf8 };
+    static const DWORD after[2] = { 0x38ce1, 0x38cfa };
+    DWORD words[4], cursor, end;
+    MEMORY_BASIC_INFORMATION region;
+    unsigned site, index, part;
+    char name[80], suffix[40];
+    BYTE committed[0x4000];
+    if (!allocation_observers) return 0;
+    if (allocation_return_active && address == allocation_return_pc) {
+        index = allocation_helper_count - 1;
+        fprintf(events, "allocation-helper-return index=%u pc=%08lx esp=%08lx eax=%08lx edi=%08lx esi=%08lx\n",
+                index, address, context->Esp, context->Eax, context->Edi, context->Esi);
+        sprintf(suffix, "reserve-return-%02u", index + 1); save_frontend_state(suffix);
+        patch(address, allocation_return_byte); allocation_return_active = 0;
+        context->Eip = address; return 1;
+    }
+    for (site = 0; site < 2; ++site) {
+        if (address == base + before[site]) {
+            if (allocation_api_count >= 4 || site != allocation_api_count % 2) fail("allocation API order");
+            index = allocation_api_count++;
+            readmem(context->Esp, words, sizeof(words));
+            fprintf(events, "allocation-before index=%u pc=%08lx esp=%08lx edi=%08lx args=%08lx,%08lx,%08lx,%08lx error=%lu fpu=%04lx\n",
+                    index, address, context->Esp, context->Edi, words[0], words[1], words[2], words[3], thread_error(context, thread), context->FloatSave.ControlWord);
+            patch(address, allocation_before_byte[site]); patch(base + after[site], 0xcc);
+            context->Eip = address; return 1;
+        }
+        if (address == base + after[site]) {
+            if (!allocation_api_count || site != (allocation_api_count - 1) % 2) fail("allocation API return order");
+            index = allocation_api_count - 1;
+            fprintf(events, "allocation-after index=%u pc=%08lx esp=%08lx eax=%08lx edi=%08lx error=%lu fpu=%04lx\n",
+                    index, address, context->Esp, context->Eax, context->Edi, thread_error(context, thread), context->FloatSave.ControlWord);
+            if (!context->Eax) fail("uncharacterized original allocation failure");
+            cursor = context->Eax; end = cursor + 0x500000; part = 0;
+            while (cursor < end) {
+                if (VirtualQueryEx(child, (void *)cursor, &region, sizeof(region)) != sizeof(region) ||
+                        (DWORD)region.BaseAddress != cursor || !region.RegionSize || cursor + region.RegionSize > end) fail("allocation region inventory");
+                fprintf(events, "allocation-region index=%u part=%u base=%08lx allocation=%08lx allocation-protect=%08lx bytes=%08lx state=%08lx protect=%08lx type=%08lx\n",
+                        index, part++, (DWORD)region.BaseAddress, (DWORD)region.AllocationBase, region.AllocationProtect,
+                        region.RegionSize, region.State, region.Protect, region.Type);
+                cursor += region.RegionSize;
+            }
+            if (site) {
+                readmem(context->Eax, committed, sizeof(committed));
+                sprintf(name, "work-committed-%02u.bin", index / 2 + 1); save_blob(name, committed, sizeof(committed));
+            }
+            patch(address, allocation_after_byte[site]); patch(base + before[site], 0xcc);
+            context->Eip = address; return 1;
+        }
+    }
+    return 0;
+}
+
 static void invocation_arguments(CONTEXT *context);
 
 static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
@@ -696,6 +780,8 @@ int main(int argc, char **argv)
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && allocation_event(&context, address, thread)) {
+                if (!SetThreadContext(thread, &context)) fail("allocation observer context");
             } else if (code == EXCEPTION_BREAKPOINT && return_active && address == return_address) {
                 fprintf(events, "crt-return seq=%u reason=%lu status=%lu pc=%08lx\n",
                         sequence, return_reason, context.Eax, address);
@@ -765,12 +851,17 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38d07) {
+                    BYTE allocation_bss[0xf69c];
+                    readmem(base + 0xb9000, allocation_bss, sizeof(allocation_bss));
+                    save_blob("allocation-final-bss.bin", allocation_bss, sizeof(allocation_bss));
+                }
                 if (address == base + 0x38bfd || address == base + 0x38c86) {
                     BYTE main_bss[0xf69c];
                     readmem(base + 0xb9000, main_bss, sizeof(main_bss));
                     save_blob(address == base + 0x38bfd ? "main-bss-entry.bin" : "main-bss-frontier.bin", main_bss, sizeof(main_bss));
                 }
-                if (address == base + 0x38cc9) {
+                if (address == base + 0x38cc9 && !allocation_helper_count) {
                     BYTE work_bss[0xf69c];
                     readmem(base + 0xb9000, work_bss, sizeof(work_bss));
                     save_blob("work-bss-first-reserve.bin", work_bss, sizeof(work_bss));
@@ -807,12 +898,17 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38d07) {
+                    BYTE allocation_bss[0xf69c];
+                    readmem(base + 0xb9000, allocation_bss, sizeof(allocation_bss));
+                    save_blob("allocation-final-bss.bin", allocation_bss, sizeof(allocation_bss));
+                }
                 if (address == base + 0x38bfd || address == base + 0x38c86) {
                     BYTE main_bss[0xf69c];
                     readmem(base + 0xb9000, main_bss, sizeof(main_bss));
                     save_blob(address == base + 0x38bfd ? "main-bss-entry.bin" : "main-bss-frontier.bin", main_bss, sizeof(main_bss));
                 }
-                if (address == base + 0x38cc9) {
+                if (address == base + 0x38cc9 && !allocation_helper_count) {
                     BYTE work_bss[0xf69c];
                     readmem(base + 0xb9000, work_bss, sizeof(work_bss));
                     save_blob("work-bss-first-reserve.bin", work_bss, sizeof(work_bss));
@@ -929,6 +1025,18 @@ int main(int argc, char **argv)
                     write_mem(base + 0xc0b88, &cache, 8);
                     write_mem(base + 0xc0b80, &kind, 1);
                     fprintf(events, "token-seed role=callback-entry arm=integer sign=%s unknown-tails-seeded=0 pointer-arm-tested=0\n", variant);
+                }
+                if (allocation_observers && address == base + 0x38cc9) {
+                    DWORD call[3];
+                    if (allocation_helper_count >= 2 || allocation_return_active) fail("allocation helper order");
+                    readmem(context.Esp, call, sizeof(call));
+                    if (call[0] != base + (allocation_helper_count ? 0x38cb6 : 0x38c95) || call[1] != 0x500000 || call[2] != 0x4000) fail("allocation helper entry ABI");
+                    allocation_return_pc = call[0];
+                    readmem(allocation_return_pc, &allocation_return_byte, 1);
+                    if (allocation_return_byte != snapshot[allocation_return_pc - base - code_rva]) fail("allocation helper caller bytes");
+                    fprintf(events, "allocation-helper-entry index=%u seq=%u pc=%08lx esp=%08lx edi=%08lx esi=%08lx return=%08lx reserve=%08lx commit=%08lx\n",
+                            allocation_helper_count, sequence, address, context.Esp, context.Edi, context.Esi, call[0], call[1], call[2]);
+                    ++allocation_helper_count; patch(allocation_return_pc, 0xcc); allocation_return_active = 1;
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
