@@ -102,6 +102,7 @@ NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
 NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
 NATIVE_HOST = scripts/native-module.c
+NATIVE_HOST_LDFLAGS = -Wl,--wrap=write_import_members
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
 
 native: build/native/LINK.EXE
@@ -113,7 +114,7 @@ build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 
 build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) -o $@
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
 native-check: native
 	$(PYTHON) scripts/check-native.py
@@ -135,7 +136,7 @@ build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-tra
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 
 build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) -o $@
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
 native-trace-check: native-trace
 	$(PYTHON) scripts/check-native.py --trace

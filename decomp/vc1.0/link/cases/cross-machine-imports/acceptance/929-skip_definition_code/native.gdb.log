@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x2bda0: file src/definition-stubs.c, line 4.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, skip_definition_code () at src/definition-stubs.c:4
+4	unsigned short skip_definition_code(void) { __asm { int 3 } return 0; }
+NATIVE_MATCH skip_definition_code
+0xffffc7fc:	0x5657f0e0	0x00000001	0x565c6414	0x00000021
+0xffffc80c:	0xf7e0e972	0xffffffff
+#0  skip_definition_code () at src/definition-stubs.c:4
+#1  0x5657f0e0 in read_definition_file (image=0x56615fb0, path=0xffffd922 "cross.def") at src/definition-file.c:75
+#2  0x565953d7 in build_import_library (argc=2, argv=0xffffd704, image=0x56615fb0) at src/import-library.c:92
+#3  0x56591bc6 in library_main (argc=6, argv=0xffffd704) at src/library.c:51
+#4  0x5655aebd in main (argc=6, argv=0xffffd704) at src/link.c:72

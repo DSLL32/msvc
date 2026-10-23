@@ -1,0 +1,21 @@
+{
+  "case": "import-list-i860-data",
+  "arguments": [
+    "-lib",
+    "/machine:i860",
+    "/list",
+    "i860.lib"
+  ],
+  "environment": {
+    "LIB": "{lib}",
+    "LINK32_DB": "27"
+  },
+  "inputs": [
+    {
+      "path": "cases/cross-machine-imports/clock/i860-data/i860.lib",
+      "bytes": 3418,
+      "sha256": "0305d5d88d38ce3799d07929484cee69ee46e5536a4dceaed35630a13d64ac4f"
+    }
+  ],
+  "outputs": []
+}

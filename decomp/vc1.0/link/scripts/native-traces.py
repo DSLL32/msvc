@@ -113,7 +113,12 @@ def project(object_directory):
     cases = {}
     for record in registry:
         case = record['case']
-        indexes = [i for i,c in enumerate(history) if c==case]
+        # A successful variant may reuse the acceptance segment first reached
+        # by an original-valid variant with nonportable undefined output.
+        # Keep original frontier provenance intact; fresh variant entries must
+        # still match this exact projected segment in original_references().
+        frontier_case=record.get('frontier_case',case)
+        indexes = [i for i,c in enumerate(history) if c==frontier_case]
         first,last = (indexes[0],indexes[-1]+1) if indexes else (record['accepted_prefix'],record['accepted_prefix'])
         assert not indexes or indexes==list(range(first,last)), 'noncontiguous case segment'
         projected = lambda names:[native_name(n) for n in names if classified[n]=='application']

@@ -407,12 +407,54 @@
       "manifest_path": "cases/shared-prefix/dump-section-released/manifest.json",
       "manifest_sha256": "004606aaa22dee3b4b81a3839c823dd26c822b558e59c588101b68e7b1ebc7b0",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "import-archive-i860-data": {
+      "receipt_path": "cases/shared-prefix/import-archive-i860-data/capture/receipt.json",
+      "receipt_sha256": "a671af2a5f565ceb2d4eea4469bb0372de4d907b62f0bf8a14757a9c1ca3d9c3",
+      "manifest_path": "cases/shared-prefix/import-archive-i860-data/manifest.json",
+      "manifest_sha256": "e744f3b57f62ea132584c90c56971cc9511eb672f9b74db7ef5ed7c9610d4f41",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "import-archive-mips-data": {
+      "receipt_path": "cases/shared-prefix/import-archive-mips-data/capture/receipt.json",
+      "receipt_sha256": "d1e4912cc0610a32b3d75594a491ffe46984a3a5dbfdd1c212fc02b3a3d9db9c",
+      "manifest_path": "cases/shared-prefix/import-archive-mips-data/manifest.json",
+      "manifest_sha256": "e1a55d13e6cab28e50b753b279acec9687382a6bdfdfa43c12ef0456294b97a8",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "import-list-i860-data": {
+      "receipt_path": "cases/shared-prefix/import-list-i860-data/capture/receipt.json",
+      "receipt_sha256": "ce73a9f5c878ed91f13aaa81a37151459243f11aac153b9711c44747b737968e",
+      "manifest_path": "cases/shared-prefix/import-list-i860-data/manifest.json",
+      "manifest_sha256": "85e2e3efca39b1e2c1c05e762597ca4fd2bd02e4e294acbbcc3ebeb6c4469eb3",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "import-dump-i860-data": {
+      "receipt_path": "cases/shared-prefix/import-dump-i860-data/capture/receipt.json",
+      "receipt_sha256": "34476052bf2be957658842e0082783862b958f1a13e90644956b1edc027c4f43",
+      "manifest_path": "cases/shared-prefix/import-dump-i860-data/manifest.json",
+      "manifest_sha256": "fc9c655a681ec2e88e1dd1e1788ae4003d984853933db7a1eb2d6135517b87d0",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "import-list-mips-data": {
+      "receipt_path": "cases/shared-prefix/import-list-mips-data/capture/receipt.json",
+      "receipt_sha256": "67ae341456cd603584b835f9cefe5c36baa5bc62170df9308918b7c7facdd8a4",
+      "manifest_path": "cases/shared-prefix/import-list-mips-data/manifest.json",
+      "manifest_sha256": "1554279aabf63dd4d84140b4e8c1aa53bffd7e2f0589b8243a9df222b66e3d02",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "import-dump-mips-data": {
+      "receipt_path": "cases/shared-prefix/import-dump-mips-data/capture/receipt.json",
+      "receipt_sha256": "4fa96eab259a2c58bd71a41d870b7ce3943a127c5f0e47f983f1c3ddd10b89df",
+      "manifest_path": "cases/shared-prefix/import-dump-mips-data/manifest.json",
+      "manifest_sha256": "01b7563eb0719851d74d93de15eb8efcee18d5b3128f24eb5703b7dc0875fb61",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "6a95bc43757adc0ef0ca3e2e10c0368e607e96ea81d881293026ebf554ac42a6",
+    "functions.json": "7c3ef8ca0a1f81047b8c8cbd6562189dfd33a380fcd844f0e11b47c2e04b35f6",
     "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
-    "replay-cases.json": "0d5104ff92f4b65b0ca29ffb9fe7d411c2973bd4e71cb488d3e5c202a3ce2c21"
+    "replay-cases.json": "423b692c335d05557e8374b575c0a26a93ab970b438b654bb34443aaad390b62"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -3961,14 +4003,14 @@
       "implementation": "C"
     },
     "skip_definition_code": {
-      "source": "src/definition-stubs.c",
+      "source": "src/definition-file.c",
       "logical": "_skip_definition_code",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "skip_definition_data": {
-      "source": "src/definition-stubs.c",
+      "source": "src/definition-file.c",
       "logical": "_skip_definition_data",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "sort_contributions_by_module": {
       "source": "src/modules.c",
@@ -4211,9 +4253,9 @@
       "implementation": "C"
     },
     "write_helper_thunk_member": {
-      "source": "src/import-library-stubs.c",
+      "source": "src/import-members.c",
       "logical": "_write_helper_thunk_member",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_import_archive_indexes": {
       "source": "src/import-archive.c",
@@ -5079,7 +5121,10 @@
     "grow_buffered_file",
     "decode_op_4d9d0",
     "decode_op_4da00",
-    "edit_section"
+    "edit_section",
+    "skip_definition_code",
+    "skip_definition_data",
+    "write_helper_thunk_member"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6634,6 +6679,70 @@
       "first": 929,
       "last": 929,
       "seen_count": 738,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "import-archive-i860-data": {
+      "first": 929,
+      "last": 932,
+      "seen_count": 738,
+      "expected": [
+        "skip_definition_code",
+        "skip_definition_data",
+        "write_helper_thunk_member"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "import-list-i860-data": {
+      "first": 932,
+      "last": 932,
+      "seen_count": 741,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "import-dump-i860-data": {
+      "first": 932,
+      "last": 932,
+      "seen_count": 741,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "import-archive-mips-data": {
+      "first": 932,
+      "last": 932,
+      "seen_count": 741,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "import-list-mips-data": {
+      "first": 932,
+      "last": 932,
+      "seen_count": 741,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "import-dump-mips-data": {
+      "first": 932,
+      "last": 932,
+      "seen_count": 741,
       "expected": [],
       "terminal": {
         "kind": "exit",

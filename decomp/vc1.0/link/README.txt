@@ -228,7 +228,7 @@ Rust graphs, callback/data/ECX checks and mutation guards pass.
     make -j4 native-trace-check
     python3 scripts/check-large-image.py
 
-The next root-authorized workflow is public EDIT section rename/attributes;
+At that checkpoint the next workflow was public EDIT section rename/attributes;
 remaining OMF internal-g and unclassified ranges remain pending, not CRT.
 
 Public section-edit checkpoint (929 frontiers)
@@ -243,3 +243,18 @@ All58 cached trace/output cases pass5.380s;768 Rust graphs,755 callback routines
 validation/timing/components JSON. Remaining17887 unclassified unaccepted bytes
 are not proven CRT. Next root-approved single case creates/inspects i860/MIPS
 import archives from conventional DEF; it does not link/run those target images.
+
+Cross-machine import-archive checkpoint (932 frontiers)
+
+Three C bodies add748 instruction bytes. Six public i860/MIPS all-DATA generation,
+list and dump phases pass; later phases consume actual native-created archives.
+The genuine i860 helper and descriptor/lookup/export relocations are inspected,
+not executed. Captured external time makes complete raw native outputs exact;
+no archive suffix/padding normalization. A separate valid function-export probe
+exposes an original uninitialized heap-pointer auxiliary tail; native rejects that
+unsupported buffered route125, while prior mapped scalar-residue cases pass.
+Exact36-byte machine descriptors are now proved by data layout and fresh GDB.
+All64 cached native cases/741appentries pass5.390s;771 CFG graphs,758 callback
+sets,490 contextual data definitions and41ECX routines pass. Extent coverage is
+246759/281634=87.6169%;17197 unaccepted unclassified bytes are not CRT. Detailed
+scope, limitations, time splits and evidence: cases/cross-machine-imports/README.txt.

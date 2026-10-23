@@ -1,0 +1,256 @@
+{
+  "case": "import-archive-mips-data",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-cross-import.py",
+    "sha256": "7f973141e047ec7135b932234abcc28fa526d34aff3819bc7920607f9d39db13"
+  },
+  "native_clock_input": {
+    "path": "cases/cross-machine-imports/clock/mips-data/proof.json",
+    "bytes": 2045,
+    "sha256": "f36780ccfcc2d8b330b925697c09d3ad3d81601eec7c5f67c9db51aca715fece"
+  },
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-lib",
+        "/machine:mips",
+        "/def:cross.def",
+        "/name:cross.dll",
+        "/debugtype:both",
+        "/out:mips.lib"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "inputs": [
+        {
+          "path": "../inputs/all-data/cross.def",
+          "bytes": 154,
+          "sha256": "50256a512d47037537bf8985bb3452e7b4d38f14e788170380c6405d2b961f02"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "mips.lib",
+          "artifact_kind": "archive",
+          "bytes": 3128,
+          "sha256": "cb67481bc0beefa9aece3fdf781b783fdc80497376d57e615765a10813902bf4",
+          "normalized_sha256": "250cb0f5511ea98598cb5bd39adaa6e7ee208ad7c6fce89ed5dcbbbd24a2e106",
+          "timestamp_fields": [
+            {
+              "offset": 24,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 238,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 470,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 518,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1114,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 1162,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1300,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 1348,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1514,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 1562,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1662,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            },
+            {
+              "offset": 2146,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 2194,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 2476,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 2524,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 2810,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 2858,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 238,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 470,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 518,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1114,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 1162,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1300,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 1348,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1514,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 1562,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1662,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            },
+            {
+              "offset": 2146,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 2194,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 2476,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 2524,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 2810,
+              "bytes": 10,
+              "name": "Archive member time digits"
+            },
+            {
+              "offset": 2858,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "path": "../reference/import-archive-mips-data/1/mips.lib"
+        },
+        {
+          "output_name": "mips.exp",
+          "artifact_kind": "coff",
+          "bytes": 572,
+          "sha256": "59d4dcc7cd910fff3ccf555db7ee6ca8c96ef0959b9dab9877a826e7fcb567df",
+          "normalized_sha256": "8e7ae275fbc9e328a31b01e87c7580c45b6a17957746930c8b23bc35e84813d7",
+          "timestamp_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 104,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            }
+          ],
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 104,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            }
+          ],
+          "path": "../reference/import-archive-mips-data/1/mips.exp"
+        }
+      ],
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\import-archive-mips-data",
+      "expected_stdout": "Microsoft (R) 32-Bit Library Manager Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n   Creating library mips.lib and object mips.exp ...\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

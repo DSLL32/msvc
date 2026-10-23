@@ -1,0 +1,68 @@
+{
+  "case": "import-archive-mips-data",
+  "machine": "mips",
+  "status": "pass",
+  "value": 1792775011,
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "observations": [
+    {
+      "event": "clock_boundary",
+      "caller": "build_import_library",
+      "result": 1792775011,
+      "output": 1792775011,
+      "argument_nonnull": 1,
+      "errno_before": 0,
+      "errno_after": 0,
+      "caller_stack_unchanged": 1
+    },
+    {
+      "event": "clock_boundary",
+      "caller": "build_archive_header",
+      "result": 1792775011,
+      "output": 1792775011,
+      "argument_nonnull": 1,
+      "errno_before": 0,
+      "errno_after": 0,
+      "caller_stack_unchanged": 1
+    }
+  ],
+  "captured": {
+    "mips.lib": {
+      "path": "cases/cross-machine-imports/clock/mips-data/mips.lib",
+      "bytes": 3128,
+      "sha256": "cb67481bc0beefa9aece3fdf781b783fdc80497376d57e615765a10813902bf4"
+    },
+    "mips.exp": {
+      "path": "cases/cross-machine-imports/clock/mips-data/mips.exp",
+      "bytes": 572,
+      "sha256": "59d4dcc7cd910fff3ccf555db7ee6ca8c96ef0959b9dab9877a826e7fcb567df"
+    },
+    "events.jsonl": {
+      "path": "cases/cross-machine-imports/clock/mips-data/events.jsonl",
+      "bytes": 1194,
+      "sha256": "776d9b336cede05ea5885e1db09f13df5f2fe2c445e58a23c3cba1981aa84642"
+    },
+    "receipt.json": {
+      "path": "cases/cross-machine-imports/clock/mips-data/receipt.json",
+      "bytes": 1982,
+      "sha256": "7a19edface2e5dc41f7f3b0a16964bc071c87f841a41da1481e856cec37eee1c"
+    }
+  },
+  "archive_coff_stamp_offsets": [
+    518,
+    1162,
+    1348,
+    1562,
+    2194,
+    2524,
+    2858
+  ],
+  "archive_member_count": 9,
+  "date_static_suffix": "0 ",
+  "date_suffix_source": {
+    "path": "src/import-archive.c",
+    "sha256": "97135bd86d9c053f5d17673765089cd467a22d6bbb6acf4ea79477f31520d92e",
+    "evidence": "Fixed12-byte template, first10 digits actual time; final0/space independently retained"
+  },
+  "input_kind": "Captured external time(&out), no output mutation"
+}

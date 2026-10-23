@@ -8,6 +8,9 @@ extern unsigned long mapped_close_seek_position;
  * executes these target instructions. Relocations fill their import slots. */
 const I386ImportJump import_jump_i386={0x25ff,0};
 const unsigned long import_jump_i860[3]={0x68000000,0x301f0000,0};
+/* Bundled i860 indirect-call helper, emitted as four instruction words.
+ * This is encountered serialized COFF data, never LINK executable code. */
+const unsigned long import_helper_i860[4]={0x17fe0005,0x17dd0001,0x4000e800,0xa0000000};
 const unsigned long import_jump_mips[5]={0x3c080000,0x8d080000,0,0x01000008,0};
 const ImportThunkRelocation import_relocations_i386[1]={{2,3,6}};
 const ImportThunkRelocation import_relocations_i860[2]={{0,4,0x28},{8,3,6}};
@@ -260,7 +263,7 @@ void write_single_import_member(Image *image,External *external,const ImportMach
         relocations=machine->jump_relocation_count+(debug ? 4 : 2);
     } else symbol_bias=(external->flags&0x2000) ? -1 : 0;
     symbols=symbol_bias+4;
-    if (function && machine->helper_thunk) {
+    if (function && machine->helper) {
         ++symbols;
         strings_size+=dll_basename_length+15;
     }
@@ -407,7 +410,7 @@ void write_single_import_member(Image *image,External *external,const ImportMach
     symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
     symbol.SectionNumber=function ? 3 : 2;
     write_file(output_file,&symbol,symbol_record_size);
-    if (function && machine->helper_thunk) {
+    if (function && machine->helper) {
         memset(&symbol,0,sizeof(symbol));
         symbol.N.Name.Long=cursor-strings;
         strcpy(cursor,image->options.library_image_name);
@@ -415,6 +418,46 @@ void write_single_import_member(Image *image,External *external,const ImportMach
         symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
         write_file(output_file,&symbol,symbol_record_size);
     }
+    write_file(output_file,strings,strings_size);
+    free(strings);
+    if (tell_file(output_file)&1) write_file(output_file,"\n",1);
+}
+
+/* Original [0002bec0,0002c172): the optional i860 shared thunk member. */
+void write_helper_thunk_member(const ImportMachine *machine,Image *image)
+{
+    IMAGE_SECTION_HEADER section={0};
+    IMAGE_SYMBOL symbol={0};
+    unsigned long strings_size=dll_basename_length*2+38;
+    char *strings=malloc(strings_size),*cursor;
+    if (!strings) out_of_memory();
+    *(unsigned long *)strings=strings_size;
+    import_member_offsets[5]=tell_file(output_file);
+    write_file(output_file,build_archive_header(import_member_name,import_member_long_name,
+        symbol_record_size*2+60+machine->helper_size+strings_size),60);
+    image->file.NumberOfSections=1;
+    image->file.PointerToSymbolTable=machine->helper_size+60;
+    image->file.NumberOfSymbols=2;
+    write_coff_header(output_file,&image->file);
+    strncpy((char *)section.Name,".text$5",8);
+    section.SizeOfRawData=machine->helper_size;
+    section.PointerToRawData=60;
+    section.Characteristics=0x28;
+    write_section_header(output_file,&section);
+    write_file(output_file,machine->helper,machine->helper_size);
+    cursor=strings+4;
+    symbol.N.Name.Long=cursor-strings;
+    strcpy(cursor,image->options.library_image_name);
+    strcpy(cursor+dll_basename_length,"_THUNK_ROUTINE");
+    cursor+=dll_basename_length+15;
+    symbol.SectionNumber=1;
+    symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+    write_file(output_file,&symbol,symbol_record_size);
+    symbol.N.Name.Long=cursor-strings;
+    strcpy(cursor,image->options.library_image_name);
+    strcpy(cursor+dll_basename_length,"_IMPORT_DESCRIPTOR");
+    symbol.SectionNumber=0;
+    write_file(output_file,&symbol,symbol_record_size);
     write_file(output_file,strings,strings_size);
     free(strings);
     if (tell_file(output_file)&1) write_file(output_file,"\n",1);

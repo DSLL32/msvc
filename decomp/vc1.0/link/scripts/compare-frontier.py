@@ -78,6 +78,19 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
 end
 """ % str(decoder_path)
         script.write_text(script.read_text().replace('quit\n',commands+'quit\n'))
+    if args.function=='write_helper_thunk_member':
+        machine_path=output/'native-import-machine.json'
+        commands="""python
+import gdb,json,struct
+esp=int(gdb.parse_and_eval('$esp'))
+stack=struct.unpack('<3I',bytes(gdb.selected_inferior().read_memory(esp,12)))
+words=list(struct.unpack('<9I',bytes(gdb.selected_inferior().read_memory(stack[1],36))))
+references={n:int(gdb.parse_and_eval('&'+n)) for n in ['import_jump_i860','import_relocations_i860','import_helper_i860']}
+state=dict(bytes=int(gdb.parse_and_eval('sizeof(ImportMachine)')),machine_is_i860=stack[1]==int(gdb.parse_and_eval('&import_i860')),image_is_export_image=stack[2]==int(gdb.parse_and_eval('export_image')),words=words,references=references)
+open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
+end
+""" % str(machine_path)
+        script.write_text(script.read_text().replace('quit\n',commands+'quit\n'))
     if args.function=='recon_longjmp':
         jump_path=output/'native-longjmp-state.json'
         commands="""python
@@ -161,6 +174,21 @@ end
         from decoder_state import compare as compare_decoder_state
         decoder_state=json.loads(decoder_path.read_text())
         compare_decoder_state(states,decoder_state)
+    import_machine_state=None
+    if args.function=='write_helper_thunk_member':
+        observations=[e for e in events if e['event']=='import_machine_state']
+        assert len(observations)==1, 'Missing/nonunique original descriptor state'
+        expected=observations[0];actual=json.loads(machine_path.read_text())
+        assert expected['bytes']==actual['bytes']==36
+        aliases={r['name']:r['address'] for r in json.loads((BINARY/'data-symbols.json').read_text())}
+        assert expected['argument']==aliases['import_i860']
+        assert actual['machine_is_i860'] and actual['image_is_export_image']
+        left=expected['words'][:];right=actual['words'][:]
+        for index,name in [(3,'import_jump_i860'),(5,'import_relocations_i860'),(7,'import_helper_i860')]:
+            assert left[index]==aliases[name] and right[index]==actual['references'][name]
+            left[index]=right[index]=name
+        assert left==right,(left,right)
+        import_machine_state=dict(status='pass',bytes=36,normalized_words=left,original=expected,native=actual)
     longjmp_state=None
     if args.function=='recon_longjmp':
         states=[event for event in events if event['event']=='longjmp_boundary']
@@ -182,7 +210,7 @@ end
                          original=original_state,native=native_state,
                          unconsumed='Record+4 has no proved reader/writer semantics; never compared or serialized. Type padding+2 likewise not a live field.')
         (output/'rom-fixups-comparison.json').write_text(json.dumps(typed_state,indent=2)+'\n')
-    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
+    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(output/'receipt.json')
 if __name__=='__main__':main()

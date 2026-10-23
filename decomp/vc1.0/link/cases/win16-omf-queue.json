@@ -1,5 +1,5 @@
 {
-  "status": "Seven families complete; root-approved cross-machine import archives next",
+  "status": "Eight assigned families complete; next single substantial case awaits root review",
   "baseline": {
     "commit": "b8a6dd9b",
     "frontiers": 788,
@@ -96,11 +96,14 @@
     {
       "order": 8,
       "name": "cross-machine-imports",
-      "status": "Authorized; original preflight follows EDIT checkpoint",
+      "status": "complete: all-DATA coherent variant; buffered function-export pointer leak unsupported",
       "known_instruction_bytes": 748,
       "known_functions": 3,
       "proposal": "cases/edit-section-attributes/next-proposal.json",
-      "scope": "Public LIB DEF i860/MIPS import archives and independent list/header/symbol/relocation inspections only; no cross-machine image execution/linking"
+      "scope": "Public LIB DEF i860/MIPS import archives and independent list/header/symbol/relocation inspections only; no cross-machine image execution/linking",
+      "functions": 3,
+      "native_cases": 6,
+      "receipt": "cases/cross-machine-imports/validation.json"
     }
   ],
   "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"

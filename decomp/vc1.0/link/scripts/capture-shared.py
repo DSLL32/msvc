@@ -139,7 +139,7 @@ def capture(name, registry, repeat=False):
         for item in phase['inputs']:
             item['path'] = os.path.relpath((olddir / item['path']).resolve(), out)
         phase.update(canonical_working_directory=canonical, outputs=outputs, expected_stdout=streams['stdout'].decode('latin1'), expected_stderr=streams['stderr'].decode('latin1'))
-        metadata = {k: copy.deepcopy(v) for k, v in oldmeta.items() if k in ['toolchain', 'artifact_parser', 'reference_artifact_parser', 'toolchain_dependencies']}
+        metadata = {k: copy.deepcopy(v) for k, v in oldmeta.items() if k in ['toolchain', 'artifact_parser', 'reference_artifact_parser', 'toolchain_dependencies', 'native_clock_input']}
         metadata.update(case=name, phases={'reference': phase}, source_reference=str(olddir.relative_to(ROOT)), migration='Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged')
         (out / 'manifest.json').write_text(json.dumps(metadata, indent=2) + '\n')
     receipt = dict(case=name, status='pass', prefix=str(PREFIX), canonical_working_directory=canonical, original_sha256=digest(pe.data), helper_sha256=digest(helper.read_bytes()), accepted_count=len(cfg['accepted']), accepted_sha256=digest(json.dumps(cfg['accepted']).encode()), prefix_application=cache['accepted_application'][:segment['seen_count']], expected=segment['expected'], observed=observed, terminal=summary, events=record(capture_dir / 'events.jsonl'), execution_seconds=elapsed, total_seconds=time.perf_counter() - start, command=['wine', *args], capture_directory=str(capture_dir))

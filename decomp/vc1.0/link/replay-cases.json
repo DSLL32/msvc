@@ -558,6 +558,67 @@
       },
       "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps",
       "accepted_prefix": 929
+    },
+    {
+      "case": "import-archive-i860-data",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 929,
+      "reason": "Root-approved all-DATA cross-machine archive creation and actual native output inspections; no pointer-leaking function auxiliary emitted",
+      "frontier_case": "import-archive-i860"
+    },
+    {
+      "case": "import-list-i860-data",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 932,
+      "reason": "Root-approved all-DATA cross-machine archive creation and actual native output inspections; no pointer-leaking function auxiliary emitted"
+    },
+    {
+      "case": "import-dump-i860-data",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 932,
+      "reason": "Root-approved all-DATA cross-machine archive creation and actual native output inspections; no pointer-leaking function auxiliary emitted"
+    },
+    {
+      "case": "import-archive-mips-data",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 932,
+      "reason": "Root-approved all-DATA cross-machine archive creation and actual native output inspections; no pointer-leaking function auxiliary emitted"
+    },
+    {
+      "case": "import-list-mips-data",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 932,
+      "reason": "Root-approved all-DATA cross-machine archive creation and actual native output inspections; no pointer-leaking function auxiliary emitted"
+    },
+    {
+      "case": "import-dump-mips-data",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 932,
+      "reason": "Root-approved all-DATA cross-machine archive creation and actual native output inspections; no pointer-leaking function auxiliary emitted"
     }
   ]
 }

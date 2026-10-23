@@ -4468,5 +4468,29 @@
       152
     ],
     "evidence": "0FBA actual valid selectors4..7, four reserved illegal targets; typed full table."
+  },
+  {
+    "address": 509992,
+    "name": "import_helper_i860",
+    "size": 16,
+    "owner": "src/import-members.c"
+  },
+  {
+    "address": 510048,
+    "name": "import_i386",
+    "size": 36,
+    "owner": "src/import-library.c"
+  },
+  {
+    "address": 510088,
+    "name": "import_i860",
+    "size": 36,
+    "owner": "src/import-library.c"
+  },
+  {
+    "address": 510128,
+    "name": "import_mips",
+    "size": 36,
+    "owner": "src/import-library.c"
   }
 ]

@@ -1,0 +1,97 @@
+{
+  "status": "pass",
+  "evidence": {
+    "i860": {
+      "member_count": 10,
+      "object_count": 8,
+      "helper_members": 1,
+      "symbol_names": [
+        ".edata",
+        ".idata$2",
+        ".idata$4",
+        ".idata$5",
+        ".idata$6",
+        "NULL_IMPORT_DESCRIPTOR",
+        "Ping",
+        "Shared",
+        "Worker",
+        "__imp_Ping",
+        "__imp_Shared",
+        "__imp_Worker",
+        "cross_EXPORTS",
+        "cross_IMPORT_DESCRIPTOR",
+        "cross_THUNK_ROUTINE",
+        "\u007fcross_NULL_THUNK_DATA"
+      ],
+      "export_ordinals": {
+        "Ping": 1,
+        "Shared": 12,
+        "Worker": 7
+      }
+    },
+    "mips": {
+      "member_count": 9,
+      "object_count": 7,
+      "helper_members": 0,
+      "symbol_names": [
+        ".edata",
+        ".idata$2",
+        ".idata$4",
+        ".idata$5",
+        ".idata$6",
+        "NULL_IMPORT_DESCRIPTOR",
+        "Ping",
+        "Shared",
+        "Worker",
+        "__imp_Ping",
+        "__imp_Shared",
+        "__imp_Worker",
+        "cross_EXPORTS",
+        "cross_IMPORT_DESCRIPTOR",
+        "\u007fcross_NULL_THUNK_DATA"
+      ],
+      "export_ordinals": {
+        "Ping": 1,
+        "Shared": 12,
+        "Worker": 7
+      }
+    },
+    "original_native_machine_bytes": 36,
+    "actual_native_flows": 6
+  },
+  "negative_controls": [
+    "i860-archive-static-date-suffix",
+    "i860-changed-clock-proof",
+    "i860-unregistered-clock",
+    "mips-archive-static-date-suffix",
+    "mips-changed-clock-proof",
+    "mips-unregistered-clock",
+    "old-layout",
+    "wrong-machine",
+    "changed-count",
+    "changed-helper-pointer",
+    "both-empty",
+    "missing-flow",
+    "changed-flow-source",
+    "changed-flow-bytes"
+  ],
+  "native_unsupported_denials": [
+    {
+      "case": "unsupported-buffered-function-i860",
+      "status": "unsupported-native125; original succeeds with leaked pointer bytes",
+      "exit": 125,
+      "seconds": 0.003261975012719631,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/native/cross-import-denials-8uoikao5/unsupported-buffered-function-i860/vc1.0/link/unsupported-buffered-function-i860"
+    },
+    {
+      "case": "unsupported-buffered-function-mips",
+      "status": "unsupported-native125; original succeeds with leaked pointer bytes",
+      "exit": 125,
+      "seconds": 0.0026699574664235115,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/native/cross-import-denials-8uoikao5/unsupported-buffered-function-mips/vc1.0/link/unsupported-buffered-function-mips"
+    }
+  ],
+  "seconds": 0.034282440319657326,
+  "clock": "Actual captured external time, no output mutation",
+  "limits": "No cross-machine image execution or function-export auxiliary conformance"
+}

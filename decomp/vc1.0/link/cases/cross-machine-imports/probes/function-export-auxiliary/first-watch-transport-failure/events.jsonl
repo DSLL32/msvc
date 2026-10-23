@@ -1,0 +1,5 @@
+{"event":"create","pid":704,"parent":1312,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /machine:i860 /def:cross.def /name:cross.dll /debugtype:both /out:i860.lib"}
+{"event":"entry","pid":704,"rva":100784,"name":"analysis_aux_watch_start","crt_errno":0}
+{"event":"auxiliary-watch-start","address":2748936,"value":0}
+{"event":"context","pid":704,"eip":2070062641,"esp":2748936,"eax":2749000,"ecx":2748996,"edx":547500,"stack":[2748944,0,2752268,64,2749000,8,9110808,332254,9110808,2748996,8192636,0,2752268,335645,335645,2749000,547500,8062467,3,8202182,167782,8192640,2752268,8060932],"crt_errno":0,"exception_code":2147483652}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

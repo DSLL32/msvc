@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "import-list-i860-data",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 15,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "3b00cc90c8928c01cb94c5edd6d5de28feb018dfc7cb5a61e02675e2f7c96809",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 932,
+  "accepted_sha256": "e30b1c56b2881df5ebf8914ab9d8d06929f8a37643c86b7ea319facb2069e097",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "27",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\import-list-i860-data",
+    "TEMP": "S:\\vc1.0\\link\\import-list-i860-data"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-lib /list i860.lib",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\events.jsonl",
+    "S:\\vc1.0\\link\\import-list-i860-data",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\import-list-i860-data\\original-qtndmzuh\\after.dll",
+    "-"
+  ],
+  "seconds": 1.4855306735262275
+}

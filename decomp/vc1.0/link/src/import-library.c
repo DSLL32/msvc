@@ -20,12 +20,13 @@ unsigned char *export_ordinals;
 unsigned char import_only_export,export_error;
 unsigned short import_member_base=4;
 unsigned long first_export_ordinal=1,last_export_ordinal=1;
-ImportMachine import_i386={IMAGE_FILE_MACHINE_I386,0,7,7,7,11,10,
-    &import_jump_i386,sizeof(import_jump_i386),import_relocations_i386,1};
-ImportMachine import_i860={0x14d,1,7,7,7,11,10,
-    import_jump_i860,sizeof(import_jump_i860),import_relocations_i860,2};
-ImportMachine import_mips={0x162,0,0x22,0x22,0x22,11,10,
-    import_jump_mips,sizeof(import_jump_mips),import_relocations_mips,3};
+ImportMachine import_i386={7,7,7,11,10,
+    &import_jump_i386,sizeof(import_jump_i386),import_relocations_i386,1,NULL,0};
+ImportMachine import_i860={7,7,7,11,10,
+    import_jump_i860,sizeof(import_jump_i860),import_relocations_i860,2,
+    import_helper_i860,sizeof(import_helper_i860)};
+ImportMachine import_mips={0x22,0x22,0x22,11,10,
+    import_jump_mips,sizeof(import_jump_mips),import_relocations_mips,3,NULL,0};
 
 int build_import_library(int argc,char **argv,Image *image)
 {
@@ -72,7 +73,7 @@ int build_import_library(int argc,char **argv,Image *image)
     case 0x162: case 0x166: machine=&import_mips; break;
     default: fatal_message(program_name,0x12,""); break;
     }
-    if (machine->helper_thunk) ++import_member_base;
+    if (machine->helper) ++import_member_base;
     members=import_member_base;
     has_inputs=library_files.count || other_inputs.count;
     if (has_inputs) {
@@ -134,7 +135,7 @@ int build_import_library(int argc,char **argv,Image *image)
     ordinal_slots=last_export_ordinal-first_export_ordinal+1;
     if (ordinal_slots<export_count) ordinal_slots=export_count;
     buffer_size=dll_basename_length*3+0x45;
-    if (machine->helper_thunk) buffer_size+=dll_basename_length+0xf;
+    if (machine->helper) buffer_size+=dll_basename_length+0xf;
     names=malloc(buffer_size);
     if (!names) out_of_memory();
     import_aliases=create_import_aliases(image->symbols);
@@ -169,7 +170,7 @@ int build_import_library(int argc,char **argv,Image *image)
     exports_table_symbol->value.final_value=0;
     exports_table_symbol->archive_member=4;
     members=members-import_symbols+export_count;
-    if (machine->helper_thunk) {
+    if (machine->helper) {
         strcpy(cursor,image->options.library_image_name);
         strcat(cursor,"_THUNK_ROUTINE");
         external=lookup_external(image->symbols,0,cursor,&created,&imports);
@@ -190,7 +191,7 @@ int build_import_library(int argc,char **argv,Image *image)
     write_import_descriptor(machine,image);
     write_null_import_descriptor(image);
     write_null_thunk_member(image);
-    if (machine->helper_thunk) write_helper_thunk_member(machine,image);
+    if (machine->helper) write_helper_thunk_member(machine,image);
     export_offset=tell_file(output_file);
     write_export_object(image,ordinal_slots,export_count,machine,has_inputs);
     end=tell_file(output_file);

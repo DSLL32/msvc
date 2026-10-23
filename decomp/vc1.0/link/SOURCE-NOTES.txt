@@ -1157,3 +1157,27 @@ Next root-authorized single workflow: public conventional DEF→i860/MIPS import
 archives, real helper-thunk route and CODE/DATA handlers, then independent archive
 list/header/symbol/relocation inspection. Static opportunity748bytes/3functions,
 not a promised gain; no full cross-machine image linking or execution claimed.
+
+Cross-machine import archives checkpoint932
+
+Three whole C functions add748 instruction bytes: CODE/DATA token drains and the
+i860 helper-member emitter. The helper proves original36-byte ImportMachine
+layout, including DWORD relocation count24 and helper pointer/size28/32;40-byte
+global stride includes trailing alignment outside the type. All three initialized
+descriptors and16-byte contextual serialized helper now pass data ownership/audit,
+and fresh helper-entry original/native GDB matches the entire36-byte record.
+
+Buffered function exports reveal a different auxiliary residue than the mapped
+scalar documented at checkpoint400: original _lseek55bb1 pushEDI saves the .exp
+FileSlot pointer at the future auxiliary16..17 stack slot. Original full archives
+repeat successfully but leak that heap pointer's lowWORD. No new normalization,
+constant seed or pointer transport is used. Host-only native write_import_members
+wrapper denies this unsupported forced-buffered function route125; prior mapped
+scalar cases pass. A separately original-proven all-DATA DEF retains genuine
+i860 helper/relocations and MIPS relocation handling with exact raw native output.
+Actual archive/object creation times are supplied through the existing captured
+external RECON_FIXED_TIME input; archiveDate suffix0/space remains exact. Later
+list/dump phases consume actual native outputs and exact complete streams match.
+Initial first-entry acceptance provenance is retained via explicit frontier_case.
+See cases/cross-machine-imports for raw limitation proof, positive preflights,
+acceptance/layout data, timing and honest component coverage.

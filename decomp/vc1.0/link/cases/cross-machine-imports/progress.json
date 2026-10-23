@@ -1,0 +1,26 @@
+{
+  "status": "Complete positive all-DATA public generation/inspection family; initial pointer-leaking function-export variant explicitly unsupported",
+  "accepted": [
+    {
+      "name": "_skip_definition_code",
+      "start": 172272,
+      "end": 172301,
+      "entry_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/import-archive-i860-skip_definition_code-dtyk9_m_/receipt.json"
+    },
+    {
+      "name": "_skip_definition_data",
+      "start": 172304,
+      "end": 172333,
+      "entry_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/import-archive-i860-skip_definition_data-z86k3lpd/receipt.json"
+    },
+    {
+      "name": "_write_helper_thunk_member",
+      "start": 179904,
+      "end": 180594,
+      "entry_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/import-archive-i860-write_helper_thunk_member-8r1c0rr3/receipt.json",
+      "pre_layout_firstentry": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/import-archive-i860-write_helper_thunk_member-6ea0y1b8/receipt.json"
+    }
+  ],
+  "blocked_variant": "probes/function-export-auxiliary/proof.json",
+  "validation": "validation.json"
+}

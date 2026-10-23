@@ -928,7 +928,10 @@
     "_grow_buffered_file",
     "_decode_op_4d9d0",
     "_decode_op_4da00",
-    "_edit_section"
+    "_edit_section",
+    "_skip_definition_code",
+    "_skip_definition_data",
+    "_write_helper_thunk_member"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -3992,7 +3995,7 @@
       "implementation": "C",
       "source": "src/import-library.c",
       "abi": "cdecl int(int argc,char **argv,Image *image)",
-      "evidence": "Matching DLL library builder289b0..29520; full export/import orchestration in readable C, typed contextual state and pending member emitters. Private ImportMachine initially models target kind/helper-thunk presence consumed here, with emitter-specific fields to recover at their frontiers."
+      "evidence": "Matching DLL library builder289b0..29520; full export/import orchestration in readable C, typed contextual state and pending member emitters. Private ImportMachine initially models target kind/helper-thunk presence consumed here, with emitter-specific fields to recover at their frontiers. Cross-machine extension proves exact ImportMachine36-byte structure (fiveUSHORTs, pointer at12, DWORD relocation_count24, helper pointer28/size32); original stride40 has trailing alignment, not a field. Fresh helper-entry complete36-byte state matches."
     },
     {
       "name": "_convert_omf_inputs",
@@ -4168,10 +4171,11 @@
     {
       "name": "_write_helper_thunk_member",
       "start": 179904,
-      "end": 179905,
-      "implementation": "stub-C",
-      "source": "src/import-library-stubs.c",
-      "abi": "cdecl void(const ImportMachine *,Image *); entry only until reached"
+      "end": 180594,
+      "implementation": "C",
+      "source": "src/import-members.c",
+      "abi": "cdecl void(const ImportMachine *,Image *); entry only until reached",
+      "evidence": "Whole690-byte2bec0..2c172;14-byte trailing alignment excluded. Fresh firstentry6ea0y1b8 precedes data-layout refinement; final fresh entry8r1c0rr3 also compares complete36-byte original/native descriptor and argument aliases. Exact ABI/layout/static initializer proof, optional serialized16-byte i860 helper, two externals and complete string table/padding. No assembly implementation or global padding snapshots."
     },
     {
       "name": "_write_export_object",
@@ -4351,7 +4355,7 @@
       "implementation": "C",
       "source": "src/import-members.c",
       "abi": "cdecl void(Image *,External *,const ImportMachine *)",
-      "evidence": "Complete 0x2c1e0..0x2cf50: COFF thunk/hint/lookup/IAT/debug sections, relocation recipes, auxiliary symbols and strings; cdecl three arguments. Target instruction arrays are serialized output data, not executable reconstruction source."
+      "evidence": "Complete 0x2c1e0..0x2cf50: COFF thunk/hint/lookup/IAT/debug sections, relocation recipes, auxiliary symbols and strings; cdecl three arguments. Target instruction arrays are serialized output data, not executable reconstruction source. Buffered function-export extension reveals original uninitialized auxiliary tail leaks saved FileSlot pointer lowWORD; native host denies that route125, separate from prior mapped-close scalar proof. All-DATA cross-machine variant avoids those records and matches exact outputs."
     },
     {
       "name": "_write_import_member_indexes",
@@ -4668,18 +4672,20 @@
     {
       "name": "_skip_definition_code",
       "start": 172272,
-      "end": 172273,
-      "implementation": "stub-C",
-      "source": "src/definition-stubs.c",
-      "abi": "cdecl unsigned short(void)"
+      "end": 172301,
+      "implementation": "C",
+      "source": "src/definition-file.c",
+      "abi": "cdecl unsigned short(void)",
+      "evidence": "Whole29-byte2a0f0..2a10d decoded, pad2a10d..2a110 excluded. Fresh masked original/native GDB entry import-archive-i860-skip_definition_code-dtyk9_m_. Shared option_delimiters pointer loaded once, strtok(NULL) drains attributes and next_definition_keyword remains distinct callee."
     },
     {
       "name": "_skip_definition_data",
       "start": 172304,
-      "end": 172305,
-      "implementation": "stub-C",
-      "source": "src/definition-stubs.c",
-      "abi": "cdecl unsigned short(void)"
+      "end": 172333,
+      "implementation": "C",
+      "source": "src/definition-file.c",
+      "abi": "cdecl unsigned short(void)",
+      "evidence": "Whole29-byte2a110..2a12d; fresh matching original masked/native GDB import-archive-i860-skip_definition_data-z86k3lpd. Separate original vertex/ABI despite identical CODE helper body. Shared delimiter pointer and strtok-drain/next-keyword graph preserved."
     },
     {
       "name": "_read_definition_sections",
@@ -9202,6 +9208,9 @@
     "large-image-extra",
     "large-image-standard486",
     "large-image-standard486",
-    "edit-section-rename"
+    "edit-section-rename",
+    "import-archive-i860",
+    "import-archive-i860",
+    "import-archive-i860"
   ]
 }

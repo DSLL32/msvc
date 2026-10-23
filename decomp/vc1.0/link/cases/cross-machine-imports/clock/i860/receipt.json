@@ -1,0 +1,48 @@
+{
+  "mode": "original",
+  "analysis_samples": [
+    "0x28f61:analysis_time_image_before",
+    "0x28f66:analysis_time_image_after",
+    "0x2fbe8:analysis_time_member_before",
+    "0x2fbed:analysis_time_member_after"
+  ],
+  "case": "import-archive-i860",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "8706f009cd43f7dbfa03f590141f783c32304a3a6c5998d6f3c2ee3874a722a8",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 930,
+  "accepted_sha256": "dad1213c56e465f27d7d1b03c89cd8a26afef0888cc525655e4b2cb0337f22c0",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "27",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\import-archive-i860",
+    "TEMP": "S:\\vc1.0\\link\\import-archive-i860"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-lib /machine:i860 /def:cross.def /name:cross.dll /debugtype:both /out:i860.lib",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\events.jsonl",
+    "S:\\vc1.0\\link\\import-archive-i860",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\import-archive-i860\\original-rw45pmt4\\after.dll",
+    "-"
+  ],
+  "seconds": 1.4696803288534284
+}

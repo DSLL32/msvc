@@ -499,3 +499,19 @@ unsigned short read_definition_imports(char *text)
     } while (definition_cursor);
     return 0;
 }
+
+/* Original [0002a0f0,0002a10d): consume legacy CODE attributes. */
+unsigned short skip_definition_code(void)
+{
+    char *delimiters=option_delimiters;
+    while (strtok(NULL,delimiters)!=NULL) { }
+    return next_definition_keyword();
+}
+
+/* Original [0002a110,0002a12d): distinct legacy DATA attribute helper. */
+unsigned short skip_definition_data(void)
+{
+    char *delimiters=option_delimiters;
+    while (strtok(NULL,delimiters)!=NULL) { }
+    return next_definition_keyword();
+}

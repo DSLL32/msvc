@@ -59,7 +59,7 @@ Original/compiler inline memory operations use supported intrinsic pragmas.
 Final checkpoint:929 frontiers,246011/281634 original .text bytes=87.3513%.
 All58 cached native trace/output cases pass5.380s external/5.115s internal; direct
 ELF execution sums.668s, setup1.815s and output oracles2.585s. The new six stages
-sum45ms direct ELF time; measured per-case totals include4MB input-flow checks.
+sum43.4ms direct ELF time; measured per-case totals include4MB input-flow checks.
 The final make -j4 native/native-trace verification was already up-to-date. Its
 .019s is not claimed as a rebuild; the initial incremental compile has a log but
 no stopwatch. Canonical make -j4 all audit7.082s,768 Rust graphs,755 callback

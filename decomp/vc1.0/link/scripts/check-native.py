@@ -122,6 +122,9 @@ def run_case(name, executable, directory, parser, state, tracing=None, completed
         env.pop(key, None)
     for key, value in phase.get('environment', {}).items():
         env[key] = value.replace('{lib}', LIBRARY)
+    from native_clock import install as install_clock
+    clock_input=install_clock(metadata,name,env)
+    if clock_input:state['captured_clock_input']=clock_input
     for item in phase['inputs']:
         data = captured(fixture / item['path'], item)
         if item.get('from_case'):

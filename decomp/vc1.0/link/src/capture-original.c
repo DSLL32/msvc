@@ -103,6 +103,68 @@ static int write_code(Process *process,DWORD rva,const void *data,DWORD size)
         VirtualProtectEx(process->handle,where,size,old,&restored);
 }
 
+/* Optional original-only data watch: auxiliary tail reused below the import
+ * builder frame. Enabled only by an explicit analysis_aux_watch entry sample. */
+static DWORD auxiliary_watch;
+static void auxiliary_watch_start(Process *process,Thread *thread,CONTEXT *context)
+{
+    DWORD got,value;
+    auxiliary_watch=context->Esp-0x1a4;
+    context->ContextFlags=CONTEXT_FULL|CONTEXT_DEBUG_REGISTERS;
+    GetThreadContext(thread->handle,context);
+    context->Dr0=auxiliary_watch;
+    context->Dr6=0;context->Dr7=0x50001;
+    SetThreadContext(thread->handle,context);
+    ReadProcessMemory(process->handle,(void *)auxiliary_watch,&value,4,&got);
+    fprintf(log_file,"{\"event\":\"auxiliary-watch-start\",\"address\":%lu,\"value\":%lu}\n",auxiliary_watch,value);
+    fflush(log_file);
+}
+static void auxiliary_watch_event(Process *process,Thread *thread)
+{
+    CONTEXT context;
+    DWORD got,value,stack[8],n,owner[10];
+    char name[256];
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_DEBUG_REGISTERS;
+    GetThreadContext(thread->handle,&context);
+    ReadProcessMemory(process->handle,(void *)auxiliary_watch,&value,4,&got);
+    ReadProcessMemory(process->handle,(void *)context.Esp,stack,sizeof(stack),&got);
+    fprintf(log_file,"{\"event\":\"auxiliary-watch-write\",\"eip\":%lu,\"address\":%lu,\"value\":%lu,\"esp\":%lu,\"stack\":[",context.Eip,auxiliary_watch,value,context.Esp);
+    for(n=0;n<8;++n)fprintf(log_file,"%s%lu",n?",":"",stack[n]);
+    fprintf(log_file,"],\"edi\":%lu,\"esi\":%lu",context.Edi,context.Esi);
+    if (context.Eip==0x55bb2 && ReadProcessMemory(process->handle,(void *)context.Edi,owner,sizeof(owner),&got) && got==sizeof(owner)) {
+        memset(name,0,sizeof(name));ReadProcessMemory(process->handle,(void *)owner[0],name,255,&got);
+        fprintf(log_file,",\"owner_name\":");quoted(name);
+        fprintf(log_file,",\"owner_flags\":%lu,\"owner_logical_handle\":%lu,\"owner_descriptor\":%lu",owner[1],owner[2],owner[4]);
+    }
+    fprintf(log_file,"}\n");fflush(log_file);
+    context.Dr6=0;SetThreadContext(thread->handle,&context);
+}
+
+/* First observed public time boundary at each import-archive named caller. */
+static DWORD clock_pointer[2],clock_stack[2],clock_errno[2];
+static void clock_sample(Process *process,CONTEXT *context,DWORD site)
+{
+    DWORD index,pointer,got,result,after_errno;
+    const char *caller;
+    if (site==0x28f61 || site==0x28f66) index=0;
+    else if (site==0x2fbe8 || site==0x2fbed) index=1;
+    else return;
+    caller=index?"build_archive_header":"build_import_library";
+    if (site==0x28f61 || site==0x2fbe8) {
+        if (!ReadProcessMemory(process->handle,(void *)context->Esp,&pointer,4,&got) || got!=4) return;
+        clock_pointer[index]=pointer;
+        clock_stack[index]=context->Esp;
+        if (!ReadProcessMemory(process->handle,(void *)0x852d8,&clock_errno[index],4,&got) || got!=4) return;
+    } else {
+        pointer=clock_pointer[index];
+        if (!pointer || !ReadProcessMemory(process->handle,(void *)pointer,&result,4,&got) || got!=4) return;
+        if (!ReadProcessMemory(process->handle,(void *)0x852d8,&after_errno,4,&got) || got!=4) return;
+        fprintf(log_file,"{\"event\":\"clock_boundary\",\"caller\":\"%s\",\"result\":%lu,\"output\":%lu,\"argument_nonnull\":%d,\"errno_before\":%lu,\"errno_after\":%lu,\"caller_stack_unchanged\":%d}\n",
+            caller,context->Eax,result,pointer!=0,clock_errno[index],after_errno,context->Esp==clock_stack[index]);
+        fflush(log_file);
+    }
+}
+
 /* Explicit first-call analysis of the resolved OS relocation primitive. */
 static DWORD relocation_page,relocation_entries,relocation_pointer,relocation_delta,relocation_stack;
 static unsigned short relocation_words[256];
@@ -223,6 +285,13 @@ static void context_log(Process *process,HANDLE thread)
             break;
         }
         fprintf(log_file,"}\n");fflush(log_file);
+    }
+    if (context.Eip==0x2bec1) {
+        DWORD machine[9];
+        if (!ReadProcessMemory(process->handle,(void *)stack[1],machine,36,&got) || got!=36) return;
+        fprintf(log_file,"{\"event\":\"import_machine_state\",\"argument\":%lu,\"bytes\":36,\"words\":[",stack[1]);
+        for (n=0;n<9;++n) fprintf(log_file,"%s%lu",n?",":"",machine[n]);
+        fprintf(log_file,"]}\n");fflush(log_file);
     }
     /* Operand callbacks have a cdecl(data,operand,state) interface. Report
        pointer identity/offset separately from the54 scalar state words. */
@@ -393,7 +462,9 @@ int main(int argc,char **argv)
             if(code==EXCEPTION_BREAKPOINT && !process->loader &&
                 (!process->target || site<process->base+text_rva || site>=process->base+text_rva+text_size))
                 process->loader=1;
-            else if(code==EXCEPTION_BREAKPOINT && process->target) {
+            else if(code==EXCEPTION_SINGLE_STEP && auxiliary_watch && process->target) {
+                auxiliary_watch_event(process,thread);
+            } else if(code==EXCEPTION_BREAKPOINT && process->target) {
                 for(i=0;i<entry_count && entries[i].rva!=site-process->base;++i);
                 if(i==entry_count || entries[i].seen){failed=10;context_log(process,thread->handle);break;}
                 instruction=(unsigned char)entries[i].byte;
@@ -412,6 +483,17 @@ int main(int argc,char **argv)
                 ReadProcessMemory(process->handle,(void *)0x852d8,&parent_errno,4,&got);
                 fprintf(log_file,",\"crt_errno\":%lu}\n",parent_errno);fflush(log_file);
                 if (!strncmp(entries[i].name,"analysis_decoder_",17)) context_log(process,thread->handle);
+                if (!strncmp(entries[i].name,"analysis_aux_watch",18) && site==0x289b0)
+                    auxiliary_watch_start(process,thread,&context);
+                if (auxiliary_watch && site==0x2cb51) {
+                    DWORD args[3],got,n;unsigned char bytes[18];
+                    ReadProcessMemory(process->handle,(void *)context.Esp,args,sizeof(args),&got);
+                    ReadProcessMemory(process->handle,(void *)args[1],bytes,sizeof(bytes),&got);
+                    fprintf(log_file,"{\"event\":\"auxiliary-tail-read\",\"pointer\":%lu,\"size\":%lu,\"bytes\":[",args[1],args[2]);
+                    for(n=0;n<18;++n)fprintf(log_file,"%s%u",n?",":"",bytes[n]);
+                    fprintf(log_file,"]}\n");fflush(log_file);
+                }
+                clock_sample(process,&context,site);
                 relocation_sample(process,&context,site);
                 strtoul_sample(process,&context,site);
                 bind_api_sample(process,thread,&context,site);

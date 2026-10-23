@@ -1,0 +1,103 @@
+{
+  "status": "pass",
+  "logical": "write_helper_thunk_member",
+  "original_address": "0x2bec0",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/import-archive-i860/masked-dpj2czva",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/import-archive-i860-write_helper_thunk_member-8r1c0rr3",
+  "native_context": {
+    "event": "context",
+    "pid": 900,
+    "eip": 179905,
+    "esp": 2749012,
+    "eax": 8232496,
+    "ecx": 510088,
+    "edx": 495680,
+    "stack": [
+      168956,
+      510088,
+      8192636,
+      2752268,
+      8060932,
+      0,
+      6,
+      16842752,
+      2884712,
+      0,
+      510088,
+      10,
+      3,
+      12,
+      58,
+      1,
+      2077359434,
+      2077618784,
+      2749180,
+      2077466264,
+      808859753,
+      1886938414,
+      16777216,
+      2948865
+    ],
+    "crt_errno": 0,
+    "exception_code": 2147483651
+  },
+  "seconds": 1.8605261333286762,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "import_machine_state": {
+    "status": "pass",
+    "bytes": 36,
+    "normalized_words": [
+      458759,
+      720903,
+      10,
+      "import_jump_i860",
+      12,
+      "import_relocations_i860",
+      2,
+      "import_helper_i860",
+      16
+    ],
+    "original": {
+      "event": "import_machine_state",
+      "argument": 510088,
+      "bytes": 36,
+      "words": [
+        458759,
+        720903,
+        10,
+        509968,
+        12,
+        509984,
+        2,
+        509992,
+        16
+      ]
+    },
+    "native": {
+      "bytes": 36,
+      "machine_is_i860": true,
+      "image_is_export_image": true,
+      "words": [
+        458759,
+        720903,
+        10,
+        1448916800,
+        12,
+        1448916851,
+        2,
+        1448916812,
+        16
+      ],
+      "references": {
+        "import_jump_i860": 1448916800,
+        "import_relocations_i860": 1448916851,
+        "import_helper_i860": 1448916812
+      }
+    }
+  },
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

@@ -1,0 +1,32 @@
+{
+  "case": "import-archive-i860-data",
+  "arguments": [
+    "-lib",
+    "/machine:i860",
+    "/def:cross.def",
+    "/name:cross.dll",
+    "/debugtype:both",
+    "/out:i860.lib"
+  ],
+  "environment": {
+    "LIB": "{lib}",
+    "LINK32_DB": "27"
+  },
+  "inputs": [
+    {
+      "path": "cases/cross-machine-imports/inputs/all-data/cross.def",
+      "bytes": 154,
+      "sha256": "50256a512d47037537bf8985bb3452e7b4d38f14e788170380c6405d2b961f02"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "i860.lib",
+      "artifact_kind": "archive"
+    },
+    {
+      "output_name": "i860.exp",
+      "artifact_kind": "coff"
+    }
+  ]
+}

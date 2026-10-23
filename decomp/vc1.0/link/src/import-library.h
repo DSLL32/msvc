@@ -1,5 +1,6 @@
 #ifndef LINK_IMPORT_LIBRARY_H
 #define LINK_IMPORT_LIBRARY_H
+#include <stddef.h>
 #include "library.h"
 #include <recon.h>
 typedef struct ImportThunkRelocation {
@@ -15,17 +16,24 @@ extern const I386ImportJump import_jump_i386;
 extern const unsigned long import_jump_i860[3],import_jump_mips[5];
 extern const ImportThunkRelocation import_relocations_i386[1];
 extern const ImportThunkRelocation import_relocations_i860[2],import_relocations_mips[3];
-/* Private target description, extended as import-member fields are recovered. */
+/* Original36-byte target description. Helper code is serialized into COFF;
+ * these pointers are not LINK executable callbacks. */
 typedef struct ImportMachine {
-    unsigned short machine;
-    unsigned char helper_thunk;
     unsigned short descriptor_relocation,export_relocation;
     unsigned short lookup_relocation,debug_offset_relocation,debug_section_relocation;
     const void *jump;
     unsigned long jump_size;
     const ImportThunkRelocation *jump_relocations;
-    unsigned short jump_relocation_count;
+    unsigned long jump_relocation_count;
+    const void *helper;
+    unsigned long helper_size;
 } ImportMachine;
+typedef char ImportMachineLayout[(sizeof(ImportMachine)==36 &&
+    offsetof(ImportMachine,jump)==12 && offsetof(ImportMachine,jump_size)==16 &&
+    offsetof(ImportMachine,jump_relocations)==20 &&
+    offsetof(ImportMachine,jump_relocation_count)==24 &&
+    offsetof(ImportMachine,helper)==28 && offsetof(ImportMachine,helper_size)==32)?1:-1];
+extern const unsigned long import_helper_i860[4];
 extern ImportMachine import_i386,import_i860,import_mips;
 extern SymbolTable *export_symbol_table;
 extern Image *export_image;

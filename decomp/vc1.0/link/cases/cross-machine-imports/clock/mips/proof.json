@@ -1,0 +1,67 @@
+{
+  "case": "import-archive-mips",
+  "status": "pass",
+  "value": 1792773811,
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "observations": [
+    {
+      "event": "clock_boundary",
+      "caller": "build_import_library",
+      "result": 1792773811,
+      "output": 1792773811,
+      "argument_nonnull": 1,
+      "errno_before": 0,
+      "errno_after": 0,
+      "caller_stack_unchanged": 1
+    },
+    {
+      "event": "clock_boundary",
+      "caller": "build_archive_header",
+      "result": 1792773811,
+      "output": 1792773811,
+      "argument_nonnull": 1,
+      "errno_before": 0,
+      "errno_after": 0,
+      "caller_stack_unchanged": 1
+    }
+  ],
+  "captured": {
+    "events.jsonl": {
+      "path": "cases/cross-machine-imports/clock/mips/events.jsonl",
+      "bytes": 1187,
+      "sha256": "4164d75de77cb150368ad84f15655d4e6d78455b44a9244491b6d3f52e7f3740"
+    },
+    "receipt.json": {
+      "path": "cases/cross-machine-imports/clock/mips/receipt.json",
+      "bytes": 1919,
+      "sha256": "7c99d9bdcbf6ff58c99ab850c9840d0c487131ba330d508535ca5317b70cd5a7"
+    },
+    "mips.lib": {
+      "path": "cases/cross-machine-imports/clock/mips/mips.lib",
+      "bytes": 3650,
+      "sha256": "a22226f2d49d34f9e572fc92ebe742db6a1021b667d9a4bef77b103166f7af48"
+    },
+    "mips.exp": {
+      "path": "cases/cross-machine-imports/clock/mips/mips.exp",
+      "bytes": 572,
+      "sha256": "4814eee0c81c2d0234f06d44edfae38aa5fb1b59680b4383438c393ace3e5cc4"
+    }
+  },
+  "archive_coff_stamp_offsets": [
+    554,
+    1198,
+    1384,
+    1598,
+    2230,
+    2802,
+    3136
+  ],
+  "archive_member_count": 9,
+  "date_static_suffix": "0 ",
+  "date_suffix_source": {
+    "path": "src/import-archive.c",
+    "sha256": "97135bd86d9c053f5d17673765089cd467a22d6bbb6acf4ea79477f31520d92e",
+    "evidence": "build_archive_header copies fixed12-byte template \"0         0 \" then actual ten decimal time digits. Remaining final0/space are fixed, compared exactly."
+  },
+  "input_kind": "Captured public time(&out) value at each of two named callers; native-only deterministic external input, never artifact rewriting."
+}

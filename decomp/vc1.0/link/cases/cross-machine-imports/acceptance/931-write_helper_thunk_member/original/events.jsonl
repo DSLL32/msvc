@@ -1,0 +1,4 @@
+{"event":"create","pid":900,"parent":596,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /machine:i860 /def:cross.def /name:cross.dll /debugtype:both /out:i860.lib"}
+{"event":"context","pid":900,"eip":179905,"esp":2749012,"eax":8232496,"ecx":510088,"edx":495680,"stack":[168956,510088,8192636,2752268,8060932,0,6,16842752,2884712,0,510088,10,3,12,58,1,2077359434,2077618784,2749180,2077466264,808859753,1886938414,16777216,2948865],"crt_errno":0,"exception_code":2147483651}
+{"event":"import_machine_state","argument":510088,"bytes":36,"words":[458759,720903,10,509968,12,509984,2,509992,16]}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

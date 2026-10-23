@@ -1,0 +1,32 @@
+{
+  "case": "import-archive-mips-data",
+  "arguments": [
+    "-lib",
+    "/machine:mips",
+    "/def:cross.def",
+    "/name:cross.dll",
+    "/debugtype:both",
+    "/out:mips.lib"
+  ],
+  "environment": {
+    "LIB": "{lib}",
+    "LINK32_DB": "27"
+  },
+  "inputs": [
+    {
+      "path": "cases/cross-machine-imports/inputs/all-data/cross.def",
+      "bytes": 154,
+      "sha256": "50256a512d47037537bf8985bb3452e7b4d38f14e788170380c6405d2b961f02"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "mips.lib",
+      "artifact_kind": "archive"
+    },
+    {
+      "output_name": "mips.exp",
+      "artifact_kind": "coff"
+    }
+  ]
+}

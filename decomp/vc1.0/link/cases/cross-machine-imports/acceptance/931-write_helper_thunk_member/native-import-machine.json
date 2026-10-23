@@ -1,0 +1,21 @@
+{
+  "bytes": 36,
+  "machine_is_i860": true,
+  "image_is_export_image": true,
+  "words": [
+    458759,
+    720903,
+    10,
+    1448916800,
+    12,
+    1448916851,
+    2,
+    1448916812,
+    16
+  ],
+  "references": {
+    "import_jump_i860": 1448916800,
+    "import_relocations_i860": 1448916851,
+    "import_helper_i860": 1448916812
+  }
+}
