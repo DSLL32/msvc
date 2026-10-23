@@ -466,11 +466,15 @@ def capture_symbol_output():
         entry['nested_callers']=names
         if f.name()=='compact_new_type':entry['type_index']=int(f.read_var('type'))
         assert entry['type_index']==4134,'unreviewed compact symbol type'
-    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
-    assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size
-    if f.name()=='write_search_symbol':assert cursor==base+4==int(f.read_var('buffer'))
+    assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==(608 if f.name()=='link_symbol_scopes'else size)
+    if f.name()=='link_symbol_scopes':
+        assert cursor==base+608 and int(f.read_var('symbols'))==base and int(f.read_var('size'))==608
+        entry['completed_input']=dict(end=int(caller.read_var('end')))
+        assert int(gdb.parse_and_eval('symbol_input'))==entry['completed_input']['end']==entry['input']+4746
+    elif f.name()=='write_search_symbol':assert cursor==base+4==int(f.read_var('buffer'))
     else:
         expected=(292,6,4,8)if f.name()=='end_symbol_block'else(244,2,11,23)if f.name()=='convert_register_symbol'else(164,0x200,17,1)if f.name()=='convert_bp_relative32'else(108,0x205,53,7)if f.name()in('convert_procedure32','address_in_module')else(40,4,24,27)if f.name()in('add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type')else(40,4,29,27)if f.name()=='get_type_record'else(40,0x202,43,12)if f.name()=='convert_global_data32'else(40,4,21,27)if f.name()in('find_named_type','find_global_type','find_local_type','record_derived_types')else((16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(40,4,34,27)))
         assert cursor==base+expected[0] and int(caller.read_var('kind'))==expected[1] and int(caller.read_var('length'))==expected[2] and int(caller.read_var('index'))==expected[3]
@@ -513,6 +517,12 @@ def capture_type_page():
     if f.name()=='convert_global_data32':
         assert caller.name()=='pack_new_types'
         assert int(gdb.parse_and_eval('next_type_index'))==0x101a and int(gdb.parse_and_eval('type_page_capacity'))==512
+        roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))
+        result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
+        return [result]
+    if f.name()=='link_symbol_scopes':
+        assert caller.name()=='pack_new_types'
+        assert int(gdb.parse_and_eval('next_type_index'))==0x1074 and int(gdb.parse_and_eval('type_page_capacity'))==512
         roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))
         result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
         return [result]

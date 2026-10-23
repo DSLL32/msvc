@@ -1835,3 +1835,12 @@ void convert_register_symbol(void)
     type = symbol_input+4;
     *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
 }
+
+void end_symbol_block(void)
+{
+    --symbol_scope_depth;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        --suppressed_symbol_depth;
+    }
+}

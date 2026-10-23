@@ -50,7 +50,7 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_proof=
     assert events.splitlines().count('type-page-rearm 000199d7 000199da')==1,'missing type page allocation rearm'
     a,b,post=entries[0],native[0],outputs[0];assert not b.get('error'),'native type page observer failed'
     assert a['size']==b['size']==post['size']==2048 and a['index']==b['index']==0x1000 and a['capacity']==b['capacity']==512
-    assert post['base']==a['base']and ((post['frontier']==0x22f40 and b['frontier']=='append_buffer')or(post['frontier']in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0,0x1e700,0x27b10,0x1ac80,0x1c640,0x1eac0,0x19ca0,0x1c880,0x19c20,0x257a0,0x25920,0x254f0,0x25530,0x25480)and b['frontier']in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block')and buffer_proof)), 'unproved type page frontier'
+    assert post['base']==a['base']and ((post['frontier']==0x22f40 and b['frontier']=='append_buffer')or(post['frontier']in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0,0x1e700,0x27b10,0x1ac80,0x1c640,0x1eac0,0x19ca0,0x1c880,0x19c20,0x257a0,0x25920,0x254f0,0x25530,0x25480,0x1bd60)and b['frontier']in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes')and buffer_proof)), 'unproved type page frontier'
     if post['frontier']==0x22f40:
         words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
         fields=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(fields[::2],fields[1::2])}
@@ -88,7 +88,7 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_proof=
         else:
             side=buffer_proof['original']if row is a else buffer_proof['native']
             slots=b''.join(r['result'].to_bytes(4,'little')for r in side['returns'])
-            assert len(slots)in(12,24,32,104,140,280,284,288,292,296,452)and after[:len(slots)]==slots and after[len(slots):]==before[len(slots):],'type page pointer writes/untouched tail differ'
+            assert len(slots)in(12,24,32,104,140,280,284,288,292,296,452,464)and after[:len(slots)]==slots and after[len(slots):]==before[len(slots):],'type page pointer writes/untouched tail differ'
             for offset in range(0,len(slots),4):
                 value=int.from_bytes(after[offset:offset+4],'little')
                 assert value==side['returns'][offset//4]['result'],'type page slot lacks observed copy result'

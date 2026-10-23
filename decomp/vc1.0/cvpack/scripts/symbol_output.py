@@ -40,11 +40,12 @@ def validate(config,pe):
            'address_in_module':(0x25920,108,4283,0x257c5,20,10,13),
            'convert_bp_relative32':(0x254f0,164,4336,0x25172,0,5,8),
            'convert_register_symbol':(0x25530,244,4405,0x25172,0,5,8),
-           'end_symbol_block':(0x25480,292,4449,0x25172,0,5,8)}
+           'end_symbol_block':(0x25480,292,4449,0x25172,0,5,8),
+           'link_symbol_scopes':(0x1bd60,608,4746,0x25238,8,7,10)}
     assert p.get('frontiers'),'missing packed symbol frontier contracts'
     for name,site in p['frontiers'].items():
         assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
-        if name!='write_search_symbol':
+        if name not in('write_search_symbol','link_symbol_scopes'):
             assert (site['kind'],site['record_length'],site['callback_index'])==((6,4,8)if name=='end_symbol_block'else(2,11,23)if name=='convert_register_symbol'else(0x200,17,1)if name=='convert_bp_relative32'else(0x205,53,7)if name in('convert_procedure32','address_in_module')else(4,24,27)if name in('add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type')else(4,29,27)if name=='get_type_record'else(0x202,43,12)if name=='convert_global_data32'else(4,21,27)if name in('find_named_type','find_global_type','find_local_type','record_derived_types')else((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(4,34,27)))),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
@@ -82,6 +83,9 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     assert a['esp']==esp+site['allocation_esp_delta'],'packed symbol allocation belongs to another parent frame'
     assert words[0]==site['return_address']and post['cursor']==a['base']+defined,'wrong packed symbol output caller/cursor'
     if 'argument_slot'in site:assert words[site['argument_slot']]==post['cursor']and words[2]&0xffff==1,'wrong packed symbol output argument'
+    if name=='link_symbol_scopes':
+        assert words[1]==a['base']and words[2]==defined==608,'scope-linker actual ABI arguments differ'
+        assert native_state['parameters']['size']==608 and native_state['parameters']['symbols']['address']==b['base'],'scope-linker native ABI arguments differ'
     slot=site['buffer_slot'];source_slot=site['input_slot']
     assert words[slot]==words[slot+1]==a['base']and words[source_slot]==a['input']and words[source_slot+1]==a['entry']and words[source_slot+2]==a['module'],'wrong packed symbol parent saved ownership'
     memory={}

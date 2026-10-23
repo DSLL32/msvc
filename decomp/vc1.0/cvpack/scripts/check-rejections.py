@@ -151,6 +151,10 @@ def main():
     if register_symbol_pair.is_dir():
         from register_symbol_checks import check as check_register_symbol
         check_register_symbol(register_symbol_pair)
+    completed_symbols_pair=BINARY/'cases/hello-debug-dll/evidence/0094-end_symbol_block'
+    if completed_symbols_pair.is_dir():
+        from completed_symbols_checks import check as check_completed_symbols
+        check_completed_symbols(completed_symbols_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

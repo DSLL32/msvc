@@ -289,6 +289,8 @@ def main():
     validate_type_hash(config,original)
     from symbol_output import validate as validate_symbol_output
     validate_symbol_output(config,original)
+    from completed_symbol_input import validate as validate_completed_cursor
+    validate_completed_cursor(config,original,rebuilt,linked)
     from type_cache import validate as validate_type_cache
     validate_type_cache(config,original,rebuilt,linked)
     from module_write import validate as validate_module_write

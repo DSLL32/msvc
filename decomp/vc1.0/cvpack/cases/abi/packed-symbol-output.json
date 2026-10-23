@@ -108,7 +108,7 @@
     }
   ],
   "sources": {
-    "src/types.c": "16a808a894f547b6248942ea22a7ab6823e93f1c77a1d3fe32a59eafdc509181",
+    "src/types.c": "e41c317f42f17490ff0551008dbb9c0540e09227090e59cc95bf753a9f3b8e25",
     "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644",
     "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
   },
@@ -628,6 +628,30 @@
       "record_length": 4,
       "callback_index": 8,
       "kind": 6
+    },
+    "link_symbol_scopes": {
+      "original": 114016,
+      "defined": 608,
+      "input_offset": 4746,
+      "return_address": 152120,
+      "allocation_esp_delta": 8,
+      "buffer_slot": 7,
+      "input_slot": 10
     }
+  },
+  "completed_input": {
+    "global_name": "symbol_input",
+    "owner": "type_data",
+    "extent": 4746,
+    "offset": 4746,
+    "frontier": 114016,
+    "caller_return": 152120,
+    "identity_only": true,
+    "original_loop": {
+      "start": 152074,
+      "end": 152120,
+      "bytes": "8bc525ffff00000105e4350300391de43503000f82d4feffff8b3df03503002b7c24148b4424145750e8286bffff"
+    },
+    "scope": "Only global symbol_input at the completed module3 loop; no readable bytes granted beyond type_data. Actual allocation/read size and full raw addresses retained. Other globals and parameters keep generic in-bounds resolution."
   }
 }

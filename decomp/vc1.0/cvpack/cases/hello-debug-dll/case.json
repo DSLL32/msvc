@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "end_symbol_block",
-    "native_function": "end_symbol_block",
+    "logical": "link_symbol_scopes",
+    "native_function": "link_symbol_scopes",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -111,7 +111,8 @@
       "address_in_module",
       "convert_bp_relative32",
       "convert_register_symbol",
-      "end_symbol_block"
+      "end_symbol_block",
+      "link_symbol_scopes"
     ]
   },
   "complete_reference": {

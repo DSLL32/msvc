@@ -230,6 +230,9 @@ def main():
                 if targets:
                     assert len(targets)==1 and actual['function']==targets[0]['native']
                     expected['function']=targets[0]['native']
+                elif item['name']=='symbol_input'and state['frames'][0]=='link_symbol_scopes':
+                    from completed_symbol_input import compare as compare_completed_cursor
+                    expected['object']=compare_completed_cursor(config,pe,item['name'],value,actual['address'],original_objects,native_objects,state,definitions,events,symbol_proof)
                 elif owners:
                     assert len(owners)==1
                     owner=owners[0]

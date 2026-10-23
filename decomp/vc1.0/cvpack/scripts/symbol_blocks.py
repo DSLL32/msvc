@@ -68,9 +68,9 @@ def layout(blocks,groups):
 def context(config,pe,events,native,walks,state,arena):
     p=validate(config,pe)
     if not native:
-        assert state['frames'][0]not in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block'),'missing mandatory retained symbol block observations'
+        assert state['frames'][0]not in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes'),'missing mandatory retained symbol block observations'
         return
-    assert p and arena and not native.get('error')and native['frontier']in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block'),'unsupported symbol block observation'
+    assert p and arena and not native.get('error')and native['frontier']in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes'),'unsupported symbol block observation'
     if native['frontier']=='address_in_module':assert p['address_frontier']==0x25920,'missing retained-symbol module-address scope'
     if native['frontier']=='convert_bp_relative32':assert p['bp_frontier']==0x254f0,'missing BP-relative observed scope'
     original=parse(events);assert len(original['allocations'])==len(native['allocations'])==len(original['frontier'])==2,'missing retained symbol block lifetimes'
