@@ -23,12 +23,13 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor=trial['trial']=='_initialize_output_buffer_01'
     registrar=trial['trial']=='_register_cleanup'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(constructor or registrar or match is not None and 1<=int(match[1])<=8,'no reviewed callback decoder for this function')
+    s.require(constructor or registrar or match is not None and 1<=int(match[1])<=9,'no reviewed callback decoder for this function')
     index=8 if constructor or registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
-    seed=trial.get('test_seed');final='%03d'%((7 if seed else 8)+index+int(constructor)+2*int(registrar))
+    wrapper09=index==9
+    seed=trial.get('test_seed');final='%03d'%((7 if seed else 8)+index+int(constructor)+2*int(registrar)+2*int(wrapper09))
     model=json.loads((native/'state-model.json').read_text())
     s.require(model['schema'] in (2,3,4,5,6),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
@@ -49,6 +50,7 @@ def check(original,native,require_audit=True,audit_path=None):
     expected=[('0','0002e3c6'),('1','0002e46a'),('2','000384ce'),('3','0002e52a'),('5','000384d4'),('6','00038550')]
     if not seed:expected.append(('7','000233ba'))
     expected += [(str((7 if seed else 8)+slot-1),'%08x'%(model['initializers'][slot]['original_address']-0x10400000)) for slot in range(1,index+2)]
+    if wrapper09:expected=expected[:-2]+[(str((15 if seed else 16)),'00038666'),(str((16 if seed else 17)),'000386ae'),(str((17 if seed else 18)),'000386d4'),(str((18 if seed else 19)),'000386db')]
     if index==8:expected[-1]=(expected[-1][0],'00038666')
     if constructor or registrar:expected.append((str(int(expected[-1][0])+1),'000386ae'))
     if registrar:expected.append((str(int(expected[-1][0])+1),'000386d4'))
@@ -57,11 +59,13 @@ def check(original,native,require_audit=True,audit_path=None):
               'original callback did not advance to exact next callback')
     s.require([int(word,16) for word in traps[4][2].split(',')][1:4]==[26,pointer,1],'original raw Invoke ABI differs')
     trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']+([] if seed else ['checked_malloc'])+['initialize_frontend_%02d'%slot for slot in range(1,index+2)]
+    if wrapper09:trace=trace[:-2]+['initialize_output_buffer_01','register_cleanup','initialize_frontend_09','initialize_output_buffer_02']
     if index==8:trace[-1]='initialize_output_buffer_01'
     if constructor or registrar:trace.append('register_cleanup')
     if registrar:trace.append('initialize_frontend_09')
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     frontier='initialize_frontend_%02d'%(index+1)
+    if wrapper09:frontier='initialize_output_buffer_02'
     if index==8:frontier='initialize_output_buffer_01'
     if constructor:frontier='register_cleanup'
     if registrar:frontier='initialize_frontend_09'
@@ -97,9 +101,9 @@ def check(original,native,require_audit=True,audit_path=None):
     for suffix,old,current,flag in (('phase',phase_old,phase,copied),(final,after,state,0)):
         value=current['frontend']
         s.require(old['first_invocation']==value['first_invocation']==flag and old['saved_state'] and value['saved_state'] and
-                  old['cleanup_count']==value['cleanup_count']==int(registrar and suffix==final) and
-                  old['cleanup_callbacks']==([0x10434748]+[0]*31 if registrar and suffix==final else [0]*32) and
-                  value['cleanup_callbacks']==([int(destructor[1],16)]+[0]*31 if registrar and suffix==final else [0]*32) and
+                  old['cleanup_count']==value['cleanup_count']==int((registrar or wrapper09) and suffix==final) and
+                  old['cleanup_callbacks']==([0x10434748]+[0]*31 if (registrar or wrapper09) and suffix==final else [0]*32) and
+                  value['cleanup_callbacks']==([int(destructor[1],16)]+[0]*31 if (registrar or wrapper09) and suffix==final else [0]*32) and
                   old['restore_mode']==value['restore_mode']==wanted and value['saved_first']==copied and
                   all(context(original,suffix,name)==value[name]==[0]*counts[name] for name in context_names),
                   'typed copy/expanded BSS clear/context initializer result differs')
@@ -116,7 +120,7 @@ def check(original,native,require_audit=True,audit_path=None):
         s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
                   snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(0 if not seed or seed=='restore-zero' else 3),
                   'caller/lifecycle state changed')
-    if constructor or registrar:
+    if constructor or registrar or wrapper09:
         check_output(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
@@ -126,8 +130,8 @@ def check(original,native,require_audit=True,audit_path=None):
             'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(3 if model['schema']>=6 else 0),
             'native_bss_size':state['frontend']['known_sizes']['bss'],
             'native_c_padding_bytes':3 if model['schema']>=6 else 0,
-            'output_constructor_fields_checked':9 if constructor or registrar else 0,
-            'cleanup_registration_checked':registrar,
+            'output_constructor_fields_checked':9 if constructor or registrar or wrapper09 else 0,
+            'cleanup_registration_checked':registrar or wrapper09,
             'nonzero_output_constructor_input_checked':bool(trial.get('test_constructor_seed')),
             'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8516,
             'native_snapshot_byte_equivalence_claimed':False,'whole_mask_bytes_checked':751216,
@@ -161,8 +165,8 @@ def check_output(original,native,trial,text,pre,phase,state,seed,final,slots,sym
     entry=json.loads((native/'constructor-entry.json').read_text())
     entry_symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_output_buffer_01$',symbols,re.M)
     s.require(entry_symbol is not None and entry['pc']==int(entry_symbol[1],16),'not the actual native constructor entry')
-    registrar=trial['trial']=='_register_cleanup'
-    sequence='%03d'%(int(final)-(2 if registrar else 1))
+    registrar=trial['trial'] in ('_register_cleanup','_initialize_frontend_09')
+    sequence='%03d'%(15 if seed else 16)
     if trial.get('test_constructor_seed'):
         s.require(trial['auxiliary_data_seed']=={'owner':'_initialize_output_buffer_01','point':'entry before target body',
             'data':'owned snapshot+0','cursor':'owned snapshot+4','capacity':64,
@@ -181,11 +185,11 @@ def check_output(original,native,trial,text,pre,phase,state,seed,final,slots,sym
               'constructor did not assign all nine encountered fields')
     callback=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_output_buffer_01$',symbols,re.M)
     registration=json.loads((native/'registration-entry.json').read_text()) if registrar else state
-    row=traps[-2] if registrar else traps[-1]
+    row=next(row for row in traps if row[1]=='000386ae')
     s.require(callback is not None and registration['args']=={'cleanup':int(callback[1],16)} and
               int(row[2].split(',')[1],16)==0x10434748,'actual destructor-registration input differs')
     if registrar:
         s.require(registration['symbol']=='register_cleanup' and registration['frontend']['cleanup_count']==0 and
                   registration['frontend']['cleanup_callbacks']==[0]*32 and
-                  output(original,'%03d'%(int(final)-1))==done and registration['frontend']['output_buffers']==[done],
+                  output(original,'%03d'%(16 if seed else 17))==done and registration['frontend']['output_buffers']==[done],
                   'registration entry state differs')

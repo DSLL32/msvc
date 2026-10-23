@@ -24,4 +24,6 @@ enum { FRONTEND_OUTPUT_BUFFERS = 1 };
 
 void initialize_output_buffer_01(void);
 void destroy_output_buffer_01(void);
+void initialize_output_buffer_02(void);
+void destroy_output_buffer_02(void);
 #endif

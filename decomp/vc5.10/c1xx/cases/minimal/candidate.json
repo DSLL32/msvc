@@ -19,7 +19,8 @@
     "_initialize_frontend_07",
     "_initialize_frontend_08",
     "_initialize_output_buffer_01",
-    "_register_cleanup"
+    "_register_cleanup",
+    "_initialize_frontend_09"
   ],
   "trial": null,
   "ranges": [
@@ -166,7 +167,19 @@
       "start_rva": 467030,
       "end_rva": 467055,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_frontend_09",
+      "start_rva": 231124,
+      "end_rva": 231131,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_09",
+      "start_rva": 231189,
+      "end_rva": 231203,
+      "entry": 0
     }
   ],
-  "stage": "_register_cleanup accepted; next frontier _initialize_frontend_09"
+  "stage": "_initialize_frontend_09 accepted; next frontier _initialize_output_buffer_02"
 }
