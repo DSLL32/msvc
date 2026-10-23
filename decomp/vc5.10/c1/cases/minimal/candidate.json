@@ -61,6 +61,11 @@
       "start_rva": 189724,
       "end_rva": 189739,
       "entry": 0
+    },
+    {
+      "start_rva": 74597,
+      "end_rva": 74615,
+      "entry": 1
     }
   ],
   "functions": [
@@ -160,7 +165,20 @@
         ]
       ],
       "source": "src/pass.c",
-      "status": "sole-new-allocator-candidate-after-initializer-promotion"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12365",
+      "native_symbol": "initialize_state_12365",
+      "role": "application",
+      "chunks": [
+        [
+          74597,
+          74615
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "sole-new-candidate"
     }
   ],
   "text_data": [],
@@ -171,13 +189,12 @@
     "abi": "stdcall, HINSTANCE/DWORD/LPVOID, cleanup12"
   },
   "unreconstructed_exports": [
-    "_InvokeCompilerPass@12",
     "_AbortCompilerPass@4"
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74597,
-    "native_symbol": "initialize_state_12365",
+    "rva": 74615,
+    "native_symbol": "initialize_state_12377",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -248,7 +265,24 @@
       74597,
       74615
     ],
-    "post_restore_rva": 197589
+    "post_restore_rva": 197589,
+    "context": {
+      "object": "first_call-address",
+      "value": 23,
+      "saved_frame": "owned-snapshot-allocation"
+    },
+    "callback_context_auxiliary": {
+      "entry_rva": 74597,
+      "object": "first_call-address",
+      "value": 23,
+      "saved_frame": "owned-snapshot-allocation",
+      "expected_result": [
+        0,
+        0,
+        0
+      ],
+      "normal_case": false
+    }
   },
-  "staging_role": "Initializer is accepted; real allocator is the ONLY new function"
+  "staging_role": "First context reset is the only new function; initializer and allocator are accepted prefix"
 }

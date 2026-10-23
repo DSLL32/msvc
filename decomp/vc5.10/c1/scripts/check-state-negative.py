@@ -9,10 +9,10 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();m.check(a.original,a.native)
  restore=json.loads((a.original/'receipt.json').read_text()).get('probe')=='restore'
  allocation=json.loads((a.original/'candidate.json').read_text())['expected_frontier']['kind']=='compiler-allocation'
- tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset']
+ tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset','context-object','context-value','context-frame','original-context']
  if allocation:
   tests.remove('snapshot-first');tests.remove('original-snapshot-field');tests.append('premature-snapshot')
- tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
+ tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='state-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as temporary:
    d=Path(temporary);o=d/'original';n=d/'native';b=d/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
@@ -33,10 +33,11 @@ def main():
     except (AssertionError,KeyError,ValueError):continue
     finally:compiler_state.PROJECT=previous
     raise AssertionError('accepted negative '+test)
-   elif test in ('missing-frontier','missing-postpoint','original-allocation-size'):
+   elif test in ('missing-frontier','missing-postpoint','original-allocation-size','missing-callback-seed'):
     f=o/'events.txt';r=f.read_text()
     if test=='missing-frontier':r=re.sub(r'^frontier .*\n','',r,flags=re.M)
     elif test=='missing-postpoint':r=re.sub(r'^trap seq=\d+ rva=000303d5 .*\n','',r,flags=re.M)
+    elif test=='missing-callback-seed':r=re.sub(r'^context-seed .*\n','',r,flags=re.M)
     else:
      r=re.sub(r'(^trap seq=\d+ rva=0000e799 .*stack=[0-9a-f]+,)00001994',r'\g<1>00000004',r,flags=re.M)
     f.write_text(r);rehash(o,f.name)
@@ -44,10 +45,11 @@ def main():
     raw=(o/'events.txt').read_text();last=int(re.findall(r'^trap seq=(\d+)',raw,re.M)[-1])
     if test=='original-default':f=o/'compiler-data-000.bin';offset=0x1530
     elif test=='original-snapshot-field':f=o/('compiler-snapshot-%03d.bin'%last);offset=0x1530
+    elif test=='original-context':f=o/('compiler-bss-%03d.bin'%last);offset=0x18c8
     else:
      post=int(re.findall(r'^trap seq=(\d+) rva=000303d5 ',raw,re.M)[0]);f=o/(('compiler-data-' if test=='original-post-field' else 'compiler-bss-')+'%03d.bin'%post);offset=0x1530 if test=='original-post-field' else 0x40
-    r=bytearray(f.read_bytes());struct.pack_into('<I',r,offset,0 if test!='original-clear-gap' else 1);f.write_bytes(r);rehash(o,f.name)
-   elif test.startswith('restore-'):
+    r=bytearray(f.read_bytes());struct.pack_into('<I',r,offset,1 if test in ('original-clear-gap','original-context') else 0);f.write_bytes(r);rehash(o,f.name)
+   elif test.startswith('restore-') or test.startswith('callback-seed-'):
     f=n/'restore-observations.json';r=json.loads(f.read_text());post=r['post_restore']
     if test=='restore-zero-input':r['before']['snapshot']['first_call']=0
     elif test=='restore-post-field':post['initialized']['first_call']=0
@@ -56,6 +58,11 @@ def main():
     elif test=='restore-pointer-identity':post['bss']['saved_data']+=4
     elif test=='restore-pc':r['post_restore_pc']=1
     elif test=='restore-line':r['post_restore_line']+=1
+    elif test=='restore-context-zero-input':r['before']['bss']['context']['value']=0
+    elif test=='restore-pre-seed-context':r['pre_seed']['bss']['context']['value']=1
+    elif test=='callback-seed-pc':r['callback_pc']=1
+    elif test.startswith('callback-seed-'):r['before_callback']['bss']['context'][{'callback-seed-object':'object','callback-seed-value':'value','callback-seed-frame':'saved_frame'}[test]]=0
+    elif test.startswith('restore-context-'):post['bss']['context'][{'restore-context-object':'object','restore-context-value':'value','restore-context-frame':'saved_frame'}[test]]=1
     f.write_text(json.dumps(r));rehash(n,f.name)
    elif test.startswith('allocation-'):
     f=n/'allocation-observations.json';r=json.loads(f.read_text());r[0]['size' if test=='allocation-size' else 'pc']=4 if test=='allocation-size' else 1;f.write_text(json.dumps(r));rehash(n,f.name)
@@ -70,6 +77,7 @@ def main():
     elif test=='swapped-callback':c['initialization_callbacks'][1],c['initialization_callbacks'][2]=c['initialization_callbacks'][2],c['initialization_callbacks'][1]
     elif test=='snapshot-live-alias':c['bss']['saved_data']=c['live_addresses']['initialized']
     elif test=='native-layout':c['native_layout']['cleanup_callbacks']=4
+    elif test.startswith('context-'):c['bss']['context'][{'context-object':'object','context-value':'value','context-frame':'saved_frame'}[test]]=1
     f.write_text(json.dumps(r));rehash(n,f.name)
    try:m.check(o,n,b)
    except (AssertionError,KeyError,ValueError):continue

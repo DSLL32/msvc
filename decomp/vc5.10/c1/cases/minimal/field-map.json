@@ -47,6 +47,37 @@
       "native_field": "c1_bss.cleanup_callbacks",
       "native_offset": 8,
       "type": "32 function pointers; only named identities allowed"
+    },
+    {
+      "name": "context",
+      "original_rva": 334024,
+      "bytes": 12,
+      "native_field": "c1_bss.context",
+      "native_offset": 136,
+      "type": "object pointer, unsigned value, saved-frame pointer",
+      "default": [
+        0,
+        0,
+        0
+      ],
+      "default_proof": "first raw loaded BSS snapshot; callback12365 resets all three words; member4cfc and pop callers recover the linked saved-frame role",
+      "members": [
+        {
+          "name": "object",
+          "offset": 0,
+          "bytes": 4
+        },
+        {
+          "name": "value",
+          "offset": 4,
+          "bytes": 4
+        },
+        {
+          "name": "saved_frame",
+          "offset": 8,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "outside_bss": [

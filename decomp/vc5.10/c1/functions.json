@@ -10,7 +10,8 @@
     "_DllMain@12",
     "_InvokeCompilerPass@12",
     "_initialize_compiler_pass",
-    "_allocate_compiler_memory"
+    "_allocate_compiler_memory",
+    "_initialize_state_12365"
   ],
   "driver": [
     {
@@ -79,6 +80,12 @@
           274916651
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12365",
+      "start": 274801509,
+      "end": 274801527,
       "role": "application"
     }
   ],

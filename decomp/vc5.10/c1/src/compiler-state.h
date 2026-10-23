@@ -8,10 +8,19 @@
 typedef struct CompilerInitializedState {
     int first_call;
 } CompilerInitializedState;
+/* A context saves its current object/value together with a linked stack of
+ * prior contexts. The domain of the value is not yet recovered. */
+struct CompilerContextFrame;
+typedef struct CompilerContextState {
+    void *object;
+    unsigned value;
+    struct CompilerContextFrame *saved_frame;
+} CompilerContextState;
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
     C1Initializer cleanup_callbacks[32];
+    CompilerContextState context;
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;

@@ -3,7 +3,9 @@
 
 void __cdecl initialize_state_12365(void)
 {
-    __asm { int 3 }
+    c1_bss.context.object = NULL;
+    c1_bss.context.value = 0;
+    c1_bss.context.saved_frame = NULL;
 }
 
 void __cdecl initialize_state_12377(void)

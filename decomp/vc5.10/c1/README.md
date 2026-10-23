@@ -179,7 +179,15 @@ Initializer/allocator staging completed after the reviewed two-body trial:
 allocator INT3 frontier, followed by `evidence/allocator-staged-promotion/` with
 the real allocator as the only new candidate and genuine first-copy state.
 The older two-body normal/restore captures remain explicitly auxiliary evidence;
-their historical roles were not relabeled. Only four initialized bytes and 136
+their historical roles were not relabeled. Only four initialized bytes and 148
 BSS bytes are currently modeled; other compiler state remains UNMODELED. All 34
 initializer slots are represented, and execution stops at the first unreconstructed
 callback. See `cases/minimal/INITIALIZER-REVIEW.md` for the original review packet.
+
+The first context reset (RVA12365,18 bytes) is accepted. Its object/value/linked
+saved-frame state is mapped as a typed12-byte BSS object; the domain of the
+value remains unrecovered. Normal fresh evidence reaches callback12377. A
+separate labeled auxiliary code probe seeds all three context fields nonzero
+at the real callback entry and verifies their clearing, also checking repeat-
+pass BSS clearing and retained snapshot identity. Normal/auxiliary validation
+rejects22/39 corruptions. See `evidence/context-reset*` under the minimal case.
