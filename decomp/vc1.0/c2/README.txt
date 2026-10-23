@@ -2446,3 +2446,9 @@ x87 operand membership and arithmetic selection: checkpoint973
 @peephole_selected_block@8. 894 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-arrangement.json for extent union, limits and measured timings.
+
+Whole x87 peephole pass: checkpoint974
+1 acceptances pass fresh original/native matching; current frontier
+@combine_float_store_load@8. 895 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-peephole.json for extent union, limits and measured timings.

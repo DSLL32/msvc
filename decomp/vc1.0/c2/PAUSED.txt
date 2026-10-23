@@ -1,7 +1,7 @@
-C2 ACTIVE: final approved x87 stress at973 acceptances/894 source graphs.
-Matching original/native frontier @peephole_selected_block@8.
-Extent union256837/399693=64.2585684513%, not branch coverage.
+C2 ACTIVE: final approved x87 stress at974 acceptances/895 source graphs.
+Matching original/native frontier @combine_float_store_load@8.
+Extent union264321/399693=66.1310055468%, not branch coverage.
 Five completed object regressions pass; floating979-byte object incomplete.
-Next reference BEFORE cases/floating-original-973.json.
+Next reference BEFORE cases/floating-original-974.json.
 After floating completion PAUSE: no additional cases authorized.
 Canonical/W3, audit and native fixtures pass; no shim requests.

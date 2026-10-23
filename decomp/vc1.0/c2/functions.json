@@ -977,7 +977,8 @@
     "@create_temporary@28",
     "@arrange_x87_left@4",
     "@x87_contains_node@4",
-    "@lookup_floating_opcode@8"
+    "@lookup_floating_opcode@8",
+    "@peephole_selected_block@8"
   ],
   "driver": [
     {
@@ -3099,8 +3100,7 @@
     {
       "name": "@peephole_selected_block@8",
       "start": 219616,
-      "end": 219617,
-      "provisional": true
+      "end": 227100
     },
     {
       "name": "@new_selection_block@16",
@@ -6871,6 +6871,66 @@
       "name": "@x87_contains_node@4",
       "start": 111120,
       "end": 111160
+    },
+    {
+      "name": "@floating_value_for_symbol@4",
+      "start": 160624,
+      "end": 160625,
+      "provisional": true
+    },
+    {
+      "name": "@split_float_memory_transfer@24",
+      "start": 227104,
+      "end": 227105,
+      "provisional": true
+    },
+    {
+      "name": "@can_split_float_transfer@8",
+      "start": 228256,
+      "end": 228257,
+      "provisional": true
+    },
+    {
+      "name": "@previous_float_load@4",
+      "start": 228576,
+      "end": 228577,
+      "provisional": true
+    },
+    {
+      "name": "@find_float_transfer_match@4",
+      "start": 228880,
+      "end": 228881,
+      "provisional": true
+    },
+    {
+      "name": "@can_reuse_float_load@4",
+      "start": 229168,
+      "end": 229169,
+      "provisional": true
+    },
+    {
+      "name": "@can_reuse_float_load_width@8",
+      "start": 229408,
+      "end": 229409,
+      "provisional": true
+    },
+    {
+      "name": "@combine_float_store_load@8",
+      "start": 229696,
+      "end": 229697,
+      "provisional": true
+    },
+    {
+      "name": "@fold_float_compare_store@8",
+      "start": 229984,
+      "end": 229985,
+      "provisional": true
+    },
+    {
+      "name": "@fold_previous_float_load@8",
+      "start": 230976,
+      "end": 230977,
+      "provisional": true
     }
   ],
   "cases": {

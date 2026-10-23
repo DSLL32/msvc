@@ -1,0 +1,340 @@
+{
+  "accepted_before": 973,
+  "original_extent": [
+    "0x359e0",
+    "0x3771c"
+  ],
+  "original_bytes": 7484,
+  "source": "src/float-peepholes.c",
+  "source_sha256": "0ff63c493c33fb46ee321e68d67456fc263cc1382e098c9122611f20e9dbae4b",
+  "graph_edges": [
+    "@assign_machine_operand@8",
+    "@can_reuse_float_load@4",
+    "@can_reuse_float_load_width@8",
+    "@can_split_float_transfer@8",
+    "@combine_float_store_load@8",
+    "@duplicate_operand@4",
+    "@find_float_transfer_match@4",
+    "@floating_value_for_symbol@4",
+    "@fold_float_compare_store@8",
+    "@fold_previous_float_load@8",
+    "@new_machine_instruction@4",
+    "@new_value_register@4",
+    "@operand_changed_between@16",
+    "@operand_for_register@4",
+    "@operands_equal@8",
+    "@previous_float_load@4",
+    "@remove_machine_instruction@4",
+    "@split_float_memory_transfer@24",
+    "_compare_extended"
+  ],
+  "matching_graphs": true,
+  "children": [
+    {
+      "logical": "@floating_value_for_symbol@4",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x27370",
+        "0x2738b"
+      ],
+      "returns": [
+        {
+          "address": "0x27386",
+          "pop": 0
+        },
+        {
+          "address": "0x2738a",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@split_float_memory_transfer@24",
+      "abi": "fastcall",
+      "expected_stack_pop": 16,
+      "analyzed_extent": [
+        "0x37720",
+        "0x37b97"
+      ],
+      "returns": [
+        {
+          "address": "0x37b94",
+          "pop": 16
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@can_split_float_transfer@8",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x37ba0",
+        "0x37cd5"
+      ],
+      "returns": [
+        {
+          "address": "0x37bc7",
+          "pop": 0
+        },
+        {
+          "address": "0x37cc0",
+          "pop": 0
+        },
+        {
+          "address": "0x37cca",
+          "pop": 0
+        },
+        {
+          "address": "0x37cd4",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@previous_float_load@4",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x37ce0",
+        "0x37e0c"
+      ],
+      "returns": [
+        {
+          "address": "0x37e04",
+          "pop": 0
+        },
+        {
+          "address": "0x37e0b",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@find_float_transfer_match@4",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x37e10",
+        "0x37f27"
+      ],
+      "returns": [
+        {
+          "address": "0x37ecd",
+          "pop": 0
+        },
+        {
+          "address": "0x37ed6",
+          "pop": 0
+        },
+        {
+          "address": "0x37f1e",
+          "pop": 0
+        },
+        {
+          "address": "0x37f26",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@can_reuse_float_load@4",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x37f30",
+        "0x3801c"
+      ],
+      "returns": [
+        {
+          "address": "0x37f43",
+          "pop": 0
+        },
+        {
+          "address": "0x37fd7",
+          "pop": 0
+        },
+        {
+          "address": "0x37fe1",
+          "pop": 0
+        },
+        {
+          "address": "0x37feb",
+          "pop": 0
+        },
+        {
+          "address": "0x38011",
+          "pop": 0
+        },
+        {
+          "address": "0x3801b",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@can_reuse_float_load_width@8",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x38020",
+        "0x38139"
+      ],
+      "returns": [
+        {
+          "address": "0x38031",
+          "pop": 0
+        },
+        {
+          "address": "0x3807a",
+          "pop": 0
+        },
+        {
+          "address": "0x38088",
+          "pop": 0
+        },
+        {
+          "address": "0x380d1",
+          "pop": 0
+        },
+        {
+          "address": "0x380f5",
+          "pop": 0
+        },
+        {
+          "address": "0x3812b",
+          "pop": 0
+        },
+        {
+          "address": "0x38138",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@combine_float_store_load@8",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x38140",
+        "0x3825f"
+      ],
+      "returns": [
+        {
+          "address": "0x38258",
+          "pop": 0
+        },
+        {
+          "address": "0x3825e",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@fold_float_compare_store@8",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x38260",
+        "0x3863a"
+      ],
+      "returns": [
+        {
+          "address": "0x38293",
+          "pop": 0
+        },
+        {
+          "address": "0x3834e",
+          "pop": 0
+        },
+        {
+          "address": "0x38359",
+          "pop": 0
+        },
+        {
+          "address": "0x38363",
+          "pop": 0
+        },
+        {
+          "address": "0x38376",
+          "pop": 0
+        },
+        {
+          "address": "0x38441",
+          "pop": 0
+        },
+        {
+          "address": "0x3844b",
+          "pop": 0
+        },
+        {
+          "address": "0x38455",
+          "pop": 0
+        },
+        {
+          "address": "0x38484",
+          "pop": 0
+        },
+        {
+          "address": "0x38579",
+          "pop": 0
+        },
+        {
+          "address": "0x3859b",
+          "pop": 0
+        },
+        {
+          "address": "0x385bb",
+          "pop": 0
+        },
+        {
+          "address": "0x385db",
+          "pop": 0
+        },
+        {
+          "address": "0x385fb",
+          "pop": 0
+        },
+        {
+          "address": "0x3862d",
+          "pop": 0
+        },
+        {
+          "address": "0x38639",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    },
+    {
+      "logical": "@fold_previous_float_load@8",
+      "abi": "fastcall",
+      "expected_stack_pop": 0,
+      "analyzed_extent": [
+        "0x38640",
+        "0x38808"
+      ],
+      "returns": [
+        {
+          "address": "0x38807",
+          "pop": 0
+        }
+      ],
+      "status": "named trapping child; unaccepted"
+    }
+  ],
+  "data_proof": "cases/floating-peephole-data-validation.json",
+  "notes": [
+    "Whole body recovered before acceptance, ordinary C control flow/typed operands/opcodes; no assembly implementation",
+    "Helpers remain unaccepted trapping entries, including unvisited branches",
+    "Native ELF table read and standalone register macro probe execute no Wine; arithmetic/condition values compared to bounded original data views"
+  ]
+}

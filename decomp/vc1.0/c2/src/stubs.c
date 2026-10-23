@@ -31,6 +31,8 @@
 #include "tree-rewrite.h"
 #include "records.h"
 #include "backend-passes.h"
+#include "float-peepholes.h"
+#include <recon.h>
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void initialize_debugging(void) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
@@ -87,7 +89,6 @@ int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
 #include "instruction-selection.h"
-void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
@@ -176,6 +177,7 @@ void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 #include "machine-layout.h"
 
 #include "instruction-encoding.h"
+#include "float-peepholes.h"
 #include <recon.h>
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
@@ -386,3 +388,13 @@ int __cdecl divide_extended(const Extended *left, const Extended *right, Extende
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
+const Extended *__fastcall floating_value_for_symbol(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineInstruction *store, MachineInstruction *first, MachineInstruction *last, int reversed, MachineInstruction *comparison) { __asm int 3 }
+int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruction *store) { __asm int 3 }
+MachineInstruction *__fastcall previous_float_load(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall find_float_transfer_match(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall can_reuse_float_load_width(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
+int __fastcall combine_float_store_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+int __fastcall fold_float_compare_store(MachineInstruction *instruction, MachineInstruction *branch) { __asm int 3 }
+void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }

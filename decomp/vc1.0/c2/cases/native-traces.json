@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "cae47aa75ecb751c06ce1bb66fafdd1eed396b1e8b4fc870e3e9e91ee9d8d4e6",
+    "functions.json": "1d2831114d59e7de80e20dec957decf082a547a767f9e2f60e1323fd898633f3",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -386,6 +386,14 @@
       "logical": "@can_repeat_tree@4",
       "source": "src/tree-types.c"
     },
+    "can_reuse_float_load": {
+      "logical": "@can_reuse_float_load@4",
+      "source": "src/stubs.c"
+    },
+    "can_reuse_float_load_width": {
+      "logical": "@can_reuse_float_load_width@8",
+      "source": "src/stubs.c"
+    },
     "can_rewrite_induction_comparison": {
       "logical": "@can_rewrite_induction_comparison@12",
       "source": "src/stubs.c"
@@ -393,6 +401,10 @@
     "can_schedule_pentium": {
       "logical": "@can_schedule_pentium@8",
       "source": "src/scheduler.c"
+    },
+    "can_split_float_transfer": {
+      "logical": "@can_split_float_transfer@8",
+      "source": "src/stubs.c"
     },
     "cancel_unary_factors": {
       "logical": "@cancel_unary_factors@12",
@@ -881,6 +893,10 @@
     "combine_factor_constants": {
       "logical": "@combine_factor_constants@12",
       "source": "src/algebra.c"
+    },
+    "combine_float_store_load": {
+      "logical": "@combine_float_store_load@8",
+      "source": "src/stubs.c"
     },
     "combine_frame_accesses": {
       "logical": "@combine_frame_accesses@8",
@@ -1450,6 +1466,10 @@
       "logical": "@find_flags_use@4",
       "source": "src/instruction-uses.c"
     },
+    "find_float_transfer_match": {
+      "logical": "@find_float_transfer_match@4",
+      "source": "src/stubs.c"
+    },
     "find_floating_constant": {
       "logical": "@find_floating_constant@8",
       "source": "src/value-selection.c"
@@ -1650,6 +1670,10 @@
       "logical": "@floating_constant_symbol@4",
       "source": "src/value-selection.c"
     },
+    "floating_value_for_symbol": {
+      "logical": "@floating_value_for_symbol@4",
+      "source": "src/stubs.c"
+    },
     "flush_queued_symbols": {
       "logical": "_flush_queued_symbols",
       "source": "src/symbol-output.c"
@@ -1678,6 +1702,10 @@
       "logical": "@fold_constant_node@4",
       "source": "src/tree-optimizer.c"
     },
+    "fold_float_compare_store": {
+      "logical": "@fold_float_compare_store@8",
+      "source": "src/stubs.c"
+    },
     "fold_floating_comparison": {
       "logical": "@fold_floating_comparison@4",
       "source": "src/stubs.c"
@@ -1701,6 +1729,10 @@
     "fold_local_tree": {
       "logical": "@fold_local_tree@4",
       "source": "src/tree-optimizer.c"
+    },
+    "fold_previous_float_load": {
+      "logical": "@fold_previous_float_load@8",
+      "source": "src/stubs.c"
     },
     "fold_special_node": {
       "logical": "@fold_special_node@4",
@@ -3016,7 +3048,7 @@
     },
     "peephole_selected_block": {
       "logical": "@peephole_selected_block@8",
-      "source": "src/stubs.c"
+      "source": "src/float-peepholes.c"
     },
     "pentium_flags_live_after": {
       "logical": "@pentium_flags_live_after@4",
@@ -3129,6 +3161,10 @@
     "prepare_work": {
       "logical": "@prepare_work@4",
       "source": "src/work-prepare.c"
+    },
+    "previous_float_load": {
+      "logical": "@previous_float_load@4",
+      "source": "src/stubs.c"
     },
     "previous_machine_operation": {
       "logical": "@previous_machine_operation@4",
@@ -4205,6 +4241,10 @@
     "splice_expressions": {
       "logical": "_splice_expressions",
       "source": "src/tree-references.c"
+    },
+    "split_float_memory_transfer": {
+      "logical": "@split_float_memory_transfer@24",
+      "source": "src/stubs.c"
     },
     "split_machine_instructions": {
       "logical": "@split_machine_instructions@4",
@@ -26002,6 +26042,75 @@
               "total_seconds": 1.4517222763970494
             }
           }
+        },
+        {
+          "accepted_function": "@peephole_selected_block@8",
+          "accepted_kind": "application",
+          "previous_logical": "@peephole_selected_block@8",
+          "original_extent": [
+            "0x359e0",
+            "0x3771c"
+          ],
+          "before": {
+            "path": "cases/floating-original-973.json",
+            "sha256": "86eae0b65700819f7ca74e3fc2f95442f11e5bd93ffe9f5e42a7576821266d39",
+            "capture": {
+              "label": "floating-original-973",
+              "profile": "floating",
+              "accepted": 973,
+              "events": "exception 80000003 rva 000259e0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2a5a4b6dfa7176e0be0ca54aeb119368272755a08c963c0f8d485fada9980d8e",
+              "config_sha256": "cae47aa75ecb751c06ce1bb66fafdd1eed396b1e8b4fc870e3e9e91ee9d8d4e6",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-wuhm0x4z",
+              "logical": "@peephole_selected_block@8",
+              "original_va": "0x359e0",
+              "setup_seconds": 0.20309769082814455,
+              "execution_seconds": 1.2423901660367846,
+              "check_seconds": 0.006233925931155682,
+              "total_seconds": 1.4517222763970494
+            }
+          },
+          "after": {
+            "path": "cases/floating-original-974.json",
+            "sha256": "a059db944c583c50360deb4ce557ea79356b4aafc1e8c8d7a7642342573d71d6",
+            "capture": {
+              "label": "floating-original-974",
+              "profile": "floating",
+              "accepted": 974,
+              "events": "exception 80000003 rva 00028140 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "444024725936f3757d420889c7aa500c3254d4afe6ffa785987688da81cce556",
+              "config_sha256": "1d2831114d59e7de80e20dec957decf082a547a767f9e2f60e1323fd898633f3",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-vpnh4egi",
+              "logical": "@combine_float_store_load@8",
+              "original_va": "0x38140",
+              "setup_seconds": 0.22158278990536928,
+              "execution_seconds": 1.2716455198824406,
+              "check_seconds": 0.007371768355369568,
+              "total_seconds": 1.5006005065515637
+            }
+          }
         }
       ]
     }
@@ -29623,7 +29732,7 @@
     },
     "floating": {
       "first": 941,
-      "last": 973,
+      "last": 974,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -30516,9 +30625,10 @@
         "arrange_x87_left",
         "x87_contains_node",
         "lookup_floating_opcode",
-        "peephole_selected_block"
+        "peephole_selected_block",
+        "combine_float_store_load"
       ],
-      "terminal": "@peephole_selected_block@8",
+      "terminal": "@combine_float_store_load@8",
       "terminal_kind": "application",
       "returncode": -5
     }
