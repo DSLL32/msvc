@@ -169,6 +169,19 @@ typedef struct { DWORD Characteristics,TimeDateStamp,ForwarderChain,Name,FirstTh
 typedef struct { DWORD NumberOfSymbols,LvaToFirstSymbol,NumberOfLinenumbers,LvaToFirstLinenumber,RvaToFirstByteOfCode,RvaToLastByteOfCode,RvaToFirstByteOfData,RvaToLastByteOfData; } IMAGE_COFF_SYMBOLS_HEADER;
 #pragma pack(pop)
 
+/* NT's frame-pointer-omission debug record (bundled WINNT.H). */
+#pragma pack(push,1)
+typedef struct _FPO_DATA {
+ DWORD ulOffStart,cbProcSize,cdwLocals;
+ WORD cdwParams;
+ WORD cbProlog:8,cbRegs:3,fHasSEH:1,fUseBP:1,reserved:1,cbFrame:2;
+} FPO_DATA,*PFPO_DATA;
+#pragma pack(pop)
+#define FRAME_FPO 0
+#define FRAME_TRAP 1
+#define FRAME_TSS 2
+#define SIZEOF_RFPO_DATA 16
+
 /* PE/COFF constants referenced by LINK, from the bundled NT headers. */
 #define IMAGE_DOS_SIGNATURE 0x5A4D
 #define IMAGE_NT_SIGNATURE 0x00004550

@@ -30,6 +30,19 @@ int main(void)
     assert(sizeof(IMAGE_SYMBOL)==18 && sizeof(IMAGE_AUX_SYMBOL)==18);
     assert(sizeof(IMAGE_RELOCATION)==10 && sizeof(IMAGE_LINENUMBER)==6);
     {
+        FPO_DATA fpo;
+        WORD packed;
+        assert(sizeof(fpo)==16 && offsetof(FPO_DATA,cdwParams)==12);
+        memset(&fpo,0,sizeof(fpo));
+        fpo.cbProlog=0xa7; fpo.cbRegs=5; fpo.fUseBP=1;
+        fpo.reserved=1; fpo.cbFrame=2;
+        memcpy(&packed,(char *)&fpo+14,2);
+        assert(packed==0xb5a7);
+        packed=0x6a13; memcpy((char *)&fpo+14,&packed,2);
+        assert(fpo.cbProlog==0x13 && fpo.cbRegs==2 && fpo.fHasSEH==1);
+        assert(fpo.fUseBP==0 && fpo.reserved==1 && fpo.cbFrame==1);
+    }
+    {
         WCHAR wide_result[2];
         unsigned char character;
         int value;
