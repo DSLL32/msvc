@@ -1,5 +1,5 @@
 {
-  "active": "hello-win32",
+  "active": "optimizer-loops",
   "queued": [
     {
       "case": "hello-win32",
@@ -7,13 +7,13 @@
       "fixture_manifest": "../fixtures/hello-win32/manifest.json",
       "phase": "c2",
       "description": "Original CL /O2 /G5 hello.c backend invocation",
-      "status": "in progress"
+      "status": "complete"
     },
     {
       "case": "optimizer-loops",
       "after": "hello-win32",
       "phase": "c2",
-      "status": "approved; pending independent original capture after hello",
+      "status": "active; original capture next",
       "description": "Nested loops, branches, loop-carried integer values and optimizer induction/control flow",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
     },
@@ -50,6 +50,14 @@
       "exit": 0,
       "object_bytes": 286,
       "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929"
+    },
+    {
+      "case": "hello-win32",
+      "accepted_frontiers": 840,
+      "reconstructed_functions": 762,
+      "exit": 0,
+      "object_bytes": 2289,
+      "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0"
     }
   ]
 }

@@ -1,7 +1,7 @@
-C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified839 acceptances/761 source graphs; matching coff_write_relocations6f110.
-WinMain scheduling/layout/code emission passed; COFF module finalization active.
-Extent union230628/399693=57.7012857368%, not branch coverage.
-Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-branch-layout-complete.json. No shared shim requests.
-Next extension BEFORE receipt is cases/hello-original-839.json.
+C2 ACTIVE: optimized hello complete at840 acceptances/762 source graphs.
+Minimal286-byte and hello2289-byte objects match after only timestamp normalization.
+Extent union230747/399693=57.7310585875%, not branch coverage.
+Next: capture approved optimizer-loops independently from original CL/frontend.
+Then register-pressure, aliasing and floating-point cases in cases/queue.json.
+Canonical/W3, audit, native fixtures and completion rejection tests pass.
+See cases/hello-completion.json. No shared shim requests.

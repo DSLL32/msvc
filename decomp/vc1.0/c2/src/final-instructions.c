@@ -117,7 +117,8 @@ negative_add:
             case MC_CMP:
                 if (OPERAND_KIND(left) == OPERAND_REGISTER && OPERAND_KIND(right) == OPERAND_IMMEDIATE &&
                     !right->value.constant) {
-                    SET_OPERATION(instruction, MC_TEST);
+                    /* Original2427c..24288 selects OR(0x30), not TEST. */
+                    SET_OPERATION(instruction, MC_OR);
                     flags = instruction->opcode;
                     instruction->opcode = (flags & ~HIGH_SECOND) | ((flags & HIGH_FIRST) << 1);
                     right->flags = (right->flags & ~15U) | OPERAND_REGISTER;

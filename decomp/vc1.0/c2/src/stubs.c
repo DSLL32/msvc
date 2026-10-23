@@ -235,7 +235,6 @@ void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset) { __asm int 3 }
 void __fastcall coff_line_marker(unsigned short marker) { __asm int 3 }
 void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int 3 }
-void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base) { __asm int 3 }
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }
 

@@ -843,7 +843,8 @@
     "@scheduled_instruction_changes_register@8",
     "@remove_pentium_ready_candidate@4",
     "@pair_pentium_taken_edge@16",
-    "@alignment_lookahead@4"
+    "@alignment_lookahead@4",
+    "@coff_write_relocations@8"
   ],
   "driver": [
     {
@@ -3868,8 +3869,7 @@
     {
       "name": "@coff_write_relocations@8",
       "start": 454928,
-      "end": 454929,
-      "provisional": true
+      "end": 455047
     },
     {
       "name": "@coff_write_lines@8",

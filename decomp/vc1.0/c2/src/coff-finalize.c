@@ -197,3 +197,24 @@ void coff_finalize(void)
         coff_flush_scope(coff_trailer_scope);
     }
 }
+
+/* Original [0006f110,0006f187). Relocation blocks form a tail-owned ring.
+   Emit each occupied block and splice the complete ring onto the free list. */
+void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base)
+{
+    CoffRelocationBlock *tail, *block;
+    unsigned i;
+    tail = contribution->relocations;
+    block = tail;
+    do {
+        block = block->next;
+        for (i = block->count; i; --i)
+            block->entries[i - 1].address += base;
+        if (fwrite(block->entries, sizeof(CoffRelocation), block->count, coff_file)
+            != block->count)
+            coff_error_handler(14, "d:\\usr\\cuda\\src\\P2\\coffemit.c", 0x9a9);
+    } while (block != tail);
+    block = tail->next;
+    tail->next = coff_free_relocations;
+    coff_free_relocations = block;
+}

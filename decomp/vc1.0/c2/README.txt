@@ -2127,3 +2127,17 @@ flag words confirm the reused flag-writing property.761 source graph checks,
 canonical/native builds, two modules W3 and native fixtures pass. Extent union
 230628/399693=57.7013%, not branch coverage. Final object remains incomplete;
 see cases/hello-branch-layout-complete.json for evidence and measured timings.
+
+Optimized hello complete: checkpoint840
+---------------------------------------
+COFF relocation serialization now finishes the object. Fresh masked original
+and native both exit0 with empty streams. Native hello.obj matches all2289
+bytes except the established four-byte COFF timestamp, normalized SHA256
+84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0.
+The final oracle caught three OR-vs-TEST bytes in CMP-zero finalization; original
+2427c..24288 selects OR0x30. Failed artifact/differences and correction are saved
+in cases/hello-completion.json.762 source graphs, canonical/native/W3 and native
+fixtures pass. Completed-reference extension rejects corrupt objects/nonzero
+or duplicated exit events. Explicit scripts/capture-original.py saves masked
+reference evidence outside fixtures; fixtures use only cached references.
+Continue the approved loops/register-pressure/aliasing/floating-point queue.

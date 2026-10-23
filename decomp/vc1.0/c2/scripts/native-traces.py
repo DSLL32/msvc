@@ -146,13 +146,17 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     assert name in records, 'unknown accepted original function'
     assert before['original_va'] == hex(records[name]['start'])
     terminal = after['logical']
-    assert terminal in records, 'unknown next original entry'
-    if terminal in application_names:
-        assert drivers[terminal].get('provisional'), 'next application entry must remain a named stub'
+    completed = terminal == 'exit:0'
+    if completed:
+        assert after['original_va'] is None and after['events'] == 'exit 0\n'
     else:
-        assert terminal in runtime, 'next nonapplication entry must have indexed CRT identity'
-    assert after['original_va'] == hex(records[terminal]['start'])
-    assert after['logical'] not in accepted
+        assert terminal in records, 'unknown next original entry'
+        if terminal in application_names:
+            assert drivers[terminal].get('provisional'), 'next application entry must remain a named stub'
+        else:
+            assert terminal in runtime, 'next nonapplication entry must have indexed CRT identity'
+        assert after['original_va'] == hex(records[terminal]['start'])
+        assert after['logical'] not in accepted
     case = cache['cases']['hello']
     assert case['last'] == old_count and case['terminal'] == before['logical']
     if name in application_names:
@@ -169,15 +173,31 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
         phase = json.loads(manifest.read_text())['phases']['c2']
         assert receipt['inputs'] == {r['path']:r['sha256'] for r in phase['inputs']}
         assert receipt['environment'] == phase['environment']
-        event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n', receipt['events'])
-        assert event and int(event[1],16)+int(event[2],16) == int(receipt['original_va'],16), 'reference trap address differs from named entry'
+        if receipt is after and completed:
+            outputs = receipt['outputs']
+            assert len(outputs) == len(phase['outputs'])
+            for artifact, expected in zip(outputs, phase['outputs']):
+                data = bytearray((BINARY/artifact['path']).read_bytes())
+                reference = bytearray((manifest.parent/expected['path']).read_bytes())
+                assert sha(manifest.parent/expected['path']) == expected['sha256']
+                assert len(data) == artifact['bytes'] and hashlib.sha256(data).hexdigest() == artifact['sha256']
+                assert artifact['ignored_timestamp'] == [4,4]
+                fields = expected['ignored_fields']
+                assert len(fields) == 1 and (fields[0]['offset'],fields[0]['bytes']) == (4,4)
+                data[4:8] = reference[4:8] = b'\0'*4
+                assert data == reference, 'completed original object differs beyond timestamp'
+                assert hashlib.sha256(data).hexdigest() == artifact['normalized_sha256'] == expected['normalized_sha256']
+        else:
+            event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n', receipt['events'])
+            assert event and int(event[1],16)+int(event[2],16) == int(receipt['original_va'],16), 'reference trap address differs from named entry'
     actual = definitions(directory)
     application = {native_name(n):n for n in drivers if n not in CRT}
     assert actual.keys() == application.keys(), 'unresolved native application identity'
     cache['application_definitions'] = {n:dict(logical=application[n], source=actual[n]) for n in sorted(actual)}
     case['last'] = len(accepted)
     case['terminal'] = after['logical']
-    case['terminal_kind'] = 'application' if terminal in application_names else 'runtime-library'
+    case['terminal_kind'] = 'exit' if completed else ('application' if terminal in application_names else 'runtime-library')
+    case['returncode'] = 0 if completed else -5
     if terminal in application_names:
         case['expected'].append(native_name(terminal))
     cache['metadata_sha256'] = {n:sha(BINARY/n) for n in ('functions.json','runtime.json')}

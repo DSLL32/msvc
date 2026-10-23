@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "063529c767bf61a49d17e0bbeee068202e53e171e97451fd8b43a82fedf37176",
+    "functions.json": "3ca58b12d9c283396f2d84667a9a451f02463efaba90eb1c818e8b67eb09dfa0",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -780,7 +780,7 @@
     },
     "coff_write_relocations": {
       "logical": "@coff_write_relocations@8",
-      "source": "src/stubs.c"
+      "source": "src/coff-finalize.c"
     },
     "coff_write_scope_data": {
       "logical": "@coff_write_scope_data@8",
@@ -15905,6 +15905,86 @@
               "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/alignment-lookahead-after"
             }
           }
+        },
+        {
+          "accepted_function": "@coff_write_relocations@8",
+          "accepted_kind": "application",
+          "previous_logical": "@coff_write_relocations@8",
+          "original_extent": [
+            "0x6f110",
+            "0x6f187"
+          ],
+          "before": {
+            "path": "cases/hello-original-839.json",
+            "sha256": "1acb85746768a80853a2bca12ac5eadcda7eba9c6a63996571c0a5d6d3247a42",
+            "capture": {
+              "label": "alignment-lookahead-after",
+              "accepted": 839,
+              "logical": "@coff_write_relocations@8",
+              "original_va": "0x6f110",
+              "events": "exception 80000003 rva 0005f110 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19289917312562466,
+              "execution_check_seconds": 1.1741821924224496,
+              "total_seconds": 1.3670820435509086,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "4f87ea4f324a7eb2ed186610d0a82f9ed7a753525968e42bfe86bd9d0523dfe9",
+              "config_sha256": "063529c767bf61a49d17e0bbeee068202e53e171e97451fd8b43a82fedf37176",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/alignment-lookahead-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-840.json",
+            "sha256": "4c24861109be430fb1826205238866787c5898c38a8114e6fd08c9484539afc8",
+            "capture": {
+              "label": "hello-original-840",
+              "profile": "hello",
+              "accepted": 840,
+              "events": "exit 0\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "1c2791d161c273400131750d805b8bb46a1da863a04bf6c86fb21e9b3c4996e3",
+              "config_sha256": "3ca58b12d9c283396f2d84667a9a451f02463efaba90eb1c818e8b67eb09dfa0",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-hello-l6bpm_4y",
+              "logical": "exit:0",
+              "original_va": null,
+              "outputs": [
+                {
+                  "path": "cases/hello-original-840/hello.obj",
+                  "name": "hello.obj",
+                  "bytes": 2289,
+                  "sha256": "0c869aeb6922cd785eb1b9a4620b3875328ffc32b9d83cb4bd0e9ba7f49cb467",
+                  "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+                  "ignored_timestamp": [
+                    4,
+                    4
+                  ]
+                }
+              ],
+              "setup_seconds": 0.19729823153465986,
+              "execution_seconds": 0.8706851173192263,
+              "check_seconds": 0.008437279611825943,
+              "total_seconds": 1.076420996338129
+            }
+          }
         }
       ],
       "extent_corrections": [
@@ -16541,7 +16621,7 @@
     },
     "hello": {
       "first": 352,
-      "last": 839,
+      "last": 840,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -17303,9 +17383,9 @@
         "alignment_lookahead",
         "coff_write_relocations"
       ],
-      "terminal": "@coff_write_relocations@8",
-      "returncode": -5,
-      "terminal_kind": "application"
+      "terminal": "exit:0",
+      "returncode": 0,
+      "terminal_kind": "exit"
     }
   }
 }
