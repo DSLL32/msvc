@@ -567,4 +567,9 @@ BufferBlock *first_buffer_block(const GrowingBuffer *buffer)
 {
     return buffer->first;
 }
+
+BufferBlock *next_buffer_block(const BufferBlock *block)
+{
+    return block->next;
+}
 #undef OUTPUT_BYTES

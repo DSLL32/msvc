@@ -6891,7 +6891,20 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "directory-output"
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     },
     {
       "name": "write_static_symbols",
@@ -7222,13 +7235,16 @@
       "native": "next_buffer_block",
       "symbol": "_next_buffer_block",
       "original": 143600,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        143600,
+        143608
+      ],
       "abi": "BufferBlock *next_buffer_block(const BufferBlock *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0138-next_buffer_block/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7239,7 +7255,21 @@
           "evidence": "cases/abi/next-name-buffer-block.json",
           "evidence_sha256": "c284a669a6c8040707af619327310531800adeb5f1d2a31112b5c23bc79d24bb"
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "append_fill",
@@ -8189,6 +8219,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 137
+    },
+    {
+      "function": "next_buffer_block",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 138
     }
   ],
   "support_unmasked": [
@@ -8799,7 +8835,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "00bc383a4cced77d341df4b0cf4c3acaf80c58f75192b6293739140639abc6a1"
+    "evidence_sha256": "55b8f044e6bb405116542f902a1aebd67d65ca7ec49b5ca84d1fc39fde204c1e"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8875,6 +8911,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "0d8167e890750cb18d4ce865ac9ddb30eb29924f4299095b373d461592a6fedb"
+    "sha256": "d36f41373e206929ab1e84523259cbeb82d909734845590ddd2d98acabd85f40"
   }
 }

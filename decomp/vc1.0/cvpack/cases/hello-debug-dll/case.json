@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "next_buffer_block",
-    "native_function": "next_buffer_block",
+    "logical": "write_global_symbols",
+    "native_function": "write_global_symbols",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -155,7 +155,8 @@
       "build_symbol_address_hash",
       "compare_symbol_address",
       "first_buffer_block",
-      "next_buffer_block"
+      "next_buffer_block",
+      "write_global_symbols"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",

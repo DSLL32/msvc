@@ -23,7 +23,7 @@ unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
 
 
-BufferBlock *next_buffer_block(const BufferBlock *block) { __asm { int 3 } return NULL; }
+
 void write_global_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
 void write_static_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
 unsigned long write_packed_types(void) { __asm { int 3 } return 0; }
