@@ -1,0 +1,75 @@
+{
+  "case": "minimal-c",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "@link.rsp"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "environment_inheritance": true,
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS"
+      ],
+      "working_directory": "link",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @Z:\\root\\.ai-tmp\\vc1.0-capture\\run\\000292lk",
+      "captured_LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+      "captured_environment_parameter": null,
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-out:test.exe \r\n-debug:none \r\ntest.obj \r\n",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "../../../../fixtures/minimal-c/link/test.obj",
+          "bytes": 286,
+          "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c"
+        },
+        {
+          "path": "../../../../fixtures/minimal-c/link/link.rsp",
+          "bytes": 38,
+          "sha256": "b2a43cc5fef4ece8154d10fd1b321bcb6acdb6d4474f932e08eebc7714f40d99"
+        }
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/lib/LIBC.LIB",
+          "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/test.exe",
+          "bytes": 2097152,
+          "sha256": "40ca2da38d6b6fbb3a8abf9282060c4c0351c412c919a122f0b2d64b7eaf67e5",
+          "output_name": "test.exe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16"
+        }
+      ],
+      "generated_program": {
+        "exit_status": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "canonical_working_directory": "S:\\vc1.0\\link\\minimal-c"
+    }
+  },
+  "source_reference": "decomp/vc1.0/fixtures/minimal-c",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

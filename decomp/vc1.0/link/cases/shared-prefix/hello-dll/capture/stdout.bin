@@ -1,0 +1,9 @@
+Microsoft (R) 32-Bit Executable Linker Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+-debug:none 
+-dll 
+-implib:hello.lib 
+-out:hello.dll 
+hello-dll.obj 
+   Creating library hello.lib and object hello.exp ...

@@ -1,0 +1,72 @@
+{
+  "case": "dump-edited",
+  "toolchain": "1.0-nt",
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/CL.EXE",
+      "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+    },
+    {
+      "path": "toolchains/1.0-nt/bin/CVPACK.EXE",
+      "sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/LIBCMT.LIB",
+      "sha256": "9dcf7b0aa9fa3005fc1f6d3ebf0da662f8da37ca15f5a914a0f11da20d873496"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/KERNEL32.LIB",
+      "sha256": "dae2fe533f7debcbfb1d65f41957299bc0dea1500b7c6207e18db0956ce6c4ea"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/USER32.LIB",
+      "sha256": "490ea3213de77e9c3ca623b2f446c0a26839ad602dbec1f2e65126187a0496ef"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/GDI32.LIB",
+      "sha256": "899f834cef75d17010c9dc466598bcb2e653c76c3077e6b33c5934a2b7aeda89"
+    }
+  ],
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-dump",
+        "/headers",
+        "edited.dll"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file edited.dll\r\n\r\nNT signature found\r\n\r\nFile Type: DLL\r\n\r\nFILE HEADER VALUES\r\n     14C machine (i386)\r\n       8 number of sections\r\n6AD9DA9B time date stamp Thu Oct 22 02:42:51 2026\r\n    4CEC file pointer to symbol table\r\n     219 number of symbols\r\n      E0 size of optional header\r\n    A182 characteristics\r\n            Executable\r\n            Bytes reversed\r\n            32 bit word machine\r\n            DLL\r\n\r\nOPTIONAL HEADER VALUES\r\n     10B magic #\r\n    2.23 linker version\r\n    1800 size of code\r\n    5200 size of initialized data\r\n     600 size of uninitialized data\r\n    26C0 address of entry point\r\n    1000 base of code\r\n    3000 base of data\r\n         ----- new -----\r\n  400000 image base\r\n    1000 section alignment\r\n     200 file alignment\r\n       2 subsystem (Windows GUI)\r\n     1.0 operating system version\r\n     0.0 image version\r\n     3.A subsystem version\r\n    B000 size of image\r\n     400 size of headers\r\n       1 checksum\r\n  180000 size of stack reserve\r\n    2000 size of stack commit\r\n  140000 size of heap reserve\r\n    2000 size of heap commit\r\n    9000 [      f0] address [size] of Export Directory\r\n    8000 [     476] address [size] of Import Directory\r\n    6000 [    10e4] address [size] of Resource Directory\r\n       0 [       0] address [size] of Exception Directory\r\n       0 [       0] address [size] of Security Directory\r\n    A000 [     1d8] address [size] of Base Relocation Directory\r\n    4000 [      54] address [size] of Debug Directory\r\n       0 [       0] address [size] of Description Directory\r\n       0 [       0] address [size] of Special Directory\r\n       0 [       0] address [size] of Thread Storage Directory\r\n\r\n\r\nSECTION HEADER #1\r\n   .text name\r\n    17F0 virtual size\r\n    1000 virtual address\r\n    1800 size of raw data\r\n     400 file pointer to raw data\r\n       0 file pointer to relocation table\r\n    4C20 file pointer to line numbers\r\n       0 number of relocations\r\n      22 number of line numbers\r\n60000020 flags\r\n         Code\r\n         (no align specified)\r\n         Execute Read\r\n\r\nSECTION HEADER #2\r\n    .bss name\r\n     470 virtual size\r\n    3000 virtual address\r\n     600 size of raw data\r\n       0 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000080 flags\r\n         Uninitialized Data\r\n         (no align specified)\r\n         Read Write\r\n\r\nSECTION HEADER #3\r\n  .rdata name\r\n     11F virtual size\r\n    4000 virtual address\r\n     200 size of raw data\r\n    1C00 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n40000040 flags\r\n         Initialized Data\r\n         (no align specified)\r\n         Read Only\r\n\r\n\r\nDebug Directories(3)\r\n\tType       Size     Address  Pointer\r\n\r\n\tcoff       42df           0     4c00\r\n\tcv         7484           0     a3f4\r\n\tfpo         380           0     a074\r\n\r\nSECTION HEADER #4\r\n   .data name\r\n     EC4 virtual size\r\n    5000 virtual address\r\n    1000 size of raw data\r\n    1E00 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000040 flags\r\n         Initialized Data\r\n         (no align specified)\r\n         Read Write\r\n\r\nSECTION HEADER #5\r\n   .rsrc name\r\n    10E4 virtual size\r\n    6000 virtual address\r\n    1200 size of raw data\r\n    2E00 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000040 flags\r\n         Initialized Data\r\n         (no align specified)\r\n         Read Write\r\n\r\nSECTION HEADER #6\r\n  .idata name\r\n     476 virtual size\r\n    8000 virtual address\r\n     600 size of raw data\r\n    4000 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000040 flags\r\n         Initialized Data\r\n         (no align specified)\r\n         Read Write\r\n\r\nSECTION HEADER #7\r\n  .edata name\r\n      F0 virtual size\r\n    9000 virtual address\r\n     200 size of raw data\r\n    4600 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n40000040 flags\r\n         Initialized Data\r\n         (no align specified)\r\n         Read Only\r\n\r\nSECTION HEADER #8\r\n  .reloc name\r\n     22A virtual size\r\n    A000 virtual address\r\n     400 size of raw data\r\n    4800 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n42000040 flags\r\n         Initialized Data\r\n         Discardable\r\n         (no align specified)\r\n         Read Only\r\n\r\n     Summary\r\n       .text     1800\r\n        .bss      600\r\n      .rdata      200\r\n       .data     1000\r\n       .rsrc     1200\r\n      .idata      600\r\n      .edata      200\r\n      .reloc      400\r\n",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "../../../../fixtures/link-library-tools/inputs/dump-edited/edited.dll",
+          "bytes": 71800,
+          "sha256": "92c9d1d4a8ec891f57a2c4b1c59b58c82f38f790fab9301926af869ded11f5c6"
+        }
+      ],
+      "outputs": [],
+      "canonical_working_directory": "S:\\vc1.0\\link\\dump-edited"
+    }
+  },
+  "source_reference": "decomp/vc1.0/fixtures/link-library-tools",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged",
+  "reference_artifact_parser": {
+    "path": "decomp/vc1.0/fixtures/link-library-tools/artifacts.py",
+    "bytes": 392,
+    "sha256": "fd3d5c57e8c929e327abff0dd864a956a2f940fba7f3796c9d5251c62012c8bf"
+  }
+}

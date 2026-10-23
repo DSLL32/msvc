@@ -1,0 +1,20 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "absolute-weak-unmatched",
+  "evidence": {
+    "scope": "Three weak/lazy/alias metadata records preserve original compiler instruction bytes. Public /include:_absolute_value retains an unmatched undefined external with NO relocation referencing it. /force emits actualLNK4016 and still creates stable image. No process-pointer serialization and no pointer normalization.",
+    "generator": {
+      "path": "scripts/build-absolute-weak-input.py",
+      "bytes": 3083,
+      "sha256": "4dbf736a99a2dbc423e2a9f8e3476943004c81552015396857eeb20e82f2b776"
+    },
+    "generator_arguments": [
+      "compile-directory",
+      "output-directory",
+      "--unmatched"
+    ],
+    "limits": "Companion values.obj external renamed _unmatched_name; reader scans nonmatching list. Matching undefined branch still has native backlink corruption, retained separately as rejected evidence.",
+    "catalog": "Original bin/LINK.ERR frozen explicitly. Original captures read same bytes beside original LINK.EXE. Native case copies it beside canonical native program path."
+  }
+}

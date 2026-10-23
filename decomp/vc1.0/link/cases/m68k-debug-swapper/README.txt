@@ -13,14 +13,12 @@ swapper payload in .swap. The swapper version WORD is native-order; subsequent
 count/size fields are big-endian, as emitted by the original. No Macintosh
 runtime execution, CodeView packing or external-process emulation is claimed.
 
-The .mscv resource stores the absolute output filename. Initial separate Z:path
-probes demonstrated that difference; their bytes were not normalized. The two
-accepted captures instead use the same actual DOS cwd N:\mac-debug. Native tests
-map their private case directory to N: and use the shared shim's validated
-RECON_CANONICAL_CWD; the captured N:\mac-debug\mac-debug.exe remains byte-exact.
-The full2MB repeated originals match after only three structurally identified
-clock fields: PE COFF timestamp, COFF debug-directory timestamp, and the matching
-big-endian .mscv timestamp. No path, padding, ordering or size normalization.
+The .mscv resource stores the absolute output filename. Active references were
+freshly captured twice at S:\vc1.0\link\m68k-debug-swapper and preserve that
+spelling byte-for-byte. cases/shared-prefix/m68k-debug-swapper is the current
+manifest/oracle; earlier case validation/state files are historical evidence.
+Only three structurally identified clock fields differ between repeated outputs.
+No path, padding, ordering or size normalization is used.
 
 Four readable C functions close the case in src/mac-debug.c: allocate the record
 array, collect section records, write Mac debug data and write swapper data.

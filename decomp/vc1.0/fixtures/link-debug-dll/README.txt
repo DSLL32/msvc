@@ -30,3 +30,12 @@ Run the shared archive/tools fixture:
 
 The original reconstruction cases remain separate. These files are immutable
 inputs/expected products; acceptance and replay evidence belongs under LINK.
+
+Capture-tool migration note: explicit original diagnostics use only the existing
+shared Wine prefix and fixed R:/S: mappings. Scratch is below
+~/.ai-tmp/msvc2/vc1.0/link/shared-capture-tools, protected by a capture lease.
+The frozen debug-link stdout/artifact embeds old tool paths: a shared-prefix
+run cannot match that old reference. This is reported as a comparison failure;
+no extra normalization or shared manifest/oracle replacement is permitted.
+Current LINK-owned active references are under link/cases/shared-prefix/.
+This tool is never called by a native fixture.

@@ -136,3 +136,9 @@ build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NAT
 
 native-trace-check: native-trace
 	$(PYTHON) scripts/check-native.py --trace
+
+# Explicit original-only analysis helper. Never a native fixture dependency.
+.PHONY: capture-helper
+capture-helper: prefix
+	mkdir -p $(HOME)/.ai-tmp/msvc2/vc1.0/link/tooling
+	$(TOOL) CL.EXE /nologo /Od /G3 /I$(RECON)/include '/FeS:\vc1.0\link\tooling\capture-original.exe' '/FoS:\vc1.0\link\tooling\capture-original.obj' src/capture-original.c

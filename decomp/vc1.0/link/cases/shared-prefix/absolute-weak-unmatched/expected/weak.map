@@ -1,0 +1,23 @@
+ weak
+
+ Timestamp is 6adb263a (Fri Oct 23 02:17:46 2026)
+
+ Preferred load address is 00010000
+
+ Start         Length     Name                   Class
+ 0001:00000000 0000003aH .text                   CODE
+
+  Address         Publics by Value              Rva+Base   Lib:Object
+
+ 0001:00000000       _lazy_name                 00011000 f weak.obj
+ 0001:00000000       _alias_name                00011000 f weak.obj
+ 0001:00000000       _weak_name                 00011000 f weak.obj
+ 0001:00000000       _default_target            00011000 f weak.obj
+ 0001:00000015       _entry                     00011015 f weak.obj
+
+ entry point at        0001:00000015
+
+ Static symbols
+
+
+FIXUPS: 101c 7 7

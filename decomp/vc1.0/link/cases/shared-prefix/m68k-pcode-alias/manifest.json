@@ -1,0 +1,65 @@
+{
+  "case": "m68k-pcode-alias",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-m68k.py",
+    "sha256": "a3e96ca6c5ed6e6ad1a137e48931ccdc54c579123cf9d1ea83b9e29360e37cf8"
+  },
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-pcode.exe",
+        "/debug:none",
+        "/fixed",
+        "mac-pcode.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "../../m68k-pcode-alias/inputs/mac-pcode.obj",
+          "bytes": 270,
+          "sha256": "55e770f845d7d1488f6e9134dd135338d0c042e019040f2ba7f3583807338bb4"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-pcode.exe",
+          "output_name": "mac-pcode.exe",
+          "artifact_kind": "m68k-pe",
+          "bytes": 2097152,
+          "sha256": "231b6786906bf9af77ffc8ab558f7618a0ce12b205110a06f34f8b1bd83b7e1a",
+          "normalized_sha256": "cf78d18f6f318d54a0eabfdf934865ac76ee4e36a1d9c7152b1b32219c76b85e",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "canonical_working_directory": "S:\\vc1.0\\link\\m68k-pcode-alias"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/m68k-pcode-alias",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

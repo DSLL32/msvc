@@ -372,16 +372,12 @@ unsigned descriptor validation, GetLastError behavior and EOF-flag clearing via
 native CRT _nhandle/_osfile globals. No assembly exception or section snapshot
 was added. Empty strings remain literals at use.
 
-The verbose debug DLL fixture exposed a remaining harness issue: LINK prints
-its recursive argv[0], so different per-label build/targets paths are observable.
-Each paired label now has an independent private Wine prefix and a mirrored Z:
-namespace. The canonical Z:\root\msvc2\toolchains\1.0-nt\bin\LINK.EXE name maps
-to that label's masked executable. All other filesystem entries are symlinks to
-the unchanged originals. Self-spawned LINK therefore remains the same paired
-image while verbose output, argv[0] and paths remain exact. No path substitution
-or output normalization is used. The debugger still follows the whole child
-process tree. The original debug fixture passes exact streams/artifacts and its
-HelloEntry load/call/paint/close/unload check through this namespace.
+Historical namespace checkpoint (retired): recursive argv[0] and verbose tool
+paths required a canonical logical executable identity in the former paired
+runner. That runner and its private namespaces are removed. Active explicit
+original captures now launch the untouched R: tool and mask only stopped process
+memory; native fixtures consume fresh fixed-R:/S: references. Earlier raw logs
+remain historical evidence and are not relabeled.
 
 Shared C++ helper archive creation is complete at 417 accepted frontiers (17
 added after the four completed baseline cases). The ordinary writer is readable

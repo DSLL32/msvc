@@ -1,0 +1,124 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "m68k-reloc-loader",
+  "evidence": {
+    "generator": {
+      "path": "scripts/build-m68k-input.py",
+      "sha256": "ea2a41444ca713aa60c9b12d0b241c8d4d3e2eb6574d9271c0728bf481cffd99",
+      "variant": "reloc-loader"
+    },
+    "failed_startup_fixup_probe": {
+      "directory": "/root/.ai-tmp/vc1.0-link/m68k-preparation/reloc-loader",
+      "capture_sha256": "1e305b521f595122ae6fff032045ea66c02576aa56ccf3dd00c00d4817adc6a5",
+      "original_exit": 4,
+      "diagnostic": "LNK1101: run-time fixups in startup segment",
+      "resolution": "Startup uses CTOT16 A5-relative jump-table relocation. Absolute code/data runtime fixups reside in non-startup CODE resource."
+    },
+    "scope": "Link-only constructed M68K inputs with four real relocations, defined loader marker and three code resources; no Macintosh runtime execution claim. All generated code/resource bytes are exact reference artifacts.",
+    "input_layout": {
+      "variant": "reloc-loader",
+      "machine": 616,
+      "header_bytes": 20,
+      "section_header_bytes": 40,
+      "symbol_offset": 254,
+      "symbol_record_bytes": 18,
+      "timestamp": 0,
+      "sections": [
+        {
+          "name": ".text",
+          "raw_offset": 180,
+          "raw_bytes": 8,
+          "flags": 1610612768,
+          "code_or_data_hex": "4ead00004e754e75",
+          "relocation_offset": 214,
+          "relocations": [
+            {
+              "offset": 2,
+              "symbol": 2,
+              "type": 8
+            }
+          ]
+        },
+        {
+          "name": ".text2",
+          "raw_offset": 188,
+          "raw_bytes": 14,
+          "flags": 1610612768,
+          "code_or_data_hex": "4eb9000000002039000000004e75",
+          "relocation_offset": 224,
+          "relocations": [
+            {
+              "offset": 2,
+              "symbol": 3,
+              "type": 11
+            },
+            {
+              "offset": 8,
+              "symbol": 4,
+              "type": 10
+            }
+          ]
+        },
+        {
+          "name": ".text3",
+          "raw_offset": 202,
+          "raw_bytes": 4,
+          "flags": 1610612768,
+          "code_or_data_hex": "70074e75",
+          "relocation_offset": 0,
+          "relocations": []
+        },
+        {
+          "name": ".data",
+          "raw_offset": 206,
+          "raw_bytes": 8,
+          "flags": 3221225536,
+          "code_or_data_hex": "0000002a00000000",
+          "relocation_offset": 244,
+          "relocations": [
+            {
+              "offset": 4,
+              "symbol": 4,
+              "type": 4
+            }
+          ]
+        }
+      ],
+      "symbols": [
+        {
+          "index": 0,
+          "name": "_main",
+          "value": 0,
+          "section": 1
+        },
+        {
+          "index": 1,
+          "name": "___Init32BitLoadSeg",
+          "value": 6,
+          "section": 1
+        },
+        {
+          "index": 2,
+          "name": "_helper",
+          "value": 0,
+          "section": 2
+        },
+        {
+          "index": 3,
+          "name": "_leaf",
+          "value": 0,
+          "section": 3
+        },
+        {
+          "index": 4,
+          "name": "_value",
+          "value": 0,
+          "section": 4
+        }
+      ],
+      "bytes": 368,
+      "sha256": "ee86b6debb342172329b06b92b456cb237f1afc2c63c70dffb80788e11f03951"
+    }
+  }
+}

@@ -18,43 +18,10 @@ import time
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
-CASES = {
-    'help': None,
-    'absolute-weak-unmatched': (BINARY/'cases/absolute-weak-unmatched','link'),
-    'absolute-weak': (BINARY/'cases/absolute-weak','link'),
-    'dump-fpo-object': (BINARY/'cases/dump-fpo-object','dump'),
-    'dump-fpo-map': (BINARY/'cases/dump-fpo-map','dump'),
-    'cpp-pointer-status': (BINARY/'cases/cpp-pointer-status','dump'),
-    'cpp-template-status': (BINARY/'cases/cpp-template-status','dump'),
-    'cpp-based-vbtable': (BINARY/'cases/cpp-based-vbtable','dump'),
-    'm68k-dupcon': (BINARY/'cases/m68k-dupcon','link'),
-    'm68k-pcode-alias': (BINARY/'cases/m68k-pcode-alias','link'),
-    'm68k-static-resources': (BINARY/'cases/m68k-static-resources','link'),
-    'm68k-debug-swapper': (BINARY/'cases/m68k-debug-swapper','link'),
-    'definition-directives': (BINARY/'cases/definition-directives','library'),
-    'm68k-minimal': (BINARY/'cases/m68k-minimal','link'),
-    'm68k-reloc-loader': (BINARY/'cases/m68k-reloc-loader','link'),
-    'dump-disasm-x86-rich': (BINARY/'cases/disassembler-x86-rich', 'dump'),
-    'dump-disasm-code': (BINARY/'cases/disassembler-code', 'dump'),
-    'dump-disasm-data': (BINARY/'cases/disassembler-data', 'dump'),
-    'library-create': ('link-library-tools', 'create'),
-    'library-list': ('link-library-tools', 'list'),
-    'library-extract': ('link-library-tools', 'extract'),
-    'library-remove': ('link-library-tools', 'remove'),
-    'library-list-trimmed': ('link-library-tools', 'list-trimmed'),
-    'dump-library': ('link-library-tools', 'dump-library'),
-    'dump-object': ('link-library-tools', 'dump-object'),
-    'dump-dll': ('link-library-tools', 'dump-dll'),
-    'dump-edited': ('link-library-tools', 'dump-edited'),
-    'edit': ('link-library-tools', 'edit'),
-    'omf-library': ('link-omf', 'library'),
-    'omf-link': ('link-omf', 'link'),
-    'cpp-undecorate': ('link-undecorate', 'dump'),
-    'minimal-c': ('minimal-c', 'link'),
-    'hello-win32': ('hello-win32', 'link'),
-    'hello-dll': ('hello-dll', 'link'),
-    'hello-debug-dll': ('link-debug-dll', 'link'),
-}
+from case_paths import PROGRAM, LIBRARY, SCRATCH, native_work
+REFERENCE_INDEX = BINARY/'cases/reference-cases.json'
+CASES = {name:(BINARY/record['directory'],'reference')
+         for name,record in json.loads(REFERENCE_INDEX.read_text()).items()}
 
 
 def sha(data):
@@ -70,6 +37,17 @@ def captured(path, record):
 
 
 def parser_module(fixture=None,metadata=None):
+    if metadata and metadata.get('reference_artifact_parser'):
+        record=metadata['reference_artifact_parser']
+        path=(ROOT/record['path']).resolve()
+        assert path in {FIXTURES/n/'artifacts.py' for n in
+                       ('link-debug-dll','hello-dll','hello-win32','minimal-c',
+                        'link-library-tools','link-omf','link-undecorate')}
+        captured(path,record)
+        spec=importlib.util.spec_from_file_location('native_reference_artifacts',path)
+        module=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
     if metadata and metadata.get('artifact_parser'):
         record=metadata['artifact_parser']
         path=(BINARY/record['path']).resolve()
@@ -106,11 +84,16 @@ def validate_output(work, fixture, record, parser):
 
 def run_case(name, executable, directory, parser, state, tracing=None):
     start = time.perf_counter()
-    work = directory / name
-    work.mkdir()
+    case_directory = directory / name
+    fixture, phase_name = CASES[name]
+    metadata_path = fixture/'manifest.json'
+    metadata = json.loads(metadata_path.read_text())
+    phase = metadata['phases'][phase_name]
+    work, drives = native_work(case_directory,phase['canonical_working_directory'])
     env = {key:value for key,value in os.environ.items()
            if not key.startswith('RECON_')}
-    env['RECON_PROGRAM_PATH'] = str(work / 'LINK.EXE')
+    env.update(drives)
+    env['RECON_PROGRAM_PATH'] = PROGRAM
     for key in ('CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS', 'LINK32_DB'):
         env.pop(key, None)
     # A private, empty temporary directory prevents accidental host inputs.
@@ -120,59 +103,26 @@ def run_case(name, executable, directory, parser, state, tracing=None):
     # Original captures use the NT CRT Pacific timezone (including DST).
     env['TZ'] = 'PST8PDT'
     env['LC_ALL'] = 'C'
-    if name == 'help':
-        metadata_path = BINARY / 'cases/help.json'
-        metadata = json.loads(metadata_path.read_text())
-        args, expected_exit = ['/?'], metadata['exit_status']
-        # Cached original help used wine-tool.py's LIB setting. This affects
-        # search-path function entry order even though help output is identical.
-        env['LIB'] = str(ROOT/'toolchains/1.0-nt/lib')
-        fixture, phase = None, None
-    else:
-        fixture_name, phase_name = CASES[name]
-        fixture = FIXTURES / fixture_name
-        metadata_path = fixture / 'manifest.json'
-        metadata = json.loads(metadata_path.read_text())
-        phase = metadata['phases'][phase_name]
-        parser = parser_module(fixture,metadata)
-        args, expected_exit = phase['arguments'], phase['expected_exit']
-        canonical=phase.get('canonical_working_directory')
-        if canonical:
-            assert canonical.startswith('N:\\') and len(canonical.split('\\'))==2
-            root=work
-            work=root/canonical.split('\\')[-1]
-            work.mkdir()
-            env['RECON_DRIVE_N']=str(root)
-            env['RECON_CANONICAL_CWD']=canonical
-            env['RECON_PROGRAM_PATH']=str(work/'LINK.EXE')
-        for key in phase.get('unset_environment', []):
-            env.pop(key, None)
-        for key, value in phase.get('environment', {}).items():
-            env[key] = value.replace('{lib}', str(ROOT / 'toolchains/1.0-nt/lib'))
-        for item in phase['inputs']:
-            data = captured(fixture / item['path'], item)
-            target = work / Path(item['path']).name
-            assert not target.exists(), 'duplicate input basename'
-            target.write_bytes(data)
-        for item in metadata.get('toolchain_dependencies', [])+phase.get('toolchain_dependencies', []):
-            captured(ROOT / item['path'], item)
-        # Verify all output references before running anything.
-        for item in phase.get('outputs', []):
-            captured(fixture / item['path'], item)
-    if name == 'edit':
-        catalog = json.loads((BINARY / 'cases/library-edit.json').read_text())['catalog']
-        (work / 'link.err').write_bytes(captured(ROOT / catalog['path'], catalog))
+    parser = parser_module(fixture,metadata)
+    args, expected_exit = phase['arguments'], phase['expected_exit']
+    for key in phase.get('unset_environment', []):
+        env.pop(key, None)
+    for key, value in phase.get('environment', {}).items():
+        env[key] = value.replace('{lib}', LIBRARY)
+    for item in phase['inputs']:
+        data = captured(fixture / item['path'], item)
+        target = work / Path(item['path']).name
+        assert not target.exists(), 'duplicate input basename'
+        target.write_bytes(data)
+    for item in metadata.get('toolchain_dependencies', [])+phase.get('toolchain_dependencies', []):
+        captured(ROOT / item['path'], item)
+    for item in phase.get('outputs', []):
+        captured(fixture / item['path'], item)
     trace_options = {}
     trace_stream = state_stream = None
     process_fixture = None
-    if name in ('hello-win32','hello-dll','hello-debug-dll'):
-        canonical = r'Z:\root\msvc2\toolchains\1.0-nt\bin\LINK.EXE'
-        env['RECON_PROGRAM_PATH'] = canonical
-        env['LIB'] = r'Z:\root\msvc2\toolchains\1.0-nt\lib'
-        trace_options['executable'] = str(executable)
-        launch_program = canonical
-    else:
-        launch_program = str(executable)
+    trace_options['executable'] = str(executable)
+    launch_program = PROGRAM
     if tracing is not None:
         cache = tracing['cache']
         entry = cache['cases'][tracing['aliases'].get(name,name)]
@@ -275,7 +225,7 @@ def main():
     assert executable.read_bytes()[:4] == b'\x7fELF', 'native checker requires ELF'
     directory = options.directory
     if directory is None:
-        scratch = Path.home() / '.ai-tmp/vc1.0-link'
+        scratch = SCRATCH/'vc1.0/link/native'
         scratch.mkdir(parents=True, exist_ok=True)
         directory = Path(tempfile.mkdtemp(prefix='native-check-', dir=scratch))
     else:

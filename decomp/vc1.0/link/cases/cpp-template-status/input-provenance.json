@@ -1,0 +1,14 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "cpp-template-status",
+  "evidence": {
+    "generator": {
+      "path": "scripts/build-undecorate-grammar-input.py",
+      "bytes": 1226,
+      "sha256": "b61f552ccd3b7264f7b3b48a1624d9dc67aeab6a987079e15eed693a8f342333"
+    },
+    "scope": "Authored valid COFF symbols for old formatter grammar and incomplete-name states, not compiler output. CL template source probe fails and is recorded separately. Box-qualified template spellings remain decorated; incomplete template and function names render original ?? status tokens. Quoted based-segment syntax exercises native keyword19.",
+    "symbol_string_padding": "Each explicit name has four NUL bytes before next string-table entry, declared in string-table size; valid fixture input, no output padding normalization."
+  }
+}

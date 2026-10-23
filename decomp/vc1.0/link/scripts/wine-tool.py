@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the original NT toolchain in this reconstruction's private prefix."""
+"""Run explicit original-toolchain builds in the repository shared Wine prefix."""
 import os
 from pathlib import Path
 import subprocess
@@ -7,16 +7,12 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[4]
 TC = ROOT / 'toolchains/1.0-nt'
-PREFIX = Path.home() / '.ai-tmp/vc1.0-link/wine'
-
-def windows(path):
-    return 'Z:' + str(Path(path).resolve()).replace('/', '\\')
+from case_paths import PREFIX, SCRATCH, windows
 
 def environment():
     env = os.environ.copy()
     env.update(WINEPREFIX=str(PREFIX), WINEARCH='win32', WINEDEBUG='-all',
                INCLUDE=windows(TC / 'include'), LIB=windows(TC / 'lib'))
-    env['WINESERVER'] = '/usr/lib/wine/wineserver64'
     env['WINEPATH'] = windows(TC / 'bin')
     env.pop('CL', None)
     env.pop('_CL_', None)
@@ -24,11 +20,9 @@ def environment():
 
 if __name__ == '__main__':
     if sys.argv[1] == '--init':
-        if not (PREFIX / 'system.reg').exists():
-            PREFIX.parent.mkdir(parents=True, exist_ok=True)
-            subprocess.run(['wineboot', '-u'], env=environment(), check=True)
-        subprocess.run(['wineserver', '-p'], env=environment(),
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+        assert (PREFIX/'system.reg').exists(), 'Shared Wine prefix must be provisioned by owner'
+        assert (PREFIX/'dosdevices/r:').resolve()==ROOT
+        assert (PREFIX/'dosdevices/s:').resolve()==SCRATCH
         sys.exit(0)
-    sys.exit(subprocess.call(['wine', str(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
+    sys.exit(subprocess.call(['wine', windows(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
                              env=environment()))

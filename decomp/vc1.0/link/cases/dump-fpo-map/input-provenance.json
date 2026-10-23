@@ -1,0 +1,9 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "dump-fpo-map",
+  "evidence": {
+    "input": "Exact original-backed pre-CVPACK DLL from cases/native-boundaries/hello-debug-dll/before.dll; no new compiler/cvpack execution.",
+    "scope": "Public FPO data and symbol-map dumping, using56 FPO entries and COFF symbols already present in trusted frozen image."
+  }
+}

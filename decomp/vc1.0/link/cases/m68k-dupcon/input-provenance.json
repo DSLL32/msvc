@@ -1,0 +1,84 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "m68k-dupcon",
+  "evidence": {
+    "generator": {
+      "path": "scripts/build-mac-dupcon-input.py",
+      "bytes": 1016,
+      "sha256": "22d91bb02d9c6a72102706a32248951055b8a7d219987585aed7874afb48c97c"
+    },
+    "writer": {
+      "path": "scripts/build-mac-static-input.py",
+      "bytes": 1739,
+      "sha256": "cf80f1ba63d2c6e7141c2f49733a6ca2fa072bfb0afe19753d66bd33f7158948"
+    },
+    "layout": {
+      "sections": [
+        {
+          "name": ".text",
+          "data": "4e7100004e754e75",
+          "flags": "0x60000020",
+          "relocations": [
+            [
+              2,
+              3,
+              41
+            ]
+          ]
+        },
+        {
+          "name": ".text2",
+          "data": "4e75",
+          "flags": "0x60000020",
+          "relocations": []
+        },
+        {
+          "name": ".dup",
+          "data": "4eb9000000004e75",
+          "flags": "0x60000020",
+          "relocations": [
+            [
+              2,
+              2,
+              12
+            ]
+          ]
+        }
+      ],
+      "symbols": [
+        [
+          "_main",
+          0,
+          1,
+          32,
+          2
+        ],
+        [
+          "___Init32BitLoadSeg",
+          6,
+          1,
+          32,
+          2
+        ],
+        [
+          "_helper",
+          0,
+          2,
+          32,
+          2
+        ],
+        [
+          "_copyfn",
+          0,
+          3,
+          32,
+          2
+        ]
+      ],
+      "bytes": 274,
+      "sha256": "1a5b1cd2833acf064a2c10d3d833d922ea8ffc110acac4de5c204bf1b455fb41"
+    },
+    "normalization": "Repeated complete2MB originals match after only structural PE COFF timestamp; no path/padding/output-order normalization. No runtime execution."
+  }
+}

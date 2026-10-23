@@ -1,0 +1,41 @@
+{
+  "case": "cpp-template-status",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-dump",
+        "/symbols",
+        "/undecorate",
+        "grammar.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "../../cpp-template-status/inputs/grammar.obj",
+          "bytes": 454,
+          "sha256": "b0f3fe90650c7d118b03634af265b058bcedef8891a8b23718e0b28a5ccffd89"
+        }
+      ],
+      "outputs": [],
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file grammar.obj\r\n\r\nFile Type: COFF OBJECT\r\n\r\nSYMBOL TABLE\r\n000 00000000 (int __based(__segname(\"segment\")) * __based(__segname(\"segment\"))  quoted) SECT1 notype       External\r\n001 00000000 (?get@?$Box@H@@@QAEHXZ)          SECT1 notype       External\r\n002 00000000 (?value@@3V?Box@H@@@A)           SECT1 notype       External\r\n003 00000000 (?get@?$Box@H@@QAEHXZ)           SECT1 notype       External\r\n004 00000000 (?value@@3V?Box@H@@A)            SECT1 notype       External\r\n005 00000000 ( ?? * ??  cut)                  SECT1 notype       External\r\n006 00000000 (int  __cdecl call(void) throw( ?? )) SECT1 notype       External\r\n007 00000000 (class  ??   ??  typed)          SECT1 notype       External\r\n008 00000000 (int  __cdecl argument(int, ?? ) throw( ?? )) SECT1 notype       External\r\n009 00000000 (class  ?? ::template < ?? >  ??  bad) SECT1 notype       External\r\n\r\nSTRING TABLE size = 0xd2 bytes\r\n\r\n     Summary\r\n       .data        4\r\n",
+      "expected_stderr": "",
+      "canonical_working_directory": "S:\\vc1.0\\link\\cpp-template-status"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/cpp-template-status",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

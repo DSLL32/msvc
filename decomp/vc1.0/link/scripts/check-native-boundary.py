@@ -14,7 +14,7 @@ def main():
     spec = importlib.util.spec_from_file_location('native_boundary_checks',Path(__file__).with_name('native-processes.py'))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    scratch = Path.home()/'.ai-tmp/vc1.0-link'
+    scratch = Path.home()/'.ai-tmp/msvc2/vc1.0/link/native'
     scratch.mkdir(parents=True,exist_ok=True)
     directory = Path(tempfile.mkdtemp(prefix='boundary-rejections-',dir=scratch))
     source = (BINARY/'cases/native-boundaries/hello-debug-dll/before.dll').read_bytes()

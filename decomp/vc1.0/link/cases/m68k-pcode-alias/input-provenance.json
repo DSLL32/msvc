@@ -1,0 +1,88 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "m68k-pcode-alias",
+  "evidence": {
+    "generator": {
+      "path": "scripts/build-mac-pcode-input.py",
+      "bytes": 1058,
+      "sha256": "75da7dbc48487dd2fb43b2a855bdaa7f638d5f718fd7d71bc552bae95ed06f1e"
+    },
+    "writer": {
+      "path": "scripts/build-mac-static-input.py",
+      "bytes": 1739,
+      "sha256": "cf80f1ba63d2c6e7141c2f49733a6ca2fa072bfb0afe19753d66bd33f7158948"
+    },
+    "layout": {
+      "sections": [
+        {
+          "name": ".text",
+          "data": "4ead00004e75",
+          "flags": "0x60000020",
+          "relocations": [
+            [
+              2,
+              1,
+              8
+            ]
+          ]
+        },
+        {
+          "name": ".text2",
+          "data": "4e750000000080000000",
+          "flags": "0x60000020",
+          "relocations": [
+            [
+              2,
+              1,
+              20
+            ],
+            [
+              6,
+              1,
+              20
+            ]
+          ]
+        },
+        {
+          "name": ".data",
+          "data": "00000000",
+          "flags": "0xc0000040",
+          "relocations": [
+            [
+              0,
+              1,
+              3
+            ]
+          ]
+        }
+      ],
+      "symbols": [
+        [
+          "_main",
+          0,
+          1,
+          32,
+          2
+        ],
+        [
+          "_pfunc",
+          0,
+          2,
+          32800,
+          2
+        ],
+        [
+          "__nep_pfunc",
+          0,
+          2,
+          32,
+          2
+        ]
+      ],
+      "bytes": 270,
+      "sha256": "55e770f845d7d1488f6e9134dd135338d0c042e019040f2ba7f3583807338bb4"
+    },
+    "normalization": "Repeated complete2MB originals match after only structural PE COFF timestamp; no path/padding/output-order normalization. No runtime execution."
+  }
+}

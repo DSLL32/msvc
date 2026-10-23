@@ -1,0 +1,65 @@
+{
+  "case": "m68k-reloc-loader",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-m68k.py",
+    "sha256": "a3e96ca6c5ed6e6ad1a137e48931ccdc54c579123cf9d1ea83b9e29360e37cf8"
+  },
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-reloc.exe",
+        "/debug:none",
+        "/fixed",
+        "mac-reloc.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "../../m68k-reloc-loader/inputs/mac-reloc.obj",
+          "bytes": 368,
+          "sha256": "ee86b6debb342172329b06b92b456cb237f1afc2c63c70dffb80788e11f03951"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-reloc.exe",
+          "output_name": "mac-reloc.exe",
+          "artifact_kind": "m68k-pe",
+          "bytes": 2097152,
+          "sha256": "662ef35bd40b20e2e027bd1728efd401955192f17f8e21e0dfab3c33e8f969f4",
+          "normalized_sha256": "05690942131f6626b09230ea61e14466ccc8978001536953df65d44bd7f81092",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "canonical_working_directory": "S:\\vc1.0\\link\\m68k-reloc-loader"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/m68k-reloc-loader",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

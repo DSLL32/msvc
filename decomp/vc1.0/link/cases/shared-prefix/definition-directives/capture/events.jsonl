@@ -1,0 +1,7 @@
+{"event":"create","pid":852,"parent":836,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /def:directives.def /out:directives.lib /name:directives.dll /machine:ix86 test.obj"}
+{"event":"entry","pid":852,"rva":106496,"name":"read_definition_sizes"}
+{"event":"entry","pid":852,"rva":106800,"name":"read_definition_sections"}
+{"event":"entry","pid":852,"rva":108912,"name":"find_definition_attribute"}
+{"event":"entry","pid":852,"rva":108560,"name":"read_definition_imports"}
+{"event":"exit","pid":852,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

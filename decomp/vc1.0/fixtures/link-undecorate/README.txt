@@ -14,4 +14,9 @@ coverage is claimed. These are fixture inputs, not reconstruction implementation
 
 From repository root:
  python3 decomp/vc1.0/fixtures/link-undecorate/capture-original.py
-Scratch receipt: ~/.ai-tmp/vc1.0-link/omf-undecorate-capture.
+Explicit capture scratch: ~/.ai-tmp/msvc2/vc1.0/link/shared-capture-tools/link-undecorate.
+
+The explicit original-only capture tool uses the existing shared Wine prefix
+and fixed R:/S: mappings with its own capture lease. It never creates/remaps a
+drive or private prefix. These frozen phase outputs still match under the shared
+setup; inputs/manifests/oracles are unchanged. Native fixtures never call it.

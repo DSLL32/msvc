@@ -1,0 +1,18 @@
+{"event":"create","pid":1124,"parent":1116,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /all helpers.lib"}
+{"event":"entry","pid":1124,"rva":130784,"name":"dumper_main"}
+{"event":"entry","pid":1124,"rva":131600,"name":"process_dump_options"}
+{"event":"entry","pid":1124,"rva":133056,"name":"dump_file"}
+{"event":"entry","pid":1124,"rva":134048,"name":"dump_archive_header"}
+{"event":"entry","pid":1124,"rva":134480,"name":"dump_headers"}
+{"event":"entry","pid":1124,"rva":88704,"name":"valid_coff_machine"}
+{"event":"entry","pid":1124,"rva":143216,"name":"dump_string_table"}
+{"event":"entry","pid":1124,"rva":136224,"name":"dump_sections"}
+{"event":"entry","pid":1124,"rva":148640,"name":"valid_dump_range"}
+{"event":"entry","pid":1124,"rva":140304,"name":"dump_relocations"}
+{"event":"entry","pid":1124,"rva":142880,"name":"dump_lines"}
+{"event":"entry","pid":1124,"rva":145312,"name":"print_dump_symbol_name"}
+{"event":"entry","pid":1124,"rva":143632,"name":"dump_coff_symbols"}
+{"event":"entry","pid":1124,"rva":144096,"name":"print_dump_symbol"}
+{"event":"entry","pid":1124,"rva":145472,"name":"print_dump_auxiliary"}
+{"event":"exit","pid":1124,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

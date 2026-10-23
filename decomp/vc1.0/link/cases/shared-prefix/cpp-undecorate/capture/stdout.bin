@@ -1,0 +1,76 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file names.lib
+!<arch>
+
+File Type: LIBRARY
+
+SYMBOL TABLE
+000 00000000 .file                            DEBUG notype       Filename
+    names.cpp
+002 00000000 .drectve                         SECT1 notype       Static
+    Section length   28, #relocs    0, #linenums    0
+004 00000000 .data                            SECT2 notype       Static
+    Section length    4, #relocs    0, #linenums    0
+006 00000000 (public: static long  Widget::count) SECT2 notype       External
+007 00000000 .text                            SECT3 notype       Static
+    Section length  266, #relocs   11, #linenums    0
+009 00000000 (public:  __thiscall Widget::Widget(int)) SECT3 notype ()    External
+00A 00000000 (public: virtual void *  __thiscall Widget::`scalar deleting destructor'(unsigned int)) UNDEF notype ()    External
+00B 00000000 .text                            SECT4 notype       Static
+    Section length   38, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)
+00D 00000000 (public: virtual void *  __thiscall Widget::`vector deleting destructor'(unsigned int)) UNDEF notype ()    WeakExternal
+    Default index        a library search
+00F 00000000 (const  Widget::`vftable')       UNDEF notype       External
+010 00000000 .data                            SECT5 notype       Static
+    Section length    8, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)
+012 00000000 (const  Widget::`vftable')       SECT5 notype       External
+013 00000033 (public: virtual  __thiscall Widget::~Widget(void)) SECT3 notype ()    External
+014 00000058 (public: virtual int  __thiscall Widget::compute(int)const ) SECT3 notype ()    External
+015 00000079 (public: int  __thiscall Widget::operator+(class Widget const &)const ) SECT3 notype ()    External
+016 0000009D (public:  __thiscall Widget::operator`long' (void)const ) SECT3 notype ()    External
+017 000000B9 (public: static int  __cdecl Widget::twice(int)) SECT3 notype ()    External
+018 000000CE (public:  __thiscall Gadget::Gadget(int)) SECT3 notype ()    External
+019 00000000 (public: virtual void *  __thiscall Gadget::`scalar deleting destructor'(unsigned int)) UNDEF notype ()    External
+01A 00000000 .text                            SECT6 notype       Static
+    Section length   38, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)
+01C 00000000 (public: virtual void *  __thiscall Gadget::`vector deleting destructor'(unsigned int)) UNDEF notype ()    WeakExternal
+    Default index       19 library search
+01E 00000000 (const  Gadget::`vftable')       UNDEF notype       External
+01F 00000000 .data                            SECT7 notype       Static
+    Section length    8, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)
+021 00000000 (const  Gadget::`vftable')       SECT7 notype       External
+022 000000FD (public: virtual int  __thiscall Gadget::compute(int)const ) SECT3 notype ()    External
+023 00000121 (int  __cdecl overload(int &))   SECT3 notype ()    External
+024 00000136 (long  __cdecl overload(char const *)) SECT3 notype ()    External
+025 0000014C (int  __cdecl overload(enum Shade)) SECT3 notype ()    External
+026 0000015F (int  __stdcall stdcall_function(int,long const volatile *)) SECT3 notype ()    External
+027 00000179 (int  __fastcall fastcall_function(int,int)) SECT3 notype ()    External
+028 00000198 (int ( __cdecl* __cdecl return_transform(int ( __cdecl*)(int)))(int)) SECT3 notype ()    External
+029 000001AB (int  __cdecl member_pointer(class Widget &,int ( __stdcall__segname(" Widget)()__far)) SECT3 notype ()    External
+02A 000001C3 (int  __cdecl array_reference(int (&)[3])) SECT3 notype ()    External
+02B 000001DE (int  __cdecl use_names(void))   SECT3 notype ()    External
+02C 00000000 (public: virtual  __thiscall Gadget::~Gadget(void)) UNDEF notype ()    External
+02D 00000000 .text                            SECT8 notype       Static
+    Section length   1E, #relocs    1, #linenums    0, checksum        0, selection    2 (pick any)
+02F 00000000 (public: int  __thiscall IntBox::sum(int ( __cdecl*)(int))const ) UNDEF notype ()    External
+030 00000000 .text                            SECT9 notype       Static
+    Section length   52, #relocs    0, #linenums    0, checksum        0, selection    2 (pick any)
+032 00000000 ([thunk]:`vcall{4,{ this,  call,  vfptr}}' ) UNDEF notype ()    External
+033 00000000 .text                            SECTA notype       Static
+    Section length    5, #relocs    0, #linenums    0, checksum        0, selection    2 (pick any)
+035 00000000 (public: int  __thiscall IntBox::sum(int ( __cdecl*)(int))const ) SECT9 notype ()    External
+036 00000000 (public: virtual void *  __thiscall Widget::`scalar deleting destructor'(unsigned int)) SECT4 notype ()    External
+037 00000000 (void  __cdecl operator delete(void *)) UNDEF notype ()    External
+038 00000000 (public: virtual void *  __thiscall Gadget::`scalar deleting destructor'(unsigned int)) SECT6 notype ()    External
+039 00000000 (public: virtual  __thiscall Gadget::~Gadget(void)) SECT8 notype ()    External
+03A 00000000 ([thunk]:`vcall{4,{ this,  call,  vfptr}}' ) SECTA notype ()    External
+
+STRING TABLE size = 0x2fb bytes
+
+     Summary
+    .drectve       28
+       .data       14
+       .text      34B

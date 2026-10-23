@@ -1,0 +1,5 @@
+{"event":"create","pid":564,"parent":548,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /machine:M68K /nodefaultlib /entry:main /out:mac-dupcon.exe /debug:none /fixed mac-dupcon.obj"}
+{"event":"entry","pid":564,"rva":168880,"name":"find_mac_external_reference"}
+{"event":"entry","pid":564,"rva":170096,"name":"record_mac_duplicate_fixups"}
+{"event":"exit","pid":564,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

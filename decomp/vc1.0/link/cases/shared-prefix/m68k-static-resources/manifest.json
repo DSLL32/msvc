@@ -1,0 +1,67 @@
+{
+  "case": "m68k-static-resources",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-m68k.py",
+    "sha256": "a3e96ca6c5ed6e6ad1a137e48931ccdc54c579123cf9d1ea83b9e29360e37cf8"
+  },
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-special.exe",
+        "/debug:none",
+        "/fixed",
+        "/section:.text2,,RESOURCE=CODE@7",
+        "/section:.text3,,RESOURCE=INIT@9",
+        "mac-special.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "../../m68k-static-resources/inputs/mac-special.obj",
+          "bytes": 312,
+          "sha256": "25f4fbb6e9e5f89a3d8b0590dfa78147bf05152bb11487a885f5caf0bb95941f"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-special.exe",
+          "output_name": "mac-special.exe",
+          "artifact_kind": "m68k-pe",
+          "bytes": 2097152,
+          "sha256": "e3ab76b1bd2a211a3ed0209c6ab08456165af9bc3478ccac55894f17abf19ea8",
+          "normalized_sha256": "2d27bbc8b3c108b7f33d8b06088824482b91e5f2a884b78f673b0a10273121af",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "canonical_working_directory": "S:\\vc1.0\\link\\m68k-static-resources"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/m68k-static-resources",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

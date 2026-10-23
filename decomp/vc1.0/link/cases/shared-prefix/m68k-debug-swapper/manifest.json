@@ -1,0 +1,77 @@
+{
+  "case": "m68k-debug-swapper",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-mac-debug.py",
+    "bytes": 1905,
+    "sha256": "dd4570b22b65a45130cc56bc77b3cd7fc2832d1712782906c433f1b8d072c84e"
+  },
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-debug.exe",
+        "/debug:full",
+        "/debugtype:coff",
+        "/fixed",
+        "mac-debug.obj"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\m68k-debug-swapper",
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "../../m68k-debug-swapper/inputs/mac-debug.obj",
+          "bytes": 401,
+          "sha256": "a16ee091388d724c8fdcc0c5c22ddb0e63ce7677c2b92ef4db275c53e273089c"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-debug.exe",
+          "output_name": "mac-debug.exe",
+          "artifact_kind": "mac-debug-pe",
+          "bytes": 2097152,
+          "sha256": "eb46960e5249998ba36e9b1a53f5015de4af794e513923ea89f057dfb9588ae4",
+          "normalized_sha256": "3979305363dc56a7c4a9ec83ca68bf33bc3d7d34f481db7bba5f91db423d0ca5",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 964,
+              "bytes": 4,
+              "name": "COFF debug directory TimeDateStamp"
+            },
+            {
+              "offset": 1142,
+              "bytes": 4,
+              "name": "Mac debug resource big-endian TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/m68k-debug-swapper",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

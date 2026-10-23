@@ -47,6 +47,38 @@ def application_symbols(object_directory):
     return definitions
 
 
+def original_references(cases):
+    references={}
+    config=json.loads((BINARY/'functions.json').read_text())
+    app={r['name'] for r in config['driver'] if r.get('source') not in (None,'src/runtime.c')}
+    projected=[native_name(n) for n in config['accepted'] if n in app]
+    registry=json.loads((BINARY/'cases/reference-cases.json').read_text())
+    for fixture,record in registry.items():
+        directory=BINARY/record['directory']
+        receipt_path=directory/'capture/receipt.json'
+        receipt=json.loads(receipt_path.read_text())
+        events_path=directory/'capture/events.jsonl'
+        assert sha(events_path)==receipt['events']['sha256']
+        assert receipt['status']=='pass' and receipt['expected']==receipt['observed']
+        segment=cases[ALIASES.get(fixture,fixture)]
+        assert receipt['expected']==segment['expected'], fixture+': fresh original entries differ'
+        assert receipt['prefix_application']==projected[:segment['seen_count']], fixture+': original prefix differs'
+        assert receipt['original_sha256']==config['target']['sha256']
+        assert receipt['accepted_sha256']==hashlib.sha256(json.dumps(config['accepted']).encode()).hexdigest()
+        events=[json.loads(line) for line in events_path.read_text().splitlines()]
+        assert [event['name'] for event in events if event['event']=='entry']==receipt['observed']
+        assert events[-1]==receipt['terminal']
+        assert receipt['terminal']['root_exit']==segment['terminal']['code']
+        assert receipt['terminal']['failed']==0
+        references[fixture]={
+            'receipt_path':str(receipt_path.relative_to(BINARY)),
+            'receipt_sha256':sha(receipt_path),
+            'manifest_path':str((directory/'manifest.json').relative_to(BINARY)),
+            'manifest_sha256':sha(directory/'manifest.json'),
+            'original_sha256':receipt['original_sha256']}
+    return references
+
+
 def project(object_directory):
     config_path, runtime_path = BINARY/'functions.json', BINARY/'runtime.json'
     config = json.loads(config_path.read_text())
@@ -85,7 +117,8 @@ def project(object_directory):
         projected = lambda names:[native_name(n) for n in names if classified[n]=='application']
         cases[case] = dict(first=first,last=last,seen_count=len(projected(accepted[:first])),
                           expected=projected(accepted[first:last]),terminal=record['terminal'])
-    return dict(schema=1,description='Projection of existing original-backed acceptance metadata; no recapture',
+    return dict(schema=2,description='Application projection verified against fresh shared-prefix original captures',
+                original_entry_references=original_references(cases),
                 metadata_sha256={'functions.json':sha(config_path),'runtime.json':sha(runtime_path),
                                  'replay-cases.json':sha(BINARY/'replay-cases.json')},
                 application_definitions={n:dict(source=native[n]['source'],
@@ -100,6 +133,10 @@ def load(object_directory, cache_path=CACHE):
     cache = json.loads(cache_path.read_text())
     for name,digest in cache['metadata_sha256'].items():
         assert sha(BINARY/name)==digest, 'native trace cache stale: '+name
+    assert cache['original_entry_references']==original_references(cache['cases']), 'original reference binding differs'
+    config=json.loads((BINARY/'functions.json').read_text())
+    app={r['name'] for r in config['driver'] if r.get('source') not in (None,'src/runtime.c')}
+    assert cache['accepted_application']==[native_name(n) for n in config['accepted'] if n in app], 'application prefix differs'
     definitions = application_symbols(object_directory)
     expected = {n:r['source'] for n,r in cache['application_definitions'].items()}
     assert definitions==expected, 'unresolved/new/missing native application definition'

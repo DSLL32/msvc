@@ -1,0 +1,65 @@
+{
+  "case": "m68k-dupcon",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-m68k.py",
+    "sha256": "a3e96ca6c5ed6e6ad1a137e48931ccdc54c579123cf9d1ea83b9e29360e37cf8"
+  },
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-dupcon.exe",
+        "/debug:none",
+        "/fixed",
+        "mac-dupcon.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "../../m68k-dupcon/inputs/mac-dupcon.obj",
+          "bytes": 274,
+          "sha256": "1a5b1cd2833acf064a2c10d3d833d922ea8ffc110acac4de5c204bf1b455fb41"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-dupcon.exe",
+          "output_name": "mac-dupcon.exe",
+          "artifact_kind": "m68k-pe",
+          "bytes": 2097152,
+          "sha256": "9c5178a08d3c49c80297e49bff9f0821a1160cc69ea8f1ea271fed100d73cf3e",
+          "normalized_sha256": "8e59c9f105b7673b2913ec385c68f2ddcff62d919bf7b34be98441064c82b8a7",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "canonical_working_directory": "S:\\vc1.0\\link\\m68k-dupcon"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/m68k-dupcon",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

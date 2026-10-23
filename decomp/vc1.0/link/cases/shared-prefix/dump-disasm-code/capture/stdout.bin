@@ -1,0 +1,24 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file test.obj
+
+File Type: COFF OBJECT
+_main:
+    00000000:   55                  push    ebp
+    00000001:   8B EC               mov     ebp,esp
+    00000003:   53                  push    ebx
+    00000004:   56                  push    esi
+    00000005:   57                  push    edi
+    00000006:   2B C0               sub     eax,eax
+    00000008:   E9 00 00 00 00      jmp     0000000D
+    0000000d:   5F                  pop     edi
+    0000000e:   5E                  pop     esi
+    0000000f:   5B                  pop     ebx
+    00000010:   C9                  leave
+    00000011:   C3                  ret
+
+     Summary
+    .drectve       26
+       .text       12

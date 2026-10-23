@@ -1,0 +1,107 @@
+{
+  "help": {
+    "directory": "cases/shared-prefix/help"
+  },
+  "absolute-weak-unmatched": {
+    "directory": "cases/shared-prefix/absolute-weak-unmatched"
+  },
+  "absolute-weak": {
+    "directory": "cases/shared-prefix/absolute-weak"
+  },
+  "dump-fpo-object": {
+    "directory": "cases/shared-prefix/dump-fpo-object"
+  },
+  "dump-fpo-map": {
+    "directory": "cases/shared-prefix/dump-fpo-map"
+  },
+  "cpp-pointer-status": {
+    "directory": "cases/shared-prefix/cpp-pointer-status"
+  },
+  "cpp-template-status": {
+    "directory": "cases/shared-prefix/cpp-template-status"
+  },
+  "cpp-based-vbtable": {
+    "directory": "cases/shared-prefix/cpp-based-vbtable"
+  },
+  "m68k-dupcon": {
+    "directory": "cases/shared-prefix/m68k-dupcon"
+  },
+  "m68k-pcode-alias": {
+    "directory": "cases/shared-prefix/m68k-pcode-alias"
+  },
+  "m68k-static-resources": {
+    "directory": "cases/shared-prefix/m68k-static-resources"
+  },
+  "m68k-debug-swapper": {
+    "directory": "cases/shared-prefix/m68k-debug-swapper"
+  },
+  "definition-directives": {
+    "directory": "cases/shared-prefix/definition-directives"
+  },
+  "m68k-minimal": {
+    "directory": "cases/shared-prefix/m68k-minimal"
+  },
+  "m68k-reloc-loader": {
+    "directory": "cases/shared-prefix/m68k-reloc-loader"
+  },
+  "dump-disasm-x86-rich": {
+    "directory": "cases/shared-prefix/dump-disasm-x86-rich"
+  },
+  "dump-disasm-code": {
+    "directory": "cases/shared-prefix/dump-disasm-code"
+  },
+  "dump-disasm-data": {
+    "directory": "cases/shared-prefix/dump-disasm-data"
+  },
+  "library-create": {
+    "directory": "cases/shared-prefix/library-create"
+  },
+  "library-list": {
+    "directory": "cases/shared-prefix/library-list"
+  },
+  "library-extract": {
+    "directory": "cases/shared-prefix/library-extract"
+  },
+  "library-remove": {
+    "directory": "cases/shared-prefix/library-remove"
+  },
+  "library-list-trimmed": {
+    "directory": "cases/shared-prefix/library-list-trimmed"
+  },
+  "dump-library": {
+    "directory": "cases/shared-prefix/dump-library"
+  },
+  "dump-object": {
+    "directory": "cases/shared-prefix/dump-object"
+  },
+  "dump-dll": {
+    "directory": "cases/shared-prefix/dump-dll"
+  },
+  "dump-edited": {
+    "directory": "cases/shared-prefix/dump-edited"
+  },
+  "edit": {
+    "directory": "cases/shared-prefix/edit"
+  },
+  "omf-library": {
+    "directory": "cases/shared-prefix/omf-library"
+  },
+  "omf-link": {
+    "directory": "cases/shared-prefix/omf-link"
+  },
+  "cpp-undecorate": {
+    "directory": "cases/shared-prefix/cpp-undecorate"
+  },
+  "minimal-c": {
+    "directory": "cases/shared-prefix/minimal-c"
+  },
+  "hello-win32": {
+    "directory": "cases/shared-prefix/hello-win32"
+  },
+  "hello-dll": {
+    "directory": "cases/shared-prefix/hello-dll"
+  },
+  "hello-debug-dll": {
+    "directory": "cases/shared-prefix/hello-debug-dll"
+  }
+}

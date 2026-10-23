@@ -1,0 +1,18 @@
+{
+  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
+  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
+  "case": "absolute-weak",
+  "evidence": {
+    "scope": "Three original-compiled undefined functions become documented COFF weak-external1/2 and native alias3 metadata, all target compiled default_target. Instruction bytes unchanged. Companion ordinary object supplies one absolute symbol value0x1234.",
+    "generator": {
+      "path": "scripts/build-absolute-weak-input.py",
+      "bytes": 3083,
+      "sha256": "4dbf736a99a2dbc423e2a9f8e3476943004c81552015396857eeb20e82f2b776"
+    },
+    "generator_arguments": [
+      "compile-directory",
+      "output-directory"
+    ],
+    "limits": "Normal case links values.obj as ordinary input: absolutesfrom list is empty. Matching-undefined and forced-relocated probes are rejected and preserved under capture/. New absolute-weak-unmatched case exercises nonmatching scan without any relocation to the undefined external."
+  }
+}

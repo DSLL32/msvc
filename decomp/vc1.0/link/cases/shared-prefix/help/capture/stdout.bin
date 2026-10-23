@@ -1,0 +1,36 @@
+Microsoft (R) 32-Bit Executable Linker Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+usage: LINK [options] [files] [@commandfile]
+
+   options:
+
+      /ALIGN:#
+      /BASE:{address|@filename,key}
+      /COMMENT:comment
+      /DEBUG[:{NONE|FULL}]
+      /DEBUGTYPE:{CV|COFF|BOTH}
+      /DEF:filename
+      /DEFAULTLIB:library[,library]
+      /DLL
+      /ENTRY:symbol
+      /EXPORT:symbol
+      /FIXED
+      /FORCE
+      /IMPLIB:filename
+      /INCLUDE:symbol
+      /MAP[:filename]
+      /NODEFAULTLIB[:library[,library...]]
+      /NOENTRY
+      /NOLOGO
+      /OPT:{REF|NOREF}
+      /ORDER:@filename
+      /OUT:filename
+      /RELEASE
+      /SECTION:name,[E][R][W][S]
+      /STACK:reserve[,commit]
+      /STUB:filename
+      /SUBSYSTEM:{WINDOWS|CONSOLE}[,#[.#]]
+      /VERBOSE
+      /VERSION:#[.#]
+      /WARN[:warninglevel]

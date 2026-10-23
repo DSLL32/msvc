@@ -1,0 +1,322 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file member-with-a-long-name-alpha.obj
+
+File Type: COFF OBJECT
+
+FILE HEADER VALUES
+     14C machine (i386)
+       A number of sections
+6AD9DA95 time date stamp Thu Oct 22 02:42:45 2026
+     3D9 file pointer to symbol table
+      2B number of symbols
+       0 size of optional header
+       0 characteristics
+
+SECTION HEADER #1
+.drectve name
+       0 physical address
+       0 virtual address
+      28 size of raw data
+     1A4 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+  100A00 flags
+         Info
+         Remove
+         1 byte align
+
+RAW DATA #1
+00000000  2D 64 65 66 61 75 6C 74 | 6C 69 62 3A 4C 49 42 43  -default|lib:LIBC
+00000010  4D 54 20 2D 64 65 66 61 | 75 6C 74 6C 69 62 3A 4F  MT -defa|ultlib:O
+00000020  4C 44 4E 41 4D 45 53 20 |                          LDNAMES |        
+
+SECTION HEADER #2
+.debug$S name
+      28 physical address
+       0 virtual address
+      74 size of raw data
+     1CC file pointer to raw data
+     240 file pointer to relocation table
+       0 file pointer to line numbers
+       2 number of relocations
+       0 number of line numbers
+42100048 flags
+         No Pad
+         Initialized Data
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #2
+00000000  01 00 00 00 10 00 09 00 | 00 00 00 00 09 61 6C 70  ........|.....alp
+00000010  68 61 2E 6F 62 6A 18 00 | 02 02 00 00 00 00 00 00  ha.obj..|........
+00000020  87 10 0D 61 6C 70 68 61 | 5F 61 64 64 72 65 73 73  ...alpha|_address
+00000030  42 00 01 00 05 00 00 00 | 3B 40 28 23 29 20 4D 69  B.......|;@(#) Mi
+00000040  63 72 6F 73 6F 66 74 20 | 43 2F 43 2B 2B 20 33 32  crosoft |C/C++ 32
+00000050  20 62 69 74 73 20 78 38 | 36 20 43 6F 6D 70 69 6C   bits x8|6 Compil
+00000060  65 72 20 56 65 72 73 69 | 6F 6E 20 38 2E 30 30 2E  er Versi|on 8.00.
+00000070  58 58 58 58                                        XXXX    |        
+
+RELOCATIONS #2
+      1A virtual address,        6 symbol table index, SECREL
+      1E virtual address,        6 symbol table index, SECT#
+
+SECTION HEADER #3
+   .data name
+      9C physical address
+       0 virtual address
+       4 size of raw data
+     254 file pointer to raw data
+     258 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+C0300040 flags
+         Initialized Data
+         4 byte align
+         Read Write
+
+RAW DATA #3
+00000000  00 00 00 00                                        ....    |        
+
+RELOCATIONS #3
+       0 virtual address,        9 symbol table index, DIR32
+
+SECTION HEADER #4
+   .text name
+      A0 physical address
+       0 virtual address
+      10 size of raw data
+     262 file pointer to raw data
+       0 file pointer to relocation table
+     272 file pointer to line numbers
+       0 number of relocations
+       1 number of line numbers
+60501020 flags
+         Code
+         Communal; sym= ?shared_increment@@YAHH@Z
+         16 byte align
+         Execute Read
+
+RAW DATA #4
+00000000  8B 44 24 04 40 C3 8D 49 | 00 8D A4 24 00 00 00 00  .D$.@..I|...$....
+
+LINENUMBERS #4
+       E    0  sym=  ?shared_increment@@YAHH@Z
+
+
+SECTION HEADER #5
+.debug$S name
+      B0 physical address
+       0 virtual address
+      4A size of raw data
+     278 file pointer to raw data
+     2C2 file pointer to relocation table
+       0 file pointer to line numbers
+       2 number of relocations
+       0 number of line numbers
+42101048 flags
+         No Pad
+         Initialized Data
+         Communal (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #5
+00000000  34 00 05 02 00 00 00 00 | 00 00 00 00 00 00 00 00  4.......|........
+00000010  10 00 00 00 00 00 00 00 | 05 00 00 00 00 00 00 00  ........|........
+00000020  00 00 86 10 00 10 73 68 | 61 72 65 64 5F 69 6E 63  ......sh|ared_inc
+00000030  72 65 6D 65 6E 74 0E 00 | 00 02 04 00 00 00 74 00  rement..|......t.
+00000040  05 76 61 6C 75 65 02 00 | 06 00                    .value..|..      
+
+RELOCATIONS #5
+      1C virtual address,        9 symbol table index, SECREL
+      20 virtual address,        9 symbol table index, SECT#
+
+SECTION HEADER #6
+.debug$F name
+      FA physical address
+       0 virtual address
+      10 size of raw data
+     2D6 file pointer to raw data
+     2E6 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101048 flags
+         No Pad
+         Initialized Data
+         Communal (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #6
+00000000  00 00 00 00 10 00 00 00 | 00 00 00 00 01 00 00 00  ........|........
+
+RELOCATIONS #6
+       0 virtual address,        9 symbol table index, DIR32NB
+
+SECTION HEADER #7
+   .text name
+     10A physical address
+       0 virtual address
+      20 size of raw data
+     2F0 file pointer to raw data
+     310 file pointer to relocation table
+     31A file pointer to line numbers
+       1 number of relocations
+       1 number of line numbers
+60501020 flags
+         Code
+         Communal; sym= _alpha
+         16 byte align
+         Execute Read
+
+RAW DATA #7
+00000000  53 8B 44 24 08 8B 1D 00 | 00 00 00 50 FF D3 83 C4  S.D$....|...P....
+00000010  04 5B C3 8D 9B 00 00 00 | 00 8D A4 24 00 00 00 00  .[......|...$....
+
+RELOCATIONS #7
+       7 virtual address,        6 symbol table index, DIR32
+
+LINENUMBERS #7
+      1E    0  sym=  _alpha
+
+
+SECTION HEADER #8
+.debug$S name
+     12A physical address
+       0 virtual address
+      3F size of raw data
+     320 file pointer to raw data
+     35F file pointer to relocation table
+       0 file pointer to line numbers
+       2 number of relocations
+       0 number of line numbers
+42101048 flags
+         No Pad
+         Initialized Data
+         Communal (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #8
+00000000  29 00 05 02 00 00 00 00 | 00 00 00 00 00 00 00 00  ).......|........
+00000010  20 00 00 00 01 00 00 00 | 11 00 00 00 00 00 00 00   .......|........
+00000020  00 00 86 10 00 05 61 6C | 70 68 61 0E 00 00 02 04  ......al|pha.....
+00000030  00 00 00 74 00 05 76 61 | 6C 75 65 02 00 06 00     ...t..va|lue.... 
+
+RELOCATIONS #8
+      1C virtual address,       19 symbol table index, SECREL
+      20 virtual address,       19 symbol table index, SECT#
+
+SECTION HEADER #9
+.debug$F name
+     169 physical address
+       0 virtual address
+      10 size of raw data
+     373 file pointer to raw data
+     383 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101048 flags
+         No Pad
+         Initialized Data
+         Communal (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #9
+00000000  00 00 00 00 20 00 00 00 | 00 00 00 00 01 00 01 01  .... ...|........
+
+RELOCATIONS #9
+       0 virtual address,       19 symbol table index, DIR32NB
+
+SECTION HEADER #A
+.debug$T name
+     179 physical address
+       0 virtual address
+      4C size of raw data
+     38D file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100048 flags
+         No Pad
+         Initialized Data
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #A
+00000000  01 00 00 00 46 00 16 00 | 94 DA D9 6A 01 00 00 00  ....F...|...j....
+00000010  39 5A 3A 5C 72 6F 6F 74 | 5C 2E 61 69 2D 74 6D 70  9Z:\root|\.ai-tmp
+00000020  5C 76 63 31 2E 30 2D 6C | 69 6E 6B 5C 63 6F 76 65  \vc1.0-l|ink\cove
+00000030  72 61 67 65 2D 63 61 70 | 74 75 72 65 5C 77 6F 72  rage-cap|ture\wor
+00000040  6B 5C 6D 73 76 63 2E 70 | 64 62 F2 F1              k\msvc.p|db..    
+
+SYMBOL TABLE
+000 0000000C .file                            DEBUG notype       Filename
+    alpha.cpp
+002 00000000 .drectve                         SECT1 notype       Static
+    Section length   28, #relocs    0, #linenums    0
+004 00000000 .debug$S                         SECT2 notype       Static
+    Section length   74, #relocs    2, #linenums    0
+006 00000000 .data                            SECT3 notype       Static
+    Section length    4, #relocs    1, #linenums    0
+008 00000000 _alpha_address                   SECT3 notype       External
+009 00000000 ?shared_increment@@YAHH@Z        UNDEF notype ()    External
+00A 00000000 .text                            SECT4 notype       Static
+    Section length   10, #relocs    0, #linenums    1, checksum        0, selection    2 (pick any)
+00C 0000001C .file                            DEBUG notype       Filename
+    inline.h
+00E 00000000 ?shared_increment@@YAHH@Z        SECT4 notype ()    External
+    tag index 00000010 size 00000010 lines 00000272 next function 0000001e
+010 00000000 .bf                              SECT4 notype       BeginFunction
+    line# 0001 end 00000020
+012 00000001 .lf                              SECT4 notype       .bf or.ef
+013 00000010 .ef                              SECT4 notype       EndFunction
+    line# 0001
+015 00000000 .debug$S                         SECT5 notype       Static
+    Section length   4A, #relocs    2, #linenums    0, checksum        0, selection    5 (pick associative Section 4)
+017 00000000 .debug$F                         SECT6 notype       Static
+    Section length   10, #relocs    1, #linenums    0, checksum        0, selection    5 (pick associative Section 4)
+019 00000000 _alpha                           UNDEF notype ()    External
+01A 00000000 .text                            SECT7 notype       Static
+    Section length   20, #relocs    1, #linenums    1, checksum        0, selection    1 (pick no duplicates)
+01C 00000000 .file                            DEBUG notype       Filename
+    alpha.cpp
+01E 00000000 _alpha                           SECT7 notype ()    External
+    tag index 00000020 size 00000020 lines 0000031a next function 00000000
+020 00000000 .bf                              SECT7 notype       BeginFunction
+    line# 0003 end 00000000
+022 00000001 .lf                              SECT7 notype       .bf or.ef
+023 00000020 .ef                              SECT7 notype       EndFunction
+    line# 0003
+025 00000000 .debug$S                         SECT8 notype       Static
+    Section length   3F, #relocs    2, #linenums    0, checksum        0, selection    5 (pick associative Section 7)
+027 00000000 .debug$F                         SECT9 notype       Static
+    Section length   10, #relocs    1, #linenums    0, checksum        0, selection    5 (pick associative Section 7)
+029 00000000 .debug$T                         SECTA notype       Static
+    Section length   4C, #relocs    0, #linenums    0
+
+STRING TABLE size = 0x47 bytes
+
+     Summary
+    .drectve       28
+    .debug$S       FD
+       .data        4
+       .text       30
+    .debug$F       20
+    .debug$T       4C

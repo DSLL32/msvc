@@ -8,8 +8,7 @@ import time
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
-PROGRAM = r'Z:\root\msvc2\toolchains\1.0-nt\bin\LINK.EXE'
-LIBRARY = r'Z:\root\msvc2\toolchains\1.0-nt\lib'
+from case_paths import PROGRAM, LIBRARY
 
 
 def load_module(name, path):

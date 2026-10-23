@@ -1,0 +1,29 @@
+{
+  "case": "help",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "/?"
+      ],
+      "expected_exit": 3,
+      "inputs": [],
+      "outputs": [],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\help",
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\nusage: LINK [options] [files] [@commandfile]\r\n\r\n   options:\r\n\r\n      /ALIGN:#\r\n      /BASE:{address|@filename,key}\r\n      /COMMENT:comment\r\n      /DEBUG[:{NONE|FULL}]\r\n      /DEBUGTYPE:{CV|COFF|BOTH}\r\n      /DEF:filename\r\n      /DEFAULTLIB:library[,library]\r\n      /DLL\r\n      /ENTRY:symbol\r\n      /EXPORT:symbol\r\n      /FIXED\r\n      /FORCE\r\n      /IMPLIB:filename\r\n      /INCLUDE:symbol\r\n      /MAP[:filename]\r\n      /NODEFAULTLIB[:library[,library...]]\r\n      /NOENTRY\r\n      /NOLOGO\r\n      /OPT:{REF|NOREF}\r\n      /ORDER:@filename\r\n      /OUT:filename\r\n      /RELEASE\r\n      /SECTION:name,[E][R][W][S]\r\n      /STACK:reserve[,commit]\r\n      /STUB:filename\r\n      /SUBSYSTEM:{WINDOWS|CONSOLE}[,#[.#]]\r\n      /VERBOSE\r\n      /VERSION:#[.#]\r\n      /WARN[:warninglevel]\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

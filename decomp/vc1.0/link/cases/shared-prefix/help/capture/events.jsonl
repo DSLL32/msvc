@@ -1,0 +1,23 @@
+{"event":"create","pid":292,"parent":256,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" /?"}
+{"event":"entry","pid":292,"rva":92992,"name":"main"}
+{"event":"entry","pid":292,"rva":173904,"name":"debug_initialize"}
+{"event":"entry","pid":292,"rva":174464,"name":"debug_enabled"}
+{"event":"entry","pid":292,"rva":180256,"name":"files_initialize"}
+{"event":"entry","pid":292,"rva":184576,"name":"new_page"}
+{"event":"entry","pid":292,"rva":180656,"name":"new_file_slot"}
+{"event":"entry","pid":292,"rva":32416,"name":"linker_main"}
+{"event":"entry","pid":292,"rva":64608,"name":"initialize_log"}
+{"event":"entry","pid":292,"rva":28672,"name":"create_image"}
+{"event":"entry","pid":292,"rva":90512,"name":"initialize_symbols"}
+{"event":"entry","pid":292,"rva":91600,"name":"initialize_hash"}
+{"event":"entry","pid":292,"rva":66544,"name":"collect_arguments"}
+{"event":"entry","pid":292,"rva":66352,"name":"collect_search_path"}
+{"event":"entry","pid":292,"rva":68048,"name":"append_argument"}
+{"event":"entry","pid":292,"rva":67952,"name":"append_argument_node"}
+{"event":"entry","pid":292,"rva":67296,"name":"classify_argument"}
+{"event":"entry","pid":292,"rva":33744,"name":"process_options"}
+{"event":"entry","pid":292,"rva":173440,"name":"parse_switch"}
+{"event":"entry","pid":292,"rva":65888,"name":"link_usage"}
+{"event":"entry","pid":292,"rva":87280,"name":"print_banner"}
+{"event":"exit","pid":292,"code":3,"packer":0}
+{"event":"summary","root_exit":3,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}
