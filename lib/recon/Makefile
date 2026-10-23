@@ -412,3 +412,9 @@ build/ctype-default-510: tests/ctype-default-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 tests/ctype-default-probe.c $(SOURCES) -o $@
 ctype-default-check: build/ctype-default-probe build/ctype-default-510
 	$(PYTHON) tests/check-ctype-default.py build/ctype-default-probe build/ctype-default-510
+
+.PHONY: system-info-profile-check
+build/system-info-profile-probe: tests/system-info-profile-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/system-info-profile-probe.c $(SOURCES) -o $@
+system-info-profile-check: build/system-info-profile-probe
+	$(PYTHON) tests/check-system-info-profile.py build/system-info-profile-probe

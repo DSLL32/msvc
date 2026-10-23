@@ -22,3 +22,19 @@ def encode_profile(reference_sha256, system_info_bytes, memory_status_bytes):
 
 def write_profile(path, reference_sha256, system_info_bytes, memory_status_bytes):
     Path(path).write_bytes(encode_profile(reference_sha256,system_info_bytes,memory_status_bytes))
+
+
+def encode_system_info_profile(reference_sha256, system_info_bytes):
+    """A single observed GetSystemInfo call; no MEMORYSTATUS capability."""
+    if not isinstance(reference_sha256,str) or not re.fullmatch('[0-9a-f]{64}',reference_sha256):
+        raise ValueError('invalid system-info profile reference SHA256')
+    if not isinstance(system_info_bytes,bytes) or len(system_info_bytes)!=36:
+        raise ValueError('invalid Win32 SYSTEM_INFO structure size')
+    page=struct.unpack_from('<I',system_info_bytes,4)[0]
+    if not page or page&(page-1):
+        raise ValueError('invalid captured system-info profile shape')
+    return b'RSI1'+reference_sha256.encode('ascii')+system_info_bytes
+
+
+def write_system_info_profile(path, reference_sha256, system_info_bytes):
+    Path(path).write_bytes(encode_system_info_profile(reference_sha256,system_info_bytes))

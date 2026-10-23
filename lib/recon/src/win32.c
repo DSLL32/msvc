@@ -291,6 +291,28 @@ void recon_load_system_profile(const char *filename,const char *reference_sha256
     native_system_profile.bound=1; errno=saved_errno; last_error=saved_error;
 }
 
+/* A separately reached call does not authorize an unvisited memory sample. */
+void recon_load_system_info_profile(const char *filename,const char *reference_sha256)
+{
+    unsigned char bytes[104];struct stat st;int fd,saved_errno=errno;
+    DWORD saved_error=last_error;size_t n;ssize_t count;
+    if (native_system_profile.bound || !filename || !reference_sha256 || strlen(reference_sha256)!=64)
+        recon_unsupported("system-info profile identity");
+    for (n=0;n<64;++n) if (!((reference_sha256[n]>='0' && reference_sha256[n]<='9') ||
+        (reference_sha256[n]>='a' && reference_sha256[n]<='f'))) recon_unsupported("system-info profile SHA256");
+    fd=open(filename,O_RDONLY|O_CLOEXEC);
+    if (fd<0 || fstat(fd,&st) || st.st_size!=sizeof(bytes)) recon_unsupported("system-info profile file");
+    count=read(fd,bytes,sizeof(bytes));close(fd);
+    if (count!=sizeof(bytes) || memcmp(bytes,"RSI1",4) || memcmp(bytes+4,reference_sha256,64))
+        recon_unsupported("system-info profile reference");
+    memcpy(&native_system_profile.system,bytes+68,36);
+    if (!native_system_profile.system.dwPageSize ||
+        (native_system_profile.system.dwPageSize&(native_system_profile.system.dwPageSize-1)))
+        recon_unsupported("system-info profile shape");
+    memcpy(native_system_profile.reference_sha256,reference_sha256,65);
+    native_system_profile.bound=2;errno=saved_errno;last_error=saved_error;
+}
+
 void WINAPI recon_GetSystemInfo(LPSYSTEM_INFO output)
 {
     if (!output || !native_system_profile.bound || native_system_profile.system_calls ||
@@ -301,7 +323,7 @@ void WINAPI recon_GetSystemInfo(LPSYSTEM_INFO output)
 
 void WINAPI recon_GlobalMemoryStatus(LPMEMORYSTATUS output)
 {
-    if (!output || !native_system_profile.bound || native_system_profile.system_calls!=1 ||
+    if (!output || native_system_profile.bound!=1 || native_system_profile.system_calls!=1 ||
         native_system_profile.memory_calls) recon_unsupported("GlobalMemoryStatus captured inventory");
     memcpy(output,&native_system_profile.memory,sizeof(*output));
     ++native_system_profile.memory_calls;

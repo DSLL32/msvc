@@ -1,0 +1,93 @@
+{
+  "packet": "decomp/vc5.10/c1/cases/minimal/SYSTEM-INFO-SUPPORT.json",
+  "packet_sha256": "a86fbdbc4ec9273ec7bcc9f847b653c3e0d3f59826068b655da85f68370597ee",
+  "records": [
+    {
+      "kind": "original-only actual reachedGetSystemInfo evidence; NOT function acceptance",
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-system-info-001",
+      "receipt_sha256": "21f680e500cb7e730abeec315bdc51756901a36d85b5c4a3139b226e257ad504",
+      "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "environment_sha256": "658d18a0f749e8af2265d07e2fec26b12cb9ab099e3437c5bd03640000c4f651",
+      "case_contract_sha256": "d475ede2748e03e769a9c021a9c1661b88c81acdb3da0b4866c18d2261748403",
+      "before_sequence": 119,
+      "after_sequence": 120,
+      "argument_role": "actualc1_data.system_info @target+5f508,36bytes",
+      "stack_cleanup_bytes": 4,
+      "win32_error_before": 0,
+      "win32_error_after": 0,
+      "x87_word": 639,
+      "output": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-system-info-001/system-info-after-000.bin",
+        "sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+        "bytes": 36,
+        "decoded": {
+          "dwOemId": 0,
+          "dwPageSize": 4096,
+          "lpMinimumApplicationAddress": 65536,
+          "lpMaximumApplicationAddress": 2147418111,
+          "dwActiveProcessorMask": 4294967295,
+          "dwNumberOfProcessors": 48,
+          "dwProcessorType": 586,
+          "dwAllocationGranularity": 65536,
+          "wProcessorLevel": 6,
+          "wProcessorRevision": 15876
+        }
+      },
+      "provider": {
+        "identity": "kernel32.dll!GetSystemInfo",
+        "hfile": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-system-info-001/loaded-kernel32.bin",
+        "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+        "bytes": 2008819,
+        "actual_base": 2075590656,
+        "export_rva": 51084,
+        "resolved_iat": 2075641740
+      },
+      "unvisited_api": "GlobalMemoryStatus remains pending; no MEMORYSTATUS bytes supplied"
+    },
+    {
+      "kind": "original-only actual reachedGetSystemInfo evidence; NOT function acceptance",
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-system-info-clear-aux-001",
+      "receipt_sha256": "6df2c40921ab41a984dc896597acbdbe9577ed448bc4261a255080c72d0c1f28",
+      "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "environment_sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+      "case_contract_sha256": "d475ede2748e03e769a9c021a9c1661b88c81acdb3da0b4866c18d2261748403",
+      "before_sequence": 119,
+      "after_sequence": 120,
+      "argument_role": "actualc1_data.system_info @target+5f508,36bytes",
+      "stack_cleanup_bytes": 4,
+      "win32_error_before": 0,
+      "win32_error_after": 0,
+      "x87_word": 639,
+      "output": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-system-info-clear-aux-001/system-info-after-000.bin",
+        "sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+        "bytes": 36,
+        "decoded": {
+          "dwOemId": 0,
+          "dwPageSize": 4096,
+          "lpMinimumApplicationAddress": 65536,
+          "lpMaximumApplicationAddress": 2147418111,
+          "dwActiveProcessorMask": 4294967295,
+          "dwNumberOfProcessors": 48,
+          "dwProcessorType": 586,
+          "dwAllocationGranularity": 65536,
+          "wProcessorLevel": 6,
+          "wProcessorRevision": 15876
+        }
+      },
+      "provider": {
+        "identity": "kernel32.dll!GetSystemInfo",
+        "hfile": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-system-info-clear-aux-001/loaded-kernel32.bin",
+        "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+        "bytes": 2008819,
+        "actual_base": 2075590656,
+        "export_rva": 51084,
+        "resolved_iat": 2075641740
+      },
+      "unvisited_api": "GlobalMemoryStatus remains pending; no MEMORYSTATUS bytes supplied"
+    }
+  ],
+  "output_sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+  "scope": "Actual reached GetSystemInfo only, normal/restore separately hash-bound; no unvisited MEMORYSTATUS",
+  "provider_api": "KERNEL32!GetSystemInfo; actual hFile verified in packet records"
+}

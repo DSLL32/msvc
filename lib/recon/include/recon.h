@@ -325,6 +325,7 @@ typedef struct ReconModuleMemorySpec {
 void recon_register_module_memory(HMODULE,const ReconModuleMemorySpec *,void *,size_t);
 void recon_load_module_resources(HMODULE,const char *);
 void recon_load_system_profile(const char *,const char *);
+void recon_load_system_info_profile(const char *,const char *);
 
 #define RECON_WIN32_FUNCTIONS(X) \
  X(HANDLE,CreateFileA,(LPCSTR,DWORD,DWORD,LPSECURITY_ATTRIBUTES,DWORD,DWORD,HANDLE)) \

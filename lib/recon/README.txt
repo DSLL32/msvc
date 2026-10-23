@@ -810,3 +810,13 @@ parents map to errno2/DOS3/LastError3 through the shared CRT error mapper.
 Inputs and unrelated files remain unchanged. Wildcards, directories, symlinks,
 other file kinds and unknown deletion failures are unsupported. This bounded
 public _unlink contract is separate from the legacy recon_remove path.
+
+A separately reached GetSystemInfo can use recon_load_system_info_profile(path,
+reference_sha256), with system_profile.py encode_system_info_profile or
+write_system_info_profile. RSI1 is exactly104bytes: tag4, lowercaseASCIIreference
+SHA256(64), then the complete36-byte observed SYSTEM_INFO. The reference closes
+an owning capture/environment receipt; the host validates actual provider,
+inputs and output hashes before binding. This profile permits one GetSystemInfo
+call and rejects GlobalMemoryStatus. It supplies no MEMORYSTATUS bytes or Linux
+hardware values. Existing136-byte RSE1 and its ordered two-call inventory remain
+unchanged. Both loaders and calls preserve measured independent error/FP state.

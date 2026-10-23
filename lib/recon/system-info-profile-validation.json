@@ -1,0 +1,56 @@
+{
+  "scope": "Additive RSI1 captured SYSTEM_INFO-only hostprofile; no MEMORYSTATUS, Linux hardware, or new original calls",
+  "format": {
+    "tag": "RSI1",
+    "bytes": 104,
+    "reference_ascii_sha256_bytes": 64,
+    "system_info_bytes": 36
+  },
+  "inventory": "kind2 permits exactlyoneGetSystemInfo; GlobalMemoryStatus onlyexistingkind1RSE1",
+  "reference": {
+    "path": "lib/recon/tests/system-info-profile-reference.json",
+    "sha256": "dda00dfbfd3795917860816179e652d556f6052f2088b8e0e282564543912b6e"
+  },
+  "source_hashes": {
+    "lib/recon/src/win32.c": "b38bfa967ea6f4f81ee8f98673e7d8b5126b61a07a595096a0ae485976bfc6be",
+    "lib/recon/include/recon.h": "7b8bbbe80780c744cef86c645c6a75b7c1f0d3393ef374449aeb3823e9c4310b",
+    "lib/recon/system_profile.py": "0c305d70c5a9e538bac2ab8d930546a989012daf01c2781f70453122c895c173"
+  },
+  "native": {
+    "gcc-new": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/system-info-profile/gcc-new",
+      "sha256": "81e669fdcefa8460c17e9e98c67029727ea29652f5ba2953e6138c9701421e42",
+      "result": "passed"
+    },
+    "clang-new": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/system-info-profile/clang-new",
+      "sha256": "57b05e8974e877f1bbed20240c1d566be3c6f7c99908d2fa597d6ee0ea4f854f",
+      "result": "passed"
+    },
+    "gcc-combined": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/system-info-profile/gcc-combined",
+      "sha256": "fb7c3f4ab52b137a23002f9cb70bcc267897190d3094efbf5191c6a177a5f1a4",
+      "result": "passed"
+    },
+    "clang-combined": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/system-info-profile/clang-combined",
+      "sha256": "30f2e3ad40b8a6585548b18adc39e08d41d19518e3ab6382148b7fea462e0ca5",
+      "result": "passed"
+    }
+  },
+  "controls": {
+    "new": "exact36writes+32tailbytes/errnoDOSLast/full108Bx87+liveST0;16native+5encoderdenials",
+    "combined": "unchangedexact68B/12native+3encodercontrols"
+  },
+  "affected_checks": [
+    "defaultcheck",
+    "resourceprovider10denials",
+    "existingcombinedprofile",
+    "newMakecheck"
+  ],
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/system-info-profile/orchestrator-review.json",
+    "sha256": "18f6d4f6a64557d8ed80732f1968cf53e2bed134626aed7fb49191cefa7cd332"
+  },
+  "integration": "C1 must native-only rebuild/reobserve against bothunchangednormal/restoreoriginals before targetpromotion; no pair acceptance claimed here"
+}
