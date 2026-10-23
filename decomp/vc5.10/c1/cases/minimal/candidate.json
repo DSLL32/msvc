@@ -271,6 +271,11 @@
       "start_rva": 75446,
       "end_rva": 75489,
       "entry": 1
+    },
+    {
+      "start_rva": 75503,
+      "end_rva": 75516,
+      "entry": 1
     }
   ],
   "functions": [
@@ -817,6 +822,19 @@
         ]
       ],
       "source": "src/pdb.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_126ef",
+      "native_symbol": "initialize_state_126ef",
+      "role": "application",
+      "chunks": [
+        [
+          75503,
+          75516
+        ]
+      ],
+      "source": "src/pools.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -832,11 +850,20 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75503,
-    "native_symbol": "initialize_state_126ef",
-    "kind": "initialization-callback",
-    "native_args": [],
-    "abi": "cdecl void callback, cleanup0"
+    "rva": 75516,
+    "native_symbol": "CompilerPool::Initialize",
+    "native_linkage_symbol": "_ZN12CompilerPool10InitializeEj",
+    "kind": "initialization-helper",
+    "native_args": [
+      "this",
+      "minimum_pages"
+    ],
+    "calling_convention": "thiscall",
+    "abi": "ECX receiver, unsigned stack DWORD, RET4, pointer return",
+    "caller": {
+      "native_symbol": "initialize_state_126ef",
+      "return_rva": 75515
+    }
   },
   "imports": [
     {
@@ -998,9 +1025,18 @@
       ],
       "entry_rva": 75382,
       "normal_case": false
+    },
+    "pools": {
+      "cursor_offset": 128,
+      "arena_offset": 512,
+      "instance_stride": 16,
+      "remaining_base": 91,
+      "minimum_pages_base": 7,
+      "pointer_roles": "owned snapshot interiors; never dereferenced before named member trap",
+      "normal_case": false
     }
   },
-  "staging_role": "Second persistent PDB helper126b6 is sole new candidate",
+  "staging_role": "First genuine thiscall pool wrapper126ef is sole new candidate; member remains INT3",
   "registered_cleanup": [
     {
       "original_rva": 145728,

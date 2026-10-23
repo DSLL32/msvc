@@ -32,6 +32,8 @@ static DWORD signature_words[2];
 static int signature_probe, signature_seeded;
 static DWORD pdb_reuse, pdb_context_count;
 static int pdb_probe, pdb_seeded;
+static DWORD pool_objects[16];
+static unsigned pool_count;
 
 static void fail(const char *message)
 {
@@ -366,6 +368,34 @@ static void seed_pdb_context(void)
     }
 }
 
+static void read_pool_probes(void)
+{
+    FILE *file;
+    DWORD object;
+    file = fopen("pools-probe.txt", "r");
+    if (!file) return;
+    while (fscanf(file, "%lx", &object) == 1) {
+        if (pool_count == 16 || object < 0x50000 || object + 16 > 0x5a06c)
+            fail("invalid typed pool probe");
+        pool_objects[pool_count++] = object;
+    }
+    if (!feof(file)) fail("incomplete pool probe");
+    fclose(file);
+}
+
+static void seed_pools(DWORD saved)
+{
+    DWORD values[4];
+    unsigned index;
+    for (index = 0; index < pool_count; ++index) {
+        values[0] = saved + 128 + index * 16;
+        values[1] = 91 + index; values[2] = 7 + index;
+        values[3] = saved + 512 + index * 16;
+        write_mem(base + pool_objects[index], values, sizeof(values));
+        fprintf(events, "pool-seed index=%u object=%08lx allocation=%08lx\n", index, pool_objects[index], saved);
+    }
+}
+
 static void seed_output_buffer(unsigned index, DWORD rva)
 {
     DWORD saved, start, object, values[7], descriptor;
@@ -423,6 +453,7 @@ static void seed_restore_state(void)
     if (value_probe) seed_value(0x122a5, 0);
     if (signature_probe) seed_signature(0x122a5, 0);
     if (pdb_probe) seed_pdb_context();
+    seed_pools(saved);
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -465,8 +496,8 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     FILE *saved;
     char filename[80], text[4096];
     readmem(context->Esp, stack, sizeof(stack));
-    fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
-            sequence, address - base, context->Esp, context->Eax,
+    fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx ecx=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
+            sequence, address - base, context->Esp, context->Eax, context->Ecx,
             stack[0], stack[1], stack[2], stack[3], stack[4]);
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "x87-control=%04lx\n", context->FloatSave.ControlWord);
@@ -549,7 +580,7 @@ int main(int argc, char **argv)
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
     if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
     restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
-    if (restore_probe) { read_buffer_probes(); read_value_probe(); read_signature_probe(); read_pdb_probe(); }
+    if (restore_probe) { read_buffer_probes(); read_value_probe(); read_signature_probe(); read_pdb_probe(); read_pool_probes(); }
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;

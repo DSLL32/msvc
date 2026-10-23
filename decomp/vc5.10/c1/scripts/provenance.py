@@ -41,7 +41,7 @@ def check(directory):
 def native_sources():
     paths = [PROJECT / "Makefile", PROJECT / "scripts/native-host.c"]
     for directory in (PROJECT / "src", ROOT / "lib/recon/src", ROOT / "lib/recon/include", ROOT / "lib/recon/native"):
-        paths.extend(path for path in directory.rglob("*") if path.is_file() and path.suffix in (".c", ".h"))
+        paths.extend(path for path in directory.rglob("*") if path.is_file() and path.suffix in (".c", ".h", ".cpp"))
     return paths
 
 

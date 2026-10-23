@@ -34,6 +34,17 @@ typedef struct CompilerOutputBuffer {
 typedef struct CompilerValue {
     __int64 integer;
 } CompilerValue;
+/* Genuine thiscall POD. Only four encountered fields are modeled; no
+ * implicit construction/destruction, vtable, RTTI or exception machinery. */
+typedef struct CompilerPool {
+    unsigned char *cursor;
+    unsigned remaining;
+    unsigned minimum_pages;
+    struct CompilerArena *arena;
+#ifdef __cplusplus
+    CompilerPool *RECON_THISCALL Initialize(unsigned);
+#endif
+} CompilerPool;
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -46,6 +57,7 @@ typedef struct CompilerBss {
     CompilerValue saved_literal;
     unsigned char saved_literal_available;
     unsigned long pdb_signature;
+    CompilerPool pools[1];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -57,6 +69,10 @@ typedef struct CompilerPdbContext {
     struct CompilerMreState *rebuild_state;
     int read_mode;
 } CompilerPdbContext;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern CompilerPdbContext c1_pdb_context;
 extern CompilerPdbContext c1_output_pdb_context;
 extern CompilerInitializedState c1_data;
@@ -120,4 +136,7 @@ void __cdecl initialize_state_1277a(void);
 void __cdecl initialize_state_1277b(void);
 void __cdecl initialize_state_1279c(void);
 void __cdecl initialize_state_127a6(void);
+#ifdef __cplusplus
+}
+#endif
 #endif

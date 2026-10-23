@@ -3,6 +3,11 @@
 #include <windows.h>
 #include <recon.h>
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
 int WINAPI InvokeCompilerPass(int, char **, int);
 void WINAPI AbortCompilerPass(int);
@@ -20,4 +25,7 @@ extern C1Initializer *c1_onexit_begin, *c1_onexit_end;
 extern C1Initializer c1_initializers[1];
 BOOL WINAPI _DllMainCRTStartup(HINSTANCE, DWORD, LPVOID);
 BOOL WINAPI _CRT_INIT(HINSTANCE, DWORD, LPVOID);
+#ifdef __cplusplus
+}
+#endif
 #endif

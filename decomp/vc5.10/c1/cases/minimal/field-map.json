@@ -854,6 +854,42 @@
       "default": 0,
       "type": "unsigned long rolling PDB signature",
       "default_proof": "loaded initial BSS snapshot; actual initializer12664 storesffffffff; callers12c1e/130ce feed value to imported SigForPbCb"
+    },
+    {
+      "name": "pools[0].cursor",
+      "original_rva": 348280,
+      "bytes": 4,
+      "native_offset": 544,
+      "native_field": "c1_bss.pools[0].cursor",
+      "default": 0,
+      "default_proof": "actual initial loaded BSS snapshot; member126fc writes encountered field; no original object tail inferred"
+    },
+    {
+      "name": "pools[0].remaining",
+      "original_rva": 348284,
+      "bytes": 4,
+      "native_offset": 548,
+      "native_field": "c1_bss.pools[0].remaining",
+      "default": 0,
+      "default_proof": "actual initial loaded BSS snapshot; member126fc writes encountered field; no original object tail inferred"
+    },
+    {
+      "name": "pools[0].minimum_pages",
+      "original_rva": 348288,
+      "bytes": 4,
+      "native_offset": 552,
+      "native_field": "c1_bss.pools[0].minimum_pages",
+      "default": 0,
+      "default_proof": "actual initial loaded BSS snapshot; member126fc writes encountered field; no original object tail inferred"
+    },
+    {
+      "name": "pools[0].arena",
+      "original_rva": 348292,
+      "bytes": 4,
+      "native_offset": 556,
+      "native_field": "c1_bss.pools[0].arena",
+      "default": 0,
+      "default_proof": "actual initial loaded BSS snapshot; member126fc writes encountered field; no original object tail inferred"
     }
   ],
   "outside_bss": [
@@ -1255,7 +1291,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 544,
+    "native_bss_size": 560,
     "source_writer_rvas": [
       [
         12576,
@@ -1266,7 +1302,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75503,
+    "hard_frontier_rva": 75516,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -1436,5 +1472,25 @@
     },
     "lifetime": "plain .data: outside both datafe snapshot and bssfe clear",
     "provider_layout_claimed": false
-  }
+  },
+  "pools": [
+    {
+      "index": 0,
+      "original_object_rva": 348280,
+      "native_offset": 544,
+      "native_size": 16,
+      "original_object_extent_unknown": true,
+      "members": {
+        "cursor": 0,
+        "remaining": 4,
+        "minimum_pages": 8,
+        "arena": 12
+      },
+      "member_rva": 75516,
+      "native_method": "CompilerPool::Initialize",
+      "native_linkage_symbol": "_ZN12CompilerPool10InitializeEj",
+      "constructor_argument": 1,
+      "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
+    }
+  ]
 }

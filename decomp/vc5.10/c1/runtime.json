@@ -14,13 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_126ef",
-    "start": 274802415,
-    "end": 274802416,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_12712",
     "start": 274802450,
     "end": 274802451,
@@ -187,5 +180,13 @@
     "end": 274872540,
     "pending_extent": true,
     "evidence": "actual separate callee/registration callback; named INT3 only"
+  },
+  {
+    "name": "CompilerPool::Initialize",
+    "symbol": "?Initialize@CompilerPool@@QAEPAU1@I@Z",
+    "start": 274802428,
+    "end": 274802429,
+    "pending_extent": true,
+    "evidence": "actual ECX/stack member and actual Win32 MAP identity; named INT3 only"
   }
 ]

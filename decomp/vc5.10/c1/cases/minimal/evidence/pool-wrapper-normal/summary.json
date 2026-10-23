@@ -1,0 +1,16 @@
+{
+  "accepted_candidate": "_initialize_state_126ef",
+  "bytes": 13,
+  "application_functions": 36,
+  "application_bytes": 1513,
+  "crt_functions": 2,
+  "crt_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes": 1970,
+  "source_functions": 38,
+  "next_frontier": {
+    "rva": 75516,
+    "native_symbol": "CompilerPool::Initialize"
+  },
+  "unknown": "Original pool extent/tail and arena internal layout UNMODELED; only four encountered DWORD fields projected; member still INT3."
+}

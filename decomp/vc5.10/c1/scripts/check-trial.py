@@ -98,7 +98,7 @@ def check(original, native, audit_directory=None):
         assert "Program received signal SIGTRAP" in transcript
         assert re.search(r"^(?:0x[0-9a-f]+ in )?" + re.escape(state["symbol"]) + r" \(", transcript, re.M)
     symbols = subprocess.check_output(["nm", "-S", "--defined-only", str(PROJECT / "build/native/c1-host")], text=True)
-    match = re.search(r"^([0-9a-f]+) ([0-9a-f]+) [TtWw] " + re.escape(state["symbol"]) + "$", symbols, re.M)
+    match = re.search(r"^([0-9a-f]+) ([0-9a-f]+) [TtWw] " + re.escape(expected.get("native_linkage_symbol", state["symbol"])) + "$", symbols, re.M)
     assert match
     begin, size = (int(value, 16) for value in match.groups())
     assert begin < state["pc"] <= begin + size
@@ -149,6 +149,8 @@ def check(original, native, audit_directory=None):
                     callback = re.search(r"^([0-9a-f]+) [0-9a-f]+ [Tt] " + re.escape(cb["native_symbol"]) + "$", symbols, re.M)
                     assert callback and state["args"] == {"callback": int(callback[1], 16)}
                     assert args[0] == module_base + cb["original_rva"]
+                elif expected.get("calling_convention") == "thiscall":
+                    assert state["args"]["minimum_pages"] == args[0] == 1
                 else:
                     assert state["args"] == {}
             else:
