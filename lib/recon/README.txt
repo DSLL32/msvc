@@ -238,4 +238,7 @@ before a captured response is requested, supporting original PATH search.
 
 Native signal fixtures test observable handler/output behavior. They do not
 claim equivalence of Windows console callback threads or SEH fault dispatch.
-Shared changes belong to the orchestrator; binary workers request additions.
+The dedicated /root/recon_lib_maintenance agent maintains this shared layer.
+Binary workers contact it directly for shim changes and compatibility advice;
+reconstruction acceptance, boundary policy and cross-project decisions remain
+with the orchestrator.
