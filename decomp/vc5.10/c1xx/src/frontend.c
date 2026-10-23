@@ -50,6 +50,7 @@ int initialize_compiler_pass(void)
         frontend_bss.token_value.integer = 0;
         frontend_bss.sentinel_token.kind = 0;
         frontend_bss.sentinel_token.value.integer = 0;
+        frontend_bss.source_signature = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

@@ -50,6 +50,7 @@ typedef struct FrontendBss {
     DeferredWorkFrame *deferred_work;
     TokenValue token_value;
     SentinelToken sentinel_token;
+    unsigned long source_signature;
 } FrontendBss;
 
 extern FrontendData frontend_data;

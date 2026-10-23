@@ -1,5 +1,5 @@
 {
-  "schema": 15,
+  "schema": 16,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -829,6 +829,15 @@
         "signed i64",
         "opaque object pointer; not tested or interpreted by accepted code"
       ]
+    },
+    {
+      "name": "source_signature",
+      "class": "bss",
+      "original_address": 273418292,
+      "bytes": 4,
+      "native_expression": "frontend_bss.source_signature",
+      "original_default": 0,
+      "evidence": "constructor3893d seedsFFFFFFFF;3908c/39554 pass previous value as third unsigned signature argument to mspdb50!SigForPbCb IATc9234 and store returned EAX"
     }
   ],
   "initializers": [

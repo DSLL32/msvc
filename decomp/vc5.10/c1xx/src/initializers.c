@@ -118,7 +118,7 @@ void initialize_frontend_20(void)
 
 void initialize_frontend_21(void)
 {
-    __asm { int 3 }
+    frontend_bss.source_signature = (unsigned long)-1;
 }
 
 void initialize_frontend_22(void)

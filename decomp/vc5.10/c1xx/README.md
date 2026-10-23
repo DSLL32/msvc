@@ -121,10 +121,15 @@ unmodeled. Its natural and nonzero/reset proofs are in
 24 native padding bytes and a sizeof of 568.
 
 The callback18 sentinel-token copy passed independent review: complete original
-40-byte internal transfer is checked separately from17modeled native bytes.
+40-byte internal transfer is checked separately from 17 modeled native bytes.
 Only zero/numeric auxiliary input is validated; real pointer inputs require
-identity mapping, and both32-byte tails remain unmodeled. The proof packet and
-42rejection controls are in `cases/minimal/token-copy-trials.json`.
+identity mapping, and both 32-byte tails remain unmodeled. The proof packet and
+42 rejection controls are in `cases/minimal/token-copy-trials.json`.
 
-Current reconstruction has reached initializer19; minimal compilation remains
+The signature accumulator adds a proven unsigned32 field, reset on repeated
+initialization and seeded with all ones by callback21. Its three pairs and
+ten signature-specific controls are in `cases/minimal/signature-trials.json`.
+Current BSS projection:565semantic bytes plus27native padding, sizeof592.
+
+Current reconstruction has reached initializer22; minimal compilation remains
 unfinished. The completed lifecycle fixture remains native-only (about 12 ms warm).

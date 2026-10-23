@@ -127,6 +127,7 @@ int main(void)
             frontend_bss.token_value.integer = 0x1122334455667788i64;
             frontend_bss.sentinel_token.value.integer = -7;
             frontend_bss.sentinel_token.kind = 165;
+            frontend_bss.source_signature = 37;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

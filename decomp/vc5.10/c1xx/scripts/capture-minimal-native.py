@@ -99,6 +99,8 @@ for name,expression in [('token_value','frontend_bss.token_value'),('sentinel_to
 value['frontend']['token_value_layout']={'size':int(gdb.parse_and_eval('sizeof(TokenValue)')),'is_union':gdb.lookup_type('TokenValue').strip_typedefs().code==gdb.TYPE_CODE_UNION,'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('TokenValue').fields()}}
 value['frontend']['sentinel_native_layout']={'size':int(gdb.parse_and_eval('sizeof(SentinelToken)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('SentinelToken').fields()}}
 value['frontend']['sentinel_padding']=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)&frontend_bss.sentinel_token.kind'))+1,3)).hex()
+value['frontend']['source_signature']=int(gdb.parse_and_eval('frontend_bss.source_signature'))
+value['frontend']['storage']['source_signature']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.source_signature')),int(gdb.parse_and_eval('sizeof(frontend_bss.source_signature)'))]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -168,6 +170,10 @@ end
         result_point=output/'collect-value-copy-result.gdb'
         result_point.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'value-copy-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'value-copy-result-argv.bin'))))
         observer+='break *initialize_frontend_19\ncommands\nsilent\nsource '+str(result_point)+'\ncontinue\nend\n'
+    if trial['trial']=='_initialize_frontend_21':
+        signature=output/'collect-signature-entry.gdb'
+        signature.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'signature-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'signature-entry-argv.bin'))))
+        observer+='break *initialize_frontend_21\ncommands\nsilent\nsource '+str(signature)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

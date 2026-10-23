@@ -27,7 +27,7 @@ def check(original,native,require_audit=True,audit_path=None):
     registrar=trial['trial']=='_register_cleanup'
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=20,
+    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=21,
               'no reviewed callback decoder for this function')
     index=16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -36,7 +36,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -144,6 +144,7 @@ def check(original,native,require_audit=True,audit_path=None):
         check_outputs(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps,model)
     if model['schema']>=14:check_deferred(original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=15:check_token_value(original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
     if require_audit:s.audit(trial,audit_path)
@@ -317,3 +318,19 @@ def check_token_value(original,native,trial,text,pre,phase,state,seed,final,symb
         if key not in ('sentinel_token',):s.require(native_after['frontend'][key]==value,'token copy changed adjacent modeled native state '+key)
     # The unknown original tails are compared only with ORIGINAL source bytes.
     # No native object or integer conversion represents those bytes or pointers.
+
+
+def check_signature(original,native,pre,phase,state,seed,final,symbols,traps):
+    def raw(suffix):
+        data=(original/('source-signature-'+suffix+'.bin')).read_bytes()
+        s.require(len(data)==4,'missing original signature bytes')
+        return struct.unpack('<I',data)[0]
+    s.require(raw('000')==0,'original signature default differs')
+    s.require(raw('006')==pre['frontend']['source_signature']==(37 if seed else 0),'signature reset input differs')
+    s.require(raw('phase')==phase['frontend']['source_signature']==0,'signature escaped BSS reset')
+    rows=[row for row in traps if row[1]=='0003893d'];s.require(len(rows)==1,'missing signature initializer raw entry')
+    entry=json.loads((native/'signature-entry.json').read_text())
+    symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_frontend_21$',symbols,re.M)
+    s.require(symbol is not None and entry['symbol']=='initialize_frontend_21' and entry['args']=={} and entry['pc']==int(symbol[1],16) and
+              raw('%03d'%int(rows[0][0]))==entry['frontend']['source_signature']==0,'actual signature entry input differs')
+    s.require(raw(final)==state['frontend']['source_signature']==0xffffffff,'signature initializer did not seed unsigned32 all-ones')

@@ -264,6 +264,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "sentinel-payload-%s.bin", suffix); save_blob(name, data, 40);
     readmem(base + 0xc0b80, data, 8);
     sprintf(name, "sentinel-header-%s.bin", suffix); save_blob(name, data, 8);
+    readmem(base + 0xc0834, data, 4);
+    sprintf(name, "source-signature-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -370,6 +372,7 @@ static void seed_frontend_restore(void)
         write_mem(base + 0xc0b88, numeric, 8);
         value = 165; write_mem(base + 0xc0b80, &value, 1);
     }
+    value = 37; write_mem(base + 0xc0834, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
