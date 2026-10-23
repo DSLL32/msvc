@@ -468,5 +468,10 @@
     "full_build_wall": "not separately measured; successful make-j4 original/native/helper build before fresh captures; no estimate substituted",
     "fixture_build_seconds": 0.005567883141338825
   },
-  "audit_version_separation": "normal original2/native2 raw includes prior3c1 tool proof unchanged; current validation re-audits same config/images with READY5e6734b5/eb2cd26c, no execution solely for tool change"
+  "audit_version_separation": "normal original2/native2 raw includes prior3c1 tool proof unchanged; current validation re-audits same config/images with READY5e6734b5/eb2cd26c, no execution solely for tool change",
+  "review": {
+    "status": "independent review passed; exact natural trial promoted",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/system-info-orchestrator-review.json",
+    "sha256": "1e02bb1096bfc1bc249028d299ef9b4a04b14d7096d15748a8e25312897337a2"
+  }
 }

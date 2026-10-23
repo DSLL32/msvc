@@ -38,5 +38,6 @@ proper fresh original2. Auditor version drift required only static re-audit.
 system-info-trials.json freezes source/controller/input/audit identities and split
 costs. Original observations8.43–8.64s; native GDB4.50–4.65s, collision4.53s. These
 are capture costs. Completed lifecycle fixture remains native-only, with its
-build/setup/execution/checks reported separately. Hook promotion is held for the
-orchestrator's requested namespace/profile proof review.
+build/setup/execution/checks reported separately. Hook promotion passed independent namespace/profile proof review and is recorded
+in functions.json. Review receipt SHA:
+1e02bb1096bfc1bc249028d299ef9b4a04b14d7096d15748a8e25312897337a2.

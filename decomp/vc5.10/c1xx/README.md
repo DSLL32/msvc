@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **67 application functions (2,831 bytes)**, **two historical CRT
+Accepted code is **68 application functions (2,832 bytes)**, **two historical CRT
 support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 3,288 accepted code bytes are 0.4377% of the 751,216-byte code extent; this is not
+The 3,289 accepted code bytes are 0.4378% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the subsequent empty initialization hook.
+stopping in the compiler-environment initializer after the real GetSystemInfo call.
 
 ## Target and ABI
 
@@ -210,3 +210,16 @@ int fields/defaults and nonzero snapshot/restore pairs pass32 targeted controls
 plus3 common Rust ownership denials. See `cases/minimal/early-switches-trials.json`.
 Initialized projection is149 semantic bytes+51native padding;8371original bytes
 remain unmodeled. Parser promotion adds no data bytes to code coverage.
+
+The one-byte empty hook is accepted after independent namespace/profile review.
+The host now binds the actual original CRT argument/environment vectors separately
+from the 26-entry Invoke vector. Full ordered private inputs, borrowed storage
+identities and the real absent-variable getter result are checked; a Linux-only
+host-variable collision cannot leak into the target namespace. Earlier absence
+observations did not certify that namespace and are retained with that limitation.
+The actual GetSystemInfo call uses the reviewed shared RSI1 profile: all36 SDK
+bytes, stack/nonvolatile/error/FPU state and neighbors match, exactly one call
+is allowed, and GlobalMemoryStatus remains denied. Three fresh pairs and23 new
+controls are in `cases/minimal/system-info-trials.json`. Original observations
+took8.43–8.64s and native GDB observations4.50–4.65s. Completed lifecycle fixtures
+remain native-only:13.03ms total,2.15ms execution. Minimal compilation continues.
