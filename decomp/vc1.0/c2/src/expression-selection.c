@@ -12,6 +12,8 @@ unsigned return_address_bytes; /* 0007ce4c */
 MachineOperand operand_eax = { OPERAND_REGISTER, { REG_EAX } }; /* 00080010 */
 MachineOperand operand_ecx = { OPERAND_REGISTER, { REG_ECX } }; /* 00080020 */
 MachineOperand operand_edx = { OPERAND_REGISTER, { REG_EDX } }; /* 00080028 */
+MachineOperand operand_esi = { OPERAND_REGISTER, { REG_ESI } }; /*00080030*/
+MachineOperand operand_edi = { OPERAND_REGISTER, { REG_EDI } }; /*00080038*/
 MachineOperand operand_esp = { OPERAND_REGISTER, { REG_ESP } }; /* 00080040 */
 MachineOperand operand_ebp = { OPERAND_REGISTER, { REG_EBP } }; /* 00080048 */
 MachineOperand operand_st0 = { OPERAND_REGISTER, { REG_ST0 } }; /* 00080050 */

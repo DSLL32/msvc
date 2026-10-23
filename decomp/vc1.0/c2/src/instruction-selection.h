@@ -16,7 +16,7 @@ enum OperandKind { OPERAND_REGISTER = 1, OPERAND_IMMEDIATE = 2, OPERAND_ABSOLUTE
     OPERAND_FRAME_SIZE = 9 };
 typedef struct OpcodeMap { unsigned tree_opcode, selection; } OpcodeMap;
 extern MachineOperand operand_eax, operand_ecx, operand_edx;
-extern MachineOperand operand_esp, operand_ebp, operand_st0;
+extern MachineOperand operand_esp, operand_ebp, operand_st0, operand_esi, operand_edi;
 MachineInstruction *__fastcall new_machine_instruction(unsigned kind);
 MachineInstruction *__cdecl new_machine_record(unsigned kind, ...);
 MachineBlockHeader *__fastcall select_work_item(WorkItem *work);
@@ -51,7 +51,7 @@ MachineInstruction *__fastcall emit_call(unsigned type, MachineOperand *target,
 MachineInstruction *__fastcall emit_function_symbol(FunctionSymbol *symbol);
 void emit_float_return(void);
 void __fastcall emit_label(SymbolHeader *symbol);
-void __fastcall select_assembly_record(Node *node);
+unsigned short __fastcall select_assembly_record(Node *node);
 unsigned __fastcall return_value_register(FunctionSymbol *symbol);
 LabelSymbol *new_internal_label(void);
 MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction);

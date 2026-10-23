@@ -1,4 +1,5 @@
 #include "scheduler.h"
+#include "intrinsic-selection.h"
 #include "jump-threading.h"
 #include "comparison-branches.h"
 #include "frame-access.h"
@@ -172,7 +173,7 @@ MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm in
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
 int __fastcall try_select_assignment(Node *node) { __asm int 3 }
 void emit_float_return(void) { __asm int 3 }
-void __fastcall select_assembly_record(Node *node) { __asm int 3 }
+unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
 
 #include "register-use.h"
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
@@ -200,7 +201,6 @@ void mark_x87_call_result(void) { __asm int 3 }
 MachineOperand *__fastcall frame_temporary_operand(SymbolHeader *temporary, unsigned offset) { __asm int 3 }
 MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
-unsigned short __fastcall select_intrinsic(Node *node) { __asm int 3 }
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
 #include "bitsets.h"
 
@@ -461,3 +461,14 @@ void __fastcall rewrite_region_exit_counter(Node *count) { __asm int 3 }
 int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }
 void __fastcall release_basic_induction(BasicInduction *induction) { __asm int 3 }
 void __fastcall release_loop_tree_record(LoopTreeRecord *record) { __asm int 3 }
+unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int mode) { __asm int 3 }
+unsigned short __fastcall select_intrinsic_a5(Node *node) { __asm int 3 }
+unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
+unsigned short __fastcall select_intrinsic_string_length(Node *value, int mode, unsigned type) { __asm int 3 }
+unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
+unsigned short __fastcall select_runtime_intrinsic(Node *node) { __asm int 3 }
+int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol) { __asm int 3 }
+SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
+void __fastcall select_block_operation(unsigned constant_count, MachineOperand *count,
+    MachineOperand *source, MachineOperand *destination, int wide, unsigned short type,
+    int fill, int remainder, int direction) { __asm int 3 }

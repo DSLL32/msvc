@@ -2038,3 +2038,16 @@ agree at select_intrinsic1b270 in instruction selection.735 graph/extent checks,
 canonical/W3 and native fixtures pass. Descriptor-release and dead-loop mutation
 branches remain explicitly unvisited. Full hello object remains incomplete; see
 cases/hello-loop-optimization-complete.json for evidence/layouts/timing.
+
+Aggregate intrinsic selection: checkpoint816
+--------------------------------------------
+The whole intrinsic selector preserves all95 original dispatch entries as a C
+switch, using typed shared ESI/EDI operands and exact runtime symbol names.
+Block/fill operand selection and byte/word replication are separate functions;
+existing assembly-selector stub now has the consumed unsigned-short return ABI.
+Native/original agree at select_block_operation1d670 for the36-byte aggregate
+zero fill.738 graph/extent checks, canonical/two modules-W3 and native fixtures
+pass. Unchanged audit caught a split finalRET4 operand; its two missing bytes
+were restored, the corrected mask freshly captured, and both receipts retained.
+Dynamic replication and other intrinsic families remain unvisited; full hello
+object incomplete. See cases/hello-block-intrinsics.json for evidence/timings.

@@ -1,6 +1,7 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified813 acceptances/735 source graphs; matching select_intrinsic1b270.
-WinMain global tree and loop optimization passed; instruction selection active.
-Extent union220906/399693=55.2689188953%, not branch coverage.
+Verified816 acceptances/738 source graphs; matching select_block_operation1d670.
+WinMain instruction selection:36-byte aggregate zero-fill operands prepared.
+Extent union224206/399693=56.0945525691%, not branch coverage.
 Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-loop-optimization-complete.json. No shared shim requests.
+See cases/hello-block-intrinsics.json. No shared shim requests.
+Next extension BEFORE receipt is cases/hello-original-816-corrected.json.

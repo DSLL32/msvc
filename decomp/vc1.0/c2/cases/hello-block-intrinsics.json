@@ -1,0 +1,497 @@
+{
+  "checkpoint": 816,
+  "base_commit": "078fe1c",
+  "status": "active; aggregate-fill operand selection passed; block emission next",
+  "accepted_functions": [
+    {
+      "name": "@select_intrinsic@4",
+      "start": 111216,
+      "end": 113652
+    },
+    {
+      "name": "@select_intrinsic_block@12",
+      "start": 115872,
+      "end": 116342
+    },
+    {
+      "name": "@select_replicated_fill_operand@12",
+      "start": 120032,
+      "end": 120426
+    }
+  ],
+  "source_graphs": 738,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 816,
+    "accepted_code_bytes": 224206,
+    "original_code_bytes": 399693,
+    "percentage": 56.094552569096784,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 288
+  },
+  "current_frontier": {
+    "name": "@select_block_operation@36",
+    "original_va": "0x1d670"
+  },
+  "validation": {
+    "canonical_build": "pass",
+    "W3": "intrinsic-selection/expression-selection clean",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "e5089c982e1a18a2382bdf9727acc20e23671aa56dc85610410bab66cb0fca0a",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.01818215288221836,
+          "execution_seconds": 0.005911646410822868,
+          "check_seconds": 0.0016061486676335335,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1sozn9ly/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@select_block_operation@36",
+          "returncode": -5,
+          "application_entries": 464,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.012056395411491394,
+          "execution_seconds": 0.009050888940691948,
+          "check_seconds": 0.0009548673406243324,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1sozn9ly/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.21143972128629684,
+      "suite_setup_seconds": 0.13139487896114588,
+      "negative_check_seconds": 0.022329803556203842,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    }
+  },
+  "reference_evidence": [
+    {
+      "path": "cases/hello-original-814.json",
+      "sha256": "8458e57e0a5e9a1e690c2234c8ac406e4e8af1e4c63d6b4e886a166ebf7b2912",
+      "capture": {
+        "label": "intrinsic-selector-after",
+        "accepted": 814,
+        "logical": "@select_intrinsic_block@12",
+        "original_va": "0x1c4a0",
+        "events": "exception 80000003 rva 0000c4a0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.18967280350625515,
+        "execution_check_seconds": 1.1501116985455155,
+        "total_seconds": 1.3397849444299936,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "966dbbf4df4a6f3be53bb911d225bf9a150ffe3899b1f36cac4287a5c88c9b6f",
+        "config_sha256": "7cfa8f62546c936809c1b527a9d146823766a8d94adfe9b2b72aa372b2df4533",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/intrinsic-selector-after"
+      },
+      "native": {
+        "executable_sha256": "e5b4956abeb4a97198c67e92018fa3b8af294809b148ed38a88ce794f0202233",
+        "config_sha256": "7cfa8f62546c936809c1b527a9d146823766a8d94adfe9b2b72aa372b2df4533",
+        "seconds": 0.15211427491158247,
+        "logical": "@select_intrinsic_block@12",
+        "matched": true,
+        "log_sha256": "be7cbefe0fb589e728396d835b4a81ba95241a0f1e3f5db9154d16fdf02cfa3b"
+      }
+    },
+    {
+      "path": "cases/hello-original-815.json",
+      "sha256": "2e06e5b12b15d9df637b9247e597fdc55e034b0a7801df113c703495319de5ef",
+      "capture": {
+        "label": "select-block-after",
+        "accepted": 815,
+        "logical": "@select_replicated_fill_operand@12",
+        "original_va": "0x1d4e0",
+        "events": "exception 80000003 rva 0000d4e0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.1919154580682516,
+        "execution_check_seconds": 1.0429584197700024,
+        "total_seconds": 1.2348743518814445,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "6c486a7958c0dc86d937547a6c7211788ac8c44ea375a7c3656249eb0faf6693",
+        "config_sha256": "fe381b39b84b9f43b98418fa8e8d531abdf613f45fc90b3be8eab1a64362bda4",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/select-block-after"
+      },
+      "native": {
+        "executable_sha256": "49e5b4bb2446183559c5a268615e62b831304d431efafae44b527e48f9493021",
+        "config_sha256": "fe381b39b84b9f43b98418fa8e8d531abdf613f45fc90b3be8eab1a64362bda4",
+        "seconds": 0.1511819576844573,
+        "logical": "@select_replicated_fill_operand@12",
+        "matched": true,
+        "log_sha256": "62b46bb17d7363ed75f776fbfc26992e6db5911c2c0820466b9f10c30b228666"
+      }
+    },
+    {
+      "path": "cases/hello-original-816.json",
+      "sha256": "2de4724128b39fff45ff367465a21a0089cb179710213a6123cbb14caafba79c",
+      "capture": {
+        "label": "replicated-fill-after",
+        "accepted": 816,
+        "logical": "@select_block_operation@36",
+        "original_va": "0x1d670",
+        "events": "exception 80000003 rva 0000d670 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.1877159010618925,
+        "execution_check_seconds": 0.7703874791041017,
+        "total_seconds": 0.9581038495525718,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "9931740d38fc45ad5daefece23f8459d75ea9d74245d34191fa1efafe36fd28e",
+        "config_sha256": "cc631dc7eeb75f0b6941a738118fe410f362e6e8f395a1a792f161c41bc89baa",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/replicated-fill-after"
+      },
+      "native": {
+        "executable_sha256": "3dab04874b33c048c81c24bac71afcb4a80e46034137a1ae9261f20c7a715842",
+        "config_sha256": "cc631dc7eeb75f0b6941a738118fe410f362e6e8f395a1a792f161c41bc89baa",
+        "seconds": 0.1479070484638214,
+        "logical": "@select_block_operation@36",
+        "matched": true,
+        "log_sha256": "02aed9d358c91a67acdd41937515fdffe43d39deff53ac0bf073a75a973bbfff"
+      }
+    }
+  ],
+  "data_provenance": {
+    "dispatch": {
+      "original": "1ba78..1bbf4",
+      "entries": 95,
+      "representation": "ordinary semantic C switch; original dispatch words only restored in precise mask extent, not copied into source data"
+    },
+    "physical_operands": {
+      "80030": "MachineOperand operand_esi = register6",
+      "80038": "MachineOperand operand_edi = register7",
+      "placement": "beside shared original EAX/ECX/EDX/ESP physical operands; no relative-layout requirement"
+    },
+    "strings": "Confirmed original802a4 __tls_index,802b0 __tls_array,802bc __alloca_probe,802cc __setjmp; ordinary point-of-use literals",
+    "callee_ABI_refinement": "select_assembly_record existing stub/header changed void to unsigned short because original selector consumesAX; no newly accepted assembly selector",
+    "block_ABI": "select_block_operation fastcall9arguments,7 stack words,RET1c at1da86; newly introduced named trap",
+    "fill_ABI": "select_replicated_fill_operand fastcall3arguments,RET4; corrected lastRET4 immediate extent without changing body"
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Whole intrinsic selector covers all original dispatch cases and retains9 new named child stubs; most ID families unvisited. Unresolved delegated handler meanings retain serialized-ID names instead of unsupported guesses.",
+    "Hello reaches byte fill0xad with native count36/type101/fill1. Dynamic fill replication, aggregate push, ports, alloca,setjmp,TLS, floating cleanup not claimed exercised.",
+    "No bulk output emitted yet: current matching select_block_operation remains trapped. Full hello object incomplete.",
+    "Unchanged audit rejected splitRET operand in tentative replicated-fill extent. Corrected original mask was freshly captured and matched; old/corrected receipts retained, offline cache correction proves metadata-only end change. Tail still unvisited."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured; disassembly/Ghidra analysis only",
+    "build_audit_fixtures": {
+      "block-intrinsic-final-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.31257821060717106,
+        "returncode": 0,
+        "log_sha256": "3c6c0f192560cf5d389e20cebbaa7bb3211da4e05c0d4d35bb7bedd5ad292823"
+      },
+      "intrinsic-selector-reviewed-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.217217495664954,
+        "returncode": 0,
+        "log_sha256": "08e8804549aa435f2ee500b69ac0eaeffca7288d84a3d95c394b008bac58e3d2"
+      },
+      "intrinsic-selector-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "intrinsic-selection",
+          "expression-selection"
+        ],
+        "seconds": 0.9679010277613997,
+        "returncode": 0,
+        "log_sha256": "d32836918d0aaec863a34ea513b81201253e4844bad3600281812f31c8dd2061"
+      },
+      "intrinsic-selector-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.8773677134886384,
+        "returncode": 0,
+        "log_sha256": "df9a3afc7be20de871dd8e03255779b1fc0e53282e298550a0dddc553a0e6e85"
+      },
+      "replicated-fill-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.0242973025888205,
+        "returncode": 0,
+        "log_sha256": "8542c51bf9a71ebab9ed8ca524043d66992ac82de890520efcd3d46e2a3bb6a3"
+      },
+      "block-intrinsic-corrected-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.32288053166121244,
+        "returncode": 0,
+        "log_sha256": "7b041dccf5b3072493e485ceb66ab84e959ba539ec6647ad6289b90064c0648e"
+      },
+      "block-intrinsic-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.806024613790214,
+        "returncode": 2,
+        "log_sha256": "95311a50983c6083b298207e4741513c2b668396eda8a59de0d510c226a02eda"
+      },
+      "select-block-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 9.88104446977377,
+        "returncode": 0,
+        "log_sha256": "6c505dbdf49e6b6872e6182c4b411efbe29e1989d326c10570d78a521f2e6998"
+      },
+      "intrinsic-selector-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 19.76240731868893,
+        "returncode": 0,
+        "log_sha256": "713e21ae9c7792eac02bf801e6683d23e2ebf6a51a5979b479d687ce2be373d3"
+      },
+      "block-intrinsic-final-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.728862602263689,
+        "returncode": 0,
+        "log_sha256": "3944afc20d2c22cc754c20aa6a40c09e210076e3298e5e7ef4a482352800ee24"
+      },
+      "block-intrinsic-corrected-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.521164506673813,
+        "returncode": 0,
+        "log_sha256": "150c660844d91595091ff60d4b0aa419eac1c4f18d25327ba7b70b87db558d07"
+      },
+      "intrinsic-selector-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.28498233761638403,
+        "returncode": 0,
+        "log_sha256": "e670945e8121db7a71411c3abe515d2e521c24cbbe850cd771c83b20e13878a7"
+      },
+      "block-intrinsic-corrected-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "intrinsic-selection",
+          "expression-selection"
+        ],
+        "seconds": 0.9231789130717516,
+        "returncode": 0,
+        "log_sha256": "d32836918d0aaec863a34ea513b81201253e4844bad3600281812f31c8dd2061"
+      },
+      "block-intrinsic-comment-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.784730081446469,
+        "returncode": 0,
+        "log_sha256": "08e8804549aa435f2ee500b69ac0eaeffca7288d84a3d95c394b008bac58e3d2"
+      }
+    },
+    "notes": [
+      "All measured attempts included, including preflight failure and corrected checks.",
+      "Native/canonical combined build19.762s for new module/shared header;9.881s for added helper declarations; incremental2.0\u20132.8s, unsplit.",
+      "Fresh original corrected-mask and native GDB timings retained in extent correction. Native fixture timing phases remain separate; no Wine in fixtures."
+    ]
+  },
+  "extent_correction": {
+    "function": "@select_replicated_fill_operand@12",
+    "old_extent": [
+      "0x1d4e0",
+      "0x1d668"
+    ],
+    "corrected_extent": [
+      "0x1d4e0",
+      "0x1d66a"
+    ],
+    "reason": "Unchanged instruction-boundary preflight rejected end inside final RET4 at1d667; restore its two immediate bytes.",
+    "dynamic_limit": "Constant-fill hello path returns earlier1d544; corrected dynamic tail remains unvisited.",
+    "before": {
+      "path": "cases/hello-original-816.json",
+      "sha256": "2de4724128b39fff45ff367465a21a0089cb179710213a6123cbb14caafba79c",
+      "capture": {
+        "label": "replicated-fill-after",
+        "accepted": 816,
+        "logical": "@select_block_operation@36",
+        "original_va": "0x1d670",
+        "events": "exception 80000003 rva 0000d670 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.1877159010618925,
+        "execution_check_seconds": 0.7703874791041017,
+        "total_seconds": 0.9581038495525718,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "9931740d38fc45ad5daefece23f8459d75ea9d74245d34191fa1efafe36fd28e",
+        "config_sha256": "cc631dc7eeb75f0b6941a738118fe410f362e6e8f395a1a792f161c41bc89baa",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/replicated-fill-after"
+      }
+    },
+    "after": {
+      "path": "cases/hello-original-816-corrected.json",
+      "sha256": "3287985db45d4c268a1f12e10b193a85d90cb66df3484323cfb0f1566463e0c3",
+      "capture": {
+        "label": "replicated-fill-extent-corrected",
+        "accepted": 816,
+        "logical": "@select_block_operation@36",
+        "original_va": "0x1d670",
+        "events": "exception 80000003 rva 0000d670 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19200463499873877,
+        "execution_check_seconds": 1.1130096996203065,
+        "total_seconds": 1.3050148580223322,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "66b42c2826830bd32216f6ad02d3e60952bdfc7d33bfdb568a9eace915e2df01",
+        "config_sha256": "8dd24c46e6f07705dad7d4d9f7b81ea21df8286a5211a72d88d4ead3b7ecae2d",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/replicated-fill-extent-corrected"
+      }
+    },
+    "native_matching": {
+      "executable_sha256": "3dab04874b33c048c81c24bac71afcb4a80e46034137a1ae9261f20c7a715842",
+      "config_sha256": "8dd24c46e6f07705dad7d4d9f7b81ea21df8286a5211a72d88d4ead3b7ecae2d",
+      "seconds": 0.14929097704589367,
+      "logical": "@select_block_operation@36",
+      "matched": true,
+      "log_sha256": "02aed9d358c91a67acdd41937515fdffe43d39deff53ac0bf073a75a973bbfff"
+    }
+  }
+}

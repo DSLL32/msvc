@@ -817,7 +817,10 @@
     "_simplify_region_exit",
     "_finish_region_motion",
     "_rebuild_region_header_references",
-    "_release_region_motion"
+    "_release_region_motion",
+    "@select_intrinsic@4",
+    "@select_intrinsic_block@12",
+    "@select_replicated_fill_operand@12"
   ],
   "driver": [
     {
@@ -3440,8 +3443,7 @@
     {
       "name": "@select_intrinsic@4",
       "start": 111216,
-      "end": 111217,
-      "provisional": true
+      "end": 113652
     },
     {
       "name": "@allocate_stack_temporary@4",
@@ -6347,6 +6349,70 @@
       "name": "@release_loop_tree_record@4",
       "start": 395760,
       "end": 395761,
+      "provisional": true
+    },
+    {
+      "name": "@select_intrinsic_block@12",
+      "start": 115872,
+      "end": 116342
+    },
+    {
+      "name": "@select_intrinsic_a3_a4@8",
+      "start": 118528,
+      "end": 118529,
+      "provisional": true
+    },
+    {
+      "name": "@select_intrinsic_a5@4",
+      "start": 117936,
+      "end": 117937,
+      "provisional": true
+    },
+    {
+      "name": "@select_intrinsic_a6@4",
+      "start": 117600,
+      "end": 117601,
+      "provisional": true
+    },
+    {
+      "name": "@select_intrinsic_string_length@12",
+      "start": 117328,
+      "end": 117329,
+      "provisional": true
+    },
+    {
+      "name": "@select_intrinsic_aa_ab@8",
+      "start": 116352,
+      "end": 116353,
+      "provisional": true
+    },
+    {
+      "name": "@select_runtime_intrinsic@4",
+      "start": 118880,
+      "end": 118881,
+      "provisional": true
+    },
+    {
+      "name": "@intrinsic_float_cleanup_count@4",
+      "start": 162688,
+      "end": 162689,
+      "provisional": true
+    },
+    {
+      "name": "@lookup_external_name@4",
+      "start": 320848,
+      "end": 320849,
+      "provisional": true
+    },
+    {
+      "name": "@select_replicated_fill_operand@12",
+      "start": 120032,
+      "end": 120426
+    },
+    {
+      "name": "@select_block_operation@36",
+      "start": 120432,
+      "end": 120433,
       "provisional": true
     }
   ],
