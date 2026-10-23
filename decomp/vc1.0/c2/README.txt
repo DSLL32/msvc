@@ -2363,3 +2363,11 @@ Deferred value cost and register attachment: checkpoint935
 native fixtures pass. See cases/aliasing-costs.json for extent union, limits
 and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
 aliasing600-byte final object is incomplete.
+
+Rematerialized register dependencies and ranges: checkpoint939
+-----------------------------------------------
+4 whole functions pass fresh original/native matching; current frontier
+@find_evictable_machine_region@8. 861 graph checks, canonical/native/W3 and all five
+native fixtures pass. See cases/aliasing-live-ranges.json for extent union, limits
+and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
+aliasing600-byte final object is incomplete.

@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "c27d49b423aab0d31b579f5db1d8d431a51e940ad953be279e0111a50bcd73af",
+    "functions.json": "8e27142aa5a2bee76a24d4a88374584f62581429a1808fbfce0d551fec2a0ebe",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -3268,11 +3268,11 @@
     },
     "record_rematerialized_registers": {
       "logical": "@record_rematerialized_registers@8",
-      "source": "src/stubs.c"
+      "source": "src/physical-spill.c"
     },
     "record_rematerialized_work_registers": {
       "logical": "@record_rematerialized_work_registers@12",
-      "source": "src/stubs.c"
+      "source": "src/physical-spill.c"
     },
     "record_scheduled_register": {
       "logical": "@record_scheduled_register@12",
@@ -3369,6 +3369,10 @@
     "region_is_outside": {
       "logical": "@region_is_outside@8",
       "source": "src/flow-regions.c"
+    },
+    "register_block_interval_contains": {
+      "logical": "@register_block_interval_contains@8",
+      "source": "src/physical-spill.c"
     },
     "register_coff_segment": {
       "logical": "@register_coff_segment@4",
@@ -4325,6 +4329,10 @@
     "visit_machine_symbols": {
       "logical": "@visit_machine_symbols@12",
       "source": "src/stubs.c"
+    },
+    "widen_register_block_interval": {
+      "logical": "@widen_register_block_interval@8",
+      "source": "src/physical-spill.c"
     },
     "work_dominates_block": {
       "logical": "@work_dominates_block@8",
@@ -23178,6 +23186,282 @@
               "total_seconds": 1.4082549847662449
             }
           }
+        },
+        {
+          "accepted_function": "@record_rematerialized_work_registers@12",
+          "accepted_kind": "application",
+          "previous_logical": "@record_rematerialized_work_registers@12",
+          "original_extent": [
+            "0x2c9e0",
+            "0x2cbcc"
+          ],
+          "before": {
+            "path": "cases/aliasing-original-935.json",
+            "sha256": "96cb7449ffd9f37346ee750a14504359dcdea5bf9c98a3997ca8734a409a33ac",
+            "capture": {
+              "label": "aliasing-original-935",
+              "profile": "aliasing",
+              "accepted": 935,
+              "events": "exception 80000003 rva 0001c9e0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "697ca7ae377da572e45dea85981336ebf732e09f9aa3154668c7c83a9c27e2c9",
+              "config_sha256": "c27d49b423aab0d31b579f5db1d8d431a51e940ad953be279e0111a50bcd73af",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-5_yd9ms_",
+              "logical": "@record_rematerialized_work_registers@12",
+              "original_va": "0x2c9e0",
+              "setup_seconds": 0.20065834000706673,
+              "execution_seconds": 1.2011724263429642,
+              "check_seconds": 0.006423809565603733,
+              "total_seconds": 1.4082549847662449
+            }
+          },
+          "after": {
+            "path": "cases/aliasing-original-936.json",
+            "sha256": "6db1f4694752387756e0202458f4f9a130a391528e8301eadf6503f79615177c",
+            "capture": {
+              "label": "aliasing-original-936",
+              "profile": "aliasing",
+              "accepted": 936,
+              "events": "exception 80000003 rva 0001d060 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "48480c75fee641435da90f21a6f2b36cf02cf97a89664825e16457197aca949c",
+              "config_sha256": "e028014c3ac73c956a3e932d9520872f059df608c92160bc2463231c57791bb6",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-e1vy63ec",
+              "logical": "@widen_register_block_interval@8",
+              "original_va": "0x2d060",
+              "setup_seconds": 0.2051751594990492,
+              "execution_seconds": 1.4940907564014196,
+              "check_seconds": 0.00674094446003437,
+              "total_seconds": 1.7060073679313064
+            }
+          }
+        },
+        {
+          "accepted_function": "@widen_register_block_interval@8",
+          "accepted_kind": "application",
+          "previous_logical": "@widen_register_block_interval@8",
+          "original_extent": [
+            "0x2d060",
+            "0x2d0a5"
+          ],
+          "before": {
+            "path": "cases/aliasing-original-936.json",
+            "sha256": "6db1f4694752387756e0202458f4f9a130a391528e8301eadf6503f79615177c",
+            "capture": {
+              "label": "aliasing-original-936",
+              "profile": "aliasing",
+              "accepted": 936,
+              "events": "exception 80000003 rva 0001d060 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "48480c75fee641435da90f21a6f2b36cf02cf97a89664825e16457197aca949c",
+              "config_sha256": "e028014c3ac73c956a3e932d9520872f059df608c92160bc2463231c57791bb6",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-e1vy63ec",
+              "logical": "@widen_register_block_interval@8",
+              "original_va": "0x2d060",
+              "setup_seconds": 0.2051751594990492,
+              "execution_seconds": 1.4940907564014196,
+              "check_seconds": 0.00674094446003437,
+              "total_seconds": 1.7060073679313064
+            }
+          },
+          "after": {
+            "path": "cases/aliasing-original-937.json",
+            "sha256": "99ee37b1145076df2460d4fe6bad61851d5a3f420e3a72fafbf7b00f123ffff6",
+            "capture": {
+              "label": "aliasing-original-937",
+              "profile": "aliasing",
+              "accepted": 937,
+              "events": "exception 80000003 rva 0001d0b0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "44fca7700babcc5c8860e67914f71d52b33da59b24d7849ba037c752471c773a",
+              "config_sha256": "86e6c40694c389c2fc4db662852d3084e112e76923fbcc4f8d66bf20c43418ff",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-s8xfrfw7",
+              "logical": "@register_block_interval_contains@8",
+              "original_va": "0x2d0b0",
+              "setup_seconds": 0.20425818860530853,
+              "execution_seconds": 1.4484955919906497,
+              "check_seconds": 0.006198905408382416,
+              "total_seconds": 1.6589530799537897
+            }
+          }
+        },
+        {
+          "accepted_function": "@register_block_interval_contains@8",
+          "accepted_kind": "application",
+          "previous_logical": "@register_block_interval_contains@8",
+          "original_extent": [
+            "0x2d0b0",
+            "0x2d0cf"
+          ],
+          "before": {
+            "path": "cases/aliasing-original-937.json",
+            "sha256": "99ee37b1145076df2460d4fe6bad61851d5a3f420e3a72fafbf7b00f123ffff6",
+            "capture": {
+              "label": "aliasing-original-937",
+              "profile": "aliasing",
+              "accepted": 937,
+              "events": "exception 80000003 rva 0001d0b0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "44fca7700babcc5c8860e67914f71d52b33da59b24d7849ba037c752471c773a",
+              "config_sha256": "86e6c40694c389c2fc4db662852d3084e112e76923fbcc4f8d66bf20c43418ff",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-s8xfrfw7",
+              "logical": "@register_block_interval_contains@8",
+              "original_va": "0x2d0b0",
+              "setup_seconds": 0.20425818860530853,
+              "execution_seconds": 1.4484955919906497,
+              "check_seconds": 0.006198905408382416,
+              "total_seconds": 1.6589530799537897
+            }
+          },
+          "after": {
+            "path": "cases/aliasing-original-938.json",
+            "sha256": "07e2c9c6ac4e6c50d2302d8598b3cf44332df3bc7cac6a53e80866ec4fe6dee7",
+            "capture": {
+              "label": "aliasing-original-938",
+              "profile": "aliasing",
+              "accepted": 938,
+              "events": "exception 80000003 rva 0001cd30 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "1c74bae20014936288df13e8eb05cf9b9249554b60374f3caaeffd953b30edcf",
+              "config_sha256": "bda2a360d438249582f42ceba21a8e28495ce2b7af88e6b71a95287ad9d61494",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-xqwfs4yn",
+              "logical": "@record_rematerialized_registers@8",
+              "original_va": "0x2cd30",
+              "setup_seconds": 0.20189659483730793,
+              "execution_seconds": 1.4281750302761793,
+              "check_seconds": 0.006171685643494129,
+              "total_seconds": 1.636243736371398
+            }
+          }
+        },
+        {
+          "accepted_function": "@record_rematerialized_registers@8",
+          "accepted_kind": "application",
+          "previous_logical": "@record_rematerialized_registers@8",
+          "original_extent": [
+            "0x2cd30",
+            "0x2cdb1"
+          ],
+          "before": {
+            "path": "cases/aliasing-original-938.json",
+            "sha256": "07e2c9c6ac4e6c50d2302d8598b3cf44332df3bc7cac6a53e80866ec4fe6dee7",
+            "capture": {
+              "label": "aliasing-original-938",
+              "profile": "aliasing",
+              "accepted": 938,
+              "events": "exception 80000003 rva 0001cd30 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "1c74bae20014936288df13e8eb05cf9b9249554b60374f3caaeffd953b30edcf",
+              "config_sha256": "bda2a360d438249582f42ceba21a8e28495ce2b7af88e6b71a95287ad9d61494",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-xqwfs4yn",
+              "logical": "@record_rematerialized_registers@8",
+              "original_va": "0x2cd30",
+              "setup_seconds": 0.20189659483730793,
+              "execution_seconds": 1.4281750302761793,
+              "check_seconds": 0.006171685643494129,
+              "total_seconds": 1.636243736371398
+            }
+          },
+          "after": {
+            "path": "cases/aliasing-original-939.json",
+            "sha256": "e1e44f39873a077605a382ec0e855aeaf037fa7ea7a4a437ef9c6ae014dd36fe",
+            "capture": {
+              "label": "aliasing-original-939",
+              "profile": "aliasing",
+              "accepted": 939,
+              "events": "exception 80000003 rva 0003b210 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2722f4961ffa0aa2cc98b3cbce8ae692b2142c541bce28bf7d5d242395552c5f",
+              "config_sha256": "8e27142aa5a2bee76a24d4a88374584f62581429a1808fbfce0d551fec2a0ebe",
+              "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+              "inputs": {
+                "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+                "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+                "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+                "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-ypqew0h5",
+              "logical": "@find_evictable_machine_region@8",
+              "original_va": "0x4b210",
+              "setup_seconds": 0.20336080249398947,
+              "execution_seconds": 1.3422535480931401,
+              "check_seconds": 0.006553079932928085,
+              "total_seconds": 1.5521678747609258
+            }
+          }
         }
       ]
     }
@@ -25930,7 +26214,7 @@
     },
     "aliasing": {
       "first": 925,
-      "last": 935,
+      "last": 939,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -26786,9 +27070,13 @@
         "machine_sequence_cost",
         "later_x86_instruction_cost",
         "set_register_rematerialization",
-        "record_rematerialized_work_registers"
+        "record_rematerialized_work_registers",
+        "widen_register_block_interval",
+        "register_block_interval_contains",
+        "record_rematerialized_registers",
+        "find_evictable_machine_region"
       ],
-      "terminal": "@record_rematerialized_work_registers@12",
+      "terminal": "@find_evictable_machine_region@8",
       "terminal_kind": "application",
       "returncode": -5
     }

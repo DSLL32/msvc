@@ -103,4 +103,6 @@ void __fastcall remove_spilled_work_registers(WorkItem *work, BitSet *spilled);
 int __fastcall spill_instruction_variable(MachineInstruction *instruction, RegisterVariable *variable, int apply, unsigned *spill_bytes, WorkItem *work);
 int __fastcall i386_instruction_cost(MachineInstruction *instruction);
 int __fastcall later_x86_instruction_cost(MachineInstruction *instruction);
+int __fastcall widen_register_block_interval(RegisterBlockInterval *range, int number);
+int __fastcall register_block_interval_contains(RegisterBlockInterval *range, int number);
 #endif

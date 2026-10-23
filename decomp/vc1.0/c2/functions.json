@@ -939,7 +939,11 @@
     "@rematerialization_is_cheap@4",
     "@machine_sequence_cost@4",
     "@later_x86_instruction_cost@4",
-    "@set_register_rematerialization@8"
+    "@set_register_rematerialization@8",
+    "@record_rematerialized_work_registers@12",
+    "@widen_register_block_interval@8",
+    "@register_block_interval_contains@8",
+    "@record_rematerialized_registers@8"
   ],
   "driver": [
     {
@@ -5409,8 +5413,7 @@
     {
       "name": "@record_rematerialized_registers@8",
       "start": 183600,
-      "end": 183601,
-      "provisional": true
+      "end": 183729
     },
     {
       "name": "@folded_spill_operand_cost@8",
@@ -6635,8 +6638,7 @@
     {
       "name": "@record_rematerialized_work_registers@12",
       "start": 182752,
-      "end": 182753,
-      "provisional": true
+      "end": 183244
     },
     {
       "name": "@spill_variable_in_work@8",
@@ -6750,6 +6752,16 @@
       "name": "@later_x86_instruction_cost@4",
       "start": 185888,
       "end": 186784
+    },
+    {
+      "name": "@widen_register_block_interval@8",
+      "start": 184416,
+      "end": 184485
+    },
+    {
+      "name": "@register_block_interval_contains@8",
+      "start": 184496,
+      "end": 184527
     }
   ],
   "cases": {

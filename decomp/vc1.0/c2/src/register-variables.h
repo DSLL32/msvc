@@ -5,6 +5,9 @@
 /* Native 52-byte variable. Unconsumed allocation fields retain offset
    names until their owning pass establishes their meanings. */
 typedef struct RegisterConflict RegisterConflict;
+/* Native four-byte signed block interval; first==-1 denotes an empty range. */
+typedef struct RegisterBlockInterval { short first, last; } RegisterBlockInterval;
+typedef char RegisterBlockIntervalSizeCheck[sizeof(RegisterBlockInterval) == 4 ? 1 : -1];
 typedef struct RegisterVariable {
     struct RegisterVariable *next;
     struct RegisterVariable *work_next;
@@ -14,7 +17,10 @@ typedef struct RegisterVariable {
     unsigned short number, representative;
     unsigned flags;
     struct MachineBlockHeader *rematerialization;
-    short first_block, last_block;
+    union {
+        struct { short first_block, last_block; };
+        RegisterBlockInterval blocks;
+    };
     signed char storage_bytes;
     unsigned char field29;
     unsigned short field2a;

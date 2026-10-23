@@ -1,7 +1,7 @@
-C2 ACTIVE: approved nested-loop stress at935 acceptances/857 source graphs.
-Matching original/native frontier @record_rematerialized_work_registers@12.
-Extent union251831/399693=63.0061071873%, not branch coverage.
+C2 ACTIVE: approved nested-loop stress at939 acceptances/861 source graphs.
+Matching original/native frontier @find_evictable_machine_region@8.
+Extent union252552/399693=63.1864956354%, not branch coverage.
 Minimal+hello+loops+pressure completed object regressions pass; loop620-byte object incomplete.
-Next reference BEFORE cases/aliasing-original-935.json.
+Next reference BEFORE cases/aliasing-original-939.json.
 Then remaining approved stress in cases/queue.json.
 Canonical/W3, audit and native fixtures pass; no shim requests.

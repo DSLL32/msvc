@@ -335,7 +335,6 @@ void record_debug_register_locations(void) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
 int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
 int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
-void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 
@@ -395,7 +394,6 @@ void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __a
 unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall record_rematerialized_work_registers(WorkItem *work, MachineInstruction *definition, unsigned short number) { __asm int 3 }
 MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }

@@ -395,3 +395,123 @@ void __fastcall remove_spilled_work_registers(WorkItem *work, BitSet *spilled)
         work->pass.selection.definitions = subtract_bitset(work->pass.selection.definitions, spilled);
     }
 }
+
+/* Original [0002c9e0,0002cbcc). A recreated value carries the registers
+   used by its deferred sequence into each relevant work block's liveness.
+   Widen dependency ranges before adding their numbers to those work sets. */
+void __fastcall record_rematerialized_work_registers(WorkItem *work,
+    MachineInstruction *definition, unsigned short number)
+{
+    MachineOperand *operand;
+    MachineAddress *address;
+    RegisterVariable *variable, *target;
+    BitSet *dependencies = 0;
+    unsigned kind, member = number & 0x3fff;
+    unsigned short dependency;
+    int count, bucket, affected;
+    for (; definition && (definition->opcode & 15) != 7; definition = definition->next) {
+        for (count = machine_operand_counts[(definition->opcode >> 8) & 255]; count > 0; --count) {
+            operand = &definition->operands[count == 2 ? 1 : 0];
+            kind = operand->flags & 15;
+            switch (kind) {
+            case OPERAND_REGISTER:
+                dependency = operand->value.reg.words.number;
+                if (dependency & 0x4000)
+                    dependencies = bitset_include(dependencies, dependency & 0x3fff);
+                break;
+            case OPERAND_INDEXED:
+                address = operand->value.address;
+                dependency = address->index.words.number;
+                if (dependency & 0x4000)
+                    dependencies = bitset_include(dependencies, dependency & 0x3fff);
+                /* Fall through: record the base independently. */
+            case OPERAND_BASED:
+                dependency = operand->value.address->base.words.number;
+                if (dependency & 0x4000)
+                    dependencies = bitset_include(dependencies, dependency & 0x3fff);
+                break;
+            }
+        }
+    }
+    bitset_remove(dependencies, member);
+    target = lookup_register_variable(number, 1);
+    for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket) {
+        for (variable = register_variable_buckets[1][bucket]; variable; variable = variable->next) {
+            dependency = variable->number & 0x3fff;
+            if (!bitset_contains(dependencies, dependency)) continue;
+            if (variable->flags & 0x40)
+                dependencies = bitset_remove(dependencies, dependency);
+            else {
+                widen_register_block_interval(&variable->blocks, target->last_block);
+                widen_register_block_interval(&variable->blocks, target->first_block);
+            }
+        }
+    }
+    for (; work; work = work->next) {
+        if (!register_block_interval_contains(&target->blocks, work->number)) continue;
+        affected = bitset_contains(work->pass.selection.definitions, member);
+        if (affected)
+            work->pass.selection.definitions = bitset_union(work->pass.selection.definitions, dependencies);
+        if (bitset_contains(work->pass.selection.uses, member)) {
+            affected = 1;
+            work->pass.selection.uses = bitset_union(work->pass.selection.uses, dependencies);
+        }
+        if (affected) {
+            work->flags |= 0x100;
+            work->body.block->flags |= 0x100;
+        }
+    }
+    release_bitset(dependencies);
+}
+
+/* Original [0002d060,0002d0a5). Ignore block-1; initialize an empty range
+   or extend one signed endpoint, returning whether the interval changed. */
+int __fastcall widen_register_block_interval(RegisterBlockInterval *range, int number)
+{
+    if (number == -1) return 0;
+    if (range->first == -1) {
+        range->last = (short)number;
+        range->first = (short)number;
+        return 1;
+    }
+    if ((int)range->first > number) {
+        range->first = (short)number;
+        return 1;
+    }
+    if ((int)range->last < number) {
+        range->last = (short)number;
+        return 1;
+    }
+    return 0;
+}
+
+/* Original [0002d0b0,0002d0cf). Block-1 always matches; other inputs use
+   signed low-word comparisons against both endpoints. */
+int __fastcall register_block_interval_contains(RegisterBlockInterval *range, int number)
+{
+    if (number == -1) return 1;
+    return range->first <= (short)number && range->last >= (short)number;
+}
+
+/* Original [0002cd30,0002cdb1). Include full tagged register identities
+   from each operand in the work's allocation-reference set. */
+void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstruction *instruction)
+{
+    MachineOperand *operand;
+    unsigned index, kind;
+    for (index = 0; (int)index < machine_operand_counts[(instruction->opcode >> 8) & 255]; ++index) {
+        operand = &instruction->operands[index ? 1 : 0];
+        kind = operand->flags & 15;
+        switch (kind) {
+        case OPERAND_REGISTER:
+            work->flow_sets[0] = bitset_include(work->flow_sets[0], operand->value.reg.words.number);
+            break;
+        case OPERAND_INDEXED:
+            work->flow_sets[0] = bitset_include(work->flow_sets[0], operand->value.address->index.words.number);
+            /* Fall through: retain the base, including its native sentinel. */
+        case OPERAND_BASED:
+            work->flow_sets[0] = bitset_include(work->flow_sets[0], operand->value.address->base.words.number);
+            break;
+        }
+    }
+}
