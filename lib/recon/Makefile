@@ -469,3 +469,9 @@ build/watcom-first-heap: tests/watcom-first-heap-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP tests/watcom-first-heap-probe.c $(SOURCES) -o $@
 watcom-first-heap-check: build/watcom-first-heap
 	$(PYTHON) tests/check-watcom-first-heap.py build/watcom-first-heap
+
+.PHONY: zero-buffer-check
+build/zero-buffer-probe: tests/zero-buffer-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/zero-buffer-probe.c $(SOURCES) -o $@
+zero-buffer-check: build/zero-buffer-probe
+	$(PYTHON) tests/check-zero-buffer.py build/zero-buffer-probe

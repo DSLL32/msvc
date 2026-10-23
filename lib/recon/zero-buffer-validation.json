@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 1.2374127805233002,
+      "check_seconds": 0.06493693217635155,
+      "exe_sha256": "3a602b57f25321df40a5233f225ea4b2f88830830aaf5721026ddd530335c592"
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.376143273897469,
+      "check_seconds": 0.060144572518765926,
+      "exe_sha256": "fd2eefa17fcbdd0dbdf22e7e2ab36d3cc2240cfc0e6d829cdbe4af5b9998d1e4"
+    }
+  ],
+  "inputs": {
+    "src/crt.c": "da75fbc927ea62863013431944cbf9e4dc8f7475f7432ed1e4ab25ff9efe3974",
+    "tests/zero-buffer-probe.c": "dfe08899adac1c7adb03c00b56a8223f367eacb32c6874b2484042a545952d02",
+    "tests/check-zero-buffer.py": "bc81ddec291415589fb7da261b9117490a72025c943c9770923003d697eb125a"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/zero-buffer/orchestrator-review.json",
+    "sha256": "feaaf2f3e94bbc9bec0f8e12eca1bc01a14d16e1db842c649c6a7a972fb624d5"
+  },
+  "native95_regression": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/zero-buffer-regression/receipt.json",
+    "sha256": "d318eb652709827d9c10a1302f46bb69b841ac7c467d2d617372a5e84d52c046",
+    "timings": [
+      {
+        "binary": "cl",
+        "build_seconds": 1.7147899670526385,
+        "fixture_wrapper_seconds": 3.3232063399627805
+      },
+      {
+        "binary": "rc",
+        "build_seconds": 2.760042947717011,
+        "fixture_wrapper_seconds": 2.819399326108396
+      },
+      {
+        "binary": "rcpp",
+        "build_seconds": 2.3974445275962353,
+        "fixture_wrapper_seconds": 0.41606595925986767
+      }
+    ]
+  },
+  "affected_checks": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/zero-buffer/affected-checks.log",
+    "sha256": "decd6c548afbc9f06287da031f168d0ee3de97dfc958088872db3b235167e065",
+    "status": "default,stdio510/ownership,Watcom first-heap passed"
+  },
+  "scope": "Default registered malloc-owned MYBUF/write FILE flags0xa with logicalcapacity0 and captured ptr/cnt states only; one pending byte, no malloc0 contract or unowned-buffer widening",
+  "original_provider": {
+    "path": "toolchains/1.0-nt/bin/LINK.EXE",
+    "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+    "flsbuf_va": "53c10..53d40"
+  },
+  "actual_link_proofs": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-allocation-ris3va0w/receipt.json",
+      "sha256": "51b05a57bab1ad9cd79e6a3778c1545e6a6218020ad4e9d4ee2fe492dc5c72f5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-allocation-ris3va0w/state.json",
+      "sha256": "336e873038030792f95e1e16760c205e10775c28b8cfd505d998fa6c0ce9b1be"
+    },
+    {
+      "path": "decomp/vc1.0/link/cases/dispatcher-assistance/analysis/buffering-candidate-reobserve.json",
+      "sha256": "0f42f6dda7174f4d29ad46712784ba175ef5c6b77e1dbca325cbc890ff7ec085"
+    }
+  ],
+  "unchanged_original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/dispatcher-assistance/direct-masked-qnqoan45"
+}

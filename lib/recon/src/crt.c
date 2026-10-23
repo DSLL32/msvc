@@ -8,6 +8,7 @@
 #include <elf.h>
 #include <dirent.h>
 #include <sys/mman.h>
+#include <malloc.h>
 
 /* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
 #define WEAK __attribute__((weak))
@@ -979,6 +980,27 @@ int recon_fputc(int c,ShimFILE *s)
         if ((s->_flag&1) && !(s->_flag&0x80)) { s->_flag|=0x20; return EOF; }
         s->_flag=(s->_flag&~1)|2; s->_cnt=0; s->_ptr=s->_base;
     }
+#ifndef RECON_CRT_PROFILE_MSVCRT_510
+    if (s->_base && !s->_bufsiz && !(s->_flag&4)) {
+        unsigned n;int registered=0,pending;
+        for(n=0;n<20;++n) if(s==&recon_iob[n]) { registered=1;break; }
+        if (!registered || s->_flag!=0x0a || (unsigned)s->_file>=recon_nhandle ||
+            !(recon_osfile[s->_file]&1) || os_handles[s->_file]==-1 ||
+            !((s->_ptr==s->_base && !s->_cnt) ||
+              (s->_ptr==s->_base+1 && s->_cnt==-1)))
+            recon_unsupported("zero-capacity buffered FILE identity/ownership/state");
+        /* MYBUF on a registered CRT stream is an existing malloc-ownership
+         * invariant. Measure only that established allocation; this is not
+         * a validity test for arbitrary pointers or forged FILE objects. */
+        if (malloc_usable_size(s->_base)<1)
+            recon_unsupported("zero-capacity buffered FILE backing");
+        pending=s->_ptr==s->_base?0:1;
+        if (pending && recon_write(s->_file,s->_base,1)!=1)
+            recon_unsupported("zero-capacity buffered FILE write failure");
+        s->_ptr=s->_base+1;s->_cnt=-1;*s->_base=(char)byte;
+        return byte;
+    }
+#endif
     if ((s->_flag&4) || (s->_base && s->_bufsiz<=0))
         return recon_write(s->_file,&byte,1)==1?byte:EOF;
     if (!s->_base) recon_getbuf(s);

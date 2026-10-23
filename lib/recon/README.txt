@@ -895,3 +895,16 @@ The exposed recon_watcom_first_main_heap state supports independent observation.
 This diagnoses no glibc corruption, reconstructs no original free-ring headers
 and grants no populated/mutated/later heap semantics. Exact source/adoption and
 actual first-main state must be checked by the binary owner before enabling it.
+
+Default CRT zero-capacity buffered output has one pending-byte slot when the
+registered FILE already owns malloc backing (MYBUF/write flags0xa), has a valid
+live descriptor and exactly the captured ptr/count shape. The owned allocation
+must provide at least one usable byte. malloc_usable_size measures that existing
+ownership invariant; it is not a validator for arbitrary pointers/forged FILEs.
+The next byte writes the prior pending byte, then remains at base with ptr=base+1
+and count=-1; ordinary flush/close drains it. This handles LINK's observed old
+setvbuf(NULL,full,1) rounding to logicalzero while retaining real malloc0 storage.
+It changes no malloc0 contract or target CRT source. Unregistered/user/unowned
+zero-buffer states deny; negative/unbuffered/MSVCRT510 paths remain unchanged.
+The original actual allocation/provenance and FILE lifetime are retained in the
+LINK case, and native controls check next-byte/flush/close/errors/FP/tails.
