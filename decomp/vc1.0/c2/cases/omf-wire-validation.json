@@ -1,0 +1,1436 @@
+{
+  "status": "original/canonical controlled equivalence",
+  "states": 67,
+  "cases": [
+    {
+      "wire_bytes_before_checksum": 0,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 1,
+            "file_identity": "object_file",
+            "wire_hex": "00",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "290d52eab54f7022ec02b21f4f8daf99916e8a24565b93e1dd6a6e85561d5bfd"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 0,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 1,
+            "file_identity": "object_file",
+            "wire_hex": "00",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "7c3e2b0b954008d940e192e522e2c2e8e8a5f847431c25083d735c8f9673fbb3"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 0,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 1,
+            "file_identity": "object_file",
+            "wire_hex": "00",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "290d52eab54f7022ec02b21f4f8daf99916e8a24565b93e1dd6a6e85561d5bfd"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 0,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 1,
+            "file_identity": "object_file",
+            "wire_hex": "00",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "0178a453d07be5bbd2c7b2d61763cc8d166d9bc0a8d7a20c58d69e2efed20f4d"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 0,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 1,
+            "file_identity": "object_file",
+            "wire_hex": "00",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "290d52eab54f7022ec02b21f4f8daf99916e8a24565b93e1dd6a6e85561d5bfd"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 0,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 1,
+            "file_identity": "object_file",
+            "wire_hex": "00",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "5c2980b5ac3d344122ad974e9317fdd05b437f643b1424516797619187b555a0"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 1,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 2,
+            "file_identity": "object_file",
+            "wire_hex": "837d",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "d25e500dd99beec95d75069069451f7b271464e580bacc7d634cbc250e026770"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 1,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 2,
+            "file_identity": "object_file",
+            "wire_hex": "837d",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "17c282d5c9132e5b2bfd780b35dda1c133292b86cecaecffbb21979a0eb012a1"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 1,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 2,
+            "file_identity": "object_file",
+            "wire_hex": "837d",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "d25e500dd99beec95d75069069451f7b271464e580bacc7d634cbc250e026770"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 1,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 2,
+            "file_identity": "object_file",
+            "wire_hex": "837d",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "09b0b1bd94b1513960a94ae0444482d6d78d88d6b5287fb4462488ef5adc0d8c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 1,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 2,
+            "file_identity": "object_file",
+            "wire_hex": "837d",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "d25e500dd99beec95d75069069451f7b271464e580bacc7d634cbc250e026770"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 1,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 2,
+            "file_identity": "object_file",
+            "wire_hex": "837d",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "dd332a1ce5d77eb9db254e92ab6010b6c9aaf4edb8fc9d386317147707a66788"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 2,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 3,
+            "file_identity": "object_file",
+            "wire_hex": "83007d",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "75d121e56ad77812a09c3c7648b6cdf523c28b25f68884aa7565ac251989b51b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 2,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 3,
+            "file_identity": "object_file",
+            "wire_hex": "83007d",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "f4329769839e407841533ebcdf8c5c24475fb4f961af4ae2b453cd4a0be78283"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 2,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 3,
+            "file_identity": "object_file",
+            "wire_hex": "83007d",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "75d121e56ad77812a09c3c7648b6cdf523c28b25f68884aa7565ac251989b51b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 2,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 3,
+            "file_identity": "object_file",
+            "wire_hex": "83007d",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "446babe8b3198f54a60898c79a42132126f12ed9b49e6868fa317c530b389913"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 2,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 3,
+            "file_identity": "object_file",
+            "wire_hex": "83007d",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "75d121e56ad77812a09c3c7648b6cdf523c28b25f68884aa7565ac251989b51b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 2,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 3,
+            "file_identity": "object_file",
+            "wire_hex": "83007d",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "99012acd7849e9d751617dd48d5a6932f693d8ba26074df9e214fe9a987f7199"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 3,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 4,
+            "file_identity": "object_file",
+            "wire_hex": "8301007c",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "c4550a1dd994f4b5568fb9c670ff601f8766921202cc52ba0c3d4864f2271f2c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 3,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 4,
+            "file_identity": "object_file",
+            "wire_hex": "8301007c",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "691a28b9ae8010dbfbe8a11e8d8e401b9930dd16d02a780ece94020574f77463"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 3,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 4,
+            "file_identity": "object_file",
+            "wire_hex": "8301007c",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "c4550a1dd994f4b5568fb9c670ff601f8766921202cc52ba0c3d4864f2271f2c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 3,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 4,
+            "file_identity": "object_file",
+            "wire_hex": "8301007c",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "f91943e4e11e2f2950dbb54298a33e0bf17cb1b6845fcbb2fba281ab40de5e75"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 3,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 4,
+            "file_identity": "object_file",
+            "wire_hex": "8301007c",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "c4550a1dd994f4b5568fb9c670ff601f8766921202cc52ba0c3d4864f2271f2c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 3,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 4,
+            "file_identity": "object_file",
+            "wire_hex": "8301007c",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "3d41d92129be3be40cb2c630a9b8a53e7f7cecc75916c698cb2f96a0de65d40a"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 14,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "830c00bccfe2f5081b2e4154677a48",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "b6a596f92395852d330e14131bc1da056e98d65fd7e0cfb3dab7b1e33729285b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 14,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "830c00bccfe2f5081b2e4154677a48",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "452a25df7b34739cc7601591e8bf8014ced8417dea22c7669169e1c4d3ab836d"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 14,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "830c00bccfe2f5081b2e4154677a48",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "b6a596f92395852d330e14131bc1da056e98d65fd7e0cfb3dab7b1e33729285b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 14,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "830c00bccfe2f5081b2e4154677a48",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "71ec7f20f4dbe7ea74a7babf30969d399c046d4a35f9b00a6fb7ff3055ddbf7d"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 14,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "830c00bccfe2f5081b2e4154677a48",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "b6a596f92395852d330e14131bc1da056e98d65fd7e0cfb3dab7b1e33729285b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 14,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "830c00bccfe2f5081b2e4154677a48",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "fcea30427c668bd64e650bcf82c52827522691bdf4efc24520dfa5b89adf9b52"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 127,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 128,
+            "file_identity": "object_file",
+            "wire_hex": "837d00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf2",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "c76620c4299d7ba5929d2c0b4a41aabd3d8ae1f09bc1f2ddc9dfbef4c92a5224"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 127,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 128,
+            "file_identity": "object_file",
+            "wire_hex": "837d00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf2",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "345b8d0957a771fa9e9ac2f66ccd067d1c5129d4958a96541aeec202a11a8036"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 127,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 128,
+            "file_identity": "object_file",
+            "wire_hex": "837d00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf2",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "c76620c4299d7ba5929d2c0b4a41aabd3d8ae1f09bc1f2ddc9dfbef4c92a5224"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 127,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 128,
+            "file_identity": "object_file",
+            "wire_hex": "837d00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf2",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "2a1b1b355935017a66c4e32fcf7c39b4fa725a68e955f206b51a80cb2d83d6b9"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 127,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 128,
+            "file_identity": "object_file",
+            "wire_hex": "837d00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf2",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "c76620c4299d7ba5929d2c0b4a41aabd3d8ae1f09bc1f2ddc9dfbef4c92a5224"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 127,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 128,
+            "file_identity": "object_file",
+            "wire_hex": "837d00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf2",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "8d4af557027342c9c838bb933ae834a20ee53158db8bbd6eeb05954bfb427c06"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 255,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 256,
+            "file_identity": "object_file",
+            "wire_hex": "83fd00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d32",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "2861a69a98694ab1cd2154d1a539f40208ac89640447225a364884ec971762f0"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 255,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 256,
+            "file_identity": "object_file",
+            "wire_hex": "83fd00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d32",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "11e81e10d8961da777a65c057b6d0cdd04c714992418a49abaf7e10672761d99"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 255,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 256,
+            "file_identity": "object_file",
+            "wire_hex": "83fd00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d32",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "2861a69a98694ab1cd2154d1a539f40208ac89640447225a364884ec971762f0"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 255,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 256,
+            "file_identity": "object_file",
+            "wire_hex": "83fd00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d32",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "3b88fc874906d370b8e5fd8b5128bff4453ed0326a8eb4d911fb27b9038b83c5"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 255,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 256,
+            "file_identity": "object_file",
+            "wire_hex": "83fd00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d32",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "2861a69a98694ab1cd2154d1a539f40208ac89640447225a364884ec971762f0"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 255,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 256,
+            "file_identity": "object_file",
+            "wire_hex": "83fd00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d32",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "fef916e844606512bee91ca50a71ecc4cd31c68bb9c4fd4651d4e8d8e689a2c8"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 256,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 257,
+            "file_identity": "object_file",
+            "wire_hex": "83fe00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d70c1",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "86bc6a6f3d378c37ce72bcf9fc67557442a5882a950cfa2fb358fa2ffa559ad4"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 256,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 257,
+            "file_identity": "object_file",
+            "wire_hex": "83fe00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d70c1",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "ac6d74c18c51818d8a6f93903acbab88bd78e5f38b3d1c33ed5b0747289632f0"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 256,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 257,
+            "file_identity": "object_file",
+            "wire_hex": "83fe00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d70c1",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "86bc6a6f3d378c37ce72bcf9fc67557442a5882a950cfa2fb358fa2ffa559ad4"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 256,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 257,
+            "file_identity": "object_file",
+            "wire_hex": "83fe00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d70c1",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "49f34aae44c3f78078ccf0658532f377bd9843b0c297cf943510a95c2431bf51"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 256,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 257,
+            "file_identity": "object_file",
+            "wire_hex": "83fe00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d70c1",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "86bc6a6f3d378c37ce72bcf9fc67557442a5882a950cfa2fb358fa2ffa559ad4"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 256,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 257,
+            "file_identity": "object_file",
+            "wire_hex": "83fe00bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d70c1",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "6927979c2585e959b93dd263c0d3907cb8227911021bb2fe85fb3348b4dc73c8"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 500,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 501,
+            "file_identity": "object_file",
+            "wire_hex": "83f201bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798ca6",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "2c59a16c9e82d1a4e8ee1cf76cd7bd4d1e09d3e89651745dcf6da21c7efed42c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 500,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 501,
+            "file_identity": "object_file",
+            "wire_hex": "83f201bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798ca6",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "2616e85c119af9551bd01f349a602c85955dadfb5d2cb3654033e46694e66af5"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 500,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 501,
+            "file_identity": "object_file",
+            "wire_hex": "83f201bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798ca6",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "2c59a16c9e82d1a4e8ee1cf76cd7bd4d1e09d3e89651745dcf6da21c7efed42c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 500,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 501,
+            "file_identity": "object_file",
+            "wire_hex": "83f201bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798ca6",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "0b2470d35d9f720a52774a57b46eaf0b48bce6a96b9294748d65c02c6d6eb993"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 500,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 501,
+            "file_identity": "object_file",
+            "wire_hex": "83f201bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798ca6",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "2c59a16c9e82d1a4e8ee1cf76cd7bd4d1e09d3e89651745dcf6da21c7efed42c"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 500,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 501,
+            "file_identity": "object_file",
+            "wire_hex": "83f201bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798ca6",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "8e1ab1493cbab89e6f12e12e579dd95535b2177e82dd3fda253b3f2dfbdd3859"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 978,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 979,
+            "file_identity": "object_file",
+            "wire_hex": "83d003bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306bb",
+            "record_count": 2,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "675388c2a80e51f621e2124c04f52363de201865dc0152443003a3488f5bc45e"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 978,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 979,
+            "file_identity": "object_file",
+            "wire_hex": "83d003bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306bb",
+            "record_count": 2,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "faf90366f642cad41400fde5ea97f92f65a45641a880193f59112ee5ae609d43"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 978,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 979,
+            "file_identity": "object_file",
+            "wire_hex": "83d003bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306bb",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "675388c2a80e51f621e2124c04f52363de201865dc0152443003a3488f5bc45e"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 978,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 979,
+            "file_identity": "object_file",
+            "wire_hex": "83d003bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306bb",
+            "record_count": 13,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "8c380bdb6fd24a1c456734fb4dd9ed8d47192e03b0eef4dadf787425e58224a4"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 978,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 979,
+            "file_identity": "object_file",
+            "wire_hex": "83d003bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306bb",
+            "record_count": 1,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "675388c2a80e51f621e2124c04f52363de201865dc0152443003a3488f5bc45e"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 978,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "write-error",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 979,
+            "file_identity": "object_file",
+            "wire_hex": "83d003bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306192c3f5265788b9eb1c4d7eafd102336495c6f8295a8bbcee1f4071a2d405366798c9fb2c5d8ebfe1124374a5d708396a9bccfe2f5081b2e4154677a8da0b3c6d9ecff1225384b5e718497aabdd0e3f6091c2f4255687b8ea1b4c7daed001326394c5f728598abbed1e4f70a1d304356697c8fa2b5c8dbee0114273a4d60738699acbfd2e5f80b1e3144576a7d90a3b6c9dcef0215283b4e6174879aadc0d3e6f90c1f3245586b7e91a4b7caddf00316293c4f6275889baec1d4e7fa0d203346596c7f92a5b8cbdef104172a3d506376899cafc2d5e8fb0e2134475a6d8093a6b9ccdff205182b3e5164778a9db0c3d6e9fc0f2235485b6e8194a7bacde0f306bb",
+            "record_count": 1,
+            "cursor": 23
+          },
+          {
+            "kind": "report",
+            "code": 85
+          }
+        ],
+        "record_sha256": "6fd82b181e6277c8e70407ec5300aa133f6977a7874e6d6c94382232c769c1ab"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 979,
+      "initial_count": 0,
+      "short_write": false,
+      "result": {
+        "terminal": "capacity-error",
+        "events": [
+          {
+            "kind": "internal",
+            "code": 1312
+          }
+        ],
+        "record_sha256": "e2eae2bd2f812d8d62be3da524a5d97a960c036dfad4ef751c4822ef860338cc"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 979,
+      "initial_count": 0,
+      "short_write": true,
+      "result": {
+        "terminal": "capacity-error",
+        "events": [
+          {
+            "kind": "internal",
+            "code": 1312
+          }
+        ],
+        "record_sha256": "e2eae2bd2f812d8d62be3da524a5d97a960c036dfad4ef751c4822ef860338cc"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 979,
+      "initial_count": 11,
+      "short_write": false,
+      "result": {
+        "terminal": "capacity-error",
+        "events": [
+          {
+            "kind": "internal",
+            "code": 1312
+          }
+        ],
+        "record_sha256": "75fee27491e0c5b6ca5de46c6ccdd7011b40e24dd31dc850ab29a30d030975cf"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 979,
+      "initial_count": 11,
+      "short_write": true,
+      "result": {
+        "terminal": "capacity-error",
+        "events": [
+          {
+            "kind": "internal",
+            "code": 1312
+          }
+        ],
+        "record_sha256": "75fee27491e0c5b6ca5de46c6ccdd7011b40e24dd31dc850ab29a30d030975cf"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 979,
+      "initial_count": 4294967295,
+      "short_write": false,
+      "result": {
+        "terminal": "capacity-error",
+        "events": [
+          {
+            "kind": "internal",
+            "code": 1312
+          }
+        ],
+        "record_sha256": "ba42c514e390a296124a8e1050f8865851bf5ffc515af502a8b75ddb249c342b"
+      }
+    },
+    {
+      "wire_bytes_before_checksum": 979,
+      "initial_count": 4294967295,
+      "short_write": true,
+      "result": {
+        "terminal": "capacity-error",
+        "events": [
+          {
+            "kind": "internal",
+            "code": 1312
+          }
+        ],
+        "record_sha256": "ba42c514e390a296124a8e1050f8865851bf5ffc515af502a8b75ddb249c342b"
+      }
+    },
+    {
+      "actual_theadr_shape": true,
+      "result": {
+        "terminal": "return",
+        "events": [
+          {
+            "kind": "fwrite",
+            "size": 1,
+            "count": 15,
+            "file_identity": "object_file",
+            "wire_hex": "800c000a6f6d6674797065732e6362",
+            "record_count": 13,
+            "cursor": 23
+          }
+        ],
+        "record_sha256": "732e078637564de2a13b6ddeeef6f9d80fd04ed1c65785aafb8687cd00409a0c"
+      }
+    }
+  ],
+  "seconds": 1.4893191549926996,
+  "scope": "Whole151-byte original serializer model: little-endian16 length,8-bit checksum, field counts/cursor/reset, all other pool bytes retained, exact fwrite size1/count/data/object_file pointer; bounded short-write stops at actual typed diagnostic55 and negative capacity at520, neither error is mocked as returning. Degenerate used0..2 are control observations, not actual valid frontend records. Actual THEADR15 bytes independently match frozen original object; native public FILE acceptance still separately required."
+}

@@ -1,12 +1,36 @@
 """Bounded OMF wire serializer controls; explicit original-only analysis mode."""
 from pathlib import Path
-import argparse,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-ap=argparse.ArgumentParser();ap.add_argument('--original-only',action='store_true');args=ap.parse_args();start=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_write_record@4';row=next(r for r in cfg['driver']if r['name']==name)
-if not args.original_only:assert name in cfg['accepted']and row['start']==0x6c440 and row['end']==0x6c4d7,'Writer remains unaccepted; use explicit original-only analysis'
+ap=argparse.ArgumentParser();ap.add_argument('--original-only',action='store_true');ap.add_argument('--abi-only',action='store_true');ap.add_argument('--observation',type=Path);args=ap.parse_args();start=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_write_record@4';row=next(r for r in cfg['driver']if r['name']==name)
+if not args.original_only and not args.abi_only:assert name in cfg['accepted']and row['start']==0x6c440 and row['end']==0x6c4d7,'Writer remains unaccepted; use explicit original-only analysis'
 assert original.read(0x6c4d6,1)==b'\xc3'
+if not args.original_only:
+ observation=args.observation or Path(row['abi']['entry_observation']);actual=json.loads(observation.read_text())
+ source=Path(actual['original_reference']['directory']);binding=json.loads((source/'original-binding.json').read_text())
+ assert all(hashlib.sha256((source/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ def validate(e):
+  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==[]and e['callee_stack_cleanup']==0
+  expected=[dict(name='record',location='ECX',type='omf_record_current32')]
+  assert [{k:a[k]for k in ['name','location','type']}for a in e['formals']]==expected and e['formals'][0]['value']==e['original_values'][0]==e['native']['values'][0]==0
+  if 'abi'in row:assert row['abi']['parameters']==expected and row['abi']['hidden_inputs']==[]and row['abi']['callee_stack_cleanup']==0
+  assert e['original_reference']['directory']==str(source)and e['original_reference']['binding_sha256']==hashlib.sha256((source/'original-binding.json').read_bytes()).hexdigest()
+  formal=e['record_pointer_formals'];assert len(formal)==1 and formal[0]['name']=='record'and formal[0]['slot']==0
+  for side,key in [('original','original_pointer'),('native','native_pointer')]:
+   r=e['record_input'][side];assert r['pointer']==r['current']==r['base']==formal[0][key]and r['bytes']==34
+   raw=bytes.fromhex(r['hex']);assert struct.unpack('<5I',raw[:20])==(128,0,0,11,r['pointer']+34)and raw[20:]==b'\x80\0\0\x0aomftypes.c'
+   f=e['object_input'][side];assert f['stream']and {k:v for k,v in f.items()if k!='stream'}==dict(flags=2,count=0,fd=6,size=4096,null=1,used=0,position=0,osfile=1,file_bytes=0,buffer_hex='')
+ validate(actual);rejected=[]
+ for label,mutate in [('missing pointer',lambda e:e.update(formals=[])),('wrong register',lambda e:e['formals'][0].update(location='EDX')),('unknown hidden input',lambda e:e.update(hidden_inputs=['?'])),('wrong record alias',lambda e:e['record_pointer_formals'][0].update(native_pointer=0)),('missing payload',lambda e:e['record_input']['native'].update(hex=bytes(34).hex())),('old discarded buffer size',lambda e:e['object_input']['native'].update(size=0)),('wrong object descriptor',lambda e:e['object_input']['native'].update(fd=7)),('wrong output position',lambda e:e['object_input']['native'].update(position=1)),('missing FILE owner',lambda e:e['object_input']['native'].update(stream=0)),('changed original binding',lambda e:e['original_reference'].update(binding_sha256='0'*64))]:
+  e=copy.deepcopy(actual);mutate(e)
+  try:validate(e)
+  except(AssertionError,KeyError):rejected.append(label)
+  else:raise AssertionError('Accepted '+label)
+ Path('cases/omf-wire-abi-validation.json').write_text(json.dumps(dict(actual_observation=str(observation),original_reference=str(source),matched=True,rejected=rejected,scope='Actual complete record pointer/header/payload and object FILE/lowio/descriptor input. Negative old size0 is rejected; no field normalization. This proof alone does not promote a function or certify shared candidate READY.'),indent=2)+'\n')
+ if args.abi_only:print('OMF writer actual record/FILE ABI and10 rejects pass; no acceptance');raise SystemExit
+
 def run(image,native,used,count,short,theadr=False):
  u=Uc(UC_ARCH_X86,UC_MODE_32)
  for a,n in [(0x10000,0x100000),(0x300000,0x10000),(0x400000,0x10000),(0x500000,0x1000)]:u.mem_map(a,n)
@@ -32,7 +56,9 @@ def run(image,native,used,count,short,theadr=False):
   raw=bytes(m.mem_read(pointer,n));events.append(dict(kind='fwrite',size=size,count=n,file_identity='object_file',wire_hex=raw.hex(),record_count=struct.unpack('<I',m.mem_read(record+12,4))[0],cursor=struct.unpack('<I',m.mem_read(record+16,4))[0]-record))
   if theadr:assert raw==Path('../fixtures/c2-omf-typed-debug/expected/omftypes.obj').read_bytes()[:15]
   m.reg_write(UC_X86_REG_EAX,n-1 if short else n);m.reg_write(UC_X86_REG_ECX,0x12345678);m.reg_write(UC_X86_REG_EDX,0x23456789);m.reg_write(UC_X86_REG_EIP,struct.unpack('<I',m.mem_read(esp,4))[0]);m.reg_write(UC_X86_REG_ESP,esp+4)
- u.hook_add(UC_HOOK_CODE,hook);u.emu_start(names[name]if native else 0x6c440,0,count=10000);assert terminal is not None
+ # Canonical /Od uses12 instructions per checksum byte;978-byte controls
+ # exceed the former10000-step test budget.50000 bounds both sides equally.
+ u.hook_add(UC_HOOK_CODE,hook);u.emu_start(names[name]if native else 0x6c440,0,count=50000);assert terminal is not None,(native,used,count,short,hex(u.reg_read(UC_X86_REG_EIP)),hex(u.reg_read(UC_X86_REG_ESP)))
  expected=bytearray(before)
  if used>978:assert terminal=='capacity-error'and bytes(u.mem_read(record,1004))==before
  else:

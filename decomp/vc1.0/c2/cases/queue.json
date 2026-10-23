@@ -487,14 +487,14 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_write_record@4",
-  "current_checkpoint": 1263,
-  "current_hold": {
-    "status": "input-state hold before acceptance",
+  "current_application_frontier": "_omf_output_record",
+  "current_checkpoint": 1264,
+  "current_hold": null,
+  "resolved_input_hold": {
     "field": "object_file->_bufsiz",
-    "original": 4096,
-    "native": 0,
-    "owner": "/root/recon_lib_maintenance",
-    "evidence": "cases/omf-write-record-abi/PENDING.json"
+    "correction": "shared cabec0d10",
+    "failed_evidence": "cases/omf-write-record-abi/PENDING.json",
+    "passing_native_only_evidence": "cases/omf-write-record-abi-native-candidate/validation.json",
+    "ready_source_same_as_candidate": true
   }
 }

@@ -1267,7 +1267,8 @@
     "@omf_append_string@8",
     "@omf_append_bytes@12",
     "_omf_flush_records",
-    "@omf_flush_record@4"
+    "@omf_flush_record@4",
+    "@omf_write_record@4"
   ],
   "driver": [
     {
@@ -8734,8 +8735,21 @@
     {
       "name": "@omf_write_record@4",
       "start": 443456,
-      "end": 443457,
-      "provisional": true
+      "end": 443607,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "omf_record_current32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-write-record-abi-native-candidate/validation.json",
+        "scope": "Input34-byte record/current/base alias and object_file FILE/lowio/position matched retained original after shared cabec0d10 field-retention correction; exact candidate source hash unchanged at READY. Original failed observation retained separately."
+      }
     },
     {
       "name": "_omf_write_fixups",

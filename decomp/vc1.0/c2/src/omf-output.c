@@ -445,3 +445,29 @@ void omf_open_module(void)
         omf_default_group->number, omf_next_frame_thread++);
     omf_flush_records();
 }
+
+/* Original [0006c440,0006c4d7). Emit little-endian record length and the
+   additive8-bit checksum; the cursor remains at payload start after write. */
+void __fastcall omf_write_record(OmfRecord *record)
+{
+    unsigned char *end = record->cursor;
+    unsigned size, index, length;
+    unsigned char checksum = 0;
+    if ((long)((unsigned)record - (unsigned)end + 998) < 0)
+        compiler_internal_error("@(#)omf.c:1.10", 0x520);
+    size = (unsigned)(end - record->bytes);
+    length = size - 2;
+    record->cursor = record->bytes + 1;
+    ++record->count;
+    *record->cursor = (unsigned char)length;
+    ++record->cursor;
+    ++record->count;
+    *record->cursor = (unsigned char)(length >> 8);
+    ++record->cursor;
+    for (index = 0; index < size; ++index) checksum += record->bytes[index];
+    record->bytes[size] = (unsigned char)-checksum;
+    ++size;
+    if (fwrite(record->bytes, 1, size, object_file) != size)
+        report_context_error(0x55, generated_source, object_filename);
+    record->count = 0;
+}

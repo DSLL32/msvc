@@ -520,3 +520,17 @@ Inventory now separately reports1148 app/support functions321586B and5 historica
 CRT bodies1776B; driver metadata remains unchanged.163 pending driver rows and
 51081 unclassified bytes/700 ranges retain unknown identity. A reliable non-CRT
 denominator is unavailable; all original code remains399693B.
+
+Checkpoint1264 reconstructs the whole151-byte wire serializer:16-bit length,
+8-bit additive checksum, exact fwrite request and original cursor/count changes.
+67 whole original/canonical controls and10 actual record/FILE ABI negatives pass;
+short-write/capacity branches stop at genuine named diagnostic boundaries. The
+shared retained-FILE correction cabec0d10 exactly matches the passing candidate
+hash; native-only retry resolves the observed4096-vs0 input hold. Failed raw
+observations remain unchanged. A former10000-step emulator limit stopped the
+canonical /Od978-byte checksum loop; equal50000 limits pass, with source unchanged.
+Original/W3, final full graph/extent/ABI/data audit and15 native cases pass
+(14 complete); first15-byte THEADR equals frozen original output, full OMF still
+pending. Next omf_output_record6b860.340037/399693 accepted extent bytes;
+app/support321737B and1149 functions exclude5 historical CRT bodies. Honest
+failed/repeated/candidate/final timing ledger: cases/omf-wire-checkpoint.json.
