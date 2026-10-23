@@ -227,6 +227,14 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"omf_string source_global %08lx\n",read_word(process,image_base+0x705ec));log_line(line);
         dump_bytes(process,"omf_string_hex",call->args[0],string_bytes(process,call->args[0]));
     }
+    if(!strcmp(call->name,"@omf_flush_record_type@4") ||
+       !strcmp(call->name,"@omf_find_record@8") ||
+       !strcmp(call->name,"@omf_allocate_record@8")) {
+        unsigned i;
+        sprintf(line,"omf_pool current %08lx base %08lx stride 1004 count 4\n",
+            read_word(process,image_base+0x6b88c),image_base+0x6a8dc);log_line(line);
+        for(i=0;i<4;++i)dump_bytes(process,"omf_pool_header_hex",image_base+0x6a8dc+i*1004,20);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

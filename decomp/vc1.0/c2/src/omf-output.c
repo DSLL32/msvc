@@ -9,6 +9,10 @@ extern int object_generation_started;
 extern Segment *segment_list;
 OmfRecord *__fastcall omf_begin_record(unsigned type, void *context);
 void __fastcall omf_append_string(OmfRecord *record, char *text);
+int __fastcall omf_flush_record_type(unsigned type);
+OmfRecord *__fastcall omf_find_record(unsigned type, void *context);
+OmfRecord *__fastcall omf_allocate_record(unsigned type, void *context);
+OmfRecord *__fastcall omf_flush_record(OmfRecord *record);
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -36,6 +40,73 @@ void __fastcall omf_write_module_header(char *source)
     OmfRecord *record = omf_begin_record(0x80, NULL);
     omf_append_string(record, source);
     omf_flush_records();
+}
+/* Original [0006b480,0006b64f). Flush incompatible record classes before
+   looking for a reusable slot. Record ids remain explicit here; vendor
+   record writers supply their meanings as those paths are recovered. */
+OmfRecord *__fastcall omf_begin_record(unsigned type, void *context)
+{
+    OmfRecord *record;
+    switch (type) {
+    case 0x80:
+        omf_flush_record_type(0x95);
+        omf_flush_record_type(0xc5);
+        break;
+    case 0x8c:
+        if (!omf_flush_record_type(0xb0) && !omf_flush_record_type(0xb4))
+            omf_flush_record_type(0xbc);
+        omf_flush_record_type(0x91);
+        break;
+    case 0x91:
+        omf_flush_record_type(0x8c);
+        break;
+    case 0x96:
+        omf_flush_record_type(0xca);
+        break;
+    case 0xa1:
+        omf_flush_record_type(0xc3);
+        break;
+    case 0xb0:
+        if (!omf_flush_record_type(0x8c) && !omf_flush_record_type(0xb4))
+            omf_flush_record_type(0xbc);
+        break;
+    case 0xb4:
+        if (!omf_flush_record_type(0x8c) && !omf_flush_record_type(0xb0))
+            omf_flush_record_type(0xbc);
+        omf_flush_record_type(0xb7);
+        break;
+    case 0xb7:
+        omf_flush_record_type(0xb4);
+        break;
+    case 0xbc:
+        if (!omf_flush_record_type(0x8c) && !omf_flush_record_type(0xb4))
+            omf_flush_record_type(0xb0);
+        break;
+    case 0xc3:
+        omf_flush_record_type(0xa1);
+        if (!((SymbolHeader *)context)->field04) omf_flush_record_type(0xc5);
+        break;
+    case 0xca:
+        omf_flush_record_type(0x96);
+        break;
+    }
+    record = omf_find_record(type, context);
+    if (!record) record = omf_allocate_record(type, context);
+    omf_current_record = record;
+    return record;
+}
+/* Original [0006aaf0,0006ab15). The first matching slot is sufficient,
+   and a found record is reported even if its writer returns another slot. */
+int __fastcall omf_flush_record_type(unsigned type)
+{
+    OmfRecord *record;
+    for (record = omf_records; record < omf_records + 4; ++record) {
+        if (record->type == type) {
+            omf_flush_record(record);
+            return 1;
+        }
+    }
+    return 0;
 }
 /* Original [0006a350,0006a7e5); eleven following bytes are alignment.
    The four tail words of Segment have format-specific meanings: OMF names,

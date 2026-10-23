@@ -1,0 +1,107 @@
+{
+  "matched": true,
+  "function": "@omf_flush_record_type@4",
+  "profile": "omf",
+  "omf_state": null,
+  "pool_input": {
+    "original": {
+      "current": 501980,
+      "base": 501980,
+      "stride": 1004,
+      "count": 4,
+      "headers": [
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000"
+      ]
+    },
+    "native": {
+      "base": 1449223508,
+      "current": 1449223508,
+      "headers": [
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000"
+      ]
+    },
+    "scope": "Actual first helper has four BSS-zero20-byte headers and current record aliases slot0; no payload read/dump or arbitrary reuse-state claim."
+  },
+  "null_pointer_formals": [],
+  "formals": [
+    {
+      "name": "type",
+      "location": "ECX",
+      "type": "unsigned32",
+      "value": 149
+    }
+  ],
+  "hidden_inputs": [],
+  "no_hidden_inputs_proof": "Original6aaf0..6ab15 consumes only ECX record type. EAX initialized to pool base, flags computed locally, no incoming otherGPR/stack/x87/hidden argument, RET0. Four typed record tags are global inputs; actual first type95 and all four20-byte BSS-zero headers/current-slot0 observed. Found-record pointer passed to named child; return normalized0/1 inEAX.",
+  "callee_stack_cleanup": 0,
+  "original_raw_values": [
+    149
+  ],
+  "original_values": [
+    149
+  ],
+  "original_state": {
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "fastcall": 1
+  },
+  "native": {
+    "values": [
+      149
+    ],
+    "omf_pool": {
+      "base": 1449223508,
+      "current": 1449223508,
+      "headers": [
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000"
+      ]
+    },
+    "coff_object": 0,
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "stdout": {
+      "flags": 2,
+      "count": 0,
+      "fd": 1,
+      "size": 0,
+      "null": 1,
+      "used": 0,
+      "buffer_hex": ""
+    }
+  },
+  "original_stdout": {
+    "flags": 2,
+    "count": 0,
+    "fd": 1,
+    "size": 0,
+    "null": 1,
+    "used": 0,
+    "position": 0,
+    "counter": 0,
+    "cursor": 0,
+    "value": 0,
+    "buffer_hex": ""
+  },
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+  "config_sha256": "4a36b6a303ca907f8da3288436299248f5832c80da93cc6b274da86a566076bc",
+  "observer_source_sha256": "981b70946178cabd2ce46ad3d403a2ef148d290f1461586c061efc78745cc260",
+  "observer_sha256": "aa78c99826ccbdfc8a8ef75ae39c262fd822622eff5ffe4e2bea152e6b6d4b36",
+  "native_executable_sha256": "fda898d504f1e9f64f9487f7472cd1d6ee6d7d0c5eefcc4b8a28d7591e8a9999",
+  "original_execution_seconds": 1.5437555629760027,
+  "reused_immutable_original": false,
+  "native_debug_seconds": 0.1367565942928195,
+  "total_seconds": 1.9832644956186414,
+  "scope": "Actual scalar fastcall register/stack formals (16-bit parameters compare their proved lower-word contract; full original register/slot words retained) and known stdout/column/x87 entry state. No injected calls, return observation, child behavior, arbitrary-input equivalence or completed artifact claim."
+}

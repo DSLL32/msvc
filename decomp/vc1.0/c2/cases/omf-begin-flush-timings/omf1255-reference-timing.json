@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python3",
+    "scripts/capture-original.py",
+    "--profile",
+    "omf",
+    "--receipt",
+    "cases/omf-original-1255.json"
+  ],
+  "seconds": 1.6137055261060596,
+  "returncode": 0,
+  "log_sha256": "00a78f0bed970646db1adba9e8f0f34a16dcec0610418e835b8af5a8063f9368"
+}

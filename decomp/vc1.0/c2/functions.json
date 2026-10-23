@@ -1258,7 +1258,9 @@
     "@coff_write_lines@8",
     "_omf_open_module",
     "_omf_initialize_records",
-    "@omf_write_module_header@4"
+    "@omf_write_module_header@4",
+    "@omf_begin_record@8",
+    "@omf_flush_record_type@4"
   ],
   "driver": [
     {
@@ -8500,13 +8502,67 @@
     {
       "name": "@omf_begin_record@8",
       "start": 439424,
-      "end": 439425,
-      "provisional": true
+      "end": 439887,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "type",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "null32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-begin-record-abi/validation.json",
+        "scope": "Physical32-bit record id and void* context; actual first context isNULL, no pointee input. TypeC3 requires valid context+4 on its independent path; no invented guard."
+      }
     },
     {
       "name": "@omf_append_string@8",
       "start": 443616,
       "end": 443617,
+      "provisional": true
+    },
+    {
+      "name": "@omf_flush_record_type@4",
+      "start": 436976,
+      "end": 437013,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "type",
+            "location": "ECX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-flush-record-type-abi/validation.json"
+      }
+    },
+    {
+      "name": "@omf_find_record@8",
+      "start": 441680,
+      "end": 441681,
+      "provisional": true
+    },
+    {
+      "name": "@omf_allocate_record@8",
+      "start": 442960,
+      "end": 442961,
+      "provisional": true
+    },
+    {
+      "name": "@omf_flush_record@4",
+      "start": 443184,
+      "end": 443185,
       "provisional": true
     }
   ],

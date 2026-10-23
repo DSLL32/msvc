@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x405c: file src/stubs.c, line 109.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_find_record (type=128, context=0x0) at src/stubs.c:109
+109	OmfRecord *__fastcall omf_find_record(unsigned type, void *context) { __asm int 3 }
+C2_SCALARS {"values": [128, 0], "omf_pool": {"base": 1449223508, "current": 1449223508, "headers": ["0000000000000000000000000000000000000000", "0000000000000000000000000000000000000000", "0000000000000000000000000000000000000000", "0000000000000000000000000000000000000000"]}, "coff_object": 0, "column": 4294967295, "cw": 639, "sw": 0, "stdout": {"flags": 2, "count": 0, "fd": 1, "size": 0, "null": 1, "used": 0, "buffer_hex": ""}}

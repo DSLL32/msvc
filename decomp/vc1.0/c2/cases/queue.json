@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1254: module/header/cache functions accepted, original/native record-begin80/contextNULL frontier6b480;14 prior complete cases.",
+  "status": "Derived OMF case at1256: record dependency/first-type flush complete; matching original/native cache lookup80/NULL frontier6bd50.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,5 +487,5 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_begin_record@8"
+  "current_application_frontier": "@omf_find_record@8"
 }

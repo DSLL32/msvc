@@ -1,0 +1,29 @@
+{
+  "actual_formals": [
+    {
+      "name": "type",
+      "location": "ECX",
+      "type": "unsigned32",
+      "value": 128
+    },
+    {
+      "name": "context",
+      "location": "EDX",
+      "type": "null32",
+      "value": 0
+    }
+  ],
+  "null_pointer_formals": [
+    "context"
+  ],
+  "rejected": [
+    "missing context",
+    "wrong context register",
+    "nonNULL actual context",
+    "wrong actual type",
+    "missing NULL pointer proof",
+    "unknown hidden argument"
+  ],
+  "seconds": 0.22241242043673992,
+  "scope": "Actual first ECX80 and EDX NULL, no pointee input. This does not claim NULL valid for record typeC3, which reads context+4."
+}

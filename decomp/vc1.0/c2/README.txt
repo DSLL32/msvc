@@ -446,3 +446,15 @@ unchanged before flush. Those children remain typed traps, verified separately
 at their own entries. All15 native cases pass (14 complete), next record begin
 6b480. Canonical graphs/extents/ABI/data and original/W3 pass.65new extent bytes;
 full layout provenance and split timings: cases/omf-cache-header-checkpoint.json.
+
+Checkpoint1256 adds463-byte OMF record dependency/reuse dispatch and37-byte
+first-type flush. Actual80/NULL factory and95 flush inputs match; four defined
+zero20-byte cache headers/current-slot0 ownership are observed on both sides.
+608 whole original/canonical factory controls cover every dispatch class,
+short-circuit order, reuse/allocation and context-read timing, with explicit
+child mocks. TypeC3 retains the original required context+4 read; no NULL guard
+is invented.42 flush controls preserve all pool bytes and select first matching
+slot, independently of child return.15 native cases pass (14 complete); next
+cache lookup6bd50. Original/W3 and canonical graph/extent/ABI/storage pass.
+500new bytes; split timings and proof limits: cases/omf-begin-flush-checkpoint.json.
+The broad608-case model is explicit/audit-data; routine audit checks actual ABI.
