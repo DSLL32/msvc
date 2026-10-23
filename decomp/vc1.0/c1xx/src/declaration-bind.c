@@ -191,3 +191,26 @@ int __stdcall symbol_has_reference_shape(CppSymbol *symbol)
     if (shape && !(shape->flags & 0x77)) shape = shape->related;
     return shape && (shape->flags & 0x40) ? 1 : 0;
 }
+
+/* Original 0x518b0..0x5195c. Bind a declaration without an initializer,
+   then arrange implicit construction where its object model requires it. */
+CppSymbol *__stdcall complete_declaration(DeclarationType *context, CppSymbol *declaration)
+{
+    CppSymbol *symbol;
+    if (declaration && (context->storage[0] & 7) == 1 && declaration_mode) {
+        if (declaration->attributes & 4)
+            report_syntax_error(205, declaration->name);
+        return apply_declaration_type(context, declaration);
+    }
+    symbol = apply_declaration_type(context, declaration);
+    if (!symbol || (symbol->declaration_flags & 2)) return 0;
+    if (!symbol_construction_class(symbol) || (symbol->storage[0] & 7) == 1)
+        return symbol;
+    if (symbol->flags & 4) {
+        mark_initialized_symbol(symbol);
+        symbol = begin_object_initializer(symbol);
+        initialize_object(symbol, 0);
+    }
+    finish_object_initializer(symbol);
+    return symbol;
+}

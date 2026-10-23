@@ -2,6 +2,14 @@
 #define CLASS_MEMBERS_H
 #include "lexer.h"
 #include <recon.h>
+/* Original class-member cursor:the selected member is its second word. */
+typedef struct ClassMemberIterator {
+    CppSymbol *next, *member;
+} ClassMemberIterator;
+typedef char ClassMemberIteratorSizeMustBe8[(sizeof(ClassMemberIterator) == 8) ? 1 : -1];
+typedef char ClassMemberIteratorMemberOffsetMustBe4[(offsetof(ClassMemberIterator, member) == 4) ? 1 : -1];
+void __stdcall begin_class_members(ClassMemberIterator *iterator, CppSymbol *tag);
+int __stdcall next_class_member(ClassMemberIterator *iterator);
 
 void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function);
 void __stdcall browser_friend_reference(CppSymbol *symbol);
@@ -43,4 +51,5 @@ void __stdcall insert_class_member(CppSymbol *symbol);
 void __stdcall append_class_members(CppSymbol *first, CppSymbol *last);
 CppSymbol *__stdcall make_overload_symbol(CppSymbol *symbol);
 CppSymbol *__stdcall reconcile_declaration(CppSymbol *existing, CppSymbol *declaration);
+void __stdcall prepend_class_member(CppSymbol *member);
 #endif

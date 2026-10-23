@@ -584,3 +584,76 @@ void finish_inline_functions(void)
         }
     }
 }
+
+/* Original 0x79960..0x79b69. Insert a synthetic vfptr/vbptr member and
+   reserve its aligned prefix by moving existing member/base displacements. */
+CppSymbol *__stdcall create_virtual_pointer(CppSymbol *tag, int kind)
+{
+    CppSymbol *pointer;
+    unsigned bytes, base, padding, span, alignment, limit;
+    pointer = new_declarator(kind == 0 || kind == 2 ? name_vfptr : name_vbptr);
+    pointer->flags |= 0x80;
+    pointer->kind = 3;
+    if (kind == 0) {
+        attach_type_shape(pointer, new_type_shape(1, tag->detail.class_info->pointer_attributes, 0));
+        attach_type_shape(pointer, new_type_shape(2, 0, 0));
+        attach_type_shape(pointer, new_type_shape(1, 0, 0));
+        add_function_shape(pointer, 0, 0);
+        normalize_symbol_type(type_0080, pointer);
+        tag->detail.class_info->virtual_dispatch_pointer = pointer;
+    } else if (kind == 1) {
+        attach_type_shape(pointer, new_type_shape(1, tag->detail.class_info->pointer_attributes, 0));
+        attach_type_shape(pointer, new_type_shape(2, 0, 0));
+        normalize_symbol_type(builtin_integer_type(), pointer);
+    }
+    prepend_class_member(pointer);
+    bytes = type_size(pointer->type);
+    base = kind == 0 ? 0 : nonvirtual_base_end(tag);
+    padding = alignment_padding_at(bytes, base);
+    alignment = class_contexts[current_class_context].alignment;
+    span = ((bytes - 1 + padding + alignment) / alignment) * alignment;
+    shift_class_member_offsets(tag, span, base);
+    limit = (unsigned)top_packing(packing_stack)->alignment < bytes ?
+        top_packing(packing_stack)->alignment : bytes;
+    if (class_contexts[current_class_context].alignment <= (unsigned short)limit) {
+        if ((unsigned)top_packing(packing_stack)->alignment < bytes)
+            bytes = top_packing(packing_stack)->alignment;
+        class_contexts[current_class_context].alignment = (unsigned short)bytes;
+    }
+    pointer->detail.value = base + padding;
+    if (kind == 0) {
+        tag->detail.class_info->field2c += span;
+        tag->detail.class_info->alignment_flags |= 0x40;
+    } else {
+        tag->detail.class_info->field2c = base + padding;
+        tag->detail.class_info->alignment_flags |= 0x80;
+    }
+    return pointer;
+}
+
+/* Original 0x79bf0..0x79ca6. Reserve a class prefix without moving static
+   data or virtual bases. Ordinary fields, bit-fields and nonvirtual bases at
+   or beyond the insertion point receive the same displacement. */
+void __stdcall shift_class_member_offsets(CppSymbol *tag, unsigned bytes, unsigned offset)
+{
+    ClassMemberIterator iterator;
+    CppSymbol *member;
+    BaseClassLink *base;
+    unsigned kind;
+    begin_class_members(&iterator, tag);
+    while (next_class_member(&iterator)) {
+        member = iterator.member;
+        kind = member->kind & 0x1f;
+        if (kind == 3) {
+            if (member->attributes & 0x40) continue;
+            if (member->detail.value >= offset) member->detail.value += bytes;
+        } else if (kind == 2) {
+            if (member->detail.value >= offset) member->detail.value += bytes;
+        } else if (kind == 15) {
+            base = (BaseClassLink *)member;
+            if (!(base->state & 1) && base->displacement >= offset)
+                base->displacement += bytes;
+        }
+    }
+    class_contexts[current_class_context].size += bytes;
+}

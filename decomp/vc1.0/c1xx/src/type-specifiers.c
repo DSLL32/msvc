@@ -526,3 +526,47 @@ unsigned char resolve_type_parenthesis(void)
     token_allocation_flags |= 0x10000000UL;
     return resolve_parenthesis_candidate(1);
 }
+
+/* Original 0x1d9f0..0x1db09, plus its16-entry dispatch table through
+   0x1db4b. The fourth stack argument is unused but RET16 retains its ABI. */
+void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
+    unsigned char modifier, unsigned unused)
+{
+    unsigned char duplicate = 1;
+    if (!(storage->flags & 7))
+        storage->flags = (storage->flags & ~7U) | (kind & 7);
+    else if (kind) report_syntax_error(159);
+    switch (modifier) {
+    case 3: /* alternate inline spelling */
+    case TOK_INLINE:
+        if (storage->flags & 0x100) duplicate = TOK_INLINE;
+        else storage->flags |= 0x100;
+        break;
+    case 4: /* __declspec(naked) */
+        if (storage->extended & 1) duplicate = 2;
+        else storage->extended |= 1;
+        break;
+    case 5: /* __declspec(thread) */
+        if (storage->extended & 2) duplicate = 2;
+        else storage->extended |= 2;
+        break;
+    case 6: /* __declspec(dllimport) */
+        if (storage->extended & 4) duplicate = 2;
+        else storage->extended = (storage->extended | 4) & ~8;
+        break;
+    case 7: /* __declspec(dllexport) */
+        if (storage->extended & 4) duplicate = 2;
+        else storage->extended |= 12;
+        break;
+    case TOK_FRIEND:
+        if (storage->flags & 0x400) duplicate = TOK_FRIEND;
+        else storage->flags |= 0x400;
+        break;
+    case TOK_VIRTUAL:
+        if (storage->flags & 0x200) duplicate = TOK_VIRTUAL;
+        else storage->flags |= 0x200;
+        break;
+    }
+    if (duplicate != 1)
+        compiler_warning(1, 141, duplicate == 2 ? interned_name : token_spellings[duplicate]);
+}

@@ -145,8 +145,8 @@ def main():
     current_path.write_text(json.dumps(current,indent=2)+'\n')
     readme_path=BINARY/'README.txt'
     readme=readme_path.read_text()
-    readme=re.sub(r'PARTIAL reconstruction: \d+ accepted frontiers, including \d+ frontend',
-        'PARTIAL reconstruction: %d accepted frontiers, including %d frontend'%(len(config['accepted']),application_count),readme,count=1)
+    readme=re.sub(r'PARTIAL (?:binary )?reconstruction:\s*\d+ accepted frontiers, including\s*\d+ frontend',
+        'PARTIAL binary reconstruction: %d accepted frontiers, including %d frontend'%(len(config['accepted']),application_count),readme,count=1)
     readme=re.sub(r'trap is _[A-Za-z_0-9@]+ at original VA 0x[0-9a-f]+\.',
         'trap is %s at original VA %s.'%(original['terminal'],current['original_frontier_va']),readme,count=1)
     readme=re.sub(r'all \d+ application definitions','all %d application definitions'%len(cache['application_definitions']),readme,count=1)

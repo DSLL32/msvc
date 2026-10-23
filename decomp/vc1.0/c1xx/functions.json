@@ -647,7 +647,15 @@
     "__endstdio",
     "__flushall",
     "_flsall",
-    "import:ExitProcess"
+    "import:ExitProcess",
+    "_complete_declaration@8",
+    "_add_storage_specifier@16",
+    "_create_virtual_pointer@8",
+    "_check_pointer_attributes@12",
+    "_prepend_class_member@4",
+    "_shift_class_member_offsets@12",
+    "_begin_class_members@8",
+    "_next_class_member@4"
   ],
   "driver": [
     {
@@ -2195,7 +2203,7 @@
     {
       "name": "_complete_declaration@8",
       "start": 334000,
-      "end": 334001
+      "end": 334173
     },
     {
       "name": "_concatenate_strings@8",
@@ -2945,7 +2953,7 @@
     {
       "name": "_add_storage_specifier@16",
       "start": 121328,
-      "end": 121329
+      "end": 121676
     },
     {
       "name": "_merge_type_specifier@12",
@@ -3645,7 +3653,7 @@
     {
       "name": "_create_virtual_pointer@8",
       "start": 498016,
-      "end": 498017
+      "end": 498538
     },
     {
       "name": "_new_virtual_table@16",
@@ -5913,6 +5921,31 @@
       "name": "_mangle_tag_name@8",
       "start": 279216,
       "end": 279217
+    },
+    {
+      "name": "_prepend_class_member@4",
+      "start": 208832,
+      "end": 208887
+    },
+    {
+      "name": "_nonvirtual_base_end@4",
+      "start": 498544,
+      "end": 498545
+    },
+    {
+      "name": "_shift_class_member_offsets@12",
+      "start": 498672,
+      "end": 498855
+    },
+    {
+      "name": "_begin_class_members@8",
+      "start": 199072,
+      "end": 199088
+    },
+    {
+      "name": "_next_class_member@4",
+      "start": 199088,
+      "end": 199119
     }
   ],
   "cases": {
@@ -6038,9 +6071,18 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_complete_declaration@8",
-      "frontier_extensions": [],
-      "terminal_evidence": "cases/virtual_diamond-seed/original-events.txt",
+      "terminal": "_new_virtual_table@16",
+      "frontier_extensions": [
+        "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0645-create_virtual_pointer-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0646-check_pointer_attributes-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0647-prepend_class_member-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0648-shift_class_member_offsets-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0649-begin_class_members-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0650-next_class_member-4/frontier-extension.json"
+      ],
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0650-next_class_member-4/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

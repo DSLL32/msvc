@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_shift_class_member_offsets@12",
+    "start": 498672,
+    "end": 498855
+  },
+  "distinct_direct_callees": [
+    "_begin_class_members@8",
+    "_next_class_member@4"
+  ],
+  "next_frontier": "_begin_class_members@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.28590789157897234,
+  "total_operation_seconds": 6.761379970237613,
+  "original_capture_seconds": 4.72650736104697
+}

@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_prepend_class_member@4",
+    "start": 208832,
+    "end": 208887
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_shift_class_member_offsets@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2852545250207186,
+  "total_operation_seconds": 6.500076650641859,
+  "original_capture_seconds": 4.4753547897562385
+}

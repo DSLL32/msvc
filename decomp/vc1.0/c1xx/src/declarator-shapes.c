@@ -538,3 +538,26 @@ int __stdcall merge_reference_shape(CppSymbol *symbol, ShapeCursor inner,
     current->attributes = (current->attributes & ~0x3000) | (outer.attributes & 0x3000);
     return 1;
 }
+
+/* Original 0x492f0..0x493bf. Calling conventions and function-only flags
+   cannot qualify an ordinary object pointer; recover the supported distance. */
+void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current,
+    unsigned diagnostic)
+{
+    unsigned token = 0;
+    switch (current->attributes & 0x70) {
+    case 0x10: token = TOK_CDECL; break;
+    case 0x20: token = TOK_PASCAL; break;
+    case 0x40: token = TOK_FASTCALL; break;
+    case 0x60: token = TOK_STDCALL; break;
+    }
+    if (token) report_syntax_error(diagnostic, token_spellings[token]);
+    if (current->attributes & 0x0f00) {
+        compiler_warning(1, 105, symbol->name);
+        current->attributes &= 0xf0ff;
+    }
+    if ((current->attributes & 7) == 2) {
+        report_syntax_error(diagnostic, "_far");
+        current->attributes &= ~7;
+    }
+}

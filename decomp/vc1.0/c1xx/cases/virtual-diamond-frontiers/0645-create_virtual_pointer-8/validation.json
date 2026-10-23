@@ -1,0 +1,28 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_create_virtual_pointer@8",
+    "start": 498016,
+    "end": 498538
+  },
+  "distinct_direct_callees": [
+    "_add_function_shape@12",
+    "_alignment_padding_at@8",
+    "_attach_type_shape@8",
+    "_builtin_integer_type",
+    "_new_declarator@4",
+    "_new_type_shape@12",
+    "_nonvirtual_base_end@4",
+    "_normalize_symbol_type@8",
+    "_prepend_class_member@4",
+    "_shift_class_member_offsets@12",
+    "_top_packing",
+    "_type_size@4"
+  ],
+  "next_frontier": "_check_pointer_attributes@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.27444047294557095,
+  "total_operation_seconds": 5.754283247515559,
+  "original_capture_seconds": 3.773912174627185
+}

@@ -718,3 +718,27 @@ void __stdcall select_destructor_type(CppSymbol *member, DeclarationType *contex
     *base = type_0064;
     member->name = name_dtor;
 }
+
+/* Original 0x32fc0..0x32ff6. Synthetic dispatch members precede the
+   existing chain; the source-order tail remains where parsing left it. */
+void __stdcall prepend_class_member(CppSymbol *member)
+{
+    if (member->name) ((unsigned char *)member->name)[-1] |= 4;
+    member->next = CLASS_TAG->auxiliary.scope_members;
+    CLASS_TAG->auxiliary.scope_members = member;
+}
+
+/* Original 0x309a0..0x309af. Selection is filled by next_class_member. */
+void __stdcall begin_class_members(ClassMemberIterator *iterator, CppSymbol *tag)
+{
+    iterator->next = tag->auxiliary.scope_members;
+}
+
+/* Original 0x309b0..0x309ce. Exhaustion also clears the selected member. */
+int __stdcall next_class_member(ClassMemberIterator *iterator)
+{
+    iterator->member = iterator->next;
+    if (!iterator->member) return 0;
+    iterator->next = iterator->member->next;
+    return 1;
+}

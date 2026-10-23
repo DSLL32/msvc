@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a571 in new_virtual_table (kind=0, tag=0x565eb0ec, offset=0, pointer=0x565eb320) at src/stubs.c:408
+408	VirtualTable *__stdcall new_virtual_table(unsigned kind, CppSymbol *tag, unsigned offset, CppSymbol *pointer) { __asm { int 3 } return 0; }
+#0  0x5655a571 in new_virtual_table (kind=0, tag=0x565eb0ec, offset=0, pointer=0x565eb320) at src/stubs.c:408
+#1  0x565aab7f in build_class_virtual_tables (tag=0x565eb0ec) at src/class-finalization.c:137
+#2  0x565aa615 in prepare_class_virtual_tables (tag=0x565eb0ec) at src/class-finalization.c:95
+#3  0x565aa1bc in end_class_specifier () at src/class-finalization.c:28
+#4  0x56595b23 in parse_translation_unit () at src/parser-declaration-actions.inc:166
+#5  0x5655da46 in compile_translation_unit () at src/frontend.c:75
+#6  0x565587c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558794 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

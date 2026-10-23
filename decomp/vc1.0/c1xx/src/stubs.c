@@ -110,7 +110,6 @@ char *__stdcall make_local_static_name(CppSymbol *symbol) { __asm { int 3 } retu
 void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
-void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic) { __asm { int 3 } }
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
@@ -170,7 +169,6 @@ IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm
 
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
 void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
-CppSymbol *__stdcall complete_declaration(DeclarationType *type, CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source) { __asm { int 3 } }
 void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 } }
 IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
@@ -321,8 +319,6 @@ void finish_pch_capture(void) { __asm { int 3 } }
 
 void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } }
 
-void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
-                                    unsigned char modifier, unsigned unused) { __asm { int 3 } }
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
 void __stdcall convert_deferred_type_token(DeferredToken *token, CType *type) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
@@ -409,7 +405,6 @@ TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; 
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 void __stdcall inherit_base_virtual_tables(CppSymbol *tag, BaseClassLink *base, int *virtual_base) { __asm { int 3 } }
-CppSymbol *__stdcall create_virtual_pointer(CppSymbol *tag, int kind) { __asm { int 3 } return 0; }
 VirtualTable *__stdcall new_virtual_table(unsigned kind, CppSymbol *tag, unsigned offset, CppSymbol *pointer) { __asm { int 3 } return 0; }
 VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *pointer) { __asm { int 3 } return 0; }
 
@@ -673,3 +668,5 @@ char *__stdcall mangle_referenced_type(char *cursor, CType *type) { __asm { int 
 char *__stdcall mangle_pointer_target(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
+
+unsigned __stdcall nonvirtual_base_end(CppSymbol *tag) { __asm { int 3 } return 0; }

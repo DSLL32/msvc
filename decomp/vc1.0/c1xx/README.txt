@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction:643 accepted frontiers, including553 frontend
+PARTIAL binary reconstruction: 651 accepted frontiers, including 561 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1385,3 +1385,24 @@ main from the new case's seed and force a completed exit at its pending trap.
 The case fixtures remain native-only. Full reference capture and acceptance
 operations accept an explicit --case separately. The active frontier is now
 complete_declaration; accepted extent remains42.339500% before its recovery.
+
+Virtual-pointer layout checkpoint:651 accepted frontiers,568 source functions.
+Eight whole functions beyond the virtual_diamond seed now bind declarations,
+collect storage/modifier flags, synthesize a vfptr/vbptr and its nested type,
+validate pointer attributes, prepend synthetic members, relocate data/base
+members and iterate the class member chain. The storage dispatcher includes
+its16-entry original text table; source uses a readable switch. Diagnostic
+varargs retain symbol names/token spellings, and both unused fourth storage
+arguments and original RET widths are preserved. The class iterator is8bytes
+with its selected member at+4, checked by both compiler builds.
+
+Every0643through0650 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible bytes. cpp_basic still
+passes its full original output/exit oracle at every step. Full568-function
+graph, contextual data/defaults, both grammars, both cached cases and21rejection
+checks pass in4.726seconds combined wall. Per-function build, original capture,
+native debugger and fixture timings remain in the acceptance directories.
+No new semantic divergence or shared compatibility change occurred.
+
+Accepted extent union203249/476418bytes is42.661906%, not branch coverage.
+The active virtual_diamond case is incomplete at new_virtual_table0x78950.
