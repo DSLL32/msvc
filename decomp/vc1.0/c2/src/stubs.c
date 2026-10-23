@@ -161,8 +161,6 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"
-unsigned __fastcall lookup_floating_opcode(unsigned opcode, const FloatingOpcode *map) { __asm int 3 }
-void __fastcall arrange_x87_left(Node *node) { __asm int 3 }
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
 void mark_x87_call_result(void) { __asm int 3 }

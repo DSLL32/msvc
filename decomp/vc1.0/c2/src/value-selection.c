@@ -627,3 +627,37 @@ SymbolHeader *__fastcall find_floating_constant(const Extended *value, unsigned 
             return entry->symbol;
     return 0;
 }
+
+int __fastcall x87_contains_node(Node *node);
+/* Original [00019c00,00019c2b). Load an absent left value, then
+   exchange it with ST1 so binary x87 operations see the original order. */
+void __fastcall arrange_x87_left(Node *node)
+{
+    if (!x87_contains_node(node)) {
+        select_value_register(node);
+        emit_machine_operation(MC_FXCH, node->attributes.words.type, &operand_st1);
+    }
+}
+
+/* Original [0001b210,0001b238). Pointer identity membership across
+   every live x87 entry, with no numerical comparison or top-only rule. */
+int __fastcall x87_contains_node(Node *node)
+{
+    int index;
+    for (index = 0; index < x87_stack_depth; ++index)
+        if (x87_stack_nodes[index] == node) return 1;
+    return 0;
+}
+
+/* Original [00019bc0,00019bf5). A null description terminates the
+   twelve-byte map; key -1 is the original wildcard entry. */
+unsigned __fastcall lookup_floating_opcode(unsigned opcode, const FloatingOpcode *map)
+{
+    while (map->description) {
+        if (map->tree_opcode == opcode || map->tree_opcode == ~0U)
+            return map->opcode;
+        ++map;
+    }
+    compiler_internal_error("@(#)codegen.c:1.167", 0x906);
+    /* The original diagnostic returns without defining EAX if it returns. */
+}

@@ -2440,3 +2440,9 @@ Floating constant cache and generated storage symbols: checkpoint970
 @arrange_x87_left@4. 891 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-storage.json for extent union, limits and measured timings.
+
+x87 operand membership and arithmetic selection: checkpoint973
+3 acceptances pass fresh original/native matching; current frontier
+@peephole_selected_block@8. 894 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-arrangement.json for extent union, limits and measured timings.

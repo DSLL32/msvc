@@ -974,7 +974,10 @@
     "@floating_constant_symbol@4",
     "@find_floating_constant@8",
     "@new_generated_storage@24",
-    "@create_temporary@28"
+    "@create_temporary@28",
+    "@arrange_x87_left@4",
+    "@x87_contains_node@4",
+    "@lookup_floating_opcode@8"
   ],
   "driver": [
     {
@@ -3507,14 +3510,12 @@
     {
       "name": "@lookup_floating_opcode@8",
       "start": 105408,
-      "end": 105409,
-      "provisional": true
+      "end": 105461
     },
     {
       "name": "@arrange_x87_left@4",
       "start": 105472,
-      "end": 105473,
-      "provisional": true
+      "end": 105515
     },
     {
       "name": "@emit_register_barrier@8",
@@ -6865,6 +6866,11 @@
       "name": "@new_generated_storage@24",
       "start": 320512,
       "end": 320566
+    },
+    {
+      "name": "@x87_contains_node@4",
+      "start": 111120,
+      "end": 111160
     }
   ],
   "cases": {
