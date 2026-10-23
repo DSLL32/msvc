@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "accepted_before": 610,
+  "accepted": "import:CloseHandle",
+  "terminal": "__free_osfhnd",
+  "original_capture": "cases/cpp-basic-frontiers/0610-import-CloseHandle/original-receipt.json",
+  "original_capture_sha256": "0fb19d3c1d9d56f8f650b67fb2710745cbe83385eb5d9496185d3aa767788248",
+  "original_events": "cases/cpp-basic-frontiers/0610-import-CloseHandle/original-events.txt",
+  "original_events_sha256": "e5165223bdb17836ce92206b49eca9cf5e834580e7f8caa34019e21de63032e1",
+  "original_configuration": "cases/cpp-basic-frontiers/0610-import-CloseHandle/original-configuration.json",
+  "scope": "Explicit runtime first-entry sequence, indexed library/import identity, original/native close boundary and downstream full checkpoint",
+  "runtime_evidence": "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/validation.json",
+  "runtime_evidence_sha256": "47059e94711027132c821b868e35db2f9725f75dd0f7d7791a590f86dd839d2b",
+  "downstream_frontier": "_finish_translation_symbols",
+  "downstream_comparison": "cases/cpp-basic-frontiers/0608-close_source_file/validation.json"
+}

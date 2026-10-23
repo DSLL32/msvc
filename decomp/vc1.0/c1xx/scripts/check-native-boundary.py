@@ -60,6 +60,31 @@ def main():
         checks.append(dict(name='unknown-dependency',status='pass',rejected_because=str(error),seconds='not separately measured'))
     else:
         raise AssertionError('unknown dependency accepted')
+    proof_path = BINARY/'cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/validation.json'
+    if proof_path.exists():
+        spec = importlib.util.spec_from_file_location('c1xx_runtime_boundary',BINARY/'scripts/runtime-boundary.py')
+        boundary = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(boundary)
+        proof = boundary.check(proof_path)
+        changes = [
+            ('close-return', lambda p:p['native'].__setitem__('result', -1), 'close boundary differs'),
+            ('close-failed-both', lambda p:(p['original'].__setitem__('result', -1), p['native'].__setitem__('result', -1)), 'close did not close'),
+            ('close-descriptor', lambda p:(p['original'].__setitem__('descriptor', 8), p['native'].__setitem__('descriptor', 8)), ''),
+            ('close-order', lambda p:p['runtime_order'].reverse(), 'unobserved runtime boundary'),
+            ('close-library', lambda p:p['identity']['records'][0].__setitem__('object_sha256', '0'*64), 'CRT library/import identity changed'),
+            ('close-observation', lambda p:p['evidence_files'][0].__setitem__('sha256','0'*64), 'runtime observation evidence changed')]
+        for name, change, expected in changes:
+            altered=json.loads(json.dumps(proof))
+            change(altered)
+            altered_path=directory/(name+'.json')
+            altered_path.write_text(json.dumps(altered))
+            started=time.perf_counter()
+            try:
+                boundary.check(altered_path)
+            except AssertionError as error:
+                assert expected in str(error),(name,str(error))
+                checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'observation bytes contradict claimed descriptor',seconds=time.perf_counter()-started))
+            else:raise AssertionError(name+' accepted corrupted runtime evidence')
     receipt = dict(status='pass', scope='native regression-boundary fault injection; no original execution',
         negative_helper_build_seconds=build_seconds,checks=checks)
     (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

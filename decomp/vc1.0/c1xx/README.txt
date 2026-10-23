@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 608 accepted frontiers, including 528 frontend
+PARTIAL reconstruction: 612 accepted frontiers, including 529 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _close_source_file at original VA 0x1e990. The latest ordered replay is recorded in validation.json;
+trap is _finish_translation_symbols at original VA 0x34280. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,9 +29,9 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 1007 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 529 first
-entries: 528 accepted frontend functions plus close_source_file, whose INT3
+projects that original history to all 1009 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 530 first
+entries: 529 accepted frontend functions plus finish_translation_symbols, whose INT3
 must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
 trial accepted initialize_object_value.
 
@@ -1228,3 +1228,48 @@ Receipts: evidence/main-conditional-checkpoint.{json,log},
 main-conditional-native-check.json and main-conditional-rejections.json.
 The approved follow-on families and capture constraints are durable in
 cases/reconstruction-queue.json; capture starts after cpp_basic completes.
+
+Source-close checkpoint:612 accepted frontiers,536 source functions.
+The complete752-byte source-stack close routine preserves parent-window/handle
+restoration, packing diagnostics, forced includes, PCH boundaries and source
+locations. The newly encountered forced-include byte and source-name pointers
+have default/identity audits. The source-name copy cursor is also the closed-file
+name slot; no duplicate state was introduced.
+
+The next three first-entry traps are exact LIBC __close, import:CloseHandle and
+LIBC __free_osfhnd. Their member identity is verified against the original and
+canonical link with exact nonrelocation bytes, named call relocations, shared
+data targets and library/object hashes. Explicit original/native breakpoint
+observations agree on descriptor7, open flag1, result0 and closed flag0 at the
+source-close caller. The nested runtime sequence is observed and retained, not
+silently removed from the history. These are library/import acceptances and
+add no application source functions.
+
+Fresh sequential masked-original captures after those acceptances and native GDB
+both reach finish_translation_symbols with all four pending buffers, fourteen
+state observations, streams and visible file bytes exact. The ordinary cached
+native app trace also passes. Full536-function graph, contextual-data/defaults,
+both grammars, native regression and12boundary/evidence rejections pass in
+4.941seconds combined parallel wall time. Six new rejection checks cover wrong
+close return, failed return on both sides, fabricated descriptor, runtime order,
+library identity and observation hashes. The offline runtime validator does not
+need a canonical executable or Wine; explicit canonical proof generation remains
+a reconstruction operation.
+
+Accepted extent union196555/476418bytes is41.256837%, not branch coverage.
+cpp_basic remains incomplete before translation-unit symbol finalization.
+Receipts are cases/cpp-basic-frontiers/0608-close_source_file through0611-*,
+and evidence/source-close-checkpoint.{json,log}, source-close-native-check.json,
+source-close-rejections.json. The runtime-boundary subdirectory contains the
+exact original/native call observations and all split capture/debug/observer
+build timings. The acceptance operation timer excludes those earlier captures;
+the separately recorded original captures total10.287seconds, the extra boundary
+capture2.469seconds and native boundary observation0.184seconds. No shared shim
+change was required. Native fixtures execute no original/reference process.
+
+To reproduce the explicit close observation outside fixtures, build
+build/reference-close-observer.exe with make, capture the masked source-close
+candidate with scripts/capture-original.py, then pass that scratch capture
+folder to scripts/capture-close-boundary.py. The observer restores only the
+reviewed indexed runtime/import bodies at their matching traps and traps again
+at the caller's return. Its source is diagnostic code, never target implementation.

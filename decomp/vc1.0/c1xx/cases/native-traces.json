@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "3f5539bf85c5c71cf6738559a5ef9fad56f58d4afed328a5dc8225e4bbdf81d0",
+    "functions.json": "bb1c30bc81aa12910609c633ed088ca27022dc29ef1818c2c54fbfebc287a2b4",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "e5cdf3866a842c8e33d58f6fb0656fcb3892cf2d296af1575c3180b8a2bb5561",
+    "cases/native-cpp-basic/canonical-map.txt": "96949b709ee92ee0fb1717b90a2a1a630074c64bb805be17a1eba7a65f7927cd",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -227,7 +227,35 @@
     "cases/cpp-basic-frontiers/0606-prepare_value_operand-8/original-events.txt": "0682b9b7bf12e7df37c4f9507b36de0a169ee6d87f91279d7714ade59abf6d93",
     "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/frontier-extension.json": "3f17c382cf0bc7baed37ea8f4ec40f7767b432c92da543473c983a788a8131f0",
     "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/original-receipt.json": "1fe2bc653d90366dc220ad203e6fb22492d826f5b57432dd54200702680a674b",
-    "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/original-events.txt": "4bf4151f0195c096381c5b1e33e7762073835d7c849d5f9a592f95128f1c453b"
+    "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/original-events.txt": "4bf4151f0195c096381c5b1e33e7762073835d7c849d5f9a592f95128f1c453b",
+    "cases/cpp-basic-frontiers/0608-close_source_file/original-configuration.json": "3fab06036024180d5532b38807c5b6178bdab09fc17476dec4fce93d796c4df3",
+    "cases/cpp-basic-frontiers/0608-close_source_file/frontier-extension.json": "ec4d5051609761ff9f377dac32e7879a901e14569cb6f1394e149907de9033b7",
+    "cases/cpp-basic-frontiers/0608-close_source_file/original-receipt.json": "3616258261db0e335858ac8c231f9e43d5f2bb563f422369875ace4eb1798ec6",
+    "cases/cpp-basic-frontiers/0608-close_source_file/original-events.txt": "b2d4708b2fe3dd4c756d73598cc0032a8c30389a442d6635439fd453c98cdcbc",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/validation.json": "47059e94711027132c821b868e35db2f9725f75dd0f7d7791a590f86dd839d2b",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/receipt.json": "bb16d491c49204a7d8b032598377c1470cc362acafe0583e56e224562ce0c4da",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/original-observation.txt": "343d16a080839855e6fe1f29efb2b59ae400cfe98c48224131c4c3a5475290d4",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/original-events.txt": "8fae0f34fd67e614bb2005dcf01a2c2f3f9a2bed753a09f4df79b85b328f39c1",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/native-observation.json": "f915acce96b67884f260bab0e5ccf19bdf5b2f4c925efa62c98769ce82d5839d",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/native-gdb.log": "4fcd0cda64b5f71f6a673e14cd96ec4aec0834663c6f049d02e857935042fb69",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/restore-plan.txt": "00a09a88f6217091f63229a0939616729394c459a00bd9f6b346d900a6d9f780",
+    "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/native.gdb": "d2ffa8a5f7b5dafad66302390724fb947a39ff83e2de27d66dcfe17763011971",
+    "cases/cpp-basic-frontiers/0609-close/original-configuration.json": "3fab06036024180d5532b38807c5b6178bdab09fc17476dec4fce93d796c4df3",
+    "cases/cpp-basic-frontiers/0609-close/frontier-extension.json": "5688bd96f7fb839854ad69e91525b6a0d3539d513c3d2cd89af58d8947972d54",
+    "cases/cpp-basic-frontiers/0609-close/original-receipt.json": "a8f569c62197530c8358302014288912b2dc7ba8a9223bfacf8688aaae2dc872",
+    "cases/cpp-basic-frontiers/0609-close/original-events.txt": "04f05a56a46f2b1a1eb63f2a18d55abf0a19da2a18d92416e682b29406a3b59b",
+    "cases/cpp-basic-frontiers/0610-import-CloseHandle/original-configuration.json": "3fab06036024180d5532b38807c5b6178bdab09fc17476dec4fce93d796c4df3",
+    "cases/cpp-basic-frontiers/0610-import-CloseHandle/frontier-extension.json": "ce5e7ee72f357108537e231a20bfaada89d59a7e724445d7155c6e66fefd956f",
+    "cases/cpp-basic-frontiers/0610-import-CloseHandle/original-receipt.json": "0fb19d3c1d9d56f8f650b67fb2710745cbe83385eb5d9496185d3aa767788248",
+    "cases/cpp-basic-frontiers/0610-import-CloseHandle/original-events.txt": "e5165223bdb17836ce92206b49eca9cf5e834580e7f8caa34019e21de63032e1",
+    "cases/cpp-basic-frontiers/0611-free_osfhnd/original-configuration.json": "3fab06036024180d5532b38807c5b6178bdab09fc17476dec4fce93d796c4df3",
+    "cases/cpp-basic-frontiers/0611-free_osfhnd/frontier-extension.json": "4a7397e487ef14c4a5dd5ee69300053217379dbe9855fd072686bcc621c87117",
+    "cases/cpp-basic-frontiers/0611-free_osfhnd/original-receipt.json": "0a75a8f2d7b98d9cd738e7e836a85b264b7f9f8682fd0f5aa40490cb91087716",
+    "cases/cpp-basic-frontiers/0611-free_osfhnd/original-events.txt": "6750eae7feabc2f5943a891c3d0baa7465ad9952c4cacc2cd54e967ca908f8b0"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -678,6 +706,10 @@
       "logical": "_browser_include_begin",
       "source": "src/stubs.c"
     },
+    "browser_include_end": {
+      "logical": "_browser_include_end",
+      "source": "src/stubs.c"
+    },
     "browser_macro": {
       "logical": "_browser_macro@4",
       "source": "src/stubs.c"
@@ -988,7 +1020,7 @@
     },
     "close_source_file": {
       "logical": "_close_source_file",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "coalesce_virtual_table_paths": {
       "logical": "_coalesce_virtual_table_paths@4",
@@ -3606,6 +3638,10 @@
       "logical": "_report_ide_source",
       "source": "src/stubs.c"
     },
+    "report_ide_source_end": {
+      "logical": "_report_ide_source_end",
+      "source": "src/stubs.c"
+    },
     "report_incompatible_type_shapes": {
       "logical": "_report_incompatible_type_shapes@12",
       "source": "src/stubs.c"
@@ -4787,7 +4823,8 @@
     "classify_radix_integer",
     "conditional_expression",
     "prepare_value_operand",
-    "collect_declaration_cleanup"
+    "collect_declaration_cleanup",
+    "close_source_file"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4852,7 +4889,9 @@
       "_fputs",
       "__stbuf",
       "__isatty",
-      "__ftbuf"
+      "__ftbuf",
+      "__close",
+      "__free_osfhnd"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4872,13 +4911,14 @@
       "import:WriteFile",
       "import:SetFilePointer",
       "import:GetSystemTime",
-      "import:ReadFile"
+      "import:ReadFile",
+      "import:CloseHandle"
     ]
   },
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 608,
+      "last": 612,
       "seen": [],
       "expected": [
         "main",
@@ -5409,12 +5449,13 @@
         "conditional_expression",
         "prepare_value_operand",
         "collect_declaration_cleanup",
-        "close_source_file"
+        "close_source_file",
+        "finish_translation_symbols"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_close_source_file",
-        "native": "close_source_file",
+        "logical": "_finish_translation_symbols",
+        "native": "finish_translation_symbols",
         "signal": 5
       }
     }

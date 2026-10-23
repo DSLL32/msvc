@@ -41,6 +41,9 @@ runtime.json: scripts/identify-runtime.py scripts/binary.py $(TC)/bin/C1XX3232.E
 	$(PYTHON) scripts/identify-runtime.py
 build/runtime.json: build/c1xx.exe scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/c1xx.exe $@
+build/reference-close-observer.obj: src/reference-close-observer.c src/debug-run.c
+build/reference-close-observer.exe: build/reference-close-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 # Ordinary regressions consume only cached original references, natively.

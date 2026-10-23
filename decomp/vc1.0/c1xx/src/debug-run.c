@@ -141,11 +141,16 @@ int main(int argc, char **argv)
                         code, (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base,
                         base, ev.u.Exception.dwFirstChance);
                 WriteFile(log, line, strlen(line), &written, 0);
+#ifdef C1XX_CLOSE_OBSERVER
+                capture_close_boundary(pi.hProcess, pi.hThread, base,
+                    (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress, code);
+#else
                 if (argc >= 10)
                     dump_stream_buffers(pi.hProcess, log, base, argv[9]);
                 if (argc == 11)
                     dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10]);
                 TerminateProcess(pi.hProcess, 99);
+#endif
             }
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {
             sprintf(line, "exit %lu\n", ev.u.ExitProcess.dwExitCode);

@@ -19,7 +19,8 @@ int normalized_Gn = 1; /* original 0x9fbe4 */
 int normalized_Oq, normalized_Ol;
 int target_cpu, target_cpu_mask;
 char token_buffer[7936];
-char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
+char *source_filename = token_buffer; /* original 0x9fc50 */
+char *source_buffer_cursor = token_buffer; /* original 0x9fc4c: copy cursor, then closed-source name */
 char *browser_filename; /* original 0x8c404; also cleared by the EOF scanner */
 FILE *diagnostic_trace_file, *listing_file;
 LexerTextStorage lexer_text_storage; /* original 0x8c158..0x8c1dc */

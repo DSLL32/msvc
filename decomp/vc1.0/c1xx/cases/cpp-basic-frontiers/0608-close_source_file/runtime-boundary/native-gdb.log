@@ -1,0 +1,9 @@
+Breakpoint 1 at 0x586f9: file ../../../lib/recon/src/crt.c, line 212.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_close (fd=7) at ../../../lib/recon/src/crt.c:212
+212	    if (!valid_descriptor(fd)) return -1;
+0x5657754b in close_source_file () at src/source-input.c:216
+216	    if (!input->input_kind) _close(source_handle);
+Value returned is $1 = 0

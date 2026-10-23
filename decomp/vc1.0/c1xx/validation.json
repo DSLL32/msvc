@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 608,
-  "driver_functions": 528,
+  "accepted_frontiers": 612,
+  "driver_functions": 529,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 535,
-  "current_frontier": "_close_source_file",
-  "original_frontier_va": "0x1e990",
+  "reconstructed_source_functions": 536,
+  "current_frontier": "_finish_translation_symbols",
+  "original_frontier_va": "0x34280",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 535,
+  "call_graph_audit_functions": 536,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -1136,8 +1136,8 @@
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_close_source_file",
-    "original_va": "0x1e990"
+    "current_frontier": "_finish_translation_symbols",
+    "original_va": "0x34280"
   },
   "source_layout": {
     "source": "src",
@@ -1163,8 +1163,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 529,
-  "latest_verification": "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/validation.json",
+  "current_native_application_entries": 530,
+  "latest_verification": "cases/cpp-basic-frontiers/0608-close_source_file/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1173,12 +1173,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 195525,
+    "accepted_code_bytes": 196555,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 41.04064078183444,
-    "accepted_frontiers": 608,
-    "source_functions": 535,
-    "accepted_source_text_and_switch_bytes": 185082,
+    "accepted_code_percent": 41.256837483050596,
+    "accepted_frontiers": 612,
+    "source_functions": 536,
+    "accepted_source_text_and_switch_bytes": 185834,
     "section_ranges": [
       [
         94208,
@@ -1187,12 +1187,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 195525,
+    "accepted_code_bytes": 196555,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 41.04064078183444,
-    "accepted_frontiers": 608,
-    "source_functions": 535,
-    "accepted_source_text_and_switch_bytes": 185082,
+    "accepted_code_percent": 41.256837483050596,
+    "accepted_frontiers": 612,
+    "source_functions": 536,
+    "accepted_source_text_and_switch_bytes": 185834,
     "section_ranges": [
       [
         94208,
@@ -1200,6 +1200,6 @@
       ]
     ]
   },
-  "static_checkpoint": "main comparison, conditional and cleanup:535 graph functions, data/defaults, both grammars, native entry/output and6boundary rejections pass",
-  "latest_checkpoint_checks": "evidence/main-conditional-checkpoint.json"
+  "static_checkpoint": "source close and observed CRT/import boundary:536 graph functions, data/defaults, both grammars, native entry/output and12boundary/evidence rejections pass",
+  "latest_checkpoint_checks": "evidence/source-close-checkpoint.json"
 }

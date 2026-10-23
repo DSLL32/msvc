@@ -1,6 +1,7 @@
 """Project frozen original C1XX entries onto every native application definition."""
 import argparse
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -50,7 +51,11 @@ def project():
     assert drivers.keys() <= sources.keys(), 'unclassified driver source'
     application = {name: source for name, source in sources.items()
                    if name in drivers and source != 'src/runtime.c'}
-    runtime = {r['name'] for r in json.loads((BINARY / 'runtime.json').read_text())}
+    runtime_records = json.loads((BINARY / 'runtime.json').read_text())
+    runtime = {r['name'] for r in runtime_records}
+    from binary import PE
+    from win32_indexes import imports
+    records = {r['name']:r for r in runtime_records + imports(PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C1XX3232.EXE')) + config['driver']}
     classified = {}
     for name in config['accepted']:
         if name in application:
@@ -84,7 +89,23 @@ def project():
         event = re.search(r'^exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1$',
                           events_path.read_text(), re.M)
         assert event, 'original extension did not stop at a first-chance INT3'
-        assert int(event[1], 16) + int(event[2], 16) == drivers[extension['terminal']]['start']
+        assert int(event[1], 16) + int(event[2], 16) == records[extension['terminal']]['start']
+        if extension['accepted'] not in application:
+            evidence_path = BINARY / extension['runtime_evidence']
+            spec = importlib.util.spec_from_file_location('c1xx_runtime_boundary', BINARY/'scripts/runtime-boundary.py')
+            checker = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(checker)
+            proof = checker.check(evidence_path)
+            position = proof['runtime_order'].index(extension['accepted'])
+            assert extension['accepted_before'] == proof['accepted_before'] + 1 + position
+            assert sha(evidence_path) == extension['runtime_evidence_sha256']
+            extension_files += [evidence_path] + [BINARY/item['path'] for item in proof['evidence_files']]
+        if 'original_configuration' in extension:
+            configuration_path = BINARY/extension['original_configuration']
+            assert sha(configuration_path) == capture['configuration_sha256']
+            captured_config = json.loads(configuration_path.read_text())
+            assert captured_config['accepted'] + capture.get('pending_accepted', []) == transcript
+            extension_files += [configuration_path]
         transcript.append(extension['accepted'])
         original_terminal = extension['terminal']
         extension_files += [path, capture_path, events_path]

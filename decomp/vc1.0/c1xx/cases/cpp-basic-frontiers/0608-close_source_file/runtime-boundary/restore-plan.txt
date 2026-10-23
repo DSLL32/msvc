@@ -1,0 +1,3 @@
+809c0 703c0 a0 __close
+8b07e 7aa7e 6 import:CloseHandle
+85a60 75460 70 __free_osfhnd

@@ -297,7 +297,8 @@ int skip_source_comment(void) { __asm { int 3 } return 0; }
 int consume_line_escape(void) { __asm { int 3 } return 0; }
 void refill_source_or_error(void) { __asm { int 3 } }
 unsigned recover_special_character(void) { __asm { int 3 } return 0; }
-unsigned char close_source_file(void) { __asm { int 3 } return 0; }
+void browser_include_end(void) { __asm { int 3 } }
+void report_ide_source_end(void) { __asm { int 3 } }
 void finish_pch_output(void) { __asm { int 3 } }
 void finish_translation_symbols(void) { __asm { int 3 } }
 int emit_pending_runtime_functions(void) { __asm { int 3 } return 0; }

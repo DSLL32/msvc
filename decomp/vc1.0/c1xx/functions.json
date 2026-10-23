@@ -612,7 +612,11 @@
     "_classify_radix_integer@4",
     "_conditional_expression@12",
     "_prepare_value_operand@8",
-    "_collect_declaration_cleanup@12"
+    "_collect_declaration_cleanup@12",
+    "_close_source_file",
+    "__close",
+    "import:CloseHandle",
+    "__free_osfhnd"
   ],
   "driver": [
     {
@@ -2795,7 +2799,7 @@
     {
       "name": "_close_source_file",
       "start": 125328,
-      "end": 125329
+      "end": 126080
     },
     {
       "name": "_finish_pch_output",
@@ -5733,14 +5737,24 @@
       "name": "_record_conditional_cleanup@4",
       "start": 252976,
       "end": 252977
+    },
+    {
+      "name": "_browser_include_end",
+      "start": 181200,
+      "end": 181201
+    },
+    {
+      "name": "_report_ide_source_end",
+      "start": 127840,
+      "end": 127841
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_close_source_file",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/original-events.txt",
+      "terminal": "_finish_translation_symbols",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0611-free_osfhnd/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5815,7 +5829,11 @@
         "cases/cpp-basic-frontiers/0604-classify_radix_integer-4/frontier-extension.json",
         "cases/cpp-basic-frontiers/0605-conditional_expression-12/frontier-extension.json",
         "cases/cpp-basic-frontiers/0606-prepare_value_operand-8/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0608-close_source_file/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0609-close/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0610-import-CloseHandle/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0611-free_osfhnd/frontier-extension.json"
       ]
     }
   },
@@ -6075,6 +6093,40 @@
           "name": "_final_newline_emitted",
           "original": 648520,
           "bytes": 4
+        },
+        {
+          "name": "_forced_include_active",
+          "original": 654008,
+          "bytes": 1
+        },
+        {
+          "name": "_forced_source_inputs",
+          "original": 593744,
+          "bytes": 4
+        },
+        {
+          "name": "_forced_source_index",
+          "original": 593748,
+          "bytes": 2
+        },
+        {
+          "name": "_current_forced_source",
+          "original": 593752,
+          "bytes": 4
+        },
+        {
+          "name": "_source_filename",
+          "original": 654416,
+          "bytes": 4,
+          "pointer_to": "_token_buffer",
+          "original_target": 585748
+        },
+        {
+          "name": "_source_buffer_cursor",
+          "original": 654412,
+          "bytes": 4,
+          "pointer_to": "_token_buffer",
+          "original_target": 585748
         }
       ]
     },
