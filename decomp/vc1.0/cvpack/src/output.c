@@ -556,4 +556,10 @@ void build_symbol_address_hash(unsigned short *kind, unsigned long *size,
         if (segments[i].entries) free(segments[i].entries);
     free(segments);
 }
+
+int __cdecl compare_symbol_address(const void *left, const void *right)
+{
+    const AddressHashEntry *a = left, *b = right;
+    return (int)(a->symbol->offset-b->symbol->offset);
+}
 #undef OUTPUT_BYTES

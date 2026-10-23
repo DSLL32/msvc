@@ -1,0 +1,28 @@
+{
+  "size": 24,
+  "offset": 0,
+  "owner": "write_global_publics",
+  "local": "names",
+  "esp_offset": 68,
+  "mode": "input",
+  "growing_buffer": true,
+  "callsite": {
+    "start": 112762,
+    "end": 112775,
+    "sha256": "61288e96ca5d883654be9f25939038a8394f3f0e225212a1ca3d0a6820619598"
+  },
+  "frame": {
+    "start": 112336,
+    "end": 112343,
+    "allocation": 68,
+    "entry_bias": 24,
+    "sha256": "31b38a747fd9c7567bc9197077cc8d540e08e496a53d4ae29047b562b61936bf"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 112775
+    }
+  ],
+  "scope": "Actual first name-hash buffer getter, same typed write_global_publics::names24. Compare complete defined scalar state and single-block cursor/ownership topology, retaining raw parent/block addresses. Getter only reads first pointer; no payload equality claim here. Serialized payload will be compared through defined output prefix when emitted."
+}

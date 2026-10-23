@@ -7189,7 +7189,16 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/first-name-buffer-input.json",
+          "evidence_sha256": "74af3e89906cad06dc1f26b9a7e0ca9f62b91f5701099c209eb455c108412eb4"
+        }
+      ]
     },
     {
       "name": "next_buffer_block",
@@ -7264,13 +7273,16 @@
       "native": "compare_symbol_address",
       "symbol": "_compare_symbol_address",
       "original": 118864,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        118864,
+        118883
+      ],
       "abi": "int __cdecl compare_symbol_address(const void *,const void *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0136-compare_symbol_address/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7288,7 +7300,21 @@
           "qsort_return": 119255,
           "qsort_callback": 118864
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -8125,6 +8151,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 135
+    },
+    {
+      "function": "compare_symbol_address",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 136
     }
   ],
   "support_unmasked": [
@@ -8735,7 +8767,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "b9e892dbb5652fbd0a4d61fa847b5e22237f6de23ead378cbe5c160de26d256b"
+    "evidence_sha256": "a1ca011ffa620a5c7d9f80e5891b54508ffe187facb467447a9ffa5b96f681a9"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8811,6 +8843,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "af49d942c065c59139bd6c6a6fa984c46bebae7ff1474ecf81d05c45906740c2"
+    "sha256": "2b4bf6c46d9db44e162ec5a219c4dbb866b984a94357b683f98cdecb84d8d5d0"
   }
 }
