@@ -8,6 +8,7 @@
 #include "initialization.h"
 #include "class-finalization.h"
 #include "initializer-records.h"
+#include "function-finalization.h"
 #include <recon.h>
 
 IrToken *initializer_end_label; /* original 0x91588: optional final branch label */
@@ -490,4 +491,29 @@ IrToken *__stdcall normalize_initializer_expression(IrToken *value)
         }
         return value;
     }
+}
+
+int initializer_data_used; /* original 0x9158c */
+
+/* Original 0x47e50..0x47ee2. The shared integer payload is either a
+   static initializer field, an explicit runtime field value, or a byte count
+   for zero filling. A materialized data symbol supplies the runtime source. */
+void __stdcall emit_initializer_constant(CppSymbol *target)
+{
+    IrToken *value;
+    if (!(token_allocation_flags & 0x200000)) {
+        write_initializer_value(target, new_literal_constant(7, &integer_constant_scratch), 0);
+        return;
+    }
+    if (!target) {
+        emit_runtime_zero_initializer();
+        return;
+    }
+    value = new_literal_constant(7, &integer_constant_scratch);
+    if (initializer_data_symbol) {
+        value = builtin_binary_expression(0x56,
+            indirect_storage_expression(symbol_reference(initializer_data_symbol)), value);
+        emit_runtime_symbol_initializer(target, value);
+        initializer_data_used = 1;
+    } else emit_runtime_symbol_initializer(target, value);
 }

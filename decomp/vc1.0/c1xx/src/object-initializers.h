@@ -58,4 +58,6 @@ void __stdcall guard_local_static_initialization(CppSymbol *symbol);
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type);
 void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object);
 IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object);
+extern int initializer_data_used;
+void emit_runtime_zero_initializer(void);
 #endif
