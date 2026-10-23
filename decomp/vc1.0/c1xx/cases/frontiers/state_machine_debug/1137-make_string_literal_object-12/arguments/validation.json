@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_string_literal_object@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1137,
+  "configuration_sha256": "5373665e7110ccd7d38e78fbaca9fc0f3a6b0d345cbf43c6ae4c0b32bced9629",
+  "native_entry": "make_string_literal_object",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "token",
+      "stack_index": 0,
+      "native_field": "raw_token",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 314402,
+        "original_owner_function": "_materialize_string_literal@4",
+        "native_owner_function": "materialize_string_literal",
+        "native_owner_field": "caller_token",
+        "native_owner_local": "token",
+        "identity": "Actual accepted no-name materializer PUSH0shared5cc18/PUSH0name5cc1a/PUSHESItoken5cc1c/CALL5cc1d return5cc22; native real token formalowner, no frozenASTpointer.",
+        "original_owner_value": 8364620,
+        "native_owner_value": 1449363492
+      },
+      "original_raw": 8364620,
+      "native_raw": 1449363492,
+      "result": "match"
+    },
+    {
+      "name": "name",
+      "stack_index": 1,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "null-pointer"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    },
+    {
+      "name": "shared",
+      "stack_index": 2,
+      "native_field": "raw_shared",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      379296,
+      379830
+    ],
+    "argument_bytes": 12,
+    "proof": "Whole534B/SUBESP4/saveEBXESIEDIEBP16:tokenESP+24/name+28/shared+32,RET12/EAXreference. Existing allocate_permanentexplicitlyzeroesnewpage,52BCppSymbolfreshbytesdefinedzero beforebitupdates (not inventedinitialization). Preserveglobal_record_kind9135c/declaration_mode8c13c save/restore, symbolcounter/browser graph,exactstorage/flags/type/segment precedence default_data_segment9f3e8 thenencounteredBSS0default_constant_segment9f3e4(pragmaCONST224ed). Optionalassign62860/applybased62810bothRET8, inheritcurrentfunctionDLLpolicy, optionalinsertglobalscope54ad0, symbol_reference61380, write_initializer_record5bb30..5bb9aRET8(symbol,token) thenemit_symbol_declaration56d20RET4. Namedwrapperunaccepted, no newABI/hiddenregisterinputs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "a946ac919422158b6face613fe67ea9b18c68e236ffdf197dac72d1c027d7e0c",
+  "capture_timing": {
+    "original_capture_seconds": 1.619046219624579,
+    "native_capture_seconds": 0.18189005926251411,
+    "total_operation_seconds": 2.0927217034623027
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "97fd7580cc956ce02c88045b543d6bfd67e8d8b1d87f33c2d5ef7b2abd199692",
+    "native-commands.gdb": "91b546746355fc059115bec8fdd4cc9f329fb1649e0bb84faad62ec5a5710eea",
+    "native-gdb.log": "d2534bb608ae17f7241485cf4f74277836b89aa014fc7174b9401256ce771a33",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "80f002fcda6bc8d86660c24cdeaa2ffad448884f19703f6c00967cc455b76f03",
+    "original-configuration.json": "5373665e7110ccd7d38e78fbaca9fc0f3a6b0d345cbf43c6ae4c0b32bced9629",
+    "original-disassembly.txt": "61ebb44d875d17a477eaa709c4a56234233a00e66dd05a3a449051ba9044dcbb",
+    "original-entries.plan": "72e62bd7e6fb78bd27345b6f9e5188f7952834cfb2e7abe13d98feea280d3af7",
+    "original-events.txt": "d804dcd767660ade28a73b00fbf0eb50c43bcc9d5d94e94e80ad10a333e5ed38",
+    "original-ownership-caller-disassembly.txt": "fea25a6a1140c04bb5e00cfa35e4fd80f27638b16131acbb0b775252d584b928",
+    "original-receipt.json": "d587f1648c20278e63e22a564802553db303ccb5123043755ef3c41de46bbbf2",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "cec68347be9eac1fcf8d6e529525a2b6070f209f46207648219eed9ffa3d658b"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

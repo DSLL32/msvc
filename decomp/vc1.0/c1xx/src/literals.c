@@ -4,11 +4,82 @@
 #include "source-input.h"
 #include "numeric-scanning.h"
 #include "function-definitions.h"
+#include "braced-initializers.h"
+#include "ir.h"
 #include <stdlib.h>
 #include <recon.h>
 
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
     const unsigned char *source, unsigned bytes);
+
+extern SegmentSymbol *default_data_segment;
+SegmentSymbol *default_constant_segment; /* original 0x9f3e4; pragma CONST */
+void __stdcall write_initializer_record(CppSymbol *symbol, IrToken *value);
+
+/* Original 0x5c9a0..0x5cbb6. Create a literal's object symbol,
+   inheriting its segment and import/export policy before emitting its records. */
+IrToken *__stdcall make_string_literal_object(IrToken *token, char *name, int shared)
+{
+    unsigned char saved_record = global_record_kind, saved_mode = declaration_mode;
+    unsigned char storage_kind;
+    SegmentSymbol *segment = 0;
+    CppSymbol *symbol = allocate_permanent(sizeof(CppSymbol));
+    IrToken *reference;
+    symbol->kind = 9;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    symbol->index = next_symbol_index++;
+    symbol->type = token->type;
+    symbol->attributes |= 8;
+    symbol->references = 1;
+    storage_kind = symbol->storage[0] & 7;
+    symbol->storage[0] = declaration_storage[0];
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    symbol->storage[0] = (symbol->storage[0] & ~7) | storage_kind;
+    symbol->attributes |= 0x400;
+    symbol->attributes |= 4;
+    symbol->flags |= 4;
+    if (shared) {
+        symbol->storage[0] |= 0x40;
+        symbol->storage[0] = (symbol->storage[0] & 0xfa) | 2;
+        symbol->name = name;
+        global_record_kind = declaration_mode = 0;
+    } else symbol->storage[0] = (symbol->storage[0] & 0xfb) | 3;
+    symbol->declaration_flags = (symbol->declaration_flags & ~0x100) | 0x200;
+    if (default_data_segment) segment = default_data_segment;
+    else if (default_constant_segment) segment = default_constant_segment;
+    if (segment) {
+        if (shared) assign_symbol_segment(symbol, segment);
+        else apply_symbol_based_type(symbol, (CppSymbol *)segment);
+    }
+    if (function_symbol && (function_symbol->storage[2] & 4) &&
+        ((function_symbol->storage[1] & 1) || (token_allocation_flags & 0x400))) {
+        symbol->storage[2] |= 4;
+        symbol->storage[2] = (symbol->storage[2] & ~8) | (function_symbol->storage[2] & 8);
+        if (!(symbol->storage[2] & 8)) symbol->attributes &= ~4;
+    }
+    if (global_record_kind && function_symbol) {
+        if ((function_symbol->storage[1] & 1) ||
+            (options.configuration.option_Ob == 2 &&
+             (function_symbol->storage[0] & 7) == 3 &&
+             !(function_symbol->declaration_flags & 0x400)) ||
+            (token_allocation_flags & 0x40))
+            global_record_kind = declaration_mode = 0;
+    }
+    if (shared) insert_scope_symbol(global_scope, symbol);
+    reference = symbol_reference(symbol);
+    reference->type = symbol->type;
+    if (!(symbol->storage[2] & 4) || (symbol->storage[2] & 8))
+        write_initializer_record(symbol, token);
+    emit_symbol_declaration(symbol);
+    reference->flags = 4;
+    reference->kind = 2;
+    global_record_kind = saved_record;
+    declaration_mode = saved_mode;
+    return reference;
+}
 
 char *__stdcall mangle_string_literal(ParserValue *literal, int wide);
 IrToken *__stdcall make_string_literal_object(IrToken *token, char *name, int shared);

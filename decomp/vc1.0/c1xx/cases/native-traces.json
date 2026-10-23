@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "7a1848423e0afd5c1c68a918985f93a58e49fada983e4ef50e4ebd6e3e56c1a5",
+    "functions.json": "a09abdeee925fe36092e9f5d2004097a4606057c961f3d6959c7b486285879d3",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "8ebe261035d66d92c428fb5ab28134841b7bcdf86c79074d9071f06bced29203",
-    "cases/canonical-map.txt": "4318f34bbdb35b1a14eb5a512b49400300df61c85d45cc2a141ab2c486fd3454",
+    "cases/original-entry-references.json": "81b3ca562681ec972161d4e74e04c42e915b605ffcee49c0fcb43ede2c47ccfe",
+    "cases/canonical-map.txt": "bc7cc72d6f56c1abd36ede7cf2930ed3403c7b49720364f5364c8a9807d02238",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/entry-reference/original-receipt.json": "d9c0113fca788ab989297bfacad3c4f928baf43616947894d218f9172fd78d3b",
-    "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/entry-reference/original-events.txt": "f5c2901de60aa6c895e7cea821338d673a9a49c2acc21b891290089d6d4a84b5",
-    "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/entry-reference/original-entries.plan": "59ddf55db36706489efb4aacd7c37678d9e0ac8930b74830d829cbc3f5044f58"
+    "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/entry-reference/original-receipt.json": "fd9bbb63a88e8f3b6685b7d048aee25bbf926f8fb22fb1c2b69289a3e10811f5",
+    "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/entry-reference/original-events.txt": "306dbbac23038d697d366fc9da37b8ac2ec41a6f96e89a4cb4be3eb25ffba328",
+    "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/entry-reference/original-entries.plan": "c81154d4efa5aa1b2ae7427cae252668289cf5453ea4935df6e462e16f0c1b6a"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3419,7 +3419,7 @@
     },
     "make_string_literal_object": {
       "logical": "_make_string_literal_object@12",
-      "source": "src/stubs.c"
+      "source": "src/literals.c"
     },
     "make_subobject_pointer": {
       "logical": "_make_subobject_pointer@12",
@@ -5617,6 +5617,10 @@
       "logical": "_write_global_record@8",
       "source": "src/global-ir.c"
     },
+    "write_initializer_record": {
+      "logical": "_write_initializer_record@8",
+      "source": "src/stubs.c"
+    },
     "write_initializer_value": {
       "logical": "_write_initializer_value@12",
       "source": "src/initializer-records.c"
@@ -6716,7 +6720,8 @@
     "record_string_literal",
     "materialize_string_literal",
     "mangle_string_literal",
-    "encode_string_literal_name"
+    "encode_string_literal_name",
+    "make_string_literal_object"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10829,7 +10834,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1137,
+      "last": 1138,
       "seen": [
         "main",
         "message_text",
@@ -11875,12 +11880,13 @@
         "materialize_string_literal",
         "mangle_string_literal",
         "encode_string_literal_name",
-        "make_string_literal_object"
+        "make_string_literal_object",
+        "write_initializer_record"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_make_string_literal_object@12",
-        "native": "make_string_literal_object",
+        "logical": "_write_initializer_record@8",
+        "native": "write_initializer_record",
         "signal": 5
       }
     }

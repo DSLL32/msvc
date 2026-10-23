@@ -1141,7 +1141,8 @@
     "_record_string_literal@4",
     "_materialize_string_literal@4",
     "_mangle_string_literal@8",
-    "_encode_string_literal_name@16"
+    "_encode_string_literal_name@16",
+    "_make_string_literal_object@12"
   ],
   "driver": [
     {
@@ -8288,7 +8289,7 @@
     {
       "name": "_make_string_literal_object@12",
       "start": 379296,
-      "end": 379297
+      "end": 379830
     },
     {
       "name": "_encode_string_literal_name@16",
@@ -8299,6 +8300,11 @@
       "name": "_encode_literal_name_byte@8",
       "start": 279648,
       "end": 279649
+    },
+    {
+      "name": "_write_initializer_record@8",
+      "start": 375600,
+      "end": 375601
     }
   ],
   "cases": {
@@ -8499,7 +8505,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_make_string_literal_object@12",
+      "terminal": "_write_initializer_record@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8522,7 +8528,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8664,7 +8670,8 @@
         "cases/frontiers/state_machine_debug/1133-record_string_literal-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/frontier-extension.json"
       ]
     }
   },
@@ -11128,6 +11135,18 @@
         {
           "name": "_member_pointer_requested_model",
           "original": 652348,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_default_constant_segment",
+      "original": 652260,
+      "fields": [
+        {
+          "name": "_default_constant_segment",
+          "original": 652260,
           "bytes": 4
         }
       ]

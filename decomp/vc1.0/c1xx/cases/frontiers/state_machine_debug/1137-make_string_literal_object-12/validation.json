@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_string_literal_object@12",
+    "start": 379296,
+    "end": 379830
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_apply_symbol_based_type@8",
+    "_assign_symbol_segment@8",
+    "_browser_symbol_rollover",
+    "_emit_symbol_declaration@4",
+    "_fatal_error",
+    "_insert_scope_symbol@8",
+    "_symbol_reference@4",
+    "_write_initializer_record@8"
+  ],
+  "next_frontier": "_write_initializer_record@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.49116561003029346,
+  "total_operation_seconds": 4.409801132977009,
+  "original_capture_seconds": 1.8189792465418577
+}
