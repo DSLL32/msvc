@@ -82,6 +82,7 @@ typedef struct PackingStack {
 } PackingStack;
 extern PackingStack *packing_stack;
 void *__stdcall allocate_permanent(unsigned bytes);
+void *__stdcall allocate_zeroed(unsigned bytes);
 void *new_permanent_page(void);
 void __stdcall release_permanent(void *block, unsigned bytes);
 typedef struct BitSet {
@@ -138,7 +139,8 @@ typedef void *(__stdcall *VectorCopyElement)(void *item, int arena);
 Vector *__stdcall copy_vector_elements(Vector *vector, int arena, VectorCopyElement copy);
 void __stdcall append_vector(Vector *vector, void *item);
 int __stdcall equal_vectors(Vector *left, Vector *right);
-void __stdcall grow_vector(Vector *vector);
+Vector *__stdcall grow_vector(Vector *vector);
+unsigned __stdcall vector_used_bytes(Vector *vector);
 void initialize_japanese_characters(void);
 void finalize_options(void);
 extern int option_Au, option_Aw;

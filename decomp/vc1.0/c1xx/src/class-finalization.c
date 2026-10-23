@@ -335,7 +335,7 @@ void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag)
             if (table->kind != 2) continue;
             for (index = 0; index < table->entry_count; ++index) {
                 entry = &table->entries[index];
-                if (entry->field0c & 4) {
+                if (entry->flags & 4) {
                     conflicts = (Vector *)entry->function;
                     for (conflict_index = 0; conflict_index < conflicts->count; ++conflict_index) {
                         function = conflicts->items[conflict_index];
@@ -343,7 +343,7 @@ void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag)
                         report_syntax_error(250, tag->name, owner->name, function->name);
                     }
                     collapse_virtual_conflicts(entry);
-                } else if (entry->field0c & 2) {
+                } else if (entry->flags & 2) {
                     function = entry->function;
                     owner = cpp_context_stack->items[function->auxiliary.declaring_class];
                     compiler_warning(2, 250, tag->name, owner->name, function->name);
@@ -656,4 +656,121 @@ void __stdcall shift_class_member_offsets(CppSymbol *tag, unsigned bytes, unsign
         }
     }
     class_contexts[current_class_context].size += bytes;
+}
+
+/* Original 0x78950..0x78991. The separately zeroed table owns a vector of
+   classes sharing it; its original owner remains distinct from that vector. */
+VirtualTable *__stdcall new_virtual_table(unsigned kind, CppSymbol *tag,
+    unsigned offset, CppSymbol *pointer)
+{
+    VirtualTable *table = allocate_zeroed(sizeof(VirtualTable));
+    table->kind = kind;
+    table->shared_owners = new_vector(1, 0);
+    table->unshared_owner = tag;
+    table->object_offset = offset;
+    table->pointer_attributes = tag->detail.class_info->pointer_attributes;
+    table->pointer = pointer;
+    return table;
+}
+
+/* The third match argument is retained by the original RET 12 even though
+   this compiler build does not inspect its class context. */
+int __stdcall matches_virtual_override(CppSymbol *member, VirtualEntry *entry, CppSymbol *tag);
+void __stdcall validate_virtual_override(CppSymbol *member, VirtualEntry *entry);
+void __stdcall initialize_virtual_adjustment(VirtualAdjustment *adjustment, unsigned displacement);
+unsigned __stdcall virtual_table_object_offset(VirtualTable *table);
+
+/* Original 0x7a7b0..0x7a879. Replace every matching inherited entry, carrying
+   the original slot and table-class identity into the first override found. */
+void __stdcall resolve_table_override(CppSymbol *member, VirtualTable *table,
+    CppSymbol *tag, char virtual_path)
+{
+    int index = 0;
+    VirtualEntry *entry;
+    while (index < table->entry_count) {
+        entry = &table->entries[index++];
+        if (!entry) break;
+        if (!matches_virtual_override(member, entry, tag)) continue;
+        validate_virtual_override(member, entry);
+        if (entry->flags & 4) collapse_virtual_conflicts(entry);
+        if (!(member->cpp.parts.member_flags & 2)) {
+            member->cpp.parts.member_flags |= 2;
+            member->field28 = virtual_table_object_offset(table);
+            member->detail.virtual_table_offset = entry->function->detail.virtual_table_offset;
+            member->auxiliary.virtual_function.table_class =
+                entry->function->auxiliary.virtual_function.table_class;
+        }
+        entry->function = member;
+        initialize_virtual_adjustment(&entry->this_adjustment, member->field28);
+        entry->flags = (entry->flags & ~15U) | (((unsigned)virtual_path << 3) & 8);
+    }
+}
+
+void *__stdcall first_vector_item(Vector *vector);
+
+/* Original 0x78b20..0x78b32. The generic first-element helper retains its
+   own entry between the class query and vector storage. */
+VirtualTable *__stdcall primary_virtual_table(CppSymbol *tag)
+{
+    return first_vector_item(tag->detail.class_info->virtual_tables);
+}
+
+/* Original 0x78c60..0x78c90. Initialize the selected function and direct
+   this displacement, preserving the high flag nibble and unused bytes. */
+void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member)
+{
+    entry->function = member;
+    initialize_virtual_adjustment(&entry->this_adjustment, 0);
+    entry->flags &= ~15;
+}
+
+/* Original 0x78810..0x78822. A zero class index denotes a direct this
+   displacement. The following reserved halfword is intentionally untouched. */
+void __stdcall initialize_virtual_adjustment(VirtualAdjustment *adjustment,
+    unsigned displacement)
+{
+    adjustment->displacement = displacement;
+    adjustment->virtual_base_class = 0;
+}
+
+void __stdcall grow_virtual_entries(VirtualTable *table, int extra);
+
+/* Original 0x78b60..0x78baa. Grow before selecting the destination; the
+   complete 16-byte entry includes its adjustment and reserved bytes. */
+void __stdcall append_virtual_entry(VirtualTable *table, VirtualEntry *entry)
+{
+    VirtualEntry *destination;
+    if (table->entry_count == table->entry_capacity)
+        grow_virtual_entries(table,
+            (table->entry_capacity >> 2) + table->entry_capacity + 1);
+    destination = &table->entries[table->entry_count++];
+    *destination = *entry;
+}
+
+unsigned __stdcall virtual_entry_capacity_bytes(VirtualTable *table);
+
+/* Original 0x78bb0..0x78bfb. The requested amount is an increment, not a
+   replacement capacity. Existing heap entries are resized in place when able. */
+void __stdcall grow_virtual_entries(VirtualTable *table, int extra)
+{
+    table->entry_capacity += extra;
+    if (!table->entries)
+        table->entries = malloc(virtual_entry_capacity_bytes(table));
+    else table->entries = realloc(table->entries, virtual_entry_capacity_bytes(table));
+    if (!table->entries) fatal_error(60);
+}
+
+/* Original 0x78930..0x7893c. The shift retains the native 32-bit size wrap. */
+unsigned __stdcall virtual_entry_capacity_bytes(VirtualTable *table)
+{
+    return (unsigned)table->entry_capacity << 4;
+}
+
+/* Original 0x78c10..0x78c22. Return the old byte offset while reserving
+   this slot's width; the table's count and storage capacity are independent. */
+unsigned __stdcall reserve_virtual_table_offset(VirtualTable *table, unsigned size)
+{
+    unsigned offset = table->byte_size;
+    table->byte_size += size;
+    return offset;
 }

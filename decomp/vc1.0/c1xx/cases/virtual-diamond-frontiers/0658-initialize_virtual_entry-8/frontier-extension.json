@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 658,
+  "accepted": "_initialize_virtual_entry@8",
+  "terminal": "_initialize_virtual_adjustment@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0658-initialize_virtual_entry-8/original-receipt.json",
+  "original_capture_sha256": "e4b75fd7b03880e66d21b76f9e70ae489f14b4a0b975fd477f0a589e9df805fa",
+  "original_events": "cases/virtual-diamond-frontiers/0658-initialize_virtual_entry-8/original-events.txt",
+  "original_events_sha256": "ad10963e319f1d776651d688e9709f393e89d9d6c45ae1e4c147482f21ee525a",
+  "original_configuration": "cases/virtual-diamond-frontiers/0658-initialize_virtual_entry-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

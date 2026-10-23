@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_table_override@16",
+    "start": 501680,
+    "end": 501882
+  },
+  "distinct_direct_callees": [
+    "_collapse_virtual_conflicts@4",
+    "_initialize_virtual_adjustment@8",
+    "_matches_virtual_override@12",
+    "_validate_virtual_override@8",
+    "_virtual_table_object_offset@4"
+  ],
+  "next_frontier": "_primary_virtual_table@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3016072800382972,
+  "total_operation_seconds": 6.134396829642355,
+  "original_capture_seconds": 4.075717228464782
+}

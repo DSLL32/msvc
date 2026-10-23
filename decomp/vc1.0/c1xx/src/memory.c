@@ -190,3 +190,14 @@ WorkList *__stdcall push_work_list(WorkList **stack, int arena)
     *stack = entry;
     return entry;
 }
+
+/* Original 0x788f0..0x78929. Unlike checked_malloc, this allocation reports
+   fatal error 60 and clears every byte before returning its heap block. */
+void *__stdcall allocate_zeroed(unsigned bytes)
+{
+    unsigned char *block = malloc(bytes);
+    unsigned i;
+    if (!block) fatal_error(60);
+    for (i = 0; i < bytes; ++i) block[i] = 0;
+    return block;
+}

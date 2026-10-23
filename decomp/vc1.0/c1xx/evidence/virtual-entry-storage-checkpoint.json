@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.6785237761214375,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/virtual-entry-storage-checkpoint.log",
+  "raw_log_sha256": "da1bb72c9f99f3f10f35e80651c6c33df711e392fbb9eb8c79f71562d41f188f",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function builds/captures/native debugging/fixtures remain separate"
+}

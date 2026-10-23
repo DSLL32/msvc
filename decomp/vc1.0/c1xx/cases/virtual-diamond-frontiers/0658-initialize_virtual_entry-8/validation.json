@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_initialize_virtual_entry@8",
+    "start": 494688,
+    "end": 494737
+  },
+  "distinct_direct_callees": [
+    "_initialize_virtual_adjustment@8"
+  ],
+  "next_frontier": "_initialize_virtual_adjustment@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2767796693369746,
+  "total_operation_seconds": 6.715725171379745,
+  "original_capture_seconds": 4.626324262470007
+}

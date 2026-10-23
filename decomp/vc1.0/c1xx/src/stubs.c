@@ -42,7 +42,7 @@ void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
-void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
+unsigned __stdcall vector_used_bytes(Vector *vector) { __asm { int 3 } return 0; }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 void __stdcall record_string_literal(IrToken *token) { __asm { int 3 } }
@@ -151,7 +151,6 @@ IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { i
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall first_function_vector_item(Vector *functions) { __asm { int 3 } return 0; }
 void __stdcall register_temporary_destruction(IrToken *object, CType *type) { __asm { int 3 } }
 QualifierBinding *__stdcall find_named_class_binding(CppSymbol *tag, char *name, unsigned categories) { __asm { int 3 } return 0; }
 IrToken *__stdcall try_elide_copy_construction(CppSymbol *function, IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
@@ -405,11 +404,9 @@ TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; 
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 void __stdcall inherit_base_virtual_tables(CppSymbol *tag, BaseClassLink *base, int *virtual_base) { __asm { int 3 } }
-VirtualTable *__stdcall new_virtual_table(unsigned kind, CppSymbol *tag, unsigned offset, CppSymbol *pointer) { __asm { int 3 } return 0; }
 VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *pointer) { __asm { int 3 } return 0; }
 
 void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject, SpecialMemberState *states, int model) { __asm { int 3 } }
-void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states, int kind, int model, unsigned nonprivate, unsigned warning) { __asm { int 3 } }
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
 
 
@@ -439,12 +436,8 @@ void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSy
 
 
 
-void __stdcall resolve_table_override(CppSymbol *member, VirtualTable *table,
-    CppSymbol *tag, char virtual_path) { __asm { int 3 } }
-VirtualTable *__stdcall primary_virtual_table(CppSymbol *tag) { __asm { int 3 } return 0; }
-void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member) { __asm { int 3 } }
-void __stdcall append_virtual_entry(VirtualTable *table, VirtualEntry *entry) { __asm { int 3 } }
-unsigned __stdcall reserve_virtual_table_offset(VirtualTable *table, unsigned size) { __asm { int 3 } return 0; }
+int __stdcall matches_virtual_override(CppSymbol *member, VirtualEntry *entry, CppSymbol *tag) { __asm { int 3 } return 0; }
+void __stdcall validate_virtual_override(CppSymbol *member, VirtualEntry *entry) { __asm { int 3 } }
 
 void __stdcall collapse_virtual_conflicts(VirtualEntry *entry) { __asm { int 3 } }
 

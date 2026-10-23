@@ -22,16 +22,26 @@ typedef char BaseClassLinkStateOffsetMustBe20[(offsetof(BaseClassLink, state) ==
 
 /* Encountered virtual-dispatch record prefixes. Unused words retain their
    offsets until allocation and initialization paths establish their meaning. */
+typedef struct VirtualAdjustment {
+    unsigned displacement;
+    short virtual_base_class;
+    unsigned short reserved;
+} VirtualAdjustment;
 typedef struct VirtualEntry {
     CppSymbol *function;
-    unsigned field04, field08, field0c;
+    VirtualAdjustment this_adjustment;
+    unsigned char flags, reserved_flags[3];
 } VirtualEntry;
+typedef char VirtualAdjustmentSizeMustBe8[(sizeof(VirtualAdjustment) == 8) ? 1 : -1];
+typedef char VirtualAdjustmentClassOffsetMustBe4[(offsetof(VirtualAdjustment, virtual_base_class) == 4) ? 1 : -1];
+typedef char VirtualEntryAdjustmentOffsetMustBe4[(offsetof(VirtualEntry, this_adjustment) == 4) ? 1 : -1];
+typedef char VirtualEntryFlagsOffsetMustBe12[(offsetof(VirtualEntry, flags) == 12) ? 1 : -1];
 typedef struct VirtualTable {
     unsigned kind;
     CppSymbol *symbol, *pointer;
     unsigned short pointer_attributes, flags;
     int entry_count;
-    unsigned entry_capacity;
+    int entry_capacity;
     VirtualEntry *entries;
     unsigned byte_size, object_offset, field24, field28, field2c;
     CppSymbol *unshared_owner;

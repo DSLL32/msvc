@@ -1,11 +1,11 @@
 {
   "status": "virtual_diamond reconstruction in progress",
-  "accepted_frontiers": 651,
-  "driver_functions": 561,
+  "accepted_frontiers": 664,
+  "driver_functions": 574,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 568,
-  "current_frontier": "_new_virtual_table@16",
-  "original_frontier_va": "0x78950",
+  "reconstructed_source_functions": 581,
+  "current_frontier": "_matches_virtual_override@12",
+  "original_frontier_va": "0x7a880",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
   "call_graph_audit_functions": 568,
@@ -1139,8 +1139,8 @@
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_new_virtual_table@16",
-    "original_va": "0x78950"
+    "current_frontier": "_matches_virtual_override@12",
+    "original_va": "0x7a880"
   },
   "source_layout": {
     "source": "src",
@@ -1166,8 +1166,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 9,
-  "latest_verification": "cases/virtual-diamond-frontiers/0650-next_class_member-4/validation.json",
+  "current_native_application_entries": 22,
+  "latest_verification": "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1176,12 +1176,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 203249,
+    "accepted_code_bytes": 204114,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 42.661906141245716,
-    "accepted_frontiers": 651,
-    "source_functions": 568,
-    "accepted_source_text_and_switch_bytes": 192122,
+    "accepted_code_percent": 42.8434693903253,
+    "accepted_frontiers": 664,
+    "source_functions": 581,
+    "accepted_source_text_and_switch_bytes": 192987,
     "section_ranges": [
       [
         94208,
@@ -1190,12 +1190,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 203249,
+    "accepted_code_bytes": 204114,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 42.661906141245716,
-    "accepted_frontiers": 651,
-    "source_functions": 568,
-    "accepted_source_text_and_switch_bytes": 192122,
+    "accepted_code_percent": 42.8434693903253,
+    "accepted_frontiers": 664,
+    "source_functions": 581,
+    "accepted_source_text_and_switch_bytes": 192987,
     "section_ranges": [
       [
         94208,
@@ -1215,8 +1215,8 @@
     },
     "virtual_diamond": {
       "status": "partial",
-      "frontier": "_new_virtual_table@16",
-      "latest_verification": "cases/virtual-diamond-frontiers/0650-next_class_member-4/validation.json"
+      "frontier": "_matches_virtual_override@12",
+      "latest_verification": "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/validation.json"
     }
   }
 }

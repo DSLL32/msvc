@@ -517,3 +517,22 @@ int emit_pending_runtime_functions(void)
     generated_member_queue = 0;
     return 1;
 }
+
+/* Original 0x36cd0..0x36d35. Declared is independent of the selected model.
+   Model -1 shifts the three result words within the same 28-byte record;
+   it does not select a different SpecialMemberState. */
+void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states,
+    int kind, int model, unsigned nonprivate, unsigned warning)
+{
+    SpecialMemberState *state = &states[kind];
+    unsigned *available = &state->words[model + 3];
+    unsigned *accessible = &state->words[model + 4];
+    unsigned *ambiguous = &state->words[model + 5];
+    state->fields.declared = 1;
+    if (*available) {
+        if (!*ambiguous) compiler_warning(3, warning, tag->name);
+        *ambiguous = 1;
+    }
+    *accessible &= nonprivate;
+    *available = 1;
+}

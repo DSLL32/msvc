@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_allocate_zeroed@4",
+    "start": 493808,
+    "end": 493866
+  },
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_malloc"
+  ],
+  "next_frontier": "_grow_vector@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.273008125834167,
+  "total_operation_seconds": 6.599956446327269,
+  "original_capture_seconds": 4.525208906270564
+}

@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_first_vector_item@4",
+    "start": 322384,
+    "end": 322396
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_initialize_virtual_entry@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.299219592474401,
+  "total_operation_seconds": 4.877008696086705,
+  "original_capture_seconds": 2.77123920340091
+}

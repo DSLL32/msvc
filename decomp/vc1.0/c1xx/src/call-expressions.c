@@ -647,7 +647,7 @@ IrToken *__stdcall make_resolved_call(CppSymbol *symbol, IrToken *object,
     call->kind = 0x7a;
     kind = symbol->kind & 31;
     function = kind == 16 || kind == 17 ?
-        first_function_vector_item((Vector *)((OverloadSet *)symbol)->functions) : symbol;
+        first_vector_item((Vector *)((OverloadSet *)symbol)->functions) : symbol;
     call->type = function_return_type(function);
     shape = function->type->related;
     if (shape && !(shape->flags & 0x77)) shape = shape->related;

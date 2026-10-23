@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 661,
+  "accepted": "_grow_virtual_entries@8",
+  "terminal": "_virtual_entry_capacity_bytes@4",
+  "original_capture": "cases/virtual-diamond-frontiers/0661-grow_virtual_entries-8/original-receipt.json",
+  "original_capture_sha256": "d314ab5c50a780d3f6e7473bab789f26a300993e9ef8ab83db0fe74b9e6734a8",
+  "original_events": "cases/virtual-diamond-frontiers/0661-grow_virtual_entries-8/original-events.txt",
+  "original_events_sha256": "26e6794d5159d2bd1f2eccc43fbd30e2cba211e584025d8a22fe0e1db2120f35",
+  "original_configuration": "cases/virtual-diamond-frontiers/0661-grow_virtual_entries-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

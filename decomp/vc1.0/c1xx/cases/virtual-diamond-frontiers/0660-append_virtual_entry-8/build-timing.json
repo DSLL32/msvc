@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.920744656585157,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-append-virtual-entry-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 18.66481194458902,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-append-virtual-entry-canonical.log"
+  }
+]

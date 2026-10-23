@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_grow_vector@4",
+    "start": 321744,
+    "end": 321899
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8",
+    "_vector_used_bytes@4"
+  ],
+  "next_frontier": "_record_special_member@24",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.30080015305429697,
+  "total_operation_seconds": 6.68247711379081,
+  "original_capture_seconds": 4.526499907486141
+}

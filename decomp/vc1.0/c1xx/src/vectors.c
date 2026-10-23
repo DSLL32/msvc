@@ -107,3 +107,40 @@ short __stdcall vector_count(Vector *vector)
     if (!vector) return 0;
     return vector->count;
 }
+
+/* Original 0x4e8d0..0x4e96a. Capacity is a signed short, including the
+   native wrap on growth. Old arena storage is retained after copying. */
+Vector *__stdcall grow_vector(Vector *vector)
+{
+    unsigned char *old_items = (unsigned char *)vector->items;
+    ArenaPool *pool;
+    unsigned bytes, i;
+    int arena;
+    if (vector->capacity >= 1000)
+        vector->capacity = (short)(vector->capacity + 1000);
+    else vector->capacity = (short)(vector->capacity * 2 + 4);
+    bytes = ((int)vector->capacity * 4 + 3) & ~3;
+    arena = vector->arena;
+    if (!arena) vector->items = allocate_permanent(bytes);
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)bytes) refill_arena(&compiler_arena, pool);
+        vector->items = (void **)pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+    }
+    if (vector->count > 0) {
+        bytes = vector_used_bytes(vector);
+        for (i = 0; i < bytes; ++i)
+            ((unsigned char *)vector->items)[i] = old_items[i];
+    }
+    return vector;
+}
+
+/* Original 0x4eb50..0x4eb5b. Callers establish that an element exists;
+   the original helper performs neither a count nor a null check. */
+void *__stdcall first_vector_item(Vector *vector)
+{
+    return vector->items[0];
+}

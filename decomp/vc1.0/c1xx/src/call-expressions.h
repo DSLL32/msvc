@@ -82,7 +82,7 @@ int __stdcall compare_candidate_ranks(unsigned left_rank, OverloadCandidate *lef
     unsigned right_rank, OverloadCandidate *right, unsigned index);
 int __stdcall defer_overload_candidate(OverloadCandidate *candidate, OverloadSearch *search);
 unsigned __stdcall coarse_conversion_rank(unsigned rank);
-CppSymbol *__stdcall first_function_vector_item(Vector *functions);
+void *__stdcall first_vector_item(Vector *functions);
 void __stdcall register_temporary_destruction(IrToken *object, CType *type);
 IrToken *__stdcall prepare_member_call_object(IrToken *object, CppSymbol *function,
     CppSymbol *qualified, CppSymbol **dispatch_class);

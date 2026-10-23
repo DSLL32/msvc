@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a64a in grow_virtual_entries (table=0x56601290, extra=1) at src/stubs.c:441
+441	void __stdcall grow_virtual_entries(VirtualTable *table, int extra) { __asm { int 3 } }
+#0  0x5655a64a in grow_virtual_entries (table=0x56601290, extra=1) at src/stubs.c:441
+#1  0x565ac31f in append_virtual_entry (table=0x56601290, entry=0xffffd600) at src/class-finalization.c:744
+#2  0x565ac08a in resolve_function_virtual_overrides (member=0x565ec24c, tag=0x565ec0ec) at src/class-finalization.c:312
+#3  0x565ab86d in resolve_virtual_overrides (tag=0x565ec0ec) at src/class-finalization.c:269
+#4  0x565ab45f in complete_class_virtual_layout (tag=0x565ec0ec) at src/class-finalization.c:191
+#5  0x565aa7d4 in finalize_class_virtual_tables (tag=0x565ec0ec) at src/class-finalization.c:178
+#6  0x565aa36e in end_class_specifier () at src/class-finalization.c:30
+#7  0x56595cb3 in parse_translation_unit () at src/parser-declaration-actions.inc:166
+#8  0x5655dbd6 in compile_translation_unit () at src/frontend.c:75
+#9  0x565587c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558794 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

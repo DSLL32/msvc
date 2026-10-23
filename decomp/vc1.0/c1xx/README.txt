@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 651 accepted frontiers, including 561 frontend
+PARTIAL binary reconstruction: 664 accepted frontiers, including 574 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;

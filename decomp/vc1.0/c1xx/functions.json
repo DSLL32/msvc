@@ -655,7 +655,20 @@
     "_prepend_class_member@4",
     "_shift_class_member_offsets@12",
     "_begin_class_members@8",
-    "_next_class_member@4"
+    "_next_class_member@4",
+    "_new_virtual_table@16",
+    "_allocate_zeroed@4",
+    "_grow_vector@4",
+    "_record_special_member@24",
+    "_resolve_table_override@16",
+    "_primary_virtual_table@4",
+    "_first_vector_item@4",
+    "_initialize_virtual_entry@8",
+    "_initialize_virtual_adjustment@8",
+    "_append_virtual_entry@8",
+    "_grow_virtual_entries@8",
+    "_virtual_entry_capacity_bytes@4",
+    "_reserve_virtual_table_offset@8"
   ],
   "driver": [
     {
@@ -821,7 +834,7 @@
     {
       "name": "_grow_vector@4",
       "start": 321744,
-      "end": 321745
+      "end": 321899
     },
     {
       "name": "_compiler_warning",
@@ -3658,7 +3671,7 @@
     {
       "name": "_new_virtual_table@16",
       "start": 493904,
-      "end": 493905
+      "end": 493970
     },
     {
       "name": "_build_virtual_base_table@8",
@@ -3713,7 +3726,7 @@
     {
       "name": "_record_special_member@24",
       "start": 224464,
-      "end": 224465
+      "end": 224566
     },
     {
       "name": "_create_implicit_special_member@20",
@@ -3838,27 +3851,27 @@
     {
       "name": "_resolve_table_override@16",
       "start": 501680,
-      "end": 501681
+      "end": 501882
     },
     {
       "name": "_primary_virtual_table@4",
       "start": 494368,
-      "end": 494369
+      "end": 494387
     },
     {
       "name": "_initialize_virtual_entry@8",
       "start": 494688,
-      "end": 494689
+      "end": 494737
     },
     {
       "name": "_append_virtual_entry@8",
       "start": 494432,
-      "end": 494433
+      "end": 494507
     },
     {
       "name": "_reserve_virtual_table_offset@8",
       "start": 494608,
-      "end": 494609
+      "end": 494627
     },
     {
       "name": "_collapse_virtual_conflicts@4",
@@ -5663,9 +5676,9 @@
       "end": 482992
     },
     {
-      "name": "_first_function_vector_item@4",
+      "name": "_first_vector_item@4",
       "start": 322384,
-      "end": 322385
+      "end": 322396
     },
     {
       "name": "_register_temporary_destruction@8",
@@ -5946,6 +5959,41 @@
       "name": "_next_class_member@4",
       "start": 199088,
       "end": 199119
+    },
+    {
+      "name": "_allocate_zeroed@4",
+      "start": 493808,
+      "end": 493866
+    },
+    {
+      "name": "_vector_used_bytes@4",
+      "start": 321904,
+      "end": 321905
+    },
+    {
+      "name": "_matches_virtual_override@12",
+      "start": 501888,
+      "end": 501889
+    },
+    {
+      "name": "_validate_virtual_override@8",
+      "start": 502112,
+      "end": 502113
+    },
+    {
+      "name": "_initialize_virtual_adjustment@8",
+      "start": 493584,
+      "end": 493603
+    },
+    {
+      "name": "_grow_virtual_entries@8",
+      "start": 494512,
+      "end": 494588
+    },
+    {
+      "name": "_virtual_entry_capacity_bytes@4",
+      "start": 493872,
+      "end": 493885
     }
   ],
   "cases": {
@@ -6071,7 +6119,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_new_virtual_table@16",
+      "terminal": "_matches_virtual_override@12",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6080,9 +6128,22 @@
         "cases/virtual-diamond-frontiers/0647-prepend_class_member-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0648-shift_class_member_offsets-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0649-begin_class_members-8/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0650-next_class_member-4/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0650-next_class_member-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0651-new_virtual_table-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0652-allocate_zeroed-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0653-grow_vector-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0654-record_special_member-24/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0655-resolve_table_override-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0656-primary_virtual_table-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0657-first_vector_item-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0658-initialize_virtual_entry-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0659-initialize_virtual_adjustment-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0660-append_virtual_entry-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0661-grow_virtual_entries-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0662-virtual_entry_capacity_bytes-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0650-next_class_member-4/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },
