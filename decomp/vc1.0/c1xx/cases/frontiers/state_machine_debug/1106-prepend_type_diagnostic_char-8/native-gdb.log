@@ -1,0 +1,26 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aafb in prepend_type_diagnostic (text=186, value=0x565e5d08 "") at src/stubs.c:610
+610	void __stdcall prepend_type_diagnostic(short text, char *value) { __asm { int 3 } }
+#0  0x5655aafb in prepend_type_diagnostic (text=186, value=0x565e5d08 "") at src/stubs.c:610
+#1  0x565941c1 in format_shape_attributes (text=186, writer=0x5655aaf0 <prepend_type_diagnostic>, attributes=1, base=0x0, shape=0x566233c8) at src/type-diagnostics.c:320
+#2  0x56594a93 in format_pointer_declarator (text=186, shape=0x566233c8) at src/type-diagnostics.c:392
+#3  0x56594777 in format_declarator_shapes (text=186, shape=0x566233c8) at src/type-diagnostics.c:406
+#4  0x565940f9 in format_declarator_shape (symbol=0x56634174, type=0x56626ce0) at src/type-diagnostics.c:292
+#5  0x5659389d in format_declarator (symbol=0x56634174, type=0x56626ce0) at src/type-diagnostics.c:222
+#6  0x56594daa in format_function_parameters (text=184, parameters=0x56626d44, flags=8196) at src/type-diagnostics.c:510
+#7  0x565948b8 in format_declarator_shapes (text=184, shape=0x56626d58) at src/type-diagnostics.c:426
+#8  0x565940f9 in format_declarator_shape (symbol=0x56626cec, type=0x56626d68) at src/type-diagnostics.c:292
+#9  0x5659389d in format_declarator (symbol=0x56626cec, type=0x56626d68) at src/type-diagnostics.c:222
+#10 0x56593534 in print_declaration (symbol=0x56626cec, stream=0x0) at src/type-diagnostics.c:185
+#11 0x565c8b88 in print_inline_declaration (symbol=0x56626cec, stream=0x0) at src/inline-capture.c:341
+#12 0x565c85b0 in capture_inline_member_declaration (symbol=0x56626cec, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:151
+#13 0x565c5024 in configure_member_function (storage=..., member=0x56626cec, pure=0) at src/class-members.c:665
+#14 0x565c3ee3 in declare_class_member (context=0x5660ba50 <declaration_spec_storage+8>, member=0x56626cec) at src/class-members.c:303
+#15 0x565c637c in declare_constructor (type=0x5660ba50 <declaration_spec_storage+8>, class_symbol=0x56626c24, parameters=0x56634174) at src/class-members.c:591
+#16 0x565b426e in parse_translation_unit () at src/parser-declaration-actions.inc:299
+#17 0x5655e07f in compile_translation_unit () at src/frontend.c:73
+#18 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#19 0x56558884 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

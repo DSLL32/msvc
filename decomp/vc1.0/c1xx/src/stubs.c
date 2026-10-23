@@ -607,7 +607,6 @@ unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups) { __asm { int 3 } return 0; }
 short __stdcall format_based_declaration(unsigned short attributes, void *base) { __asm { int 3 } return 0; }
-void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm { int 3 } }
 void __stdcall prepend_type_diagnostic(short text, char *value) { __asm { int 3 } }
 
 int compare_debug_symbol_indices(const void *left, const void *right) { __asm { int 3 } return 0; }

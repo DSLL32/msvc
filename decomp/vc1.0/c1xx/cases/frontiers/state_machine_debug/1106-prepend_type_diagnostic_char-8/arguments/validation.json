@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_prepend_type_diagnostic_char@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1106,
+  "configuration_sha256": "7a32f61378d1c83cc42fe79300e7f0f4a9018917ed0d742c9448222f785736e1",
+  "native_entry": "prepend_type_diagnostic_char",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "text",
+      "stack_index": 0,
+      "native_field": "raw_text",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 8323258,
+      "native_raw": 186,
+      "result": "match"
+    },
+    {
+      "name": "character",
+      "stack_index": 1,
+      "native_field": "raw_character",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 42,
+      "native_raw": 42,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      424032,
+      424056
+    ],
+    "argument_bytes": 8,
+    "proof": "No frame/save; textWORD entryESP+4 passed to reserve_type_diagnostic_bytes68aa0(text,0,1), returnedcursorEAX; characterBYTE entryESP+8 (after stdcallcleanup) written tocursor. RET8, semanticvoidreturn, no hidden/registerinput. Current entire observed character stackword is42(*) and matches native, although whole body consumes only lowbyte; text only lowWORD is defined/consumed. Only rawcallee68aa0 independently mapped/accepted.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "1516690d9295c7d0d4e267ba6a19c82e51c0b4da57dddb299c3892c63f8393d1",
+  "capture_timing": {
+    "original_capture_seconds": 1.6189841842278838,
+    "native_capture_seconds": 0.20588322263211012,
+    "total_operation_seconds": 2.1051693791523576
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "1270923d1ba7ad5c88cec302cd0922d07739e2033f58640190cf6c645d802798",
+    "native-commands.gdb": "129c20e81963b4949dbd9377eb37891dff3451552c283a93f709d2377ae14044",
+    "native-gdb.log": "b7205a473e119f06d85b1eaa8fd92d1689c4828c61fc0da09e32526943b1c1e0",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "d3afebdfc7135f41fbb2fc30b942ec73b0dd989eb32fbace86bc12b9d9dcb4c6",
+    "original-configuration.json": "7a32f61378d1c83cc42fe79300e7f0f4a9018917ed0d742c9448222f785736e1",
+    "original-disassembly.txt": "9666565d4a26ebfab11b7e73726eae07117fff9abc07d4e752272bb7bb2cec0a",
+    "original-events.txt": "3ec1fec64f91247868da686baca655f524ba14ed54eed0a49f2bcf76b62f554e",
+    "original-receipt.json": "b1aa2d5dc8ce1276cbe6690cf8d5353acf862299a2c51dab625b1d01ea94a0b9",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "15af165202d829496d27e05a9a9f0a608a19430d4629e9b1b51466749fdacc5f"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

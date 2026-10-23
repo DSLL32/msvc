@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "function": "_prepend_type_diagnostic_char@8",
+  "native_entry": "prepend_type_diagnostic_char",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_text": "(unsigned short)text",
+    "raw_character": "character"
+  },
+  "formals": [
+    {
+      "name": "text",
+      "stack_index": 0,
+      "native_field": "raw_text",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    },
+    {
+      "name": "character",
+      "stack_index": 1,
+      "native_field": "raw_character",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      424032,
+      424056
+    ],
+    "argument_bytes": 8,
+    "proof": "No frame/save; textWORD entryESP+4 passed to reserve_type_diagnostic_bytes68aa0(text,0,1), returnedcursorEAX; characterBYTE entryESP+8 (after stdcallcleanup) written tocursor. RET8, semanticvoidreturn, no hidden/registerinput. Current entire observed character stackword is42(*) and matches native, although whole body consumes only lowbyte; text only lowWORD is defined/consumed. Only rawcallee68aa0 independently mapped/accepted."
+  }
+}

@@ -1,0 +1,25 @@
+Breakpoint 1 at 0x3fada: file src/type-diagnostics.c, line 447.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, prepend_type_diagnostic_char (text=186, character=42) at src/type-diagnostics.c:447
+447	    char *cursor = reserve_type_diagnostic_bytes(text, 0, 1);
+#0  prepend_type_diagnostic_char (text=186, character=42) at src/type-diagnostics.c:447
+#1  0x565949fd in format_pointer_declarator (text=186, shape=0x566233c8) at src/type-diagnostics.c:386
+#2  0x56594777 in format_declarator_shapes (text=186, shape=0x566233c8) at src/type-diagnostics.c:406
+#3  0x565940f9 in format_declarator_shape (symbol=0x56634204, type=0x56626ce0) at src/type-diagnostics.c:292
+#4  0x5659389d in format_declarator (symbol=0x56634204, type=0x56626ce0) at src/type-diagnostics.c:222
+#5  0x56594daa in format_function_parameters (text=184, parameters=0x56626d44, flags=8196) at src/type-diagnostics.c:510
+#6  0x565948b8 in format_declarator_shapes (text=184, shape=0x56626d58) at src/type-diagnostics.c:426
+#7  0x565940f9 in format_declarator_shape (symbol=0x56626cec, type=0x56626d68) at src/type-diagnostics.c:292
+#8  0x5659389d in format_declarator (symbol=0x56626cec, type=0x56626d68) at src/type-diagnostics.c:222
+#9  0x56593534 in print_declaration (symbol=0x56626cec, stream=0x0) at src/type-diagnostics.c:185
+#10 0x565c8b88 in print_inline_declaration (symbol=0x56626cec, stream=0x0) at src/inline-capture.c:341
+#11 0x565c85b0 in capture_inline_member_declaration (symbol=0x56626cec, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:151
+#12 0x565c5024 in configure_member_function (storage=..., member=0x56626cec, pure=0) at src/class-members.c:665
+#13 0x565c3ee3 in declare_class_member (context=0x5660ba50 <declaration_spec_storage+8>, member=0x56626cec) at src/class-members.c:303
+#14 0x565c637c in declare_constructor (type=0x5660ba50 <declaration_spec_storage+8>, class_symbol=0x56626c24, parameters=0x56634204) at src/class-members.c:591
+#15 0x565b426e in parse_translation_unit () at src/parser-declaration-actions.inc:299
+#16 0x5655e07f in compile_translation_unit () at src/frontend.c:73
+#17 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#18 0x56558884 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20
