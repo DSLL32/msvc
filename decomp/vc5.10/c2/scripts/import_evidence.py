@@ -35,6 +35,8 @@ def verify(config,graph):
                 item=cache[side];start=record['start']if side=='original'else maps[record['name']]
                 read=(lambda address,size:original[offset(inventory,address,size):offset(inventory,address,size)+size])if side=='original'else rebuilt
                 slot=item['slot'];assert graph['import_catalogs'][side]['slots'][str(slot)]==identity
+                for data in item.get('accessed_data',[]):
+                    assert graph['import_catalogs'][side]['slots'][str(data['slot'])]=={'dll':data['dll'].lower(),'name':data['symbol']},'cached import context data identity changed'
                 for instruction in item['instructions']:
                     address=start+instruction['offset'];expected=bytes.fromhex(instruction['bytes'])
                     assert read(address,len(expected))==expected,'reviewed cached-import instruction changed'

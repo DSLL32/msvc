@@ -107,6 +107,13 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'header_streams'in current_state:
+        def changed_header_stream(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['header_streams'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('input FILE loses original iob identity',lambda r:changed_header_stream(r,'input_index',4)),
+                      ('two IL streams alias one FILE',lambda r:changed_header_stream(r,'distinct',False)),
+                      ('new input stream has already consumed data',lambda r:changed_header_stream(r,'input','01'+current_state['header_streams']['input'][2:])),
+                      ('changed raw canonical FILE layout',lambda r:(r/'o/header-streams.bin').write_bytes(bytes(64)))]
     if 'intermediate_open'in current_state:
         def changed_open(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['intermediate_open'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
@@ -133,10 +140,16 @@ def main():
             path=root/'n/target-environment.bin';path.write_bytes(b'changed=environment\0\0')
             rp=root/'n/receipt.json';receipt=json_at(rp);receipt['target_environment_sha256']=sha(path.read_bytes());write_json(rp,receipt)
         mutations.append(('changed full target environment with matching receipt hash',changed_target_environment))
+        def removed_target_environment(root):
+            path=root/'n/receipt.json';receipt=json_at(path);del receipt['target_environment_sha256'];write_json(path,receipt)
+        mutations.append(('missing required full environment proof',removed_target_environment))
     if json_at(a.original/'receipt.json').get('case_inputs'):
         def changed_ir_input(root):
             path=root/'o/receipt.json';receipt=json_at(path);name=next(iter(receipt['case_inputs']));receipt['case_inputs'][name]='0'*64;write_json(path,receipt)
         mutations.append(('different captured IR input hash',changed_ir_input))
+        def removed_input_binding(root):
+            path=root/'o/receipt.json';receipt=json_at(path);del receipt['case_inputs'];write_json(path,receipt)
+        mutations.append(('missing required IR input binding',removed_input_binding))
     if 'apply'in current_state:
         def changed_apply(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['apply'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

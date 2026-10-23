@@ -211,7 +211,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
         fclose(file);if(i==4096)ExitProcess(155);
     }
-    if (address == 0x452335 || address == 0x452e9b || address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
+    if (address == 0x452ea4 || address == 0x452335 || address == 0x452e9b || address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);
@@ -227,9 +227,9 @@ static void observe(CONTEXT *context, DWORD address)
         if (!read_memory(context->Esp+4,&value,4)) ExitProcess(149);
         fprintf(events,"exit-callback %08lx\n",value);
     }
-    if (address == 0x452e9b || address == 0x452335) {
+    if (address == 0x452e9b || address == 0x452335 || address == 0x452ea4) {
         DWORD current, operand, argv, alignment=context->Ecx;
-        if (address==0x452335 && !read_memory(0x499a04,&alignment,4)) ExitProcess(183);
+        if (address!=0x452e9b && !read_memory(0x499a04,&alignment,4)) ExitProcess(183);
         if (!read_memory(0x49968c,&current,4) ||
             !read_memory(0x4980c8,&operand,4) ||
             !read_memory(0x499728,&argv,4)) ExitProcess(182);
@@ -238,6 +238,17 @@ static void observe(CONTEXT *context, DWORD address)
         save_string(current,"current-option.bin");
         save_string(operand,"option-operand.bin");
         save_contextual_data();
+    }
+    if (address == 0x452ea4) {
+        DWORD input, globals, iob;
+        BYTE data[64]; FILE *output;
+        if (!read_memory(0x499698,&input,4) ||
+            !read_memory(0x497fd4,&globals,4) ||
+            !read_memory(0x48d08c,&iob,4) ||
+            !read_memory(input,data,32) || !read_memory(globals,data+32,32)) ExitProcess(185);
+        fprintf(events,"header-streams input=%08lx globals=%08lx iob=%08lx\n",input,globals,iob);
+        output=fopen("header-streams.bin","wb");
+        if (!output || fwrite(data,1,64,output)!=64 || fclose(output)) ExitProcess(186);
     }
     if (address == 0x452335) {
         if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(184);

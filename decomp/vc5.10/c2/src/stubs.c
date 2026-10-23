@@ -13,12 +13,6 @@ void c2_print_banner(void)
     __asm { int 3 }
 }
 
-FILE *__fastcall c2_open_intermediate(char *base, char *suffix, char *mode, char *description)
-{
-    __asm { int 3 }
-    return NULL;
-}
-
 void c2_read_header(void)
 {
     __asm { int 3 }

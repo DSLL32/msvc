@@ -1,0 +1,51 @@
+{
+  "function": "@c2_open_intermediate@16",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/open-original-2/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/open-original-2/graph-audit.json",
+    "matched": "_c2_read_header",
+    "original": "0x452ea4",
+    "native": "c2_read_header",
+    "argument_state": "header-read",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_read_header",
+      "symbol_start": "0x2860",
+      "symbol_size": 333,
+      "static_pc": "0x288f",
+      "int3_sites": [
+        "0x288e"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16"
+    ],
+    "candidates": [
+      "@c2_open_intermediate@16"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/open-original-2",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/open-native-2",
+  "base_configuration_sha256": "4abfa318e6794729b98de6b97ce3c2d3be39e9e744e74b41b0eddd0c6eb0b335",
+  "review": {
+    "approved": true,
+    "scope": "Completed unsupported /? diagnostic retained; root-authorized numeric-control-flow compilation case",
+    "status": "First case independently passed including32 completion negatives; root/orchestrator released next optimized compilation case autonomously",
+    "review_id": "orchestrator-c2-numeric-release-2026-10-23"
+  }
+}

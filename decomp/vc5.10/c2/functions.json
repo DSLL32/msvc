@@ -37,7 +37,8 @@
     "_c2_cleanup",
     "_c2_copy_arguments",
     "@parse_option_integer@4",
-    "@c2_validate_alignment@4"
+    "@c2_validate_alignment@4",
+    "@c2_open_intermediate@16"
   ],
   "driver": [
     {
@@ -186,7 +187,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "aa68ba4e3315d7b6f8e2fabd48b8da3d297a2ce5fe7b10a764418e77fa9624b5",
+            "lifetime_sha256": "5956b5bdf9ba536050094a2cb80b2b2c17266a9588cd942459c792e21ee4859d",
             "instructions": [
               {
                 "offset": 212,
@@ -205,7 +206,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Complete 00401754..004017b8 manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
+            "review": "Complete 00401734..00401798 manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
           }
         }
       ]
@@ -358,7 +359,7 @@
               42,
               191
             ],
-            "lifetime_sha256": "3f0f00939d67fa17b9afc201814fd8fa9f5b23c3a6f1ee433cfc52a8cd09b193",
+            "lifetime_sha256": "21aa7086ec57bdc710e68b17614677a258e668979e46f75c18219a9f022f614b",
             "instructions": [
               {
                 "offset": 42,
@@ -369,7 +370,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 00401f3d..00401fd2 manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
+            "review": "Complete 0040202d..004020c2 manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
           }
         }
       ]
@@ -434,17 +435,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4206712,
+            "slot": 4206716,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "6588fbe437265a1a83d10568be60a04df403d3e8a3d4491427c40264edadea35",
+            "lifetime_sha256": "060256ea5852f5e08ac46842dbae7c0009439b3a5c26cff0d97dc980fed1aaac",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d78304000894df8"
+                "bytes": "8b0d7c304000894df8"
               },
               {
                 "offset": 509,
@@ -455,7 +456,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Complete 00402270..004022be manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
+            "review": "Complete 00402360..004023ae manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
           }
         }
       ]
@@ -583,17 +584,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206708,
+            "slot": 4206712,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "7def4a1ac629a3987ca3a732a20db696d3e2e7efb6a845d6b93fce9a6223e8ed",
+            "lifetime_sha256": "af270eb7aca893bbcb36ee5a8c93314113c42c3ba9f8131a9029e759f9e64c8d",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a1743040008945f8"
+                "bytes": "a1783040008945f8"
               },
               {
                 "offset": 110,
@@ -604,7 +605,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 00402646..004026ba manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
+            "review": "Complete 00402736..004027aa manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
           }
         },
         {
@@ -644,17 +645,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206716,
+            "slot": 4206720,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "f6886fe3c9e9dc8f36bb9f4154e0db42ebbf800992bd79c9cf46e29f96018e5d",
+            "lifetime_sha256": "7626eb6d3600e3c0c555494e88bc1ef4b915d2822ed5f8c6ae45f1aeec6924c1",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d7c304000894dfc"
+                "bytes": "8b0d80304000894dfc"
               },
               {
                 "offset": 89,
@@ -665,7 +666,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 0040264e..004026ba manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
+            "review": "Complete 0040273e..004027aa manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
           }
         }
       ]
@@ -847,6 +848,20 @@
             "lifetime_sha256s": [
               "e13ee85e587ca53dfe5e7addfb47fbee1bb7da98652388bfb569eff44463f1e2",
               "9fd98a8cafcf8ba9baf9569851f350afd8ebfe9ec6f89d45ce2b055900201855"
+            ],
+            "accessed_data": [
+              {
+                "slot": 4772100,
+                "dll": "MSVCRT.dll",
+                "symbol": "__mb_cur_max",
+                "abi": "imported 32-bit int variable"
+              },
+              {
+                "slot": 4772052,
+                "dll": "MSVCRT.dll",
+                "symbol": "_pctype",
+                "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
+              }
             ]
           },
           "rebuilt": {
@@ -862,12 +877,26 @@
                 "bytes": "ff55ec83c408"
               }
             ],
-            "review": "Full 401ddf..401e32 reviewed: unique stack-slot load, MB branch call cleanup8, direct character-table branch and loop, no slot overwrite/escape.",
+            "review": "Complete 00401ddf..00401e32 manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued.",
             "lifetime": [
               15,
               98
             ],
-            "lifetime_sha256": "8a1ecb332cc6a35289333bcb225255844c7887a971332f2af3b8b7cd374ae906"
+            "lifetime_sha256": "9eb4a5028a95cee3fa9e50c51b50b67ffe10f60a5558d61d308f9b96e485b52b",
+            "accessed_data": [
+              {
+                "slot": 4206672,
+                "dll": "MSVCRT.dll",
+                "symbol": "__mb_cur_max",
+                "abi": "imported 32-bit int variable"
+              },
+              {
+                "slot": 4206664,
+                "dll": "MSVCRT.dll",
+                "symbol": "_pctype",
+                "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
+              }
+            ]
           }
         },
         {
@@ -899,12 +928,12 @@
             "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
           },
           "rebuilt": {
-            "slot": 4206660,
+            "slot": 4206696,
             "holder": "[EBP-0x10]",
             "instructions": [
               {
                 "offset": 98,
-                "bytes": "a1443040008945f0"
+                "bytes": "a1683040008945f0"
               },
               {
                 "offset": 106,
@@ -915,12 +944,12 @@
                 "bytes": "ff55f0"
               }
             ],
-            "review": "Full401e32..401e5c reviewed: unique imported pointer stack-slot assignment, two zero-argument calls around direct-IAT strtol; stack slot never passed or overwritten.",
+            "review": "Complete 00401e32..00401e5c manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued.",
             "lifetime": [
               98,
               140
             ],
-            "lifetime_sha256": "bcae9cf9bdea0afeba313d26cd63ced867547864553920bf71373da3c7a0d801"
+            "lifetime_sha256": "ae5d150ca3c05b0da6d85a586338eaac11d6867494238c54a4b0f5381a567587"
           }
         }
       ]
@@ -998,32 +1027,12 @@
         ]
       ],
       "evidence": "cases/analysis/alignment-disassembly.txt: whole hot/cold NULL/empty/string walk, no external calls, RET0"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "@c2_open_intermediate@16",
       "native": "c2_open_intermediate",
       "start": 4530997,
-      "end": 4530998,
-      "pending_extent": true,
+      "end": 4531154,
       "kind": "application",
       "abi": "fastcall, ECX base EDX suffix; stack mode and description, RET8",
       "state_policy": "intermediate-open",
@@ -1084,7 +1093,33 @@
       "expected_argv": [
         "-G5"
       ],
-      "expected_argc": 0
+      "expected_argc": 0,
+      "code_chunks": [
+        [
+          4669842,
+          4669894
+        ]
+      ],
+      "evidence": "cases/analysis/il-files-disassembly.txt: full hot/cold fopen, intrinsic string copies, length and open-failure branches; RET8"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_read_header",
@@ -1093,7 +1128,66 @@
       "end": 4533925,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters"
+      "abi": "cdecl, no parameters",
+      "state_policy": "header-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0
     },
     {
       "name": "_c2_reset_symbol_table",
