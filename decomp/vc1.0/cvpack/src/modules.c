@@ -399,11 +399,6 @@ duplicate:
     return 0;
 }
 
-typedef struct ModuleContribution {
-    unsigned short segment, reserved;
-    unsigned long offset, size;
-} ModuleContribution;
-typedef char ModuleContributionSize[(sizeof(ModuleContribution)==12)?1:-1];
 
 unsigned short address_in_module(ModuleInfo *module, unsigned short segment,
                                 unsigned long offset)

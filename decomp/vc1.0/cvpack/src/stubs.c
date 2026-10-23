@@ -135,7 +135,7 @@ CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } retu
 
 
 
-void assign_coff_function_module(CoffFunction *record,unsigned short section,unsigned long offset) { __asm { int 3 } }
+
 void set_coff_function_section(CoffFunction *record,unsigned short section) { __asm { int 3 } }
 void set_coff_function_line(CoffFunction *record,unsigned short line) { __asm { int 3 } }
 void set_coff_function_offset(CoffFunction *record,unsigned long offset) { __asm { int 3 } }

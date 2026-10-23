@@ -308,3 +308,42 @@ void set_coff_function_name(CoffFunction *record, const char *filename)
     if (!record->name) fatal_error(13, NULL, NULL);
     for (i = 0; i <= length; ++i) record->name[i] = filename[i];
 }
+
+/* The last matching module is the starting point of the next circular scan. */
+ModuleInfo *strip_module_hint;
+
+void assign_coff_function_module(CoffFunction *record, unsigned short section,
+                                 unsigned long offset)
+{
+    ModuleInfo *module, *first;
+    ModuleContribution *contribution;
+    unsigned short i, count;
+
+    if (!strip_module_hint) strip_module_hint = module_list;
+    module = first = strip_module_hint;
+    if (module) do {
+        if (module->record_size) {
+#ifdef RECON_NATIVE_TEST
+            if (!module->record || module->record_size < 8) __asm { int 3 }
+#endif
+            count = *(unsigned short *)(module->record+4);
+#ifdef RECON_NATIVE_TEST
+            if (count > (module->record_size-8)/sizeof(*contribution))
+                __asm { int 3 }
+#endif
+            contribution = (ModuleContribution *)(module->record+8);
+            for (i = 0; i < count; ++i, ++contribution) {
+                if (contribution->segment == section &&
+                    offset >= contribution->offset &&
+                    contribution->offset+contribution->size > offset) {
+                    strip_module_hint = module;
+                    record->module = module->module;
+                    return;
+                }
+            }
+        }
+        module = module->next;
+        if (!module) module = module_list;
+    } while (module != first);
+    fatal_error(37, NULL, NULL);
+}

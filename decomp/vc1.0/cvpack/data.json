@@ -1225,5 +1225,12 @@
     "original": 230188,
     "size": 4,
     "source": "src/strip.c"
+  },
+  {
+    "name": "strip_module_hint",
+    "symbol": "_strip_module_hint",
+    "original": 230196,
+    "size": 4,
+    "source": "src/strip.c"
   }
 ]

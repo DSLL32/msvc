@@ -59,8 +59,8 @@
   "sources": {
     "src/types.c": "753875b1fdb5fee956fcfce3d5710376d25396131b9c17a648b09cc90592bc03",
     "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23",
-    "src/modules.c": "c8f766b6c7ca20f14f3304c53ccf16be74fa5c1c05a0ca7f73e2d11494dd56d6",
-    "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
+    "src/modules.c": "72c7e2d4fa232020d5154aa027aeac1d26dfbf3202f16f88b91e86f3b8ca0e36",
+    "src/image.h": "14f3a483329f37d8b04064edb7181a58e53a9c61818814df4d1130ec7766a97e"
   },
   "instructions": [
     {

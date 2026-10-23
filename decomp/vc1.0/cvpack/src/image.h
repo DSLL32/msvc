@@ -43,6 +43,12 @@ typedef struct ModuleInfo {
 
 unsigned short address_in_module(ModuleInfo *, unsigned short, unsigned long);
 
+typedef struct ModuleContribution {
+    unsigned short segment, reserved;
+    unsigned long offset, size;
+} ModuleContribution;
+typedef char ModuleContributionSize[(sizeof(ModuleContribution)==12)?1:-1];
+
 typedef struct ModuleIndex {
     unsigned short module, reserved;
     unsigned long directory;

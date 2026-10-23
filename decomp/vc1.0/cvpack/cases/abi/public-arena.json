@@ -9,8 +9,8 @@
   "allocation": "allocate_symbol truncates size to16 bits and calls checked_alloc(8100) on exhaustion; one currently live block, no unsupported previous block ownership.",
   "initialized": "Completed intern_public and intern_global share allocate_symbol: same next/name_offset/hash/offset/segment/full record/padding writes; same reserved6..7 and suffix2 remain undefined, raw retained. Distinct public/global bucket families/counts/recordbytes must completely partition the one current block.",
   "sources": {
-    "src/modules.c": "c8f766b6c7ca20f14f3304c53ccf16be74fa5c1c05a0ca7f73e2d11494dd56d6",
-    "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
+    "src/modules.c": "72c7e2d4fa232020d5154aa027aeac1d26dfbf3202f16f88b91e86f3b8ca0e36",
+    "src/image.h": "14f3a483329f37d8b04064edb7181a58e53a9c61818814df4d1130ec7766a97e"
   },
   "instructions": [
     {

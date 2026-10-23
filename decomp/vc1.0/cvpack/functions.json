@@ -5855,7 +5855,37 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "function",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/coff-block-function-input.json",
+          "evidence_sha256": "8084dc3d3b85510b806d2ac60fc032aa8243f3ad6c034c7781aa9eb8e7215544"
+        },
+        {
+          "name": "block",
+          "slot": 2,
+          "kind": "stack-output",
+          "evidence": "cases/abi/coff-block-block-output.json",
+          "evidence_sha256": "21dfbe4aa4f656fcf22125b7a8f926888b7788f8752ceb106daac344f1f4d079"
+        },
+        {
+          "name": "auxiliary",
+          "slot": 3,
+          "kind": "stack-output",
+          "evidence": "cases/abi/coff-block-auxiliary-output.json",
+          "evidence_sha256": "6eb2d830fd15b04b7838f09924e429787a8a194aee569dd96ecd0e0899a3bc6f"
+        },
+        {
+          "name": "index",
+          "slot": 4,
+          "kind": "stack-output",
+          "evidence": "cases/abi/coff-block-index-output.json",
+          "evidence_sha256": "2b291bc3cb3a86a1ad92b1a5062803c8d827d1b05dcec803ec2209b21177ba58"
+        }
+      ]
     },
     {
       "name": "read_coff_function_lines",
@@ -6043,13 +6073,16 @@
       "native": "assign_coff_function_module",
       "symbol": "_assign_coff_function_module",
       "original": 166384,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        166384,
+        166592
+      ],
       "abi": "void assign_coff_function_module(CoffFunction *,unsigned short,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0110-assign_coff_function_module/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -6072,7 +6105,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "set_coff_function_section",
@@ -6798,6 +6845,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 109
+    },
+    {
+      "function": "assign_coff_function_module",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 110
     }
   ],
   "support_unmasked": [
@@ -7392,15 +7445,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "4d5436cd591ca80271469f025ce8cb2acb5403f542ddb6cd9682ae7f1e303bc4"
+    "evidence_sha256": "f7544528bf954f3cb8a09ba0db476ef64b950f48246185952dc9c6a68dfc0584"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "22a733fe59a61d9e0d23e98307ad19ab52b753f50dc61fb2f14325948c573f76"
+    "evidence_sha256": "32447a11d66d05bb761c1894bb3b92e18563f80e33d6f728ce56c012629c83d1"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "befac42bc1c55b01b5d000fa83a34b03ace5def81d4122e047bcf3e267473545"
+    "evidence_sha256": "5455448cecc3133e201b0ab554c87cba35f317744ce8e3238ee7ef610cf8668e"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -7420,11 +7473,11 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "dc784c771ad8b2e60cb66f2524df89022466bc89fb6852b2eaaabfe48182741d"
+    "evidence_sha256": "c040f1ec95399976ee9cae3ae4aa90c9428e5f1c1fcbeef8a14e0602ae1f2485"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
-    "evidence_sha256": "d722cfa9a68237d6eb05b81e88109290b99d8e0f6deb06e8026cc93d2caedf6a"
+    "evidence_sha256": "abfbdb6d896bf2155214b2525e35ba2f4537c4ffd1b7a9e12618e991efd572f4"
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
@@ -7432,7 +7485,7 @@
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "f413a2a8e26136272a09acf8cc592ec9d49882e78697eba8bc7a9f4ca61b9950"
+    "evidence_sha256": "7c53bca0807a352919f06cc24e66515406a0efd1ba5775bbe9e4f6e99160755e"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
@@ -7440,7 +7493,7 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "97d67cdf53b97f51b8751d2ba1244524080d7dd28a38aa660ec9f266a47a41d1"
+    "evidence_sha256": "63d4dccc1efd15de08cceb2ad0194b7315a7c951bf1af260deca3b8955f4a12c"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
@@ -7452,26 +7505,26 @@
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "f0197f08b1066ac183273bce1866c104eaf973274ec6a8317afc5992b80f7614"
+    "evidence_sha256": "700d50f27479e5eeb5e44ea206e199f8754f3a4103a16df9a6bb408ecf3de1ec"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "cb06ba95bfc6d01d415dd8abd85278662b4cc930e385d05225cf803206b108be"
+    "evidence_sha256": "4061baf1d10ecad4e660347018ef67a20dc538a6ed932666bcba9c6ac8f87e98"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "993d3c84059bb01a5cf9c863ac29515dc04de792e56b40dfbda45702dea75568"
+    "evidence_sha256": "a82d6c0c6124188e874bc1ec3582a8dc2709698864d5e1a43af62b2f5d0086a2"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "a942e1a8524d482d13167211b89b513ae8ba7cc3d25a33a6bd862a2162157101"
+    "evidence_sha256": "a775d6b8751be10a270cae3f62b03a07f8e41b003f4a29413ffea945bb7933a1"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "44e26426c69175c4468444054254e86e79da7aa0a4a1ef5c49c3cdc02f3c9b2b"
+    "evidence_sha256": "72c93590e91ce7a0b0a5977612fa5aa3163b95473707a8a26f1b4ca57be6bc65"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "bd4566357b4a19bb7062fd7bb64f8e566f69b8507913030f76607c5a1ea19da8"
+    "sha256": "0023f105f1e2bc47e8dfed47f7733e6a119abf2662e9229356b23873a373a525"
   }
 }

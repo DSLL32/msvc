@@ -2,6 +2,13 @@
 import hashlib,json,re
 from state import BINARY
 
+def validate_end_test(code,test,body,cursor):
+    """CL/Od may put either compared operand in EAX; unsigned order is fixed."""
+    load,compare,branch=code[test:test+3]
+    end_first=(load.bytes[:2]==b'\x8b\x45'and compare.bytes==b'\x39\x05'+cursor and branch.mnemonic=='jae')
+    cursor_first=(load.bytes==b'\xa1'+cursor and compare.bytes[:2]==b'\x39\x45'and branch.mnemonic=='jbe')
+    assert (end_first or cursor_first)and int(branch.op_str,16)==body,'completed cursor unsigned end test differs'
+
 def validate(config,original,rebuilt=None,linked=None):
     ref=config['symbol_output_observations'];path=BINARY/ref['evidence']
     assert hashlib.sha256(path.read_bytes()).hexdigest()==ref['evidence_sha256'],'stale completed cursor proof'
@@ -25,7 +32,7 @@ def validate(config,original,rebuilt=None,linked=None):
         assert code[call-1].bytes==b'\xff\x75'+code[call-4].bytes[2:],'completed cursor start argument differs'
         add=code[call-7];assert add.bytes==b'\x01\x05'+cursor and code[call-8].bytes[:3]==b'\x0f\xb7\x45','completed cursor length add differs'
         jump=code[call-6];assert jump.mnemonic=='jmp';target=int(jump.op_str,16);test=next(i for i,r in enumerate(code)if r.address==target)
-        assert code[test].bytes[:2]==b'\x8b\x45'and code[test+1].bytes==b'\x39\x05'+cursor and code[test+2].mnemonic=='jae'and int(code[test+2].op_str,16)==code[call-5].address,'completed cursor unsigned end test differs'
+        validate_end_test(code,test,code[call-5].address,cursor)
     return p
 
 def compare(config,pe,name,old_pointer,new_pointer,old,new,state,definitions,events,symbol_proof):
