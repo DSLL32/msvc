@@ -1593,3 +1593,16 @@ WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,
 {
     (void)out;(void)text;(void)bytes;recon_unsupported("unreviewed _mbsnbcpy");return NULL;
 }
+
+WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
+{
+    (void)out;(void)text;recon_unsupported("unreviewed UTF16 wcscat");return NULL;
+}
+WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
+{
+    (void)out;(void)format;recon_unsupported("unreviewed legacy UTF16 swprintf");return -1;
+}
+WEAK int recon_iswctype(WCHAR character,WCHAR mask)
+{
+    (void)character;(void)mask;recon_unsupported("unreviewed UTF16 iswctype");return 0;
+}

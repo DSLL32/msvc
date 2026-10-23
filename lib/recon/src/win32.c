@@ -973,3 +973,8 @@ DWORD WINAPI recon_SearchPathA(LPCSTR path,LPCSTR file,LPCSTR extension,DWORD ca
     (void)path; (void)file; (void)extension; (void)capacity; (void)buffer; (void)part;
     recon_unsupported("unreviewed SearchPathA fallback"); return 0;
 }
+
+BOOL WINAPI recon_IsDBCSLeadByteEx(UINT page,BYTE byte)
+{
+    (void)page;(void)byte;recon_unsupported("unreviewed IsDBCSLeadByteEx");return FALSE;
+}

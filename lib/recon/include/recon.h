@@ -191,6 +191,9 @@ char *recon_strcpy(char *,const char *);
 char *recon_getpath(const char *,char *,int);
 int recon_wcscmp(const WCHAR *,const WCHAR *);
 size_t recon_wcslen(const WCHAR *);
+WCHAR *recon_wcscat(WCHAR *,const WCHAR *);
+int recon_swprintf(WCHAR *,const WCHAR *,...);
+int recon_iswctype(WCHAR,WCHAR);
 WCHAR *recon_wcscpy(WCHAR *,const WCHAR *),*recon_wcsncpy(WCHAR *,const WCHAR *,size_t);
 unsigned recon_control87(unsigned,unsigned),recon_controlfp(unsigned,unsigned);
 void recon_ftime(struct _timeb *);
@@ -276,7 +279,7 @@ void recon_load_system_profile(const char *,const char *);
  X(HANDLE,HeapCreate,(DWORD,DWORD,DWORD)) X(LPVOID,HeapAlloc,(HANDLE,DWORD,DWORD)) \
  X(BOOL,HeapFree,(HANDLE,DWORD,LPVOID)) X(LRESULT,SendMessageA,(HWND,UINT,WPARAM,LPARAM)) \
  X(BOOL,HeapDestroy,(HANDLE)) \
- X(BOOL,IsValidCodePage,(UINT)) X(UINT,GetACP,(void)) X(LPSTR,CharNextA,(LPCSTR)) \
+ X(BOOL,IsDBCSLeadByteEx,(UINT,BYTE)) X(BOOL,IsValidCodePage,(UINT)) X(UINT,GetACP,(void)) X(LPSTR,CharNextA,(LPCSTR)) \
  X(UINT,GetConsoleCP,(void)) X(BOOL,GetCPInfo,(UINT,CPINFO *)) \
  X(UINT,SetHandleCount,(UINT)) \
  X(BOOL,GetConsoleScreenBufferInfo,(HANDLE,CONSOLE_SCREEN_BUFFER_INFO *)) \
@@ -299,6 +302,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define FILE ShimFILE
 #define wcscmp recon_wcscmp
 #define wcslen recon_wcslen
+#define wcscat recon_wcscat
+#define swprintf recon_swprintf
+#define iswctype recon_iswctype
 #define wcscpy recon_wcscpy
 #define wcsncpy recon_wcsncpy
 #define _control87 recon_control87
@@ -527,6 +533,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define HeapFree recon_HeapFree
 #define SendMessageA recon_SendMessageA
 #define HeapDestroy recon_HeapDestroy
+#define IsDBCSLeadByteEx recon_IsDBCSLeadByteEx
 #define IsValidCodePage recon_IsValidCodePage
 #define GetACP recon_GetACP
 #define CharNextA recon_CharNextA
