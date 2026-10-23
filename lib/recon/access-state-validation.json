@@ -1,0 +1,46 @@
+{
+  "scope": "Reached _access mode0/4 attribute checks: existing regular files/directories preserve errno/DOSerrno/LastError; missing leaf maps2/2/2, missing parent errno2/DOS3/LastError3. Unknown failures/file kinds deny. Other modes remain unclaimed legacy behavior.",
+  "original_reference": "tests/access-state-original.json; actual loaded canonical CRT/probe hFiles byte-verified,24 result/error rows across modes0/4, mixed-case existing/missing-leaf/missing-parent, errno0/111 and LastError0/12345678; DOSerrno seeded77.",
+  "canonical_provider_review": "MSVCRT RVA63f8..642d calls GetFileAttributesA; mode0/4 success returns0, failure GetLastError -> _dosmaperr. Mode2 readonly cold path is outside this implementation claim.",
+  "native_checks": {
+    "compilers": [
+      "GCC",
+      "Clang"
+    ],
+    "canonical_rows_each": 24,
+    "denials_each": [
+      "symlink loop/unreviewed attribute failure",
+      "FIFO/unreviewed file kind"
+    ],
+    "file_effects": "Only present.bin remains, full7-byte payload unchanged.",
+    "candidate_matches_production": true,
+    "default_and_strict_mktemp": "make -j4 check mktemp-check access-state-check passed",
+    "executables": {
+      "access-state-gcc": "e3ad9a7383ceef87da538e3c5b79a8510224316c1d60fd861c7d2e18d2534418",
+      "access-state-clang": "0c641bd93fd6e6ba07cac8195965cca4aa4d68ef6c6d1b87addb411c71063ab6"
+    }
+  },
+  "regression_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/access-state-regression/receipt.json",
+  "regression_sha256": "3de54476d86835789e2fb8ecc28efee52803558f3ba48c5c0d41a6b73ad2f382",
+  "regression_runs": [
+    {
+      "binary": "cl",
+      "build_seconds": 1.6776816379278898,
+      "fixture_wrapper_seconds": 3.1203419286757708,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rc",
+      "build_seconds": 2.729368967935443,
+      "fixture_wrapper_seconds": 2.7283869115635753,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rcpp",
+      "build_seconds": 2.3516859700903296,
+      "fixture_wrapper_seconds": 0.4475342631340027,
+      "fixture_status": 0
+    }
+  ],
+  "regression_scope": "95 finished cached native cases (57 CL/18 RC/20 RCPP), stable tracked shared source inventory; no Wine/reference capture or finished-worker wake. Detailed setup/execution/check timings remain in the receipt."
+}

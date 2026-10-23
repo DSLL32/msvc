@@ -328,3 +328,9 @@ build/check-strerror: tests/check-strerror.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 strerror-check: build/check-strerror
 	$(PYTHON) tests/check-strerror.py build/check-strerror
+
+.PHONY: access-state-check
+build/access-state-probe: tests/access-state-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+access-state-check: build/access-state-probe
+	$(PYTHON) tests/check-access-state.py build/access-state-probe

@@ -612,3 +612,10 @@ and unwritten bytes are not application-owned evidence.
 A stale pointer numerically equal to a fresh allocation after reuse cannot be
 distinguished by pointer-only delete. Fixtures bind allocation generations and
 caller provenance; the runtime does not claim to detect that ambiguity.
+
+The reached _access mode0/4 regular-file/directory path follows the canonical
+attribute-based test: success preserves errno, doserrno and LastError. Missing
+leaf maps errno2/DOS2/LastError2; missing parent maps errno2/DOS3/LastError3.
+Internal Linux path-resolution errors do not leak into successful CRT calls.
+Unknown failure classes/file kinds fail closed. Other modes retain the existing
+uncharacterized behavior; this does not claim Windows write-permission coverage.

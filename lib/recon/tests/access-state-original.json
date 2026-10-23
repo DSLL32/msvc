@@ -1,0 +1,12 @@
+{
+  "source_sha256": "2d0791f13e20bfa648e5032cc1ea7f48faafa3ca8657bcb0302f78963b52afb1",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "stdout_sha256": "a1ffc8b2766e76675257ade59327d89224f2604baf305fb4cf07fb82d775679f",
+  "stdout_bytes": 1528,
+  "raw_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/access-state-original/receipt.json",
+  "raw_receipt_sha256": "2337a463c6a8956b492f4275d63765b911f517430373cabd6e571830029808aa",
+  "rows": 24,
+  "input_hex": "7061796c6f6164",
+  "input_sha256": "239f59ed55e737c77147cf55ad0c1b030b6d7ee748a7426952f9b852d5a935e5",
+  "input_bytes": 7
+}

@@ -690,8 +690,42 @@ int recon_write(int fd,const void *buffer,unsigned count)
 }
 int recon_access(const char *name,int mode)
 {
-    char path[PATH_MAX];
-    return recon_host_path(name,path,sizeof(path))<0?-1:access(path,mode);
+    char path[PATH_MAX],parent[PATH_MAX],*separator;
+    struct stat information;
+    int saved=errno,failure;
+    unsigned long code;
+    /* Other modes retain the legacy, uncharacterized host path. The proved
+     * existence/read checks use GetFileAttributes semantics, not Unix access
+     * permissions, and keep CRT errno independent from path-translation IO. */
+    if (mode!=0 && mode!=4)
+        return recon_host_path(name,path,sizeof(path))<0?-1:access(path,mode);
+    if (recon_host_path(name,path,sizeof(path))<0)
+        recon_unsupported("_access path translation");
+    if (!stat(path,&information)) {
+        if (!S_ISREG(information.st_mode) && !S_ISDIR(information.st_mode))
+            recon_unsupported("_access unreviewed file kind");
+        errno=saved;
+        return 0;
+    }
+    failure=errno;
+    if (failure!=ENOENT && failure!=ENOTDIR)
+        recon_unsupported("_access unreviewed attribute failure");
+    strcpy(parent,path);
+    separator=strrchr(parent,'/');
+    if (!separator) strcpy(parent,".");
+    else if (separator==parent) separator[1]=0;
+    else *separator=0;
+    if (!stat(parent,&information))
+        code=S_ISDIR(information.st_mode)?2:3;
+    else {
+        failure=errno;
+        if (failure!=ENOENT && failure!=ENOTDIR)
+            recon_unsupported("_access unreviewed parent failure");
+        code=3;
+    }
+    recon_SetLastError(code);
+    recon_dosmaperr(code);
+    return -1;
 }
 int recon_stat(const char *name,struct recon_stat *out)
 {
