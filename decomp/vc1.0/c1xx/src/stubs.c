@@ -249,7 +249,6 @@ void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
-unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
 void __stdcall reference_browser_macro(MacroDefinition *definition) { __asm { int 3 } }
@@ -613,3 +612,4 @@ void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
+int __stdcall convert_floating_literal(char *text, Extended *value) { __asm { int 3 } return 0; }

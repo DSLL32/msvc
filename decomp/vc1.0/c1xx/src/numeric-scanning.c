@@ -3,6 +3,7 @@
 #include "binary-expressions.h"
 #include "source-input.h"
 #include "characters.h"
+#include "floating.h"
 #include <recon.h>
 
 /* Original 0x253a0..0x25585. Fractions/exponents retain a separate scanner;
@@ -58,6 +59,70 @@ suffix:
         token = radix == 10 ? classify_decimal_integer(value) : classify_radix_integer(value);
     else if (token == TOK_LONG_CONSTANT) token = classify_long_integer(value);
     else if (token == TOK_UINT_CONSTANT) token = classify_unsigned_integer(value);
+    current_token_value.expression = new_literal_constant(token, &value);
+    return token;
+}
+
+/* Original 0x25590..0x25747. The suffix is retained in the numeric
+   spelling for the representation converter. Macro rescans defer conversion. */
+unsigned char __stdcall scan_float_tail(char *destination)
+{
+    unsigned char character, following, token;
+    Extended *value;
+    character = read_numeric_character();
+    if (options.option_Og && !macro_rescan_depth) {
+        compiler_warning(1, 12);
+        options.option_Og = 0;
+    }
+    if ((character_flags[character] & CF_DECIMAL) || character == '.') {
+        do {
+            *destination++ = character;
+            if (destination > token_text + 128) fatal_error(64);
+            character = read_numeric_character();
+        } while (character_flags[character] & CF_DECIMAL);
+    }
+    if ((character & 0xdf) == 'E') {
+        *destination++ = character;
+        character = read_numeric_character();
+        if (character == '+' || character == '-') {
+            *destination++ = character;
+            character = read_numeric_character();
+        }
+        if (!(character_flags[character] & CF_DECIMAL)) {
+            if (!macro_rescan_depth) report_syntax_error(21, character);
+            *destination++ = '0';
+        } else {
+            do {
+                *destination = character;
+                character = read_numeric_character();
+                ++destination;
+            } while (character_flags[character] & CF_DECIMAL);
+        }
+    }
+    following = character & 0xdf;
+    if (following == 'F') {
+        token = 4;
+        *destination++ = character;
+    } else if (following == 'L') {
+        token = 6;
+        *destination++ = character;
+    } else {
+        --source_text_cursor;
+        token = 5;
+    }
+    following = character_class[(unsigned char)*source_text_cursor];
+    if (following == CC_IDENTIFIER || following == CC_WIDE_PREFIX)
+        report_syntax_error(59, "bad suffix on number");
+    *destination = 0;
+    if (macro_rescan_depth > 0) {
+        macro_work_midpoint = destination;
+        return 147;
+    }
+    if (convert_floating_literal(token_text, &scanned_floating_value)) {
+        report_syntax_error(177);
+        scanned_floating_value = extended_zero;
+    }
+    value = save_extended_constant(&scanned_floating_value);
     current_token_value.expression = new_literal_constant(token, &value);
     return token;
 }

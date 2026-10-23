@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_scan_float_tail@4",
+    "start": 152976,
+    "end": 153416
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_convert_floating_literal@8",
+    "_fatal_error",
+    "_new_literal_constant@8",
+    "_read_numeric_character",
+    "_report_syntax_error",
+    "_save_extended_constant@4"
+  ],
+  "next_frontier": "_convert_floating_literal@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5318321399390697,
+  "total_operation_seconds": 4.252812062390149,
+  "original_capture_seconds": 1.5677013536915183
+}

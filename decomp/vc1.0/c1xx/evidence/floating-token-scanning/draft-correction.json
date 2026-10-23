@@ -1,0 +1,6 @@
+{
+  "scope": "Data-audit metadata correction only, before acceptance",
+  "problem": "New scanned_floating_value state table omitted required top-level original address; audit rejected with KeyError, no acceptance ran",
+  "correction": "Added actual original address 0x97ba8, audited all twelve defined BSS bytes; refreshed complete argument proof after configuration update",
+  "old_unaccepted_pair": "/root/.ai-tmp/msvc2/vc1.0/c1xx/scan-float-tail-initial-proof-missing-data-row-address"
+}

@@ -11,3 +11,5 @@ void initialize_floating_point(void)
 }
 
 Extended extended_zero = { 0, 0, 0, 4 }; /* original 0x9fd50 */
+
+Extended scanned_floating_value; /* original 0x97ba8, scanner conversion result */

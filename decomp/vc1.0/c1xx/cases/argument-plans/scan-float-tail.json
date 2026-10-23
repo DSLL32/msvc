@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_scan_float_tail@4",
+  "native_entry": "scan_float_tail",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    152944,
+    152956
+  ],
+  "native_caller_locals": {
+    "caller_destination": {
+      "frame": 1,
+      "function": "scan_number",
+      "local": "destination"
+    }
+  },
+  "native_expressions": {
+    "raw_destination": "(unsigned)destination"
+  },
+  "formals": [
+    {
+      "name": "destination",
+      "stack_index": 0,
+      "native_field": "raw_destination",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 87420,
+        "original_owner_function": "_scan_number@4",
+        "native_owner_function": "scan_number",
+        "native_owner_field": "caller_destination",
+        "native_owner_local": "destination",
+        "identity": "Actual number scanner advanced token_text destination EDI, PUSH EDI25576/CALL25577 return2557c; native actual destination local, no fixed offset guessed."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      152976,
+      153416
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole440B:SUB12/saveEBXESI8, destinationESP+24, RET4/ALtoken only. Decimal fraction/exponent digits and optionalsign, missingexponent diagnostic21 and injected spelling0 (original parser recovery), F/L/defaulttoken4/6/5 withsuffixretained, badsuffix59, rescan>0 deferredtoken147, Ogwarning12anddisablewhen!rescan. Actual floatingconverter74b40 has text/value2formals RET8 atall6exits andno hidden inputs; actual save_extended_constant2d3f0RET4 andnewliteral2c600RET8. Fresh scannedExtended original97ba8BSS12 is output, no preinitializedimaginaryfields."
+  }
+}

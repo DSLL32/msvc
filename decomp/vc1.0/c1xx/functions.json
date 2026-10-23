@@ -1143,7 +1143,8 @@
     "_mangle_string_literal@8",
     "_encode_string_literal_name@16",
     "_make_string_literal_object@12",
-    "_write_initializer_record@8"
+    "_write_initializer_record@8",
+    "_scan_float_tail@4"
   ],
   "driver": [
     {
@@ -3397,7 +3398,7 @@
     {
       "name": "_scan_float_tail@4",
       "start": 152976,
-      "end": 152977
+      "end": 153416
     },
     {
       "name": "_scan_assembler_number@4",
@@ -8306,6 +8307,11 @@
       "name": "_write_initializer_record@8",
       "start": 375600,
       "end": 375706
+    },
+    {
+      "name": "_convert_floating_literal@8",
+      "start": 478016,
+      "end": 478017
     }
   ],
   "cases": {
@@ -8506,7 +8512,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_scan_float_tail@4",
+      "terminal": "_convert_floating_literal@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8529,7 +8535,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1138-write_initializer_record-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8673,7 +8679,8 @@
         "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1138-write_initializer_record-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1138-write_initializer_record-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/frontier-extension.json"
       ]
     }
   },
@@ -11152,6 +11159,18 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_scanned_floating_value",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_scanned_floating_value",
+          "original": 621480,
+          "bytes": 12
+        }
+      ],
+      "original": 621480
     }
   ],
   "buffered_streams": [
