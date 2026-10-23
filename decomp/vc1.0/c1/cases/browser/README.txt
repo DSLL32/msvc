@@ -12,8 +12,10 @@ files and the236-byte test.sbr exactly, without normalization. Each isolated
 original/native run maps its own directory to the same canonical N: namespace.
 The SBR header retains N:\browser verbatim; paths are never rewritten in output.
 
-The current reconstruction is an intermediate checkpoint. Ordered fresh masked
-original/native observations and pending FILE buffers are in evidence/, with
-acceptance order and the next named trap in manifest.json. validation.json
-records the checked extent, original-toolchain audits and old-case regressions.
-The normal native suite will register this case when its full output passes.
+The reconstruction completes with657 total accepted source functions and763
+accepted entries. Ordered masked original/native evidence proves all browser
+application frontiers and final raw files/streams. Cleanup additionally proves
+native remove("test.sbt") returns0 and deletes the481-byte first-pass file.
+The original __unlink/remove/DeleteFileA chain is retained; shared CRT internal
+imports are excluded from application traces. The normal native suite now
+includes this case and all ten cases pass. See validation.json for timings.

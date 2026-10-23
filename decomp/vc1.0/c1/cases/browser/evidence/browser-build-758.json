@@ -1,0 +1,5 @@
+{
+  "command": "make -j4 native",
+  "seconds": 4.275471990928054,
+  "exit": 0
+}

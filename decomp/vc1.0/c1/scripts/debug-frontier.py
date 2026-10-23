@@ -55,13 +55,14 @@ def main():
             address = int(match[1],16)+int(match[2],16)
             expected_record = next((r for r in config['driver'] if r['start']==address),None)
             if expected_record:
-                expected_native = re.sub(r'@\d+$','',expected_record['name'][1:])
+                expected_native = {'__unlink':'recon_unlink'}.get(expected_record['name'],
+                    re.sub(r'@\d+$','',expected_record['name'][1:]))
             else:
                 # Recognized original-library frontiers use an explicit native
                 # boundary breakpoint, rather than inventing an application stub.
                 runtime = json.loads((BINARY/'runtime.json').read_text())
                 expected_record = next(r for r in runtime if r['start']==address)
-                native_boundaries = {'_tolower':'recon_tolower','__getcwd':'recon_getcwd'}
+                native_boundaries = {'_tolower':'recon_tolower','__getcwd':'recon_getcwd','_remove':'recon_remove'}
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 

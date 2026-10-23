@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "3850078b71883351f8ff0205b28a6e11bf4bb41ef2a8ce97dc61cbc3e58316c1",
+    "functions.json": "c0639386c1325f8bde9eff16e2624f83c0478162e678bc5020049af2e7c4cffe",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "cee3a39e15105d23dbdc12086685b7b8063f073b575c0679f936b00f5eb09037"
+    "sha256": "328a3463cd75a034e877fc577b6c7b90fd9bb6f329763068b5ac23182d28b618"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -340,6 +340,10 @@
     "browser_current_directory": {
       "logical": "_browser_current_directory",
       "source": "src/browser.c"
+    },
+    "browser_error_record": {
+      "logical": "_browser_error_record",
+      "source": "src/browser-stubs.c"
     },
     "browser_finish_scope": {
       "logical": "_browser_finish_scope",
@@ -1203,7 +1207,7 @@
     },
     "finish_browser_output": {
       "logical": "_finish_browser_output",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "finish_call_arguments": {
       "logical": "_finish_call_arguments@4",
@@ -2608,6 +2612,14 @@
     "read_asm_token": {
       "logical": "_read_asm_token",
       "source": "src/asm-lexer.c"
+    },
+    "read_browser_record": {
+      "logical": "_read_browser_record@4",
+      "source": "src/browser.c"
+    },
+    "read_browser_string": {
+      "logical": "_read_browser_string",
+      "source": "src/browser.c"
     },
     "read_debug_index": {
       "logical": "_read_debug_index",
@@ -4021,7 +4033,10 @@
     "browser_macro_reference",
     "prepare_browser_macro_reference",
     "browser_symbol_reference",
-    "prepare_browser_reference"
+    "prepare_browser_reference",
+    "finish_browser_output",
+    "read_browser_record",
+    "read_browser_string"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4117,7 +4132,9 @@
       "__chsize",
       "_fclose",
       "_tolower",
-      "__getcwd"
+      "__getcwd",
+      "__unlink",
+      "_remove"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4140,7 +4157,8 @@
       "import:ReadFile",
       "import:CloseHandle",
       "import:ExitProcess",
-      "import:GetLastError"
+      "import:GetLastError",
+      "import:DeleteFileA"
     ]
   },
   "cases": {
@@ -4856,6 +4874,44 @@
         "declare_label",
         "emit_asm_label",
         "make_ir_leaf"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "browser": {
+      "first": 732,
+      "last": 763,
+      "seen_count": 619,
+      "expected": [
+        "begin_browser_output",
+        "make_browser_temporary_name",
+        "write_browser_header",
+        "write_browser_record",
+        "prepare_browser_record",
+        "append_browser_record",
+        "serialize_browser_record",
+        "browser_current_directory",
+        "browser_symbol_definition",
+        "prepare_browser_definition",
+        "prepare_browser_symbol_record",
+        "browser_macro",
+        "prepare_browser_macro_definition",
+        "browser_open_file",
+        "prepare_browser_file_record",
+        "copy_browser_name",
+        "browser_begin_function_scope",
+        "browser_function_parameters",
+        "browser_finish_scope",
+        "browser_close_file",
+        "browser_macro_reference",
+        "prepare_browser_macro_reference",
+        "browser_symbol_reference",
+        "prepare_browser_reference",
+        "finish_browser_output",
+        "read_browser_record",
+        "read_browser_string"
       ],
       "terminal": {
         "kind": "exit",

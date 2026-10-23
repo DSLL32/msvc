@@ -1,40 +1,37 @@
 {
-  "status": "verified intermediate checkpoint; browser filtering/finalization remains active",
+  "status": "pass",
   "accepted_from": 732,
-  "accepted_count": 757,
-  "new_frontend_functions": 24,
-  "new_CRT_extents": 1,
-  "source_functions": 653,
-  "current_frontier": {
-    "logical": "_finish_browser_output",
-    "original_va": 160272
-  },
+  "accepted_count": 763,
+  "new_frontend_functions": 27,
+  "new_CRT_extents": 3,
+  "source_functions": 657,
+  "current_frontier": null,
   "coverage": {
-    "accepted_union_bytes": 203580,
+    "accepted_union_bytes": 205217,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 186050,
-      "CRT": 17404,
-      "import_thunks": 126
+      "frontend_source": 187619,
+      "CRT": 17466,
+      "import_thunks": 132
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 73.43255156293961,
+    "percent": 74.0230274785921,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
-  "extent_delta": 2441,
+  "extent_delta": 4078,
   "original_captures": {
-    "count": 26,
-    "preparation_seconds": 1.2927397135645151,
-    "execution_seconds": 32.07801011670381,
-    "total_seconds": 33.37082535587251
+    "count": 32,
+    "preparation_seconds": 1.5914043076336384,
+    "execution_seconds": 39.65525531489402,
+    "total_seconds": 41.246754705905914
   },
   "native_frontier_debug": {
-    "count": 26,
-    "preparation_seconds": 0.08744967263191938,
-    "execution_seconds": 4.0098841721192,
-    "total_seconds": 4.157862162217498
+    "count": 31,
+    "preparation_seconds": 0.10476905666291714,
+    "execution_seconds": 4.7481759106740355,
+    "total_seconds": 4.925917078740895
   },
-  "matched_frontiers": 26,
+  "matched_frontiers": 31,
   "native_build_measured_seconds": 56.02119050454348,
   "checkpoint_operations": [
     {
@@ -86,20 +83,151 @@
     }
   ],
   "native_old_cases": {
-    "trace_receipt": "evidence/native-nine-case-traces.json",
-    "all_nine_pass": true
+    "trace_receipt": "evidence/native-ten-case-traces.json",
+    "all_ten_pass": true
   },
   "static_audits": {
-    "function_graphs_and_instruction_bounds": 653,
-    "state_defaults_and_alias_ranges": 265,
+    "function_graphs_and_instruction_bounds": 657,
+    "state_defaults_and_alias_ranges": 268,
     "external_switch_tables_fully_restored": true,
-    "C_and_assembler_grammar": "all previous complete table/data audits pass"
+    "C_and_assembler_grammar": "all previous complete table/data audits pass",
+    "BrowserRecord_layout": "size24; line4,index8,name12,source16,attributes20,category22"
   },
   "normalization": "none",
   "limitations": [
-    "Full browser output is not accepted yet; current source traps at the named finalizer.",
     "Analysis, initial setup and first canonical rebuild wall times were not measured.",
     "Two retained diagnostics show a missing external switch-data range and a subsequently tightened padding range; final observations use complete precise switch data.",
-    "Initial projection ran before the new Win32 map was ready; the final ordered canonical/projection/nine-case regression succeeds."
+    "Initial projection ran before the new Win32 map was ready; the final ordered canonical/projection/nine-case regression succeeds.",
+    "Native CRT/import internal calls are proved at their application CRT boundary, with the original runtime-chain identity and exact downstream outputs retained. The import is not an application trace event."
+  ],
+  "checkpoint_757": {
+    "coverage": {
+      "accepted_union_bytes": 203580,
+      "original_code_bytes": 277234,
+      "accepted_by_origin_bytes": {
+        "frontend_source": 186050,
+        "CRT": 17404,
+        "import_thunks": 126
+      },
+      "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+      "percent": 73.43255156293961,
+      "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+    },
+    "original_captures": {
+      "count": 26,
+      "preparation_seconds": 1.2927397135645151,
+      "execution_seconds": 32.07801011670381,
+      "total_seconds": 33.37082535587251
+    },
+    "native_frontier_debug": {
+      "count": 26,
+      "preparation_seconds": 0.08744967263191938,
+      "execution_seconds": 4.0098841721192,
+      "total_seconds": 4.157862162217498
+    },
+    "checkpoint_operations": [
+      {
+        "name": "canonical-audits",
+        "command": [
+          "make",
+          "-j2",
+          "audit-win32"
+        ],
+        "seconds": 5.854280902072787,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-canonical-audits.log"
+      },
+      {
+        "name": "native-builds",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.360239988192916,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-native-builds.log"
+      },
+      {
+        "name": "trace-projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.2077958146110177,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-trace-projection.log"
+      },
+      {
+        "name": "native-nine-regressions",
+        "command": [
+          "python3",
+          "scripts/check-native.py",
+          "--trace",
+          "--directory",
+          "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-nine"
+        ],
+        "seconds": 0.4167938781902194,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-native-nine-regressions.log"
+      }
+    ],
+    "native_old_cases": {
+      "trace_receipt": "evidence/native-nine-case-traces.json",
+      "all_nine_pass": true
+    }
+  },
+  "new_import_thunks": 1,
+  "runtime_internal_imports": 1,
+  "final_operations": [
+    {
+      "name": "canonical-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 7.82692162040621,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-final-canonical-audits.log"
+    },
+    {
+      "name": "native-builds",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.375910235568881,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-final-native-builds.log"
+    },
+    {
+      "name": "trace-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.20548464730381966,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-final-trace-projection.log"
+    },
+    {
+      "name": "native-ten-regressions",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/browser-final-ten"
+      ],
+      "seconds": 0.4470951557159424,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-final-native-ten-regressions.log"
+    }
   ]
 }

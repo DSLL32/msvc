@@ -761,7 +761,13 @@
     "_browser_macro_reference@4",
     "_prepare_browser_macro_reference@8",
     "_browser_symbol_reference@4",
-    "_prepare_browser_reference@8"
+    "_prepare_browser_reference@8",
+    "_finish_browser_output",
+    "_read_browser_record@4",
+    "_read_browser_string",
+    "__unlink",
+    "_remove",
+    "import:DeleteFileA"
   ],
   "driver": [
     {
@@ -1050,7 +1056,7 @@
     {
       "name": "_finish_browser_output",
       "start": 160272,
-      "end": 160273
+      "end": 160901
     },
     {
       "name": "_report_error",
@@ -2717,7 +2723,7 @@
     {
       "name": "__unlink",
       "start": 338848,
-      "end": 338849
+      "end": 338862
     },
     {
       "name": "_classify_directive@4",
@@ -5126,6 +5132,27 @@
       "name": "_copy_browser_name",
       "start": 159104,
       "end": 159172
+    },
+    {
+      "name": "_browser_error_record",
+      "start": 161072,
+      "end": 161073
+    },
+    {
+      "name": "_read_browser_record@4",
+      "start": 157968,
+      "end": 158722,
+      "shared": [
+        [
+          158724,
+          158788
+        ]
+      ]
+    },
+    {
+      "name": "_read_browser_string",
+      "start": 157840,
+      "end": 157962
     }
   ],
   "cases": {
@@ -5173,6 +5200,11 @@
       "arguments": "",
       "accepted_from": 698,
       "accepted_count": 732
+    },
+    "browser": {
+      "arguments": "",
+      "accepted_from": 732,
+      "accepted_count": 763
     }
   },
   "buffered_streams": [

@@ -70,7 +70,6 @@ void generate_inline_queries(void) { __asm { int 3 } }
 /* Original 0x4bb60. */
 
 /* Original 0x27210. */
-void finish_browser_output(void) { __asm { int 3 } }
 
 /* Original 0x4aa40. */
 void report_error(unsigned code, ...) { __asm { int 3 } }
@@ -445,7 +444,6 @@ void report_ide_file_end(void) { __asm { int 3 } }
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
-int _unlink(const char *name) { __asm { int 3 } return 0; }
 
 
 void capture_directive_text(void) { __asm { int 3 } }

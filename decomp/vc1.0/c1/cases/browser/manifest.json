@@ -77,18 +77,17 @@
       }
     }
   },
-  "status": "active reconstruction; common event serialization accepted; filtering/finalizer remains",
+  "status": "complete; original masked/native exit0 and all raw files/streams exact; native suite registered",
   "capture": {
     "provenance": "Untouched CL and original children,read-only CL capture-run source built in C1 private scratch and Wine prefix. Only C1 phase is queued; backend capture is reference-only.",
     "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
   },
   "reconstruction": {
     "accepted_from": 732,
-    "accepted_count": 757,
+    "accepted_count": 763,
     "current_terminal": {
-      "kind": "trap",
-      "logical": "_finish_browser_output",
-      "original_va": 160272
+      "kind": "exit",
+      "code": 0
     },
     "acceptance_order": [
       "_begin_browser_output",
@@ -115,7 +114,13 @@
       "_browser_macro_reference@4",
       "_prepare_browser_macro_reference@8",
       "_browser_symbol_reference@4",
-      "_prepare_browser_reference@8"
+      "_prepare_browser_reference@8",
+      "_finish_browser_output",
+      "_read_browser_record@4",
+      "_read_browser_string",
+      "__unlink",
+      "_remove",
+      "import:DeleteFileA"
     ],
     "frontier_observations": [
       {
@@ -299,6 +304,49 @@
         "native_frame": "finish_browser_output",
         "original_receipt": "evidence/frontier-757-original.receipt.json",
         "native_receipt": "evidence/frontier-757-native.receipt.json"
+      },
+      {
+        "accepted_count": 758,
+        "original_receipt": "evidence/frontier-758-original.receipt.json",
+        "frontier": "_read_browser_record@4",
+        "native_frame": "read_browser_record",
+        "native_receipt": "evidence/frontier-758-native.receipt.json"
+      },
+      {
+        "accepted_count": 759,
+        "original_receipt": "evidence/frontier-759-original.receipt.json",
+        "frontier": "_read_browser_string",
+        "native_frame": "read_browser_string",
+        "native_receipt": "evidence/frontier-759-native.receipt.json"
+      },
+      {
+        "accepted_count": 760,
+        "original_receipt": "evidence/frontier-760-original.receipt.json",
+        "frontier": "__unlink",
+        "native_frame": "recon_unlink",
+        "native_receipt": "evidence/frontier-760-native.receipt.json"
+      },
+      {
+        "accepted_count": 761,
+        "original_receipt": "evidence/frontier-761-original.receipt.json",
+        "frontier": "_remove",
+        "native_frame": "recon_remove",
+        "native_receipt": "evidence/frontier-761-native.receipt.json"
+      },
+      {
+        "accepted_count": 762,
+        "original_receipt": "evidence/frontier-762-original.receipt.json",
+        "frontier": "import:DeleteFileA",
+        "native_boundary": "recon_remove",
+        "native_boundary_receipt": "evidence/remove-proof.receipt.json",
+        "comparison": "Original internal CRT import identity, native remove entry/return/deletion and following exact application exit; CRT/import excluded from app projection."
+      },
+      {
+        "accepted_count": 763,
+        "original_receipt": "evidence/frontier-763-original.receipt.json",
+        "frontier": null,
+        "native_frame": null,
+        "native_receipt": "evidence/frontier-763-native.receipt.json"
       }
     ]
   }

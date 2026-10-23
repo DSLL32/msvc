@@ -1,0 +1,11 @@
+minimal: native pass 0.014092s
+hello-win32: native pass 0.084590s
+hello-dll: native pass 0.083096s
+numeric-varargs: native pass 0.016351s
+pch-create: native pass 0.012477s
+pch-use: native pass 0.011498s
+do-while: native pass 0.009786s
+seh: native pass 0.009513s
+inline-asm: native pass 0.009722s
+browser: native pass 0.013053s
+Evidence: /root/.ai-tmp/vc1.0-c1/browser-final-ten/receipt.json

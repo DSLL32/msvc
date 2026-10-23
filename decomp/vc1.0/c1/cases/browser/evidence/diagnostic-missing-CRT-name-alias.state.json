@@ -1,0 +1,27 @@
+{
+  "buffers": {
+    "expression_file": "",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "",
+    "debug_file": null,
+    "pch_file": null,
+    "browser_output": ""
+  },
+  "frames": [
+    "recon_unlink",
+    "finish_browser_output",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "recon_unlink",
+  "pc": 1449422360,
+  "label_stack_count": 0,
+  "scanner_flags": 2097152,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

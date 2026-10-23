@@ -1,5 +1,6 @@
 /* Definitions/references emitted for the browser database builder. */
 #include <direct.h>
+#include <io.h>
 #include "browser.h"
 #include "source-input.h"
 #include "global-ir.h"
@@ -334,4 +335,116 @@ void __stdcall prepare_browser_reference(BrowserRecord *record, FrontendSymbol *
         prepare_browser_symbol_record(record,symbol);
         record->kind = 4;
     }
+}
+
+char *browser_read_name; /* original0x6386c,256-byte reader workspace */
+FILE *browser_filtered_output; /* original0x63870 */
+int browser_unfiltered; /* original0x63874, bypass the symbol filter */
+
+/* Original0x27210..0x27484. The first pass gathers all definitions and
+   references. Keep referenced definitions in a second pass while coalescing
+   line records; unfiltered modes instead rename the temporary directly. */
+void finish_browser_output(void)
+{
+    char temporary[256];
+    BrowserRecord record, line;
+    unsigned current_line;
+    ArenaPool *pool;
+    if (error_count) browser_error_record();
+    browser_include_begin();
+    close_intermediate(browser_output);
+    make_browser_temporary_name(temporary);
+    if (!browser_unfiltered && !options.z_n) {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < 256) refill_arena(&compiler_arena,pool);
+        browser_read_name = (char *)pool->next;
+        pool->remaining -= 256;
+        pool->next += 256;
+        browser_filtered_output = fopen(options.option_Fr,"w+");
+        if (!browser_filtered_output)
+            report_fatal(83,message_text(340),options.option_Fr);
+        setvbuf(browser_filtered_output,0,_IOFBF,4096);
+        browser_last_line = -1;
+        rewind(browser_output);
+        auxiliary_ir_stream = browser_filtered_output;
+        while (read_browser_record(&record) != 255) {
+            if (record.kind == 0) serialize_browser_record(&record,0);
+            else if (record.kind == 2) current_line = record.line ? record.line : 1;
+            else if (record.kind != 3 ||
+                (browser_symbol_bits[record.symbol_index >> 3] & (1U << (record.symbol_index & 7)))) {
+                if (current_line != browser_last_line) {
+                    line = browser_line_template;
+                    browser_pending_flags = 0;
+                    browser_last_reference = 0;
+                    browser_last_line = current_line;
+                    line.kind = 2;
+                    line.line = current_line;
+                    serialize_browser_record(&line,0);
+                }
+                serialize_browser_record(&record,0);
+            }
+        }
+        if (fclose(browser_output) || fclose(browser_filtered_output) || _unlink(temporary))
+            report_fatal(83,message_text(340),options.option_Fr);
+    } else {
+        _unlink(options.option_Fr);
+        if (fclose(browser_output) || rename(temporary,options.option_Fr))
+            report_fatal(83,message_text(340),options.option_Fr);
+    }
+}
+
+/* Original0x26910..0x26c01; dispatch0x26c04..0x26c43. Read the compact
+   first-pass format without touching fields absent from each record variant. */
+unsigned char __stdcall read_browser_record(BrowserRecord *record)
+{
+    unsigned char *bytes;
+    record->kind = getc(browser_output);
+    if (browser_output->_flag & _IOEOF) return 255;
+    switch (record->kind) {
+    case 0:
+        getc(browser_output);
+        getc(browser_output);
+        getc(browser_output);
+        getc(browser_output);
+        read_browser_string();
+        break;
+    case 1: case 15:
+        record->name = read_browser_string();
+        break;
+    case 2:
+        record->line = 0;
+        bytes = (unsigned char *)&record->line;
+        bytes[0] = getc(browser_output);
+        bytes[1] = getc(browser_output);
+        break;
+    case 3:
+        record->symbol_kind = getc(browser_output);
+        bytes = (unsigned char *)&record->attributes;
+        bytes[0] = getc(browser_output);
+        bytes[1] = getc(browser_output);
+        record->symbol_index = 0;
+        bytes = (unsigned char *)&record->symbol_index;
+        bytes[0] = getc(browser_output);
+        bytes[1] = getc(browser_output);
+        record->name = read_browser_string();
+        break;
+    case 4: case 5: case 11:
+        record->symbol_index = 0;
+        bytes = (unsigned char *)&record->symbol_index;
+        bytes[0] = getc(browser_output);
+        bytes[1] = getc(browser_output);
+        break;
+    }
+    return 1;
+}
+
+/* Original0x26890..0x26909. Names reuse the reader workspace; preserve
+   the original exact256-byte boundary rule and its additional skip loop. */
+char *read_browser_string(void)
+{
+    char *cursor = browser_read_name;
+    do { *cursor++ = getc(browser_output); } while (cursor[-1]);
+    if (cursor - browser_read_name == 256)
+        while (getc(browser_output) != 0) ;
+    return browser_read_name;
 }

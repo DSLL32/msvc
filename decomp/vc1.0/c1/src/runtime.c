@@ -318,3 +318,10 @@ int fclose(FILE *file)
     file->_flag = 0;
     return result;
 }
+
+/* Original0x52ba0..0x52bad. The legacy underscore spelling delegates to
+   remove; retaining this wrapper preserves its separate CRT graph vertex. */
+int _unlink(const char *name)
+{
+    return remove(name);
+}
