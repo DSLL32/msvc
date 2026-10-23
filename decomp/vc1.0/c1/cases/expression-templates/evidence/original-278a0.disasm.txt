@@ -1,0 +1,33 @@
+
+toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000278a0 <.text+0x108a0>:
+   278a0:	83 3d 04 e2 06 00 14 	cmp    DWORD PTR ds:0x6e204,0x14
+   278a7:	7d 0f                	jge    0x278b8
+   278a9:	68 f8 e1 06 00       	push   0x6e1f8
+   278ae:	68 c8 e1 06 00       	push   0x6e1c8
+   278b3:	e8 48 2d 02 00       	call   0x4a600
+   278b8:	a1 00 e2 06 00       	mov    eax,ds:0x6e200
+   278bd:	83 2d 04 e2 06 00 14 	sub    DWORD PTR ds:0x6e204,0x14
+   278c4:	83 05 00 e2 06 00 14 	add    DWORD PTR ds:0x6e200,0x14
+   278cb:	c6 40 01 03          	mov    BYTE PTR [eax+0x1],0x3
+   278cf:	c6 00 07             	mov    BYTE PTR [eax],0x7
+   278d2:	8b 0d dc b6 06 00    	mov    ecx,DWORD PTR ds:0x6b6dc
+   278d8:	89 48 04             	mov    DWORD PTR [eax+0x4],ecx
+   278db:	8b 4c 24 04          	mov    ecx,DWORD PTR [esp+0x4]
+   278df:	89 48 0c             	mov    DWORD PTR [eax+0xc],ecx
+   278e2:	c2 04 00             	ret    0x4
+   278e5:	8d 64 24 00          	lea    esp,[esp+0x0]
+   278e9:	8d a4 24 00 00 00 00 	lea    esp,[esp+0x0]
+   278f0:	56                   	push   esi
+   278f1:	8b 74 24 08          	mov    esi,DWORD PTR [esp+0x8]
+   278f5:	56                   	push   esi
+   278f6:	e8 a5 ff ff ff       	call   0x278a0
+   278fb:	0b f6                	or     esi,esi
+   278fd:	75 04                	jne    0x27903
+   278ff:	80 48 01 80          	or     BYTE PTR [eax+0x1],0x80
+   27903:	5e                   	pop    esi
+   27904:	c2 04 00             	ret    0x4

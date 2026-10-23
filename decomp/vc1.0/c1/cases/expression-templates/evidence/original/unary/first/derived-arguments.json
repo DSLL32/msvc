@@ -1,0 +1,14 @@
+{
+  "provenance": "Derived annotation only: receipt direct_call.arguments contains external descriptor0 for source; raw direct-start stack slots contain actual debugger-owned source pointer. No historical receipt or events rewritten.",
+  "raw_events_sha256": "1a68b2c21ce67b305fca7f8ce707e2c4ab3e7561f9e1adb7550ca9cb17d67871",
+  "receipt_sha256": "800d2796abf27c7156416f294b9a38340454e8af3f4d1a12f7cd66000658b5d4",
+  "descriptor_arguments": [
+    0,
+    6
+  ],
+  "actual_arguments": [
+    9179136,
+    6
+  ],
+  "actual_event": "direct-start target 0003c430 marker 000362c0 stack 008cfe00 count 2 args 008c1000 00000006"
+}

@@ -2,6 +2,7 @@
 #include "expressions.h"
 #include "global-ir.h"
 #include "initializer-records.h"
+#include "pch.h"
 #include <recon.h>
 
 Extended extended_zero = { 0, 0, 0, 4 }; /* original 0x6c0f0 */
@@ -1438,4 +1439,93 @@ void __stdcall report_function_operand(unsigned char operation, int argument)
 {
     char *operand = message_text(argument == 1 ? 301 : 302);
     report_syntax_error(121,token_names[operation],operand);
+}
+
+/* Original0x3c430..0x3c61d, RET8. Mode6 copies parser-owned nodes
+   in arena2 without interning their types. Other modes use their ordinary
+   arena number (zero is permanent, minusone selects arena0). */
+IrToken *__stdcall copy_expression_tree(IrToken *source, int arena)
+{
+    ExpressionNode *original = (ExpressionNode *)source;
+    ExpressionNode *copy;
+    ArenaPool *pool;
+    CType *type;
+    TypeShape *shape;
+    unsigned char *text;
+    unsigned bytes;
+    int selected = arena;
+    if (arena == 6) {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(ExpressionNode)) refill_arena(&compiler_arena,pool);
+        copy = (ExpressionNode *)pool->next;
+        pool->remaining -= sizeof(ExpressionNode);
+        pool->next += sizeof(ExpressionNode);
+    } else if (!arena) copy = allocate_permanent(sizeof(ExpressionNode));
+    else {
+        if (selected == -1) selected = 0;
+#ifdef RECON_NATIVE_TEST
+        /* Unproved modes must stop before indexing outside the real pools. */
+        if (selected < 0 || selected >= 6) recon_unsupported("copy_expression_tree: node arena");
+#endif
+        pool = &compiler_arena.pools[selected];
+        if (pool->remaining < (int)sizeof(ExpressionNode)) refill_arena(&compiler_arena,pool);
+        copy = (ExpressionNode *)pool->next;
+        pool->remaining -= sizeof(ExpressionNode);
+        pool->next += sizeof(ExpressionNode);
+    }
+    *copy = *original;
+    if (arena != 6 && copy->type) {
+        if (copy->type->related)
+            copy->type->related = intern_type_shape(original->type->related);
+        copy->type = intern_type(copy->type);
+    }
+    switch (original->flags & 7) {
+    case 2:
+        if (original->value.children.left) {
+            copy->value.children.left = copy_expression_tree(original->value.children.left,arena);
+            copy->value.children.left->field08 = (unsigned)copy;
+        }
+        if (original->value.children.right) {
+            copy->value.children.right = copy_expression_tree(original->value.children.right,arena);
+            copy->value.children.right->field08 = (unsigned)copy;
+        }
+        break;
+    case 1:
+        copy->value.children.left = copy_expression_tree(original->value.children.left,arena);
+        copy->value.children.left->field08 = (unsigned)copy;
+        break;
+    case 3:
+        type = copy->type;
+        if (type->flags & 0x100) {
+            shape = type->related;
+            if (shape && !(shape->flags & 7)) shape = shape->related;
+            if (!shape) {
+#ifdef RECON_NATIVE_TEST
+                /* Mode6 payload allocation would alias diagnostic_arena. */
+                if (arena == 6) recon_unsupported("copy_expression_tree: extended payload arena6");
+#endif
+                copy->value.words.low = (unsigned)allocate_extended_value(
+                    *(Extended *)copy->value.words.low,arena);
+            }
+        }
+        break;
+    case 5:
+        bytes = (((IrToken *)original)->length + 3) & ~3U;
+        if (!arena) text = allocate_permanent(bytes);
+        else {
+            selected = arena == -1 ? 0 : arena;
+#ifdef RECON_NATIVE_TEST
+            if (selected < 0 || selected >= 6) recon_unsupported("copy_expression_tree: string payload arena");
+#endif
+            pool = &compiler_arena.pools[selected];
+            if (pool->remaining < (int)bytes) refill_arena(&compiler_arena,pool);
+            text = pool->next;
+            pool->remaining -= bytes;
+            pool->next += bytes;
+        }
+        copy->value.words.low = (unsigned)text;
+        copy_bytes_end(text,((IrToken *)original)->value.text,((IrToken *)original)->length);
+        break;
+    }
+    return (IrToken *)copy;
 }

@@ -11,12 +11,13 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
 
-There are 877 accepted source functions and 1010 accepted original entries.
-Accepted original extents cover 240095/277234 code-section bytes (86.603735%):
-219181 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
+There are 879 accepted source functions and 1012 accepted original entries.
+Accepted original extents cover 240600/277234 code-section bytes (86.785892%):
+219686 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Of this union,239909bytes have public-case evidence and
-186bytes are separately direct-tested unreachable assembler support. Unvisited
+691 bytes have separate direct-test evidence for assembler support and expression
+templates; no public trigger is established for those four functions. Unvisited
 functions retain named trapping stubs.
 
 Native build and checks
@@ -42,8 +43,8 @@ shared-prefix original first-entry captures. All 864 publicly reached accepted a
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current52 public plus15direct regression receipts are in
-cases/callback-body-recovery/validation.json.
+current 52 public plus 21 direct regression receipts are in
+cases/expression-templates/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -427,3 +428,23 @@ exact expected C2054s/exit2 and recovered_tail finalization. One69B frontend
 body clears real context globals and updates scanner upperword masks;
 actual two-call inputs/return/wholeword observations match. Largest residual
 application/support regions and honest padding candidates are also retained.
+
+Direct reusable expression templates
+------------------------------------
+cases/expression-templates tests the 12-byte reusable-zero constructor and the
+493-byte recursive tree copier through a separate external unit harness. The
+real minimal compiler context supplies interned types and arena ownership;
+owned integer/unary/binary trees use mode6, string and extended payloads use
+mode2. Six units compare two raw original baselines, exact field definedness,
+parent links, payload/tail bytes, allocator transfer, and individual return ABIs.
+Their cached native runner needs neither Wine nor GDB. Public extent is unchanged.
+Mode6 payloads would index beyond the six pools and remain explicitly held;
+other unproved allocator contexts are not covered. Run independently with:
+
+  make -j4 native-expression-tests
+  python3 scripts/check-expression-tests.py
+  python3 scripts/check-expression-rejections.py
+
+The first string trial exposed a missing stdcall callee prototype. The retained
+failure and repaired stack/return proof document the fix; pch.h now supplies the
+existing copy_bytes_end declaration. No CRT function was reconstructed.

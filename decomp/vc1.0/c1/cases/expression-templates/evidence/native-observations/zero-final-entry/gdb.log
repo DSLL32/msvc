@@ -1,0 +1,19 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56654cb5 in make_reusable_zero () at src/stubs.c:897
+897	IrToken *make_reusable_zero(void) { __asm { int 3 } return 0; }
+#0  0x56654cb5 in make_reusable_zero () at src/stubs.c:897
+#1  0x566b76ac in execute_unit () at cases/expression-templates/external-native.c:65
+#2  0xf7d98ebb in makecontext () from /lib/i386-linux-gnu/libc.so.6
+#3  0x566f9cb4 in unit_context ()
+#4  0xa5a5a5a5 in ?? ()
+#5  0xa5a5a5a5 in ?? ()
+#6  0xa5a5a5a5 in ?? ()
+#7  0xa5a5a5a5 in ?? ()
+#8  0xa5a5a5a5 in ?? ()
+#9  0xa5a5a5a5 in ?? ()
+#10 0xa5a5a5a5 in ?? ()
+#11 0x00000000 in ?? ()

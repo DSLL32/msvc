@@ -1,0 +1,3 @@
+src/capture-original.c
+src/capture-original.c(656) : warning C4018: '!=' : signed/unsigned mismatch
+src/capture-original.c(657) : warning C4018: '!=' : signed/unsigned mismatch

@@ -1,0 +1,83 @@
+{
+  "expression_unit": 4,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": {
+    "function": "_copy_expression_tree@8",
+    "arguments": [
+      0,
+      2
+    ],
+    "body_restored": true,
+    "public_reachability": false
+  },
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": "_finish_declarations",
+  "terminal_exit": 99,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/expression-templates",
+  "phase": "context",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1011,
+  "accepted_sha256": "bd889d79806c18c55fcfa1bb2f5f98fa6db4f0073721b4f9d3cd12dc76e4771f",
+  "executable_sha256": "dbb79dca2995f3bfc52d98051f2ebfe600a00a32620e75d0aae614c746b7d11a",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "90a1088404997e4aecca06a153a4cde94151eb22ef1b76b87622caf947b2795f",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\expression-templates",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Actual original CLaliases fd2/fd1 before C1 child launch."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/expression-templates",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05132641363888979,
+  "execution_seconds": 1.9738808386027813,
+  "total_seconds": 2.025209877640009,
+  "files": [
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "test.c",
+      "bytes": 136,
+      "sha256": "7fbd041cd7ae50fa507f96c53a03eef0ed2b262739fa26c3338cdccafed52eb1"
+    }
+  ]
+}

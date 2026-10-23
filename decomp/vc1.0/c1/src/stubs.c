@@ -892,3 +892,5 @@ IrToken *__stdcall make_symbol_ir_leaf(unsigned char kind, FrontendSymbol *symbo
 void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
 
 /* Fatal shutdown entries, named before their first accepted caller. */
+
+/* External direct candidates: no established public trigger. */

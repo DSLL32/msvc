@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "eaf004205db40ed91e7922e30bfc76ba1d6c8de721ac69a01251f2da988177a3",
+    "functions.json": "03e991addfd6885a9718f354fe608b7e47f0dfec7f58db841c212ba6d6fbaa64",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "7a2ffe901d88ba131de177b66f2681839f9fd412a987be001fcbdf4bea2a9882"
+    "sha256": "0ede5470452bc438830d6da8c2adce4c339cc15732e7431384f94aa18388b952"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -804,6 +804,10 @@
     "copy_codeview_name": {
       "logical": "_copy_codeview_name",
       "source": "src/debug-info.c"
+    },
+    "copy_expression_tree": {
+      "logical": "_copy_expression_tree@8",
+      "source": "src/expressions.c"
     },
     "copy_line_comment": {
       "logical": "_copy_line_comment",
@@ -1980,6 +1984,10 @@
     "make_qualified_type": {
       "logical": "_make_qualified_type@16",
       "source": "src/types.c"
+    },
+    "make_reusable_zero": {
+      "logical": "_make_reusable_zero",
+      "source": "src/constants.c"
     },
     "make_sizeof_expression": {
       "logical": "_make_sizeof_expression@4",
@@ -4524,7 +4532,9 @@
     "report_function_operand",
     "enclosing_declaration_scope",
     "browser_index_overflow",
-    "abort_function_definition"
+    "abort_function_definition",
+    "make_reusable_zero",
+    "copy_expression_tree"
   ],
   "excluded_accepted": {
     "CRT": [

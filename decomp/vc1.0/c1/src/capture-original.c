@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "../cases/expression-templates/external.h"
 #include <recon.h>
 
 /* Inspect pending bytes without flushing or changing the debugged process.
@@ -452,6 +453,69 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
 /* Explicit debugger-only calls for support routines unreachable from source.
    The initialized child is stopped at a real accepted marker. Only a private
    stack and CPU call context are prepared; target globals remain untouched. */
+typedef struct TemplateProcess { HANDLE process, log; } TemplateProcess;
+static TemplateProcess template_process;
+static TemplateObserver template_observer;
+static int template_unit = -1;
+static unsigned template_input_address, template_slot_address;
+static int template_process_read(void *context, unsigned address, void *output, unsigned bytes)
+{
+    TemplateProcess *state=context;
+    DWORD got;
+    return ReadProcessMemory(state->process,(void *)address,output,bytes,&got) && got==bytes;
+}
+static void template_process_emit(void *context,const char *bytes,unsigned length)
+{
+    TemplateProcess *state=context;
+    DWORD written;
+    WriteFile(state->log,bytes,length,&written,0);
+}
+static unsigned template_global_type(HANDLE process,unsigned base)
+{
+    DWORD scope,buckets,symbol,fields[4],got;
+    unsigned short mask;
+    unsigned bucket,index,step;
+    char name[64],byte;
+    if(!ReadProcessMemory(process,(void *)(base+0x5b730),&scope,4,&got) || got!=4 ||
+       !ReadProcessMemory(process,(void *)(scope+8),&buckets,4,&got) || got!=4 ||
+       !ReadProcessMemory(process,(void *)(scope+12),&mask,2,&got) || got!=2 || mask>1023)return 0;
+    for(bucket=0;bucket<=mask;++bucket) {
+        if(!ReadProcessMemory(process,(void *)(buckets+bucket*4),&symbol,4,&got) || got!=4)return 0;
+        for(step=0;symbol && step<1024;++step) {
+            if(!ReadProcessMemory(process,(void *)symbol,fields,sizeof(fields),&got) || got!=sizeof(fields))return 0;
+            for(index=0;index<sizeof(name)-1;++index) {
+                if(!ReadProcessMemory(process,(void *)(fields[2]+index),&byte,1,&got) || got!=1)return 0;
+                name[index]=byte;if(!byte)break;
+            }
+            name[sizeof(name)-1]=0;
+            if(!strcmp(name,"template_text"))return fields[3];
+            symbol=fields[1];
+        }
+    }
+    return 0;
+}
+static void template_observe(unsigned base,const char *boundary)
+{
+    char label[100];
+    sprintf(label,"input-%s",boundary);
+    template_memory(&template_observer,label,template_input_address,sizeof(TemplateInput));
+    sprintf(label,"pool-%s",boundary);
+    template_memory(&template_observer,label,base+0x5e1f8,sizeof(ArenaPool));
+    sprintf(label,"slot-%s",boundary);
+    if(template_slot_address)template_memory(&template_observer,label,template_slot_address,80);
+    else template_hex(&template_observer,label,0,0,0);
+    sprintf(label,"arena-%s",boundary);
+    template_memory(&template_observer,label,base+0x5e1c8,8);
+    {
+        DWORD free_block,got;
+        if(!ReadProcessMemory(template_process.process,(void *)(base+0x5e1cc),&free_block,4,&got) || got!=4)template_observer.failed=1;
+        else if(free_block) {
+            sprintf(label,"free-%s",boundary);
+            template_memory(&template_observer,label,free_block,8);
+        }
+    }
+    template_owners(&template_observer,boundary);
+}
 static DWORD direct_marker_rva, direct_target_rva, direct_arguments[2];
 static unsigned direct_count;
 static int direct_active;
@@ -481,6 +545,34 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         storage = allocate(process,0,65536,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
         if (!storage) return -1;
         direct_stack = (DWORD)storage + 65536 - 512;
+        if(template_unit>=0) {
+            TemplateInput input;
+            ArenaPool pool;
+            template_process.process=process;template_process.log=log;
+            memset(&template_observer,0,sizeof(template_observer));
+            template_observer.context=&template_process;
+            template_observer.read=template_process_read;template_observer.emit=template_process_emit;
+            if(!ReadProcessMemory(process,(void *)(base+0x5b6dc),template_observer.owners,4,&got) || got!=4 ||
+               !ReadProcessMemory(process,(void *)(base+0x5b6d8),template_observer.owners+1,4,&got) || got!=4 ||
+               !ReadProcessMemory(process,(void *)(base+0x5e1f8),&pool,sizeof(pool),&got) || got!=sizeof(pool))return -1;
+            template_observer.owners[2]=template_global_type(process,base);
+            sprintf(line,"expr-context %08x %08x %08x pool %08x remaining %d\n",template_observer.owners[0],template_observer.owners[1],template_observer.owners[2],(unsigned)pool.next,pool.remaining);
+            WriteFile(log,line,strlen(line),&written,0);
+            if(!template_observer.owners[0] || !template_observer.owners[1] || !template_observer.owners[2] || (pool.remaining<80 && (pool.remaining || pool.next || pool.first || pool.last)))return -1;
+            template_input_address=(unsigned)storage+4096;
+            template_slot_address=(unsigned)pool.next;
+            if(!template_slot_address) {
+                DWORD free_block;
+                if(!ReadProcessMemory(process,(void *)(base+0x5e1cc),&free_block,4,&got) || got!=4 || !free_block)return -1;
+                template_slot_address=free_block+offsetof(ArenaBlock,data);
+            }
+            template_build_input(template_unit,template_input_address,template_observer.owners,&input);
+            if(!WriteProcessMemory(process,(void *)template_input_address,&input,sizeof(input),&written) || written!=sizeof(input))return -1;
+            if(template_unit)direct_arguments[0]=template_input_address;
+            sprintf(line,"expr-unit %u mode %u input %08x\n",template_unit,template_unit?template_mode(template_unit):0,template_input_address);
+            WriteFile(log,line,strlen(line),&written,0);
+            template_observe(base,"before");if(template_observer.failed)return -1;
+        }
         for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
         words[0]=site;
         for (index=0;index<direct_count;++index) words[index+1]=direct_arguments[index];
@@ -509,6 +601,12 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
     WriteFile(log,line,strlen(line),&written,0);
     dump_context(process,thread,log);
     dump_requested_memory(process,log,base);
+    if(template_unit>=0) {
+        if(!template_slot_address)template_slot_address=current.Eax;
+        template_observe(base,"after");
+        template_output(&template_observer,current.Eax);
+        if(template_observer.failed)return -1;
+    }
     dump_asm_operand(process,log,base,"direct-return");
     if (buffers) dump_stream_buffers(process,log,base,buffers);
     TerminateProcess(process,99);
@@ -549,7 +647,14 @@ int main(int argc, char **argv)
     if (flag_option) {
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx",&direct_marker_rva,
                 &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1]) != 5 ||
-                direct_count<1 || direct_count>2 || argc==11) return 2;
+                direct_count>2 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || argc==11) return 2;
+    }
+    flag_option=getenv("C1_TEMPLATE_UNIT");
+    if(flag_option) {
+        template_unit=atoi(flag_option);
+        if(template_unit<0 || template_unit>5 || !direct_marker_rva ||
+           direct_marker_rva!=0x262c0 || direct_target_rva!=(template_unit?0x2c430:0x2c420) ||
+           direct_count!=(template_unit?2:0))return 2;
     }
     callback_option = getenv("C1_ENUM_CALLBACK_RVA");
     if (callback_option) callback_rva = strtoul(callback_option,0,16);

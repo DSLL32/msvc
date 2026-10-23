@@ -1,0 +1,21 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+0xf7f88579 in __kernel_vsyscall ()
+#0  0xf7f88579 in __kernel_vsyscall ()
+#1  0xf7dc299f in ?? () from /lib/i386-linux-gnu/libc.so.6
+#2  0xf7d6beb1 in raise () from /lib/i386-linux-gnu/libc.so.6
+#3  0xf7d532a2 in abort () from /lib/i386-linux-gnu/libc.so.6
+#4  0x5660800c in __wrap_finish_declarations () at cases/expression-templates/external-native.c:89
+#5  0x565aa704 in compile_translation_unit () at src/frontend.c:85
+#6  0x565a58f6 in guarded_compile () at src/c1.c:29
+#7  0x565a58be in main (argc=1, argv=0xff9e57c8, envp=0xff9e58a4) at src/c1.c:21
+eax            0x0                 0
+edx            0x6                 6
+esp            0xff9e5550          0xff9e5550
+ebp            0x0                 0x0
+ebx            0x1a2f38            1716024
+esi            0x8                 8
+edi            0x1a2f38            1716024

@@ -32,7 +32,8 @@ def main():
     parser.add_argument('--unmasked', action='store_true')
     parser.add_argument('--stop-function',help='Explicit first-entry trap for one accepted application ABI observation')
     parser.add_argument('--direct-function',help='Explicit debugger-only support callback after real marker; no public-reach claim')
-    parser.add_argument('--direct-arguments',nargs='+',type=lambda s:int(s,0))
+    parser.add_argument('--direct-arguments',nargs='*',type=lambda s:int(s,0))
+    parser.add_argument('--expression-unit',type=int,choices=range(6),help='External direct expression unit; owned test input, not target-global seeding')
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
@@ -153,7 +154,13 @@ def main():
     if options.direct_function:
         assert options.stop_function and not options.unmasked and not entry_mode
         direct = next(r for r in config['driver'] if r['name']==options.direct_function)
-        assert options.direct_arguments is not None and 1 <= len(options.direct_arguments) <= 2
+        assert options.direct_arguments is not None
+        if options.expression_unit is None:
+            assert 1 <= len(options.direct_arguments) <= 2
+        else:
+            assert options.stop_function=='_finish_declarations'
+            assert options.direct_function==('_copy_expression_tree@8'if options.expression_unit else'_make_reusable_zero')
+            assert options.direct_arguments==([0,2 if options.expression_unit>=4 else 6]if options.expression_unit else[])
         assert all(0 <= v <= 0xffffffff for v in options.direct_arguments)
         if options.direct_body:
             for left,right in [[direct['start'],direct['end']]]+direct.get('shared',[]):
@@ -189,6 +196,10 @@ def main():
     host_environment.pop('C1_RETURN8_PROBE',None)
     host_environment.pop('C1_ASM_SEGMENT_PROBE',None)
     host_environment.pop('C1_DIRECT_CALL',None)
+    host_environment.pop('C1_TEMPLATE_UNIT',None)
+    if options.expression_unit is not None:
+        assert direct is not None
+        host_environment['C1_TEMPLATE_UNIT']=str(options.expression_unit)
     host_environment.pop('C1_STRDUP_PROBE',None)
     host_environment.pop('C1_ABORT_PROBE',None)
     if options.trace_aborted_function:host_environment['C1_ABORT_PROBE']='1'
@@ -252,7 +263,7 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(aborted_function_probe=options.trace_aborted_function,browser_limit_probe=options.trace_browser_limit,declaration_scope_probe=options.trace_declaration_scope,complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(expression_unit=options.expression_unit,aborted_function_probe=options.trace_aborted_function,browser_limit_probe=options.trace_browser_limit,declaration_scope_probe=options.trace_declaration_scope,complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),

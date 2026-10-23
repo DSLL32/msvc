@@ -1,0 +1,58 @@
+{
+  "status": "pass",
+  "contract": {
+    "unit": 1,
+    "mode": 6,
+    "types": [
+      {
+        "flags": 100,
+        "attributes": 0,
+        "shape": null
+      },
+      {
+        "flags": 264,
+        "attributes": 0,
+        "shape": null
+      },
+      {
+        "flags": 65,
+        "attributes": 16,
+        "shape": [
+          2,
+          1,
+          0,
+          5
+        ]
+      }
+    ],
+    "pool": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "block_bytes": 16372,
+    "reused_zero_bytes": 60,
+    "free_has_next": true,
+    "input_bytes": 80
+  },
+  "actual_native_inputs": {
+    "logical": "copy_expression_tree",
+    "source": 1449782004,
+    "arena": 6,
+    "raw_slots": [
+      1449782004,
+      6
+    ]
+  },
+  "actual_original_call": [
+    "0003c430",
+    "000362c0",
+    "008cfe00",
+    "2",
+    "008c1000",
+    "00000006"
+  ],
+  "public_reachability": false
+}

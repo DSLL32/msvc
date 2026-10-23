@@ -1,0 +1,51 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "-WMakefile",
+    "-W../../../lib/recon/src/crt.c",
+    "native",
+    "native-trace",
+    "native-expression-tests"
+  ],
+  "seconds": 7.264438897371292,
+  "exit": 0,
+  "shared_inputs": {
+    "lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "lib/recon/src/crt.c": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+    "lib/recon/src/process.c": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "lib/recon/src/win32.c": "b38bfa967ea6f4f81ee8f98673e7d8b5126b61a07a595096a0ae485976bfc6be",
+    "lib/recon/include/recon.h": "7b8bbbe80780c744cef86c645c6a75b7c1f0d3393ef374449aeb3823e9c4310b",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+    "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+    "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "lib/recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+  },
+  "shared_inputs_unchanged": true,
+  "prior_ELFs": {
+    "build/native/C13232.EXE": "14ab02441c4d7fe5e478350438bd0decfad22f3fc5de47213baa3b549d718e6b",
+    "build/native-trace/C13232.EXE": "154ddf70b14c372a8d1f466037b693fa6193006f2add79bb2ff94a25ada569ad",
+    "build/expression-tests/C13232.EXE": "97169bd00a35d9c23c0b9dfc121c96c5db35a4db61152ad28297e0ec3836a774"
+  },
+  "ELFs": {
+    "build/native/C13232.EXE": "3d36faa2ae3ea96041c479b6ac7914b0d6cf76c09248e492564ab89a0d0b0cd9",
+    "build/native-trace/C13232.EXE": "1eb586befa028f86b7113a812a0deedb0c1818c8fc277d07a472745e43d1c1d1",
+    "build/expression-tests/C13232.EXE": "c041f40193690d5c91cdaebf3feda99b3123b58c7aa3314e8632fd9bb4bfe691"
+  },
+  "scope": "Explicit final link compiles sharedCdirectly with frozen current sources/headers; source snapshots taken immediately before/after. Existing object files retain the unchanged accepted target sources. Earlier cached finalnative make receipt is retained separately; this receipt establishes actual shared compilation at final link, not merely a present-tree fingerprint.",
+  "ELFs_unchanged": false
+}

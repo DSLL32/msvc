@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x58670: file src/expressions.c, line 1448.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, copy_expression_tree (source=0x566e0cb4 <caller_context>, arena=-1515870811) at src/expressions.c:1448
+1448	{
+Temporary breakpoint 2 at 0x5669eafd: file cases/expression-templates/external-native.c, line 66.
+
+Temporary breakpoint 2, 0x5669eafd in execute_unit () at cases/expression-templates/external-native.c:66
+66	    else result=copy_expression_tree((IrToken *)&input,template_mode(selected_unit));
+[Inferior 1 (process 1735616) exited normally]

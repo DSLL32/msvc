@@ -144,3 +144,12 @@ IrToken *__stdcall make_enumerator_constant(EnumeratorSymbol *symbol)
     constant->type = type_0064;
     return constant;
 }
+
+/* Original0x3c420..0x3c42c. Reusable templates mark the ordinary
+   zero constant without changing its separate integer-constant allocator. */
+IrToken *make_reusable_zero(void)
+{
+    IrToken *constant = make_integer_constant(0);
+    constant->flags |= 8;
+    return constant;
+}

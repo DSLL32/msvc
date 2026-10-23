@@ -74,24 +74,38 @@ build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 
 NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
-native-direct-check: native
+native-direct-check: native native-expression-tests
 	$(PYTHON) scripts/check-direct.py
+	$(PYTHON) scripts/check-expression-tests.py
 
-native-check: native
+native-check: native native-expression-tests
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
-native-trace-check: native native-trace
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
+native-trace-check: native native-trace native-expression-tests
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
-native-adoption-check: native native-trace
+native-adoption-check: native native-trace native-expression-tests
 	$(PYTHON) scripts/check-native-rejections.py
 	$(PYTHON) scripts/check-direct-rejections.py
 	$(PYTHON) scripts/check-frontier-abi.py
+	$(PYTHON) scripts/check-expression-rejections.py
 
 # Grammar generation consumes only named source and precedence, never the PE.
 src/asm-grammar.c: src/asm-grammar.y scripts/generate-asm-grammar.py scripts/grammar.py
 	$(PYTHON) scripts/generate-asm-grammar.py
 src/asm-grammar.h: src/asm-grammar.c
 	@test -f $@
+
+# External direct unit instrumentation is outside the reconstructed graph.
+.PHONY: native-expression-tests
+native-expression-tests: build/expression-tests/C13232.EXE
+build/expression-tests:
+	mkdir -p $@
+build/expression-tests/external.o: cases/expression-templates/external-native.c cases/expression-templates/external.h $(NATIVE_HEADERS) Makefile | build/expression-tests
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/expression-tests/C13232.EXE: $(NATIVE_OBJECTS) build/expression-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/expression-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=finish_declarations -o $@

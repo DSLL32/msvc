@@ -1014,7 +1014,9 @@
     "_report_function_operand@8",
     "_enclosing_declaration_scope",
     "_browser_index_overflow",
-    "_abort_function_definition"
+    "_abort_function_definition",
+    "_make_reusable_zero",
+    "_copy_expression_tree@8"
   ],
   "driver": [
     {
@@ -6061,6 +6063,32 @@
       "name": "_discard_browser_output",
       "start": 160912,
       "end": 161000
+    },
+    {
+      "name": "_make_reusable_zero",
+      "start": 246816,
+      "end": 246828,
+      "abi_inputs": [],
+      "abi_contract": "Accepted external direct body; no established public trigger: raw noargs cdeclRET0, returns owned20B integerzero token with low-byte flag0x08 added; zero helper has distinct ABI from copier. Defined fields inherited from independently audited make_integer_constant/new_integer_constant stores."
+    },
+    {
+      "name": "_copy_expression_tree@8",
+      "start": 246832,
+      "end": 247325,
+      "abi_inputs": [
+        {
+          "name": "source",
+          "formal": "source",
+          "stack_slot": 1,
+          "kind": "pointer_identity"
+        },
+        {
+          "name": "arena",
+          "formal": "arena",
+          "stack_slot": 2
+        }
+      ],
+      "abi_contract": "Accepted external direct body; no established public trigger: raw2stackargs/RET8. Valid owned20B IRtree/CType/payload inputs; mode6 fixednodepool2 skips interning. Mode6 payload indexing beyond sixpools held; no assumed commonzero-helper ABI."
     }
   ],
   "cases": {
@@ -6341,6 +6369,13 @@
       "public_reachability": false,
       "units": 15,
       "manifest": "cases/asm-direct-callbacks/manifest.json"
+    },
+    "expression-templates": {
+      "accepted_from": 1010,
+      "accepted_count": 1012,
+      "public_reachability": false,
+      "units": 6,
+      "manifest": "cases/expression-templates/manifest.json"
     }
   }
 }
