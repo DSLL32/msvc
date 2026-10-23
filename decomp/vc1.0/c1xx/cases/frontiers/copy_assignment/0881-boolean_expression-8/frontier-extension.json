@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 881,
+  "accepted": "_boolean_expression@8",
+  "terminal": "_begin_if_body",
+  "original_capture": "cases/frontiers/copy_assignment/0881-boolean_expression-8/original-receipt.json",
+  "original_capture_sha256": "7f18dba2233aa90a879200547e2b259f2b46da835804fed1a2deab6ae316bc43",
+  "original_events": "cases/frontiers/copy_assignment/0881-boolean_expression-8/original-events.txt",
+  "original_events_sha256": "570645ccaef6571205890d244c88f4a4e8030c57fe1ea6e47d484e567d912440",
+  "original_configuration": "cases/frontiers/copy_assignment/0881-boolean_expression-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

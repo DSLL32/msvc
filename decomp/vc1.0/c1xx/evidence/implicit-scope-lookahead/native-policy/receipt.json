@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "scope": "Verify the user-selected unsupported native cached-lookahead guard.\n\nThis focused rejection uses immutable valid-case inputs, injects only the\nlookahead state in GDB, and requires the documented in-function INT3. It does\nnot claim malformed-input equivalence and never runs a Windows process.\n",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "bc1ac588d37993c6203dc5809cbd6b2040adf1f49c64bbff87e9c1548f7bf78a",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-copy-assignment/manifest.json": "12ab362eb12242029bb6931a0d4f9a7728df376bb0d127866a468eacebce7e16",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "4a5c2fdf3955dd2c0251aee78ebaadb5238b13e3d6fcd310df81802313283f08",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "cf28f260a4f04e2f8b68ca3f8343d70c5f4dffa256e99135a2b9e4498354f16e",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-copy-assignment/c1/copy.cpp": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+  },
+  "observation": {
+    "status": "unsupported native path rejected",
+    "function": "begin_implicit_statement_scope",
+    "injected_lookahead": 2,
+    "signal": 5,
+    "pc_offset": 177,
+    "preceding_instruction": "cc"
+  },
+  "setup_seconds": 0.01178209763020277,
+  "debugger_seconds": 0.145033179782331,
+  "check_seconds": 0.0200699670240283,
+  "total_seconds": 0.17688625305891037
+}

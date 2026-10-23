@@ -79,7 +79,8 @@ def main():
         assert record['start']==0x561c0 and record['end']==0x561d3
         record['end']=0x561d1
         path=directory/'split-ret.json';path.write_text(json.dumps(changed_cfg))
-        run('reject-split-ret-extent',['--config',str(path)],False,'truncated instruction')
+        result=run('reject-split-ret-extent',['--config',str(path)],False,'561d0')
+        assert b'instruction' in result.stderr, 'split extent did not identify the offending instruction'
         table=next(t for t in cfg['tables'] if t['name']=='_hash_functions')
         address=names[table['name']];offset=image.offset(address)
         values=list(struct.unpack('<%dI'%len(table['functions']),image.read(address,4*len(table['functions']))))

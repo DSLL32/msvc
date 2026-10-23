@@ -1,0 +1,31 @@
+{
+  "status": "verified accepted prefix; next candidate unaccepted",
+  "broad_seconds": 8.454697211273015,
+  "broad_status": 2,
+  "broad_issue": "Shared Rust tool changed split-instruction diagnostic wording from truncated instruction to instruction crosses code chunk boundary; test now requires actual offending address561d0 and instruction diagnostic, preserving rejection strength.",
+  "focused_negative_seconds": 5.0266496585682034,
+  "coverage": {
+    "accepted_code_bytes": 238338,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 50.0270770625795,
+    "accepted_frontiers": 884,
+    "source_functions": 798,
+    "accepted_source_text_and_switch_bytes": 226493,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "held_frontier": "_begin_implicit_statement_scope@4",
+  "pending": "User policy choice for original malformed-input cached-lookahead stack-byte path; no candidate body or acceptance.",
+  "added_functions": [
+    "validate_based_self",
+    "boolean_expression",
+    "begin_if_body",
+    "end_if_condition_region"
+  ],
+  "other_checks": "canonical original compiler/link, shared CFG/RET/references/callbacks/ownership/extents, data/defaults/grammar, three native fixtures and34 boundary rejections all passed in the broad run",
+  "original_reference_probes": "valid and missing-rparen explicit original-only diagnostics; no fixture recapture"
+}

@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_boolean_expression@8",
+    "start": 256848,
+    "end": 258146
+  },
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_compare_extended",
+    "_convert_class_condition@12",
+    "_fold_symbol_constant@4",
+    "_is_unqualified_class_type@4",
+    "_make_integer_constant@4",
+    "_new_right_typed_expression@12",
+    "_prepare_expression@8",
+    "_record_boolean_constant@4",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_begin_if_body",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24198723025619984,
+  "total_operation_seconds": 3.602206173352897,
+  "original_capture_seconds": 1.8194225430488586
+}

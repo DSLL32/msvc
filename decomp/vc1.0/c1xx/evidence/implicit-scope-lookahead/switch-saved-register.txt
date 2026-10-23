@@ -1,0 +1,124 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00050840 <.text+0x39840>:
+   50840:	56                   	push   esi
+   50841:	6a 11                	push   0x11
+   50843:	68 5c 15 09 00       	push   0x9155c
+   50848:	e8 83 ff ff ff       	call   0x507d0
+   5084d:	6a 12                	push   0x12
+   5084f:	68 60 15 09 00       	push   0x91560
+   50854:	e8 77 ff ff ff       	call   0x507d0
+   50859:	6a 13                	push   0x13
+   5085b:	68 6c 15 09 00       	push   0x9156c
+   50860:	e8 6b ff ff ff       	call   0x507d0
+   50865:	a1 6c 15 09 00       	mov    eax,ds:0x9156c
+   5086a:	6a 14                	push   0x14
+   5086c:	c7 40 04 00 00 00 00 	mov    DWORD PTR [eax+0x4],0x0
+   50873:	68 68 15 09 00       	push   0x91568
+   50878:	e8 53 ff ff ff       	call   0x507d0
+   5087d:	a1 68 15 09 00       	mov    eax,ds:0x91568
+   50882:	c7 40 04 00 00 00 00 	mov    DWORD PTR [eax+0x4],0x0
+   50889:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   5088d:	0b c0                	or     eax,eax
+   5088f:	75 1c                	jne    0x508ad
+   50891:	a1 5c 15 09 00       	mov    eax,ds:0x9155c
+   50896:	8b 0d 74 f2 09 00    	mov    ecx,DWORD PTR ds:0x9f274
+   5089c:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   5089f:	6a 00                	push   0x0
+   508a1:	89 48 04             	mov    DWORD PTR [eax+0x4],ecx
+   508a4:	e8 b7 fa fe ff       	call   0x40360
+   508a9:	5e                   	pop    esi
+   508aa:	c2 04 00             	ret    0x4
+   508ad:	6a 01                	push   0x1
+   508af:	50                   	push   eax
+   508b0:	e8 9b e2 fe ff       	call   0x3eb50
+   508b5:	8b f0                	mov    esi,eax
+   508b7:	8a 46 01             	mov    al,BYTE PTR [esi+0x1]
+   508ba:	24 07                	and    al,0x7
+   508bc:	3c 01                	cmp    al,0x1
+   508be:	75 0c                	jne    0x508cc
+   508c0:	80 3e 45             	cmp    BYTE PTR [esi],0x45
+   508c3:	75 72                	jne    0x50937
+   508c5:	a1 e0 16 0a 00       	mov    eax,ds:0xa16e0
+   508ca:	eb 5b                	jmp    0x50927
+   508cc:	3c 02                	cmp    al,0x2
+   508ce:	75 67                	jne    0x50937
+   508d0:	8a 16                	mov    dl,BYTE PTR [esi]
+   508d2:	33 c9                	xor    ecx,ecx
+   508d4:	8a ca                	mov    cl,dl
+   508d6:	8d 41 c5             	lea    eax,[ecx-0x3b]
+   508d9:	83 f8 1d             	cmp    eax,0x1d
+   508dc:	77 59                	ja     0x50937
+   508de:	ff 24 85 c0 09 05 00 	jmp    DWORD PTR [eax*4+0x509c0]
+   508e5:	80 fa 3b             	cmp    dl,0x3b
+   508e8:	75 07                	jne    0x508f1
+   508ea:	b8 3a 00 00 00       	mov    eax,0x3a
+   508ef:	eb 0e                	jmp    0x508ff
+   508f1:	80 ea 58             	sub    dl,0x58
+   508f4:	80 fa 01             	cmp    dl,0x1
+   508f7:	1b c0                	sbb    eax,eax
+   508f9:	83 e0 19             	and    eax,0x19
+   508fc:	83 c0 3d             	add    eax,0x3d
+   508ff:	8b 04 85 cc 15 0a 00 	mov    eax,DWORD PTR [eax*4+0xa15cc]
+   50906:	50                   	push   eax
+   50907:	8b 04 8d cc 15 0a 00 	mov    eax,DWORD PTR [ecx*4+0xa15cc]
+   5090e:	50                   	push   eax
+   5090f:	68 91 00 00 00       	push   0x91
+   50914:	6a 01                	push   0x1
+   50916:	e8 95 2a 02 00       	call   0x733b0
+   5091b:	83 c4 10             	add    esp,0x10
+   5091e:	eb 17                	jmp    0x50937
+   50920:	8b 04 8d cc 15 0a 00 	mov    eax,DWORD PTR [ecx*4+0xa15cc]
+   50927:	50                   	push   eax
+   50928:	68 90 00 00 00       	push   0x90
+   5092d:	6a 01                	push   0x1
+   5092f:	e8 7c 2a 02 00       	call   0x733b0
+   50934:	83 c4 0c             	add    esp,0xc
+   50937:	8b 4e 04             	mov    ecx,DWORD PTR [esi+0x4]
+   5093a:	66 8b 01             	mov    ax,WORD PTR [ecx]
+   5093d:	a8 40                	test   al,0x40
+   5093f:	75 05                	jne    0x50946
+   50941:	f6 c4 02             	test   ah,0x2
+   50944:	74 2a                	je     0x50970
+   50946:	83 79 04 00          	cmp    DWORD PTR [ecx+0x4],0x0
+   5094a:	75 24                	jne    0x50970
+   5094c:	56                   	push   esi
+   5094d:	e8 9e c3 00 00       	call   0x5ccf0
+   50952:	8b f0                	mov    esi,eax
+   50954:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+   50957:	50                   	push   eax
+   50958:	e8 23 17 01 00       	call   0x62080
+   5095d:	8b 0d 5c 15 09 00    	mov    ecx,DWORD PTR ds:0x9155c
+   50963:	8b 49 04             	mov    ecx,DWORD PTR [ecx+0x4]
+   50966:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+   50969:	eb 20                	jmp    0x5098b
+   5096b:	05 00 00 00 00       	add    eax,0x0
+   50970:	6a 32                	push   0x32
+   50972:	e8 09 28 02 00       	call   0x73180
+   50977:	83 c4 04             	add    esp,0x4
+   5097a:	a1 5c 15 09 00       	mov    eax,ds:0x9155c
+   5097f:	8b 0d 74 f2 09 00    	mov    ecx,DWORD PTR ds:0x9f274
+   50985:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   50988:	89 48 04             	mov    DWORD PTR [eax+0x4],ecx
+   5098b:	56                   	push   esi
+   5098c:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+   5098f:	50                   	push   eax
+   50990:	68 90 00 00 00       	push   0x90
+   50995:	e8 66 d0 00 00       	call   0x5da00
+   5099a:	8b f0                	mov    esi,eax
+   5099c:	a1 5c 15 09 00       	mov    eax,ds:0x9155c
+   509a1:	56                   	push   esi
+   509a2:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   509a5:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   509a8:	a3 84 13 09 00       	mov    ds:0x91384,eax
+   509ad:	e8 de 91 00 00       	call   0x59b90
+   509b2:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+   509b5:	50                   	push   eax
+   509b6:	e8 a5 f9 fe ff       	call   0x40360
+   509bb:	5e                   	pop    esi
+   509bc:	c2 04 00             	ret    0x4
+   509bf:	90                   	nop

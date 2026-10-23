@@ -20,4 +20,4 @@ for r in oi:
   for x,y in sections:
    if max(a,x)<min(b,y):ranges.append((max(a,x),min(b,y)))
 accepted=union(ranges);n=sum(b-a for a,b in accepted);d=sum(b-a for a,b in sections)
-print(json.dumps(dict(accepted_code_bytes=n,total_executable_code_bytes=d,accepted_code_percent=100*n/d,accepted_frontiers=len(cfg['accepted']),source_functions=sum(r['name']in cfg['accepted'] for r in cfg['driver']),accepted_source_text_and_switch_bytes=sum(r['end']-r['start']+sum(y-x for x,y in r.get('shared',[])) for r in cfg['driver'] if r['name']in cfg['accepted']),section_ranges=sections),indent=2))
+print(json.dumps(dict(accepted_code_bytes=n,total_executable_code_bytes=d,accepted_code_percent=100*n/d,accepted_frontiers=len(cfg['accepted']),source_functions=sum(r['name']in cfg['accepted'] for r in cfg['driver']),accepted_source_text_and_switch_bytes=sum(r['end']-r['start']+sum(y-x for x,y in r.get('shared',[])) for r in cfg['driver'] if r['name']in cfg['accepted']),section_ranges=sections,native_limitations=cfg.get("native_limitations", [])),indent=2))

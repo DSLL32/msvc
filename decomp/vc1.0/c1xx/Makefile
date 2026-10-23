@@ -19,6 +19,7 @@ build/parser-grammar.obj: build/parser-grammar.c scripts/wine-tool.py scripts/ca
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /I$(RECON)/include /Fo$@ $<
 OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/linkage.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/option-data.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/keywords.obj build/floating.obj build/cpp-context.obj build/inline-vector.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/declarations.obj build/declaration-bind.obj build/declaration-lookup.obj build/special-functions.obj build/runtime-symbols.obj build/option-state.obj build/parser-state.obj build/resolve-declaration.obj build/declarator-shapes.obj build/symbol-types.obj build/hash-table.obj build/type-attributes.obj build/parameters.obj build/macros.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/operators.obj build/token-spellings.obj
 OBJECTS += build/record-processing.obj build/expression-preparation.obj build/binary-expressions.obj
+OBJECTS += build/condition-expressions.obj
 OBJECTS += build/constructor-initializers.obj
 OBJECTS += build/object-initializers.obj build/text-format.obj build/type-diagnostics.obj build/directives.obj build/literals.obj build/virtual-table-output.obj build/special-member-lookup.obj build/initializer-records.obj
 OBJECTS += build/allocation-expressions.obj build/call-expressions.obj
@@ -55,6 +56,9 @@ build/reference-realloc-observer.exe: build/reference-realloc-observer.obj
 build/reference-copy-observer.obj: src/reference-copy-observer.c src/debug-run.c
 build/reference-copy-observer.exe: build/reference-copy-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-scope-observer.obj: src/reference-scope-observer.c src/debug-run.c
+build/reference-scope-observer.exe: build/reference-scope-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-capture-driver.exe: build/reference-capture-driver.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-run-phase.exe: build/reference-run-phase.obj
@@ -67,9 +71,10 @@ reference-capture: build/debug-run.exe
 	$(PYTHON) scripts/capture-original.py
 native-rejections: native-trace
 	$(PYTHON) scripts/check-native-boundary.py
+	$(PYTHON) scripts/check-scope-policy.py
 build/graph-metadata.json: functions.json scripts/graph_metadata.py | build
 	$(PYTHON) scripts/graph_metadata.py $@
-graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json
+graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json
 	$(PYTHON) scripts/check-graph-audit.py
 audit: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json src/grammar.bnf scripts/grammar.py scripts/audit-parser-grammar.py src/lookahead.bnf scripts/audit-lookahead-grammar.py
 	"$(GRAPH_AUDIT_BIN)" $(GRAPH_AUDIT_FLAGS) --report build/graph-audit.json

@@ -1,0 +1,67 @@
+{
+  "case": "copy_assignment",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 881,
+  "terminal": "_begin_if_body",
+  "candidate": "_boolean_expression@8",
+  "pending_accepted": [],
+  "configuration_sha256": "d9dad861be86fcb59026d27d3694833076263189f362b2161ce1331e95a4cfe7",
+  "capture_seconds": 1.8194225430488586,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "copy.cpp": {
+      "bytes": 959,
+      "sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment",
+  "first_entry_projection": {
+    "accepted_first": 871,
+    "accepted_last": 882,
+    "accepted_prefix_sha256": "5deca7ee114da3388b32bf8004c1c6dfc4de9b0c8aaefb3bf230600cb0ad9c27",
+    "expected": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4",
+      "_remove_type_set",
+      "_find_expression_type_base@4",
+      "_begin_if_condition",
+      "_begin_if_condition_region",
+      "_validate_based_self",
+      "_boolean_expression@8"
+    ],
+    "observed": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4",
+      "_remove_type_set",
+      "_find_expression_type_base@4",
+      "_begin_if_condition",
+      "_begin_if_condition_region",
+      "_validate_based_self",
+      "_boolean_expression@8"
+    ],
+    "events_sha256": "570645ccaef6571205890d244c88f4a4e8030c57fe1ea6e47d484e567d912440",
+    "plan_sha256": "4de7fb486ced4e42e4eb7386019388730faeabe5c1e82b465f355e0379697b6f"
+  }
+}

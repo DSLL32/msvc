@@ -127,8 +127,6 @@ void begin_else_body(void) { __asm { int 3 } }
 void begin_for_body(void) { __asm { int 3 } }
 void begin_for_condition(void) { __asm { int 3 } }
 void begin_for_increment(void) { __asm { int 3 } }
-void begin_if_body(void) { __asm { int 3 } }
-unsigned __stdcall begin_implicit_statement_scope(IrToken *label) { __asm { int 3 } return 0; }
 void begin_nested_initializer(void) { __asm { int 3 } }
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
 void begin_seh_filter(void) { __asm { int 3 } }
@@ -138,7 +136,7 @@ void __stdcall begin_switch_body(IrToken *expression) { __asm { int 3 } }
 void begin_switch_condition(void) { __asm { int 3 } }
 void begin_while_body(void) { __asm { int 3 } }
 void begin_while_condition(void) { __asm { int 3 } }
-IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
+void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
@@ -240,7 +238,6 @@ IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } retu
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }
 void skip_balanced_brace_body(void) { __asm { int 3 } }
 unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0; }
-IrToken * validate_based_self(void) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) { __asm { int 3 } return 0; }

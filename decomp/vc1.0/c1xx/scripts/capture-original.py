@@ -28,12 +28,18 @@ def main():
     parser.add_argument('--entry-plan', action='store_true', help='capture and assert the accepted application first-entry sequence')
     parser.add_argument('--candidate', help='explicit proposed function to unmask for fresh acceptance evidence')
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
+    parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
+        help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')
     args = parser.parse_args()
     spec = importlib.util.spec_from_file_location('c1xx_original_tool', BINARY / 'scripts/wine-tool.py')
     tool = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(tool)
     configuration = (BINARY / 'functions.json').read_bytes()
     config = json.loads(configuration)
+    observations=[]
+    for observation in args.observe_state:
+        name,address=observation.split('=',1)
+        observations.append(dict(name=name,original=int(address,0)))
     count = len(config['accepted']) if args.accepted_count is None else args.accepted_count
     assert 0 <= count <= len(config['accepted'])
     image = PE(tool.TC / 'bin/C1XX3232.EXE')
@@ -94,7 +100,7 @@ def main():
                tool.windows(directory / 'events.txt'), canonical, 'MSC_CMD_FLAGS=' + flags,
                phase['command_line_template'].format(bin=tool.windows(tool.TC / 'bin')),
                ','.join('%x' % (s['original'] - image.base) for s in config['buffered_streams']),
-               ','.join('%x:%s' % (s['original'] - image.base, 'p' if s.get('pointer') else 'v') for s in config['checkpoint_state'])]
+               ','.join('%x:%s' % (s['original'] - image.base, 'p' if s.get('pointer') else 'v') for s in config['checkpoint_state']+observations)]
     if args.entry_plan: command.append(tool.windows(directory/'entries.plan'))
     started = time.perf_counter()
     subprocess.run(command, env=tool.environment(), check=True, timeout=90,
@@ -108,6 +114,10 @@ def main():
         capture_seconds=capture_seconds, original_sha256=config['target']['sha256'],
         outputs={p.name: dict(bytes=p.stat().st_size, sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in work.iterdir() if p.is_file()})
     receipt['canonical_working_directory']=canonical
+    if observations:
+        states=re.findall(r'^state \d+ ([0-9a-f]+)$',(directory/'events.txt').read_text(),re.M)
+        assert len(states)==len(config['checkpoint_state'])+len(observations)
+        receipt['diagnostic_observations']=[dict(field,value=int(value,16)) for field,value in zip(observations,states[len(config['checkpoint_state']):])]
     if args.entry_plan:
         observed=re.findall(r'^entry (\S+) rva [0-9a-f]+ byte [0-9a-f]+$',(directory/'events.txt').read_text(),re.M)
         assert observed==plan_names,(observed,plan_names)

@@ -1,0 +1,124 @@
+{
+  "scope": "Static declarative grammar analysis, independently exact audited original state/production identities; no application acceptance",
+  "seconds": 0.6312307780608535,
+  "records": [
+    {
+      "rule": 202,
+      "label": "while_body_begin[1]",
+      "rhs": [],
+      "states": [
+        {
+          "state": 544,
+          "needs_token": false,
+          "default": 202,
+          "incoming": [
+            {
+              "source": 531,
+              "symbol": 136
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule": 207,
+      "label": "for_body_begin[1]",
+      "rhs": [],
+      "states": [
+        {
+          "state": 572,
+          "needs_token": false,
+          "default": 207,
+          "incoming": [
+            {
+              "source": 570,
+              "symbol": 136
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule": 209,
+      "label": "do_body_begin[1]",
+      "rhs": [],
+      "states": [
+        {
+          "state": 469,
+          "needs_token": false,
+          "default": 209,
+          "incoming": [
+            {
+              "source": 442,
+              "symbol": 115
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule": 213,
+      "label": "switch_body_begin[1]",
+      "rhs": [],
+      "states": [
+        {
+          "state": 548,
+          "needs_token": false,
+          "default": 213,
+          "incoming": [
+            {
+              "source": 538,
+              "symbol": 136
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule": 256,
+      "label": "if_head[1]",
+      "rhs": [
+        124,
+        128,
+        -137,
+        -12,
+        136
+      ],
+      "states": [
+        {
+          "state": 550,
+          "needs_token": false,
+          "default": 256,
+          "incoming": [
+            {
+              "source": 542,
+              "symbol": 136
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule": 257,
+      "label": "else_head[1]",
+      "rhs": [
+        -22,
+        -110,
+        117
+      ],
+      "states": [
+        {
+          "state": 518,
+          "needs_token": false,
+          "default": 257,
+          "incoming": [
+            {
+              "source": 495,
+              "symbol": 117
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

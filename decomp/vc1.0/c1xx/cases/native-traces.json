@@ -2,19 +2,19 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c3bdff88be217e455fcf41eacbea1a6f3a5d8d07795dca2cadfba9d24ad86957",
+    "functions.json": "4a5c2fdf3955dd2c0251aee78ebaadb5238b13e3d6fcd310df81802313283f08",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "e853d9a7c510f95dce595e8ca3071d4f1e4908bd94c7ea13a6a0645e5d213121",
-    "cases/canonical-map.txt": "24c1e8cb2c77183fac4dc9c3780aaf9429b8c8b36a67fafb4bc2e86b13f022f3",
+    "cases/original-entry-references.json": "b6ea12cae24db43852bf6302dd731a289d39b60dd275ead5ac3a4985e19f0463",
+    "cases/canonical-map.txt": "4bd0a045902c752ca86639afb02198d3ce47a694b0b231b9cf3c1882473fd312",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f",
-    "cases/frontiers/copy_assignment/0879-begin_if_condition_region/entry-reference/original-receipt.json": "70d1659f217b4066961a98e3d8924e26f1a7c7cc0cbdaf0424156d744bc8bcfa",
-    "cases/frontiers/copy_assignment/0879-begin_if_condition_region/entry-reference/original-events.txt": "04d3aaab6ec9d2a2b758e97da376dc32ac143fbe495452d68a1b49cb39992704",
-    "cases/frontiers/copy_assignment/0879-begin_if_condition_region/entry-reference/original-entries.plan": "ec416f4ddc1b07283b7e2133dc318ddda3d254a41ce6f24a04a570c3cc098bc9"
+    "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-receipt.json": "9e9786060dd7349499902da44ea7c8ca4ff3daf5fe9bfdd289e1519fbb296141",
+    "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-events.txt": "4cc04d9996d29a53780c36a72b1c6f0f7d462ba6da16c4454040768e0b6100cb",
+    "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-entries.plan": "c9c569aa726cf8fc65388d6b5a18dfecbbf0fd06c61d6dc0482325050e1d11b0"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -359,7 +359,7 @@
     },
     "begin_if_body": {
       "logical": "_begin_if_body",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "begin_if_condition": {
       "logical": "_begin_if_condition",
@@ -371,7 +371,7 @@
     },
     "begin_implicit_statement_scope": {
       "logical": "_begin_implicit_statement_scope@4",
-      "source": "src/stubs.c"
+      "source": "src/statement-scopes.c"
     },
     "begin_initializer_function": {
       "logical": "_begin_initializer_function@4",
@@ -475,7 +475,7 @@
     },
     "boolean_expression": {
       "logical": "_boolean_expression@8",
-      "source": "src/stubs.c"
+      "source": "src/condition-expressions.c"
     },
     "browser_base_class": {
       "logical": "_browser_base_class@4",
@@ -1608,6 +1608,10 @@
     "end_function_definition": {
       "logical": "_end_function_definition",
       "source": "src/function-finalization.c"
+    },
+    "end_if_condition_region": {
+      "logical": "_end_if_condition_region",
+      "source": "src/frontend-records.c"
     },
     "end_if_statement": {
       "logical": "_end_if_statement@4",
@@ -3813,6 +3817,10 @@
       "logical": "_reconcile_typedef@8",
       "source": "src/stubs.c"
     },
+    "record_boolean_constant": {
+      "logical": "_record_boolean_constant@4",
+      "source": "src/stubs.c"
+    },
     "record_break_statement": {
       "logical": "_record_break_statement",
       "source": "src/stubs.c"
@@ -4663,7 +4671,7 @@
     },
     "validate_based_self": {
       "logical": "_validate_based_self",
-      "source": "src/stubs.c"
+      "source": "src/member-expressions.c"
     },
     "validate_bit_field_bound": {
       "logical": "_validate_bit_field_bound@8",
@@ -5657,7 +5665,12 @@
     "remove_type_set",
     "find_expression_type_base",
     "begin_if_condition",
-    "begin_if_condition_region"
+    "begin_if_condition_region",
+    "validate_based_self",
+    "boolean_expression",
+    "begin_if_body",
+    "end_if_condition_region",
+    "begin_implicit_statement_scope"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7117,7 +7130,7 @@
     },
     "copy_assignment": {
       "first": 871,
-      "last": 880,
+      "last": 885,
       "seen": [
         "main",
         "message_text",
@@ -7908,12 +7921,17 @@
         "find_expression_type_base",
         "begin_if_condition",
         "begin_if_condition_region",
-        "validate_based_self"
+        "validate_based_self",
+        "boolean_expression",
+        "begin_if_body",
+        "end_if_condition_region",
+        "begin_implicit_statement_scope",
+        "finish_implicit_statement_scope"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_validate_based_self",
-        "native": "validate_based_self",
+        "logical": "_finish_implicit_statement_scope@8",
+        "native": "finish_implicit_statement_scope",
         "signal": 5
       }
     }

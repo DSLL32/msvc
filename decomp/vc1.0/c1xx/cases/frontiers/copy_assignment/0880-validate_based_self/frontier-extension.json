@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 880,
+  "accepted": "_validate_based_self",
+  "terminal": "_boolean_expression@8",
+  "original_capture": "cases/frontiers/copy_assignment/0880-validate_based_self/original-receipt.json",
+  "original_capture_sha256": "852bc41cc3c8d3df06e194a8e4e0b341ea38d7ef4cc6b5e948f0fb661890860d",
+  "original_events": "cases/frontiers/copy_assignment/0880-validate_based_self/original-events.txt",
+  "original_events_sha256": "23435b08dddf01ede8b797e5b5ec67a9df7dd657cb4c7d2935bd83a1a99114a9",
+  "original_configuration": "cases/frontiers/copy_assignment/0880-validate_based_self/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -7,16 +7,18 @@
   "current": {
     "case": "copy_assignment",
     "fixture": "../fixtures/c1xx-copy-assignment",
-    "status": "next approved case; original phases already independently validated"
+    "status": "active copy_assignment; scope entry valid path verified under explicit native cached-lookahead limitation; continue finish_implicit_statement_scope",
+    "seed": "cases/copy_assignment-seed/validation.json"
   },
   "pending": [
     {
       "family": "copy construction and assignment",
       "intent": "Explicit copy constructor and assignment operator with observable field changes",
       "fixture": "../fixtures/c1xx-copy-assignment",
-      "status": "original phases independently verified; reconstruction pending",
+      "status": "active reconstruction; fresh original/native seed and ordered function acceptances exact",
       "manifest": "../fixtures/c1xx-copy-assignment/manifest.json",
-      "validation": "../fixtures/c1xx-copy-assignment/validation.json"
+      "validation": "../fixtures/c1xx-copy-assignment/validation.json",
+      "case": "copy_assignment"
     },
     {
       "family": "destruction and stack lifetime",

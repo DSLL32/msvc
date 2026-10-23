@@ -7,6 +7,35 @@
 
 SymbolScope *closed_scopes; /* original 0x914d0 */
 
+/* Original 0x26750..0x267e1, stdcall4. The original leaves token
+   uninitialized when yacc already has lookahead (notably missing-')' repair).
+   Preserve that Win32 source bug. Native stack layout cannot reproduce its
+   caller-derived byte; the user explicitly selected a native-only trap for
+   this unsupported path. See evidence/implicit-scope-lookahead. */
+unsigned __stdcall begin_implicit_statement_scope(IrToken *label)
+{
+    unsigned char token;
+    if (parser_lookahead == -1) {
+        cpp_parser_flags |= 0x400;
+        token = scan_token();
+        cpp_parser_flags &= ~0x400;
+        unget_token(token);
+        if (token == 161) unwind_qualified_scopes(1);
+    }
+#ifdef RECON_NATIVE_TEST
+    else {
+        /* Unsupported native malformed-input path, not an emulated token. */
+        __asm { int 3 }
+        return 0;
+    }
+#endif
+    if (token == 127) return 0;
+    if (!(cpp_parser_flags & 0x800)) begin_compound_statement();
+    else cpp_parser_flags &= ~0x800;
+    if (label) label->flags = (label->flags & ~1) | 6;
+    return 1;
+}
+
 /* Original 0x555b0..0x555b5 is a tail transfer to the shared scope entry. */
 void begin_compound_statement(void)
 {

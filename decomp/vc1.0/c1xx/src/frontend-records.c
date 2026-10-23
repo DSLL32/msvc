@@ -48,6 +48,55 @@ void begin_if_condition_region(void)
     append_frontend_record(&record, sizeof(record));
 }
 
+/* Original 0x3f200..0x3f2bd, cdecl. Link the then-region opener to
+   its if record after closing condition temporaries. Recovery owns its
+   automatic jump buffer only while no outer recovery context is installed. */
+void begin_if_body(void)
+{
+    BranchBoundaryRecord record;
+    ConditionalFrontendRecord *conditional;
+    jmp_buf recovery;
+    record.header.kind = 20;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.goto_count = 0;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    end_if_condition_region();
+    record.goto_count = ir_goto_count;
+    append_frontend_record(&record.header, sizeof(record));
+    conditional = (ConditionalFrontendRecord *)find_frontend_record(ir_record_tail, 17, 1);
+    conditional->then_record = ir_record_tail;
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
+}
+
+/* Original 0x3f1a0..0x3f1f8, cdecl. Empty condition-evaluation regions
+   collapse; occupied regions retain a matching close record. */
+void end_if_condition_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 18) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 19;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
 /* Original 0x3d6a0..0x3d823. Begin function records and parameter cleanup
    scope, preserving a prior record prefix by rotating the new suffix to
    the front of the doubly linked list. */

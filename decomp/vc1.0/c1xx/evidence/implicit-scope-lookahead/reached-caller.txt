@@ -1,0 +1,36 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000291c4 <.text+0x121c4>:
+   291c4:	6a 1e                	push   0x1e
+   291c6:	e8 75 23 01 00       	call   0x3b540
+   291cb:	a3 f0 c1 08 00       	mov    ds:0x8c1f0,eax
+   291d0:	8b 46 f8             	mov    eax,DWORD PTR [esi-0x8]
+   291d3:	3b c3                	cmp    eax,ebx
+   291d5:	74 23                	je     0x291fa
+   291d7:	50                   	push   eax
+   291d8:	e8 a3 20 01 00       	call   0x3b280
+   291dd:	89 46 f8             	mov    DWORD PTR [esi-0x8],eax
+   291e0:	53                   	push   ebx
+   291e1:	50                   	push   eax
+   291e2:	e8 69 59 01 00       	call   0x3eb50
+   291e7:	89 46 f8             	mov    DWORD PTR [esi-0x8],eax
+   291ea:	53                   	push   ebx
+   291eb:	a1 f0 c1 08 00       	mov    eax,ds:0x8c1f0
+   291f0:	50                   	push   eax
+   291f1:	8b 46 f8             	mov    eax,DWORD PTR [esi-0x8]
+   291f4:	50                   	push   eax
+   291f5:	e8 96 14 03 00       	call   0x5a690
+   291fa:	e8 01 60 01 00       	call   0x3f200
+   291ff:	39 1d 18 cc 08 00    	cmp    DWORD PTR ds:0x8cc18,ebx
+   29205:	7e 06                	jle    0x2920d
+   29207:	ff 0d 18 cc 08 00    	dec    DWORD PTR ds:0x8cc18
+   2920d:	a1 18 cc 08 00       	mov    eax,ds:0x8cc18
+   29212:	80 a0 1c cc 08 00 fe 	and    BYTE PTR [eax+0x8cc1c],0xfe
+   29219:	a1 f0 c1 08 00       	mov    eax,ds:0x8c1f0
+   2921e:	50                   	push   eax
+   2921f:	e8 2c d5 ff ff       	call   0x26750
+   29224:	e9 e1 d6 ff ff       	jmp    0x2690a

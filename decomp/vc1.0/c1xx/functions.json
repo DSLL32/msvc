@@ -884,7 +884,12 @@
     "_remove_type_set",
     "_find_expression_type_base@4",
     "_begin_if_condition",
-    "_begin_if_condition_region"
+    "_begin_if_condition_region",
+    "_validate_based_self",
+    "_boolean_expression@8",
+    "_begin_if_body",
+    "_end_if_condition_region",
+    "_begin_implicit_statement_scope@4"
   ],
   "driver": [
     {
@@ -2307,7 +2312,7 @@
     {
       "name": "_begin_if_body",
       "start": 258560,
-      "end": 258561
+      "end": 258750
     },
     {
       "name": "_begin_if_condition",
@@ -2317,7 +2322,7 @@
     {
       "name": "_begin_implicit_statement_scope@4",
       "start": 157520,
-      "end": 157521
+      "end": 157666
     },
     {
       "name": "_begin_member_lookup@12",
@@ -2392,7 +2397,7 @@
     {
       "name": "_boolean_expression@8",
       "start": 256848,
-      "end": 256849
+      "end": 258146
     },
     {
       "name": "_build_call_expression@8",
@@ -2942,7 +2947,7 @@
     {
       "name": "_validate_based_self",
       "start": 241872,
-      "end": 241873
+      "end": 241960
     },
     {
       "name": "_validate_bit_field_bound@8",
@@ -7047,6 +7052,16 @@
       "name": "_begin_if_condition_region",
       "start": 258400,
       "end": 258458
+    },
+    {
+      "name": "_record_boolean_constant@4",
+      "start": 265696,
+      "end": 265697
+    },
+    {
+      "name": "_end_if_condition_region",
+      "start": 258464,
+      "end": 258553
     }
   ],
   "cases": {
@@ -7088,8 +7103,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_validate_based_self",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/original-events.txt",
+      "terminal": "_finish_implicit_statement_scope@8",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7100,7 +7115,12 @@
         "cases/frontiers/copy_assignment/0876-remove_type_set/frontier-extension.json",
         "cases/frontiers/copy_assignment/0877-find_expression_type_base-4/frontier-extension.json",
         "cases/frontiers/copy_assignment/0878-begin_if_condition/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0879-begin_if_condition_region/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0879-begin_if_condition_region/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0880-validate_based_self/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0881-boolean_expression-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0882-begin_if_body/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0883-end_if_condition_region/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/frontier-extension.json"
       ]
     }
   },
@@ -9223,6 +9243,21 @@
       "name": "_member_initializer_active",
       "original": 657952,
       "pointer": false
+    }
+  ],
+  "native_limitations": [
+    {
+      "function": "_begin_implicit_statement_scope@4",
+      "original": [
+        157520,
+        157666
+      ],
+      "condition": "parser_lookahead != -1",
+      "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+      "win32": "original-style uninitialized unsigned char token retained",
+      "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+      "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+      "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
     }
   ]
 }

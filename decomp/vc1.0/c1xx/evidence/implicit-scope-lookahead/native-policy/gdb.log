@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x4ff99: file src/statement-scopes.c, line 16.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, begin_implicit_statement_scope (label=0x56628338) at src/statement-scopes.c:16
+16	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565a5031 in begin_implicit_statement_scope (label=0x56628338) at src/statement-scopes.c:28
+28	        __asm { int 3 }

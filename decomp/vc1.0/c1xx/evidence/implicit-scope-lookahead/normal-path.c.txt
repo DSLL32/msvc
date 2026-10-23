@@ -1,0 +1,18 @@
+/* ANALYSIS/DRAFT ONLY. Not compiled or accepted reconstruction source.
+   The cached-lookahead branch is awaiting the user policy choice relayed by
+   root; this records only the independently recovered normal scan path. */
+
+/* Original 2675d..26788: entered when parser_lookahead == -1. */
+cpp_parser_flags |= 0x400;
+token = scan_token();
+cpp_parser_flags &= ~0x400;
+unget_token(token);
+if (token == 161) unwind_qualified_scopes(1);
+
+/* Original 26794..267e1: common continuation after token is established.
+   Native cached-lookahead handling has deliberately NOT been selected. */
+if (token == 127) return 0;
+if (!(cpp_parser_flags & 0x800)) begin_compound_statement();
+else cpp_parser_flags &= ~0x800;
+if (label) label->flags = (label->flags & ~1) | 6;
+return 1;

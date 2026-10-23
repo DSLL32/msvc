@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 880,
-  "driver_functions": 787,
+  "accepted_frontiers": 885,
+  "driver_functions": 792,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 794,
-  "current_frontier": "_validate_based_self",
-  "original_frontier_va": "0x3b0d0",
+  "reconstructed_source_functions": 799,
+  "current_frontier": "_finish_implicit_statement_scope@8",
+  "original_frontier_va": "0x267f0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_validate_based_self",
-    "original_va": "0x3b0d0"
+    "current_frontier": "_finish_implicit_statement_scope@8",
+    "original_va": "0x267f0"
   },
-  "current_native_application_entries": 10,
+  "current_native_application_entries": 15,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,37 +20,67 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 236673,
+    "accepted_code_bytes": 238484,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 49.67759404556503,
-    "accepted_frontiers": 880,
-    "source_functions": 794,
-    "accepted_source_text_and_switch_bytes": 224828,
+    "accepted_code_percent": 50.05772242022761,
+    "accepted_frontiers": 885,
+    "source_functions": 799,
+    "accepted_source_text_and_switch_bytes": 226639,
     "section_ranges": [
       [
         94208,
         570626
       ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 236673,
+    "accepted_code_bytes": 238484,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 49.67759404556503,
-    "accepted_frontiers": 880,
-    "source_functions": 794,
-    "accepted_source_text_and_switch_bytes": 224828,
+    "accepted_code_percent": 50.05772242022761,
+    "accepted_frontiers": 885,
+    "source_functions": 799,
+    "accepted_source_text_and_switch_bytes": 226639,
     "section_ranges": [
       [
         94208,
         570626
       ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "copy_assignment",
   "status": "copy_assignment reconstruction in progress",
-  "latest_verification": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/validation.json",
+  "latest_verification": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -63,10 +93,25 @@
     },
     "copy_assignment": {
       "status": "partial",
-      "frontier": "_validate_based_self",
-      "latest_verification": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/validation.json"
+      "frontier": "_finish_implicit_statement_scope@8",
+      "latest_verification": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/validation.json"
     }
   },
-  "next_operation": "Continue _validate_based_self reconstruction",
-  "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json"
+  "next_operation": "Continue _finish_implicit_statement_scope@8 reconstruction",
+  "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
+  "native_limitations": [
+    {
+      "function": "_begin_implicit_statement_scope@4",
+      "original": [
+        157520,
+        157666
+      ],
+      "condition": "parser_lookahead != -1",
+      "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+      "win32": "original-style uninitialized unsigned char token retained",
+      "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+      "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+      "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+    }
+  ]
 }

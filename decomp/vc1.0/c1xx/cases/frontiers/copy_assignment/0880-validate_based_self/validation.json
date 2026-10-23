@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_validate_based_self",
+    "start": 241872,
+    "end": 241960
+  },
+  "distinct_direct_callees": [
+    "_adjusted_this_expression@4",
+    "_compiler_warning",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_boolean_expression@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2721154438331723,
+  "total_operation_seconds": 3.517386097460985,
+  "original_capture_seconds": 1.7196158040314913
+}

@@ -12,6 +12,20 @@ IrToken *__stdcall enumerator_expression(CppSymbol *symbol);
 IrToken *__stdcall finish_symbol_expression(CppSymbol *symbol, IrToken *expression);
 IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol);
 
+/* Original 0x3b0d0..0x3b127, cdecl. The grammar uses this gate for both
+   explicit this and __based(__self); accepted contexts share this adjustment. */
+IrToken *validate_based_self(void)
+{
+    if (((token_allocation_flags & 0x80000) || (cpp_parser_flags & 0x1000)) &&
+        !(token_allocation_flags & 0x40)) {
+        if (cpp_parser_flags & 0x1000)
+            compiler_warning(options.configuration.extensions_enabled ? 1 : 4, 355);
+        return adjusted_this_expression(0);
+    }
+    report_syntax_error(355);
+    return 0;
+}
+
 /* Original 0x321f0..0x32670. Retain bound overloads separately from data
    member address adjustment, and propagate object qualifiers and temporaries. */
 IrToken *__stdcall member_expression(unsigned char operation, IrToken *object, IrToken *member)

@@ -1,0 +1,66 @@
+78:         parser_state_stack[depth] = state;
+79:         parser_value_stack[depth] = parser_value;
+80: read_action:
+81:         state_info = &parser_states[state];
+82:         if (state_info->needs_token && parser_lookahead < 0)
+83:             parser_lookahead = read_parser_token();
+84:         transition = parser_shifts + state_info->first_shift;
+85:         for (i = 0; i < state_info->shift_count; ++i, ++transition) {
+86:             if (transition->symbol == parser_lookahead) {
+87:                 state = transition->destination;
+88:                 parser_lookahead = -1;
+89:                 parser_value = current_token_value;
+90:                 if (parser_recovery_count > 0) --parser_recovery_count;
+91:                 goto push_state;
+92:             }
+93:         }
+94:         rule = state_info->default_rule;
+95:         transition = parser_exceptions + state_info->first_exception;
+96:         for (i = 0; i < state_info->exception_count; ++i, ++transition) {
+97:             if (transition->symbol == parser_lookahead) {
+98:                 rule = transition->destination;
+99:                 break;
+100:             }
+101:         }
+102:         if (rule < 0) return 0;
+103:         if (!rule) {
+104:             recovery = parser_recovery_count;
+105:             switch (recovery) {
+106:             case 0:
+107:                 for (repair = parser_recoveries;
+108:                      repair->state != -1000 && repair->state < state; ++repair)
+109:                     ;
+110:                 if (repair->state == state) {
+111:                     i = repair->token;
+112:                     if (i < 0) {
+113:                         parser_recovery_count = 1;
+114:                         i = -i;
+115:                     }
+116:                     if (parser_recovery_count < 2)
+117:                         report_inserted_token(parser_lookahead, i);
+118:                     parser_value = recovery_token_value(i);
+119:                     state = repair->next_state;
+120:                     goto push_state;
+121:                 }
+122:                 report_parser_error("syntax error");
+123:                 ++parser_error_count;
+124:             case 1:
+125:             case 2:
+126:                 parser_recovery_count = 3;
+127:                 while (depth >= 0) {
+128:                     state_info = &parser_states[parser_state_stack[depth]];
+129:                     transition = parser_shifts + state_info->first_shift;
+130:                     for (i = 0; i < state_info->shift_count; ++i, ++transition) {
+131:                         if (transition->symbol == PARSER_ERROR_TOKEN) {
+132:                             state = transition->destination;
+133:                             goto push_state;
+134:                         }
+135:                     }
+136:                     --depth;
+137:                 }
+138:                 return 1;
+139:             case 3:
+140:                 if (!parser_lookahead) return 1;
+141:                 parser_lookahead = -1;
+142:                 goto read_action;
+143:             }
