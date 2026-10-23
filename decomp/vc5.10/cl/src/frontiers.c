@@ -87,7 +87,7 @@ char *make_map_name(char *out, char *name) { __asm int 3
     return NULL;
 }
 
-void configure_assembly(Option *option) { __asm int 3 }
+
 
 void enable_pass(Option *option) { __asm int 3 }
 
@@ -97,11 +97,11 @@ void toggle_pass(Option *option) { __asm int 3 }
 
 void set_pass_suffix(Option *option) { __asm int 3 }
 
-void set_pass_name(Option *option) { __asm int 3 }
 
-void undefine_defaults(Option *option) { __asm int 3 }
 
-void enable_dll(Option *option) { __asm int 3 }
+
+
+
 
 int console_rows(void) { __asm int 3
     return 0;

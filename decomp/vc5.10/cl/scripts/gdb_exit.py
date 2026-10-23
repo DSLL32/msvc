@@ -8,7 +8,9 @@ from completion_state import observe
 def install(directory):
     directory=Path(directory)
     config=json.loads((directory/'config.json').read_text())
-    if '_driver_exit'not in config['accepted']:return
+    response=directory/'dependency-response.json'
+    if '_driver_exit'not in config['accepted']or not response.exists():return
+    if not json.loads(response.read_text()).get('completed'):return
     class Entry(gdb.Breakpoint):
         def stop(self):
             frame=gdb.newest_frame()

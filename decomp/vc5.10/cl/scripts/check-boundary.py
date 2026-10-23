@@ -51,9 +51,9 @@ control('native',lambda p:word(p,'mktemp-receipt.bin',12,2))
 control('native',lambda p:(p/'mktemp-receipt.bin').write_bytes((p/'mktemp-receipt.bin').read_bytes()[:-1]))
 control('native',lambda p:json_field(p,'native-mktemp-gdb.json','calls',[]))
 def altered_gdb(p):
-    path=p/'native-mktemp-gdb.json';data=json.loads(path.read_text());data['calls'][0]['before']['last_error']=0;path.write_text(json.dumps(data))
+    path=p/'native-mktemp-gdb.json';data=json.loads(path.read_text());data['calls'][0]['before']['last_error']^=1;path.write_text(json.dumps(data))
 control('native',altered_gdb)
-control('native',lambda p:json_field(p,'native-entry-errors.json','last_error',0),different=True)
+control('native',lambda p:json_field(p,'native-entry-errors.json','last_error',123),different=True)
 with tempfile.TemporaryDirectory(prefix='terminal-control-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/cl') as work:
     path=Path(work)/'raw';shutil.copytree(args.native,path)
     word(path,'terminal-status.bin',16,256)

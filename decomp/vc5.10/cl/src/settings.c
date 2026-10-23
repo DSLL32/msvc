@@ -139,3 +139,104 @@ void prepare_environment(Driver *state)
         cleanup_temporaries = 0;
     }
 }
+
+/* 00402633..004027cf: consume a driver assembly-output option, preserving
+ * explicit per-pass FA/Fa settings and their detached node identities. */
+static char assembly_name[1024];
+void configure_assembly(Option *option)
+{
+    char *passes = option->value;
+    char *format, *cursor;
+    Option *format_pattern, *name_pattern, *format_option, *name_option;
+    int invalid = 0, code = 0;
+    if (!*passes)
+        return;
+    format = (char *)_mbschr((unsigned char *)passes, ' ');
+    if (format)
+        *format++ = 0;
+    format_pattern = new_option("FA", "?", passes, 4);
+    name_pattern = new_option("Fa", "?", passes, 0);
+    format_option = detach_options(&driver->options, format_pattern, NULL);
+    name_option = detach_options(&driver->options, name_pattern, NULL);
+    if (!format_option) {
+        release(format_pattern->value);
+        format_pattern->value = duplicate(format);
+        format_option = format_pattern;
+    } else {
+        format = format_option->value;
+        delete_option(format_pattern);
+    }
+    if (!name_option) {
+        name_option = name_pattern;
+        release(name_option->value);
+        name_option->value = duplicate("%b");
+    } else
+        delete_option(name_pattern);
+    strcpy(assembly_name, name_option->value);
+    if (format) {
+        for (cursor = format; *cursor; ++cursor) {
+            if (*cursor == 'c')
+                code = 1;
+            else if (*cursor != 'a' && *cursor != 'b' && *cursor != 's')
+                invalid = 1;
+        }
+        if (invalid)
+            warning(4015, "/FA", format + 1);
+    }
+    apply_extension(code ? "cod" : "asm", assembly_name, NULL);
+    release(name_option->value);
+    name_option->value = duplicate(assembly_name);
+    append_option(&driver->options, format_option);
+    append_option(&driver->options, name_option);
+    *option->value = 0;
+}
+
+/* 004023c4..004023fb: replace names for a selected pass or all five passes. */
+void set_pass_name(Option *option)
+{
+    int index;
+    char pass = option->value[0];
+    for (index = 0; index < 5; ++index) {
+        if (pass == '.' || pass == compiler_passes[index].option_prefix[0])
+            compiler_passes[index].name = duplicate(option->value + 1);
+    }
+}
+
+/* 0040253e..00402594: remove only protected default macro definitions once.
+ * The encountered guardDWORD00409028 is1 both on disk and at this frontier. */
+int default_macros = 1;
+void undefine_defaults(Option *unused)
+{
+    Option *option, *next;
+    if (!default_macros)
+        return;
+    default_macros = 0;
+    for (option = driver->options; option; option = next) {
+        next = option->next;
+        if ((option->flags & 1) && !strcmp(option->name, "D"))
+            delete_option(unlink_option(&driver->options, option));
+    }
+}
+
+/* 004027cf..00402849: enable DLL output; an explicit .exp input suppresses
+ * the implicit import-library option. The encountered DWORD0040902c is1. */
+int dll_options_enabled = 1;
+void enable_dll(Option *unused)
+{
+    Input *input;
+    Option *pattern, *patterns;
+    if (!dll_options_enabled)
+        return;
+    dll_options_enabled = 1;
+    is_dll = 1;
+    for (input = driver->inputs; input; input = input->next) {
+        if (input->kind == 7) {
+            pattern = new_option("implib\\:", NULL, NULL, 0);
+            patterns = expand_options("=implib\\::?", pattern);
+            delete_options(detach_options(&driver->options, patterns, NULL));
+            delete_option(pattern);
+            delete_options(patterns);
+            break;
+        }
+    }
+}

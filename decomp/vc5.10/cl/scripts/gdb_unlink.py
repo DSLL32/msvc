@@ -9,7 +9,9 @@ from gdb_mktemp import errors,string
 def install(directory):
     directory=Path(directory)
     config=json.loads((directory/'config.json').read_text())
-    if '_delete_temporary'not in config['accepted']:return
+    response=directory/'dependency-response.json'
+    if '_delete_temporary'not in config['accepted']or not response.exists():return
+    if 'deletions'not in json.loads(response.read_text()):return
     records=[]
     def save():
         (directory/'native-unlink-gdb.json').write_text(json.dumps({

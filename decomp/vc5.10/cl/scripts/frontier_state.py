@@ -10,7 +10,7 @@ import struct
 
 PROJECT=Path(__file__).resolve().parents[1]
 PROJECTION='cl-application-frontier-v1: typed parameters and reconstructed driver state'
-SCALARS={'response_depth':0x409680,'response_first_line':0x409034,'no_logo':0x409660,'echo_response':0x40963c,'help_requested':0x40965c,
+SCALARS={'dll_options_enabled':0x40902c,'default_macros':0x409028,'response_depth':0x409680,'response_first_line':0x409034,'no_logo':0x409660,'echo_response':0x40963c,'help_requested':0x40965c,
  'cleanup_temporaries':0x40901c,'is_dll':0x409658,'first_option_pass':0x409030,'map_requested':0x40960c,'bk_requested':0x409668,'reproducible':0x409604,'timing_requested':0x40964c,'bz_requested':0x4095c4,'minimal_rebuild':0x40966c,'allow_pch':0x409670,'keep_preprocessor_output':0x409024,'use_standard_include':0x409010,'source_count':0x409630,'options_after_link':0x409678,'link_warning':0x40967c,'show_commands':0x409014,'message_capacity':0x4091a8,'debug_exceptions':0x4095c8,'error_count':0x409650,
  'output_produced':0x4095cc,'default_c_language':0x4095d0,'first_dependency_scan':0x409018,'first_stage_notice':0x40918c}
 POINTERS={'object_name':0x4095c0,'image_name':0x409644,'ir_prefix':0x4095f8,'map_name':0x409638,'pdb_name':0x4095bc,'browser_name':0x409648,'free_options':0x409674,'driver':0x409020,'unrecognized_options':0x409634,'source_language':0x4095b8,'format_buffer':0x4097a4}

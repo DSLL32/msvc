@@ -91,7 +91,11 @@
     "_delete_temporary",
     "_next_jobs",
     "_driver_exit",
-    "_read_response"
+    "_read_response",
+    "_configure_assembly",
+    "_set_pass_name",
+    "_undefine_defaults",
+    "_enable_dll"
   ],
   "driver": [
     {
@@ -881,10 +885,38 @@
     {
       "name": "_configure_assembly",
       "start": 4204083,
-      "end": 4204084,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "configure_assembly"
+      "end": 4204495,
+      "pending_extent": false,
+      "state": "implemented; fresh assembly-option trial pending",
+      "native_symbol": "configure_assembly",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete412B body reads sole EBP+8 option and initializes working registers before use."
+      },
+      "input_observation": {
+        "kind": "actual response-reader next frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1-native",
+        "scope": "Full actualOption record/value2M a/flags0/ownoriginFa=response.asm plus all option/pass lists, no hidden register inputs."
+      },
+      "evidence": {
+        "kind": "complete412B assembly-output handler",
+        "range": [
+          "0x402633",
+          "0x4027cf"
+        ],
+        "behavior": "Split pass selectors, detach/reuse explicitFA/Fa nodes, validateformat, bounded contextual1024-byte output scratch, preserveexplicitextension, appendmodifiednodes and consume originaloption."
+      }
     },
     {
       "name": "_enable_pass",
@@ -936,26 +968,112 @@
     {
       "name": "_set_pass_name",
       "start": 4203460,
-      "end": 4203461,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "set_pass_name"
+      "end": 4203515,
+      "pending_extent": false,
+      "state": "implemented; fresh pass-name trial pending",
+      "native_symbol": "set_pass_name",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete55B frameless body reads callerstack+4 after savingEBX/ESI/EDI; BL initialized fromoption value, all working registers initialized."
+      },
+      "input_observation": {
+        "kind": "actual preceding assembly-option frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-assembly-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-assembly-1-native",
+        "scope": "Actual fullOption bp matchingDM value1c1.dll with sourceB1=c1.dll origin, allcompilerpassrecords; no hidden register inputs."
+      },
+      "evidence": {
+        "kind": "complete55B pass-name selector",
+        "range": [
+          "0x4023c4",
+          "0x4023fb"
+        ],
+        "behavior": "Scanexact5 compilerPass records; matchingfirstselector or dot stores independently duplicatedtail name. Original doesnotfree oldname orconsumeOption."
+      }
     },
     {
       "name": "_undefine_defaults",
       "start": 4203838,
-      "end": 4203839,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "undefine_defaults"
+      "end": 4203924,
+      "pending_extent": false,
+      "state": "implemented; fresh defaults trial pending",
+      "native_symbol": "undefine_defaults",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "unused",
+            "type": "Option *",
+            "pointee_scope": "Formal supplied by typed driver callback but no bytes read in this complete body."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete86B reads onlyguard/driver/list records; doesnotread formal or incoming registers."
+      },
+      "input_observation": {
+        "kind": "actual preceding pass-name frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-name-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-name-1-native",
+        "scope": "Actual bu Option* withNULLvalue/nameu origin, all live optionlists; original rawglobals+28 guard1. No inputpayload consumed."
+      },
+      "evidence": {
+        "kind": "complete86B one-shot default-macro remover",
+        "range": [
+          "0x40253e",
+          "0x402594"
+        ],
+        "behavior": "Once-onlyguard1\u21920, walksactualcurrent list retainingnext beforeunlink/delete; onlyflagsbit1 and exactnameD removed."
+      }
     },
     {
       "name": "_enable_dll",
       "start": 4204495,
-      "end": 4204496,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "enable_dll"
+      "end": 4204617,
+      "pending_extent": false,
+      "state": "implemented; fresh DLL-option trial pending",
+      "native_symbol": "enable_dll",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "unused",
+            "type": "Option *",
+            "pointee_scope": "Sole callbackformal observed but entire body neverreads it."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete122B body initializesEBX=0 and otherworkingregs; readsglobalguard/driver/inputlist only."
+      },
+      "input_observation": {
+        "kind": "actual preceding macro-defaults frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/undefine-defaults-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/undefine-defaults-1-native",
+        "scope": "Actual LD Option* withNULLvalue/sourceLD origin; actual inputlistempty, original rawguardDWORD1."
+      },
+      "evidence": {
+        "kind": "complete122B DLL option handling",
+        "range": [
+          "0x4027cf",
+          "0x402849"
+        ],
+        "behavior": "Guarded DLLmode enabling, scanInputkind7.exp, remove implicitimport-library options when.exp present. No DLLexecution/dependencyresponse."
+      }
     },
     {
       "name": "_file_basename",

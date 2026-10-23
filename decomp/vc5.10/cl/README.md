@@ -12,9 +12,10 @@ input/output/alias/error state. Standard streams use regular files, matching the
 original capture. See `cases/help/{completed,coverage,timings}.json` and the
 acceptance journal for the measured evidence.
 
-Both help and the genuine minimal-C compile are complete. There are now 78
-accepted application functions /14,472 original extent bytes (75.92% of whole
-`.text`); the non-CRT denominator remains unclassified. The compile executes 75
+Both help and the genuine minimal-C compile are complete. There are now 83
+accepted application functions /15,559 original extent bytes (81.62% of whole
+`.text`); the non-CRT denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
+entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
 line, then removes all temporary IR and exits0. Source still compiles with
 original CL; native dependency providers validate the real C1 DLL and C2 child
@@ -22,7 +23,7 @@ inputs before applying their captured outputs and observable CRT/OS effects.
 Fresh GDB proofs cover aliases, tables, stream ownership, environment lifetimes,
 seven actual unlink calls and the qualified exit call. Cached fixtures use no
 GDB or Wine. Both cases take about 1.42 seconds total with a warm build; the
-minimal executable takes about64ms and help about4ms, with setup/checks split in
+minimal executable takes about 64 ms and help about 4 ms, with setup/checks split in
 `cases/minimal-c/timings.json`. The owned original response is under
 `cases/minimal-c/reference/`, and the full final proof is archived separately.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.

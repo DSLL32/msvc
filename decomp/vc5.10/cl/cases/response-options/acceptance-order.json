@@ -11,6 +11,46 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1/pair.json",
         "sha256": "9881d1fb01735e77706b890f6db32e06c228e7835eb3d3d1f04535d008d5fbc1"
       }
+    },
+    {
+      "order": 2,
+      "candidate": "_configure_assembly",
+      "class": "application",
+      "extent_bytes": 412,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-assembly-1/pair.json",
+        "sha256": "11bd159d23e987af37d6f413e11d96326d25773173b6b01aefe078abdaed386b"
+      }
+    },
+    {
+      "order": 3,
+      "candidate": "_set_pass_name",
+      "class": "application",
+      "extent_bytes": 55,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-name-1/pair.json",
+        "sha256": "7fd90b6793e9839278c19d4f9c606d492db1ced47efb3811f74e889105d182a7"
+      }
+    },
+    {
+      "order": 4,
+      "candidate": "_undefine_defaults",
+      "class": "application",
+      "extent_bytes": 86,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/undefine-defaults-1/pair.json",
+        "sha256": "39c1caed3dc9e96f2ccf4223b1e2453926a9a04640c590f5663168552e95ce43"
+      }
+    },
+    {
+      "order": 5,
+      "candidate": "_enable_dll",
+      "class": "application",
+      "extent_bytes": 122,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-dll-2/pair.json",
+        "sha256": "619b9239208adbb242fa18dcf5efad5fca5c321962ff5a996387625c5da31ec9"
+      }
     }
   ]
 }

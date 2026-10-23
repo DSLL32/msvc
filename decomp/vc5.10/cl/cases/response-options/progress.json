@@ -1,11 +1,11 @@
 {
   "case": "response-options",
-  "state": "read-response-accepted",
-  "checkpoint": "Full412-byte response parser accepted; genuine configure_assembly Option* entry matches",
-  "accepted_application_functions": 79,
-  "accepted_application_extent_bytes": 14884,
+  "state": "completed",
+  "checkpoint": "Response file/options/help completed0 with56distinctappentries",
+  "accepted_application_functions": 83,
+  "accepted_application_extent_bytes": 15559,
   "whole_text_virtual_bytes": 19062,
-  "whole_text_extent_percent": 78.08204805371945,
+  "whole_text_extent_percent": 81.62312454097157,
   "non_crt_denominator": "not fully classified",
   "support": {
     "records": 15,
@@ -27,16 +27,65 @@
         "parallel_build": 2.1815725173801184
       },
       "affected_negative_controls": 16
+    },
+    {
+      "candidate": "_configure_assembly",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-assembly-1/pair.json",
+        "sha256": "11bd159d23e987af37d6f413e11d96326d25773173b6b01aefe078abdaed386b"
+      },
+      "extent_bytes": 412,
+      "affected_negative_controls": 22,
+      "seconds": {
+        "original": 0.9944035327062011,
+        "native": 0.22352457512170076,
+        "audits": 0.5883631417527795
+      }
+    },
+    {
+      "candidate": "_set_pass_name",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-name-1/pair.json",
+        "sha256": "7fd90b6793e9839278c19d4f9c606d492db1ced47efb3811f74e889105d182a7"
+      },
+      "extent_bytes": 55,
+      "affected_negative_controls": 26,
+      "seconds": {
+        "original": 1.1127717401832342,
+        "native": 0.23219065554440022,
+        "audits": 0.5937395244836807
+      }
+    },
+    {
+      "candidate": "_undefine_defaults",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/undefine-defaults-1/pair.json",
+        "sha256": "39c1caed3dc9e96f2ccf4223b1e2453926a9a04640c590f5663168552e95ce43"
+      },
+      "extent_bytes": 86,
+      "affected_negative_controls": 30,
+      "seconds": {
+        "original": 1.6686661699786782,
+        "native": 0.23997417371720076,
+        "audits": 0.5862616552039981
+      }
+    },
+    {
+      "candidate": "_enable_dll",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-dll-2/pair.json",
+        "sha256": "619b9239208adbb242fa18dcf5efad5fca5c321962ff5a996387625c5da31ec9"
+      },
+      "extent_bytes": 122,
+      "affected_negative_controls": 13,
+      "seconds": {
+        "original": 1.6750074904412031,
+        "native": 0.21059698332101107,
+        "audits": 0.6211627079173923
+      }
     }
   ],
-  "next_frontier": {
-    "name": "configure_assembly",
-    "formal": "Option *option",
-    "actual_value": "2M a",
-    "actual_option_name": "bA",
-    "origin": "Fa=response.asm",
-    "hidden_inputs": "No incoming register formal; fullbody initializes working registers before use."
-  },
+  "next_frontier": null,
   "remaining_queue": [
     "configure_assembly and pass/default/DLL option handlers, actual next frontier order",
     "warning/fatal/usage diagnostics"
@@ -53,13 +102,13 @@
         "stdout_bytes": 3976,
         "stderr_bytes": 141,
         "mktemp_calls": 1,
-        "native_sha256": "e58d46d12f8de1e71d268b0350254b2a9ae7d4516f16e2a1ab7b7c6f303fc111",
+        "native_sha256": "3d3ccdcf7502f556a930b92fe10fcfc4b7ed15ad3d78a5d3efcc401e26438595",
         "seconds": {
-          "build": 0.005322183482348919,
-          "setup": 0.0017258226871490479,
-          "execution": 0.003839392215013504,
-          "checks": 0.0006412630900740623,
-          "total": 0.023840208537876606
+          "build": 0.006426777690649033,
+          "setup": 0.0016927774995565414,
+          "execution": 0.0078883720561862,
+          "checks": 0.000624973326921463,
+          "total": 0.02935289777815342
         }
       },
       {
@@ -72,16 +121,41 @@
         "C1_calls": 1,
         "C2_calls": 1,
         "mktemp_calls": 1,
-        "native_sha256": "e58d46d12f8de1e71d268b0350254b2a9ae7d4516f16e2a1ab7b7c6f303fc111",
+        "native_sha256": "3d3ccdcf7502f556a930b92fe10fcfc4b7ed15ad3d78a5d3efcc401e26438595",
         "held_trial": false,
         "seconds": {
-          "setup": 0.7622898137196898,
-          "execution": 0.06439992226660252,
-          "checks": 0.34977173153311014,
-          "total": 1.1764923930168152
+          "setup": 0.8107914626598358,
+          "execution": 0.11469032429158688,
+          "checks": 0.37794231344014406,
+          "total": 1.3034862279891968
+        }
+      },
+      {
+        "schema": 1,
+        "case": "response-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 56,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "3d3ccdcf7502f556a930b92fe10fcfc4b7ed15ad3d78a5d3efcc401e26438595",
+        "seconds": {
+          "build": 0.006718461401760578,
+          "setup": 0.0019423458725214005,
+          "execution": 0.007931527681648731,
+          "checks": 0.0006735613569617271,
+          "total": 0.029828188940882683
         }
       }
     ],
-    "total_seconds": 1.3881725892424583
+    "total_seconds": 1.6290140943601727
+  },
+  "native_observer_scope": {
+    "held": "enable-dll-1-native rejected overbroad compile-only exit observer atshow_help",
+    "fix": "Only install compile exit/unlink observers for the bound dependency response contract. Source unchanged; native-onlyretry retainedvalidoriginal.",
+    "selected_compile_regression": "/root/.ai-tmp/msvc2/vc5.10/cl/compile-observer-regression-current",
+    "seconds": 0.43888751976192,
+    "required_observer_rejections": 4
   }
 }

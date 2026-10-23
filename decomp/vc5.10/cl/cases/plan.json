@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "response-options-active",
+  "state": "response-options-completed-diagnostics-next",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -60,6 +60,7 @@
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [
     "help",
-    "minimal-c"
+    "minimal-c",
+    "response-options"
   ]
 }

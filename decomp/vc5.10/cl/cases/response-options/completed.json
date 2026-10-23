@@ -1,0 +1,16 @@
+{
+  "state": "completed",
+  "pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-dll-2/pair.json",
+    "sha256": "619b9239208adbb242fa18dcf5efad5fca5c321962ff5a996387625c5da31ec9"
+  },
+  "reference": "reference/fixture.json",
+  "application_entries": 56,
+  "status": 0,
+  "stdout_bytes": 3976,
+  "stderr_bytes": 0,
+  "new_application_functions": 5,
+  "new_original_extent_bytes": 1087,
+  "support_credit": false,
+  "fixtures": "PureLinux, ownresponsefile/streams/trace/tempcontract; no compiler provider state."
+}
