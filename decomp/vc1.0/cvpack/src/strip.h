@@ -17,7 +17,12 @@ typedef struct CoffAuxiliary {
     unsigned long line_offset, next_symbol;
     unsigned short type_index;
 } CoffAuxiliary;
+typedef struct CoffLine {
+    unsigned long offset;
+    unsigned short line;
+} CoffLine;
 #pragma pack()
+typedef char CoffLineSize[(sizeof(CoffLine)==6)?1:-1];
 typedef char CoffAuxiliarySize[(sizeof(CoffAuxiliary)==18)?1:-1];
 typedef char CoffSymbolSize[(sizeof(CoffSymbol)==18)?1:-1];
 typedef struct CoffFileName {
@@ -31,7 +36,7 @@ typedef struct CoffFunction {
     char *name;
     unsigned short module, section;
     unsigned long offset, end;
-    void *lines;
+    CoffLine *lines;
     unsigned long line_count;
     unsigned short first_line, reserved;
 } CoffFunction;

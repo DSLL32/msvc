@@ -127,7 +127,6 @@ unsigned short find_next_coff_function(CoffSymbol *symbol,CoffAuxiliary *auxilia
 { __asm { int 3 } return 0; }
 
 
-void read_coff_function_lines(CoffFunction *record,CoffFunction *previous,unsigned long *offset,unsigned short count)
-{ __asm { int 3 } }
+
 void set_coff_function_end(CoffFunction *record,unsigned long end) { __asm { int 3 } }
 CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } return NULL; }

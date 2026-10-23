@@ -1,0 +1,39 @@
+{
+  "size": 28,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "record",
+  "location": "allocation",
+  "base_register": "ebx",
+  "allocation": {
+    "size": 28,
+    "callee": 184240,
+    "call": 164941,
+    "returned": 164946,
+    "argument": 164939,
+    "carrier": 164949
+  },
+  "callsite": {
+    "start": 165280,
+    "end": 165310,
+    "sha256": "5dfdb8e3d6757f85084234249fc2c4fedd5ae1fccb93bfc1c31f58f941bd60b9"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 164939,
+    "end": 165310,
+    "sha256": "9d16573d105a0e4c6a91703e64803979d81f5228f226da3cc58dc5994929fec0"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 165310
+    }
+  ],
+  "scope": "Same first live collect malloc28 in EBX, now passed to end setter after line read. Callee only writes end DWORD12, consuming no prior payload. Bind original full birth-to-caller bytes and actual native parent record pointer/sizeof28; all raw28 retained without payload-equality claim."
+}

@@ -376,3 +376,32 @@ void set_coff_function_offset(CoffFunction *record, unsigned long offset)
 {
     record->offset = offset;
 }
+
+void read_coff_function_lines(CoffFunction *record, CoffFunction *previous,
+                              unsigned long *offset, unsigned short count)
+{
+    long position = strip_read_offset;
+    unsigned short first = record->first_line, i;
+    unsigned long bytes;
+    CoffLine *line;
+
+    record->line_count = count;
+    bytes = count*sizeof(*line);
+    record->lines = malloc(bytes);
+    if (!record->lines) fatal_error(13, NULL, NULL);
+    seek_file(strip_handle, *offset, 0);
+    read_file(strip_handle, record->lines, bytes);
+    line = record->lines;
+    for (i = 0; i < count; ++i, ++line) {
+        if (!line->line) {
+            line->offset = record->offset;
+            line->line += first;
+        } else if (line->line == 0x7fff) line->line = first;
+        else line->line += first;
+    }
+    if (count) record->offset = record->lines[0].offset;
+    if (previous && count) set_coff_function_end(previous, record->offset-1);
+    *offset = tell_file(strip_handle);
+    seek_file(strip_handle, position, 0);
+    strip_read_offset = position;
+}

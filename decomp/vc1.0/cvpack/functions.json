@@ -5909,13 +5909,16 @@
       "native": "read_coff_function_lines",
       "symbol": "_read_coff_function_lines",
       "original": 166800,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        166800,
+        167083
+      ],
       "abi": "void read_coff_function_lines(CoffFunction *,CoffFunction *,unsigned long *,unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0115-read_coff_function_lines/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5945,7 +5948,21 @@
           "kind": "integer",
           "bits": 16
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "set_coff_function_end",
@@ -5960,7 +5977,22 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "allocation-output",
+          "evidence": "cases/abi/set-coff-end-record-output.json",
+          "evidence_sha256": "8b7245784ca60df690a05ade7c312591baeb00b50d197e72257ae2551bd5f8fa"
+        },
+        {
+          "name": "end",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     },
     {
       "name": "publish_coff_function",
@@ -7016,6 +7048,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 114
+    },
+    {
+      "function": "read_coff_function_lines",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 115
     }
   ],
   "support_unmasked": [
@@ -7614,7 +7652,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "3ae104bfabfc6355d8acf8a2c5ff2cbf57edc8d53326769f301789b21476109f"
+    "evidence_sha256": "75669b22ef70ef186b599ed2936dd99134d68d4c385331410daf625fec2e58a2"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7690,6 +7728,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "95df7e3cef2dfb50c6934426781b1c4051aecb32a6d51437ac7da34c1967fbfb"
+    "sha256": "e355d1ec316c8a513ad23c3cd5db2e25531178046dd8e0ee6106a1e120790fda"
   }
 }

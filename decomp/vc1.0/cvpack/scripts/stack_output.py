@@ -17,7 +17,9 @@ def validate(item,pe):
         assert pe.read(a['argument'],2)==b'\x6a\x1c'and pe.read(a['carrier'],2)==b'\x8b\xd8','allocation size/carrier def-use changed'
         assert pe.read(a['call'],1)==b'\xe8'and a['returned']+int.from_bytes(pe.read(a['call']+1,4),'little',signed=True)==a['callee'],'allocation callee changed'
         if proof['base_register']=='ebx':
-            if proof['return_slots']!=[dict(slot=0,address=0x2848c)]:
+            if proof['return_slots']in([dict(slot=0,address=0x2848c)],[dict(slot=0,address=0x285be)]):
+                assert proof.get('mode','output')=='output','unexpected constructor output mode'
+            else:
                 assert proof['return_slots']==[dict(slot=0,address=0x28521)]and proof['mode']=='input'and proof['consumed_ranges']==[[8,12],[24,26]],'unreviewed allocation consumer'
                 assert proof['consumed_callee']['start']==0x28b90 and proof['consumed_callee']['end']==0x28cab,'unreviewed allocation consumed fields'
         else:
