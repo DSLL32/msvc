@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive_pairs": 4,
+  "rejected": [
+    "wrong-native-ECX-argument",
+    "wrong-raw-original-ECX-argument",
+    "modern-native-ECX-argument",
+    "modern-raw-original-ECX-argument",
+    "modern-actual-formal-width",
+    "modern-omitted-actual-formals",
+    "two-register-native-ECX",
+    "two-register-native-EDX",
+    "two-register-raw-ECX",
+    "two-register-raw-EDX",
+    "lost-recursion-depth",
+    "lost-recursion-stack",
+    "lost-current-type-visiting-flag",
+    "record-content",
+    "record-capacity",
+    "record-owner",
+    "wrong-output-width-hash",
+    "wrong-output-width-name",
+    "wrong-output-width-segment",
+    "wrong-output-width-offset",
+    "wrong-defined-segment-input",
+    "wrong-defined-offset-input",
+    "wrong-callback-divisor"
+  ],
+  "decoder_sha256": "4de8b3343f0ff1298bdba0cedfcf5068c5e80b8cd24f3175f4667e7a622ff1e3",
+  "checker_sha256": "29d0820d30c06da32013e53734d69b39586809f85872be14c71df3fea161ca2a",
+  "inputs": [
+    {
+      "pair": "0042-map-legacy-index",
+      "original_receipt_sha256": "2be4283e0a4ff6696484b8944d2e28789c61496ab50667c2be1685e80e228a0e",
+      "native_receipt_sha256": "3983d7723ab9871188210790f1b36555669d749a8545823f51804597f25b4d8b"
+    },
+    {
+      "pair": "0046-insert-public-symbol",
+      "original_receipt_sha256": "6b014a853b7d06c3e15cfca415d363327e51ab70b0126989614bbca42bd1448f",
+      "native_receipt_sha256": "9e21a5d975d7dad3c257fb3f2e17eb3b1244f34f8057ec45df4fc82d499d00a3"
+    },
+    {
+      "pair": "0055-map-type-index",
+      "original_receipt_sha256": "2db15c58d7edd442cf82ab38616c2414041ce7d51140bd026859d456ee9a33ca",
+      "native_receipt_sha256": "39f57959959f0084357515d4c76688a18714a546e93affbe71da178d14e7a602"
+    },
+    {
+      "pair": "0064-module-contains-address",
+      "original_receipt_sha256": "af3be1b54a9face66fc35e01abcda72cd9620e1daaefe17b4a4dcb663e5ca414",
+      "native_receipt_sha256": "0aed7a748ee03facbe392f0e9c8d639bdc22e1a3c7f7373c5fa5fab2a13f95b1"
+    }
+  ],
+  "seconds": 2.912080554291606
+}

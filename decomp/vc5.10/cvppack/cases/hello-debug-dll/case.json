@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0078-insert-global-symbol/original",
-  "reference_receipt_sha256": "793cf6f8386a4ddf5b6eec4a1363900ccab776ca1347c6e9fd0c7d3684c0814f",
+  "reference": "cases/hello-debug-dll/evidence/0079-add-type-reference-owned-arrays/original",
+  "reference_receipt_sha256": "313e012e4fd8bfbd793c4b934c81de2cdb9e701062f61966f781670950c6243c",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -84,6 +84,7 @@
     "compact_legacy_pointer",
     "rewrite_type_name_symbol",
     "insert_global_symbol",
-    "add_type_reference"
+    "add_type_reference",
+    "resolve_recursive_type"
   ]
 }

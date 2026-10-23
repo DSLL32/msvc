@@ -100,6 +100,26 @@ def prepare(checked,destination,available=None):
             metadata['functions'][name]=dict(register_imports=dict(require_all_register_calls_resolved=True))
     if any(row['name']=='intern_type' for row in checked):
         metadata['functions']['@intern_type@4']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+    if any(row['name']=='add_type_reference' for row in checked):
+        path=BINARY/'cases/hello-debug-dll/type-reference-import.json'
+        witness=json.loads(path.read_text())
+        assert witness['target_sha256']==sha(ROOT/preservation['target']['path'])
+        assert witness['provider_sha256']==sha(provider)
+        assert witness['existing_free_witness_sha256']==sha(BINARY/'cases/hello-debug-dll/type-name-cache-import.json')
+        assert witness['existing_callee_witness_sha256']==sha(additional)
+        assert witness['register']=='ebx'
+        for name,owner in [('free',module),('allocate_cleared',target)]:
+            row=witness[name]
+            assert hashlib.sha256(owner.read(row['start'],row['end']-row['start'])).hexdigest()==row['sha256']
+        assert target.read(witness['target']['load'],6)==bytes.fromhex('8b1dac614100')
+        assert all(target.read(site,2)==bytes.fromhex('ffd3') for site in witness['target']['sites'])
+        claims=metadata['register_imports']['preservation_contracts']
+        for row in claims:
+            if row['target'] in ({'import':witness['free']['qualified_import']},{'function':'_allocate_cleared'}):
+                row['preserves'].append('ebx')
+                row['evidence']=dict(path=str(path.relative_to(BINARY)),sha256=sha(path))
+        proof['type_reference_import_witness_sha256']=sha(path)
+        metadata['functions']['@add_type_reference@8']=dict(register_imports=dict(require_all_register_calls_resolved=True))
     metadata['functions']['_main']=dict(register_imports=dict(require_all_register_calls_resolved=False))
     if any(row['name']=='pack_module' for row in checked):
         path=BINARY/'build/pack.obj';obj=COFF(path.read_bytes())
@@ -177,6 +197,20 @@ def check_import_sites(graph):
     callback=publics['_main']+0x227
     assert rebuilt['other_unresolved_calls']==[callback], 'unexpected rebuilt opaque callback'
     assert PE(BINARY/'build/CVPACK.EXE').read(callback,3)==bytes.fromhex('ff55e0'), 'rebuilt checksum callback instruction changed'
-    return dict(evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
+    reference_sites=None
+    if '@add_type_reference@8' in graph['functions']:
+        path=BINARY/'cases/hello-debug-dll/type-reference-import.json'
+        typed=json.loads(path.read_text());report=graph['functions']['@add_type_reference@8']['register_imports']
+        expected={str(site):identity for site in typed['target']['sites']}
+        assert report['original']['resolved_register_calls']==expected,'type reference cached free inventory differs'
+        assert report['original']['unresolved_register_calls']==report['original']['other_unresolved_calls']==[],'type reference has unknown original calls'
+        assert report['rebuilt']['resolved_register_calls']=={} and report['rebuilt']['unresolved_register_calls']==report['rebuilt']['other_unresolved_calls']==[],'type reference has unknown rebuilt calls'
+        actual={site:name for site,name in report['rebuilt']['direct_import_calls'].items() if name==identity}
+        assert len(actual)==2,'type reference rebuilt two free calls missing'
+        reference_sites=dict(evidence_sha256=sha(path),original_free_sites=typed['target']['sites'],rebuilt_free_sites=sorted(map(int,actual)))
+    result=dict(evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
         original_checksum_callback=witness['dynamic_callback']['site'],rebuilt_free_sites=sorted(map(int,calls)),
-        rebuilt_checksum_callback=callback,scope='Per-site report checks; no secondary CFG or import inference.')
+        rebuilt_checksum_callback=callback,
+        scope='Per-site report checks; no secondary CFG or import inference.')
+    if reference_sites is not None:result['type_reference_sites']=reference_sites
+    return result

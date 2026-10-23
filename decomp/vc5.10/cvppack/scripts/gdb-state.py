@@ -496,7 +496,16 @@ def capture(configuration,data_file,output):
             if address:
                 size=int(gdb.parse_and_eval('type_record_capacity'))*32
                 assert 0<size<=1048576
-                memory[str(address)]=bytes(inferior.read_memory(address,size)).hex()
+                records=bytes(inferior.read_memory(address,size));memory[str(address)]=records.hex()
+                count=int(gdb.parse_and_eval('type_record_count'))
+                for index in range(count):
+                    record=records[index*32:index*32+32]
+                    if not record[29]&1:continue
+                    for offset in (16,24):
+                        child=int.from_bytes(record[offset:offset+4],'little')
+                        owned=[row for row in cleared_allocations if row.get('address')==child]
+                        assert owned and 0<owned[-1]['size']<=65536,'extended reference allocation not observed'
+                        memory[str(child)]=bytes(inferior.read_memory(child,owned[-1]['size'])).hex()
         if item.get('segment_contents'):
             address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
             if address:

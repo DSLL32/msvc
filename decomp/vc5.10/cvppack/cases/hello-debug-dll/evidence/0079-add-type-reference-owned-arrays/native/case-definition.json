@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "name": "hello-debug-dll",
+  "argv": [
+    "/nologo",
+    "hello.dll"
+  ],
+  "inputs": [
+    {
+      "name": "hello.dll",
+      "source": "cases/hello-debug-dll/original-probe-0001/input.dll",
+      "bytes": 33280,
+      "sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e"
+    }
+  ],
+  "artifacts": [
+    "hello.dll"
+  ],
+  "master": {
+    "status": 0,
+    "stdout": "cases/hello-debug-dll/original-probe-0001/stdout",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "cases/hello-debug-dll/original-probe-0001/stderr",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "artifacts": [
+      {
+        "name": "hello.dll",
+        "source": "cases/hello-debug-dll/original-probe-0001/output.dll",
+        "bytes": 37876,
+        "sha256": "935d7828c7003e4f951e79cb4a709c747eac8006405ac996299dea4e64dd0d40"
+      }
+    ]
+  },
+  "original_probe_receipt_sha256": "cafb4f9372cbf6340beb8acdb42ee4f96123652e8769b48449b1f0e80cdee999",
+  "scope": "Genuine embedded CodeView GUI DLL; no companion PDB. WidenTi factory is reached; no PDBOpen/TPI API references reached."
+}

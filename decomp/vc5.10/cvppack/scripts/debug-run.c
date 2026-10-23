@@ -29,6 +29,7 @@ static char event_path[MAX_PATH];
 static DWORD captured_views[128], captured_view_count;
 static DWORD pending_read[4];
 static int read_pending;
+static DWORD cleared_addresses[2048], cleared_sizes[2048], cleared_count, cleared_pending;
 static DWORD blob_address[64],blob_size[64],blob_pointer[64],blob_child_size[64],blob_count;
 static DWORD blob_count_address[64],blob_element_size[64],blob_count_width[64];
 static DWORD widen_output, widen_object, widen_arguments[4];
@@ -305,7 +306,25 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (full_graphs && read_bytes(process, 0x4132c4, &value, 4) && value &&
         read_bytes(process, 0x4132e0, &count, 4)) {
         if (count > 32768) fprintf(log, "blob-observation-failed\n");
-        else memory(log, process, value, count * 32);
+        else {
+            DWORD entry, k, child, part;
+            unsigned char record[32];
+            memory(log, process, value, count * 32);
+            for (entry = 0; entry < count; ++entry) {
+                if (!read_bytes(process, value + entry * 32, record, 32)) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                if (!(record[29] & 1)) continue;
+                for (part = 0; part < 2; ++part) {
+                    memcpy(&child, record + (part ? 24 : 16), 4);
+                    for (k = cleared_count; k; --k) if (cleared_addresses[k-1] == child) break;
+                    if (!k || !child || !cleared_sizes[k-1] || cleared_sizes[k-1] > 65536) {
+                        fprintf(log, "blob-observation-failed\n"); return;
+                    }
+                    memory(log, process, child, cleared_sizes[k-1]);
+                }
+            }
+        }
     }
     if (full_graphs && read_bytes(process, 0x41564c, &value, 4) && value &&
         read_bytes(process, value, &item, 4) && item &&
@@ -497,9 +516,15 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (entry == 0x404b59 && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "module-allocation-call %08lx %lu\n", context->Esi, value);
     else if (entry == 0x404b5f) fprintf(log, "module-allocation-return %08lx\n", context->Eax);
-    if (entry == 0x40fb97 && read_bytes(process, context->Esp, &value, 4))
+    if (entry == 0x40fb97 && read_bytes(process, context->Esp, &value, 4)) {
+        cleared_pending = value;
         fprintf(log, "cleared-allocation-call %lu\n", value);
-    else if (entry == 0x40fb9d) fprintf(log, "cleared-allocation-return %08lx\n", context->Eax);
+    } else if (entry == 0x40fb9d) {
+        if (cleared_count == 2048) { fprintf(log, "blob-observation-failed\n"); return; }
+        cleared_addresses[cleared_count] = context->Eax;
+        cleared_sizes[cleared_count++] = cleared_pending;
+        fprintf(log, "cleared-allocation-return %08lx\n", context->Eax);
+    }
     widen_state(log, process, context, entry);
 }
 

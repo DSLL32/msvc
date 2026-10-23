@@ -533,6 +533,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert 0<=length and offset+length<=row['used'],'type payload exceeds initialized arena prefix'
         return row['bytes'][offset:offset+length]
     typed_records_checked=0
+    extended_references_checked=0
     cached_type_names_checked=0
     globals_checked = []
     for item in data:
@@ -637,7 +638,23 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                 assert length>=4 and any(first<=offset and offset+length<=last for first,last in initialized), 'type record exceeds initialized segment input'
                                 assert target==destination+offset, 'type record segment/payload offset alias differs'
                             else:arena_payload(source,target)
-                        assert a[4:]==b[4:], 'initialized type record fields differ'
+                        assert a[4:16]==b[4:16] and a[20:24]==b[20:24] and a[28:]==b[28:], 'initialized type record fields differ'
+                        if a[29]&1:
+                            references=int.from_bytes(a[12:14],'little')
+                            cleared={row['address'] for row in original['cleared_allocations']}
+                            for field,minimum in [(16,references*2),(24,(references+7)//8)]:
+                                child=int.from_bytes(a[field:field+4],'little');actual_child=int.from_bytes(b[field:field+4],'little')
+                                assert child in cleared and child in image_aliases and image_aliases[child]==actual_child,'extended type reference allocation/alias differs'
+                                size=image_sizes[child]
+                                assert minimum<=size<=65536,'extended type reference allocation capacity differs'
+                                before=original['memory'][child];after=bytes.fromhex(native['memory'][str(actual_child)])
+                                assert len(before)==len(after)==size,'incomplete extended type reference allocation'
+                                assert before==after,'initialized extended type reference bytes differ'
+                                assert not any(before[minimum:]) and not any(after[minimum:]),'unused cleared type reference capacity differs'
+                                pair(child,actual_child)
+                            extended_references_checked+=1
+                        else:
+                            assert a[16:28]==b[16:28], 'initialized inline type reference bytes differ'
                     typed_records_checked=count
             elif item.get('segment_buffer'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
@@ -808,4 +825,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
