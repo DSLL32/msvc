@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_query_inheritance_model@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1110,
+  "configuration_sha256": "e6deb94efac1ac42b854a6fb54f1332ba56e89444b2db213e538fdfc07c12901",
+  "native_entry": "query_inheritance_model",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "model",
+      "stack_index": 0,
+      "native_field": "raw_model",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 237133,
+        "original_owner_function": "_member_pointer_class_kind@4",
+        "native_owner_function": "member_pointer_class_kind",
+        "native_owner_field": "caller_model",
+        "native_owner_local": "model",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "Actual caller int model output local atadjustedESP+12, LEAEAX49e43/PUSH49e47/CALL49e48 return49e4d. Native actual immediate caller model local address only, never its unwritten prestate. Query false leaves output untouched and caller branches without consuming it.",
+        "original_owner_value": 2948440,
+        "native_owner_value": 4294955916
+      },
+      "original_raw": 2948440,
+      "native_raw": 4294955916,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      302256,
+      302474
+    ],
+    "argument_bytes": 4,
+    "proof": "No permanent frame/save, int*model entryESP+4, all RET4. Writes completeDWORD only on success returning1, defaultreturn0 leavesoutput untouched. Current globals0 prove defaultfalse branch. Requested/fullgenerality state at9f434/438/43c independently encountered zeroDWORDs, option_vmg/vms/vmm existing audited fields; vmm unsigned>=1 is exactly nonzero. Only directcallees49c70 namedsetter and733b0 compiler_warning independently resolved; existing inheritance_model_names array reused. No incoming semantic register/hiddeninput.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "0e46432e7a1a8930d8c709b10ff94b26aa8a8f2a3edc636feb5c7027c890dec0",
+  "capture_timing": {
+    "original_capture_seconds": 1.7697503119707108,
+    "native_capture_seconds": 0.1910426104441285,
+    "total_operation_seconds": 2.238684776239097
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "9ad55af056472b972adb4e009b876f06020413e950e1e966e3b0f855b2f43fbe",
+    "native-commands.gdb": "da8d84af084f273a13ec7b91c352375d774ebbb56187e4fbf2af269517881165",
+    "native-gdb.log": "4c821cefca3410941799072b40779a5b202bd9f16223f7c2e8f5c58830e1eda8",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "f44fdb4d517acdf739fdae64131d618da25faa0185fd312cf37bf6ae0ec846ae",
+    "original-configuration.json": "e6deb94efac1ac42b854a6fb54f1332ba56e89444b2db213e538fdfc07c12901",
+    "original-disassembly.txt": "b95a5e93478db1b5d3172d9dcd57d2e4d016f0ec94dc21c80a998eccdfce705c",
+    "original-entries.plan": "d67c04a58f67b9560136b14cd358ff48f446939685fe803500b7242fa63a4815",
+    "original-events.txt": "43fa4074d9ee6a5dff5e46ab6bcbc66c75dd39e9f7eea5fc97c8754e798308c7",
+    "original-ownership-caller-disassembly.txt": "df99f0a13e28b1d502cb5388148781b9cf5746da8ee5c28d02d1fb4bae996428",
+    "original-receipt.json": "b1e59369730d2e6ca24ee55b088309567b42e883f45b0728c91b90ee1666ee41",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "dc4ec804d63dd9400c77e9507e66bd89d947d6c394b1d9888451730cfd8951ec"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "full_generality",
+      "equals": 0
+    },
+    {
+      "index": 15,
+      "native_field": "generality_fixed",
+      "equals": 0
+    },
+    {
+      "index": 16,
+      "native_field": "requested_model",
+      "equals": 0
+    },
+    {
+      "index": 17,
+      "native_field": "option_vmg",
+      "equals": 0
+    }
+  ]
+}

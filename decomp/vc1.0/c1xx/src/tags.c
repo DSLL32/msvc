@@ -18,6 +18,10 @@ CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
     return symbol;
 }
 
+int member_pointer_full_generality; /* original 0x9f434, initially zero */
+int member_pointer_generality_fixed; /* original 0x9f438, initially zero */
+int member_pointer_requested_model; /* original 0x9f43c, initially zero */
+
 /* Original 0x49e30..0x49ece. Fix the member-pointer representation
    once a class is first used, then verify it against the known inheritance. */
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol)
@@ -52,6 +56,35 @@ unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol)
 static char *inheritance_model_names[] = {
     "unknown", "single", "multiple", "virtual", "virtual", 0
 };
+
+void __stdcall set_default_inheritance_model(int model);
+
+/* Original 0x49cb0..0x49d8a. A fixed/general request supplies a
+   model; otherwise /vmg uses its single/multiple/general command-line choice. */
+int __stdcall query_inheritance_model(int *model)
+{
+    if (member_pointer_full_generality) {
+        if (!member_pointer_requested_model) {
+            set_default_inheritance_model(3);
+            compiler_warning(1, 158, inheritance_model_names[member_pointer_requested_model]);
+        }
+        *model = member_pointer_requested_model;
+        return 1;
+    }
+    if (member_pointer_requested_model) {
+        compiler_warning(1, 158, inheritance_model_names[member_pointer_requested_model]);
+        member_pointer_full_generality = 1;
+        member_pointer_generality_fixed = 1;
+        *model = member_pointer_requested_model;
+        return 1;
+    }
+    if (options.configuration.option_vmg) {
+        if (options.configuration.option_vms) *model = 1;
+        else *model = options.configuration.option_vmm ? 2 : 4;
+        return 1;
+    }
+    return 0;
+}
 
 /* Original 0x2d570..0x2d8c1. A definition owns a temporary completed type;
    the tag's interned type is finalized by the corresponding end-tag routine. */

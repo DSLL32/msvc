@@ -295,7 +295,6 @@ void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 
-int __stdcall query_inheritance_model(int *model) { __asm { int 3 } return 0; }
 int __stdcall infer_inheritance_model(CppSymbol *tag) { __asm { int 3 } return 0; }
 
 
@@ -614,3 +613,5 @@ void split_debug_field_record(unsigned char kind, void *subject, unsigned first,
 unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }
 
 void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
+
+void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
