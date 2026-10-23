@@ -436,3 +436,13 @@ All15 native cases pass (14 complete), canonical graphs/extents/ABI/storage and
 original/W3 builds pass.337605/399693 accepted extent bytes; app/support-only
 319305B and1137 functions exclude the5 historical handwritten CRT bodies.
 Full failed/repeated build/control and timing ledger: cases/omf-open-checkpoint.json.
+
+Checkpoint1254 adds34-byte OMF cache initialization and31-byte module header.
+Four typed1004-byte BSS wire-record buffers retain all bytes except the exact
+tags reset; four poisoned full-pool controls and original/native entry agree.
+The actual ECX source pointer aliases source_filename, omftypes.c NUL bytes
+match; header requests THEADR80/contextNULL and forwards the returned record
+unchanged before flush. Those children remain typed traps, verified separately
+at their own entries. All15 native cases pass (14 complete), next record begin
+6b480. Canonical graphs/extents/ABI/data and original/W3 pass.65new extent bytes;
+full layout provenance and split timings: cases/omf-cache-header-checkpoint.json.

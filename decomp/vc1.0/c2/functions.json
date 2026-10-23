@@ -1256,7 +1256,9 @@
     "@read_codeview_initializers@4",
     "@release_initializer@4",
     "@coff_write_lines@8",
-    "_omf_open_module"
+    "_omf_open_module",
+    "_omf_initialize_records",
+    "@omf_write_module_header@4"
   ],
   "driver": [
     {
@@ -8438,8 +8440,14 @@
     {
       "name": "_omf_initialize_records",
       "start": 436640,
-      "end": 436641,
-      "provisional": true
+      "end": 436674,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-initialize-records-abi/validation.json"
+      }
     },
     {
       "name": "_omf_flush_records",
@@ -8450,8 +8458,20 @@
     {
       "name": "@omf_write_module_header@4",
       "start": 436608,
-      "end": 436609,
-      "provisional": true
+      "end": 436639,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "source",
+            "location": "ECX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-module-header-abi/validation.json"
+      }
     },
     {
       "name": "@omf_name_index@4",
@@ -8475,6 +8495,18 @@
       "name": "@omf_define_fixup_thread@16",
       "start": 436224,
       "end": 436225,
+      "provisional": true
+    },
+    {
+      "name": "@omf_begin_record@8",
+      "start": 439424,
+      "end": 439425,
+      "provisional": true
+    },
+    {
+      "name": "@omf_append_string@8",
+      "start": 443616,
+      "end": 443617,
       "provisional": true
     }
   ],

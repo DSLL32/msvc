@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1252: whole module opener accepted; matching original/native record-initializer child trap6a9a0.14 earlier cases complete.",
+  "status": "Derived OMF case at1254: module/header/cache functions accepted, original/native record-begin80/contextNULL frontier6b480;14 prior complete cases.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,5 +487,5 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_initialize_records"
+  "current_application_frontier": "@omf_begin_record@8"
 }

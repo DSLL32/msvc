@@ -7,6 +7,8 @@ extern int floating_frontend, codeview_debug, dos_object;
 extern char *generated_source;
 extern int object_generation_started;
 extern Segment *segment_list;
+OmfRecord *__fastcall omf_begin_record(unsigned type, void *context);
+void __fastcall omf_append_string(OmfRecord *record, char *text);
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -17,6 +19,24 @@ unsigned omf_next_group = 1; /* 0008507c */
 unsigned omf_next_segment = 1; /* 00085080 */
 unsigned omf_next_frame_thread; /* 00085088 */
 unsigned omf_next_target_thread; /* 0008508c */
+OmfRecord omf_records[4]; /* 0007a8dc..0007b88c, original BSS */
+OmfRecord *omf_current_record; /* 0007b88c, original BSS */
+/* Original [0006a9a0,0006a9c2). Tags alone are reset; buffered fields and
+   serialized bytes retain their previous contents when the cache is reused. */
+void omf_initialize_records(void)
+{
+    OmfRecord *record;
+    for (record = omf_records; record < omf_records + 4; ++record)
+        record->type = 0;
+    omf_current_record = omf_records;
+}
+/* Original [0006a980,0006a99f), followed by a single alignment NOP. */
+void __fastcall omf_write_module_header(char *source)
+{
+    OmfRecord *record = omf_begin_record(0x80, NULL);
+    omf_append_string(record, source);
+    omf_flush_records();
+}
 /* Original [0006a350,0006a7e5); eleven following bytes are alignment.
    The four tail words of Segment have format-specific meanings: OMF names,
    header end positions and class indexes share the COFF descriptor layout. */

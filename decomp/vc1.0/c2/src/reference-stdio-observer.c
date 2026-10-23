@@ -222,6 +222,11 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     if(!strcmp(call->name,"_omf_open_module")) {
         sprintf(line,"omf_entry coff_object %lu\n",read_word(process,image_base+0x706f4));log_line(line);
     }
+    if(!strcmp(call->name,"@omf_write_module_header@4") ||
+       !strcmp(call->name,"@omf_name_index@4")) {
+        sprintf(line,"omf_string source_global %08lx\n",read_word(process,image_base+0x705ec));log_line(line);
+        dump_bytes(process,"omf_string_hex",call->args[0],string_bytes(process,call->args[0]));
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

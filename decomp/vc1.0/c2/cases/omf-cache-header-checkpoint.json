@@ -1,0 +1,259 @@
+{
+  "checkpoint": 1254,
+  "previous_checkpoint": 1252,
+  "new_application": [
+    {
+      "name": "_omf_initialize_records",
+      "start": 436640,
+      "end": 436674,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-initialize-records-abi/validation.json"
+      }
+    },
+    {
+      "name": "@omf_write_module_header@4",
+      "start": 436608,
+      "end": 436639,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "source",
+            "location": "ECX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-module-header-abi/validation.json"
+      }
+    }
+  ],
+  "new_extent_bytes": 65,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1254,
+    "accepted_code_bytes": 337670,
+    "original_code_bytes": 399693,
+    "percentage": 84.48234019610051,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 604
+  },
+  "application_graph_rows": 1144,
+  "reconstructed_application_support_functions": 1139,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 319370,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_begin_record@8",
+  "next_original_va": "0x6b480",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_begin_record@8"
+  },
+  "native_validation_sha256": "0fbcedf3bd85e9369a83be062cfd365b8745b8547ddaf68886edd0ed0f925a7c",
+  "graph_report_sha256": "b55a774b6a168d7d6713a52f9d73a3c31d212018ec79c1b8e022aa8815d5c097",
+  "controls": [
+    "cases/omf-record-cache-validation.json",
+    "cases/omf-header-validation.json"
+  ],
+  "data_provenance": "Original BSS record pool7a8dc..7b88c has four1004-byte slots, current pointer7b88c. Initializer/cache scan establish4/stride/end;6c060 and6c330 reveal20-byte type/context/saved-offset/count/cursor header and serialized header/payload/checksum area. Four typed OmfRecord buffers, implicit zero BSS; no section/data snapshot. Source header wrapper literal80 is actual THEADR request, no new table copied.",
+  "timings": {
+    "omf1253-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 15.534531358629465,
+      "returncode": 0,
+      "log_sha256": "a765b9654e4f26b6353e991bc6def3fc1318a680b50a3ac2ab78599748f98115"
+    },
+    "omf1253-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 41.07800102606416,
+      "returncode": 0,
+      "log_sha256": "8aee8295eb5672ce21bbed6cc4556ada969ae5541a857855909509046fde6590"
+    },
+    "omf1253-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1252.json",
+        "--extend-after",
+        "cases/omf-original-1253.json"
+      ],
+      "seconds": 0.3314049392938614,
+      "returncode": 0,
+      "log_sha256": "1b6af7d4499941887a393d629a68cbf3f17963bde8bf37cd9e7ae899a4713cb0"
+    },
+    "omf1253-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--profile",
+        "omf",
+        "--function",
+        "_omf_initialize_records",
+        "--no-hidden-inputs-proof",
+        "Original6a9a0..6a9c2 takes no formals: EAX assigned first to fixed record-pool base, no incoming GPR/stack/x87/flags reads, compares after local ADD, RET0. It overwrites only each of four type words and current-record pointer; no prior pool bytes read as inputs.",
+        "--receipt",
+        "cases/omf-initialize-records-abi"
+      ],
+      "seconds": 2.2348504224792123,
+      "returncode": 0,
+      "log_sha256": "c2233696b8d8d3876ea0b0b068be19626036536f6cd737a27ad78f1fc4d72cda"
+    },
+    "omf1253-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1253.json"
+      ],
+      "seconds": 0.2283926447853446,
+      "returncode": 0,
+      "log_sha256": "e2fb8864c8cbc0c7db3a3d44ec6bcb8cb3012bfdb26ad83ffc41e573650e0672"
+    },
+    "omf1253-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1253.json"
+      ],
+      "seconds": 1.9404285717755556,
+      "returncode": 0,
+      "log_sha256": "d104facf16000d789cceca1aa13545d7923c2c0e167fc816cb916720f1638da4"
+    },
+    "omf1254-W3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.1149525055661798,
+      "returncode": 0,
+      "log_sha256": "b5a8732084537a3129193fb70d05b01361b03ec04fa453621c42f834b21074d2"
+    },
+    "omf1254-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 16.043024787679315,
+      "returncode": 0,
+      "log_sha256": "3a1c68ececbab1b3f2a887338ff4a91e05d8a34cc65a77b6a5ff64d8ddc4c02b"
+    },
+    "omf1254-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.0779491495341063,
+      "returncode": 0,
+      "log_sha256": "7ad5a0bd26f66fdfed513e9a98d6a67248a4c49c3ff2c8c4c5f18c6fcbe0ad53"
+    },
+    "omf1254-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1253.json",
+        "--extend-after",
+        "cases/omf-original-1254.json"
+      ],
+      "seconds": 0.33342217188328505,
+      "returncode": 0,
+      "log_sha256": "67e8b92c2644a4c098b0918ef49ecafbfec5fd08b40b5e3d45ac0d70c3f85260"
+    },
+    "omf1254-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-string-entry.py"
+      ],
+      "seconds": 1.229153722524643,
+      "returncode": 0,
+      "log_sha256": "b9f29494ef49eccc5c98df425a5bc999aa9c60559caf1a6fb2b18b9e85032fc8"
+    },
+    "omf1254-native-all-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 2.515609440393746,
+      "returncode": 0,
+      "log_sha256": "531c784ccfa8c3059da90ba4545176ae8391b54fd9e2489e23bef0c03402da5b"
+    },
+    "omf1254-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1254.json"
+      ],
+      "seconds": 0.21944887842983007,
+      "returncode": 0,
+      "log_sha256": "874aa00047139e2866344e903adc2cf6bec7069c662531ec8b6ef720cfa9abb3"
+    },
+    "omf1254-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.1392418704926968,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1254-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1254.json"
+      ],
+      "seconds": 1.3338691173121333,
+      "returncode": 0,
+      "log_sha256": "3c44e16f74d1982604ad40b474f1592eb0f87ff25c2faddd6b340eaa3ac3f4df"
+    }
+  },
+  "limits": "Actual zero-input initializer ABI and header ECX source pointer/source_filename identity/full bytes independently observed before bodies. Whole34-byte initializer exact tag-only/current writes with all remaining pool bytes preserved under4 poison patterns; whole31-byte wrapper forwarding/order under4 mocked children shapes. Native real case completes resets and reaches record begin80/contextNULL; child bodies stay named traps, no OMF final-output claim.14 prior outputs exact,15 trace cases pass. No new CRT implementation.",
+  "unmeasured": "Analysis/edit wall time unmeasured; native/canonical builds combined unsplit.1253 header-layout build41.078s;1254 private-graph prototype build3.078s.16.043s full audit includes all target-specific controls, not Rust-only time. Original capture, native GDB and fixtures separately measured in raw receipts; original/W3 outside fixtures."
+}

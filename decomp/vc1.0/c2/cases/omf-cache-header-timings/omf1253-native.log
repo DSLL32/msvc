@@ -1,0 +1,16 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559028 in omf_write_module_header (source=0xffffde54 "omftypes.c") at src/stubs.c:108
+108	void __fastcall omf_write_module_header(char *source) { __asm int 3 }
+#0  0x56559028 in omf_write_module_header (source=0xffffde54 "omftypes.c") at src/stubs.c:108
+#1  0x565a3f32 in omf_open_module () at src/omf-output.c:44
+#2  0x565a2adb in initialize_output_callbacks () at src/output.c:117
+#3  0x5659d891 in emit_backend_work () at src/backend-flow.c:22
+#4  0x5655df24 in compile_functions () at src/functions.c:22
+#5  0x56558a47 in main (argc=1, argv=0xffffdcc4, envp=0xffffdccc) at src/c2.c:56
+C2_FRONTIER_PC=0x56559028 ENTRY=0x56559020
+
+{'logical': '@omf_write_module_header@4', 'matched': True, 'executable_sha256': '7a9c37544859616b25fff3258997e75f5e32c764cce173de7e31881adc2320d8', 'config_sha256': '46923ebfd1b4b30de0a62371726c9b7652b084c31a5def82636dfa16d521c278', 'canonical_working_directory': 'S:\\vc1.0\\c2\\omftypes', 'setup_seconds': 0.00712435320019722, 'execution_seconds': 0.13966455217450857, 'seconds': 0.16126061230897903, 'log_sha256': '6c649ff12eaea8b9e8db247bcf57ccbe89511961f12d2cba6e349bbbe0d3a6cc', 'directory': '/root/.ai-tmp/msvc2/vc1.0/c2/omf-gdb-xw8_xdbr'}

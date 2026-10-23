@@ -9,6 +9,17 @@ typedef struct OmfGroup {
 typedef struct OmfFixupThreads {
     unsigned group_frame, bss_target, data_target, const_target, code_target;
 } OmfFixupThreads;
+/* Four reusable wire-record buffers. The twenty-byte header is followed by
+   serialized record/header/checksum space; original slots are1004 bytes. */
+typedef struct OmfRecord {
+    unsigned type;
+    void *context;
+    unsigned context_offset, count;
+    unsigned char *cursor;
+    unsigned char bytes[984];
+} OmfRecord;
+typedef char OmfRecordSizeCheck[sizeof(OmfRecord) == 1004 ? 1 : -1];
+extern OmfRecord omf_records[4], *omf_current_record;
 extern OmfGroup *omf_default_group;
 extern OmfFixupThreads omf_fixup_threads;
 extern unsigned omf_empty_name, omf_next_group, omf_next_segment;
