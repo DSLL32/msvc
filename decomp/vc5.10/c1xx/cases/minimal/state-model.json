@@ -1,5 +1,5 @@
 {
-  "schema": 5,
+  "schema": 6,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -139,6 +139,87 @@
         "u32"
       ],
       "evidence": "callback38652 zeros2DWORD;19d30 storeslow16 of secondfield,24042 dereferences firstfield of alternative context,881e3 copies pair"
+    },
+    {
+      "name": "output_buffer_01.data",
+      "class": "bss",
+      "original_address": 273413568,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].data",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.cursor",
+      "class": "bss",
+      "original_address": 273413572,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].cursor",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.capacity",
+      "class": "bss",
+      "original_address": 273413576,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].capacity",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.relocation",
+      "class": "bss",
+      "original_address": 273413580,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].relocation",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.relocation_context",
+      "class": "bss",
+      "original_address": 273413584,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].relocation_context",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.file",
+      "class": "bss",
+      "original_address": 273413588,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].file",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.ok",
+      "class": "bss",
+      "original_address": 273413592,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].ok",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.descriptor",
+      "class": "bss",
+      "original_address": 273413856,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[0].descriptor",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_01.mode",
+      "class": "bss",
+      "original_address": 273413596,
+      "bytes": 1,
+      "native_expression": "frontend_bss.output_buffers[0].mode",
+      "original_default": 0,
+      "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
     }
   ],
   "initializers": [
@@ -358,5 +439,12 @@
       "symbol": "_initialize_frontend_42"
     }
   ],
-  "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use"
+  "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use",
+  "native_padding": {
+    "bytes": 3,
+    "kind": "natural trailing C object padding; no original semantic counterpart",
+    "output_buffer_size": 36,
+    "output_mapped_bytes": 33,
+    "output_count": 1
+  }
 }

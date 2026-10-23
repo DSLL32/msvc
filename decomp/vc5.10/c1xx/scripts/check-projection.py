@@ -38,7 +38,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -51,6 +51,16 @@ def field_map(model,observed):
     if model['schema']>=5:
         known['source_position']=(0x104becb0,8,'bss','frontend_bss.source_position')
         s.require(observed['source_position_fields']==['origin','position'],'unmodeled source position field')
+    if model['schema']>=6:
+        layout={'data':[0,4],'cursor':[4,4],'capacity':[8,4],'relocation':[12,4],
+                'relocation_context':[16,4],'file':[20,4],'ok':[24,4],'descriptor':[28,4],'mode':[32,1]}
+        original_offsets={'data':0,'cursor':4,'capacity':8,'relocation':12,'relocation_context':16,
+                          'file':20,'ok':24,'descriptor':0x120,'mode':28}
+        for name,(_,width) in layout.items():
+            known['output_buffer_01.'+name]=(0x104bf5c0+original_offsets[name],width,'bss','frontend_bss.output_buffers[0].'+name)
+        s.require(observed['output_native_layout']=={'size':36,'fields':layout} and observed['output_count']==1 and
+                  model['native_padding']=={'bytes':3,'kind':'natural trailing C object padding; no original semantic counterpart',
+                    'output_buffer_size':36,'output_mapped_bytes':33,'output_count':1},'unexpected compact output layout/padding')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -76,12 +86,20 @@ def field_map(model,observed):
     fields=['saved_state','cleanup_count','cleanup_callbacks']+(['context_stack'] if model['schema']>=2 else [])+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:fields.append('nested_context_stacks')
     if model['schema']>=5:fields.append('source_position')
+    if model['schema']>=6:fields.append('output_buffers')
     s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
-              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276}[model['schema']]},
+              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
-        s.require(sum(row['bytes'] for row in model['fields'] if row['class']==kind)==observed['known_sizes'][kind],
+        padding=3 if kind=='bss' and model['schema']>=6 else 0
+        s.require(sum(row['bytes'] for row in model['fields'] if row['class']==kind)+padding==observed['known_sizes'][kind],
                   'typed field-map does not cover all modeled struct storage')
+    if model['schema']>=6:
+        ranges=sorted((observed['storage'][row['name']][0],observed['storage'][row['name']][0]+row['bytes'])
+                      for row in model['fields'] if row['class']=='bss')
+        s.require(ranges[0][0]==observed['bss_address'] and
+                  all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
+                  ranges[-1][1]==observed['bss_address']+309,'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):
@@ -356,7 +374,7 @@ def main():
     for row in packet['trials']:
         original,native=Path(row['original']),Path(row['native'])
         active=decoder
-        if (json.loads((native/'trial.json').read_text())['trial'] or '').startswith('_initialize_frontend_'):
+        if (json.loads((native/'trial.json').read_text())['trial'] or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
             active=history.module('callback_packet','check-callback.py')
         audit=history.configure(active,original,native,saved_record=row)
         results.append(active.check(original,native,audit_path=audit))

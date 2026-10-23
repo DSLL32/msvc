@@ -35,6 +35,17 @@ int initialize_compiler_pass(void)
         }
         frontend_bss.source_position.origin = NULL;
         frontend_bss.source_position.position = 0;
+        for (i = 0; i < FRONTEND_OUTPUT_BUFFERS; ++i) {
+            frontend_bss.output_buffers[i].data = NULL;
+            frontend_bss.output_buffers[i].cursor = NULL;
+            frontend_bss.output_buffers[i].capacity = 0;
+            frontend_bss.output_buffers[i].relocation = NULL;
+            frontend_bss.output_buffers[i].relocation_context = NULL;
+            frontend_bss.output_buffers[i].file = NULL;
+            frontend_bss.output_buffers[i].ok = 0;
+            frontend_bss.output_buffers[i].descriptor = 0;
+            frontend_bss.output_buffers[i].mode = 0;
+        }
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

@@ -66,6 +66,16 @@ value['frontend']['source_position_fields']=[field.name for field in gdb.lookup_
 value['frontend']['context_stack_fields']=[field.name for field in gdb.lookup_type('FrontendContextStack').fields()]
 value['frontend']['declared_fields']={'initialized':[field.name for field in gdb.lookup_type('FrontendData').fields()], 'bss':[field.name for field in gdb.lookup_type('FrontendBss').fields()]}
 value['frontend']['known_sizes']={'initialized':int(gdb.parse_and_eval('sizeof(FrontendData)')),'bss':int(gdb.parse_and_eval('sizeof(FrontendBss)'))}
+value['frontend']['output_buffers']=[]
+output_fields=('data','cursor','capacity','relocation','relocation_context','file','ok','descriptor','mode')
+for i in range(int(gdb.parse_and_eval('sizeof(frontend_bss.output_buffers)/sizeof(frontend_bss.output_buffers[0])'))):
+    expression='frontend_bss.output_buffers[%d]'%i
+    value['frontend']['output_buffers'].append({name:int(gdb.parse_and_eval(expression+'.'+name)) for name in output_fields})
+    for name in output_fields:
+        value['frontend']['storage']['output_buffer_%02d.'%(i+1)+name]=[int(gdb.parse_and_eval('(unsigned int)&'+expression+'.'+name)),int(gdb.parse_and_eval('sizeof('+expression+'.'+name+')'))]
+value['frontend']['output_native_layout']={'size':int(gdb.parse_and_eval('sizeof(OutputBuffer)')),'fields':{field.name:[field.bitpos//8,int(field.type.sizeof)] for field in gdb.lookup_type('OutputBuffer').fields()}}
+value['frontend']['output_count']=int(gdb.parse_and_eval('sizeof(frontend_bss.output_buffers)/sizeof(frontend_bss.output_buffers[0])'))
+value['frontend']['bss_address']=int(gdb.parse_and_eval('(unsigned int)&frontend_bss'))
 value['aux_owned']=None
 if int(gdb.parse_and_eval('(unsigned int)c1xx_aux_new_base')):
     value['aux_owned']={}
@@ -110,6 +120,17 @@ end
         allocation=output/'collect-allocation-entry.gdb'
         allocation.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'allocation-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'allocation-entry-argv.bin'))))
         observer+='break checked_malloc\ncommands\nsilent\nsource '+str(allocation)+'\ncontinue\nend\n'
+    if trial['trial']=='_initialize_output_buffer_01':
+        entry=output/'collect-constructor-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'constructor-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'constructor-entry-argv.bin'))))
+        change=''
+        if trial.get('test_constructor_seed'):
+            assignments={'data':'(unsigned char *)frontend_bss.saved_state','cursor':'(unsigned char *)frontend_bss.saved_state+4',
+                'capacity':'64','relocation':'(OutputRelocation)frontend_initializers[1]',
+                'relocation_context':'(unsigned char *)frontend_bss.saved_state+8','file':'(void *)((unsigned char *)frontend_bss.saved_state+12)',
+                'ok':'53','descriptor':'37','mode':'23'}
+            change=''.join('set variable frontend_bss.output_buffers[0].'+name+'='+expression+'\n' for name,expression in assignments.items())
+        observer+='break *initialize_output_buffer_01\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

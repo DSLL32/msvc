@@ -81,9 +81,16 @@ def prepare():
         trial["case_inputs"] = {item: sha(PROJECT / item) for item in (
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
-    if trial["test_seed"] or trial_name == '_checked_malloc' or (trial_name or '').startswith('_initialize_frontend_'):
+    trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
+    if trial["test_seed"] or trial_name == '_checked_malloc' or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
+    if trial['test_constructor_seed']:
+        trial['auxiliary_data_seed']={'owner':'_initialize_output_buffer_01','point':'entry before target body',
+            'data':'owned snapshot+0','cursor':'owned snapshot+4','capacity':64,
+            'unused_relocation':'_initialize_frontend_01; never invoked','relocation_context':'owned snapshot+8',
+            'file':'owned snapshot+12; never dereferenced','ok':53,'descriptor':37,'mode':23,
+            'actual_initializer_table_unchanged':True,'code_or_allocator_mock':False}
     if trial["test_seed"] == "first-copy-aux":
         trial["auxiliary_mock"] = {"callee":"_checked_malloc", "genuine_trap_required":True,
             "request":8520, "returned_buffer_role":"mock-return", "old_buffer_role":"old-snapshot",

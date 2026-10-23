@@ -99,3 +99,9 @@ stack pointer. Schema5 auxiliary seeds use scalar17 identically on both sides.
 Historical schema2–4 pointer-seeded captures establish zeroing/reset only, and
 are not evidence of numeric equivalence before clearing. Raw historical captures
 remain unchanged.
+
+The first output constructor has nine encountered fields (33semantic bytes).
+Its compact native C object is36bytes including3bytes of natural compiler padding;
+the original259-byte intervening gap is unmodeled. Ordinary and clearly marked
+nonzero constructor/BSS-reset captures agree, with unused sentinel callback and
+owned-pointer roles stated explicitly in `cases/minimal/output01-trials.json`.

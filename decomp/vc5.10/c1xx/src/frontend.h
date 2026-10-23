@@ -1,6 +1,7 @@
 #ifndef C1XX_FRONTEND_H
 #define C1XX_FRONTEND_H
 #include "c1xx.h"
+#include "output.h"
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
@@ -31,6 +32,7 @@ typedef struct FrontendBss {
     FrontendContextStack saved_context_stack;
     FrontendContextStack nested_context_stacks[9];
     FrontendSourcePosition source_position;
+    OutputBuffer output_buffers[FRONTEND_OUTPUT_BUFFERS];
 } FrontendBss;
 
 extern FrontendData frontend_data;

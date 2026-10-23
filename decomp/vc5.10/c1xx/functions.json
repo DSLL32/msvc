@@ -20,7 +20,8 @@
     "_initialize_frontend_05",
     "_initialize_frontend_06",
     "_initialize_frontend_07",
-    "_initialize_frontend_08"
+    "_initialize_frontend_08",
+    "_initialize_output_buffer_01"
   ],
   "driver": [
     {
@@ -1044,6 +1045,47 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 1.36780000384897,
         "native_seconds": 0.27056065015494823
+      }
+    },
+    {
+      "name": "_initialize_output_buffer_01",
+      "classification": "application source",
+      "source": "src/output.c",
+      "source_sha256": "3dd8c64dc6d6cce08ae93d783426a1eec9bba2a249b64ca16a3e3ce5789f7672",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output01-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output01-native-1",
+      "original_receipt_sha256": "10379b81502b8d58a7819f48fc514a6bb991ec1e0754e909a665a7f97a6a0d82",
+      "native_receipt_sha256": "b1954013a4520980542a34dcd2d19cc9e0be224f722b3d502ad4ff6c4bcc5b4a",
+      "trial_sha256": "27b1badebdf4426e328fdf2806b1d169ec82ba0b6d3ed4c52a9cb7d0eccffed1",
+      "audit_sha256": "49e7bb4ffa45b79b246e92a08c56c8c6bb7399efb1c9ebded90c22986cea0d45",
+      "code_chunks": [
+        [
+          231014,
+          231072
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_output_buffer_01",
+        "frontier": "_register_cleanup",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 309,
+        "native_bss_size": 312,
+        "native_c_padding_bytes": 3,
+        "output_constructor_fields_checked": 9,
+        "nonzero_output_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 0.6157733807340264,
+        "native_seconds": 0.3356975903734565
       }
     }
   ],

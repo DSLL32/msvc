@@ -29,12 +29,13 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active; Invoke, typed initializer and real allocator accepted; next initializer callback01",
+      "status": "active; Invoke, snapshot initializer, allocator, callbacks01\u201308 and first output constructor accepted; nextcleanup registration",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
       "initializer_review": "minimal/initializer-review.json",
-      "allocator_validation": "minimal/allocator-validation.json"
+      "allocator_validation": "minimal/allocator-validation.json",
+      "output_validation": "minimal/output01-validation.json"
     },
     {
       "id": "cpp-basic",

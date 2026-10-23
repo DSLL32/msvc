@@ -111,6 +111,18 @@ int main(void)
             }
             frontend_bss.source_position.origin = frontend_bss.saved_state;
             frontend_bss.source_position.position = 17;
+            for (i = 0; i < FRONTEND_OUTPUT_BUFFERS; ++i) {
+                frontend_bss.output_buffers[i].data = (unsigned char *)frontend_bss.saved_state;
+                frontend_bss.output_buffers[i].cursor = (unsigned char *)frontend_bss.saved_state + 4;
+                frontend_bss.output_buffers[i].capacity = 64;
+                /* An explicitly unused sentinel callback; never invoked. */
+                frontend_bss.output_buffers[i].relocation = (OutputRelocation)frontend_initializers[1];
+                frontend_bss.output_buffers[i].relocation_context = (unsigned char *)frontend_bss.saved_state + 8;
+                frontend_bss.output_buffers[i].file = (FILE *)((unsigned char *)frontend_bss.saved_state + 12);
+                frontend_bss.output_buffers[i].ok = 53;
+                frontend_bss.output_buffers[i].descriptor = 37;
+                frontend_bss.output_buffers[i].mode = 23;
+            }
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }
