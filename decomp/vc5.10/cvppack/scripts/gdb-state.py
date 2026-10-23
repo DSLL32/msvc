@@ -8,6 +8,8 @@ import gdb
 
 
 file_calls=[]
+mapping_calls=[]
+live_mappings={}
 def install():
     class Returned(gdb.FinishBreakpoint):
         def __init__(self,call):
@@ -27,6 +29,49 @@ def install():
             file_calls.append(call);Returned(call)
             return False
     Opened()
+    class MappingReturned(gdb.FinishBreakpoint):
+        def __init__(self,call):
+            self.call=call
+            super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            call=self.call;call['result']=int(self.return_value)&0xffffffff
+            call['last_error']=int(gdb.parse_and_eval("'win32.c'::last_error"))
+            if call['kind']=='create' and call['result']:
+                node=gdb.parse_and_eval("'win32.c'::mappings")
+                found=[]
+                while int(node):
+                    value=node.dereference()
+                    if int(node)==call['result']:found.append(value)
+                    node=value['next']
+                assert len(found)==1,'actual mapping HANDLE absent from typed registry'
+                value=found[0];source=call['args'][0]-1;duplicate=int(value['fd'])
+                proc=Path('/proc')/str(gdb.selected_inferior().pid)/'fd'
+                left=os.stat(proc/str(source));right=os.stat(proc/str(duplicate))
+                assert (left.st_dev,left.st_ino)==(right.st_dev,right.st_ino),'mapping source identity differs'
+                call['registry']=dict(length=int(value['length']),writable=int(value['writable']),source_owned=True)
+                live_mappings[call['result']]=call
+            elif call['kind']=='close':
+                assert call['args'][0] in live_mappings
+                live_mappings.pop(call['args'][0])
+                node=gdb.parse_and_eval("'win32.c'::mappings")
+                while int(node):
+                    assert int(node)!=call['args'][0],'closed mapping HANDLE remains registered'
+                    node=node.dereference()['next']
+            return False
+    class MappingEntered(gdb.Breakpoint):
+        def __init__(self,symbol,kind,names):
+            self.kind,self.names=kind,names
+            super().__init__(symbol,internal=True)
+        def stop(self):
+            frame=gdb.newest_frame()
+            args=[int(frame.read_var(name))&0xffffffff for name in self.names]
+            if self.kind=='close' and args[0] not in live_mappings:return False
+            call=dict(kind=self.kind,args=args)
+            mapping_calls.append(call);MappingReturned(call)
+            return False
+    MappingEntered('recon_CreateFileMappingA','create',('file','security','protection','high','low','name'))
+    MappingEntered('recon_MapViewOfFileEx','map',('handle','access','high','low','bytes','base'))
+    MappingEntered('recon_CloseHandle','close',('handle',))
 
 
 def capture(configuration,data_file,output):
@@ -53,8 +98,9 @@ def capture(configuration,data_file,output):
         else:parameters[item['name']]=int(value)&0xffffffff
     state['parameters']=parameters
     state['file_calls']=file_calls
+    state['mapping_calls']=mapping_calls
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
-    memory={};strings={};handles={}
+    memory={};strings={};handles={};mapped_views={}
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
     def linked(head,shape):
         visited=set()
@@ -88,6 +134,38 @@ def capture(configuration,data_file,output):
                     assert len(content)==actual.st_size
                     handles[str(handle)]=dict(type=1 if stat.S_ISREG(actual.st_mode) else -1,size=actual.st_size,
                         position=position,access_mode=flags&3,pathname=pathname,sha256=hashlib.sha256(content).hexdigest())
+            if 'view' in shape:
+                spec=shape['view'];address=int.from_bytes(raw[spec['offset']:spec['offset']+4],'little')
+                length=int.from_bytes(raw[spec['length_offset']:spec['length_offset']+4],'little')
+                if address and str(address) not in mapped_views:
+                    assert 0<length<=16*1024*1024
+                    node=gdb.parse_and_eval("'win32.c'::views");found=[]
+                    while int(node):
+                        value=node.dereference()
+                        if int(value['address'])==address:found.append(int(value['length']))
+                        node=value['next']
+                    assert found==[length],'mapped view absent from actual typed view registry'
+                    raw_view=bytes(inferior.read_memory(address,length))
+                    view_name='native-view-%d.bin'%(len(mapped_views)+1)
+                    (Path(output).parent/view_name).write_bytes(raw_view)
+                    proc=Path('/proc')/str(inferior.pid)
+                    regions=[]
+                    for line in (proc/'maps').read_text().splitlines():
+                        fields=line.split();first,last=[int(value,16) for value in fields[0].split('-')]
+                        if first<=address and address+length<=last:
+                            regions.append((first,fields))
+                    assert len(regions)==1,'mapped view does not have one complete host region'
+                    first,fields=regions[0]
+                    pathname=bytes.fromhex(strings[str(int.from_bytes(raw[0:4],'little'))]).rstrip(b'\0').decode('latin1')
+                    file=Path(os.readlink(proc/'cwd'))/pathname;actual=os.stat(file)
+                    major,minor=[int(value,16) for value in fields[3].split(':')]
+                    assert actual.st_ino==int(fields[4]) and os.major(actual.st_dev)==major and os.minor(actual.st_dev)==minor,'view backing file identity differs'
+                    matches=[(i,row) for i,row in enumerate(mapping_calls) if row['kind']=='map' and row['result']==address]
+                    assert len(matches)==1,'view generation needs an explicit unmap/reuse model'
+                    ordinal,call=matches[0]
+                    mapped_views[str(address)]=dict(length=length,permissions=fields[1],
+                        offset=int(fields[2],16)+address-first,pathname=pathname,call_index=ordinal,
+                        file=view_name,sha256=hashlib.sha256(raw_view).hexdigest())
             head=int.from_bytes(raw[shape['link']:shape['link']+4],'little')
     for item in data:
         if 'shape' not in item:continue
@@ -98,7 +176,16 @@ def capture(configuration,data_file,output):
             count=shape['count_literal'] if 'count_literal' in shape else int(gdb.parse_and_eval(shape['count']));assert 0<=count<=128
             raw=bytes(inferior.read_memory(head,count*4));memory[str(head)]=raw.hex()
             for i in range(count):linked(int.from_bytes(raw[i*4:i*4+4],'little'),shape)
+    for item in data:
+        if 'blob' not in item:continue
+        head=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+        if not head:continue
+        spec=item['blob'];raw=bytes(inferior.read_memory(head,spec['size']));memory[str(head)]=raw.hex()
+        for pointer in spec.get('pointers',[]):
+            offset=pointer['offset'];child=int.from_bytes(raw[offset:offset+4],'little')
+            if child:memory[str(child)]=bytes(inferior.read_memory(child,pointer['size'])).hex()
     state['memory']=memory
     state['strings']=strings
     state['file_handles']=handles
+    state['mapped_views']=mapped_views
     open(output,'w').write(json.dumps(state,indent=2)+'\n')

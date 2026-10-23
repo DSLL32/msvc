@@ -151,7 +151,9 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
         decoder = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(decoder)
         typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state,
-            {name:(original_dir/('artifact-'+name)).read_bytes() for name in case['artifacts']})
+            {name:(original_dir/('artifact-'+name)).read_bytes() for name in case['artifacts']},
+            dict(original={p.name:p.read_bytes() for p in original_dir.glob('events-view-*.bin')},
+                 native={p.name:p.read_bytes() for p in native_dir.glob('native-view-*.bin')}))
     for name in ('stdout', 'stderr'):
         assert (original_dir / name).read_bytes() == (native_dir / name).read_bytes(), ('different partial output', name)
     return dict(terminal='trap', frontier=logical, original_address=address, native_function=frames[0],

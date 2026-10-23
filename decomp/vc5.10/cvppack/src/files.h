@@ -37,6 +37,7 @@ int open_cached_file(const char *name, int flags, int mode);
 CachedFile *prepare_cached_file(const char *name, int flags, int mode, int *created);
 int open_mapped_file(CachedFile *file, int flags, int created);
 int create_mapping(CachedFile *file);
+int seek_stream_file(CachedFile *file, int offset, int origin);
 int mapped_seek(CachedFile *file, int offset, int origin);
 void open_stream_file(CachedFile *file, int flags, int mode, int created);
 CachedFile *find_cached_file(const char *name);

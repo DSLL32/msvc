@@ -111,7 +111,7 @@ def main():
                    reused_original_capture=bool(reference and (args.original/'configuration.json').read_bytes()==(output/'configuration.json').read_bytes()
                        and (reference['native_sha256']!=sha(BINARY/'build/native/CVPACK') or reference['rebuilt_sha256']!=sha(BINARY/'build/CVPACK.EXE'))),
                    outputs=[dict(name=name,bytes=(output/name).stat().st_size,sha256=sha(output/name))
-                            for name in ['stdout','stderr','gdb-stdout','gdb-stderr','state.json','entry-trace','entry-filter','native-status','direct-stdout','direct-stderr','resources.rmr','case-definition.json','gdb-state.py']+extra_outputs]+artifact_records,
+                            for name in ['stdout','stderr','gdb-stdout','gdb-stderr','state.json','entry-trace','entry-filter','native-status','direct-stdout','direct-stderr','resources.rmr','case-definition.json','gdb-state.py']+extra_outputs+[path.name for path in sorted(output.glob('native-view-*.bin'))]]+artifact_records,
                    seconds=dict(direct_execution=direct_seconds,gdb_execution=elapsed,total=time.perf_counter()-start))
     (output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(state_path.read_text())

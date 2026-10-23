@@ -12,9 +12,17 @@ def decode(events):
     assert len(frontiers) == 1, 'expected one raw original frontier'
     index,address = frontiers[0]
     memory,strings = {},{}
-    file_calls=[];all_strings={};last_error=None;handles={}
+    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={}
     for line in lines:
-        if line.startswith('file-open-arguments '):
+        if line.startswith(('mapping-create-arguments ','view-map-arguments ')):
+            fields=line.split();args=[int(value,16) for value in fields[1:]];assert len(args)==6
+            mapping_calls.append(dict(kind='create' if fields[0]=='mapping-create-arguments' else 'map',args=args))
+        elif line.startswith('mapping-close-argument '):
+            mapping_calls.append(dict(kind='close',args=[int(line.split()[1],16)]))
+        elif line.startswith(('mapping-create-result ','view-map-result ','mapping-close-result ')):
+            assert mapping_calls and 'result' not in mapping_calls[-1]
+            mapping_calls[-1].update(result=int(line.split()[1],16),last_error=last_error)
+        elif line.startswith('file-open-arguments '):
             args=[int(value,16) for value in line.split()[1:]];assert len(args)==7
             file_calls.append(dict(pointer=args[0],**dict(zip(('access','share','security','disposition','attributes','template'),args[1:]))))
         elif line.startswith('file-open-result '):
@@ -34,6 +42,12 @@ def decode(events):
         elif line.startswith('memory '):
             _,location,raw = line.split()
             memory[int(location,16)] = bytes.fromhex(raw)
+        elif line.startswith('mapped-view '):
+            _,view,length,base,region,protect,committed,kind,ordinal=line.split()
+            mapped_views[int(view,16)]=dict(length=int(length),base=int(base,16),region=int(region),
+                protection=int(protect),state=int(committed),type=int(kind),file='events-view-%d.bin'%int(ordinal))
+        elif line.startswith('mapped-view-failed ') or line.startswith('file-handle-failed '):
+            raise AssertionError('incomplete original typed resource observation')
         elif line.startswith('file-handle '):
             _,handle,kind,size,high,position=line.split()
             handles[int(handle,16)]=dict(type=int(kind),size=int(size)+(int(high)<<32),position=int(position))
@@ -47,10 +61,10 @@ def decode(events):
     stack = memory[registers[-1]]
     assert len(stack) == 128
     return dict(address=address,memory=memory,strings=strings,
-                stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error)
+                stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views)
 
 
-def compare(config,data,events,native,artifacts=None):
+def compare(config,data,events,native,artifacts=None,views=None):
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']
@@ -107,6 +121,50 @@ def compare(config,data,events,native,artifacts=None):
         content=artifacts[pathname]
         assert len(content)==expected['size'] and hashlib.sha256(content).hexdigest()==actual['sha256'],'file HANDLE complete contents differ'
 
+    mapping_aliases={};view_roles={};live_mappings=set()
+    assert len(original['mapping_calls'])==len(native.get('mapping_calls',[])),'actual mapping call inventory differs'
+    for index,(left,right) in enumerate(zip(original['mapping_calls'],native.get('mapping_calls',[]))):
+        assert left['kind']==right['kind'] and left['last_error']==right['last_error'],'mapping call kind/LastError differs'
+        kind=left['kind'];source=left['args'];actual=right['args']
+        if kind=='create':
+            assert handle_aliases[source[0]]==actual[0] and source[1:]==actual[1:],'mapping source/ABI/input differs'
+            assert bool(left['result'])==bool(right['result'])
+            if left['result']:
+                assert left['result'] not in mapping_aliases,'mapping HANDLE generation needs explicit reuse model'
+                mapping_aliases[left['result']]=right['result'];live_mappings.add(left['result'])
+                assert right['registry']==dict(length=source[4] or original['file_handles'][source[0]]['size'],writable=int(source[2]==4),source_owned=True),'typed mapping registry state differs'
+        elif kind=='map':
+            assert source[0] in live_mappings and mapping_aliases[source[0]]==actual[0] and source[1:]==actual[1:],'view source/ABI/input differs'
+            assert not source[5],'fixed mapping base needs explicit address-role proof'
+            assert bool(left['result'])==bool(right['result'])
+            if left['result']:
+                assert left['result'] not in view_roles,'mapped view generation needs explicit reuse model'
+                creation=next(row for row in original['mapping_calls'] if row['kind']=='create' and row['result']==source[0])
+                view_roles[left['result']]=dict(address=right['result'],index=index,creation=creation,arguments=source)
+        elif kind=='close':
+            assert source[0] in live_mappings and mapping_aliases[source[0]]==actual[0] and left['result']==right['result']==1,'mapping ownership/close result differs'
+            live_mappings.remove(source[0])
+        else:raise AssertionError('unknown mapping call kind')
+    def mapped_view(address,other,length):
+        assert bool(address)==bool(other),'mapped view NULL state differs'
+        if not address:return
+        role=view_roles[address];assert role['address']==other,'mapped view alias/generation differs'
+        left=original['mapped_views'][address];right=native['mapped_views'][str(other)]
+        assert left['length']==right['length']==length and left['base']==address and left['region']>=length,'mapped view extent/base differs'
+        assert left['state']==0x1000 and left['type']==0x40000,'original view is not committed mapped memory'
+        creation=role['creation'];args=role['arguments']
+        assert left['protection']==creation['args'][2],'original actual view protection differs'
+        assert right['permissions']==('rw-s' if left['protection']==4 else 'r--s'),'native actual view protection/sharing differs'
+        offset=(args[2]<<32)+args[3]
+        assert right['offset']==offset and right['call_index']==role['index'],'mapped view offset/generation differs'
+        owner=next(row for row in original_calls if row['handle']==creation['args'][0])
+        pathname=bytes.fromhex(owner['pathname']).rstrip(b'\0').decode('latin1')
+        assert right['pathname']==pathname,'mapped view backing pathname differs'
+        assert views is not None,'missing complete mapped-memory observations'
+        before=views['original'][left['file']];actual=views['native'][right['file']]
+        assert len(before)==len(actual)==length and before==actual,'complete mapped bytes differ'
+        assert hashlib.sha256(actual).hexdigest()==right['sha256'],'native mapped bytes do not bind raw observation'
+        assert artifacts is not None and before==artifacts[pathname][offset:offset+length],'view contents differ from observed backing file'
     def pair(address,other):
         assert bool(address)==bool(other),'pointer NULL state differs'
         if not address:return False
@@ -132,6 +190,9 @@ def compare(config,data,events,native,artifacts=None):
             if 'handle' in shape:
                 handle=shape['handle'];excluded.update(range(handle,handle+4))
                 file_handle(int.from_bytes(left[handle:handle+4],'little'),int.from_bytes(right[handle:handle+4],'little'))
+            if 'view' in shape:
+                spec=shape['view'];offset_view=spec['offset'];excluded.update(range(offset_view,offset_view+4))
+                mapped_view(int.from_bytes(left[offset_view:offset_view+4],'little'),int.from_bytes(right[offset_view:offset_view+4],'little'),int.from_bytes(left[spec['length_offset']:spec['length_offset']+4],'little'))
             assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'target object bytes differ'
             address=int.from_bytes(left[offset:offset+4],'little')
             other=int.from_bytes(right[offset:offset+4],'little')
@@ -147,7 +208,20 @@ def compare(config,data,events,native,artifacts=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if 'shape' not in item:
+            if 'blob' in item:
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if pair(address,other):
+                    spec=item['blob'];left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==spec['size'],'allocated byte extent differs'
+                    excluded=set()
+                    for pointer in spec.get('pointers',[]):
+                        offset=pointer['offset'];excluded.update(range(offset,offset+4))
+                        source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
+                        if pair(source,destination):
+                            child=original['memory'][source];actual_child=bytes.fromhex(native['memory'][str(destination)])
+                            assert len(child)==len(actual_child)==pointer['size'] and child==actual_child,'nested initialized allocation bytes differ'
+                    assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'allocated initialized bytes differ'
+            elif 'shape' not in item:
                 assert not any(raw) and not any(actual), ('non-NULL pointer needs an evidenced role',item['name'])
             else:
                 shape=item['shape'];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
@@ -175,4 +249,4 @@ def compare(config,data,events,native,artifacts=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases))
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles))

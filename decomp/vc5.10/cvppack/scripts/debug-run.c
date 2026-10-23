@@ -18,12 +18,15 @@ static unsigned char probe_bytes[64];
 static unsigned probe_count = 6;
 static DWORD active_teb;
 static int probes_enabled, pending_probe = -1;
-static DWORD watched_address[64], watched_size[64], watch_count;
+static DWORD watched_address[256], watched_size[256], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
 static char argument_kind[64];
 static DWORD graph_address[64], graph_size[64], graph_link[64], graph_count_address[64], graph_count;
 static DWORD graph_string[64], graph_literal[64], graph_handle[64];
 static DWORD file_open_arguments[7];
+static char event_path[MAX_PATH];
+static DWORD captured_views[128], captured_view_count;
+static DWORD blob_address[64],blob_size[64],blob_pointer[64],blob_child_size[64],blob_count;
 static DWORD widen_output, widen_object, widen_arguments[4];
 static DWORD widen_capacities[2];
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
@@ -32,7 +35,7 @@ static void configure(void)
 {
     char *value, *next;
     value = getenv("VC510_CVPACK_DATA");
-    while (value && *value && watch_count < 64) {
+    while (value && *value && watch_count < 256) {
         if (sscanf(value, "%lx:%lu", &watched_address[watch_count], &watched_size[watch_count]) != 2) break;
         ++watch_count;
         next = strchr(value, ',');
@@ -49,6 +52,15 @@ static void configure(void)
     while (value && *value && probe_count < 64) {
         if (sscanf(value, "%lx:%63[^,]", &probe_sites[probe_count], probe_names[probe_count]) != 2) break;
         ++probe_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_BLOBS");
+    while (value && *value && blob_count < 64) {
+        blob_pointer[blob_count] = 0xffffffffUL;
+        if (sscanf(value, "%lx:%lu:%lu:%lu", &blob_address[blob_count], &blob_size[blob_count],
+                   &blob_pointer[blob_count], &blob_child_size[blob_count]) < 2) break;
+        ++blob_count;
         next = strchr(value, ',');
         value = next ? next + 1 : NULL;
     }
@@ -122,6 +134,36 @@ static void file_handle(FILE *log, HANDLE process, DWORD value)
     CloseHandle(duplicate);
 }
 
+/* Retain complete mapped bytes once per live view, outside the textual log. */
+static void mapped_view(FILE *log, HANDLE process, DWORD address, DWORD size)
+{
+    MEMORY_BASIC_INFORMATION information;
+    DWORD i, offset, count;
+    unsigned char block[65536];
+    char path[MAX_PATH + 40];
+    FILE *output;
+    for (i = 0; i < captured_view_count; ++i) if (captured_views[i] == address) return;
+    if (!size || size > 16 * 1024 * 1024 || captured_view_count >= 128 ||
+        VirtualQueryEx(process, (void *)address, &information, sizeof(information)) != sizeof(information)) {
+        fprintf(log, "mapped-view-failed %08lx\n", address); return;
+    }
+    i = ++captured_view_count;
+    captured_views[i - 1] = address;
+    sprintf(path, "%s-view-%lu.bin", event_path, i);
+    output = fopen(path, "wb");
+    if (!output) { fprintf(log, "mapped-view-failed %08lx\n", address); return; }
+    for (offset = 0; offset < size; offset += count) {
+        count = size - offset;
+        if (count > sizeof(block)) count = sizeof(block);
+        if (!read_bytes(process, address + offset, block, count) || fwrite(block, 1, count, output) != count) break;
+    }
+    fclose(output);
+    if (offset != size) { fprintf(log, "mapped-view-failed %08lx\n", address); return; }
+    fprintf(log, "mapped-view %08lx %lu %08lx %lu %lu %lu %lu %lu\n", address, size,
+        (DWORD)information.AllocationBase, information.RegionSize, information.Protect,
+        information.State, information.Type, i);
+}
+
 static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link, DWORD text, DWORD handle)
 {
     DWORD seen[128], count = 0, i, value;
@@ -133,6 +175,10 @@ static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWO
             string(log, process, value);
         if (handle <= size - 4 && read_bytes(process, head + handle, &value, 4) && value)
             file_handle(log, process, value);
+        if (size == 40 && text == 0 && handle == 16 && read_bytes(process, head + 20, &value, 4) && value) {
+            DWORD length;
+            if (read_bytes(process, head + 24, &length, 4)) mapped_view(log, process, value, length);
+        }
         if (!read_bytes(process, head + link, &head, 4)) return;
     }
     if (head) fprintf(log, "memory-graph-unbounded\n");
@@ -195,7 +241,7 @@ static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
     }
 }
 
-static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
+static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int full_graphs)
 {
     DWORD i, j, value, count, item;
     fprintf(log, "registers %08lx %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",
@@ -210,7 +256,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
     if (active_teb && read_bytes(process, active_teb + 0x34, &value, 4))
         fprintf(log, "last-error %lu\n", value);
     for (i = 0; i < watch_count; ++i) memory(log, process, watched_address[i], watched_size[i]);
-    for (i = 0; i < graph_count; ++i) {
+    for (i = 0; full_graphs && i < graph_count; ++i) {
         if (graph_literal[i]) value = graph_address[i];
         else if (!read_bytes(process, graph_address[i], &value, 4)) continue;
         if (!graph_count_address[i] && !graph_literal[i])
@@ -219,6 +265,14 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
             memory(log, process, value, count * 4);
             for (j = 0; j < count; ++j) if (read_bytes(process, value + j * 4, &item, 4))
                 linked_memory(log, process, item, graph_size[i], graph_link[i], graph_string[i], graph_handle[i]);
+        }
+    }
+    for (i = 0; full_graphs && i < blob_count; ++i) {
+        if (read_bytes(process, blob_address[i], &value, 4) && value) {
+            memory(log, process, value, blob_size[i]);
+            if (blob_pointer[i] <= blob_size[i] - 4 &&
+                read_bytes(process, value + blob_pointer[i], &item, 4) && item)
+                memory(log, process, item, blob_child_size[i]);
         }
     }
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
@@ -238,6 +292,19 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
         string(log, process, file_open_arguments[0]);
     } else if (entry == 0x4021c3) {
         fprintf(log, "file-open-result %08lx\n", context->Eax);
+    }
+    if (entry == 0x4024c7 || entry == 0x402504) {
+        DWORD args[6];
+        if (read_bytes(process, context->Esp, args, sizeof(args))) {
+            fprintf(log, "%s", entry == 0x4024c7 ? "mapping-create-arguments" : "view-map-arguments");
+            for (i = 0; i < 6; ++i) fprintf(log, " %08lx", args[i]);
+            fputc('\n', log);
+        }
+    } else if (entry == 0x4024cd || entry == 0x40250a || entry == 0x402516) {
+        fprintf(log, "%s %08lx\n", entry == 0x4024cd ? "mapping-create-result" :
+                entry == 0x40250a ? "view-map-result" : "mapping-close-result", context->Eax);
+    } else if (entry == 0x402514 && read_bytes(process, context->Esp, &value, 4)) {
+        fprintf(log, "mapping-close-argument %08lx\n", value);
     }
     widen_state(log, process, context, entry);
 }
@@ -304,6 +371,7 @@ int main(int argc, char **argv)
     char command[2048];
     if (argc != 11) return 90;
     configure();
+    strcpy(event_path, argv[5]);
     log = fopen(argv[5], "wb");
     plan = fopen(argv[7], "r");
     original = fopen(argv[8], "rb");
@@ -373,7 +441,7 @@ int main(int argc, char **argv)
                     known = 0;
                     for (i = 0; probes_enabled && i < probe_count; ++i) if (address == probe_sites[i]) {
                         fprintf(log, "%s %08lx eax %08lx\n", probe_names[i], address, context.Eax);
-                        state(log, child.hProcess, &context, address);
+                        state(log, child.hProcess, &context, address, 0);
                         if (!write_bytes(child.hProcess, address, &probe_bytes[i], 1)) failed = 1;
                         context.Eip = address;
                         context.EFlags |= 0x100;
@@ -398,21 +466,21 @@ int main(int argc, char **argv)
                         }
                         ranges[i].reached = 1;
                         fprintf(log, "entry %08lx\n", address);
-                        state(log, child.hProcess, &context, address);
+                        state(log, child.hProcess, &context, address, 0);
                         context.Eip = address;
                         SetThreadContext(thread, &context);
                         known = 1;
                     }
                     if (!known) {
                         fprintf(log, "frontier %08lx\n", address);
-                        state(log, child.hProcess, &context, address);
+                        state(log, child.hProcess, &context, address, 1);
                         TerminateProcess(child.hProcess, 125);
                         done = 1;
                     }
                 }
             } else {
                 fprintf(log, "exception %08lx %08lx first %lu\n", status, address, event.u.Exception.dwFirstChance);
-                state(log, child.hProcess, &context, address);
+                state(log, child.hProcess, &context, address, 0);
                 TerminateProcess(child.hProcess, 126);
                 failed = 1;
                 done = 1;

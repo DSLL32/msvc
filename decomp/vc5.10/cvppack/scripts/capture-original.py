@@ -80,6 +80,11 @@ def main():
         item['shape'].get('count_literal',0),item['shape'].get('handle',0xffffffff)) for item in data if 'shape' in item)
     if any(r['name']=='open_mapped_file' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']='4021bd:file-open-call,4021c3:file-open-return'
+    if any(r['name']=='create_mapping' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',4024c7:mapping-create-call,4024cd:mapping-create-return,402504:view-map-call,40250a:view-map-return,402514:mapping-close-call,402516:mapping-close-return'
+    env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d'%(item['original'],item['blob']['size'],
+        item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
+        item['blob'].get('pointers',[dict(size=0)])[0]['size']) for item in data if 'blob' in item)
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s' % (record['original'],item['slot'],
         'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'A') for record in config['functions']
         for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer'))
@@ -92,6 +97,8 @@ def main():
     assert loaded_provider.is_file() and sha(loaded_provider) == CRT_SHA, 'actual loaded CRT is not canonical shipped provider'
     assert (BINARY / 'functions.json').read_bytes() == (output / 'configuration.json').read_bytes(), 'configuration changed during capture'
     artifact_records = artifacts(case,work,output)
+    for path in sorted(output.glob('events-view-*.bin')):
+        artifact_records.append(dict(name=path.name,bytes=path.stat().st_size,sha256=sha(path)))
     receipt = dict(schema=1, case=args.case, unmasked=args.unmasked, candidates=args.candidate,
         case_definition_sha256=sha(output/'case-definition.json'),
         debugger_source_sha256=sha(BINARY/'scripts/debug-run.c'),

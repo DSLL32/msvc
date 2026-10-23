@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0018-open-mapped-file/original",
-  "reference_receipt_sha256": "fe6b389b837c2beb1613d19f61bfe1f4d322a47e248be73c26e4e84c52cac01a",
+  "reference": "cases/hello-debug-dll/evidence/0025-seek-cached-file/original",
+  "reference_receipt_sha256": "1f3292383d1fd92bb2501722d923f9f5205f4da3acba65822d21a4d3b4a73b3d",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -24,6 +24,13 @@
     "move_cached_file",
     "duplicate_string",
     "open_mapped_file",
-    "create_mapping"
+    "create_mapping",
+    "initialize_type_tables",
+    "allocate_cleared",
+    "initialize_arena",
+    "allocate_bytes",
+    "read_image_debug",
+    "seek_cached_file",
+    "mapped_seek"
   ]
 }

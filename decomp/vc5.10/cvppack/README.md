@@ -5,9 +5,11 @@ spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `create_mapping`. Eighteen application functions are accepted
-overall, covering 2,832 extent bytes (4.52% of the same whole-text denominator).
-The cache prefix now includes the actual mapped-file registry and strict
+matching frontier is `mapped_seek`. Twenty-five application functions are accepted
+overall, covering 5,285 extent bytes (8.43% of the same whole-text denominator).
+The type-table initialization and complete PE/COFF debug-reader body have
+also been recovered; called read/seek boundaries remain trapped. The cache prefix
+now includes the actual mapped-file registry and strict
 file-handle identity, input-content, access-mode, size and position checks.
 
 The completed help case accounts for six functions and 1,269 extent bytes, plus
@@ -66,8 +68,14 @@ MSPDB implementation remains outside reconstructed application coverage.
 
 Native-only boundary checks are `scripts/check-widen-contract.py`,
 `scripts/check-widen-provider.py`, `scripts/check-state-graphs.py` and
-`scripts/check-file-state.py`. The latest function’s explicit original build took
+`scripts/check-file-state.py` and `scripts/check-mapping-state.py`. The latest function’s explicit original build took
 2.35 s, native build 1.66 s, original capture 1.88 s, native capture 0.29 s and
 pair check 0.18 s; both native regressions together took 0.45 s. The independent
 C++ provider test runs 24 success/rejection executions in 66 ms after a 1.56 s
 build. No native test launches Wine.
+
+The current mapped-view state includes the entire 2 MB region and its actual
+VirtualQuery/protection metadata, backing-file identity, offset and mapping/view
+ownership. Fourteen semantic mutations fail. Original 33,280 input bytes plus
+2,063,872 zero-extension bytes match the live native view completely. All eleven
+initialized type-table allocations and the nested empty type record are compared.

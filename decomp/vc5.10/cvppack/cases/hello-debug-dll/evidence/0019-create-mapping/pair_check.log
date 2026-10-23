@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 207, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 177, in main
+    result = validate_pair(args.config, args.original, args.native,args.audit)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 153, in validate_pair
+    typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state,
+        {name:(original_dir/('artifact-'+name)).read_bytes() for name in case['artifacts']},
+        dict(original={p.name:p.read_bytes() for p in original_dir.glob('events-view-*.bin')},
+             native={p.name:p.read_bytes() for p in native_dir.glob('native-view-*.bin')}))
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/raw-state.py", line 72, in compare
+    assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: frontier lacks explicit ABI/parameter schema

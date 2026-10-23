@@ -222,3 +222,39 @@ int open_mapped_file(CachedFile *file, int flags, int created)
     file->flags |= 8;
     return 0;
 }
+
+/* Original file-mapping setup [00402480,00402537). */
+int create_mapping(CachedFile *file)
+{
+    HANDLE mapping;
+    if (file->flags & 2) {
+        SetFilePointer(file->handle, file->capacity, NULL, FILE_BEGIN);
+        SetEndOfFile(file->handle);
+    }
+    mapping = CreateFileMappingA(file->handle, NULL,
+                  file->flags & 2 ? PAGE_READWRITE : PAGE_READONLY,
+                  0, file->capacity, NULL);
+    if (!mapping) {
+        CloseHandle(file->handle);
+        file->handle = NULL;
+        return 0;
+    }
+    file->view = MapViewOfFileEx(mapping,
+                  file->flags & 2 ? FILE_MAP_ALL_ACCESS : FILE_MAP_READ,
+                  0, 0, 0, file->preferred_base);
+    CloseHandle(mapping);
+    if (!file->view) {
+        CloseHandle(file->handle);
+        file->handle = NULL;
+        return 0;
+    }
+    return 1;
+}
+
+/* Original mapped/stream seek dispatch [00401910,00401940). */
+int seek_cached_file(int file, int offset, int origin)
+{
+    CachedFile *entry = cached_files[file];
+    if (entry->flags & 8) return mapped_seek(entry, offset, origin);
+    return seek_stream_file(entry, offset, origin);
+}

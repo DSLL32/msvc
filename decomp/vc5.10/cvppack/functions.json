@@ -24,7 +24,14 @@
     "take_free_file",
     "move_cached_file",
     "duplicate_string",
-    "open_mapped_file"
+    "open_mapped_file",
+    "create_mapping",
+    "initialize_type_tables",
+    "allocate_cleared",
+    "initialize_arena",
+    "allocate_bytes",
+    "read_image_debug",
+    "seek_cached_file"
   ],
   "functions": [
     {
@@ -197,18 +204,28 @@
       "symbol": "_initialize_type_tables",
       "native_symbol": "initialize_type_tables",
       "original": 4239344,
-      "status": "stub",
-      "extent": null,
-      "ret": 0
+      "status": "accepted",
+      "extent": [
+        4239344,
+        4239677
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0020-initialize-type-tables/promotion.json"
     },
     {
       "name": "read_image_debug",
       "symbol": "_read_image_debug",
       "native_symbol": "read_image_debug",
       "original": 4218112,
-      "status": "stub",
-      "extent": null,
-      "ret": 0
+      "status": "accepted",
+      "extent": [
+        4218112,
+        4219875
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0024-read-image-debug-typed/promotion.json"
     },
     {
       "name": "initialize_module_pack",
@@ -500,7 +517,11 @@
             "size": 40,
             "link": 36,
             "string": 0,
-            "handle": 16
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
           }
         },
         {
@@ -600,7 +621,11 @@
             "size": 40,
             "link": 36,
             "string": 0,
-            "handle": 16
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
           }
         },
         {
@@ -676,7 +701,11 @@
             "size": 40,
             "link": 36,
             "string": 0,
-            "handle": 16
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
           }
         }
       ]
@@ -686,8 +715,11 @@
       "symbol": "_create_mapping",
       "native_symbol": "create_mapping",
       "original": 4203648,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4203648,
+        4203831
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -698,10 +730,15 @@
             "size": 40,
             "link": 36,
             "string": 0,
-            "handle": 16
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
           }
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0019-create-mapping-typed-frontier/promotion.json"
     },
     {
       "name": "mapped_seek",
@@ -720,7 +757,11 @@
             "size": 40,
             "link": 36,
             "string": 0,
-            "handle": 16
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
           }
         },
         {
@@ -734,6 +775,172 @@
           "kind": "integer"
         }
       ]
+    },
+    {
+      "name": "allocate_cleared",
+      "symbol": "_allocate_cleared",
+      "native_symbol": "allocate_cleared",
+      "original": 4258704,
+      "status": "accepted",
+      "extent": [
+        4258704,
+        4258766
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 1
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0021-allocate-cleared/promotion.json"
+    },
+    {
+      "name": "allocate_bytes",
+      "symbol": "_allocate_bytes",
+      "native_symbol": "allocate_bytes",
+      "original": 4258656,
+      "status": "accepted",
+      "extent": [
+        4258656,
+        4258696
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 1
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0023-allocate-bytes/promotion.json"
+    },
+    {
+      "name": "initialize_arena",
+      "symbol": "_initialize_arena",
+      "native_symbol": "initialize_arena",
+      "original": 4259680,
+      "status": "accepted",
+      "extent": [
+        4259680,
+        4259704
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "arena",
+          "kind": "global-pointer",
+          "slot": 1,
+          "allowed_globals": [
+            "type_arena",
+            "type_large_arena"
+          ],
+          "nullable": false
+        },
+        {
+          "name": "capacity",
+          "kind": "integer",
+          "slot": 2
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0022-initialize-arena/promotion.json"
+    },
+    {
+      "name": "seek_cached_file",
+      "symbol": "_seek_cached_file",
+      "native_symbol": "seek_cached_file",
+      "original": 4200720,
+      "status": "accepted",
+      "extent": [
+        4200720,
+        4200768
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "origin",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0025-seek-cached-file/promotion.json"
+    },
+    {
+      "name": "read_cached_file",
+      "symbol": "_read_cached_file",
+      "native_symbol": "read_cached_file",
+      "original": 4200832,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "tell_cached_file",
+      "symbol": "_tell_cached_file",
+      "native_symbol": "tell_cached_file",
+      "original": 4201088,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "read_codeview_signature",
+      "symbol": "_read_codeview_signature",
+      "native_symbol": "read_codeview_signature",
+      "original": 4216464,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "read_codeview_directory",
+      "symbol": "_read_codeview_directory",
+      "native_symbol": "read_codeview_directory",
+      "original": 4216752,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "classify_debug_directory",
+      "symbol": "_classify_debug_directory",
+      "native_symbol": "classify_debug_directory",
+      "original": 4217360,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "seek_stream_file",
+      "symbol": "_seek_stream_file",
+      "native_symbol": "seek_stream_file",
+      "original": 4200464,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
     }
   ],
   "support_unmasked": [

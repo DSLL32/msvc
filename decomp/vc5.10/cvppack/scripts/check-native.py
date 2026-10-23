@@ -61,7 +61,9 @@ def main():
             state=json.loads((capture/'state.json').read_text())
             widen_provider=json.loads((capture/'receipt.json').read_text()).get('prepared_widen')
             decoder.compare(config,json.loads((BINARY/'data.json').read_text()),(reference_dir/'events').read_text(),state,
-                {name:(reference_dir/('artifact-'+name)).read_bytes() for name in inputs['artifacts']})
+                {name:(reference_dir/('artifact-'+name)).read_bytes() for name in inputs['artifacts']},
+                dict(original={p.name:p.read_bytes() for p in reference_dir.glob('events-view-*.bin')},
+                     native={p.name:p.read_bytes() for p in capture.glob('native-view-*.bin')}))
         else:
             assert case['terminal']=='exit'
             capture=output
