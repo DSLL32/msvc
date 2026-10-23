@@ -1526,3 +1526,25 @@ void __fastcall record_float_nonfloat_uses(MachineInstruction *instruction)
         }
     }
 }
+
+/* Original [0003a260,0003a294). Keep unresolved outgoing edges in arena4;
+   a branch to the loop split label does not constrain later use accesses. */
+void __fastcall record_float_motion_branch(MachineInstruction *instruction)
+{
+    FloatMotionBranch *branch;
+    if (instruction->operands[0].value.symbol == (SymbolHeader *)float_motion_split_label) return;
+    branch = arena_alloc(4, sizeof(*branch));
+    branch->label = (LabelSymbol *)instruction->operands[0].value.symbol;
+    branch->instruction = instruction;
+    branch->next = float_motion_pending_branches;
+    float_motion_pending_branches = branch;
+}
+
+/* Original [0003a330,0003a34b). Resolve alias exclusions before choosing
+   profitable resident uses, then close a context rejected by selection. */
+void finish_float_motion_uses(void)
+{
+    exclude_float_motion_uses();
+    select_float_motion_uses();
+    if (memory_motion_context->flags & 2) close_float_stream_context();
+}

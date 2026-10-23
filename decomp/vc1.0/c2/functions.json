@@ -1024,7 +1024,10 @@
     "@float_operand_hash@4",
     "@update_float_use_access@8",
     "@float_symbol_name_hash@4",
-    "@record_float_nonfloat_uses@4"
+    "@record_float_nonfloat_uses@4",
+    "@format_integer@12",
+    "@record_float_motion_branch@4",
+    "_finish_float_motion_uses"
   ],
   "driver": [
     {
@@ -3833,8 +3836,7 @@
     {
       "name": "@format_integer@12",
       "start": 460736,
-      "end": 460737,
-      "provisional": true
+      "end": 460851
     },
     {
       "name": "@coff_define_aux_symbol@24",
@@ -7234,8 +7236,7 @@
     {
       "name": "@record_float_motion_branch@4",
       "start": 238176,
-      "end": 238177,
-      "provisional": true
+      "end": 238228
     },
     {
       "name": "@resolve_float_motion_branch@4",
@@ -7245,8 +7246,7 @@
     {
       "name": "_finish_float_motion_uses",
       "start": 238384,
-      "end": 238385,
-      "provisional": true
+      "end": 238411
     },
     {
       "name": "@find_float_stream_use@16",
@@ -7267,6 +7267,18 @@
       "name": "@float_symbol_name_hash@4",
       "start": 239824,
       "end": 239842
+    },
+    {
+      "name": "_exclude_float_motion_uses",
+      "start": 240880,
+      "end": 240881,
+      "provisional": true
+    },
+    {
+      "name": "_select_float_motion_uses",
+      "start": 240512,
+      "end": 240513,
+      "provisional": true
     }
   ],
   "cases": {

@@ -126,3 +126,28 @@ char *__fastcall intern_symbol_name(SymbolHeader *symbol, char *name, int arena)
     descriptor_bytes[arena] += length;
     return arena_strdup(spelling, arena);
 }
+
+/* Original85dc0..85dd0: sixteen digit bytes. The following diagnostic
+   text is a separate object and is deliberately not copied into this map. */
+static const char integer_digits[16] = "0123456789abcdef";
+/* Original [000707c0,00070833). Return the written character count,
+   excluding the terminator. Decimal treats the input bits as signed. */
+unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix)
+{
+    char reverse[32], *digit = reverse;
+    unsigned count = 0;
+    /* Original callers supply 10 (symbol identifiers and %d) or 16 (%x).
+       As in the original, radix and reverse-buffer capacity are assumed. */
+    *digit++ = 0;
+    if ((int)value < 0 && radix == 10) {
+        *text++ = '-';
+        value = 0U - value;
+        count = 1;
+    }
+    do {
+        *digit++ = integer_digits[value % radix];
+        value /= radix;
+    } while (value);
+    while ((*text++ = *--digit) != 0) ++count;
+    return count;
+}

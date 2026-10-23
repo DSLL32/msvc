@@ -132,6 +132,8 @@ void __fastcall record_float_operation_uses(MachineInstruction *instruction, int
 void __fastcall record_float_motion_branch(MachineInstruction *instruction);
 void __fastcall resolve_float_motion_branch(MachineInstruction *instruction);
 void finish_float_motion_uses(void);
+void exclude_float_motion_uses(void);
+void select_float_motion_uses(void);
 typedef struct FloatMotionBranch {
     LabelSymbol *label;
     struct FloatMotionBranch *next;

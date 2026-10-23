@@ -2560,3 +2560,9 @@ Floating access edges and integer alias tracking: checkpoint1020
 @format_integer@12. 941 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-memory-uses.json for extent union, limits and measured timings.
+
+Integer spelling and unresolved floating motion edges: checkpoint1023
+3 acceptances pass fresh original/native matching; current frontier
+_exclude_float_motion_uses. 944 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1023.json for extent union, limits and measured timings.

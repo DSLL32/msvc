@@ -1,0 +1,35 @@
+{
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "source_sha256": "d7d7d9e153d16af0aab1c8a5705376af8ddf254d5d220be477f2469a569b2758",
+  "original_extent": [
+    "0x707c0",
+    "0x70833"
+  ],
+  "direct_sites": [
+    "0x4e142",
+    "0x4e1d9",
+    "0x4e1ff",
+    "0x4e268",
+    "0x7070c",
+    "0x70720"
+  ],
+  "symbol_call_radix": 10,
+  "diagnostic_specifiers": {
+    "d": 10,
+    "x": 16
+  },
+  "absolute_function_pointer_occurrences": 0,
+  "digit_extent": [
+    "0x85dc0",
+    "0x85dd0"
+  ],
+  "digit_bytes": 16,
+  "guard_added": false,
+  "executes_wine": false,
+  "limits": [
+    "No radix validation exists in the original body; it is not introduced in C.",
+    "Only decimal identifier173 is reached by the floating case at this frontier.",
+    "Other radix values and reverse-buffer capacity remain original caller assumptions.",
+    "Adjacent diagnostic source text is a distinct object and is not included."
+  ]
+}

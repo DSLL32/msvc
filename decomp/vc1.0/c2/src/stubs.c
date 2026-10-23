@@ -182,7 +182,6 @@ int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsi
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
-unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix) { __asm int 3 }
 unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, void **auxiliary) { __asm int 3 }
 void __fastcall prepare_source_listing(MachineInstruction *instructions) { __asm int 3 }
@@ -409,5 +408,5 @@ void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm i
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
 void release_float_motion_scratch(void) { __asm int 3 }
-void __fastcall record_float_motion_branch(MachineInstruction *instruction) { __asm int 3 }
-void finish_float_motion_uses(void) { __asm int 3 }
+void exclude_float_motion_uses(void) { __asm int 3 }
+void select_float_motion_uses(void) { __asm int 3 }
