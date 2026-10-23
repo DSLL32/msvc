@@ -1,0 +1,169 @@
+python3 scripts/wine-tool.py --init
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/c1.obj src/c1.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+src/stubs.csrc/c1.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/diagnostics.obj src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/options.obj src/options.c
+src/options.c
+src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/option-data.obj src/option-data.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/option-state.obj src/option-state.c
+src/option-data.c
+src/option-state.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/packing.obj src/packing.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/memory.obj src/memory.c
+src/memory.csrc/packing.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/hash-table.obj src/hash-table.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/checksums.obj src/checksums.c
+src/hash-table.c
+src/checksums.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/characters.obj src/characters.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/arguments.obj src/arguments.c
+src/characters.c
+src/arguments.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/vectors.obj src/vectors.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/frontend.obj src/frontend.c
+src/vectors.c
+src/frontend.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/initialization.obj src/initialization.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/preprocessor.obj src/preprocessor.c
+src/preprocessor.c
+src/initialization.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/preprocessor-directives.obj src/preprocessor-directives.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pch.obj src/pch.c
+src/pch.c
+src/preprocessor-directives.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pch-files.obj src/pch-files.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pch-relocate.obj src/pch-relocate.c
+src/pch-files.csrc/pch-relocate.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pch-reader.obj src/pch-reader.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pp-expression.obj src/pp-expression.c
+src/pp-expression.c
+src/pch-reader.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pragma.obj src/pragma.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/keywords.obj src/keywords.c
+src/keywords.csrc/pragma.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/floating.obj src/floating.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/intermediate.obj src/intermediate.c
+src/intermediate.c
+src/floating.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/runtime.obj src/runtime.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/constants.obj src/constants.c
+src/constants.c
+src/runtime.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/ir.obj src/ir.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/ir-formats.obj src/ir-formats.c
+src/ir.c
+src/ir-formats.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/types.obj src/types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/scopes.obj src/scopes.c
+src/types.c
+src/scopes.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/parameters.obj src/parameters.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/builtins.obj src/builtins.c
+src/builtins.csrc/parameters.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/builtin-data.obj src/builtin-data.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/macros.obj src/macros.c
+src/builtin-data.c
+src/macros.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/macro-expand.obj src/macro-expand.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/global-ir.obj src/global-ir.c
+src/global-ir.csrc/macro-expand.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/global-formats.obj src/global-formats.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/source-input.obj src/source-input.c
+src/global-formats.c
+src/source-input.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/lexer.obj src/lexer.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/token-data.obj src/token-data.c
+src/lexer.c
+src/token-data.c
+src/lexer.c(1101) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/parser.obj src/parser.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm.obj src/asm.c
+src/asm.csrc/parser.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-lexer.obj src/asm-lexer.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-mnemonics.obj src/asm-mnemonics.c
+src/asm-mnemonics.csrc/asm-lexer.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-instructions.obj src/asm-instructions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-registers.obj src/asm-registers.c
+src/asm-registers.csrc/asm-instructions.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-symbols.obj src/asm-symbols.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-validation.obj src/asm-validation.c
+src/asm-validation.csrc/asm-symbols.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-output.obj src/asm-output.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-numbers.obj src/asm-numbers.c
+src/asm-output.c
+src/asm-numbers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-expressions.obj src/asm-expressions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-parser.obj src/asm-parser.c
+src/asm-expressions.csrc/asm-parser.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-grammar.obj src/asm-grammar.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/asm-stubs.obj src/asm-stubs.c
+src/asm-grammar.csrc/asm-stubs.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/seh.obj src/seh.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/parser-grammar.obj src/parser-grammar.c
+src/seh.c
+src/parser-grammar.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/declarations.obj src/declarations.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/declaration-text.obj src/declaration-text.c
+src/declarations.c
+src/declaration-text.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/control-ir.obj src/control-ir.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/control-formats.obj src/control-formats.c
+src/control-ir.c
+src/control-formats.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/expression-records.obj src/expression-records.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/conversions.obj src/conversions.c
+src/conversions.c
+src/expression-records.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/expressions.obj src/expressions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/calls.obj src/calls.c
+src/calls.c
+src/expressions.c
+src/expressions.c(167) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(239) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(401) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(527) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(568) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(636) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(636) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(671) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(671) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(784) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(818) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(1137) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(1145) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/literal-names.obj src/literal-names.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/initializer-records.obj src/initializer-records.c
+src/literal-names.c
+src/initializer-records.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/initializers.obj src/initializers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/debug-info.obj src/debug-info.c
+src/initializers.c
+src/debug-info.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/browser.obj src/browser.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/browser-stubs.obj src/browser-stubs.c
+src/browser.c
+src/browser-stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/program-database.obj src/program-database.c
+src/program-database.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:build/c1.exe build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/option-state.obj build/packing.obj build/memory.obj build/hash-table.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/preprocessor-directives.obj build/pch.obj build/pch-files.obj build/pch-relocate.obj build/pch-reader.obj build/pp-expression.obj build/pragma.obj build/keywords.obj build/floating.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/parameters.obj build/builtins.obj build/builtin-data.obj build/macros.obj build/macro-expand.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/lexer.obj build/token-data.obj build/parser.obj build/asm.obj build/asm-lexer.obj build/asm-mnemonics.obj build/asm-instructions.obj build/asm-registers.obj build/asm-symbols.obj build/asm-validation.obj build/asm-output.obj build/asm-numbers.obj build/asm-expressions.obj build/asm-parser.obj build/asm-grammar.obj build/asm-stubs.obj build/seh.obj build/parser-grammar.obj build/declarations.obj build/declaration-text.obj build/control-ir.obj build/control-formats.obj build/expression-records.obj build/conversions.obj build/expressions.obj build/calls.obj build/literal-names.obj build/initializer-records.obj build/initializers.obj build/debug-info.obj build/browser.obj build/browser-stubs.obj build/program-database.obj ../../../toolchains/1.0-nt/lib/BINMODE.OBJ
+LIBC.lib(UNLINK.OBJ) : warning LNK4006: __unlink already defined in build/runtime.obj; second definition ignored
+LIBC.lib(OPEN.OBJ) : warning LNK4006: __sopen already defined in build/runtime.obj; second definition ignored
+python3 scripts/identify-runtime.py build/c1.exe build/runtime.json
+236 runtime functions identified, 35597 bytes
+python3 scripts/audit-graph.py
+_append_type_shapes@8 original only {'_format_integer'} reconstruction only {'__ultoa'}
+make: *** [Makefile:20: audit-win32] Error 1

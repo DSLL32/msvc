@@ -19,7 +19,7 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'pch-create':('pch','c1-create'), 'pch-use':('pch','c1-use'),
          'do-while':('do-while','c1'), 'seh':('seh','c1'), 'inline-asm':('inline-asm','c1'), 'browser':('browser','c1'),
          'preprocessor-E':('preprocessor','c1-E'), 'preprocessor-EP':('preprocessor','c1-EP'),
-         'preprocessor-P':('preprocessor','c1-P'), 'comments':('comments','c1')}
+         'preprocessor-P':('preprocessor','c1-P'), 'comments':('comments','c1'), 'prototypes':('prototypes','c1')}
 
 
 def sha(data):
@@ -81,7 +81,7 @@ def validate_artifacts(work, fixture, phase):
 def run_case(name, executable, directory, traces=None, dependency=None):
     start = time.perf_counter()
     fixture_name, phase_name = CASES[name]
-    fixture = (BINARY/'cases'/fixture_name if name in ('do-while','seh','inline-asm','browser','preprocessor-E','preprocessor-EP','preprocessor-P','comments') else FIXTURES/fixture_name)
+    fixture = (BINARY/'cases'/fixture_name if name in ('do-while','seh','inline-asm','browser','preprocessor-E','preprocessor-EP','preprocessor-P','comments','prototypes') else FIXTURES/fixture_name)
     manifest = fixture/'manifest.json'
     metadata = json.loads(manifest.read_text())
     phase = metadata['phases'][phase_name]

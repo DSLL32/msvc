@@ -10,3 +10,11 @@ Two standalone untouched originals match all bytes and empty artifact set.
 Original CL prepare_execution duplicates descriptor1 to descriptor2 before
 launch; the phase preserves that alias explicitly. No stream content is changed.
 This case follows comment preservation in the authorized queue.
+
+Completed at802 accepted entries. Twenty-five fresh masked-original/native
+observations match, including full termination and360 exact stdout bytes.
+Twenty-four whole functions implement centered text buffers, storage/type
+spelling, nested pointer/array/function declarators, parameter names and body
+skipping. Original-toolchain function graph/ABI/data/grammar audits and all
+fifteen native trace/output cases pass. See validation.json for timings and
+retained corrected diagnostic evidence.

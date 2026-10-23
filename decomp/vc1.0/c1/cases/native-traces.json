@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "6a004cc1255ac4bbd495ad3eea7e7b0eb92bcf49b6b91695044f9838750a475c",
+    "functions.json": "cb8e50d7049ea3eddd4df76ae8eb6e74e149bd4ceb5d7ecf72e4b85b13756f7e",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "e827d66551d01c9b9c50513bac70d6181875ce32382eadb42d55199b9d99ac78"
+    "sha256": "23225f8bee9fcc6f6e2fa42aaba4516d88d8cf3d0eb9eb688b8ae05a21f388ea"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -121,6 +121,14 @@
       "logical": "_append_debug_index",
       "source": "src/debug-info.c"
     },
+    "append_declaration_character": {
+      "logical": "_append_declaration_character@8",
+      "source": "src/declaration-text.c"
+    },
+    "append_declaration_text": {
+      "logical": "_append_declaration_text@8",
+      "source": "src/declaration-text.c"
+    },
     "append_macro_string": {
       "logical": "_append_macro_string@8",
       "source": "src/macro-expand.c"
@@ -133,13 +141,29 @@
       "logical": "_append_parameter@8",
       "source": "src/parser.c"
     },
+    "append_parameter_text": {
+      "logical": "_append_parameter_text@12",
+      "source": "src/declaration-text.c"
+    },
     "append_pch_intermediates": {
       "logical": "_append_pch_intermediates",
       "source": "src/pch-files.c"
     },
+    "append_storage_attributes": {
+      "logical": "_append_storage_attributes@8",
+      "source": "src/declaration-text.c"
+    },
     "append_type_shape": {
       "logical": "_append_type_shape@8",
       "source": "src/stubs.c"
+    },
+    "append_type_shapes": {
+      "logical": "_append_type_shapes@8",
+      "source": "src/declaration-text.c"
+    },
+    "append_type_text": {
+      "logical": "_append_type_text@8",
+      "source": "src/declaration-text.c"
     },
     "append_vector": {
       "logical": "_append_vector@8",
@@ -269,6 +293,10 @@
       "logical": "_begin_debug_info",
       "source": "src/debug-info.c"
     },
+    "begin_declaration_text": {
+      "logical": "_begin_declaration_text",
+      "source": "src/declaration-text.c"
+    },
     "begin_do_statement": {
       "logical": "_begin_do_statement",
       "source": "src/parser.c"
@@ -316,10 +344,6 @@
     "begin_switch_statement": {
       "logical": "_begin_switch_statement@4",
       "source": "src/parser.c"
-    },
-    "begin_syntax_trace": {
-      "logical": "_begin_syntax_trace",
-      "source": "src/stubs.c"
     },
     "begin_tag_definition": {
       "logical": "_begin_tag_definition@12",
@@ -385,6 +409,18 @@
       "logical": "_browser_symbol_reference@4",
       "source": "src/browser.c"
     },
+    "build_based_text": {
+      "logical": "_build_based_text@8",
+      "source": "src/declaration-text.c"
+    },
+    "build_declaration_text": {
+      "logical": "_build_declaration_text@8",
+      "source": "src/declaration-text.c"
+    },
+    "build_declarator_text": {
+      "logical": "_build_declarator_text@8",
+      "source": "src/declaration-text.c"
+    },
     "build_parameter_info": {
       "logical": "_build_parameter_info@8",
       "source": "src/parameters.c"
@@ -392,6 +428,10 @@
     "build_pdb_field_list": {
       "logical": "_build_pdb_field_list",
       "source": "src/debug-info.c"
+    },
+    "build_storage_text": {
+      "logical": "_build_storage_text@8",
+      "source": "src/declaration-text.c"
     },
     "builtin_enabled": {
       "logical": "_builtin_enabled@4",
@@ -777,6 +817,10 @@
       "logical": "_declaration_conflict@8",
       "source": "src/declarations.c"
     },
+    "declaration_text_value": {
+      "logical": "_declaration_text_value@4",
+      "source": "src/declaration-text.c"
+    },
     "declare_implicit_function": {
       "logical": "_declare_implicit_function@4",
       "source": "src/stubs.c"
@@ -1037,13 +1081,13 @@
       "logical": "_encode_string_pool_name@16",
       "source": "src/literal-names.c"
     },
+    "end_declaration_text": {
+      "logical": "_end_declaration_text",
+      "source": "src/declaration-text.c"
+    },
     "end_function_context": {
       "logical": "_end_function_context@4",
       "source": "src/parser.c"
-    },
-    "end_syntax_trace": {
-      "logical": "_end_syntax_trace",
-      "source": "src/stubs.c"
     },
     "ensure_string_space": {
       "logical": "_ensure_string_space@4",
@@ -1156,6 +1200,10 @@
     "find_conditional_directive": {
       "logical": "_find_conditional_directive",
       "source": "src/preprocessor-directives.c"
+    },
+    "find_declaration_text": {
+      "logical": "_find_declaration_text@4",
+      "source": "src/declaration-text.c"
     },
     "find_expression_symbol": {
       "logical": "_find_expression_symbol@4",
@@ -2061,6 +2109,10 @@
       "logical": "_new_bitset@4",
       "source": "src/memory.c"
     },
+    "new_declaration_text": {
+      "logical": "_new_declaration_text",
+      "source": "src/declaration-text.c"
+    },
     "new_enumerator": {
       "logical": "_new_enumerator@8",
       "source": "src/declarations.c"
@@ -2489,6 +2541,14 @@
       "logical": "_prepare_symbol_debug_type@4",
       "source": "src/debug-info.c"
     },
+    "prepend_declaration_character": {
+      "logical": "_prepend_declaration_character@8",
+      "source": "src/declaration-text.c"
+    },
+    "prepend_declaration_text": {
+      "logical": "_prepend_declaration_text@8",
+      "source": "src/declaration-text.c"
+    },
     "prepend_expression_type_shape": {
       "logical": "_prepend_expression_type_shape@16",
       "source": "src/types.c"
@@ -2496,6 +2556,10 @@
     "prepend_interned_type_shape": {
       "logical": "_prepend_interned_type_shape@16",
       "source": "src/types.c"
+    },
+    "prepend_pointer_text": {
+      "logical": "_prepend_pointer_text@8",
+      "source": "src/declaration-text.c"
     },
     "preprocess_directive": {
       "logical": "_preprocess_directive",
@@ -2515,7 +2579,7 @@
     },
     "print_function_declaration": {
       "logical": "_print_function_declaration@8",
-      "source": "src/stubs.c"
+      "source": "src/declaration-text.c"
     },
     "process_declaration": {
       "logical": "_process_declaration@4",
@@ -2765,6 +2829,10 @@
       "logical": "_release_arena@4",
       "source": "src/memory.c"
     },
+    "release_declaration_text": {
+      "logical": "_release_declaration_text@4",
+      "source": "src/declaration-text.c"
+    },
     "release_input_handle": {
       "logical": "_release_input_handle",
       "source": "src/stubs.c"
@@ -2884,6 +2952,10 @@
     "require_complete_type": {
       "logical": "_require_complete_type@4",
       "source": "src/stubs.c"
+    },
+    "reserve_declaration_text": {
+      "logical": "_reserve_declaration_text@12",
+      "source": "src/declaration-text.c"
     },
     "reserve_pdb_block": {
       "logical": "@reserve_pdb_block@12",
@@ -3063,7 +3135,7 @@
     },
     "skip_declaration_tokens": {
       "logical": "_skip_declaration_tokens",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "skip_directive_space": {
       "logical": "_skip_directive_space",
@@ -3163,7 +3235,7 @@
     },
     "type_specifier_name": {
       "logical": "_type_specifier_name@4",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "type_warning": {
       "logical": "_type_warning@12",
@@ -3272,6 +3344,14 @@
     "write_debug_record": {
       "logical": "_write_debug_record",
       "source": "src/debug-info.c"
+    },
+    "write_declaration_storage": {
+      "logical": "_write_declaration_storage@8",
+      "source": "src/declaration-text.c"
+    },
+    "write_declarator_attributes": {
+      "logical": "_write_declarator_attributes@20",
+      "source": "src/declaration-text.c"
     },
     "write_decorated_name": {
       "logical": "_write_decorated_name@8",
@@ -4050,7 +4130,31 @@
     "append_macro_string",
     "copy_quoted_literal",
     "copy_block_comment",
-    "copy_line_comment"
+    "copy_line_comment",
+    "begin_declaration_text",
+    "new_declaration_text",
+    "print_function_declaration",
+    "build_declaration_text",
+    "append_type_text",
+    "type_specifier_name",
+    "append_declaration_text",
+    "reserve_declaration_text",
+    "find_declaration_text",
+    "append_declaration_character",
+    "build_declarator_text",
+    "write_declarator_attributes",
+    "append_type_shapes",
+    "append_parameter_text",
+    "declaration_text_value",
+    "release_declaration_text",
+    "prepend_declaration_text",
+    "prepend_pointer_text",
+    "prepend_declaration_character",
+    "write_declaration_storage",
+    "build_storage_text",
+    "append_storage_attributes",
+    "end_declaration_text",
+    "skip_declaration_tokens"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4983,6 +5087,41 @@
       "expected": [
         "copy_block_comment",
         "copy_line_comment"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "prototypes": {
+      "first": 778,
+      "last": 802,
+      "seen_count": 656,
+      "expected": [
+        "begin_declaration_text",
+        "new_declaration_text",
+        "print_function_declaration",
+        "build_declaration_text",
+        "append_type_text",
+        "type_specifier_name",
+        "append_declaration_text",
+        "reserve_declaration_text",
+        "find_declaration_text",
+        "append_declaration_character",
+        "build_declarator_text",
+        "write_declarator_attributes",
+        "append_type_shapes",
+        "append_parameter_text",
+        "declaration_text_value",
+        "release_declaration_text",
+        "prepend_declaration_text",
+        "prepend_pointer_text",
+        "prepend_declaration_character",
+        "write_declaration_storage",
+        "build_storage_text",
+        "append_storage_attributes",
+        "end_declaration_text",
+        "skip_declaration_tokens"
       ],
       "terminal": {
         "kind": "exit",

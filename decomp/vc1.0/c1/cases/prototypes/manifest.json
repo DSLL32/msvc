@@ -71,9 +71,225 @@
       }
     }
   },
-  "status": "original CL capture and two independent original C1 replays raw exact; approved queued case",
+  "status": "complete;360stdout bytes raw exact;15native regression cases pass",
   "capture": {
     "provenance": "Untouched CL child _spawnvpe transport captured in C1 private scratch/prefix; helper source read-only from CL. C2/LINK references are not queued.",
     "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
+  },
+  "reconstruction": {
+    "accepted_from": 778,
+    "accepted_count": 802,
+    "acceptance_order": [
+      "_begin_declaration_text",
+      "_new_declaration_text",
+      "_print_function_declaration@8",
+      "_build_declaration_text@8",
+      "_append_type_text@8",
+      "_type_specifier_name@4",
+      "_append_declaration_text@8",
+      "_reserve_declaration_text@12",
+      "_find_declaration_text@4",
+      "_append_declaration_character@8",
+      "_build_declarator_text@8",
+      "_write_declarator_attributes@20",
+      "_append_type_shapes@8",
+      "_append_parameter_text@12",
+      "_declaration_text_value@4",
+      "_release_declaration_text@4",
+      "_prepend_declaration_text@8",
+      "_prepend_pointer_text@8",
+      "_prepend_declaration_character@8",
+      "_write_declaration_storage@8",
+      "_build_storage_text@8",
+      "_append_storage_attributes@8",
+      "_end_declaration_text",
+      "_skip_declaration_tokens"
+    ],
+    "terminal": {
+      "kind": "exit",
+      "code": 0
+    },
+    "frontier_observations": [
+      {
+        "accepted_count": 778,
+        "frontier": "_begin_syntax_trace",
+        "native_frame": "begin_syntax_trace",
+        "original_receipt": "evidence/frontier-778-original.receipt.json",
+        "native_receipt": "evidence/frontier-778-native.receipt.json"
+      },
+      {
+        "accepted_count": 779,
+        "frontier": "_new_declaration_text",
+        "native_frame": "new_declaration_text",
+        "original_receipt": "evidence/frontier-779-original.receipt.json",
+        "native_receipt": "evidence/frontier-779-native.receipt.json"
+      },
+      {
+        "accepted_count": 780,
+        "frontier": "_print_function_declaration@8",
+        "native_frame": "print_function_declaration",
+        "original_receipt": "evidence/frontier-780-original.receipt.json",
+        "native_receipt": "evidence/frontier-780-native.receipt.json"
+      },
+      {
+        "accepted_count": 781,
+        "frontier": "_build_declaration_text@8",
+        "native_frame": "build_declaration_text",
+        "original_receipt": "evidence/frontier-781-original.receipt.json",
+        "native_receipt": "evidence/frontier-781-native.receipt.json"
+      },
+      {
+        "accepted_count": 782,
+        "frontier": "_append_type_text@8",
+        "native_frame": "append_type_text",
+        "original_receipt": "evidence/frontier-782-original.receipt.json",
+        "native_receipt": "evidence/frontier-782-native.receipt.json"
+      },
+      {
+        "accepted_count": 783,
+        "frontier": "_type_specifier_name@4",
+        "native_frame": "type_specifier_name",
+        "original_receipt": "evidence/frontier-783-original.receipt.json",
+        "native_receipt": "evidence/frontier-783-native.receipt.json"
+      },
+      {
+        "accepted_count": 784,
+        "frontier": "_append_declaration_text@8",
+        "native_frame": "append_declaration_text",
+        "original_receipt": "evidence/frontier-784-original.receipt.json",
+        "native_receipt": "evidence/frontier-784-native.receipt.json"
+      },
+      {
+        "accepted_count": 785,
+        "frontier": "_reserve_declaration_text@12",
+        "native_frame": "reserve_declaration_text",
+        "original_receipt": "evidence/frontier-785-original.receipt.json",
+        "native_receipt": "evidence/frontier-785-native.receipt.json"
+      },
+      {
+        "accepted_count": 786,
+        "frontier": "_find_declaration_text@4",
+        "native_frame": "find_declaration_text",
+        "original_receipt": "evidence/frontier-786-original.receipt.json",
+        "native_receipt": "evidence/frontier-786-native.receipt.json"
+      },
+      {
+        "accepted_count": 787,
+        "frontier": "_append_declaration_character@8",
+        "native_frame": "append_declaration_character",
+        "original_receipt": "evidence/frontier-787-original.receipt.json",
+        "native_receipt": "evidence/frontier-787-native.receipt.json"
+      },
+      {
+        "accepted_count": 788,
+        "frontier": "_build_declarator_text@8",
+        "native_frame": "build_declarator_text",
+        "original_receipt": "evidence/frontier-788-original.receipt.json",
+        "native_receipt": "evidence/frontier-788-native.receipt.json"
+      },
+      {
+        "accepted_count": 789,
+        "frontier": "_write_declarator_attributes@20",
+        "native_frame": "write_declarator_attributes",
+        "original_receipt": "evidence/frontier-789-original.receipt.json",
+        "native_receipt": "evidence/frontier-789-native.receipt.json"
+      },
+      {
+        "accepted_count": 790,
+        "frontier": "_append_type_shapes@8",
+        "native_frame": "append_type_shapes",
+        "original_receipt": "evidence/frontier-790-original.receipt.json",
+        "native_receipt": "evidence/frontier-790-native.receipt.json"
+      },
+      {
+        "accepted_count": 791,
+        "frontier": "_append_parameter_text@8",
+        "native_frame": "append_parameter_text",
+        "original_receipt": "evidence/frontier-791-original.receipt.json",
+        "native_receipt": "evidence/frontier-791-native.receipt.json"
+      },
+      {
+        "accepted_count": 792,
+        "frontier": "_declaration_text_value@4",
+        "native_frame": "declaration_text_value",
+        "original_receipt": "evidence/frontier-792-original.receipt.json",
+        "native_receipt": "evidence/frontier-792-native.receipt.json"
+      },
+      {
+        "accepted_count": 793,
+        "frontier": "_release_declaration_text@4",
+        "native_frame": "release_declaration_text",
+        "original_receipt": "evidence/frontier-793-original.receipt.json",
+        "native_receipt": "evidence/frontier-793-native.receipt.json"
+      },
+      {
+        "accepted_count": 794,
+        "frontier": "_prepend_declaration_text@8",
+        "native_frame": "prepend_declaration_text",
+        "original_receipt": "evidence/frontier-794-original.receipt.json",
+        "native_receipt": "evidence/frontier-794-native.receipt.json"
+      },
+      {
+        "accepted_count": 795,
+        "frontier": "_prepend_pointer_text@8",
+        "native_frame": "prepend_pointer_text",
+        "original_receipt": "evidence/frontier-795-original.receipt.json",
+        "native_receipt": "evidence/frontier-795-native.receipt.json"
+      },
+      {
+        "accepted_count": 796,
+        "frontier": "_prepend_declaration_character@8",
+        "native_frame": "prepend_declaration_character",
+        "original_receipt": "evidence/frontier-796-original.receipt.json",
+        "native_receipt": "evidence/frontier-796-native.receipt.json"
+      },
+      {
+        "accepted_count": 797,
+        "frontier": "_write_declaration_storage@8",
+        "native_frame": "write_declaration_storage",
+        "original_receipt": "evidence/frontier-797-original.receipt.json",
+        "native_receipt": "evidence/frontier-797-native.receipt.json"
+      },
+      {
+        "accepted_count": 798,
+        "frontier": "_build_storage_text@8",
+        "native_frame": "build_storage_text",
+        "original_receipt": "evidence/frontier-798-original.receipt.json",
+        "native_receipt": "evidence/frontier-798-native.receipt.json"
+      },
+      {
+        "accepted_count": 799,
+        "frontier": "_append_storage_attributes@8",
+        "native_frame": "append_storage_attributes",
+        "original_receipt": "evidence/frontier-799-original.receipt.json",
+        "native_receipt": "evidence/frontier-799-native.receipt.json"
+      },
+      {
+        "accepted_count": 800,
+        "frontier": "_end_syntax_trace",
+        "native_frame": "end_syntax_trace",
+        "original_receipt": "evidence/frontier-800-original.receipt.json",
+        "native_receipt": "evidence/frontier-800-native.receipt.json"
+      },
+      {
+        "accepted_count": 801,
+        "frontier": "_skip_declaration_tokens",
+        "native_frame": "skip_declaration_tokens",
+        "original_receipt": "evidence/frontier-801-original.receipt.json",
+        "native_receipt": "evidence/frontier-801-native.receipt.json"
+      },
+      {
+        "accepted_count": 802,
+        "frontier": null,
+        "native_frame": null,
+        "original_receipt": "evidence/frontier-802-original.receipt.json",
+        "native_receipt": "evidence/frontier-802-native.receipt.json"
+      }
+    ],
+    "logical_renames": {
+      "_begin_syntax_trace": "_begin_declaration_text",
+      "_end_syntax_trace": "_end_declaration_text",
+      "_append_parameter_text@8": "_append_parameter_text@12"
+    }
   }
 }

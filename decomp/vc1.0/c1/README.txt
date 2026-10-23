@@ -2,19 +2,19 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-Fourteen cases are complete: minimal C, optimized Win32 hello, DLL,
+Fifteen cases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, PCH creation and dependent use, do-while, nested SEH, inline
 assembly, browser output, preprocessing with /E, /EP and /P, and preserved
-comments with /C /E. There are 667
-reconstructed source functions and 778 accepted original entries. Browser and
+comments with /C /E, and prototype output with /Zg. There are 691
+reconstructed source functions and 802 accepted original entries. Browser and
 preprocessor cases retain exact invocations, dependencies and fresh original/
 native frontier evidence under cases/. Unvisited functions retain named trapping stubs.
 The do-while trial reconstructs exactly one function, begin_do_statement; its
 source, original captures and current exit terminal are durable in cases/do-while/.
 cases/do-while/validation.json records the one-function workflow trial timings.
 
-Accepted original code extents cover 207662 of 277234 code-section bytes,
-74.904954%. This is a clipped extent union including shared text data, accepted
+Accepted original code extents cover 211128 of 277234 code-section bytes,
+76.155161%. This is a clipped extent union including shared text data, accepted
 CRT and import thunks; it is not branch coverage. scripts/coverage.py reports the
 source/CRT/import breakdown from the original-toolchain build and metadata.
 
@@ -88,7 +88,7 @@ PCH creation and use run at N:\pch in separate private host namespaces. The actu
 native producer's PCH must match the immutable reference byte for byte before it
 is copied to the consumer. Selecting pch-use automatically runs the producer.
 The consumer's PCH input remains unchanged. There are no captured process doubles
-or external Windows dependencies in these fourteen completed frontend cases.
+or external Windows dependencies in these fifteen completed frontend cases.
 
 Each run keeps status, streams, trace and artifacts under ~/.ai-tmp/vc1.0-c1/.
 Receipts split setup, native execution and output checks; trace-cache preparation
@@ -110,7 +110,7 @@ period-style Win32 C with original calls and ABIs. scripts/wine-tool.py is used
 only for this explicit compilation. PE/index helpers in scripts/images.py do
 not execute any target.
 
-The call-graph audit checks all 667 accepted source functions, direct/tail calls,
+The call-graph audit checks all 691 accepted source functions, direct/tail calls,
 indirect-call presence and complete instruction boundaries. State audits check
 269 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
 boundary, 72 scalar options, 21 option targets, 17 pragma rules, five hash
@@ -160,8 +160,8 @@ rows and3128 gotos match both the model and linked original-compiler tables.
 Dictionary,operand-rule,layout and format audits cover all encountered data.
 The fixture completes with exact instruction and label IR records.
 
-The approved next queue is active: comment preservation is complete; prototype
-output and automatic PCH producer/reuser/conditional invalidation follow. Remaining identified application
+The approved next queue is active: comment preservation and prototype
+output are complete; automatic PCH producer/reuser/conditional invalidation follows. Remaining identified application
 families include comment-preserving preprocessing, /Zg declaration printing,
 automatic PCH creation/rebuild and conditional replay, further assembly operand
 forms, diagnostic/error recovery, and unvisited expression/initializer branches.

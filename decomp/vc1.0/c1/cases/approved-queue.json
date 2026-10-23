@@ -16,12 +16,12 @@
     {
       "case": "prototypes",
       "phase": "c1",
-      "status": "two independent original replays raw exact; next active case"
+      "status": "complete;360stdout bytes raw exact; registered native case"
     },
     {
       "case": "automatic-pch",
       "phase": "c1-create",
-      "status": "two independent original C1 replays raw exact; queued"
+      "status": "two independent original replays raw exact; next active case"
     },
     {
       "case": "automatic-pch",

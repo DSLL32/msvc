@@ -782,7 +782,31 @@
     "_freopen",
     "import:SetStdHandle",
     "_copy_block_comment",
-    "_copy_line_comment"
+    "_copy_line_comment",
+    "_begin_declaration_text",
+    "_new_declaration_text",
+    "_print_function_declaration@8",
+    "_build_declaration_text@8",
+    "_append_type_text@8",
+    "_type_specifier_name@4",
+    "_append_declaration_text@8",
+    "_reserve_declaration_text@12",
+    "_find_declaration_text@4",
+    "_append_declaration_character@8",
+    "_build_declarator_text@8",
+    "_write_declarator_attributes@20",
+    "_append_type_shapes@8",
+    "_append_parameter_text@12",
+    "_declaration_text_value@4",
+    "_release_declaration_text@4",
+    "_prepend_declaration_text@8",
+    "_prepend_pointer_text@8",
+    "_prepend_declaration_character@8",
+    "_write_declaration_storage@8",
+    "_build_storage_text@8",
+    "_append_storage_attributes@8",
+    "_end_declaration_text",
+    "_skip_declaration_tokens"
   ],
   "driver": [
     {
@@ -1705,7 +1729,7 @@
     {
       "name": "_skip_declaration_tokens",
       "start": 142989,
-      "end": 142990
+      "end": 143218
     },
     {
       "name": "_recover_parser_token",
@@ -2207,7 +2231,7 @@
     {
       "name": "_type_specifier_name@4",
       "start": 270720,
-      "end": 270721
+      "end": 271009
     },
     {
       "name": "_find_identifier_symbol@4",
@@ -2430,19 +2454,19 @@
       "end": 177185
     },
     {
-      "name": "_begin_syntax_trace",
+      "name": "_begin_declaration_text",
       "start": 273680,
-      "end": 273681
+      "end": 273691
     },
     {
-      "name": "_end_syntax_trace",
+      "name": "_end_declaration_text",
       "start": 273696,
-      "end": 273697
+      "end": 273730
     },
     {
       "name": "_print_function_declaration@8",
       "start": 271072,
-      "end": 271073
+      "end": 271301
     },
     {
       "name": "_initialize_expression_stream@4",
@@ -5173,6 +5197,112 @@
       "name": "_write_pch_record_header",
       "start": 282176,
       "end": 282177
+    },
+    {
+      "name": "_new_declaration_text",
+      "start": 273504,
+      "end": 273636
+    },
+    {
+      "name": "_build_declaration_text@8",
+      "start": 271312,
+      "end": 271400
+    },
+    {
+      "name": "_declaration_text_value@4",
+      "start": 273744,
+      "end": 273780
+    },
+    {
+      "name": "_write_declaration_storage@8",
+      "start": 272688,
+      "end": 272762
+    },
+    {
+      "name": "_append_declaration_text@8",
+      "start": 270528,
+      "end": 270587
+    },
+    {
+      "name": "_append_type_text@8",
+      "start": 272304,
+      "end": 272511
+    },
+    {
+      "name": "_build_declarator_text@8",
+      "start": 271904,
+      "end": 272083
+    },
+    {
+      "name": "_release_declaration_text@4",
+      "start": 273648,
+      "end": 273667
+    },
+    {
+      "name": "_prepend_declaration_text@8",
+      "start": 270656,
+      "end": 270718
+    },
+    {
+      "name": "_append_declaration_character@8",
+      "start": 270624,
+      "end": 270648
+    },
+    {
+      "name": "_reserve_declaration_text@12",
+      "start": 273792,
+      "end": 274217
+    },
+    {
+      "name": "_find_declaration_text@4",
+      "start": 273440,
+      "end": 273499
+    },
+    {
+      "name": "_write_declarator_attributes@20",
+      "start": 271600,
+      "end": 271904
+    },
+    {
+      "name": "_append_type_shapes@8",
+      "start": 272096,
+      "end": 272303
+    },
+    {
+      "name": "_build_based_text@8",
+      "start": 271408,
+      "end": 271409
+    },
+    {
+      "name": "_prepend_pointer_text@8",
+      "start": 273280,
+      "end": 273385
+    },
+    {
+      "name": "_prepend_declaration_character@8",
+      "start": 270592,
+      "end": 270616
+    },
+    {
+      "name": "_append_parameter_text@12",
+      "start": 272960,
+      "end": 273279
+    },
+    {
+      "name": "_build_storage_text@8",
+      "start": 272768,
+      "end": 272914,
+      "shared": [
+        [
+          272916,
+          272948
+        ]
+      ]
+    },
+    {
+      "name": "_append_storage_attributes@8",
+      "start": 272512,
+      "end": 272685
     }
   ],
   "cases": {
@@ -5245,6 +5375,10 @@
       "arguments": "",
       "accepted_from": 776,
       "accepted_count": 778
+    },
+    "prototypes": {
+      "accepted_from": 778,
+      "accepted_count": 802
     }
   },
   "buffered_streams": [

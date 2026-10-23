@@ -1448,3 +1448,29 @@ void copy_line_comment(void)
         fputc(character,preprocessor_stream);
     }
 }
+
+/* Original0x22e8d..0x22f71. Skip a function body for prototype output,
+   or recover a declaration while retaining the outer closing brace. */
+void skip_declaration_tokens(void)
+{
+    int depth = 0;
+    for (;;) {
+        scan_token();
+        switch (current_token_code) {
+        case 0: return;
+        case TOK_LEFT_BRACE: ++depth; break;
+        case TOK_RIGHT_BRACE:
+            if (!depth) { --source_text_cursor; return; }
+            --depth;
+            break;
+        case TOK_SEMICOLON:
+            release_arena(2);
+            text_work_cursor = expression_storage;
+            break;
+        case TOK_STRING:
+            text_work_cursor = expression_storage;
+            break;
+        case TOK_END_OF_FILE: fatal_error(4); break;
+        }
+    }
+}

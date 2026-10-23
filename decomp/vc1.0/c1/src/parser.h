@@ -46,8 +46,10 @@ void __stdcall define_register_parameter(FrontendSymbol *parameter);
 void __stdcall record_inline_parameter(FrontendSymbol *parameter);
 unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters);
 int __stdcall compatible_parameter_types(CType *expected, CType *actual);
-void begin_syntax_trace(void);
-void end_syntax_trace(void);
+extern CType *based_type;
+extern FrontendSymbol *function_parameter_declarations;
+short begin_declaration_text(void);
+void end_declaration_text(void);
 void __stdcall print_function_declaration(FrontendSymbol *symbol, FILE *stream);
 void __stdcall record_line_information(unsigned kind);
 

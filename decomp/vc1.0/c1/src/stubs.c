@@ -155,7 +155,7 @@ ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 /* Original 0x22e8d. */
-void skip_declaration_tokens(void) { __asm { int 3 } }
+
 
 /* Original 0x22f72. */
 unsigned char recover_parser_token(unsigned char token, ...) { __asm { int 3 } return 0; }
@@ -368,7 +368,6 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 
 
 
-char *__stdcall type_specifier_name(unsigned short flags) { __asm { int 3 } return 0; }
 
 
 
@@ -398,9 +397,7 @@ void reset_inline_function_state(void) { __asm { int 3 } }
 
 
 int __stdcall compatible_parameter_types(CType *expected, CType *actual) { __asm { int 3 } return 0; }
-void begin_syntax_trace(void) { __asm { int 3 } }
-void end_syntax_trace(void) { __asm { int 3 } }
-void __stdcall print_function_declaration(FrontendSymbol *symbol, FILE *stream) { __asm { int 3 } }
+
 
 void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }

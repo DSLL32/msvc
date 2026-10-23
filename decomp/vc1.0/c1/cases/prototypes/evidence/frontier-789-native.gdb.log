@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5667df06 in write_declarator_attributes (handle=102, writer=0x5667db40 <append_declaration_text>, attributes=16, base=0x0, following=0x575cd558) at src/declaration-text.c:255
+255	    unsigned short attributes, FrontendSymbol *base, TypeShape *following) { __asm { int 3 } return 0; }

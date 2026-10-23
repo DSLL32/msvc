@@ -1,0 +1,101 @@
+{
+  "status": "pass",
+  "accepted_from": 778,
+  "accepted_count": 802,
+  "new_frontend_functions": 24,
+  "source_functions": 691,
+  "current_frontier": null,
+  "coverage": {
+    "accepted_union_bytes": 211128,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 193192,
+      "CRT": 17786,
+      "import_thunks": 150
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 76.15516134384671,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "extent_delta": 3466,
+  "normalization": "none",
+  "original_frontier_captures": {
+    "count": 25,
+    "preparation_seconds": 1.233973772265017,
+    "execution_seconds": 27.817282609641552,
+    "total_seconds": 29.051327480003238
+  },
+  "native_frontier_observations": {
+    "count": 25,
+    "preparation_seconds": 0.08592945989221334,
+    "execution_seconds": 3.5747702345252037,
+    "total_seconds": 3.702277796342969
+  },
+  "native_build_measured_seconds": 67.36978365667164,
+  "checkpoint_operations": [
+    {
+      "name": "trace-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 3.823552559129894,
+      "exit": 0
+    },
+    {
+      "name": "trace-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.19816069677472115,
+      "exit": 0
+    },
+    {
+      "name": "fifteen-cases",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/prototypes-fifteen-traces"
+      ],
+      "seconds": 0.460873662494123,
+      "exit": 0
+    },
+    {
+      "name": "coverage",
+      "command": [
+        "python3",
+        "scripts/coverage.py"
+      ],
+      "seconds": 0.1743256812915206,
+      "exit": 0
+    }
+  ],
+  "native_regressions": {
+    "case_count": 15,
+    "receipt": "evidence/native-fifteen-cases.json"
+  },
+  "static_audits": {
+    "graphs_and_instruction_bounds": 691,
+    "state_defaults_aliases": 274,
+    "C_and_assembler_grammars": "complete model/emitted tables and data pass",
+    "declaration_text_buffers": "32 sixteen-byte rows; signed handles, unsigned16 cursors/capacity; slot-1 aliases existing expression storage and option_FAT"
+  },
+  "ABI_corrections": {
+    "append_parameter_text": "native caller pushes handle,ParameterInfo*,shape_flags; callee RET12; shape_flags unused"
+  },
+  "logical_renames": {
+    "_begin_syntax_trace": "_begin_declaration_text",
+    "_end_syntax_trace": "_end_declaration_text",
+    "_append_parameter_text@8": "_append_parameter_text@12"
+  },
+  "limitations": [
+    "Analysis/decompiler and canonical audit wall times were not measured; timings record measured capture/native operations only.",
+    "Two retained failed diagnostics show an initially duplicated shared type helper and a missed source-stub replacement; corrected native observations all match.",
+    "The extent audit rejected an early release helper boundary in its padding instruction; final boundary ends at RET4 and all audits pass."
+  ]
+}

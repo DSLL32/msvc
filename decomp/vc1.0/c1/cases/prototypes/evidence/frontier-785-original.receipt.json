@@ -1,0 +1,35 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/prototypes",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 785,
+  "accepted_sha256": "0abee7c92a71bd2823969b2515a73fdfa24917eada061dd5ba8ffa75f3292f57",
+  "executable_sha256": "f1de0a06e464fdecffae73bd80a7a5f34da80268eedc3813b14a5a722c26e697",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "5823b07a6b6f72dec60d1f09ca29414a3f4acd414b176585e7aad3de20551ec1",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\prototypes",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/prototypes-frontier-785/prototypes",
+  "preparation_seconds": 0.04828468430787325,
+  "execution_seconds": 1.1075599510222673,
+  "total_seconds": 1.1558471620082855,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 153,
+      "sha256": "d7e3516b4d339059b4c530d767653818bbb788149a1dddde828a23f470020e6a"
+    },
+    {
+      "name": "test.c",
+      "bytes": 490,
+      "sha256": "099ce5ee739f5f79588d17dae1226e83ecab98d02773657c0a677ff8223b0fb1"
+    }
+  ]
+}

@@ -720,3 +720,31 @@ CType *__stdcall dereference_pointer_type(CType *type)
     result->attributes = (result->attributes & ~7) | (attributes & 15);
     return intern_type(result);
 }
+
+/* Original0x42180..0x422a0. Shared base-type spelling for diagnostics
+   and declarations; qualifiers outside the primitive code are printed by
+   the caller, and unsupported base codes retain the shared empty spelling. */
+char *__stdcall type_specifier_name(unsigned short flags)
+{
+    if (flags & 0x40) {
+        if (flags & 0x20) return "int";
+        switch (flags & 15) {
+        case 1: return "char";
+        case 2: return "short";
+        case 4: return "long";
+        }
+    } else if (flags & 0x100) {
+        switch (flags) {
+        case 0x104: return "float";
+        case 0x108: return "double";
+        case 0x128: return "long double";
+        }
+    } else if (flags & 0x400) {
+        if ((flags & 0x408) == 0x408) return "class";
+        if ((flags & 0x402) == 0x402) return "struct";
+        if ((flags & 0x404) == 0x404) return "union";
+    } else if (flags & 0x200) return "enum";
+    else if (flags & 0x80) return "void";
+    else if (flags & 0x800) return "__segment";
+    return "";
+}

@@ -1299,16 +1299,16 @@ parameters_checked:
     if (active_parameter_context == 3 || active_parameter_context == 5) {
         function_symbol->type = replacement;
         if (options.prototypes_only) {
-            begin_syntax_trace();
+            begin_declaration_text();
             print_function_declaration(function_symbol, preprocessor_stream);
-            end_syntax_trace();
+            end_declaration_text();
         }
     } else if (options.prototypes_only) {
         saved_type = function_symbol->type;
         function_symbol->type = replacement;
-        begin_syntax_trace();
+        begin_declaration_text();
         print_function_declaration(function_symbol, preprocessor_stream);
-        end_syntax_trace();
+        end_declaration_text();
         function_symbol->type = saved_type;
     }
     if (options.debug_info && !options.prototypes_only) record_line_information(0x11);

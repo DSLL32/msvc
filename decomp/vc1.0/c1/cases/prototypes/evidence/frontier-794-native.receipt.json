@@ -1,0 +1,52 @@
+{
+  "buffers": {
+    "expression_file": null,
+    "symbol_file": null,
+    "line_file": null,
+    "global_file": null,
+    "debug_file": null,
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "prepend_declaration_text",
+    "append_type_text",
+    "build_declaration_text",
+    "append_parameter_text",
+    "append_type_shapes",
+    "build_declarator_text",
+    "build_declaration_text",
+    "print_function_declaration",
+    "begin_function_definition",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile"
+  ],
+  "frontier": "prepend_declaration_text",
+  "pc": 1449357195,
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_prepend_declaration_text@8",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003456755541265011,
+  "execution_seconds": 0.14225156418979168,
+  "total_seconds": 0.14764255471527576,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/prototypes-native-794",
+    "RECON_CANONICAL_CWD": "N:\\prototypes"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "executable_sha256": "7ff19f5265fe06c54ae846873cdd5470805a701ad140d0e2fc052cb7e189069f"
+}

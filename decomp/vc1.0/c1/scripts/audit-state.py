@@ -9,6 +9,11 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_unprintable_declaration_type', 0x6d9e8, 4),
+    ('_declaration_text_is_function', 0x6d9f0, 4),
+    ('_declaration_text_pool', 0x5fd10, 512),
+    ('_next_declaration_text_handle', 0x6daa8, 4),
+    ('_declaration_text_depth', 0x6c064, 4),
     ('_interned_name', 0x6b66c, 4),
     ('_browser_read_name', 0x6386c, 4),
     ('_browser_filtered_output', 0x63870, 4),
