@@ -198,6 +198,11 @@ static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWO
             DWORD length;
             if (read_bytes(process, head + payload_length, &length, 4)) memory(log, process, value, length);
         }
+        if (size == 48 && link == 44 && payload == 12 && payload_length == 16 &&
+            read_bytes(process, head + 28, &value, 4) && value) {
+            DWORD length;
+            if (read_bytes(process, head + 32, &length, 4)) memory(log, process, value, length);
+        }
         if (!read_bytes(process, head + link, &head, 4)) return;
     }
     if (head) fprintf(log, "memory-graph-unbounded\n");
@@ -520,9 +525,9 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (entry == 0x40584b && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "directory-allocation-call %lu\n", value);
     else if (entry == 0x405851) fprintf(log, "directory-allocation-return %08lx\n", context->Eax);
-    if (entry == 0x40591a && read_bytes(process, context->Esp, &value, 4))
-        fprintf(log, "subsection-allocation-call %08lx %lu\n", context->Esi, value);
-    else if (entry == 0x405920) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
+    if ((entry == 0x40591a || entry == 0x40547c) && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "subsection-allocation-call %08lx %lu\n", entry == 0x40547c ? context->Ebp : context->Esi, value);
+    else if (entry == 0x405920 || entry == 0x405482) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
     if (entry == 0x4062b0 || entry == 0x4062d3 || entry == 0x4062f7 || entry == 0x40631b || entry == 0x40639d || entry == 0x40a7d1) {
         if (read_bytes(process, context->Esp, &value, 4)) fprintf(log, "image-allocation-call %08lx %lu\n", entry, value);
         if (entry == 0x40a7d1) symbol_output_capacity = value;

@@ -36,7 +36,6 @@ void rewrite_data16_symbol(void) { __asm { int 3 } }
 void rewrite_global_data16_symbol(void) { __asm { int 3 } }
 void rewrite_procedure16_symbol(void) { __asm { int 3 } }
 void rewrite_mips_procedure_symbol(void) { __asm { int 3 } }
-void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }
 
 const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }
 

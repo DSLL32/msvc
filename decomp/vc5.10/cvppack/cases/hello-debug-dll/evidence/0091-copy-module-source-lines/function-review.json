@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "candidate": "rewrite_module_global_types",
+  "source_extent": [
+    4215920,
+    4216006
+  ],
+  "accepted_functions": 91,
+  "application_extent_bytes": 28315,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 45.18687561839712,
+  "qualification": "Application extents / whole text including CRT/unknown/padding, not non-CRT or branch coverage.",
+  "associated_switch_bytes_total": 784,
+  "source_review": [
+    "86B original malloc/fatal/copy body preserved, memcpy is compiler intrinsic as original REP MOVS. Logical historical name retained; actual subsection0127 is source lines.",
+    "Actual ModuleInfo source_lines28/source_lines_size32 share directory entry data pointer/size, complete256B copied input observed. Other ModuleInfo offsets and48B size preserved.",
+    "First completed module2 advances into module3 create_widen. Retain rewrite allocation call-time entry/index/counters and owning module rather than reset current globals; independently decode actual watched original probe bytes and actual native DWARF caller operands.",
+    "Current reference nodes retain their original module2/source buffer ownership after current_module_info changes to3; no dependency methods traversed yet."
+  ],
+  "fresh_pair": true,
+  "next_frontier": "create_widen",
+  "fresh_negative_count": 13,
+  "fresh_controls": {
+    "path": "source-lines-checks.json",
+    "sha256": "a7451a9d5ad7c61afb7e8db90431f9d4894e016a50989ef0b430698db56cdc5c"
+  },
+  "reused_controls": {
+    "recursive-node-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/recursive-node-state-checks.json",
+      "sha256": "f9707ed0369dd10721872719d775b0f4198d153f5e5d11c2605391aa92766e37"
+    },
+    "public-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/public-state-checks.json",
+      "sha256": "a7d37d3571245a2d16324c9808e44f86bee83e07aafd9ac2c2f6ba7b2daf7a2f"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/abi-state-checks.json",
+      "sha256": "4b372e3b49e142efd9c72b01b9801970ffd3b65bf27ae62d7660c7f98fb3ee1c"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/type-record-state-checks.json",
+      "sha256": "0d18d946c425c8452b36edce512a850891f6961d8c92ee309cb95bcd1e07892c"
+    },
+    "help-protocol-report.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/help-protocol-report.json",
+      "sha256": "abf0746bc1a03b8bfbee1151cac2a4f166bc99afb0eca61856f5b1d2c7042abf"
+    }
+  },
+  "prior_reference_controls": {
+    "path": "cases/hello-debug-dll/evidence/0090-record-symbol-reference-directory-contract/symbol-reference-checks.json",
+    "sha256": "c96c1034f00b89d4c6d0087f72ad33a84988ff621d6da9f1854673969d299a4f"
+  },
+  "reuse_scope": "Fresh whole candidate original/native pair; same original raw reused for observer-only call-time DWARF extension,13 affected negatives and independent native copy/alias example. Prior unchanged protocol and reference-field controls retained by hashes.",
+  "original_capture": {
+    "setup": 1.1781651293858886,
+    "execution": 16.032614309340715,
+    "total": 17.396620706655085
+  },
+  "native_capture": {
+    "direct_execution": 0.010774276219308376,
+    "gdb_execution": 1.3604345992207527,
+    "total": 1.47987215872854
+  },
+  "native_fixtures": {
+    "help": {
+      "preparation": 0.002529621124267578,
+      "execution": 0.006799840368330479,
+      "checks": 0.002899330109357834,
+      "total": 0.017490185797214508
+    },
+    "debug": {
+      "preparation": 0.0025946367532014847,
+      "execution": 1.5390110509470105,
+      "checks": 0.004827650263905525,
+      "total": 2.300924546085298
+    }
+  },
+  "support": {
+    "crt_bodies": 4,
+    "crt_bytes": 400,
+    "import_thunks": 5,
+    "import_thunk_bytes": 30,
+    "application_credit": 0
+  },
+  "build_timing_note": "Source/header changes rebuilt all original/native objects via make-j4. The first driver stopped on its old post-rollover guard and did not retain validation.json elapsed; build logs retained, no elapsed invented."
+}

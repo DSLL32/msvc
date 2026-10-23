@@ -146,7 +146,7 @@ def install(configuration):
         def __init__(self):super().__init__('*malloc',internal=True)
         def stop(self):
             frame=gdb.newest_frame();owner=frame.older()
-            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared','rewrite_module_symbols'):return False
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared','rewrite_module_symbols','rewrite_module_global_types'):return False
             stack=int(gdb.parse_and_eval('$esp'))
             size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
             if owner.name()=='read_codeview_directory':
@@ -157,7 +157,12 @@ def install(configuration):
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
             elif owner.name()=='rewrite_module_symbols':
-                record=dict(size=size,owner=owner.name());image_allocations.append(record)
+                entry=owner.read_var('entry');info=owner.read_var('info')
+                record=dict(size=size,owner=owner.name(),source=dict(
+                    entry_index=(int(entry)-int(gdb.parse_and_eval('directory_entries')))//12,
+                    module=int(info.dereference()['module']),input_size=int(entry.dereference()['size']),
+                    symbols=int(owner.read_var('symbols').dereference()),references=int(owner.read_var('references').dereference())))
+                image_allocations.append(record)
             elif owner.name()=='read_image_debug':
                 record=dict(size=size);image_allocations.append(record)
             else:
@@ -443,6 +448,11 @@ def capture(configuration,data_file,output):
                     text=gdb.Value(pointer).cast(gdb.lookup_type('char').pointer()).string(encoding='latin1').encode('latin1')
                     assert len(text)<1024
                     strings[str(pointer)]=(text+b'\0').hex()
+            if shape['size']==48 and shape['link']==44 and shape.get('payload')==dict(offset=12,length_offset=16):
+                address=int.from_bytes(raw[28:32],'little');length=int.from_bytes(raw[32:36],'little')
+                if address:
+                    assert 0<=length<=65536,'source-line extent exceeds bounded observation'
+                    memory[str(address)]=bytes(inferior.read_memory(address,length)).hex()
             if 'handle' in shape:
                 offset=shape['handle'];handle=int.from_bytes(raw[offset:offset+4],'little')
                 if handle:

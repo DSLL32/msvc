@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565b26e2 in create_widen (object=0xffa21938) at src/stubs.c:42
+42	int create_widen(WidenTi **object) { __asm { int 3 } return 0; }

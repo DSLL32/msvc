@@ -96,7 +96,8 @@
     "compare_recursive_type",
     "link_symbol_scopes",
     "record_symbol_references",
-    "record_symbol_reference"
+    "record_symbol_reference",
+    "rewrite_module_global_types"
   ],
   "functions": [
     {
@@ -1617,8 +1618,11 @@
       "symbol": "_rewrite_module_global_types",
       "native_symbol": "rewrite_module_global_types",
       "original": 4215920,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4215920,
+        4216006
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1654,7 +1658,8 @@
             }
           }
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0091-copy-module-source-lines/promotion.json"
     },
     {
       "name": "widen_subsection",

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "original_reused_unchanged": true,
+  "original_receipt_sha256": "491b866b8ec7fe28f3af9f23347bae977a79d85b387ed60d10bf82de442fb0b6",
+  "original_events_sha256": "28879bd1788d645eea434bc4088433c673ee7cc996d1baf9389fb39e987de829",
+  "old_native_receipt_sha256": "985980cd3fd608e25dca501df5d6b8f6e90636be6dbfd89b7ad5c33a6d1c5d9f",
+  "current_native_receipt_sha256": "6edde2817aa9ca836b698f7a118bf47352a4153a90288ae52a608503a2b30aa1",
+  "source_or_binary_change": false,
+  "reason": "Post-frontier current globals reset at next module; new native GDB observer retains actual malloc caller operands. Original probe already captured these globals at allocation time. Input8093+symbols612-reference0=8705; current final globals0 are not relabeled as call-time state.",
+  "decoder_sha256": "b7220127c98761e3ceec6e732b0915506568d2f87a090e6f23ae6bf26020a26b",
+  "observer_sha256": "5ff4ea98e8eb5821a0e5da26f287f6c3ad234c3f8cf78b2a313ca08559f7d52f"
+}

@@ -622,7 +622,8 @@
           "offset": 4,
           "stride": 12,
           "allocation_kind": "module",
-          "rewritten_symbols_site": 4237265
+          "rewritten_symbols_site": 4237265,
+          "copied_source_lines": true
         }
       ]
     }

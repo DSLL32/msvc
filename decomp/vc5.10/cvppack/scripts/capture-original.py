@@ -95,6 +95,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40fb66:checked-allocation-entry,40fb6c:checked-allocation-result'
     if any(r['name']=='rewrite_module_symbols' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',40a7d1:image-allocation-entry,40a7d7:image-allocation-result'
+    if any(r['name']=='rewrite_module_global_types' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',40547c:subsection-allocation-entry,405482:subsection-allocation-result'
     if any(r['name']=='initialize_single_module' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',404b59:module-allocation-entry,404b5f:module-allocation-result'
     if any(r['name']=='initialize_module_type_storage' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):

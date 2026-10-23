@@ -29,7 +29,9 @@ typedef struct ModuleInfo {
     unsigned size;
     unsigned char *symbols;
     unsigned symbols_size;
-    unsigned fields_after[4];
+    unsigned char *source_lines;
+    unsigned source_lines_size;
+    unsigned fields_after[2];
     struct ModuleInfo *next;
 } ModuleInfo;
 typedef struct ModuleCodeSegment {

@@ -246,3 +246,16 @@ void read_module_source_lines(unsigned index, CodeViewDirectoryEntry *entry)
     image_read_mode += entry->size;
     type_entry_index = index;
 }
+
+/* Copy the source-line subsection [00405470,004054c6).
+ * The logical name predates identification of subsection0127 as source lines. */
+#pragma intrinsic(memcpy)
+void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info)
+{
+    unsigned char *copy = malloc(entry->size);
+    if (!copy) fatal_error(1001, NULL, NULL);
+    memcpy(copy, types, entry->size);
+    entry->data = copy;
+    info->source_lines = copy;
+    info->source_lines_size = entry->size;
+}

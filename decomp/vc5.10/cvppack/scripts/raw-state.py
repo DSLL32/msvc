@@ -370,7 +370,23 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert left['size']==right['size'] and (left['entry']-root)//12==right['entry_index'],'module allocation source/size differs'
             assert left['address'] and right['address'] and left['address'] not in module_aliases and right['address'] not in module_aliases.values(),'live module buffer identity reused'
             module_aliases[left['address']]=right['address'];module_sizes[left['address']]=left['size']
-    image_aliases={};image_sizes={}
+    # Call-time operands remain meaningful after pack_module resets its globals
+    # for a later module and reuses the source buffer. These bytes were watched
+    # by the original allocation probe, independently of the final snapshot.
+    rewrite_contexts=[];watched={};read_count=0;watching=False
+    addresses={row['name']:row['original'] for row in data}
+    for line in events.splitlines():
+        if line.startswith('file-read-call '):read_count+=1
+        if line.startswith('image-allocation-entry 0040a7d1 '):watching=True;watched={}
+        elif watching and line.startswith('memory '):
+            _,address,contents=line.split();watched[int(address,16)]=bytes.fromhex(contents)
+        elif watching and line.startswith('image-allocation-call 0040a7d1 '):
+            def captured(name):return int.from_bytes(watched[addresses[name]],'little')
+            rewrite_contexts.append(dict(entry_index=captured('line_entry_index'),info=captured('current_module_info'),
+                symbols=captured('module_symbol_count'),references=captured('module_reference_count'),
+                input=captured('type_data'),read_count=read_count))
+            watching=False
+    image_aliases={};image_sizes={};rewrite_owners={}
     assert len(original['image_allocations'])==len(native.get('image_allocations',[])),'image allocation inventory differs'
     for left,right in zip(original['image_allocations'],native.get('image_allocations',[])):
         sites={0x4062b0:('debug_directory','module_capacity'),0x4062d3:('symbol_data','symbol_capacity'),
@@ -383,22 +399,32 @@ def compare(config,data,events,native,artifacts=None,views=None):
             row=next(row for row in data if row['name']==size_name)
             assert int.from_bytes(original['memory'][row['original']],'little')==left['size'],'actual allocation request differs from capacity source'
         if left['site']==0x40a7d1:
-            def value(name):
-                item=next(row for row in data if row['name']==name)
-                return int.from_bytes(original['memory'][item['original']],'little')
+            assert len(rewrite_contexts)==1,'symbol rewrite call-time context lifetime differs'
+            context=rewrite_contexts[0]
             # The directory entry size is replaced with the packed size after
             # rewriting; retain its input extent from the actual earlier read.
-            symbol_reads=[row for row in original['file_reads'] if row['pc']==0x4050b8 and row['buffer']==value('type_data')]
-            assert len(symbol_reads)==1,'symbol rewrite input read lifetime differs'
-            size=symbol_reads[0]['returned'];assert size==symbol_reads[0]['size'],'symbol rewrite input read is incomplete'
+            symbol_reads=[row for row in original['file_reads'][:context['read_count']] if row['pc']==0x4050b8 and row['buffer']==context['input']]
+            assert symbol_reads,'symbol rewrite input read lifetime differs'
+            size=symbol_reads[-1]['returned'];assert size==symbol_reads[-1]['size'],'symbol rewrite input read is incomplete'
             directory_reads=[row for row in original['file_reads'] if row['pc']==0x40588b]
             assert len(directory_reads)==1,'symbol directory input read lifetime differs'
-            entries=bytes.fromhex(directory_reads[0]['bytes']);index=value('line_entry_index')
-            identity=original['memory'][value('directory_entries')][index*12:index*12+4]
+            entries=bytes.fromhex(directory_reads[0]['bytes']);index=context['entry_index']
+            directory=int.from_bytes(original['memory'][addresses['directory_entries']],'little')
+            identity=original['memory'][directory][index*12:index*12+4]
             matches=[entries[i:i+12] for i in range(0,len(entries),12) if entries[i:i+4]==identity]
             assert len(matches)==1 and int.from_bytes(matches[0][8:12],'little')==size,'symbol rewrite original directory/read extent differs'
-            assert size+value('module_symbol_count')-value('module_reference_count')==left['size'],'symbol rewrite allocation expression differs'
+            assert size+context['symbols']-context['references']==left['size'],'symbol rewrite allocation expression differs'
             assert right.get('owner')=='rewrite_module_symbols','symbol output allocation owner differs'
+            module=int.from_bytes(original['memory'][context['info']][:2],'little')
+            source=dict(entry_index=index,module=module,input_size=size,symbols=context['symbols'],references=context['references'])
+            # Historical pairs ending before module rollover already validated
+            # these same operands against then-live globals; new observers also
+            # retain independent actual DWARF call-time values.
+            if 'source' in right:assert right['source']==source,'symbol rewrite actual call-time operands differ'
+            else:
+                assert context['info']==int.from_bytes(original['memory'][addresses['current_module_info']],'little'),'historical symbol rewrite proof ends before module rollover'
+                assert context['symbols']==int.from_bytes(original['memory'][addresses['module_symbol_count']],'little') and context['references']==int.from_bytes(original['memory'][addresses['module_reference_count']],'little'),'historical symbol rewrite call-time operand limit'
+            rewrite_owners[left['address']]=dict(context,**{'module':module})
         assert left['size']==right['size'] and left['address'] and right['address'],'actual image allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live image allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
@@ -546,6 +572,17 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert symbols+size==global_integer('symbol_output'),'module rewritten symbols initialized extent differs'
                     assert original['memory'][symbols][:size]==bytes.fromhex(native['memory'][str(actual_symbols)])[:size],'module rewritten symbol bytes differ'
                     pair(symbols,actual_symbols);used_uninitialized.add(symbols)
+                excluded.update(range(28,32))
+                lines=int.from_bytes(left[28:32],'little');actual_lines=int.from_bytes(right[28:32],'little')
+                assert bool(lines)==bool(actual_lines),'module source lines NULL state differs'
+                if lines:
+                    assert allocation_aliases.get(lines)==actual_lines,'module source lines allocation alias differs'
+                    size=int.from_bytes(left[32:36],'little')
+                    assert len(original['memory'][lines])==len(bytes.fromhex(native['memory'][str(actual_lines)]))==size,'module source lines allocation extent differs'
+                    assert original['memory'][lines]==bytes.fromhex(native['memory'][str(actual_lines)]),'module source lines initialized bytes differ'
+                    source=global_integer('module_data')
+                    assert original['memory'][lines]==original['memory'][source][:size],'module source lines copied input differs'
+                    pair(lines,actual_lines)
             assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'target object bytes differ'
             address=int.from_bytes(left[offset:offset+4],'little')
             other=int.from_bytes(right[offset:offset+4],'little')
@@ -828,12 +865,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                 assert len(a)==32 and a[16:18]==b'\x0e\x00','reference node extent/type differs'
                                 assert a[4:30]==b[4:30],'initialized reference node fields differ'
                                 assert a[20:24]==a[4:8],'reference checksum/header hash alias differs'
-                                current=global_integer('current_module_info')
-                                module=int.from_bytes(original['memory'][current][:2],'little')
-                                assert int.from_bytes(a[28:30],'little')==module,'reference module owner differs'
                                 allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1]
                                 assert len(allocations)==1,'reference source allocation lifetime differs'
                                 source_allocation=allocations[0];base=source_allocation['address'];position=int.from_bytes(a[24:28],'little')
+                                assert int.from_bytes(a[28:30],'little')==rewrite_owners[base]['module'],'reference module owner differs'
                                 size=global_integer('symbol_output')-base
                                 assert 4<=position<=size-4,'reference source offset exceeds initialized output'
                                 before=original['memory'][base];after=bytes.fromhex(native['memory'][str(image_aliases[base])])
@@ -921,14 +956,28 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
                             if source in module_aliases or destination in module_aliases.values():
                                 excluded.update(range(offset,offset+4));module_buffer(source,destination)
+                            elif relocation.get('copied_source_lines') and (source in allocation_aliases or destination in allocation_aliases.values()):
+                                assert allocation_aliases.get(source)==destination,'directory source lines allocation alias differs'
+                                owners=[row for row in original['subsection_allocations'] if row['address']==source]
+                                assert len(owners)==1 and owners[0]['entry']==address+offset-4,'directory source lines entry/allocation identity differs'
+                                assert int.from_bytes(left[offset-4:offset-2],'little')==0x127,'directory source lines subsection differs'
+                                modules=original['memory'][global_integer('module_index')]
+                                identifier=int.from_bytes(left[offset-2:offset],'little')
+                                candidates=[int.from_bytes(modules[i+8:i+12],'little') for i in range(0,len(modules),12) if int.from_bytes(modules[i:i+2],'little')==identifier]
+                                assert len(candidates)==1,'directory source lines module identity differs'
+                                module=original['memory'][candidates[0]]
+                                assert int.from_bytes(module[28:32],'little')==source and module[32:36]==left[offset+4:offset+8],'directory/module source lines identity differs'
+                                assert owners[0]['size']==len(original['memory'][source])==len(bytes.fromhex(native['memory'][str(destination)])),'directory source lines extent differs'
+                                assert original['memory'][source]==bytes.fromhex(native['memory'][str(destination)]),'directory source lines contents differ'
+                                excluded.update(range(offset,offset+4));pair(source,destination)
                             elif relocation.get('rewritten_symbols_site') and (source in image_aliases or destination in image_aliases.values()):
                                 owners=[row for row in original['image_allocations'] if row['site']==relocation['rewritten_symbols_site']]
                                 assert len(owners)==1 and owners[0]['address']==source,'directory rewritten symbol allocation lifetime differs'
                                 assert image_aliases[source]==destination,'directory rewritten symbol allocation alias differs'
-                                assert offset==global_integer('line_entry_index')*12+4,'directory rewritten symbol entry owner differs'
+                                assert offset==rewrite_owners[source]['entry_index']*12+4,'directory rewritten symbol entry owner differs'
                                 assert int.from_bytes(left[offset-4:offset-2],'little')==0x124,'directory rewritten symbol subsection differs'
                                 length=int.from_bytes(left[offset+4:offset+8],'little')
-                                current=global_integer('current_module_info');module=original['memory'][current]
+                                module=original['memory'][rewrite_owners[source]['info']]
                                 assert module[20:24]==source.to_bytes(4,'little') and int.from_bytes(module[24:28],'little')==length,'directory/module rewritten symbol identity differs'
                                 assert 0<=length<=owners[0]['size'] and source+length==global_integer('symbol_output'),'directory rewritten symbol initialized extent differs'
                                 assert original['memory'][source][:length]==bytes.fromhex(native['memory'][str(destination)])[:length],'directory rewritten symbol contents differ'
