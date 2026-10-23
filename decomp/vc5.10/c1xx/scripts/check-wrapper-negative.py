@@ -16,9 +16,10 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('original',type=Path);parser.add_argument('native',type=Path);args=parser.parse_args()
     d=load('wrapper','check-callback.py');helpers=load('wrapper_helpers','check-projection-negative.py');d.check(args.original,args.native)
     trial=json.loads((args.original/'trial.json').read_text())
-    second=trial['trial']=='_initialize_frontend_09'
-    wrapper=trial['trial'];constructor='_initialize_output_buffer_02' if second else '_initialize_output_buffer_01'
-    first,entry,continuation,last=(0x104386d4,0x104386db,0x10438715,0x10438723) if second else (0x1043865f,0x10438666,0x104386a0,0x104386ae)
+    wrapper=trial['trial'];number=int(wrapper[-2:])-7
+    constructor='_initialize_output_buffer_%02d'%number
+    record=next(row for row in trial['driver'] if row['name']==wrapper)
+    first,entry=record['start'],record['end'];continuation,last=record['code_chunks'][0]
     cases=('missing-continuation','absorbed-constructor','wrong-original-frontier','constructor-unmasked','false-native-PC','extra-constructor-credit')
     for case in cases:
         with tempfile.TemporaryDirectory(prefix='wrapper-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1xx') as temporary:

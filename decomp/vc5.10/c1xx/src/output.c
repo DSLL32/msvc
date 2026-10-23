@@ -39,3 +39,13 @@ void destroy_output_buffer_02(void)
 {
     __asm { int 3 }
 }
+
+void initialize_output_buffer_03(void)
+{
+    __asm { int 3 }
+}
+
+void destroy_output_buffer_03(void)
+{
+    __asm { int 3 }
+}
