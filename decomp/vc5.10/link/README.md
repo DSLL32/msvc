@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 58 application
-functions (28,700 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 59 application
+functions (28,925 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `adjust_output_section_flags`; hello-win32 has not completed.
+next frontier is `initialize_section_enumerator`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -310,3 +310,12 @@ are checked alongside name/header aliases and complete existing state.117 fresh
 negatives and the strict71-vertex/64-return audit pass. OutputSection+3c is now
 named merge_target from its concrete resolver users. Evidence/timing are under
 frontiers/58-find-section.
+
+The225-byte section flag normalizer is accepted with debug/resource discard,
+BSS conversion, type/permission defaults and both returns retained. The actual
+first helper call/normal RET12 and unchanged0xc0000080 output are observed, including
+BSS-control0 and subsystem0. Only the precise10 additional resource-pointer/literal
+data bytes were unmasked. The next enumerator initializer's two inputs and16-byte
+output owner are recorded; its incoming bytes are uninitialized and completely
+overwritten, as bound original read/write evidence confirms.123 fresh negatives
+and the strict72-vertex/65-return audit pass; timing is under frontiers/59-section-flags.

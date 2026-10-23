@@ -28,6 +28,8 @@ def plan(accepted,case="help"):
         result.extend([(0xe3f3,'observe:link_name_module_call'),(0xe3f8,'observe:link_name_module_return'),(0xe400,'observe:link_name_library_call'),(0xe405,'observe:link_name_library_return')])
     if '_allocate_virtual_memory@16'in accepted:
         result.extend([(0x4f5c5,'observe:pool_virtual_call'),(0x4f5cb,'observe:pool_virtual_return'),(0xe36e,'observe:section_alloc_call_0'),(0xe373,'observe:section_alloc_return_0'),(0xe386,'observe:section_alloc_call_1'),(0xe38b,'observe:section_alloc_return_1')])
+    if '_adjust_output_section_flags@12'in accepted:
+        result.extend([(0xf15a,'observe:section_flags_call_lookup'),(0xf15f,'observe:section_flags_return_lookup'),(0xefbc,'observe:section_flags_call_create'),(0xefc1,'observe:section_flags_return_create')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

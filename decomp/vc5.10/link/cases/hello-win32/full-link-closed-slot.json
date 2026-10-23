@@ -72,9 +72,9 @@
     ]
   },
   "rebuilt": {
-    "pe_sha256": "2319f7bd7007b1785274af71474ad22ad6d9390af14204f07375ca843c6a3f34",
-    "map_sha256": "b3edecfe831b871407a9fe162d688926d54e6face1405d25d25153d3153ec7a5",
-    "slot": 4252632,
+    "pe_sha256": "9141c1c29331baa8b3d0d5b515fffe06582222a912a45192c2df7785b762d50b",
+    "map_sha256": "c0e92f3a2c808a2b75b783e4018a438ac3a517531670e9bb42edef4b1c6b946f",
+    "slot": 4256744,
     "symbol": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@",
     "code_reference_count": 3,
     "code_references": [
@@ -106,7 +106,7 @@
         "prefix": "c705"
       }
     ],
-    "required_preservation_call": 4239927,
+    "required_preservation_call": 4240135,
     "debug_metadata_references": [
       {
         "object": "build/full-link.obj",

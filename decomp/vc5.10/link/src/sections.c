@@ -11,6 +11,7 @@ ContributionGroup *export_group,*debug_symbol_group,*debug_type_group;
 ContributionGroup *debug_precompiled_group,*debug_fixup_group;
 
 extern BYTE incremental_enabled;
+BYTE initialize_bss;
 char *__stdcall duplicate_link_string(const char *);
 MemoryArena *output_section_arena;
 WORD output_section_count;
@@ -64,7 +65,20 @@ OutputSection *__stdcall find_matching_output_section(OutputModule *module,const
 }
 void __stdcall adjust_output_section_flags(DWORD *flags,const char *name,IMAGE_OPTIONAL_HEADER *header)
 {
-    __asm { int 3 }
+    DWORD value=*flags & 0xfe0feff7;
+    if (!strcmp(name,".debug")) value|=0x02000000;
+    if (initialize_bss && (value & 0x80)) {
+        value&=~0x80;
+        value|=0x40;
+    }
+    if (header->Subsystem==IMAGE_SUBSYSTEM_NATIVE && !strcmp(name,".rsrc"))
+        value|=0x02000000;
+    if (!(value & 0x1e0)) value|=0x40;
+    if (!(value & 0xe0000000)) {
+        if (value & 0x20) value|=0x60000000;
+        else value|=0xc0000000;
+    }
+    *flags=value;
 }
 
 char *__stdcall format_module_name(OutputModule *module,char *name)
