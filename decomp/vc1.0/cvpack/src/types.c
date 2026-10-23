@@ -1968,3 +1968,15 @@ void begin_symbol_block(void)
         ++suppressed_symbol_depth;
     }
 }
+
+/* Resolve derived-type leaves before releasing the construction hash indices. */
+unsigned short derived_type_count;
+
+void finalize_types(void)
+{
+    finalize_derived_types();
+    free(derived_types);
+    free(name_hash_buckets);
+    free(type_hash_buckets);
+    free(type_hash_extra_d);
+}

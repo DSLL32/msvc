@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "write_debug_directory",
-    "native_function": "write_debug_directory",
+    "logical": "finalize_derived_types",
+    "native_function": "finalize_derived_types",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -138,7 +138,8 @@
       "find_next_coff_function",
       "write_strip_records",
       "free_strip_records",
-      "write_debug_directory"
+      "finalize_types",
+      "finalize_derived_types"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -146,7 +147,9 @@
       "strip_handle",
       "strip_symbol_offset",
       "strip_read_offset",
-      "strip_file_header"
+      "strip_file_header",
+      "type_recursion_error",
+      "derived_type_count"
     ],
     "observed_walks": []
   },

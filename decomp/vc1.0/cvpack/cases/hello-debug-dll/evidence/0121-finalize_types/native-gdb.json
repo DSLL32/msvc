@@ -1,0 +1,1 @@
+{"signal": 5, "frames": ["finalize_derived_types", "finalize_types", "main"], "parameters": {}, "globals": {"type_recursion_error": "00000000", "strip_handle": "0f000000", "strip_read_offset": "6e550000", "strip_symbol_offset": "ec4c0000", "strip_file_header": "4c010800347bda6aec4c000019020000e00082a1", "derived_type_count": "0000"}, "walks": {}, "later_heap_equality": false}

@@ -69,7 +69,7 @@ int main(int argc, char **argv, char **environment)
         free(symbol_data);
         free(type_data);
         free(module_data);
-        write_debug_directory();
+        finalize_types();
         if (statistics_enabled) print_statistics();
         if (feedback) {
             source = "@I4Writing Packed Info\n";

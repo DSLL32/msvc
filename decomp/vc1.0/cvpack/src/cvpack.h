@@ -30,7 +30,7 @@ void initialize_type_tables(void);
 void read_image_debug(void);
 int pack_module(unsigned short);
 unsigned short strip_debug(int);
-void write_debug_directory(void);
+void finalize_types(void);
 void print_statistics(void);
 void free_type_tables(void);
 int update_image_checksum(const char *, unsigned long, unsigned char);

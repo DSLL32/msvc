@@ -1239,5 +1239,12 @@
     "original": 230200,
     "size": 16,
     "source": "src/strip.c"
+  },
+  {
+    "name": "derived_type_count",
+    "symbol": "_derived_type_count",
+    "original": 225676,
+    "size": 2,
+    "source": "src/types.c"
   }
 ]
