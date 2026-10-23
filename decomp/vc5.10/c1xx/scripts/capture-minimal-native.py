@@ -215,7 +215,7 @@ end
             target=output/('collect-pool-entry-%02d.gdb'%(i+1))
             target.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/('pool-entry-%02d.json'%(i+1))))).replace(repr(str(output/'native-argv.bin')),repr(str(output/('pool-entry-%02d-argv.bin'%(i+1))))))
         dispatch=output/'observe-pool-entries.gdb'
-        dispatch.write_text('python\nimport gdb\nreceiver=int(gdb.parse_and_eval("(unsigned int)$ecx"))\nbases=[int(gdb.parse_and_eval("(unsigned int)&frontend_bss.pools[%d]"%i)) for i in range('+str(model['pool_projection']['count'])+')]\nif receiver not in bases:raise RuntimeError("unmodeled pool receiver")\nnumber=bases.index(receiver)+1\ngdb.execute("source "+'+repr(str(output))+'+"/collect-pool-entry-%02d.gdb"%number)\nend\n')
+        dispatch.write_text('python\nimport gdb\nreceiver=int(gdb.parse_and_eval("(unsigned int)$ecx"))\nbases=[int(gdb.parse_and_eval("(unsigned int)&frontend_bss.pools[%d]"%i)) for i in range('+str(model['pool_projection']['count'])+')]\nif receiver not in bases:raise RuntimeError("unmodeled pool receiver")\nnumber=bases.index(receiver)+1\nwith open('+repr(str(output/'pool-entry-order.txt'))+',"a") as stream:stream.write("%d\\n"%number)\ngdb.execute("source "+'+repr(str(output))+'+"/collect-pool-entry-%02d.gdb"%number)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\nsource '+str(dispatch)+'\ncontinue\nend\n'
     if trial['trial']=='CompilerPool::Initialize':
         entry=output/'collect-pool-entry.gdb'

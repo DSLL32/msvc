@@ -25,10 +25,18 @@ def main():
     for row in packet['trials']:
         original,native=Path(row['original']),Path(row['native']);audit=history.configure(d,original,native,saved_record=row);d.check(original,native,audit_path=audit)
         model=json.loads((native/'state-model.json').read_text());number=model['pool_projection']['count'];idx=number-1
-        for case in cases[row['seed']]:
+        selected=list(cases[row['seed']])
+        if row['seed'] is None and model.get('pool_entry_order_observed'):selected += ['duplicate-native-call','missing-native-call','reordered-native-calls']
+        for case in selected:
             with tempfile.TemporaryDirectory(prefix='pool-instance-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1xx') as tmp:
                 o=Path(tmp)/'original';n=Path(tmp)/'native';shutil.copytree(original,o);shutil.copytree(native,n)
-                if case.startswith('original-wrong-'):
+                if case in ('duplicate-native-call','missing-native-call','reordered-native-calls'):
+                    f=n/'pool-entry-order.txt';lines=f.read_text().splitlines(True)
+                    if case=='duplicate-native-call':lines.append(lines[-1])
+                    elif case=='missing-native-call':lines.pop()
+                    else:lines[0],lines[1]=lines[1],lines[0]
+                    f.write_text(''.join(lines));h.rehash(n,f.name)
+                elif case.startswith('original-wrong-'):
                     f=o/'events.txt';text=f.read_text();m=list(re.finditer(r'^trap seq=\d+ rva=000389d5 .*$',text,re.M))[-1];line=m[0]
                     if case=='original-wrong-receiver':line=line.replace('ecx=%08x'%model['pool_projection']['original_bases'][idx],'ecx=%08x'%model['pool_projection']['original_bases'][0])
                     elif case=='original-wrong-caller':line=re.sub(r'stack=\w+,','stack=104389d4,',line)

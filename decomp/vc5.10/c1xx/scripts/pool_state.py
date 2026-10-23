@@ -26,6 +26,8 @@ def check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     rows=[r for r in traps if r[1]=='000389d5'];s.require(len(rows)==count,'missing/extra actual original pool calls')
     row=next(row for row in trial['driver'] if row['name']=='CompilerPool::Initialize')
     s.require(row['symbol']=='?Initialize@CompilerPool@@QAEPAU1@I@Z' and row['native_symbol']=='_ZN12CompilerPool10InitializeEj','unbound member symbol projection')
+    if model.get('pool_entry_order_observed'):
+        s.require((native/'pool-entry-order.txt').read_text()==''.join('%d\n'%i for i in range(1,count+1)),'native actual pool-call count/order differs')
     entries=[]
     for number,trap in enumerate(rows,1):
         filename='pool-entry-%02d.json'%number if model['schema']>=20 else 'pool-entry.json'

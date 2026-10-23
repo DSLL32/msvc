@@ -208,7 +208,7 @@
   "prior_member_controls_refreshed": {
     "result": "PASS",
     "count": 18,
-    "seconds": 15.937181621789932,
+    "seconds": 16.00570761039853,
     "rejected": [
       "original-return-this",
       "original-RET4",
@@ -230,7 +230,8 @@
       "missing-raw-seed-event"
     ],
     "checker_sha256": "b149c34479ed291a45114f043ae4ff36ec701f77ffab362b3c1a2d16b3d95fa8",
-    "pool_checker_sha256": "002ccbc3aa25c48e10be4732dcf32bd1ba86f0a7833be0478e2e7850be158230"
+    "pool_checker_sha256": "cb4efd861319766d24ecd5868b3820c48fdc4279494fdf9133589376b361bf46"
   },
-  "static_validation_only": "Additional caller-return provenance is read from unchanged immutable executions; no target run or acceptance altered"
+  "static_validation_only": "Additional caller-return provenance is read from unchanged immutable executions; no target run or acceptance altered",
+  "new_entry_order_observer_scope": "Future pool cases explicitly require an append-only native observed receiver order; historical raw unchanged"
 }
