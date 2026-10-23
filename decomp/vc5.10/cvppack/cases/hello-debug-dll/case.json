@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0076-compact-pointer-types-corrected-selector/original",
-  "reference_receipt_sha256": "bab07855573956853ef29d4560024d66eb1029bcec07ca1d5a785a00b68a1657",
+  "reference": "cases/hello-debug-dll/evidence/0077-rewrite-type-name-symbol-tail-proof/original",
+  "reference_receipt_sha256": "e854c9fd69df50aa0ce8835a1b59642c45a9e76ad14ccd14a4d7d39d78e0bfea",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -82,6 +82,7 @@
     "record_base_classes",
     "leave_symbol_scope",
     "compact_legacy_pointer",
-    "rewrite_type_name_symbol"
+    "rewrite_type_name_symbol",
+    "insert_global_symbol"
   ]
 }

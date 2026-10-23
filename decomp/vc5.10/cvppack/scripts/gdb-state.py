@@ -221,6 +221,12 @@ def capture(configuration,data_file,output):
             root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
             assert root<=address<root+count*32 and (address-root)%32==0,'argument is not an owned local type record'
             parameters[item['name']]=dict(root=item['root'],index=(address-root)//32)
+        elif item['kind']=='current-symbol-record':
+            address=int(value);base=int(gdb.parse_and_eval(item['root']));capacity=int(gdb.parse_and_eval(item['capacity']));offset=address-base
+            assert address==int(gdb.parse_and_eval(item['cursor'])) and 0<=offset<=capacity-4,'symbol record does not alias active owned input cursor'
+            length=int.from_bytes(bytes(inferior.read_memory(address,2)),'little')+2
+            assert 4<=length<=capacity-offset,'symbol record exceeds observed input capacity'
+            parameters[item['name']]=dict(root=item['root'],offset=offset,bytes=bytes(inferior.read_memory(address,length)).hex())
         elif item['kind']=='type-record-name':
             address=int(value);base=int(gdb.parse_and_eval('type_segments[0]'))
             capacity=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)

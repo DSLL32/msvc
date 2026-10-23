@@ -82,7 +82,8 @@
     "find_local_named_type",
     "record_base_classes",
     "leave_symbol_scope",
-    "compact_legacy_pointer"
+    "compact_legacy_pointer",
+    "rewrite_type_name_symbol"
   ],
   "functions": [
     {
@@ -2478,10 +2479,14 @@
       "symbol": "_rewrite_type_name_symbol",
       "native_symbol": "rewrite_type_name_symbol",
       "original": 4238512,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4238512,
+        4238590
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0077-rewrite-type-name-symbol-tail-proof/promotion.json"
     },
     {
       "name": "rewrite_object_name_symbol",
@@ -2941,6 +2946,38 @@
           "slot": 2
         }
       ]
+    },
+    {
+      "name": "insert_global_symbol",
+      "symbol": "@insert_global_symbol@8",
+      "source_name": "insert_global_symbol",
+      "native_symbol": "insert_global_symbol",
+      "original": 4248624,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "current-symbol-record",
+          "root": "type_data",
+          "capacity": "line_capacity",
+          "cursor": "symbol_input",
+          "native_pointee_width": 1
+        },
+        {
+          "name": "key",
+          "register": "edx",
+          "kind": "function-pointer",
+          "function": "symbol_record_key",
+          "original": 4247376
+        }
+      ],
+      "abi_tail_extent": {
+        "evidence": "cases/hello-debug-dll/insert-global-symbol-tail-extent.json",
+        "sha256": "d22d2accd51fae6e3db549d122720e97558b697b6d0a698f7ae138baf267c8cb"
+      }
     }
   ],
   "support_unmasked": [

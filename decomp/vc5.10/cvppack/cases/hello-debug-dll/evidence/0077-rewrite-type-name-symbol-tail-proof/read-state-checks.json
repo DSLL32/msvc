@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive_reads": 21,
+  "rejected": [
+    "changed-read-owner",
+    "changed-read-local",
+    "changed-read-capacity",
+    "changed-read-file",
+    "changed-read-size",
+    "changed-read-entry_position",
+    "changed-read-exit_position",
+    "changed-read-returned",
+    "changed-read-entry_last_error",
+    "changed-read-exit_last_error",
+    "changed-read-bytes",
+    "missing-completed-read",
+    "reordered-actual-reads",
+    "wrong-live-symbol-buffer-alias",
+    "wrong-live-symbol-buffer-extent",
+    "changed-live-symbol-buffer-bytes",
+    "wrong-symbol-directory-index"
+  ],
+  "seconds": 0.6808937471359968
+}

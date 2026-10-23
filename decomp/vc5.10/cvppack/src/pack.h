@@ -43,6 +43,7 @@ typedef struct PublicSymbol {
 } PublicSymbol;
 PublicSymbol *allocate_public_block(unsigned size);
 int insert_public_symbol(unsigned char *record, SymbolKeyProc key);
+int __fastcall insert_global_symbol(unsigned char *record, SymbolKeyProc key);
 void decode_legacy_lines(void *lines, unsigned size);
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info);
 extern unsigned short symbol_segment_count;

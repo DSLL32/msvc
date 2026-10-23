@@ -62,3 +62,14 @@ void leave_symbol_scope(void)
         --discard_symbol_depth;
     }
 }
+
+/* Remap a UDT/constant type and move unscoped names into the global hash
+ * [0040acb0,0040acfe). */
+void rewrite_type_name_symbol(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth) {
+        *(unsigned *)(symbol_input + 4) = map_type_index(*(unsigned *)(symbol_input + 4));
+        if (!public_scope_depth) insert_global_symbol(symbol_input, symbol_record_key);
+    }
+}

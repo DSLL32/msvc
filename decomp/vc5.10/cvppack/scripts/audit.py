@@ -39,6 +39,48 @@ def ownership(config, pe):
     return intervals
 
 
+def graph_driver(functions, config, pe):
+    """Transport proven tail RET extents without accepting or unmasking stubs."""
+    import hashlib
+    from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_GRP_JUMP
+    from capstone.x86 import X86_OP_IMM
+    driver=[]
+    for record in functions:
+        row=dict(name=record['symbol'],start=record['original'],
+                 end=record['extent'][1] if record['extent'] else record['original']+1)
+        known=record.get('abi_tail_extent')
+        if known:
+            assert record['status']=='stub' and record['extent'] is None and not record.get('acceptance_proof')
+            assert record['name'] not in config['accepted']
+            path=BINARY/known['evidence']
+            assert sha(path)==known['sha256'], 'changed unaccepted tail extent proof'
+            proof=json.loads(path.read_text())
+            assert proof['target_sha256']==config['target']['sha256'] and proof['name']==record['name']
+            start,end=proof['primary']
+            assert start==record['original'] and start<end
+            assert proof['code_chunks']==proof['text_data']==[], 'tail proof requires all cold chunks/owned data'
+            raw=pe.read(start,end-start)
+            assert hashlib.sha256(raw).hexdigest()==proof['code_sha256']
+            decoder=Cs(CS_ARCH_X86,CS_MODE_32);decoder.detail=True
+            instructions=list(decoder.disasm(raw,start))
+            assert sum(i.size for i in instructions)==end-start, 'incomplete tail extent instructions'
+            returns=[]
+            for instruction in instructions:
+                if instruction.mnemonic.startswith('ret'):
+                    returns.append(dict(address=instruction.address,cleanup=int(instruction.op_str,0) if instruction.op_str else 0,bytes=instruction.bytes.hex()))
+                if instruction.group(CS_GRP_JUMP):
+                    assert instruction.operands[0].type==X86_OP_IMM and start<=instruction.operands[0].imm<end, 'unproved external tail/cold chunk'
+            assert returns and returns==proof['returns'], 'tail RET inventory differs'
+            assert not any(start<other['original']<end for other in functions), 'tail extent owns another function entry'
+            image=mask(config,pe,())
+            assert image[pe.offset(start):pe.offset(end)]==b'\xcc'*(end-start), 'unaccepted tail extent was unmasked'
+            row.update(end=end,pending_extent=False,accepted=False,evidence=None,
+                       kind='unaccepted-application-tail-target',extent_evidence=known,
+                       code_chunks=[],shared=[])
+        driver.append(row)
+    return driver
+
+
 def run(config_path, candidates=(), output=None, reuse_original=None, reuse_native=None):
     begin = time.perf_counter()
     config = json.loads(config_path.read_text())
@@ -80,8 +122,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
     assert all(r['status'] != 'stub' and r['extent'] for r in checked), 'candidate not reconstructed'
     graph_config = {
         'target': config['target'], 'accepted': [r['symbol'] for r in checked],
-        'driver': [dict(name=r['symbol'], start=r['original'],
-                        end=r['extent'][1] if r['extent'] else r['original']+1) for r in functions],
+        'driver': graph_driver(functions,config,pe),
     }
     destination = output.parent if output else BINARY / 'build'
     destination.mkdir(parents=True,exist_ok=True)
@@ -134,6 +175,22 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
             rebuilt_address=publics['_'+item['name']]
         if not item.get('function_table'):
             assert pe.read(item['original'],item['size'])==rebuilt.read(rebuilt_address,item['size']), ('initial Win32 data differs',item['name'])
+    # The allocator exhaustion branch and both compactors share one original
+    # flag. Keep that actual storage identity instead of a duplicate zero flag.
+    flag=[row for row in data if row['original']==0x412d00]
+    assert len(flag)==1 and flag[0]['name']=='discard_types' and flag[0]['size']==4,'discard flag data identity differs'
+    assert 'global_types_exhausted' not in sizes and '_global_types_exhausted' not in publics,'duplicate discard flag storage'
+    from binary import COFF
+    discard_flag_references=[]
+    for name,count in [('global-types',2),('modern-types',2),('legacy-types',1)]:
+        path=BINARY/'build'/(name+'.obj');obj=COFF(path.read_bytes())
+        references=[offset for section in obj.sections if section['name']=='.text' for offset,symbol,kind in section['relocs'] if symbol['name']=='_discard_types']
+        assert len(references)==count,('consumer no longer uses the shared discard flag',name,references)
+        discard_flag_references.append(dict(object=name,sha256=sha(path),symbol='_discard_types',references=references))
+    assert pe.read(0x40b493,5)==bytes.fromhex('a1002d4100')
+    assert pe.read(0x40b866,10)==bytes.fromhex('c705002d410001000000')
+    assert pe.read(0x4027fa,6)==bytes.fromhex('392d002d4100')
+    assert pe.read(0x4031d0,6)==pe.read(0x403268,6)==bytes.fromhex('391d002d4100')
     import importlib.util
     spec=importlib.util.spec_from_file_location('resource_evidence',BINARY/'scripts/resource-evidence.py')
     resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)
@@ -147,7 +204,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        cached_import_sites=import_sites, function_tables=function_tables, data_aliases=data_aliases, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        cached_import_sites=import_sites, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,

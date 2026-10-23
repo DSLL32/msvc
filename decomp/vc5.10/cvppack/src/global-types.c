@@ -5,7 +5,6 @@
 
 #pragma intrinsic(memcpy, memcmp)
 
-int global_types_exhausted;
 unsigned short retain_structure_names;
 unsigned char **global_type_blocks[2048];
 StructureAlias *structure_aliases, *last_structure_alias;
@@ -18,7 +17,7 @@ void __fastcall allocate_global_type(TypeRecord *record)
     CachedTypeName *cached, **buckets;
     StructureAlias *alias;
     char limit[12];
-    if (global_types_exhausted) {
+    if (discard_types) {
         record->mapped_index = 0;
         fflush(stdout);
         return;
@@ -91,7 +90,7 @@ checked_limit:
     if (!symbol_rewriters.state.next_global_type || symbol_rewriters.state.next_global_type > 0xffffff) {
         sprintf(limit, "%lu", 0xfff000UL);
         warning(4009, limit, module_name(current_module_info));
-        global_types_exhausted = 1;
+        discard_types = 1;
     }
 }
 

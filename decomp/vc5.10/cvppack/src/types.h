@@ -100,7 +100,6 @@ typedef struct StructureAlias {
     unsigned index;
     unsigned char name[1];
 } StructureAlias;
-extern int global_types_exhausted;
 extern unsigned short retain_structure_names;
 extern unsigned char **global_type_blocks[2048];
 extern StructureAlias *structure_aliases, *last_structure_alias;

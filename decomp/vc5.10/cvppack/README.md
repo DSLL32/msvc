@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`rewrite_type_name_symbol`, after packing eighteen global types. There are 76
-accepted application functions / 24,137 extent bytes, plus 736 associated switch-data
-bytes. This is 38.52% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`insert_global_symbol`, after packing twenty-one global types. There are 77
+accepted application functions / 24,215 extent bytes, plus 736 associated switch-data
+bytes. This is 38.64% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 
@@ -48,12 +48,17 @@ master are specific to this toolchain; no VC1 output is reused.
 
 The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
-contents, defined symbol/source-module buffers, and 52 owned counted type-name
+contents, defined symbol/source-module buffers, and 53 owned counted type-name
 cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
 global pointer slots and interned-node ownership. The default dispatch row and
 next global index share their original storage, with actual DWARF offset proof. Uninitialized allocation tails
 remain native owned; explicit positive controls permit changing them. The first
 module's type-table contract fails closed on reuse until that lifetime is observed.
+
+Known original callee extents may supply tail RET closure while their source
+remains INT3, masked, unaccepted and excluded from coverage. The allocator and
+both compactors use one original `discard_types` flag, with a nonzero native
+identity control.
 
 The pointer compactor preserves an original unwritten-offset path for unsupported
 embedded symbol kinds. Native execution traps before that unvalidated read; a

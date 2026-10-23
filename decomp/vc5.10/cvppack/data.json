@@ -1107,12 +1107,6 @@
     }
   },
   {
-    "name": "global_types_exhausted",
-    "original": 4271360,
-    "size": 4,
-    "kind": "integer"
-  },
-  {
     "name": "retain_structure_names",
     "original": 4272744,
     "size": 2,

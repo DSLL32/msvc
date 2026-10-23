@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "candidate": "rewrite_type_name_symbol",
+  "accepted_functions": 77,
+  "application_extent_bytes": 24215,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 38.64383517921547,
+  "qualification": "Application extents / whole text including CRT/unknown/padding, not non-CRT or executed-branch coverage.",
+  "source_extent": [
+    4238512,
+    4238590
+  ],
+  "source_review": [
+    "Discard mark preserves original separate flag tests; otherwise map type DWORD+4 and move unscoped symbol through genuine fastcall2 insert_global_symbol.",
+    "Unknown callee remains INT3, primary extent null, masked/zero coverage. Proven450B original extent and all3RET0 used solely for caller tail ABI closure.",
+    "Corrected original412d00 shared allocator/modern/legacy flag storage: old duplicate happened to be zero on accepted cases; source now uses one discard_types object. Actual COFF/DWARF/original instructions and nonzero native identity unit bind consumers."
+  ],
+  "executed_scope": "Complete25B UDT symbol name tagRPCOLEMESSAGE,global type1014,owner type_data offset602;21packed types/6global names plus47localnames.",
+  "fresh_pair": true,
+  "next_frontier": "insert_global_symbol",
+  "fresh_negative_count": 102,
+  "controls": {
+    "type-record-state-checks.json": {
+      "sha256": "ca28d1c98bbd04b765d9ff01133b5766e5624d9240a27b142dde30c6bd3c24ca",
+      "path": "type-record-state-checks.json"
+    },
+    "initialized-storage-checks.json": {
+      "sha256": "9e925f473f4bd2c1376ef76d5867abc503c3bb54d1c1f3673f796274193e7c97",
+      "path": "initialized-storage-checks.json"
+    },
+    "abi-state-checks.json": {
+      "sha256": "770283074380d97ae14bdd46789d2113eacac28e485db16ff8458daa047b9a98",
+      "path": "abi-state-checks.json"
+    },
+    "read-state-checks.json": {
+      "sha256": "5fa32f1929747fa4babdf7026726444cb6f17a679ec5472be23c935bad57d53a",
+      "path": "read-state-checks.json"
+    },
+    "current-symbol-state-checks.json": {
+      "sha256": "89fdcbc6143319eb866ecb8b8cff9fe6648508a53f91a5590490c4993494cbee",
+      "path": "current-symbol-state-checks.json"
+    },
+    "type-flag-check.json": {
+      "sha256": "9889d1d213801ba438f90950ada5a216c9f1fe59efe6a03cccc637d85688b452",
+      "path": "type-flag-check.json"
+    },
+    "help-protocol-report.json": {
+      "sha256": "e08ab80aa3264c22b716c3a209f41cefe9615402b73ed73ee9f972156ea2ef3f",
+      "path": "help-protocol-report.json"
+    }
+  },
+  "seconds": {
+    "validation": {
+      "original_build": 6.187655111774802,
+      "native_build": 2.363660299219191,
+      "graph_tool_build": 0.030382310040295124,
+      "original_capture": 6.298671705648303,
+      "native_capture": 0.7222902672365308,
+      "pair_check": 0.7225532680749893
+    },
+    "fixtures": {
+      "help": {
+        "preparation": 0.0025575077161192894,
+        "execution": 0.004019483923912048,
+        "checks": 0.002720506861805916,
+        "total": 0.014341596513986588
+      },
+      "hello-debug-dll": {
+        "preparation": 0.0025679655373096466,
+        "execution": 0.7083082916215062,
+        "checks": 0.004685699939727783,
+        "total": 1.0391703313216567
+      }
+    }
+  },
+  "test_scope_notes": [
+    "New semantic+actualGDB controls16; nonzero native flag unit1; existing decoder controls freshly rerun61; help protocol24.",
+    "Generic checks on a late frontier failed setup assumptions (constant show_logo mutation was no-op; read-table positive assumed lastread was type input). No source or oracle normalized; protocol uses genuine completed help and record controls frozen0051.",
+    "Two pre-execution static failed trials retained without claiming original execution; full extent proof resolved tail closure with no accepted callee."
+  ]
+}

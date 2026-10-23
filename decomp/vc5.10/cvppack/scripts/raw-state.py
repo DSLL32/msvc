@@ -180,6 +180,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
             row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
             assert root<=value<root+count*32 and (value-root)%32==0,'argument is not an owned original local type record'
             parameters[item['name']]=dict(root=item['root'],index=(value-root)//32)
+        elif item['kind']=='current-symbol-record':
+            def observed(name):
+                row=next(row for row in data if row['name']==name)
+                return int.from_bytes(original['memory'][row['original']],'little')
+            base=observed(item['root']);capacity=observed(item['capacity']);offset=value-base
+            assert value==observed(item['cursor']) and 0<=offset<=capacity-4,'symbol record does not alias active owned input cursor'
+            buffer=original['memory'][base];length=int.from_bytes(buffer[offset:offset+2],'little')+2
+            assert len(buffer)==capacity and 4<=length<=capacity-offset,'symbol record exceeds observed input capacity'
+            parameters[item['name']]=dict(root=item['root'],offset=offset,bytes=buffer[offset:offset+length].hex())
         elif item['kind']=='type-record-name':
             def observed(name):
                 row=next(row for row in data if row['name']==name)

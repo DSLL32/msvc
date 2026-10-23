@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 16,
+  "rejected": [
+    {
+      "name": "wrong-record-root",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_data', 'offset': 602, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}}, {'record': {'root': 'line_data', 'offset': 602, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}})"
+    },
+    {
+      "name": "wrong-record-offset",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_data', 'offset': 602, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}}, {'record': {'root': 'type_data', 'offset': 603, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}})"
+    },
+    {
+      "name": "wrong-record-bytes",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_data', 'offset': 602, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}}, {'record': {'root': 'type_data', 'offset': 602, 'bytes': '1700031015100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}})"
+    },
+    {
+      "name": "wrong-callback-identity",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_data', 'offset': 602, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'symbol_record_key'}}, {'record': {'root': 'type_data', 'offset': 602, 'bytes': '1700031014100000107461675250434f4c454d455353414745'}, 'key': {'function': 'public_record_key'}})"
+    },
+    {
+      "name": "wrong-record-pointee-width",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "original-record-not-active-cursor",
+      "diagnostic": "symbol record does not alias active owned input cursor"
+    },
+    {
+      "name": "original-record-length-exceeds-capacity",
+      "diagnostic": "symbol record exceeds observed input capacity"
+    },
+    {
+      "name": "original-record-too-short",
+      "diagnostic": "symbol record exceeds observed input capacity"
+    },
+    {
+      "name": "tail-wrong-target",
+      "diagnostic": ""
+    },
+    {
+      "name": "tail-wrong-code",
+      "diagnostic": ""
+    },
+    {
+      "name": "tail-missing-return",
+      "diagnostic": "tail RET inventory differs"
+    },
+    {
+      "name": "tail-wrong-return-cleanup",
+      "diagnostic": "tail RET inventory differs"
+    },
+    {
+      "name": "tail-undeclared-cold-chunk",
+      "diagnostic": "tail proof requires all cold chunks/owned data"
+    },
+    {
+      "name": "tail-truncated-primary",
+      "diagnostic": ""
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "pointee-width",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x566182d1 in insert_global_symbol (record=0x57d8f0ea \"\\027\", key=0x56617700 <symbol_record_key>) at src/stubs.c:39\n39\tint __fastcall insert_global_symbol(unsigned char *record, SymbolKeyProc key) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-symbol-abi-tmlakyhg/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "bad_config_sha256": "edd6d0ec2283aaf3259d7570927b32a3889a6d17a8493c86862507521bc51e9c",
+      "observer_sha256": "a1f3d1466796f4f9f3c2dede8f5cec1ba69ad9822053687831e8186f5f7100bf"
+    },
+    {
+      "name": "omitted-formal",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5657f2d1 in insert_global_symbol (record=0x56b0e0ea \"\\027\", key=0x5657e700 <symbol_record_key>) at src/stubs.c:39\n39\tint __fastcall insert_global_symbol(unsigned char *record, SymbolKeyProc key) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: ('incomplete frontier ABI contract', ['record', 'key'], ['record'])\n/root/.ai-tmp/cvpack-symbol-abi-tmqy7x_u/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('incomplete frontier ABI contract', ['record', 'key'], ['record'])\n",
+      "bad_config_sha256": "8655d3426a390fbf7854d7065b746164a50ddd88a31ac545ac9d1f472df4ba01",
+      "observer_sha256": "a1f3d1466796f4f9f3c2dede8f5cec1ba69ad9822053687831e8186f5f7100bf"
+    }
+  ],
+  "parameters": {
+    "record": {
+      "root": "type_data",
+      "offset": 602,
+      "bytes": "1700031014100000107461675250434f4c454d455353414745"
+    },
+    "key": {
+      "function": "symbol_record_key"
+    }
+  },
+  "extent_only": {
+    "name": "@insert_global_symbol@8",
+    "start": 4248624,
+    "end": 4249074,
+    "pending_extent": false,
+    "accepted": false,
+    "evidence": null,
+    "kind": "unaccepted-application-tail-target",
+    "extent_evidence": {
+      "evidence": "cases/hello-debug-dll/insert-global-symbol-tail-extent.json",
+      "sha256": "d22d2accd51fae6e3db549d122720e97558b697b6d0a698f7ae138baf267c8cb"
+    },
+    "code_chunks": [],
+    "shared": []
+  },
+  "original_receipt_sha256": "e854c9fd69df50aa0ce8835a1b59642c45a9e76ad14ccd14a4d7d39d78e0bfea",
+  "native_receipt_sha256": "f81499816146d780109410ba2cf64232a4bcdc5cee3d13d0b12c96401ccec71b",
+  "checker_sha256": "17ff5465d32e27c908b98fc3a30e5bab71a71694b4d6f323d84dff65652083d9",
+  "decoder_sha256": "6d5affbaece965fd8a0e0a952867e4c5487a457a191943554b7cdca452281ee0",
+  "audit_wrapper_sha256": "40dc2314944bacf5881cd1f0691a8d39c53b391cc61e801861b56064ad23a63c",
+  "seconds": 3.419199373573065
+}
