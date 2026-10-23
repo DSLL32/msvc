@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "initializer promotion held pending orchestrator review",
+  "status": "initializer accepted after orchestrator concrete review; auxiliary trials remain non-acceptance evidence",
   "trial": "_initialize_compiler_pass",
   "original_code_chunks": [
     [

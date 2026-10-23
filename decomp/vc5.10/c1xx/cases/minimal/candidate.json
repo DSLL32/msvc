@@ -7,9 +7,10 @@
     "__CRT_INIT@12",
     "import:_initterm",
     "_DllMain@12",
-    "_InvokeCompilerPass@12"
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass"
   ],
-  "trial": "_initialize_compiler_pass",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -72,5 +73,5 @@
       "entry": 0
     }
   ],
-  "stage": "typed snapshot initializer trial; promotion held for concrete orchestrator review"
+  "stage": "_initialize_compiler_pass accepted; next frontier _checked_malloc"
 }

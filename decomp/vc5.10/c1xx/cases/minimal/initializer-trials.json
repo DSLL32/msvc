@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "review required before initializer promotion",
+  "status": "initializer accepted after orchestrator concrete review; auxiliary trials remain non-acceptance evidence",
   "trials": [
     {
       "seed": null,

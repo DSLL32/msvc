@@ -10,7 +10,8 @@
     "__CRT_INIT@12",
     "import:_initterm",
     "_DllMain@12",
-    "_InvokeCompilerPass@12"
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass"
   ],
   "driver": [
     {
@@ -624,6 +625,45 @@
         "audit_checked": true,
         "original_seconds": 0.9163426486775279,
         "native_seconds": 0.16197341214865446
+      }
+    },
+    {
+      "name": "_initialize_compiler_pass",
+      "classification": "application source",
+      "source": "src/frontend.c",
+      "source_sha256": "80d4bed91feecb639667d321d1e9778bf0065e989ee14b91fd754711e39e46f1",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-fresh-original-3",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-fresh-native-4",
+      "original_receipt_sha256": "ffd67e817df3c0677895817750b222dd699e5fb04e5737cbd6330702749fede6",
+      "native_receipt_sha256": "d8d5856154c147bcdfc0b969b198439c2dbebc62f76ced786194629e2c526743",
+      "trial_sha256": "ef0b71e440d0bbad43fa307f0fb10bccbab23e80bc8c02380220bac5c5fef043",
+      "audit_sha256": "7c35f0172d2bb67b7c41504593d2859aee1cc32db10ae180e971353d40b52509",
+      "code_chunks": [
+        [
+          230736,
+          230928
+        ],
+        [
+          466904,
+          467030
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_compiler_pass",
+        "seed": null,
+        "frontier": "_checked_malloc",
+        "malloc_bytes": 8520,
+        "mapped_snapshot_fields": [
+          "first_invocation"
+        ],
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "original_opaque_transfer_bytes_checked": 0,
+        "callback_slots_verified": 43,
+        "typed_bss_bytes": 136,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.066813767887652,
+        "native_seconds": 0.20980930794030428
       }
     }
   ],
