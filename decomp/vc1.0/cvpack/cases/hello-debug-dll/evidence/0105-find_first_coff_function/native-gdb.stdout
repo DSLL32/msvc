@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x6387: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffdc6424, environment=0xffdc6438) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565856d2 in read_coff_auxiliary (auxiliary=0xffdc5d48) at src/stubs.c:137
+137	unsigned short read_coff_auxiliary(CoffAuxiliary *auxiliary) { __asm { int 3 } return 0; }

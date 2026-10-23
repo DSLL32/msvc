@@ -1,0 +1,35 @@
+{
+  "size": 18,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "function_aux",
+  "esp_offset": 108,
+  "callsite": {
+    "start": 165576,
+    "end": 165586,
+    "sha256": "29a5ab7a8b448a93ace676ce5d584415a6d43d2d0a4def2bed72c734637cc9e2"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "entry_bias": 52,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 165424,
+    "end": 165623,
+    "sha256": "1568db11a624360849e4be04427da15cd8780115aa28e2dee1905388c35b1c7e"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 165586
+    },
+    {
+      "slot": 5,
+      "address": 164909
+    }
+  ],
+  "scope": "Same collect_strip_records::function_aux18 output forwarded through actual find_first_coff_function arg2. Three saved regs and one pushed output pointer before readaux give actualcalleeESP+108; exact nested returns and parentframe retained. Native named owner/sizeof pointer equality, raw undefined prebytes no equality credit."
+}

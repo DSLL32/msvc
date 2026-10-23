@@ -175,3 +175,75 @@ unsigned short next_coff_symbol(CoffSymbol *symbol, unsigned long *index)
     strip_read_offset += sizeof(*symbol);
     return 1;
 }
+
+unsigned short collect_strip_records(void)
+{
+    CoffSymbol symbol, block;
+    CoffAuxiliary function_aux, block_aux;
+    unsigned long first_index, index, line_offset;
+    CoffFunction *record, *previous = NULL;
+    unsigned short finished, has_lines;
+
+    if (!find_first_coff_function(&symbol, &function_aux, &first_index)) return 1;
+    index = first_index;
+    do {
+        record = malloc(sizeof(*record));
+        if (!record) fatal_error(13, NULL, NULL);
+        line_offset = function_aux.line_offset;
+        if (line_offset && fill_coff_function(record, &symbol, &function_aux, index)) {
+            read_coff_function_block(&function_aux, &block, &block_aux, &index);
+            finished = has_lines = 0;
+            do {
+                next_coff_symbol(&block, &index);
+                switch (classify_coff_symbol(&block)) {
+                case 0:
+                    fatal_error(37, NULL, NULL);
+                    break;
+                case 2:
+                    read_coff_function_lines(record, previous, &line_offset,
+                                             (unsigned short)block.value);
+                    has_lines = 1;
+                    break;
+                case 3:
+                    if (record->line_count) previous = publish_coff_function(record);
+                    else { free(record->name); free(record); }
+                    record = malloc(sizeof(*record));
+                    if (!record) fatal_error(13, NULL, NULL);
+                    if (!fill_coff_function(record, &symbol, &function_aux, index))
+                        fatal_error(37, NULL, NULL);
+                    break;
+                case 4:
+#ifdef RECON_NATIVE_TEST
+                    if (symbol.section < 1 || symbol.section > strip_file_header.NumberOfSections)
+                        __asm { int 3 }
+#endif
+                    set_coff_function_end(record, function_aux.total_size
+                        -strip_section_rvas[symbol.section-1]+symbol.value-1);
+                    previous = NULL;
+                    if (!has_lines) { free(record->name); free(record); }
+                    else record = publish_coff_function(record);
+                    finished = 1;
+                    break;
+                }
+            } while (!finished);
+        }
+    } while (find_next_coff_function(&symbol, &function_aux, &index));
+    return 1;
+}
+
+unsigned short find_first_coff_function(CoffSymbol *symbol,
+                                      CoffAuxiliary *auxiliary,
+                                      unsigned long *index)
+{
+    unsigned short done = 0;
+    if (!strip_symbol_offset) return 0;
+    *index = 0;
+    if (!read_coff_symbol(symbol, 0)) fatal_error(37, NULL, NULL);
+    while (!((symbol->type & 0x30) == 0x20 && symbol->auxiliary_count) && !done)
+        done = (unsigned short)(next_coff_symbol(symbol, index) < 1);
+    if ((symbol->type & 0x30) == 0x20 && symbol->auxiliary_count) {
+        if (!read_coff_auxiliary(auxiliary)) fatal_error(37, NULL, NULL);
+        return 1;
+    }
+    return 0;
+}

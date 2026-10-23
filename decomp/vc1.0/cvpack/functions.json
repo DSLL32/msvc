@@ -5515,16 +5515,33 @@
       "native": "collect_strip_records",
       "symbol": "_collect_strip_records",
       "original": 164880,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        164880,
+        165412
+      ],
       "abi": "unsigned short collect_strip_records(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0104-collect_strip_records/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "write_strip_records",
@@ -5693,6 +5710,175 @@
           }
         ]
       }
+    },
+    {
+      "name": "find_first_coff_function",
+      "native": "find_first_coff_function",
+      "symbol": "_find_first_coff_function",
+      "original": 165424,
+      "source": "src/strip.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        165424,
+        165623
+      ],
+      "abi": "unsigned short find_first_coff_function(CoffSymbol *,CoffAuxiliary *,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0105-find_first_coff_function/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "slot": 1,
+          "kind": "stack-output",
+          "evidence": "cases/abi/first-coff-function-symbol-output.json",
+          "evidence_sha256": "421143100eb4bdc3c7dafd5b6d2569aa4a7f35f82049d80b8b24fb5118924525"
+        },
+        {
+          "name": "auxiliary",
+          "slot": 2,
+          "kind": "stack-output",
+          "evidence": "cases/abi/first-coff-function-auxiliary-output.json",
+          "evidence_sha256": "61ab37a2868f9f966f24c40bc889f961298f1ad5548b73cf5d5103590459a415"
+        },
+        {
+          "name": "index",
+          "slot": 3,
+          "kind": "stack-output",
+          "evidence": "cases/abi/first-coff-function-index-output.json",
+          "evidence_sha256": "2a0063baa7c375a7cc7f5f2f02400e6e6e0235d8a1a480c4f7ef271a75604992"
+        }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
+    },
+    {
+      "name": "find_next_coff_function",
+      "native": "find_next_coff_function",
+      "symbol": "_find_next_coff_function",
+      "original": 165632,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short find_next_coff_function(CoffSymbol *,CoffAuxiliary *,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "fill_coff_function",
+      "native": "fill_coff_function",
+      "symbol": "_fill_coff_function",
+      "original": 167088,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short fill_coff_function(CoffFunction *,const CoffSymbol *,const CoffAuxiliary *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "read_coff_function_block",
+      "native": "read_coff_function_block",
+      "symbol": "_read_coff_function_block",
+      "original": 166656,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short read_coff_function_block(const CoffAuxiliary *,CoffSymbol *,CoffAuxiliary *,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "read_coff_function_lines",
+      "native": "read_coff_function_lines",
+      "symbol": "_read_coff_function_lines",
+      "original": 166800,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_coff_function_lines(CoffFunction *,CoffFunction *,unsigned long *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "set_coff_function_end",
+      "native": "set_coff_function_end",
+      "symbol": "_set_coff_function_end",
+      "original": 166608,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void set_coff_function_end(CoffFunction *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "publish_coff_function",
+      "native": "publish_coff_function",
+      "symbol": "_publish_coff_function",
+      "original": 167424,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "CoffFunction *publish_coff_function(CoffFunction *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "read_coff_auxiliary",
+      "native": "read_coff_auxiliary",
+      "symbol": "_read_coff_auxiliary",
+      "original": 166128,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short read_coff_auxiliary(CoffAuxiliary *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "auxiliary",
+          "slot": 1,
+          "kind": "stack-output",
+          "evidence": "cases/abi/read-coff-aux-output.json",
+          "evidence_sha256": "46ccc7dc1483e56207fe0e41c6ac4e6661b01a0b6e9acbd3788453adee2637e6"
+        }
+      ]
     }
   ],
   "review": {
@@ -6337,6 +6523,18 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 103
+    },
+    {
+      "function": "collect_strip_records",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 104
+    },
+    {
+      "function": "find_first_coff_function",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 105
     }
   ],
   "support_unmasked": [
@@ -6935,7 +7133,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "a544af4578e454bfebd0c1d79133c5c874dab3eab8f3643e86b7585044de99a3"
+    "evidence_sha256": "a3891f4ce864cc2c888af3edabb7aaeb1c819857651b6cf3585ecf9e9e67a317"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7011,6 +7209,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "06f49886a5d3842533caae35e7367382811bad811428ff4c7f3a60df36db7553"
+    "sha256": "f950514bbc4c631d3cb855a1ab9a0798bbe8f39c5cc3fdb4d964cb21e15e464c"
   }
 }
