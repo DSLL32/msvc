@@ -1,6 +1,7 @@
 """Validate explicitly modeled semantic state; unknown bytes remain UNMODELED."""
 import json,struct,subprocess,re
 from pathlib import Path
+import buffer_state
 PROJECT=Path(__file__).resolve().parents[1]
 def i32(data,offset):return struct.unpack_from('<i',data,offset)[0]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -14,15 +15,18 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   assert all(a[1]<=b[0] for a,b in zip(native_ranges,native_ranges[1:]))
  assert fields['allocation_bytes']==6548
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']}=={'first_call':(0x5f530,4,0)}
- assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}=={'saved_data':(0x57818,4,0),'cleanup_count':(0x5781c,4,4),'cleanup_callbacks':(0x57820,128,8),'context':(0x518c8,12,136),'current_context':(0x518b8,12,148),'contexts':(0x51858,72,160)}
+ expected_bss={'saved_data':(0x57818,4,0),'cleanup_count':(0x5781c,4,4),'cleanup_callbacks':(0x57820,128,8),'context':(0x518c8,12,136),'current_context':(0x518b8,12,148),'contexts':(0x51858,72,160)}
+ expected_bss.update({'output_buffer.'+name:(0x54038+original,size,232+native) for name,(original,native,size) in buffer_state.FIELDS.items()})
+ assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}==expected_bss
  first=fields['modeled_initialized'][0]
  assert first['snapshot_original_offset']==first['original_rva']-fields['original_initialized_region_rva'][0]==0x1530
  assert first['snapshot_native_offset']==first['native_offset']==0
  assert i32((original/'compiler-data-000.bin').read_bytes(),0x1530)==first['default']==1
  current=state['compiler_state'];layout=current['native_layout']
- assert layout=={'initialized_size':4,'bss_size':232,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'context_members':{'object':0,'value':4,'saved_frame':8}}
+ assert layout=={'initialized_size':4,'bss_size':268,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'output_buffer':232,'output_buffer_size':36,'buffer_members':{name:native for name,(original,native,size) in buffer_state.FIELDS.items()},'context_members':{'object':0,'value':4,'saved_frame':8}}
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
+ buffer_state.validate(fields,original,bss,current)
  assert i32(data,0x1530)==current['initialized']['first_call']
  saved=u32(bss,0x7818);b=current['bss']
  assert bool(saved)==bool(b['saved_data'])
@@ -43,7 +47,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  assert struct.unpack_from('<32I',bss,0x7820)==tuple(b['cleanup_callbacks'])==(0,)*32
  globals_data=(original/('state-%03d.bin'%sequence)).read_bytes()
  assert i32(globals_data,0x64)==current['reuse_state']
- assert i32(globals_data,0x8c)==state['pass_mode']
+ assert i32(globals_data,0x8c)==state['pass_mode']==current['pass_mode']
  symbols={name:int(address,16) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [TtWw] (\S+)$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)}
  all_symbols={name:(int(address,16),int(size,16)) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [A-Za-z] (\S+)$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)}
  for key,symbol in [('initialized','c1_data'),('bss','c1_bss')]:
@@ -115,8 +119,9 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
   for index in range(6):
    assert struct.unpack_from('<3I',b,0x1858+index*12)==((module+0x5f530,31+index,original_alloc) if phase=='before' else (0,0,0))
    assert n['bss']['contexts'][index]==(dict(object=n['live_addresses']['initialized'],value=31+index,saved_frame=native_alloc) if phase=='before' else dict(object=0,value=0,saved_frame=0))
+  buffer_state.check_phase(original,seq,n,module,original_alloc,native_alloc,symbols,seed=phase=='before')
   assert i32(g,0x64)==n['reuse_state']==plan['reuse_state']
-  assert i32(g,0x8c)==plan['pass_mode']
+  assert i32(g,0x8c)==n['pass_mode']==plan['pass_mode']
   assert n['snapshot']['first_call']==plan['snapshot_first_call']
   assert n['initialization_callbacks']==last['initialization_callbacks']
   if phase=='post_restore':
@@ -137,11 +142,13 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
   assert struct.unpack_from('<3I',callback_bss,offset)==(module+0x5f530,value,original_alloc)
   assert before_callback['bss'][name]==dict(object=before_callback['live_addresses']['initialized'],value=value,saved_frame=native_alloc)
   other='current_context' if name=='context' else 'context'
+  buffer_state.check_phase(original,callbackseq,before_callback,module,original_alloc,native_alloc,symbols)
   assert before_callback['bss'][other]==dict(object=0,value=0,saved_frame=0)
   assert struct.unpack_from('<3I',callback_bss,0x18b8 if name=='context' else 0x18c8)==(0,0,0)
   assert struct.unpack_from('<18I',callback_bss,0x1858)==(0,)*18
   assert before_callback['bss']['contexts']==[dict(object=0,value=0,saved_frame=0) for i in range(6)]
   assert before_callback['initialized']['first_call']==0 and before_callback['snapshot']['first_call']==plan['snapshot_first_call']
+  assert before_callback['pass_mode']==plan['pass_mode']
   assert before_callback['reuse_state']==0 and before_callback['bss']['saved_data']==native_alloc
   assert before_callback['bss']['cleanup_count']==0 and before_callback['bss']['cleanup_callbacks']==[0]*32
   symbol='initialize_state_%x'%rva;callback_address=int(symbols[symbol])
@@ -152,6 +159,7 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
  assert len(arrayseqs)==1 and postseq<int(arrayseqs[0])<sequence
  array_bss=(original/('compiler-bss-%03d.bin'%int(arrayseqs[0]))).read_bytes()
  before_array=observations['before_contexts_callback']
+ buffer_state.check_phase(original,int(arrayseqs[0]),before_array,module,original_alloc,native_alloc,symbols)
  assert re.search(r'^contexts-seed rva=00012389 count=6 object=%08x frame=%08x$'%(module+0x5f530,original_alloc),raw,re.M)
  assert plan['contexts_callback_auxiliary']=={'entry_rva':0x12389,'count':6,'normal_case':False}
  for index in range(6):
@@ -161,11 +169,13 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
   assert before_array['bss'][name]==dict(object=0,value=0,saved_frame=0)
   assert struct.unpack_from('<3I',array_bss,offset)==(0,0,0)
  assert before_array['initialized']['first_call']==0 and before_array['snapshot']['first_call']==plan['snapshot_first_call']
+ assert before_array['pass_mode']==plan['pass_mode']
  assert before_array['reuse_state']==0 and before_array['bss']['saved_data']==native_alloc
  assert before_array['bss']['cleanup_count']==0 and before_array['bss']['cleanup_callbacks']==[0]*32
  array_address=int(symbols['initialize_state_12389'])
  array_size=re.search(r'^[0-9a-f]+ ([0-9a-f]+) [Tt] initialize_state_12389$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)[1]
  assert array_address<=observations['contexts_callback_pc']<array_address+int(array_size,16)
+ buffer_state.validate_constructor_probe(PROJECT,original,observations,raw,sequence,module,original_alloc,native_alloc,symbols,plan['output_buffer'])
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_compiler_pass$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M).groups()
  assert int(address,16)<=observations['post_restore_pc']<int(address,16)+int(size,16)
  line=next(i for i,text in enumerate((PROJECT/'src/pass.c').read_text().splitlines(),1) if 'c1_reuse_state = !c1_pass_mode;' in text)

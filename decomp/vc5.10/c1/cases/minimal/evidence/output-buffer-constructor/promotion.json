@@ -1,0 +1,15 @@
+{
+  "accepted_function": "_initialize_output_buffer_123ae",
+  "bytes": 58,
+  "role": "sole-new-candidate",
+  "application_bytes_after": 714,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1171,
+  "modeled_initialized_bytes": 4,
+  "modeled_original_bss_bytes": 265,
+  "native_compact_bss_size": 268,
+  "native_padding_bytes": 3,
+  "unknown_original_bytes": "UNMODELED; no opaque placeholders",
+  "original_reuse": "Latest native captures reuse unchanged original execution; shared native source/header update and extra GDB mode-state observations do not change original execution inputs"
+}

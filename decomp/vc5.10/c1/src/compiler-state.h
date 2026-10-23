@@ -1,5 +1,6 @@
 #ifndef C1_COMPILER_STATE_H
 #define C1_COMPILER_STATE_H
+#include <stdio.h>
 #include "c1.h"
 #include <recon.h>
 
@@ -16,6 +17,18 @@ typedef struct CompilerContextState {
     unsigned value;
     struct CompilerContextFrame *saved_frame;
 } CompilerContextState;
+typedef void (__cdecl *C1BufferRelocator)(void *, unsigned char *, unsigned char *);
+typedef struct CompilerOutputBuffer {
+    unsigned char *data;
+    unsigned char *cursor;
+    unsigned capacity;
+    C1BufferRelocator relocated;
+    void *relocation_context;
+    FILE *stream;
+    int good;
+    unsigned char mode;
+    int file_descriptor;
+} CompilerOutputBuffer;
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -23,6 +36,7 @@ typedef struct CompilerBss {
     CompilerContextState context;
     CompilerContextState current_context;
     CompilerContextState contexts[6];
+    CompilerOutputBuffer output_buffer;
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;
@@ -30,8 +44,8 @@ extern int c1_reuse_state;
 extern C1Initializer const c1_initialization_callbacks[34];
 void *__cdecl allocate_compiler_memory(unsigned);
 void __cdecl compiler_fatal(int);
-int __cdecl initialize_pool_123ae(void);
-void __cdecl destroy_pool_23940(void);
+int __cdecl initialize_output_buffer_123ae(void);
+void __cdecl destroy_output_buffer_23940(void);
 int __cdecl register_compiler_cleanup(C1Initializer);
 void __cdecl initialize_state_12365(void);
 void __cdecl initialize_state_12377(void);

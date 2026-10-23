@@ -203,13 +203,6 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_pool_123ae",
-    "start": 268441200,
-    "end": 268441201,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_register_compiler_cleanup",
     "start": 268440656,
     "end": 268440657,
@@ -217,9 +210,9 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_destroy_pool_23940",
-    "start": 268441214,
-    "end": 268441215,
+    "name": "_destroy_output_buffer_23940",
+    "start": 268441294,
+    "end": 268441295,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

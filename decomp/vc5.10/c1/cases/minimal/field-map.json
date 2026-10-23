@@ -169,6 +169,87 @@
       ],
       "count": 6,
       "stride": 12
+    },
+    {
+      "name": "output_buffer.data",
+      "original_rva": 344120,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.data",
+      "native_offset": 232,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.cursor",
+      "original_rva": 344124,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.cursor",
+      "native_offset": 236,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.capacity",
+      "original_rva": 344128,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.capacity",
+      "native_offset": 240,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.relocated",
+      "original_rva": 344132,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.relocated",
+      "native_offset": 244,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.relocation_context",
+      "original_rva": 344136,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.relocation_context",
+      "native_offset": 248,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.stream",
+      "original_rva": 344140,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.stream",
+      "native_offset": 252,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.good",
+      "original_rva": 344144,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.good",
+      "native_offset": 256,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.mode",
+      "original_rva": 344148,
+      "bytes": 1,
+      "native_field": "c1_bss.output_buffer.mode",
+      "native_offset": 260,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
+    },
+    {
+      "name": "output_buffer.file_descriptor",
+      "original_rva": 344408,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffer.file_descriptor",
+      "native_offset": 264,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor123ae explicitly initializes this field"
     }
   ],
   "outside_bss": [
@@ -356,5 +437,25 @@
       "original_rva": 75686,
       "native_symbol": "initialize_state_127a6"
     }
-  ]
+  ],
+  "output_buffer": {
+    "original_object_rva": 344120,
+    "native_field": "c1_bss.output_buffer",
+    "native_size": 36,
+    "native_offset": 232,
+    "original_unmodeled_offsets": [
+      [
+        29,
+        288
+      ]
+    ],
+    "type_evidence": {
+      "buffer_base_cursor_capacity": "member1012 checks cursor+size <= data+capacity; memberf7e3 grows and copies buffer",
+      "relocated_and_context": "cold2f251 invokes relocated(context,old_data,new_data)",
+      "FILE_stream": "memberfe60 passes stream to fwrite;1fc99 closes it using fclose",
+      "good": "memberf886 ANDs it with allocation success",
+      "mode_and_descriptor": "constructor writes zero BYTE at28 and signed -1 DWORD at288; subsequent domain not yet recovered"
+    },
+    "object_extent_unknown": true
+  }
 }

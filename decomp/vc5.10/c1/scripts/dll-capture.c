@@ -262,6 +262,24 @@ static DWORD exported(DWORD module, const char *wanted)
     fail("missing CRT environment export"); return 0;
 }
 
+/* Labeled auxiliary values: the stream and relocation callback are never
+ * dereferenced/invoked. Only their mapped pointer identities are exercised. */
+static void seed_output_buffer(DWORD rva)
+{
+    DWORD saved, values[7], descriptor = 57;
+    BYTE mode = 165;
+    readmem(base + 0x57818, &saved, 4);
+    if (!saved) fail("buffer probe missing snapshot allocation");
+    values[0] = saved; values[1] = saved + 4; values[2] = 47;
+    values[3] = base + 0x12365; values[4] = saved;
+    values[5] = saved + 8; values[6] = 9;
+    write_mem(base + 0x54038, values, sizeof(values));
+    write_mem(base + 0x54054, &mode, 1);
+    write_mem(base + 0x54158, &descriptor, 4);
+    fprintf(events, "output-buffer-seed rva=%08lx allocation=%08lx callback=%08lx\n",
+            rva, saved, values[3]);
+}
+
 /* Explicit code-probe input: unknown original bytes stay on the ORIGINAL
  * side only. The native probe receives just the mapped semantic fields. */
 static void seed_restore_state(void)
@@ -295,6 +313,7 @@ static void seed_restore_state(void)
         context[1] = 31 + index;
         write_mem(base + 0x51858 + index * 12, context, sizeof(context));
     }
+    seed_output_buffer(0x122a5);
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -484,6 +503,9 @@ int main(int argc, char **argv)
                 if (restore_probe && !(context_seeded & 1) && address == base + 0x12365) seed_context_callback(0x12365);
                 if (restore_probe && !(context_seeded & 2) && address == base + 0x12377) seed_context_callback(0x12377);
                 if (restore_probe && !(context_seeded & 4) && address == base + 0x12389) seed_contexts_callback();
+                if (restore_probe && !(context_seeded & 8) && address == base + 0x123ae) {
+                    seed_output_buffer(0x123ae); context_seeded |= 8;
+                }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

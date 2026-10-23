@@ -39,8 +39,8 @@ void __cdecl initialize_state_123a6(void)
 
 void __cdecl initialize_state_123a7(void)
 {
-    initialize_pool_123ae();
-    register_compiler_cleanup(destroy_pool_23940);
+    initialize_output_buffer_123ae();
+    register_compiler_cleanup(destroy_output_buffer_23940);
 }
 
 void __cdecl initialize_state_1241c(void)

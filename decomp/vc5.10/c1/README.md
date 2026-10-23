@@ -179,7 +179,7 @@ Initializer/allocator staging completed after the reviewed two-body trial:
 allocator INT3 frontier, followed by `evidence/allocator-staged-promotion/` with
 the real allocator as the only new candidate and genuine first-copy state.
 The older two-body normal/restore captures remain explicitly auxiliary evidence;
-their historical roles were not relabeled. Only four initialized bytes and 232
+their historical roles were not relabeled. Only four initialized bytes and 265
 BSS bytes are currently modeled; other compiler state remains UNMODELED. All 34
 initializer slots are represented, and execution stops at the first unreconstructed
 callback. See `cases/minimal/INITIALIZER-REVIEW.md` for the original review packet.
@@ -211,3 +211,12 @@ The first pool wrapper (RVA123a7) owns two chunks totaling 21 bytes. It calls
 a separate constructor and then registers the destructor; the constructor and
 registration helpers remain named traps. Fresh evidence matches the constructor
 frontier including its actual caller/return site, without consuming pool state.
+
+The first buffered-output constructor (RVA123ae, 58 bytes) is accepted. Its
+nine touched fields are recovered individually: data/cursor/capacity, relocation
+callback/context, FILE stream, success flag, mode byte and signed descriptor
+sentinel. Only 33 original bytes join the model; the native compact structure
+has three padding bytes. The original filename/other storage remains UNMODELED.
+The nonzero auxiliary probe never invokes its callback or dereferences its fake
+stream sentinel. It verifies genuine constructor execution and BSS clearing of
+every mapped field before the next named registration trap.

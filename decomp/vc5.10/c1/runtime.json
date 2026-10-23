@@ -203,13 +203,6 @@
     "evidence": "named fatal diagnostic trap; not reached on successful allocation"
   },
   {
-    "name": "_initialize_pool_123ae",
-    "start": 274801582,
-    "end": 274801583,
-    "pending_extent": true,
-    "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
-  },
-  {
     "name": "_register_compiler_cleanup",
     "start": 274801654,
     "end": 274801655,
@@ -217,7 +210,7 @@
     "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
   },
   {
-    "name": "_destroy_pool_23940",
+    "name": "_destroy_output_buffer_23940",
     "start": 274872640,
     "end": 274872641,
     "pending_extent": true,
