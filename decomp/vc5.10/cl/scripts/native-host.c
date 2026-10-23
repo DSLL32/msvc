@@ -30,15 +30,22 @@ extern int __real_main(int, char **, char **);
 int __wrap_main(int argc, char **argv, char **envp)
 {
     int result;
+    DWORD entry_error;
     const char *profile = getenv("CL_ENTRY_PROFILE");
     /* Captured canonical CRT/loader boundary, outside the application graph.
      * New cases must provide their own evidenced entry profile. */
-    if (!profile || strcmp(profile,"help-canonical-msvcrt-v1") ||
-        argc != 2 || strcmp(argv[1],"/?"))
+    if (profile && !strcmp(profile,"help-canonical-msvcrt-v1") &&
+        argc == 2 && !strcmp(argv[1],"/?"))
+        entry_error = 2;
+    else if (profile && !strcmp(profile,"minimal-c-canonical-msvcrt-v1") &&
+        argc == 4 && !strcmp(argv[1],"/nologo") &&
+        !strcmp(argv[2],"/c") && !strcmp(argv[3],"test.c"))
+        entry_error = 0;
+    else
         recon_unsupported("unknown CL native entry profile");
     errno = 0;
     recon_doserrno = 0;
-    recon_SetLastError(2);
+    recon_SetLastError(entry_error);
     recon_controlfp(0x10000, 0x30000);
     result = __real_main(argc, argv, envp);
     recon_record_terminal_status((uint32_t)result);

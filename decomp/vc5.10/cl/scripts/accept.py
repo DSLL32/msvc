@@ -58,7 +58,10 @@ def observation(entry,trial,expected):
     if raw['platform']=='native':keys+=('native_sha256','rebuilt_sha256')
     for key in keys:
         assert raw[key]==expected[key],'capture binary snapshot differs: '+key
-    assert raw['case']=='help' and raw['arguments']==['/?'],'unapproved case'
+    from case_inputs import load
+    case=load(raw['case'])
+    assert raw['arguments']==case['arguments'],'unapproved case arguments'
+    if 'case' in expected:assert raw['case']==expected['case'] and raw['arguments']==expected['arguments'],'pair case differs'
     files={role:checked_file(value) for role,value in raw['files'].items()}
     assert {'stdout','stderr','state'}<=files.keys(),'incomplete raw capture'
     if raw['platform']=='original':
@@ -116,6 +119,8 @@ def observation(entry,trial,expected):
     assert state==decode_state(raw['platform'],files['state'].parent),'typed state is not decoded from current raw CTX/globals/stack/GDB inputs'
     assert state.get('projection') and isinstance(state.get('fields'),dict),'missing explicit state projection'
     assert state['fields'],'empty state comparison is not acceptance evidence'
+    if case['inputs']:
+        assert state['fields']['case_inputs']==case,'observation label does not match actual case inputs'
     return outcome,{'stdout':digest(files['stdout']),'stderr':digest(files['stderr'])},{'projection':state['projection'],'fields':state['fields'],'trace':trace}
 
 
@@ -128,6 +133,7 @@ def validate(base,receipt,name,project=PROJECT,root=ROOT,review_only=False):
         'native_sha256':digest(project/'build/native-trace/CL.EXE'),
         'rebuilt_sha256':digest(project/'build/cl.exe'),
         'trial_mask_sha256':hashlib.sha256(construct(trial)).hexdigest()}
+    if 'case' in receipt:expected.update(case=receipt['case'],arguments=receipt['arguments'])
     assert receipt['candidate']==name,'receipt candidate differs'
     for key,value in expected.items():assert receipt[key]==value,'wrong current binary or trial mask: '+key
     sources={str(p.relative_to(project)):digest(p) for p in sorted((project/'src').glob('*')) if p.is_file()}
@@ -170,6 +176,9 @@ def validate(base,receipt,name,project=PROJECT,root=ROOT,review_only=False):
     if '_find_rule' in trial['accepted']:
         from rules import verify
         assert audit['grammar']==verify(project,root),'grammar audit receipt differs from compiled data'
+    if '_classify_input' in trial['accepted']:
+        from input_kinds import verify
+        assert audit['input_kinds']==verify(project,root),'input-kind receipt differs from compiled data'
     report=json.loads(checked_file(audit['report']).read_text())
     assert report['discovery']=='cfg' and name in report['functions'],'candidate was not audited'
     # A native-only retry is valid only against this exact recorded original
@@ -191,7 +200,7 @@ def validate(base,receipt,name,project=PROJECT,root=ROOT,review_only=False):
     outcome=original[0]
     assert outcome['kind']=='completed' or outcome['logical_frontier']!=name,'candidate never executed beyond its entry trap'
     if outcome['kind']=='completed':
-        reference=json.loads((project/'cases/help/reference/manifest.json').read_text())
+        reference=json.loads((project/'cases'/expected.get('case','help')/'reference/manifest.json').read_text())
         assert original[1]==reference['streams'],'completed streams differ from canonical original'
     return trial
 
@@ -209,8 +218,8 @@ if __name__=='__main__':
     else:
         assert config['acceptance_reviewed'],'cannot persist acceptance before review'
         (PROJECT/'functions.json').write_text(json.dumps(trial,indent=2)+'\n')
-        journal_path=PROJECT/'cases/help/acceptance-order.json'
-        journal=json.loads(journal_path.read_text())
+        journal_path=PROJECT/'cases'/receipt.get('case','help')/'acceptance-order.json'
+        journal=json.loads(journal_path.read_text()) if journal_path.exists() else {'schema':1,'case':receipt['case'],'entries':[]}
         record=next(r for r in trial['driver']+trial['runtime']if r['name']==args.name)
         journal['entries'].append({'order':len(journal['entries'])+1,'candidate':args.name,
             'class':'application' if record in trial['driver'] else 'CRT support',

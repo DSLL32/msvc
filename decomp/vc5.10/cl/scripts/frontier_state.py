@@ -27,6 +27,7 @@ PARAMETERS={
  'prepare_inputs':[('state','driver')], 'prepare_environment':[('state','driver')],
  'format_message':[('length','output_unsigned'),('text','string'),('args','format_arguments')],
  'read_response':[('name','string')], 'classify_input':[('name','string')],
+ 'create_input':[('name','string'),('kind','signed')],
  'add_input':[('name','string'),('kind','signed'),('explicit_kind','signed')],
  'has_prefix':[('prefix','string'),('text','string')], 'find_special':[('name','string')], 'apply_special':[('special','special'),('argument','string')],
  'match_option':[('args','vector'),('index','index_pointer')],

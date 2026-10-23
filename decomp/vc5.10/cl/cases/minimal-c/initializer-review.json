@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "scope": "Bounded review of all explicit reconstruction source initializers before minimal-C classify_input promotion",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "findings": [
+    {
+      "initializer": "machine_defaults",
+      "original_start": 4231240,
+      "decoded": [
+        "-D_MSC_VER=1100",
+        "-D_WIN32",
+        null
+      ],
+      "result": "Source literals and NULL terminator match original pointer table exactly; consumed in completed help."
+    },
+    {
+      "initializer": "driver_defaults",
+      "original_start": 4231256,
+      "decoded": [
+        "-il%t",
+        "-f%f",
+        "-W1",
+        "-Zep8",
+        "-ZB",
+        "-GBs",
+        "-GR-",
+        "-GX-",
+        "-Otb0",
+        "-dos",
+        "-Fo%b.obj",
+        "-Fe%b.%X",
+        "-pc\\:/",
+        "-ML",
+        "-Fdvc50.pdb",
+        "-Zn",
+        "-EHc",
+        "-ZM",
+        null
+      ],
+      "result": "Source literals and NULL terminator match original pointer table exactly; consumed in completed help."
+    },
+    {
+      "initializer": "compiler_passes",
+      "original_start": 4231336,
+      "decoded": [
+        {
+          "name": null,
+          "path": 0,
+          "environment": null,
+          "prefix": "D-",
+          "flags": 1,
+          "module": 0,
+          "invoke": 0,
+          "abort": 0,
+          "options": 0
+        },
+        {
+          "name": "c1",
+          "path": 0,
+          "environment": "MSC_CMD_FLAGS=",
+          "prefix": "1-",
+          "flags": 1,
+          "module": 0,
+          "invoke": 0,
+          "abort": 0,
+          "options": 0
+        },
+        {
+          "name": "c1xx",
+          "path": 0,
+          "environment": "MSC_CMD_FLAGS=",
+          "prefix": "P-",
+          "flags": 1,
+          "module": 0,
+          "invoke": 0,
+          "abort": 0,
+          "options": 0
+        },
+        {
+          "name": "c2",
+          "path": 0,
+          "environment": "MSC_CMD_FLAGS=",
+          "prefix": "2-",
+          "flags": 1,
+          "module": 0,
+          "invoke": 0,
+          "abort": 0,
+          "options": 0
+        },
+        {
+          "name": "link.exe",
+          "path": 0,
+          "environment": null,
+          "prefix": "C/",
+          "flags": 1,
+          "module": 0,
+          "invoke": 0,
+          "abort": 0,
+          "options": 0
+        }
+      ],
+      "result": "Five complete36-byte records match source; direct full-table three-image verification added with input-kind proof."
+    },
+    {
+      "initializer": "find_special.groups",
+      "original_start": 4219608,
+      "decoded": [
+        [
+          "EH",
+          "a-:c-:s-"
+        ],
+        [
+          "G",
+          "3:4:5:6:d:e:f:h*:i-:m-:p#:r:s*:t#:x-:y:z:A:B:D:E*:M:R-:X-"
+        ],
+        [
+          "O",
+          "1:2:a-:b#:d:g-:i-:p-:s:t:w-:x:y-:V#"
+        ],
+        [
+          "Z",
+          "7:a:d:e:g:i:l:m#:n:p#:s:B*:M-"
+        ],
+        [
+          null,
+          null
+        ]
+      ],
+      "result": "Four complete name/grammar records and zero terminator match source literals; consumed in help."
+    },
+    {
+      "initializer": "show_commands",
+      "original_address": 4231188,
+      "value": 1,
+      "result": "Matches original initial DWORD; help typed-state/default evidence also covers reached behavior."
+    },
+    {
+      "initializer": "message_capacity",
+      "original_address": 4231592,
+      "value": 2048,
+      "result": "Matches original initial DWORD; help typed-state/default evidence also covers reached behavior."
+    },
+    {
+      "initializer": "first_option_pass",
+      "original_address": 4231216,
+      "value": 1,
+      "result": "Matches original initial DWORD; help typed-state/default evidence also covers reached behavior."
+    },
+    {
+      "initializer": "cleanup_temporaries",
+      "original_address": 4231196,
+      "value": 1,
+      "result": "Matches original initial DWORD; help typed-state/default evidence also covers reached behavior."
+    },
+    {
+      "initializer": "keep_preprocessor_output",
+      "original_address": 4231204,
+      "value": 1,
+      "result": "Matches original initial DWORD; help typed-state/default evidence also covers reached behavior."
+    },
+    {
+      "initializer": "use_standard_include",
+      "original_address": 4231184,
+      "value": 1,
+      "result": "Matches original initial DWORD; help typed-state/default evidence also covers reached behavior."
+    },
+    {
+      "initializer": "option_rules / driver_options",
+      "result": "Already independently verified full174/31 records, tags, handler/requirement distinctions and storage identities in all three images; see cases/help/rule-grammar.json."
+    },
+    {
+      "initializer": "input_kinds and shared pass lists",
+      "result": "Only discrepancy found: old provisional nine-row table had shifted extension records and incorrect field order. Replaced with fully verified ten rows plus NULL/-1/NULL, four shared pass lists; old committed help artifact retained."
+    },
+    {
+      "initializer": "all remaining source static/global objects",
+      "result": "Only zero/default storage, driver pointer alias and reached local buffers remain. No further explicit unvisited initializer table found. Unvisited function consumers remain named INT3 frontiers."
+    }
+  ],
+  "source_hashes": {
+    "decomp/vc5.10/cl/src/messages.rc": "ce9b298cc66c775dd024dce70e2432b8028ffa99c7ab55fba3ade4ed9a47763c",
+    "decomp/vc5.10/cl/src/arguments.c": "fe83dea4090498c2d77955041c18313be6f2c55c6c6cebe687adf7544463d997",
+    "decomp/vc5.10/cl/src/frontiers.c": "aa30ab0b512d0ca913b2fcb055e55994623f0c69e52ca26ad8e588f7ccc90f82",
+    "decomp/vc5.10/cl/src/rules.c": "e7f13f06ffaa570ef796e9c59a4f8ab74570002e25db48f1b003aa9cbe1f6d66",
+    "decomp/vc5.10/cl/src/cl.h": "49caa3039e7be8122921d5ffbdc758525278e10a3afce5ca08983be04b014191",
+    "decomp/vc5.10/cl/src/filenames.c": "3e7d92c4e8ac6423215fe978c21e5b87e8fc4251a6b88491fa1a525a2827f70d",
+    "decomp/vc5.10/cl/src/main.c": "f0c27d439e85d3b7d8eef16a8408ad731e60825aeb83ef985fc2733c83f1aad8",
+    "decomp/vc5.10/cl/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/cl/src/settings.c": "33bc0cbb7620b74f0d89dfae0a56c4def02f02bc2cfe0421e3febea37874794d",
+    "decomp/vc5.10/cl/src/driver.c": "6532823f35ee9c3fbf1989642fc95a1c8fed362ac66a3dd2b427fc6ed5819b7c",
+    "decomp/vc5.10/cl/src/messages.c": "7438b9d7ce93a4c3d6bd262c040baf796ae4aef1e11dec08667a77f1e22282c0",
+    "decomp/vc5.10/cl/src/console.c": "39911bde529fde0f077c00e2c6c781148472cd1432102960a2c4fcd2ced8504b",
+    "decomp/vc5.10/cl/src/options.c": "bf4a02bb69c401e7c732d5ed111821638232a6e0a16f867f54f7bdaba7d297bc"
+  }
+}

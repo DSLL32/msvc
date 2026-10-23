@@ -62,7 +62,10 @@
     "_set_output_option",
     "_prepare_environment",
     "_join_text",
-    "_show_help"
+    "_show_help",
+    "_append_escaped",
+    "_classify_input",
+    "_add_input"
   ],
   "driver": [
     {
@@ -412,18 +415,25 @@
     {
       "name": "_classify_input",
       "start": 4198400,
-      "end": 4198401,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "classify_input"
+      "end": 4198499,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "classify_input",
+      "evidence": {
+        "kind": "complete extension classifier and bounded typed table disassembly",
+        "range": "00401000..00401063",
+        "data": "cases/minimal-c/input-kinds.json"
+      }
     },
     {
       "name": "_add_input",
       "start": 4198548,
-      "end": 4198549,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "add_input"
+      "end": 4198616,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "add_input",
+      "evidence": {
+        "kind": "complete input allocation/list append/source-count body disassembly",
+        "range": "00401094..004010d8"
+      }
     },
     {
       "name": "_find_special",
@@ -657,10 +667,13 @@
     {
       "name": "_append_escaped",
       "start": 4213268,
-      "end": 4213269,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "append_escaped"
+      "end": 4213376,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "append_escaped",
+      "evidence": {
+        "kind": "complete percent-escaping multibyte append body disassembly",
+        "range": "00404a14..00404a80"
+      }
     },
     {
       "name": "_apply_extension",
@@ -893,6 +906,14 @@
       "end": 4216855,
       "pending_extent": true,
       "state": "named INT3 frontier"
+    },
+    {
+      "name": "_create_input",
+      "start": 4198499,
+      "end": 4198500,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "create_input"
     }
   ],
   "runtime": [

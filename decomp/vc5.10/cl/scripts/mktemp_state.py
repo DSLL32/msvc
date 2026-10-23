@@ -9,7 +9,7 @@ CRT_SHA='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 sha=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def original(directory):
+def original_states(directory,phases):
     directory=Path(directory)
     capture=json.loads((directory/'capture.json').read_text())
     assert capture['loaded_msvcrt_sha256']==CRT_SHA
@@ -22,9 +22,11 @@ def original(directory):
     assert pe.read(pe.base+0x6436,9)==bytes.fromhex('e888b1ffff83c008c3')
     assert pe.read(pe.base+0x642d,9)==bytes.fromhex('e891b1ffff83c00cc3')
     lines=(directory/'mktemp-events.txt').read_text().splitlines()
-    assert len(lines)==5,'missing/extra temporary-name observations'
     states={};identities=[]
-    for phase,line in [('entry',lines[0]),('before',lines[2]),('after',lines[4])]:
+    for phase in phases:
+        matches=[line for line in lines if line.startswith('state phase='+phase+' ')]
+        assert len(matches)==1,'missing/extra raw '+phase+' error state'
+        line=matches[0]
         match=re.fullmatch(r'state phase='+phase+r' teb=([0-9a-f]{8}) tid=(\d+) tls_index=(\d+) ptd=([0-9a-f]{8})',line)
         assert match,'malformed raw error-state observation'
         teb,tid,index,ptd=int(match[1],16),int(match[2]),int(match[3]),int(match[4],16)
@@ -39,7 +41,24 @@ def original(directory):
         states[phase]={'errno':struct.unpack_from('<i',thread,8)[0],
             'doserrno':struct.unpack_from('<I',thread,12)[0],
             'last_error':struct.unpack_from('<I',raw,0x34)[0]}
-    assert identities[0]==identities[1]==identities[2]
+    assert all(identity==identities[0] for identity in identities)
+    return states
+
+
+def original_entry(directory):
+    directory=Path(directory)
+    state=original_states(directory,['entry'])['entry']
+    context=(directory/'main-entry-context.bin').read_bytes()
+    assert len(context)>=32 and struct.unpack_from('<I',context,0)[0]&8
+    return {**state,'x87_control_word':struct.unpack_from('<I',context,28)[0]&0xffff}
+
+
+def original(directory):
+    directory=Path(directory)
+    capture=json.loads((directory/'capture.json').read_text())
+    lines=(directory/'mktemp-events.txt').read_text().splitlines()
+    assert len(lines)==5,'missing/extra temporary-name observations'
+    states=original_states(directory,['entry','before','after'])
     call=re.fullmatch(r'call sequence=1 argument=([0-9a-f]{8})',lines[1])
     result=re.fullmatch(r'return sequence=1 result=([0-9a-f]{8}) argument=([0-9a-f]{8})',lines[3])
     assert call and result and call[1]==result[1]==result[2],'result does not alias the input'
@@ -51,10 +70,16 @@ def original(directory):
         assert item['name'] not in names and '/' not in item['name'] and '\\' not in item['name']
         names.add(item['name']);raw=(directory/item['name']).read_bytes()
         assert len(raw)==item['bytes'] and sha(raw)==item['sha256'],'original input-directory bytes changed'
-    assert names=={'CL.EXE','MSPDB50.DLL','MSVCRT.DLL','config.json','entries.txt','reference-debugger.c','reference-debugger.exe'}
+    controls={'CL.EXE','MSPDB50.DLL','MSVCRT.DLL','config.json','entries.txt','reference-debugger.c','reference-debugger.exe'}
+    if capture.get('inputs'):
+        case=json.loads((directory/'case-inputs.json').read_text())
+        assert case=={key:capture[key]for key in ('case','arguments','inputs')}
+        from case_inputs import load
+        assert case==load(case['case']),'case inputs differ from declared source bytes'
+        controls|={'case-inputs.json'}|{item['name']for item in case['inputs']}
+    assert names==controls
     assert after[2:-1].decode('ascii') not in names|set(capture['files']),'temporary-name collision'
-    entry_context=(directory/'main-entry-context.bin').read_bytes()
-    entry={**states['entry'],'x87_control_word':struct.unpack_from('<I',entry_context,28)[0]&0xffff}
+    entry=original_entry(directory)
     return {'entry':entry,'calls':[{'template':before[:-1].decode('ascii'),
         'result':after[:-1].decode('ascii'),'result_alias':True,
         'before':states['before'],'after':states['after']}]}

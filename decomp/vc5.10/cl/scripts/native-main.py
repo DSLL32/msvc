@@ -10,6 +10,7 @@ import shutil
 import time
 from state import vector,environment,project
 from build_inputs import verify_native_build
+from case_inputs import load as load_case,copy_inputs
 
 PROJECT=Path(__file__).resolve().parents[1]
 ROOT=PROJECT.parents[2]
@@ -30,13 +31,23 @@ def capture(original,directory):
     (directory/'native-build.json').write_bytes(build_bytes)
     (directory/'status_reader.py').write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/status.py'],cwd=ROOT))
     argv=vector(original/'argv.bin')[1]
-    profile_path=PROJECT/'cases/help/entry-profile.json'
+    receipt=json.loads((original/'capture.json').read_text())
+    case=load_case(receipt['case'])
+    assert receipt['arguments']==case['arguments']==argv[1:]
+    if case['inputs']:
+        assert json.loads((original/'case-inputs.json').read_text())==case
+        for item in case['inputs']:
+            assert sha(original/item['name'])==item['sha256']
+        copy_inputs(case,directory)
+        (directory/'case-inputs.json').write_text(json.dumps(case,indent=2)+'\n')
+    profile_path=PROJECT/'cases'/case['case']/'entry-profile.json'
     profile=json.loads(profile_path.read_text())
-    assert profile['arguments']==argv[1:] and profile['id']=='help-canonical-msvcrt-v1'
+    assert profile['arguments']==argv[1:] and profile['id']==case['case']+'-canonical-msvcrt-v1'
+    if case['inputs']:assert profile['inputs']==case['inputs']
     assert sha(Path(profile['evidence']['path']))==profile['evidence']['sha256']
     if (original/'mktemp-entry-teb.bin').exists():
-        from mktemp_state import original as temporary_state
-        assert temporary_state(original)['entry']==profile['state'],'unknown original entry profile'
+        from mktemp_state import original_entry
+        assert original_entry(original)==profile['state'],'unknown original entry profile'
     shutil.copyfile(profile_path,directory/'entry-profile.json')
     variables=environment(vector(original/'environment.bin')[1])
     assert variables==profile['environment'],'unknown consumed entry-profile inputs'
@@ -71,7 +82,7 @@ def capture(original,directory):
     # argv[0] is supplied as captured Win32 data while the executable is ELF.
     commands=['/usr/bin/gdb','-q','-nx','-batch','-ex','set pagination off',
         '-ex','set exec-wrapper /usr/bin/env',
-        '-ex',f'set args /?',
+        '-ex','set args '+subprocess.list2cmdline(case['arguments']),
         '-ex','tbreak *main',
         '-ex',f'run > {directory}/stdout.bin 2> {directory}/stderr.bin',
         '-ex','source '+str(directory/'gdb-entry.py'),
@@ -108,7 +119,7 @@ def capture(original,directory):
         (directory/'state.json').write_text(json.dumps(projection,indent=2)+'\n')
     except Exception as failure:
         error=repr(failure);(directory/'controller-error.txt').write_text(error+'\n')
-    (directory/'capture.json').write_text(json.dumps({'platform':'native','native_sha256':binary_before,
+    (directory/'capture.json').write_text(json.dumps({'platform':'native',**case,'native_sha256':binary_before,
         'rebuilt_sha256':rebuilt_before,'config_sha256':sha(directory/'config.json'),
         'native_build':{'path':str(directory/'native-build.json'),'sha256':sha(directory/'native-build.json')},
         'controller_sha256':sha(Path(__file__)),'gdb_status':result.returncode,'seconds':elapsed,'controller_error':error,

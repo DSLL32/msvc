@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "case": "minimal-c",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_append_escaped",
+      "class": "application",
+      "extent_bytes": 108,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-escaped-2/pair.json",
+        "sha256": "7e758ec1210c2881fe334204b65a52001ae83cbd6d41dfc83d68d2665daba3a8"
+      }
+    },
+    {
+      "order": 2,
+      "candidate": "_classify_input",
+      "class": "application",
+      "extent_bytes": 99,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/classify-input-2/pair.json",
+        "sha256": "c199d25a9f28e2e903d39bfb908c598d6e0b9a5e751244b6a5ce34628f12ffec"
+      }
+    },
+    {
+      "order": 3,
+      "candidate": "_add_input",
+      "class": "application",
+      "extent_bytes": 68,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/add-input-1/pair.json",
+        "sha256": "99112d128a240553b80b7103443e1c6533b6071b495db49f5915e6a444d8af0c"
+      }
+    }
+  ]
+}

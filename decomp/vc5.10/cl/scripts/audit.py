@@ -25,13 +25,15 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
         'import_residuals':project/'cases/help/import-residuals.json','import_residual_verifier':project/'scripts/import_residuals.py'}
     if '_find_rule' in json.loads((config or project/'functions.json').read_text())['accepted']:
         result.update(native_grammar=project/'build/native-trace/CL.EXE',grammar_proof=project/'cases/help/rule-grammar.json',grammar_verifier=project/'scripts/rules.py')
+    if '_classify_input' in json.loads((config or project/'functions.json').read_text())['accepted']:
+        result.update(input_kind_proof=project/'cases/minimal-c/input-kinds.json',input_kind_verifier=project/'scripts/input_kinds.py')
     return result
 
 
 # These two bodies cache qualified IAT values in callee-saved registers. The
 # optional direct-import engine cannot resolve those calls; retain exact narrow
 # evidence instead of reshaping target source or silently accepting unknowns.
-CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help'}
+CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped'}
 
 
 def import_leaves(config):
@@ -97,6 +99,9 @@ def run(config,report):
     if '_find_rule' in config_value['accepted']:
         from rules import verify
         receipt['grammar']=verify(PROJECT,ROOT)
+    if '_classify_input' in config_value['accepted']:
+        from input_kinds import verify
+        receipt['input_kinds']=verify(PROJECT,ROOT)
     report.with_suffix('.receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     if status==0:print(json.dumps({'status':0,'passes':list(passes),'seconds':elapsed}))
     return status

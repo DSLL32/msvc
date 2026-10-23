@@ -44,10 +44,9 @@ BOOL WINAPI console_control_handler(DWORD event)
 
 
 void read_response(char *name) { __asm int 3 }
-int classify_input(char *name) { __asm int 3
-    return 0;
+Input *create_input(char *name, int kind) { __asm int 3
+    return NULL;
 }
-void add_input(char *name, int kind, int explicit_kind) { __asm int 3 }
 
 
 void option_conflict(unsigned id, Option *old, Option *replacement) { __asm int 3 }
@@ -72,11 +71,6 @@ Option *object_input(char **args, int *index) { __asm int 3
 
 
 
-
-
-char *append_escaped(char *out, char *text) { __asm int 3
-    return NULL;
-}
 
 
 Option *copy_option(Option *option) { __asm int 3

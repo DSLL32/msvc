@@ -21,12 +21,15 @@ CompilerPass compiler_passes[5] = {
 static int c_passes[] = { 1, 3, 5 };
 static int cpp_passes[] = { 2, 3, 5 };
 static int link_passes[] = { 4, 5 };
-InputKind input_kinds[9] = {
-    { c_passes, "cpp", 0 }, { cpp_passes, "cxx", 0 },
-    { cpp_passes, "obj", 1 }, { link_passes, "lib", 1 },
-    { link_passes, "def", 1 }, { link_passes, "res", 1 },
-    { link_passes, "exp", 1 }, { link_passes, "", 1 },
-    { link_passes, "exe", 2 }
+static int no_passes[] = { 5 };
+/* 004070f0: extension classification and shared terminated pass lists. */
+InputKind input_kinds[11] = {
+    { "c", 0, c_passes }, { "cpp", 0, cpp_passes },
+    { "cxx", 0, cpp_passes }, { "obj", 1, link_passes },
+    { "lib", 1, link_passes }, { "def", 1, link_passes },
+    { "res", 1, link_passes }, { "exp", 1, link_passes },
+    { "", 1, link_passes }, { "exe", 2, no_passes },
+    { NULL, -1, NULL }
 };
 
 int main(int argc, char **argv, char **envp)

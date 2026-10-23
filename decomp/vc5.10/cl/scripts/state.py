@@ -100,6 +100,21 @@ def basic_project(platform,directory):
 
 def project(platform,directory):
     directory=Path(directory);result=basic_project(platform,directory)
+    if (directory/'case-inputs.json').exists():
+        from case_inputs import load
+        case=json.loads((directory/'case-inputs.json').read_text())
+        assert case==load(case['case']),'captured case differs from declared source inputs'
+        for item in case['inputs']:
+            assert (directory/item['name']).stat().st_size==item['bytes'] and sha(directory/item['name'])==item['sha256']
+        result['fields']['case_inputs']=case
+        import mktemp_state
+        result['fields']['main_entry_errors']=(mktemp_state.original_entry(directory) if platform=='original' else json.loads((directory/'native-entry-errors.json').read_text()))
+        names=['case-inputs.json']+[item['name']for item in case['inputs']]
+        if platform=='original':
+            names+=['capture.json','loaded-msvcrt.bin','main-entry-context.bin','mktemp-events.txt']
+            names+=['mktemp-entry-'+kind+'.bin'for kind in ('teb','ptd','tls-index')]
+        else:names+=['native-entry-errors.json','gdb_entry.py','gdb-entry.py','native-process.json','entry-profile.json']
+        result['raw_inputs'].update({name:sha(directory/name)for name in names})
     observed=(directory/'mktemp-before.bin').exists() if platform=='original' else (directory/'mktemp-expected.json').exists()
     if observed:
         import mktemp_state

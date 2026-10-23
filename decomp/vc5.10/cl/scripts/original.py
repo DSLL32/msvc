@@ -10,6 +10,7 @@ import subprocess
 import time
 from mask import construct
 from build_inputs import inventory as build_inputs,store_blob
+from case_inputs import load as load_case,copy_inputs
 
 HERE=Path(__file__).resolve().parent
 PROJECT=HERE.parent
@@ -21,7 +22,7 @@ wt=importlib.util.module_from_spec(spec);spec.loader.exec_module(wt)
 sha=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def capture(label,config_path,baseline=False):
+def capture(label,config_path,baseline=False,case_name='help'):
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
     target=ROOT/config['target']['path']
@@ -32,6 +33,10 @@ def capture(label,config_path,baseline=False):
     directory=SCRATCH/label
     assert not directory.exists(),'capture directory already exists; choose a fresh label'
     directory.mkdir(parents=True)
+    case=load_case(case_name)
+    copy_inputs(case,directory)
+    if case['inputs']:
+        (directory/'case-inputs.json').write_text(json.dumps(case,indent=2)+'\n')
     image=target.read_bytes() if baseline else construct(config)
     (directory/'CL.EXE').write_bytes(image)
     (directory/'config.json').write_bytes(config_path.read_bytes())
@@ -53,7 +58,7 @@ def capture(label,config_path,baseline=False):
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
     env=wt.environment();env.update(TMP='.',TEMP='.')
     command=['/usr/bin/wine',wt.windows(directory/'reference-debugger.exe'),
-        wt.windows(directory/'CL.EXE'),'/?',wt.windows(directory),'0' if baseline else '1',
+        wt.windows(directory/'CL.EXE'),subprocess.list2cmdline(case['arguments']),wt.windows(directory),'0' if baseline else '1',
         '1' if '_load_string' in config['accepted'] else '0']
     setup=time.perf_counter()-start;run_start=time.perf_counter()
     # The fresh directory contains only these controlled files before the child
@@ -92,7 +97,7 @@ def capture(label,config_path,baseline=False):
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    receipt={'schema':1,'controller_error':controller_error,'case':'help','arguments':['/?'],'baseline':baseline,
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
@@ -120,4 +125,5 @@ if __name__=='__main__':
     parser.add_argument('--label',required=True)
     parser.add_argument('--config',type=Path,default=PROJECT/'functions.json')
     parser.add_argument('--baseline',action='store_true')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline)
+    parser.add_argument('--case',default='help')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case)

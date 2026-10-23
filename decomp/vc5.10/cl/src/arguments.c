@@ -125,6 +125,33 @@ int has_nologo(char **args, int count)
 int source_count;
 int options_after_link, link_warning;
 
+/* 00401000..00401063: recognize source and linker-input extensions. */
+int classify_input(char *name)
+{
+    char extension[_MAX_EXT];
+    int kind;
+    _splitpath(name, NULL, NULL, NULL, extension);
+    if (*extension) {
+        for (kind = 0; input_kinds[kind].category != 2; ++kind)
+            if (!_stricmp(extension + 1, input_kinds[kind].extension))
+                return kind;
+    }
+    return 8;
+}
+
+/* 00401094..004010d8: append an input and count source-language inputs. */
+void add_input(char *name, int kind, int explicit_kind)
+{
+    Input *input = create_input(name, kind);
+    Input **tail = &driver->inputs;
+    input->explicit_kind = (unsigned short)explicit_kind;
+    while (*tail)
+        tail = &(*tail)->next;
+    *tail = input;
+    if (!input_kinds[kind].category)
+        ++source_count;
+}
+
 /* 00401aed..00401be7: response files, input names and driver options. */
 void parse_arguments(char **args, int count)
 {
@@ -275,6 +302,26 @@ char *append_literal(char *out, char *text)
     if (text)
         strcat(out, text);
     return out + strlen(out);
+}
+
+/* 00404a14..00404a80: double percent signs in option substitutions. */
+char *append_escaped(char *out, char *text)
+{
+    unsigned char *source = (unsigned char *)text;
+    unsigned char *position = (unsigned char *)out + strlen(out);
+    if (source) {
+        while (*source) {
+            _mbccpy(position, source);
+            position = _mbsinc(position);
+            if (!_mbsncmp(source, (unsigned char *)"%", 1)) {
+                _mbccpy(position, source);
+                position = _mbsinc(position);
+            }
+            source = _mbsinc(source);
+        }
+        *position = '\0';
+    }
+    return (char *)position;
 }
 
 /* 0040203f..00402110: turn grouped switches into individual rule invocations. */

@@ -22,7 +22,7 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def binding(path):return {'path':str(path),'sha256':sha(path)}
 
 
-def run(name,label,reuse_original=None,reverify_accepted=False):
+def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help'):
     assert name.startswith('_'),'explicit indexed candidate required'
     index=json.loads((PROJECT/'functions.json').read_text());base=copy.deepcopy(index)
     if reverify_accepted:
@@ -35,11 +35,12 @@ def run(name,label,reuse_original=None,reverify_accepted=False):
     report=work/'audit.json';assert audit(config,report)==0
     graph=json.loads(report.with_suffix('.receipt.json').read_text())
     if reuse_original is None:
-        observed,receipt=original.capture(label+'-original',config)
+        observed,receipt=original.capture(label+'-original',config,case_name=case_name)
     else:
         observed=Path(reuse_original).resolve()
         receipt=json.loads((observed/'capture.json').read_text())
         assert json.loads((observed/'config.json').read_text())==trial,'reused original has different trial'
+    assert receipt['case']==case_name,'reused original belongs to a different case'
     projection=project('original',observed)
     original_state=observed/'state.json'
     if reuse_original is None:
@@ -60,7 +61,7 @@ def run(name,label,reuse_original=None,reverify_accepted=False):
     expected={'candidate':name,'target_sha256':receipt['target_sha256'],
         'native_sha256':sha(PROJECT/'build/native-trace/CL.EXE'),'rebuilt_sha256':sha(PROJECT/'build/cl.exe'),
         'trial_mask_sha256':receipt['original_mask_sha256']}
-    result={**expected,'base_identity':identity(base),'trial_identity':identity(trial),'graph_audit':graph,
+    result={**expected,'case':case_name,'arguments':receipt['arguments'],'base_identity':identity(base),'trial_identity':identity(trial),'graph_audit':graph,
         'sources':{str(p.relative_to(PROJECT)):sha(p)for p in sorted((PROJECT/'src').glob('*'))if p.is_file()},
         'native_build':binding(native_dir/'native-build.json')}
     verify_native_build(json.loads((native_dir/'native-build.json').read_text()),expected['native_sha256'],PROJECT)
@@ -89,7 +90,7 @@ def run(name,label,reuse_original=None,reverify_accepted=False):
         state=project(platform,directory)
         for raw_name in state['raw_inputs']:files['raw:'+raw_name]=binding(directory/raw_name)
         record={**expected,'platform':platform,'trial_identity':identity(trial),'candidate':name,
-            'config_snapshot':binding(directory/'config.json'),'case':'help','arguments':['/?'],'files':files}
+            'config_snapshot':binding(directory/'config.json'),'case':case_name,'arguments':receipt['arguments'],'files':files}
         if platform=='native':record['native_build']=binding(directory/'native-build.json')
         elif reuse_original is not None:
             # These historic pairing fields did not participate in original
@@ -108,4 +109,5 @@ if __name__=='__main__':
     parser.add_argument('--candidate',required=True);parser.add_argument('--label',required=True)
     parser.add_argument('--reuse-original',type=Path,help='Explicit native-only retry, preserving the original raw capture and observation')
     parser.add_argument('--reverify-accepted',action='store_true',help='Prepare a review-only proof of the current accepted trial; never modify its index')
-    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted)
+    parser.add_argument('--case',default='help')
+    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted,args.case)

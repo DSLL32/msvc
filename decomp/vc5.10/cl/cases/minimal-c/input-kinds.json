@@ -1,0 +1,160 @@
+{
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "start": 4223216,
+  "record_bytes_sha256": "045a884c98d8dd926f0d8df3ad9efcda969e3549db3902f5f3f9f70f75be3d5f",
+  "records": [
+    {
+      "extension": "c",
+      "category": 0,
+      "pass_list_identity": 0,
+      "passes": [
+        1,
+        3,
+        5
+      ]
+    },
+    {
+      "extension": "cpp",
+      "category": 0,
+      "pass_list_identity": 1,
+      "passes": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "extension": "cxx",
+      "category": 0,
+      "pass_list_identity": 1,
+      "passes": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "extension": "obj",
+      "category": 1,
+      "pass_list_identity": 2,
+      "passes": [
+        4,
+        5
+      ]
+    },
+    {
+      "extension": "lib",
+      "category": 1,
+      "pass_list_identity": 2,
+      "passes": [
+        4,
+        5
+      ]
+    },
+    {
+      "extension": "def",
+      "category": 1,
+      "pass_list_identity": 2,
+      "passes": [
+        4,
+        5
+      ]
+    },
+    {
+      "extension": "res",
+      "category": 1,
+      "pass_list_identity": 2,
+      "passes": [
+        4,
+        5
+      ]
+    },
+    {
+      "extension": "exp",
+      "category": 1,
+      "pass_list_identity": 2,
+      "passes": [
+        4,
+        5
+      ]
+    },
+    {
+      "extension": "",
+      "category": 1,
+      "pass_list_identity": 2,
+      "passes": [
+        4,
+        5
+      ]
+    },
+    {
+      "extension": "exe",
+      "category": 2,
+      "pass_list_identity": 3,
+      "passes": [
+        5
+      ]
+    }
+  ],
+  "correction": "Replaces provisional unvisited help-stage nine-row/field-order interpretation; committed help snapshot retained historically.",
+  "compiler_passes": {
+    "start": 4231336,
+    "records": [
+      {
+        "name": null,
+        "environment": null,
+        "prefix": "D-",
+        "flags": 1,
+        "path": null,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c1",
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "1-",
+        "flags": 1,
+        "path": null,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c1xx",
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "P-",
+        "flags": 1,
+        "path": null,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c2",
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "2-",
+        "flags": 1,
+        "path": null,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "link.exe",
+        "environment": null,
+        "prefix": "C/",
+        "flags": 1,
+        "path": null,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      }
+    ]
+  }
+}

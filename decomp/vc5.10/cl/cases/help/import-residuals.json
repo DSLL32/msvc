@@ -414,6 +414,83 @@
       "lifetime_evidence": "ESI loads getchar once; no ESI writes occur across the help/pagination loops or cdecl load_string/write_message calls until its epilogue restore. The getchar loop backedge keeps the same qualified slot.",
       "reconstructed_source": "src/messages.c getchar() is a real CRT function in the original /MD header; /Od emits a direct IAT call.",
       "tool_limitation": "Qualified cached-register import identity is retained as this exact byte-bound residual, not inferred from a generic indirect edge."
+    },
+    {
+      "function": "_append_escaped",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsinc"
+      },
+      "iat": 4235848,
+      "register": "ebp",
+      "load": 4213297,
+      "calls": [
+        4213317,
+        4213350,
+        4213356
+      ],
+      "instruction_sites": [
+        {
+          "address": 4213297,
+          "bytes": "8b2d48a24000"
+        },
+        {
+          "address": 4213317,
+          "bytes": "ffd5"
+        },
+        {
+          "address": 4213350,
+          "bytes": "ffd5"
+        },
+        {
+          "address": 4213356,
+          "bytes": "ffd5"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4213297,
+        "end": 4213366,
+        "sha256": "8a2aceb63a7b24e99e66589b1ab98aa0598ef0f294daf22ff3b9a28dff9cf568"
+      },
+      "lifetime_evidence": "Complete loop and percent branch inspected: callee-saved register loads this qualified IAT once and is not overwritten before any listed call; canonical cdecl callees preserve it. Restored only after loop exit.",
+      "reconstructed_source": "src/arguments.c retains original multibyte API calls; /Od emits direct IAT calls.",
+      "tool_limitation": "Shared direct-import resolution does not resolve these cached-register calls; explicit identity/lifetime residual retained."
+    },
+    {
+      "function": "_append_escaped",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbccpy"
+      },
+      "iat": 4235912,
+      "register": "ebx",
+      "load": 4213304,
+      "calls": [
+        4213312,
+        4213345
+      ],
+      "instruction_sites": [
+        {
+          "address": 4213304,
+          "bytes": "8b1d88a24000"
+        },
+        {
+          "address": 4213312,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4213345,
+          "bytes": "ffd3"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4213304,
+        "end": 4213366,
+        "sha256": "57e1fa5e125f0553b62877f22b5ba63e196157a667e02ddd2ad8f4b98bc7e7e3"
+      },
+      "lifetime_evidence": "Complete loop and percent branch inspected: callee-saved register loads this qualified IAT once and is not overwritten before any listed call; canonical cdecl callees preserve it. Restored only after loop exit.",
+      "reconstructed_source": "src/arguments.c retains original multibyte API calls; /Od emits direct IAT calls.",
+      "tool_limitation": "Shared direct-import resolution does not resolve these cached-register calls; explicit identity/lifetime residual retained."
     }
   ]
 }

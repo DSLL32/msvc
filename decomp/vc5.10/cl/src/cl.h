@@ -55,9 +55,9 @@ typedef struct CompilerPass {
     char *options;
 } CompilerPass;
 typedef struct InputKind {
+    char *extension;
+    int category;
     int *passes;
-    char *suffix;
-    unsigned flags;
 } InputKind;
 extern Driver driver_storage;
 extern Driver *driver;
@@ -69,7 +69,7 @@ extern int debug_exceptions, error_count, output_produced, default_c_language;
 extern char *source_language, *image_name;
 extern int is_dll;
 extern CompilerPass compiler_passes[5];
-extern InputKind input_kinds[9];
+extern InputKind input_kinds[11];
 
 int main(int, char **, char **);
 BOOL install_control_handler(void);
@@ -87,6 +87,7 @@ void show_banner(int);
 void parse_arguments(char **, int);
 void read_response(char *);
 int classify_input(char *);
+Input *create_input(char *, int);
 void add_input(char *, int, int);
 SpecialOption *find_special(char *);
 int has_prefix(char *, char *);

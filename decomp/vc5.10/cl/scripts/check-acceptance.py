@@ -131,6 +131,9 @@ with tempfile.TemporaryDirectory(prefix='accept-protocol-',dir=scratch) as direc
         entry=write(project/'stale-both.json',stale)
         observations(r,lambda platform,o:o.update(config_snapshot=entry))
     negative('mutually stale snapshots',stale_both)
+    negative('unknown case',lambda r:observations(r,lambda platform,o:o.update(case='unapproved')))
+    negative('different authored case arguments',lambda r:observations(r,lambda platform,o:o.update(arguments=['/c','test.c'])))
+    negative('different case labels on valid help raw',lambda r:observations(r,lambda platform,o:o.update(case='minimal-c',arguments=['/nologo','/c','test.c'])))
     negative('changed native binary',lambda r:(project/'build/native-trace/CL.EXE').write_bytes(b'changed'))
     (project/'build/native-trace/CL.EXE').write_bytes(b'protocol fixture: build/native-trace/CL.EXE')
     def raw_change(r,role,content,platform='original'):
