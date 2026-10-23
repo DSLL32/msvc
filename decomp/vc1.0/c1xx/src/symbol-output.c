@@ -179,6 +179,13 @@ CppSymbol *__stdcall method_alias(CppSymbol *symbol)
 HashTable *static_member_aliases; /* original 0x9f3d4 */
 HashTable *static_member_name_bindings; /* original 0x9f260 */
 
+/* Original 0x55f90..0x55fa3. Keep lookup separate from registration,
+   including the generic table helper's missing-table result. */
+CppSymbol *__stdcall static_member_alias(CppSymbol *symbol)
+{
+    return find_hash_value(static_member_aliases, symbol);
+}
+
 /* Original 0x55f20..0x55f82. Keep both class-member to external-symbol
    and interned external-name to class-member associations. */
 void __stdcall register_static_member_alias(CppSymbol *member, CppSymbol *alias)

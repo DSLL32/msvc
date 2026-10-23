@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_static_member_alias@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1067,
+  "configuration_sha256": "5c940c632566d7b52b3cdcd8b4c7f4fd4cd65598427088c5de1996cafff6a772",
+  "native_entry": "static_member_alias",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 181905,
+        "original_owner_function": "_resolve_symbol_expression@4",
+        "native_owner_field": "caller_target",
+        "native_owner_function": "resolve_symbol_expression",
+        "native_owner_local": "target",
+        "identity": "selected current caller target: ESI loaded from incoming symbol or qualified binding at0x3c627/0x3c647; is_static_data_member and check_qualified_member_access preserve it; PUSH ESI0x3c68b/CALL0x3c68c return0x3c691. Native actual caller local target binds the same symbol.",
+        "original_owner_value": 8301936,
+        "native_owner_value": 1449262448
+      },
+      "original_raw": 8301936,
+      "native_raw": 1449262448,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      352144,
+      352163
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4]; PUSH EAX; load static_member_aliases and push/call find_hash_value; RET4. No semantic incoming registers/hidden input. ESI is the independently observed caller ownership anchor only. Existing complete extent was already identified; no guessed byte copied.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "3e9c8d2c05d16b7821819528adaa2b128f01d7a99e0f0b8b0395cd72f10c9c4a",
+  "capture_timing": {
+    "original_capture_seconds": 1.5688783321529627,
+    "native_capture_seconds": 0.1806866591796279,
+    "total_operation_seconds": 2.087625902146101
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "d81f7b5eb76e376038ae10bba3d9eef57828aedd5cacf9086fc26e1a56ade468",
+    "native-commands.gdb": "4e631fb3e2e0b4d59ca5c43c2ae4e179fc11126170757162a1373d54e8eb20ab",
+    "native-gdb.log": "0b8f53b61c912896f4d2bb4f548be5c9645cba02ace2f5e01960a85777412b4c",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "309751fd733abd66e5add6110b639cab1642f3b0943fe23327652ae81ebcc5b1",
+    "original-configuration.json": "5c940c632566d7b52b3cdcd8b4c7f4fd4cd65598427088c5de1996cafff6a772",
+    "original-disassembly.txt": "8b7949dac7f55e09b3ef0be7d4531e8b303b72eb93f7fbc1a0de435967afc75c",
+    "original-entries.plan": "451953f9a9f2996acf5f1c4cb43094bbe9cdbfcb8a6739a58cb4e25591b400df",
+    "original-events.txt": "9ba03f7379197fc3c1709e32dec257c86830c216e5a2dfbd6c2d04eedcc6303d",
+    "original-ownership-caller-disassembly.txt": "9ae72ddf7a597f2620ddcdf24c18b6ed557671623657d79ceb365cc2538c5982",
+    "original-receipt.json": "eb188b922b8d4a42f19fa5b400c3e44e7e72341ea80b6744049901ed65335cac",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "e382107249f5ff9cb89aea4b818290234c01a1634faecf85e4a3f250ad3f3c90"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

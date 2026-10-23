@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_static_member_alias@4",
+  "native_entry": "static_member_alias",
+  "argument_words": 4,
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    247328,
+    247939
+  ],
+  "native_caller_locals": {
+    "caller_target": {
+      "frame": 1,
+      "function": "resolve_symbol_expression",
+      "local": "target"
+    }
+  },
+  "native_expressions": {
+    "raw_symbol": "(unsigned)symbol"
+  },
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 181905,
+        "original_owner_function": "_resolve_symbol_expression@4",
+        "native_owner_field": "caller_target",
+        "native_owner_function": "resolve_symbol_expression",
+        "native_owner_local": "target",
+        "identity": "selected current caller target: ESI loaded from incoming symbol or qualified binding at0x3c627/0x3c647; is_static_data_member and check_qualified_member_access preserve it; PUSH ESI0x3c68b/CALL0x3c68c return0x3c691. Native actual caller local target binds the same symbol."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      352144,
+      352163
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4]; PUSH EAX; load static_member_aliases and push/call find_hash_value; RET4. No semantic incoming registers/hidden input. ESI is the independently observed caller ownership anchor only. Existing complete extent was already identified; no guessed byte copied."
+  }
+}

@@ -1,0 +1,276 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003c620 <.text+0x25620>:
+   3c620:	83 ec 04             	sub    esp,0x4
+   3c623:	53                   	push   ebx
+   3c624:	56                   	push   esi
+   3c625:	57                   	push   edi
+   3c626:	55                   	push   ebp
+   3c627:	8b 74 24 18          	mov    esi,DWORD PTR [esp+0x18]
+   3c62b:	bd 80 00 00 00       	mov    ebp,0x80
+   3c630:	8b fe                	mov    edi,esi
+   3c632:	2b db                	sub    ebx,ebx
+   3c634:	8a 06                	mov    al,BYTE PTR [esi]
+   3c636:	24 1f                	and    al,0x1f
+   3c638:	3c 12                	cmp    al,0x12
+   3c63a:	75 0e                	jne    0x3c64a
+   3c63c:	8b de                	mov    ebx,esi
+   3c63e:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   3c641:	0b c0                	or     eax,eax
+   3c643:	74 50                	je     0x3c695
+   3c645:	8b 00                	mov    eax,DWORD PTR [eax]
+   3c647:	8b 70 08             	mov    esi,DWORD PTR [eax+0x8]
+   3c64a:	8a 06                	mov    al,BYTE PTR [esi]
+   3c64c:	24 1f                	and    al,0x1f
+   3c64e:	3c 05                	cmp    al,0x5
+   3c650:	74 4f                	je     0x3c6a1
+   3c652:	3c 10                	cmp    al,0x10
+   3c654:	0f 84 8c 00 00 00    	je     0x3c6e6
+   3c65a:	3c 02                	cmp    al,0x2
+   3c65c:	74 0c                	je     0x3c66a
+   3c65e:	3c 03                	cmp    al,0x3
+   3c660:	74 08                	je     0x3c66a
+   3c662:	3c 11                	cmp    al,0x11
+   3c664:	0f 85 8c 00 00 00    	jne    0x3c6f6
+   3c66a:	66 85 2d 90 f7 09 00 	test   WORD PTR ds:0x9f790,bp
+   3c671:	0f 85 b9 01 00 00    	jne    0x3c830
+   3c677:	56                   	push   esi
+   3c678:	e8 a3 22 ff ff       	call   0x2e920
+   3c67d:	0b c0                	or     eax,eax
+   3c67f:	0f 84 bb 01 00 00    	je     0x3c840
+   3c685:	53                   	push   ebx
+   3c686:	e8 15 5a ff ff       	call   0x320a0
+   3c68b:	56                   	push   esi
+   3c68c:	e8 ff 98 01 00       	call   0x55f90
+   3c691:	8b f0                	mov    esi,eax
+   3c693:	eb 9b                	jmp    0x3c630
+   3c695:	2b c0                	sub    eax,eax
+   3c697:	5d                   	pop    ebp
+   3c698:	5f                   	pop    edi
+   3c699:	5e                   	pop    esi
+   3c69a:	5b                   	pop    ebx
+   3c69b:	83 c4 04             	add    esp,0x4
+   3c69e:	c2 04 00             	ret    0x4
+   3c6a1:	f6 05 90 f7 09 00 80 	test   BYTE PTR ds:0x9f790,0x80
+   3c6a8:	74 10                	je     0x3c6ba
+   3c6aa:	57                   	push   edi
+   3c6ab:	e8 d0 4c 02 00       	call   0x61380
+   3c6b0:	5d                   	pop    ebp
+   3c6b1:	5f                   	pop    edi
+   3c6b2:	5e                   	pop    esi
+   3c6b3:	5b                   	pop    ebx
+   3c6b4:	83 c4 04             	add    esp,0x4
+   3c6b7:	c2 04 00             	ret    0x4
+   3c6ba:	53                   	push   ebx
+   3c6bb:	e8 e0 59 ff ff       	call   0x320a0
+   3c6c0:	f6 47 03 80          	test   BYTE PTR [edi+0x3],0x80
+   3c6c4:	56                   	push   esi
+   3c6c5:	74 10                	je     0x3c6d7
+   3c6c7:	57                   	push   edi
+   3c6c8:	e8 a3 fd ff ff       	call   0x3c470
+   3c6cd:	5d                   	pop    ebp
+   3c6ce:	5f                   	pop    edi
+   3c6cf:	5e                   	pop    esi
+   3c6d0:	5b                   	pop    ebx
+   3c6d1:	83 c4 04             	add    esp,0x4
+   3c6d4:	c2 04 00             	ret    0x4
+   3c6d7:	e8 d4 fe ff ff       	call   0x3c5b0
+   3c6dc:	5d                   	pop    ebp
+   3c6dd:	5f                   	pop    edi
+   3c6de:	5e                   	pop    esi
+   3c6df:	5b                   	pop    ebx
+   3c6e0:	83 c4 04             	add    esp,0x4
+   3c6e3:	c2 04 00             	ret    0x4
+   3c6e6:	56                   	push   esi
+   3c6e7:	e8 94 4c 02 00       	call   0x61380
+   3c6ec:	5d                   	pop    ebp
+   3c6ed:	5f                   	pop    edi
+   3c6ee:	5e                   	pop    esi
+   3c6ef:	5b                   	pop    ebx
+   3c6f0:	83 c4 04             	add    esp,0x4
+   3c6f3:	c2 04 00             	ret    0x4
+   3c6f6:	f6 46 01 10          	test   BYTE PTR [esi+0x1],0x10
+   3c6fa:	74 10                	je     0x3c70c
+   3c6fc:	57                   	push   edi
+   3c6fd:	e8 7e 4c 02 00       	call   0x61380
+   3c702:	5d                   	pop    ebp
+   3c703:	5f                   	pop    edi
+   3c704:	5e                   	pop    esi
+   3c705:	5b                   	pop    ebx
+   3c706:	83 c4 04             	add    esp,0x4
+   3c709:	c2 04 00             	ret    0x4
+   3c70c:	8a 06                	mov    al,BYTE PTR [esi]
+   3c70e:	24 1f                	and    al,0x1f
+   3c710:	3c 09                	cmp    al,0x9
+   3c712:	75 6e                	jne    0x3c782
+   3c714:	f6 46 15 10          	test   BYTE PTR [esi+0x15],0x10
+   3c718:	74 68                	je     0x3c782
+   3c71a:	8d 44 24 10          	lea    eax,[esp+0x10]
+   3c71e:	50                   	push   eax
+   3c71f:	56                   	push   esi
+   3c720:	e8 4b 99 01 00       	call   0x56070
+   3c725:	8b f8                	mov    edi,eax
+   3c727:	56                   	push   esi
+   3c728:	e8 b3 fc ff ff       	call   0x3c3e0
+   3c72d:	0b c0                	or     eax,eax
+   3c72f:	75 0f                	jne    0x3c740
+   3c731:	2b c0                	sub    eax,eax
+   3c733:	5d                   	pop    ebp
+   3c734:	5f                   	pop    edi
+   3c735:	5e                   	pop    esi
+   3c736:	5b                   	pop    ebx
+   3c737:	83 c4 04             	add    esp,0x4
+   3c73a:	c2 04 00             	ret    0x4
+   3c73d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   3c740:	8b 47 0c             	mov    eax,DWORD PTR [edi+0xc]
+   3c743:	8b 0d 2c f3 09 00    	mov    ecx,DWORD PTR ds:0x9f32c
+   3c749:	0f bf 50 08          	movsx  edx,WORD PTR [eax+0x8]
+   3c74d:	6a 00                	push   0x0
+   3c74f:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   3c753:	6a 02                	push   0x2
+   3c755:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   3c758:	50                   	push   eax
+   3c759:	8b 44 91 04          	mov    eax,DWORD PTR [ecx+edx*4+0x4]
+   3c75d:	50                   	push   eax
+   3c75e:	e8 bd bc 03 00       	call   0x78420
+   3c763:	50                   	push   eax
+   3c764:	e8 17 4c 02 00       	call   0x61380
+   3c769:	50                   	push   eax
+   3c76a:	57                   	push   edi
+   3c76b:	e8 b0 fe ff ff       	call   0x3c620
+   3c770:	50                   	push   eax
+   3c771:	6a 59                	push   0x59
+   3c773:	e8 78 5a ff ff       	call   0x321f0
+   3c778:	5d                   	pop    ebp
+   3c779:	5f                   	pop    edi
+   3c77a:	5e                   	pop    esi
+   3c77b:	5b                   	pop    ebx
+   3c77c:	83 c4 04             	add    esp,0x4
+   3c77f:	c2 04 00             	ret    0x4
+   3c782:	56                   	push   esi
+   3c783:	e8 58 fc ff ff       	call   0x3c3e0
+   3c788:	0b c0                	or     eax,eax
+   3c78a:	75 0c                	jne    0x3c798
+   3c78c:	2b c0                	sub    eax,eax
+   3c78e:	5d                   	pop    ebp
+   3c78f:	5f                   	pop    edi
+   3c790:	5e                   	pop    esi
+   3c791:	5b                   	pop    ebx
+   3c792:	83 c4 04             	add    esp,0x4
+   3c795:	c2 04 00             	ret    0x4
+   3c798:	56                   	push   esi
+   3c799:	e8 e2 4b 02 00       	call   0x61380
+   3c79e:	8b f8                	mov    edi,eax
+   3c7a0:	8a 06                	mov    al,BYTE PTR [esi]
+   3c7a2:	24 1f                	and    al,0x1f
+   3c7a4:	3c 06                	cmp    al,0x6
+   3c7a6:	74 40                	je     0x3c7e8
+   3c7a8:	3c 07                	cmp    al,0x7
+   3c7aa:	74 3c                	je     0x3c7e8
+   3c7ac:	f6 46 15 04          	test   BYTE PTR [esi+0x15],0x4
+   3c7b0:	74 14                	je     0x3c7c6
+   3c7b2:	3c 0a                	cmp    al,0xa
+   3c7b4:	74 10                	je     0x3c7c6
+   3c7b6:	3c 0b                	cmp    al,0xb
+   3c7b8:	74 0c                	je     0x3c7c6
+   3c7ba:	8b c7                	mov    eax,edi
+   3c7bc:	5d                   	pop    ebp
+   3c7bd:	5f                   	pop    edi
+   3c7be:	5e                   	pop    esi
+   3c7bf:	5b                   	pop    ebx
+   3c7c0:	83 c4 04             	add    esp,0x4
+   3c7c3:	c2 04 00             	ret    0x4
+   3c7c6:	80 3f a3             	cmp    BYTE PTR [edi],0xa3
+   3c7c9:	75 0c                	jne    0x3c7d7
+   3c7cb:	8b c7                	mov    eax,edi
+   3c7cd:	5d                   	pop    ebp
+   3c7ce:	5f                   	pop    edi
+   3c7cf:	5e                   	pop    esi
+   3c7d0:	5b                   	pop    ebx
+   3c7d1:	83 c4 04             	add    esp,0x4
+   3c7d4:	c2 04 00             	ret    0x4
+   3c7d7:	57                   	push   edi
+   3c7d8:	56                   	push   esi
+   3c7d9:	e8 b2 00 00 00       	call   0x3c890
+   3c7de:	5d                   	pop    ebp
+   3c7df:	5f                   	pop    edi
+   3c7e0:	5e                   	pop    esi
+   3c7e1:	5b                   	pop    ebx
+   3c7e2:	83 c4 04             	add    esp,0x4
+   3c7e5:	c2 04 00             	ret    0x4
+   3c7e8:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   3c7eb:	50                   	push   eax
+   3c7ec:	e8 2f 5b 02 00       	call   0x62320
+   3c7f1:	0b c0                	or     eax,eax
+   3c7f3:	74 2b                	je     0x3c820
+   3c7f5:	8b 48 04             	mov    ecx,DWORD PTR [eax+0x4]
+   3c7f8:	0b c9                	or     ecx,ecx
+   3c7fa:	74 24                	je     0x3c820
+   3c7fc:	6a 00                	push   0x0
+   3c7fe:	66 8b 49 02          	mov    cx,WORD PTR [ecx+0x2]
+   3c802:	66 81 e1 77 0f       	and    cx,0xf77
+   3c807:	51                   	push   ecx
+   3c808:	6a 0b                	push   0xb
+   3c80a:	50                   	push   eax
+   3c80b:	e8 10 5e 02 00       	call   0x62620
+   3c810:	89 47 04             	mov    DWORD PTR [edi+0x4],eax
+   3c813:	8b c7                	mov    eax,edi
+   3c815:	5d                   	pop    ebp
+   3c816:	5f                   	pop    edi
+   3c817:	5e                   	pop    esi
+   3c818:	5b                   	pop    ebx
+   3c819:	83 c4 04             	add    esp,0x4
+   3c81c:	c2 04 00             	ret    0x4
+   3c81f:	90                   	nop
+   3c820:	2b c0                	sub    eax,eax
+   3c822:	5d                   	pop    ebp
+   3c823:	5f                   	pop    edi
+   3c824:	5e                   	pop    esi
+   3c825:	5b                   	pop    ebx
+   3c826:	83 c4 04             	add    esp,0x4
+   3c829:	c2 04 00             	ret    0x4
+   3c82c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   3c830:	57                   	push   edi
+   3c831:	e8 4a 4b 02 00       	call   0x61380
+   3c836:	5d                   	pop    ebp
+   3c837:	5f                   	pop    edi
+   3c838:	5e                   	pop    esi
+   3c839:	5b                   	pop    ebx
+   3c83a:	83 c4 04             	add    esp,0x4
+   3c83d:	c2 04 00             	ret    0x4
+   3c840:	56                   	push   esi
+   3c841:	e8 9a fb ff ff       	call   0x3c3e0
+   3c846:	0b c0                	or     eax,eax
+   3c848:	75 0c                	jne    0x3c856
+   3c84a:	2b c0                	sub    eax,eax
+   3c84c:	5d                   	pop    ebp
+   3c84d:	5f                   	pop    edi
+   3c84e:	5e                   	pop    esi
+   3c84f:	5b                   	pop    ebx
+   3c850:	83 c4 04             	add    esp,0x4
+   3c853:	c2 04 00             	ret    0x4
+   3c856:	f6 47 03 80          	test   BYTE PTR [edi+0x3],0x80
+   3c85a:	74 17                	je     0x3c873
+   3c85c:	f6 46 03 10          	test   BYTE PTR [esi+0x3],0x10
+   3c860:	75 11                	jne    0x3c873
+   3c862:	56                   	push   esi
+   3c863:	57                   	push   edi
+   3c864:	e8 07 fc ff ff       	call   0x3c470
+   3c869:	5d                   	pop    ebp
+   3c86a:	5f                   	pop    edi
+   3c86b:	5e                   	pop    esi
+   3c86c:	5b                   	pop    ebx
+   3c86d:	83 c4 04             	add    esp,0x4
+   3c870:	c2 04 00             	ret    0x4
+   3c873:	57                   	push   edi
+   3c874:	e8 07 4b 02 00       	call   0x61380
+   3c879:	5d                   	pop    ebp
+   3c87a:	5f                   	pop    edi
+   3c87b:	5e                   	pop    esi
+   3c87c:	5b                   	pop    ebx
+   3c87d:	83 c4 04             	add    esp,0x4
+   3c880:	c2 04 00             	ret    0x4
