@@ -5,15 +5,15 @@ period Win32 C preserving individual graph vertices and calling conventions.
 Pending functions are named INT3 stubs. There are no assembly ABI exceptions,
 lifted implementation blocks or copied original data sections.
 
-Current checkpoint:835 accepted frontiers,238535/281634 accepted .text bytes
-(84.6968%). This union includes contextual inline data and alignment; it is not
-branch coverage. The partial checked inventory distinguishes173961 accepted
-application instruction bytes,27808 CRT instructions,258 import-thunk bytes,
-1896 inline-data bytes,2933 alignment bytes and31679 accepted unclassified bytes.
-Unclassified bytes are not all padding. cases/editor-rebase-bind/components.json
+Current checkpoint:918 accepted frontiers,243585/281634 accepted .text bytes
+(86.4899%). This union includes contextual inline data and alignment; it is not
+branch coverage. The partial checked inventory distinguishes178748 accepted
+target-body instruction bytes,27995 CRT instructions,258 import-thunk bytes,
+1896 inline-data bytes,3028 alignment bytes and31660 accepted unclassified bytes.
+Unclassified bytes are not all padding. cases/disassembler-x86-monitor/components.json
 records the partial accounting; it is not a full application-body denominator.
 
-The44 completed native cases cover help; minimal console/GUI/DLL linking;
+The46 completed native cases cover help; minimal console/GUI/DLL linking;
 archive creation/list/extract/remove; COFF/archive/PE/FPO/symbol-map dumps; PE
 editing/rebase/bind/release; ordinary OMF conversion/linking; old C++ undecoration;
 x86 disassembly; Macintosh linking/relocations/debug/swapper/static/resource/pcode
@@ -25,6 +25,12 @@ The public EDIT workflow now chains actual native rebase→bind→release artifa
 against a pinned local DLL, with independently valid whole-file checksums. The
 separate compact-input variant preserves the original logical-size checksum/
 physical-growth defect byte-for-byte. See cases/editor-rebase-bind/validation.json.
+The legal386 diagnostic-monitor corpus adds81 readable C decoder callbacks and
+14 contextual data tables/arrays. Both complete disassemblies and71+10 new entry
+sequences match. The narrow setjmp/longjmp support proof requires the same saved/
+current registration and scope0=0; no SEH handler/finalizer equivalence is claimed.
+See cases/disassembler-x86-monitor/validation.json for actual state evidence,
+original decoder quirks and the corrected x87 operand-slot error.
 Further cases proceed one substantial root-reviewed workflow at a time under
 user-authorized autonomous continuation; no reachability is inferred from percent.
 
@@ -41,9 +47,10 @@ Run from this binary root:
     python3 scripts/check-editor-flow.py
     python3 scripts/check-editor-checksum.py
     python3 scripts/check-module-memory.py
+    python3 scripts/check-decoder-state.py
     gdb --args build/native/LINK.EXE /?
 
-check/replay execute the instrumented i386 ELF against all44 cached originals.
+check/replay execute the instrumented i386 ELF against all46 cached originals.
 They never invoke Wine, original executables, PE helpers or automatic capture.
 Clang flags are -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g.
 The same src/ reconstruction files build both ELF and Win32; shared lib/recon C
@@ -56,8 +63,8 @@ recon.h is last in each source/header include list and is empty for Win32.
 scripts/native-traces.py validates every native application definition, including
 unreconstructed stubs, against functions.json. It projects the original accepted
 history, excludes CRT/imports, seeds each case's accepted application prefix and
-binds each sequence to fresh original capture receipts/events. All44 cases check
-646 new application entries; zero-new-entry cases reject unexpected first entries.
+binds each sequence to fresh original capture receipts/events. All46 cases check
+727 new application entries; zero-new-entry cases reject unexpected first entries.
 Synchronous native LINK selfchildren share seen-state and retain original argv.
 Missing/stale references, undefined paths and unexpected child invocations fail.
 

@@ -1,0 +1,4 @@
+{"event":"create","pid":2036,"parent":552,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /disasm monitor.obj"}
+{"event":"context","pid":2036,"eip":317649,"esp":2750844,"eax":8200871,"ecx":317648,"edx":8200870,"stack":[308641,8200871,1,8200408,82,8200871,308799,8200871,538824,8200408,8200408,532364,308641,8200870,1,8200408,233,8200408,308703,8200870,532364,8200408,319786,8200869],"crt_errno":0}
+{"event":"decoder_state","words":[257,0,233,0,0,0,0,0,0,0,2,2,1,1,1,0,0,162,4294967295,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"operand":1,"cursor":2}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

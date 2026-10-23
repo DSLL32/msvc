@@ -1,0 +1,334 @@
+{
+  "measured": "Single samples unless two explicit original repeats listed; no fixtures launch Wine/originals.",
+  "compile_original": [
+    {
+      "compiler": "/root/msvc2/toolchains/1.0-nt/bin/CL.EXE",
+      "compiler_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "source_sha256": "eb1ba7d105f26e667edca0bb3908d2dc8a98c42ecdd1324f757f343d9b34e51d",
+      "first": {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "monitor.c"
+        ],
+        "status": 0,
+        "seconds": 1.1795916659757495
+      },
+      "second": {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "monitor.c"
+        ],
+        "status": 0,
+        "seconds": 2.178857631981373
+      },
+      "object_bytes": 966,
+      "object_sha256": "fd0dfe820d61d9012fea8c66e70daba9cc187a9d10b30303ee5ca5c4f9150c1a",
+      "repeat_comparison": "exact except COFF timestamp bytes4..7",
+      "scratch": "/root/.ai-tmp/msvc2/vc1.0/link/disassembler-x86-monitor-build",
+      "no_execution": true
+    },
+    {
+      "status": "pass",
+      "runs": [
+        {
+          "command": [
+            "wine",
+            "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+            "/nologo",
+            "/c",
+            "/Od",
+            "/G3",
+            "companion.c"
+          ],
+          "status": 0,
+          "seconds": 2.0981337036937475
+        },
+        {
+          "command": [
+            "wine",
+            "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+            "/nologo",
+            "/c",
+            "/Od",
+            "/G3",
+            "companion.c"
+          ],
+          "status": 0,
+          "seconds": 2.1405068784952164
+        }
+      ],
+      "source_sha256": "24c6e8fe96750df44f048db6f8ade0b2d58e7eddf199143fb05a1346c8d4739d",
+      "object_sha256": "b7d29d8d4d5f09f1cf81510122708555fda7b82ee25f0fa11fb6cecb1c6f0360",
+      "bytes": 383,
+      "repeat_comparison": "Exact except COFF timestamp4..7",
+      "scratch": "/root/.ai-tmp/msvc2/vc1.0/link/disassembler-x86-monitor-companion-build",
+      "environment": {
+        "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+        "WINEPATH": "R:\\toolchains\\1.0-nt\\bin",
+        "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "CL": null,
+        "_CL_": null,
+        "LINK": null,
+        "_LINK_": null,
+        "MSC_CMD_FLAGS": null,
+        "LINK32_DB": null,
+        "LINK_REPRO": null
+      }
+    }
+  ],
+  "original_dump_repeats": [
+    [
+      1.6439741933718324,
+      1.9735055100172758
+    ],
+    [
+      1.4782756883651018,
+      1.6694981921464205
+    ]
+  ],
+  "frontier_pairs_seconds": 122.04441966488957,
+  "frontier_pairs_note": "Sum81successful last retained paired first-entry receipts. Failed/replaced probes and earlier interim builds not included; timings retained separately where available, otherwise unmeasured.",
+  "final_commands": {
+    "canonical-build-audits": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "status": 0,
+      "seconds": 24.80234896019101
+    },
+    "native-trace-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "status": 0,
+      "seconds": 4.188690184615552
+    },
+    "first-native46-attempt": {
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "status": 1,
+      "seconds": 3.4552975120022893,
+      "failure": "x87 WORD/TBYTE sizes stored tooperand2 instead of original operand1; corrected actual+0x78 layout, references unchanged"
+    },
+    "corrected-build-audits": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit",
+        "native",
+        "native-trace"
+      ],
+      "status": 0,
+      "seconds": 29.95121304411441
+    },
+    "native46": {
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "status": 0,
+      "seconds": 3.488021739758551
+    },
+    "graph-negative-controls": {
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "status": 0,
+      "seconds": 17.163144902326167
+    }
+  },
+  "frozen_commands": [
+    {
+      "label": "frozen-native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "status": 0,
+      "seconds": 0.021896429359912872
+    },
+    {
+      "label": "frozen-native46",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "status": 0,
+      "seconds": 3.440124844200909
+    }
+  ],
+  "native_suite": {
+    "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-kjun9pni/receipt.json",
+    "external_seconds": 3.450203108601272,
+    "internal_seconds": 3.193123917095363,
+    "trace_prepare_seconds": 0.1654351856559515,
+    "setup_seconds": 0.8099596463143826,
+    "execution_seconds": 0.4806598089635372,
+    "oracle_seconds": 1.8676827056333423,
+    "trace_check_seconds": 0.005294869653880596,
+    "new_cases": [
+      {
+        "case": "dump-disasm-x86-monitor",
+        "setup_seconds": 0.0023271283134818077,
+        "exit": 0,
+        "execution_seconds": 0.005711527541279793,
+        "stdout_bytes": 15798,
+        "stdout_sha256": "7f23f4bde3fb7698fbaf0682a39f378bbfccfe5e2fa9e5144b144cdb13ba4993",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 71,
+        "trace_sha256": "a396d1aca8ccc0096a07eab9d330562c885f0135fbfd6c1348b597d6519f6f90",
+        "trace_prefix_entries": 646,
+        "trace_check_seconds": 0.00012298393994569778,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/shared-prefix/dump-disasm-x86-monitor/manifest.json",
+        "manifest_sha256": "d620d9b94cd1c619397ee6e1477d755a81e3341d60892b3c296601bf1d8e1110",
+        "outputs": [],
+        "oracle_seconds": 0.00030767451971769333,
+        "total_seconds": 0.00886186771094799
+      },
+      {
+        "case": "dump-disasm-x86-monitor-extra",
+        "setup_seconds": 0.002177235670387745,
+        "exit": 0,
+        "execution_seconds": 0.0031848661601543427,
+        "stdout_bytes": 2120,
+        "stdout_sha256": "c17265e3a256214af5a130e9ceb50e3c44438890f5c388d66d3f94b2085cd696",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 10,
+        "trace_sha256": "e6a300e9132ce9a9ff1ea37479025ca8c6112e633a0fe2aaacaddf4b5f868e68",
+        "trace_prefix_entries": 717,
+        "trace_check_seconds": 0.00010185874998569489,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/shared-prefix/dump-disasm-x86-monitor-extra/manifest.json",
+        "manifest_sha256": "5b8901982cb79d6d66dd3ca732c0d44fdc7a0bf39bf0a5c03fc68a1a15756380",
+        "outputs": [],
+        "oracle_seconds": 0.00017952360212802887,
+        "total_seconds": 0.005983692593872547
+      }
+    ]
+  },
+  "correction_poststates_seconds": [
+    1.8519047927111387,
+    2.1487743947654963
+  ],
+  "unmeasured": [
+    "Early incremental native builds and first canonical checkpoint wallclock",
+    "No totals invented for all failed guesses/observer preparation; their existing receipts/logs retain measured components"
+  ],
+  "initial_native_suite": {
+    "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-288dy9h3/receipt.json",
+    "external_seconds": 3.440124844200909,
+    "internal_seconds": 3.183592516928911,
+    "trace_prepare_seconds": 0.16207286342978477,
+    "setup_seconds": 0.8150576176121831,
+    "execution_seconds": 0.4737508939579129,
+    "oracle_seconds": 1.8584456760436296,
+    "trace_check_seconds": 0.0053484560921788216,
+    "new_cases": [
+      {
+        "case": "dump-disasm-x86-monitor",
+        "setup_seconds": 0.0023850006982684135,
+        "exit": 0,
+        "execution_seconds": 0.0054532987996935844,
+        "stdout_bytes": 15798,
+        "stdout_sha256": "7f23f4bde3fb7698fbaf0682a39f378bbfccfe5e2fa9e5144b144cdb13ba4993",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 71,
+        "trace_sha256": "a396d1aca8ccc0096a07eab9d330562c885f0135fbfd6c1348b597d6519f6f90",
+        "trace_prefix_entries": 646,
+        "trace_check_seconds": 0.00012810342013835907,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/shared-prefix/dump-disasm-x86-monitor/manifest.json",
+        "manifest_sha256": "d620d9b94cd1c619397ee6e1477d755a81e3341d60892b3c296601bf1d8e1110",
+        "outputs": [],
+        "oracle_seconds": 0.00032484065741300583,
+        "total_seconds": 0.008686433546245098
+      },
+      {
+        "case": "dump-disasm-x86-monitor-extra",
+        "setup_seconds": 0.002124672755599022,
+        "exit": 0,
+        "execution_seconds": 0.003969182260334492,
+        "stdout_bytes": 2120,
+        "stdout_sha256": "c17265e3a256214af5a130e9ceb50e3c44438890f5c388d66d3f94b2085cd696",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 10,
+        "trace_sha256": "e6a300e9132ce9a9ff1ea37479025ca8c6112e633a0fe2aaacaddf4b5f868e68",
+        "trace_prefix_entries": 717,
+        "trace_check_seconds": 0.00010345876216888428,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/shared-prefix/dump-disasm-x86-monitor-extra/manifest.json",
+        "manifest_sha256": "5b8901982cb79d6d66dd3ca732c0d44fdc7a0bf39bf0a5c03fc68a1a15756380",
+        "outputs": [],
+        "oracle_seconds": 0.0001819254830479622,
+        "total_seconds": 0.006720671430230141
+      }
+    ]
+  },
+  "latest_commands": [
+    {
+      "label": "latest-native46",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "status": 0,
+      "seconds": 3.450203108601272
+    },
+    {
+      "label": "latest-audit",
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "status": 0,
+      "seconds": 4.978120733052492
+    }
+  ],
+  "final_rebuild": {
+    "status": "pass",
+    "before": {
+      "build/link.exe": "e493adbae0fc5fcdfc93d6efa5fc17d119517c8106164a89c17bbc155b5bca90",
+      "build/native/LINK.EXE": "e8f888882278d82ea5f661d0f0e063f4ca03a94c95b14e4cbf1a0e8c33e94ec8",
+      "build/native-trace/LINK.EXE": "29df3b5a4a6051b2ed5df84e243962a3af0ff953c235e45e635e9b69ae37d993"
+    },
+    "after": {
+      "build/link.exe": "2ebb3dc418e1b4bb93d902868de9715b0f82a5a113827101e1f175e955daa472",
+      "build/native/LINK.EXE": "00c35f3e15f5e828fdcb7b8196ad6d35362457645ac7e6ff845f50dc8329b1dd",
+      "build/native-trace/LINK.EXE": "add671e2ad07feeb6d4391cf39e1be7bfe6a9d7c12e852d7bcedecf664bf4db3"
+    },
+    "seconds": 25.329464382492006,
+    "reason": "Own pending-stubs EOFwhitespace cleanup plus additive shared recon.h/crt.c/win32.c changes landed after earlier held window; rebuiltcanonical/native and repeated final46with stable fingerprints. No targetfunction behavior changed."
+  }
+}

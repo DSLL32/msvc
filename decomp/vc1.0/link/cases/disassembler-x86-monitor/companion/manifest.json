@@ -1,0 +1,30 @@
+{
+  "case": "dump-disasm-x86-monitor-extra",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-dump",
+        "/disasm",
+        "companion.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../inputs/companion.obj",
+          "bytes": 383,
+          "sha256": "b7d29d8d4d5f09f1cf81510122708555fda7b82ee25f0fa11fb6cecb1c6f0360"
+        }
+      ],
+      "outputs": [],
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\dump-disasm-x86-monitor-extra",
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file companion.obj\r\n\r\nFile Type: COFF OBJECT\r\n_remaining_integer_forms:\r\n    00000000:   55                  push    ebp\r\n    00000001:   8B EC               mov     ebp,esp\r\n    00000003:   53                  push    ebx\r\n    00000004:   56                  push    esi\r\n    00000005:   57                  push    edi\r\n    00000006:   F7 06 78 56 34 12   test    DWORD PTR [esi],12345678\r\n    0000000c:   F7 16               not     DWORD PTR [esi]\r\n    0000000e:   F7 1E               neg     DWORD PTR [esi]\r\n    00000010:   F7 26               mul     DWORD PTR [esi],eax\r\n    00000012:   F7 2E               imul    DWORD PTR [esi],eax\r\n    00000014:   F7 36               div     DWORD PTR [esi],eax\r\n    00000016:   F7 3E               idiv    DWORD PTR [esi],eax\r\n    00000018:   3E A0 78 56 34 12   mov     al,BYTE PTR ds:[12345678]\r\n    0000001e:   3E A2 78 56 34 12   mov     BYTE PTR ds:[12345678],al\r\n    00000024:   87 06               xchg    DWORD PTR [esi],eax\r\n    00000026:   0F A3 06            bt      DWORD PTR [esi],eax\r\n    00000029:   0F BA 26 05         bt      DWORD PTR [esi],05\r\n    0000002d:   0F BA 2E 06         bts     DWORD PTR [esi],06\r\n    00000031:   0F BA 36 07         btr     DWORD PTR [esi],07\r\n    00000035:   0F BA 3E 08         btc     DWORD PTR [esi],08\r\n    00000039:   69 06 78 56 34 12   imul    eax,DWORD PTR [esi],12345678\r\n    0000003f:   6B 06 07            imul    eax,DWORD PTR [esi],07\r\n    00000042:   C8 20 00 02         enter   0020,02\r\n    00000046:   CC                  int     03\r\n    00000047:   9A 78 56 34 12 34   call    1234:12345678\r\n                12\r\n    0000004e:   EA 78 56 34 12 34   jmp     1234:12345678\r\n                12\r\n    00000055:   5F                  pop     edi\r\n    00000056:   5E                  pop     esi\r\n    00000057:   5B                  pop     ebx\r\n    00000058:   C9                  leave\r\n    00000059:   C3                  ret\r\n\r\n     Summary\r\n    .drectve       26\r\n       .text       5A\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

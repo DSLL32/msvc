@@ -1,0 +1,42 @@
+{
+  "status": "pass",
+  "explanation": "224-byte structure: operand array0x74; its first size word0x78, second size word0x9c. Independent original/canonical actual store displacement and immediate proof, plus native full poststates in poststates.json.",
+  "functions": [
+    {
+      "name": "_decode_op_4d4e0",
+      "expected_size": 2,
+      "operand1_size_offset": 120,
+      "operand2_size_offset": 156,
+      "original": {
+        "function_start": "0x4d4e0",
+        "store_address": "0x4d4e4",
+        "bytes": "c7407802000000",
+        "instruction": "mov dword ptr [eax + 0x78], 2"
+      },
+      "canonical": {
+        "function_start": "0x27acf",
+        "store_address": "0x27ad8",
+        "bytes": "c7407802000000",
+        "instruction": "mov dword ptr [eax + 0x78], 2"
+      }
+    },
+    {
+      "name": "_decode_op_4d510",
+      "expected_size": 6,
+      "operand1_size_offset": 120,
+      "operand2_size_offset": 156,
+      "original": {
+        "function_start": "0x4d510",
+        "store_address": "0x4d514",
+        "bytes": "c7407806000000",
+        "instruction": "mov dword ptr [eax + 0x78], 6"
+      },
+      "canonical": {
+        "function_start": "0x27aec",
+        "store_address": "0x27af5",
+        "bytes": "c7407806000000",
+        "instruction": "mov dword ptr [eax + 0x78], 6"
+      }
+    }
+  ]
+}

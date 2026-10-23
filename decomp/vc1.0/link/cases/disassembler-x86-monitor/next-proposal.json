@@ -1,0 +1,69 @@
+{
+  "status": "Proposed; awaiting root review/authorization after current checkpoint",
+  "family": "Large initialized-data DLL, COFF/fixup diagnostics and486object dump",
+  "routines": [
+    {
+      "name": "_resolve_entry_symbol",
+      "address": "0x1f480",
+      "known_instruction_bytes": 308,
+      "condition": "Undecorated /entry:ModuleEntry resolves actual __stdcall _ModuleEntry@12"
+    },
+    {
+      "name": "_record_debug_fixup",
+      "address": "0x1ee70",
+      "known_instruction_bytes": 194,
+      "condition": "Public /debug:full /debugtype:coff,fixup and realDIR32 relocations"
+    },
+    {
+      "name": "_dump_symbols",
+      "address": "0x17de0",
+      "known_instruction_bytes": 187,
+      "condition": "Actual LINK32_DB24 flag plus public /order:@functions.ord; complete rewritten orderfile is an output"
+    },
+    {
+      "name": "_replace_extension",
+      "address": "0x25410",
+      "known_instruction_bytes": 110,
+      "condition": "Public /map without explicit filename"
+    },
+    {
+      "name": "_grow_buffered_file",
+      "address": "0x3c1f0",
+      "known_instruction_bytes": 110,
+      "condition": ">3MB initialized raw data, LINK32_DB24,27 buffered variant"
+    },
+    {
+      "name": "_grow_mapping",
+      "address": "0x3d570",
+      "known_instruction_bytes": 74,
+      "condition": "Same >3MB initialized input, LINK32_DB24 normal mapped backend"
+    },
+    {
+      "name": "_read_switch_number",
+      "address": "0x3a710",
+      "known_instruction_bytes": 61,
+      "condition": "Public /stack,/heap numeric reserve/commit"
+    },
+    {
+      "name": "_decode_op_4c710",
+      "address": "0x4c710",
+      "known_instruction_bytes": 59,
+      "condition": "Public /dump /disasm inspect-only486XADD form"
+    },
+    {
+      "name": "_decode_op_4d9d0",
+      "address": "0x4d9d0",
+      "known_instruction_bytes": 42,
+      "condition": "Public /dump /disasm inspect-only486CMPXCHG byte"
+    },
+    {
+      "name": "_decode_op_4da00",
+      "address": "0x4da00",
+      "known_instruction_bytes": 41,
+      "condition": "Public /dump /disasm inspect-only486CMPXCHG dword"
+    }
+  ],
+  "known_bytes": 1186,
+  "original_plan": "Build ordinary source with originalCL; initialized3MB array and real global pointer address use, stdcall DLLentry, inspect-only486 function not executed. Validate repeated original mapped/buffered LINK successes and full all artifacts (DLL/MAP/rewritten .ord), and dump streams before freezing. DefaultCV off via explicit coff,fixup means no CVPACK boundary. Both outputs must match native exact logical layout/physical padding; clocks only structurallyproved. Public helper listing optional small extra phase omitted unless root selects.",
+  "limits": "Provisional known bytes are analysis opportunities, not promised reachability. If large artifacts expose original semantic defects keep rejected/defect probes honestly, do not trim/normalize padding. No OMF forcedinternal-g and noclassification of unknown ranges asCRT."
+}

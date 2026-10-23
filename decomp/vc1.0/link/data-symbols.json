@@ -4243,5 +4243,230 @@
     "name": "bind_search_path",
     "size": 4,
     "owner": "src/editor-bind.c"
+  },
+  {
+    "address": 539424,
+    "name": "disassembly_byte_arithmetic_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      28,
+      48,
+      68,
+      88,
+      108,
+      128,
+      148
+    ],
+    "evidence": "Opcode80 selector uses all eight ModRM.reg byte arithmetic descriptors; typed complete table."
+  },
+  {
+    "address": 539744,
+    "name": "disassembly_byte_shift_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      28,
+      48,
+      68,
+      88,
+      108,
+      128,
+      148
+    ],
+    "evidence": "Byte shift/rotate ModRM.reg selector; typed eight-entry table."
+  },
+  {
+    "address": 540064,
+    "name": "disassembly_byte_unary_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      32,
+      48,
+      68,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "F6 ModRM.reg selects TEST/unary/multiply/divide descriptors."
+  },
+  {
+    "address": 540384,
+    "name": "disassembly_byte_increment_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      28,
+      48,
+      68,
+      88,
+      108,
+      128,
+      148
+    ],
+    "evidence": "FE byte INC/DEC and six actual illegal-selector entries."
+  },
+  {
+    "address": 531776,
+    "name": "disassembly_segment_registers",
+    "size": 32,
+    "owner": "src/disassembler.c",
+    "evidence": "Eight ModRM.reg segment identities ES/CS/SS/DS/FS/GS and two zero entries."
+  },
+  {
+    "address": 540704,
+    "name": "disassembly_task_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      12,
+      32,
+      52,
+      72,
+      92,
+      112,
+      128,
+      148
+    ],
+    "evidence": "0F00 descriptor/task selectors; actual operand position2 and illegal entries preserved."
+  },
+  {
+    "address": 540864,
+    "name": "disassembly_system_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      12,
+      32,
+      52,
+      72,
+      92,
+      108,
+      132
+    ],
+    "evidence": "0F01 group with actual descriptor-memory and word operand targets; INVLPG table entry unexercised386-only corpus."
+  },
+  {
+    "address": 531680,
+    "name": "disassembly_control_registers",
+    "size": 32,
+    "owner": "src/disassembler.c",
+    "evidence": "Eight original ModRM.reg control identities CR0/CR2/CR3 and reserved zeros."
+  },
+  {
+    "address": 531712,
+    "name": "disassembly_debug_registers",
+    "size": 32,
+    "owner": "src/disassembler.c",
+    "evidence": "Original sparse debug-register identities; DR4/5 are zero."
+  },
+  {
+    "address": 531744,
+    "name": "disassembly_test_registers",
+    "size": 32,
+    "owner": "src/disassembler.c",
+    "evidence": "Original sparse test-register selector identities; actual TR6/7 forms exercised."
+  },
+  {
+    "address": 540544,
+    "name": "disassembly_indirect_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      28,
+      48,
+      52,
+      68,
+      72,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148
+    ],
+    "evidence": "ActualFF selectors, near/far categories and segment/stack effect callbacks."
+  },
+  {
+    "address": 541504,
+    "name": "disassembly_x87_da_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      32,
+      48,
+      52,
+      68,
+      72,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "Complete DA dword integer memory descriptors referenced by whole DA decoder; dynamic case reaches FUCOMPP register branch."
+  },
+  {
+    "address": 540224,
+    "name": "disassembly_unary_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      32,
+      48,
+      68,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "Actual F7 selectors and implicit accumulator/category effects."
+  },
+  {
+    "address": 541024,
+    "name": "disassembly_immediate_bit_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      28,
+      48,
+      68,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "0FBA actual valid selectors4..7, four reserved illegal targets; typed full table."
   }
 ]

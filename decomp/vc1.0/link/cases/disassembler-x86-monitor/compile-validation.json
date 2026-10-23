@@ -1,0 +1,36 @@
+{
+  "compiler": "/root/msvc2/toolchains/1.0-nt/bin/CL.EXE",
+  "compiler_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "source_sha256": "eb1ba7d105f26e667edca0bb3908d2dc8a98c42ecdd1324f757f343d9b34e51d",
+  "first": {
+    "command": [
+      "wine",
+      "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+      "/nologo",
+      "/c",
+      "/Od",
+      "/G3",
+      "monitor.c"
+    ],
+    "status": 0,
+    "seconds": 1.1795916659757495
+  },
+  "second": {
+    "command": [
+      "wine",
+      "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+      "/nologo",
+      "/c",
+      "/Od",
+      "/G3",
+      "monitor.c"
+    ],
+    "status": 0,
+    "seconds": 2.178857631981373
+  },
+  "object_bytes": 966,
+  "object_sha256": "fd0dfe820d61d9012fea8c66e70daba9cc187a9d10b30303ee5ca5c4f9150c1a",
+  "repeat_comparison": "exact except COFF timestamp bytes4..7",
+  "scratch": "/root/.ai-tmp/msvc2/vc1.0/link/disassembler-x86-monitor-build",
+  "no_execution": true
+}

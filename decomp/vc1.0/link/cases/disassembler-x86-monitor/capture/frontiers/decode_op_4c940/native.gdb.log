@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x23a80: file src/disassembler-stubs.c, line 10.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, decode_op_4c940 (data=0x566161e0 "\006\a\310 ", operand=1448959592, state=0x566160b0) at src/disassembler-stubs.c:10
+10	unsigned char *decode_op_4c940(unsigned char *data,int operand,DisassembledInstruction *state) { __asm { int 3 } }
+NATIVE_MATCH decode_op_4c940
+0xffffcfac:	0x565733c1	0x566161e0	0x00000002	0x566160b0
+0xffffcfbc:	0x565eda5c	0x565d7ff4
+#0  decode_op_4c940 (data=0x566161e0 "\006\a\310 ", operand=1448959592, state=0x566160b0) at src/disassembler-stubs.c:10
+#1  0x565733c1 in apply_opcode (data=0x566161e0 "\006\a\310 ", opcode=0x565d5e68 <opcode_table+2140>, state=0x566160b0) at src/disassembler.c:152
+#2  0x565732e3 in decode_opcode (data=0x566161df "k\006\a\310 ", state=0x566160b0) at src/disassembler.c:138
+#3  0x56573273 in decode_instruction_body (address=63, data=0x566161df "k\006\a\310 ", state=0x566160b0) at src/disassembler.c:129
+#4  0x565731ad in decode_instruction (data=0x566161df "k\006\a\310 ", address=63, flags=0, state=0x566160b0) at src/disassembler.c:113

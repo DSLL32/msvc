@@ -1,0 +1,19 @@
+{
+  "case": "dump-disasm-x86-monitor-extra",
+  "arguments": [
+    "-dump",
+    "/disasm",
+    "companion.obj"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/disassembler-x86-monitor/inputs/companion.obj",
+      "bytes": 383,
+      "sha256": "b7d29d8d4d5f09f1cf81510122708555fda7b82ee25f0fa11fb6cecb1c6f0360"
+    }
+  ],
+  "outputs": []
+}

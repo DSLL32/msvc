@@ -1,0 +1,5 @@
+companion.c
+companion.c(24) : error C2415: improper operand type
+companion.c(24) : error C2400: inline syntax error in 'operand 2'; found ':'
+companion.c(25) : error C2415: improper operand type
+companion.c(25) : error C2400: inline syntax error in 'operand 2'; found ':'

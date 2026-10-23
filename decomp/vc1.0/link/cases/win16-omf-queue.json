@@ -1,5 +1,5 @@
 {
-  "status": "All approved families complete; preparing next single substantial case for root review",
+  "status": "Root-approved nextsinglelegal386 diagnostic-monitor corpus active",
   "baseline": {
     "commit": "b8a6dd9b",
     "frontiers": 788,
@@ -49,6 +49,24 @@
       "import_thunks": 10,
       "receipt": "cases/editor-rebase-bind/validation.json",
       "native_cases": 4
+    },
+    {
+      "order": 5,
+      "name": "disassembler-x86-monitor",
+      "status": "complete",
+      "approved_after": "284265fa",
+      "public_case": [
+        "-dump",
+        "/disasm",
+        "monitor.obj"
+      ],
+      "known_unaccepted_entry_cfg_bytes": 4938,
+      "known_unaccepted_vertices": 85,
+      "limit": "Provisionaltargetincludesreservedhandlers; onlylegalencodingsinpositivecorpus, no promisedallreachability/noexecutingmonitorcode.",
+      "functions": 81,
+      "runtime_functions": 2,
+      "native_cases": 2,
+      "receipt": "cases/disassembler-x86-monitor/validation.json"
     }
   ],
   "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"

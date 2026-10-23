@@ -1,0 +1,42 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "test": "both-sides-omission",
+      "status": "rejected",
+      "error": "CRT boundary inventory must be nonempty on all sides"
+    },
+    {
+      "test": "original-omission",
+      "status": "rejected",
+      "error": "CRT boundary inventory must be nonempty on all sides"
+    },
+    {
+      "test": "native-omission",
+      "status": "rejected",
+      "error": "CRT boundary inventory must be nonempty on all sides"
+    },
+    {
+      "test": "empty-plan",
+      "status": "rejected",
+      "error": "CRT boundary inventory must be nonempty on all sides"
+    },
+    {
+      "test": "wrong-result",
+      "status": "rejected",
+      "error": "Public CRT boundary state differs"
+    },
+    {
+      "test": "wrong-end-pointer",
+      "status": "rejected",
+      "error": "Public CRT boundary state differs"
+    },
+    {
+      "test": "wrong-errno",
+      "status": "rejected",
+      "error": "Public CRT boundary state differs"
+    }
+  ],
+  "total_seconds": 0.0008336957544088364,
+  "processes_launched": 0
+}

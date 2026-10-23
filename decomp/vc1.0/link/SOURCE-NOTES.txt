@@ -995,7 +995,7 @@ external. Whole original seven-entry trace, allfive outputs and streams match.
 Next root-approved single substantial public workflow: EDIT rebase/bind/release,
 with genuinely relocated EXE and pinned local DLL; original validation first.
 
-Public EDIT checkpoint835 (current)
+Public EDIT checkpoint835 (historical)
 
 809→835:14 application functions/6541 actual CFG instructions,112 switch bytes,
 227 alignment; two shipped CRT functions624extent bytes and tenIATthunks60bytes
@@ -1046,3 +1046,54 @@ array word summation matches the retained scalar algorithm over odd/even/carry/
 random and all actual images. Old9.237s three-stage fixture costs were Python
 oracles, not ELF execution; output-only after.201/.288/.285s, compact.095s, with
 all splits/timing limitations in cases/editor-rebase-bind/timing.json.
+
+Legal386 diagnostic monitor checkpoint918 (current)
+
+81 application callbacks:4787 actual CFG instruction bytes+75alignment=4862extent.
+Two separately reached shipped CRT support bodies add188extent, zero app credit:
+longjmp52777..527cd and local_unwind2 52e65..52ecb. Strict public boundary records
+namedcaller decode_op_4c4c0, logical disassembler_jump buffer, value1, current=saved
+FSregistration and actualscope0=0. Global unwind is bypassed; local loop performs
+zero iterations, no filters/finalizers. Native8-word context resumes decoding at
+the next whole matched app frontier. Any real SEH unwind needs a separate policy.
+The early incorrect−1scope assumption remains a rejected observation.
+
+Both original-compiled COFF corpora are inspect-only, never execute privileged
+instructions. Primary966-byte object has558codebytes; companion383-byte object
+has90codebytes (manifest/compile receipt is authoritative for exact object size).
+Original compiler/dumps repeated before freezing; only COFF input timestamp4..7
+varies between compile runs. Dump streams/status are exact with no normalization.
+VC1 rejects inline selector:offset syntax;14 annotated fixture-only bytes encode
+legal far CALL/JMP ptr16:32, preserving the rejected source/diagnostics. The new
+whole descriptor-memory callback4c9c0 was missing from the old seed inventory.
+
+81 fresh firstentry/stack/complete partial-stream pairs match;56 also compare all
+54scalar statewords plus byte-pointer nonNULL/relative ModRM and cursor. First25
+predate that observer, not falsely claimed sampled. Full output exposed my two
+x87 helpers incorrectly storing size atoperand2+9c: original+78 meansoperand1.
+Corrected readable C, independent original/canonical store-displacement checks,
+and complete224-byte postreturn original/native GDB states match. Failed first
+46-case output receipt remains frozen. Original ARPL recovery, repnz spelling,
+ST-register indexing and integer-x87 spelling quirks remain actual output.
+
+918frontiers/243585of281634 .text bytes=86.4899%, not branch coverage. Final46cached
+native cases/727app entries pass3.450s external; newinputs8.69/6.72ms total and
+5.45/3.97ms ELF in the initial frozen run, no GDB/original/Wine in fixtures. Canonical original-toolchain
+build,757RustCFG graphs (raw924/921, unique919/918 extents),744callback routines,
+486contextual data,41ECX and graph/state/reference/process/checksum guards pass.
+Before/after final source hashes are identical in the maintained quiet window.
+See cases/disassembler-x86-monitor/{validation,timing,components}.json.
+
+Five pending decoder seeds225instructionbytes remain distinct:486XADD/CMPXCHG
+142, obsolete XBTS/IBTS63 and invalid-instruction handler20. None is claimed
+reached by this legal386 corpus. OMF internal-g closure7367known and19269unaccepted
+unclassified .text bytes remain pending, not CRT. Next workflow is subject to
+root review of a substantial public large-image/fixup/diagnostic proposal.
+
+Final EOFwhitespace cleanup in pending-stubs coincided with landed additive shared
+UTF16/DBCS changes, so both native/canonical builds were refreshed and46fixtures
+passed3.450s with stable before/after source hashes again. Earlier frozen receipt
+is retained; latest source fingerprints are authoritative. The complete canonical
+PE is identical to the prior negative-tested artifact after only structural COFF
+timestamp, independently recovering that artifact's one recorded scratch mutation.
+No unchanged negative campaign was repeated. See capture/negative-build-equivalence.

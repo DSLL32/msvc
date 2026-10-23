@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x23740: file src/disassembler-stubs.c, line 8.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, decode_op_4b760 (data=0x566161a7 "\006xV4\022\367\026\367\036\367&\367.\3676\367>>\240xV4\022>\242xV4\022\207\006\017\243\006\017\272&\005\017\272.\006\017\2726\a\017\272>\bi\006xV4\022k\006\a\310 ", operand=1448962712, state=0x566160b0) at src/disassembler-stubs.c:8
+8	unsigned char *decode_op_4b760(unsigned char *data,int operand,DisassembledInstruction *state) { __asm { int 3 } }
+NATIVE_MATCH decode_op_4b760
+0xffffcfac:	0x56573395	0x566161a7	0x00000001	0x566160b0
+0xffffcfbc:	0x565eda5c	0x565d7ff4
+#0  decode_op_4b760 (data=0x566161a7 "\006xV4\022\367\026\367\036\367&\367.\3676\367>>\240xV4\022>\242xV4\022\207\006\017\243\006\017\272&\005\017\272.\006\017\2726\a\017\272>\bi\006xV4\022k\006\a\310 ", operand=1448962712, state=0x566160b0) at src/disassembler-stubs.c:8
+#1  0x56573395 in apply_opcode (data=0x566161a7 "\006xV4\022\367\026\367\036\367&\367.\3676\367>>\240xV4\022>\242xV4\022\207\006\017\243\006\017\272&\005\017\272.\006\017\2726\a\017\272>\bi\006xV4\022k\006\a\310 ", opcode=0x565d6a98 <opcode_table+4940>, state=0x566160b0) at src/disassembler.c:151
+#2  0x565732e3 in decode_opcode (data=0x566161a6 "\367\006xV4\022\367\026\367\036\367&\367.\3676\367>>\240xV4\022>\242xV4\022\207\006\017\243\006\017\272&\005\017\272.\006\017\2726\a\017\272>\bi\006xV4\022k\006\a\310 ", state=0x566160b0) at src/disassembler.c:138
+#3  0x56573273 in decode_instruction_body (address=6, data=0x566161a6 "\367\006xV4\022\367\026\367\036\367&\367.\3676\367>>\240xV4\022>\242xV4\022\207\006\017\243\006\017\272&\005\017\272.\006\017\2726\a\017\272>\bi\006xV4\022k\006\a\310 ", state=0x566160b0) at src/disassembler.c:129
+#4  0x565731ad in decode_instruction (data=0x566161a6 "\367\006xV4\022\367\026\367\036\367&\367.\3676\367>>\240xV4\022>\242xV4\022\207\006\017\243\006\017\272&\005\017\272.\006\017\2726\a\017\272>\bi\006xV4\022k\006\a\310 ", address=6, flags=0, state=0x566160b0) at src/disassembler.c:113

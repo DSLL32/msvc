@@ -1,0 +1,4 @@
+{"event":"create","pid":1888,"parent":1528,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /disasm companion.obj"}
+{"event":"context","pid":1888,"eip":311713,"esp":2750892,"eax":8200704,"ecx":311712,"edx":8200404,"stack":[308663,8200704,2,8200404,71,8200404,308703,8200704,535144,8200404,319786,8200703,8200404,8200404,8200703,0,321897,71,8200703,8200404,0,8200372,307429,8200703],"crt_errno":0}
+{"event":"decoder_state","words":[774,0,71,0,0,1052672,34607104,0,0,0,2,2,1,1,1,0,0,17,4294967295,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"operand":2,"cursor":1}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

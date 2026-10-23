@@ -1,0 +1,49 @@
+{
+  "status": "pass",
+  "runs": [
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/G3",
+        "companion.c"
+      ],
+      "status": 0,
+      "seconds": 2.0981337036937475
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/G3",
+        "companion.c"
+      ],
+      "status": 0,
+      "seconds": 2.1405068784952164
+    }
+  ],
+  "source_sha256": "24c6e8fe96750df44f048db6f8ade0b2d58e7eddf199143fb05a1346c8d4739d",
+  "object_sha256": "b7d29d8d4d5f09f1cf81510122708555fda7b82ee25f0fa11fb6cecb1c6f0360",
+  "bytes": 383,
+  "repeat_comparison": "Exact except COFF timestamp4..7",
+  "scratch": "/root/.ai-tmp/msvc2/vc1.0/link/disassembler-x86-monitor-companion-build",
+  "environment": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEPATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "CL": null,
+    "_CL_": null,
+    "LINK": null,
+    "_LINK_": null,
+    "MSC_CMD_FLAGS": null,
+    "LINK32_DB": null,
+    "LINK_REPRO": null
+  }
+}

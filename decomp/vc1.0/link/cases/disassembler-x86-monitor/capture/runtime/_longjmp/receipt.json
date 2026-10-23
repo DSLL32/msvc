@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "logical": "recon_longjmp",
+  "original_address": "0x52777",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/dump-disasm-x86-monitor/masked-twkxn4sc",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/dump-disasm-x86-monitor-recon_longjmp-pqn4very",
+  "native_context": {
+    "event": "context",
+    "pid": 308,
+    "eip": 337784,
+    "esp": 2750872,
+    "eax": 8200768,
+    "ecx": 312512,
+    "edx": 8200444,
+    "stack": [
+      312538,
+      447004,
+      1,
+      8200408,
+      534044,
+      308663,
+      8200863,
+      2,
+      8200408,
+      225,
+      8200408,
+      308703,
+      8200862,
+      534044,
+      8200408,
+      319786,
+      8200861,
+      8200408,
+      8200408,
+      8200861,
+      365,
+      321897,
+      225,
+      8200861
+    ],
+    "crt_errno": 0
+  },
+  "seconds": 0.8274542074650526,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "decoder_state": null,
+  "longjmp_state": {
+    "original": {
+      "event": "longjmp_boundary",
+      "buffer_is_disassembler": 1,
+      "value": 1,
+      "saved_eip": 307403,
+      "saved_scope": 0,
+      "registration_scope": 0,
+      "registration_is_current": 1
+    },
+    "native": {
+      "buffer_is_disassembler": true,
+      "value": 1,
+      "registered_contexts": [
+        0
+      ]
+    },
+    "status": "pass"
+  },
+  "caller_edge": {
+    "caller": "decode_op_4c4c0",
+    "original_caller_extent": [
+      312512,
+      312620
+    ],
+    "original_return": 312538,
+    "original_call": 312533,
+    "callee": 337783,
+    "reviewed_earlier_callers": [],
+    "observed_earlier_callers": []
+  }
+}

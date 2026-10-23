@@ -1,0 +1,42 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "test": "both-empty",
+      "status": "rejected",
+      "error": "Missing caller/callee observation"
+    },
+    {
+      "test": "missing-native",
+      "status": "rejected",
+      "error": "Missing caller/callee observation"
+    },
+    {
+      "test": "missing-return",
+      "status": "rejected",
+      "error": "Missing original return address"
+    },
+    {
+      "test": "wrong-callee",
+      "status": "rejected",
+      "error": "Unexpected original callee"
+    },
+    {
+      "test": "GPA-only",
+      "status": "rejected",
+      "error": "Native caller identity differs"
+    },
+    {
+      "test": "stale-caller-extent",
+      "status": "rejected",
+      "error": "Return address outside accepted caller extent"
+    },
+    {
+      "test": "wrong-original-caller",
+      "status": "rejected",
+      "error": "Return address outside accepted caller extent"
+    }
+  ],
+  "total_seconds": 0.005184589885175228,
+  "processes_launched": 0
+}

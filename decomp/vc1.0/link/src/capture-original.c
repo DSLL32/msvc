@@ -210,6 +210,34 @@ static void context_log(Process *process,HANDLE thread)
     }
     ReadProcessMemory(process->handle,(void *)0x852d8,&crt_errno,4,&got);
     fprintf(log_file,"],\"crt_errno\":%lu}\n",crt_errno);fflush(log_file);
+    if (context.Eip==0x52778) {
+        DWORD saved[8],registration[4],head=0;
+        if (!ReadProcessMemory(process->handle,(void *)stack[1],saved,sizeof(saved),&got) || got!=sizeof(saved)) return;
+        fprintf(log_file,"{\"event\":\"longjmp_boundary\",\"buffer_is_disassembler\":%d,\"value\":%lu,\"saved_eip\":%lu,\"saved_scope\":%lu",stack[1]==0x6d21c,stack[2],saved[5],saved[7]);
+        if (ReadProcessMemory(process->handle,(void *)saved[6],registration,sizeof(registration),&got) && got==sizeof(registration))
+            fprintf(log_file,",\"registration_scope\":%lu",registration[3]);
+        for (n=0;n<256;++n) if (threads[n].active && threads[n].handle==thread) {
+            if (!ReadProcessMemory(process->handle,(void *)threads[n].teb,&head,4,&got) || got!=4) return;
+            fprintf(log_file,",\"registration_is_current\":%d",head==saved[6]);
+            break;
+        }
+        fprintf(log_file,"}\n");fflush(log_file);
+    }
+    /* Operand callbacks have a cdecl(data,operand,state) interface. Report
+       pointer identity/offset separately from the54 scalar state words. */
+    if (context.Eip>0x4b650 && context.Eip<=0x4e000) {
+        DWORD state[56];
+        if (!ReadProcessMemory(process->handle,(void *)stack[3],state,sizeof(state),&got) || got!=sizeof(state)) return;
+        fprintf(log_file,"{\"event\":\"decoder_state\",\"words\":[");
+        for (n=0;n<56;++n) {
+            DWORD value=state[n];
+            if (n==18) value=state[18]?state[18]-state[19]:0xffffffffUL;
+            if (n==19) value=state[19]!=0;
+            fprintf(log_file,"%s%lu",n?",":"",value);
+        }
+        fprintf(log_file,"],\"operand\":%lu,\"cursor\":%lu}\n",stack[2],stack[1]-state[19]);
+        fflush(log_file);
+    }
     /* Explicit ROM state analysis: only the writer/serializer's live fields.
        Record+4 is unconsumed and is deliberately neither reported nor compared. */
     if (context.Eip==0x1f281) {
@@ -381,6 +409,7 @@ int main(int argc,char **argv)
                 parent_errno=0xffffffffUL;
                 ReadProcessMemory(process->handle,(void *)0x852d8,&parent_errno,4,&got);
                 fprintf(log_file,",\"crt_errno\":%lu}\n",parent_errno);fflush(log_file);
+                if (!strncmp(entries[i].name,"analysis_decoder_",17)) context_log(process,thread->handle);
                 relocation_sample(process,&context,site);
                 strtoul_sample(process,&context,site);
                 bind_api_sample(process,thread,&context,site);

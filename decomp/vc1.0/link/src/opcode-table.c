@@ -685,3 +685,141 @@ const OpcodeEntry disassembly_x87_df_memory[8]={
     {MN_FBSTP,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
     {MN_FISTP,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
 };
+
+/* Eight arithmetic selectors for byte operands, original00083b20. */
+const OpcodeEntry disassembly_byte_arithmetic_group[8]={
+    {MN_ADD,0x11f,0,0,decode_modrm_byte_operand,0,1},
+    {MN_OR,0x11b,0,4,decode_modrm_byte_operand,0,1},
+    {MN_ADC,0x11f,0,0,decode_modrm_byte_operand,0,1},
+    {MN_SBB,0x11f,0,0,decode_modrm_byte_operand,0,1},
+    {MN_AND,0x11b,0,4,decode_modrm_byte_operand,0,1},
+    {MN_SUB,0x11f,0,0,decode_modrm_byte_operand,0,1},
+    {MN_XOR,0x11b,0,4,decode_modrm_byte_operand,0,1},
+    {MN_CMP,0x11f,0,0,decode_modrm_byte_operand,0,1}
+};
+
+/* Byte shift/rotate selectors, original00083c60. */
+const OpcodeEntry disassembly_byte_shift_group[8]={
+    {MN_ROL,0x101,0,0,decode_modrm_byte_operand,0,1},
+    {MN_ROR,0x101,0,0,decode_modrm_byte_operand,0,1},
+    {MN_RCL,0x101,0,0,decode_modrm_byte_operand,0,1},
+    {MN_RCR,0x101,0,0,decode_modrm_byte_operand,0,1},
+    {MN_SHL,0x11b,0,4,decode_modrm_byte_operand,0,1},
+    {MN_SHR,0x11b,0,4,decode_modrm_byte_operand,0,1},
+    {MN_SAL,0x11b,0,4,decode_modrm_byte_operand,0,1},
+    {MN_SAR,0x11b,0,4,decode_modrm_byte_operand,0,1}
+};
+
+enum UnaryMnemonic { MN_NOT=189, MN_NEG=187, MN_MUL=186,
+    MN_DIV=33, MN_IDIV=122 };
+
+/* F6 byte test/unary/multiply/divide selectors, original00083da0. */
+const OpcodeEntry disassembly_byte_unary_group[8]={
+    {MN_TEST,0x11b,0,4,decode_modrm_byte_operand,decode_byte_immediate,1},
+    {MN_TEST,0x11b,0,4,decode_modrm_byte_operand,decode_byte_immediate,1},
+    {MN_NOT,0,0,0,decode_modrm_byte_operand,0,1},
+    {MN_NEG,0x11f,0,0,decode_modrm_byte_operand,0,1},
+    {MN_MUL,0x101,0,0x1e,decode_modrm_byte_operand,decode_op_4dbb0,1},
+    {MN_IMUL,0x101,0,0x1e,decode_modrm_byte_operand,decode_op_4dbb0,1},
+    {MN_DIV,0,0,0x11f,decode_modrm_byte_operand,decode_op_4dbb0,7},
+    {MN_IDIV,0,0,0x11f,decode_modrm_byte_operand,decode_op_4dbb0,7}
+};
+
+/* FE byte increment/decrement group, original00083ee0. */
+const OpcodeEntry disassembly_byte_increment_group[8]={
+    {MN_INC,0x11e,0,0,decode_modrm_byte_operand,0,1},
+    {MN_DEC,0x11e,0,0,decode_modrm_byte_operand,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1}
+};
+
+enum DescriptorMnemonic {
+    MN_LLDT=167, MN_LTR=181, MN_SLDT=240, MN_STR=252,
+    MN_VERR=255, MN_VERW=256
+};
+
+/* 0F00 descriptor/task-register group, original00084020. */
+const OpcodeEntry disassembly_task_group[8]={
+    {MN_SLDT,0,0,0,0,decode_op_4c830,1},
+    {MN_STR,0,0,0,0,decode_op_4c830,1},
+    {MN_LLDT,0,0,0,0,decode_op_4c830,1},
+    {MN_LTR,0,0,0,0,decode_op_4c830,1},
+    {MN_VERR,8,0,0,0,decode_op_4c830,1},
+    {MN_VERW,8,0,0,0,decode_op_4c830,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1}
+};
+
+enum SystemTableMnemonic {
+    MN_LGDT=165, MN_LIDT=166, MN_LMSW=168, MN_SGDT=238,
+    MN_SIDT=239, MN_SMSW=247, MN_INVLPG=131
+};
+
+/* 0F01 table and machine-status selectors, original000840c0. */
+const OpcodeEntry disassembly_system_group[8]={
+    {MN_SGDT,0,0,0,0,decode_descriptor_memory,1},
+    {MN_SIDT,0,0,0,0,decode_descriptor_memory,1},
+    {MN_LGDT,0,0,0,0,decode_descriptor_memory,1},
+    {MN_LIDT,0,0,0,0,decode_descriptor_memory,1},
+    {MN_SMSW,0,0,0,0,decode_op_4c830,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_LMSW,0,0,0,0,decode_op_4c830,1},
+    {MN_INVLPG,0,0,0,0,0,1}
+};
+
+/* FF word/dword increment, indirect control transfer and push,00083f80. */
+const OpcodeEntry disassembly_indirect_group[8]={
+    {MN_INC,0x11e,0,0,decode_modrm_operand_effects,0,1},
+    {MN_DEC,0x11e,0,0,decode_modrm_operand_effects,0,1},
+    {MN_CALL,0,0,0,update_stack_registers,decode_modrm_operand_effects,5},
+    {MN_CALL,0,0,0,decode_op_4b9c0,decode_op_4ca60,6},
+    {MN_JMP,0,0,0,0,decode_modrm_operand_effects,17},
+    {MN_JMP,0,0,0,decode_op_4bac0,decode_op_4ca60,19},
+    {MN_PUSH,0,0,0,update_stack_registers,decode_modrm_operand_effects,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1}
+};
+
+enum IntegerX87Mnemonic {
+    MN_FIADD=39, MN_FIMUL=76, MN_FICOM=46, MN_FICOMP=47,
+    MN_FISUB=106, MN_FISUBR=109, MN_FIDIV=53, MN_FIDIVR=56
+};
+
+/* DA dword integer arithmetic, original00084340. */
+const OpcodeEntry disassembly_x87_da_memory[8]={
+    {MN_FIADD,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FIMUL,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FICOM,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FICOMP,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FISUB,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FISUBR,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FIDIV,0,0,0,decode_x87_memory,size_x87_dword,1},
+    {MN_FIDIVR,0,0,0,decode_x87_memory,size_x87_dword,1}
+};
+
+/* F7 word/dword test/unary/multiply/divide selectors,00083e40. */
+const OpcodeEntry disassembly_unary_group[8]={
+    {MN_TEST,0x11b,0,4,decode_modrm_operand_effects,decode_immediate,1},
+    {MN_TEST,0x11b,0,4,decode_modrm_operand_effects,decode_immediate,1},
+    {MN_NOT,0,0,0,decode_modrm_operand_effects,0,1},
+    {MN_NEG,0x11f,0,0,decode_modrm_operand_effects,0,1},
+    {MN_MUL,0x101,0,0x1e,decode_modrm_operand_effects,decode_eax_register,1},
+    {MN_IMUL,0x101,0,0x1e,decode_modrm_operand_effects,decode_eax_register,1},
+    {MN_DIV,0,0,0x11f,decode_modrm_operand_effects,decode_eax_register,7},
+    {MN_IDIV,0,0,0x11f,decode_modrm_operand_effects,decode_eax_register,7}
+};
+
+/* 0FBA immediate bit-test selectors,00084160. BT retains its zero flag mask. */
+const OpcodeEntry disassembly_immediate_bit_group[8]={
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_NONE,0,0,0,decode_op_4b650,0,1},
+    {MN_BT,0,0,0,decode_modrm_operand_effects,decode_byte_immediate,1},
+    {MN_BTS,1,0,0,decode_modrm_operand_effects,decode_byte_immediate,1},
+    {MN_BTR,1,0,0,decode_modrm_operand_effects,decode_byte_immediate,1},
+    {MN_BTC,1,0,0,decode_modrm_operand_effects,decode_byte_immediate,1}
+};

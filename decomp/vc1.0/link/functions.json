@@ -834,7 +834,90 @@
     "_resolve_bound_import",
     "import:SystemTimeToFileTime",
     "import:SetFileTime",
-    "import:LocalFree"
+    "import:LocalFree",
+    "_decode_op_4dbb0",
+    "_decode_op_4dc30",
+    "_decode_op_4dc70",
+    "_decode_op_4dbf0",
+    "_decode_op_4dcb0",
+    "_decode_op_4dd30",
+    "_decode_op_4dd70",
+    "_decode_op_4dcf0",
+    "_decode_op_4d640",
+    "_decode_op_4b670",
+    "_decode_op_4b6d0",
+    "_decode_op_4c140",
+    "_decode_op_4d810",
+    "_decode_op_4b730",
+    "_decode_op_4b790",
+    "_decode_op_4bb10",
+    "_decode_op_4bb90",
+    "_decode_op_4df50",
+    "_decode_op_4bbd0",
+    "_decode_op_4bb50",
+    "_decode_op_4dfa0",
+    "_decode_op_4bc10",
+    "_decode_op_4bc50",
+    "_decode_op_4bc90",
+    "_decode_op_4bcd0",
+    "_decode_op_4bae0",
+    "_decode_op_4ba90",
+    "_decode_op_4c060",
+    "_decode_op_4ba10",
+    "_decode_op_4b960",
+    "_decode_op_4ba70",
+    "_decode_op_4b9f0",
+    "_decode_op_4bf70",
+    "_decode_op_4da30",
+    "_decode_op_4da70",
+    "_decode_op_4dab0",
+    "_decode_op_4daf0",
+    "_decode_op_4db30",
+    "_decode_op_4db70",
+    "_decode_op_4c830",
+    "_decode_op_4d5e0",
+    "_decode_op_4bd10",
+    "_decode_op_4bd40",
+    "_decode_op_4bd70",
+    "_decode_op_4be00",
+    "_decode_op_4c4c0",
+    "_longjmp",
+    "__local_unwind2",
+    "_decode_op_4c970",
+    "_decode_op_4d8a0",
+    "_decode_op_4ca60",
+    "_decode_op_4d900",
+    "_decode_op_4d8d0",
+    "_decode_op_4d930",
+    "_decode_op_4d960",
+    "_decode_op_4b7f0",
+    "_decode_op_4b820",
+    "_decode_descriptor_memory",
+    "_decode_op_4d520",
+    "_decode_op_4c530",
+    "_decode_op_4d560",
+    "_decode_op_4d5a0",
+    "_decode_op_4b9c0",
+    "_decode_op_4df20",
+    "_decode_op_4de00",
+    "_decode_op_4be90",
+    "_decode_op_4bfe0",
+    "_decode_op_4b7c0",
+    "_decode_op_4bac0",
+    "_decode_op_4c0b0",
+    "_decode_op_4d4e0",
+    "_decode_op_4d510",
+    "_decode_op_4cdf0",
+    "_decode_op_4b760",
+    "_decode_op_4c3d0",
+    "_decode_op_4d690",
+    "_decode_op_4c6d0",
+    "_decode_op_4b850",
+    "_decode_op_4c910",
+    "_decode_op_4c940",
+    "_decode_op_4d990",
+    "_decode_op_4c170",
+    "_decode_op_4c1a0"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -6347,11 +6430,11 @@
     {
       "name": "_decode_op_4b670",
       "start": 308848,
-      "end": 308849,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 308890,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_signed_byte_group",
@@ -6365,11 +6448,11 @@
     {
       "name": "_decode_op_4b6d0",
       "start": 308944,
-      "end": 308945,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 308986,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_shift_group",
@@ -6383,38 +6466,38 @@
     {
       "name": "_decode_op_4b730",
       "start": 309040,
-      "end": 309041,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309082,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4b760",
       "start": 309088,
-      "end": 309089,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309130,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4b790",
       "start": 309136,
-      "end": 309137,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309178,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4b7c0",
       "start": 309184,
-      "end": 309185,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309226,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_operand_size_prefix",
@@ -6473,11 +6556,11 @@
     {
       "name": "_decode_op_4b960",
       "start": 309600,
-      "end": 309601,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309642,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_update_counter_registers",
@@ -6491,29 +6574,29 @@
     {
       "name": "_decode_op_4b9c0",
       "start": 309696,
-      "end": 309697,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309729,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4b9f0",
       "start": 309744,
-      "end": 309745,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309769,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4ba10",
       "start": 309776,
-      "end": 309777,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309832,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_update_al_register",
@@ -6527,137 +6610,137 @@
     {
       "name": "_decode_op_4ba70",
       "start": 309872,
-      "end": 309873,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309904,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4ba90",
       "start": 309904,
-      "end": 309905,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309945,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bac0",
       "start": 309952,
-      "end": 309953,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309984,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bae0",
       "start": 309984,
-      "end": 309985,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310027,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bb10",
       "start": 310032,
-      "end": 310033,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310088,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bb50",
       "start": 310096,
-      "end": 310097,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310152,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bb90",
       "start": 310160,
-      "end": 310161,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310216,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bbd0",
       "start": 310224,
-      "end": 310225,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310280,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bc10",
       "start": 310288,
-      "end": 310289,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310344,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bc50",
       "start": 310352,
-      "end": 310353,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310408,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bc90",
       "start": 310416,
-      "end": 310417,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310472,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bcd0",
       "start": 310480,
-      "end": 310481,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310536,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bd10",
       "start": 310544,
-      "end": 310545,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310579,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bd40",
       "start": 310592,
-      "end": 310593,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310627,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bd70",
       "start": 310640,
-      "end": 310641,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310675,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_ds_prefix",
@@ -6680,11 +6763,11 @@
     {
       "name": "_decode_op_4be00",
       "start": 310784,
-      "end": 310785,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310819,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_string_byte_destination",
@@ -6698,11 +6781,11 @@
     {
       "name": "_decode_op_4be90",
       "start": 310928,
-      "end": 310929,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311033,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_string_byte_source",
@@ -6716,29 +6799,29 @@
     {
       "name": "_decode_op_4bf70",
       "start": 311152,
-      "end": 311153,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311252,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4bfe0",
       "start": 311264,
-      "end": 311265,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311380,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c060",
       "start": 311392,
-      "end": 311393,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311422,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_byte_immediate",
@@ -6752,11 +6835,11 @@
     {
       "name": "_decode_op_4c0b0",
       "start": 311472,
-      "end": 311473,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311520,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_immediate",
@@ -6770,29 +6853,29 @@
     {
       "name": "_decode_op_4c140",
       "start": 311616,
-      "end": 311617,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311659,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c170",
       "start": 311664,
-      "end": 311665,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311707,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c1a0",
       "start": 311712,
-      "end": 311713,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311876,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_short_relative",
@@ -6815,11 +6898,11 @@
     {
       "name": "_decode_op_4c3d0",
       "start": 312272,
-      "end": 312273,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 312378,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_absolute_memory",
@@ -6833,11 +6916,11 @@
     {
       "name": "_decode_op_4c4c0",
       "start": 312512,
-      "end": 312513,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 312620,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_modrm_operand_effects",
@@ -6860,38 +6943,38 @@
     {
       "name": "_decode_op_4c830",
       "start": 313392,
-      "end": 313393,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313610,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c910",
       "start": 313616,
-      "end": 313617,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313652,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c940",
       "start": 313664,
-      "end": 313665,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313700,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c970",
       "start": 313712,
-      "end": 313713,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313786,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_memory_operand",
@@ -6905,11 +6988,11 @@
     {
       "name": "_decode_op_4ca60",
       "start": 313952,
-      "end": 313953,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 314046,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_x87_d8",
@@ -6946,11 +7029,11 @@
     {
       "name": "_decode_op_4cdf0",
       "start": 314864,
-      "end": 314865,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 315007,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_x87_db",
@@ -7021,29 +7104,29 @@
     {
       "name": "_decode_op_4d5e0",
       "start": 316896,
-      "end": 316897,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 316987,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d640",
       "start": 316992,
-      "end": 316993,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317063,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d690",
       "start": 317072,
-      "end": 317073,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317168,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_modrm_byte_register",
@@ -7066,137 +7149,137 @@
     {
       "name": "_decode_op_4d8a0",
       "start": 317600,
-      "end": 317601,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317642,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d900",
       "start": 317696,
-      "end": 317697,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317738,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d990",
       "start": 317840,
-      "end": 317841,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317892,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4da30",
       "start": 318000,
-      "end": 318001,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318060,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4da70",
       "start": 318064,
-      "end": 318065,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318124,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dab0",
       "start": 318128,
-      "end": 318129,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318188,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4daf0",
       "start": 318192,
-      "end": 318193,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318252,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dbb0",
       "start": 318384,
-      "end": 318385,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318444,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original leaf body; explicit AL operand, register_masks[AL], cdecl three arguments; fresh matched first-entry/partial streams in monitor progress."
     },
     {
       "name": "_decode_op_4dbf0",
       "start": 318448,
-      "end": 318449,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318508,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dc30",
       "start": 318512,
-      "end": 318513,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318572,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dc70",
       "start": 318576,
-      "end": 318577,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318636,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dcb0",
       "start": 318640,
-      "end": 318641,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318700,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dcf0",
       "start": 318704,
-      "end": 318705,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318764,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dd30",
       "start": 318768,
-      "end": 318769,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318828,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dd70",
       "start": 318832,
-      "end": 318833,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318892,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_eax_register",
@@ -7210,11 +7293,11 @@
     {
       "name": "_decode_op_4de00",
       "start": 318976,
-      "end": 318977,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 319033,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_eax_destination",
@@ -7246,29 +7329,29 @@
     {
       "name": "_decode_op_4df20",
       "start": 319264,
-      "end": 319265,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 319307,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4df50",
       "start": 319312,
-      "end": 319313,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 319389,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4dfa0",
       "start": 319392,
-      "end": 319393,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 319469,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_ebp_register",
@@ -7381,47 +7464,47 @@
     {
       "name": "_decode_op_4b7f0",
       "start": 309232,
-      "end": 309233,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309274,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4b820",
       "start": 309280,
-      "end": 309281,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309322,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4b850",
       "start": 309328,
-      "end": 309329,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309370,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c530",
       "start": 312624,
-      "end": 312625,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 312732,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c6d0",
       "start": 313040,
-      "end": 313041,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313099,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4c710",
@@ -7435,29 +7518,29 @@
     {
       "name": "_decode_op_4d520",
       "start": 316704,
-      "end": 316705,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 316765,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d560",
       "start": 316768,
-      "end": 316769,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 316829,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d5a0",
       "start": 316832,
-      "end": 316833,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 316893,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_register_and_byte_immediate",
@@ -7471,11 +7554,11 @@
     {
       "name": "_decode_op_4d810",
       "start": 317456,
-      "end": 317457,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317514,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d850",
@@ -7489,29 +7572,29 @@
     {
       "name": "_decode_op_4d8d0",
       "start": 317648,
-      "end": 317649,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317690,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d930",
       "start": 317744,
-      "end": 317745,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317786,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d960",
       "start": 317792,
-      "end": 317793,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317834,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4d9d0",
@@ -7534,20 +7617,20 @@
     {
       "name": "_decode_op_4db30",
       "start": 318256,
-      "end": 318257,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318316,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_op_4db70",
       "start": 318320,
-      "end": 318321,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318380,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_decode_x87_memory",
@@ -7561,11 +7644,11 @@
     {
       "name": "_decode_op_4d4e0",
       "start": 316640,
-      "end": 316641,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 316656,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named operand-decoder target in contextual typed descriptor array; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_size_x87_qword",
@@ -7588,11 +7671,11 @@
     {
       "name": "_decode_op_4d510",
       "start": 316688,
-      "end": 316689,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 316704,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named operand-decoder target in contextual typed descriptor array; body remains masked."
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     },
     {
       "name": "_grow_mac_code_sections",
@@ -8151,6 +8234,15 @@
       "source": "src/editor-bind.c",
       "abi": "cdecl int(const unsigned long *,BoundImage *,unsigned long *,unsigned long *,BoundImage *,IMAGE_EXPORT_DIRECTORY *,unsigned long **)",
       "evidence": "Whole4f070..4f370 decoded; fresh matching resolve_bound_import-is4ylorp. Export name/hint fallback scan and16-bit ordinal arithmetic, preferred address calculation, strict forwarder range and chain retained. Original ordinal verbose hint remains uninitialized/unexercised, no invented zero. Current case dynamically resolves actual named import by matching hint."
+    },
+    {
+      "name": "_decode_descriptor_memory",
+      "start": 313792,
+      "end": 313866,
+      "implementation": "C",
+      "source": "src/disassembler.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
     }
   ],
   "c_stub_references": [
@@ -8991,6 +9083,89 @@
     "editor-bind",
     "editor-bind",
     "editor-bind",
-    "editor-bind"
+    "editor-bind",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra",
+    "dump-disasm-x86-monitor-extra"
   ]
 }

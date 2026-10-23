@@ -965,3 +965,928 @@ unsigned char *decode_x87_df(unsigned char *data,int operand,
     if (!state->mnemonic) return decode_op_4b650(data,operand,state);
     return data+1;
 }
+
+/* Original [0004dbb0,0004dbec). Explicit AL operand and its overlap mask. */
+unsigned char *decode_op_4dbb0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_AL;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_AL];
+    else state->registers_read|=register_masks[DIS_REG_AL];
+    return data;
+}
+
+/* Original [0004dc30,0004dc6c). Explicit CL operand. */
+unsigned char *decode_op_4dc30(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_CL;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_CL];
+    else state->registers_read|=register_masks[DIS_REG_CL];
+    return data;
+}
+
+/* Original [0004dc70,0004dcac). Explicit DL operand. */
+unsigned char *decode_op_4dc70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_DL;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_DL];
+    else state->registers_read|=register_masks[DIS_REG_DL];
+    return data;
+}
+
+/* Original [0004dbf0,0004dc2c). Explicit BL operand. */
+unsigned char *decode_op_4dbf0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_BL;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_BL];
+    else state->registers_read|=register_masks[DIS_REG_BL];
+    return data;
+}
+
+/* Original [0004dcb0,0004dcec). Explicit AH operand. */
+unsigned char *decode_op_4dcb0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_AH;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_AH];
+    else state->registers_read|=register_masks[DIS_REG_AH];
+    return data;
+}
+
+/* Original [0004dd30,0004dd6c). Explicit CH operand. */
+unsigned char *decode_op_4dd30(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_CH;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_CH];
+    else state->registers_read|=register_masks[DIS_REG_CH];
+    return data;
+}
+
+/* Original [0004dd70,0004ddac). Explicit DH operand. */
+unsigned char *decode_op_4dd70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_DH;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_DH];
+    else state->registers_read|=register_masks[DIS_REG_DH];
+    return data;
+}
+
+/* Original [0004dcf0,0004dd2c). Explicit BH operand. */
+unsigned char *decode_op_4dcf0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_BH;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_BH];
+    else state->registers_read|=register_masks[DIS_REG_BH];
+    return data;
+}
+
+/* Original [0004d640,0004d687). The ModR/M byte register is written
+ * regardless of its display operand position. */
+unsigned char *decode_op_4d640(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    unsigned long reg=disassembly_byte_registers[(*modrm&0x38)>>3];
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    state->registers_written|=register_masks[reg];
+    return data;
+}
+
+extern const OpcodeEntry disassembly_byte_arithmetic_group[8];
+
+/* Original [0004b670,0004b69a). Opcode80's byte arithmetic group. */
+unsigned char *decode_op_4b670(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,
+        &disassembly_byte_arithmetic_group[(*data&0x38)>>3],state);
+}
+
+extern const OpcodeEntry disassembly_byte_shift_group[8];
+
+/* Original [0004b6d0,0004b6fa). Byte shift/rotate dispatch. */
+unsigned char *decode_op_4b6d0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,
+        &disassembly_byte_shift_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004c140,0004c16b). Shift count of one consumes no bytes. */
+unsigned char *decode_op_4c140(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=3;
+    result->address.value_bytes=1;
+    *(unsigned char *)&result->address.value=1;
+    return data;
+}
+
+/* Original [0004d810,0004d84a). SHLD/SHRD have a third CL operand. */
+unsigned char *decode_op_4d810(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    decode_modrm_register(data,operand,state);
+    state->operands[2].kind=2;
+    state->operands[2].address.base=DIS_REG_CL;
+    state->registers_read|=register_masks[DIS_REG_CL];
+    return data;
+}
+
+extern const OpcodeEntry disassembly_byte_unary_group[8];
+
+/* Original [0004b730,0004b75a). F6's byte unary group. */
+unsigned char *decode_op_4b730(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,
+        &disassembly_byte_unary_group[(*data&0x38)>>3],state);
+}
+
+extern const OpcodeEntry disassembly_byte_increment_group[8];
+
+/* Original [0004b790,0004b7ba). FE byte increment/decrement group. */
+unsigned char *decode_op_4b790(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,
+        &disassembly_byte_increment_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004bb10,0004bb48). EAX register effects, without a display operand. */
+unsigned char *decode_op_4bb10(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EAX:DIS_REG_AX;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bb90,0004bbc8). ECX register effects, without a display operand. */
+unsigned char *decode_op_4bb90(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_ECX:DIS_REG_CX;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004df50,0004df9d). Explicit DX/EDX operand. */
+unsigned char *decode_op_4df50(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EDX:DIS_REG_DX;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bbd0,0004bc08). EDX register effects, without a display operand. */
+unsigned char *decode_op_4bbd0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EDX:DIS_REG_DX;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bb50,0004bb88). EBX register effects, without a display operand. */
+unsigned char *decode_op_4bb50(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EBX:DIS_REG_BX;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004dfa0,0004dfed). Explicit SP/ESP operand. */
+unsigned char *decode_op_4dfa0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_ESP:DIS_REG_SP;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bc10,0004bc48). ESP register effects, without a display operand. */
+unsigned char *decode_op_4bc10(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_ESP:DIS_REG_SP;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bc50,0004bc88). EBP register effects, without a display operand. */
+unsigned char *decode_op_4bc50(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EBP:DIS_REG_BP;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bc90,0004bcc8). ESI register effects, without a display operand. */
+unsigned char *decode_op_4bc90(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_ESI:DIS_REG_SI;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bcd0,0004bd08). EDI register effects, without a display operand. */
+unsigned char *decode_op_4bcd0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EDI:DIS_REG_DI;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bae0,0004bb0b). PUSHA/POPA touch the full mode-sized set. */
+unsigned char *decode_op_4bae0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long mask=state->operand32?0xffffffUL:0xffffUL;
+    if (operand==1) state->registers_written|=mask;
+    else state->registers_read|=mask;
+    return data;
+}
+
+/* Original [0004ba90,0004bab9). Preserve both repeated AH-write/AL-read effects. */
+unsigned char *decode_op_4ba90(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->registers_written|=register_masks[DIS_REG_AH];
+    state->registers_read|=register_masks[DIS_REG_AL];
+    state->registers_written|=register_masks[DIS_REG_AH];
+    state->registers_read|=register_masks[DIS_REG_AL];
+    return data;
+}
+
+/* Original [0004c060,0004c07e). AAM/AAD require the decoder's decimal radix. */
+unsigned char *decode_op_4c060(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (*data!=10) longjmp(disassembler_jump,1);
+    return data+1;
+}
+
+/* Original [0004ba10,0004ba48). CBW/CWDE's narrower source effect. */
+unsigned char *decode_op_4ba10(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_AX:DIS_REG_AL;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004b960,0004b98a). CWD/CDQ read and write the accumulator. */
+unsigned char *decode_op_4b960(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EAX:DIS_REG_AX;
+    state->registers_read|=register_masks[reg];
+    state->registers_written|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004ba70,0004ba90). LAHF/SAHF's implicit DI-mask identity. */
+unsigned char *decode_op_4ba70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_DI];
+    else state->registers_read|=register_masks[DIS_REG_DI];
+    return data;
+}
+
+/* Original [0004b9f0,0004ba09). XLAT reads and writes AL. */
+unsigned char *decode_op_4b9f0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->registers_read|=register_masks[DIS_REG_AL];
+    state->registers_written|=register_masks[DIS_REG_AL];
+    return data;
+}
+
+/* Original [0004bf70,0004bfd4). XLAT's implicit DS:BX/EBX byte source. */
+unsigned char *decode_op_4bf70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->address32?DIS_REG_EBX:DIS_REG_BX;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=1;
+    result->address.segment=DIS_REG_DS;
+    if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+    result->size=1;
+    state->registers_read|=register_masks[reg];
+    result->address.base=reg;
+    return data;
+}
+
+/* Original [0004da30,0004da6c). Explicit ES segment-register operand. */
+unsigned char *decode_op_4da30(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_ES;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_ES];
+    else state->registers_read|=register_masks[DIS_REG_ES];
+    return data;
+}
+
+/* Original [0004da70,0004daac). Explicit CS segment-register operand. */
+unsigned char *decode_op_4da70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_CS;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_CS];
+    else state->registers_read|=register_masks[DIS_REG_CS];
+    return data;
+}
+
+/* Original [0004dab0,0004daec). Explicit SS segment-register operand. */
+unsigned char *decode_op_4dab0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_SS;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_SS];
+    else state->registers_read|=register_masks[DIS_REG_SS];
+    return data;
+}
+
+/* Original [0004daf0,0004db2c). Explicit DS segment-register operand. */
+unsigned char *decode_op_4daf0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_DS;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_DS];
+    else state->registers_read|=register_masks[DIS_REG_DS];
+    return data;
+}
+
+/* Original [0004db30,0004db6c). Explicit FS segment-register operand. */
+unsigned char *decode_op_4db30(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_FS;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_FS];
+    else state->registers_read|=register_masks[DIS_REG_FS];
+    return data;
+}
+
+/* Original [0004db70,0004dbac). Explicit GS segment-register operand. */
+unsigned char *decode_op_4db70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_GS;
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_GS];
+    else state->registers_read|=register_masks[DIS_REG_GS];
+    return data;
+}
+
+/* Original [0004c830,0004c90a). Fixed16-bit ModR/M operand. */
+unsigned char *decode_op_4c830(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    unsigned char *next;
+    state->modrm=data;
+    if ((*data&0xc0)==0xc0) result->kind=2;
+    else {
+        result->kind=1;
+        result->size=2;
+    }
+    if (state->address32)
+        next=decode_address32(data,disassembly_word_registers,&result->address);
+    else next=decode_address16(data,disassembly_word_registers,&result->address);
+    if (result->kind==2) {
+        if (operand==1) state->registers_written|=register_masks[result->address.base];
+        else state->registers_read|=register_masks[result->address.base];
+    } else {
+        if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+        if (result->address.base) state->registers_read|=register_masks[result->address.base];
+        if (result->address.index) state->registers_read|=register_masks[result->address.index];
+    }
+    return next;
+}
+
+/* ModR/M segment selector identities, original00081d40. */
+const unsigned long disassembly_segment_registers[8]={
+    DIS_REG_ES,DIS_REG_CS,DIS_REG_SS,DIS_REG_DS,DIS_REG_FS,DIS_REG_GS,0,0
+};
+
+/* Original [0004d5e0,0004d63b). Explicit segment-register operand. */
+unsigned char *decode_op_4d5e0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    unsigned long reg=disassembly_segment_registers[(*modrm&0x38)>>3];
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bd10,0004bd33). ES override; original prefixes all use ES's mask. */
+unsigned char *decode_op_4bd10(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->segment=DIS_REG_ES;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_opcode(data,state);
+}
+
+/* Original [0004bd40,0004bd63). CS override; original prefixes all use ES's mask. */
+unsigned char *decode_op_4bd40(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->segment=DIS_REG_CS;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_opcode(data,state);
+}
+
+/* Original [0004bd70,0004bd93). SS override; original prefixes all use ES's mask. */
+unsigned char *decode_op_4bd70(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->segment=DIS_REG_SS;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_opcode(data,state);
+}
+
+/* Original [0004be00,0004be23). GS override; original prefixes all use ES's mask. */
+unsigned char *decode_op_4be00(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->segment=DIS_REG_GS;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_opcode(data,state);
+}
+
+/* Original [0004c4c0,0004c52c). Fixed16-bit register-only ModR/M.rm. */
+unsigned char *decode_op_4c4c0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    if ((*data&0xc0)!=0xc0) longjmp(disassembler_jump,1);
+    reg=disassembly_word_registers[*data&7];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    state->modrm=data;
+    return data+1;
+}
+
+/* Original [0004c970,0004c9ba). BOUND's memory pair has its own size code. */
+unsigned char *decode_op_4c970(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    data=decode_modrm_operand(data,operand,state);
+    if (state->operands[operand-1].kind!=1) longjmp(disassembler_jump,1);
+    state->operands[operand-1].size=5;
+    return data;
+}
+
+/* Original [0004d8a0,0004d8ca). LES includes the segment destination effect. */
+unsigned char *decode_op_4d8a0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_ES];
+    else state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_modrm_register(data,operand,state);
+}
+
+/* Original [0004ca60,0004cabe). Segment:offset pointer in memory. */
+unsigned char *decode_op_4ca60(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    data=decode_modrm_operand(data,operand,state);
+    if (state->operands[operand-1].kind!=1) longjmp(disassembler_jump,1);
+    state->operands[operand-1].size=state->operand32?8:7;
+    return data;
+}
+
+/* Original [0004d900,0004d92a). Segment DS effect plus general register destination. */
+unsigned char *decode_op_4d900(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_DS];
+    else state->registers_read|=register_masks[DIS_REG_DS];
+    return decode_modrm_register(data,operand,state);
+}
+
+/* Original [0004d8d0,0004d8fa). Segment SS effect plus general register destination. */
+unsigned char *decode_op_4d8d0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_SS];
+    else state->registers_read|=register_masks[DIS_REG_SS];
+    return decode_modrm_register(data,operand,state);
+}
+
+/* Original [0004d930,0004d95a). Segment FS effect plus general register destination. */
+unsigned char *decode_op_4d930(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_FS];
+    else state->registers_read|=register_masks[DIS_REG_FS];
+    return decode_modrm_register(data,operand,state);
+}
+
+/* Original [0004d960,0004d98a). Segment GS effect plus general register destination. */
+unsigned char *decode_op_4d960(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_GS];
+    else state->registers_read|=register_masks[DIS_REG_GS];
+    return decode_modrm_register(data,operand,state);
+}
+
+extern const OpcodeEntry disassembly_task_group[8];
+
+/* Original [0004b7f0,0004b81a). 0F00 descriptor/task selectors. */
+unsigned char *decode_op_4b7f0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_task_group[(*data&0x38)>>3],state);
+}
+
+extern const OpcodeEntry disassembly_system_group[8];
+
+/* Original [0004b820,0004b84a). 0F01 system-table/status selectors. */
+unsigned char *decode_op_4b820(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_system_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004c9c0,0004ca0a). Six-byte descriptor-table memory operand. */
+unsigned char *decode_descriptor_memory(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    data=decode_modrm_operand(data,operand,state);
+    if (state->operands[operand-1].kind!=1) longjmp(disassembler_jump,1);
+    state->operands[operand-1].size=4;
+    return data;
+}
+
+/* CR0, CR2, CR3; other selector slots have the original zero identity. */
+const unsigned long disassembly_control_registers[8]={32,0,34,35,0,0,0,0};
+
+/* Original [0004d520,0004d55d). Control registers carry no ordinary GPR mask. */
+unsigned char *decode_op_4d520(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=disassembly_control_registers[(*modrm&0x38)>>3];
+    return data;
+}
+
+/* Original [0004c530,0004c59c). Fixed32-bit register-only ModR/M.rm. */
+unsigned char *decode_op_4c530(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    if ((*data&0xc0)!=0xc0) longjmp(disassembler_jump,1);
+    reg=disassembly_dword_registers[*data&7];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    state->modrm=data;
+    return data+1;
+}
+
+/* DR0..3 and DR6..7 identities; reserved DR4/DR5 remain zero. */
+const unsigned long disassembly_debug_registers[8]={40,41,42,43,0,0,46,47};
+
+/* Original [0004d560,0004d59d). Debug-register selector. */
+unsigned char *decode_op_4d560(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=disassembly_debug_registers[(*modrm&0x38)>>3];
+    return data;
+}
+
+/* TR3..7 identities in the original table; this386 corpus uses TR6/TR7. */
+const unsigned long disassembly_test_registers[8]={0,0,0,51,52,53,54,55};
+
+/* Original [0004d5a0,0004d5dd). Test-register selector. */
+unsigned char *decode_op_4d5a0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=disassembly_test_registers[(*modrm&0x38)>>3];
+    return data;
+}
+
+/* Original [0004b9c0,0004b9e1). Far return/interrupt writes CS and updates SP. */
+unsigned char *decode_op_4b9c0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->registers_written|=register_masks[DIS_REG_CS];
+    return update_stack_registers(data,operand,state);
+}
+
+/* Original [0004df20,0004df4b). DX is read for port I/O at either position. */
+unsigned char *decode_op_4df20(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=DIS_REG_DX;
+    state->registers_read|=register_masks[DIS_REG_DX];
+    return data;
+}
+
+/* Original [0004de00,0004de39). OUT's accumulator is always read. */
+unsigned char *decode_op_4de00(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EAX:DIS_REG_AX;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004be90,0004bef9). Word/dword string destination ES:DI/EDI. */
+unsigned char *decode_op_4be90(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->address32?DIS_REG_EDI:DIS_REG_DI;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=1;
+    result->address.segment=DIS_REG_ES;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    result->size=state->operand32?3:2;
+    state->registers_read|=register_masks[reg];
+    result->address.base=reg;
+    return data;
+}
+
+/* Original [0004bfe0,0004c054). Word/dword string source DS:SI/ESI. */
+unsigned char *decode_op_4bfe0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->address32?DIS_REG_ESI:DIS_REG_SI;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=1;
+    result->address.segment=DIS_REG_DS;
+    if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+    result->size=state->operand32?3:2;
+    state->registers_read|=register_masks[reg];
+    result->address.base=reg;
+    return data;
+}
+
+extern const OpcodeEntry disassembly_indirect_group[8];
+
+/* Original [0004b7c0,0004b7ea). FF's indirect-control-transfer group. */
+unsigned char *decode_op_4b7c0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_indirect_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004bac0,0004bae0). Far jump's implicit CS effect. */
+unsigned char *decode_op_4bac0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_CS];
+    else state->registers_read|=register_masks[DIS_REG_CS];
+    return data;
+}
+
+/* Original [0004c0b0,0004c0e0). Fixed16-bit immediate; upper bytes untouched. */
+unsigned char *decode_op_4c0b0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=3;
+    result->address.value_bytes=2;
+    *(unsigned short *)&result->address.value=*(unsigned short *)data;
+    return data+2;
+}
+
+/* Original [0004d4e0,0004d4f0). The size callback writes operand1,
+ * although apply_opcode invokes it at callback position2. */
+unsigned char *decode_op_4d4e0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->operands[0].size=2;
+    return data;
+}
+
+/* Original [0004d510,0004d520). Extended precision/BCD memory size. */
+unsigned char *decode_op_4d510(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->operands[0].size=6;
+    return data;
+}
+
+extern const OpcodeEntry disassembly_x87_da_memory[8];
+
+enum { X87_FUCOMPP=113 };
+
+/* Original [0004cdf0,0004ce7f). DA integer arithmetic or FUCOMPP. */
+unsigned char *decode_op_4cdf0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char modrm=*data;
+    state->modrm=data;
+    if ((modrm&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_da_memory[(modrm&0x38)>>3],state);
+    state->mnemonic=((modrm&0x38)==0x28 && (modrm&7)==1)?X87_FUCOMPP:0;
+    if (!state->mnemonic) return decode_op_4b650(data,operand,state);
+    return data+1;
+}
+
+extern const OpcodeEntry disassembly_unary_group[8];
+
+/* Original [0004b760,0004b78a). F7's word/dword unary group. */
+unsigned char *decode_op_4b760(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_unary_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004c3d0,0004c43a). Byte moffs uses address-size, independent of data-size. */
+unsigned char *decode_op_4c3d0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=1;
+    result->size=1;
+    result->address.segment=DIS_REG_DS;
+    if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+    if (state->address32) {
+        result->address.value_bytes=4;
+        result->address.value=*(long *)data;
+    } else {
+        result->address.value_bytes=2;
+        *(unsigned short *)&result->address.value=*(unsigned short *)data;
+    }
+    return data+result->address.value_bytes;
+}
+
+/* Original [0004d690,0004d6f0). XCHG's ModR/M.reg is always written. */
+unsigned char *decode_op_4d690(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    unsigned long index=(*modrm&0x38)>>3;
+    unsigned long reg=state->operand32?disassembly_dword_registers[index]:
+        disassembly_word_registers[index];
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    state->registers_written|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004c6d0,0004c70b). BT additionally reads a register-form operand. */
+unsigned char *decode_op_4c6d0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    data=decode_modrm_operand(data,operand,state);
+    if (result->kind==2) state->registers_read|=register_masks[result->address.base];
+    return data;
+}
+
+extern const OpcodeEntry disassembly_immediate_bit_group[8];
+
+/* Original [0004b850,0004b87a). 0FBA immediate bit-test group. */
+unsigned char *decode_op_4b850(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_immediate_bit_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004c910,0004c934). IMUL's third, mode-sized immediate. */
+unsigned char *decode_op_4c910(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    data=decode_modrm_operand_effects(data,operand,state);
+    return decode_immediate(data,3,state);
+}
+
+/* Original [0004c940,0004c964). IMUL's third, byte-sized immediate. */
+unsigned char *decode_op_4c940(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    data=decode_modrm_operand_effects(data,operand,state);
+    return decode_byte_immediate(data,3,state);
+}
+
+/* Original [0004d990,0004d9c4). ENTER updates stack/frame then reads its WORD. */
+unsigned char *decode_op_4d990(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    update_stack_registers(data,operand,state);
+    update_frame_registers(data,operand,state);
+    return decode_op_4c0b0(data,operand,state);
+}
+
+/* Original [0004c170,0004c19b). INT3's implicit immediate consumes no bytes. */
+unsigned char *decode_op_4c170(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=3;
+    result->address.value_bytes=1;
+    *(unsigned char *)&result->address.value=3;
+    return data;
+}
+
+/* Original [0004c1a0,0004c244). Immediate far selector:offset operand. */
+unsigned char *decode_op_4c1a0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=5;
+    if (state->operand32) {
+        result->address.value_bytes=4;
+        result->address.value=*(long *)data;
+    } else {
+        result->address.value_bytes=2;
+        *(unsigned short *)&result->address.value=*(unsigned short *)data;
+    }
+    data+=result->address.value_bytes;
+    *(unsigned short *)&result->address.selector=*(unsigned short *)data;
+    if (state->operand32) state->target_address=result->address.value;
+    else state->target_address=(unsigned short)result->address.value+
+        ((unsigned long)(unsigned short)result->address.selector<<16);
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_CS];
+    else state->registers_read|=register_masks[DIS_REG_CS];
+    return data+2;
+}

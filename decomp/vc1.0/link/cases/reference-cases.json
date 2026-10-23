@@ -130,5 +130,11 @@
   },
   "editor-release-compact": {
     "directory": "cases/shared-prefix/editor-release-compact"
+  },
+  "dump-disasm-x86-monitor": {
+    "directory": "cases/shared-prefix/dump-disasm-x86-monitor"
+  },
+  "dump-disasm-x86-monitor-extra": {
+    "directory": "cases/shared-prefix/dump-disasm-x86-monitor-extra"
   }
 }

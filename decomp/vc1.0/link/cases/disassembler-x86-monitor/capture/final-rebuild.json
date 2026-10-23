@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "before": {
+    "build/link.exe": "e493adbae0fc5fcdfc93d6efa5fc17d119517c8106164a89c17bbc155b5bca90",
+    "build/native/LINK.EXE": "e8f888882278d82ea5f661d0f0e063f4ca03a94c95b14e4cbf1a0e8c33e94ec8",
+    "build/native-trace/LINK.EXE": "29df3b5a4a6051b2ed5df84e243962a3af0ff953c235e45e635e9b69ae37d993"
+  },
+  "after": {
+    "build/link.exe": "2ebb3dc418e1b4bb93d902868de9715b0f82a5a113827101e1f175e955daa472",
+    "build/native/LINK.EXE": "00c35f3e15f5e828fdcb7b8196ad6d35362457645ac7e6ff845f50dc8329b1dd",
+    "build/native-trace/LINK.EXE": "add671e2ad07feeb6d4391cf39e1be7bfe6a9d7c12e852d7bcedecf664bf4db3"
+  },
+  "seconds": 25.329464382492006,
+  "reason": "Own pending-stubs EOFwhitespace cleanup plus additive shared recon.h/crt.c/win32.c changes landed after earlier held window; rebuiltcanonical/native and repeated final46with stable fingerprints. No targetfunction behavior changed."
+}

@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x22af0: file src/disassembler-stubs.c, line 12.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, decode_op_4be00 (data=0x5661423f "\213\003c\303b\003\304\003\305\003\017\262\003\017\264\003\017\265\003\017\002\300\017\003\300\017", operand=1448952240, state=0x56614070) at src/disassembler-stubs.c:12
+12	unsigned char *decode_op_4be00(unsigned char *data,int operand,DisassembledInstruction *state) { __asm { int 3 } }
+NATIVE_MATCH decode_op_4be00
+0xffffcfdc:	0x565733b1	0x5661423f	0x00000002	0x56614070
+0xffffcfec:	0x565eba54	0x565d5ff4
+#0  decode_op_4be00 (data=0x5661423f "\213\003c\303b\003\304\003\305\003\017\262\003\017\264\003\017\265\003\017\002\300\017\003\300\017", operand=1448952240, state=0x56614070) at src/disassembler-stubs.c:12
+#1  0x565733b1 in apply_opcode (data=0x5661423f "\213\003c\303b\003\304\003\305\003\017\262\003\017\264\003\017\265\003\017\002\300\017\003\300\017", opcode=0x565d41b0 <opcode_table+2020>, state=0x56614070) at src/disassembler.c:152
+#2  0x565732d3 in decode_opcode (data=0x5661423e "e\213\003c\303b\003\304\003\305\003\017\262\003\017\264\003\017\265\003\017\002\300\017\003\300\017", state=0x56614070) at src/disassembler.c:138
+#3  0x56573263 in decode_instruction_body (address=222, data=0x5661423e "e\213\003c\303b\003\304\003\305\003\017\262\003\017\264\003\017\265\003\017\002\300\017\003\300\017", state=0x56614070) at src/disassembler.c:129
+#4  0x5657319d in decode_instruction (data=0x5661423e "e\213\003c\303b\003\304\003\305\003\017\262\003\017\264\003\017\265\003\017\002\300\017\003\300\017", address=222, flags=0, state=0x56614070) at src/disassembler.c:113

@@ -425,6 +425,24 @@
       },
       "reason": "Original valid compact-input physical-growth/logical-checksum defect, full bytes exact",
       "accepted_prefix": 835
+    },
+    {
+      "case": "dump-disasm-x86-monitor",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen legal386 diagnostic monitor disassembly; code inspected, never executed"
+    },
+    {
+      "case": "dump-disasm-x86-monitor-extra",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen legal386 diagnostic monitor disassembly; code inspected, never executed"
     }
   ]
 }

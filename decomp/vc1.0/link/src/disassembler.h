@@ -8,9 +8,11 @@
 enum DisassemblyPrefix { DIS_PREFIX_REPNZ=213 };
 
 enum DisassemblyRegister {
-    DIS_REG_AL=1, DIS_REG_CX=10, DIS_REG_ECX=18, DIS_REG_AX=9, DIS_REG_EAX=17, DIS_REG_SP=13, DIS_REG_BP=14, DIS_REG_BX=12, DIS_REG_SI=15, DIS_REG_DI=16,
+    DIS_REG_AL=1, DIS_REG_CL=2, DIS_REG_DL=3, DIS_REG_BL=4,
+    DIS_REG_AH=5, DIS_REG_CH=6, DIS_REG_DH=7, DIS_REG_BH=8,
+    DIS_REG_CX=10, DIS_REG_ECX=18, DIS_REG_EDX=19, DIS_REG_DX=11, DIS_REG_AX=9, DIS_REG_EAX=17, DIS_REG_SP=13, DIS_REG_BP=14, DIS_REG_BX=12, DIS_REG_SI=15, DIS_REG_DI=16,
     DIS_REG_ESP=21, DIS_REG_EBP=22, DIS_REG_EBX=20, DIS_REG_ESI=23, DIS_REG_EDI=24,
-    DIS_REG_ES=25, DIS_REG_CS=26, DIS_REG_SS=27, DIS_REG_DS=28, DIS_REG_FS=29
+    DIS_REG_ES=25, DIS_REG_CS=26, DIS_REG_SS=27, DIS_REG_DS=28, DIS_REG_FS=29, DIS_REG_GS=30
 };
 
 /* Decoder scratch address and formatted operands use distinct layouts. */
@@ -121,6 +123,7 @@ unsigned char *decode_op_4c830(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4c910(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4c940(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4c970(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_descriptor_memory(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_memory_operand(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4ca60(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_x87_d8(unsigned char *,int,DisassembledInstruction *);

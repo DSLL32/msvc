@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x23590: file src/disassembler-stubs.c, line 9.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, decode_op_4bac0 (data=0x5661630d ".\312\004", operand=1448967792, state=0x56616070) at src/disassembler-stubs.c:9
+9	unsigned char *decode_op_4bac0(unsigned char *data,int operand,DisassembledInstruction *state) { __asm { int 3 } }
+NATIVE_MATCH decode_op_4bac0
+0xffffcf9c:	0x56573395	0x5661630d	0x00000001	0x56616070
+0xffffcfac:	0xf7f9f760	0x565d7ff4
+#0  decode_op_4bac0 (data=0x5661630d ".\312\004", operand=1448967792, state=0x56616070) at src/disassembler-stubs.c:9
+#1  0x56573395 in apply_opcode (data=0x5661630d ".\312\004", opcode=0x565d7e70 <disassembly_indirect_group+100>, state=0x56616070) at src/disassembler.c:151
+#2  0x565776e9 in decode_op_4b7c0 (data=0x5661630d ".\312\004", operand=1, state=0x56616070) at src/disassembler.c:1716
+#3  0x56573395 in apply_opcode (data=0x5661630d ".\312\004", opcode=0x565d6bd8 <opcode_table+5100>, state=0x56616070) at src/disassembler.c:151
+#4  0x565732e3 in decode_opcode (data=0x5661630c "\377.\312\004", state=0x56616070) at src/disassembler.c:138

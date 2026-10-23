@@ -62,6 +62,39 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
 end
 """ % str(state_path)
         script.write_text(script.read_text().replace('quit\n',commands+'quit\n'))
+    if (args.function.startswith('decode_op_') or args.function=='decode_descriptor_memory'):
+        decoder_path=output/'native-decoder-state.json'
+        commands="""python
+import gdb,json,struct
+esp=int(gdb.parse_and_eval('$esp'))
+read=lambda address,size: bytes(gdb.selected_inferior().read_memory(address,size))
+stack=struct.unpack('<4I',read(esp,16))
+words=list(struct.unpack('<56I',read(stack[3],224)))
+base=words[19]
+words[18]=(words[18]-base)&0xffffffff if words[18] else 0xffffffff
+words[19]=int(bool(base))
+state=dict(event='decoder_state',words=words,operand=stack[2],cursor=(stack[1]-base)&0xffffffff)
+open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
+end
+""" % str(decoder_path)
+        script.write_text(script.read_text().replace('quit\n',commands+'quit\n'))
+    if args.function=='recon_longjmp':
+        jump_path=output/'native-longjmp-state.json'
+        commands="""python
+import gdb,json,struct
+esp=int(gdb.parse_and_eval('$esp'))
+args=struct.unpack('<3I',bytes(gdb.selected_inferior().read_memory(esp,12)))
+legacy=int(gdb.parse_and_eval('&disassembler_jump'))
+context=gdb.parse_and_eval('jump_contexts')
+found=[]
+while int(context):
+    if int(context['legacy'])==legacy:found.append(int(context['opaque_setjmp3']))
+    context=context['next']
+state=dict(buffer_is_disassembler=args[1]==legacy,value=args[2],registered_contexts=found)
+open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
+end
+""" % str(jump_path)
+        script.write_text(script.read_text().replace('quit\n',commands+'quit\n'))
     caller_record=None
     assert not args.earlier_caller or args.caller, 'Earlier caller requires a candidate caller'
     if args.caller:
@@ -122,6 +155,24 @@ end
         caller_proof=module.validate(context,args.address,caller_record,PE(ROOT/'toolchains/1.0-nt/bin/LINK.EXE'),actual_caller)
         caller_proof['reviewed_earlier_callers']=args.earlier_caller
         caller_proof['observed_earlier_callers']=re.findall(r'^NATIVE_REVIEWED_EARLIER (\w+)$',native_result.stdout.decode(),re.M)
+    decoder_state=None
+    if (args.function.startswith('decode_op_') or args.function=='decode_descriptor_memory'):
+        states=[event for event in events if event['event']=='decoder_state']
+        from decoder_state import compare as compare_decoder_state
+        decoder_state=json.loads(decoder_path.read_text())
+        compare_decoder_state(states,decoder_state)
+    longjmp_state=None
+    if args.function=='recon_longjmp':
+        states=[event for event in events if event['event']=='longjmp_boundary']
+        assert len(states)==1, 'Missing/nonunique original longjmp observation'
+        actual=json.loads(jump_path.read_text());expected=states[0]
+        assert expected['buffer_is_disassembler']==actual['buffer_is_disassembler']==True
+        assert expected['value']==actual['value']==1
+        assert expected['registration_is_current']==True, 'Global unwind must be bypassed'
+        assert actual['registered_contexts']==[0], 'Native context must be plain eight-word setjmp'
+        assert expected['saved_scope']==expected['registration_scope']==0, 'Original local-unwind loop must already be at its saved scope'
+        assert 0x4ae20<=expected['saved_eip']<0x4b192, 'Original continuation must belong to disassemble_section'
+        longjmp_state=dict(original=expected,native=actual,status='pass')
     typed_state=None
     if args.function=='emit_rom_relocations':
         original_state=next(event for event in events if event['event']=='rom_fixups')
@@ -131,7 +182,7 @@ end
                          original=original_state,native=native_state,
                          unconsumed='Record+4 has no proved reader/writer semantics; never compared or serialized. Type padding+2 likewise not a live field.')
         (output/'rom-fixups-comparison.json').write_text(json.dumps(typed_state,indent=2)+'\n')
-    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,caller_edge=caller_proof)
+    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(output/'receipt.json')
 if __name__=='__main__':main()

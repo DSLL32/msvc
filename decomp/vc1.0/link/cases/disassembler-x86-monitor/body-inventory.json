@@ -1,0 +1,1256 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "disassembler",
+  "alignment_bytes": 291,
+  "extent_gap_ranges": [
+    [
+      307471,
+      307472
+    ],
+    [
+      307823,
+      307824
+    ],
+    [
+      307887,
+      307888
+    ],
+    [
+      308366,
+      308368
+    ],
+    [
+      308414,
+      308416
+    ],
+    [
+      308461,
+      308464
+    ],
+    [
+      309818,
+      309824
+    ],
+    [
+      310074,
+      310080
+    ],
+    [
+      310138,
+      310144
+    ],
+    [
+      310202,
+      310208
+    ],
+    [
+      310266,
+      310272
+    ],
+    [
+      310330,
+      310336
+    ],
+    [
+      310394,
+      310400
+    ],
+    [
+      310458,
+      310464
+    ],
+    [
+      310522,
+      310528
+    ],
+    [
+      311118,
+      311120
+    ],
+    [
+      311230,
+      311232
+    ],
+    [
+      311355,
+      311360
+    ],
+    [
+      311579,
+      311584
+    ],
+    [
+      311772,
+      311776
+    ],
+    [
+      312122,
+      312128
+    ],
+    [
+      312607,
+      312608
+    ],
+    [
+      312719,
+      312720
+    ],
+    [
+      312781,
+      312784
+    ],
+    [
+      312860,
+      312864
+    ],
+    [
+      313213,
+      313216
+    ],
+    [
+      313327,
+      313328
+    ],
+    [
+      313437,
+      313440
+    ],
+    [
+      313551,
+      313552
+    ],
+    [
+      314143,
+      314144
+    ],
+    [
+      314187,
+      314192
+    ],
+    [
+      314235,
+      314240
+    ],
+    [
+      314286,
+      314288
+    ],
+    [
+      314331,
+      314336
+    ],
+    [
+      314379,
+      314384
+    ],
+    [
+      314427,
+      314432
+    ],
+    [
+      314601,
+      314608
+    ],
+    [
+      314671,
+      314672
+    ],
+    [
+      314686,
+      314688
+    ],
+    [
+      314697,
+      314704
+    ],
+    [
+      314734,
+      314736
+    ],
+    [
+      314748,
+      314752
+    ],
+    [
+      314764,
+      314768
+    ],
+    [
+      314780,
+      314784
+    ],
+    [
+      314972,
+      314976
+    ],
+    [
+      315097,
+      315104
+    ],
+    [
+      315247,
+      315248
+    ],
+    [
+      315291,
+      315296
+    ],
+    [
+      315339,
+      315344
+    ],
+    [
+      315390,
+      315392
+    ],
+    [
+      315435,
+      315440
+    ],
+    [
+      315483,
+      315488
+    ],
+    [
+      315531,
+      315536
+    ],
+    [
+      315677,
+      315680
+    ],
+    [
+      315726,
+      315728
+    ],
+    [
+      315739,
+      315744
+    ],
+    [
+      315755,
+      315760
+    ],
+    [
+      315771,
+      315776
+    ],
+    [
+      315787,
+      315792
+    ],
+    [
+      315933,
+      315936
+    ],
+    [
+      315981,
+      315984
+    ],
+    [
+      315993,
+      316000
+    ],
+    [
+      316045,
+      316048
+    ],
+    [
+      316057,
+      316064
+    ],
+    [
+      316073,
+      316080
+    ],
+    [
+      316089,
+      316096
+    ],
+    [
+      317371,
+      317376
+    ],
+    [
+      319887,
+      319888
+    ],
+    [
+      320042,
+      320048
+    ],
+    [
+      320894,
+      320896
+    ],
+    [
+      320969,
+      320976
+    ],
+    [
+      321023,
+      321024
+    ],
+    [
+      322396,
+      322400
+    ]
+  ],
+  "extent_gap_instructions": [
+    [
+      "add",
+      "eax, 0"
+    ],
+    [
+      "lea",
+      "ebx, [ebx]"
+    ],
+    [
+      "lea",
+      "ecx, [ecx]"
+    ],
+    [
+      "lea",
+      "esp, [esp]"
+    ],
+    [
+      "mov",
+      "edi, edi"
+    ],
+    [
+      "nop",
+      ""
+    ]
+  ],
+  "method": "Static original CFG instruction-byte union of all accepted contextual disassembler functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_initialize_disassembler": {
+      "bytes": 19,
+      "start": 306688,
+      "end": 306707,
+      "internal_tables": []
+    },
+    "_disassemble_section": {
+      "bytes": 881,
+      "start": 306720,
+      "end": 307602,
+      "internal_tables": []
+    },
+    "_compare_disassembly_symbols": {
+      "bytes": 39,
+      "start": 307616,
+      "end": 307655,
+      "internal_tables": []
+    },
+    "_create_disassembler": {
+      "bytes": 66,
+      "start": 321776,
+      "end": 321842,
+      "internal_tables": []
+    },
+    "_decode_instruction": {
+      "bytes": 50,
+      "start": 321856,
+      "end": 321906,
+      "internal_tables": []
+    },
+    "_format_instruction": {
+      "bytes": 525,
+      "start": 321920,
+      "end": 322449,
+      "internal_tables": []
+    },
+    "_decode_instruction_body": {
+      "bytes": 93,
+      "start": 319712,
+      "end": 319805,
+      "internal_tables": []
+    },
+    "_decode_opcode": {
+      "bytes": 35,
+      "start": 308672,
+      "end": 308707,
+      "internal_tables": []
+    },
+    "_apply_opcode": {
+      "bytes": 109,
+      "start": 308560,
+      "end": 308669,
+      "internal_tables": []
+    },
+    "_decode_extended_opcode": {
+      "bytes": 85,
+      "start": 308720,
+      "end": 308805,
+      "internal_tables": []
+    },
+    "_decode_op_4b670": {
+      "bytes": 42,
+      "start": 308848,
+      "end": 308890,
+      "internal_tables": []
+    },
+    "_decode_signed_byte_group": {
+      "bytes": 42,
+      "start": 308896,
+      "end": 308938,
+      "internal_tables": []
+    },
+    "_decode_op_4b6d0": {
+      "bytes": 42,
+      "start": 308944,
+      "end": 308986,
+      "internal_tables": []
+    },
+    "_decode_shift_group": {
+      "bytes": 42,
+      "start": 308992,
+      "end": 309034,
+      "internal_tables": []
+    },
+    "_decode_op_4b730": {
+      "bytes": 42,
+      "start": 309040,
+      "end": 309082,
+      "internal_tables": []
+    },
+    "_decode_op_4b760": {
+      "bytes": 42,
+      "start": 309088,
+      "end": 309130,
+      "internal_tables": []
+    },
+    "_decode_op_4b790": {
+      "bytes": 42,
+      "start": 309136,
+      "end": 309178,
+      "internal_tables": []
+    },
+    "_decode_op_4b7c0": {
+      "bytes": 42,
+      "start": 309184,
+      "end": 309226,
+      "internal_tables": []
+    },
+    "_decode_operand_size_prefix": {
+      "bytes": 30,
+      "start": 309376,
+      "end": 309406,
+      "internal_tables": []
+    },
+    "_decode_address_size_prefix": {
+      "bytes": 30,
+      "start": 309408,
+      "end": 309438,
+      "internal_tables": []
+    },
+    "_decode_repe_prefix": {
+      "bytes": 26,
+      "start": 309440,
+      "end": 309466,
+      "internal_tables": []
+    },
+    "_decode_repne_prefix": {
+      "bytes": 26,
+      "start": 309472,
+      "end": 309498,
+      "internal_tables": []
+    },
+    "_update_stack_registers": {
+      "bytes": 42,
+      "start": 309504,
+      "end": 309546,
+      "internal_tables": []
+    },
+    "_update_frame_registers": {
+      "bytes": 42,
+      "start": 309552,
+      "end": 309594,
+      "internal_tables": []
+    },
+    "_decode_op_4b960": {
+      "bytes": 42,
+      "start": 309600,
+      "end": 309642,
+      "internal_tables": []
+    },
+    "_update_counter_registers": {
+      "bytes": 42,
+      "start": 309648,
+      "end": 309690,
+      "internal_tables": []
+    },
+    "_decode_op_4b9c0": {
+      "bytes": 33,
+      "start": 309696,
+      "end": 309729,
+      "internal_tables": []
+    },
+    "_decode_op_4b9f0": {
+      "bytes": 25,
+      "start": 309744,
+      "end": 309769,
+      "internal_tables": []
+    },
+    "_decode_op_4ba10": {
+      "bytes": 50,
+      "start": 309776,
+      "end": 309832,
+      "internal_tables": []
+    },
+    "_update_al_register": {
+      "bytes": 32,
+      "start": 309840,
+      "end": 309872,
+      "internal_tables": []
+    },
+    "_decode_op_4ba70": {
+      "bytes": 32,
+      "start": 309872,
+      "end": 309904,
+      "internal_tables": []
+    },
+    "_decode_op_4ba90": {
+      "bytes": 41,
+      "start": 309904,
+      "end": 309945,
+      "internal_tables": []
+    },
+    "_decode_op_4bac0": {
+      "bytes": 32,
+      "start": 309952,
+      "end": 309984,
+      "internal_tables": []
+    },
+    "_decode_op_4bae0": {
+      "bytes": 43,
+      "start": 309984,
+      "end": 310027,
+      "internal_tables": []
+    },
+    "_decode_op_4bb10": {
+      "bytes": 50,
+      "start": 310032,
+      "end": 310088,
+      "internal_tables": []
+    },
+    "_decode_op_4bb50": {
+      "bytes": 50,
+      "start": 310096,
+      "end": 310152,
+      "internal_tables": []
+    },
+    "_decode_op_4bb90": {
+      "bytes": 50,
+      "start": 310160,
+      "end": 310216,
+      "internal_tables": []
+    },
+    "_decode_op_4bbd0": {
+      "bytes": 50,
+      "start": 310224,
+      "end": 310280,
+      "internal_tables": []
+    },
+    "_decode_op_4bc10": {
+      "bytes": 50,
+      "start": 310288,
+      "end": 310344,
+      "internal_tables": []
+    },
+    "_decode_op_4bc50": {
+      "bytes": 50,
+      "start": 310352,
+      "end": 310408,
+      "internal_tables": []
+    },
+    "_decode_op_4bc90": {
+      "bytes": 50,
+      "start": 310416,
+      "end": 310472,
+      "internal_tables": []
+    },
+    "_decode_op_4bcd0": {
+      "bytes": 50,
+      "start": 310480,
+      "end": 310536,
+      "internal_tables": []
+    },
+    "_decode_op_4bd10": {
+      "bytes": 35,
+      "start": 310544,
+      "end": 310579,
+      "internal_tables": []
+    },
+    "_decode_op_4bd40": {
+      "bytes": 35,
+      "start": 310592,
+      "end": 310627,
+      "internal_tables": []
+    },
+    "_decode_op_4bd70": {
+      "bytes": 35,
+      "start": 310640,
+      "end": 310675,
+      "internal_tables": []
+    },
+    "_decode_ds_prefix": {
+      "bytes": 35,
+      "start": 310688,
+      "end": 310723,
+      "internal_tables": []
+    },
+    "_decode_fs_prefix": {
+      "bytes": 35,
+      "start": 310736,
+      "end": 310771,
+      "internal_tables": []
+    },
+    "_decode_op_4be00": {
+      "bytes": 35,
+      "start": 310784,
+      "end": 310819,
+      "internal_tables": []
+    },
+    "_decode_string_byte_destination": {
+      "bytes": 92,
+      "start": 310832,
+      "end": 310924,
+      "internal_tables": []
+    },
+    "_decode_op_4be90": {
+      "bytes": 105,
+      "start": 310928,
+      "end": 311033,
+      "internal_tables": []
+    },
+    "_decode_string_byte_source": {
+      "bytes": 98,
+      "start": 311040,
+      "end": 311140,
+      "internal_tables": []
+    },
+    "_decode_op_4bf70": {
+      "bytes": 98,
+      "start": 311152,
+      "end": 311252,
+      "internal_tables": []
+    },
+    "_decode_op_4bfe0": {
+      "bytes": 111,
+      "start": 311264,
+      "end": 311380,
+      "internal_tables": []
+    },
+    "_decode_op_4c060": {
+      "bytes": 30,
+      "start": 311392,
+      "end": 311422,
+      "internal_tables": []
+    },
+    "_decode_byte_immediate": {
+      "bytes": 44,
+      "start": 311424,
+      "end": 311468,
+      "internal_tables": []
+    },
+    "_decode_op_4c0b0": {
+      "bytes": 48,
+      "start": 311472,
+      "end": 311520,
+      "internal_tables": []
+    },
+    "_decode_immediate": {
+      "bytes": 82,
+      "start": 311520,
+      "end": 311607,
+      "internal_tables": []
+    },
+    "_decode_op_4c140": {
+      "bytes": 43,
+      "start": 311616,
+      "end": 311659,
+      "internal_tables": []
+    },
+    "_decode_op_4c170": {
+      "bytes": 43,
+      "start": 311664,
+      "end": 311707,
+      "internal_tables": []
+    },
+    "_decode_op_4c1a0": {
+      "bytes": 160,
+      "start": 311712,
+      "end": 311876,
+      "internal_tables": []
+    },
+    "_decode_short_relative": {
+      "bytes": 170,
+      "start": 311888,
+      "end": 312058,
+      "internal_tables": []
+    },
+    "_decode_near_relative": {
+      "bytes": 198,
+      "start": 312064,
+      "end": 312268,
+      "internal_tables": []
+    },
+    "_decode_op_4c3d0": {
+      "bytes": 106,
+      "start": 312272,
+      "end": 312378,
+      "internal_tables": []
+    },
+    "_decode_absolute_memory": {
+      "bytes": 119,
+      "start": 312384,
+      "end": 312503,
+      "internal_tables": []
+    },
+    "_decode_op_4c4c0": {
+      "bytes": 107,
+      "start": 312512,
+      "end": 312620,
+      "internal_tables": []
+    },
+    "_decode_modrm_operand_effects": {
+      "bytes": 70,
+      "start": 312960,
+      "end": 313030,
+      "internal_tables": []
+    },
+    "_decode_modrm_byte_operand": {
+      "bytes": 214,
+      "start": 313168,
+      "end": 313386,
+      "internal_tables": []
+    },
+    "_decode_op_4c830": {
+      "bytes": 214,
+      "start": 313392,
+      "end": 313610,
+      "internal_tables": []
+    },
+    "_decode_op_4c910": {
+      "bytes": 36,
+      "start": 313616,
+      "end": 313652,
+      "internal_tables": []
+    },
+    "_decode_op_4c940": {
+      "bytes": 36,
+      "start": 313664,
+      "end": 313700,
+      "internal_tables": []
+    },
+    "_decode_op_4c970": {
+      "bytes": 74,
+      "start": 313712,
+      "end": 313786,
+      "internal_tables": []
+    },
+    "_decode_memory_operand": {
+      "bytes": 66,
+      "start": 313872,
+      "end": 313938,
+      "internal_tables": []
+    },
+    "_decode_op_4ca60": {
+      "bytes": 94,
+      "start": 313952,
+      "end": 314046,
+      "internal_tables": []
+    },
+    "_decode_x87_d8": {
+      "bytes": 399,
+      "start": 314048,
+      "end": 314475,
+      "internal_tables": [
+        {
+          "address": 314476,
+          "targets": [
+            314144,
+            314192,
+            314240,
+            314263,
+            314288,
+            314336,
+            314384,
+            314432
+          ]
+        }
+      ]
+    },
+    "_decode_x87_d9": {
+      "bytes": 280,
+      "start": 314512,
+      "end": 314823,
+      "internal_tables": [
+        {
+          "address": 314824,
+          "targets": [
+            314608,
+            314641,
+            314672,
+            314704,
+            314736,
+            314752,
+            314768,
+            314784
+          ]
+        }
+      ]
+    },
+    "_decode_op_4cdf0": {
+      "bytes": 139,
+      "start": 314864,
+      "end": 315007,
+      "internal_tables": []
+    },
+    "_decode_x87_db": {
+      "bytes": 126,
+      "start": 315008,
+      "end": 315141,
+      "internal_tables": []
+    },
+    "_decode_x87_dc": {
+      "bytes": 399,
+      "start": 315152,
+      "end": 315579,
+      "internal_tables": [
+        {
+          "address": 315580,
+          "targets": [
+            315248,
+            315296,
+            315344,
+            315367,
+            315392,
+            315440,
+            315488,
+            315536
+          ]
+        }
+      ]
+    },
+    "_decode_x87_dd": {
+      "bytes": 206,
+      "start": 315616,
+      "end": 315847,
+      "internal_tables": [
+        {
+          "address": 315848,
+          "targets": [
+            315715,
+            315728,
+            315744,
+            315760,
+            315776,
+            315792
+          ]
+        }
+      ]
+    },
+    "_decode_x87_de": {
+      "bytes": 255,
+      "start": 315872,
+      "end": 316164,
+      "internal_tables": [
+        {
+          "address": 316164,
+          "targets": [
+            315972,
+            315984,
+            316000,
+            316022,
+            316048,
+            316064,
+            316080,
+            316096
+          ]
+        }
+      ]
+    },
+    "_decode_x87_df": {
+      "bytes": 319,
+      "start": 316208,
+      "end": 316527,
+      "internal_tables": []
+    },
+    "_decode_op_4d5e0": {
+      "bytes": 91,
+      "start": 316896,
+      "end": 316987,
+      "internal_tables": []
+    },
+    "_decode_op_4d640": {
+      "bytes": 71,
+      "start": 316992,
+      "end": 317063,
+      "internal_tables": []
+    },
+    "_decode_op_4d690": {
+      "bytes": 96,
+      "start": 317072,
+      "end": 317168,
+      "internal_tables": []
+    },
+    "_decode_modrm_byte_register": {
+      "bytes": 91,
+      "start": 317168,
+      "end": 317259,
+      "internal_tables": []
+    },
+    "_decode_modrm_register": {
+      "bytes": 116,
+      "start": 317264,
+      "end": 317385,
+      "internal_tables": []
+    },
+    "_decode_op_4d8a0": {
+      "bytes": 42,
+      "start": 317600,
+      "end": 317642,
+      "internal_tables": []
+    },
+    "_decode_op_4d900": {
+      "bytes": 42,
+      "start": 317696,
+      "end": 317738,
+      "internal_tables": []
+    },
+    "_decode_op_4d990": {
+      "bytes": 52,
+      "start": 317840,
+      "end": 317892,
+      "internal_tables": []
+    },
+    "_decode_op_4da30": {
+      "bytes": 60,
+      "start": 318000,
+      "end": 318060,
+      "internal_tables": []
+    },
+    "_decode_op_4da70": {
+      "bytes": 60,
+      "start": 318064,
+      "end": 318124,
+      "internal_tables": []
+    },
+    "_decode_op_4dab0": {
+      "bytes": 60,
+      "start": 318128,
+      "end": 318188,
+      "internal_tables": []
+    },
+    "_decode_op_4daf0": {
+      "bytes": 60,
+      "start": 318192,
+      "end": 318252,
+      "internal_tables": []
+    },
+    "_decode_op_4dbb0": {
+      "bytes": 60,
+      "start": 318384,
+      "end": 318444,
+      "internal_tables": []
+    },
+    "_decode_op_4dbf0": {
+      "bytes": 60,
+      "start": 318448,
+      "end": 318508,
+      "internal_tables": []
+    },
+    "_decode_op_4dc30": {
+      "bytes": 60,
+      "start": 318512,
+      "end": 318572,
+      "internal_tables": []
+    },
+    "_decode_op_4dc70": {
+      "bytes": 60,
+      "start": 318576,
+      "end": 318636,
+      "internal_tables": []
+    },
+    "_decode_op_4dcb0": {
+      "bytes": 60,
+      "start": 318640,
+      "end": 318700,
+      "internal_tables": []
+    },
+    "_decode_op_4dcf0": {
+      "bytes": 60,
+      "start": 318704,
+      "end": 318764,
+      "internal_tables": []
+    },
+    "_decode_op_4dd30": {
+      "bytes": 60,
+      "start": 318768,
+      "end": 318828,
+      "internal_tables": []
+    },
+    "_decode_op_4dd70": {
+      "bytes": 60,
+      "start": 318832,
+      "end": 318892,
+      "internal_tables": []
+    },
+    "_decode_eax_register": {
+      "bytes": 77,
+      "start": 318896,
+      "end": 318973,
+      "internal_tables": []
+    },
+    "_decode_op_4de00": {
+      "bytes": 57,
+      "start": 318976,
+      "end": 319033,
+      "internal_tables": []
+    },
+    "_decode_eax_destination": {
+      "bytes": 57,
+      "start": 319040,
+      "end": 319097,
+      "internal_tables": []
+    },
+    "_decode_ebx_register": {
+      "bytes": 77,
+      "start": 319104,
+      "end": 319181,
+      "internal_tables": []
+    },
+    "_decode_ecx_register": {
+      "bytes": 77,
+      "start": 319184,
+      "end": 319261,
+      "internal_tables": []
+    },
+    "_decode_op_4df20": {
+      "bytes": 43,
+      "start": 319264,
+      "end": 319307,
+      "internal_tables": []
+    },
+    "_decode_op_4df50": {
+      "bytes": 77,
+      "start": 319312,
+      "end": 319389,
+      "internal_tables": []
+    },
+    "_decode_op_4dfa0": {
+      "bytes": 77,
+      "start": 319392,
+      "end": 319469,
+      "internal_tables": []
+    },
+    "_decode_ebp_register": {
+      "bytes": 77,
+      "start": 319472,
+      "end": 319549,
+      "internal_tables": []
+    },
+    "_decode_esi_register": {
+      "bytes": 77,
+      "start": 319552,
+      "end": 319629,
+      "internal_tables": []
+    },
+    "_decode_edi_register": {
+      "bytes": 77,
+      "start": 319632,
+      "end": 319709,
+      "internal_tables": []
+    },
+    "_format_instruction_address": {
+      "bytes": 36,
+      "start": 322464,
+      "end": 322500,
+      "internal_tables": []
+    },
+    "_format_instruction_bytes": {
+      "bytes": 115,
+      "start": 321648,
+      "end": 321763,
+      "internal_tables": []
+    },
+    "_format_instruction_text": {
+      "bytes": 457,
+      "start": 321184,
+      "end": 321641,
+      "internal_tables": []
+    },
+    "_select_disassembly_mnemonic": {
+      "bytes": 101,
+      "start": 321072,
+      "end": 321173,
+      "internal_tables": []
+    },
+    "_format_disassembly_operand": {
+      "bytes": 1239,
+      "start": 319808,
+      "end": 321064,
+      "internal_tables": []
+    },
+    "_decode_modrm_operand": {
+      "bytes": 208,
+      "start": 312736,
+      "end": 312951,
+      "internal_tables": []
+    },
+    "_decode_address16": {
+      "bytes": 307,
+      "start": 307664,
+      "end": 307973,
+      "internal_tables": []
+    },
+    "_decode_address32": {
+      "bytes": 303,
+      "start": 308240,
+      "end": 308550,
+      "internal_tables": []
+    },
+    "_decode_sib_address": {
+      "bytes": 251,
+      "start": 307984,
+      "end": 308235,
+      "internal_tables": []
+    },
+    "_decode_op_4b7f0": {
+      "bytes": 42,
+      "start": 309232,
+      "end": 309274,
+      "internal_tables": []
+    },
+    "_decode_op_4b820": {
+      "bytes": 42,
+      "start": 309280,
+      "end": 309322,
+      "internal_tables": []
+    },
+    "_decode_op_4b850": {
+      "bytes": 42,
+      "start": 309328,
+      "end": 309370,
+      "internal_tables": []
+    },
+    "_decode_op_4c530": {
+      "bytes": 107,
+      "start": 312624,
+      "end": 312732,
+      "internal_tables": []
+    },
+    "_decode_op_4c6d0": {
+      "bytes": 59,
+      "start": 313040,
+      "end": 313099,
+      "internal_tables": []
+    },
+    "_decode_op_4d520": {
+      "bytes": 61,
+      "start": 316704,
+      "end": 316765,
+      "internal_tables": []
+    },
+    "_decode_op_4d560": {
+      "bytes": 61,
+      "start": 316768,
+      "end": 316829,
+      "internal_tables": []
+    },
+    "_decode_op_4d5a0": {
+      "bytes": 61,
+      "start": 316832,
+      "end": 316893,
+      "internal_tables": []
+    },
+    "_decode_register_and_byte_immediate": {
+      "bytes": 59,
+      "start": 317392,
+      "end": 317451,
+      "internal_tables": []
+    },
+    "_decode_op_4d810": {
+      "bytes": 58,
+      "start": 317456,
+      "end": 317514,
+      "internal_tables": []
+    },
+    "_decode_op_4d8d0": {
+      "bytes": 42,
+      "start": 317648,
+      "end": 317690,
+      "internal_tables": []
+    },
+    "_decode_op_4d930": {
+      "bytes": 42,
+      "start": 317744,
+      "end": 317786,
+      "internal_tables": []
+    },
+    "_decode_op_4d960": {
+      "bytes": 42,
+      "start": 317792,
+      "end": 317834,
+      "internal_tables": []
+    },
+    "_decode_op_4db30": {
+      "bytes": 60,
+      "start": 318256,
+      "end": 318316,
+      "internal_tables": []
+    },
+    "_decode_op_4db70": {
+      "bytes": 60,
+      "start": 318320,
+      "end": 318380,
+      "internal_tables": []
+    },
+    "_decode_x87_memory": {
+      "bytes": 109,
+      "start": 316528,
+      "end": 316637,
+      "internal_tables": []
+    },
+    "_decode_op_4d4e0": {
+      "bytes": 16,
+      "start": 316640,
+      "end": 316656,
+      "internal_tables": []
+    },
+    "_size_x87_qword": {
+      "bytes": 16,
+      "start": 316672,
+      "end": 316688,
+      "internal_tables": []
+    },
+    "_size_x87_dword": {
+      "bytes": 16,
+      "start": 316656,
+      "end": 316672,
+      "internal_tables": []
+    },
+    "_decode_op_4d510": {
+      "bytes": 16,
+      "start": 316688,
+      "end": 316704,
+      "internal_tables": []
+    },
+    "_decode_descriptor_memory": {
+      "bytes": 74,
+      "start": 313792,
+      "end": 313866,
+      "internal_tables": []
+    }
+  },
+  "function_count": 142,
+  "instruction_bytes": 14193,
+  "accepted_extent_union_bytes": 14636,
+  "internal_data_bytes": 152,
+  "extent_outside_cfg_and_data": 291,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 3707,
+  "additional_proven_instruction_bytes_outside_old_inventory": 10486
+}

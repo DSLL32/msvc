@@ -1,0 +1,43 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "case": "dump-disasm-x86-monitor-extra",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "d9345fafd12445de073f0b9d353f61fc85b7b89f1717fd7eefaf4f7a85d12fcc",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 915,
+  "accepted_sha256": "8c457da907190e80b8670bad2f9c80c92fb53a958019a16ac9346a7befbb42d2",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\dump-disasm-x86-monitor-extra",
+    "TEMP": "S:\\vc1.0\\link\\dump-disasm-x86-monitor-extra"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-dump /disasm companion.obj",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\events.jsonl",
+    "S:\\vc1.0\\link\\dump-disasm-x86-monitor-extra",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\dump-disasm-x86-monitor-extra\\masked-sei54qsv\\after.dll",
+    "-"
+  ],
+  "seconds": 1.8449775064364076
+}
