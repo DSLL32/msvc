@@ -90,7 +90,8 @@
     "_open_argument_file@12",
     "_acquire_file_record@16",
     "_find_cached_file@4",
-    "_get_available_file_record"
+    "_get_available_file_record",
+    "_move_file_record@24"
   ],
   "driver": [
     {
@@ -2639,10 +2640,9 @@
     {
       "name": "_move_file_record@24",
       "start": 4245472,
-      "end": 4245473,
+      "end": 4245624,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "move_file_record",
       "abi": "stdcall void(FileRecord *record,FileRecord **source_first,FileRecord **source_last,FileRecord **destination_first,FileRecord **destination_last,BYTE append); six stack inputs,RET24; low-byte sixthformal, no hidden inputs; actual nullable pointer roles observed when reached"
     },

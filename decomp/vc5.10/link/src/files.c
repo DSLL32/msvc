@@ -123,7 +123,41 @@ FileRecord *__stdcall find_cached_file(const char *name)
 }
 void __stdcall move_file_record(FileRecord *record,FileRecord **source_first,
     FileRecord **source_last,FileRecord **destination_first,
-    FileRecord **destination_last,unsigned char append) { __asm { int 3 } }
+    FileRecord **destination_last,unsigned char append)
+{
+    FileRecord *previous=*source_first,*current;
+    if (record==previous) {
+        *source_first=record->previous;
+        if (source_last && *source_last==record) *source_last=NULL;
+    } else {
+        current=previous->previous;
+        while (current) {
+            if (current==record) {
+                previous->previous=current->previous;
+                break;
+            }
+            previous=current;
+            current=current->previous;
+        }
+        if (source_last && *source_last==record) *source_last=previous;
+    }
+    if (!*destination_first) {
+        *destination_first=record;
+        record->previous=NULL;
+        if (destination_last) {
+            *destination_last=record;
+            return;
+        }
+    } else if (append) {
+        record->previous=NULL;
+        (*destination_last)->previous=record;
+        *destination_last=record;
+        return;
+    } else {
+        record->previous=*destination_first;
+        *destination_first=record;
+    }
+}
 int __stdcall close_buffered_file(FileRecord *record);
 BOOL __stdcall close_mapped_file(FileRecord *record);
 

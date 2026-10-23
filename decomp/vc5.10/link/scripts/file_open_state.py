@@ -26,6 +26,7 @@ def slot_symbols(path,expected_sha256):
 
 
 def compare(original,state,trap,events,native_directory=None):
+    if state['function']=='open_mapped_file':return # Full completed mutation contract is in file_move_state.
     entry,=[e for e in events if e['event']=='open_file_entry'];native=state['open_file_entry']
     expected=[trap['output_name_pointer'],0x8302,0x180]
     nexpected=[state['output_name_pointer'],0x8302,0x180]

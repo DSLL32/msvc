@@ -1,0 +1,89 @@
+{
+  "current_native": "/root/.ai-tmp/msvc2/vc5.10/link/native-vy_f3iv3",
+  "previous_native": "/root/.ai-tmp/msvc2/vc5.10/link/native-6765ljke",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-c6fxvsof",
+  "fresh_positive_seconds": 0.152508195489645,
+  "fresh_negative_count": 0,
+  "reused_negative_count": 268,
+  "control_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/link/move-boundary-controls.json",
+    "sha256": "dafe46760f4e393dbd840bdec17bf4a94e894e6e0259f39b72f7d7e4ded463b5"
+  },
+  "unchanged_predicates": [
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/boundary_state.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/boundary_state.py",
+      "sha256": "bf67aebd18f3ce95c20fde325b600f9f58f99814ff241fd9dad3c6f2778c4462"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/hello_boundary.py",
+      "sha256": "4a0d3ecfb874ebe41520fbfdbffa0a0337dd03e196986b72e4b7fc7a0fb4d757"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/context_heap.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/context_heap.py",
+      "sha256": "36a07d6ae5f7855781393bb213d129afae4e80d2e1132deb1ca2e69d045f08e3"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/section_state.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/section_state.py",
+      "sha256": "d33900bbd7880728417fd2567ee7832e4263174f26febd3667f32edddc1c630a"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/group_state.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/group_state.py",
+      "sha256": "bf7e26c428e09994b86094a42d2cc6e8f23a9c3ff59e811aa7550db09b168890"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/collision_state.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/collision_state.py",
+      "sha256": "2fc82db8fc9b680dccf387c6c724971edf730a7687efa17f20c1d00f2e8cec19"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/file_open_state.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/file_open_state.py",
+      "sha256": "f8e8aac8bd745caac1361fbd46d9d3fb6b76faae80b8ba2b245a56e5b80efc97"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/file_move_state.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/file_move_state.py",
+      "sha256": "7a0a69c30ea16785456fbd58632d1e755d8f28f21a6f8b0d0fbdcabc561a7ce2"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/mapped_input_contract.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/mapped_input_contract.py",
+      "sha256": "681d5f6d02c86a80a1ed7e1e80c624f97d2317d052d7724708680c39ca2167e1"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/check-boundary.py",
+      "sha256": "fd17c136b7db457f12c48887b167025f07d3ba89039d9148b226732b4b344be5"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/binary.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/binary.py",
+      "sha256": "388d0dd4cb64a10ef01c79331569edb81466775ef62707b9d0fce7d352cd8e40"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/member_pointers.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/member_pointers.py",
+      "sha256": "bbd773c89dc73685884ea25df72472315ade3b4804bdc59adfdda5252e3cfab9"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/scripts/environment_profile.py",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/scripts/environment_profile.py",
+      "sha256": "a345759943d506edaeaf20190663936039efaf401e0dcf1068f877a121fa53c1"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/mapped-open-byte-input.json",
+      "frozen_path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/cases/hello-win32/mapped-open-byte-input.json",
+      "sha256": "7bf7a7992c4a7b21e726e3ce081751c3e7826246ad54b7178d18ccf41b40e796"
+    }
+  ],
+  "premises": "Exact accepted candidate config/project source, original mask/input/CWD/provider; same typed model and controls. Shared FILE-retention and UTF16 declaration only; actual new native state positively compared without source or oracle edits.",
+  "prior_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/link/file-move-review/orchestrator-review.json",
+    "sha256": "ee9dc03f77112219425a94147416a4c696bae5c598be5c5b06c856e29b3e9087"
+  }
+}
