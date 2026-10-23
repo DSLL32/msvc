@@ -30,7 +30,7 @@ static RgState guard_state;
 static ReturnBreak owner_return_break, reader_return_break;
 static DWORD owned_process_id, event_count;
 static DWORD initial_entry_address;
-static int final_exit_seen;
+static int final_exit_seen, cf_file_observer_rearmed;
 static HANDLE child;
 static FILE *events;
 static int bytes_at(const char *, DWORD, DWORD);
@@ -231,6 +231,10 @@ static int observe_inputs(const char *name, const CONTEXT *context)
 {
     DWORD values[7], i, pointer;
     if (!strcmp(name, "observe_CreateFileA")) {
+        if (!memory(context->Esp, &pointer, 4)) return 0;
+        fprintf(events, "actual-CreateFileA-phase=%s caller=%08lx\n",
+                !cf_relocation_count ? "first-pe-open" :
+                (cf_file_observer_rearmed ? "first-postlaunch-open" : "loader-open"), pointer);
         if (!memory(context->Esp + 4, values, sizeof(values))) return 0;
         fprintf(events, "actual-CreateFileA-arguments");
         for (i = 0; i < 7; ++i) fprintf(events, " %08lx", values[i]);
@@ -296,6 +300,28 @@ static int install_cf(const CONTEXT *context)
         if (!sites[i].guarded || sites[i].rva >= cf_limit ||
             !install_site(i, base + sites[i].rva)) return 0;
     }
+    return 1;
+}
+
+/* Reuse the same public API observation once after the actual validated CF
+   transfer setup. The first post-launch open is not assumed to be a resource
+   open: its observed arguments and caller must establish that separately. */
+static int rearm_cf_file_observer(void)
+{
+    unsigned i, found = 0, index = 0;
+    BYTE actual;
+    for (i = 0; i < site_count; ++i)
+        if (!strcmp(sites[i].name, "observe_CreateFileA")) { ++found; index = i; }
+    if (!found) return 1;
+    if (found != 1 || cf_file_observer_rearmed || !cf_relocation_count ||
+        !loaded_cf_base || sites[index].cf || !sites[index].guarded ||
+        !sites[index].hit || !sites[index].address ||
+        !memory(sites[index].address, &actual, 1) || actual != sites[index].saved ||
+        !patch(sites[index].address, 0xcc)) return 0;
+    sites[index].hit = 0;
+    cf_file_observer_rearmed = 1;
+    fprintf(events, "actual-CreateFileA-observer-rearmed-after-validated-CF site=%08lx count=1\n",
+            sites[index].address);
     return 1;
 }
 
@@ -685,7 +711,8 @@ int main(int argc, char **argv)
                 }
                 if (!observe_inputs(sites[i].name, &context)) return fail_owned(148);
                 resource_state(sites[i].name, &context);
-                if (!strcmp(sites[i].name, "cf_launch") && !install_cf(&context)) return fail_owned(134);
+                if (!strcmp(sites[i].name, "cf_launch") &&
+                    (!install_cf(&context) || !rearm_cf_file_observer())) return fail_owned(134);
                 for (value = 0; value < read_count; ++value) {
                     DWORD observed;
                     if (memory(image_base + reads[value], &observed, 4))

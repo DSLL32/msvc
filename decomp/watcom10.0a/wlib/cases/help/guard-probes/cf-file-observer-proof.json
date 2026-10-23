@@ -1,0 +1,49 @@
+{
+  "status": "reviewed scoped CF observer rearm applied; actual frozen helper06 WASM path proof bound externally",
+  "source": {
+    "path": "scripts/diagnose-startup.c",
+    "sha256": "22677185610863de52c62da2d151828d4b00d95f46c89b7c31927b605b4156ef",
+    "header_path": "scripts/resource-guard.h",
+    "header_sha256": "a0c5d2d2c69308aa607dda424e69bb162be47f1d39ae897772f6d1bfc2a1f0d0"
+  },
+  "helper": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-06-cf-file-phases/diagnose-startup.exe",
+    "sha256": "1426da5991f706b02ad945f0e9cd5200a052b8aacaf24960e8edb7d7c20552b5",
+    "build_receipt_path": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-06-cf-file-phases/receipt.json",
+    "build_receipt_sha256": "314013151e79d854e76fdd44751f9ab173b7dfe952dbcbc7ba9e0ff467c92dad"
+  },
+  "retained_WASM_proof": {
+    "commit": "25bcbf9e",
+    "receipt_path": "decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/reference/receipt.json",
+    "receipt_sha256": "bf5aa5eb95e0824ed9a18fe0aea2d0687f1be1a5101559180f3b24a546747e30",
+    "events_gzip_path": "decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/reference/events.txt.gz",
+    "events_gzip_sha256": "f14bd32ccc8bb4a2e7f128b5d6a8103a50000f5e817572c6f1e4f378be5132c0",
+    "raw_events_sha256": "5f213700cefb1a1f3f4fca0313e862d4405a142a0f3ccc1f65c7bb46a341e112"
+  },
+  "observations": {
+    "phases": [
+      [
+        "loader-open",
+        "004107f2"
+      ],
+      [
+        "first-postlaunch-open",
+        "004107f2"
+      ]
+    ],
+    "one_rearm_after_validated_CF": true,
+    "all2915_relocations_checked": true,
+    "reader_lifetimes": 43,
+    "rearm_cycles": 86,
+    "DS": "002b",
+    "GS": "0063",
+    "actual_target_exit": 1,
+    "successful_continue_signaled_status": true
+  },
+  "limits": [
+    "Two explicit first-open phases only, no complete open inventory.",
+    "Actual same self-open path/caller is not an automatic resource-open classification.",
+    "This proves diagnostic transport, not reconstructed application acceptance.",
+    "Old WLIB reference helper remains frozen with its old hash and narrower cleanup observations."
+  ]
+}

@@ -101,3 +101,12 @@ matches the exit event before logging normal completion. Authored positive and
 wrong-selector controls passed; ordinary receipts and compressed raw logs are
 in `cases/help/guard-probes/normal-exit-cleanup/`. Earlier references remain
 bound to their old frozen helper and their narrower observed-exit claims.
+
+
+For a CF case with one `observe_CreateFileA` site, the verified CF launch rearms
+that same already-hit/restored PE observer once. The labels `loader-open` and
+`first-postlaunch-open` include actual caller, arguments and pathname; the latter
+is not assumed to serve resources. Byte/phase mismatches hold. The unchanged
+resource guard remains active. `cases/help/guard-probes/cf-file-observer-proof.json`
+binds the actual helper06 WASM first-capture proof in the WASM worker's owned
+receipt and compressed log; evidence and binaries are not rebundled here.
