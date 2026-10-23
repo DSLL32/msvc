@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0010-allocate-file/original",
-  "reference_receipt_sha256": "6eff141fa45f608585cee865741fa529d4f8780bf7367fb0e07718827f7a487a",
+  "reference": "cases/hello-debug-dll/evidence/0018-open-mapped-file/original",
+  "reference_receipt_sha256": "fe6b389b837c2beb1613d19f61bfe1f4d322a47e248be73c26e4e84c52cac01a",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -16,6 +16,14 @@
     "allocate_page",
     "allocate_zero",
     "allocate_file",
-    "select_input_name"
+    "select_input_name",
+    "open_cached_file",
+    "prepare_cached_file",
+    "find_cached_file",
+    "take_free_file",
+    "move_cached_file",
+    "duplicate_string",
+    "open_mapped_file",
+    "create_mapping"
   ]
 }

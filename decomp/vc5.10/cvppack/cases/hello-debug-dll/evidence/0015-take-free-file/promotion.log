@@ -1,0 +1,64 @@
+{
+  "terminal": "trap",
+  "frontier": "move_cached_file",
+  "original_address": 4202656,
+  "native_function": "move_cached_file",
+  "typed_state": {
+    "parameters": {
+      "source": {
+        "null": false,
+        "global_name": "free_files"
+      },
+      "source_last": {
+        "null": true
+      },
+      "destination": {
+        "null": false,
+        "global_name": "active_files"
+      },
+      "destination_last": {
+        "null": true
+      },
+      "append": 0,
+      "file": {
+        "null": false,
+        "object_id": 17
+      }
+    },
+    "globals": [
+      "input_file",
+      "show_logo",
+      "banner_pending",
+      "checksum_required",
+      "module_count",
+      "statistics_enabled",
+      "debug_directory",
+      "line_data",
+      "symbol_data",
+      "type_data",
+      "module_data",
+      "minimum_pack",
+      "verbose",
+      "resource_library",
+      "load_string",
+      "resource_module",
+      "message_buffer",
+      "maximum_files",
+      "file_increment",
+      "page_increment",
+      "maximum_pages",
+      "mapped_files",
+      "free_pages",
+      "free_files",
+      "cached_files",
+      "io_statistics",
+      "file_allocations",
+      "input_name",
+      "closed_files",
+      "last_closed_file",
+      "active_files",
+      "closed_file_count"
+    ],
+    "aliased_objects_checked": 33
+  }
+}

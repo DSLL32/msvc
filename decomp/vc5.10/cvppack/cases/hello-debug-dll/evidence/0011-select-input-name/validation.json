@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "candidate": "select_input_name",
+  "promoted": true,
+  "result": {
+    "terminal": "trap",
+    "frontier": "open_cached_file",
+    "original_address": 4199184,
+    "native_function": "open_cached_file",
+    "typed_state": {
+      "parameters": {
+        "name": {
+          "null": false,
+          "bytes": "68656c6c6f2e646c6c00"
+        },
+        "flags": 32770,
+        "mode": 0
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose",
+        "resource_library",
+        "load_string",
+        "resource_module",
+        "message_buffer",
+        "maximum_files",
+        "file_increment",
+        "page_increment",
+        "maximum_pages",
+        "mapped_files",
+        "free_pages",
+        "free_files",
+        "cached_files",
+        "io_statistics",
+        "file_allocations",
+        "input_name"
+      ],
+      "aliased_objects_checked": 33
+    }
+  },
+  "original": {
+    "setup": 0.16583763621747494,
+    "execution": 1.4495049891993403,
+    "total": 1.6290038581937551
+  },
+  "native": {
+    "direct_execution": 0.007033283822238445,
+    "gdb_execution": 0.13996783923357725,
+    "total": 0.17699269391596317
+  },
+  "seconds": {
+    "original_build": 2.6869742209091783,
+    "native_build": 1.5006319107487798,
+    "graph_tool_build": 0.02771547343581915,
+    "original_capture": 1.694887163117528,
+    "native_capture": 0.2494060816243291,
+    "pair_check": 0.128227892331779,
+    "promotion": 0.13192779663950205,
+    "native_fixture": 0.35405576415359974
+  }
+}

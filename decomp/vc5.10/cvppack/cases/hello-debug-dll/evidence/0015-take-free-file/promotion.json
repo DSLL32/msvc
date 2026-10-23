@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "candidate": "take_free_file",
+  "extent": [
+    4199424,
+    4199527
+  ],
+  "trial_config_sha256": "3690344bd13fdfaf05e28a0b4290053cb8a556dedbb9e79481b536b3cf306ca8",
+  "original_receipt_sha256": "6fa146d5d8fbe9ffddcf8fe9411713d6c4bad619cb30c45a9b0f3510435d98ca",
+  "native_receipt_sha256": "44f7b2de944dfa14a68f514ca9001633f10f5881b29ad494649a3ebbf10c2521",
+  "audit_sha256": "72a2ca0abfe91270a143433a0ea8660b863d13bdcb7081882f3753e69663e600",
+  "result": {
+    "terminal": "trap",
+    "frontier": "move_cached_file",
+    "original_address": 4202656,
+    "native_function": "move_cached_file",
+    "typed_state": {
+      "parameters": {
+        "source": {
+          "null": false,
+          "global_name": "free_files"
+        },
+        "source_last": {
+          "null": true
+        },
+        "destination": {
+          "null": false,
+          "global_name": "active_files"
+        },
+        "destination_last": {
+          "null": true
+        },
+        "append": 0,
+        "file": {
+          "null": false,
+          "object_id": 17
+        }
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose",
+        "resource_library",
+        "load_string",
+        "resource_module",
+        "message_buffer",
+        "maximum_files",
+        "file_increment",
+        "page_increment",
+        "maximum_pages",
+        "mapped_files",
+        "free_pages",
+        "free_files",
+        "cached_files",
+        "io_statistics",
+        "file_allocations",
+        "input_name",
+        "closed_files",
+        "last_closed_file",
+        "active_files",
+        "closed_file_count"
+      ],
+      "aliased_objects_checked": 33
+    }
+  }
+}

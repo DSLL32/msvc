@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565de592 in create_mapping (file=0x5663ec30) at src/stubs.c:18
+18	int create_mapping(CachedFile *file) { __asm { int 3 } return 0; }

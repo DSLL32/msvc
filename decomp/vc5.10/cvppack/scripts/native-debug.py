@@ -36,13 +36,15 @@ def main():
     commands = output / 'commands.gdb'
     state_path = output / 'state.json'
     commands.write_text('set pagination off\nset confirm off\nset disable-randomization off\n'
-        'handle SIGTRAP stop print nopass\nrun ' + ' '.join(shlex.quote(value) for value in case['argv']) + ' >' + str(output / 'stdout') + ' 2>' + str(output / 'stderr') + '\n'
+        'handle SIGTRAP stop print nopass\n'
         'python\nimport importlib.util\n'
         'spec=importlib.util.spec_from_file_location("frozen_gdb_state",'+repr(str(output/'gdb-state.py'))+')\n'
-        'helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)\n'
+        'helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)\nhelper.install()\nend\n'
+        'run ' + ' '.join(shlex.quote(value) for value in case['argv']) + ' >' + str(output / 'stdout') + ' 2>' + str(output / 'stderr') + '\npython\n'
         'helper.capture('+repr(str(output/'configuration.json'))+','+repr(str(output/'data.json'))+','+repr(str(state_path))+')\nend\nquit\n')
     (output/'gdb-state.py').write_bytes((BINARY/'scripts/gdb-state.py').read_bytes())
     env = os.environ.copy()
+    env.pop('VC510_CVPACK_WIDEN',None)
     env.pop('RECON_TRACE_FD', None)
     env['VC510_CVPACK_ARGV0'] = reference['canonical_argv0'] if reference else 'R:\\toolchains\\5.10\\bin\\CVPACK.EXE'
     env['RECON_PROGRAM_PATH'] = reference['actual_target_windows'] if reference else env['VC510_CVPACK_ARGV0']
@@ -50,6 +52,14 @@ def main():
     resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)
     resource_provider=resources.prepare(output/'resources.rmr')
     env['VC510_CVPACK_RESOURCES']=str(output/'resources.rmr')
+    prepared_widen=None
+    extra_outputs=[]
+    if case['name']=='hello-debug-dll':
+        spec=importlib.util.spec_from_file_location('native_widen',BINARY/'scripts/native-widen.py')
+        widen=importlib.util.module_from_spec(spec);spec.loader.exec_module(widen)
+        prepared_widen=widen.prepare(output/'widen.rwp')
+        env['VC510_CVPACK_WIDEN']=str(output/'widen.rwp')
+        extra_outputs=['widen.rwp']
     direct_start=time.perf_counter()
     entry_filter=output/'entry-filter'
     entry_filter.write_text(''.join(record['native_symbol']+'\n' for record in config['functions']))
@@ -97,10 +107,11 @@ def main():
                    executed_command=[str(BINARY/'build/native/CVPACK'),*case['argv']],
                    compiled_sources_sha256=sha(output/'compiled-sources.json'),
                    prepared_resources=resource_provider,
+                   prepared_widen=prepared_widen,
                    reused_original_capture=bool(reference and (args.original/'configuration.json').read_bytes()==(output/'configuration.json').read_bytes()
                        and (reference['native_sha256']!=sha(BINARY/'build/native/CVPACK') or reference['rebuilt_sha256']!=sha(BINARY/'build/CVPACK.EXE'))),
                    outputs=[dict(name=name,bytes=(output/name).stat().st_size,sha256=sha(output/name))
-                            for name in ('stdout','stderr','gdb-stdout','gdb-stderr','state.json','entry-trace','entry-filter','native-status','direct-stdout','direct-stderr','resources.rmr','case-definition.json','gdb-state.py')]+artifact_records,
+                            for name in ['stdout','stderr','gdb-stdout','gdb-stderr','state.json','entry-trace','entry-filter','native-status','direct-stdout','direct-stderr','resources.rmr','case-definition.json','gdb-state.py']+extra_outputs]+artifact_records,
                    seconds=dict(direct_execution=direct_seconds,gdb_execution=elapsed,total=time.perf_counter()-start))
     (output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(state_path.read_text())

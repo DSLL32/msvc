@@ -89,6 +89,17 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
     frontier = re.findall(r'^frontier ([0-9a-f]{8})$', events, re.M)
     native_entries=(native_dir/'entry-trace').read_text().splitlines()
     original_entries=[int(value,16) for value in re.findall(r'^entry ([0-9a-f]{8})$',events,re.M)]
+    if native.get('prepared_widen'):
+        dependency=native['prepared_widen']
+        assert dependency['provider_sha256']==sha(native_dir/'widen.rwp')
+        assert dependency['contract_sha256']==sha(BINARY/'cases/hello-debug-dll/widen-contract.json')
+        assert dependency['external_module_sha256']=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
+        assert dependency['input_dll_sha256']==case['inputs'][0]['sha256'] and dependency['instances']==21
+        traversed=any(0x410290<=address<0x41031e for address in original_entries)
+        provider=original.get('actual_loaded_mspdb')
+        assert provider or not traversed,'dependency traversed without actual original module-file proof'
+        if provider:
+            assert provider['sha256']==dependency['external_module_sha256']==sha(Path(provider['path'])),'actual loaded MSPDB bytes differ'
     expected_entries=[r['native_symbol'] for address in original_entries for r in config['functions'] if r['original']==address]
     native_status_text=(native_dir/'native-status').read_text()
     assert re.fullmatch(r'-?\d+\n',native_status_text), 'missing actual native status'
@@ -139,7 +150,8 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
         spec = importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py')
         decoder = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(decoder)
-        typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state)
+        typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state,
+            {name:(original_dir/('artifact-'+name)).read_bytes() for name in case['artifacts']})
     for name in ('stdout', 'stderr'):
         assert (original_dir / name).read_bytes() == (native_dir / name).read_bytes(), ('different partial output', name)
     return dict(terminal='trap', frontier=logical, original_address=address, native_function=frames[0],

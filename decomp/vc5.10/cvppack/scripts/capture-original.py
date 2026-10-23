@@ -72,13 +72,17 @@ def main():
     setup = time.perf_counter() - start
     execute = time.perf_counter()
     env = tool.environment()
+    if case['name']=='hello-debug-dll':env['VC510_CVPACK_PDB_PROVIDER']=tool.windows(work/'loaded-mspdb50.dll')
     data = json.loads((output / 'data.json').read_text())
     env['VC510_CVPACK_DATA'] = ','.join('%x:%d' % (item['original'],item['size']) for item in data)
-    env['VC510_CVPACK_GRAPHS'] = ','.join('%x:%d:%d:%x' % (item['original'],item['shape']['size'],item['shape']['link'],
-        next((row['original'] for row in data if row['name']==item['shape'].get('count')),0)) for item in data if 'shape' in item)
+    env['VC510_CVPACK_GRAPHS'] = ','.join('%x:%d:%d:%x:%d:%d:%d' % (item['original'],item['shape']['size'],item['shape']['link'],
+        next((row['original'] for row in data if row['name']==item['shape'].get('count')),0),item['shape'].get('string',0xffffffff),
+        item['shape'].get('count_literal',0),item['shape'].get('handle',0xffffffff)) for item in data if 'shape' in item)
+    if any(r['name']=='open_mapped_file' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']='4021bd:file-open-call,4021c3:file-open-return'
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s' % (record['original'],item['slot'],
-        'S' if item['kind']=='string' else 'A') for record in config['functions']
-        for item in record.get('parameters',[]) if item['kind'] in ('string','argv'))
+        'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'A') for record in config['functions']
+        for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer'))
     result = subprocess.run(command, env=env, stdin=subprocess.DEVNULL,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=False)
     elapsed = time.perf_counter() - execute
@@ -112,6 +116,10 @@ def main():
         outputs=[dict(name=name, bytes=(output / name).stat().st_size, sha256=sha(output / name))
                  for name in ('stdout', 'stderr', 'events', 'audit.json', 'graph-config.json', 'graph-runtime.json','case-definition.json')]+artifact_records,
         seconds=dict(setup=setup, execution=elapsed, total=time.perf_counter()-start))
+    if case['name']=='hello-debug-dll':
+        actual=work/'loaded-mspdb50.dll'
+        assert sha(actual)=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
+        receipt['actual_loaded_mspdb']=dict(path=str(actual),bytes=actual.stat().st_size,sha256=sha(actual),source='LOAD_DLL_DEBUG_EVENT.hFile exact file copy')
     (output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     lines = (output / 'events').read_text().splitlines()
     print(next((line for line in lines if line.startswith('frontier ')), lines[-1]))

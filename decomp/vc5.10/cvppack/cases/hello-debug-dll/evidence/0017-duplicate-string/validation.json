@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "candidate": "duplicate_string",
+  "promoted": true,
+  "result": {
+    "terminal": "trap",
+    "frontier": "open_mapped_file",
+    "original_address": 4202816,
+    "native_function": "open_mapped_file",
+    "typed_state": {
+      "parameters": {
+        "flags": 32770,
+        "created": 1,
+        "file": {
+          "null": false,
+          "object_id": 33
+        }
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose",
+        "resource_library",
+        "load_string",
+        "resource_module",
+        "message_buffer",
+        "maximum_files",
+        "file_increment",
+        "page_increment",
+        "maximum_pages",
+        "mapped_files",
+        "free_pages",
+        "free_files",
+        "cached_files",
+        "io_statistics",
+        "file_allocations",
+        "input_name",
+        "closed_files",
+        "last_closed_file",
+        "active_files",
+        "closed_file_count"
+      ],
+      "aliased_objects_checked": 34
+    }
+  },
+  "original": {
+    "setup": 0.17798783909529448,
+    "execution": 1.505492522381246,
+    "total": 1.701580187305808
+  },
+  "native": {
+    "direct_execution": 0.00809184368699789,
+    "gdb_execution": 0.14524450339376926,
+    "total": 0.19909190945327282
+  },
+  "seconds": {
+    "original_build": 1.9918225444853306,
+    "native_build": 1.5446381894871593,
+    "graph_tool_build": 0.026395645923912525,
+    "original_capture": 1.7710216538980603,
+    "native_capture": 0.27274154033511877,
+    "pair_check": 0.17222038377076387,
+    "promotion": 0.16743366047739983,
+    "native_fixture": 0.3856388023123145
+  }
+}

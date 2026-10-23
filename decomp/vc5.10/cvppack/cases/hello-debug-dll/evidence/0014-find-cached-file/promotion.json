@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "candidate": "find_cached_file",
+  "extent": [
+    4199536,
+    4199685
+  ],
+  "trial_config_sha256": "d4e52244fd31f9943531b8428e5510ece25557a484dbd7d6906f61f5e39b77e9",
+  "original_receipt_sha256": "75feaea8beeb076cc5dee1bd78dc87eca5d958a78c4c9e372511db0c50aa4d73",
+  "native_receipt_sha256": "f494b5f73e82545bd8c6e8640e825c530b868fad5863bcabf8d35e2aca11425f",
+  "audit_sha256": "6579958ba82eb627aeea0443c45b7984bf24db5c4c2f3a2a7be158f64e42cdca",
+  "result": {
+    "terminal": "trap",
+    "frontier": "take_free_file",
+    "original_address": 4199424,
+    "native_function": "take_free_file",
+    "typed_state": {
+      "parameters": {},
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose",
+        "resource_library",
+        "load_string",
+        "resource_module",
+        "message_buffer",
+        "maximum_files",
+        "file_increment",
+        "page_increment",
+        "maximum_pages",
+        "mapped_files",
+        "free_pages",
+        "free_files",
+        "cached_files",
+        "io_statistics",
+        "file_allocations",
+        "input_name",
+        "closed_files",
+        "last_closed_file",
+        "active_files",
+        "closed_file_count"
+      ],
+      "aliased_objects_checked": 33
+    }
+  }
+}

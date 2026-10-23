@@ -10,6 +10,8 @@ HEADERS = $(wildcard src/*.h)
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
 NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
+NATIVE_HOST = scripts/native-widen.c
+NATIVE_HOST_HEADERS = scripts/native-widen-abi.h
 NATIVE_HEADERS = $(HEADERS) $(shell rg --files $(RECON)/include $(RECON)/native -g '*.h')
 CHECK_CASES = $(patsubst cases/%/case.json,%,$(wildcard cases/*/case.json))
 
@@ -37,8 +39,8 @@ build/native/%.o: src/%.c $(NATIVE_HEADERS) Makefile | build/native
 build/native/driver.o: scripts/native-driver.c $(NATIVE_HEADERS) Makefile | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 
-build/native/CVPACK: $(NATIVE_OBJECTS) build/native/driver.o $(NATIVE_SHIMS) $(NATIVE_HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/native/driver.o $(NATIVE_SHIMS) -o $@
+build/native/CVPACK: $(NATIVE_OBJECTS) build/native/driver.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) $(NATIVE_HOST) $(NATIVE_HOST_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/native/driver.o $(NATIVE_HOST) $(NATIVE_SHIMS) -o $@
 
 build/debug-run.obj: scripts/debug-run.c | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /Fo$@ $<

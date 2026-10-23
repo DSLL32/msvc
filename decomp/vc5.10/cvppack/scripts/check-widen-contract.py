@@ -12,7 +12,9 @@ from state import BINARY,sha
 spec=importlib.util.spec_from_file_location('widen_contract',BINARY/'scripts/widen-contract.py')
 module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 original=BINARY/'cases/hello-debug-dll/original-probe-0003'
-start=time.perf_counter();decoded=module.decode(original)
+start=time.perf_counter()
+owned=BINARY/'cases/hello-debug-dll/providers/loaded-mspdb50.bin'
+decoded=module.decode(original,provider_artifact=owned)
 assert decoded==json.loads((BINARY/'cases/hello-debug-dll/widen-contract.json').read_text())
 rejected=[]
 def reject(name,mutation):
@@ -21,7 +23,8 @@ def reject(name,mutation):
         receipt=json.loads((directory/'receipt.json').read_text())
         rows=(directory/'events').read_text().splitlines()
         index=next(i for i,row in enumerate(rows) if row.startswith('widen method-return 36 '))
-        mutation(directory,receipt,rows,index)
+        changed=mutation(directory,receipt,rows,index)
+        actual_provider=changed if isinstance(changed,Path) else owned
         (directory/'events').write_text('\n'.join(rows)+'\n')
         for item in receipt['files']:
             path=directory/item['name'];item.update(sha256=sha(path),bytes=path.stat().st_size)
@@ -29,7 +32,7 @@ def reject(name,mutation):
         # This deliberately proves the raw-container hashes are valid, so only
         # the newly evidenced byte/state contract can reject the mutation.
         for item in receipt['files']:assert sha(directory/item['name'])==item['sha256']
-        try:module.decode(directory)
+        try:module.decode(directory,provider_artifact=actual_provider)
         except (AssertionError,KeyError):rejected.append(name)
         else:raise AssertionError('accepted '+name)
 def mutate_byte(rows,index,last=False):
@@ -44,6 +47,7 @@ def wrong_provider(d,r,rows,i):
     path=d/'wrong-loaded-provider.dll';path.write_bytes(b'wrong loaded provider bytes')
     r['actual_loaded_mspdb']['path']=str(path)
     r['files'].append(dict(name=path.name,bytes=path.stat().st_size,sha256=sha(path)))
+    return path
 reject('wrong-actual-provider-despite-canonical-claim-and-refreshed-file-hash',wrong_provider)
 report=dict(schema=1,native_only=True,positive_instances=21,all_raw_hashes_refreshed=True,rejected=rejected,seconds=time.perf_counter()-start)
 (BINARY/'cases/hello-debug-dll/contract-checks.json').write_text(json.dumps(report,indent=2)+'\n')

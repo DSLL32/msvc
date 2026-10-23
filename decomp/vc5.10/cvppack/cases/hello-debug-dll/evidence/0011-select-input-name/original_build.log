@@ -1,0 +1,16 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/diagnostics.obj src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/files.obj src/files.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/input.obj src/input.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/main.obj src/main.c
+input.c
+main.c
+files.c
+diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/messages.obj src/messages.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/options.obj src/options.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+make: 'build/debug-run.exe' is up to date.
+messages.c
+options.c
+stubs.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/diagnostics.obj build/files.obj build/input.obj build/main.obj build/messages.obj build/options.obj build/stubs.obj build/resources.res

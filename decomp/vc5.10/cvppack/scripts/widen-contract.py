@@ -6,16 +6,16 @@ import struct
 from state import BINARY,sha
 
 
-def verify_provider(receipt):
+def verify_provider(receipt,provider_artifact=None):
     provider=receipt['actual_loaded_mspdb']
     canonical='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
     assert provider['sha256']==canonical
-    assert sha(Path(provider['path']))==canonical,'actual loaded MSPDB hFile bytes differ'
+    assert sha(Path(provider_artifact) if provider_artifact is not None else Path(provider['path']))==canonical,'actual loaded MSPDB hFile bytes differ'
 
 
-def decode(directory):
+def decode(directory,provider_artifact=None):
     receipt=json.loads((directory/'receipt.json').read_text())
-    verify_provider(receipt)
+    verify_provider(receipt,provider_artifact)
     for item in receipt['files']:assert sha(directory/item['name'])==item['sha256']
     rows=(directory/'events').read_text().splitlines();records=[];last_error=None;error_states=[]
     for i,line in enumerate(rows):
@@ -77,7 +77,9 @@ def decode(directory):
 
 
 if __name__=='__main__':
-    contract=decode(BINARY/'cases/hello-debug-dll/original-probe-0003')
+    binding=json.loads((BINARY/'cases/hello-debug-dll/providers/binding.json').read_text())
+    assert sha(BINARY/binding['source_receipt'])==binding['source_receipt_sha256']
+    contract=decode(BINARY/'cases/hello-debug-dll/original-probe-0003',provider_artifact=BINARY/binding['owned_artifact'])
     output=BINARY/'cases/hello-debug-dll/widen-contract.json'
     output.write_text(json.dumps(contract,indent=2)+'\n')
     print(json.dumps(dict(instances=len(contract['instances']),slot_inventory=contract['slot_inventory'],bytes=output.stat().st_size),indent=2))

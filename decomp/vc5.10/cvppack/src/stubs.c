@@ -2,7 +2,6 @@
 #include "files.h"
 #include <recon.h>
 
-void select_input_name(char *name) { __asm { int 3 } }
 void initialize_type_tables(void) { __asm { int 3 } }
 void read_image_debug(void) { __asm { int 3 } }
 void initialize_module_pack(void) { __asm { int 3 } }
@@ -15,3 +14,8 @@ unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
 void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
 void close_file(int file, int release) { __asm { int 3 } }
 void warning(unsigned int message, const char *first, const char *second) { __asm { int 3 } }
+
+int create_mapping(CachedFile *file) { __asm { int 3 } return 0; }
+int mapped_seek(CachedFile *file, int offset, int origin) { __asm { int 3 } return 0; }
+void open_stream_file(CachedFile *file, int flags, int mode, int created) { __asm { int 3 } }
+void release_cached_file(CachedFile *file) { __asm { int 3 } }

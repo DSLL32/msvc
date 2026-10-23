@@ -1,12 +1,14 @@
 # CVPACK 5.00.7113
 
 The target is `toolchains/5.10/bin/CVPACK.EXE`; the requested project-folder
-spelling `cvppack` is retained. The first `/help` case is complete and paused:
+spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `select_input_name`. Ten application functions are accepted
-overall, including the file-cache initialization/allocation prefix.
+matching frontier is `create_mapping`. Eighteen application functions are accepted
+overall, covering 2,832 extent bytes (4.52% of the same whole-text denominator).
+The cache prefix now includes the actual mapped-file registry and strict
+file-handle identity, input-content, access-mode, size and position checks.
 
 The completed help case accounts for six functions and 1,269 extent bytes, plus
 48 bytes of parser switch data. This is 2.03% of the executable's 62,662-byte
@@ -31,7 +33,7 @@ explicitly checks compilation with the original 5.10 CL/RC/LINK through the shar
 Wine prefix. Native code uses `-O0 -g`, shared shims and entry instrumentation.
 
 Each accepted function has immutable original/native raw evidence under
-`cases/help/evidence/`, in acceptance order. Candidate-inclusive graph audits,
+`cases/{help,hello-debug-dll}/evidence/`, in acceptance order. Candidate-inclusive graph audits,
 actual candidate entry, typed parameters/globals and real trap/completion events
 are required before promotion. Captures verify the actual loaded MSVCRT file
 against the canonical 277,776-byte provider hash. Compiled-source contents are
@@ -54,7 +56,18 @@ supported; unencountered resources fail closed.
 
 This version imports eleven MSPDB50 PDB/type APIs. `/help` does not reach them,
 and no speculative PDB semantics have been implemented. The new case was compiled and linked by the actual 5.10 tools with embedded
-CodeView and no PDB file, then successfully packed twice to an identical NB11
+CodeView and no PDB file, then successfully packed repeatedly to an identical NB11
 master. Its encountered opaque WidenTi interface is documented under
-`cases/hello-debug-dll/DEPENDENCY.md`; native dependency traversal remains gated
-on the concrete typed-response review. No general MSPDB logic is implemented.
+`cases/hello-debug-dll/DEPENDENCY.md`; its strict typed response provider has passed concrete contract and genuine
+i386 `thiscall` ABI review. It checks the complete frozen DLL and provider
+identity, all 21 object lifetimes and full initialized inputs, preserves each
+native allocation’s own untouched tail, and rejects unknown calls. The actual
+MSPDB implementation remains outside reconstructed application coverage.
+
+Native-only boundary checks are `scripts/check-widen-contract.py`,
+`scripts/check-widen-provider.py`, `scripts/check-state-graphs.py` and
+`scripts/check-file-state.py`. The latest function’s explicit original build took
+2.35 s, native build 1.66 s, original capture 1.88 s, native capture 0.29 s and
+pair check 0.18 s; both native regressions together took 0.45 s. The independent
+C++ provider test runs 24 success/rejection executions in 66 ms after a 1.56 s
+build. No native test launches Wine.

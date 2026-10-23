@@ -14,7 +14,7 @@ from state import BINARY, ROOT, load, sha
 
 
 def environment(reference):
-    env={key:value for key,value in os.environ.items() if not key.startswith(('WINE','RECON_'))}
+    env={key:value for key,value in os.environ.items() if not key.startswith(('WINE','RECON_','VC510_CVPACK_'))}
     env.update(LC_ALL='C',TZ='UTC',PATH='',
         RECON_DRIVE_R=str(ROOT),RECON_DRIVE_S=str(Path.home()/'.ai-tmp/msvc2'),
         RECON_PROGRAM_PATH=reference['actual_target_windows'],VC510_CVPACK_ARGV0=reference['canonical_argv0'])
@@ -45,6 +45,11 @@ def main():
         resource_spec=importlib.util.spec_from_file_location('native_resources',BINARY/'scripts/native-resources.py')
         resources=importlib.util.module_from_spec(resource_spec);resource_spec.loader.exec_module(resources)
         resource_provider=resources.prepare(output/'resources.rmr')
+        widen_provider=None
+        if args.case=='hello-debug-dll' and case['terminal']=='exit':
+            spec=importlib.util.spec_from_file_location('native_widen',BINARY/'scripts/native-widen.py')
+            widen=importlib.util.module_from_spec(spec);spec.loader.exec_module(widen)
+            widen_provider=widen.prepare(output/'widen.rwp')
         preparation_seconds=time.perf_counter()-preparation
         if case['terminal']=='trap':
             capture=output/'native'
@@ -54,7 +59,9 @@ def main():
             assert result.returncode==0,(result.stdout,result.stderr)
             elapsed=time.perf_counter()-execution_start
             state=json.loads((capture/'state.json').read_text())
-            decoder.compare(config,json.loads((BINARY/'data.json').read_text()),(reference_dir/'events').read_text(),state)
+            widen_provider=json.loads((capture/'receipt.json').read_text()).get('prepared_widen')
+            decoder.compare(config,json.loads((BINARY/'data.json').read_text()),(reference_dir/'events').read_text(),state,
+                {name:(reference_dir/('artifact-'+name)).read_bytes() for name in inputs['artifacts']})
         else:
             assert case['terminal']=='exit'
             capture=output
@@ -63,6 +70,7 @@ def main():
             seen=output/'seen';seen.write_bytes(b'')
             env=environment(reference)
             env['VC510_CVPACK_RESOURCES']=str(output/'resources.rmr')
+            if widen_provider:env['VC510_CVPACK_WIDEN']=str(output/'widen.rwp')
             def no_core():resource.setrlimit(resource.RLIMIT_CORE,(0,0))
             execution_start=time.perf_counter()
             with (output/'entry-trace').open('wb') as trace,(output/'stdout').open('wb') as stdout,(output/'stderr').open('wb') as stderr:
@@ -81,6 +89,7 @@ def main():
         report=dict(schema=1,case=args.case,terminal=case['terminal'],native_only=True,
             native_sha256=sha(BINARY/'build/native/CVPACK'),reference_receipt_sha256=case['reference_receipt_sha256'],
             prepared_resources=resource_provider,
+            prepared_widen=widen_provider,
             seconds=dict(preparation=preparation_seconds,execution=elapsed,checks=time.perf_counter()-checking,total=time.perf_counter()-start))
         (BINARY/('build/native-fixture'+('' if args.case=='help' else '-'+args.case)+'.json')).write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps(report,indent=2))

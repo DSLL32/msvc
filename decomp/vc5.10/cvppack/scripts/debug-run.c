@@ -22,6 +22,8 @@ static DWORD watched_address[64], watched_size[64], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
 static char argument_kind[64];
 static DWORD graph_address[64], graph_size[64], graph_link[64], graph_count_address[64], graph_count;
+static DWORD graph_string[64], graph_literal[64], graph_handle[64];
+static DWORD file_open_arguments[7];
 static DWORD widen_output, widen_object, widen_arguments[4];
 static DWORD widen_capacities[2];
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
@@ -52,8 +54,10 @@ static void configure(void)
     }
     value = getenv("VC510_CVPACK_GRAPHS");
     while (value && *value && graph_count < 64) {
-        if (sscanf(value, "%lx:%lu:%lu:%lx", &graph_address[graph_count], &graph_size[graph_count],
-                   &graph_link[graph_count], &graph_count_address[graph_count]) != 4) break;
+        graph_string[graph_count] = graph_handle[graph_count] = 0xffffffffUL;
+        if (sscanf(value, "%lx:%lu:%lu:%lx:%lu:%lu:%lu", &graph_address[graph_count], &graph_size[graph_count],
+                   &graph_link[graph_count], &graph_count_address[graph_count], &graph_string[graph_count],
+                   &graph_literal[graph_count], &graph_handle[graph_count]) < 4) break;
         ++graph_count;
         next = strchr(value, ',');
         value = next ? next + 1 : NULL;
@@ -99,13 +103,36 @@ static void memory(FILE *log, HANDLE process, DWORD address, DWORD size)
     fputc('\n', log);
 }
 
-static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link)
+/* Query only a parent-owned duplicate. Child LastError is recorded before this
+ * observer executes; a zero-distance seek leaves the shared file position alone. */
+static void file_handle(FILE *log, HANDLE process, DWORD value)
 {
-    DWORD seen[128], count = 0, i;
+    HANDLE duplicate;
+    DWORD kind, size, high, position;
+    if (!DuplicateHandle(process, (HANDLE)value, GetCurrentProcess(), &duplicate,
+                         0, FALSE, DUPLICATE_SAME_ACCESS)) {
+        fprintf(log, "file-handle-failed %08lx\n", value);
+        return;
+    }
+    kind = GetFileType(duplicate);
+    high = 0;
+    size = GetFileSize(duplicate, &high);
+    position = SetFilePointer(duplicate, 0, NULL, FILE_CURRENT);
+    fprintf(log, "file-handle %08lx %lu %lu %lu %lu\n", value, kind, size, high, position);
+    CloseHandle(duplicate);
+}
+
+static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link, DWORD text, DWORD handle)
+{
+    DWORD seen[128], count = 0, i, value;
     while (head && count < 128) {
         for (i = 0; i < count; ++i) if (seen[i] == head) return;
         seen[count++] = head;
         memory(log, process, head, size);
+        if (text <= size - 4 && read_bytes(process, head + text, &value, 4) && value)
+            string(log, process, value);
+        if (handle <= size - 4 && read_bytes(process, head + handle, &value, 4) && value)
+            file_handle(log, process, value);
         if (!read_bytes(process, head + link, &head, 4)) return;
     }
     if (head) fprintf(log, "memory-graph-unbounded\n");
@@ -184,22 +211,33 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
         fprintf(log, "last-error %lu\n", value);
     for (i = 0; i < watch_count; ++i) memory(log, process, watched_address[i], watched_size[i]);
     for (i = 0; i < graph_count; ++i) {
-        if (!read_bytes(process, graph_address[i], &value, 4)) continue;
-        if (!graph_count_address[i]) linked_memory(log, process, value, graph_size[i], graph_link[i]);
-        else if (read_bytes(process, graph_count_address[i], &count, 4) && count <= 128) {
+        if (graph_literal[i]) value = graph_address[i];
+        else if (!read_bytes(process, graph_address[i], &value, 4)) continue;
+        if (!graph_count_address[i] && !graph_literal[i])
+            linked_memory(log, process, value, graph_size[i], graph_link[i], graph_string[i], graph_handle[i]);
+        else if (((count = graph_literal[i]) || read_bytes(process, graph_count_address[i], &count, 4)) && count <= 128) {
             memory(log, process, value, count * 4);
             for (j = 0; j < count; ++j) if (read_bytes(process, value + j * 4, &item, 4))
-                linked_memory(log, process, item, graph_size[i], graph_link[i]);
+                linked_memory(log, process, item, graph_size[i], graph_link[i], graph_string[i], graph_handle[i]);
         }
     }
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
         if (argument_kind[i] == 'S' && value) string(log, process, value);
+        if (argument_kind[i] == 'P' && value) memory(log, process, value, 4);
         if (argument_kind[i] == 'A' && value) {
             if (!read_bytes(process, context->Esp + (argument_slot[i]-1)*4, &count, 4) || count > 64) continue;
             memory(log, process, value, (count+1)*4);
             for (j = 0; j < count; ++j) if (read_bytes(process, value+j*4, &item, 4) && item) string(log, process, item);
         }
+    }
+    if (entry == 0x4021bd && read_bytes(process, context->Esp, file_open_arguments, 28)) {
+        fprintf(log, "file-open-arguments");
+        for (i = 0; i < 7; ++i) fprintf(log, " %08lx", file_open_arguments[i]);
+        fputc('\n', log);
+        string(log, process, file_open_arguments[0]);
+    } else if (entry == 0x4021c3) {
+        fprintf(log, "file-open-result %08lx\n", context->Eax);
     }
     widen_state(log, process, context, entry);
 }
@@ -349,6 +387,15 @@ int main(int argc, char **argv)
                             fseek(original, ranges[i].offset, SEEK_SET) ||
                             fread(original_bytes, 1, count, original) != count ||
                             !write_bytes(child.hProcess, address, original_bytes, count)) failed = 1;
+                        /* Restoring this function must also restore its probes,
+                         * whose bytes were still INT3 in the initial masked image. */
+                        if (probes_enabled) {
+                            unsigned p;
+                            for (p = 0; p < probe_count; ++p) if (probe_sites[p] >= address && probe_sites[p] < ranges[i].end) {
+                                if (!read_bytes(child.hProcess, probe_sites[p], &probe_bytes[p], 1) ||
+                                    !write_bytes(child.hProcess, probe_sites[p], &trap, 1)) failed = 1;
+                            }
+                        }
                         ranges[i].reached = 1;
                         fprintf(log, "entry %08lx\n", address);
                         state(log, child.hProcess, &context, address);

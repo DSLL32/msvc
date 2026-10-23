@@ -5,9 +5,10 @@
 int maximum_files, file_increment, page_increment, maximum_pages;
 int file_allocations, mapped_files;
 CachedPage *free_pages;
-CachedFile *free_files;
+CachedFile *free_files, *closed_files, *last_closed_file, *active_files;
+int closed_file_count;
 CachedFile **cached_files;
-unsigned io_statistics[15];
+CachedFile *mapped_file_slots[16];
 
 void files_initialize(int pages, int files, int page_shift, int file_pages,
                       int file_shift, int mapped)
@@ -39,7 +40,7 @@ void files_initialize(int pages, int files, int page_shift, int file_pages,
         cached_files[index] = file;
     }
     mapped_files = mapped;
-    for (index = 0; index < 15; ++index) io_statistics[index] = 0;
+    for (index = 1; index < 16; ++index) mapped_file_slots[index] = NULL;
     page_increment = increment;
 }
 
@@ -65,4 +66,159 @@ CachedFile *allocate_file(void)
     CachedFile *file = allocate_zero(sizeof(CachedFile));
     ++file_allocations;
     return file;
+}
+
+/* Original cached open dispatcher [00401310,00401376). */
+int open_cached_file(const char *name, int flags, int mode)
+{
+    int created = 0;
+    int result = -1;
+    CachedFile *file = prepare_cached_file(name, flags, mode, &created);
+    if (mapped_files) result = open_mapped_file(file, flags, created);
+    if (result == -1) open_stream_file(file, flags, mode, created);
+    return file->index;
+}
+
+/* Original descriptor preparation [00401380,004013f7). */
+CachedFile *prepare_cached_file(const char *name, int flags, int mode, int *created)
+{
+    CachedFile *file = find_cached_file(name);
+    if (!file) {
+        file = take_free_file();
+        *created = 1;
+        file->name = duplicate_string(name);
+        file->flags = 0;
+        file->length = 0;
+        file->handle = NULL;
+        file->view = NULL;
+        file->capacity = 0;
+        file->position = 0;
+        file->preferred_base = NULL;
+        if (!(flags & 15) || (flags & 2)) file->flags = 1;
+        if (flags & 3) file->flags |= 2;
+        if (flags & 0x100) file->flags |= 0x10;
+    }
+    return file;
+}
+
+/* Original reusable named-file lookup [00401470,00401505). */
+CachedFile *find_cached_file(const char *name)
+{
+    CachedFile *file = closed_files;
+    const unsigned char *first, *second;
+    while (file) {
+        first = (const unsigned char *)file->name;
+        second = (const unsigned char *)name;
+        while (*first == *second && *first) { ++first; ++second; }
+        if (*first == *second) {
+            --closed_file_count;
+            move_cached_file(file, &closed_files, &last_closed_file, &active_files, NULL, 0);
+            file->flags &= ~4;
+            return file;
+        }
+        file = file->next;
+    }
+    return NULL;
+}
+
+/* Original descriptor acquisition [00401400,00401467). */
+CachedFile *take_free_file(void)
+{
+    CachedFile *file = free_files;
+    if (!file) {
+        --closed_file_count;
+        file = closed_files;
+        move_cached_file(file, &closed_files, &last_closed_file, &free_files, NULL, 0);
+        release_cached_file(file);
+        file = free_files;
+    }
+    move_cached_file(file, &free_files, NULL, &active_files, NULL, 0);
+    return file;
+}
+
+/* Original singly linked-list transfer [004020a0,00402132). */
+void move_cached_file(CachedFile *file, CachedFile **source, CachedFile **source_last,
+                      CachedFile **destination, CachedFile **destination_last, int append)
+{
+    CachedFile *previous, *current;
+    if (file == *source) {
+        *source = file->next;
+        if (source_last && *source_last == file) *source_last = NULL;
+    } else {
+        previous = *source;
+        current = previous->next;
+        while (current && current != file) {
+            previous = current;
+            current = current->next;
+        }
+        if (current) previous->next = current->next;
+        if (source_last && *source_last == file) *source_last = previous;
+    }
+    if (!*destination) {
+        *destination = file;
+        file->next = NULL;
+        if (destination_last) *destination_last = file;
+    } else if (append) {
+        file->next = NULL;
+        (*destination_last)->next = file;
+        *destination_last = file;
+    } else {
+        file->next = *destination;
+        *destination = file;
+    }
+}
+
+/* Original checked filename duplication [00401070,00401098). */
+char *duplicate_string(const char *name)
+{
+    char *result = _strdup(name);
+    if (!result) fatal_error(1001, NULL, NULL);
+    return result;
+}
+
+/* Original mapped-file open [00402140,0040226b). */
+int open_mapped_file(CachedFile *file, int flags, int created)
+{
+    int index, access, creating;
+    DWORD length;
+    if (!created) {
+        mapped_seek(file, 0, 0);
+        return 0;
+    }
+    access = flags & 3;
+    creating = flags & 0x100;
+    if (access) {
+        for (index = 0; index < 16; ++index) {
+            if (!mapped_file_slots[index]) {
+                mapped_file_slots[index] = file;
+                break;
+            }
+        }
+        file->handle = CreateFileA(file->name, GENERIC_READ | GENERIC_WRITE,
+                                  0, NULL, creating ? CREATE_ALWAYS : OPEN_EXISTING,
+                                  FILE_ATTRIBUTE_NORMAL, NULL);
+    } else {
+        file->handle = CreateFileA(file->name, GENERIC_READ, FILE_SHARE_READ,
+                                  NULL, OPEN_EXISTING, 0, NULL);
+    }
+    if (file->handle == INVALID_HANDLE_VALUE) {
+        file->handle = NULL;
+        return -1;
+    }
+    length = 0;
+    if (!creating) {
+        length = GetFileSize(file->handle, NULL);
+        if (length == 0xffffffffUL) fatal_error(1005, NULL, NULL);
+    }
+    if (access) {
+        file->length = creating ? 0 : length;
+        if (!file->capacity)
+            file->capacity = file->length < 0x200000 ? 0x200000 : file->length;
+    } else {
+        file->length = length;
+        file->capacity = length;
+    }
+    if (!create_mapping(file)) return -1;
+    file->flags |= 8;
+    return 0;
 }

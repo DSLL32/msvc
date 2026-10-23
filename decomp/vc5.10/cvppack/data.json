@@ -148,7 +148,9 @@
     "kind": "pointer",
     "shape": {
       "size": 40,
-      "link": 36
+      "link": 36,
+      "string": 0,
+      "handle": 16
     }
   },
   {
@@ -159,18 +161,76 @@
     "shape": {
       "size": 40,
       "link": 36,
-      "count": "maximum_files"
+      "count": "maximum_files",
+      "string": 0,
+      "handle": 16
     }
   },
   {
-    "name": "io_statistics",
-    "original": 4269292,
-    "size": 60,
-    "kind": "bytes"
+    "name": "mapped_file_slots",
+    "original": 4269288,
+    "size": 64,
+    "kind": "pointer-array",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "count_literal": 16,
+      "inline": true,
+      "handle": 16
+    }
   },
   {
     "name": "file_allocations",
     "original": 4269380,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "input_name",
+    "original": 4281632,
+    "size": 260,
+    "kind": "bytes"
+  },
+  {
+    "name": "closed_files",
+    "original": 4269404,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16
+    }
+  },
+  {
+    "name": "last_closed_file",
+    "original": 4269408,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16
+    }
+  },
+  {
+    "name": "active_files",
+    "original": 4269400,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16
+    }
+  },
+  {
+    "name": "closed_file_count",
+    "original": 4269384,
     "size": 4,
     "kind": "integer"
   }

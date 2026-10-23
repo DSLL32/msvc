@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56569cfb in prepare_cached_file (name=0x5658429c <input_name> "hello.dll", flags=32770, mode=0, created=0xffac9cec) at src/stubs.c:18
+18	CachedFile *prepare_cached_file(const char *name, int flags, int mode, int *created) { __asm { int 3 } return NULL; }

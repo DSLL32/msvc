@@ -1,0 +1,46 @@
+#ifndef CV510_FILES_H
+#define CV510_FILES_H
+#include "cvpack.h"
+#include <recon.h>
+
+typedef struct CachedFile CachedFile;
+typedef struct CachedPage CachedPage;
+struct CachedPage {
+    int file;
+    int start, end, position;
+    unsigned flags;
+    CachedFile *owner;
+    unsigned char buffer[4096];
+    unsigned char *cursor;
+    CachedPage *next, *previous;
+    unsigned stamp;
+};
+struct CachedFile {
+    char *name;
+    unsigned flags;
+    int index, position, file;
+    CachedPage **pages;
+    int size, allocation;
+    void *mapping;
+    CachedFile *next;
+};
+extern int maximum_files, file_increment, page_increment, maximum_pages;
+extern int file_allocations, mapped_files;
+extern CachedPage *free_pages;
+extern CachedFile *free_files, *closed_files, *last_closed_file, *active_files;
+extern int closed_file_count;
+extern CachedFile **cached_files;
+extern unsigned io_statistics[15];
+extern char input_name[260];
+int open_cached_file(const char *name, int flags, int mode);
+CachedFile *prepare_cached_file(const char *name, int flags, int mode, int *created);
+int open_mapped_file(CachedFile *file, int flags, int created);
+void open_stream_file(CachedFile *file, int flags, int mode, int created);
+CachedFile *find_cached_file(const char *name);
+CachedFile *take_free_file(void);
+char *duplicate_string(const char *name);
+void move_cached_file(CachedFile *file, CachedFile **source, CachedFile **source_last, CachedFile **destination, CachedFile **destination_last, int append);
+void *allocate_zero(unsigned int size);
+CachedPage *allocate_page(void);
+CachedFile *allocate_file(void);
+#endif
