@@ -79,5 +79,11 @@
     "path": "/root/.ai-tmp/msvc2/recon-maintenance/mapview-full/orchestrator-review.json",
     "sha256": "30a672872dd517bf0027ab858216d5ea7bbcd9f884b4552bf42fa53e0034d7d7"
   },
-  "actual_native": "Native-only LINK actual retry remains required before application promotion; independent shared implementation/probe review released publication."
+  "actual_native": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-jf_hcii9",
+    "receipt_sha256": "c257eb23699e380a1ca2986e1778ff24647dc0da3da737b21ba1f7cf09eb8b1a",
+    "state_sha256": "d812765c15d66d32af11c43de5afc09964d4fd737648b5194247199e35d8477a",
+    "view_sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541",
+    "result": "Technical native-only match against unchanged original4jfzmrzf: create/view/close arguments/results/errors and entire owned live view/backing file; next genuine create_library frontier; app promotion remains worker-owned."
+  }
 }
