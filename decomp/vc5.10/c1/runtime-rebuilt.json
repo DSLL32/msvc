@@ -180,12 +180,5 @@
     "end": 268442389,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "CompilerPool::Initialize",
-    "start": 268442400,
-    "end": 268442401,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }
 ]

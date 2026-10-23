@@ -10,7 +10,12 @@ def rehash(directory,name):
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();started=time.perf_counter();trial.check(a.original,a.native)
  aux=json.loads((a.native/'receipt.json').read_text())['probe']=='restore'
+ member=any(row['name']==pool_state.METHOD for row in json.loads((a.original/'candidate.json').read_text())['functions'])
  tests=['field-'+key for key in pool_state.MEMBERS]+['missing-pool','layout','receiver','argument','entry-ecx','entry-argument','entry-pc','entry-return','missing-entry','original-ecx','original-argument','original-default','original-final','metadata-base','metadata-alias','metadata-extent','metadata-linkage','ret4']
+ if member:
+  tests.remove('receiver');tests.remove('argument')
+  tests+=['return-eax','return-esp','return-pc','return-values','missing-return','original-return-eax','original-return-esp','missing-original-return','original-neighbor','entry-values']
+ if aux and member:tests+=['missing-member-seed','wrong-member-probe','post-pdb-observer-pc']
  if aux:tests+=['before-clear-'+key for key in pool_state.MEMBERS]+['after-clear','pre-seed','before-late-callback','missing-seed','wrong-probe']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='pool-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as tmp:
@@ -32,25 +37,41 @@ def main():
     except (AssertionError,KeyError,ValueError):continue
     finally:pool_state.subprocess.check_output=saved
     raise AssertionError('accepted '+test)
+   elif test.startswith('return-') or test=='missing-return':
+    f=n/'pool-return-observations.json';r=json.loads(f.read_text())
+    if test=='missing-return':r=[]
+    elif test=='return-values':r[0]['values'][2]^=1
+    else:r[0][test[len('return-'):]]^=1
+    f.write_text(json.dumps(r));rehash(n,f.name)
    elif test.startswith('entry-') or test=='missing-entry':
     f=n/'pool-entry-observations.json';r=json.loads(f.read_text())
     if test=='missing-entry':r=[]
+    elif test=='entry-values':r[0]['values'][1]^=1
     else:r[0][test[len('entry-'):]]^=1
     f.write_text(json.dumps(r));rehash(n,f.name)
-   elif test.startswith('original-') or test=='missing-seed':
-    if test in ('original-default','original-final'):
-     seq=0 if test=='original-default' else int(re.findall(r'^trap seq=(\d+)',(o/'events.txt').read_text(),re.M)[-1]);f=o/('compiler-bss-%03d.bin'%seq);r=bytearray(f.read_bytes());r[0x5078]^=1;f.write_bytes(r)
+   elif test.startswith('original-') or test in ('missing-seed','missing-member-seed','missing-original-return'):
+    if test in ('original-default','original-final','original-neighbor'):
+     seq=0 if test=='original-default' else int(re.findall(r'^trap seq=(\d+)',(o/'events.txt').read_text(),re.M)[-1]);f=o/('compiler-bss-%03d.bin'%seq);r=bytearray(f.read_bytes());r[0x5078 if test!='original-neighbor' else 0x5077]^=1;f.write_bytes(r)
     else:
      f=o/'events.txt';r=f.read_text()
      if test=='original-ecx':r=re.sub(r'(^trap seq=\d+ rva=000126fc .*ecx=)[0-9a-f]+',r'\g<1>00000001',r,flags=re.M)
+     elif test=='original-return-eax':r=re.sub(r'(^pool-return .*eax=)[0-9a-f]+',r'\g<1>00000001',r,flags=re.M)
+     elif test=='original-return-esp':r=re.sub(r'(^pool-return .*esp=)[0-9a-f]+',r'\g<1>00000001',r,flags=re.M)
+     elif test=='missing-original-return':r=re.sub(r'^pool-return .*\n','',r,flags=re.M)
+     elif test=='missing-member-seed':r=re.sub(r'^pool-member-seed .*\n','',r,flags=re.M)
      elif test=='original-argument':r=re.sub(r'(^trap seq=\d+ rva=000126fc .*stack=[0-9a-f]+,)[0-9a-f]+',r'\g<1>00000002',r,flags=re.M)
      else:r=re.sub(r'^pool-seed .*\n','',r,flags=re.M)
      f.write_text(r)
     rehash(o,f.name)
-   elif test=='wrong-probe':
-    f=o/'pools-probe.txt';f.write_text('5507c\n');rehash(o,f.name)
-   elif test.startswith('before-clear-') or test in ('after-clear','pre-seed','before-late-callback'):
+   elif test in ('wrong-probe','wrong-member-probe'):
+    f=o/('pools-probe.txt' if test=='wrong-probe' else 'pool-member-probe.txt');f.write_text('5507c\n');rehash(o,f.name)
+   elif test.startswith('before-clear-') or test in ('after-clear','pre-seed','before-late-callback','post-pdb-observer-pc'):
     f=n/'restore-observations.json';r=json.loads(f.read_text())
+    if test=='post-pdb-observer-pc':
+     r['after_output_pdb_context_pc']=1;f.write_text(json.dumps(r));rehash(n,f.name)
+     try:trial.check(o,n,b)
+     except (AssertionError,KeyError,ValueError):continue
+     raise AssertionError('accepted '+test)
     phase={'after-clear':'post_restore','pre-seed':'pre_seed','before-late-callback':'before_output_pdb_context'}.get(test,'before')
     key=test[len('before-clear-'):] if test.startswith('before-clear-') else 'cursor'
     r[phase]['bss']['pools'][0][key]^=1;f.write_text(json.dumps(r));rehash(n,f.name)

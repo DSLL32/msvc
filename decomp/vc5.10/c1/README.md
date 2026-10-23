@@ -319,3 +319,8 @@ bound to both targets; four typed pool fields have zero-default and nonzero
 BSS-reset proofs. Original object extent remains unknown. Durable coverage:
 36 application functions /1513 bytes,2 CRT functions /451 bytes and6 import
 bytes (1970 total,38 source functions). See `cases/minimal/POOL-INITIALIZERS.md`.
+
+Pool member126fc is accepted (22 bytes), reaching12712. Fresh natural and
+nonzero proofs verify actual thiscall entry/return, four known writes and
+adjacent state. Durable coverage:37 application functions /1535 bytes plus
+2 CRT /451 bytes and6 import bytes (1992 total,39 source functions).

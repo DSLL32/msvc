@@ -180,13 +180,5 @@
     "end": 274872540,
     "pending_extent": true,
     "evidence": "actual separate callee/registration callback; named INT3 only"
-  },
-  {
-    "name": "CompilerPool::Initialize",
-    "symbol": "?Initialize@CompilerPool@@QAEPAU1@I@Z",
-    "start": 274802428,
-    "end": 274802429,
-    "pending_extent": true,
-    "evidence": "actual ECX/stack member and actual Win32 MAP identity; named INT3 only"
   }
 ]

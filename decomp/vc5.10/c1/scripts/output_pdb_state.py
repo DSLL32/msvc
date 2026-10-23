@@ -39,6 +39,12 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  assert re.search(r'^output-pdb-context-seed rva=000122a5 allocation=%08x read_mode=37$'%allocation,events,re.M)
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_pdb_context_126b6$',symbols,re.M).groups()
  assert int(address,16)<=obs['output_pdb_context_pc']<int(address,16)+int(size,16)
+ if 'after_output_pdb_context' in obs:
+  current=obs['after_output_pdb_context']
+  sequence=int(re.findall(r'^trap seq=(\d+) rva=000126ef ',events,re.M)[0])
+  after_address,after_size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_126ef$',symbols,re.M).groups()
+  assert int(after_address,16)<=obs['after_output_pdb_context_pc']<int(after_address,16)+int(after_size,16)
+  at(original,sequence,current,allocation,native_allocation,seed=bool(reuse))
  before=obs['before_output_pdb_context'];assert before['reuse_state']==current['reuse_state']==reuse
  seq=int(re.findall(r'^trap seq=(\d+) rva=000126b6 ',events,re.M)[0])
  old_raw=(original/('state-%03d.bin'%seq)).read_bytes();new_raw=(original/('state-%03d.bin'%sequence)).read_bytes();expected=bytearray(old_raw)

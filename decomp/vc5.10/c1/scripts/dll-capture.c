@@ -34,6 +34,9 @@ static DWORD pdb_reuse, pdb_context_count;
 static int pdb_probe, pdb_seeded;
 static DWORD pool_objects[16];
 static unsigned pool_count;
+static int pool_member_probe, pool_member_seeded, pool_return_active;
+static DWORD pool_return_address, pool_entry_esp;
+static BYTE pool_return_saved;
 
 static void fail(const char *message)
 {
@@ -381,6 +384,12 @@ static void read_pool_probes(void)
     }
     if (!feof(file)) fail("incomplete pool probe");
     fclose(file);
+    file = fopen("pool-member-probe.txt", "r");
+    if (file) {
+        DWORD member, index;
+        if (fscanf(file, "%lx %lx", &member, &index) != 2 || member != 0x126fc || index != 0) fail("pool member probe");
+        pool_member_probe = 1; fclose(file);
+    }
 }
 
 static void seed_pools(DWORD saved)
@@ -392,7 +401,7 @@ static void seed_pools(DWORD saved)
         values[1] = 91 + index; values[2] = 7 + index;
         values[3] = saved + 512 + index * 16;
         write_mem(base + pool_objects[index], values, sizeof(values));
-        fprintf(events, "pool-seed index=%u object=%08lx allocation=%08lx\n", index, pool_objects[index], saved);
+        fprintf(events, "%s index=%u object=%08lx allocation=%08lx\n", pool_member_probe && restore_seeded ? "pool-member-field-seed" : "pool-seed", index, pool_objects[index], saved);
     }
 }
 
@@ -523,6 +532,17 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
         }
     }
     save_state();
+    if (address == base + 0x126fc) {
+        unsigned i;
+        for (i = 0; i < count; ++i) if (ranges[i].entry && ranges[i].first == 0x126fc) break;
+        if (i < count) {
+            if (pool_return_active) fail("nested pool member call");
+            pool_return_address = stack[0]; pool_entry_esp = context->Esp;
+            readmem(pool_return_address, &pool_return_saved, 1);
+            if (pool_return_saved != 0xc3 || pool_return_address != base + 0x126fb) fail("pool member return identity");
+            patch(pool_return_address, 0xcc); pool_return_active = 1;
+        }
+    }
     if (address == base + entry_rva) {
         if (return_active) fail("nested target DLL entry unsupported");
         return_address = stack[0]; return_reason = stack[2];
@@ -625,6 +645,13 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && pool_return_active && address == pool_return_address) {
+                fprintf(events, "pool-return seq=%u pc=%08lx eax=%08lx esp=%08lx entry-esp=%08lx\n", sequence, address, context.Eax, context.Esp, pool_entry_esp);
+                fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
+                fprintf(events, "x87-control=%04lx\n", context.FloatSave.ControlWord);
+                save_state(); patch(pool_return_address, pool_return_saved); pool_return_active = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("pool return context");
             } else if (code == EXCEPTION_BREAKPOINT && return_active && address == return_address) {
                 fprintf(events, "crt-return seq=%u reason=%lu status=%lu pc=%08lx\n",
                         sequence, return_reason, context.Eax, address);
@@ -661,6 +688,11 @@ int main(int argc, char **argv)
                 if (restore_probe && pdb_probe && !pdb_seeded && address == base + 0x12676) {
                     write_mem(base + 0x5c064, &pdb_reuse, 4);
                     fprintf(events, "pdb-helper-seed rva=00012676 reuse=%lu\n", pdb_reuse); pdb_seeded = 1;
+                }
+                if (restore_probe && pool_member_probe && !pool_member_seeded && address == base + 0x126fc) {
+                    DWORD saved;
+                    readmem(base + 0x57818, &saved, 4); seed_pools(saved); pool_member_seeded = 1;
+                    fprintf(events, "pool-member-seed rva=000126fc object=%08lx allocation=%08lx\n", pool_objects[0], saved);
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

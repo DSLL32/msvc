@@ -276,6 +276,11 @@
       "start_rva": 75503,
       "end_rva": 75516,
       "entry": 1
+    },
+    {
+      "start_rva": 75516,
+      "end_rva": 75538,
+      "entry": 1
     }
   ],
   "functions": [
@@ -835,6 +840,19 @@
         ]
       ],
       "source": "src/pools.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerPool::Initialize",
+      "native_symbol": "CompilerPool::Initialize",
+      "role": "application",
+      "chunks": [
+        [
+          75516,
+          75538
+        ]
+      ],
+      "source": "src/pools.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -850,20 +868,11 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75516,
-    "native_symbol": "CompilerPool::Initialize",
-    "native_linkage_symbol": "_ZN12CompilerPool10InitializeEj",
-    "kind": "initialization-helper",
-    "native_args": [
-      "this",
-      "minimum_pages"
-    ],
-    "calling_convention": "thiscall",
-    "abi": "ECX receiver, unsigned stack DWORD, RET4, pointer return",
-    "caller": {
-      "native_symbol": "initialize_state_126ef",
-      "return_rva": 75515
-    }
+    "rva": 75538,
+    "native_symbol": "initialize_state_12712",
+    "kind": "initialization-callback",
+    "native_args": [],
+    "abi": "cdecl void no arguments,cleanup0"
   },
   "imports": [
     {
@@ -1034,9 +1043,16 @@
       "minimum_pages_base": 7,
       "pointer_roles": "owned snapshot interiors; never dereferenced before named member trap",
       "normal_case": false
+    },
+    "pool_member": {
+      "entry_rva": 75516,
+      "object_index": 0,
+      "pointer_roles": "owned snapshot interior sentinels, never dereferenced",
+      "minimum_pages": 1,
+      "normal_case": false
     }
   },
-  "staging_role": "First genuine thiscall pool wrapper126ef is sole new candidate; member remains INT3",
+  "staging_role": "Genuine thiscall pool member126fc is sole new candidate; next callback remains INT3",
   "registered_cleanup": [
     {
       "original_rva": 145728,

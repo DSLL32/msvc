@@ -41,15 +41,22 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  expected_fields(fields);models=fields['pools']
  assert candidate['restore_probe']['pools']==PLAN
  for model in models:assert read((original/'compiler-bss-000.bin').read_bytes(),model)==zero()
- current=state['compiler_state'];at(original,sequence,current,models)
+ current=state['compiler_state']
+ assert len(current['bss']['pools'])==len(models)
+ member=any(row['name']==METHOD for row in candidate['functions'])
+ if member:
+  raw=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
+  result=dict(cursor=0,remaining=0,minimum_pages=1,arena=0)
+  assert read(raw,models[0])==current['bss']['pools'][0]==result
+ else:at(original,sequence,current,models)
  events=(original/'events.txt').read_text()
  module=int(re.search(r'module name=c1n32_l.dll actual=([0-9a-f]+)',events)[1],16)
  entries=re.findall(r'^trap seq=(\d+) rva=000126fc .*ecx=([0-9a-f]+).*stack=([0-9a-f,]+)$',events,re.M)
  assert len(entries)==1
  seq,receiver,stack=entries[0];words=[int(word,16) for word in stack.split(',')]
- assert int(seq)==sequence and int(receiver,16)==module+models[0]['original_object_rva']
+ assert (int(seq)<sequence if member else int(seq)==sequence) and int(receiver,16)==module+models[0]['original_object_rva']
  assert words[0]==module+0x126fb and words[1]==1
- assert state['args']==dict(this=current['live_addresses']['bss']+544,minimum_pages=1)
+ if not member:assert state['args']==dict(this=current['live_addresses']['bss']+544,minimum_pages=1)
  binary=captured_native_binary(native)
  symbols=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+re.escape(LINKAGE)+'$',symbols,re.M).groups()
@@ -59,13 +66,42 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  observations=json.loads((native/'pool-entry-observations.json').read_text())
  assert len(observations)==1
  entry=observations[0]
- assert entry['pc']==address and entry['ecx']==state['args']['this'] and entry['argument']==1 and entry['esp']
+ assert entry['pc']==address and entry['ecx']==current['live_addresses']['bss']+544 and entry['argument']==1 and entry['esp']
  assert caller<entry['return']<caller+caller_size
  call=subprocess.check_output(['objdump','-d','--start-address='+str(entry['return']-5),'--stop-address='+str(entry['return']),str(binary)],text=True)
  assert re.search(r'^\s*%x:\s+e8 (?:[0-9a-f]{2} ){3}[0-9a-f]{2}\s+call\s+%x\b'%(entry['return']-5,address),call,re.M),'raw return must follow this member call'
  code=subprocess.check_output(['objdump','-d','-Mintel','--start-address='+str(address),'--stop-address='+str(address+size),str(binary)],text=True)
  returns=re.findall(r'\bret\s*([^\n]*)',code)
  assert returns and all(value.strip()=='0x4' for value in returns),'native member must preserve RET4'
+ if member:
+  allocation=struct.unpack_from('<I',(original/('compiler-bss-%03d.bin'%int(seq))).read_bytes(),0x7818)[0]
+  native_allocation=current['bss']['saved_data']
+  assert read((original/('compiler-bss-%03d.bin'%int(seq))).read_bytes(),models[0])==(seeded(allocation,0) if probe=='restore' else zero())
+  expected_seed=seeded(native_allocation,0) if probe=='restore' else zero()
+  assert entry['values']==list(expected_seed.values())
+  returned=re.findall(r'^pool-return seq=(\d+) pc=([0-9a-f]+) eax=([0-9a-f]+) esp=([0-9a-f]+) entry-esp=([0-9a-f]+)$',events,re.M)
+  assert len(returned)==1
+  postseq,pc,eax,esp,entry_esp=returned[0]
+  assert int(seq)<int(postseq)<sequence and int(pc,16)==words[0] and int(eax,16)==module+models[0]['original_object_rva']
+  original_esp=int(re.search(r'^trap seq='+seq+r' rva=000126fc esp=([0-9a-f]+)',events,re.M)[1],16)
+  assert int(entry_esp,16)==original_esp and int(esp,16)==original_esp+8
+  returned_native=json.loads((native/'pool-return-observations.json').read_text());assert len(returned_native)==1
+  after=returned_native[0]
+  assert after==dict(pc=entry['return'],eax=entry['ecx'],esp=entry['esp']+8,values=list(result.values()))
+  old=bytearray((original/('compiler-bss-%03d.bin'%int(seq))).read_bytes())
+  for name,offset in MEMBERS.items():struct.pack_into('<I',old,0x5078+offset,result[name])
+  assert bytes(old)==(original/('compiler-bss-%03d.bin'%int(postseq))).read_bytes()==(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
+  for region in ('compiler-data','compiler-snapshot','state'):
+   assert (original/('%s-%03d.bin'%(region,int(seq)))).read_bytes()==(original/('%s-%03d.bin'%(region,int(postseq)))).read_bytes()
+  for kind in ('last-error','x87-control'):
+   before=re.search(r'^trap seq='+seq+r' .*\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
+   after_match=re.search(r'^pool-return .*\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
+   assert before and after_match and before.groups()==after_match.groups()
+  if probe=='restore':
+   assert candidate['restore_probe']['pool_member']==dict(entry_rva=0x126fc,object_index=0,pointer_roles='owned snapshot interior sentinels, never dereferenced',minimum_pages=1,normal_case=False)
+   assert (original/'pool-member-probe.txt').read_text()=='126fc 0\n'
+   assert re.search(r'^pool-member-seed rva=000126fc object=00055078 allocation=%08x$'%allocation,events,re.M)
+   assert re.findall(r'^pool-member-field-seed .*$',events,re.M)==['pool-member-field-seed index=0 object=00055078 allocation=%08x'%allocation]
  if probe=='normal':
   assert not (original/'pools-probe.txt').exists() and not re.findall(r'^pool-seed ',events,re.M)
   return

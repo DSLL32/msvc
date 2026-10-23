@@ -156,17 +156,33 @@ end
             address = int(re.search(r"^([0-9a-f]+) [0-9a-f]+ [Tt] " + re.escape(symbol) + "$", table, re.M)[1], 16)
             abi_probe = """import struct
 pool_entries=[]
+pool_returns=[]
+class PoolReturn(gdb.Breakpoint):
+    def stop(self):
+        entry=pool_entries[-1]
+        words=struct.unpack("<4I",gdb.selected_inferior().read_memory(entry["ecx"],16).tobytes())
+        pool_returns.append({"pc":int(gdb.parse_and_eval("$pc")),"eax":int(gdb.parse_and_eval("$eax")),"esp":int(gdb.parse_and_eval("$esp")),"values":list(words)})
+        self.enabled = False
+        return False
 class PoolEntry(gdb.Breakpoint):
     def stop(self):
         esp=int(gdb.parse_and_eval('$esp'))
         words=struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())
-        pool_entries.append({'pc':int(gdb.parse_and_eval('$pc')),'ecx':int(gdb.parse_and_eval('$ecx')),'esp':esp,'return':words[0],'argument':words[1]})
+        if POOL_MEMBER:
+            if POOL_SEED:
+                saved=int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data'))
+                gdb.selected_inferior().write_memory(int(gdb.parse_and_eval('$ecx')),struct.pack('<4I',saved+128,91,7,saved+512))
+            PoolReturn('*0x%%x'%%words[0])
+        values=struct.unpack('<4I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ecx')),16).tobytes())
+        pool_entries.append({'values':list(values),'pc':int(gdb.parse_and_eval('$pc')),'ecx':int(gdb.parse_and_eval('$ecx')),'esp':esp,'return':words[0],'argument':words[1]})
         return False
 PoolEntry('*0x%x')
 """ % address
+            abi_probe=abi_probe.replace("POOL_MEMBER",str(any(row["name"]=="CompilerPool::Initialize" for row in candidate["functions"]))).replace("POOL_SEED",str(bool(args.restore_probe and candidate.get("restore_probe",{}).get("pool_member"))))
             allocation_probe = allocation_probe.replace("\nend\n", "\n" + abi_probe + "end\n")
             commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
                                         "open(%r,'w').write(json.dumps(pool_entries,indent=2)+'\\n')\n" % str(output/'pool-entry-observations.json') +
+                                        "open(%r,'w').write(json.dumps(pool_returns,indent=2)+'\\n')\n" % str(output/'pool-return-observations.json') +
                                         "open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'))
         commands = commands.replace("run\nbt\npython", allocation_probe + "run\nbt\npython", 1)
         commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
@@ -303,6 +319,12 @@ continue
 python
 restore_observations['before_output_pdb_context']=capture_modeled()
 restore_observations['output_pdb_context_pc']=int(gdb.parse_and_eval('$pc'))
+end
+break initialize_state_126ef
+continue
+python
+restore_observations['after_output_pdb_context']=capture_modeled()
+restore_observations['after_output_pdb_context_pc']=int(gdb.parse_and_eval('$pc'))
 end
 python
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
