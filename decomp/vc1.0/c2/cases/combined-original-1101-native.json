@@ -1,0 +1,12 @@
+{
+  "logical": "@generic_instruction_size_cost@4",
+  "matched": true,
+  "executable_sha256": "4d0aa49a109ea49179fa64980ccc00e2f828cad09cc75093a2b9aef3429dd231",
+  "config_sha256": "d452479d4da5cf1315bbe66c6cab1255095a60c7287bb7c93e6e80e7ff280ed4",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\combined",
+  "setup_seconds": 0.006426826119422913,
+  "execution_seconds": 0.13940796814858913,
+  "seconds": 0.1551358951255679,
+  "log_sha256": "4d1b764b4fc8b056f9b22342c1b4d497986f3a5898cd625a1f18d2e5d1b5c01c",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/combined-gdb-ww4akywy"
+}

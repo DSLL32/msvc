@@ -1101,7 +1101,13 @@
     "@immediate_operand@4",
     "@select_intrinsic_a3_a4@8",
     "@select_conditional_value@4",
-    "@conditional_integer_opcode@4"
+    "@conditional_integer_opcode@4",
+    "@select_intrinsic_a5@4",
+    "@compare_intrinsic_string_part@20",
+    "@emit_register_barrier@8",
+    "@select_conditional_carry_value@12",
+    "@generic_instruction_size_cost@4",
+    "@generic_operand_size_cost@4"
   ],
   "driver": [
     {
@@ -3637,8 +3643,7 @@
     {
       "name": "@emit_register_barrier@8",
       "start": 105520,
-      "end": 105521,
-      "provisional": true
+      "end": 105602
     },
     {
       "name": "@select_constant@8",
@@ -6507,8 +6512,7 @@
     {
       "name": "@select_intrinsic_a5@4",
       "start": 117936,
-      "end": 117937,
-      "provisional": true
+      "end": 118516
     },
     {
       "name": "@select_intrinsic_a6@4",
@@ -7448,8 +7452,7 @@
     {
       "name": "@generic_instruction_size_cost@4",
       "start": 272496,
-      "end": 272497,
-      "provisional": true
+      "end": 272573
     },
     {
       "name": "@set_generated_intrinsic_call@16",
@@ -7469,8 +7472,17 @@
     {
       "name": "@select_conditional_carry_value@12",
       "start": 107408,
-      "end": 107409,
-      "provisional": true
+      "end": 107699
+    },
+    {
+      "name": "@compare_intrinsic_string_part@20",
+      "start": 121664,
+      "end": 121794
+    },
+    {
+      "name": "@generic_operand_size_cost@4",
+      "start": 272576,
+      "end": 272667
     }
   ],
   "cases": {

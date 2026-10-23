@@ -2855,3 +2855,41 @@ int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction)
     address->index.words.number = number;
     return 1;
 }
+
+/* Original [00042870,000428bd). Estimate the opcode/prefix plus operand
+   address bytes when comparing generic scheduling candidates. */
+int __fastcall generic_instruction_size_cost(MachineInstruction *instruction)
+{
+    int cost = pentium_prefix_instruction(instruction) + 1;
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    if (machine_operand_counts[operation]) {
+        ++cost;
+        cost += generic_operand_size_cost(&instruction->operands[0]);
+        if (machine_operand_counts[(instruction->opcode >> 8) & 255] == 2)
+            cost += generic_operand_size_cost(&instruction->operands[1]);
+    }
+    return cost;
+}
+
+/* Original [000428c0,0004291b). Address/immediate contribution to the
+   generic candidate estimate; a based ESP address also needs a SIB byte. */
+int __fastcall generic_operand_size_cost(MachineOperand *operand)
+{
+    MachineAddress *address;
+    int cost = 0;
+    switch (operand->flags & 15) {
+    case OPERAND_IMMEDIATE: case OPERAND_ABSOLUTE: case OPERAND_LABEL_ADDRESS:
+        return 1;
+    case OPERAND_BASED:
+        address = operand->value.address;
+        if (address->symbol || address->first.displacement) cost = 1;
+        if (address->base.words.number == REG_ESP) ++cost;
+        break;
+    case OPERAND_INDEXED:
+        address = operand->value.address;
+        cost = 1;
+        if (address->symbol || address->first.displacement) cost = 2;
+        break;
+    }
+    return cost;
+}

@@ -1,5 +1,5 @@
 {
-  "active": "combined-optimizer",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -198,7 +198,7 @@
       "case": "combined-optimizer",
       "after": "i486-floating",
       "phase": "c2",
-      "status": "active",
+      "status": "complete",
       "flags": [
         "/Oi",
         "/O2",
@@ -294,39 +294,42 @@
       "exit": 0,
       "object_bytes": 883,
       "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
+    },
+    {
+      "case": "combined-optimizer",
+      "accepted_frontiers": 1103,
+      "reconstructed_functions": 1024,
+      "exit": 0,
+      "object_bytes": 2125,
+      "normalized_sha256": "b8b7867d8ca53daad37fb68781b9a5738ca2b4387691b7d265b3113de5924e56"
     }
   ],
-  "status": "One approved combined optimizer case active; pause after completion",
+  "status": "All approved cases complete; paused awaiting user choice",
   "next_case_proposals": [
     {
-      "case": "i386 rematerialization/spill pressure",
+      "case": "G3 rematerialization across deep calls",
       "flags": [
         "/O1",
         "/G3"
       ],
-      "purpose": "Many live integer constants/address calculations across nested calls, aiming to force rematerialization costs rather than only ordinary register allocation",
+      "purpose": "Force spill/rematerialization choice using constant/address values live across multiple unknown calls and wider basic blocks",
       "targets": [
         {
           "name": "@i386_instruction_cost@4",
           "start": "0x2d350",
           "analysis_bytes": 720
-        },
-        {
-          "name": "@generic_instruction_size_cost@4",
-          "start": "0x42870",
-          "extent_bound_bytes": 176
         }
       ],
-      "limit": "Previous G3 case did not exercise these helpers; confirm original frontier when approved"
+      "limit": "Still unvisited after two integer-pressure cases; verify original frontier before promising coverage"
     },
     {
-      "case": "x87 stack permutations without clearing calls",
+      "case": "G5 x87 branch-join permutations",
       "flags": [
         "/Oi",
         "/O2",
         "/G5"
       ],
-      "purpose": "Interdependent noncommutative floating expressions, branch joins and nested inline intrinsics retaining multiple values instead of passing them all to an external sink",
+      "purpose": "Interdependent live floating values spanning conditional joins with noncommutative use order",
       "targets": [
         {
           "name": "@arrange_scheduled_float_inputs@4",
@@ -339,30 +342,27 @@
           "analysis_bytes": 162
         }
       ],
-      "limit": "Both helpers remain unaccepted; exchange keeps original1..8 contract with explicit named slot8 aliases"
+      "limit": "Both remain named traps; slot8 has explicit reset/use-head and serial aliases, not an eighth array element"
     },
     {
-      "case": "string/memory intrinsic selection",
+      "case": "Additional string intrinsic modes",
       "flags": [
         "/Oi",
         "/O2",
         "/G4"
       ],
-      "purpose": "strlen/strcpy/strcmp/memset with fixed and dynamic lengths, overlapping alignment conditions and returned pointers",
+      "purpose": "strncmp/memchr/strset-style valid bounded uses selected after original CL support validation, targeting remaining intrinsic selectors",
       "targets": [
         {
-          "name": "@select_intrinsic_string_length@12",
-          "start": "0x1ca50",
-          "extent_bound_bytes": 272
+          "name": "@select_intrinsic_a6@4",
+          "start": "0x1cb60"
         },
         {
-          "name": "@select_intrinsic_a3_a4@8"
-        },
-        {
-          "name": "@select_intrinsic_aa_ab@8"
+          "name": "@select_intrinsic_aa_ab@8",
+          "start": "0x1c680"
         }
       ],
-      "limit": "Extent bound is distance to next known entry, not an accepted function extent; other selectors remain named stubs"
+      "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ]
 }

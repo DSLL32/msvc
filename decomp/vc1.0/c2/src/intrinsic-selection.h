@@ -9,6 +9,7 @@ unsigned short __fastcall select_intrinsic_a6(Node *node);
 unsigned short __fastcall select_intrinsic_string_length(Node *value, int mode, unsigned type);
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode);
 unsigned short __fastcall select_runtime_intrinsic(Node *node);
+MachineOperand *__fastcall compare_intrinsic_string_part(MachineOperand *left, MachineOperand *right, unsigned offset, unsigned type, MachineOperand *different);
 int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol);
 SymbolHeader *__fastcall lookup_external_name(char *name);
 MachineOperand *__fastcall select_replicated_fill_operand(Node *value, unsigned short type, unsigned count);

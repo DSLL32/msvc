@@ -160,4 +160,5 @@ void __fastcall select_generic_candidate(int count, SchedulerCandidate *candidat
 MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instruction, int forward, int reason);
 int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction);
 int __fastcall generic_instruction_size_cost(MachineInstruction *instruction);
+int __fastcall generic_operand_size_cost(MachineOperand *operand);
 #endif

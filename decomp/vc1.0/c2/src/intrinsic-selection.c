@@ -497,3 +497,67 @@ unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int fill)
     select_block_operation(0, count, source, destination, 1, 0x101, fill, 1, 1);
     return result->value.reg.words.number;
 }
+
+/* Original [0001ccb0,0001cef4). Compare two zero-terminated byte strings
+   two characters per loop. Mismatches retain CMP's carry for the -1/+1
+   result; equal NUL bytes take the zero-result path. Virtual addresses are
+   retained under global optimization, otherwise EAX/ECX carry them. */
+unsigned short __fastcall select_intrinsic_a5(Node *node)
+{
+    enum { STRING_CC_EQUAL = 4, STRING_CC_NOT_EQUAL = 5 };
+    Node *arguments = node->second.node;
+    MachineOperand *left, *right, *loop, *different, *end, *join;
+    MachineOperand *part, *step, *result;
+    unsigned short type;
+    left = operand_for_register(select_value_register(arguments->left.node));
+    right = operand_for_register(select_value_register(arguments->second.node->left.node));
+    if (!optimize_global) {
+        emit_machine_operation(MC_MOV, 0x104, &operand_eax, left);
+        emit_machine_operation(MC_MOV, 0x104, &operand_ecx, right);
+        left = &operand_eax;
+        right = &operand_ecx;
+    }
+    loop = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+    emit_label(loop->value.symbol);
+    different = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+    part = compare_intrinsic_string_part(left, right, 0, 0x101, different);
+    emit_machine_operation(MC_OR, 0x101, part, part);
+    end = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+    emit_machine_operation(MC_JCC, 0x104, end, STRING_CC_EQUAL);
+    part = compare_intrinsic_string_part(left, right, 1, 0x101, different);
+    step = new_operand(OPERAND_IMMEDIATE, 0, 2, 0);
+    emit_machine_operation(MC_ADD, 0x104, left, step);
+    emit_machine_operation(MC_ADD, 0x104, right, step);
+    emit_machine_operation(MC_OR, 0x101, part, part);
+    emit_machine_operation(MC_JCC, 0x104, loop, STRING_CC_NOT_EQUAL);
+    emit_register_barrier(left, 0x104);
+    emit_register_barrier(right, 0x104);
+    emit_label(end->value.symbol);
+    type = node->attributes.words.type;
+    result = operand_for_register(new_value_register(type));
+    emit_machine_operation(MC_MOV, type, result, immediate_operand(0));
+    emit_register_barrier(result, 0x104);
+    join = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+    emit_machine_operation(MC_JMP, 0x104, join);
+    emit_label(different->value.symbol);
+    emit_machine_operation(MC_SBB, node->attributes.words.type, result, result);
+    emit_machine_operation(MC_SBB, node->attributes.words.type, result,
+        new_operand(OPERAND_IMMEDIATE, 0, ~0U, 0));
+    emit_label(join->value.symbol);
+    return result->value.reg.words.number;
+}
+
+/* Original [0001db40,0001dbc2). Load the left string part, compare the
+   right part at the same displacement, and optionally branch on mismatch.
+   The caller receives the loaded register while CMP's flags stay live. */
+MachineOperand *__fastcall compare_intrinsic_string_part(MachineOperand *left,
+    MachineOperand *right, unsigned offset, unsigned type, MachineOperand *different)
+{
+    MachineOperand *value = operand_for_register(new_value_register(0x100));
+    emit_machine_operation(MC_MOV, type, value,
+        new_operand(OPERAND_BASED, left->value.reg.words.number, offset, 0));
+    emit_machine_operation(MC_CMP, type, value,
+        new_operand(OPERAND_BASED, right->value.reg.words.number, offset, 0));
+    if (different) emit_machine_operation(MC_JCC, 0x104, different, 5);
+    return value;
+}

@@ -1,0 +1,1610 @@
+{
+  "status": "complete; paused with no follow-on case authorized",
+  "checkpoint": 1103,
+  "source_graphs": 1024,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1103,
+    "accepted_code_bytes": 304509,
+    "original_code_bytes": 399693,
+    "percentage": 76.18572254205102,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 508
+  },
+  "delta_from1089": {
+    "accepted_functions": 14,
+    "accepted_code_bytes": 3270,
+    "percentage_points": 0.8181279131733561
+  },
+  "fixture": "../fixtures/c2-combined-optimizer/manifest.json",
+  "expected": {
+    "path": "cases/combined-original-1103/combined.obj",
+    "name": "combined.obj",
+    "bytes": 2125,
+    "sha256": "e4197f504732ce8ac4d920ac5bf6cdbcdca27c3701c2282ea81d4bd650a67676",
+    "normalized_sha256": "b8b7867d8ca53daad37fb68781b9a5738ca2b4387691b7d265b3113de5924e56",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "accepted_functions": [
+    {
+      "name": "@exchange_float_machine_stack@8",
+      "start": 255424,
+      "end": 255503
+    },
+    {
+      "name": "@process_float_stream_return@4",
+      "start": 234064,
+      "end": 234201
+    },
+    {
+      "name": "@push_unary_into_right@4",
+      "start": 348688,
+      "end": 348725
+    },
+    {
+      "name": "@select_intrinsic_string_length@12",
+      "start": 117328,
+      "end": 117585
+    },
+    {
+      "name": "@immediate_operand@4",
+      "start": 106944,
+      "end": 106963
+    },
+    {
+      "name": "@select_intrinsic_a3_a4@8",
+      "start": 118528,
+      "end": 118865
+    },
+    {
+      "name": "@select_conditional_value@4",
+      "start": 105856,
+      "end": 106885
+    },
+    {
+      "name": "@conditional_integer_opcode@4",
+      "start": 107712,
+      "end": 107836
+    },
+    {
+      "name": "@select_intrinsic_a5@4",
+      "start": 117936,
+      "end": 118516
+    },
+    {
+      "name": "@compare_intrinsic_string_part@20",
+      "start": 121664,
+      "end": 121794
+    },
+    {
+      "name": "@emit_register_barrier@8",
+      "start": 105520,
+      "end": 105602
+    },
+    {
+      "name": "@select_conditional_carry_value@12",
+      "start": 107408,
+      "end": 107699
+    },
+    {
+      "name": "@generic_instruction_size_cost@4",
+      "start": 272496,
+      "end": 272573
+    },
+    {
+      "name": "@generic_operand_size_cost@4",
+      "start": 272576,
+      "end": 272667
+    }
+  ],
+  "validation": {
+    "native": "cases/native-all-validation.json",
+    "original": "cases/combined-original-1103.json",
+    "abi": "cases/combined-final-abi-validation.json",
+    "conditional_opcode_data": "cases/conditional-opcode-validation.json",
+    "rust_negatives": "cases/rust-audit-negatives.json",
+    "source_graphs": 1024,
+    "accepted_extents_both_images": 1103,
+    "focused_graph_rejection_checks": 21,
+    "rust_and_scoped_abi_rejection_checks": 6,
+    "native_rejections": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ]
+  },
+  "limits": [
+    "All ten whole objects/status/streams and native entry projections match original cached references. Only established COFF timestamp offsets4..7 are normalized.",
+    "The full combined source is complete, including string comparison/copy/length, physical x87 exchange, conditional-value synthesis and generic candidate instruction-size comparison.",
+    "G3 i386_instruction_cost remains unreached; generic instruction/operand costs are different functions.",
+    "G5 scheduled x87 input arrangement/exchange, including original slot8 aliases, remain named traps. Physical x87 exchange accepted here does not cover them.",
+    "Recovered alternative modes/branches are complete C bodies but are not all execution-covered by this case; extent union is not branch coverage.",
+    "No shim changes requested. Native O0 GDB matching took about0.22s per measured stop; final native ten-case wrapper0.555s, no Wine or capture inside fixtures."
+  ],
+  "timing": {
+    "combined-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-combined-optimizer",
+        "--stem",
+        "combined",
+        "--case",
+        "combined",
+        "--flags",
+        "/Oi",
+        "/O2",
+        "/Ob0",
+        "/G3"
+      ],
+      "seconds": 2.972450383938849,
+      "returncode": 0,
+      "log_sha256": "5794b7736a77024cf3e8b8250f8529a1b86632271b4255280fce3f8441f3b440"
+    },
+    "combined-descriptor-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsics",
+        "float-machine"
+      ],
+      "seconds": 4.204195513390005,
+      "returncode": 0,
+      "log_sha256": "6f7f726c61a3db8c531fe4b4c9c6fbf6058b4b8a002ca88285c897091dd56f62"
+    },
+    "combined-final-data-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-data"
+      ],
+      "seconds": 2.0359704215079546,
+      "returncode": 0,
+      "log_sha256": "7b0efd701f5ac2a3926aaca2ac1f6ecef8523a8879c09ff3105b943abb9488ff"
+    },
+    "combined-final-negatives-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-negatives"
+      ],
+      "seconds": 15.720263054594398,
+      "returncode": 0,
+      "log_sha256": "ad0c538dbf24569fd9b3f7d207b23888b641221288bde7fe43fc1f02644d776e"
+    },
+    "combined-initial-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1089.json"
+      ],
+      "seconds": 0.21985666174441576,
+      "returncode": 0,
+      "log_sha256": "b158f16fa546fff42c74d02047f966cb1bbfd1a291409f8c9950eefbeca91ef9"
+    },
+    "combined-initial-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5542360628023744,
+      "returncode": 0,
+      "log_sha256": "72d5f862080e06a19120fb4c68333c41451dd296758812ee298b4685fac20a7c"
+    },
+    "combined-initial-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1089.json"
+      ],
+      "seconds": 1.8843840342015028,
+      "returncode": 0,
+      "log_sha256": "54457b22e3c818a7f5e05ddd3f9cd16bdda0977ef7411e26873e7ef2d258b713"
+    },
+    "combined-intrinsic1091-analysis-timing": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/debug-intrinsic.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.22540801204741,
+      "returncode": 1,
+      "log_sha256": "aadcb72ff949f83a9d15b2bdccd602a158979d495c3d2bfe7b1e59d194099087"
+    },
+    "combined-intrinsic1091-strcpy-analysis-timing": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/debug-intrinsic.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.2320647044107318,
+      "returncode": 1,
+      "log_sha256": "ec1a173cd417580366aef6498acdf462c005c433771c49a2f87c2aa6e8984a6f"
+    },
+    "combined-intrinsic1091-strlen-analysis-timing": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/debug-intrinsic.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.2334317285567522,
+      "returncode": 1,
+      "log_sha256": "21a192e4d38e63f0cfa75b4b51eab292d799c65040e4346516cec1cbf78da2c8"
+    },
+    "combined-strcmp-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 10.166489661671221,
+      "returncode": 0,
+      "log_sha256": "7cff694a1fa74319086d94682b831c672a13e8208b443c316a300c635369a951"
+    },
+    "combined-strcmp-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-intrinsic-descriptors.py"
+      ],
+      "seconds": 0.08018817845731974,
+      "returncode": 0,
+      "log_sha256": "d6996b098880dd1a9ee1c1c5f20dd835a7a38d47c1a549aca2aeef237872b599"
+    },
+    "combined-strcpy-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.09854178223759,
+      "returncode": 0,
+      "log_sha256": "fecd118522e9d14527b50c14776f29149b7a9506e60baf025c3efb7f4b2dd88f"
+    },
+    "combined-strcpy-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-intrinsic-descriptors.py"
+      ],
+      "seconds": 0.08105483930557966,
+      "returncode": 0,
+      "log_sha256": "4b0af1a1c6cb8cb1824b36c8e5916878a69186dbd5dcbf791258afca675a2b2d"
+    },
+    "combined-strlen-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 9.976936487480998,
+      "returncode": 0,
+      "log_sha256": "28bd24cf5332bb75085c47aeacb7b9b74281b0a9daf948bf79f850be3d79659b"
+    },
+    "combined-strlen-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-intrinsic-descriptors.py"
+      ],
+      "seconds": 0.08217165991663933,
+      "returncode": 0,
+      "log_sha256": "5350e6ea9e40410900e5a77b29f42fe7dc61d8a84034a82fcab31d51377eec90"
+    },
+    "frontier1090-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.1866031661629677,
+      "returncode": 0,
+      "log_sha256": "c1ce4767185977122b1b5827ef820757705379ba949e47ca5c20290af3f93cfc"
+    },
+    "frontier1090-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.2060506772249937,
+      "returncode": 0,
+      "log_sha256": "4b7288299d11bf5239c235957ab6b141fe08918a6f63441604251fe2ada7b753"
+    },
+    "frontier1090-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1090.json"
+      ],
+      "seconds": 0.2190420301631093,
+      "returncode": 0,
+      "log_sha256": "8047bcd1d5e4f274393f3be0ac368ce9977e61be43f870f261d8cd5a066dc721"
+    },
+    "frontier1090-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4807274155318737,
+      "returncode": 0,
+      "log_sha256": "e37f1589f4a6d35f4bd20aafe5ab8210d92e27bd8f741884adfc1deeedc22788"
+    },
+    "frontier1090-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1090.json"
+      ],
+      "seconds": 1.2333508897572756,
+      "returncode": 0,
+      "log_sha256": "58e6ad5a8dfa19c7f6037bd1455d290280ccbfa9517008d16a6eb489014aa39b"
+    },
+    "frontier1090-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "float-machine"
+      ],
+      "seconds": 2.349390747025609,
+      "returncode": 0,
+      "log_sha256": "01627287a8e1bb1c3d0242e261de7e526f2e5edd0dfa57644515f8cea6737d66"
+    },
+    "frontier1091-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2050039768218994,
+      "returncode": 0,
+      "log_sha256": "e38d8967347bf382e828324f3923f525c5224ccf0c0c4b4d5405585381b27932"
+    },
+    "frontier1091-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.17263263463974,
+      "returncode": 0,
+      "log_sha256": "eab7394bf40ac24b37347f8c956ac570c27bc455082c0ae0927b97e5c5486293"
+    },
+    "frontier1091-debug-strcmp-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.2147627854719758,
+      "returncode": 0,
+      "log_sha256": "919a93311ca670fe9bd860e63800178f47c3bf2b2fcbcc2d406184e6847bd0f5"
+    },
+    "frontier1091-debug-strcpy-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.24925076588988304,
+      "returncode": 1,
+      "log_sha256": "5a3eda26dded9812796629605765d1b047b78063361048ac76b54eae4838a83d"
+    },
+    "frontier1091-debug-strlen-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.25388864800333977,
+      "returncode": 1,
+      "log_sha256": "b33740f73cf9e17aa4993f90d3a2522ce5c811f92b6996eb6a6931679592cb0e"
+    },
+    "frontier1091-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 0.22190092038363218,
+      "returncode": 1,
+      "log_sha256": "c36bc19dcc0d50ed07cd4e67e2fc4f196dac832cb855c679b845526a74584bcc"
+    },
+    "frontier1091-final-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.194198738783598,
+      "returncode": 0,
+      "log_sha256": "49ec4dcb64413cf4cb4c256735bf5a57984555992c3af86918bee07988efc40c"
+    },
+    "frontier1091-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5375532293692231,
+      "returncode": 0,
+      "log_sha256": "f7d4d436da785be72b48d77699e8927cc6651dea91f705eab2b1f421370c0540"
+    },
+    "frontier1091-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1091.json"
+      ],
+      "seconds": 1.0561150591820478,
+      "returncode": 0,
+      "log_sha256": "60b29fa76463487bbb105814e346bebd00ec0839056ef802a63481996861fb34"
+    },
+    "frontier1091-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "float-machine"
+      ],
+      "seconds": 1.4986824300140142,
+      "returncode": 0,
+      "log_sha256": "c93c07c5f5f26a982de59bbef68d5f61e22a0646656bfbf197be15bfa3d7e863"
+    },
+    "frontier1092-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2013691142201424,
+      "returncode": 0,
+      "log_sha256": "365c290cf83daea23bfc329db3d1d8102844c379c555fd2bc269614c39795e17"
+    },
+    "frontier1092-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.5462401108816266,
+      "returncode": 0,
+      "log_sha256": "335feb208ef647923b9e5034eac5ecb546c3247706118d2654f6e86052f6fcb4"
+    },
+    "frontier1092-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1092.json"
+      ],
+      "seconds": 0.22272268682718277,
+      "returncode": 0,
+      "log_sha256": "a3fcc25d023cfc6fe9330e3f7bca827d82482fb76d0d89d31c2355ae6342b5f3"
+    },
+    "frontier1092-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5296131568029523,
+      "returncode": 0,
+      "log_sha256": "371e7632c6950d131479d20e4fefb7440d550e999b1685ec9dc7f6683ba7c819"
+    },
+    "frontier1092-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1092.json"
+      ],
+      "seconds": 1.4769243467599154,
+      "returncode": 0,
+      "log_sha256": "96da62b6f97e1d9114dfcdbffdba1a2ee81ca4c2edb982b6435f2e4d8127f4ca"
+    },
+    "frontier1092-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "global-tree"
+      ],
+      "seconds": 2.3073265003040433,
+      "returncode": 0,
+      "log_sha256": "5d9ea988d6e3127447bbaba5ff2f191e5c3b022dba925a16bceb5e0022ac9a1f"
+    },
+    "frontier1093-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.1984986439347267,
+      "returncode": 0,
+      "log_sha256": "51e81861924d6c9c0222f14bf993eb18daa4a228ffe5a5c2248c827d86472507"
+    },
+    "frontier1093-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.196601988747716,
+      "returncode": 0,
+      "log_sha256": "becd48457714da4e6471f201077b1d29053c744b095463b22d3f46e389058693"
+    },
+    "frontier1093-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1093.json"
+      ],
+      "seconds": 0.2186868991702795,
+      "returncode": 0,
+      "log_sha256": "c22c578356843c3069860dce072cf889a8854a453066825255c65fbf0d7e066a"
+    },
+    "frontier1093-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.49579809140414,
+      "returncode": 0,
+      "log_sha256": "a4c8ff98ab04a85b82bc8d6bbc038a1fb56a2ef3d9cffd6b0366532df5a7907b"
+    },
+    "frontier1093-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1093.json"
+      ],
+      "seconds": 1.825793788768351,
+      "returncode": 0,
+      "log_sha256": "6d3c5ebd32e10401a5f5bbe290fbf21c71dc695ca587d691d7c74f12b1f07c72"
+    },
+    "frontier1093-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsic-selection"
+      ],
+      "seconds": 1.2375516388565302,
+      "returncode": 0,
+      "log_sha256": "1054ad9bfec52c8eb42383125c7f4c8945000e2750b5b9af96c418fb2f2e455a"
+    },
+    "frontier1094-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.1886989660561085,
+      "returncode": 0,
+      "log_sha256": "e46f91e2cce2b816b01e9e6a94900225dbb29d65b06d95ca87f8e3fa61385afe"
+    },
+    "frontier1094-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.384725995361805,
+      "returncode": 0,
+      "log_sha256": "80e0a8b21419377f5e9d59772cd681fe93b9f71141f30db10161d2eb6b255e3e"
+    },
+    "frontier1094-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1094.json"
+      ],
+      "seconds": 0.21657334826886654,
+      "returncode": 0,
+      "log_sha256": "b371b785a194129c11a8e0f9dc9ed9ebc8a80d7a9a3cad8d083cf00df3c88ffd"
+    },
+    "frontier1094-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5484296465292573,
+      "returncode": 0,
+      "log_sha256": "249550ba44dff38163264319e54f6915e638d59c281618e5e2754fdcf0478b04"
+    },
+    "frontier1094-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1094.json"
+      ],
+      "seconds": 1.603721716441214,
+      "returncode": 0,
+      "log_sha256": "df5a407e94559f6f318dd5eb5e44bdc7a20d57e4d37a3d3cc61ad249ad04e278"
+    },
+    "frontier1094-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "machine-operands"
+      ],
+      "seconds": 1.9828649321570992,
+      "returncode": 0,
+      "log_sha256": "026a3bcc4e800493b349ae5f8808634315afb0a5b33cd6697aef82c5b6df1476"
+    },
+    "frontier1095-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2245035357773304,
+      "returncode": 0,
+      "log_sha256": "3f3336c64c4d96ca6d3e9d6020d33b37b7b39a221e990bd4513131fca80ecc4a"
+    },
+    "frontier1095-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.3995657972991467,
+      "returncode": 0,
+      "log_sha256": "becd48457714da4e6471f201077b1d29053c744b095463b22d3f46e389058693"
+    },
+    "frontier1095-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1095.json"
+      ],
+      "seconds": 0.21946443244814873,
+      "returncode": 0,
+      "log_sha256": "be959f180d9a4e30307138093b1d874aa9e691471b630b1ed5284c103c40af4d"
+    },
+    "frontier1095-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5518654519692063,
+      "returncode": 0,
+      "log_sha256": "e76d7426ab23410cea337a65df464b6a4e9d8e56060bb39eb1cef47327eaeebf"
+    },
+    "frontier1095-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1095.json"
+      ],
+      "seconds": 1.821976131759584,
+      "returncode": 0,
+      "log_sha256": "188d1eb60ebc870d9755108da685d21774d853b93f13497d23dcd7a13ed25f93"
+    },
+    "frontier1095-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsic-selection"
+      ],
+      "seconds": 2.1018212037160993,
+      "returncode": 0,
+      "log_sha256": "bd40148278fc89c9f21c241f7d081746089e0109e316e6bbd881b7327cbfc1fe"
+    },
+    "frontier1096-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2180822510272264,
+      "returncode": 0,
+      "log_sha256": "6af6df1b29db67a51cb8dab42dc604da86142140f116d0bf6215b0b386c0ad18"
+    },
+    "frontier1096-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 36.70391764584929,
+      "returncode": 0,
+      "log_sha256": "e2aea56b5d8f360db5440fdb1b12dde0f1e091756306ccddaa96617ebd979975"
+    },
+    "frontier1096-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1096.json"
+      ],
+      "seconds": 0.2305779503658414,
+      "returncode": 0,
+      "log_sha256": "e8a5f9df0f123e7e6a3a3b631c6ec527182c8e892b1582c89340a0abb4462fa2"
+    },
+    "frontier1096-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5088714780285954,
+      "returncode": 0,
+      "log_sha256": "9b49e71d481124c00b223a94fd94d00b2444b5537909e9a5acdb598ac76e5346"
+    },
+    "frontier1096-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1096.json"
+      ],
+      "seconds": 1.7174671664834023,
+      "returncode": 0,
+      "log_sha256": "3ec3491c159dfe11e394b9509e2fcf1bd30506cb74851839a118feccb38a54e7"
+    },
+    "frontier1096-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "value-selection"
+      ],
+      "seconds": 2.2437948202714324,
+      "returncode": 0,
+      "log_sha256": "468eacb205418504a7a5bac431cd700dcb13dd2ef838305713fcca93aaf3ad72"
+    },
+    "frontier1097-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2841613879427314,
+      "returncode": 0,
+      "log_sha256": "da754e38c730f5e77741a23d9cff2e2fc07ad59feb05f6e53274dce90070cc69"
+    },
+    "frontier1097-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 5.131712332367897,
+      "returncode": 0,
+      "log_sha256": "311278acf7236cefb605bd0d9d4943b90ba113e7ea81644f601515439aa39148"
+    },
+    "frontier1097-data-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/check-conditional-opcodes.py"
+      ],
+      "seconds": 0.25928527768701315,
+      "returncode": 0,
+      "log_sha256": "dec60eb4de1dfe59852de0cfc098361e3e16e0793679eea990a29749ad6c1dfb"
+    },
+    "frontier1097-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-conditional-opcodes.py"
+      ],
+      "seconds": 0.10621270630508661,
+      "returncode": 1,
+      "log_sha256": "02fdd8324309ffe89e84847f31ebd9af302609fa8c5848e8a920765159e419c1"
+    },
+    "frontier1097-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1097.json"
+      ],
+      "seconds": 0.23440997023135424,
+      "returncode": 0,
+      "log_sha256": "3ecc69ff81928509d2d1f105b399abdc99711f5e9f635417f08c4eb5c0310bc8"
+    },
+    "frontier1097-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 1.6830494347959757,
+      "returncode": 0,
+      "log_sha256": "3fe692b841691fe64955cc5d7dea1a2de1199936421fb054db654d234efbaa7a"
+    },
+    "frontier1097-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1097.json"
+      ],
+      "seconds": 2.360371207818389,
+      "returncode": 0,
+      "log_sha256": "847aada1ea53fe066d08262b86ca97ae9e5d669a1ee3cee36f7d9e55ba3f300c"
+    },
+    "frontier1097-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "value-selection"
+      ],
+      "seconds": 2.40428648237139,
+      "returncode": 0,
+      "log_sha256": "d64214cd5f39b36663ed1323fd7bbfa420d4273572286c0e9287a4402d837cfd"
+    },
+    "frontier1098-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.233865024521947,
+      "returncode": 0,
+      "log_sha256": "00d8a42f5ddae478020ee072cb6deeef83da659dd052cbcddc35a748ac143641"
+    },
+    "frontier1098-build-corrected-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 8.300917983986437,
+      "returncode": 0,
+      "log_sha256": "8c8b4a1da81f5e119f1a90202305c3f180e020d50dc1710c62809fc64f75364e"
+    },
+    "frontier1098-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.441893072798848,
+      "returncode": 2,
+      "log_sha256": "9008154c9672abd91d625e09a995a1367618fb6325d488f2af39ab6a0576cfaa"
+    },
+    "frontier1098-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1098.json"
+      ],
+      "seconds": 0.23658691067248583,
+      "returncode": 0,
+      "log_sha256": "99b075155de5b31152f445f0a7a1932f915b623d339d168aefbd24b404e095ba"
+    },
+    "frontier1098-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5460787219926715,
+      "returncode": 0,
+      "log_sha256": "5155859a105c6075423dd0164b1331a6a67b49fe906af85eed4ce2c1074f5361"
+    },
+    "frontier1098-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1098.json"
+      ],
+      "seconds": 1.4801842831075191,
+      "returncode": 0,
+      "log_sha256": "344e093c5a43e4f9f6c7a582ec52fa9a0ef9d21d638c135f4040e92c977cf7db"
+    },
+    "frontier1098-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsic-selection"
+      ],
+      "seconds": 2.3830745825544,
+      "returncode": 0,
+      "log_sha256": "2623acb97460da439d3c089a357050f118c325f274a74647f3ff405e1619ee1c"
+    },
+    "frontier1099-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2859077928587794,
+      "returncode": 0,
+      "log_sha256": "b48da511cbede07fcc7be52145a0e5fd8bda5746c7d29e9dbfc378b7fc887dfd"
+    },
+    "frontier1099-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.4504277938976884,
+      "returncode": 0,
+      "log_sha256": "becd48457714da4e6471f201077b1d29053c744b095463b22d3f46e389058693"
+    },
+    "frontier1099-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1099.json"
+      ],
+      "seconds": 0.22508510015904903,
+      "returncode": 0,
+      "log_sha256": "558192ba0aff64311f0c8c2cdb52894e3aacfe1b24b386b5a11724829f3190da"
+    },
+    "frontier1099-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5151971001178026,
+      "returncode": 0,
+      "log_sha256": "7263b9a2b16bdc424d3b930d6e6c5f081225f74e709e868dc414cb7c767400ba"
+    },
+    "frontier1099-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1099.json"
+      ],
+      "seconds": 1.5196370957419276,
+      "returncode": 0,
+      "log_sha256": "91a5aebfcff82ef3e4e96482815979b821ee0ed6f1ec7f9957213c58314be488"
+    },
+    "frontier1099-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsic-selection"
+      ],
+      "seconds": 2.232934811152518,
+      "returncode": 0,
+      "log_sha256": "c4a7029e33f55a64388574fb0eb3764b77d9beec82a7798f7bc73f660245957d"
+    },
+    "frontier1100-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.1806779392063618,
+      "returncode": 0,
+      "log_sha256": "84abbd34769172c95dc7eba6d50efc09d7ce3b55181fbb93489866697f552d35"
+    },
+    "frontier1100-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.6577720372006297,
+      "returncode": 0,
+      "log_sha256": "80e0a8b21419377f5e9d59772cd681fe93b9f71141f30db10161d2eb6b255e3e"
+    },
+    "frontier1100-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1100.json"
+      ],
+      "seconds": 0.21169887389987707,
+      "returncode": 0,
+      "log_sha256": "cd2727c4d9108513a7f96cd15c39e755915966e6c7de8e933de88d8e063df32b"
+    },
+    "frontier1100-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5604098970070481,
+      "returncode": 0,
+      "log_sha256": "d2b82cc29df9f1a21f26d521e7b0f0ed2fc57ee8de57b486b17c6954dacf3f23"
+    },
+    "frontier1100-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1100.json"
+      ],
+      "seconds": 1.4177275309339166,
+      "returncode": 0,
+      "log_sha256": "8ea78051fd650edb55295811dd2b0cfbe061d492ca84a6407e3efea460e2d8fc"
+    },
+    "frontier1100-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "machine-operands"
+      ],
+      "seconds": 2.0328109534457326,
+      "returncode": 0,
+      "log_sha256": "8211fcbadff88798fca28caefe45527067d7521b306193b60fe583a713cd75c4"
+    },
+    "frontier1101-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 31.140036144293845,
+      "returncode": 0,
+      "log_sha256": "cb32da9a9ee19c0bd861e21e283e89223e77a4782e06557d7d62adb9d40b6a74"
+    },
+    "frontier1101-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.409027802757919,
+      "returncode": 0,
+      "log_sha256": "50f9cc8fcb9102455a74927f9f3ca7a80e7f2d4c9add46186a7491575dd715b3"
+    },
+    "frontier1101-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 5.776306971907616,
+      "returncode": 0,
+      "log_sha256": "9c3c5078cae0ccad5759899868bbd89c7bd65766c4676c422941bc24e4dcb922"
+    },
+    "frontier1101-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1101.json"
+      ],
+      "seconds": 0.22472995519638062,
+      "returncode": 0,
+      "log_sha256": "c3c9c1b9782876e976c529b1098ca1bff661fbec82412e78cd5760a82669a806"
+    },
+    "frontier1101-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1101.json"
+      ],
+      "seconds": 1.8474987260997295,
+      "returncode": 0,
+      "log_sha256": "457dc266351cc7343759f3128f128b485ee554f80f47c0a8651831ff89923aa9"
+    },
+    "frontier1101-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "value-selection"
+      ],
+      "seconds": 2.717875641770661,
+      "returncode": 0,
+      "log_sha256": "ec835d5fec4534512fcc3f8b35dcce6e13a3bfd331226e0f6070a75eb443a1c5"
+    },
+    "frontier1102-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.205363697372377,
+      "returncode": 0,
+      "log_sha256": "60c18ae0266dc7bff91886598e343d8c60dd01deaa03a5476c602ea5f49abe79"
+    },
+    "frontier1102-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 11.943883779458702,
+      "returncode": 0,
+      "log_sha256": "440eb27a8faf442a86e187288480b11b2d8dfab71cee7d67dbde4417ce0b022f"
+    },
+    "frontier1102-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.514856880530715,
+      "returncode": 0,
+      "log_sha256": "577d0133ad3d0cabfdc40e0bb7d63fc6ccd948dce62a6e2d0878eee19a389c1f"
+    },
+    "frontier1102-corrected-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 0.057379419915378094,
+      "returncode": 0,
+      "log_sha256": "9c98e6586de7e9ac7c2aec19a795aed53f845ded5e05632fa7b98025956e2def"
+    },
+    "frontier1102-corrected-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1102.json"
+      ],
+      "seconds": 0.07808281946927309,
+      "returncode": 1,
+      "log_sha256": "85526e4fb55479786d305aac3b75c41425fa015c9058b3787e48375a8cb6da10"
+    },
+    "frontier1102-corrected-reference2-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1102-corrected.json"
+      ],
+      "seconds": 0.9404379930347204,
+      "returncode": 0,
+      "log_sha256": "16ce7cccb2dbcaa4fd93d6396a945dbb5fdb9973c38084d616536110d1066dda"
+    },
+    "frontier1102-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1102-corrected.json"
+      ],
+      "seconds": 0.2227084655314684,
+      "returncode": 0,
+      "log_sha256": "ef1f97cb204c707a9ec3e7e2a96a86144c7305e4a79d9f188069b96d00deb5cb"
+    },
+    "frontier1102-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1102.json"
+      ],
+      "seconds": 1.6702040052041411,
+      "returncode": 0,
+      "log_sha256": "05eaf0cf5c43aef43e22dc2efb9bf048cbde33883e1ee81426e9282c5b3d7bb6"
+    },
+    "frontier1103-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.201633581891656,
+      "returncode": 0,
+      "log_sha256": "3d47c61fd903f630a0f9b864e5715bc8da7a1d6a62045a3e866adc96f600f146"
+    },
+    "frontier1103-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.8069548485800624,
+      "returncode": 0,
+      "log_sha256": "d6d424235edc3b127d7092c1dba5402ff1584a2d6691d4f619e33aef72a343be"
+    },
+    "frontier1103-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.554517762735486,
+      "returncode": 0,
+      "log_sha256": "9c9128d71dc04f1c5ff8b4c1ae827f4685760467bf6742a5fd1e03085c6bdd01"
+    },
+    "frontier1103-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1103.json"
+      ],
+      "seconds": 1.054569917730987,
+      "returncode": 0,
+      "log_sha256": "91232b7b294677c163807db7652ed7050dc2bf699c0c98e431d96934962d8736"
+    },
+    "frontier1103-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "scheduler",
+        "intrinsic-selection",
+        "machine-operands",
+        "value-selection"
+      ],
+      "seconds": 8.683792917057872,
+      "returncode": 0,
+      "log_sha256": "f50a0c7752cab847bad146c133c9632f0273246f8cec15a7aa3bbf9a2a29ef52"
+    }
+  },
+  "reference_phase_timings": [
+    {
+      "path": "cases/combined-original-1089.json",
+      "accepted": 1089,
+      "logical": "@exchange_float_machine_stack@8",
+      "setup_seconds": 0.22298939153552055,
+      "execution_seconds": 1.5637653367593884,
+      "check_seconds": 0.027527309022843838,
+      "total_seconds": 1.8142823986709118
+    },
+    {
+      "path": "cases/combined-original-1090.json",
+      "accepted": 1090,
+      "logical": "@process_float_stream_return@4",
+      "setup_seconds": 0.22729321662336588,
+      "execution_seconds": 0.9096628306433558,
+      "check_seconds": 0.025967314839363098,
+      "total_seconds": 1.1629237039014697
+    },
+    {
+      "path": "cases/combined-original-1091.json",
+      "accepted": 1091,
+      "logical": "@push_unary_into_right@4",
+      "setup_seconds": 0.22335468884557486,
+      "execution_seconds": 0.7370893182232976,
+      "check_seconds": 0.026842676103115082,
+      "total_seconds": 0.9872872401028872
+    },
+    {
+      "path": "cases/combined-original-1092.json",
+      "accepted": 1092,
+      "logical": "@select_intrinsic_string_length@12",
+      "setup_seconds": 0.2220013588666916,
+      "execution_seconds": 1.158494451083243,
+      "check_seconds": 0.02677521202713251,
+      "total_seconds": 1.4072714447975159
+    },
+    {
+      "path": "cases/combined-original-1093.json",
+      "accepted": 1093,
+      "logical": "@immediate_operand@4",
+      "setup_seconds": 0.22389819379895926,
+      "execution_seconds": 1.5049242498353124,
+      "check_seconds": 0.026026852428913116,
+      "total_seconds": 1.7548496723175049
+    },
+    {
+      "path": "cases/combined-original-1094.json",
+      "accepted": 1094,
+      "logical": "@select_intrinsic_a3_a4@8",
+      "setup_seconds": 0.22480435110628605,
+      "execution_seconds": 1.2780922977253795,
+      "check_seconds": 0.02832410577684641,
+      "total_seconds": 1.5312211764976382
+    },
+    {
+      "path": "cases/combined-original-1095.json",
+      "accepted": 1095,
+      "logical": "@select_conditional_value@4",
+      "setup_seconds": 0.226374639198184,
+      "execution_seconds": 1.4946812028065324,
+      "check_seconds": 0.028142280876636505,
+      "total_seconds": 1.7491985373198986
+    },
+    {
+      "path": "cases/combined-original-1096.json",
+      "accepted": 1096,
+      "logical": "@conditional_integer_opcode@4",
+      "setup_seconds": 0.3032158939167857,
+      "execution_seconds": 1.3104016417637467,
+      "check_seconds": 0.030798260122537613,
+      "total_seconds": 1.6444161999970675
+    },
+    {
+      "path": "cases/combined-original-1097.json",
+      "accepted": 1097,
+      "logical": "@select_intrinsic_a5@4",
+      "setup_seconds": 0.29255872685462236,
+      "execution_seconds": 1.974269701167941,
+      "check_seconds": 0.0240637743845582,
+      "total_seconds": 2.2908926652744412
+    },
+    {
+      "path": "cases/combined-original-1098.json",
+      "accepted": 1098,
+      "logical": "@compare_intrinsic_string_part@20",
+      "setup_seconds": 0.2249140851199627,
+      "execution_seconds": 1.1611024402081966,
+      "check_seconds": 0.025080610997974873,
+      "total_seconds": 1.4110975274816155
+    },
+    {
+      "path": "cases/combined-original-1099.json",
+      "accepted": 1099,
+      "logical": "@emit_register_barrier@8",
+      "setup_seconds": 0.22877125162631273,
+      "execution_seconds": 1.1929054846987128,
+      "check_seconds": 0.02592573780566454,
+      "total_seconds": 1.4476028410717845
+    },
+    {
+      "path": "cases/combined-original-1100.json",
+      "accepted": 1100,
+      "logical": "@select_conditional_carry_value@12",
+      "setup_seconds": 0.22488585487008095,
+      "execution_seconds": 1.098801671527326,
+      "check_seconds": 0.02299524750560522,
+      "total_seconds": 1.3466831659898162
+    },
+    {
+      "path": "cases/combined-original-1101.json",
+      "accepted": 1101,
+      "logical": "@generic_instruction_size_cost@4",
+      "setup_seconds": 0.22500704508274794,
+      "execution_seconds": 1.5277662249282002,
+      "check_seconds": 0.024792784824967384,
+      "total_seconds": 1.7775664692744613
+    },
+    {
+      "path": "cases/combined-original-1102-corrected.json",
+      "accepted": 1102,
+      "logical": "@generic_operand_size_cost@4",
+      "setup_seconds": 0.2268413519486785,
+      "execution_seconds": 0.6221027243882418,
+      "check_seconds": 0.024226810783147812,
+      "total_seconds": 0.873171292245388
+    },
+    {
+      "path": "cases/combined-original-1102.json",
+      "accepted": 1101,
+      "logical": "@generic_instruction_size_cost@4",
+      "setup_seconds": 0.2267878893762827,
+      "execution_seconds": 1.3477122345939279,
+      "check_seconds": 0.025239383801817894,
+      "total_seconds": 1.5997399026528
+    },
+    {
+      "path": "cases/combined-original-1103.json",
+      "accepted": 1103,
+      "logical": "exit:0",
+      "setup_seconds": 0.22256666980683804,
+      "execution_seconds": 0.7369359079748392,
+      "check_seconds": 0.02433237712830305,
+      "total_seconds": 0.9838353367522359
+    }
+  ],
+  "final_native_phase_timings": {
+    "suite_setup_seconds": 0.16358754318207502,
+    "fixture_seconds": 0.45072919875383377,
+    "negative_check_seconds": 0.024732506833970547,
+    "cases": [
+      {
+        "profile": "minimal",
+        "setup_seconds": 0.02779521979391575,
+        "execution_seconds": 0.006258689798414707,
+        "check_seconds": 0.0013250047340989113
+      },
+      {
+        "profile": "hello",
+        "setup_seconds": 0.013055720366537571,
+        "execution_seconds": 0.010721889324486256,
+        "check_seconds": 0.00135059654712677
+      },
+      {
+        "profile": "loops",
+        "setup_seconds": 0.012553641572594643,
+        "execution_seconds": 0.007227196358144283,
+        "check_seconds": 0.001217726618051529
+      },
+      {
+        "profile": "pressure",
+        "setup_seconds": 0.013167818076908588,
+        "execution_seconds": 0.00977550633251667,
+        "check_seconds": 0.0011230185627937317
+      },
+      {
+        "profile": "aliasing",
+        "setup_seconds": 0.013558173552155495,
+        "execution_seconds": 0.007065017707645893,
+        "check_seconds": 0.001198967918753624
+      },
+      {
+        "profile": "floating",
+        "setup_seconds": 0.013617399148643017,
+        "execution_seconds": 0.008607915602624416,
+        "check_seconds": 0.0012477617710828781
+      },
+      {
+        "profile": "i386",
+        "setup_seconds": 0.013437722809612751,
+        "execution_seconds": 0.008427637629210949,
+        "check_seconds": 0.001129157841205597
+      },
+      {
+        "profile": "x87",
+        "setup_seconds": 0.013461878523230553,
+        "execution_seconds": 0.006598255597054958,
+        "check_seconds": 0.0011759297922253609
+      },
+      {
+        "profile": "i486",
+        "setup_seconds": 0.013671409338712692,
+        "execution_seconds": 0.008262384682893753,
+        "check_seconds": 0.001124122180044651
+      },
+      {
+        "profile": "combined",
+        "setup_seconds": 0.013342144899070263,
+        "execution_seconds": 0.017956361174583435,
+        "check_seconds": 0.001214706338942051
+      }
+    ]
+  },
+  "timing_limits": [
+    "Timing rows include unsuccessful attempts/repeats rather than only best runs. Combined compiler/native builds are unsplit; interactive analysis/editing and unwrapped offline cache/ABI operations were not measured. Do not sum overlapping per-phase and wrapper timings.",
+    "frontier1101-audit31.140s included a canonical dependency rebuild plus graph/coverage, not pure audit. Final audit/coverage2.202s used coherent completed build.",
+    "Initial1098 build failed due to private condition enum names; fixed with local named equal/not-equal ISA conditions. Failed2.442s and corrected8.301s builds retained.",
+    "A1102 metadata edit used wrong functions key and failed after source writes. Shell lacked set-e, so initial11.944s build and1.670s capture still ran with1101 metadata. Raw cases/combined-original-1102.json accurately says accepted1101, and is not used for acceptance. Corrected metadata capture refused existing receipt; new cases/combined-original-1102-corrected.json is the accepted1102 reference. Failed attempts retained.",
+    "First conditional-opcode proof guard-window error and three intentional unknown-descriptor analysis traps remain recorded in earlier receipts/timings."
+  ]
+}

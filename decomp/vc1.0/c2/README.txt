@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1097 accepted frontiers and1018 reconstructed source functions.
-Accepted original code extents cover303258/399693 bytes (75.872732%). This is
+Current checkpoint:1103 accepted frontiers and1024 reconstructed source functions.
+Accepted original code extents cover304509/399693 bytes (76.185723%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -15,10 +15,10 @@ check/replay and named-profile checks run native i386 -O0 -g only. They compare
 cached original first-entry traces, status, streams and complete object bytes.
 Unknown process dependencies fail; no fixture invokes Wine or refreshes original
 references. Only identified COFF timestamp bytes4..7 are normalized. The suite
-contains nine complete objects: minimal286, hello2289, loops620, pressure879,
-aliasing600, floating979, i386572, deep x87947 and i486883 bytes. The approved
-CPU/x87 queue is complete; one approved combined optimizer case is active at
-matching select_intrinsic_a5 trap (original2125-byte object captured). See cases/queue.json and cases/native-all-validation.json.
+contains ten complete objects: minimal286, hello2289, loops620, pressure879,
+aliasing600, floating979, i386572, deep x87947, i486883 and combined2125 bytes.
+All approved cases are complete; reconstruction is paused. See cases/queue.json,
+cases/combined-completion.json and cases/native-all-validation.json.
 
 Original builds and explicit captures use the repository shared prefix
 ~/.ai-tmp/vc1.0-capture/wine. Fixed drives are R:repo and S:~/.ai-tmp/msvc2.
@@ -70,8 +70,7 @@ Unvisited generated-call metadata, x87 input arrangement/exchange (including the
 original slot1..8 alias contract), and i386 rematerialization cost remain traps.
 The completed /O1 /G3 input did not reach that anticipated cost function.
 
-Continue the approved deep-x87 case, then /O2 /G4 floating stores/comparisons.
-Pause after both complete; no further cases are authorized. Shared lib/recon/
+No further cases are authorized. Shared lib/recon/
 changes belong to its dedicated maintainer. See cases/shared-prefix-validation.json
 for migration timings, negative checks and exact scope.
 
@@ -103,3 +102,15 @@ Global --check-ret remains off: finish_debugging's unresolved indirect callback
 tail has no inferred cleanup contract. The existing15 application ABI proofs
 remain enabled; a changed RET8->RET4 is independently rejected. See
 cases/rust-audit-integration.json for current hashes, parity and measured times.
+
+Combined /Oi /O2 /Ob0 /G3 case completed with14 whole application additions
+and3270 accepted original code bytes beyond1089. New contextual descriptors
+cover strlen/strcpy/strcmp; generic candidate sizing is now recovered, while
+G3 rematerialization cost and G5 scheduled x87 arrangement remain traps.
+Fourteen independent original/canonical RET cleanup proofs are recorded in
+cases/combined-final-abi-validation.json. The final native ten-object suite
+wrapper took0.555s (setup0.164s; case execution/check splits in receipt), final
+graph/coverage2.202s, contextual data2.036s, rejection suite15.720s and selected
+original /W3 checks8.684s. Build phases and analysis are not inferred; complete
+attempt/repeat and capture setup/execution/check timing is retained in
+cases/combined-completion.json. No follow-on case has started.

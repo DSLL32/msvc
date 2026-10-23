@@ -242,3 +242,16 @@ MachineOperand *__fastcall immediate_operand(unsigned value)
 {
     return new_operand(OPERAND_IMMEDIATE, 26, value, 0);
 }
+
+/* Original [00019c30,00019c82). A kind10 self-MOV marks the register
+   boundary without changing its value. Preserve both copied operands and
+   return the destination operand within the appended instruction. */
+MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type)
+{
+    MachineInstruction *instruction = append_machine_instruction(10);
+    instruction->opcode = (instruction->opcode & ~0xff00UL) | (MC_MOV << 8);
+    instruction->opcode = (instruction->opcode & ~0xf0UL) | ((type << 4) & 0xf0);
+    instruction->operands[1] = *operand;
+    instruction->operands[0] = *operand;
+    return &instruction->operands[0];
+}

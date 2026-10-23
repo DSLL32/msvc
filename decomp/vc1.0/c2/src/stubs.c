@@ -157,7 +157,6 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"
-MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
@@ -331,7 +330,6 @@ void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
-unsigned short __fastcall select_intrinsic_a5(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
@@ -367,8 +365,3 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm
 int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
-
-
-
-int __fastcall generic_instruction_size_cost(MachineInstruction *instruction) { __asm int 3 }
-unsigned short __fastcall select_conditional_carry_value(Node *node, Node *negative, Node *positive) { __asm int 3 }

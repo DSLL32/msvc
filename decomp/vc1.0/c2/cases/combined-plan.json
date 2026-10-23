@@ -1,5 +1,5 @@
 {
-  "status": "single original-validated frozen case",
+  "status": "complete at1103 accepted frontiers/1024 source graphs; paused",
   "accepted_from": 1089,
   "features": [
     "Twelve loop-carried unsigned values and four pointer/address expressions across unknown external calls",
@@ -30,5 +30,6 @@
   "limits": [
     "One option set and one source only; G3 does not promise G5-only arrangement/exchange paths",
     "Pause after this case completes; no follow-on case authorized"
-  ]
+  ],
+  "completion": "cases/combined-completion.json"
 }

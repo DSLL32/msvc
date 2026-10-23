@@ -787,3 +787,44 @@ int __fastcall conditional_integer_opcode(unsigned opcode)
     }
     return 0;
 }
+
+/* Original [0001a390,0001a4b3). Convert the carry produced by comparison
+   with1 into either constant conditional value. Normalize zero arms by
+   exchanging their meaning, then form a mask with SBB and scale/offset it.
+   Word results use32-bit arithmetic, matching the original width rule. */
+unsigned short __fastcall select_conditional_carry_value(Node *node, Node *negative,
+    Node *positive)
+{
+    unsigned opcode = node->left.node->opcode;
+    unsigned short type = node->attributes.words.type;
+    unsigned width = type & 255;
+    unsigned positive_value = positive->left.value;
+    unsigned negative_value = negative->left.value, temporary;
+    MachineOperand *result;
+    if (width == 2) width = 4;
+    if (!positive_value || (negative_value && opcode == 0x1f)) {
+        temporary = positive_value;
+        positive_value = negative_value;
+        negative_value = temporary;
+        opcode = opcode == 0x20 ? 0x1f : 0x20;
+    }
+    if (opcode == 0x20 && !negative_value && positive_value != 1)
+        emit_machine_operation(MC_CMC, 0);
+    result = operand_for_register(new_value_register(type));
+    emit_machine_operation(MC_SBB, width, result, result);
+    if (!negative_value) {
+        if (positive_value == 1) {
+            if (opcode == 0x20)
+                emit_machine_operation(MC_ADD, width, result, immediate_operand(1));
+            else emit_machine_operation(MC_NEG, width, result);
+        } else if (positive_value != ~0U)
+            emit_machine_operation(MC_AND, width, result,
+                new_operand(OPERAND_IMMEDIATE, 0, positive_value, 0));
+    } else {
+        emit_machine_operation(MC_AND, width, result,
+            new_operand(OPERAND_IMMEDIATE, 0, negative_value - positive_value, 0));
+        emit_machine_operation(MC_ADD, width, result,
+            new_operand(OPERAND_IMMEDIATE, 0, positive_value, 0));
+    }
+    return result->value.reg.words.number;
+}

@@ -1,4 +1,6 @@
-C2 active: one approved combined optimizer case.
-Rust audit integration committedb2c67518.
-Previous CPU/x87 queue complete at1089; combined case begins from that frozen baseline.
-See cases/combined-plan.json and cases/queue.json. Pause after this case completes.
+C2 paused: all approved cases, including combined optimizer, complete.
+Checkpoint1103 accepted frontiers /1024 whole source graphs.
+Coverage304509/399693 code bytes (76.1857225% extent union, not branch coverage).
+Ten exact native object/status/stream/entry regressions and required audits pass.
+See cases/combined-completion.json and cases/queue.json for evidence/timings and unstarted proposals.
+No commands in flight, no pending reconstruction edits/checks. Resume only on explicit assigned next case.
