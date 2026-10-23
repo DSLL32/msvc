@@ -125,6 +125,18 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             if(cursor)dump_bytes(process,"scope_cursor_hex",cursor,24);
         }
     }
+    if(!strcmp(call->name,"@write_debug_symbol@4")) {
+        DWORD symbol=call->args[0],name=read_word(process,symbol+16);
+        DWORD cursor=read_word(process,image_base+0x6e8ac);
+        DWORD record=cursor?read_word(process,cursor+12):0;
+        dump_bytes(process,"descriptor_hex",symbol,44);
+        if(name)dump_bytes(process,"descriptor_name_hex",name,string_bytes(process,name));
+        else log_line("descriptor_name_hex \n");
+        sprintf(line,"debug_symbol_state cursor %08lx record %08lx head_symbol %08lx allocation %lu optimize %lu\n",
+            cursor,record,record?read_word(process,record+4):0,
+            read_word(process,image_base+0x74ff8),read_word(process,image_base+0x70624));
+        log_line(line);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

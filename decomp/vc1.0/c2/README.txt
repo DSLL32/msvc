@@ -342,3 +342,13 @@ inputs and shared scope-head aliases match;13 finished native output cases
 stay exact, dbglist reaches write_debug_symbol69930. Whole function graphs,
 extents, ABI and original/W3 builds pass.451new code-extent bytes and timing
 limits/failed host gate are recorded in cases/dbglist-procedure-checkpoint.json.
+
+Checkpoint1240 reconstructs the whole484-byte CodeView symbol dispatcher.
+2496 original/canonical states exercise qualification, distinct70/780/8000
+attribute domains, tags, seven writer routes and recursive alias restoration,
+with explicit child mocks. First actual unnamed kind3/tag31 is suppressed;
+this is not real cold-alias branch coverage. Actual pointer/head identity and
+all encountered parent fields pass, plus original/canonical cleanup, graph,
+extents, typed cursor/allocation storage identities and original/W3 builds.
+All14 native cases pass;13 outputs complete, dbglist advances to its next
+writer trap. Evidence/extent coverage/timing: cases/dbglist-dispatch-checkpoint.json.

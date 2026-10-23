@@ -1,0 +1,211 @@
+{
+  "checkpoint": 1240,
+  "previous_checkpoint": 1239,
+  "function": "@write_debug_symbol@4",
+  "extent": [
+    "0x69930",
+    "0x69b14"
+  ],
+  "bytes": 484,
+  "application_graphs": 1130,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1240,
+    "accepted_code_bytes": 335142,
+    "original_code_bytes": 399693,
+    "percentage": 83.84985476353101,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 593
+  },
+  "frontier": "@write_codeview_label@4",
+  "frontier_va": "0x69e70",
+  "checks": {
+    "native_cases": 14,
+    "complete_cases": 13,
+    "expected_traps": 1,
+    "fixture_seconds": 0.5824693515896797,
+    "setup_seconds": 0.16246515419334173,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "3f4d56a172d51db225c3fc35acc8dcdca3e28723d5c04b87f271201f617a6344",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "3d2e4fa8299bfccb24b14ffce3b6f6137c495a012c14e86abb2facfb0438d12e",
+      "lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+      "lib/recon/src/crt.c": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "lib/recon/src/process.c": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "ce21ac7a80b8d8169591196c65a77ccc0fd6a9aeec68d937375c1eff58ac88f8"
+    },
+    "dispatch_shapes": 2496,
+    "route_witnesses": 9,
+    "original_W3": [
+      "codeview-output"
+    ],
+    "canonical_graph_extent_abi": true
+  },
+  "timings": {
+    "dbglist1240-W3-timing": {
+      "command": [
+        "python3",
+        "scripts/wine-tool.py",
+        "CL.EXE",
+        "/nologo",
+        "/W3",
+        "/I../../../lib/recon/include",
+        "/c",
+        "/Od",
+        "/G3",
+        "/Fobuild/codeview-output-w3.obj",
+        "src/codeview-output.c"
+      ],
+      "seconds": 1.4549549389630556,
+      "returncode": 0,
+      "log_sha256": "73cc50183ebf707fcedd25cd20876c1f5639c327dfcbcdae80caa58f62c4bc72"
+    },
+    "dbglist1240-actual-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-debug-symbol-entry.py"
+      ],
+      "seconds": 1.6078876527026296,
+      "returncode": 0,
+      "log_sha256": "626bd0f2aff0c5eb94f2dbcc744e794800fac4a41ca70a033c288198b399d564"
+    },
+    "dbglist1240-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 10.924855418503284,
+      "returncode": 0,
+      "log_sha256": "623484ddf7cbf68f6bd33622f7642a27d2e1fbaf36bb6912c459209145308f4c"
+    },
+    "dbglist1240-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1239.json",
+        "--extend-after",
+        "cases/dbglist-original-1240.json"
+      ],
+      "seconds": 0.378944493830204,
+      "returncode": 0,
+      "log_sha256": "1ad02eec4a5a2fa7d3b0d9e04a2343f879df8cdef473b883e5c25668970d7a6f"
+    },
+    "dbglist1240-descriptor-gate-timing": {
+      "command": [
+        "python3",
+        "scripts/check-debug-symbol-abi.py"
+      ],
+      "seconds": 0.3193805795162916,
+      "returncode": 0,
+      "log_sha256": "b416977ddcb106445078086718df678f2be8b14d14b54480202f0a1f4cbc5f6c"
+    },
+    "dbglist1240-dispatch-shapes-timing": {
+      "command": [
+        "python3",
+        "scripts/check-codeview-dispatch.py"
+      ],
+      "seconds": 42.62812166567892,
+      "returncode": 0,
+      "log_sha256": "f325238094e60fb3e2379bb1407040550b22db69a15b77a81c68fad0c465493b"
+    },
+    "dbglist1240-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.210224146954715,
+      "returncode": 0,
+      "log_sha256": "aae1464d16e334efd62bdeee356381bca7610a4737e5be12f0279d9cbd691aff"
+    },
+    "dbglist1240-native-all-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 2.29561367072165,
+      "returncode": 0,
+      "log_sha256": "82fb7a6e55ef3a591f6ae49b71d3ca0af7bc1df43e80c4533bc1ac9518757701"
+    },
+    "dbglist1240-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1240.json"
+      ],
+      "seconds": 0.262403953820467,
+      "returncode": 0,
+      "log_sha256": "34fc910df2514c899e76542daabc2bd3a16fd3a18b8245cf1c8994450cb646c8"
+    },
+    "dbglist1240-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "build/c2.exe",
+        "build/runtime.json",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.4424631288275123,
+      "returncode": 0,
+      "log_sha256": "dae27e7f8f4955a253eadeafa4b7160d8db5a203ed659ea4d7e713fd19f42c0f"
+    },
+    "dbglist1240-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1240.json"
+      ],
+      "seconds": 1.7832195861265063,
+      "returncode": 0,
+      "log_sha256": "15439b6bdccbe4b9666910ff94a4bbb8ac502f046832d69aa33d43544dd7b621"
+    },
+    "dbglist1240-storage-timing": {
+      "command": [
+        "python3",
+        "scripts/check-codeview-storage.py"
+      ],
+      "seconds": 0.4117023190483451,
+      "returncode": 0,
+      "log_sha256": "8afcd3162ee074766a2f405376dac043b81212544b43e617281b7fae67529aaa"
+    }
+  },
+  "limits": "Actual first unnamed kind3/tag31 record is suppressed. Whole dispatcher body/alias restoration/seven writer routes reconstructed;2496 child-mocked shapes do not claim actual cold alias/leaf body behavior. Self-recursion is real in emulated original/canonical C. Original role70/allocation780/register8000 attribute domains distinct and tested with allocationbit80. Alias target original flag4 is cleared after recursive output, not restored from old value, as original. Dead cached-kind19 test inside original kind1 case has no reachable path and need not be invented as switchcase19. CodeView cursor/allocation typed storage initial values/direct address identities proven with3 negatives. Strict debug object/listing/PDB completion pending;13 previous complete cases exact. No new target-local CRT.",
+  "unmeasured": "Analysis/edit elapsed unmeasured; build/canonical/audit combined commands kept unsplit. Shape run42.628s measured, fixture phases separate."
+}

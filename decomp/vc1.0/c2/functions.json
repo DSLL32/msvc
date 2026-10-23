@@ -1243,7 +1243,8 @@
     "@end_debug_function@4",
     "@write_codeview_function@4",
     "@coff_output_size@8",
-    "@write_debug_scopes@4"
+    "@write_debug_scopes@4",
+    "@write_debug_symbol@4"
   ],
   "driver": [
     {
@@ -8218,13 +8219,67 @@
     {
       "name": "@write_debug_symbol@4",
       "start": 432432,
-      "end": 432433,
-      "provisional": true
+      "end": 432916,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-write-debug-symbol-abi/validation.json"
+      }
     },
     {
       "name": "@write_codeview_block@12",
       "start": 432928,
       "end": 432929,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_frame_variable@4",
+      "start": 431920,
+      "end": 431921,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_register@4",
+      "start": 432256,
+      "end": 432257,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_local_data@4",
+      "start": 432064,
+      "end": 432065,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_global_data@4",
+      "start": 433968,
+      "end": 433969,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_label@4",
+      "start": 433776,
+      "end": 433777,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_constant@4",
+      "start": 433536,
+      "end": 433537,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_typedef@4",
+      "start": 433424,
+      "end": 433425,
       "provisional": true
     }
   ],

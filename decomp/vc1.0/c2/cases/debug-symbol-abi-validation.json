@@ -1,0 +1,55 @@
+{
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "SymbolHeader pointer",
+      "original": 8072388,
+      "native": 1449319868
+    }
+  ],
+  "returns": [
+    [
+      {
+        "site": "0x699c5",
+        "cleanup": 0
+      },
+      {
+        "site": "0x69b13",
+        "cleanup": 0
+      },
+      {
+        "site": "0x69b04",
+        "cleanup": 0
+      },
+      {
+        "site": "0x69af5",
+        "cleanup": 0
+      },
+      {
+        "site": "0x69a7e",
+        "cleanup": 0
+      },
+      {
+        "site": "0x69a5e",
+        "cleanup": 0
+      }
+    ],
+    [
+      {
+        "site": "0x54413",
+        "cleanup": 0
+      }
+    ]
+  ],
+  "rejected": [
+    "missing formal",
+    "wrong formal register",
+    "broken record alias",
+    "unknown hidden input",
+    "changed encountered tag",
+    "wrong global override"
+  ],
+  "seconds": 0.25590216368436813,
+  "scope": "Actual first queued record identity, complete parent-read fields for encountered kind3, override/optimize/defined stdio/x87 and original/canonical CFG cleanup. This unnamed tag31 label is suppressed; no actual cold alias/leaf writer behavior claimed. Raw44-byte input retained without normalizing unrelated label instruction/hash pointers."
+}

@@ -3,11 +3,13 @@
 #include "coff-output.h"
 #include "options.h"
 #include "records.h"
+#include "machine.h"
 #include <string.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
 extern int optimize_global;
 DebugScope *codeview_scope_cursor; /* original7e8ac */
+unsigned codeview_allocation_class; /* original84ff8; alias dispatch override */
 
 /* Original69250..692a3. Emit the procedure and lexical scopes, then the
    S_END record (the existing begin_debug_function placeholder at69210). */
@@ -46,6 +48,78 @@ void __fastcall write_debug_scopes(FunctionSymbol *symbol)
         }
         codeview_scope_cursor = scope;
         if (block) begin_debug_function();
+    }
+}
+/* The44-byte prefix used from a48-byte kind7 alias descriptor. Its final
+   input field is not consumed by this dispatcher. */
+typedef struct CodeViewAliasSymbol {
+    BackendSymbol variable;
+    unsigned target_identifier;
+} CodeViewAliasSymbol;
+typedef char CodeViewAliasPrefixCheck[sizeof(CodeViewAliasSymbol) == 44 ? 1 : -1];
+/* Original69930..69b14. Role bits70 and allocation bits780 are distinct
+   fields in this symbol-attribute domain; register location is bit8000.
+   An alias temporarily borrows its target's name, type and position. */
+void __fastcall write_debug_symbol(SymbolHeader *symbol)
+{
+    BackendSymbol *variable = (BackendSymbol *)symbol, *target;
+    CodeViewAliasSymbol *alias;
+    char *saved_name;
+    unsigned role, saved_offset;
+    unsigned short saved_type;
+    int kind = symbol->kind;
+    if (kind == 1 && !symbol->name) return;
+    role = kind == 1 ? variable->attributes & 0x70 : 0;
+    if (!(variable->output_flags & 4) &&
+        !(kind == 1 && (role == 0x30 ||
+            (role == 0x10 && ((symbol->field0e & 0x800) ||
+                (variable->attributes & 0x8000))))) &&
+        !(kind == 3 && !optimize_global)) return;
+    switch (kind) {
+    case 1:
+        if (!codeview_allocation_class)
+            codeview_allocation_class = (variable->attributes & 0x780) >> 7;
+        if (!symbol->field0d || symbol->field0d == 0x24) {
+            if (role == 0x10 || role == 0x30) {
+                if (variable->attributes & 0x8000)
+                    write_codeview_register(symbol);
+                else write_codeview_frame_variable(symbol);
+            } else if (codeview_allocation_class == 4 &&
+                (role == 0x60 || role == 0x20 || role == 0x40))
+                write_codeview_local_data(symbol);
+            else write_codeview_global_data(symbol);
+        }
+        codeview_allocation_class = 0;
+        break;
+    case 3:
+        if (!symbol->field0d || (symbol->field0e & 0x1000))
+            write_codeview_label(symbol);
+        break;
+    case 7:
+        alias = (CodeViewAliasSymbol *)symbol;
+        target = (BackendSymbol *)lookup_global_symbol(alias->target_identifier);
+        target->output_flags |= 4;
+        output_callbacks.mark_symbol(&target->symbol);
+        saved_name = target->symbol.name;
+        saved_type = target->field20;
+        saved_offset = target->symbol.field04;
+        target->symbol.name = symbol->name;
+        target->field20 = variable->field20;
+        target->symbol.field04 += symbol->field04;
+        codeview_allocation_class = (variable->attributes & 0x780) >> 7;
+        write_debug_symbol(&target->symbol);
+        target->symbol.name = saved_name;
+        target->output_flags &= ~4;
+        target->field20 = saved_type;
+        target->symbol.field04 = saved_offset;
+        codeview_allocation_class = 0;
+        break;
+    case 8:
+        write_codeview_constant(symbol);
+        break;
+    case 11:
+        write_codeview_typedef(symbol);
+        break;
     }
 }
 

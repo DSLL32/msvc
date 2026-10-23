@@ -86,7 +86,13 @@ __declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
-void __fastcall write_debug_symbol(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_frame_variable(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_register(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_local_data(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_global_data(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_label(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_constant(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_typedef(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
 __declspec(naked) void begin_debug_function(void) { RECON_TRACE_NAKED_ENTRY(begin_debug_function) __asm int 3 }
 __declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finish_debug_module) __asm int 3 }
