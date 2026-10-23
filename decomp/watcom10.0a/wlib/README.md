@@ -1,8 +1,9 @@
 # Watcom 10.0a WLIB
 
 `src/main.c` reconstructs the actual 142-byte application entry, with named
-trapping application/support callees. Main is accepted: one application function, 142 original bytes, through the
-matching `CheckMemoryHook` frontier. Later application callees remain trapping. Both `make -j4 native` (GCC i386) and `make -j4 reference-build` (original
+trapping application/support callees. Main and the empty `CheckMemoryHook` are accepted: two application functions,
+143 original bytes, through the matching `InitMsg` frontier. Later application
+callees remain trapping. Both `make -j4 native` (GCC i386) and `make -j4 reference-build` (original
 Watcom Win32) compile the source. `make -j4 audit-main-candidate` checks the real
 Watcom MAP/PE with the canonical Rust graph auditor: nine callee identities,
 callback references, RET cleanup, ownership and extents match. Native tests use
@@ -22,9 +23,11 @@ shared Watcom startup option now supplies `127f`. The explicit first-call empty
 target allocation namespace contract supplies the reached heap boundary without
 claiming glibc integrity validation. Native paired checks passed with matching
 arguments, 52-byte jump storage, flags, errors and architectural x87 state.
-`make -j4 fixtures` runs only this native prefix, with no Wine or recapture; the
-fixture took 0.252 seconds overall (debugger execution/checks 0.178 seconds).
-The parallel original/native build plus graph audit took 1.260 seconds.
+`make -j4 fixtures` runs the current native main→hook→InitMsg prefix with no Wine
+or recapture. The hook case took 0.267 seconds overall (debugger execution/checks
+0.181 seconds); parallel native/original build plus two-function graph audit
+took 1.241 seconds. `cases/help/hook-frontier/` retains the fresh masked/native
+comparison, original C3 extent, actual hook return and InitMsg image-name formal.
 
 The original is a native i386 PE32 console program, SHA256
 `f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3`.

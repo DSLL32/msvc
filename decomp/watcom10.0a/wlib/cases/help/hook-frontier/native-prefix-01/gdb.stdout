@@ -1,0 +1,23 @@
+Breakpoint 1 at 0x804a7cb: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=2, argv=0xffffd894) at src/main.c:13
+13	    _heapchk();
+Breakpoint 2 at 0x804abb0: file ../../../lib/recon/src/compat.c, line 52.
+
+Breakpoint 2, recon_watcom_heapchk () at ../../../lib/recon/src/compat.c:52
+52	    if (recon_watcom_first_main_heap.bound!=1 || recon_watcom_first_main_heap.calls ||
+main (argc=2, argv=0xffffd894) at src/main.c:14
+14	    CheckMemoryHook();
+Value returned is $1 = 0
+Breakpoint 3 at 0x804a8c4: file src/memory.c, line 10.
+
+Breakpoint 3, CheckMemoryHook () at src/memory.c:10
+10	}
+main (argc=2, argv=0xffffd894) at src/main.c:15
+15	    InitMsg( argv[0] );
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+InitMsg (image_name=0xffffda39 "R:\\toolchains\\watcom10.0a\\.patched\\WLIB.EXE") at src/stubs.c:9
+9	    return( 0 );

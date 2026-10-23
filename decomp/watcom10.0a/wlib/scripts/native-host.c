@@ -7,5 +7,5 @@
 static void __attribute__((constructor(104))) bind_first_main_heap( void )
 {
     recon_bind_watcom_wlib_first_main_heap(
-        "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625" );
+        "6f6ec24c1ce17f7f04e3b13e6d62cf283c1e87a663fb8ab4048a9e9c6a0650e4" );
 }

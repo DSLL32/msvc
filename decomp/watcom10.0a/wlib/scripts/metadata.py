@@ -75,7 +75,7 @@ def inspect(path):
                              for name, index in (("export", 0), ("import", 1), ("resource", 2), ("debug", 6))},
                 sections=sections, imports=imports,
                 overlay=dict(offset=section_end, size=len(data) - section_end),
-                accepted_application_functions=1, accepted_application_bytes=142)
+                accepted_application_functions=2, accepted_application_bytes=143)
 
 
 def main():

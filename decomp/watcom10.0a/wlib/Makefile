@@ -9,7 +9,7 @@ OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native
 NATIVE_FLAGS = -m32 -std=gnu89 -O0 -g -fno-omit-frame-pointer -fno-pie
 
-.PHONY: all native original reference-build metadata inspect check fixtures audit-main-candidate
+.PHONY: all native original reference-build metadata inspect check fixtures audit-main-candidate audit-hook-candidate
 all: native
 
 native: build/native/WLIB
@@ -43,10 +43,14 @@ check:
 
 # Current accepted prefix; later application callees remain INT3 frontiers.
 fixtures: native
-	@$(PYTHON) scripts/check-main-prefix.py
+	@$(PYTHON) scripts/check-main-prefix.py --hook
 
 include ../../../tooling/graph-audit/graph-audit.mk
 
 # Candidate static checks do not grant runtime reconstruction acceptance.
 audit-main-candidate: reference-build $(GRAPH_AUDIT_BIN)
 	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)"
+
+# The next candidate's driver pins must replace their pending runtime entries.
+audit-hook-candidate: reference-build $(GRAPH_AUDIT_BIN)
+	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)" cases/help/hook-frontier/audit-candidate.json build/hook-static-graph.json

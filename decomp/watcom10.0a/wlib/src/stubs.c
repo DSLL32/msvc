@@ -3,11 +3,6 @@
 #include "wlib.h"
 #include <recon.h>
 
-void CheckMemoryHook( void )
-{
-    WLIB_FRONTIER();
-}
-
 int InitMsg( const char *image_name )
 {
     WLIB_FRONTIER();

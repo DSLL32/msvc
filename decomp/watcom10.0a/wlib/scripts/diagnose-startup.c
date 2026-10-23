@@ -31,7 +31,7 @@ static ReturnBreak owner_return_break, reader_return_break;
 static DWORD owned_process_id, event_count;
 static DWORD initial_entry_address;
 static int final_exit_seen, cf_file_observer_rearmed;
-static int prefix_mode, prefix_state;
+static int prefix_mode, prefix_state, prefix_hook;
 static unsigned prefix_initializers;
 static DWORD prefix_thread, prefix_heap_stack, prefix_argc, prefix_argv;
 static WORD prefix_ds, prefix_gs;
@@ -126,15 +126,20 @@ static int prefix_mask(unsigned main_site, CONTEXT *context)
                spans[i][1]-spans[i][0]);
         fprintf(events,"prefix-restored-span start=%08lx end=%08lx\n",spans[i][0],spans[i][1]);
     }
+    if(prefix_hook) {
+        if(original[0x411fdf-0x410000]!=0xc3)return 0;
+        prefix_expected[0x411fdf-0x410000]=0xc3;
+        fprintf(events,"prefix-restored-span start=00411fdf end=00411fe0\n");
+    }
     if(original[0x17ec3-0x10000]!=0x52 || original[0x12a72-0x10000]!=0xe8)return 0;
-    for(i=0;i<2;++i) {
+    for(i=0;i<(prefix_hook ? 3U : 2U);++i) {
         Site *point;
         if(site_count==64)return 0;
         point=&sites[site_count++]; memset(point,0,sizeof(*point));
-        point->address=i ? 0x412a72 : 0x417ec3;
+        point->address=i==2 ? 0x411fdf : i ? 0x412a72 : 0x417ec3;
         point->rva=point->address-0x400000;
         point->saved=original[point->address-0x410000];point->expected=point->saved;point->guarded=1;
-        strcpy(point->name,i ? "prefix_heap_return" : "prefix_heap_entry");
+        strcpy(point->name,i==2 ? "prefix_hook_entry" : i ? "prefix_heap_return" : "prefix_heap_entry");
         prefix_expected[point->address-0x410000]=0xcc;
     }
     if(!VirtualProtectEx(child,(void *)0x410000,50688,PAGE_EXECUTE_READWRITE,&old))return 0;
@@ -672,9 +677,11 @@ int main(int argc, char **argv)
         if (fscanf(site_file, "%lx", &value) != EOF) return 121;
         fclose(site_file);
     }
-    if (argc == 13 && !strcmp(argv[12], "wlib-main-prefix")) {
+    if (argc == 13 && (!strcmp(argv[12], "wlib-main-prefix") ||
+                      !strcmp(argv[12], "wlib-hook-prefix"))) {
         if (cf_relocation_count || site_count != 7) return 121;
         prefix_mode=1;prefix_target=argv[1];
+        prefix_hook=!strcmp(argv[12],"wlib-hook-prefix");
     } else if (argc == 13 && !read_guard_config(argv[12])) return 121;
     events = fopen(argv[6], "wb");
     if (!events) return 122;
@@ -779,7 +786,7 @@ int main(int argc, char **argv)
                    context.Eip!=address+1 || !memory(address,&actual,1) || actual!=0xcc)
                     return fail_owned(152);
             }
-            if(prefix_mode && prefix_state && code==EXCEPTION_BREAKPOINT && address==0x411fdf) {
+            if(prefix_mode && !prefix_hook && prefix_state && code==EXCEPTION_BREAKPOINT && address==0x411fdf) {
                 DWORD caller;
                 BYTE actual;
                 if(prefix_state!=3 || !event.u.Exception.dwFirstChance || context.Eip!=address+1 ||
@@ -787,6 +794,17 @@ int main(int argc, char **argv)
                    !memory(context.Esp,&caller,4) || caller!=0x412a77 || context.Esp!=prefix_heap_stack ||
                    !prefix_observe("prefix-frontier-CheckMemoryHook",&context))return fail_owned(152);
                 fprintf(events,"prefix-frontier logical=CheckMemoryHook before-body=1 source-main=00412a67\n");
+                return fail_owned(151);
+            }
+            if(prefix_mode && prefix_hook && prefix_state && address==0x414bfe) {
+                DWORD caller, image_name;
+                if(prefix_state!=4 || !prefix_verify_mask() ||
+                   !memory(context.Esp,&caller,4) || caller!=0x412a7e ||
+                   context.Esp!=prefix_heap_stack || context.Edx!=prefix_argv ||
+                   !memory(prefix_argv,&image_name,4) || context.Eax!=image_name ||
+                   !prefix_observe("prefix-frontier-InitMsg",&context) ||
+                   !input_string("prefix-InitMsg-image",context.Eax,512))return fail_owned(152);
+                fprintf(events,"prefix-frontier logical=InitMsg before-body=1 source-main=00412a67 accepted-hook=00411fdf\n");
                 return fail_owned(151);
             }
             if (guard_mode && guard_state.step) {
@@ -854,6 +872,13 @@ int main(int argc, char **argv)
                         if(prefix_state!=2 || context.Esp!=prefix_heap_stack+4 || !prefix_callbacks(1) ||
                            !prefix_observe("prefix-heap-return",&context))return fail_owned(152);
                         prefix_state=3;
+                    } else if(!strcmp(sites[i].name,"prefix_hook_entry")) {
+                        DWORD caller;
+                        if(!prefix_hook || prefix_state!=3 || !prefix_verify_mask() ||
+                           context.Esp!=prefix_heap_stack || !memory(context.Esp,&caller,4) ||
+                           caller!=0x412a77 || !prefix_observe("prefix-CheckMemoryHook-entry",&context))
+                            return fail_owned(152);
+                        prefix_state=4;
                     }
                 }
                 if (guard_mode && ((int)i == guard_owner_site || (int)i == guard_reader_site)) {
