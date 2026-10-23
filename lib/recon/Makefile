@@ -180,3 +180,7 @@ build/fsopen-probe: tests/fsopen-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 fsopen-check: build/fsopen-probe
 	$(PYTHON) tests/check-fsopen.py build/fsopen-probe
+build/check-acp: tests/check-acp.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+acp-check: build/check-acp
+	$(PYTHON) tests/check-acp.py build/check-acp

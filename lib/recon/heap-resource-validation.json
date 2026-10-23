@@ -1,0 +1,12 @@
+{
+  "scope": "Captured ACP1252 and tracked private HeapAlloc9/HeapFree1 success semantics",
+  "original_owned_reference": "decomp/vc5.10/rcdll/cases/resources-rich/api-reference",
+  "actual_call_reference": "/root/.ai-tmp/msvc2/vc5.10/rcdll/rich-api-boundary-original2",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "original_sentinel_probe": "LastError0/12345678 x errno0/111, GetACP1252 and HeapFreeTRUE preserve both; separate live10-byte payload intact",
+  "native_checks": "GCC/Clang default +private-heap representative16/268/528/582/128008 zeroed full extents/free/live payload;12 scope controls;4 ACP profiles",
+  "build_and_check_seconds": {
+    "gcc": 0.996,
+    "clang": 1.25
+  }
+}

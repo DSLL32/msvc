@@ -841,7 +841,11 @@ LONG WINAPI recon_RtlUnicodeStringToAnsiString(struct AnsiString *out,struct Uni
 BOOL WINAPI recon_IsValidCodePage(UINT page)
 { (void)page; recon_unsupported("unreviewed IsValidCodePage"); return FALSE; }
 UINT WINAPI recon_GetACP(void)
-{ recon_unsupported("unreviewed GetACP"); return 0; }
+{
+    const char *profile=getenv("RECON_ACP");
+    if (!profile || strcmp(profile,"1252")) recon_unsupported("GetACP without captured1252 profile");
+    return 1252;
+}
 LPSTR WINAPI recon_CharNextA(LPCSTR text)
 { (void)text; recon_unsupported("unreviewed CharNextA"); return NULL; }
 
@@ -850,7 +854,7 @@ int __cdecl recon_wsprintfA(LPSTR output,LPCSTR format,...)
 BOOL WINAPI recon_HeapDestroy(HANDLE heap)
 { (void)heap; recon_unsupported("unreviewed HeapDestroy"); return FALSE; }
 
-/* Private heap support is bounded to the observed RC help allocation. These
+/* Private heap support preserves the observed RC owner/flags/success path. These
  * host-only lists expose ownership to GDB without borrowing target addresses. */
 typedef struct NativeHeap NativeHeap;
 typedef struct NativeHeapBlock {
@@ -883,10 +887,11 @@ LPVOID WINAPI recon_HeapAlloc(HANDLE handle,DWORD flags,DWORD size)
     NativeHeap *heap; NativeHeapBlock *block;
     size_t prefix,length,page; int saved_errno=errno;
     for (heap=native_heaps;heap && (HANDLE)heap!=handle;heap=heap->next) {}
-    if (!heap || flags!=9 || size!=528) recon_unsupported("unreviewed private HeapAlloc owner/flags/size");
+    if (!heap || flags!=9 || !size) recon_unsupported("unreviewed private HeapAlloc owner/flags/size");
     page=(size_t)sysconf(_SC_PAGESIZE);
     if (!page || (page&(page-1))) recon_unsupported("private heap host page size");
     prefix=(sizeof(*block)+15)&~(size_t)15;
+    if ((uint64_t)prefix+size+page-1>SIZE_MAX) recon_unsupported("private HeapAlloc size overflow");
     length=(prefix+size+page-1)&~(page-1);
     block=mmap(NULL,length,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
     if (block==MAP_FAILED) recon_unsupported("private HeapAlloc allocation failure");
@@ -896,10 +901,17 @@ LPVOID WINAPI recon_HeapAlloc(HANDLE handle,DWORD flags,DWORD size)
     errno=saved_errno;
     return block->payload;
 }
-BOOL WINAPI recon_HeapFree(HANDLE heap,DWORD flags,LPVOID block)
+BOOL WINAPI recon_HeapFree(HANDLE handle,DWORD flags,LPVOID payload)
 {
-    (void)heap; (void)flags; (void)block;
-    recon_unsupported("unreviewed private HeapFree"); return FALSE;
+    NativeHeap *heap; NativeHeapBlock **slot,*block; size_t length;
+    int saved_errno=errno;
+    for (heap=native_heaps;heap && (HANDLE)heap!=handle;heap=heap->next) {}
+    if (!heap || flags!=1 || !payload) recon_unsupported("unreviewed private HeapFree owner/flags");
+    for (slot=&heap->blocks;(block=*slot)!=NULL;slot=&block->next) if (block->payload==payload) break;
+    if (!block) recon_unsupported("private HeapFree unowned/dead/interior block");
+    length=block->mapping_size; *slot=block->next;
+    if (munmap(block,length)) recon_unsupported("private HeapFree host failure");
+    errno=saved_errno; return TRUE;
 }
 LRESULT WINAPI recon_SendMessageA(HWND window,UINT message,WPARAM wparam,LPARAM lparam)
 {

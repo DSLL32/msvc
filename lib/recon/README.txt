@@ -518,3 +518,10 @@ No cross-process sharing or HANDLE-inheritance equivalence is claimed. Under
 RECON_CRT_PROFILE_MSVCRT_510, reopening a FILE retains _bufsiz/_charbuf as the
 canonical provider does. Binary bytes, FILE state and error transitions have
 an explicit original probe; native fsopen-check uses only cached references.
+
+RECON_ACP=1252 explicitly selects the captured ANSI-code-page environment;
+unset/other profiles fail. GetACP preserves errno/LastError. Private HeapAlloc
+supports positive overflow-safe sizes with observed flags9 and owned heaps,
+zeroing the full requested extent; failures remain unsupported. HeapFree flags1
+accepts only a live exact-base block belonging to that heap, preserves errors,
+and leaves other live allocations intact. No freed-byte or exception claim.
