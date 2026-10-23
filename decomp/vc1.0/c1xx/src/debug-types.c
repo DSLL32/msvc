@@ -6,6 +6,7 @@
 #include "c1xx.h"
 #include "cpp-context.h"
 #include "class-finalization.h"
+#include "call-expressions.h"
 #include <recon.h>
 
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
@@ -14,6 +15,25 @@ unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
+
+/* Original 0x6fc70..0x6fcf5. Two four-bit near32 method descriptors
+   share each byte; an odd last entry keeps a zero low nibble. */
+void __stdcall emit_debug_vshape(CppSymbol *tag)
+{
+    unsigned char *leaf = debug_record_buffer + 2;
+    int count = 0;
+    VirtualEntryIterator iterator;
+    *(unsigned short *)leaf = 10;
+    begin_virtual_entries(&iterator,
+        first_vector_item(tag->detail.class_info->virtual_tables));
+    while (next_virtual_entry(&iterator)) {
+        if (count & 1) leaf[4 + count / 2] |= 5;
+        else leaf[4 + count / 2] = 0x50;
+        ++count;
+    }
+    *(unsigned short *)(leaf + 2) = (unsigned short)count;
+    emit_debug_type_record((count + 1) / 2 + 4);
+}
 
 /* Original 0x6fd00..0x6fd86. Pair near/far forms of the compiler's
    calling conventions, retaining the dedicated syscall code. */

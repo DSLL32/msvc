@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_debug_vshape@4",
+    "start": 457840,
+    "end": 457973
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1095-emit_debug_vshape-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_begin_virtual_entries@8",
+    "_emit_debug_type_record@4",
+    "_first_vector_item@4",
+    "_next_virtual_entry@4"
+  ],
+  "next_frontier": "_begin_virtual_entries@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5343592446297407,
+  "total_operation_seconds": 4.385914975777268,
+  "original_capture_seconds": 1.7194181475788355
+}

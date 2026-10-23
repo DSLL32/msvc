@@ -2,6 +2,14 @@
 #define CLASS_FINALIZATION_H
 #include "lexer.h"
 #include <recon.h>
+typedef struct VirtualEntryIterator {
+    VirtualTable *table;
+    int index;
+    CppSymbol *member;
+} VirtualEntryIterator;
+typedef char VirtualEntryIteratorSizeMustBe12[(sizeof(VirtualEntryIterator) == 12) ? 1 : -1];
+void __stdcall begin_virtual_entries(VirtualEntryIterator *iterator, VirtualTable *table);
+int __stdcall next_virtual_entry(VirtualEntryIterator *iterator);
 void browser_end_tag(void);
 void __stdcall build_conversion_type_sets(CppSymbol *tag);
 void __stdcall prepare_class_virtual_tables(CppSymbol *tag);
