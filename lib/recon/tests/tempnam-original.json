@@ -1,0 +1,10 @@
+{
+  "source_sha256": "376ae9f75609b11c8ec6566067a4837925b68ad87e6a6ffc6fd2a0bd070b85d1",
+  "stdout_sha256": "edfb7dcc34927983d7700f18c92a1080ab69ffcd91f0f9de9e1b21f2f8a5fc17",
+  "stdout_bytes": 433,
+  "actual_TMP": "S:\\recon-maintenance\\tempnam-original\\tmp",
+  "original_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/tempnam-original/receipt.json",
+  "original_receipt_sha256": "26cecd3faa4efdd3e0dced3b67fb8f82b077f0d5f3e446177a7cc8b0991f6287",
+  "original_probe_sha256": "5d470e6646207090cdf3962293f17281f38f926741f3bf1dea7d4ae6c5b901fb",
+  "seconds_build_run": 4.021182380616665
+}

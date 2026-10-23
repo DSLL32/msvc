@@ -1,0 +1,45 @@
+{
+  "scope": "Explicit host RECON_TEMPNAM_PROFILE=libc100 only; actual existing absolute target TMP precedence, dir backslash, shortASCII prefix, counter/prefix-length state and missing initial candidate success. No mktemp delegation/name seed/default change.",
+  "original_provider_review": {
+    "binary": "toolchains/1.0-nt/bin/LINK.EXE",
+    "body_va": "[5b300,5b542)",
+    "globals_va": {
+      "counter_initialized1": "8640c",
+      "previous_prefix_length_initialized0": "86410"
+    },
+    "calls": "getenvTMP52200; directory/candidate access56f90; malloc51160; decimal_ultoa5b650. No mktemp call.",
+    "semantics": "Counter resets1 when prefix length grows, then increments before suffix conversion; successful missing candidate leaves errno/DOS/Last2."
+  },
+  "original_probe": {
+    "scope": "Explicit originalVC1.0 static libc100 tempnam single existing absolute TMP/missing candidate,4 sentinel rows, four live-owned allocations/free, no files created",
+    "seconds_build_run": 4.021182380616665,
+    "actual_TMP": "S:\\recon-maintenance\\tempnam-original\\tmp",
+    "files": {
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "probe.c": "376ae9f75609b11c8ec6566067a4837925b68ad87e6a6ffc6fd2a0bd070b85d1",
+      "stdout.bin": "edfb7dcc34927983d7700f18c92a1080ab69ffcd91f0f9de9e1b21f2f8a5fc17",
+      "probe.exe": "5d470e6646207090cdf3962293f17281f38f926741f3bf1dea7d4ae6c5b901fb",
+      "probe.obj": "4c9cf92a6ceb23c8dadce3274b1e0ed0295eb5202359963d2c368c9bfa03e5e5"
+    }
+  },
+  "actual_target": {
+    "events": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/resource-identity-duplicate-controlled/original-_u90fwsy/events.jsonl",
+    "sha256": "5a4d6816e36e35e164967e5d31ae73b91d665128d7ca677986e76375f7faf490",
+    "call": "entry0/0/0; targetTMP existing canonical S:case directory; counter1\u21922; tmp2 missing; return2/2/2; caller owns returned storage; zero-byte error artifact retained separately from positive deletion case."
+  },
+  "native_checks": {
+    "compilers": [
+      "GCC",
+      "Clang"
+    ],
+    "original_sentinel_rows_each": 4,
+    "results": "Actual TMP and tmp2..tmp5 match original; four distinct live owned allocations then free; counter5/prefix-length3; no files created.",
+    "denials_each": 10,
+    "default_checks": "Default shim and strict mktemp suite pass. Unconfigured tempnam branch unchanged; no broad cached replay required for explicit opt-in only."
+  },
+  "limits": [
+    "Only default-C, existing absolute TMP and nonempty shortASCII prefix are claimed.",
+    "Collisions/fallback/overflow/OOM/unknown failures deny; no captured candidate seed or global errno reseed.",
+    "Only actual returned string+NUL is initialized ownership; malloc tails and physical allocator size are unclaimed."
+  ]
+}

@@ -130,6 +130,7 @@ extern long recon_timezone;
 extern int recon_daylight;
 extern char *recon_tzname[2];
 extern int recon_days[13],recon_fltused,recon_tmpoff;
+extern unsigned recon_tempnam_counter,recon_tempnam_prefix_length;
 extern int recon_adjust_fdiv;
 typedef void (__cdecl *ReconInitializer)(void);
 void recon_initterm(ReconInitializer *,ReconInitializer *);

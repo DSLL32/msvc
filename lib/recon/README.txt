@@ -663,3 +663,15 @@ Invoke/Abort callback must check recon_module_provider_state before use. No DLL
 code or target dispatch function is synthesized by the shared registry. Module
 source/hash provenance and the actual captured loaded DOS path stay distinct.
 Existing modules without export providers retain their prior behavior.
+
+The explicit host option RECON_TEMPNAM_PROFILE=libc100 selects the encountered
+static CRT algorithm for _tempnam, separately from _mktemp. In default-C scope
+it requires dir="\\", a short ASCII prefix and an existing absolute target TMP.
+It checks TMP first, returns owned malloc storage, and uses the proved initialized
+counter1/prefix-length0 globals (exposed as recon_tempnam_counter and
+recon_tempnam_prefix_length). Prefix-length growth resets counter1, then ordinary
+decimal increment makes the first tmp result tmp2. No filename is supplied by a
+fixture seed. Only a missing initial candidate succeeds: it creates no file and
+retains the direct access errno/DOS/LastError2. Fallback/collision/overflow/OOM
+and other unproved paths fail closed. With no option, prior tempnam behavior is
+unchanged. The independently verified errno-preserving mktemp paths are unchanged.

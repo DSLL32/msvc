@@ -352,3 +352,9 @@ build/module-provider-probe: tests/module-provider-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 module-provider-check: build/module-provider-probe
 	$(PYTHON) tests/check-module-provider.py build/module-provider-probe
+
+.PHONY: tempnam-check
+build/tempnam-probe: tests/tempnam-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+tempnam-check: build/tempnam-probe
+	$(PYTHON) tests/check-tempnam.py build/tempnam-probe

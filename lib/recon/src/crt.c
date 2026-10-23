@@ -1438,8 +1438,63 @@ char *recon_mktemp(char *pattern)
         letter=letter?(char)(letter+1):'a'; pattern[length-6]=letter;
     }
 }
+unsigned recon_tempnam_counter=1,recon_tempnam_prefix_length;
+static char *tempnam_libc100(const char *dir,const char *prefix)
+{
+    const char *base=recon_getenv("TMP"),*cursor;
+    char host[PATH_MAX],digits[10],*path; struct stat information;
+    size_t length,prefix_length,used,n=0; unsigned value; int saved;
+    if (recon_mb_codepage || recon_lc_codepage || recon_lc_handle[2] || recon_mb_cur_max!=1)
+        recon_unsupported("libc100 tempnam unreviewed locale");
+    if (!dir || strcmp(dir,"\\") || !prefix || !*prefix || !base || !*base)
+        recon_unsupported("libc100 tempnam unreviewed directory/prefix/TMP");
+    prefix_length=strlen(prefix); length=strlen(base);
+    if (prefix_length>5 || length<3 || length>=MAX_PATH ||
+        !((base[0]>='A' && base[0]<='Z') || (base[0]>='a' && base[0]<='z')) ||
+        base[1]!=':' || (base[2]!='\\' && base[2]!='/'))
+        recon_unsupported("libc100 tempnam unreviewed prefix/absolute TMP");
+    for (cursor=prefix;*cursor;++cursor)
+        if ((unsigned char)*cursor>=128 || strchr("\\/:;\"*?",*cursor))
+            recon_unsupported("libc100 tempnam nonASCII/path prefix");
+    for (cursor=base;*cursor;++cursor)
+        if ((unsigned char)*cursor>=128 || strchr(";\"*?",*cursor))
+            recon_unsupported("libc100 tempnam nonASCII/wildcard TMP");
+    if (recon_access(base,0)) recon_unsupported("libc100 tempnam unavailable TMP");
+    saved=errno;
+    if (recon_host_path(base,host,sizeof(host)) || stat(host,&information) || !S_ISDIR(information.st_mode))
+        recon_unsupported("libc100 tempnam TMP is not an existing directory");
+    errno=saved;
+    path=malloc(length+prefix_length+8);
+    if (!path) recon_unsupported("libc100 tempnam allocation failure");
+    errno=saved;
+    memcpy(path,base,length); used=length;
+    if (path[used-1]!='\\' && path[used-1]!='/') path[used++]='\\';
+    memcpy(path+used,prefix,prefix_length); used+=prefix_length;
+    /* These are the proved initialized counter/prefix-length globals, not a
+     * fixture filename seed. The provider resets when prefix length grows. */
+    if (prefix_length>recon_tempnam_prefix_length) recon_tempnam_counter=1;
+    recon_tempnam_prefix_length=prefix_length;
+    if (recon_tempnam_counter==UINT_MAX)
+        recon_unsupported("libc100 tempnam counter overflow");
+    value=++recon_tempnam_counter;
+    do { digits[n++]=(char)('0'+value%10); value/=10; } while (value);
+    if (prefix_length+n>8 || n>6) recon_unsupported("libc100 tempnam basename overflow");
+    while (n) path[used++]=digits[--n];
+    path[used]=0;
+    if (!recon_access(path,0)) recon_unsupported("libc100 tempnam candidate collision");
+    if (errno!=ENOENT || recon_doserrno!=2 || recon_GetLastError()!=2)
+        recon_unsupported("libc100 tempnam unreviewed candidate failure");
+    /* The original direct access leaves errno/DOS/LastError2. It neither
+     * creates the candidate nor restores errno like the separate mktemp API. */
+    return path;
+}
 char *recon_tempnam(const char *dir,const char *prefix)
 {
+    const char *profile=getenv("RECON_TEMPNAM_PROFILE");
+    if (profile) {
+        if (strcmp(profile,"libc100")) recon_unsupported("unknown tempnam CRT profile");
+        return tempnam_libc100(dir,prefix);
+    }
     char *path; const char *base=dir?dir:getenv("TMP");
     if (!base) base=".";
     if (asprintf(&path,"%s\\%sXXXXXX",base,prefix?prefix:"")<0) return NULL;
