@@ -43,7 +43,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-rust-audit.py --binary $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-stdio-support.py
 	$(PYTHON) scripts/check-numeric-support.py
-audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -67,6 +67,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-assembly-instruction.py
 	$(PYTHON) scripts/check-assembly-operand.py
 	$(PYTHON) scripts/check-listing-float.py
+	$(PYTHON) scripts/check-listing-storage.py
+	$(PYTHON) scripts/check-listing-symbol.py
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -184,3 +186,9 @@ build/native/check-assembly-operand: src/check-assembly-operand.c src/assembly-o
 
 build/native/check-listing-float: src/check-listing-float.c src/listing.c $(NATIVE_HEADERS) $(NATIVE_SHIMS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-float.c src/listing.c $(NATIVE_SHIMS) -Wl,--gc-sections -o $@
+
+build/native/check-listing-storage: src/check-listing-storage.c src/listing.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-storage.c src/listing.c -Wl,--gc-sections -o $@
+
+build/native/check-listing-symbol: src/check-listing-symbol.c src/listing.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-symbol.c src/listing.c -Wl,--gc-sections -o $@

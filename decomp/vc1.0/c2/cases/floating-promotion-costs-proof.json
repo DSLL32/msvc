@@ -65,8 +65,8 @@
     "These value/shape checks do not claim all CPU/width branches executed by the floating case."
   ],
   "timing": {
-    "compile_seconds": 0.08984064497053623,
-    "execution_seconds": 0.0012122131884098053,
-    "total_seconds": 0.0955946333706379
+    "compile_seconds": 0.0889945337548852,
+    "execution_seconds": 0.0012485282495617867,
+    "total_seconds": 0.09475742653012276
   }
 }

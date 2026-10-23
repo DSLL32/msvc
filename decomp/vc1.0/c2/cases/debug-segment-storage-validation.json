@@ -1,11 +1,11 @@
 {
-  "checkpoint": 1206,
+  "checkpoint": 1213,
   "method": "Accepted original CFG instruction operands mapped to canonical CFG references; absolute MEM and address-construction MOV/PUSH IMM, never raw numeric byte matching",
   "slots": [
     {
       "original": "0x79144",
       "canonical": "_directive_segment",
-      "address": "0x8b8b0"
+      "address": "0x8b8b8"
     },
     {
       "original": "0x79148",
@@ -15,27 +15,27 @@
     {
       "original": "0x7914c",
       "canonical": "_debug_symbols_segment",
-      "address": "0x8b9c0"
+      "address": "0x8b9c8"
     },
     {
       "original": "0x7b8d0",
       "canonical": "_bss_segment",
-      "address": "0x8b9fc"
+      "address": "0x8ba04"
     },
     {
       "original": "0x7b8d4",
       "canonical": "_code_segment",
-      "address": "0x8b85c"
+      "address": "0x8b864"
     },
     {
       "original": "0x7b8d8",
       "canonical": "_data_segment",
-      "address": "0x8ba00"
+      "address": "0x8ba08"
     },
     {
       "original": "0x7b8dc",
       "canonical": "_const_segment",
-      "address": "0x8b9f8"
+      "address": "0x8ba00"
     },
     {
       "original": "0x7b8e0",
@@ -45,7 +45,7 @@
     {
       "original": "0x7b8e8",
       "canonical": "_tls_segment",
-      "address": "0x8c4a4"
+      "address": "0x8c4ac"
     }
   ],
   "checked": [
@@ -53,7 +53,7 @@
       "function": "_initialize_segments",
       "original_storage": "0x7b8d4",
       "canonical_symbol": "_code_segment",
-      "canonical_storage": "0x8b85c",
+      "canonical_storage": "0x8b864",
       "original_uses": [
         {
           "address": "0x6a19f",
@@ -68,33 +68,33 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x151ae",
-          "instruction": "mov dword ptr [0x8b85c], eax",
+          "address": "0x1516a",
+          "instruction": "mov dword ptr [0x8b864], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x151b3",
-          "instruction": "mov ecx, dword ptr [0x8b85c]",
+          "address": "0x1516f",
+          "instruction": "mov ecx, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x151c3",
-          "instruction": "mov ecx, dword ptr [0x8b85c]",
+          "address": "0x1517f",
+          "instruction": "mov ecx, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x151cc",
-          "instruction": "mov eax, dword ptr [0x8b85c]",
+          "address": "0x15188",
+          "instruction": "mov eax, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x151d5",
-          "instruction": "mov eax, dword ptr [0x8b85c]",
+          "address": "0x15191",
+          "instruction": "mov eax, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x151de",
-          "instruction": "mov eax, dword ptr [0x8b85c]",
+          "address": "0x1519a",
+          "instruction": "mov eax, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -103,7 +103,7 @@
       "function": "_initialize_segments",
       "original_storage": "0x7b8d8",
       "canonical_symbol": "_data_segment",
-      "canonical_storage": "0x8ba00",
+      "canonical_storage": "0x8ba08",
       "original_uses": [
         {
           "address": "0x6a1da",
@@ -118,28 +118,28 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x151fc",
-          "instruction": "mov dword ptr [0x8ba00], eax",
+          "address": "0x151b8",
+          "instruction": "mov dword ptr [0x8ba08], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15201",
-          "instruction": "mov ecx, dword ptr [0x8ba00]",
+          "address": "0x151bd",
+          "instruction": "mov ecx, dword ptr [0x8ba08]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1520c",
-          "instruction": "mov eax, dword ptr [0x8ba00]",
+          "address": "0x151c8",
+          "instruction": "mov eax, dword ptr [0x8ba08]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15215",
-          "instruction": "mov eax, dword ptr [0x8ba00]",
+          "address": "0x151d1",
+          "instruction": "mov eax, dword ptr [0x8ba08]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1521e",
-          "instruction": "mov eax, dword ptr [0x8ba00]",
+          "address": "0x151da",
+          "instruction": "mov eax, dword ptr [0x8ba08]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -148,7 +148,7 @@
       "function": "_initialize_segments",
       "original_storage": "0x7b8dc",
       "canonical_symbol": "_const_segment",
-      "canonical_storage": "0x8b9f8",
+      "canonical_storage": "0x8ba00",
       "original_uses": [
         {
           "address": "0x6a20c",
@@ -163,28 +163,28 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x1523c",
-          "instruction": "mov dword ptr [0x8b9f8], eax",
+          "address": "0x151f8",
+          "instruction": "mov dword ptr [0x8ba00], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15241",
-          "instruction": "mov ecx, dword ptr [0x8b9f8]",
+          "address": "0x151fd",
+          "instruction": "mov ecx, dword ptr [0x8ba00]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1524c",
-          "instruction": "mov eax, dword ptr [0x8b9f8]",
+          "address": "0x15208",
+          "instruction": "mov eax, dword ptr [0x8ba00]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15255",
-          "instruction": "mov eax, dword ptr [0x8b9f8]",
+          "address": "0x15211",
+          "instruction": "mov eax, dword ptr [0x8ba00]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1525e",
-          "instruction": "mov eax, dword ptr [0x8b9f8]",
+          "address": "0x1521a",
+          "instruction": "mov eax, dword ptr [0x8ba00]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -193,7 +193,7 @@
       "function": "_initialize_segments",
       "original_storage": "0x7b8d0",
       "canonical_symbol": "_bss_segment",
-      "canonical_storage": "0x8b9fc",
+      "canonical_storage": "0x8ba04",
       "original_uses": [
         {
           "address": "0x6a23e",
@@ -208,28 +208,28 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x1527c",
-          "instruction": "mov dword ptr [0x8b9fc], eax",
+          "address": "0x15238",
+          "instruction": "mov dword ptr [0x8ba04], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15281",
-          "instruction": "mov ecx, dword ptr [0x8b9fc]",
+          "address": "0x1523d",
+          "instruction": "mov ecx, dword ptr [0x8ba04]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1528c",
-          "instruction": "mov eax, dword ptr [0x8b9fc]",
+          "address": "0x15248",
+          "instruction": "mov eax, dword ptr [0x8ba04]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15295",
-          "instruction": "mov eax, dword ptr [0x8b9fc]",
+          "address": "0x15251",
+          "instruction": "mov eax, dword ptr [0x8ba04]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1529e",
-          "instruction": "mov eax, dword ptr [0x8b9fc]",
+          "address": "0x1525a",
+          "instruction": "mov eax, dword ptr [0x8ba04]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -238,7 +238,7 @@
       "function": "_initialize_segments",
       "original_storage": "0x7914c",
       "canonical_symbol": "_debug_symbols_segment",
-      "canonical_storage": "0x8b9c0",
+      "canonical_storage": "0x8b9c8",
       "original_uses": [
         {
           "address": "0x6a278",
@@ -248,38 +248,38 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x152c8",
-          "instruction": "mov dword ptr [0x8b9c0], eax",
+          "address": "0x15284",
+          "instruction": "mov dword ptr [0x8b9c8], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x152cd",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x15289",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x152d9",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x15295",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x152e7",
-          "instruction": "mov ecx, dword ptr [0x8b9c0]",
+          "address": "0x152a3",
+          "instruction": "mov ecx, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x152f0",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x152ac",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x152f9",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x152b5",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15302",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x152be",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -298,37 +298,37 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x1531f",
+          "address": "0x152db",
           "instruction": "mov dword ptr [0x8b6e8], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15324",
+          "address": "0x152e0",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15330",
+          "address": "0x152ec",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1533e",
+          "address": "0x152fa",
           "instruction": "mov ecx, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15347",
+          "address": "0x15303",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15350",
+          "address": "0x1530c",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15359",
+          "address": "0x15315",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         }
@@ -338,7 +338,7 @@
       "function": "_initialize_segments",
       "original_storage": "0x7b8e8",
       "canonical_symbol": "_tls_segment",
-      "canonical_storage": "0x8c4a4",
+      "canonical_storage": "0x8c4ac",
       "original_uses": [
         {
           "address": "0x6a2ed",
@@ -353,28 +353,28 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x15377",
-          "instruction": "mov dword ptr [0x8c4a4], eax",
+          "address": "0x15333",
+          "instruction": "mov dword ptr [0x8c4ac], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x1537c",
-          "instruction": "mov ecx, dword ptr [0x8c4a4]",
+          "address": "0x15338",
+          "instruction": "mov ecx, dword ptr [0x8c4ac]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15387",
-          "instruction": "mov eax, dword ptr [0x8c4a4]",
+          "address": "0x15343",
+          "instruction": "mov eax, dword ptr [0x8c4ac]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15390",
-          "instruction": "mov eax, dword ptr [0x8c4a4]",
+          "address": "0x1534c",
+          "instruction": "mov eax, dword ptr [0x8c4ac]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x15399",
-          "instruction": "mov eax, dword ptr [0x8c4a4]",
+          "address": "0x15355",
+          "instruction": "mov eax, dword ptr [0x8c4ac]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -398,12 +398,12 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x59e9a",
+          "address": "0x5a55e",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x59e05",
+          "address": "0x5a4c9",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         }
@@ -433,42 +433,42 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x53932",
+          "address": "0x538ee",
           "instruction": "mov dword ptr [0x8b6e8], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53999",
+          "address": "0x53955",
           "instruction": "mov dword ptr [0x8b6e8], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a48",
+          "address": "0x53a04",
           "instruction": "cmp dword ptr [0x8b6e8], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a55",
+          "address": "0x53a11",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a61",
+          "address": "0x53a1d",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a6d",
+          "address": "0x53a29",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a79",
+          "address": "0x53a35",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a82",
+          "address": "0x53a3e",
           "instruction": "mov eax, dword ptr [0x8b6e8]",
           "operand_kind": "absolute memory"
         }
@@ -478,7 +478,7 @@
       "function": "_prepare_backend_symbols",
       "original_storage": "0x7914c",
       "canonical_symbol": "_debug_symbols_segment",
-      "canonical_storage": "0x8b9c0",
+      "canonical_storage": "0x8b9c8",
       "original_uses": [
         {
           "address": "0x32a98",
@@ -498,38 +498,38 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5393c",
-          "instruction": "mov dword ptr [0x8b9c0], 0",
+          "address": "0x538f8",
+          "instruction": "mov dword ptr [0x8b9c8], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539a8",
-          "instruction": "mov dword ptr [0x8b9c0], eax",
+          "address": "0x53964",
+          "instruction": "mov dword ptr [0x8b9c8], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a11",
-          "instruction": "cmp dword ptr [0x8b9c0], 0",
+          "address": "0x539cd",
+          "instruction": "cmp dword ptr [0x8b9c8], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a1e",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x539da",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a2a",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x539e6",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a36",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x539f2",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a3f",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x539fb",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -538,7 +538,7 @@
       "function": "_prepare_backend_symbols",
       "original_storage": "0x7b8d4",
       "canonical_symbol": "_code_segment",
-      "canonical_storage": "0x8b85c",
+      "canonical_storage": "0x8b864",
       "original_uses": [
         {
           "address": "0x32aac",
@@ -553,18 +553,18 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x53950",
-          "instruction": "mov dword ptr [0x8b85c], eax",
+          "address": "0x5390c",
+          "instruction": "mov dword ptr [0x8b864], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539ad",
-          "instruction": "cmp dword ptr [0x8b85c], 0",
+          "address": "0x53969",
+          "instruction": "cmp dword ptr [0x8b864], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539ba",
-          "instruction": "mov eax, dword ptr [0x8b85c]",
+          "address": "0x53976",
+          "instruction": "mov eax, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -573,7 +573,7 @@
       "function": "_prepare_backend_symbols",
       "original_storage": "0x7b8d8",
       "canonical_symbol": "_data_segment",
-      "canonical_storage": "0x8ba00",
+      "canonical_storage": "0x8ba08",
       "original_uses": [
         {
           "address": "0x32abb",
@@ -588,18 +588,18 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5395f",
-          "instruction": "mov dword ptr [0x8ba00], eax",
+          "address": "0x5391b",
+          "instruction": "mov dword ptr [0x8ba08], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539c6",
-          "instruction": "cmp dword ptr [0x8ba00], 0",
+          "address": "0x53982",
+          "instruction": "cmp dword ptr [0x8ba08], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539d3",
-          "instruction": "mov eax, dword ptr [0x8ba00]",
+          "address": "0x5398f",
+          "instruction": "mov eax, dword ptr [0x8ba08]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -608,7 +608,7 @@
       "function": "_prepare_backend_symbols",
       "original_storage": "0x7b8dc",
       "canonical_symbol": "_const_segment",
-      "canonical_storage": "0x8b9f8",
+      "canonical_storage": "0x8ba00",
       "original_uses": [
         {
           "address": "0x32aca",
@@ -623,18 +623,18 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5396e",
-          "instruction": "mov dword ptr [0x8b9f8], eax",
+          "address": "0x5392a",
+          "instruction": "mov dword ptr [0x8ba00], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539f8",
-          "instruction": "cmp dword ptr [0x8b9f8], 0",
+          "address": "0x539b4",
+          "instruction": "cmp dword ptr [0x8ba00], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53a05",
-          "instruction": "mov eax, dword ptr [0x8b9f8]",
+          "address": "0x539c1",
+          "instruction": "mov eax, dword ptr [0x8ba00]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -643,7 +643,7 @@
       "function": "_prepare_backend_symbols",
       "original_storage": "0x7b8d0",
       "canonical_symbol": "_bss_segment",
-      "canonical_storage": "0x8b9fc",
+      "canonical_storage": "0x8ba04",
       "original_uses": [
         {
           "address": "0x32ad9",
@@ -663,18 +663,18 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5397d",
-          "instruction": "mov dword ptr [0x8b9fc], eax",
+          "address": "0x53939",
+          "instruction": "mov dword ptr [0x8ba04], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539df",
-          "instruction": "cmp dword ptr [0x8b9fc], 0",
+          "address": "0x5399b",
+          "instruction": "cmp dword ptr [0x8ba04], 0",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x539ec",
-          "instruction": "mov eax, dword ptr [0x8b9fc]",
+          "address": "0x539a8",
+          "instruction": "mov eax, dword ptr [0x8ba04]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -683,7 +683,7 @@
       "function": "@write_module_listing@4",
       "original_storage": "0x7b8d4",
       "canonical_symbol": "_code_segment",
-      "canonical_storage": "0x8b85c",
+      "canonical_storage": "0x8b864",
       "original_uses": [
         {
           "address": "0x2888a",
@@ -693,8 +693,8 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x57e94",
-          "instruction": "mov ecx, dword ptr [0x8b85c]",
+          "address": "0x58556",
+          "instruction": "mov ecx, dword ptr [0x8b864]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -703,7 +703,7 @@
       "function": "@coff_begin_function@16",
       "original_storage": "0x7914c",
       "canonical_symbol": "_debug_symbols_segment",
-      "canonical_storage": "0x8b9c0",
+      "canonical_storage": "0x8b9c8",
       "original_uses": [
         {
           "address": "0x6cb00",
@@ -718,13 +718,13 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5474b",
-          "instruction": "mov dword ptr [0x8b9c0], eax",
+          "address": "0x54707",
+          "instruction": "mov dword ptr [0x8b9c8], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x54770",
-          "instruction": "mov dword ptr [0x8b9c0], eax",
+          "address": "0x5472c",
+          "instruction": "mov dword ptr [0x8b9c8], eax",
           "operand_kind": "absolute memory"
         }
       ]
@@ -753,17 +753,17 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x54805",
+          "address": "0x547c1",
           "instruction": "mov dword ptr [0x8b004], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x5482c",
+          "address": "0x547e8",
           "instruction": "mov dword ptr [0x8b004], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x54851",
+          "address": "0x5480d",
           "instruction": "mov dword ptr [0x8b004], eax",
           "operand_kind": "absolute memory"
         }
@@ -773,7 +773,7 @@
       "function": "_coff_open_module",
       "original_storage": "0x79144",
       "canonical_symbol": "_directive_segment",
-      "canonical_storage": "0x8b8b0",
+      "canonical_storage": "0x8b8b8",
       "original_uses": [
         {
           "address": "0x6c8f3",
@@ -783,28 +783,28 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5424e",
-          "instruction": "mov dword ptr [0x8b8b0], eax",
+          "address": "0x5420a",
+          "instruction": "mov dword ptr [0x8b8b8], eax",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x54253",
-          "instruction": "mov eax, dword ptr [0x8b8b0]",
+          "address": "0x5420f",
+          "instruction": "mov eax, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x5425f",
-          "instruction": "mov eax, dword ptr [0x8b8b0]",
+          "address": "0x5421b",
+          "instruction": "mov eax, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x54268",
-          "instruction": "mov eax, dword ptr [0x8b8b0]",
+          "address": "0x54224",
+          "instruction": "mov eax, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x54271",
-          "instruction": "mov eax, dword ptr [0x8b8b0]",
+          "address": "0x5422d",
+          "instruction": "mov eax, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -813,7 +813,7 @@
       "function": "@coff_write_directive@12",
       "original_storage": "0x79144",
       "canonical_symbol": "_directive_segment",
-      "canonical_storage": "0x8b8b0",
+      "canonical_storage": "0x8b8b8",
       "original_uses": [
         {
           "address": "0x6d447",
@@ -833,18 +833,18 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x54381",
-          "instruction": "mov ecx, dword ptr [0x8b8b0]",
+          "address": "0x5433d",
+          "instruction": "mov ecx, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x543bb",
-          "instruction": "mov ecx, dword ptr [0x8b8b0]",
+          "address": "0x54377",
+          "instruction": "mov ecx, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x54451",
-          "instruction": "mov ecx, dword ptr [0x8b8b0]",
+          "address": "0x5440d",
+          "instruction": "mov ecx, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -853,7 +853,7 @@
       "function": "@coff_declare_segment@4",
       "original_storage": "0x79144",
       "canonical_symbol": "_directive_segment",
-      "canonical_storage": "0x8b8b0",
+      "canonical_storage": "0x8b8b8",
       "original_uses": [
         {
           "address": "0x6d0ab",
@@ -863,8 +863,8 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x573e8",
-          "instruction": "mov eax, dword ptr [0x8b8b0]",
+          "address": "0x573a4",
+          "instruction": "mov eax, dword ptr [0x8b8b8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -888,12 +888,12 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x841c9",
+          "address": "0x8488d",
           "instruction": "mov ecx, dword ptr [0x8b004]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x84226",
+          "address": "0x848ea",
           "instruction": "mov eax, dword ptr [0x8b004]",
           "operand_kind": "absolute memory"
         }
@@ -903,7 +903,7 @@
       "function": "_write_codeview_signature",
       "original_storage": "0x7914c",
       "canonical_symbol": "_debug_symbols_segment",
-      "canonical_storage": "0x8b9c0",
+      "canonical_storage": "0x8b9c8",
       "original_uses": [
         {
           "address": "0x69cdb",
@@ -918,13 +918,13 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x53f7f",
-          "instruction": "mov ecx, dword ptr [0x8b9c0]",
+          "address": "0x53f3b",
+          "instruction": "mov ecx, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x53f99",
-          "instruction": "mov eax, dword ptr [0x8b9c0]",
+          "address": "0x53f55",
+          "instruction": "mov eax, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -933,7 +933,7 @@
       "function": "_write_codeview_object_name",
       "original_storage": "0x7914c",
       "canonical_symbol": "_debug_symbols_segment",
-      "canonical_storage": "0x8b9c0",
+      "canonical_storage": "0x8b9c8",
       "original_uses": [
         {
           "address": "0x69c9c",
@@ -948,13 +948,13 @@
       ],
       "canonical_uses": [
         {
-          "address": "0x5401b",
-          "instruction": "mov ecx, dword ptr [0x8b9c0]",
+          "address": "0x53fd7",
+          "instruction": "mov ecx, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         },
         {
-          "address": "0x5403f",
-          "instruction": "mov ecx, dword ptr [0x8b9c0]",
+          "address": "0x53ffb",
+          "instruction": "mov ecx, dword ptr [0x8b9c8]",
           "operand_kind": "absolute memory"
         }
       ]
@@ -963,5 +963,5 @@
   "negative": "Rebinding original7914c to separate zero-valued bss storage rejected by actual signature writer operands",
   "boundary_exclusion": "coff_finish_module6c9db CMP79144 is the one-past end of16-entry index79104..79144, not a directive_segment pointer reference; unchanged original/canonical array-bound graph retained",
   "limit": "This verifies the introduced segment/debug global domain and global address identity; it does not infer all indirect heap aliases or claim branch coverage.",
-  "seconds": 3.215975725091994
+  "seconds": 3.200517173856497
 }

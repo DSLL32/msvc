@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-listing-storage.py", line 43, in <module>
+    u.hook_add(UC_HOOK_CODE,hook);u.emu_start(0x27fc0,0,count=100000)
+                                  ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/unicorn/unicorn_py3/unicorn.py", line 546, in emu_start
+    raise self._hook_exception
+  File "/usr/lib/python3/dist-packages/unicorn/unicorn_py3/unicorn.py", line 216, in wrapper
+    return func(uc, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/unicorn/unicorn_py3/unicorn.py", line 820, in __hook_code_cb
+    callback(uc, address, size, user_data)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-listing-storage.py", line 35, in hook
+    assert string(m,word(m,stack+4))==b'requested.c'and string(m,word(m,stack+8))==b'r'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

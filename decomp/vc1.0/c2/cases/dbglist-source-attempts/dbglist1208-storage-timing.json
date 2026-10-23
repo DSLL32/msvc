@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-listing-storage.py"
+  ],
+  "seconds": 0.3622812023386359,
+  "returncode": 1,
+  "log_sha256": "0e3e76e10d5ed7d8743454cb069ba531bbdf223758c1f50986e75804d842ad95"
+}

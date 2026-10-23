@@ -1,0 +1,12 @@
+{
+  "logical": "@write_listing_symbol@4",
+  "matched": true,
+  "executable_sha256": "d03600b77aac6df249bf098139c1e753b119377ef95704635f2d27c4a33810cd",
+  "config_sha256": "beaededfde7d3cf34b3e87463f97ecf005388fe8c68ae1377d05a81a141bf0ed",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "setup_seconds": 0.00700491014868021,
+  "execution_seconds": 0.13611481804400682,
+  "seconds": 0.15366697032004595,
+  "log_sha256": "7dea1c2a0f09087c2848b8103cd80a45a82fa288deffa4beaa2e439ebd41d078",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/dbglist-gdb-pymh6gpf"
+}

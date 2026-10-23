@@ -1582,7 +1582,7 @@
       "blocks_sha256": "546c62c91a4db1fd593d240dc678a96ed1a3a25e44643d7b23fdc2da684f0017"
     }
   ],
-  "seconds": 1.5213446347042918,
+  "seconds": 1.0319967968389392,
   "method": "Actual compiled native C and original6f1c0..6f36e/new-block helper in Unicorn; actual500-byte ring contents/counters, allocator calls and direct fwrite requests compared",
   "direct_file_limit": "Mock fwrite observes count/80 defined scratch bytes only. It never reads the original branch's out-of-contract oversized span; no adjacent data or real direct-file conformance claimed.",
   "error_limit": "No failing allocator/fwrite/error callback branch is exercised; those remain the original named call edges."

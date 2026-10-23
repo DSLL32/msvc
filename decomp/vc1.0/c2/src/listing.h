@@ -3,10 +3,9 @@
 #include "segments.h"
 #include "initializers.h"
 #include "machine.h"
+#include <stddef.h>
 #include <recon.h>
-extern int listing_enabled;
 extern unsigned listing_column;
-extern Segment *listed_segment;
 Segment *__fastcall write_segment_listing(Segment *segment, int definition);
 Segment *__fastcall close_segment_listing(Segment *segment);
 char *__fastcall listing_segment_name(Segment *segment);
@@ -17,16 +16,49 @@ void __fastcall write_external_listing(SymbolHeader *symbol);
 void __fastcall write_common_listing(SymbolHeader *symbol);
 void __fastcall mark_listing_symbols(SymbolHeader *symbol);
 void __fastcall write_initializer_assembly(Initializer *initializer);
+typedef struct ListingSourceLine {
+    long line;
+    struct ListingSourceLine *next;
+} ListingSourceLine;
 typedef struct ListingSource {
     char *name;
     FILE *file;
-    unsigned line, position;
+    ListingSourceLine *lines;
+    long line;
 } ListingSource;
-extern ListingSource listing_sources[20];
+/* Original7c954..7caa4. There are twenty cache slots. The original writes a
+   twenty-first entry before diagnosing overflow, aliasing these four globals.
+   The indexed view preserves that order without an out-of-bounds C access. */
+typedef union ListingStorage {
+    struct {
+        ListingSource files[20];
+        ListingSourceLine *cursor, *lines;
+        int enabled;
+        Segment *segment;
+    } state;
+    ListingSource indexed[21];
+} ListingStorage;
+typedef char ListingSourceSizeCheck[sizeof(ListingSource) == 16 ? 1 : -1];
+typedef char ListingStorageSizeCheck[sizeof(ListingStorage) == 336 ? 1 : -1];
+/* VC1 does not accept this offsetof macro as an array-bound constant. The
+   native checks and original/canonical operand proof bind the field offsets. */
+#ifdef RECON_NATIVE_TEST
+typedef char ListingCursorOffsetCheck[offsetof(ListingStorage, state.cursor) == 320 ? 1 : -1];
+typedef char ListingHeadOffsetCheck[offsetof(ListingStorage, state.lines) == 324 ? 1 : -1];
+typedef char ListingEnabledOffsetCheck[offsetof(ListingStorage, state.enabled) == 328 ? 1 : -1];
+typedef char ListingSegmentOffsetCheck[offsetof(ListingStorage, state.segment) == 332 ? 1 : -1];
+#endif
+extern ListingStorage listing_storage;
+#define listing_sources (listing_storage.indexed)
+#define listing_enabled (listing_storage.state.enabled)
+#define listed_segment (listing_storage.state.segment)
 extern int listing_source_count, listing_source_index;
 extern char *assembly_source_filename;
 void __fastcall prepare_source_listing(MachineInstruction *instructions);
 void __fastcall open_listing_source(char *filename);
+void __fastcall record_listing_source_line(long line);
+long __fastcall previous_listing_source_line(long line);
+int __fastcall read_listing_source(char *buffer, long line);
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first);
 void __fastcall pad_listing_column(unsigned column);
 void __fastcall write_listing_symbol(SymbolHeader *symbol);

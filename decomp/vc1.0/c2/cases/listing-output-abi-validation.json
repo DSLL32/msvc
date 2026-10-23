@@ -14,7 +14,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58147",
+          "address": "0x5880a",
           "stack_bytes": 0
         }
       ],
@@ -31,7 +31,7 @@
       ],
       "canonical": [
         {
-          "address": "0x581af",
+          "address": "0x58872",
           "stack_bytes": 0
         }
       ],
@@ -48,7 +48,7 @@
       ],
       "canonical": [
         {
-          "address": "0x581e3",
+          "address": "0x588a6",
           "stack_bytes": 0
         }
       ],
@@ -81,7 +81,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5826a",
+          "address": "0x5892d",
           "stack_bytes": 0
         }
       ],
@@ -98,7 +98,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5839d",
+          "address": "0x58a60",
           "stack_bytes": 0
         }
       ],
@@ -115,7 +115,7 @@
       ],
       "canonical": [
         {
-          "address": "0x584ef",
+          "address": "0x58bb2",
           "stack_bytes": 0
         }
       ],
@@ -144,7 +144,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58857",
+          "address": "0x58f1a",
           "stack_bytes": 0
         }
       ],
@@ -161,7 +161,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5888e",
+          "address": "0x58f51",
           "stack_bytes": 0
         }
       ],
@@ -178,7 +178,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5662e",
+          "address": "0x565ea",
           "stack_bytes": 0
         }
       ],
@@ -203,7 +203,7 @@
       ],
       "canonical": [
         {
-          "address": "0x56857",
+          "address": "0x56813",
           "stack_bytes": 0
         }
       ],
@@ -220,7 +220,7 @@
       ],
       "canonical": [
         {
-          "address": "0x589e1",
+          "address": "0x590a4",
           "stack_bytes": 0
         }
       ],
@@ -237,7 +237,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58ac9",
+          "address": "0x5918c",
           "stack_bytes": 4
         }
       ],
@@ -274,7 +274,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58d33",
+          "address": "0x593f6",
           "stack_bytes": 0
         }
       ],
@@ -307,7 +307,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58f0f",
+          "address": "0x595d2",
           "stack_bytes": 0
         }
       ],
@@ -328,7 +328,7 @@
       ],
       "canonical": [
         {
-          "address": "0x59005",
+          "address": "0x596c8",
           "stack_bytes": 0
         }
       ],
@@ -345,7 +345,7 @@
       ],
       "canonical": [
         {
-          "address": "0x590ba",
+          "address": "0x5977d",
           "stack_bytes": 0
         }
       ],
@@ -362,7 +362,7 @@
       ],
       "canonical": [
         {
-          "address": "0x590db",
+          "address": "0x5979e",
           "stack_bytes": 0
         }
       ],
@@ -379,7 +379,7 @@
       ],
       "canonical": [
         {
-          "address": "0x592f0",
+          "address": "0x599b3",
           "stack_bytes": 0
         }
       ],
@@ -396,7 +396,7 @@
       ],
       "canonical": [
         {
-          "address": "0x134d8",
+          "address": "0x13494",
           "stack_bytes": 0
         }
       ],
@@ -413,7 +413,7 @@
       ],
       "canonical": [
         {
-          "address": "0x16677",
+          "address": "0x16633",
           "stack_bytes": 0
         }
       ],
@@ -434,7 +434,7 @@
       ],
       "canonical": [
         {
-          "address": "0x16d04",
+          "address": "0x16cc0",
           "stack_bytes": 0
         }
       ],
@@ -451,7 +451,7 @@
       ],
       "canonical": [
         {
-          "address": "0x17254",
+          "address": "0x17210",
           "stack_bytes": 4
         }
       ],
@@ -472,7 +472,7 @@
       ],
       "canonical": [
         {
-          "address": "0x172a9",
+          "address": "0x17265",
           "stack_bytes": 0
         }
       ],
@@ -489,7 +489,7 @@
       ],
       "canonical": [
         {
-          "address": "0x16d3c",
+          "address": "0x16cf8",
           "stack_bytes": 0
         }
       ],
@@ -518,7 +518,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5382e",
+          "address": "0x537ea",
           "stack_bytes": 4
         }
       ],
@@ -535,7 +535,7 @@
       ],
       "canonical": [
         {
-          "address": "0x568e7",
+          "address": "0x568a3",
           "stack_bytes": 16
         }
       ],
@@ -564,18 +564,155 @@
       ],
       "canonical": [
         {
-          "address": "0x59549",
+          "address": "0x59c0c",
           "stack_bytes": 4
         }
       ],
       "callee_stack_bytes": 4,
       "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@prepare_source_listing@4",
+      "original": [
+        {
+          "address": "0x2875e",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x579e1",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@open_listing_source@4",
+      "original": [
+        {
+          "address": "0x28113",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57bc9",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@record_listing_source_line@4",
+      "original": [
+        {
+          "address": "0x2a8e8",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2a915",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57ccf",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@write_local_listing@4",
+      "original": [
+        {
+          "address": "0x28334",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57d78",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@write_listing_symbol@4",
+      "original": [
+        {
+          "address": "0x28259",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2827b",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57de2",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@write_listing_source@4",
+      "original": [
+        {
+          "address": "0x28506",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57ef8",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@previous_listing_source_line@4",
+      "original": [
+        {
+          "address": "0x2a92f",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2a956",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57f71",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
     }
   ],
-  "seconds": 0.39068578369915485,
-  "accepted_slice": [
-    1162,
-    1189
+  "seconds": 0.4003131156787276,
+  "accepted_slices": [
+    [
+      1162,
+      1189
+    ],
+    [
+      1206,
+      1213
+    ]
   ],
   "word_argument": "coff_write_word original6eff3 storesCX; original/native frontier observed65529, source unsigned short parameter preserves low16 bits",
   "fill_arguments": "coff_fill_bytes CL/EDX byte/count are independently exercised by original/native isolated fill probe"

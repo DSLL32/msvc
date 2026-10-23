@@ -1210,7 +1210,14 @@
     "__cftof",
     "__shift",
     "_memcpy",
-    "__cropzeros"
+    "__cropzeros",
+    "@prepare_source_listing@4",
+    "@open_listing_source@4",
+    "@record_listing_source_line@4",
+    "@write_local_listing@4",
+    "@write_listing_symbol@4",
+    "@write_listing_source@4",
+    "@previous_listing_source_line@4"
   ],
   "driver": [
     {
@@ -4000,14 +4007,12 @@
     {
       "name": "@prepare_source_listing@4",
       "start": 165504,
-      "end": 165505,
-      "provisional": true
+      "end": 165727
     },
     {
       "name": "@open_listing_source@4",
       "start": 163776,
-      "end": 163777,
-      "provisional": true
+      "end": 164116
     },
     {
       "name": "@write_demangled_listing@8",
@@ -4023,8 +4028,7 @@
     {
       "name": "@write_listing_symbol@4",
       "start": 164400,
-      "end": 164401,
-      "provisional": true
+      "end": 164476
     },
     {
       "name": "@write_listing_comment@4",
@@ -4041,8 +4045,7 @@
     {
       "name": "@write_listing_source@4",
       "start": 164928,
-      "end": 164929,
-      "provisional": true
+      "end": 165127
     },
     {
       "name": "@write_instruction_listing@8",
@@ -4053,8 +4056,7 @@
     {
       "name": "@write_local_listing@4",
       "start": 164560,
-      "end": 164561,
-      "provisional": true
+      "end": 164661
     },
     {
       "name": "_compiler_error",
@@ -7721,6 +7723,22 @@
       "name": "@spill_lowering_register@8",
       "start": 205440,
       "end": 205441,
+      "provisional": true
+    },
+    {
+      "name": "@record_listing_source_line@4",
+      "start": 174208,
+      "end": 174358
+    },
+    {
+      "name": "@previous_listing_source_line@4",
+      "start": 174368,
+      "end": 174423
+    },
+    {
+      "name": "@read_listing_source@8",
+      "start": 174432,
+      "end": 174433,
       "provisional": true
     }
   ],

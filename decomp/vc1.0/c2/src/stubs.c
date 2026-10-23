@@ -149,15 +149,11 @@ int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
-void __fastcall prepare_source_listing(MachineInstruction *instructions) { __asm int 3 }
-void __fastcall open_listing_source(char *filename) { __asm int 3 }
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
-void __fastcall write_listing_symbol(SymbolHeader *symbol) { __asm int 3 }
 int __fastcall write_listing_comment(int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
-void __fastcall write_listing_source(unsigned line) { __asm int 3 }
+int __fastcall read_listing_source(char *buffer, long line) { __asm int 3 }
 MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *instruction, unsigned *offset) { __asm int 3 }
-void __fastcall write_local_listing(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset) { __asm int 3 }

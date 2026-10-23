@@ -1,20 +1,15 @@
 {
   "modules": [
     {
-      "module": "unoptimized",
-      "seconds": 1.028629113920033,
-      "returncode": 0
-    },
-    {
-      "module": "coff-writer",
-      "seconds": 0.9911192310974002,
-      "returncode": 0
-    },
-    {
       "module": "listing",
-      "seconds": 1.0842563696205616,
+      "seconds": 1.0024382639676332,
+      "returncode": 0
+    },
+    {
+      "module": "symbols",
+      "seconds": 0.9493425861001015,
       "returncode": 0
     }
   ],
-  "seconds": 3.1043654046952724
+  "seconds": 1.952049064449966
 }

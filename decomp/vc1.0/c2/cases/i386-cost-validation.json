@@ -33,9 +33,9 @@
     "This exhaustive cost-form proof is distinct from which forms execute in the frozen G3 compile case."
   ],
   "timing": {
-    "native_build_seconds": 0.17125767655670643,
-    "native_execution_seconds": 0.05743645969778299,
-    "original_emulation_seconds": 2.913247070275247,
-    "total_seconds": 3.151571713387966
+    "native_build_seconds": 0.16766326408833265,
+    "native_execution_seconds": 0.057093980722129345,
+    "original_emulation_seconds": 2.7463227324187756,
+    "total_seconds": 2.980577614158392
   }
 }

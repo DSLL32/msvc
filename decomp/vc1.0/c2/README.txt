@@ -253,3 +253,17 @@ all14 native cases pass (13 complete plus debug's named source-listing trap).
 Coverage327863/399693=82.028707% is extent union, not branch coverage;
 3710 of the4682 newly accepted bytes are CRT support. Debug artifacts remain
 pending. See cases/dbglist-numeric-checkpoint.json for failures and split timings.
+
+Source-interleaving checkpoint1213 adds seven whole application bodies and1144
+original bytes: line collection/predecessor, cached-file switching, local/name
+formatting and source-line output. The original twentieth-cache limit is checked
+after the twenty-first row writes into four adjacent live globals. A contextual
+typed union preserves those aliases and order without C array bounds overflow.
+Eighteen whole-original/native cache states,16 real function/storage operand
+bindings and a split-storage rejection pass; file/diagnostic mocks are explicitly
+control probes, not real failure-path runtime acceptance.152 symbol-format/flag
+states verify the original%ld+ label spelling and signed local offsets. All34
+cleanup ABIs, selected original /W3 modules and graph/data/negative checks pass.
+All14 native cases pass (13complete+debug at named read_listing_source stub).
+Coverage329007/399693=82.314927% is code-extent union, not branch
+coverage. See cases/dbglist-source-checkpoint.json for failures and split timings.

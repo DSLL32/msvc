@@ -1,13 +1,13 @@
 {
   "method": "Current isolated canonical C2 snapshot mutations; no Wine or target execution",
   "input_sha256": {
-    "functions.json": "2d2fd541a595a24be98f684946fe8c6057ab47e4872d1279c04026b7e17f04e1",
+    "functions.json": "99b106c00b2d362794e737ff850056311066518b6f73a76eecd2115f135a7ead",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2",
-    "build/c2.exe": "13e9227492cfd4f09f564e6e09cfe2e876c8f9b22d47701a37cea8a2dc0b4828",
-    "build/c2.map": "75eb16d229f61969ef669ba0fd9d8777099d81e376c100d46dd27480d7bdf1ad",
-    "build/runtime.json": "1727853f474498b7c1ea6c9946f662329a685b29dd2ea4bc1dd46e3b634029e4"
+    "build/c2.exe": "adbc2d0c5d77c77444c548f792872629b2310147b9f3a254948ea7ebec8071d3",
+    "build/c2.map": "e9ecf34cf1b914687fa1b5b0d43d1b0759e09af9e33c70a88e04a24ce144dd1a",
+    "build/runtime.json": "0cbf68744ea80cfad0264129398a5a1474685a1d6fb988fc8b23f91cbf441660"
   },
-  "tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+  "tool_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
   "command_flags": [
     "--profile",
     "c2",
@@ -19,8 +19,8 @@
   ],
   "baseline": {
     "status": 0,
-    "seconds": 1.6047900039702654,
-    "stdout_sha256": "c84a47a2b489633a7525dfb273d96ef6fba32539213624ed01d81f71651db7ac",
+    "seconds": 1.6083719357848167,
+    "stdout_sha256": "5f449998bf6e5cef904358923334484a2794e2ee1d436c9d6745f25e095c66f3",
     "diagnostic": ""
   },
   "checks": [
@@ -28,13 +28,13 @@
       "mutation": "wrong direct callee",
       "python": {
         "status": 1,
-        "seconds": 4.8323266776278615,
+        "seconds": 4.867133902385831,
         "stdout_sha256": "68332294f604f7852b8e0704e8d480aa2411ac6fca4eba6cd70cfadae1b38f42",
         "diagnostic": ""
       },
       "rust": {
         "status": 1,
-        "seconds": 0.02160901203751564,
+        "seconds": 0.021800566464662552,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: _main call graph differs: original {\"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\", \"import:SetConsoleCtrlHandler\"}; reconstruction {\"0xdeadbeef\", \"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\"}\n"
       }
@@ -43,13 +43,13 @@
       "mutation": "removed direct call edges",
       "python": {
         "status": 1,
-        "seconds": 4.837564545683563,
-        "stdout_sha256": "dd1bf5b8428c6e98694f21e34fc3ca85d46d22ed17543053a0fd13d3e3cdbeb7",
+        "seconds": 4.787116893567145,
+        "stdout_sha256": "dda108addbe0262247ed94582d82ad754abec8c8460042a880c1e37d0d7f9e46",
         "diagnostic": ""
       },
       "rust": {
         "status": 1,
-        "seconds": 0.02301261480897665,
+        "seconds": 0.021806524135172367,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: _main call graph differs: original {\"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\", \"import:SetConsoleCtrlHandler\"}; reconstruction {}\n"
       }
@@ -58,13 +58,13 @@
       "mutation": "missing application public mapping",
       "python": {
         "status": 1,
-        "seconds": 0.5238959807902575,
+        "seconds": 0.525313762947917,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 185, in main\n    counterpart = reconstructed_by_name[record['name']]\n                  ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nKeyError: '_main'\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 185, in main\n    counterpart = reconstructed_by_name[record['name']]\n                  ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nKeyError: '_main'\n"
       },
       "rust": {
         "status": 1,
-        "seconds": 0.021756081841886044,
+        "seconds": 0.020730563439428806,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: missing reconstructed function\n"
       }
@@ -73,13 +73,13 @@
       "mutation": "split application RET operand",
       "python": {
         "status": 1,
-        "seconds": 1.0131259206682444,
+        "seconds": 1.0270056603476405,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 186, in main\n    actual = edges(original, original_index, record, original_names)\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: @coff_output_relocation@12 extent ends at 0006d9a7 inside ret at 0006d9a6\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 186, in main\n    actual = edges(original, original_index, record, original_names)\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: @coff_output_relocation@12 extent ends at 0006d9a7 inside ret at 0006d9a6\n"
       },
       "rust": {
         "status": 1,
-        "seconds": 0.11034129839390516,
+        "seconds": 0.11557556875050068,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: original @coff_output_relocation@12: instruction crosses code chunk boundary at 6d9a6\n"
       }
@@ -88,13 +88,13 @@
       "mutation": "split accepted CRT call operand: _freopen",
       "python": {
         "status": 1,
-        "seconds": 0.38883701246231794,
+        "seconds": 0.31823226995766163,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 180, in main\n    edges(pe, records, record, names)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: _freopen extent ends at 00071aad inside call at 00071aac\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 180, in main\n    edges(pe, records, record, names)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: _freopen extent ends at 00071aad inside call at 00071aac\n"
       },
       "rust": {
         "status": 1,
-        "seconds": 0.8100926661863923,
+        "seconds": 0.8024011738598347,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: original accepted extent _freopen 71aa0..71aad: instruction crosses code chunk boundary at 71aac\n"
       }
@@ -103,19 +103,19 @@
       "mutation": "changed generated-call RET8 to RET4",
       "narrow_python_abi": {
         "status": 1,
-        "seconds": 0.32415689807385206,
+        "seconds": 0.31837422121316195,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5/decomp/vc1.0/c2/scripts/check-frontier-abi.py\", line 39, in <module>\n    assert returns and all(r['stack_bytes'] == expected for r in returns),(name,returns,expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('@set_generated_intrinsic_call@16', [{'address': '0x1bf9e', 'stack_bytes': 4}], 8)\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk/decomp/vc1.0/c2/scripts/check-frontier-abi.py\", line 39, in <module>\n    assert returns and all(r['stack_bytes'] == expected for r in returns),(name,returns,expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('@set_generated_intrinsic_call@16', [{'address': '0x1bf5a', 'stack_bytes': 4}], 8)\n"
       }
     }
   ],
   "restored_positive": {
     "status": 0,
-    "seconds": 1.6218592403456569,
-    "stdout_sha256": "c84a47a2b489633a7525dfb273d96ef6fba32539213624ed01d81f71651db7ac",
+    "seconds": 1.659422930330038,
+    "stdout_sha256": "5f449998bf6e5cef904358923334484a2794e2ee1d436c9d6745f25e095c66f3",
     "diagnostic": ""
   },
-  "seconds": 17.274461824446917,
-  "snapshot": "/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-uvwxcsy5",
+  "seconds": 17.25296906195581,
+  "snapshot": "/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-6ke1lobk",
   "ret_scope": "15 evidence-backed application ABIs; global indirect-tail ABI unresolved"
 }

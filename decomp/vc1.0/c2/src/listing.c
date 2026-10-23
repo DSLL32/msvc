@@ -7,12 +7,179 @@
 #include "records.h"
 extern int dos_object;
 extern Segment *segment_list;
-ListingSource listing_sources[20]; /* 0007c954..0007ca94: up to twenty source files */
+ListingStorage listing_storage; /* 0007c954..0007caa4; see typed cache alias view */
 int listing_source_count, listing_source_index; /* 0007e1c8,0007e1cc */
 char *assembly_source_filename; /* 0007e1c0 */
-int listing_enabled; /* 0007ca9c */
+#define source_line_cursor (listing_storage.state.cursor) /* 0007ca94 */
+#define source_lines (listing_storage.state.lines) /* 0007ca98 */
+static long source_checkpoint_position, source_checkpoint_line; /* 0007e1d0,0007e1d4 */
+static long source_current_line; /* 0007e1c4 */
+static FILE *listing_source_file; /* 0007e1d8 */
 unsigned listing_column; /* 00080d40 */
-Segment *listed_segment; /* 0007caa0 */
+extern char *generated_source;
+/* Original28680..2875f. Collect line boundaries before printing the machine
+   stream; a changed file records the preceding line as its initial boundary. */
+void __fastcall prepare_source_listing(MachineInstruction *instruction)
+{
+    char *filename;
+    long last_line;
+    int i;
+    source_line_cursor = source_lines = NULL;
+    source_checkpoint_position = source_checkpoint_line = 0;
+    for (i = 0; i < listing_source_count; ++i) listing_sources[i].lines = NULL;
+    filename = assembly_source_filename;
+    last_line = -2;
+    current_source_location = (unsigned)-2;
+    for (; instruction; instruction = instruction->next) {
+        switch (instruction->opcode & 15) {
+        case 0:
+            if (current_source_location != (unsigned)last_line) {
+                last_line = current_source_location;
+                record_listing_source_line(last_line);
+            }
+            break;
+        case 4:
+            if (instruction->record.source_location) {
+                current_source_location = instruction->record.source_location;
+                if (last_line == -1) {
+                    last_line = -2;
+                    record_listing_source_line(current_source_location - 1);
+                }
+            }
+            break;
+        case 5:
+            if (filename != instruction->record.filename) {
+                filename = instruction->record.filename;
+                open_listing_source(filename);
+                generated_source = filename;
+            }
+            current_source_location = (unsigned)-1;
+            last_line = -1;
+            break;
+        }
+    }
+}
+/* Original27fc0..28114. Each file retains its collected line boundaries and
+   current read line. The overflow diagnostic follows all new-row writes. */
+void __fastcall open_listing_source(char *filename)
+{
+    int index;
+    unsigned char *left, *right;
+    listing_sources[listing_source_index].lines = source_lines;
+    listing_sources[listing_source_index].line = source_current_line;
+    for (index = 0; index < listing_source_count; ++index) {
+        left = (unsigned char *)listing_sources[index].name;
+        right = (unsigned char *)filename;
+        while (*left == *right && *left) { ++left; ++right; }
+        if (*left == *right) break;
+    }
+    listing_source_index = index;
+    if (index == listing_source_count) {
+        listing_sources[listing_source_count].name = filename;
+        listing_sources[listing_source_count].file = fopen(filename, "rb");
+        index = listing_source_index;
+        if (!listing_sources[listing_source_count].file) {
+            report_context_error(0x53, "source", listing_sources[listing_source_count].name);
+            index = listing_source_index;
+        }
+        listing_sources[listing_source_count].lines = NULL;
+        listing_sources[listing_source_count].line = 0;
+        ++listing_source_count;
+        source_checkpoint_position = source_checkpoint_line = 0;
+        if (listing_source_count > 20) {
+            compiler_internal_error("@(#)listing.c:1.76", 0x5ed);
+            index = listing_source_index;
+        }
+    }
+    listing_source_index = index;
+    listing_source_file = listing_sources[index].file;
+    source_line_cursor = source_lines = listing_sources[index].lines;
+    source_current_line = listing_sources[index].line;
+}
+/* Original2a880..2a916. Keep unique signed line boundaries in order, retaining
+   a cursor so the usual increasing-line stream does not restart at the head. */
+void __fastcall record_listing_source_line(long line)
+{
+    ListingSourceLine *cursor, *entry;
+    if (!source_lines || source_lines->line > line) {
+        entry = arena_alloc(1, sizeof(ListingSourceLine));
+        entry->line = line;
+        entry->next = source_lines;
+        source_line_cursor = source_lines = entry;
+    } else {
+        cursor = source_line_cursor;
+        if (cursor->line > line) cursor = source_lines;
+        while (cursor->next && cursor->next->line <= line) cursor = cursor->next;
+        source_line_cursor = cursor;
+        if (cursor->line != line) {
+            entry = arena_alloc(1, sizeof(ListingSourceLine));
+            entry->line = line;
+            entry->next = source_line_cursor->next;
+            source_line_cursor->next = entry;
+            source_line_cursor = entry;
+        }
+    }
+}
+/* Original282d0..28335. Stack/register local symbols are listed once; other
+   eligible local classes are marked handled without an assignment line. */
+void __fastcall write_local_listing(SymbolHeader *symbol)
+{
+    BackendSymbol *entry = (BackendSymbol *)symbol;
+    unsigned storage;
+    if ((entry->output_flags & 4) && !(entry->output_flags & 2)) {
+        storage = entry->attributes & 0x70;
+        if (symbol->kind == 1 && (storage == 0x10 || storage == 0x30)) {
+            printf("%s = %ld", symbol_display_name(symbol), (long)symbol->field04);
+            listing_column = 0;
+            printf("\n");
+        }
+        entry->output_flags |= 2;
+    }
+}
+/* Original28230..2827c. Numeric local labels and named symbols share the
+   listing column counter; NULL is used by implicit operand forms. */
+void __fastcall write_listing_symbol(SymbolHeader *symbol)
+{
+    if (!symbol) return;
+    if (symbol->kind == 0x13)
+        listing_column += printf("%ld+", (long)symbol->field04);
+    else
+        listing_column += printf("%s", symbol_display_name(symbol));
+}
+/* Original28440..28507. Long physical source lines are emitted as repeated
+   chunks, with the numbered prefix only on the first chunk. */
+void __fastcall write_listing_source(unsigned line)
+{
+    char buffer[256];
+    long current;
+    int more;
+    current = previous_listing_source_line(line) + 1;
+    listing_column = 0;
+    printf("\n");
+    for (; current <= (long)line; ++current) {
+        more = read_listing_source(buffer, current);
+        if (!*buffer) return;
+        listing_column += printf("; %-5lu: %s", (unsigned long)current, buffer);
+        while (more && *buffer) {
+            more = read_listing_source(buffer, current);
+            listing_column += printf("%s", buffer);
+        }
+    }
+    listing_column = 0;
+    printf("\n");
+}
+/* Original2a920..2a957. The requested line is a recorded boundary; the
+   predecessor determines how many intervening source lines to print. */
+long __fastcall previous_listing_source_line(long line)
+{
+    ListingSourceLine *cursor;
+    if (source_lines->line == line) return line - 1;
+    cursor = source_line_cursor;
+    if (cursor->line >= line) cursor = source_lines;
+    while (cursor->next->line < line) cursor = cursor->next;
+    source_line_cursor = cursor;
+    return cursor->line;
+}
 /* Original [00028930,000289b0). Successful completion keeps the assembly
    output and closes any cached source files used by interleaved listings. */
 void finish_globals(void)

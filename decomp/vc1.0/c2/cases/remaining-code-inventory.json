@@ -1,14 +1,14 @@
 {
-  "checkpoint": 1206,
+  "checkpoint": 1213,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1267,
-    "accepted_rows": 1098,
-    "accepted_union_bytes": 311489,
-    "unaccepted_rows": 169,
-    "unaccepted_provisional_rows": 163,
-    "unaccepted_indexed_extent_bytes": 689,
+    "indexed_rows": 1270,
+    "accepted_rows": 1105,
+    "accepted_union_bytes": 312633,
+    "unaccepted_rows": 165,
+    "unaccepted_provisional_rows": 159,
+    "unaccepted_indexed_extent_bytes": 685,
     "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
@@ -30,13 +30,13 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 62917,
-  "unclassified_ranges": 650,
+  "unclassified_code_union_bytes": 61777,
+  "unclassified_ranges": 653,
   "largest_unclassified_ranges": [
     {
       "start": "0x29921",
-      "end": "0x2aa80",
-      "bytes": 4447
+      "end": "0x2a880",
+      "bytes": 3935
     },
     {
       "start": "0x49231",
@@ -621,30 +621,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@prepare_source_listing@4",
-      "start": 165504,
-      "end": 165505,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@open_listing_source@4",
-      "start": 163776,
-      "end": 163777,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@write_demangled_listing@8",
       "start": 164128,
       "end": 164129,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_listing_symbol@4",
-      "start": 164400,
-      "end": 164401,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -663,23 +642,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@write_listing_source@4",
-      "start": 164928,
-      "end": 164929,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@write_instruction_listing@8",
       "start": 164720,
       "end": 164721,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_local_listing@4",
-      "start": 164560,
-      "end": 164561,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1310,6 +1275,13 @@
       "name": "@spill_lowering_register@8",
       "start": 205440,
       "end": 205441,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@read_listing_source@8",
+      "start": 174432,
+      "end": 174433,
       "provisional": true,
       "extent_status": "entry placeholder"
     }
