@@ -2554,3 +2554,9 @@ Floating operation summaries and operand interning: checkpoint1017
 @update_float_use_access@8. 938 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-use-interning.json for extent union, limits and measured timings.
+
+Floating access edges and integer alias tracking: checkpoint1020
+3 acceptances pass fresh original/native matching; current frontier
+@format_integer@12. 941 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-memory-uses.json for extent union, limits and measured timings.

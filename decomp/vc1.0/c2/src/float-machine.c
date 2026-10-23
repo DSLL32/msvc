@@ -15,7 +15,7 @@
 #include "machine-layout.h"
 #include <recon.h>
 void *__fastcall float_register_heap_allocate(unsigned bytes);
-extern int cpu_model;
+extern int cpu_model, optimize_alias;
 int float_machine_register_count; /* 0007e1e8 */
 int float_machine_conservative; /* 0007e1ec */
 FloatMachineRegister *float_machine_registers; /* 0007e210 */
@@ -1448,4 +1448,81 @@ unsigned __fastcall float_operand_hash(MachineOperand *operand)
        INT_MIN, whose signed remainder modulo8 is also zero. */
     if ((int)hash < 0) hash = 0U - hash;
     return hash & 7;
+}
+
+/* Original [0003aad0,0003ab76). Record first read/write access and its
+   pending branch. Conflicting accesses across unmatched edges exclude the
+   operand; absolute external storage does not acquire a branch dependency. */
+void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access_kind)
+{
+    unsigned prior = (use->flags >> 3) & 3;
+    SymbolHeader *symbol;
+    if (!prior) {
+        use->flags = (use->flags & ~0x18U) | ((access_kind << 3) & 0x18);
+        if ((use->operand->flags & 15) == OPERAND_ABSOLUTE) {
+            symbol = use->operand->value.address->symbol;
+            if (symbol && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x40) return;
+        }
+        if (float_motion_pending_branches) use->branch = float_motion_pending_branches->instruction;
+    } else if (use->branch) {
+        if (prior != access_kind) {
+            if (!float_motion_pending_branches || float_motion_pending_branches->instruction != use->branch) use->flags |= 2;
+            else use->branch = 0;
+        } else if (!float_motion_pending_branches) use->branch = 0;
+    }
+}
+
+/* Original [0003a8d0,0003a8e2). Signed-byte symbol hash local to the
+   floating-use module; retain this individual helper and its fastcall ABI. */
+unsigned __fastcall float_symbol_name_hash(char *name)
+{
+    unsigned hash = 0;
+    while (*name) hash += (unsigned)(int)(signed char)*name++;
+    return hash;
+}
+
+/* Original [0003a350,0003a48a), with operand-kind switch3a48c..3a4b0.
+   Integer definitions reserve their register-map cells. Memory accesses
+   exclude matching floating uses and track non-stack aliasing directions. */
+void __fastcall record_float_nonfloat_uses(MachineInstruction *instruction)
+{
+    MachineOperand *operand;
+    FloatStreamUse *use;
+    unsigned operation = FM_OPERATION(instruction), number;
+    int index;
+    if (operation == MC_JCC || operation == MC_JMP || operation == MC_CALL) return;
+    for (index = 0; index < machine_operand_counts[FM_OPERATION(instruction)]; ++index) {
+        operand = &instruction->operands[index ? 1 : 0];
+        switch (operand->flags & 15) {
+        case OPERAND_REGISTER:
+            if (index == 0) {
+                number = operand->value.reg.words.number & 0x3fff;
+                if (number >= (unsigned short)float_stream_register_count)
+                    compiler_internal_error("@(#)fltreg.c:1.31", 0xb61);
+                float_stream_register_uses[number] = FLOAT_STREAM_FIXED_REGISTER;
+            }
+            break;
+        case OPERAND_IMMEDIATE: case OPERAND_LABEL_ADDRESS:
+        case OPERAND_SYMBOL: case OPERAND_FRAME_SIZE:
+            break;
+        case OPERAND_INDEXED:
+            if (FM_OPERATION(instruction) == MC_LEA) break;
+            if (!optimize_alias) {
+                if (index == 0) float_motion_writes_unknown_memory = 1;
+                else float_motion_reads_unknown_memory = 1;
+            }
+            /* fall through: indexed addresses also have the base test */
+        case OPERAND_BASED:
+            if (FM_OPERATION(instruction) == MC_LEA) break;
+            if (operand->value.address->base.words.number != REG_EBP && operand->value.address->base.words.number != 27 && !optimize_alias) {
+                if (index == 0) float_motion_writes_unknown_memory = 1;
+                else float_motion_reads_unknown_memory = 1;
+            }
+            /* fall through: memory references enter the same operand hash */
+        default:
+            use = find_float_stream_use(operand, 1, (instruction->opcode >> 4) & 15, FM_OPERATION(instruction));
+            use->flags |= 2;
+            break;
+        }
+    }
 }

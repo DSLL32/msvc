@@ -1021,7 +1021,10 @@
     "@resolve_float_motion_branch@4",
     "@record_float_operation_uses@8",
     "@find_float_stream_use@16",
-    "@float_operand_hash@4"
+    "@float_operand_hash@4",
+    "@update_float_use_access@8",
+    "@float_symbol_name_hash@4",
+    "@record_float_nonfloat_uses@4"
   ],
   "driver": [
     {
@@ -7221,8 +7224,7 @@
     {
       "name": "@record_float_nonfloat_uses@4",
       "start": 238416,
-      "end": 238417,
-      "provisional": true
+      "end": 238768
     },
     {
       "name": "@record_float_operation_uses@8",
@@ -7254,8 +7256,7 @@
     {
       "name": "@update_float_use_access@8",
       "start": 240336,
-      "end": 240337,
-      "provisional": true
+      "end": 240502
     },
     {
       "name": "@float_operand_hash@4",
@@ -7265,8 +7266,7 @@
     {
       "name": "@float_symbol_name_hash@4",
       "start": 239824,
-      "end": 239825,
-      "provisional": true
+      "end": 239842
     }
   ],
   "cases": {
