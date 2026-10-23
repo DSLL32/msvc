@@ -5,6 +5,8 @@ artifacts. One repeat with the same actual cwd, host environment and known input
 identities produced identical raw output. Execution took 0.365 and 0.616 seconds.
 References are under `cases/help/reference/`; no application function or masked
 replay has been accepted. Actual external file reads remain unobserved.
+The help contains one pagination prompt even with DEVNULL stdin; its actual
+console/read behavior remains an observer obligation despite successful exit.
 
 `make inspect` verifies the pristine binary and the separately supplied Wine GS
 patch, then reports PE metadata without running either file. `native`, `original`
@@ -48,7 +50,7 @@ Shared host support belongs to the recon library maintainer, not this binary.
 The shipped `h/STDIO.H` declares a packed, 26-byte Watcom `FILE` on i386. Existing
 MSCRT `ShimFILE` is not layout-equivalent. Preserve original field accesses and
 prove reached buffer/position/error semantics before requesting a shared Watcom
-CRT profile; register-call transport is a separate proof obligation.
+CRT profile; the original build's register-call ABI is a separate proof obligation.
 
 `cases/help/architecture.json` records the proposed capture, masking, startup and
 build procedure. Static analysis identifies a main candidate at VA `0x4242e0`
