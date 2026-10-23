@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_release_type_diagnostic@4",
+    "start": 428560,
+    "end": 428579
+  },
+  "distinct_direct_callees": [
+    "_find_type_diagnostic_slot@4"
+  ],
+  "next_frontier": "_format_this_qualifiers@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.41883064713329077,
+  "total_operation_seconds": 4.009689294733107,
+  "original_capture_seconds": 1.7187991347163916
+}

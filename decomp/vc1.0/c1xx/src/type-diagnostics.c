@@ -568,3 +568,10 @@ char *__stdcall type_kind_name(unsigned short kind)
     else if (kind & 0x800) return "__segment";
     return "";
 }
+
+/* Original 0x68a10..0x68a23. Release the handle while retaining
+   its allocated buffer and cursor state for the next reservation. */
+void __stdcall release_type_diagnostic(short text)
+{
+    find_type_diagnostic_slot(text)->handle = 0;
+}

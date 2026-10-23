@@ -1,0 +1,20 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ac2b in format_this_qualifiers (text=102, type=0x5661ff8c) at src/stubs.c:622
+622	void __stdcall format_this_qualifiers(short text, CType *type) { __asm { int 3 } }
+#0  0x5655ac2b in format_this_qualifiers (text=102, type=0x5661ff8c) at src/stubs.c:622
+#1  0x56590235 in format_declarator_shapes (text=102, shape=0x5661ffb0) at src/type-diagnostics.c:411
+#2  0x5658fb19 in format_declarator_shape (symbol=0x5661ff54, type=0x5661ffc0) at src/type-diagnostics.c:292
+#3  0x5658f3ad in format_declarator (symbol=0x5661ff54, type=0x5661ffc0) at src/type-diagnostics.c:222
+#4  0x5658f044 in print_declaration (symbol=0x5661ff54, stream=0x0) at src/type-diagnostics.c:185
+#5  0x565c3448 in print_inline_declaration (symbol=0x5661ff54, stream=0x0) at src/inline-capture.c:334
+#6  0x565c2d80 in capture_inline_member_declaration (symbol=0x5661ff54, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:144
+#7  0x565bf934 in configure_member_function (storage=..., member=0x5661ff54, pure=0) at src/class-members.c:538
+#8  0x565be7f3 in declare_class_member (context=0x566069e8 <declaration_spec_storage+8>, member=0x5661ff54) at src/class-members.c:176
+#9  0x565c0c8c in declare_constructor (type=0x566069e8 <declaration_spec_storage+8>, class_symbol=0x5661fc84, parameters=0x56645b4c) at src/class-members.c:464
+#10 0x565af30e in parse_translation_unit () at src/parser-declaration-actions.inc:299
+#11 0x5655e13f in compile_translation_unit () at src/frontend.c:73
+#12 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
