@@ -1,0 +1,197 @@
+{
+  "status": "pass",
+  "receipt_sha256": "d216d42705cb727307f0327d78fca21bddfc5e5f75021a3d4546f6b34f9a64d3",
+  "artifact_sha256": "383f0969549f066ec6ecef22ea344579ef81614b6a4efc672ec160c7a3132f39",
+  "artifact_bytes": 114840,
+  "records": [
+    {
+      "scenario": 0,
+      "deleted_slot": 2,
+      "deleted_bytes": 4096,
+      "errno_before": 0,
+      "last_error_before": 0,
+      "errno_after": 0,
+      "last_error_after": 0,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "29b4c67eb0cf93a745af015b99cc291d1fcbe5e1fc41a16e375150ee1b685bac"
+        },
+        {
+          "slot": 1,
+          "bytes": 4000,
+          "sha256": "d10ea0c9e247854b4adc091d0819275c33b4fa249af858c3638329400a09478f"
+        }
+      ]
+    },
+    {
+      "scenario": 0,
+      "deleted_slot": 1,
+      "deleted_bytes": 4000,
+      "errno_before": 0,
+      "last_error_before": 0,
+      "errno_after": 0,
+      "last_error_after": 0,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "29b4c67eb0cf93a745af015b99cc291d1fcbe5e1fc41a16e375150ee1b685bac"
+        }
+      ]
+    },
+    {
+      "scenario": 0,
+      "deleted_slot": 0,
+      "deleted_bytes": 12288,
+      "errno_before": 0,
+      "last_error_before": 0,
+      "errno_after": 0,
+      "last_error_after": 0,
+      "surviving_allocations": []
+    },
+    {
+      "scenario": 1,
+      "deleted_slot": 2,
+      "deleted_bytes": 4096,
+      "errno_before": 111,
+      "last_error_before": 0,
+      "errno_after": 111,
+      "last_error_after": 0,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "69e4bad1aeecb7911c943f071c67258af3e9563de6984d97b5d74fa478778275"
+        },
+        {
+          "slot": 1,
+          "bytes": 4000,
+          "sha256": "d452539a00c15680554edfd1bebe075c006e9ca614377ea7e8bae2c565b67c83"
+        }
+      ]
+    },
+    {
+      "scenario": 1,
+      "deleted_slot": 1,
+      "deleted_bytes": 4000,
+      "errno_before": 111,
+      "last_error_before": 0,
+      "errno_after": 111,
+      "last_error_after": 0,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "69e4bad1aeecb7911c943f071c67258af3e9563de6984d97b5d74fa478778275"
+        }
+      ]
+    },
+    {
+      "scenario": 1,
+      "deleted_slot": 0,
+      "deleted_bytes": 12288,
+      "errno_before": 111,
+      "last_error_before": 0,
+      "errno_after": 111,
+      "last_error_after": 0,
+      "surviving_allocations": []
+    },
+    {
+      "scenario": 2,
+      "deleted_slot": 2,
+      "deleted_bytes": 4096,
+      "errno_before": 0,
+      "last_error_before": 305419896,
+      "errno_after": 0,
+      "last_error_after": 305419896,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "940e5b8cc147732e686b55517c27cf207379ecfc15fe8ba6e6ea065e8c272f5a"
+        },
+        {
+          "slot": 1,
+          "bytes": 4000,
+          "sha256": "b1b7de5420326342d9fc580b6d396536c693eccb245f3fa374cbeb778d877a71"
+        }
+      ]
+    },
+    {
+      "scenario": 2,
+      "deleted_slot": 1,
+      "deleted_bytes": 4000,
+      "errno_before": 0,
+      "last_error_before": 305419896,
+      "errno_after": 0,
+      "last_error_after": 305419896,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "940e5b8cc147732e686b55517c27cf207379ecfc15fe8ba6e6ea065e8c272f5a"
+        }
+      ]
+    },
+    {
+      "scenario": 2,
+      "deleted_slot": 0,
+      "deleted_bytes": 12288,
+      "errno_before": 0,
+      "last_error_before": 305419896,
+      "errno_after": 0,
+      "last_error_after": 305419896,
+      "surviving_allocations": []
+    },
+    {
+      "scenario": 3,
+      "deleted_slot": 2,
+      "deleted_bytes": 4096,
+      "errno_before": 111,
+      "last_error_before": 305419896,
+      "errno_after": 111,
+      "last_error_after": 305419896,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "5787fa58027ba7f1d7a0ee54abf7c1f3c229148c659258a98af3451446ee6b1e"
+        },
+        {
+          "slot": 1,
+          "bytes": 4000,
+          "sha256": "b859be56e9b63c4cce478560e8f019cb79a2336662c0105ea26e85c042f6cb65"
+        }
+      ]
+    },
+    {
+      "scenario": 3,
+      "deleted_slot": 1,
+      "deleted_bytes": 4000,
+      "errno_before": 111,
+      "last_error_before": 305419896,
+      "errno_after": 111,
+      "last_error_after": 305419896,
+      "surviving_allocations": [
+        {
+          "slot": 0,
+          "bytes": 12288,
+          "sha256": "5787fa58027ba7f1d7a0ee54abf7c1f3c229148c659258a98af3451446ee6b1e"
+        }
+      ]
+    },
+    {
+      "scenario": 3,
+      "deleted_slot": 0,
+      "deleted_bytes": 12288,
+      "errno_before": 111,
+      "last_error_before": 305419896,
+      "errno_after": 111,
+      "last_error_after": 305419896,
+      "surviving_allocations": []
+    }
+  ],
+  "elapsed_seconds": 0.788161713629961
+}

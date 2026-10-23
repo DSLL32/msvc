@@ -17,5 +17,6 @@ def make_alias(source,target):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output',type=Path)
+    parser.add_argument('--delete',action='store_true',help='alias the actual decorated operator-delete import instead')
     args=parser.parse_args()
-    args.output.write_bytes(make_alias('_crt_operator_new','??2@YAPAXI@Z'))
+    args.output.write_bytes(make_alias('_crt_operator_delete','??3@YAXPAX@Z')if args.delete else make_alias('_crt_operator_new','??2@YAPAXI@Z'))

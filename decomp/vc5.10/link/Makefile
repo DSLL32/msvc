@@ -38,8 +38,8 @@ build/native/%.o: src/%.cpp $(HEADERS) Makefile | build/native
 build/operator-new-alias.obj: scripts/weak-import.py | build
 	$(PYTHON) scripts/weak-import.py $@
 
-build/link.exe: $(OBJECTS) build/operator-new-alias.obj Makefile
-	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) build/operator-new-alias.obj kernel32.lib
+build/link.exe: $(OBJECTS) build/operator-new-alias.obj build/operator-delete-alias.obj Makefile
+	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) build/operator-new-alias.obj build/operator-delete-alias.obj kernel32.lib
 
 original: build/link.exe build/capture-help.exe
 
@@ -69,3 +69,13 @@ capture-help: build/capture-help.exe
 
 fixtures check: native
 	$(PYTHON) scripts/check-native.py
+
+# Explicit original-only ABI/provider probe; never a fixture prerequisite.
+build/operator-delete-alias.obj: scripts/weak-import.py | build
+	$(PYTHON) scripts/weak-import.py --delete $@
+
+build/delete-probe.obj: scripts/delete-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /I$(RECON)/include /Fo$@ $<
+
+build/delete-probe.exe: build/delete-probe.obj build/operator-new-alias.obj build/operator-delete-alias.obj
+	$(TOOL) LINK.EXE /nologo /incremental:no /out:$@ $^ kernel32.lib

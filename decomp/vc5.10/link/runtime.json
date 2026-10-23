@@ -106,5 +106,14 @@
     "library": "MSVCRT.LIB",
     "evidence": "cases/runtime-entry-identity.json: anchored at actual register_buffer12_cleanup call; exact whole atonexit.obj closure and relocations",
     "classification": "import"
+  },
+  {
+    "name": "import:??3@YAXPAX@Z",
+    "start": 4608438,
+    "end": 4608444,
+    "status": "implemented",
+    "classification": "import",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/help/operator-delete/provider-proof.json; exact canonical IAT/decorated cdecl alias, controlled12delete provider probe"
   }
 ]

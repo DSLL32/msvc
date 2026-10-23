@@ -42,6 +42,8 @@ void __cdecl register_timing_cleanup(void);
 void __cdecl close_timing(void);
 /* Zero-section COFF alias binds this C spelling to ??2@YAPAXI@Z. */
 void *__cdecl crt_operator_new(unsigned bytes);
+/* The matching alias retains the distinct ??3@YAXPAX@Z import. */
+void __cdecl crt_operator_delete(void *memory);
 #ifdef __cplusplus
 }
 #endif

@@ -1,0 +1,86 @@
+{
+  "identity": "msvcrt.dll!??3@YAXPAX@Z",
+  "abi": "cdecl void(void*), stack4 caller cleanup, provider RET0",
+  "target_thunk": {
+    "begin": 4608438,
+    "end": 4608444,
+    "bytes": "ff2514124000",
+    "iat": 4198932
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "operator_delete_rva": [
+      16594,
+      16608
+    ],
+    "operator_delete_bytes": "8b44240450e8aed2ffff83c404c3",
+    "callee": "MSVCRT free RVA138a; exact same live-new allocation provider",
+    "extent_correction": "RET at40df; exclude the next function byte at40e0. Original raw provider/captures unchanged."
+  },
+  "controlled_probe": {
+    "path": "cases/help/operator-delete/controlled-probe",
+    "raw_receipt_sha256": "d216d42705cb727307f0327d78fca21bddfc5e5f75021a3d4546f6b34f9a64d3",
+    "actual_provider_module": "module-004.bin",
+    "owned_provider_copy": "cases/help/options-provider/module-006.bin",
+    "artifact_sha256": "383f0969549f066ec6ecef22ea344579ef81614b6a4efc672ec160c7a3132f39",
+    "normal_returns": 12,
+    "requested_sizes": [
+      4096,
+      4000,
+      12288
+    ],
+    "error_scenarios": "errno0/111 \u00d7LastError0/12345678 preserved; full surviving allocation bytes verified",
+    "original_build_seconds": 2.170611181296408,
+    "original_run_seconds": 0.788161713629961
+  },
+  "actual_target_observation": {
+    "directory": "/root/.ai-tmp/msvc2/vc5.10/link/masked-bgl8wbpk",
+    "constructor_return": {
+      "event": "operator_new_observation",
+      "name": "observe:new_return_4",
+      "site": 4398586,
+      "stack_top": 4096,
+      "eax": 3952840,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    },
+    "delete_call": {
+      "event": "operator_delete_observation",
+      "name": "observe:delete_call_4",
+      "site": 4398650,
+      "stack_pointer": 3273700,
+      "argument": 3952840,
+      "descriptor": [
+        3952840,
+        1024,
+        1024
+      ]
+    },
+    "delete_return": {
+      "event": "operator_delete_observation",
+      "name": "observe:delete_return_4",
+      "site": 4398655,
+      "stack_pointer": 3273700,
+      "argument": 3952840,
+      "descriptor": [
+        3952840,
+        1024,
+        1024
+      ]
+    },
+    "next_frontier": 4398528,
+    "scope": "Original-only43-app trial plus verified import leaf; no app acceptance. Call and RET0 preserve stack argument/descriptor; owned4096 allocation released once after constructor.",
+    "owned_path": "cases/help/operator-delete/first-target",
+    "receipt_sha256": "a6c65e0326f5892c6b29a482880e6653e812f8d0eef9cd74ee41593cdc62b3f3"
+  },
+  "scope": "Only distinct operator-delete on live allocations from reviewed operator-new. Unknown/non-owned/already-deleted pointers unsupported pending evidence.",
+  "alias": {
+    "source_symbol": "_crt_operator_delete",
+    "target_symbol": "??3@YAXPAX@Z",
+    "path": "build/operator-delete-alias.obj",
+    "sha256": "05508704607d4839933a8c41deb4157fecfc1c3b04aad6c2a7b3af57d1eb7727",
+    "sections": 0,
+    "characteristic": "WEAK_EXTERNAL SEARCH_ALIAS3"
+  }
+}

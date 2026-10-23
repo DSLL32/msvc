@@ -26,19 +26,8 @@ def main():
     config = args.config.read_bytes()
     (capture / 'functions.json').write_bytes(config)
     (capture / 'runtime.json').write_bytes((BINARY / 'runtime.json').read_bytes())
-    source_content={}
-    content_paths=[]
-    for category,directory in [('project',BINARY/'src'),('recon',BINARY.parents[2]/'lib/recon')]:
-        for source in sorted(p for p in directory.rglob('*') if p.is_file() and p.suffix in ('.c','.h','.cpp')):
-            if category=='recon' and source.relative_to(directory).parts[0] not in ('src','include','native'):continue
-            name=category+'/'+str(source.relative_to(directory))
-            data=source.read_bytes();destination=capture/'source'/name
-            destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
-            source_content[name]=sha(data);content_paths.append((source,name))
-    harness=BINARY/'scripts/native-host.c'
-    name='harness/native-host.c';data=harness.read_bytes()
-    destination=capture/'source'/name;destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
-    source_content[name]=sha(data);content_paths.append((harness,name))
+    from capture_sources import freeze
+    source_content,content_paths=freeze(capture)
     configuration = json.loads(config)
     targets = []
     for record in configuration['driver']:
@@ -46,7 +35,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -178,6 +167,17 @@ class TimingEndEntry(gdb.Breakpoint):
         if frame.older() and frame.older().name()=='close_timing':TimingEndReturned(frame,internal=True)
         return False
 TimingEndEntry('*recon_GetTickCount',internal=True)
+class DeleteReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,address):super().__init__(frame,internal=True);self.address=address
+    def stop(self):
+        state['delete_calls'].append(dict(argument=self.address,normal_return=True))
+        return False
+class DeleteEntry(gdb.Breakpoint):
+    def stop(self):
+        DeleteReturned(gdb.newest_frame(),int(gdb.parse_and_eval('((unsigned*)$esp)[1]')))
+        return False
+DeleteEntry('*recon_cpp_delete',internal=True)
+
 
 
 

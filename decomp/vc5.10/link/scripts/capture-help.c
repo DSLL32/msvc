@@ -363,6 +363,13 @@ int main(int argc, char **argv)
                         }
                         fprintf(events,"]}\n");
                         if(failed)break;
+                    } else if(!strncmp(entries[index].name,"observe:delete_",15)) {
+                        DWORD argument,got,descriptor[3],descriptor_address;
+                        const char *suffix=strrchr(entries[index].name,'_')+1;
+                        descriptor_address=base+(!strcmp(suffix,"4")?0x94398:!strcmp(suffix,"8")?0x943a8:0x809d0);
+                        if(!ReadProcessMemory(process,(void *)context.Esp,&argument,4,&got)||got!=4 ||
+                           !ReadProcessMemory(process,(void *)descriptor_address,descriptor,12,&got)||got!=12){failed=6;break;}
+                        fprintf(events,"{\"event\":\"operator_delete_observation\",\"name\":\"%s\",\"site\":%lu,\"stack_pointer\":%lu,\"argument\":%lu,\"descriptor\":[%lu,%lu,%lu]}\n",entries[index].name,site,context.Esp,argument,descriptor[0],descriptor[1],descriptor[2]);
                     } else if(!strncmp(entries[index].name,"observe:new_",12)) {
                         DWORD argument,got,new_handler,new_mode;
                         if(!ReadProcessMemory(process,(void *)context.Esp,&argument,4,&got)||got!=4){failed=6;break;}

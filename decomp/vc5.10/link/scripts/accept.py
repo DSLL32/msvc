@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import os
+import struct
 from pathlib import Path
 import subprocess
 import time
@@ -14,7 +15,7 @@ from mask import BINARY, ROOT, construct
 def sha(data): return hashlib.sha256(data).hexdigest()
 
 
-def trial_for(current, candidate):
+def trial_for(current, candidate, support=()):
     assert candidate not in current['accepted'], 'candidate already accepted'
     records = current['driver'] + json.loads((BINARY / 'runtime.json').read_text())
     matches = [r for r in records if r['name'] == candidate]
@@ -22,6 +23,16 @@ def trial_for(current, candidate):
     assert matches[0].get('status') == 'implemented', 'candidate remains a stub'
     result = copy.deepcopy(current)
     result['accepted'].append(candidate)
+    if support:
+        assert candidate=='_free_buffer4' and list(support)==['import:??3@YAXPAX@Z'], 'unrelated support closure'
+        import importlib
+        checker=importlib.import_module('delete-support')
+        for name in support:
+            assert name not in current['accepted']
+            record,=[record for record in records if record['name']==name]
+            checker.check(record)
+            result['accepted'].append(name)
+        construct(result) # Reject any overlapping application/loader ownership.
     return result
 
 
@@ -79,7 +90,7 @@ def bind_capture(directory, expected, kind):
         assert (directory / 'entries.txt').read_text() == ''.join(expected_entries), 'entry trace plan changed'
         assert (directory / 'mask.bin').read_bytes() == mask and receipt['mask_sha256'] == sha(mask)
     else:
-        assert receipt['kind'] == 'native-i386-gdb-frontier' and receipt['status'] == 0
+        assert receipt['kind'] == ('native-i386-completion'if kind=='native-complete'else 'native-i386-gdb-frontier') and receipt['status'] == 0
     return receipt
 
 
@@ -111,6 +122,28 @@ def verify_frontier(original, native, expected_name, expected):
         assert (native/'environment/memory-after.bin').read_bytes()==(original/'memory-after.bin').read_bytes()
 
 
+def verify_completion(original,native,expected,native_state=None):
+    import importlib
+    replay=importlib.import_module('check-native')
+    master=replay.completed_master(original,expected)
+    state=json.loads((native/'state.json').read_text())if native_state is None else native_state
+    receipt=json.loads((native/'receipt.json').read_text())
+    assert receipt['kind']=='native-i386-completion'
+    reference_sha=sha((original/'receipt.json').read_bytes())
+    assert receipt['reference_receipt_sha256']==reference_sha
+    assert json.loads((native/'environment/binding.json').read_text())['reference_sha256']==reference_sha
+    assert state['logical_status']==master['status']==1100
+    assert state['posix_status']==master['posix_status']==76
+    raw=bytes.fromhex(state['terminal_record_hex']);assert len(raw)==24
+    magic,version,owner,status,code,reserved=struct.unpack('<6I',raw)
+    assert (magic,version,status,code,reserved)==(0x31535452,1,1,1100,0)
+    assert owner==state['native_pid'] and state['posix_status']==(code&255)
+    assert state['entries']==master['application_trace']
+    for name in ['stdout.bin','stderr.bin']:
+        assert (original/name).read_bytes()==(native/name).read_bytes()
+    return master
+
+
 def audit_trial(path):
     tool = Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT / 'tooling/graph-audit/target/release/graph-audit'))).resolve()
     command = [str(tool), '--profile', 'link', '--discovery', 'cfg', '--repo', str(ROOT), '--project', str(BINARY),
@@ -129,7 +162,7 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','capture_sources.py','native-completion.py','check-native.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
@@ -190,6 +223,14 @@ def audit_trial(path):
         inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
         inputs += [BINARY/item['path'] for item in provider['owned_hfile_copies']]
         inputs += [ROOT/d['path'] for api in packet['imports'] for d in api['declarations']]
+    delete_support=None
+    if 'import:??3@YAXPAX@Z' in trial['accepted']:
+        import importlib
+        checker=importlib.import_module('delete-support')
+        record,=[r for r in runtime if r['name']==checker.NAME]
+        delete_support=checker.check(record)
+        inputs += [BINARY/'scripts/delete-support.py',checker.PROOF,BINARY/'build/operator-delete-alias.obj']
+        inputs += [file for directory in ['operator-delete/controlled-probe','operator-delete/first-target']for file in (BINARY/'cases/help'/directory).iterdir()if file.is_file()]
     before = {str(p):sha(p.read_bytes()) for p in inputs}
     full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime']
     started=time.perf_counter()
@@ -241,7 +282,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,register_import_audit=register_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,delete_support=delete_support,register_import_audit=register_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,
@@ -253,32 +294,40 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--candidate', required=True)
     parser.add_argument('--write-trial', type=Path)
+    parser.add_argument('--support',action='append',default=[],help='exact encountered import support leaf, separate from application credit')
     parser.add_argument('--original', type=Path)
     parser.add_argument('--native', type=Path)
-    parser.add_argument('--expected-next')
+    completion=parser.add_mutually_exclusive_group()
+    completion.add_argument('--expected-next')
+    completion.add_argument('--complete',action='store_true',help='require exact normal completion instead of a frontier')
     parser.add_argument('--promote', action='store_true')
     args = parser.parse_args()
     current = json.loads((BINARY / 'functions.json').read_text())
-    trial = trial_for(current, args.candidate)
+    trial = trial_for(current, args.candidate, args.support)
     if args.write_trial:
         args.write_trial.write_text(json.dumps(trial, indent=2) + '\n')
         return
     assert current.get('review_gate') == 'approved', 'root scaffold review has not approved acceptance'
     subprocess.run(['make','-q','native','original'], cwd=BINARY, check=True)
-    assert args.original and args.native and args.expected_next, 'fresh captures and nonempty frontier required'
+    assert args.original and args.native and (args.expected_next or args.complete), 'fresh captures and explicit frontier/completion required'
     bind_capture(args.original, trial, 'original')
-    bind_capture(args.native, trial, 'native')
-    verify_frontier(args.original, args.native, args.expected_next, trial)
+    bind_capture(args.native, trial, 'native-complete'if args.complete else 'native')
+    completion_master=None
+    if args.complete:completion_master=verify_completion(args.original,args.native,trial)
+    else:verify_frontier(args.original, args.native, args.expected_next, trial)
     original_events = [json.loads(line) for line in (args.original / 'events.jsonl').read_text().splitlines()]
     assert args.candidate in [event['name'] for event in original_events if event['event']=='entry'], 'candidate not reached in original trial'
+    for name in args.support:
+        assert name in [event['name'] for event in original_events if event['event']=='entry'], 'support leaf not reached'
     native_state = json.loads((args.native / 'state.json').read_text())
     assert args.candidate in native_state.get('entries', []), 'candidate not reached in native trial'
     audit = audit_trial(args.original / 'functions.json')
-    validation = dict(candidate=args.candidate, expected_next=args.expected_next,
+    validation = dict(candidate=args.candidate, expected_next=args.expected_next,completion=completion_master,
                       trial_sha256=sha((args.original / 'functions.json').read_bytes()),
                       original=str(args.original), native=str(args.native), audit=audit)
     (args.native / 'acceptance-validation.json').write_text(json.dumps(validation, indent=2) + '\n')
     if args.promote:
+        if args.complete:trial['cases']['help']['complete']=True
         (BINARY / 'functions.json').write_text(json.dumps(trial, indent=2) + '\n')
     print(json.dumps(validation, indent=2))
 

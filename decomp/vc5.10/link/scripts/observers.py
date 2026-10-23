@@ -25,4 +25,6 @@ def plan(accepted):
     if '_parse_switch@8' in accepted:result += [(0xd149,'observe:parser_alloc_call'),(0xd14e,'observe:parser_alloc_return')]
     if '_duplicate_argument@4' in accepted:result.append((0x451ab,'observe:duplicate_return'))
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
+    for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
+        if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]
     return result

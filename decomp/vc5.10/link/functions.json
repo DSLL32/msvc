@@ -171,8 +171,9 @@
       "start": 4398640,
       "end": 4398659,
       "source": "src/initializers.c",
-      "status": "stub",
-      "abi": "cdecl void(void)"
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
     },
     {
       "name": "_setup_timing",

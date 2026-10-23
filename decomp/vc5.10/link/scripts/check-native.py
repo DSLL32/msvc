@@ -36,6 +36,29 @@ def application_symbols(executable,configuration):
     return result
 
 
+def completed_master(reference,configuration):
+    """Derive completion solely from verified raw original evidence."""
+    receipt_bytes=(reference/'receipt.json').read_bytes();receipt=json.loads(receipt_bytes)
+    assert receipt['mode']=='masked' and receipt['helper_status']==0
+    assert receipt['actual_loaded_target_hfile_verified'] and receipt['actual_loaded_crt_verified']
+    assert receipt['original_sha256']==configuration['target']['sha256']
+    for name in ['events.jsonl','stdout.bin','stderr.bin']:
+        data=(reference/name).read_bytes();record=receipt['files'][name]
+        assert len(data)==record['bytes'] and sha(data)==record['sha256']
+    events=[json.loads(line)for line in (reference/'events.jsonl').read_text().splitlines()]
+    assert not any(event['event']=='trap'for event in events),'completion reference trapped'
+    assert events[-1]==dict(event='summary',failed=0,status=1100)
+    assert [event for event in events if event['event']=='exit']==[dict(event='exit',status=1100)]
+    applications={record['name']for record in configuration['driver']}
+    trace=[event['name']for event in events if event['event']=='entry'and event['name']in applications]
+    assert len(trace)==len(set(trace)) and set(trace)<=set(configuration['accepted'])
+    baseline=BINARY/'cases/help/original'
+    for name in ['stdout.bin','stderr.bin']:assert (reference/name).read_bytes()==(baseline/name).read_bytes()
+    return dict(schema=1,case_arguments=['/?'],target_sha256=configuration['target']['sha256'],status=1100,posix_status=76,
+        receipt_sha256=sha(receipt_bytes),application_trace=trace,
+        streams={name:dict(bytes=(reference/name).stat().st_size,sha256=sha((reference/name).read_bytes()))for name in ['stdout.bin','stderr.bin']})
+
+
 def load_reference(configuration):
     master_path=BINARY/'cases/help/completed/master.json'
     assert master_path.is_file(), 'completed help reference is missing'
@@ -70,18 +93,17 @@ def load_reference(configuration):
     assert provenance['status']==1100
     for name in ['stdout.bin','stderr.bin']:
         assert (reference/name).read_bytes()==(baseline/name).read_bytes()
+    expected=completed_master(reference,configuration)
+    assert all(master[key]==value for key,value in expected.items())
     return reference,master
 
 
-def main():
+def replay(configuration,reference=None,master=None):
     started=time.perf_counter()
-    configuration=json.loads((BINARY/'functions.json').read_text())
-    if not configuration.get('cases',{}).get('help',{}).get('complete'):
-        raise SystemExit('Help is not accepted: named traps remain; no fixture success claimed.')
     subprocess.run(['make','-q','native'],cwd=BINARY,check=True)
     executable=BINARY/'build/native/LINK.EXE'
     assert executable.read_bytes()[:4]==b'\x7fELF', 'fixture requires the native ELF'
-    reference,master=load_reference(configuration)
+    if reference is None:reference,master=load_reference(configuration)
     scratch=Path.home()/'.ai-tmp/msvc2/vc5.10/link'
     work=Path(tempfile.mkdtemp(prefix='fixture-help-',dir=scratch))
     symbol_map=application_symbols(executable,configuration)
@@ -112,6 +134,8 @@ def main():
         assert process.returncode==master['posix_status'], 'wrong native POSIX status'
         logical_status=terminal.read(process.pid,process.returncode)
         assert logical_status==master['status'], 'wrong full logical DWORD status'
+        terminal.file.seek(0);terminal_record=terminal.file.read()
+        assert len(terminal_record)==24
     before=time.perf_counter()
     stdout=(work/'stdout.bin').read_bytes();stderr=(work/'stderr.bin').read_bytes()
     assert stdout==(reference/'stdout.bin').read_bytes(), 'help stdout differs'
@@ -119,12 +143,20 @@ def main():
     actual=[symbol_map[name] for name in trace.read_text().splitlines()]
     assert actual==master['application_trace'], 'help application entry order differs'
     checks=time.perf_counter()-before
-    report=dict(case='help',status='passed',logical_status=logical_status,posix_status=process.returncode,
-        application_entries=len(actual),native_sha256=sha(executable.read_bytes()),
+    report=dict(case='help',status='passed',logical_status=logical_status,posix_status=process.returncode,native_pid=process.pid,
+        terminal_record_hex=terminal_record.hex(),application_entries=len(actual),application_trace=actual,native_sha256=sha(executable.read_bytes()),
         reference_receipt_sha256=reference_sha,work_directory=str(work),
         elapsed_seconds=dict(setup=setup,execution=execution,checks=checks,total=time.perf_counter()-started),
         build='Makefile native prerequisite, outside these runner timings; no original/ref recapture.')
     (work/'receipt.json').write_text(json.dumps(report,indent=2)+'\n')
+    return report
+
+
+def main():
+    configuration=json.loads((BINARY/'functions.json').read_text())
+    if not configuration.get('cases',{}).get('help',{}).get('complete'):
+        raise SystemExit('Help is not accepted: named traps remain; no fixture success claimed.')
+    report=replay(configuration)
     (BINARY/'build/help-fixture.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report,indent=2))
 

@@ -62,7 +62,10 @@ void __cdecl register_buffer4_cleanup(void)
 {
     atexit(free_buffer4);
 }
-void __cdecl free_buffer4(void) { __asm { int 3 } }
+void __cdecl free_buffer4(void)
+{
+    if (buffer4.base) crt_operator_delete(buffer4.base);
+}
 void __cdecl initialize_buffer4(void)
 {
     allocate_buffer4();
