@@ -39,10 +39,23 @@ void __fastcall float_register_heap_release(void *allocation);
 /* Original88-byte arena4 stream-motion record. The constructor establishes
    the complete allocation extent; fields await their contextual consumers.
    Scheduling shares its boundary at1c through the same active-context alias. */
+typedef struct FloatStreamBranch {
+    LabelSymbol *label;
+    MachineInstruction *instruction;
+    int stack_depth;
+    unsigned references;
+    struct FloatStreamBranch *next;
+    unsigned flags;
+} FloatStreamBranch;
+typedef char FloatStreamBranchSizeCheck[sizeof(FloatStreamBranch) == 24 ? 1 : -1];
 typedef struct MemoryMotionContext {
-    unsigned field00, field04, field08, field0c, field10, field14, field18;
+    struct MemoryMotionContext *previous, *next;
+    LabelSymbol *label;
+    unsigned field0c, field10, field14, field18;
     MachineInstruction *boundary, *last;
-    unsigned field24, field28, field2c, field30, field34, field38, field3c;
+    unsigned field24, field28, field2c;
+    FloatStreamBranch *branches, *last_branch;
+    unsigned field38, field3c;
     unsigned order, field44;
     int stack_depth, field4c, maximum_depth;
     unsigned flags;
@@ -63,4 +76,11 @@ void __fastcall process_float_stream_call(MachineInstruction *instruction);
 void __fastcall process_float_stream_branch(MachineInstruction *instruction);
 void __fastcall process_float_stream_return(MachineInstruction *instruction);
 void __fastcall process_float_stream_operation(MachineInstruction *instruction);
+MemoryMotionContext *__fastcall find_float_stream_label_context(LabelSymbol *label);
+int __fastcall match_float_stream_branches(FloatStreamBranch *branches, MachineInstruction *instruction, MachineInstruction **last);
+void close_float_stream_context(void);
+void __fastcall start_float_stream_context(MachineInstruction *instruction, LabelSymbol *label);
+void __fastcall analyze_float_motion_range(MachineInstruction *first, MachineInstruction *last, int mode);
+void merge_float_stream_context(void);
+int __fastcall resolve_float_stream_label(LabelSymbol *label, MachineInstruction *instruction);
 #endif

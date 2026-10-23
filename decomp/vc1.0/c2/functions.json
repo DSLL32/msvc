@@ -1007,7 +1007,10 @@
     "_rewrite_float_machine_data",
     "_prepare_float_stream_uses",
     "_initialize_float_stream_context",
-    "@process_float_stream_operation@4"
+    "@process_float_stream_operation@4",
+    "@process_float_stream_branch@4",
+    "@find_float_stream_label_context@4",
+    "@process_float_stream_label@4"
   ],
   "driver": [
     {
@@ -7080,8 +7083,7 @@
     {
       "name": "@process_float_stream_label@4",
       "start": 234448,
-      "end": 234449,
-      "provisional": true
+      "end": 234727
     },
     {
       "name": "@process_float_stream_protected_block@4",
@@ -7098,8 +7100,7 @@
     {
       "name": "@process_float_stream_branch@4",
       "start": 233472,
-      "end": 233473,
-      "provisional": true
+      "end": 233832
     },
     {
       "name": "@process_float_stream_return@4",
@@ -7111,6 +7112,47 @@
       "name": "@process_float_stream_operation@4",
       "start": 233840,
       "end": 234055
+    },
+    {
+      "name": "@find_float_stream_label_context@4",
+      "start": 237456,
+      "end": 237510
+    },
+    {
+      "name": "@match_float_stream_branches@12",
+      "start": 236928,
+      "end": 236929,
+      "provisional": true
+    },
+    {
+      "name": "_close_float_stream_context",
+      "start": 234944,
+      "end": 234945,
+      "provisional": true
+    },
+    {
+      "name": "@start_float_stream_context@8",
+      "start": 235008,
+      "end": 235009,
+      "provisional": true
+    },
+    {
+      "name": "@analyze_float_motion_range@12",
+      "start": 235136,
+      "end": 235137,
+      "provisional": true
+    },
+    {
+      "name": "_merge_float_stream_context",
+      "start": 236336,
+      "end": 236337,
+      "provisional": true
+    },
+    {
+      "name": "@resolve_float_stream_label@8",
+      "start": 237728,
+      "end": 237729,
+      "provisional": true
     }
   ],
   "cases": {

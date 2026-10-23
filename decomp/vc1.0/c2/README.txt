@@ -2524,3 +2524,9 @@ Floating stream-use driver and motion contexts: checkpoint1003
 @process_float_stream_branch@4. 924 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-stream-context.json for extent union, limits and measured timings.
+
+Floating branch and label context handling: checkpoint1006
+3 acceptances pass fresh original/native matching; current frontier
+@resolve_float_stream_label@8. 927 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-stream-branches.json for extent union, limits and measured timings.

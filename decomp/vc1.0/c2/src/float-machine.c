@@ -877,3 +877,100 @@ void __fastcall process_float_stream_operation(MachineInstruction *instruction)
     float_stream_context->stack_depth += effect;
     float_stream_previous = instruction;
 }
+
+/* Original [00039000,00039168). Forward branches record label/depth
+   requirements. A branch returning to a live context can close and analyze
+   that range, then either resume a prior context or start its fallthrough. */
+void __fastcall process_float_stream_branch(MachineInstruction *instruction)
+{
+    MemoryMotionContext *context, *previous;
+    FloatStreamBranch *branch;
+    MachineInstruction *last;
+    context = find_float_stream_label_context((LabelSymbol *)instruction->operands[0].value.symbol);
+    if (!context) {
+        branch = arena_alloc(4, sizeof(*branch));
+        branch->instruction = instruction;
+        branch->references = 1;
+        branch->label = (LabelSymbol *)instruction->operands[0].value.symbol;
+        branch->stack_depth = float_stream_context->stack_depth;
+        branch->flags &= ~3U;
+        if (!float_stream_context->last_branch) float_stream_context->branches = branch;
+        else float_stream_context->last_branch->next = branch;
+        float_stream_context->last_branch = branch;
+        return;
+    }
+    --float_stream_order;
+    context->last = instruction;
+    if (context->flags & 2) {
+        start_float_stream_context(instruction->next, 0);
+        return;
+    }
+    if (!match_float_stream_branches(context->branches, instruction, &last)) {
+        close_float_stream_context();
+        start_float_stream_context(instruction->next, 0);
+        return;
+    }
+    context->last = last ? last : instruction;
+    memory_motion_context = context;
+    analyze_float_motion_range(context->boundary, context->last, 2);
+    previous = context->previous;
+    if (previous && previous->label && !(previous->flags & 2)) {
+        if (previous->last) {
+            float_stream_next = instruction->next;
+            merge_float_stream_context();
+            start_float_stream_context(float_stream_next, 0);
+        } else float_stream_context = previous;
+        return;
+    }
+    float_stream_next = instruction->next;
+    if (!(memory_motion_context->flags & 2)) merge_float_stream_context();
+    start_float_stream_context(float_stream_next, 0);
+}
+
+/* Original [00039f90,00039fc6). Only the current matching label can
+   receive a backward branch, and an unsafe later context prevents reuse. */
+MemoryMotionContext *__fastcall find_float_stream_label_context(LabelSymbol *label)
+{
+    MemoryMotionContext *context;
+    if (float_stream_context->label != label) return 0;
+    for (context = float_stream_context->next; context; context = context->next)
+        if (context->flags & 2) return 0;
+    return float_stream_context;
+}
+
+/* Original [000393d0,000394e7). Referenced labels delimit contexts; a
+   single-reference label may continue a range until its matching back edge.
+   Multiple incoming references close the preceding unbranched range first. */
+void __fastcall process_float_stream_label(MachineInstruction *instruction)
+{
+    LabelSymbol *label = (LabelSymbol *)instruction->record.symbol;
+    MemoryMotionContext *context;
+    if (!label->references && label->label_kind != 4) return;
+    if (resolve_float_stream_label(label, instruction)) return;
+    context = float_stream_context;
+    if (label->references > 1) {
+        if (context->boundary != instruction && !context->branches && !context->next) {
+            context->last = instruction->previous;
+            memory_motion_context = context;
+            analyze_float_motion_range(context->boundary, context->last, 1);
+        }
+        close_float_stream_context();
+        start_float_stream_context(instruction->next, 0);
+        return;
+    }
+    if (!context->label) {
+        if (context->boundary != instruction && !context->branches) {
+            context->last = instruction->previous;
+            memory_motion_context = context;
+            analyze_float_motion_range(context->boundary, context->last, 1);
+            goto start;
+        }
+        context->last = instruction;
+    } else if (!context->next) goto start;
+    close_float_stream_context();
+start:
+    float_stream_next = instruction->next;
+    start_float_stream_context(instruction, label);
+    float_stream_context->order = float_stream_order;
+    ++float_stream_order;
+}

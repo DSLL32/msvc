@@ -397,8 +397,12 @@ void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 
 MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction) { __asm int 3 }
 void finish_float_stream_uses(void) { __asm int 3 }
-void __fastcall process_float_stream_label(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_call(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall process_float_stream_branch(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_return(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall match_float_stream_branches(FloatStreamBranch *branches, MachineInstruction *instruction, MachineInstruction **last) { __asm int 3 }
+void close_float_stream_context(void) { __asm int 3 }
+void __fastcall start_float_stream_context(MachineInstruction *instruction, LabelSymbol *label) { __asm int 3 }
+void __fastcall analyze_float_motion_range(MachineInstruction *first, MachineInstruction *last, int mode) { __asm int 3 }
+void merge_float_stream_context(void) { __asm int 3 }
+int __fastcall resolve_float_stream_label(LabelSymbol *label, MachineInstruction *instruction) { __asm int 3 }
