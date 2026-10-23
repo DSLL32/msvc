@@ -896,7 +896,10 @@
     "@rewrite_region_exit_counter@4",
     "_create_region_induction_counter",
     "@remove_basic_induction@4",
-    "@induction_is_dead_on_exit@4"
+    "@induction_is_dead_on_exit@4",
+    "@bitset_remove@8",
+    "@remove_region_candidate@8",
+    "@remove_parent_counter_records@4"
   ],
   "driver": [
     {
@@ -3605,8 +3608,7 @@
     {
       "name": "@bitset_remove@8",
       "start": 421200,
-      "end": 421201,
-      "provisional": true
+      "end": 421297
     },
     {
       "name": "@copy_bitset@4",
@@ -6202,8 +6204,7 @@
     {
       "name": "@remove_region_candidate@8",
       "start": 391024,
-      "end": 391025,
-      "provisional": true
+      "end": 391104
     },
     {
       "name": "@work_dominates_block@8",
@@ -6598,8 +6599,7 @@
     {
       "name": "@remove_parent_counter_records@4",
       "start": 395824,
-      "end": 395825,
-      "provisional": true
+      "end": 395924
     }
   ],
   "cases": {

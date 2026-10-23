@@ -418,3 +418,25 @@ int __fastcall is_empty_bitset(BitSet *set)
 {
     return !set || !set->next;
 }
+
+/* Original [00066d50,00066db1). Remove one member while retaining the
+   sentinel. An emptied chunk is detached before joining the free chain. */
+BitSet *__fastcall bitset_remove(BitSet *set, unsigned member)
+{
+    BitSet *previous, *chunk;
+    int base = (int)(member & ~31U);
+    unsigned keep = ~(1U << (member & 31));
+    if (!set) return 0;
+    for (previous = set; previous->next; previous = previous->next) {
+        chunk = previous->next;
+        if (chunk->base != base) continue;
+        chunk->bits &= keep;
+        if (!chunk->bits) {
+            previous->next = chunk->next;
+            chunk->next = 0;
+            release_bitset(chunk);
+        }
+        break;
+    }
+    return set;
+}

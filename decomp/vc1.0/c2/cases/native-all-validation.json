@@ -1,7 +1,7 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "de5950d3d101079dcd2678440bca375b96f887234c3c6f09d0a1d4d954ce0011",
+  "executable_sha256": "77e23878e993e2bb140fc9661c6882a1dbb56544e6adb2d2de0f787542d244e7",
   "trace_enabled": true,
   "shared_hashes": {
     "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
@@ -41,10 +41,10 @@
           4
         ]
       },
-      "setup_seconds": 0.013235952705144882,
-      "execution_seconds": 0.005172255448997021,
-      "check_seconds": 0.0013577351346611977,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-g6di47fh/minimal"
+      "setup_seconds": 0.012945492751896381,
+      "execution_seconds": 0.005568421445786953,
+      "check_seconds": 0.0015859268605709076,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-pyhebyo_/minimal"
     },
     {
       "profile": "hello",
@@ -61,22 +61,22 @@
           4
         ]
       },
-      "setup_seconds": 0.011968135833740234,
-      "execution_seconds": 0.009675697423517704,
-      "check_seconds": 0.001298392191529274,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-g6di47fh/hello"
+      "setup_seconds": 0.013015490025281906,
+      "execution_seconds": 0.010009866207838058,
+      "check_seconds": 0.00148108322173357,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-pyhebyo_/hello"
     },
     {
       "profile": "loops",
-      "terminal": "@bitset_remove@8",
+      "terminal": "@materialize_numbered_tree@4",
       "returncode": -5,
-      "application_entries": 53,
+      "application_entries": 56,
       "seeded_entries": 757,
       "output": null,
-      "setup_seconds": 0.01103371474891901,
-      "execution_seconds": 0.00535159558057785,
-      "check_seconds": 0.0008713835850358009,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-g6di47fh/loops"
+      "setup_seconds": 0.012311184778809547,
+      "execution_seconds": 0.005519007332623005,
+      "check_seconds": 0.0009088665246963501,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-pyhebyo_/loops"
     }
   ],
   "rejected": [
@@ -84,8 +84,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.22217097878456116,
-  "suite_setup_seconds": 0.12771081551909447,
-  "negative_check_seconds": 0.025051393546164036,
+  "fixture_seconds": 0.22648176085203886,
+  "suite_setup_seconds": 0.129798729903996,
+  "negative_check_seconds": 0.02352211344987154,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }

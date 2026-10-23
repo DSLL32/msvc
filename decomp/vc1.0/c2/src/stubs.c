@@ -191,7 +191,6 @@ SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 
 
 #include "unoptimized.h"
 unsigned __fastcall assign_physical_register(MachineInstruction *instruction, unsigned reg, int last_use) { __asm int 3 }
-BitSet *__fastcall bitset_remove(BitSet *set, unsigned member) { __asm int 3 }
 void __fastcall advance_operand_byte(MachineOperand *operand) { __asm int 3 }
 int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
@@ -395,7 +394,6 @@ int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned
 int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
 int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
-void __fastcall remove_region_candidate(Node *node, int ancestors) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
@@ -405,7 +403,6 @@ void __fastcall save_region_counter(Node *address, Node *step, Node *assignment)
 int __fastcall region_assignment_precedes(Node *first, Node *second) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
-void __fastcall remove_parent_counter_records(Node *assignment) { __asm int 3 }
 int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }
 void __fastcall release_loop_tree_record(LoopTreeRecord *record) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int mode) { __asm int 3 }

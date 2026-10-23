@@ -1535,3 +1535,40 @@ int __fastcall induction_is_dead_on_exit(Node *assignment)
         }
     return 1;
 }
+
+/* Original [0005f770,0005f7c0). Remove the first canonical store
+   candidate in the current region, optionally continuing through parents. */
+void __fastcall remove_region_candidate(Node *node, int ancestors)
+{
+    Node *identity = node->detail.node;
+    FlowRegion *region;
+    RegionValue *head, **position;
+    for (region = hoist_current_region; region; region = region->parent) {
+        head = region->candidates;
+        position = &head;
+        while (*position && (*position)->tree != identity) position = &(*position)->next;
+        if (*position) *position = (*position)->next;
+        region->candidates = head;
+        if (!ancestors) break;
+    }
+}
+
+/* Original [00060a30,00060a94). Removing an update invalidates matching
+   saved counters in the immediate parent region. Retain the next record
+   before recycling its independently owned trees. */
+void __fastcall remove_parent_counter_records(Node *assignment)
+{
+    LoopTreeRecord *head, *record, *next, **position;
+    FlowRegion *parent = hoist_current_region->parent;
+    if (!parent) return;
+    head = parent->loop_trees;
+    position = &head;
+    for (record = head; record; record = next) {
+        next = record->next;
+        if (trees_equal(assignment, record->assignment, 0)) {
+            *position = next;
+            release_loop_tree_record(record);
+        } else position = &record->next;
+    }
+    hoist_current_region->parent->loop_trees = head;
+}

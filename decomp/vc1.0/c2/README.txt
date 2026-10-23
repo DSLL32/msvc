@@ -2225,3 +2225,11 @@ Loop exit counter rewriting: checkpoint892
 native fixtures pass. See cases/loops-exit-rewrite.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Nested-region optimization passed: checkpoint895
+---------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@materialize_numbered_tree@4. 817 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-induction-cleanup.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.
