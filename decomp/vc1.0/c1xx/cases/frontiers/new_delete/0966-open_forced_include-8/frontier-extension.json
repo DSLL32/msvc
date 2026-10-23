@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 966,
+  "accepted": "_open_forced_include@8",
+  "terminal": "_process_pch_include@4",
+  "original_capture": "cases/frontiers/new_delete/0966-open_forced_include-8/original-receipt.json",
+  "original_capture_sha256": "36b3a268fa59ae8a758cf7b321541c7921b2fa4d1f2fe634ef5264a4115b11ab",
+  "original_events": "cases/frontiers/new_delete/0966-open_forced_include-8/original-events.txt",
+  "original_events_sha256": "39db7fe39bbfc41c072c464a8af5c9e6ba0d9fb48b13540bd84112a0adfea90c",
+  "original_configuration": "cases/frontiers/new_delete/0966-open_forced_include-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

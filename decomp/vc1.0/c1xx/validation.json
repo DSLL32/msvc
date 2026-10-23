@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 963,
-  "driver_functions": 870,
+  "accepted_frontiers": 970,
+  "driver_functions": 876,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 877,
-  "current_frontier": "exit:0",
-  "original_frontier_va": null,
+  "reconstructed_source_functions": 883,
+  "current_frontier": "_skip_source_comment",
+  "original_frontier_va": "0x25f20",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "exit:0",
-    "original_va": null
+    "current_frontier": "_skip_source_comment",
+    "original_va": "0x25f20"
   },
-  "current_native_application_entries": 31,
+  "current_native_application_entries": 7,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 250912,
+    "accepted_code_bytes": 252301,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 52.666356015095985,
-    "accepted_frontiers": 963,
-    "source_functions": 877,
-    "accepted_source_text_and_switch_bytes": 239067,
+    "accepted_code_percent": 52.95790671217292,
+    "accepted_frontiers": 970,
+    "source_functions": 883,
+    "accepted_source_text_and_switch_bytes": 240418,
     "section_ranges": [
       [
         94208,
@@ -58,16 +58,29 @@
         "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
         "evidence": "evidence/multiply-boundary/receipt.json",
         "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+      },
+      {
+        "function": "_search_include_directories@4",
+        "original": [
+          148112,
+          148413
+        ],
+        "condition": "directory != NULL && directory != \"./\" && *directory == 0",
+        "behavior": "explicit native-only INT3 before the original unwritten-last-pointer dereference",
+        "win32": "original-style uninitialized last-character pointer retained",
+        "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
+        "evidence": "evidence/empty-include-directory/analysis.json",
+        "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 250912,
+    "accepted_code_bytes": 252301,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 52.666356015095985,
-    "accepted_frontiers": 963,
-    "source_functions": 877,
-    "accepted_source_text_and_switch_bytes": 239067,
+    "accepted_code_percent": 52.95790671217292,
+    "accepted_frontiers": 970,
+    "source_functions": 883,
+    "accepted_source_text_and_switch_bytes": 240418,
     "section_ranges": [
       [
         94208,
@@ -100,13 +113,26 @@
         "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
         "evidence": "evidence/multiply-boundary/receipt.json",
         "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+      },
+      {
+        "function": "_search_include_directories@4",
+        "original": [
+          148112,
+          148413
+        ],
+        "condition": "directory != NULL && directory != \"./\" && *directory == 0",
+        "behavior": "explicit native-only INT3 before the original unwritten-last-pointer dereference",
+        "win32": "original-style uninitialized last-character pointer retained",
+        "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
+        "evidence": "evidence/empty-include-directory/analysis.json",
+        "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
       }
     ]
   },
-  "complete_frontend_case": true,
-  "active_case": "stack_lifetime",
-  "status": "stack_lifetime reconstruction complete",
-  "latest_verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json",
+  "complete_frontend_case": false,
+  "active_case": "new_delete",
+  "status": "new_delete reconstruction in progress",
+  "latest_verification": "cases/frontiers/new_delete/0969-search_include_directories-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -126,9 +152,14 @@
       "status": "complete",
       "frontier": "exit:0",
       "latest_verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json"
+    },
+    "new_delete": {
+      "status": "partial",
+      "frontier": "_skip_source_comment",
+      "latest_verification": "cases/frontiers/new_delete/0969-search_include_directories-4/validation.json"
     }
   },
-  "next_operation": "Seed the next approved C++ queue case",
+  "next_operation": "Continue _skip_source_comment reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

@@ -1,0 +1,53 @@
+{
+  "case": "new_delete",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 966,
+  "terminal": "_process_pch_include@4",
+  "candidate": "_open_forced_include@8",
+  "pending_accepted": [],
+  "configuration_sha256": "37932ebd1ed94ee7cce1d86f91b254c3eaa30da7b2947c8a524a334618b7d19b",
+  "capture_seconds": 1.0167616130784154,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "allocation.cpp": {
+      "bytes": 985,
+      "sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete",
+  "first_entry_projection": {
+    "accepted_first": 963,
+    "accepted_last": 967,
+    "accepted_prefix_sha256": "405fea598656ca07311385c8c1c9aaffab70550673efa63b096bc782450b015e",
+    "expected": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8"
+    ],
+    "observed": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8"
+    ],
+    "events_sha256": "39db7fe39bbfc41c072c464a8af5c9e6ba0d9fb48b13540bd84112a0adfea90c",
+    "plan_sha256": "182023c646e064a27d3813a3972deee513dc837d9b324d79f9eeb1704e501913"
+  }
+}

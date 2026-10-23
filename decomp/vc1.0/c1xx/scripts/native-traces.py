@@ -40,6 +40,31 @@ def application_symbols(directory):
     return result
 
 
+def runtime_evidence(config):
+    """Retain newly observed runtime seams before projecting them away."""
+    from runtime_boundary_loader import load_boundary
+    boundary=load_boundary();files=[];verified={};covered=set()
+    drivers={r['name'] for r in config['driver']}
+    for case in config['cases'].values():
+        for relative in case.get('frontier_extensions',[]):
+            extension_path=BINARY/relative
+            extension=json.loads(extension_path.read_text())
+            if 'runtime_evidence' not in extension:continue
+            path=BINARY/extension['runtime_evidence']
+            assert sha(path)==extension['runtime_evidence_sha256'], 'runtime acceptance evidence changed'
+            if path not in verified:
+                verified[path]=boundary.check(path)
+                files.extend([path,*[BINARY/item['path'] for item in verified[path]['evidence_files']]])
+            proof=verified[path]
+            if extension['accepted'] not in drivers:
+                assert extension['accepted'] in proof['runtime_order'], 'runtime seam lacks observed boundary'
+                covered.add(extension['accepted'])
+            files.append(extension_path)
+    if '_strchr' in config['accepted']:
+        assert '_strchr' in covered, 'strchr cannot be filtered without its original/native boundary proof'
+    return list(dict.fromkeys(files))
+
+
 def project():
     config = json.loads((BINARY / 'functions.json').read_text())
     sources = {}
@@ -72,7 +97,7 @@ def project():
     definitions={native_name(n):dict(logical=n,source=source) for n,source in application.items()}
     assert len(definitions)==len(application),'native decoration collision'
     reference=json.loads(REFERENCE.read_text())
-    extension_files=[]
+    extension_files=runtime_evidence(config)
     cases={}
     transcript=config['accepted']
     for case_name,case in config['cases'].items():
@@ -125,6 +150,7 @@ def project():
 
 def load(directory, path=CACHE):
     cache = json.loads(path.read_text())
+    runtime_evidence(json.loads((BINARY/'functions.json').read_text()))
     for name, digest in cache['metadata_sha256'].items():
         assert sha(BINARY / name) == digest, 'native cache stale: ' + name
     definitions = application_symbols(directory)

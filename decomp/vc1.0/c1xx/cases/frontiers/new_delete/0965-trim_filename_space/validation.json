@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_trim_filename_space",
+    "start": 149424,
+    "end": 149553
+  },
+  "distinct_direct_callees": [
+    "__isctype",
+    "_strchr"
+  ],
+  "next_frontier": "_open_forced_include@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.30459103360772133,
+  "total_operation_seconds": 3.049520483240485,
+  "original_capture_seconds": 1.1173787573352456
+}

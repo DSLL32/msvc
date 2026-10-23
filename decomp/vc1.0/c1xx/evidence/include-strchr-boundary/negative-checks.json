@@ -1,0 +1,14 @@
+[
+  {
+    "check": "wrong-needle",
+    "status": "rejected"
+  },
+  {
+    "check": "missing-native-observer",
+    "status": "rejected"
+  },
+  {
+    "check": "wrong-member-identity",
+    "status": "rejected"
+  }
+]

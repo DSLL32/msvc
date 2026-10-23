@@ -2,10 +2,124 @@
 #include "directives-internal.h"
 #include "characters.h"
 #include "control-ir.h"
+#include <ctype.h>
+#include <string.h>
 #include <recon.h>
 
 unsigned conditional_branch_states[32]; /* original 0x956e4 */
 short pch_include_count = -1; /* original 0xa235c: record/playback include depth */
+
+PchInputRecord *pch_input_record; /* original 0x8ccc0 */
+short pch_saved_page_count; /* original 0xa2360 */
+int pch_input_changed; /* original 0xa2364 */
+int pch_abort_on_file_change; /* original 0xa2368 */
+
+/* Original 0x6b530..0x6b649, stdcall4. Record include events while
+   capturing, or consume a matching replay include and its file-time events.
+   A changed replay input either marks the capture or resumes ordinary input. */
+int __stdcall process_pch_include(char *filename)
+{
+    short previous_count;
+    if (!pch_mode) return 0;
+    if (pch_mode == 1) {
+        previous_count = pch_include_count--;
+        if (!previous_count) finish_pch_capture();
+        else record_pch_string_event(2, permanent_page_count, filename);
+        if (options.pch_auto_file && compare_filenames(options.pch_auto_file, filename))
+            pch_include_count = 0;
+        return 0;
+    }
+    if (pch_mode == 2 && pch_input_record->kind == 2 &&
+        compare_filenames(pch_input_record->text, filename)) {
+        ++pch_include_count;
+        pch_saved_page_count = (short)pch_input_record->value;
+        for (;;) {
+            pch_input_record = (PchInputRecord *)((char *)pch_input_record +
+                pch_input_record->bytes + 12);
+            if (pch_input_record->kind != 5) return 1;
+            if (source_file_timestamp(pch_input_record->text) != pch_input_record->value) {
+                pch_input_changed = 1;
+                if (pch_abort_on_file_change) return resume_pch_source_input();
+            }
+        }
+    }
+    return resume_pch_source_input();
+}
+
+/* Original 0x247b0..0x24830, cdecl. Return the beginning of the
+   final whitespace run. A null end requests the original string terminator. */
+char *trim_filename_space(char *begin, char *end)
+{
+    char *space = 0;
+    if (!end) end = strchr(begin, 0);
+    while (begin < end) {
+        if (isspace((unsigned char)*begin)) {
+            if (!space) space = begin;
+        } else space = 0;
+        ++begin;
+    }
+    return space ? space : end;
+}
+
+/* Original 0x23630..0x236da, cdecl. Build the angle-delimited name
+   in the source-name workspace, trim trailing whitespace, then copy it back
+   immediately before the current input position for the include opener. */
+char *read_angle_include_name(void)
+{
+    char *begin = source_buffer_cursor, *name;
+    unsigned char character = next_directive_character();
+    if (character == '\n') {
+        --source_text_cursor;
+        report_syntax_error(12);
+        return 0;
+    }
+    while (character != '>') {
+        if (character == '\n') {
+            --source_text_cursor;
+            report_syntax_error(13);
+            return 0;
+        }
+        *source_buffer_cursor++ = (char)character;
+        character = next_source_character();
+    }
+    if (source_buffer_cursor != begin)
+        source_buffer_cursor = trim_filename_space(begin, source_buffer_cursor);
+    *source_buffer_cursor++ = 0;
+    name = source_text_cursor;
+    do { *--name = *--source_buffer_cursor; }
+    while (source_buffer_cursor != begin);
+    return name;
+}
+
+/* Original 0x237f0..0x238ab, cdecl. Tokenize without /E output or
+   escape interpretation. Quoted names are moved back into the source buffer;
+   angle names use their own character reader. Invalid forms discard the line. */
+char *read_include_name(void)
+{
+    int saved_output = options.option_E;
+    char *name;
+    options.option_E = 0;
+    token_allocation_flags |= 0x4000;
+    read_parser_token();
+    token_allocation_flags &= ~0x4000U;
+    options.option_E = saved_output;
+    if (current_token_code == 3) {
+        if (current_token_value.string.flags & 1) report_syntax_error(2);
+        name = source_text_cursor;
+        do { *--name = (char)*--text_work_cursor; }
+        while (text_work_cursor != (unsigned char *)current_token_value.string.text);
+        return name;
+    }
+    if (current_token_code == 0x4d) {
+        name = read_angle_include_name();
+        if (name) return name;
+    } else {
+        report_syntax_error(6, token_spellings[current_token_code]);
+    }
+    skip_source_line();
+    token_allocation_flags &= ~0x10000UL;
+    return 0;
+}
 
 /* Original 0x239d0..0x24195; fourteen-way switch data at0x24198..0x241cf.
    Recover every directive arm, including PCH condition transport, rather than

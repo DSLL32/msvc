@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "accepted_before": 968,
+  "accepted": "_strchr",
+  "terminal": "_search_include_directories@4",
+  "original_capture": "cases/frontiers/new_delete/0968-strchr/original-receipt.json",
+  "original_capture_sha256": "64d5d715c8defd2bf5a0fb4864f9c2798f9151520a06acd59bbb9a443211851e",
+  "original_events": "cases/frontiers/new_delete/0968-strchr/original-events.txt",
+  "original_events_sha256": "115c8cf191ec55ce8f2a40f77a348b0d331ab1c9dd533a4e14b593e5ef12c4b5",
+  "original_configuration": "cases/frontiers/new_delete/0968-strchr/original-configuration.json",
+  "scope": "Explicit runtime first-entry sequence, indexed library/import identity, original/native runtime boundary and downstream full checkpoint",
+  "runtime_evidence": "evidence/include-strchr-boundary/receipt.json",
+  "runtime_evidence_sha256": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
+  "downstream_frontier": "_search_include_directories@4",
+  "downstream_comparison": "cases/frontiers/new_delete/0967-process_pch_include-4/validation.json",
+  "evidence_update": "Strengthened offline same-invocation revalidation by binding both archived raw event/receipt files; acceptance execution and configuration unchanged."
+}

@@ -60,7 +60,11 @@ int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
 void begin_debug_info(void) { __asm { int 3 } }
 void load_precompiled_header(void) { __asm { int 3 } }
-int __stdcall open_forced_include(char *filename, int flags) { __asm { int 3 } return 0; }
+void record_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
+int resume_pch_source_input(void) { __asm { int 3 } return 0; }
+unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } return 0; }
+int __stdcall search_source_include(char *filename) { __asm { int 3 } return 0; }
+void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
 void __stdcall begin_hash_iteration(HashIterator *iterator, HashTable *table) { __asm { int 3 } }
 int __stdcall next_hash_entry(HashIterator *iterator) { __asm { int 3 } return 0; }
 void __stdcall emit_declaration_thunk(void *description, CppSymbol *function) { __asm { int 3 } }
@@ -573,7 +577,6 @@ void define_source_macro(void) { __asm { int 3 } }
 void process_pragma(void) { __asm { int 3 } }
 int push_conditional_state(void) { __asm { int 3 } return 0; }
 void capture_directive_text(void) { __asm { int 3 } }
-char *read_include_name(void) { __asm { int 3 } return 0; }
 int __stdcall skip_conditional_block(unsigned flags) { __asm { int 3 } return 0; }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
 int process_pch_directive(void) { __asm { int 3 } return 0; }

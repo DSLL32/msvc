@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_search_include_directories@4",
+    "start": 148112,
+    "end": 148413
+  },
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_message_text",
+    "_open_source_file@8",
+    "_record_pch_open_include@4",
+    "_report_fatal",
+    "_strchr"
+  ],
+  "next_frontier": "_skip_source_comment",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.39258264750242233,
+  "total_operation_seconds": 3.3579879496246576,
+  "original_capture_seconds": 1.2174999183043838
+}

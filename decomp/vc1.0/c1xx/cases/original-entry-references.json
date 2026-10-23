@@ -30,5 +30,13 @@
     "events_sha256": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "plan": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan",
     "plan_sha256": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d"
+  },
+  "new_delete": {
+    "receipt": "cases/frontiers/new_delete/0969-search_include_directories-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "7a589ed69048fa63ad153dd4749945461da652c925ba5efd1229d92182f03f63",
+    "events": "cases/frontiers/new_delete/0969-search_include_directories-4/entry-reference/original-events.txt",
+    "events_sha256": "1899a4f1f7acd879e967c6c1179876573da6aef968885472f49f40db935b7806",
+    "plan": "cases/frontiers/new_delete/0969-search_include_directories-4/entry-reference/original-entries.plan",
+    "plan_sha256": "84f88bea3f8ca1ee56dd6d113cc495078bad8c3976eaa442ec2594d530e426b1"
   }
 }

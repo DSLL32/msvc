@@ -181,6 +181,19 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted overlapping-copy evidence')
+    string_path=BINARY/'evidence/include-strchr-boundary/receipt.json'
+    proof=boundary.check(string_path)
+    for name,change in [
+        ('strchr-needle',lambda p:p['native'].__setitem__('character',0)),
+        ('strchr-result',lambda p:p['native'].__setitem__('result_offset',0)),
+        ('strchr-library',lambda p:p['identity']['records'][0].__setitem__('member_bytes',37)),
+        ('strchr-observer',lambda p:p.__setitem__('native_commands','evidence/include-strchr-boundary/observer-build.log'))]:
+        altered=json.loads(json.dumps(proof));change(altered)
+        path=directory/(name+'.json');path.write_text(json.dumps(altered));started=time.perf_counter()
+        try:boundary.check(path)
+        except AssertionError as error:
+            checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'raw strchr observation contradicts claimed input/result',seconds=time.perf_counter()-started))
+        else:raise AssertionError(name+' accepted corrupted strchr evidence')
     for case_name,entry in cache['cases'].items():
         if case_name=='cpp_basic':continue
         wrong=json.loads(json.dumps(cache))

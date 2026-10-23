@@ -112,6 +112,8 @@ def check(path):
         return check_exit(path)
     if evidence.get('kind')=='realloc':
         return check_realloc(path)
+    if evidence.get('kind')=='strchr':
+        return check_strchr(path)
     if evidence.get('kind')=='overlap_copy':
         return check_copy(path)
     config=json.loads((BINARY/'functions.json').read_text())
@@ -265,4 +267,36 @@ def check_copy(path):
         assert len(bytes.fromhex(side['before']))==8
         assert side['before']==side['after'],'copy lost overlapping source bytes'
         assert side['before_names']==side['after_names']==['Left','Right'],'copy class identities differ'
+    return evidence
+
+
+def check_strchr(path):
+    """Require observed include-name search and exact CRT member identity."""
+    evidence=json.loads(path.read_text())
+    config=json.loads((BINARY/'functions.json').read_text())
+    assert evidence['target_sha256']==config['target']['sha256']
+    assert evidence['case']=='new_delete' and evidence['runtime_order']==['_strchr']
+    assert evidence['identity']==identities(names=['_strchr']), 'strchr member identity differs'
+    for item in evidence['evidence_files']:
+        assert sha(BINARY/item['path'])==item['sha256'], 'strchr evidence changed'
+    raw=(BINARY/evidence['original_observation']).read_text()
+    left,right=evidence['original'],evidence['native']
+    assert json.loads((BINARY/evidence['native_observation']).read_text())==right
+    assert re.findall(r'^runtime (\S+)$',raw,re.M)==['_strchr']
+    assert int(re.search(r'^return_va ([0-9a-f]+)$',raw,re.M)[1],16)==left['return_va']==0x2392e
+    assert right['caller']=='open_forced_include' and right['entry_requested']=='strchr@plt' and right['implementation_library']
+    assert "break *'strchr@plt'" in (BINARY/evidence['native_commands']).read_text(), 'native strchr breakpoint missing'
+    assert ('Breakpoint 2, 0x%x'%right['entry_pc']) in (BINARY/evidence['native_debug_log']).read_text(), 'native strchr entry differs'
+    for key,value in [('character',ord('n')),('result_offset',-1)]:
+        assert int(re.search(r'^'+key+r' (-?\d+)$',raw,re.M)[1])==left[key]==right[key]==value
+    for stage in ('before','after'):
+        assert re.search(r'^'+stage+r' (.*)$',raw,re.M)[1]==left[stage]==right[stage]=='5c3a2f00'
+    invocation=evidence['same_actual_invocation_proof']
+    origin=json.loads((BINARY/invocation['boundary_origin_receipt']).read_text())
+    current=json.loads((BINARY/invocation['revalidated_receipt']).read_text())
+    assert origin['outputs']==current['outputs'] and current['candidate']=='_process_pch_include@4'
+    assert current['configuration_sha256']==evidence['configuration_sha256']
+    assert sha(BINARY/invocation['revalidated_receipt'])==evidence['original_capture_sha256']
+    assert (BINARY/invocation['revalidated_events']).read_bytes()==(BINARY/'evidence/include-strchr-boundary/boundary-origin-events.txt').read_bytes()
+    assert ('0x%x'%right['implementation_pc']) in (BINARY/evidence['native_debug_log']).read_text()
     return evidence

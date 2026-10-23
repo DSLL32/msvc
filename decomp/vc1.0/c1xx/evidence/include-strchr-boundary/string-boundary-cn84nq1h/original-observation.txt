@@ -1,0 +1,6 @@
+runtime _strchr
+return_va 0002392e
+character 110
+before 5c3a2f00
+result_offset -1
+after 5c3a2f00

@@ -1,0 +1,55 @@
+{
+  "case": "new_delete",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 967,
+  "terminal": "_strchr",
+  "candidate": "_process_pch_include@4",
+  "pending_accepted": [],
+  "configuration_sha256": "8ababdba0e55b4920f2564af86b550fee5675395b06796811f1faa3926cfbefd",
+  "capture_seconds": 1.4679465303197503,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "allocation.cpp": {
+      "bytes": 985,
+      "sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete",
+  "first_entry_projection": {
+    "accepted_first": 963,
+    "accepted_last": 968,
+    "accepted_prefix_sha256": "11c132bd93c61c469ca6ccd65e767d90993864f1714326eb15236b72d4ad4e81",
+    "expected": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4"
+    ],
+    "observed": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4"
+    ],
+    "events_sha256": "aa23cabc34c2d017d6f4d530ed9c11bcbb67eb60c9ff9c299b6662f3a8a54522",
+    "plan_sha256": "036893681f22af037ffe72e24993a900d1abaaa44d1f12f811ed0e69f8e1f3b4"
+  }
+}

@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x2392d: file src/source-input.c, line 36.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, open_forced_include (filename=0x565fb718 <source_storage+12> "new.h", recon_system=1) at src/source-input.c:36
+36	    if (!include_depth && options.pch_create_file &&
+Breakpoint 2 at gnu-indirect-function resolver at 0xf7e148f0
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565589e7 in search_include_directories (filename=0x565fb718 <source_storage+12> "new.h") at src/stubs.c:68
+68	void __stdcall search_include_directories(char *filename) { __asm { int 3 } }
+0x56578a73 in open_forced_include (filename=0x565fb718 <source_storage+12> "new.h", recon_system=1) at src/source-input.c:45
+45	        search_include_directories(filename);

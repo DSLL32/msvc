@@ -1,0 +1,96 @@
+{
+  "status": "passed",
+  "case": "new_delete",
+  "first_frontier": 963,
+  "last_frontier": 969,
+  "next_frontier": "_skip_source_comment",
+  "coverage": {
+    "accepted_code_bytes": 252301,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 52.95790671217292,
+    "accepted_frontiers": 970,
+    "source_functions": 883,
+    "accepted_source_text_and_switch_bytes": 240418,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      },
+      {
+        "function": "_multiplication_overflows@16",
+        "original": [
+          477232,
+          477505
+        ],
+        "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+        "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+        "win32": "original uninitialized threshold switch fallback retained",
+        "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+        "evidence": "evidence/multiply-boundary/receipt.json",
+        "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+      },
+      {
+        "function": "_search_include_directories@4",
+        "original": [
+          148112,
+          148413
+        ],
+        "condition": "directory != NULL && directory != \"./\" && *directory == 0",
+        "behavior": "explicit native-only INT3 before the original unwritten-last-pointer dereference",
+        "win32": "original-style uninitialized last-character pointer retained",
+        "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
+        "evidence": "evidence/empty-include-directory/analysis.json",
+        "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
+      }
+    ]
+  },
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "check",
+    "native-rejections"
+  ],
+  "seconds": 5.14726191945374,
+  "crt": "evidence/include-strchr-boundary/receipt.json",
+  "scope": "Six application helpers plus one separately established CRT seam. All5 native cases match. Third explicitly approved limitation: valid public empty-I input traps natively; faithful original Win32 uninitialized pointer preserved.",
+  "initial_checks_status": "Graph candidate-positive harness selected final accepted CRT strchr as application; failed StopIteration. All ordinary canonical/native/data/grammar/policy checks passed.",
+  "retry": {
+    "command": [
+      "make",
+      "-j4",
+      "graph-negative-check"
+    ],
+    "seconds": 7.56796991918236,
+    "status": 0,
+    "change": "Choose last accepted driver body and exact preceding prefix; retain late CRT acceptance separately."
+  },
+  "final_checks": {
+    "command": [
+      "make",
+      "-j4",
+      "audit",
+      "graph-negative-check",
+      "check",
+      "native-rejections"
+    ],
+    "seconds": 7.8802485493943095,
+    "status": 0
+  }
+}

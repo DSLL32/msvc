@@ -4,10 +4,12 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <share.h>
+#include <string.h>
 #include "source-input.h"
 #include "lexer.h"
 #include "text-format.h"
 #include "characters.h"
+#include "directives-internal.h"
 #include <recon.h>
 #undef _fileno
 
@@ -24,6 +26,74 @@ char *macro_saved_input_cursor; /* original 0x957a0 */
 unsigned browser_file_cookie; /* original 0x94b10 */
 long browser_saved_position; /* original 0xa233c */
 FILE *browser_file; /* original 0x8eff8 */
+
+/* Original 0x24290..0x243bc, stdcall4. Search the configured include
+   directories in order, reusing the source-name workspace after failed opens.
+   The Win32 empty-string path deliberately retains the original unwritten last
+   pointer. Public -I "" can reach it successfully with caller-derived stack
+   contents; that exact native path is explicitly unsupported, not emulated. */
+void __stdcall search_include_directories(char *filename)
+{
+    Vector *directories = options.include_directories;
+    short index = 0;
+    int tried = 0;
+    char *directory, *cursor, *last, *copy;
+    while (index < directories->count) {
+        directory = directories->items[index++];
+        tried = 1;
+        copy = source_buffer_cursor;
+        if (directory && !(directory[0] == '.' && directory[1] == '/' && !directory[2])) {
+#if defined(RECON_NATIVE_TEST)
+            /* Original24310 reads a stale last pointer when no byte was
+               copied. Preserve that Win32 bug; native stack layout differs. */
+            if (!*directory) { __asm { int 3 } }
+#endif
+            cursor = directory;
+            while (*cursor) {
+                *source_buffer_cursor++ = *cursor;
+                last = cursor++;
+            }
+            if (!strchr(options.path_characters, (unsigned char)*last))
+                *source_buffer_cursor++ = '\\';
+        }
+        cursor = filename;
+        do { *source_buffer_cursor++ = *cursor++; }
+        while (source_buffer_cursor[-1]);
+        if (open_source_file(copy, 0)) {
+            if (pch_mode == 1) record_pch_open_include(copy);
+            return;
+        }
+        source_buffer_cursor = copy;
+    }
+    if (tried) report_fatal(83, message_text(343), filename);
+    else fatal_error(34, filename);
+}
+
+/* Original 0x238b0..0x239c7, stdcall8. Process a precompiled-header
+   boundary before searching relative includes; absolute names open directly.
+   The original absolute/PCH-record path passes the consumed source pointer. */
+int __stdcall open_forced_include(char *filename, int system)
+{
+    char *copy;
+    if (!include_depth && options.pch_create_file &&
+        compare_filenames(options.pch_create_file, filename))
+        forced_include_active = 1;
+    if (!include_depth && process_pch_include(filename)) return 0;
+    finish_directive("#include");
+    if (!options.option_E) record_line_information(1);
+    if (!strchr(options.path_characters, (unsigned char)*filename) &&
+        (!strchr(options.path_characters, ':') || filename[1] != ':')) {
+        if (!system && search_source_include(filename)) return 1;
+        search_include_directories(filename);
+        return 1;
+    }
+    copy = source_buffer_cursor;
+    do { *source_buffer_cursor++ = *filename++; }
+    while (source_buffer_cursor[-1]);
+    if (!open_source_file(copy, 0)) report_fatal(83, message_text(343), copy);
+    if (pch_mode == 1) record_pch_open_include(filename);
+    return 1;
+}
 
 /* Original 0x1e480..0x1e796. */
 int __stdcall open_source_file(char *filename, int mode)

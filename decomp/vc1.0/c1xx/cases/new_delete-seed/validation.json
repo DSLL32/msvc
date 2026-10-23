@@ -1,0 +1,10 @@
+{
+  "status": "matched case seed; no new function accepted",
+  "case": "new_delete",
+  "frontier": "_read_include_name",
+  "accepted_prefix": 963,
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "original_capture_seconds": 1.4689758205786347,
+  "total_registration_seconds": 0.5148547673597932
+}

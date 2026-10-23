@@ -1,0 +1,124 @@
+{
+  "kind": "strchr",
+  "case": "new_delete",
+  "scope": "actual include-name first-character search: full input bytes, raw needle, exact null result and unchanged source",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "configuration_sha256": "b9035ddcb2cfd79de8569e46ff26431d1516bef74d89e8563f040a304fc76b86",
+  "accepted_before": 967,
+  "runtime_order": [
+    "_strchr"
+  ],
+  "original": {
+    "character": 110,
+    "result_offset": -1,
+    "return_va": 145710,
+    "before": "5c3a2f00",
+    "after": "5c3a2f00",
+    "runtime_order": [
+      "_strchr"
+    ]
+  },
+  "native": {
+    "character": 110,
+    "result_offset": -1,
+    "before": "5c3a2f00",
+    "after": "5c3a2f00",
+    "entry": "strchr@plt",
+    "entry_pc": 1448444800,
+    "entry_library": null,
+    "entry_requested": "strchr@plt",
+    "implementation_pc": 4158830240,
+    "implementation_library": "/lib/i386-linux-gnu/libc.so.6",
+    "caller": "open_forced_include"
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc1.0/c1xx/original-capture-yblv95p3",
+  "original_capture_sha256": "516033f32745cdaf076312d9739fff80a07370bafe94d84a04373b0e8005f6fa",
+  "original_seconds": 0.0,
+  "native_seconds": 0.1389134731143713,
+  "reused_original_observation": "/root/.ai-tmp/msvc2/vc1.0/c1xx/string-boundary-cn84nq1h",
+  "original_setup_seconds": 0.0,
+  "native_setup_seconds": 0.001035880297422409,
+  "identity": {
+    "records": [
+      {
+        "name": "_strchr",
+        "record": {
+          "name": "_strchr",
+          "start": 529648,
+          "end": 529686,
+          "object": "string\\obj\\i386\\STRCHR.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "18ecf8503847846b0f83f16bdc4faced576757611df59a766a5d45545a3a02d4",
+        "member_bytes": 38,
+        "member_sha256": "32dabfaa8dace18c21fefebda56ac7c7d1708d9a1bcd9fc933097eb8c96135f1",
+        "original_body_sha256": "32dabfaa8dace18c21fefebda56ac7c7d1708d9a1bcd9fc933097eb8c96135f1",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [],
+        "call_targets": []
+      }
+    ],
+    "original_crt_globals": {}
+  },
+  "original_observation": "evidence/include-strchr-boundary/original-observation.txt",
+  "native_observation": "evidence/include-strchr-boundary/native-observation.json",
+  "native_debug_log": "evidence/include-strchr-boundary/native-gdb.log",
+  "native_commands": "evidence/include-strchr-boundary/native.gdb",
+  "evidence_files": [
+    {
+      "path": "evidence/include-strchr-boundary/original-observation.txt",
+      "sha256": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/original-events.txt",
+      "sha256": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/native-observation.json",
+      "sha256": "aeeafe020e6740cdf4a4a86e696974aabeded9d9273e4190e1fc9c0706841a6c"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/native-gdb.log",
+      "sha256": "3a1265272b9bbe6a1114f2feb22ef87b714b796012405b2fb82e1054e9f92699"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/native.gdb",
+      "sha256": "08d2262012260a9aa8198b617e504738b06192ab38f12bbfc1097fb5b75922e7"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/boundary-origin-receipt.json",
+      "sha256": "8ae71380925f5c73f32aa6100a35917435a50025e8b792a65ffe32ef6375a917"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/boundary-origin-events.txt",
+      "sha256": "aa23cabc34c2d017d6f4d530ed9c11bcbb67eb60c9ff9c299b6662f3a8a54522"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/boundary-origin-configuration.json",
+      "sha256": "8ababdba0e55b4920f2564af86b550fee5675395b06796811f1faa3926cfbefd"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/revalidated-receipt.json",
+      "sha256": "516033f32745cdaf076312d9739fff80a07370bafe94d84a04373b0e8005f6fa"
+    },
+    {
+      "path": "evidence/include-strchr-boundary/revalidated-events.txt",
+      "sha256": "aa23cabc34c2d017d6f4d530ed9c11bcbb67eb60c9ff9c299b6662f3a8a54522"
+    }
+  ],
+  "original_observer_timing_note": "Valid original observer run was reused after native IFUNC-resolver breakpoint failure. Its execution time was not split/persisted before failure; original_seconds=0 describes this native-only reuse operation, not the earlier original execution cost.",
+  "failed_observations": "failed-observations.json",
+  "same_actual_invocation_proof": {
+    "old_configuration": "8ababdba0e55b4920f2564af86b550fee5675395b06796811f1faa3926cfbefd",
+    "new_configuration": "b9035ddcb2cfd79de8569e46ff26431d1516bef74d89e8563f040a304fc76b86",
+    "raw_events_identical": true,
+    "caller": "0x2392e",
+    "raw_four_arguments_identical": true,
+    "visible_file_hashes_identical": true,
+    "change": "Only duplicate unreached6b9b0 stub removed and existing finish_pch_capture identity reused; current mode0 path unchanged.",
+    "boundary_origin_receipt": "evidence/include-strchr-boundary/boundary-origin-receipt.json",
+    "revalidated_receipt": "evidence/include-strchr-boundary/revalidated-receipt.json",
+    "revalidated_events": "evidence/include-strchr-boundary/revalidated-events.txt"
+  }
+}

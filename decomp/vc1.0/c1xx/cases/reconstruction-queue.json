@@ -5,18 +5,27 @@
   "target": "C1XX3232.EXE",
   "authorization": "User-selected autonomous queue; continue without routine confirmation",
   "current": {
-    "case": "stack_lifetime",
-    "fixture": "../fixtures/c1xx-stack-lifetime",
-    "status": "complete; next reviewed allocation/deallocation case pending seed"
+    "case": "new_delete",
+    "fixture": "../fixtures/c1xx-new-delete",
+    "status": "active; exact original/native seed",
+    "runtime_contract": {
+      "exit": 0,
+      "alive": 0,
+      "destroyed": 4,
+      "allocated": 1,
+      "released": 1
+    },
+    "seed": "cases/new_delete-seed/validation.json"
   },
   "pending": [
     {
       "family": "new/delete and overloaded operators",
       "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads",
       "fixture": "../fixtures/c1xx-new-delete",
-      "status": "original phases independently verified; reconstruction pending",
+      "status": "active original/native seeded reconstruction",
       "manifest": "../fixtures/c1xx-new-delete/manifest.json",
-      "validation": "../fixtures/c1xx-new-delete/validation.json"
+      "validation": "../fixtures/c1xx-new-delete/validation.json",
+      "case": "new_delete"
     }
   ],
   "requirements": [

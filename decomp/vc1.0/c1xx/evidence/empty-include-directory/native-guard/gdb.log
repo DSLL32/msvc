@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x2d25a: file src/source-input.c, line 36.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, search_include_directories (filename=0x5660f728 <source_storage+12> "new.h") at src/source-input.c:36
+36	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+search_include_directories (filename=0x5660f728 <source_storage+12> "new.h") at src/source-input.c:51
+51	            cursor = directory;

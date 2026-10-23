@@ -1,0 +1,8 @@
+{
+  "seconds": 4.140535802580416,
+  "command": [
+    "make",
+    "-j4",
+    "build/reference-string-observer.exe"
+  ]
+}

@@ -1,0 +1,30 @@
+entry _read_include_name rva 000137f0 byte 56
+entry _read_angle_include_name rva 00013630 byte 56
+entry _trim_filename_space rva 000147b0 byte 53
+entry _open_forced_include@8 rva 000138b0 byte 56
+entry _process_pch_include@4 rva 0005b530 byte 56
+exception 80000003 rva 00014290 base 00010000 first 1
+buffer 0 4 004f0101
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016400000000
+state 0 00000000
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 ffffffff
+state 5 00000000
+state 6 00010000
+state 7 00000000
+state 8 0000007b
+state 9 00000000
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+caller 00013966
+argument 0 00090f0e
+argument 1 007e3a3e
+argument 2 00000000
+argument 3 00023e43
+exit 99

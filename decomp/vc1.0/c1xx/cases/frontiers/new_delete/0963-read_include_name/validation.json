@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_read_include_name",
+    "start": 145392,
+    "end": 145580
+  },
+  "distinct_direct_callees": [
+    "_read_angle_include_name",
+    "_read_parser_token",
+    "_report_syntax_error",
+    "_skip_source_line"
+  ],
+  "next_frontier": "_read_angle_include_name",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2990982923656702,
+  "total_operation_seconds": 3.4640412367880344,
+  "original_capture_seconds": 1.5186330117285252
+}

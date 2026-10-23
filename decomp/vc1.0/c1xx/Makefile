@@ -62,6 +62,12 @@ build/reference-stream-observer.exe: build/reference-stream-observer.obj
 build/reference-realloc-observer.obj: src/reference-realloc-observer.c src/debug-run.c
 build/reference-realloc-observer.exe: build/reference-realloc-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-empty-include-observer.obj: src/reference-empty-include-observer.c src/debug-run.c
+build/reference-empty-include-observer.exe: build/reference-empty-include-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-string-observer.obj: src/reference-string-observer.c src/debug-run.c
+build/reference-string-observer.exe: build/reference-string-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-copy-observer.obj: src/reference-copy-observer.c src/debug-run.c
 build/reference-copy-observer.exe: build/reference-copy-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
@@ -88,6 +94,7 @@ native-rejections: native-trace
 	$(PYTHON) scripts/check-native-boundary.py
 	$(PYTHON) scripts/check-scope-policy.py
 	$(PYTHON) scripts/check-multiply-policy.py
+	$(PYTHON) scripts/check-include-policy.py
 build/graph-metadata.json: functions.json scripts/graph_metadata.py | build
 	$(PYTHON) scripts/graph_metadata.py $@
 graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json

@@ -49,8 +49,11 @@ def main():
             return result
         run('canonical-cfg-positive')
         # Exercise exactly the candidate adapter used by acceptance, with the
-        # last accepted body proposed against a frozen shorter configuration.
-        proposal=json.loads(json.dumps(cfg));candidate=proposal['accepted'].pop()
+        # last accepted source body proposed against its frozen earlier prefix.
+        # A runtime seam may be the final acceptance and has no driver body.
+        proposal=json.loads(json.dumps(cfg));drivers={r['name'] for r in cfg['driver']}
+        index=max(i for i,name in enumerate(cfg['accepted']) if name in drivers)
+        candidate=cfg['accepted'][index];proposal['accepted']=cfg['accepted'][:index]
         path=directory/'candidate-config.json';path.write_text(json.dumps(proposal))
         begin=time.monotonic();checked=audit.verify_candidate(candidate,path)
         records.append(dict(label='candidate-adapter-positive',seconds=time.monotonic()-begin,

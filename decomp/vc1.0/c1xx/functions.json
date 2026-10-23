@@ -967,7 +967,14 @@
     "_end_while_body",
     "_finish_conditional_branch",
     "_mangle_function_pointer_prefix@8",
-    "_mangle_function_pointer_signature@8"
+    "_mangle_function_pointer_signature@8",
+    "_read_include_name",
+    "_read_angle_include_name",
+    "_trim_filename_space",
+    "_open_forced_include@8",
+    "_process_pch_include@4",
+    "_strchr",
+    "_search_include_directories@4"
   ],
   "driver": [
     {
@@ -1188,7 +1195,7 @@
     {
       "name": "_open_forced_include@8",
       "start": 145584,
-      "end": 145585
+      "end": 145864
     },
     {
       "name": "_parse_translation_unit",
@@ -6928,7 +6935,7 @@
     {
       "name": "_read_include_name",
       "start": 145392,
-      "end": 145393
+      "end": 145580
     },
     {
       "name": "_skip_conditional_block@4",
@@ -7400,6 +7407,51 @@
       "name": "_finish_qc_loop",
       "start": 283968,
       "end": 283969
+    },
+    {
+      "name": "_read_angle_include_name",
+      "start": 144944,
+      "end": 145115
+    },
+    {
+      "name": "_trim_filename_space",
+      "start": 149424,
+      "end": 149553
+    },
+    {
+      "name": "_process_pch_include@4",
+      "start": 439600,
+      "end": 439882
+    },
+    {
+      "name": "_search_source_include@4",
+      "start": 126080,
+      "end": 126081
+    },
+    {
+      "name": "_search_include_directories@4",
+      "start": 148112,
+      "end": 148413
+    },
+    {
+      "name": "_record_pch_open_include@4",
+      "start": 439888,
+      "end": 439889
+    },
+    {
+      "name": "_record_pch_string_event",
+      "start": 438320,
+      "end": 438321
+    },
+    {
+      "name": "_resume_pch_source_input",
+      "start": 440208,
+      "end": 440209
+    },
+    {
+      "name": "_source_file_timestamp@4",
+      "start": 439552,
+      "end": 439553
     }
   ],
   "cases": {
@@ -7548,6 +7600,24 @@
         "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0961-mangle_function_pointer_prefix-8/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/frontier-extension.json"
+      ]
+    },
+    "new_delete": {
+      "fixture": "../fixtures/c1xx-new-delete",
+      "native_reference": "cases/native-new-delete",
+      "frontiers": "cases/frontiers/new_delete",
+      "accepted_from": 963,
+      "terminal": "_skip_source_comment",
+      "terminal_evidence": "cases/frontiers/new_delete/0969-search_include_directories-4/original-events.txt",
+      "original_seed": "cases/new_delete-seed",
+      "frontier_extensions": [
+        "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
+        "cases/frontiers/new_delete/0964-read_angle_include_name/frontier-extension.json",
+        "cases/frontiers/new_delete/0965-trim_filename_space/frontier-extension.json",
+        "cases/frontiers/new_delete/0966-open_forced_include-8/frontier-extension.json",
+        "cases/frontiers/new_delete/0967-process_pch_include-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0968-strchr/frontier-extension.json",
+        "cases/frontiers/new_delete/0969-search_include_directories-4/frontier-extension.json"
       ]
     }
   },
@@ -9597,6 +9667,38 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_pch_input_record",
+      "original": 576704,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pch_input_record",
+          "original": 576704,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_saved_page_count",
+          "original": 664416,
+          "bytes": 2
+        },
+        {
+          "name": "_pch_input_changed",
+          "original": 664420,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_abort_on_file_change",
+          "original": 664424,
+          "bytes": 4
+        },
+        {
+          "name": "_permanent_page_count",
+          "original": 664384,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [
@@ -9715,6 +9817,19 @@
       "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
       "evidence": "evidence/multiply-boundary/receipt.json",
       "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+    },
+    {
+      "function": "_search_include_directories@4",
+      "original": [
+        148112,
+        148413
+      ],
+      "condition": "directory != NULL && directory != \"./\" && *directory == 0",
+      "behavior": "explicit native-only INT3 before the original unwritten-last-pointer dereference",
+      "win32": "original-style uninitialized last-character pointer retained",
+      "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
+      "evidence": "evidence/empty-include-directory/analysis.json",
+      "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
     }
   ]
 }

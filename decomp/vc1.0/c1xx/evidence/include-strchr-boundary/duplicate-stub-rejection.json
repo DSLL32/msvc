@@ -1,0 +1,6 @@
+{
+  "status": "rejected before acceptance",
+  "cause": "New provisional complete_pch_recording stub duplicated existing finish_pch_capture at6b9b0. Rust ownership audit rejected overlapping application records; source now calls the existing logical node.",
+  "prior_original_configuration": "original-capture-fnpadgts/configuration.json",
+  "action": "Canonical/native rebuild and fresh ordered original pair after graph correction; retained exact strchr boundary byte/return observation remains independently bound to its original raw capture."
+}
