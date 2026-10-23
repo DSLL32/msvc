@@ -626,5 +626,6 @@ void __stdcall format_declaration_base_type(short text, CType *type) { __asm { i
 void __stdcall release_type_diagnostic(short text) { __asm { int 3 } }
 void __stdcall append_type_diagnostic_char(short text, int character) { __asm { int 3 } }
 void __stdcall format_this_qualifiers(short text, CType *type) { __asm { int 3 } }
-short __stdcall format_declarator_shapes(short text, TypeShape *shape) { __asm { int 3 } return 0; }
 short __stdcall format_based_declaration(unsigned short attributes, void *base) { __asm { int 3 } return 0; }
+short __stdcall format_pointer_declarator(short text, TypeShape *shape) { __asm { int 3 } return 0; }
+void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm { int 3 } }

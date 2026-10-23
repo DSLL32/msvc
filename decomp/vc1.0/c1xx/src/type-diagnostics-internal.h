@@ -16,4 +16,7 @@ void __stdcall append_type_diagnostic_char(short text, int character);
 void __stdcall format_this_qualifiers(short text, CType *type);
 short __stdcall format_declarator_shapes(short text, TypeShape *shape);
 short __stdcall format_based_declaration(unsigned short attributes, void *base);
+short __stdcall format_pointer_declarator(short text, TypeShape *shape);
+void __stdcall prepend_type_diagnostic_char(short text, int character);
+short __stdcall format_function_parameters(short text, FunctionParameters *parameters, unsigned flags);
 #endif

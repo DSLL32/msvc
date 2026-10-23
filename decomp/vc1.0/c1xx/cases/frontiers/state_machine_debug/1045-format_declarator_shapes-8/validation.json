@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_format_declarator_shapes@8",
+    "start": 426304,
+    "end": 426591
+  },
+  "distinct_direct_callees": [
+    "_append_type_diagnostic@8",
+    "_append_type_diagnostic_char@8",
+    "_format_function_parameters@12",
+    "_format_integer",
+    "_format_pointer_declarator@8",
+    "_format_this_qualifiers@8",
+    "_prepend_type_diagnostic_char@8"
+  ],
+  "next_frontier": "_append_type_diagnostic_char@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.44435717165470123,
+  "total_operation_seconds": 3.787702465429902,
+  "original_capture_seconds": 1.4680520314723253
+}

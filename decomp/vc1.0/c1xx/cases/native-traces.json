@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "163bca29f5dbee4a90205d3c6ebd46304cdb7f6d542c7344ef29689254db3acb",
+    "functions.json": "bf4fb1849c1bf72139b31217da7e6213b05b3d8f033a9bf941558cd8452840b9",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "41eb044e2974ba0565865962b01d45de2f54629aeb0b46c4570082ff2e4e2a5e",
-    "cases/canonical-map.txt": "2e7cdc4a0a087abf4a86ebce51cebf20d16a43caeee5f0d2bfc682ffec26f217",
+    "cases/original-entry-references.json": "bd38dbecc5c87863a5234d37c4d5377e5b930be3148141f8be06dfc5d245e94d",
+    "cases/canonical-map.txt": "520942612c6296bfa90f62c8e8822c237ff1a711a74996ed9f0c9a71da31725f",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/entry-reference/original-receipt.json": "2dd14c3af714088f133af14ae5de29704f3798f6552f9dd0f49107c284e9622b",
-    "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/entry-reference/original-events.txt": "b2e79bb197a6387594baa358e9fdb92b945bce066bf474c6a19d8cf7bc2f3ee3",
-    "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/entry-reference/original-entries.plan": "9dd63d3311a3fcd67d35f27a89a9b95e255f1d3571a2553ee325cbe0f8ad95fd"
+    "cases/frontiers/state_machine_debug/1045-format_declarator_shapes-8/entry-reference/original-receipt.json": "9073868f6684ac1b1566adece27f2d70d25186133c671c1bea978bdf4b237513",
+    "cases/frontiers/state_machine_debug/1045-format_declarator_shapes-8/entry-reference/original-events.txt": "a8ab15ddc5bb7080e320e20bb37300046976b645696e96bc0d4bb2c8824d1e51",
+    "cases/frontiers/state_machine_debug/1045-format_declarator_shapes-8/entry-reference/original-entries.plan": "d051b695a7379742ea4d0878f41d03ad111940a42d14e269f607e22fbceb8e0d"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2329,7 +2329,7 @@
     },
     "format_declarator_shapes": {
       "logical": "_format_declarator_shapes@8",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "format_diagnostic_symbol": {
       "logical": "_format_diagnostic_symbol@8",
@@ -2346,6 +2346,10 @@
     "format_integer": {
       "logical": "_format_integer",
       "source": "src/text-format.c"
+    },
+    "format_pointer_declarator": {
+      "logical": "_format_pointer_declarator@8",
+      "source": "src/stubs.c"
     },
     "format_qualified_name": {
       "logical": "_format_qualified_name@8",
@@ -3926,6 +3930,10 @@
     "prepend_function_overload": {
       "logical": "_prepend_function_overload@8",
       "source": "src/declaration-lookup.c"
+    },
+    "prepend_type_diagnostic_char": {
+      "logical": "_prepend_type_diagnostic_char@8",
+      "source": "src/stubs.c"
     },
     "preprocess_directive": {
       "logical": "_preprocess_directive",
@@ -6315,7 +6323,8 @@
     "format_declarator",
     "format_declarator_shape",
     "format_shape_attributes",
-    "format_enclosing_declarator_scope"
+    "format_enclosing_declarator_scope",
+    "format_declarator_shapes"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10427,7 +10436,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1045,
+      "last": 1046,
       "seen": [
         "main",
         "message_text",
@@ -11382,12 +11391,13 @@
         "format_declarator_shape",
         "format_shape_attributes",
         "format_enclosing_declarator_scope",
-        "format_declarator_shapes"
+        "format_declarator_shapes",
+        "append_type_diagnostic_char"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_format_declarator_shapes@8",
-        "native": "format_declarator_shapes",
+        "logical": "_append_type_diagnostic_char@8",
+        "native": "append_type_diagnostic_char",
         "signal": 5
       }
     }

@@ -6,6 +6,7 @@
 #include "function-definitions.h"
 #include "lexer.h"
 #include "inline-capture.h"
+#include "mangling.h"
 #include <recon.h>
 
 TypeDiagnosticStorage type_diagnostic_storage; /* original 0x90f54, slots start 0x90f64 */
@@ -373,4 +374,50 @@ int __stdcall format_enclosing_declarator_scope(short text, int mode)
         ++index;
     }
     return count != 0;
+}
+
+/* Original 0x68140..0x6825f. Add the pointer, array and function
+   portions of a declarator, inserting parentheses when a following shape
+   requires them. An unhandled shape retains the original non-advancing loop. */
+short __stdcall format_declarator_shapes(short text, TypeShape *shape)
+{
+    char number[80];
+    while (shape) {
+        switch (shape->flags & 0x77) {
+        case 1: case 3: case 0x10: case 0x20: case 0x44:
+            format_pointer_declarator(text, shape);
+            shape = shape->related;
+            if (!shape) break;
+            if (shape->flags & 0x31) append_type_diagnostic_char(text, ' ');
+            else {
+                append_type_diagnostic_char(text, ')');
+                prepend_type_diagnostic_char(text, '(');
+            }
+            continue;
+        case 2:
+            append_type_diagnostic_char(text, '[');
+            if (shape->data.array_bound) {
+                format_integer(shape->data.array_bound, number, 10);
+                append_type_diagnostic(text, number);
+            }
+            append_type_diagnostic_char(text, ']');
+            shape = shape->related;
+            break;
+        case 4:
+            append_type_diagnostic_char(text, '(');
+            format_function_parameters(text, shape->data.parameters, shape->flags);
+            append_type_diagnostic_char(text, ')');
+            if (!(shape->data.parameters->flags & 1))
+                format_this_qualifiers(text, shape->data.parameters->associated_type);
+            shape = shape->related;
+            break;
+        case 0x40:
+            format_pointer_declarator(text, shape);
+            shape = shape->related;
+            break;
+        default:
+            continue;
+        }
+    }
+    return text;
 }
