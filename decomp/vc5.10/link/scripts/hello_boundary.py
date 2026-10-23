@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections')
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -140,7 +140,7 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert state['incremental_enabled']==0 and (original/'incremental-enabled.bin').read_bytes()==b'\0'
     assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
     source=state['duplicate_calls']
-    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections')else 5) and len(state['free_calls'])==3
+    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section')else 5) and len(state['free_calls'])==3
     assert source[:2]==[
         dict(text='hello.obj',input=state['crt_argv_addresses'][4],result=canonical[0]['result']),
         dict(text=canonical[1]['text'],input=search['output'],result=canonical[1]['result'])]
@@ -168,8 +168,8 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
-    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections')else []
-    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']in ('initialize_comdats','LinkContext::InitializeSections')else [])
+    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section')else []
+    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section')else [])
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
         if state['function']=='LinkContext::FullLink':
@@ -198,10 +198,12 @@ def compare_configured(original,state,trap,events,canonical,search):
 
 def compare_output_modules(original,state,trap,events):
     """Actual new text argument plus two complete allocated records/pages."""
-    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections')
+    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section')
     if completed:
         formals=[0,4000,0x3000,4]if state['function']=='allocate_virtual_memory'else []
-        assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+        if state['function']=='create_output_section':
+            compare_section_creation(original,state,trap,events)
+        else:assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
         if formals:
             assert trap['stack'][1:5]==formals
             for name,filename,size in [('module_section_map','section-map-global.bin',4),('module_section_headers','section-headers-global.bin',4),('module_section_capacity','section-capacity.bin',4),('module_section_pools_ready','section-pools-ready.bin',1)]:
@@ -319,3 +321,21 @@ def compare_section_pools(original,state,trap,events):
         assert call['arguments']==arguments and call['return_stack']==call['entry_stack']+20 and call['result']==native
         result.append(dict(original_base=pointer,native_base=native,bytes=size,sites=[0x44f5c5,0x44f5cb]))
     return result
+
+
+def compare_section_creation(original,state,trap,events):
+    left=trap['section_creation_formals'];right=state['section_creation_formals']
+    keys=('module','name','flags','sections','header')
+    assert trap['frontier_inputs']==dict(formals=[left[k]for k in keys],hidden_register_inputs=[])
+    assert state['frontier_inputs']==dict(formals=[right[k]for k in keys],hidden_register_inputs=[])
+    assert trap['stack'][1:6]==[left[k]for k in keys]
+    entry,=[e for e in events if e['event']=='section_initializer_entry']
+    assert entry['this']==trap['section_initializer_this']==trap['validation_context']
+    assert state['section_initializer_this']==state['context_this']
+    assert left['module']==right['module']==0
+    assert left['name']==0x401cc8 and right['name']
+    assert left['text']==right['text']=='.bss'and left['flags']==right['flags']==0xc0000080
+    assert left['sections']==trap['validation_context']+0x1b4 and right['sections']==state['context_this']+0x1b4
+    assert left['header']==trap['validation_context']+0x44 and right['header']==state['context_this']+0x44
+    assert trap['section_handles']==state['section_handles']==[0]*19
+    assert state['comdat_arena']==0

@@ -72,7 +72,8 @@
     "_duplicate_link_string@4",
     "_initialize_contribution_pools",
     "_allocate_virtual_memory@16",
-    "_initialize_comdats"
+    "_initialize_comdats",
+    "LinkContext::InitializeSections"
   ],
   "driver": [
     {
@@ -1523,11 +1524,11 @@
     {
       "name": "LinkContext::InitializeSections",
       "start": 4448624,
-      "end": 4448625,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
+      "end": 4449078,
+      "source": "src/section-driver.cpp",
+      "status": "implemented",
       "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "pending_extent": false,
       "native_symbol": "LinkContext::InitializeSections",
       "symbol": "?InitializeSections@LinkContext@@QAEXXZ"
     },
@@ -2299,6 +2300,26 @@
       "pending_extent": false,
       "native_symbol": "allocate_virtual_memory",
       "abi": "stdcall void *(void *address,unsigned bytes,DWORD flags,DWORD protection); four actual stack inputs, RET16; no hidden/register inputs"
+    },
+    {
+      "name": "_create_output_section@20",
+      "start": 4255632,
+      "end": 4255633,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "create_output_section",
+      "abi": "stdcall OutputSection *(OutputModule *module,const char *name,DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header); five stack inputs, RET20; no hidden inputs"
+    },
+    {
+      "name": "_create_contribution_group@8",
+      "start": 4253440,
+      "end": 4253441,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "create_contribution_group",
+      "abi": "stdcall ContributionGroup *(const char *name,OutputSection *section); two stack inputs, RET8; no hidden inputs"
     }
   ],
   "text_data": [
@@ -4125,6 +4146,342 @@
       "reason": "initialize_output_modules encountered name literal linker defined module",
       "evidence": "src/full-link-init.c: initialize_output_modules; original40e3b0..40e414",
       "sha256": "1167926ea93b7ad14c978e212e1af3bee86d5356bbf10ee64bd582f8e12d2bd5"
+    },
+    {
+      "start": 4202772,
+      "end": 4202776,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "a8c50a743204d2f50b029754c091ba5847b41c9a49dc7723ba2eb589b6a6588f"
+    },
+    {
+      "start": 4202768,
+      "end": 4202772,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "111689790fac1ffdbf246c7a84d6b915e20183617a82971f74e659f8ce12e23e"
+    },
+    {
+      "start": 4202788,
+      "end": 4202792,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "351e341dbcc14b6b559c3a91cee562cc4954e505a5a1a88d0512703bf9446fae"
+    },
+    {
+      "start": 4202784,
+      "end": 4202788,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3f2742f4af9fa1b56a9f1a69762eaf7ee5978e184a688b01636dc5f900904ed6"
+    },
+    {
+      "start": 4202764,
+      "end": 4202768,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202760,
+      "end": 4202764,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "a620b511e2407ec9a071ce3545a9b306ec13318e9befc597e66563dcc7e4bc89"
+    },
+    {
+      "start": 4202912,
+      "end": 4202916,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "c2f469b3490546cc8231d318b5fbe7d864e12bf7fff487cf9d10ed65f53fc26f"
+    },
+    {
+      "start": 4202916,
+      "end": 4202920,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "351e341dbcc14b6b559c3a91cee562cc4954e505a5a1a88d0512703bf9446fae"
+    },
+    {
+      "start": 4202852,
+      "end": 4202856,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202848,
+      "end": 4202852,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "043fcaa73272c4e76aa846057576630108accf4efc16191216f527b57e695be2"
+    },
+    {
+      "start": 4202828,
+      "end": 4202832,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "8a0faa49de8ae17fd5753753c773964f8b81c63c9e51c49a63350f33cc7b5a0e"
+    },
+    {
+      "start": 4202836,
+      "end": 4202840,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "8a0faa49de8ae17fd5753753c773964f8b81c63c9e51c49a63350f33cc7b5a0e"
+    },
+    {
+      "start": 4202816,
+      "end": 4202820,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "cb1b9fae6d100765166dc41e2af9042fc2d841653a0c41dd8ad2656a8b02b2ac"
+    },
+    {
+      "start": 4202820,
+      "end": 4202824,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202796,
+      "end": 4202800,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202792,
+      "end": 4202796,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "53a2ff9a9b5ca5d2b174a30eda562527bd7273db9d824a71d8a44efc7586b266"
+    },
+    {
+      "start": 4202804,
+      "end": 4202808,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "d592ceff0db67b5e2c3966dca8bd9595623d86f299e981444cddb8bb6a888ef8"
+    },
+    {
+      "start": 4202800,
+      "end": 4202804,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "595261695850b5fc2f8fd4417f987d85c64b4a28c7781b921fed2f56762df3b7"
+    },
+    {
+      "start": 4202924,
+      "end": 4202928,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "160a1fbf09c731269028535084d1e64ef1eeb1f2b7fe454f14b08498fa4f4439"
+    },
+    {
+      "start": 4202920,
+      "end": 4202924,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "586a5d60d712182124ffe232d4a84229357f5d6cb62a12c236697919844798bb"
+    },
+    {
+      "start": 4202808,
+      "end": 4202812,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "30dde89e799431f911cb9b84d8f7cf22bb52e3d43f19090b51e68fc07621050c"
+    },
+    {
+      "start": 4202812,
+      "end": 4202816,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "fa8175660779cc11f41a31390232e8dee3ed31a490f2441b50946e56a18b6867"
+    },
+    {
+      "start": 4202872,
+      "end": 4202876,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "e68035cbd6d8e1a9f09afeabc80fbcb4b036ad9761ef184e7216554e517101be"
+    },
+    {
+      "start": 4202880,
+      "end": 4202884,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3e53663148169b4eeb668f6fb45d2aeb95c7891ff72d580ca44698ba75d8950c"
+    },
+    {
+      "start": 4202888,
+      "end": 4202892,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3bcf9066e69e45bd1dd6128b53630a5baa9c7413fee3caa7fc97d9e22f3c1ba8"
+    },
+    {
+      "start": 4202896,
+      "end": 4202900,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "962238da9f7bc7cd2da3e5949edd6098fd7e8ec4f616f68dc3c2f5ae3370f0ce"
+    },
+    {
+      "start": 4201672,
+      "end": 4201677,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .bss",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "4de72f7e851e9d117cd7979c576f033d31ab87da0fbc4bd109634d2120c4030f"
+    },
+    {
+      "start": 4203028,
+      "end": 4203035,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .sdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "285d79b35acd50a209eb4fe81a50c3cbefa37fbfb35849deae7cbc0274c64bc0"
+    },
+    {
+      "start": 4201692,
+      "end": 4201699,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .rdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "c429a2d572d864d12311b9cc26c7da3caf67ba1adeca3448e3395caa0f151aa7"
+    },
+    {
+      "start": 4201708,
+      "end": 4201714,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .data",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "c42d20717313de40aff378874f13ae688ace1266c5ca4cd675aed4718e8c1fb8"
+    },
+    {
+      "start": 4202956,
+      "end": 4202963,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .pdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "7ac7c29ffaeaaf1c930d118fa1b4b606346763c47f6530ab8f0a64dbf4e2a295"
+    },
+    {
+      "start": 4202996,
+      "end": 4203003,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .edata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "9142770d1d8901cfe5816d67a3c9716b8f35bbf1d1a837711558d06f40817f39"
+    },
+    {
+      "start": 4203020,
+      "end": 4203027,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .xdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "48838b4e51dd9dfaa59b9093a52b27dc2e7736bce4f82bddc28d0d00b27959c8"
+    },
+    {
+      "start": 4203012,
+      "end": 4203018,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .arch",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "2b00a991c0ca68c3969af31b88fdba56602fc68d88f8dfb90396e3922dca4d2e"
+    },
+    {
+      "start": 4202928,
+      "end": 4202936,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .ppcldr",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "73e73f3397a2814a9c02a85323cd15f96a9c2969dc8aeef73ee61bf1360decad"
+    },
+    {
+      "start": 4203004,
+      "end": 4203011,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "8f9e16c96c30f1489506aa1fd190e9d226344e175b66cbf5f9cf11deb490cf22"
+    },
+    {
+      "start": 4201800,
+      "end": 4201809,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$S",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "4e1da416da9ed3db1375b08031f533c45244186ff54818bdbae2db3bf230439c"
+    },
+    {
+      "start": 4201760,
+      "end": 4201769,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$T",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "9ffc654710cc7913b623cfd7ed3483a17ca46361690721a3c2d94a77dd6053ec"
+    },
+    {
+      "start": 4201772,
+      "end": 4201781,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$P",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "4ef70248a7f8951743af3403023c3bf1c164f8097fa1e68423806c12fab884bc"
+    },
+    {
+      "start": 4201748,
+      "end": 4201757,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$F",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "1dca3ea1bcbabcf083ded75909d0e767e91cd76aa0ad19f38892ca92b7bd2ab4"
+    },
+    {
+      "start": 4223432,
+      "end": 4223439,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .idata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6a92b4a566fe403f57c117cf5ecd81ced12efca7bccd10d91e8a4f2ff3478261"
+    },
+    {
+      "start": 4225268,
+      "end": 4225275,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .didat",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3728b14fb33ca3f1c86b0a1f21b0c91f594e7b08d86324900c9fb1fed705582a"
     }
   ],
   "cases": {

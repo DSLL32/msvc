@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 55 application
-functions (27,852 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 56 application
+functions (28,306 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `LinkContext::InitializeSections`; hello-win32 has not completed.
+next frontier is `create_output_section`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -275,3 +275,14 @@ section initializer has its actual hidden ECX receiver bound to the same complet
 664-byte linker context and no explicit or additional hidden inputs. Both builds,
 106 semantic negatives and the strict68-vertex/61-return audit pass; timing and
 raw evidence are under frontiers/55-comdat-init.
+
+The454-byte section initializer is accepted as ordinary literal-at-use calls, with
+all12 section and5 group calls retained. Exact encountered name-pointer/flag words
+and NUL strings own221 additional .text-data bytes; no source table was copied.
+The first create_output_section boundary records all five actual formals: NULL
+module, .bss name,0xc0000080 flags, receiver-owned section list and optional header.
+The initializer's actual ECX receiver and19 still-NULL output handles are checked.
+111 semantic negatives and the strict69-vertex/62-return audit pass. The older
+text_section identifier was corrected to bss_section with an independent narrow
+source-hash review; historical preservation packets remain immutable. Evidence
+and timing are under frontiers/56-section-init.

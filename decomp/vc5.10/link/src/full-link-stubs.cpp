@@ -37,7 +37,6 @@ extern "C" void __stdcall adjust_incremental_symbols(LinkContext *context) { __a
 Contribution * RECON_THISCALL LinkContext::CreateIncrementalContribution(void) { __asm { int 3 } return 0; }
 extern "C" void __stdcall write_mac_incremental_table(LinkContext *context,DWORD offset) { __asm { int 3 } }
 extern "C" void __stdcall allocate_mac_incremental_table(DWORD count,BYTE fixed) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::InitializeSections(void) { __asm { int 3 } }
 DWORD RECON_THISCALL LinkContext::BuildDosExtension(void **buffer) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::ApplyMerges(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacDebugSections(void) { __asm { int 3 } }

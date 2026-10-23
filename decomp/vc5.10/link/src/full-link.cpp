@@ -27,7 +27,7 @@ extern InputArguments section_merges, weak_mac_imports, weak_mac_libraries;
  * unclassified data. Other passes will populate these named objects. */
 OutputModule *output_module;
 OutputSection *small_data_section, *read_only_section, *data_section;
-OutputSection *text_section, *exception_section, *procedure_section;
+OutputSection *bss_section, *exception_section, *procedure_section;
 OutputSection *export_section, *debug_section;
 Contribution *debug_directory, *coff_debug, *misc_debug, *fixup_debug, *codeview_debug;
 Contribution *incremental_code, *mac_toc, *mac_function_info, *mac_data;
@@ -246,8 +246,8 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
                 PrepareNativeRelocations();
             prepare_delay_imports();
             if (CanMergeReadOnlyData() && data_section &&
-                (text_section->characteristics | 0xc0)==(data_section->characteristics | 0xc0))
-                merge_output_section(text_section,data_section);
+                (bss_section->characteristics | 0xc0)==(data_section->characteristics | 0xc0))
+                merge_output_section(bss_section,data_section);
             MergeExceptionSections();
             if (optional_header.Subsystem!=1 &&
                 export_section->characteristics==read_only_section->characteristics)
@@ -263,7 +263,7 @@ mac_sections:
         merge_section_groups(read_only_section,data_section);
         merge_section_groups(procedure_section,data_section);
         mac_procedure_group=find_contribution_group(data_section,".pdata");
-        merge_output_section(text_section,data_section);
+        merge_output_section(bss_section,data_section);
     }
     FinalizeOrder();
 sections_ready:
