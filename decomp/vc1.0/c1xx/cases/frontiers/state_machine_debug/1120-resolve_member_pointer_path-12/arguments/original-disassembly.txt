@@ -1,0 +1,41 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004a200 <.text+0x33200>:
+   4a200:	53                   	push   ebx
+   4a201:	56                   	push   esi
+   4a202:	57                   	push   edi
+   4a203:	8b 7c 24 18          	mov    edi,DWORD PTR [esp+0x18]
+   4a207:	8b 74 24 14          	mov    esi,DWORD PTR [esp+0x14]
+   4a20b:	c7 07 00 00 00 00    	mov    DWORD PTR [edi],0x0
+   4a211:	c7 06 00 00 00 00    	mov    DWORD PTR [esi],0x0
+   4a217:	8b 4c 24 10          	mov    ecx,DWORD PTR [esp+0x10]
+   4a21b:	0b c9                	or     ecx,ecx
+   4a21d:	74 22                	je     0x4a241
+   4a21f:	ba 01 00 00 00       	mov    edx,0x1
+   4a224:	8b 41 08             	mov    eax,DWORD PTR [ecx+0x8]
+   4a227:	8a 18                	mov    bl,BYTE PTR [eax]
+   4a229:	80 e3 1f             	and    bl,0x1f
+   4a22c:	80 fb 04             	cmp    bl,0x4
+   4a22f:	74 10                	je     0x4a241
+   4a231:	84 50 14             	test   BYTE PTR [eax+0x14],dl
+   4a234:	75 16                	jne    0x4a24c
+   4a236:	8b 40 10             	mov    eax,DWORD PTR [eax+0x10]
+   4a239:	01 07                	add    DWORD PTR [edi],eax
+   4a23b:	8b 09                	mov    ecx,DWORD PTR [ecx]
+   4a23d:	0b c9                	or     ecx,ecx
+   4a23f:	75 e3                	jne    0x4a224
+   4a241:	b8 01 00 00 00       	mov    eax,0x1
+   4a246:	5f                   	pop    edi
+   4a247:	5e                   	pop    esi
+   4a248:	5b                   	pop    ebx
+   4a249:	c2 0c 00             	ret    0xc
+   4a24c:	89 06                	mov    DWORD PTR [esi],eax
+   4a24e:	2b c0                	sub    eax,eax
+   4a250:	5f                   	pop    edi
+   4a251:	5e                   	pop    esi
+   4a252:	5b                   	pop    ebx
+   4a253:	c2 0c 00             	ret    0xc

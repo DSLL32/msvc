@@ -5,6 +5,7 @@ The original observer defaults to four words, with an explicit six-word option.
 Unsupported transport holds rather than guessing registers or dumping objects.
 """
 from member_parameter_owner import validate as validate_member_parameter_owner
+from member_path_outputs import validate as validate_member_path_output
 import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
@@ -125,7 +126,9 @@ def main():
             binding['native_owner_value'] = owner['address'] if binding.get('native_owner_address') else owner['value']
             assert item['original_raw'] == binding['original_owner_value'], 'original caller owner plus offset differs'
             assert item['native_raw'] == binding['native_owner_value'], 'native actual caller local owner differs'
-            if 'original_stack_offset' in binding:
+            if 'original_stack_offset' in binding and name=='_resolve_member_pointer_path@12':
+                validate_member_path_output(name, item, owner)
+            elif 'original_stack_offset' in binding:
                 assert offset in (34,36) and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
                 if offset==34:
                     assert owner['function']=='emit_debug_field_list' and owner['local']=='conversion_text', 'actual output local owner differs'

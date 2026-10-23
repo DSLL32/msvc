@@ -4,6 +4,7 @@ Reconstruction/reference operation only: never imported or run by fixtures.
 Requires a completed canonical/native build and a reviewed complete extent.
 """
 from member_parameter_owner import validate as validate_member_parameter_owner
+from member_path_outputs import validate as validate_member_path_output
 import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
@@ -147,7 +148,9 @@ def main():
             assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']+offset, 'original caller owner plus offset differs'
             actual_native_owner=owner['address'] if binding.get('native_owner_address') else owner['value']
             assert formal['native_raw']==binding['native_owner_value']==actual_native_owner, 'native actual caller local owner differs'
-            if 'original_stack_offset' in binding:
+            if 'original_stack_offset' in binding and args.candidate=='_resolve_member_pointer_path@12':
+                validate_member_path_output(args.candidate, formal, owner)
+            elif 'original_stack_offset' in binding:
                 assert offset in (34,36) and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
                 if offset==34:
                     assert owner['function']=='emit_debug_field_list' and owner['local']=='conversion_text', 'actual output local owner differs'

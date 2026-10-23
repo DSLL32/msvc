@@ -62,6 +62,26 @@ unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *targ
     return source_class == target_class ? 1 : 0x20;
 }
 
+/* Original 0x4a200..0x4a256. Sum nonvirtual base displacements,
+   or return the first virtual base for its separate adjustment. */
+int __stdcall resolve_member_pointer_path(QualifierBinding *path,
+    BaseClassLink **virtual_base, int *displacement)
+{
+    BaseClassLink *base;
+    *displacement = 0;
+    *virtual_base = 0;
+    for (; path; path = path->next) {
+        base = (BaseClassLink *)path->target;
+        if ((base->kind & 31) == 4) break;
+        if (base->state & 1) {
+            *virtual_base = base;
+            return 0;
+        }
+        *displacement += base->displacement;
+    }
+    return 1;
+}
+
 /* Original 0x4a260..0x4a29c. A zero-adjustment class needs only
    the function address; multiple inheritance stores the adjustment too. */
 IrToken *__stdcall make_compact_method_pointer(CType *type, IrToken *function,

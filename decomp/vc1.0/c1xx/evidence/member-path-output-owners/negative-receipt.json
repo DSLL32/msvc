@@ -1,0 +1,38 @@
+{
+  "scope": "Read-only production argument preflight with frozen original configuration; synthetic corruptions, no promotion or original execution",
+  "proof": "cases/argument-observations/state_machine_debug/1120-resolve_member_pointer_path-12/validation.json",
+  "proof_sha256": "2cb5df52cd586098175fabe6b129642f5e57f84c7b97d98162f93d671aad793f",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _resolve_member_pointer_path@12"
+    },
+    {
+      "test": "missing-anchor",
+      "result": "held",
+      "reason": "missing actual owner register anchor"
+    },
+    {
+      "test": "wrong-offset",
+      "result": "held",
+      "reason": "original caller owner plus offset differs"
+    },
+    {
+      "test": "swapped-output-addresses",
+      "result": "held",
+      "reason": "native actual caller local owner differs"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": "actual native owner differs"
+    },
+    {
+      "test": "read-output-prestate",
+      "result": "held",
+      "reason": "ignored output prestate must remain uncredited"
+    }
+  ],
+  "elapsed_seconds": 0.18621204979717731
+}

@@ -1,0 +1,17 @@
+{
+  "function": "_resolve_member_pointer_path@12",
+  "outputs": {
+    "virtual_base": {
+      "stack_index": 1,
+      "original_callee_esp_offset": 32
+    },
+    "displacement": {
+      "stack_index": 2,
+      "original_callee_esp_offset": 28
+    }
+  },
+  "caller": "_member_pointer_expression@4",
+  "caller_return": 237683,
+  "proof": "Callerbaseline displacementLEA+12,virtualbaseLEA+16; nestedfourargs find_member_call_binding cleansRET16 thenPUSHEAXpath/CALLresolve leaves calleeESP=baseline-16. SamecontextESP+32/+28 mapsactual nativeimmediatecaller localsaddresses. Callee4a20b writes*displacement0,4a211 writes*virtualbaseNULLbeforecheckingpath; prestates ignored/unread/uncredited.",
+  "scope": "Exact candidate/formal/local/offset whitelist, no generic caller-stack expansion."
+}
