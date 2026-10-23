@@ -15,6 +15,7 @@ typedef char FloatMachineRegisterSizeCheck[sizeof(FloatMachineRegister) == 20 ? 
 extern FloatMachineRegister *float_machine_registers;
 extern int float_machine_register_count;
 extern int float_machine_stack[8], float_machine_virtual_depth;
+extern int float_machine_range_entry_depth, float_machine_maximum_depth;
 extern int float_machine_conservative, float_machine_depth, float_machine_incoming_depth;
 void initialize_float_register_homes(void);
 void reset_float_register_stack(void);

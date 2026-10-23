@@ -2476,3 +2476,9 @@ Floating machine-data driver and stack initialization: checkpoint986
 @scan_float_machine_range@8. 907 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-machine-driver.json for extent union, limits and measured timings.
+
+Two-direction floating range analysis: checkpoint987
+1 acceptances pass fresh original/native matching; current frontier
+@prepare_float_machine_instruction@8. 908 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-range-scan.json for extent union, limits and measured timings.

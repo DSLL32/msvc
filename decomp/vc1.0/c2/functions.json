@@ -990,7 +990,8 @@
     "_emit_float_return",
     "@prepare_float_machine_data@4",
     "_initialize_float_register_homes",
-    "_reset_float_register_stack"
+    "_reset_float_register_stack",
+    "@scan_float_machine_range@8"
   ],
   "driver": [
     {
@@ -6953,8 +6954,7 @@
     {
       "name": "@scan_float_machine_range@8",
       "start": 249344,
-      "end": 249345,
-      "provisional": true
+      "end": 250899
     },
     {
       "name": "@prepare_float_machine_instruction@8",

@@ -62,6 +62,7 @@ struct MachineInstruction {
         MachineInstruction *next_use;
         struct InstructionSchedule *scheduling; /* phase-owned scheduling payload */
         unsigned encoding_length;
+        unsigned float_flags; /* floating range use/stack summary */
         struct { short code, value; } directive; } record;
     union {
         MachineOperand operands[2];

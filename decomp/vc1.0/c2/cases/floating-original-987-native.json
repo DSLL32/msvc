@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "f9f5046df9cb1cc22294692a093137d0ca2b15b12476854cbd7f185608af5d06",
+  "config_sha256": "047616c91ab1321d66e649704d4b36785e55386d670aca3649a45337213536cd",
+  "seconds": 0.13314201030880213,
+  "logical": "@prepare_float_machine_instruction@8",
+  "matched": true,
+  "log_sha256": "9abbbffcbc8ccfed8f2c1e3980289a0366baddc3639fb69accbfd53d40ee5ccb",
+  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-zrbvgmt6"
+}
