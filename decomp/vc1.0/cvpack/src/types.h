@@ -20,8 +20,8 @@ typedef struct GrowingBuffer {
 typedef struct TypeRecord {
     unsigned char *data;
     unsigned short index;
-    /* Later type passes interpret these fields; the initializer leaves zero. */
-    unsigned char state[18];
+    unsigned short forward_index, recursive_count, reserved;
+    unsigned char recursive_offsets[12];
     unsigned short flags;
 } TypeRecord;
 
@@ -60,6 +60,12 @@ unsigned short __fastcall compact_old_type(unsigned short);
 unsigned short __fastcall compact_new_type(unsigned short);
 void finish_recursive_types(void);
 TypeRecord *get_type_record(unsigned short, unsigned short *);
+int __fastcall find_named_type(TypeRecord *, TypeCacheEntry **, int);
+void __fastcall queue_type_match(unsigned short, TypeCacheEntry *);
+void __fastcall compact_pointer(TypeRecord *);
+unsigned short __fastcall compact_type_list(unsigned short, unsigned short);
+unsigned short intern_type(TypeRecord *, unsigned short);
+void __fastcall store_type(TypeRecord *);
 void reserve_extra_type(unsigned short, unsigned short *);
 int has_extra_type(unsigned short);
 extern TypeRecord *local_type_records;

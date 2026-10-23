@@ -993,5 +993,29 @@
     "original": 226208,
     "size": 4,
     "source": "src/modules.c"
+  },
+  {
+    "name": "type_path",
+    "symbol": "_type_path",
+    "original": 209052,
+    "size": 512,
+    "source": "src/types.c",
+    "provenance": "Active recursive type path;256USHORTs ends3329c at independent directory_entry_count."
+  },
+  {
+    "name": "type_path_depth",
+    "symbol": "_type_path_depth",
+    "original": 229024,
+    "size": 2,
+    "source": "src/types.c",
+    "provenance": "Active path depth used by compact_new_type."
+  },
+  {
+    "name": "recursive_type_root",
+    "symbol": "_recursive_type_root",
+    "original": 229028,
+    "size": 2,
+    "source": "src/types.c",
+    "provenance": "Earliest unresolved active type group root."
   }
 ]

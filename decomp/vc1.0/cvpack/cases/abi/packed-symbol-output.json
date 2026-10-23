@@ -30,11 +30,21 @@
       "start": 156896,
       "end": 156950,
       "bytes": "566681f90010730e66c705d03503000000668bc15ec3833d88710300007405662bc05ec3e817000000668bf0e8bffdffff668bc65ec3"
+    },
+    {
+      "start": 156960,
+      "end": 157285,
+      "bytes": "83ec1053565755668be92bff8d6424006681fd00100f826502000033c066a1e035030005001000008bcd81e1ffff00003bc10f8e5c0200008d8500f0ffff393ddc35030066897c2412751866b9ffff662b0dd8350300663bc875088b35d4350300eb5525ffff00008bc8c1e0032bc18d0c8500000000a1bc73030003c1f6401910742d668b400666894424128d44241450a1bc730300668b440106662d001050e83b81ffff83c4088bf0eb0c8d6424008b35bc73030003f1668b461866a906080f859a0a0000a8800f85db010000a8400f85fc020000660d40006689461833c066a1a07e030066ff05a07e030066892c459c300300668b1da47e030066893da47e03008b0e33c0668b41023d020200007f1e0f84680800004883f8100f87e0030000c1e002ffa09870020005000000002d0602000083f8060f87c4030000ff2485dc700200"
+    },
+    {
+      "start": 158323,
+      "end": 158335,
+      "bytes": "8bcee886060000e9fe040000"
     }
   ],
   "sources": {
-    "src/types.c": "c90cce098cc971a2a0da0ec6253e4830ef1d4976a02673ed692527c4ad33f056",
-    "src/types.h": "2a773c592b5c2c4d971d5b45e41c1a005d05551f28a7b83adbf75ebc11885e39",
+    "src/types.c": "e27b482102a6b5952fc73d024fb720eb0c7b6245f1fb918707967d3ee19b282c",
+    "src/types.h": "e2ebe6aca6601b985ae576dbe8ac3c48002808797467caca2170960b4dd156d6",
     "src/image.h": "3db3018bf316e791bb96d567eaf5c092bfb0e3b71254ab77d84e6f68b73e2e96"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
@@ -102,6 +112,24 @@
       "nested_returns": {
         "2": 153648,
         "4": 151922
+      }
+    },
+    "compact_pointer": {
+      "original": 160000,
+      "defined": 40,
+      "input_offset": 202,
+      "return_address": 158330,
+      "allocation_esp_delta": 52,
+      "buffer_slot": 18,
+      "input_slot": 21,
+      "record_length": 28,
+      "callback_index": 27,
+      "kind": 4,
+      "type_index": 4134,
+      "nested_returns": {
+        "9": 156937,
+        "11": 153648,
+        "13": 151922
       }
     }
   }

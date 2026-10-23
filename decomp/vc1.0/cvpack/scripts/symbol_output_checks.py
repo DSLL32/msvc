@@ -129,3 +129,24 @@ def check_compact(pair):
     deny('compact stale earlier UDT length',lambda:run(n=changed))
     changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[40]^=1;changed[0]['postbytes']=raw.hex()
     deny('compact changed own untouched output tail',lambda:run(n=changed))
+
+
+def check_pointer(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(e=events,n=rows):return compare(config,pe,e,n,old,state['walks'],True,state)
+    assert run()['defined']==40
+    def deny(label,action):
+        try:action()
+        except (AssertionError,KeyError):print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    for slot,address in[(0,0x26a7a),(9,0x26509),(11,0x25830),(13,0x25172)]:
+        deny('pointer compact wrong nested return '+str(slot),lambda slot=slot,address=address:run(events.replace('stack %d %08x'%(slot,address),'stack %d %08x'%(slot,address+1))))
+    changed=copy.deepcopy(rows);changed[0]['nested_callers'].reverse()
+    deny('pointer compact wrong native frame chain',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);changed[0]['type_record']+=28
+    deny('pointer compact wrong typed record owner',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);changed[0]['type_index']+=1
+    deny('pointer compact wrong native active type',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[40]^=1;changed[0]['postbytes']=raw.hex()
+    deny('pointer compact changed own undefined output tail',lambda:run(n=changed))

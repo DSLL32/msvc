@@ -62,7 +62,6 @@ void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) {
 
 void pack_old_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
 
-unsigned short __fastcall compact_new_type(unsigned short type) { __asm { int 3 } return 0; }
 
 unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
 void finish_recursive_types(void) { __asm { int 3 } }
@@ -106,3 +105,10 @@ void convert_procedure32(void) { __asm { int 3 } }
 
 int link_symbol_scopes(unsigned char *symbols, unsigned long size) { __asm { int 3 } return 0; }
 void record_symbol_offsets(unsigned char *symbols, unsigned long size, unsigned short module) { __asm { int 3 } }
+
+int __fastcall find_named_type(TypeRecord *entry, TypeCacheEntry **named, int forward) { __asm { int 3 } return 0; }
+void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { __asm { int 3 } }
+void __fastcall compact_pointer(TypeRecord *entry) { __asm { int 3 } }
+unsigned short __fastcall compact_type_list(unsigned short type, unsigned short count) { __asm { int 3 } return 0; }
+unsigned short intern_type(TypeRecord *entry, unsigned short type) { __asm { int 3 } return 0; }
+void __fastcall store_type(TypeRecord *entry) { __asm { int 3 } }

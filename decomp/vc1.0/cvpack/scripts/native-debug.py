@@ -251,21 +251,27 @@ def capture_symbol_output():
     if f.name()=='intern_global':
         assert caller.name()=='convert_udt_symbol','unreviewed nested symbol output caller'
         entry['nested_caller']=caller.name();caller=caller.older()
-    if f.name()=='compact_new_type':
+    if f.name()in('compact_new_type','compact_pointer'):
         names=[]
+        if f.name()=='compact_pointer':
+            assert caller.name()=='compact_new_type','unreviewed pointer compactor caller'
+            entry['type_record']=int(f.read_var('entry'))
+            assert entry['type_record']==int(caller.read_var('entry'))
+            entry['type_index']=int(caller.read_var('type'))
+            names.append(caller.name());caller=caller.older()
         for expected in('convert_new_type','convert_udt_symbol'):
             assert caller.name()==expected,'unreviewed compact symbol output caller'
             names.append(caller.name());caller=caller.older()
         entry['nested_callers']=names
-        entry['type_index']=int(f.read_var('type'))
+        if f.name()=='compact_new_type':entry['type_index']=int(f.read_var('type'))
         assert entry['type_index']==4134,'unreviewed compact symbol type'
-    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
     assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size
     if f.name()=='write_search_symbol':assert cursor==base+4==int(f.read_var('buffer'))
     else:
-        expected=(16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()=='compact_new_type'else(40,4,34,27))
+        expected=(16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()in('compact_new_type','compact_pointer')else(40,4,34,27))
         assert cursor==base+expected[0] and int(caller.read_var('kind'))==expected[1] and int(caller.read_var('length'))==expected[2] and int(caller.read_var('index'))==expected[3]
         entry['record_kind']=int(caller.read_var('kind'));entry['record_length']=int(caller.read_var('length'));entry['callback_index']=int(caller.read_var('index'))
     entry.update(cursor=cursor,frontier=f.name(),parent='pack_new_types',postbytes=bytes(gdb.selected_inferior().read_memory(base,size)).hex())

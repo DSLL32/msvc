@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_pointer
+    pointer_symbols=BINARY/'cases/hello-debug-dll/evidence/0069-compact_new_type'
+    if pointer_symbols.is_dir():check_pointer(pointer_symbols)
     from symbol_output_checks import check_compact
     compact_symbols=BINARY/'cases/hello-debug-dll/evidence/0068-intern_global'
     if compact_symbols.is_dir():check_compact(compact_symbols)

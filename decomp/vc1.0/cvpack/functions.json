@@ -3293,15 +3293,23 @@
       "native": "compact_new_type",
       "symbol": "@compact_new_type@4",
       "original": 156960,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        156960,
+        159893
+      ],
       "abi": "unsigned short __fastcall compact_new_type(unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0069-compact_new_type/proof.json",
       "roots": [],
-      "text_data": [],
+      "text_data": [
+        [
+          159896,
+          159992
+        ]
+      ],
       "return_bits": 16,
       "parameters": [
         {
@@ -3310,7 +3318,107 @@
           "kind": "integer",
           "bits": 16
         }
-      ]
+      ],
+      "alignment_padding": [
+        [
+          157259,
+          157264
+        ],
+        [
+          158139,
+          158144
+        ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "switches": {
+        "157253": [
+          158274,
+          158323,
+          158336,
+          157285,
+          157285,
+          157392,
+          157492,
+          158914,
+          159010,
+          159613,
+          159192,
+          159613,
+          159248,
+          159613,
+          159613,
+          158242,
+          159297
+        ],
+        "157278": [
+          159613,
+          158242,
+          159441,
+          159441,
+          159490,
+          159490,
+          159613
+        ]
+      },
+      "switch_tables": [
+        {
+          "start": 159896,
+          "targets": [
+            158274,
+            158323,
+            158336,
+            157285,
+            157285,
+            157392,
+            157492,
+            158914,
+            159010,
+            159613,
+            159192,
+            159613,
+            159248,
+            159613,
+            159613,
+            158242,
+            159297
+          ]
+        },
+        {
+          "start": 159964,
+          "targets": [
+            159613,
+            158242,
+            159441,
+            159441,
+            159490,
+            159490,
+            159613
+          ]
+        }
+      ],
+      "compiler_switch_counts": [
+        17,
+        7
+      ],
+      "rebuilt_extra_roots": [
+        3655
+      ],
+      "compiler_root_reason": "Original compiler emits unreachable JMP after returning forward-match switch arms;18cf1(offsete47) jumps18d19 then ordinary finalization. Decode as additional compiler root, not waived bytes."
     },
     {
       "name": "get_type_record",
@@ -3852,6 +3960,177 @@
           }
         ]
       }
+    },
+    {
+      "name": "find_named_type",
+      "native": "find_named_type",
+      "symbol": "@find_named_type@12",
+      "original": 109888,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int __fastcall find_named_type(TypeRecord *,TypeCacheEntry **,int)",
+      "stack_cleanup": 4,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "named",
+          "register": "edx",
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "forward",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ],
+      "return_bits": 32
+    },
+    {
+      "name": "queue_type_match",
+      "native": "queue_type_match",
+      "symbol": "@queue_type_match@8",
+      "original": 156288,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall queue_type_match(unsigned short,TypeCacheEntry *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "register": "ecx",
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "named",
+          "register": "edx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "compact_pointer",
+      "native": "compact_pointer",
+      "symbol": "@compact_pointer@4",
+      "original": 160000,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall compact_pointer(TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "compact_type_list",
+      "native": "compact_type_list",
+      "symbol": "@compact_type_list@8",
+      "original": 160416,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall compact_type_list(unsigned short,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "register": "ecx",
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "count",
+          "register": "edx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ],
+      "return_bits": 16
+    },
+    {
+      "name": "intern_type",
+      "native": "intern_type",
+      "symbol": "_intern_type",
+      "original": 109696,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short intern_type(TypeRecord *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "type",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 16
+        }
+      ],
+      "return_bits": 16
+    },
+    {
+      "name": "store_type",
+      "native": "store_type",
+      "symbol": "@store_type@4",
+      "original": 103808,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall store_type(TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -4286,6 +4565,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 68
+    },
+    {
+      "function": "compact_new_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 69
     }
   ],
   "support_unmasked": [
@@ -4880,11 +5165,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "ad5eb4dcbd95b17030af43e4c865dd5912d4f0c48a0e01d77eb0b4bc6e56410c"
+    "evidence_sha256": "b883a5f27c1587943a109c5e9487d75c7eff70304bffc4d3f75e5a384a040bae"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "6337abc6c7fe5eda46c142a5cd713d2367bcbbef4e6c36f476785031319344b6"
+    "evidence_sha256": "91a3658699f1f7951b732dbf4dad9586005567de9200d2e9c2d8b68c51550157"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -4916,10 +5201,10 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "5fdeaeb72e62379c24655ff26a447b69d763a0bb93bdcae69dfe3a0bf8dd78f3"
+    "evidence_sha256": "204fda6af914055630a66e97c9dcb1dba911b4bb2b95b7a2ded4ea9034381471"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "1ec560da53e6afb7b2a63249989da1db31a70f9c2d2ece28bbaded378be29886"
+    "evidence_sha256": "3d06a2621e0c0a7e9a7723447d7f4f9c33da0767594541520b2d1bb2fae261c0"
   }
 }

@@ -478,3 +478,254 @@ void convert_udt_symbol(void)
         if (!symbol_scope_depth) intern_global(symbol_input, hash_public);
     }
 }
+
+/* Current type path and the earliest unresolved member of its recursive group. */
+unsigned short type_path[256], type_path_depth, recursive_type_root;
+
+unsigned short __fastcall compact_new_type(unsigned short type)
+{
+    unsigned short relative, mapped, unused, previous_root, candidate, field;
+    TypeRecord *entry, *resolved;
+    TypeCacheEntry *named;
+    unsigned char *record;
+    unsigned short *field_pointer;
+    int result, last, i;
+    unsigned long count;
+
+#ifdef RECON_NATIVE_TEST
+#define TYPE_LIMIT(test) do { if (!(test)) __asm { int 3 } } while (0)
+#else
+#define TYPE_LIMIT(test) ((void)0)
+#endif
+#define ADD_RECURSIVE_OFFSET(offset) \
+    do { \
+        TYPE_LIMIT(entry->recursive_count < 12); \
+        entry->recursive_offsets[entry->recursive_count++] = (offset); \
+    } while (0)
+
+    /* These scans follow the original active path; they are not hash lookups. */
+#define NOTE_RECURSIVE(index) \
+    do { \
+        candidate = (index); \
+        if (candidate) { \
+            if (!recursive_type_root) recursive_type_root = candidate; \
+            else { \
+                last = (int)type_path_depth-1; \
+                TYPE_LIMIT(last >= 0 && last < 256); \
+                while (type_path[last] != recursive_type_root) { --last; TYPE_LIMIT(last >= 0); } \
+                for (i = 0; i < last; ++i) \
+                    if (type_path[i] == candidate) { recursive_type_root = candidate; break; } \
+            } \
+        } \
+    } while (0)
+#define COMPACT_FIELD(offset) \
+    do { \
+        field = compact_new_type(*(unsigned short *)(entry->data+(offset))); \
+        *(unsigned short *)(entry->data+(offset)) = field; \
+        if (recursive_type_reference) \
+            ADD_RECURSIVE_OFFSET(offset); \
+    } while (0)
+
+again:
+    if (type < 0x1000) { recursive_type_reference = 0; return type; }
+    if ((unsigned long)type >= (unsigned long)local_type_count+0x1000) {
+        recursive_type_reference = 0;
+        return 7;
+    }
+    relative = type-0x1000;
+    mapped = 0;
+    if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+        entry = empty_type;
+    else {
+        entry = &local_type_records[relative];
+        if (entry->flags & 0x1000) {
+            mapped = entry->forward_index;
+            entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+        }
+    }
+    if (entry->flags & 0x806) {
+        recursive_type_reference = 0;
+        return entry->index;
+    }
+    if (entry->flags & 0x80) {
+        resolved = entry;
+        do {
+            relative = resolved->index-0x1000;
+            mapped = 0;
+            if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+                resolved = empty_type;
+            else {
+                resolved = &local_type_records[relative];
+                if (resolved->flags & 0x1000) {
+                    mapped = resolved->forward_index;
+                    resolved = get_type_record((unsigned short)(resolved->forward_index-0x1000), &unused);
+                }
+            }
+        } while (resolved->flags & 0x80);
+        recursive_type_reference = 1;
+        NOTE_RECURSIVE(entry->index);
+        return type;
+    }
+    if (entry->flags & 0x40) {
+        recursive_type_reference = 1;
+        NOTE_RECURSIVE(mapped ? mapped : type);
+        return type;
+    }
+    entry->flags |= 0x40;
+#ifdef RECON_NATIVE_TEST
+    /* Only the proved 256-word active-path object belongs to this array. */
+    if (type_path_depth == 256) __asm { int 3 }
+#endif
+    type_path[type_path_depth++] = type;
+    previous_root = recursive_type_root;
+    recursive_type_root = 0;
+    record = entry->data;
+    switch (*(unsigned short *)(record+2)) {
+    case 1:                         /* LF_MODIFIER */
+        COMPACT_FIELD(6);
+        break;
+    case 2:                         /* LF_POINTER */
+        compact_pointer(entry);
+        break;
+    case 3:                         /* LF_ARRAY */
+        COMPACT_FIELD(4);
+        COMPACT_FIELD(6);
+        break;
+    case 4: case 5:                 /* LF_CLASS, LF_STRUCTURE */
+        *(unsigned short *)(record+8) &= ~1;
+        if (*(unsigned short *)(record+8) & 0x80) goto forward;
+        result = find_named_type(entry, &named, 0);
+        if (result == 3) goto matched;
+        field_pointer = (unsigned short *)(record+12);
+        *field_pointer = compact_new_type(*field_pointer);
+        if (recursive_type_reference) ADD_RECURSIVE_OFFSET(12);
+        *(unsigned short *)(record+6) = compact_type_list(*(unsigned short *)(record+6), *(unsigned short *)(record+4));
+        if (recursive_type_reference) ADD_RECURSIVE_OFFSET(6);
+        break;
+    case 6:                         /* LF_UNION */
+        *(unsigned short *)(record+8) &= ~1;
+        if (*(unsigned short *)(record+8) & 0x80) goto forward;
+        result = find_named_type(entry, &named, 0);
+        if (result == 3) goto matched;
+        record = entry->data;
+        *(unsigned short *)(record+6) = compact_type_list(*(unsigned short *)(record+6), *(unsigned short *)(record+4));
+        if (recursive_type_reference) ADD_RECURSIVE_OFFSET(6);
+        break;
+    case 7:                         /* LF_ENUM */
+        *(unsigned short *)(record+10) &= ~1;
+        if (*(unsigned short *)(record+10) & 0x80) goto forward;
+        result = find_named_type(entry, &named, 0);
+        if (result == 3) goto matched;
+        COMPACT_FIELD(6);
+        record = entry->data;
+        *(unsigned short *)(record+8) = compact_type_list(*(unsigned short *)(record+8), *(unsigned short *)(record+4));
+        if (recursive_type_reference) ADD_RECURSIVE_OFFSET(8);
+        break;
+    case 8:                         /* LF_PROCEDURE */
+        COMPACT_FIELD(4);
+        record = entry->data;
+        *(unsigned short *)(record+10) = compact_type_list(*(unsigned short *)(record+10), *(unsigned short *)(record+8));
+        if (recursive_type_reference) ADD_RECURSIVE_OFFSET(10);
+        break;
+    case 9:                         /* LF_MFUNCTION */
+        COMPACT_FIELD(4);
+        COMPACT_FIELD(6);
+        COMPACT_FIELD(8);
+        record = entry->data;
+        *(unsigned short *)(record+14) = compact_type_list(*(unsigned short *)(record+14), *(unsigned short *)(record+12));
+        if (recursive_type_reference) ADD_RECURSIVE_OFFSET(14);
+        break;
+    case 11: case 13:               /* LF_COBOL0, LF_BARRAY */
+        COMPACT_FIELD(4);
+        break;
+    case 17:                        /* LF_DIMARRAY */
+        COMPACT_FIELD(4);
+        COMPACT_FIELD(6);
+        break;
+    case 0x202:                     /* LF_DEFARG */
+        COMPACT_FIELD(4);
+        break;
+    case 0x208: case 0x209:         /* LF_DIMCONU, LF_DIMCONLU */
+        COMPACT_FIELD(6);
+        break;
+    case 0x20a: case 0x20b:         /* LF_DIMVARU, LF_DIMVARLU */
+        COMPACT_FIELD(6);
+        record = entry->data+2;
+        count = *(unsigned short *)(record+2);
+        if (*(unsigned short *)record == 0x20b) count += count;
+        while (count--) {
+            field = compact_new_type(*(unsigned short *)(record+6+count*2));
+            *(unsigned short *)(entry->data+8+count*2) = field;
+            record = entry->data+2;
+            if (recursive_type_reference)
+                ADD_RECURSIVE_OFFSET((unsigned char)(count*2+8));
+        }
+        break;
+    case 10: case 12: case 14: case 15: case 0x206: case 0x20c:
+        break;
+    default:
+        fatal_error(23, module_name(current_module), NULL);
+        break;
+    }
+finish:
+    --type_path_depth;
+    if (recursive_type_root == type) {
+        recursive_type_reference = 0;
+        entry->index = intern_type(entry, type);
+        recursive_type_root = previous_root;
+        return entry->index;
+    }
+    if (recursive_type_root) {
+        recursive_type_reference = 1;
+        entry->index = recursive_type_root;
+        NOTE_RECURSIVE(previous_root);
+        entry->flags |= 0x80;
+        return type;
+    }
+    recursive_type_reference = 0;
+    recursive_type_root = previous_root;
+    entry->flags |= 4;
+    store_type(entry);
+    return entry->index;
+
+forward:
+    result = find_named_type(entry, &named, 1);
+    switch (result) {
+    case 1:
+        --type_path_depth;
+        entry->flags |= 0x1000;
+        entry->forward_index = named->index;
+        recursive_type_root = previous_root;
+        type = named->index;
+        goto again;
+    case 2:
+        recursive_type_reference = 0;
+        --type_path_depth;
+        entry->flags |= 0x80;
+        entry->flags |= 2;
+        entry->index = named->index;
+        recursive_type_root = previous_root;
+        return named->index;
+    case 3:
+        recursive_type_reference = 0;
+        --type_path_depth;
+        entry->flags |= 0x80;
+        entry->flags |= 2;
+        entry->index = named->index;
+        recursive_type_root = previous_root;
+        return named->index;
+    }
+    goto finish;
+matched:
+    --type_path_depth;
+    queue_type_match(type, named);
+    recursive_type_reference = 0;
+    recursive_type_root = previous_root;
+    entry->flags |= 2;
+    entry->index = named->index;
+    return entry->index;
+#undef ADD_RECURSIVE_OFFSET
+#undef TYPE_LIMIT
+#undef COMPACT_FIELD
+#undef NOTE_RECURSIVE
+}
