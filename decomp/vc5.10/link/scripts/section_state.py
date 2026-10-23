@@ -37,7 +37,8 @@ def enum_bytes(next_function,end_function,first,current):
 
 
 def compare(original,state,trap,events):
-    file_record=state['function']=='acquire_file_record'
+    file_finder=state['function']=='find_cached_file'
+    file_record=state['function']=='acquire_file_record'or file_finder
     after_collision=state['function']=='open_argument_file'or file_record
     collision=state['function']=='check_output_input_collision'or after_collision
     completed=state['function']=='LinkContext::PassOne'or collision
@@ -58,8 +59,8 @@ def compare(original,state,trap,events):
             assert nformals==dict(this=ncontext,stack_formals=[],other_hidden_inputs=[])
             entry,=[e for e in events if e['event']=='pass_one_entry']
             assert entry['this']==formals['this']==context and entry['stack_formals']==entry['other_hidden_inputs']==[]
-            assert trap['esp']==entry['stack_pointer']-(92 if file_record else 48 if after_collision else 44)
-            assert trap['stack'][0]==(0x40b82e if file_record else 0x44b8e5 if after_collision else 0x44b8d0)
+            assert trap['esp']==entry['stack_pointer']-(112 if file_finder else 92 if file_record else 48 if after_collision else 44)
+            assert trap['stack'][0]==(0x40b87d if file_finder else 0x40b82e if file_record else 0x44b8e5 if after_collision else 0x44b8d0)
             nentry=state['pass_one_entry']
             assert nentry['this']==ncontext and nentry['stack_formals']==nentry['other_hidden_inputs']==[]
             if after_collision:
@@ -68,8 +69,9 @@ def compare(original,state,trap,events):
                 current=trap['open_file_formals'];ncurrent=state['open_file_formals']
                 assert current['name']==trap['stack'][1]==trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
                 assert ncurrent['name']==state['output_name_pointer']==state['crt_argv_addresses'][3]+5
-                assert current['flags']==ncurrent['flags']==trap['stack'][2]==0x8302
-                assert current['mode']==ncurrent['mode']==trap['stack'][3]==0x180
+                assert current['flags']==ncurrent['flags']==0x8302
+                assert current['mode']==ncurrent['mode']==0x180
+                if not file_finder:assert trap['stack'][2:4]==[0x8302,0x180]
                 assert current['text']==ncurrent['text']=='hello.exe'
                 if file_record:
                     from file_open_state import compare as compare_file_open

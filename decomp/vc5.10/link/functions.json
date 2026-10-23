@@ -87,7 +87,8 @@
     "_next_contribution_group@4",
     "LinkContext::PassOne",
     "_check_output_input_collision@8",
-    "_open_argument_file@12"
+    "_open_argument_file@12",
+    "_acquire_file_record@16"
   ],
   "driver": [
     {
@@ -2579,10 +2580,9 @@
     {
       "name": "_acquire_file_record@16",
       "start": 4241520,
-      "end": 4241521,
+      "end": 4241648,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "acquire_file_record",
       "abi": "stdcall FileRecord *(const char *name,int flags,int mode,BYTE *created); four stack formals,RET16; no hidden inputs; created is writable caller-owned initialized one-byte output"
     },
@@ -2615,6 +2615,26 @@
       "pending_extent": true,
       "native_symbol": "open_buffered_file",
       "abi": "stdcall int(FileRecord *record,int flags,int mode,BYTE created); four stack formals,RET16; BYTE formal consumes only low eight bits; observed when reached"
+    },
+    {
+      "name": "_find_cached_file@4",
+      "start": 4241760,
+      "end": 4241761,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "find_cached_file",
+      "abi": "stdcall FileRecord *(const char *name); one stack input,RET4; no hidden inputs"
+    },
+    {
+      "name": "_get_available_file_record",
+      "start": 4241648,
+      "end": 4241649,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "get_available_file_record",
+      "abi": "cdecl FileRecord *(void); no stack inputs,RET0; actual globals/state observed when reached"
     }
   ],
   "text_data": [

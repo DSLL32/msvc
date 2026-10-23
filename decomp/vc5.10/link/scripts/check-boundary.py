@@ -5,6 +5,7 @@ import copy
 import json
 from pathlib import Path
 import struct
+import time
 from boundary_state import compare,MEMORY_READY,OPTION_READY
 
 parser=argparse.ArgumentParser(description=__doc__)
@@ -16,8 +17,11 @@ args=parser.parse_args()
 events=[json.loads(line) for line in (args.original/'events.jsonl').read_text().splitlines()]
 original,=[event for event in events if event['event']=='trap']
 native=json.loads((args.native/'state.json').read_text())
+started=time.perf_counter()
 compare(args.frontier,args.original,args.native,original,native)
+positive_elapsed=time.perf_counter()-started
 checks=[]
+negative_started=time.perf_counter()
 def negative(label,change):
     state=copy.deepcopy(native);change(state)
     try:compare(args.frontier,args.original,args.native,original,state)
@@ -264,7 +268,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +291,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -391,7 +395,7 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
     negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
     negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
 if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
-    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16'):
+    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4'):
         negative('lost group enumerator output formal',lambda s:s['group_enumerator_formals'].__setitem__('enumerator',0))
         negative('lost group enumerator stack-local owner',lambda s:s['group_enumerator_formals'].__setitem__('owner_local',0))
         negative('wrong actual group enumerator section',lambda s:s['group_enumerator_formals'].__setitem__('section',0))
@@ -456,7 +460,7 @@ if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8'
     negative('wrong ninth allocation input',lambda s:s['virtual_alloc_calls'][8]['arguments'].__setitem__(1,8192))
     negative('ninth allocation not initially zero',lambda s:s['virtual_alloc_calls'][8].__setitem__('initial','01'+s['virtual_alloc_calls'][8]['initial'][2:]))
 
-if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16'):
+if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4'):
     negative('lost actual PassOne this formal',lambda s:s['pass_one_formals'].__setitem__('this',0))
     if args.frontier=='LinkContext::PassOne':
         negative('wrong actual PassOne ECX',lambda s:s['pass_one_formals'].__setitem__('raw_ecx',0))
@@ -499,11 +503,16 @@ if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8','_
             negative('wrong path comparison errors',lambda s:s['collision_compare_calls'][1]['after_errors'].__setitem__('doserrno',0))
 
         negative('invented hidden collision argument',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
-        negative('swapped actual collision formals',lambda s:s['frontier_inputs']['formals'].reverse())
+        if args.frontier!='_find_cached_file@4':negative('swapped actual collision formals',lambda s:s['frontier_inputs']['formals'].reverse())
+        else:negative('wrong actual file-finder name',lambda s:s['frontier_inputs']['formals'].__setitem__(0,0))
         negative('wrong unopened output flag',lambda s:s['pass_one_flags'].__setitem__('output_file_open',1))
         negative('wrong current output descriptor',lambda s:s['pass_one_flags'].__setitem__('current_image_file',0))
-    if args.frontier=='_acquire_file_record@16':
-        negative('lost fourth file-record formal',lambda s:s['frontier_inputs']['formals'].pop())
+    if args.frontier in ('_acquire_file_record@16','_find_cached_file@4'):
+        if args.frontier=='_acquire_file_record@16':negative('lost fourth file-record formal',lambda s:s['frontier_inputs']['formals'].pop())
+        else:
+            negative('lost fourth original file-record formal',lambda s:s['file_record_entry']['formals'].pop())
+            negative('invented file-record hidden argument',lambda s:s['file_record_entry']['hidden_inputs'].append('ecx'))
+            negative('wrong file-record entry name owner',lambda s:s['file_record_entry']['formals'].__setitem__(0,0))
         negative('wrong file-record name owner',lambda s:s['file_record_formals'].__setitem__('name',0))
         negative('wrong file-record flags',lambda s:s['file_record_formals'].__setitem__('flags',0x8000))
         negative('wrong file-record permissions',lambda s:s['file_record_formals'].__setitem__('mode',0))
@@ -583,5 +592,5 @@ if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8','_
     negative('wrong group arena virtual protection',lambda s:s['virtual_alloc_calls'][9]['arguments'].__setitem__(3,0x40))
     negative('group arena not initially zero',lambda s:s['virtual_alloc_calls'][9].__setitem__('initial','01'+s['virtual_alloc_calls'][9]['initial'][2:]))
 
-args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
+args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks,elapsed_seconds=dict(positive=positive_elapsed,negative_checks=time.perf_counter()-negative_started,total=time.perf_counter()-started)),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

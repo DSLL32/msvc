@@ -74,7 +74,33 @@ int __stdcall open_argument_file(const char *name,int flags,int mode)
     return record->index;
 }
 
-FileRecord *__stdcall acquire_file_record(const char *name,int flags,int mode,unsigned char *created) { __asm { int 3 } return NULL; }
+FileRecord *__stdcall find_cached_file(const char *name);
+FileRecord *__cdecl get_available_file_record(void);
+char *__stdcall duplicate_argument(const char *text);
+
+FileRecord *__stdcall acquire_file_record(const char *name,int flags,int mode,unsigned char *created)
+{
+    FileRecord *record=find_cached_file(name);
+    if (!record) {
+        record=get_available_file_record();
+        *created=1;
+        record->name=name?duplicate_argument(name):NULL;
+        record->flags=0;
+        record->position=0;
+        record->file=NULL;
+        record->mapping=NULL;
+        record->mapped_size=0;
+        record->file_size=0;
+        record->base=NULL;
+        if (!(flags & 15) || (flags & 2)) record->flags=1;
+        if (flags & 3) record->flags|=2;
+        if (flags & 0x100) record->flags|=0x10;
+        if (flags & 0x40) record->flags|=0x20;
+    }
+    return record;
+}
+FileRecord *__stdcall find_cached_file(const char *name) { __asm { int 3 } return NULL; }
+FileRecord *__cdecl get_available_file_record(void) { __asm { int 3 } return NULL; }
 int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *size) { __asm { int 3 } return -1; }
 void __cdecl initialize_file_buffers(void) { __asm { int 3 } }
 int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,unsigned char created) { __asm { int 3 } return -1; }

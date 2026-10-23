@@ -7,11 +7,20 @@ def compare(original,state,trap,events):
     nexpected=[state['output_name_pointer'],0x8302,0x180]
     assert entry['formals']==expected and native['formals']==nexpected
     assert entry['hidden_inputs']==native['hidden_inputs']==[]
-    assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][0]==0x40b82e
+    finder=state['function']=='find_cached_file'
+    if finder:
+        acquire,=[e for e in events if e['event']=='file_record_entry']
+        nacquire=state['file_record_entry']
+        assert acquire['stack_pointer']==entry['stack_pointer']-44
+        assert trap['esp']==acquire['stack_pointer']-20 and trap['stack'][0]==0x40b87d
+        assert acquire['hidden_inputs']==nacquire['hidden_inputs']==[]
+    else:
+        assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][0]==0x40b82e
     current=trap['file_record_formals'];ncurrent=state['file_record_formals']
     for k,value,nvalue in zip(('name','flags','mode'),expected,nexpected):
         assert current[k]==value and ncurrent[k]==nvalue
-    assert current['created']==trap['stack'][4]==entry['stack_pointer']-8
+    assert current['created']==entry['stack_pointer']-8
+    if not finder:assert current['created']==trap['stack'][4]
     assert current['size_slot']==entry['stack_pointer']-4
     assert ncurrent['created']==ncurrent['local_created']
     assert ncurrent['created']<native['stack_pointer'] and ncurrent['size_slot']+4<=native['stack_pointer']
@@ -21,5 +30,12 @@ def compare(original,state,trap,events):
     assert trap['ebp']==0xffffffff and ncurrent['initial_mapped_result']==-1
     assert current['created_bytes']==ncurrent['created_bytes']==1
     assert current['created']and ncurrent['created']
-    assert trap['frontier_inputs']==dict(formals=[current[k]for k in ('name','flags','mode','created')],hidden_register_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[ncurrent[k]for k in ('name','flags','mode','created')],hidden_register_inputs=[])
+    if finder:
+        assert acquire['formals']==[current[k]for k in ('name','flags','mode','created')]
+        assert nacquire['formals']==[ncurrent[k]for k in ('name','flags','mode','created')]
+        assert trap['stack'][1]==current['name']
+        assert trap['frontier_inputs']==dict(formals=[current['name']],hidden_register_inputs=[])
+        assert state['frontier_inputs']==dict(formals=[ncurrent['name']],hidden_register_inputs=[])
+    else:
+        assert trap['frontier_inputs']==dict(formals=[current[k]for k in ('name','flags','mode','created')],hidden_register_inputs=[])
+        assert state['frontier_inputs']==dict(formals=[ncurrent[k]for k in ('name','flags','mode','created')],hidden_register_inputs=[])
