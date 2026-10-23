@@ -1,0 +1,47 @@
+{
+  "scope": "Exactly four authored no-CRT Win32 debugger cases: PUSH/ARM/DB, guarded unknown CALL marker0, same-path known leaf marker1+RET, rejected wrong trap prebyte at CREATE. No original CF payload/app runs, no application acceptance.",
+  "bindings": {
+    "/root/msvc2/tooling/watcom-capture/win32-broker.c": "8eddd3458760d2c369d2869cac5c0a666bb2f062a3bd9142b701aa6680ff58c3",
+    "/root/msvc2/tooling/watcom-capture/broker.py": "80cffacdb0c10d9a2dab916ae1569ca2e7c37a463e707a79379b7668e24a8db7",
+    "/root/msvc2/tooling/watcom-capture/ipc.py": "95ad49434a7d6da5014d72c222e305c5907dd4a260a370b781e7bd900286c7b0",
+    "/root/msvc2/tooling/watcom-capture/gate.py": "67a8b94e1d3d14e00d6f11e9f0290d8628d6915130e9d13edd27a7ed33c48177",
+    "/root/msvc2/tooling/watcom-capture/tests/win32-gate-child.c": "db388d1b506e81e657a39a9be2c4fd2d0f9a0d830424c8a26b4f8ceaa03d3fc2",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/profile.json": "b6ddfd5b1d2be692b37881a65e0d36b3e6df15e4f598adf21424cab684fc62d2",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/probe.py": "25a3c288ba98397a1fbb3cd2dfd83caf249d7d0a5d4a4e785a9ea8de7cd6f856",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/entry-patch.json": "dd630a4daa4f0d2a617e8a1d7c808578a92b18d9be88ba7cef3cca66a1fca469"
+  },
+  "artifacts": {
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker.exe": "cbe62cbad1ab19a277cd227fb0e71330c4514d2152557df49a2263506991d282",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child-entry.exe": "f272dd2f811454858f28d61f048f5d5803d4d813ab616ee88a0002dea5c548cf"
+  },
+  "environment_updates": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDEBUG": "-all",
+    "WATCOM": "R:\\toolchains\\watcom10.0a"
+  },
+  "environment_remove": [
+    "WCC386",
+    "WCC",
+    "INCLUDE"
+  ],
+  "maximum_helper_launches": 4,
+  "global_helper_ms": 10000,
+  "helper_lease_ms": 1000,
+  "python_deadline_seconds": 12,
+  "outer_wait_seconds": 15,
+  "input_bytes_hex": "",
+  "child_raw_arguments": "",
+  "child_target_streams": "Binary stdout/stderr, expect both empty",
+  "private_host_environment_capture": true,
+  "ordinary_source_path_hash_bindings": true,
+  "remaining_gates": [
+    "indirect transfers",
+    "foreign return/cleanup negatives",
+    "thread/callback/exception negatives",
+    "failed trap write/flush",
+    "actual CF allocation+postrelocation complete initialized-byte snapshot and mutations"
+  ],
+  "stop_on_unexpected_result": true,
+  "failure_cleanup_grace_seconds": 5,
+  "failure_launcher_bytes_status_and_forced_cleanup_retained": true
+}

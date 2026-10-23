@@ -1,0 +1,10 @@
+format windows nt
+runtime console
+debug all
+option map=S:\watcom-capture\broker-build1\broker.map
+name S:\watcom-capture\broker-build1\broker.exe
+file S:\watcom-capture\broker-build1\broker.obj
+libpath R:\toolchains\watcom10.0a\lib386
+libpath R:\toolchains\watcom10.0a\lib386\nt
+library clib3r
+library nt

@@ -1,0 +1,51 @@
+{
+  "scope": "Exactly two build-only calls for authored broker after reviewed bounded startup LOAD/UNLOAD bookkeeping correction. No generated EXE run.",
+  "sources": {
+    "/root/msvc2/tooling/watcom-capture/win32-broker.c": "b9a89fd892e37679380a0186deaa8192b8ed1677b7f07417d40baff68adb15f8",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker.lnk": "40def7e800f3700fb4e89aa0fe6eb382833181748fe490141426c07e3aa6021f"
+  },
+  "tools": {
+    "/root/msvc2/toolchains/watcom10.0a/binb/WCC386.EXE": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+    "/root/msvc2/toolchains/watcom10.0a/binnt/WCC386.EXE": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+    "/root/msvc2/toolchains/watcom10.0a/.patched/WLINK.EXE": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b"
+  },
+  "environment_updates": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDEBUG": "-all",
+    "WATCOM": "R:\\toolchains\\watcom10.0a"
+  },
+  "environment_remove": [
+    "WCC386",
+    "WCC",
+    "INCLUDE"
+  ],
+  "commands": [
+    {
+      "name": "broker-compile",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+        "-bt=nt",
+        "-3r",
+        "-od",
+        "-d2",
+        "-i=R:\\toolchains\\watcom10.0a\\h",
+        "-i=R:\\toolchains\\watcom10.0a\\h\\NT",
+        "-fo=S:\\watcom-capture\\broker-build4\\broker.obj",
+        "R:\\tooling\\watcom-capture\\win32-broker.c"
+      ]
+    },
+    {
+      "name": "broker-link",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+        "@S:\\watcom-capture\\broker-build4\\broker.lnk"
+      ]
+    }
+  ],
+  "timeout_seconds_each": 30,
+  "stop_on_unexpected_result": true,
+  "prior_failed_runtime_receipt": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/receipt.json",
+  "source_apply_gate": "Root approved bounded pre-entry known-active UNLOAD bookkeeping; exact candidate source frozen."
+}

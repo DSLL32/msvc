@@ -1,0 +1,11 @@
+--- a/tooling/watcom-capture/win32-broker.c
++++ b/tooling/watcom-capture/win32-broker.c
+@@ -372,7 +372,7 @@
+     if(!map_handle) goto done;
+     area=MapViewOfFile(map_handle,FILE_MAP_READ|FILE_MAP_WRITE,0,0,MAP_BYTES);
+     if(!area || ((DWORD)area&3) || load(0)!=0x50434757UL || load(4)!=1 || load(8)!=MAP_BYTES) goto done;
+-    lease_value=load(20);if(!lease_value || lease_value>MAX_SEQUENCE || load(12) || load(16)) goto done;
++    lease_value=load(20);if(!lease_value || lease_value>MAX_SEQUENCE || load(12)>1 || load(16)) goto done;
+     started=lease_tick=GetTickCount();
+     memset(&security,0,sizeof(security));security.nLength=sizeof(security);security.bInheritHandle=TRUE;
+     input=CreateFileA(argv[5],GENERIC_READ,FILE_SHARE_READ,&security,OPEN_EXISTING,0,NULL);

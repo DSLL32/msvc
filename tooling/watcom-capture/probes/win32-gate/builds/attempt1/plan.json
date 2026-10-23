@@ -1,0 +1,76 @@
+{
+  "scope": "Four original-toolchain BUILD calls only: authored debug broker and no-CRT custom-entry child. Generated EXEs MUST NOT run in this packet; no original application launch or acceptance.",
+  "sources": {
+    "/root/msvc2/tooling/watcom-capture/win32-broker.c": "8eddd3458760d2c369d2869cac5c0a666bb2f062a3bd9142b701aa6680ff58c3",
+    "/root/msvc2/tooling/watcom-capture/tests/win32-gate-child.c": "db388d1b506e81e657a39a9be2c4fd2d0f9a0d830424c8a26b4f8ceaa03d3fc2",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker.lnk": "fbcc9256ba52b1cc204fc60828fb559c8665b1c4df4139e1aa333ecb80a04117",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child.lnk": "9aa431b8b65c1cc9f57a25b3f156a237f14ad237187167006469b06380794a11"
+  },
+  "tools": {
+    "/root/msvc2/toolchains/watcom10.0a/binb/WCC386.EXE": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+    "/root/msvc2/toolchains/watcom10.0a/binnt/WCC386.EXE": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+    "/root/msvc2/toolchains/watcom10.0a/.patched/WLINK.EXE": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b"
+  },
+  "environment_updates": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDEBUG": "-all",
+    "WATCOM": "R:\\toolchains\\watcom10.0a"
+  },
+  "environment_remove": [
+    "WCC386",
+    "WCC",
+    "INCLUDE"
+  ],
+  "commands": [
+    {
+      "name": "broker-compile",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+        "-bt=nt",
+        "-3r",
+        "-od",
+        "-d2",
+        "-i=R:\\toolchains\\watcom10.0a\\h",
+        "-i=R:\\toolchains\\watcom10.0a\\h\\NT",
+        "-fo=S:\\watcom-capture\\broker-build1\\broker.obj",
+        "R:\\tooling\\watcom-capture\\win32-broker.c"
+      ]
+    },
+    {
+      "name": "broker-link",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+        "@S:\\watcom-capture\\broker-build1\\broker.lnk"
+      ]
+    },
+    {
+      "name": "child-compile",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+        "-bt=nt",
+        "-3r",
+        "-od",
+        "-d2",
+        "-s",
+        "-zl",
+        "-i=R:\\toolchains\\watcom10.0a\\h",
+        "-i=R:\\toolchains\\watcom10.0a\\h\\NT",
+        "-fo=S:\\watcom-capture\\broker-build1\\child.obj",
+        "R:\\tooling\\watcom-capture\\tests\\win32-gate-child.c"
+      ]
+    },
+    {
+      "name": "child-link",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+        "@S:\\watcom-capture\\broker-build1\\child.lnk"
+      ]
+    }
+  ],
+  "timeout_seconds_each": 30,
+  "stop_on_unexpected_result": true
+}

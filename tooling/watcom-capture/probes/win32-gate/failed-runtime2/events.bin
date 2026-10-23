@@ -1,0 +1,14 @@
+owned-child pid=1352 tid=1492 entry-rva=0001001f entry-byte=53
+event code=3 pid=1352 tid=1492 tick=2100646666
+patch address=0041001f before=53 after=cc wrote=1 ok=1
+event code=6 pid=1352 tid=1492 tick=2100646672
+module base=7bcf0000 size=002fe000 export-name=ntdll.dll
+event code=6 pid=1352 tid=1492 tick=2100646678
+module base=7bb70000 size=0016f000 export-name=KERNEL32.dll
+event code=6 pid=1352 tid=1492 tick=2100646683
+module base=7b600000 size=00551000 export-name=kernelbase.dll
+event code=6 pid=1352 tid=1492 tick=2100646704
+event code=7 pid=1352 tid=1492 tick=2100646707
+drain code=5 pid=1352 tid=1492
+owned-teardown exit-event=1 signaled=1 status=92
+broker-end status=92 events=6 steps=0 exit-event=1

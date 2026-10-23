@@ -1,0 +1,7 @@
+format windows nt
+runtime console
+debug all
+option map=S:\watcom-capture\broker-build1\child.map
+name S:\watcom-capture\broker-build1\child.exe
+file S:\watcom-capture\broker-build1\child.obj
+option start=probe_entry_

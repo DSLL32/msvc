@@ -1,0 +1,6 @@
+format windows nt
+runtime console
+debug all
+option map=S:\watcom-capture\broker-build2\child.map
+name S:\watcom-capture\broker-build2\child.exe
+file S:\watcom-capture\broker-build1\child.obj

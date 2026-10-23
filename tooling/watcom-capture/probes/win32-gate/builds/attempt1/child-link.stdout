@@ -1,0 +1,5 @@
+WATCOM Linker Version 10.0
+Copyright by WATCOM International Corp. 1985, 1994. All rights reserved.
+WATCOM is a trademark of WATCOM International Corp.
+Warning(1058): file S:\watcom-capture\broker-build1\child.lnk: line(7): start option not valid for a PE executable
+Error(3033): file S:\watcom-capture\broker-build1\child.lnk: line(7): directive error near 'start'

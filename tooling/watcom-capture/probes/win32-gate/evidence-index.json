@@ -1,0 +1,600 @@
+{
+  "scope": "Historical authored debugger probe evidence only, no application acceptance",
+  "files": [
+    {
+      "path": "plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/plan.json",
+      "decoded_sha256": "3277795bdbac357c08e0ea76eb46db19a711cb4abe5f48cc3ae9cb3e9fcf9a69",
+      "stored_sha256": "3277795bdbac357c08e0ea76eb46db19a711cb4abe5f48cc3ae9cb3e9fcf9a69",
+      "gzip": false
+    },
+    {
+      "path": "profile.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/profile.json",
+      "decoded_sha256": "92e613704725f670c60b8006060fcefa8f75619014e0ae6c348fce851e4994be",
+      "stored_sha256": "92e613704725f670c60b8006060fcefa8f75619014e0ae6c348fce851e4994be",
+      "gzip": false
+    },
+    {
+      "path": "probe.py",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/probe.py",
+      "decoded_sha256": "bd1cbd483f6d0427317d6639147dd7896c693b7696db242b38846d60dc88ced4",
+      "stored_sha256": "bd1cbd483f6d0427317d6639147dd7896c693b7696db242b38846d60dc88ced4",
+      "gzip": false
+    },
+    {
+      "path": "receipt.json.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/receipt.json",
+      "decoded_sha256": "7dff403437f131a05f7a3791dfe2c6d130a75303749c80896bf27be753b5bd4e",
+      "stored_sha256": "caadc9b7efb21c880499404f55cca587b523f47209e50729a86f53c42c483fcd",
+      "gzip": true
+    },
+    {
+      "path": "independent-review.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/broker-four-independent-review.json",
+      "decoded_sha256": "19b10c2f64452e1a1ed7fa9e72d5533d1314a1b704c4362204c2481cb46628f6",
+      "stored_sha256": "19b10c2f64452e1a1ed7fa9e72d5533d1314a1b704c4362204c2481cb46628f6",
+      "gzip": false
+    },
+    {
+      "path": "push/events.bin.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/push/events.bin",
+      "decoded_sha256": "5019b899b08806b7112d347b75860dbb7bc9be4cf5ca79717106d0e0d541a400",
+      "stored_sha256": "757c8f143158499b365460526f8dcfbae07b14c6735a190eb3af183eb230e26d",
+      "gzip": true
+    },
+    {
+      "path": "push/stdin.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/push/stdin.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "push/stdout.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/push/stdout.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "push/stderr.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/push/stderr.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "push/launcher.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/push/launcher.stdout",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "push/launcher.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/push/launcher.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "frontier-call/events.bin.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/frontier-call/events.bin",
+      "decoded_sha256": "fcd0d931cf68f0acc908902ac663cf02748780d20a97667c022a2da8d238b8d7",
+      "stored_sha256": "a741d19bd5e0f24b32ccf5fdf0bd0325a58f7d815dd32205ce07f4ea7284080f",
+      "gzip": true
+    },
+    {
+      "path": "frontier-call/stdin.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/frontier-call/stdin.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "frontier-call/stdout.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/frontier-call/stdout.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "frontier-call/stderr.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/frontier-call/stderr.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "frontier-call/launcher.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/frontier-call/launcher.stdout",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "frontier-call/launcher.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/frontier-call/launcher.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "same-path-leaf-ret/events.bin.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/same-path-leaf-ret/events.bin",
+      "decoded_sha256": "1c49b9aee3d31d3b116242c4fb3017ff03e88df36e6c3244d5f2aef329605bc3",
+      "stored_sha256": "078188331d16104d6fa3908435dcdc884abd935e8e898d3460f440e733cebc60",
+      "gzip": true
+    },
+    {
+      "path": "same-path-leaf-ret/stdin.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/same-path-leaf-ret/stdin.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "same-path-leaf-ret/stdout.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/same-path-leaf-ret/stdout.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "same-path-leaf-ret/stderr.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/same-path-leaf-ret/stderr.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "same-path-leaf-ret/launcher.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/same-path-leaf-ret/launcher.stdout",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "same-path-leaf-ret/launcher.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/same-path-leaf-ret/launcher.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "wrong-prebyte/events.bin.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/wrong-prebyte/events.bin",
+      "decoded_sha256": "99084743c61cd1f0e3566373b5cc1980472e3f82507ff57ee11d1a7cf274d838",
+      "stored_sha256": "63b4532fcfe0f6f2d701c6e60c67fe902dc7316a8bf3b820f7ac87f12f8e9860",
+      "gzip": true
+    },
+    {
+      "path": "wrong-prebyte/stdin.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/wrong-prebyte/stdin.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "wrong-prebyte/stdout.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/wrong-prebyte/stdout.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "wrong-prebyte/stderr.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/wrong-prebyte/stderr.bin",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "wrong-prebyte/launcher.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/wrong-prebyte/launcher.stdout",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "wrong-prebyte/launcher.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime3/wrong-prebyte/launcher.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime1/plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/plan.json",
+      "decoded_sha256": "0ca720fd6f880d81c67120ee9288d0190e7081ae4f6caaeaeffec1aa62f2b9b5",
+      "stored_sha256": "0ca720fd6f880d81c67120ee9288d0190e7081ae4f6caaeaeffec1aa62f2b9b5",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime1/profile.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/profile.json",
+      "decoded_sha256": "b6ddfd5b1d2be692b37881a65e0d36b3e6df15e4f598adf21424cab684fc62d2",
+      "stored_sha256": "b6ddfd5b1d2be692b37881a65e0d36b3e6df15e4f598adf21424cab684fc62d2",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime1/receipt.json.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/receipt.json",
+      "decoded_sha256": "48190d6989c65bab03a091d3462287b4e238f5f7ec3b19a1faba20e290ec577f",
+      "stored_sha256": "c2f3e847e2f60705279f32228686bf2823edcb3c6cb541abcf3ff6d44305c705",
+      "gzip": true
+    },
+    {
+      "path": "failed-runtime1/events.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/push/events.bin",
+      "decoded_sha256": "05a140f9754875b29b698451ede94e0c7a605a7a80bbcb94dd1b87f834d80111",
+      "stored_sha256": "05a140f9754875b29b698451ede94e0c7a605a7a80bbcb94dd1b87f834d80111",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime1/launcher.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/push/launcher.stdout",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime1/launcher.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime1/push/launcher.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime2/plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/plan.json",
+      "decoded_sha256": "8f12e45d16c7f2c4a90c9c5f7c9895f0245bce719ed87a7304d7358378c9b88e",
+      "stored_sha256": "8f12e45d16c7f2c4a90c9c5f7c9895f0245bce719ed87a7304d7358378c9b88e",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime2/profile.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/profile.json",
+      "decoded_sha256": "6f4555aee1853469f153efd7aab09437e3a5ee4519fc8015eabc57a82281f4fe",
+      "stored_sha256": "6f4555aee1853469f153efd7aab09437e3a5ee4519fc8015eabc57a82281f4fe",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime2/receipt.json.gz",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/receipt.json",
+      "decoded_sha256": "a241b6f3db302bf412d2d3aca601091b6de3efc2cf9bdfbaca1536466e370e62",
+      "stored_sha256": "ff9e20337def0fafeeda74580d941b4ae5b3433a4c4e165599147ca7eda46eb8",
+      "gzip": true
+    },
+    {
+      "path": "failed-runtime2/events.bin",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/push/events.bin",
+      "decoded_sha256": "0a5beee851cb8909db3f991430978541eff6125277f0cac1bbd96dd6542f5e7a",
+      "stored_sha256": "0a5beee851cb8909db3f991430978541eff6125277f0cac1bbd96dd6542f5e7a",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime2/launcher.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/push/launcher.stdout",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "failed-runtime2/launcher.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-runtime2/push/launcher.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/plan.json",
+      "decoded_sha256": "03281c3b86db531a792667696fad8da19799a136ae9714bee03209772455c682",
+      "stored_sha256": "03281c3b86db531a792667696fad8da19799a136ae9714bee03209772455c682",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/receipt.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/receipt.json",
+      "decoded_sha256": "e042ba2377efa23c2ea3523143486252ddeea8ba41c5dfc1d9a37f44a0d6fc93",
+      "stored_sha256": "e042ba2377efa23c2ea3523143486252ddeea8ba41c5dfc1d9a37f44a0d6fc93",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/child-compile.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child-compile.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/broker.lnk",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker.lnk",
+      "decoded_sha256": "fbcc9256ba52b1cc204fc60828fb559c8665b1c4df4139e1aa333ecb80a04117",
+      "stored_sha256": "fbcc9256ba52b1cc204fc60828fb559c8665b1c4df4139e1aa333ecb80a04117",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/broker-compile.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker-compile.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/broker-link.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker-link.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/child-link.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child-link.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/child.lnk",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child.lnk",
+      "decoded_sha256": "9aa431b8b65c1cc9f57a25b3f156a237f14ad237187167006469b06380794a11",
+      "stored_sha256": "9aa431b8b65c1cc9f57a25b3f156a237f14ad237187167006469b06380794a11",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/child-compile.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child-compile.stdout",
+      "decoded_sha256": "b1c99ace2360d83e8ac91dd3cfbf6a144e307d832332b103f067233c5725a5c7",
+      "stored_sha256": "b1c99ace2360d83e8ac91dd3cfbf6a144e307d832332b103f067233c5725a5c7",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/broker-link.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker-link.stdout",
+      "decoded_sha256": "fdca8afd6822a3dda1ec3d5a638bf63a40db847d463fca707c83d7e553e4deaa",
+      "stored_sha256": "fdca8afd6822a3dda1ec3d5a638bf63a40db847d463fca707c83d7e553e4deaa",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/broker-compile.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker-compile.stdout",
+      "decoded_sha256": "b2d10099f05df0d91fa7df7af0a012124dc2481004aa6bf06992f0324ccf0312",
+      "stored_sha256": "b2d10099f05df0d91fa7df7af0a012124dc2481004aa6bf06992f0324ccf0312",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt1/child-link.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child-link.stdout",
+      "decoded_sha256": "b301b75942384b9dd4f77eb17c50cf169c237b61f364191cf9e0178124a47b7c",
+      "stored_sha256": "b301b75942384b9dd4f77eb17c50cf169c237b61f364191cf9e0178124a47b7c",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/plan.json",
+      "decoded_sha256": "721b381f3cd0de61a5b1f467cacf12fd090779be70980ebe8b47bab3eeaac294",
+      "stored_sha256": "721b381f3cd0de61a5b1f467cacf12fd090779be70980ebe8b47bab3eeaac294",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/receipt.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/receipt.json",
+      "decoded_sha256": "9f77def3e325bffae23ac10584e40f762b478351f21d4d4422a66a233fe78e95",
+      "stored_sha256": "9f77def3e325bffae23ac10584e40f762b478351f21d4d4422a66a233fe78e95",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/link.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/link.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/child-disassembly.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child-disassembly.stdout",
+      "decoded_sha256": "671d1f70784b933604d6fc751e327aa19abf74757f827c922c91d00c46820d76",
+      "stored_sha256": "671d1f70784b933604d6fc751e327aa19abf74757f827c922c91d00c46820d76",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/child-headers.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child-headers.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/child.map",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child.map",
+      "decoded_sha256": "34d547c13630318831250b7d114be0f89eb8518f776b509e84817843f09964e3",
+      "stored_sha256": "34d547c13630318831250b7d114be0f89eb8518f776b509e84817843f09964e3",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/child-disassembly.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child-disassembly.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/child.lnk",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child.lnk",
+      "decoded_sha256": "e1d56df07ac32a4682b82ac79b056dcd122d44533ef4ad37d661f27250bbdd33",
+      "stored_sha256": "e1d56df07ac32a4682b82ac79b056dcd122d44533ef4ad37d661f27250bbdd33",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/link.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/link.stdout",
+      "decoded_sha256": "1718f24ccffc329e74f622328260a8d710ce9313da427143ac3222ec0a2b6a80",
+      "stored_sha256": "1718f24ccffc329e74f622328260a8d710ce9313da427143ac3222ec0a2b6a80",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/child-headers.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child-headers.stdout",
+      "decoded_sha256": "980c70eef6ed80cdc7cb876716098af76474623090a98d337110e0c9888656f4",
+      "stored_sha256": "980c70eef6ed80cdc7cb876716098af76474623090a98d337110e0c9888656f4",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt2/entry-patch.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/entry-patch.json",
+      "decoded_sha256": "dd630a4daa4f0d2a617e8a1d7c808578a92b18d9be88ba7cef3cca66a1fca469",
+      "stored_sha256": "dd630a4daa4f0d2a617e8a1d7c808578a92b18d9be88ba7cef3cca66a1fca469",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/plan.json",
+      "decoded_sha256": "743061de27c1d529175fbbd98d74f5f19851e9bff948eaa9a248dba897a0fb63",
+      "stored_sha256": "743061de27c1d529175fbbd98d74f5f19851e9bff948eaa9a248dba897a0fb63",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/receipt.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/receipt.json",
+      "decoded_sha256": "fdc3e899445ecdb777743e0efb07ba70a888e687a462a23252de4a40fb828767",
+      "stored_sha256": "fdc3e899445ecdb777743e0efb07ba70a888e687a462a23252de4a40fb828767",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/broker.lnk",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker.lnk",
+      "decoded_sha256": "9b6f1e8679d80c1dc133263dc016a54688fbff31611c567c78a582e31ad267e4",
+      "stored_sha256": "9b6f1e8679d80c1dc133263dc016a54688fbff31611c567c78a582e31ad267e4",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/broker-link.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker-link.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/broker-compile.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker-compile.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/broker-compile.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker-compile.stdout",
+      "decoded_sha256": "3614bb8b2dd6d8d1b07d535a6a6940b331eadcf51f087cc0905b7d3240a89d17",
+      "stored_sha256": "3614bb8b2dd6d8d1b07d535a6a6940b331eadcf51f087cc0905b7d3240a89d17",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt3/broker-link.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker-link.stdout",
+      "decoded_sha256": "fdca8afd6822a3dda1ec3d5a638bf63a40db847d463fca707c83d7e553e4deaa",
+      "stored_sha256": "fdca8afd6822a3dda1ec3d5a638bf63a40db847d463fca707c83d7e553e4deaa",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/plan.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/plan.json",
+      "decoded_sha256": "4265dbebead01f4ec7085d4f501e6545b5bb62c22ae744d74c698d0904165fa7",
+      "stored_sha256": "4265dbebead01f4ec7085d4f501e6545b5bb62c22ae744d74c698d0904165fa7",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/receipt.json",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/receipt.json",
+      "decoded_sha256": "88e30d78082a23187daac278b0b0826aefdfb581ab46708c1a6bc42044e0fc79",
+      "stored_sha256": "88e30d78082a23187daac278b0b0826aefdfb581ab46708c1a6bc42044e0fc79",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/broker-link.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker-link.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/broker.lnk",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker.lnk",
+      "decoded_sha256": "40def7e800f3700fb4e89aa0fe6eb382833181748fe490141426c07e3aa6021f",
+      "stored_sha256": "40def7e800f3700fb4e89aa0fe6eb382833181748fe490141426c07e3aa6021f",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/broker-compile.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker-compile.stdout",
+      "decoded_sha256": "85f5c669a36897c1d78966b462255d88bbfd8418bcf612675efb490068aba334",
+      "stored_sha256": "85f5c669a36897c1d78966b462255d88bbfd8418bcf612675efb490068aba334",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/broker-link.stdout",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker-link.stdout",
+      "decoded_sha256": "fdca8afd6822a3dda1ec3d5a638bf63a40db847d463fca707c83d7e553e4deaa",
+      "stored_sha256": "fdca8afd6822a3dda1ec3d5a638bf63a40db847d463fca707c83d7e553e4deaa",
+      "gzip": false
+    },
+    {
+      "path": "builds/attempt4/broker-compile.stderr",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker-compile.stderr",
+      "decoded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip": false
+    },
+    {
+      "path": "source-deltas/startup-race.patch",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/startup-race.patch",
+      "decoded_sha256": "9d0d6424af167f6c9209fc68725f931a887bc3f971eab7b0db931bebc46777f1",
+      "stored_sha256": "9d0d6424af167f6c9209fc68725f931a887bc3f971eab7b0db931bebc46777f1",
+      "gzip": false
+    },
+    {
+      "path": "source-deltas/startup-unload.patch",
+      "source_path": "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/startup-unload.patch",
+      "decoded_sha256": "89bc07c033e76c5fd22464a46fa730fc681b9bf2fc6c1a48116c6f638f2a72ba",
+      "stored_sha256": "89bc07c033e76c5fd22464a46fa730fc681b9bf2fc6c1a48116c6f638f2a72ba",
+      "gzip": false
+    }
+  ],
+  "source_recovery": {
+    "current_broker_sha256": "b9a89fd892e37679380a0186deaa8192b8ed1677b7f07417d40baff68adb15f8",
+    "after_reverse_unload": "b17ee90afc936c0c2c526719178bc91733b2b31c1947395d68406a6b49d4d382",
+    "after_reverse_startup_race": "8eddd3458760d2c369d2869cac5c0a666bb2f062a3bd9142b701aa6680ff58c3",
+    "verified_reverse_results": [
+      {
+        "patch": "startup-unload.patch",
+        "reverse_status": 0,
+        "recovered_source_sha256": "b17ee90afc936c0c2c526719178bc91733b2b31c1947395d68406a6b49d4d382"
+      },
+      {
+        "patch": "startup-race.patch",
+        "reverse_status": 0,
+        "recovered_source_sha256": "8eddd3458760d2c369d2869cac5c0a666bb2f062a3bd9142b701aa6680ff58c3"
+      }
+    ]
+  },
+  "historical_runner_recovery": "Replace broker-runtime3 WORK literal with broker-runtime1 or broker-runtime2; exact byte equality verified against retained scratch runners.",
+  "private_full_environments": "Remain scratch-only; public receipts bind digest/path/mode",
+  "generated_binaries": "Remain scratch-only; public receipts bind exact hashes",
+  "generated_artifacts": {
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker.obj": "09a30c20a25609bcc7dc20e6cf79b29d5fb2e552cc7f8fd7911de99519cd72b3",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker.exe": "cbe62cbad1ab19a277cd227fb0e71330c4514d2152557df49a2263506991d282",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/child.obj": "7bc434eabdf4c7b50ec35185ca9ba824c5da7f4b9d56ffb670216a3632d15339",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build1/broker.map": "e6e50eee72abd138fcc20ad03a873b876ca028c623339625446d5b49855ccfbd",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child.map": "34d547c13630318831250b7d114be0f89eb8518f776b509e84817843f09964e3",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child-entry.exe": "f272dd2f811454858f28d61f048f5d5803d4d813ab616ee88a0002dea5c548cf",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build2/child.exe": "7fd2cee189a2805e4ef46f6a636b0847fe4bca3696d8f10340a44541636a2bc0",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker.obj": "f3ff9038efd501e109586ca8056a0beb667fdfd1ab08875adae020986f6e3955",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker.exe": "40c20582c7e5d6d77d742ee84d1ef1e0abd37e261ab6555349a58f1b5e5b2e5e",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build3/broker.map": "9f13694f51cb8b961128b405fb12bde744d59722c8673c5455945db1ed4f2058",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker.obj": "71b8fd2143c9c8761fd6dc517721c22dbd705b242d8d11778611e6e40b09ca40",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker.exe": "9fde6646cd9f5744b1c75e281ed242f0ef3cf6cbbbb6c6aa0f33808c8b4ff3ee",
+    "/root/.ai-tmp/msvc2/watcom-capture/broker-build4/broker.map": "37475f2e267022dd29658ca5cf76d6edbb8974593b6683cefeb265800104d404"
+  }
+}
