@@ -1325,3 +1325,24 @@ actual loaded zero state/section layout/data audit are independent and correct.
 negative controls pass. Scope/timing/source pins: cases/ide-callback-protocol.
 Remaining14811 unaccepted unclassified bytes and6996 gated OMF instruction bytes
 are pending; cancellation transport remains HOLD, no cleanup coverage claim.
+
+Direct COMDAT diagnostics checkpoint963
+
+New17600 graph dumper is distinct from existing17730 verbose-discard printer.
+Fresh order17600→3a880→17540→17520→175e0 preserves actual iterators/calls and
+cdecl/variadic returns. Five whole C functions add538 extent bytes:533 instruction,
+5 contextual alignment. Explicit caller-owned fixed12000000 mapping is part of
+input; VirtualQueryEx/live native maps/entire4096-byte guards prove ownership.
+Raw pointers remain actual defined addresses, not normalized/leaked heap state.
+Two original baselines and full68 entry/return packets prove actual inputs,
+consumed varargs/callers/FILE/ctype/errors and unchanged data/returns. Original
+%p→eight uppercase digits gap fixed in shared edc071fc using independent provider
+proof; unchanged original reused. Failed pointer and debugger/sequencing packets
+retained honestly, no acceptance credit. File logging and undefined suppressed
+result route unvisited; logger initializer remains named stub. No new CRT body.
+79cached native cases/769appentries,802CFG/786callbacks/494data/41ECX pass. App-only
+220258/281634=78.2072%, with16 historical CRT separate; all accepted including
+support250701/281634=89.0166%. Partial inventory185553/193202 known app instructions
+is not a full denominator.14273 unaccepted unclassified bytes/6996 gated OMF
+remain pending. Root approved dispatcher assistance next, alongside read-only
+classification; no private mode or suspected uninitialized-state seed.

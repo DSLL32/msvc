@@ -4504,5 +4504,21 @@
     "name": "ide_channel",
     "size": 4,
     "owner": "src/ide.c"
+  },
+  {
+    "name": "debug_log",
+    "address": 520316,
+    "size": 4,
+    "owner": "src/comdat-diagnostics.c"
+  },
+  {
+    "name": "comdat_usage_labels",
+    "address": 499792,
+    "size": 8,
+    "owner": "src/comdat-diagnostics.c",
+    "string_pointers": [
+      0,
+      4
+    ]
   }
 ]

@@ -1,0 +1,58 @@
+{
+  "mode": "masked",
+  "trial": "print_comdat_node",
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-comdat-diagnostics.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "R:\\decomp\\vc1.0\\link\\cases\\comdat-graph-diagnostics\\inputs\\graph.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-3vjrr482\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-3vjrr482\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-3vjrr482\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-3vjrr482\\events.jsonl",
+    "S:\\vc1.0\\link\\comdat-graph-diagnostics"
+  ],
+  "seconds": 1.269299634732306,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 2,
+    "exit": 17,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "files": [],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "76dd831dad4ef2a08f14752bcc97e61b9fe8424bba2ff09f4d7076d72ca3a3d2",
+  "helper_source_sha256": "23722ceaf39be65f1ceecf34d9c3fc19941e4dd2ec2b8e3b0d6914a3abf1acf0",
+  "proof_sha256": "8924902259b6f8c28f99d4fab3a146f827c872e8e496ef100ee6bf87786941c7",
+  "input_sha256": "79e6bdc8b22b997b7f8996745445a0e3a0a68316f2e7d448a15402e037948a94",
+  "accepted_count": 960,
+  "accepted_sha256": "540f836a6756872678f388471294ee9ba1a932bf806b59bcf54fe0662b0f737e",
+  "boundary": "Explicit direct caller-owned fixed input; not public CLI; no global mode seed or output normalization",
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "1830d683e6b325eed6b4cfa6ac9af77b7ea4b11c8dfb3141c7e6127146a4880f"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "events.jsonl": {
+    "bytes": 89348,
+    "sha256": "f36416ebe70348c27552c9f8dc74dfc5c19587474639b744ead43aeddf2721d1"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

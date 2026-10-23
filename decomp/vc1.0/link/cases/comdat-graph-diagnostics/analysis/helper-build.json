@@ -1,0 +1,9 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "capture-comdat-diagnostics"
+  ],
+  "seconds": 2.9566108621656895,
+  "status": 0
+}

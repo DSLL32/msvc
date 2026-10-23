@@ -1,0 +1,4 @@
+python3 scripts/wine-tool.py --init
+python3 -c "from pathlib import Path; import sys; sys.path.insert(0,'scripts'); from case_paths import SCRATCH; (SCRATCH/'vc1.0/link/tooling').mkdir(parents=True,exist_ok=True)"
+python3 scripts/wine-tool.py CL.EXE /nologo /Od /G3 /I../../../lib/recon/include '/FeS:\vc1.0\link\tooling\capture-comdat-diagnostics.exe' '/FoS:\vc1.0\link\tooling\capture-comdat-diagnostics.obj' src/capture-comdat-diagnostics.c
+src/capture-comdat-diagnostics.c

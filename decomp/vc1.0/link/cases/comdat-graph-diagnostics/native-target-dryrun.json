@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "command": [
+    "make",
+    "-n",
+    "-j4",
+    "check",
+    "replay"
+  ],
+  "scope": "Dry run only; no extra fixture timing, no original dependency/launch"
+}

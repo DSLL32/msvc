@@ -1,0 +1,10 @@
+{
+  "status": "retained, no target acceptance from failed observer",
+  "packets": [
+    "analysis/observer-failures/comdat-gdb-4q0ignub"
+  ],
+  "cause": "Clang optional-print branch joined at the native return PC of its skipped call. A permanent return breakpoint fired despite no outstanding call at that address; original code has caller cleanup before its join and did not hit this instrumentation issue.",
+  "fix": "Enable each named return site on actual observed entry; disable after the actual return unless another outstanding call owns it. Mandatory active frame/return PC, native named caller, nonvolatile/ESP and complete68-event inventories retained. No branch events silently treated as returns, no target C/ABI change.",
+  "sequencing": "Checked orchestration stopped before original execution when native observer failed. Original final candidate run happened only after observer correction.",
+  "failed_attempt_seconds": null
+}

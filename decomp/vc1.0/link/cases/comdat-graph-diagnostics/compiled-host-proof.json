@@ -1,0 +1,90 @@
+{
+  "status": "pass",
+  "method": "ELF DWARF5 MD5 plus SHA256, same reconstruction and direct-caller C in native/trace variants",
+  "builds": [
+    {
+      "elf": "build/native/comdat-diagnostics",
+      "sha256": "c111c9cef08887970ce1fdd2fdbc52d7eb898a70fbc7047de85edaacb36a753b",
+      "sources": [
+        {
+          "path": "src/comdat-diagnostics.c",
+          "dwarf_md5": "0f7de6db4ccab28135cca45cef7e34e2",
+          "header_note": null,
+          "sha256": "13d2411f6086c40f0f4f7dcff5ce2d6109ad13fe86897d2cbd3158e47f1925f5"
+        },
+        {
+          "path": "src/comdat-diagnostics.h",
+          "dwarf_md5": null,
+          "header_note": "No emitted line MD5; header SHA and compiled type layouts bound separately",
+          "sha256": "631b56f282f04b8eeddcf788c78253e7f2462a77e40e615c10d0e99a5891303e"
+        },
+        {
+          "path": "src/comdat.h",
+          "dwarf_md5": "cf539d7c2966cbaa191a3e2484921ea3",
+          "header_note": null,
+          "sha256": "b9a2eddaa0c8447d708c53be85e5f3c7c68fe416a73da1b67c579224551278e4"
+        },
+        {
+          "path": "src/modules.h",
+          "dwarf_md5": "57bbd127b2326fedae3f52673f9166dc",
+          "header_note": null,
+          "sha256": "9c2016a8f4d09660bedcd1a23ec6edb5da96fd0b734d6325fc89abfd5866f39b"
+        },
+        {
+          "path": "scripts/native-comdat-diagnostics.c",
+          "dwarf_md5": "cc16ae9377af0c8d97d1f63e03d7b843",
+          "header_note": null,
+          "sha256": "adfb6a48ee6bbc993a1d7c3e0c7a3cdd6751334c8013adf23f5514a739e5774b"
+        },
+        {
+          "path": "scripts/native-module.c",
+          "dwarf_md5": "110e7431cc715af6797fbc94748bde93",
+          "header_note": null,
+          "sha256": "99969b7c6f68e226537227827c148224826cd5e9bb2653fb3dac3a59a7fd613a"
+        }
+      ]
+    },
+    {
+      "elf": "build/native-trace/comdat-diagnostics",
+      "sha256": "9d3f89ba1fbd0168571ddda34c8abdaf3d91b06f2f7af58c1f2d72b1385fc229",
+      "sources": [
+        {
+          "path": "src/comdat-diagnostics.c",
+          "dwarf_md5": "0f7de6db4ccab28135cca45cef7e34e2",
+          "header_note": null,
+          "sha256": "13d2411f6086c40f0f4f7dcff5ce2d6109ad13fe86897d2cbd3158e47f1925f5"
+        },
+        {
+          "path": "src/comdat-diagnostics.h",
+          "dwarf_md5": null,
+          "header_note": "No emitted line MD5; header SHA and compiled type layouts bound separately",
+          "sha256": "631b56f282f04b8eeddcf788c78253e7f2462a77e40e615c10d0e99a5891303e"
+        },
+        {
+          "path": "src/comdat.h",
+          "dwarf_md5": "cf539d7c2966cbaa191a3e2484921ea3",
+          "header_note": null,
+          "sha256": "b9a2eddaa0c8447d708c53be85e5f3c7c68fe416a73da1b67c579224551278e4"
+        },
+        {
+          "path": "src/modules.h",
+          "dwarf_md5": "57bbd127b2326fedae3f52673f9166dc",
+          "header_note": null,
+          "sha256": "9c2016a8f4d09660bedcd1a23ec6edb5da96fd0b734d6325fc89abfd5866f39b"
+        },
+        {
+          "path": "scripts/native-comdat-diagnostics.c",
+          "dwarf_md5": "cc16ae9377af0c8d97d1f63e03d7b843",
+          "header_note": null,
+          "sha256": "adfb6a48ee6bbc993a1d7c3e0c7a3cdd6751334c8013adf23f5514a739e5774b"
+        },
+        {
+          "path": "scripts/native-module.c",
+          "dwarf_md5": "110e7431cc715af6797fbc94748bde93",
+          "header_note": null,
+          "sha256": "99969b7c6f68e226537227827c148224826cd5e9bb2653fb3dac3a59a7fd613a"
+        }
+      ]
+    }
+  ]
+}

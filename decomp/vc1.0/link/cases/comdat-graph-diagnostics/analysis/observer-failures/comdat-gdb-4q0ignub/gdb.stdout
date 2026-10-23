@@ -1,0 +1,5 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -21, 0x5655b2e8 in print_comdat_node (node=0x12000080) at src/comdat-diagnostics.c:19
+19	    if (node->name) debug_printf("|%s()",node->name);

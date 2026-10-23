@@ -1,0 +1,5 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -4, comdat_usage_label (node=0x12000040) at src/comdat-diagnostics.c:8
+8	{

@@ -1,0 +1,6 @@
+000175e0 8b442404                         mov eax, dword ptr [esp + 4]
+000175e4 8b4004                           mov eax, dword ptr [eax + 4]
+000175e7 50                               push eax
+000175e8 e853ffffff                       call 0x17540
+000175ed 83c404                           add esp, 4
+000175f0 c3                               ret 

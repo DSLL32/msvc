@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "name": "dump_comdat_graph",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "print_comdat_node",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    }
+  ],
+  "next_frontier": "print_comdat_node",
+  "scope": "Actual complete observed prefix; remaining logger formats/returns validated at final case closure, not assumed from first plain-header call"
+}

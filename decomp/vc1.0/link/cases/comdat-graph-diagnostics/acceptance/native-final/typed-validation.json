@@ -1,0 +1,279 @@
+{
+  "status": "pass",
+  "packets": 68,
+  "checks": [
+    {
+      "name": "dump_comdat_graph",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "print_comdat_node",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "comdat_usage_label",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "print_comdat_edge",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "print_comdat_node",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "comdat_usage_label",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "print_comdat_node",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "comdat_usage_label",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 1,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    },
+    {
+      "name": "debug_printf",
+      "status": "pass",
+      "formal_count": 1,
+      "consumed_variadic_words": 0,
+      "owned_input_bytes": 4096,
+      "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+    }
+  ],
+  "scope": "Actual named native callers/original callsite targets, all actual formals/consumed variadic words, exact caller-owned pointers/input/guards, meaningful return/ESP/nonvolatile/FILE/locale/errors; all five functions complete"
+}

@@ -1,0 +1,7 @@
+Dump of comdat dependency graph for TCE
+---------------------------------------
+PNOD|R|sec=.textXYZ|grp=.text$gr|con=0x12000100|mod=graph.obj|entry()
+    PEDG|N|sec=.textXYZ|grp=.text$gr|con=0x12000140|mod=graph.obj
+
+PNOD|N|sec=.textXYZ|grp=.text$gr|con=0x12000140|mod=graph.obj
+

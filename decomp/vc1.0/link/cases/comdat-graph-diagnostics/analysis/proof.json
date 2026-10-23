@@ -1,0 +1,266 @@
+{
+  "status": "Independent whole-body/layout/xref proof prepared before original execution",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "functions": [
+    {
+      "name": "comdat_usage_label",
+      "start": 95520,
+      "end": 95544,
+      "abi": "cdecl const char *(ComdatNode *)",
+      "extent_bytes": 24,
+      "calls": [],
+      "rel32_xrefs": [
+        "0x17546"
+      ],
+      "allfile_dword_occurrences": [],
+      "code_sha256": "f13141f2808c9294329afcdc433bc0200b4239724c0719a6e7a3e2686a114cb2"
+    },
+    {
+      "name": "print_comdat_node",
+      "start": 95552,
+      "end": 95699,
+      "abi": "cdecl int(ComdatNode *); actual final diagnostic printer result",
+      "extent_bytes": 147,
+      "calls": [
+        {
+          "site": "0x17546",
+          "target": "0x17520"
+        },
+        {
+          "site": "0x17554",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x1756c",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x17581",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x17591",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x175a7",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x175bc",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x175c9",
+          "target": "0x3a880"
+        }
+      ],
+      "rel32_xrefs": [
+        "0x175e8",
+        "0x17657"
+      ],
+      "allfile_dword_occurrences": [
+        "0x2945c"
+      ],
+      "code_sha256": "4a8b8e1aa5b0cfa7714b83968d6d17411f112234decda8ddc797c80f35a898d5"
+    },
+    {
+      "name": "print_comdat_edge",
+      "start": 95712,
+      "end": 95729,
+      "abi": "cdecl int(ComdatEdge *); delegates result",
+      "extent_bytes": 17,
+      "calls": [
+        {
+          "site": "0x175e8",
+          "target": "0x17540"
+        }
+      ],
+      "rel32_xrefs": [
+        "0x17692"
+      ],
+      "allfile_dword_occurrences": [],
+      "code_sha256": "50ef02700a8ad7e0253b12e5cedb0e7606064432716c1f5c597174278e42b7bd"
+    },
+    {
+      "name": "print_comdat_graph",
+      "start": 95744,
+      "end": 95967,
+      "abi": "cdecl int(ComdatNode *); actual final fflush result",
+      "extent_bytes": 223,
+      "calls": [
+        {
+          "site": "0x17609",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x17616",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x17628",
+          "target": "0x17920"
+        },
+        {
+          "site": "0x17635",
+          "target": "0x17940"
+        },
+        {
+          "site": "0x1764e",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x17657",
+          "target": "0x17540"
+        },
+        {
+          "site": "0x17665",
+          "target": "0x17980"
+        },
+        {
+          "site": "0x17672",
+          "target": "0x179b0"
+        },
+        {
+          "site": "0x17689",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x17692",
+          "target": "0x175e0"
+        },
+        {
+          "site": "0x1769f",
+          "target": "0x179b0"
+        },
+        {
+          "site": "0x176b0",
+          "target": "0x3a880"
+        },
+        {
+          "site": "0x176bd",
+          "target": "0x17940"
+        },
+        {
+          "site": "0x176d2",
+          "target": "0x50e00"
+        }
+      ],
+      "rel32_xrefs": [],
+      "allfile_dword_occurrences": [],
+      "code_sha256": "5da8d1f0e81a64ad2ef06d96d76bcd1af422800d72fb71aba0ede0d4a4467d0e"
+    },
+    {
+      "name": "debug_printf",
+      "start": 239744,
+      "end": 239871,
+      "abi": "cdecl int(const char *,...); actual consumed varargs; no defined result claimed when all routes suppressed",
+      "extent_bytes": 127,
+      "calls": [
+        {
+          "site": "0x3a886",
+          "target": "0x3a980"
+        },
+        {
+          "site": "0x3a8a1",
+          "target": "0x535f0"
+        },
+        {
+          "site": "0x3a8b6",
+          "target": "0x3a980"
+        },
+        {
+          "site": "0x3a8d1",
+          "target": "0x3a900"
+        },
+        {
+          "site": "0x3a8ee",
+          "target": "0x535f0"
+        }
+      ],
+      "rel32_xrefs": [
+        "0x17554",
+        "0x1756c",
+        "0x17581",
+        "0x17591",
+        "0x175a7",
+        "0x175bc",
+        "0x175c9",
+        "0x17609",
+        "0x17616",
+        "0x1764e",
+        "0x17689",
+        "0x176b0"
+      ],
+      "allfile_dword_occurrences": [],
+      "code_sha256": "0aaf0f5be81246b7f766ad22275dcbd5459f27552a7aaa1afabf4dbd84d99c76"
+    }
+  ],
+  "original_global_data": {
+    "usage_label_pointers": [
+      {
+        "va": "0x7a050",
+        "pointer": "0x7a048",
+        "value": "R"
+      },
+      {
+        "va": "0x7a054",
+        "pointer": "0x7a04c",
+        "value": "N"
+      }
+    ],
+    "debug_log": {
+      "va": "0x7f07c",
+      "initial": 0
+    },
+    "debug_flags": {
+      "va": "0x5c06c",
+      "count": 100,
+      "initial": "loader-zeroed .bss; actual startup snapshot mandatory",
+      "consumed_indices": [
+        1,
+        2
+      ]
+    }
+  },
+  "input": {
+    "path": "inputs/graph.bin",
+    "bytes": 4096,
+    "sha256": "79e6bdc8b22b997b7f8996745445a0e3a0a68316f2e7d448a15402e037948a94",
+    "requested_base": 301989888,
+    "root": 301989952,
+    "allocation": "VirtualAllocEx exact requested base; native MAP_FIXED_NOREPLACE, fail rather than replace if unavailable",
+    "layout": {
+      "node_size": 20,
+      "edge_size": 12,
+      "contribution_size": 64,
+      "module_size": 56,
+      "group_size": 40,
+      "section_size": 72
+    },
+    "owned_offsets": {
+      "nodes": [
+        64,
+        128
+      ],
+      "edge": 192,
+      "contributions": [
+        256,
+        320
+      ],
+      "module": 384,
+      "group": 448,
+      "section": 512,
+      "strings": [
+        768,
+        832,
+        896,
+        960
+      ]
+    },
+    "guards": "Entire4096 bytes unchanged, including all A5 gap/guard bytes"
+  },
+  "scope": "Explicit external direct test only, not CLI reach. Address bytes are controlled caller input. No global mode seed or output normalization. Allbyte rel32 scan independent of linear decoding; lone17540 absolute DWORD at file2945c is displacement bytes of unrelated39a5b call50fa0, not a pointer.",
+  "unvisited": "debug_printf log-file and suppressed-output routes; open_debug_log3a900 remains a named trapping stub until actually reached. Source must preserve undefined suppressed-result status, not invent zero.",
+  "next": "Compile/check external structure offsets; twice original baseline; fresh mask/native acceptance in actual order"
+}

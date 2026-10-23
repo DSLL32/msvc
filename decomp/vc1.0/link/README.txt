@@ -356,3 +356,18 @@ trace fixture.306s (actual ELF4.84ms). Canonical797CFG/781callbacks/492data/41EC
 checks and36 host-only negative controls pass. Extent250163/281634=88.8256%;
 14811 unaccepted unclassified bytes remain pending, not CRT. See
 cases/ide-callback-protocol/README.txt and timings.json for scope/evidence/splits.
+
+Direct COMDAT diagnostic checkpoint (963 frontiers)
+
+Five readable C functions now print a caller-owned dependency graph through real
+iterators and the custom variadic diagnostic wrapper. Explicit direct test only,
+not CLI coverage: actual fixed input mapping/pointers, full4096 bytes/guards,
+68 typed call/return packets and raw287-byte output match. The real plain-%p
+provider discrepancy was corrected centrally in edc071fc; failed raw evidence is
+retained and no output is normalized. Native observer return sites now arm only
+for outstanding calls, handling Clang's optional-call join without target changes.
+All79 cached native cases/769appentries and802CFG/786callbacks/494data/41ECX plus
+negative controls pass. App-only extent220258/281634=78.2072%; support-inclusive
+250701/281634=89.0166% is separate. Full nonCRT denominator is unavailable;14273
+unaccepted unclassified bytes and6996 known gated OMF bytes remain pending. See
+cases/comdat-graph-diagnostics/README.txt/timings.json for scope and measurements.

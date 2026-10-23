@@ -1,0 +1,58 @@
+{
+  "mode": "masked",
+  "trial": "comdat_usage_label",
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-comdat-diagnostics.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "R:\\decomp\\vc1.0\\link\\cases\\comdat-graph-diagnostics\\inputs\\graph.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-rp0kkq96\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-rp0kkq96\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-rp0kkq96\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\comdat-graph-diagnostics\\masked-rp0kkq96\\events.jsonl",
+    "S:\\vc1.0\\link\\comdat-graph-diagnostics"
+  ],
+  "seconds": 0.9924677005037665,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 2,
+    "exit": 17,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "files": [],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "76dd831dad4ef2a08f14752bcc97e61b9fe8424bba2ff09f4d7076d72ca3a3d2",
+  "helper_source_sha256": "23722ceaf39be65f1ceecf34d9c3fc19941e4dd2ec2b8e3b0d6914a3abf1acf0",
+  "proof_sha256": "8924902259b6f8c28f99d4fab3a146f827c872e8e496ef100ee6bf87786941c7",
+  "input_sha256": "79e6bdc8b22b997b7f8996745445a0e3a0a68316f2e7d448a15402e037948a94",
+  "accepted_count": 961,
+  "accepted_sha256": "6e9b91e25fbb3de3a9c4b2afd9bd033114fd6e04ed197e5a01d35ea9b13a3bb6",
+  "boundary": "Explicit direct caller-owned fixed input; not public CLI; no global mode seed or output normalization",
+  "events.jsonl": {
+    "bytes": 280188,
+    "sha256": "b1f9776d78aa611df9ee7e87555981f7dd9e124e6bf5e475a43df18cc746949a"
+  },
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "91f553a08a7d3dbedcbc944ba8c6e327814f4a261ee3311733eef2ddb08850f7"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

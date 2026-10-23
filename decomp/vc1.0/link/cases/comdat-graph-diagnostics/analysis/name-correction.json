@@ -1,0 +1,10 @@
+{
+  "status": "corrected before first masked/native candidate run",
+  "entry": "0x17600",
+  "canonical_name": "dump_comdat_graph",
+  "former_analysis_label": "print_comdat_graph",
+  "reason": "Readable earlier reconstruction already uses print_comdat_graph for the distinct accepted17730 verbose-discard listing. The duplicate new source symbol caused native link failure and was removed before any mask/acceptance. Baselines genuinely called17600, not17730; old raw names/proof/source hashes retained.",
+  "baseline_identity": "Original entry EIP17600 and whole code SHA/controlled input/actual call graph bind it independently of provisional labels",
+  "no_new_acceptance": true,
+  "build_failure": "/root/.ai-tmp/msvc2/vc1.0/link/comdat-initial-native-build.stderr"
+}

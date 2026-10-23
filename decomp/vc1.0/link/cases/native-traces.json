@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "a7568aa12af59913af4820b9efd6693e961a9ecee13be4af2b57221ff06d03cd",
+    "functions.json": "a877a3ffe8e42b3cca3608b087b6ed2d6d697053356f1cf8d2a4a678bddf06be",
     "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -812,6 +812,11 @@
       "logical": "_collect_section_records",
       "implementation": "C"
     },
+    "comdat_usage_label": {
+      "source": "src/comdat-diagnostics.c",
+      "logical": "_comdat_usage_label",
+      "implementation": "C"
+    },
     "compare_base_fixups": {
       "source": "src/base-relocations.c",
       "logical": "_compare_base_fixups",
@@ -1060,6 +1065,11 @@
     "debug_initialize": {
       "source": "src/driver.c",
       "logical": "_debug_initialize",
+      "implementation": "C"
+    },
+    "debug_printf": {
+      "source": "src/comdat-diagnostics.c",
+      "logical": "_debug_printf",
       "implementation": "C"
     },
     "decode_absolute_memory": {
@@ -2115,6 +2125,11 @@
     "dump_coff_symbols": {
       "source": "src/dump.c",
       "logical": "_dump_coff_symbols",
+      "implementation": "C"
+    },
+    "dump_comdat_graph": {
+      "source": "src/comdat-diagnostics.c",
+      "logical": "_dump_comdat_graph",
       "implementation": "C"
     },
     "dump_debug_directory": {
@@ -3372,6 +3387,11 @@
       "logical": "_open_buffered_file",
       "implementation": "C"
     },
+    "open_debug_log": {
+      "source": "src/comdat-diagnostics.c",
+      "logical": "_open_debug_log",
+      "implementation": "stub-C"
+    },
     "open_diagnostic_file": {
       "source": "src/diagnostics.c",
       "logical": "_open_diagnostic_file",
@@ -3462,9 +3482,19 @@
       "logical": "_print_banner",
       "implementation": "C"
     },
+    "print_comdat_edge": {
+      "source": "src/comdat-diagnostics.c",
+      "logical": "_print_comdat_edge",
+      "implementation": "C"
+    },
     "print_comdat_graph": {
       "source": "src/comdat.c",
       "logical": "_print_comdat_graph",
+      "implementation": "C"
+    },
+    "print_comdat_node": {
+      "source": "src/comdat-diagnostics.c",
+      "logical": "_print_comdat_node",
       "implementation": "C"
     },
     "print_dump_auxiliary": {
@@ -5242,7 +5272,12 @@
     "display_legacy_dialog",
     "initialize_ide_api",
     "emit_ide_message",
-    "read_ide_flags"
+    "read_ide_flags",
+    "dump_comdat_graph",
+    "debug_printf",
+    "print_comdat_node",
+    "comdat_usage_label",
+    "print_comdat_edge"
   ],
   "excluded_accepted": {
     "CRT": [

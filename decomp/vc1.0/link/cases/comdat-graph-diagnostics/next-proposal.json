@@ -1,0 +1,27 @@
+{
+  "status": "read-only proposal; no original execution/new assignment yet",
+  "case": "dispatcher-assistance-protocol",
+  "phases": [
+    {
+      "kind": "public CLI",
+      "args": [
+        "-helper"
+      ],
+      "target": "helper_main26fe0..27044",
+      "bytes": 100,
+      "purpose": "Actual dispatcher assistance table, all advertised tool names/prefix lengths; no artificial reach"
+    },
+    {
+      "kind": "explicit external direct minimal test",
+      "entry": "driver_usage27050..270ed",
+      "bytes": 157,
+      "purpose": "Actual argumentless default assistance function, return3, full stdout and destructive tool-name shortening"
+    }
+  ],
+  "known_extent_bytes": 257,
+  "coverage_limits": "Modest identified application opportunity, not completion/branch promise. Direct phase must be labeled separately. Public main insertion/matching invariant appears to prevent reaching driver_usage from ordinary argv; prove whole caller/xref/invariant before direct call.",
+  "mutation_evidence": "Original270ac writes NUL at tool->name[tool->length] for each entry; current src/link.c uses ordinary literal pointers that native ELF makes read-only. This actual writer justifies contextual writable named char arrays for those specific shared/mutated names, preserving full defined tails; no blanket literal globalization.",
+  "plan": "Freeze whole functions/Tool16-byte layout, xrefs and mutation ownership first; twice untouched originals per phase. Actual(argc,argv) helper signature from Tool.run callback plus all consumed globals, and argumentless usage signature, return/nonvolatile/ESP/FILE/errors/global-string tails/full file inventory. Fresh mask/native actual entry and complete outputs; cached-only regressions then original compiler/static audit. No forced private switch or CRT reconstruction.",
+  "other_remaining": "OMF internal-g6996known bytes remain not genuinely public reached. Converter43db0 has apparent uninitialized E-4 local first-read needing further def-use proof; do not seed it. Far-string/custom-sort cluster3a2c0..3a580 has no proved shipped-CRT provenance and mostly no external callers; remains unclassified, not implicitly CRT.",
+  "authorization": "Await root review after current checkpoint; current %p correction still held"
+}

@@ -1,0 +1,8 @@
+00017520 8b442404                         mov eax, dword ptr [esp + 4]
+00017524 8b00                             mov eax, dword ptr [eax]
+00017526 f6400920                         test byte ptr [eax + 9], 0x20
+0001752a 7406                             je 0x17532
+0001752c a150a00700                       mov eax, dword ptr [0x7a050]
+00017531 c3                               ret 
+00017532 a154a00700                       mov eax, dword ptr [0x7a054]
+00017537 c3                               ret 

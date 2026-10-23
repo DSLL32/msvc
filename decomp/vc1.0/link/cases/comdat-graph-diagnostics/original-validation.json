@@ -1,0 +1,62 @@
+{
+  "status": "pass",
+  "captures": [
+    {
+      "scratch": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/comdat-graph-diagnostics/original-ji4p8ky7",
+      "seconds": 1.7037787744775414,
+      "calls": {
+        "print_comdat_graph": 1,
+        "debug_printf": 26,
+        "print_comdat_node": 3,
+        "comdat_usage_label": 3,
+        "print_comdat_edge": 1
+      },
+      "first_entries": [
+        "print_comdat_graph",
+        "debug_printf",
+        "print_comdat_node",
+        "comdat_usage_label",
+        "print_comdat_edge"
+      ],
+      "stdout_sha256": "0a1621372e5b9443d3f4de9bfabcdd2241ff97a68da25bf349983cec4951f0f6",
+      "errors": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "scratch": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/comdat-graph-diagnostics/original-vmjhd3ln",
+      "seconds": 1.2297655865550041,
+      "calls": {
+        "print_comdat_graph": 1,
+        "debug_printf": 26,
+        "print_comdat_node": 3,
+        "comdat_usage_label": 3,
+        "print_comdat_edge": 1
+      },
+      "first_entries": [
+        "print_comdat_graph",
+        "debug_printf",
+        "print_comdat_node",
+        "comdat_usage_label",
+        "print_comdat_edge"
+      ],
+      "stdout_sha256": "0a1621372e5b9443d3f4de9bfabcdd2241ff97a68da25bf349983cec4951f0f6",
+      "errors": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "stdout_bytes": 287,
+  "stderr_bytes": 0,
+  "normalization": "none",
+  "mapping": "Exact requested/returned12000000,4096 exclusively caller-owned bytes unchanged at every entry/return",
+  "scope": "Direct external call; zero startup debug flags, no mode seed; all nested actual calls/consumed variadic words/nonvolatile/ESP recorded, no app work credited yet"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "next_entry": {
+    "name": "debug_printf",
+    "status": "pass",
+    "formal_count": 1,
+    "consumed_variadic_words": 0,
+    "owned_input_bytes": 4096,
+    "prestate": "Complete defined FILE/pending/257ctype/MB_CUR_MAX/error/debug state match"
+  },
+  "scope": "Whole C body/static graph proved; matching next actual frontier. Final return remains to be checked after callees reconstructed."
+}

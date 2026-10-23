@@ -8,32 +8,32 @@
     "--check-ownership",
     "--check-extents"
   ],
-  "tool_sha256": "eb2cd26c11408839b97ab3ff39e2df5d14ae96459b1f05806cc06d74e4c68cf7",
+  "tool_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
   "canonical_inputs": {
-    "functions.json": "a7568aa12af59913af4820b9efd6693e961a9ecee13be4af2b57221ff06d03cd",
+    "functions.json": "a877a3ffe8e42b3cca3608b087b6ed2d6d697053356f1cf8d2a4a678bddf06be",
     "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
-    "build/runtime.json": "e18359f15d114bbe78e1db558be81ccafedfede2b77776a923f759784e606df2",
-    "build/link.exe": "447d753a329284a428c4f3fc1e43ba64ba4d7cf039ebcb8ad5bef8c026f5e91f",
-    "build/link.map": "5a7586a89392368ec88d5eadd5140e78d84a96b12d442cbebfdc6d919f47f3fe"
+    "build/runtime.json": "a9f137783bef9714256351c692afad9c193724a9d4e64da9030d6adf5205de4b",
+    "build/link.exe": "972b98038a7a188293101861f4dab0682bc0ba4c2b6aaec291b80b438580fa75",
+    "build/link.map": "e9edc821d400897e9d1e3d8f549071b4580a5b1e210ceb9317d39199589b1779"
   },
   "tests": [
     {
       "test": "python-reference",
       "status": "pass",
       "exit": 0,
-      "seconds": 13.415599534288049,
+      "seconds": 13.084052539430559,
       "command": [
         "python3",
         "scripts/audit-graph.py"
       ],
-      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/python-reference.stdout",
-      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/python-reference.stderr"
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/python-reference.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/python-reference.stderr"
     },
     {
       "test": "rust-positive",
       "status": "pass",
       "exit": 0,
-      "seconds": 1.4781229551881552,
+      "seconds": 1.5558811770752072,
       "command": [
         "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
         "--profile",
@@ -49,19 +49,19 @@
         "--check-ownership",
         "--check-extents"
       ],
-      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/rust-positive.stdout",
-      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/rust-positive.stderr",
-      "checked_functions": 797,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/rust-positive.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/rust-positive.stderr",
+      "checked_functions": 802,
       "accepted_extent_boundaries": {
-        "original": 964,
-        "rebuilt": 961
+        "original": 969,
+        "rebuilt": 966
       }
     },
     {
       "test": "wrong-driver-call",
       "status": "rejected",
       "exit": 1,
-      "seconds": 0.6708981338888407,
+      "seconds": 0.8021227680146694,
       "command": [
         "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
         "--profile",
@@ -77,16 +77,16 @@
         "--check-ownership",
         "--check-extents",
         "--rebuilt",
-        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-driver-call.exe"
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-driver-call.exe"
       ],
-      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-driver-call.stdout",
-      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-driver-call.stderr"
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-driver-call.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-driver-call.stderr"
     },
     {
       "test": "wrong-runtime-call",
       "status": "rejected",
       "exit": 1,
-      "seconds": 0.8914781222119927,
+      "seconds": 0.9018944576382637,
       "command": [
         "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
         "--profile",
@@ -102,16 +102,16 @@
         "--check-ownership",
         "--check-extents",
         "--rebuilt",
-        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-runtime-call.exe"
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-runtime-call.exe"
       ],
-      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-runtime-call.stdout",
-      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-runtime-call.stderr"
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-runtime-call.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-runtime-call.stderr"
     },
     {
       "test": "wrong-ret-cleanup",
       "status": "rejected",
       "exit": 1,
-      "seconds": 0.8764486918225884,
+      "seconds": 0.9017608845606446,
       "command": [
         "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
         "--profile",
@@ -127,13 +127,13 @@
         "--check-ownership",
         "--check-extents",
         "--rebuilt",
-        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-ret.exe"
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-ret.exe"
       ],
-      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-ret-cleanup.stdout",
-      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/wrong-ret-cleanup.stderr",
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-ret-cleanup.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/wrong-ret-cleanup.stderr",
       "mutation": {
         "function": "_mapped_image_headers@4",
-        "address": 123818,
+        "address": 124466,
         "original_cleanup": 4,
         "changed_cleanup": 8,
         "scope": "Genuine soleRET4 in table-free accepted stdcall helper"
@@ -143,7 +143,7 @@
       "test": "split-runtime-tail-instruction",
       "status": "rejected",
       "exit": 1,
-      "seconds": 0.9619888318702579,
+      "seconds": 0.9546653218567371,
       "command": [
         "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
         "--profile",
@@ -159,15 +159,15 @@
         "--check-ownership",
         "--check-extents",
         "--runtime",
-        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/split-runtime-instruction.json"
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/split-runtime-instruction.json"
       ],
-      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/split-runtime-tail-instruction.stdout",
-      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/split-runtime-tail-instruction.stderr"
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/split-runtime-tail-instruction.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/split-runtime-tail-instruction.stderr"
     }
   ],
   "scope": "Host-only original/rebuilt PE metadata audits; scratch mutations never execute",
   "native_regression": "Cached native regression receipt is recorded in the current completed family validation.json; this host-only audit does not execute fixtures",
   "negative_design_note": "First exploratory RETmutation targeted unaccepted control_handler and was outside audited scope; corrected to an accepted callee-cleanup routine.",
   "timings": "Single samples include process startup, index loading and output; builds/native suite/original captures excluded",
-  "raw_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-b7obp8pl/receipt.json"
+  "raw_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-75viiyv2/receipt.json"
 }

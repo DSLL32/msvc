@@ -957,7 +957,12 @@
     "_display_legacy_dialog",
     "_initialize_ide_api",
     "_emit_ide_message",
-    "_read_ide_flags"
+    "_read_ide_flags",
+    "_dump_comdat_graph",
+    "_debug_printf",
+    "_print_comdat_node",
+    "_comdat_usage_label",
+    "_print_comdat_edge"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8366,6 +8371,60 @@
       "source": "src/ide.c",
       "abi": "cdecl int(char **output)",
       "evidence": "Whole62-byte env-output helper. Actual one char** formal and owned4-byte slot/64guards; stores actual CRT environment value pointer, returns0/1. Present captured input alpha.obj,beta.lib and pointer-owner/result/errors observed, not global seed/copy. External direct test only. cases/ide-callback-protocol/acceptance/read_ide_flags."
+    },
+    {
+      "name": "_comdat_usage_label",
+      "start": 95520,
+      "end": 95544,
+      "implementation": "C",
+      "source": "src/comdat-diagnostics.c",
+      "abi": "cdecl const char *(ComdatNode *)",
+      "evidence": "Whole C extent and actual typed input plus matched observed return/continuation packets; final case output closure required"
+    },
+    {
+      "name": "_print_comdat_node",
+      "start": 95552,
+      "end": 95699,
+      "implementation": "C",
+      "source": "src/comdat-diagnostics.c",
+      "abi": "cdecl int(ComdatNode *); actual final diagnostic printer result",
+      "evidence": "Whole C extent and actual typed input plus matched observed return/continuation packets; final case output closure required"
+    },
+    {
+      "name": "_print_comdat_edge",
+      "start": 95712,
+      "end": 95729,
+      "implementation": "C",
+      "source": "src/comdat-diagnostics.c",
+      "abi": "cdecl int(ComdatEdge *); delegates result",
+      "evidence": "Whole C extent and actual typed input plus matched observed return/continuation packets; final case output closure required"
+    },
+    {
+      "name": "_dump_comdat_graph",
+      "start": 95744,
+      "end": 95967,
+      "implementation": "C",
+      "source": "src/comdat-diagnostics.c",
+      "abi": "cdecl int(ComdatNode *); actual final fflush result",
+      "evidence": "Fresh actual-formal match and whole C extent; trial continuation matches debug_printf; final return pending case closure"
+    },
+    {
+      "name": "_debug_printf",
+      "start": 239744,
+      "end": 239871,
+      "implementation": "C",
+      "source": "src/comdat-diagnostics.c",
+      "abi": "cdecl int(const char *,...); actual consumed varargs; no defined result claimed when all routes suppressed",
+      "evidence": "Whole C extent and actual plain-header variadic input, matched subsequent state/returns to print_comdat_node; later formats pending case closure"
+    },
+    {
+      "name": "_open_debug_log",
+      "start": 239872,
+      "end": 239873,
+      "implementation": "stub-C",
+      "source": "src/comdat-diagnostics.c",
+      "abi": "cdecl int(const char *path)",
+      "evidence": "Unreached named logger callee; full extent remains pending"
     }
   ],
   "c_stub_references": [
@@ -9329,6 +9388,11 @@
     "legacy-resource-diagnostics-dialog",
     "ide-callback-protocol",
     "ide-callback-protocol",
-    "ide-callback-protocol"
+    "ide-callback-protocol",
+    "comdat-graph-diagnostics",
+    "comdat-graph-diagnostics",
+    "comdat-graph-diagnostics",
+    "comdat-graph-diagnostics",
+    "comdat-graph-diagnostics"
   ]
 }

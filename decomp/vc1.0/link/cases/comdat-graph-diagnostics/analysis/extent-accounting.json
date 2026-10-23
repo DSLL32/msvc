@@ -1,0 +1,38 @@
+{
+  "status": "static measured; final CFG/audits pending",
+  "whole_extents": 538,
+  "functions": [
+    {
+      "name": "comdat_usage_label",
+      "start": 95520,
+      "end": 95544,
+      "bytes": 24
+    },
+    {
+      "name": "print_comdat_node",
+      "start": 95552,
+      "end": 95699,
+      "bytes": 147
+    },
+    {
+      "name": "print_comdat_edge",
+      "start": 95712,
+      "end": 95729,
+      "bytes": 17
+    },
+    {
+      "name": "dump_comdat_graph",
+      "start": 95744,
+      "end": 95967,
+      "bytes": 223
+    },
+    {
+      "name": "debug_printf",
+      "start": 239744,
+      "end": 239871,
+      "bytes": 127
+    }
+  ],
+  "provisional_planning_correction": "Old proposal mistakenly added individual extents to638. Actual five extents sum538; current accepted3 adds497, remaining two add41. Original plan preserved, no inflated gain used.",
+  "limits": "Not dynamic branch coverage or a completed case; native %p seam still held."
+}

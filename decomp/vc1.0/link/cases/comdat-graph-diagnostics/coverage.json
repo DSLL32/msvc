@@ -1,0 +1,22 @@
+{
+  "accepted_frontiers": 963,
+  "total_extent_bytes": 250701,
+  "total_text_bytes": 281634,
+  "total_extent_percent": 89.01659600758431,
+  "accepted_app_functions": 769,
+  "accepted_app_extent_bytes": 220258,
+  "app_extent_percent": 78.20717669031438,
+  "local_CRT_overrides": 16,
+  "app_reach": {
+    "public_CLI_functions": 758,
+    "direct_only_functions": 11
+  },
+  "gain": {
+    "functions": 5,
+    "extent_bytes": 538,
+    "instruction_bytes": 533,
+    "alignment_bytes": 5
+  },
+  "full_nonCRT_denominator": null,
+  "limits": "Function/byte extents, not branch coverage. Full identified nonCRT denominator unavailable; components.json is explicitly partial. Known OMF-g and unclassified remain pending."
+}
