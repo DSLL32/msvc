@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "initial_assertion_failed": true,
+  "initial_expected_hex": "556e62616c616e63656420535f454e44207265636f726420656e636f756e74657265640a6e6573746564206e657874206d697373696e672d656e6420756e6d6174636865642d656e640a",
+  "actual_stdout_hex": "556e62616c616e63656420535f454e44207265636f726420656e636f756e74657265640d0a6e6573746564206e657874206d697373696e672d656e6420756e6d6174636865642d656e640a",
+  "actual_stderr_hex": "",
+  "exact_correction": "Target recon_puts uses Win32 stdout text mode CRLF; host unit main uses unshimmed puts LF. Exact mixed bytes asserted, no normalization.",
+  "shared_contract": {
+    "../../../lib/recon/src/crt.c": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
+    "../../../lib/recon/tests/check-vprintf.py": "66d1e6aba6f0db46fef0eb4a56efb728c41e1e04e328e11f32632979045ec5f0"
+  },
+  "full_check_pass": "symbol-scopes-checks.json",
+  "full_check_sha256": "2973fc0bc8669d08735a121c7587821eb69c4f77b176bacabbd43226e4fb698a",
+  "unit_functions_already_passed_before_final_output_assertion": true,
+  "promotion_started_prematurely": true,
+  "accepted_prefix_not_used_for_further_reconstruction_until_full_pass": true
+}

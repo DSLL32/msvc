@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0087-compare-recursive-type-initialized-operands/original",
-  "reference_receipt_sha256": "805f1b3ae3192454398b8c00cdac32442febb9d528b55a349f001165c2318f6b",
+  "reference": "cases/hello-debug-dll/evidence/0088-link-symbol-scopes-buffer-contract/original",
+  "reference_receipt_sha256": "3e42cd948a619793aedde941c21eceaf85094520e8773f7d4fc8b38fa89c06af",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -93,6 +93,7 @@
     "index_recursive_type",
     "lookup_global_type",
     "compare_recursive_type",
-    "link_symbol_scopes"
+    "link_symbol_scopes",
+    "record_symbol_references"
   ]
 }

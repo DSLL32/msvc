@@ -93,7 +93,8 @@
     "hash_type_reference",
     "index_recursive_type",
     "lookup_global_type",
-    "compare_recursive_type"
+    "compare_recursive_type",
+    "link_symbol_scopes"
   ],
   "functions": [
     {
@@ -2622,8 +2623,11 @@
       "symbol": "_link_symbol_scopes",
       "native_symbol": "link_symbol_scopes",
       "original": 4250976,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4250976,
+        4251374
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2644,7 +2648,8 @@
           "slot": 2,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0088-link-symbol-scopes-buffer-contract/promotion.json"
     },
     {
       "name": "record_symbol_references",
@@ -2654,7 +2659,33 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "allocation-output",
+          "owner": "rewrite_module_symbols",
+          "allocation_site": 4237265,
+          "cursor": "symbol_output",
+          "write_size": 0,
+          "base_argument": true,
+          "size_slot": 2,
+          "size_name": "size",
+          "native_pointee_width": 1
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "native_width": 4
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "integer",
+          "native_width": 2
+        }
+      ]
     },
     {
       "name": "module_contains_address",
