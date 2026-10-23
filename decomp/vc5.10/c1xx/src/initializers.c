@@ -82,7 +82,8 @@ void initialize_frontend_13(void)
 
 void initialize_frontend_14(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_07();
+    register_cleanup(destroy_output_buffer_07);
 }
 
 void initialize_frontend_15(void)

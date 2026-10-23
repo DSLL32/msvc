@@ -32,7 +32,8 @@
     "_initialize_frontend_12",
     "_initialize_output_buffer_05",
     "_initialize_frontend_13",
-    "_initialize_output_buffer_06"
+    "_initialize_output_buffer_06",
+    "_initialize_frontend_14"
   ],
   "driver": [
     {
@@ -240,10 +241,16 @@
     {
       "name": "_initialize_frontend_14",
       "start": 272861279,
-      "end": 272861280,
-      "pending_extent": true,
+      "end": 272861286,
+      "pending_extent": false,
       "source": "src/initializers.c",
-      "abi": "cdecl0"
+      "abi": "cdecl0",
+      "code_chunks": [
+        [
+          272861344,
+          272861358
+        ]
+      ]
     },
     {
       "name": "_initialize_frontend_15",
@@ -591,6 +598,22 @@
       "name": "_destroy_output_buffer_06",
       "start": 272844581,
       "end": 272844582,
+      "source": "src/output.c",
+      "abi": "cdecl0",
+      "pending_extent": true
+    },
+    {
+      "name": "_initialize_output_buffer_07",
+      "start": 272861286,
+      "end": 272861287,
+      "source": "src/output.c",
+      "abi": "cdecl0",
+      "pending_extent": true
+    },
+    {
+      "name": "_destroy_output_buffer_07",
+      "start": 272844574,
+      "end": 272844575,
       "source": "src/output.c",
       "abi": "cdecl0",
       "pending_extent": true
@@ -1707,6 +1730,52 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 1.41737499833107,
         "native_seconds": 1.0178800588473678
+      }
+    },
+    {
+      "name": "_initialize_frontend_14",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "5ec9666f69eabb2b56d44ecfb3823754adacc480217fbc1cd6d5915a38092cfb",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback14-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback14-native-1",
+      "original_receipt_sha256": "ad52508706cc87234974e296e6efd1a77e98c621210c2c1932ed9bafbded429f",
+      "native_receipt_sha256": "ff820ee05e5e3e01b827e1f1a5f005d7f716fbb0719cc927dbdd672f43bbe828",
+      "trial_sha256": "16e1e6f64f41078047d95a9436227bd5fab2c4b3b9b60ba5bfbb3c7c80aa98b6",
+      "audit_sha256": "e07aac2d0d97459fd8ab4ac94191447c2e45fa1034fc679f990277003e9e636e",
+      "code_chunks": [
+        [
+          231519,
+          231526
+        ],
+        [
+          231584,
+          231598
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_14",
+        "frontier": "_initialize_output_buffer_07",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 474,
+        "native_bss_size": 492,
+        "native_c_padding_bytes": 18,
+        "output_constructor_fields_checked": 54,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.6678971908986568,
+        "native_seconds": 0.9796900600194931
       }
     }
   ],
