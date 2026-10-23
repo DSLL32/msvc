@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "state": "queued-original-validated",
+  "argv": [
+    "/nologo",
+    "/machine:ARM",
+    "/windowsce",
+    "/readonly",
+    "/out:rich-ce.obj",
+    "rich.res"
+  ],
+  "status": 0,
+  "input_sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318",
+  "artifact_sha256": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff",
+  "artifact_bytes": 4912,
+  "coff_machine": 448,
+  "coff_timestamp": 0,
+  "stdout": "Converting 24bpp BITMAP to 2bpp BITMAP\r\n",
+  "stdout_sha256": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
+  "stderr_bytes": 0,
+  "normalization": [],
+  "repeat_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-ce-master-02",
+  "producer_input": "cases/resources-rich/input/provenance.json",
+  "requires": "Complete x86 reconstruction first; no new functions accepted for CE yet"
+}

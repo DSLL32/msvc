@@ -13,21 +13,24 @@ from crt_layout import verify as verify_crt
 
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--output',required=True,type=Path)
+p.add_argument('--configuration',type=Path,help='explicit separate original-only unmasked case plan')
 p.add_argument('--initial',action='store_true')
 p.add_argument('--unmasked',action='store_true')
 p.add_argument('--observe',action='store_true',help='diagnostic breakpoints in untouched original memory; never acceptance')
 p.add_argument('--candidate',action='append',default=[])
 a=p.parse_args();assert not(a.initial and a.unmasked)
 assert not a.observe or a.unmasked
+assert not a.configuration or a.unmasked,'separate case plans are original-only baselines'
 start=time.perf_counter(); out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
 for name,path in [('original-build.json',BINARY/'build/original-inputs.json'),('capture-host-build.json',BINARY/'build/capture-host-inputs.json')]:
  if path.exists():shutil.copyfile(path,out/name)
-(out/'configuration.json').write_bytes((BINARY/'functions.json').read_bytes())
+(out/'configuration.json').write_bytes((a.configuration or (BINARY/'functions.json')).read_bytes())
 config=json.loads((out/'configuration.json').read_text())
 for item in config['case'].get('inputs',[]):
  source=BINARY/item['path'];assert sha(source.read_bytes())==item['sha256']
  shutil.copyfile(source,out/item['name'])
-image=out/'CVTRES.EXE';manifest=build(image,a.initial,a.candidate,a.unmasked)
+image=out/'CVTRES.EXE';manifest=build(image,a.initial,a.candidate,a.unmasked,configuration=config if a.configuration else None)
+manifest['configuration_sha256']=sha((out/'configuration.json').read_bytes())
 provider=ROOT/'toolchains/5.10/bin/MSVCRT.DLL'
 expected='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 assert provider.stat().st_size==277776 and sha(provider.read_bytes())==expected
@@ -56,7 +59,7 @@ except subprocess.TimeoutExpired as e:
  status=None;hostout=e.stdout or b'';hosterr=e.stderr or b'';timed_out=True
 (out/'host.stdout').write_bytes(hostout);(out/'host.stderr').write_bytes(hosterr)
 execution=time.perf_counter()-t
-assert sha((BINARY/'functions.json').read_bytes())==manifest['configuration_sha256'],'config changed during capture'
+assert sha((a.configuration or (BINARY/'functions.json')).read_bytes())==manifest['configuration_sha256'],'config changed during capture'
 actual=out/'loaded-msvcrt.dll';actualhash=sha(actual.read_bytes()) if actual.exists() else None
 receipt=dict(schema=1,purpose='fresh original case evidence',case=config['case']['id'],argv=config['case']['arguments'],
  original_sha256=sha(TARGET.read_bytes()),masked_sha256=sha(image.read_bytes()),

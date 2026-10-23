@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "scope": "Original-only offline COFF/resource analysis, never fixture dependency",
+  "resource_entries": 18,
+  "changed_payloads": [
+    {
+      "resource": [
+        2,
+        104,
+        1033
+      ],
+      "x86_bytes": 232,
+      "ce_bytes": 88,
+      "x86_sha256": "85ef8d44152c31167f504ac4d5c21d42a244442bf1bccbadb2c94eda59b3598d",
+      "ce_sha256": "e4ccd853d9a945133702c0eb5d2194051a8f8d999fa69766f0198bedd2f82e25",
+      "x86_bits_per_pixel": 24,
+      "ce_bits_per_pixel": 2
+    }
+  ]
+}
