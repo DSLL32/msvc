@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_record_string_literal@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1133,
+  "configuration_sha256": "d21e35e54f86d408e127e144ca77eeb3b869c946b31aa497fa8bfd56661f175a",
+  "native_entry": "record_string_literal",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "token",
+      "stack_index": 0,
+      "native_field": "raw_token",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 104414,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_token",
+        "native_owner_local": "right",
+        "native_owner_fields": [
+          "expression"
+        ],
+        "identity": "Actual parserliteral ruleEAX=[ESIright]297d6/PUSHEAX297d8/CALL297d9 return297de. Native actualcurrent right.expression is same literalnode owner; no newprojection/frozenASTaddress.",
+        "original_owner_value": 8364620,
+        "native_owner_value": 1449359380
+      },
+      "original_raw": 8364620,
+      "native_raw": 1449359380,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      181552,
+      181753
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole201B/SUBESP4/saveESIEDI8:tokenESP+16,RET4/void. Existing typedescriptionstackdepth++ and12Bzero, flagswide4042/narrow41, lengthunits divideby2or1, new_type_shape62c30/RET12 arraykind2 attrs1&actualcountlocal, intern_type_shape62150/RET4 thenintern_type62080/RET4 storesliteral.type anddepth--. Onlycaptureflag20 copies actualtext topermanentroundedlength, exactcopy_bytes_forward19510..19534/RET12(dest,src,bytes) returnsendpointerunused. No newdata/hiddenregistersemanticinputs/uninitialized descriptor fields.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "cc788176daf40c40789ef20893288260a33e382c7452c06319efcda149b01d25",
+  "capture_timing": {
+    "original_capture_seconds": 0.8662793152034283,
+    "native_capture_seconds": 0.1702644070610404,
+    "total_operation_seconds": 1.2838824903592467
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "210c83e354da087c941753d722d3d60582de57a11ab4bd7e25f7fd95d0e6f630",
+    "native-commands.gdb": "f2d0de01e4d5297aa460c740410a269ceeede4cf444fb57e3f08eaa1a39329c2",
+    "native-gdb.log": "1470ca4aee54e43cade1f6725e7f8fcd1d6ae2a53f5a1089fc7e1d2f7667a3d1",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "fa0bdaab8088f6c8b2eceb434f9d3e557c864b035793605685425c7c51bb1e67",
+    "original-configuration.json": "d21e35e54f86d408e127e144ca77eeb3b869c946b31aa497fa8bfd56661f175a",
+    "original-disassembly.txt": "264c57ee9817853aaf30f358bcf02a6addc99cd62fcfa8a28ace7de104ae2472",
+    "original-entries.plan": "370c711dccbb5b7397929f7868231d8379173ff12fc5f749b725f67b72b94d54",
+    "original-events.txt": "a1266d9163a853502875c77c6e35ac2ae5fd0dfa8c4c233afe794bef2ca2663e",
+    "original-ownership-caller-disassembly.txt": "c5af4d326cb6f4701cd5aab753f42d6e7ee99a6b97934e4566c42c4213720a1f",
+    "original-receipt.json": "09a856bd7e7ea4ac1af244ad22b66725726cb0dfe735dc07af0e2e956ddcb494",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "c731cb761c416ea811cb81a755abccf2263d9dc890bfe2d1eb737b6e8baa389b"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

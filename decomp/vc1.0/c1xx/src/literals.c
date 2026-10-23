@@ -6,6 +6,34 @@
 #include <stdlib.h>
 #include <recon.h>
 
+unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
+    const unsigned char *source, unsigned bytes);
+
+/* Original 0x2c530..0x2c5f9. Give the completed literal its actual
+   character-array type and retain text permanently when capture requires it. */
+void __stdcall record_string_literal(IrToken *token)
+{
+    TypeDescription *description = &type_description_stack[++type_description_depth];
+    unsigned count, bytes;
+    unsigned char *copy;
+    description->flags = 0;
+    description->attributes = 0;
+    description->related = 0;
+    description->field08 = description->field0a = 0;
+    description->flags = (token->tail.string.auxiliary_flags & 1) ? 0x4042 : 0x41;
+    description->attributes = 0;
+    count = token->tail.string.length / ((token->tail.string.auxiliary_flags & 1) ? 2 : 1);
+    description->related = intern_type_shape(new_type_shape(2, 1, &count));
+    token->type = intern_type(description);
+    --type_description_depth;
+    if (token_allocation_flags & 0x20) {
+        bytes = (token->tail.string.length + 3U) & ~3U;
+        copy = allocate_permanent(bytes);
+        copy_bytes_forward(copy, (unsigned char *)token->value.text, token->tail.string.length);
+        token->value.text = (char *)copy;
+    }
+}
+
 /* Original 0x250d0..0x25177. Replace the first literal's terminator
    with the next literal, preserving the destination's width and Pascal form. */
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source)

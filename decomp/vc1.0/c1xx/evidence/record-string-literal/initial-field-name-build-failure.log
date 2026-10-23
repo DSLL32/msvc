@@ -1,0 +1,24 @@
+python3 scripts/dependencies.py
+python3 scripts/native-build-signature.py "build/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92" "build/native-inputs.stamp" "clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g"
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/literals.c -o build/native/literals.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/stubs.c -o build/native-trace/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/literals.c -o build/native-trace/literals.o
+src/literals.c:23:46: error: no member named 'flags' in 'struct IrToken::(unnamed at src/frontend.h:20:9)'
+   23 |     description->flags = (token->tail.string.flags & 1) ? 0x4042 : 0x41;
+      |                           ~~~~~~~~~~~~~~~~~~ ^
+src/literals.c:25:62: error: no member named 'flags' in 'struct IrToken::(unnamed at src/frontend.h:20:9)'
+   25 |     count = token->tail.string.length / ((token->tail.string.flags & 1) ? 2 : 1);
+      |                                           ~~~~~~~~~~~~~~~~~~ ^
+src/literals.c:23:46: error: no member named 'flags' in 'struct IrToken::(unnamed at src/frontend.h:20:9)'
+   23 |     description->flags = (token->tail.string.flags & 1) ? 0x4042 : 0x41;
+      |                           ~~~~~~~~~~~~~~~~~~ ^
+src/literals.c:25:62: error: no member named 'flags' in 'struct IrToken::(unnamed at src/frontend.h:20:9)'
+   25 |     count = token->tail.string.length / ((token->tail.string.flags & 1) ? 2 : 1);
+      |                                           ~~~~~~~~~~~~~~~~~~ ^
+2 errors generated.
+2 errors generated.
+make: *** [Makefile:149: build/native-trace/literals.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Makefile:147: build/native/literals.o] Error 1
+

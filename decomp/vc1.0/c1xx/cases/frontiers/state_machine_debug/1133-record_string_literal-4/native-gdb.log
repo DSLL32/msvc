@@ -1,0 +1,19 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558928 in materialize_string_literal (token=0x56637794) at src/stubs.c:62
+62	IrToken *__stdcall materialize_string_literal(IrToken *token) { __asm { int 3 } return 0; }
+#0  0x56558928 in materialize_string_literal (token=0x56637794) at src/stubs.c:62
+#1  0x565ab81c in emit_expression_tree (expression=0x56637794) at src/expression-output.c:33
+#2  0x565abf17 in emit_expression_tree (expression=0x566377c8) at src/expression-output.c:105
+#3  0x565abf41 in emit_expression_tree (expression=0x566377f0) at src/expression-output.c:109
+#4  0x565ac078 in emit_expression_statement (expression=0x566377f0) at src/expression-output.c:127
+#5  0x56586919 in initialize_lvalue (target=0x566377dc, value=0x566377f0) at src/constructor-initializers.c:426
+#6  0x5659269b in emit_initializer_assignment (target=0x566377b4, value=0x56637794) at src/object-initializers.c:421
+#7  0x565920e3 in initialize_object_value (symbol=0x5664dd28, value=0x56637794) at src/object-initializers.c:303
+#8  0x56591e7e in initialize_object (symbol=0x5664dd28, value=0x56637794) at src/object-initializers.c:255
+#9  0x565b5e19 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#10 0x5655dfdf in compile_translation_unit () at src/frontend.c:73
+#11 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558884 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

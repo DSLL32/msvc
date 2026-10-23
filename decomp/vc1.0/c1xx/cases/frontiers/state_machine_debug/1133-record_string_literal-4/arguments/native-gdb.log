@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x421aa: file src/literals.c, line 16.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, record_string_literal (token=0x56637814) at src/literals.c:16
+16	    TypeDescription *description = &type_description_stack[++type_description_depth];
+#0  record_string_literal (token=0x56637814) at src/literals.c:16
+#1  0x565b9ab0 in parse_translation_unit () at src/parser-expression-actions.inc:193
+#2  0x5655dfdf in compile_translation_unit () at src/frontend.c:73
+#3  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

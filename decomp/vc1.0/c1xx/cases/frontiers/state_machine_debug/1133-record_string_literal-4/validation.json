@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_record_string_literal@4",
+    "start": 181552,
+    "end": 181753
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1133-record_string_literal-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_copy_bytes_forward@12",
+    "_intern_type@4",
+    "_intern_type_shape@4",
+    "_new_type_shape@12"
+  ],
+  "next_frontier": "_materialize_string_literal@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.544712589122355,
+  "total_operation_seconds": 4.492608591914177,
+  "original_capture_seconds": 1.818783332593739
+}

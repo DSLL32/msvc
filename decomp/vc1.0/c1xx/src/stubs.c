@@ -59,7 +59,6 @@ void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
-void __stdcall record_string_literal(IrToken *token) { __asm { int 3 } }
 IrToken *__stdcall materialize_string_literal(IrToken *token) { __asm { int 3 } return 0; }
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
