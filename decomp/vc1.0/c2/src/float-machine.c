@@ -12,6 +12,7 @@
 #include "global-registers.h"
 #include "float-peepholes.h"
 #include "register-use.h"
+#include "machine-layout.h"
 #include <recon.h>
 void *__fastcall float_register_heap_allocate(unsigned bytes);
 extern int cpu_model;
@@ -1101,4 +1102,91 @@ void merge_float_stream_context(void)
     }
     finish_float_context_motion(memory_motion_context);
     memory_motion_context->flags |= 1;
+}
+
+/* Original [00039600,0003967e). Append a zeroed arena4 context after
+   the prior tail and reset the per-context floating instruction cursor. */
+void __fastcall start_float_stream_context(MachineInstruction *instruction, LabelSymbol *label)
+{
+    MemoryMotionContext *context;
+    unsigned *word, count;
+    if (!float_stream_context) compiler_internal_error("@(#)fltreg.c:1.31", 0x447);
+    context = arena_alloc(4, sizeof(*context));
+    word = (unsigned *)context;
+    count = sizeof(*context) / sizeof(*word);
+    while (count--) *word++ = 0;
+    float_stream_last_context->next = context;
+    context->previous = float_stream_last_context;
+    context->label = label;
+    context->boundary = instruction;
+    float_stream_context = context;
+    float_stream_last_context = context;
+    context->stack_depth = 0;
+    float_stream_context->maximum_depth = 0;
+    float_stream_previous = 0;
+}
+
+LabelSymbol *float_motion_split_label; /* 00082e78 */
+/* Original [00039d80,00039f8d). Require consistent stack depths at outgoing
+   branches, split an immediate following label when needed, and remember
+   eligible target ranges for the motion pass. Third argument is RET4. */
+int __fastcall match_float_stream_branches(FloatStreamBranch *branches, MachineInstruction *instruction, MachineInstruction **last)
+{
+    FloatStreamBranch *branch;
+    FloatStreamTarget *entry;
+    MachineInstruction *probe, *target, *previous, *created;
+    LabelSymbol *following_label = 0, *split_label = 0;
+    int found_label = 0;
+    *last = 0;
+    if (!branches) return 1;
+    for (probe = instruction->next; probe; probe = probe->next) {
+        if (FM_ELIGIBLE(probe)) break;
+        if (FM_KIND(probe) == 1) {
+            following_label = (LabelSymbol *)probe->record.symbol;
+            found_label = 1;
+            break;
+        }
+    }
+    if (found_label) {
+        split_label = new_internal_label();
+        float_motion_split_label = split_label;
+        created = new_machine_instruction(1);
+        split_label->references = 0;
+        created->record.symbol = &split_label->symbol;
+        probe = instruction->next;
+        while (FM_KIND(probe) == 4) probe = probe->next;
+        if (FM_KIND(probe) == 7) probe = probe->next;
+        insert_machine_after(probe->previous, created);
+        *last = created;
+    }
+    for (branch = branches; branch; branch = branch->next) {
+        if (float_stream_context->stack_depth != branch->stack_depth) return 0;
+        if (branch->label == following_label) {
+            --following_label->references;
+            ++split_label->references;
+            branch->instruction->operands[0].value.symbol = &split_label->symbol;
+            branch->label = split_label;
+        }
+    }
+    mark_float_branch_targets(branches);
+    for (branch = branches; branch; branch = branch->next) {
+        if (branch->label == split_label) continue;
+        target = label_machine_instruction(branch->label);
+        if (!target) {
+            compiler_internal_error("@(#)fltreg.c:1.31", 0xec7);
+            return 0;
+        }
+        previous = target->previous;
+        while (previous && FM_KIND(previous) != 1 && FM_KIND(previous) != 0) previous = previous->previous;
+        if (!can_merge_float_branch(branch, previous, target)) {
+            if (branch->label->references != (long)branch->references) return 0;
+            if (!(branch->flags & 1) && (!previous || FM_KIND(previous) != 0 || FM_OPERATION(previous) != MC_JMP)) return 0;
+            if (!can_reuse_float_branch_target(target)) return 0;
+            entry = arena_alloc(4, sizeof(*entry));
+            entry->instruction = target->next;
+            entry->next = float_stream_context->targets;
+            float_stream_context->targets = entry;
+        }
+    }
+    return 1;
 }

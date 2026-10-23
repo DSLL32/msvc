@@ -400,11 +400,12 @@ void finish_float_stream_uses(void) { __asm int 3 }
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_call(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_return(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall match_float_stream_branches(FloatStreamBranch *branches, MachineInstruction *instruction, MachineInstruction **last) { __asm int 3 }
-void __fastcall start_float_stream_context(MachineInstruction *instruction, LabelSymbol *label) { __asm int 3 }
 void __fastcall analyze_float_motion_range(MachineInstruction *first, MachineInstruction *last, int mode) { __asm int 3 }
 void __fastcall initialize_float_context_uses(MemoryMotionContext *context) { __asm int 3 }
 void __fastcall finish_float_context_motion(MemoryMotionContext *context) { __asm int 3 }
 void __fastcall process_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 void __fastcall rewrite_float_motion_operation(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall label_in_float_context_chain(MemoryMotionContext *context, MachineInstruction *instruction) { __asm int 3 }
+void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm int 3 }
+int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
+int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }

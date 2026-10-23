@@ -1013,7 +1013,9 @@
     "@process_float_stream_label@4",
     "@resolve_float_stream_label@8",
     "_close_float_stream_context",
-    "_merge_float_stream_context"
+    "_merge_float_stream_context",
+    "@start_float_stream_context@8",
+    "@match_float_stream_branches@12"
   ],
   "driver": [
     {
@@ -7124,8 +7126,7 @@
     {
       "name": "@match_float_stream_branches@12",
       "start": 236928,
-      "end": 236929,
-      "provisional": true
+      "end": 237453
     },
     {
       "name": "_close_float_stream_context",
@@ -7135,8 +7136,7 @@
     {
       "name": "@start_float_stream_context@8",
       "start": 235008,
-      "end": 235009,
-      "provisional": true
+      "end": 235134
     },
     {
       "name": "@analyze_float_motion_range@12",
@@ -7182,6 +7182,24 @@
       "name": "@label_in_float_context_chain@8",
       "start": 242992,
       "end": 242993,
+      "provisional": true
+    },
+    {
+      "name": "@mark_float_branch_targets@4",
+      "start": 247392,
+      "end": 247393,
+      "provisional": true
+    },
+    {
+      "name": "@can_merge_float_branch@12",
+      "start": 247696,
+      "end": 247697,
+      "provisional": true
+    },
+    {
+      "name": "@can_reuse_float_branch_target@4",
+      "start": 248080,
+      "end": 248081,
       "provisional": true
     }
   ],

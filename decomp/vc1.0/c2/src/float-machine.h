@@ -54,6 +54,11 @@ typedef struct FloatStreamLabel {
     struct FloatStreamLabel *next;
 } FloatStreamLabel;
 typedef char FloatStreamLabelSizeCheck[sizeof(FloatStreamLabel) == 12 ? 1 : -1];
+typedef struct FloatStreamTarget {
+    MachineInstruction *instruction;
+    struct FloatStreamTarget *next;
+} FloatStreamTarget;
+typedef char FloatStreamTargetSizeCheck[sizeof(FloatStreamTarget) == 8 ? 1 : -1];
 typedef struct MemoryMotionContext {
     struct MemoryMotionContext *previous, *next;
     LabelSymbol *label;
@@ -64,7 +69,7 @@ typedef struct MemoryMotionContext {
     unsigned field28, field2c;
     FloatStreamBranch *branches, *last_branch;
     FloatStreamLabel *labels;
-    unsigned field3c;
+    FloatStreamTarget *targets;
     unsigned order, field44;
     int stack_depth, field4c, maximum_depth;
     unsigned flags;
@@ -98,4 +103,8 @@ void __fastcall finish_float_context_motion(MemoryMotionContext *context);
 void __fastcall process_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
 void __fastcall rewrite_float_motion_operation(MachineInstruction *instruction);
 int __fastcall label_in_float_context_chain(MemoryMotionContext *context, MachineInstruction *instruction);
+extern LabelSymbol *float_motion_split_label;
+void __fastcall mark_float_branch_targets(FloatStreamBranch *branches);
+int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target);
+int __fastcall can_reuse_float_branch_target(MachineInstruction *target);
 #endif

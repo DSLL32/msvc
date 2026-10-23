@@ -2536,3 +2536,9 @@ Floating label resolution and context closure: checkpoint1009
 @start_float_stream_context@8. 930 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-context-resolution.json for extent union, limits and measured timings.
+
+Floating context entry and branch matching: checkpoint1011
+2 acceptances pass fresh original/native matching; current frontier
+@analyze_float_motion_range@12. 932 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-context-entry.json for extent union, limits and measured timings.
