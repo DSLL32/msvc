@@ -1,0 +1,58 @@
+{
+  "scope": "Isolated reached recon_unlink regular success and missing leaf/parent/ENOTDIR error mapping; recon_remove unchanged",
+  "original": {
+    "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/unlink-state-original-02/receipt.json",
+    "sha256": "06cbb22a77b9b2cc649ad1ccc117047b44226fc2badc62d0ed360f586dec1e4d",
+    "rows": 32,
+    "build_seconds": 0.8951282929629087,
+    "execution_seconds": 0.3791203871369362
+  },
+  "final_source_sha256": "99e35aea6f900a999646dd9c74e0e72334298966d1352ccfdb7a96e3ba0c6661",
+  "native": {
+    "gcc": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/unlink-state/gcc-reviewed",
+      "sha256": "0e70bfc6cc7fa6cca220e6a12e54fcfbe90991dc09e1025b26c6e7b57588269a",
+      "canonical_rows": 32,
+      "denials": 6
+    },
+    "clang": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/unlink-state/clang-reviewed",
+      "sha256": "9ab8a7d5298e2efb730a0ca7b2e95d0840063412baf822b3351cf124ef707610",
+      "canonical_rows": 32,
+      "denials": 6
+    }
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unlink-state-orchestrator-review.json",
+    "sha256": "69b24e992d1e6c312e85b5b799b58a16cac803c8d312d6c43c211d7b5b639bb0"
+  },
+  "cached_native_regression": {
+    "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/unlink-state-regression/receipt.json",
+    "sha256": "6bc2f871718741e7dec7f5b3b8e37888f30673df9002a57956338d322c6c82ae",
+    "cases": 95,
+    "source_hashes_stable": true,
+    "scope": "Complete reached unlink correction before final wildcard-only denial guard; final guard checked with both immutable compiler probes, no repeated broad suite",
+    "runs": [
+      {
+        "binary": "cl",
+        "build_seconds": 1.7808833802118897,
+        "fixture_wrapper_seconds": 3.38490625936538
+      },
+      {
+        "binary": "rc",
+        "build_seconds": 2.881330942735076,
+        "fixture_wrapper_seconds": 2.772242793813348
+      },
+      {
+        "binary": "rcpp",
+        "build_seconds": 2.4455407997593284,
+        "fixture_wrapper_seconds": 0.4350854968652129
+      }
+    ]
+  },
+  "limitations": [
+    "Unknown file kinds/failure classes unsupported; no cross-process deletion-sharing claims",
+    "Input/output comparison covers observed isolated files, not general Windows DeleteFile semantics",
+    "Original CL valid delete-temporary-2 packet reused for fresh native integration after publication"
+  ]
+}

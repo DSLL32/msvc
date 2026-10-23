@@ -398,3 +398,9 @@ build/source-line-format-probe: tests/source-line-format-probe.c $(SOURCES) $(HE
 	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
 source-line-format-check: build/source-line-format-probe
 	$(PYTHON) tests/check-source-line-format.py build/source-line-format-probe
+
+.PHONY: unlink-state-check
+build/unlink-state-probe: tests/unlink-state-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_DEFAULT_FMODE=0 tests/unlink-state-probe.c $(SOURCES) -o $@
+unlink-state-check: build/unlink-state-probe
+	$(PYTHON) tests/check-unlink-state.py build/unlink-state-probe

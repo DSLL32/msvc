@@ -1956,7 +1956,43 @@ ReconSignalHandler recon_signal(int signo,ReconSignalHandler handler)
     return old;
 }
 
-WEAK int recon_unlink(const char *name) { return recon_remove(name); }
+WEAK int recon_unlink(const char *name)
+{
+    char path[PATH_MAX],parent[PATH_MAX],*separator;
+    struct stat information;
+    int saved=errno,failure;
+    unsigned long dos=recon_doserrno,code;
+    DWORD error=recon_GetLastError();
+    if (!name || !*name || strpbrk(name,"*?") ||
+        recon_host_path(name,path,sizeof(path))<0)
+        recon_unsupported("_unlink path translation");
+    if (!lstat(path,&information)) {
+        if (!S_ISREG(information.st_mode))
+            recon_unsupported("_unlink unreviewed file kind");
+        if (!unlink(path)) {
+            errno=saved;recon_doserrno=dos;recon_SetLastError(error);
+            return 0;
+        }
+    }
+    failure=errno;
+    if (failure!=ENOENT && failure!=ENOTDIR)
+        recon_unsupported("_unlink unreviewed deletion failure");
+    /* DeleteFileA distinguishes a missing leaf from a missing or non-directory
+     * parent. Only those two observed failures enter the CRT error mapper. */
+    strcpy(parent,path);separator=strrchr(parent,'/');
+    if (!separator) strcpy(parent,".");
+    else if (separator==parent) separator[1]=0;
+    else *separator=0;
+    if (!stat(parent,&information)) code=S_ISDIR(information.st_mode)?2:3;
+    else {
+        failure=errno;
+        if (failure!=ENOENT && failure!=ENOTDIR)
+            recon_unsupported("_unlink unreviewed parent failure");
+        code=3;
+    }
+    recon_SetLastError(code);recon_dosmaperr(code);
+    return -1;
+}
 
 /* Canonical default-C multibyte state: only encountered ASCII is supported. */
 static void ascii_multibyte_scope(void)

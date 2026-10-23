@@ -1,0 +1,18 @@
+{
+  "source_sha256": "48719929b960b54a60dae7b20ef2608aa1245015263bc47f32abc618d30ca540",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "stdout_sha256": "3f063ca39f580eafccb9bf840ab85a74d87bcd8aa8e5269f83e4d0fd9e8f4f24",
+  "stdout_bytes": 1780,
+  "rows": 32,
+  "raw_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/unlink-state-original-02/receipt.json",
+  "raw_receipt_sha256": "06cbb22a77b9b2cc649ad1ccc117047b44226fc2badc62d0ed360f586dec1e4d",
+  "canonical_code": {
+    "unlink_rva": "1e4fc..1e50a",
+    "remove_rva": "1e4cf..1e4fc",
+    "DeleteFileA_iat_rva": "36184",
+    "GetLastError_iat_rva": "3604c",
+    "dosmaperr_hot_rva": "6bec..6c23",
+    "dosmaperr_cold_rva": "e73f..e780"
+  },
+  "scope": "regular file success; missing leaf/parent and ENOTDIR only; full256-byte input unchanged; unknown file kinds/failures denied"
+}

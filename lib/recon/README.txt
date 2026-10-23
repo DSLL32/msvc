@@ -802,3 +802,10 @@ prefix/suffix forms pass. The signed32 argument is formatted into the caller's
 UTF16 buffer, then its actual validated suffix/NUL are written. Default-C scope,
 count excluding NUL, untouched buffer tails and measured error preservation are
 retained. No additional formatting grammar, locale or capacity mode is enabled.
+
+Reached _unlink regular-file deletion preserves entry errno, DOS errno and
+LastError on success. Missing leaves map to 2/2/2; missing or non-directory
+parents map to errno2/DOS3/LastError3 through the shared CRT error mapper.
+Inputs and unrelated files remain unchanged. Wildcards, directories, symlinks,
+other file kinds and unknown deletion failures are unsupported. This bounded
+public _unlink contract is separate from the legacy recon_remove path.
