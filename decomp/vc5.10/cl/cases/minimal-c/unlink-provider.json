@@ -1,0 +1,31 @@
+{
+  "case": "minimal-c",
+  "candidate": "_delete_temporary",
+  "range": [
+    "0x404f6f",
+    "0x404fda"
+  ],
+  "original_extent_bytes": 107,
+  "accepted_application_functions": 76,
+  "accepted_application_extent_bytes": 13891,
+  "separate_support_records": 15,
+  "separate_support_bytes": 476,
+  "next_frontier": "next_jobs",
+  "case_complete": false,
+  "shared_revision": "5d8163a9",
+  "six_call_contract": "Four existing files remove successfully preserving0/0/2 errors; missingst sets2/2/2, missingdb preserves2/2/2. Actual original/nativeGDB compare full paths/localbufferaliases/presence/status/errors.",
+  "fresh_original_attempts": 2,
+  "native_attempts": 2,
+  "failures_retained": [
+    "delete-temporary-1-original:18snapshots, missing new frontier formal decoder; held/rejected",
+    "delete-temporary-2-original:valid19snapshots; stale offline helper-kind assertion corrected from trial stage, raw unchanged",
+    "delete-temporary-3-native:missing-file DOS0 mismatch held/rejected before shared fix"
+  ],
+  "final_pair": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-4/pair.json",
+  "affected_negative_controls": 66,
+  "notes": [
+    "PendingWork is actual caller-local pointer; payload unread because both earlyguards0. No undefined data seeded.",
+    "No target error reseeding; maintained shared provider5d8163a9 corrects actual API semantics.",
+    "Performance+review evidence in capture-performance.json."
+  ]
+}

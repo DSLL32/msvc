@@ -15,14 +15,14 @@ acceptance journal for the measured evidence.
 Help artifacts are frozen and independently verified. The authorized next case is a
 genuine minimal-C compile. Its in-process frontend and backend child boundaries
 require complete captured response contracts; unknown dependencies fail.
-The compile case has added twenty-five functions with fresh candidate-inclusive
-proofs: 75 application functions /13,784 original extent bytes in total (72.31%
-of whole `.text`). It now reaches `delete_temporary(kind=0)` after the verified
+The compile case has added twenty-six functions with fresh candidate-inclusive
+proofs: 76 application functions /13,891 original extent bytes in total (72.87%
+of whole `.text`). It now reaches `next_jobs` after the verified
 26-argument C1 invocation, unload and synchronous C2 child. Native providers
 validate complete arguments, input libraries, IR and target environment before
 replaying captured files and measured external CRT effects. GDB independently
 checks module/export caches, environment ownership, character tables, streams and
-child error effects. The cleanup loop and its typed suffix grammar are accepted; actual file removal
+child error effects. The cleanup loop and six actual temporary removals are accepted; the scheduler
 and complete-case success remain pending.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.

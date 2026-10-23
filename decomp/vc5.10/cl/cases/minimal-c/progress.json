@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
-  "state": "cleanup-loop-accepted",
-  "checkpoint": "cleanup_files accepted through typed delete_temporary(kind0) frontier",
-  "next_frontier": "delete_temporary",
-  "accepted_application_functions": 75,
-  "accepted_application_extent_bytes": 13784,
+  "state": "temporary-removal-accepted",
+  "checkpoint": "delete_temporary accepted after canonical shared DOS-error correction",
+  "next_frontier": "next_jobs",
+  "accepted_application_functions": 76,
+  "accepted_application_extent_bytes": 13891,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -320,11 +320,28 @@
         "affected_57_controls": 12.502769782207906
       },
       "controls": "57 refreshed affected controls incl actual helper formal and suffix-table memory;35 acceptance controls refreshed. Initial offline stale preserve1 assertion rejected valid kind0 raw; corrected reader selected actual next formal from trial config, then native-only continuation reused unchanged original."
+    },
+    {
+      "candidate": "_delete_temporary",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-4/pair.json",
+        "sha256": "3b8bfe3f41d1562f74b1d584feeb36c3c10eace2ae39ad9c64af093aefd70d8b"
+      },
+      "seconds": {
+        "audit": 0.5480769295245409,
+        "original_setup": 0.024561189115047455,
+        "original_execution": 8.058521379716694,
+        "native_gdb": 0.37282183673232794,
+        "initial_parallel_build": 5.058903397992253,
+        "shared_fix_parallel_build": 5.044755474664271,
+        "affected_66_controls": 18.827822911553085
+      },
+      "controls": "66 refreshed removal/state/next_jobs formal controls.35 unchanged acceptance protocol controls reused with checker/accept/audit/mask hashes at prior checkpoint."
     }
   ],
-  "checks": "Fresh candidate-inclusive cleanup body/ABI/graph proof; complete suffix table matches original/rebuilt/native; actual helper kind0, driver aliases and persistent provider state independently decoded.57 affected controls and35 acceptance protocol controls pass.",
+  "checks": "Fresh107-byte helper/ABI/graph proof through actual next_jobs. Six actual removals independently compare filename/local-buffer alias/presence/status/errors;66 refreshed controls pass. Cached help28.02ms total/3.782ms execution.",
   "dependency_boundaries": "C1 Invoke/detach/release plus full synchronous C2 child request/input/status/object/error effects are accepted through strict owned native providers. The trial stops at genuine cleanup_files(preserve=1); full compile remains incomplete.",
-  "observed_gap": "No current shared gap. Next delete_temporary helper will execute file removal; unknown API error effects remain unclaimed.",
+  "observed_gap": "No current shared gap. Next_jobs full body pending; retain zero-MRE-call contract and unread guarded PendingWork payload.",
   "current_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/orchestrator-review.json",
     "sha256": "43f2c497cf393901be08a4d417e848163d2b5d69ca70d446d5417f453e4effa7",
@@ -332,8 +349,15 @@
   },
   "shared_gap_resolution": {
     "_mbclen": "Fresh original quoted-length-2 path/error proof; native denial retained, then5f724e69 CP0/ASCII support and native-only retry passed.",
-    "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed."
+    "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed.",
+    "_unlink": "Native missing st incorrectly retainedDOS0; shared5d8163a9 corrects canonical profile error mapping. Native-only retry reused unchanged valid original; all6 calls/fullfrontier match."
   },
   "dependency_observation": "dependency-boundary-2.json",
-  "whole_text_extent_percent": 72.31140488930858
+  "whole_text_extent_percent": 72.87273108802854,
+  "protocol_control_reuse": {
+    "check-acceptance.py": "3ab4e2851efeb84ca50a9d4e9c3225225a5b54b787e3062ab177a771a89fe536",
+    "accept.py": "2d301375fce896e990bda1f5dbc819af804ab43b935a5445f8eb153ce2e6f289",
+    "audit.py": "66facf84eceaba87abb7a421003154854751fb6d92985d4c895b7f56ef18fd82",
+    "mask.py": "176f5d6dc952979a271269de7a35e6f846b1201c61fbf83eb7a09a96f41a857e"
+  }
 }

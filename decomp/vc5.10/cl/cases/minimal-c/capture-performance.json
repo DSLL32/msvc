@@ -27,6 +27,14 @@
   "native_mismatch": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-3-native",
     "seconds": 0.3770905742421746,
-    "held": "Missing st unlink leaves native DOS0 instead of canonical DOS2; shared maintainer notified. No function acceptance."
+    "held": "Missing st unlink leaves native DOS0 instead of canonical DOS2; shared maintainer notified. No function acceptance.",
+    "resolution": {
+      "shared_commit": "5d8163a9",
+      "native_path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-4-native",
+      "seconds": 0.37282183673232794,
+      "six_calls_and_full_frontier_match": true,
+      "fresh_affected_controls": 66,
+      "extra_original_run": false
+    }
   }
 }
