@@ -1095,7 +1095,11 @@
     "@scheduler_instruction_cycles@4",
     "@swap_scheduled_address_registers@4",
     "@exchange_float_machine_stack@8",
-    "@process_float_stream_return@4"
+    "@process_float_stream_return@4",
+    "@push_unary_into_right@4",
+    "@select_intrinsic_string_length@12",
+    "@immediate_operand@4",
+    "@select_intrinsic_a3_a4@8"
   ],
   "driver": [
     {
@@ -3658,8 +3662,7 @@
     {
       "name": "@immediate_operand@4",
       "start": 106944,
-      "end": 106945,
-      "provisional": true
+      "end": 106963
     },
     {
       "name": "@symbol_operand@8",
@@ -6232,8 +6235,7 @@
     {
       "name": "@push_unary_into_right@4",
       "start": 348688,
-      "end": 348689,
-      "provisional": true
+      "end": 348725
     },
     {
       "name": "@constant_fits_type@8",
@@ -6499,8 +6501,7 @@
     {
       "name": "@select_intrinsic_a3_a4@8",
       "start": 118528,
-      "end": 118529,
-      "provisional": true
+      "end": 118865
     },
     {
       "name": "@select_intrinsic_a5@4",
@@ -6517,8 +6518,7 @@
     {
       "name": "@select_intrinsic_string_length@12",
       "start": 117328,
-      "end": 117329,
-      "provisional": true
+      "end": 117585
     },
     {
       "name": "@select_intrinsic_aa_ab@8",

@@ -1,0 +1,40 @@
+{
+  "label": "combined-original-1094",
+  "profile": "combined",
+  "accepted": 1094,
+  "events": "exception 80000003 rva 0000cf00 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "1d8c72053b65e80c50167f974501653d23b5b7a431249f244027f0d4274ecc6e",
+  "config_sha256": "ec84ccf86782cf2593989cd373ea16579237cb20972b93838b014a599083a149",
+  "manifest_sha256": "bec8250d3c2be0f64b6607221ea91745c3dece88531cecf5b36183be47b8a04b",
+  "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+  "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+  "inputs": {
+    "c2/irex": "ca6515073a308bfa6a6a98606c28e1b981e6bb846256f81f8ee1fda4f389598a",
+    "c2/irsy": "3b9ec3d799346813cab35e3666c53bdaef3b5e64a1ce2fa173522657d6577aeb",
+    "c2/irin": "4fa4bdfa633c770e230f8d6870d53cd34118e99d275bda20a559754a62f8ad90",
+    "c2/irgl": "ba81027c54ab4bd59083bfaeeccd0a9e0578fae63cb17c6c454896cc9ebfadd9"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f combined.c -W 1 -dos -Focombined.obj -ML -Gs4096 -Gy -G3 "
+  },
+  "directory": "S:\\vc1.0\\c2\\original-combined-23jr26p4",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\combined",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "first_entry_projection": {
+    "expected": [],
+    "observed": [],
+    "seeded": [],
+    "entry_plan_sha256": null
+  },
+  "logical": "@select_intrinsic_a3_a4@8",
+  "original_va": "0x1cf00",
+  "setup_seconds": 0.22480435110628605,
+  "execution_seconds": 1.2780922977253795,
+  "check_seconds": 0.02832410577684641,
+  "total_seconds": 1.5312211764976382
+}

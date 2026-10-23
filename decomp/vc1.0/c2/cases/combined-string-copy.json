@@ -1,0 +1,373 @@
+{
+  "checkpoint": 1095,
+  "source_graphs": 1016,
+  "base_commit": "51f9262a",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1095,
+    "accepted_code_bytes": 302105,
+    "original_code_bytes": 399693,
+    "percentage": 75.5842609202563,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 501
+  },
+  "accepted_functions": [
+    {
+      "name": "@push_unary_into_right@4",
+      "start": 348688,
+      "end": 348725
+    },
+    {
+      "name": "@select_intrinsic_string_length@12",
+      "start": 117328,
+      "end": 117585
+    },
+    {
+      "name": "@immediate_operand@4",
+      "start": 106944,
+      "end": 106963
+    },
+    {
+      "name": "@select_intrinsic_a3_a4@8",
+      "start": 118528,
+      "end": 118865
+    }
+  ],
+  "frontier": "@select_conditional_value@4",
+  "abi": [
+    {
+      "name": "@push_unary_into_right@4",
+      "original": [
+        ""
+      ],
+      "canonical": [
+        ""
+      ],
+      "stack_bytes": 0
+    },
+    {
+      "name": "@select_intrinsic_string_length@12",
+      "original": [
+        "4",
+        "4"
+      ],
+      "canonical": [
+        "4"
+      ],
+      "stack_bytes": 4
+    },
+    {
+      "name": "@immediate_operand@4",
+      "original": [
+        ""
+      ],
+      "canonical": [
+        ""
+      ],
+      "stack_bytes": 0
+    },
+    {
+      "name": "@select_intrinsic_a3_a4@8",
+      "original": [
+        ""
+      ],
+      "canonical": [
+        ""
+      ],
+      "stack_bytes": 0
+    }
+  ],
+  "limits": [
+    "Whole37-byte unary wrapper distribution,257-byte string scan,19-byte immediate constructor and337-byte shared string copy/fill setup preserve original function edges",
+    "Immediate helper retains original ignored register argument26; string scan physical EDI/ECX/EAX setup and scalar type/RET4 are preserved",
+    "Copy branch executed in current source; fill-mode and scan modes1/2 fully recovered but not all alternatives exercised",
+    "Ten native cases pass: nine exact objects plus combined expected named trap; no combined completion yet"
+  ],
+  "timing": {
+    "frontier1092-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.5462401108816266,
+      "returncode": 0,
+      "log_sha256": "335feb208ef647923b9e5034eac5ecb546c3247706118d2654f6e86052f6fcb4"
+    },
+    "frontier1093-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1093.json"
+      ],
+      "seconds": 0.2186868991702795,
+      "returncode": 0,
+      "log_sha256": "c22c578356843c3069860dce072cf889a8854a453066825255c65fbf0d7e066a"
+    },
+    "frontier1092-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "global-tree"
+      ],
+      "seconds": 2.3073265003040433,
+      "returncode": 0,
+      "log_sha256": "5d9ea988d6e3127447bbaba5ff2f191e5c3b022dba925a16bceb5e0022ac9a1f"
+    },
+    "frontier1094-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "machine-operands"
+      ],
+      "seconds": 1.9828649321570992,
+      "returncode": 0,
+      "log_sha256": "026a3bcc4e800493b349ae5f8808634315afb0a5b33cd6697aef82c5b6df1476"
+    },
+    "frontier1093-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1093.json"
+      ],
+      "seconds": 1.825793788768351,
+      "returncode": 0,
+      "log_sha256": "6d3c5ebd32e10401a5f5bbe290fbf21c71dc695ca587d691d7c74f12b1f07c72"
+    },
+    "frontier1095-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1095.json"
+      ],
+      "seconds": 1.821976131759584,
+      "returncode": 0,
+      "log_sha256": "188d1eb60ebc870d9755108da685d21774d853b93f13497d23dcd7a13ed25f93"
+    },
+    "frontier1095-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1095.json"
+      ],
+      "seconds": 0.21946443244814873,
+      "returncode": 0,
+      "log_sha256": "be959f180d9a4e30307138093b1d874aa9e691471b630b1ed5284c103c40af4d"
+    },
+    "frontier1094-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.384725995361805,
+      "returncode": 0,
+      "log_sha256": "80e0a8b21419377f5e9d59772cd681fe93b9f71141f30db10161d2eb6b255e3e"
+    },
+    "frontier1093-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.196601988747716,
+      "returncode": 0,
+      "log_sha256": "becd48457714da4e6471f201077b1d29053c744b095463b22d3f46e389058693"
+    },
+    "frontier1093-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsic-selection"
+      ],
+      "seconds": 1.2375516388565302,
+      "returncode": 0,
+      "log_sha256": "1054ad9bfec52c8eb42383125c7f4c8945000e2750b5b9af96c418fb2f2e455a"
+    },
+    "frontier1093-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.49579809140414,
+      "returncode": 0,
+      "log_sha256": "a4c8ff98ab04a85b82bc8d6bbc038a1fb56a2ef3d9cffd6b0366532df5a7907b"
+    },
+    "frontier1092-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1092.json"
+      ],
+      "seconds": 0.22272268682718277,
+      "returncode": 0,
+      "log_sha256": "a3fcc25d023cfc6fe9330e3f7bca827d82482fb76d0d89d31c2355ae6342b5f3"
+    },
+    "frontier1094-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5484296465292573,
+      "returncode": 0,
+      "log_sha256": "249550ba44dff38163264319e54f6915e638d59c281618e5e2754fdcf0478b04"
+    },
+    "frontier1094-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1094.json"
+      ],
+      "seconds": 0.21657334826886654,
+      "returncode": 0,
+      "log_sha256": "b371b785a194129c11a8e0f9dc9ed9ebc8a80d7a9a3cad8d083cf00df3c88ffd"
+    },
+    "frontier1092-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1092.json"
+      ],
+      "seconds": 1.4769243467599154,
+      "returncode": 0,
+      "log_sha256": "96da62b6f97e1d9114dfcdbffdba1a2ee81ca4c2edb982b6435f2e4d8127f4ca"
+    },
+    "frontier1094-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1094.json"
+      ],
+      "seconds": 1.603721716441214,
+      "returncode": 0,
+      "log_sha256": "df5a407e94559f6f318dd5eb5e44bdc7a20d57e4d37a3d3cc61ad249ad04e278"
+    },
+    "frontier1095-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsic-selection"
+      ],
+      "seconds": 2.1018212037160993,
+      "returncode": 0,
+      "log_sha256": "bd40148278fc89c9f21c241f7d081746089e0109e316e6bbd881b7327cbfc1fe"
+    },
+    "frontier1095-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.3995657972991467,
+      "returncode": 0,
+      "log_sha256": "becd48457714da4e6471f201077b1d29053c744b095463b22d3f46e389058693"
+    },
+    "frontier1093-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.1984986439347267,
+      "returncode": 0,
+      "log_sha256": "51e81861924d6c9c0222f14bf993eb18daa4a228ffe5a5c2248c827d86472507"
+    },
+    "frontier1095-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2245035357773304,
+      "returncode": 0,
+      "log_sha256": "3f3336c64c4d96ca6d3e9d6020d33b37b7b39a221e990bd4513131fca80ecc4a"
+    },
+    "frontier1092-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2013691142201424,
+      "returncode": 0,
+      "log_sha256": "365c290cf83daea23bfc329db3d1d8102844c379c555fd2bc269614c39795e17"
+    },
+    "frontier1094-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.1886989660561085,
+      "returncode": 0,
+      "log_sha256": "e46f91e2cce2b816b01e9e6a94900225dbb29d65b06d95ca87f8e3fa61385afe"
+    },
+    "frontier1095-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5518654519692063,
+      "returncode": 0,
+      "log_sha256": "e76d7426ab23410cea337a65df464b6a4e9d8e56060bb39eb1cef47327eaeebf"
+    },
+    "frontier1092-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5296131568029523,
+      "returncode": 0,
+      "log_sha256": "371e7632c6950d131479d20e4fefb7440d550e999b1685ec9dc7f6683ba7c819"
+    }
+  },
+  "analysis_seconds": null
+}

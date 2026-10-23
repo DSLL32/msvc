@@ -234,3 +234,11 @@ MachineOperand *__fastcall duplicate_operand(MachineOperand *operand)
     }
     return copy;
 }
+
+/* Original [0001a1c0,0001a1d3). Immediate creation preserves the original
+   unused register argument26; initialize_operand reads only the value for
+   this operand kind. */
+MachineOperand *__fastcall immediate_operand(unsigned value)
+{
+    return new_operand(OPERAND_IMMEDIATE, 26, value, 0);
+}

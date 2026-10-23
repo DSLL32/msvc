@@ -1,0 +1,12 @@
+{
+  "logical": "@select_conditional_value@4",
+  "matched": true,
+  "executable_sha256": "58ac0a7dc200e3a040b114f28c9c8a50661a90c480bf4acbbf1dbac17e809b21",
+  "config_sha256": "bcd6bd69688623589034c9d8870e0f9f3488243c8b8579cdb464a63966dc2127",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\combined",
+  "setup_seconds": 0.006427766755223274,
+  "execution_seconds": 0.13909497763961554,
+  "seconds": 0.15457273740321398,
+  "log_sha256": "15aef947c85fdf9ad2524c90bfb9f8c27fb550acacfc913c060ecc3025a39681",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/combined-gdb-kk6pvws1"
+}

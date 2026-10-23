@@ -1,15 +1,10 @@
 {
   "modules": [
     {
-      "module": "intrinsics",
-      "seconds": 2.032909383997321,
-      "returncode": 0
-    },
-    {
-      "module": "float-machine",
-      "seconds": 2.1154260030016303,
+      "module": "intrinsic-selection",
+      "seconds": 2.05305022187531,
       "returncode": 0
     }
   ],
-  "seconds": 4.1486397897824645
+  "seconds": 2.0532466853037477
 }

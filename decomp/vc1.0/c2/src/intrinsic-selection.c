@@ -442,3 +442,58 @@ unsigned __fastcall lookup_runtime_intrinsic_opcode(const OpcodeMap *map,
     }
     compiler_internal_error("@(#)cgintrin.c:1.57", 0x57);
 }
+
+/* Original [0001ca50,0001cb51). Scan a zero-terminated byte string using
+   EDI/ECX/EAX. Mode0 materializes its length in a new register; other modes
+   retain the original address register and optionally leave the scan count
+   complemented for a subsequent string operation. RET4 preserves type's
+   third fastcall argument slot. */
+unsigned short __fastcall select_intrinsic_string_length(Node *value, int mode,
+    unsigned type)
+{
+    MachineOperand *source = operand_for_register(select_value_register(value));
+    unsigned short result;
+    emit_machine_operation(MC_MOV, 0x104, &operand_edi, source);
+    emit_machine_operation(MC_MOV, 0x104, &operand_ecx,
+        new_operand(OPERAND_IMMEDIATE, 0, ~0U, 0));
+    emit_machine_operation(MC_SUB, 0x104, &operand_eax, &operand_eax);
+    emit_machine_operation(MC_REPNZ, 0);
+    emit_machine_operation(MC_SCAS, 0x101);
+    if (mode != 2) emit_machine_operation(MC_NOT, 0x104, &operand_ecx);
+    if (!mode) {
+        emit_machine_operation(MC_ADD, 0x104, &operand_ecx, immediate_operand(~0U));
+        result = new_value_register(0x100);
+        emit_machine_operation(MC_MOV, (unsigned short)type,
+            operand_for_register(result), &operand_ecx);
+        return result;
+    }
+    return source->value.reg.words.number;
+}
+
+/* Original [0001cf00,0001d051). Shared zero-terminated string copy/fill
+   setup. The scan count includes NUL for copying; filling subtracts that
+   byte. Save the destination before REP changes its physical register. */
+unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int fill)
+{
+    Node *arguments = node->second.node;
+    Node *scanned = fill ? arguments : arguments->second.node;
+    MachineOperand *count, *source, *destination, *result;
+    select_intrinsic_string_length(scanned->left.node, 1, 0);
+    emit_machine_operation(MC_SUB, 0x104, &operand_edi, &operand_ecx);
+    count = operand_for_register(new_value_register(0x100));
+    if (!fill) {
+        emit_machine_operation(MC_MOV, 0x104, count, &operand_ecx);
+        source = operand_for_register(new_value_register(0x100));
+        emit_machine_operation(MC_MOV, 0x104, source, &operand_edi);
+        destination = operand_for_register(select_value_register(arguments->left.node));
+    } else {
+        emit_machine_operation(MC_ADD, 0x104, &operand_ecx, immediate_operand(~0U));
+        emit_machine_operation(MC_MOV, 0x104, count, &operand_ecx);
+        source = select_replicated_fill_operand(arguments->second.node->left.node, 0x101, 0);
+        destination = &operand_edi;
+    }
+    result = operand_for_register(new_value_register(0x100));
+    emit_machine_operation(MC_MOV, 0x104, result, destination);
+    select_block_operation(0, count, source, destination, 1, 0x101, fill, 1, 1);
+    return result->value.reg.words.number;
+}

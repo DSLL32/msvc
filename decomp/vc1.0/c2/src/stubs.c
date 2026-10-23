@@ -159,7 +159,6 @@ void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 #include "value-selection.h"
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
-MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
@@ -325,7 +324,6 @@ void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *rel
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
-Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }
 int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
@@ -334,10 +332,8 @@ void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
-unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int mode) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a5(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
-unsigned short __fastcall select_intrinsic_string_length(Node *value, int mode, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
 void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,

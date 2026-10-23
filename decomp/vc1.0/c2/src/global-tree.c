@@ -1000,3 +1000,12 @@ Node *__fastcall copy_factor_exponent(Node *node)
         exponent = build_tree("PNY", exponent, 8);
     return exponent;
 }
+
+/* Original [00055210,00055235). Distribute a unary wrapper into its
+   right-hand operand using the original tree-builder linkage recipe. */
+Node *__fastcall push_unary_into_right(Node *node)
+{
+    Node *operand = node->left.node;
+    tree_changed = 1;
+    return build_tree("PPLYLY", operand->left.node, operand->second.node, node, operand);
+}
