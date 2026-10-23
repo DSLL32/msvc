@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655956b in parse_linkage (type=0x565ffb94 <parser_stacks+456>, language=0x56627a60) at src/stubs.c:219
+219	unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language) { __asm { int 3 } return 0; }
+#0  0x5655956b in parse_linkage (type=0x565ffb94 <parser_stacks+456>, language=0x56627a60) at src/stubs.c:219
+#1  0x565a9cf6 in parse_translation_unit () at src/parser-declaration-actions.inc:141
+#2  0x5655e13f in compile_translation_unit () at src/frontend.c:73
+#3  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

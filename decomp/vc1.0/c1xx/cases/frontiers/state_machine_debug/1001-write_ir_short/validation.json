@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_write_ir_short",
+    "start": 474416,
+    "end": 474661
+  },
+  "distinct_direct_callees": [
+    "__flsbuf"
+  ],
+  "next_frontier": "_parse_linkage@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.39698248635977507,
+  "total_operation_seconds": 3.9629798736423254,
+  "original_capture_seconds": 1.7691083680838346
+}

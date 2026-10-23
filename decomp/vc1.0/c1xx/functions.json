@@ -1005,7 +1005,8 @@
     "_begin_debug_info",
     "_write_debug_record",
     "_write_ir_integer",
-    "_write_counted_ir"
+    "_write_counted_ir",
+    "_write_ir_short"
   ],
   "driver": [
     {
@@ -7119,7 +7120,7 @@
     {
       "name": "_write_ir_short",
       "start": 474416,
-      "end": 474417
+      "end": 474661
     },
     {
       "name": "_write_ir_float",
@@ -7826,7 +7827,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_write_ir_short",
+      "terminal": "_parse_linkage@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7849,13 +7850,14 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1000-write_counted_ir/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1001-write_ir_short/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
         "cases/frontiers/state_machine_debug/0998-write_debug_record/frontier-extension.json",
         "cases/frontiers/state_machine_debug/0999-write_ir_integer/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1000-write_counted_ir/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1000-write_counted_ir/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1001-write_ir_short/frontier-extension.json"
       ]
     }
   },

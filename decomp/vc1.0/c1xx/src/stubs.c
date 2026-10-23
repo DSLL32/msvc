@@ -604,7 +604,7 @@ IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { 
 
 
 unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
-void write_ir_short(short *value) { __asm { int 3 } }
+
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 

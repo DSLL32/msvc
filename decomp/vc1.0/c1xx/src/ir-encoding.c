@@ -48,3 +48,16 @@ void write_counted_ir(short length, char *text)
     write_ir_short(&length);
     while (--length >= 0) putc(*text++, auxiliary_ir_stream);
 }
+
+/* Original 0x73d30..0x73e25. The short variant shares the reserved
+   marker convention while retaining its two-byte source width. */
+void write_ir_short(short *value)
+{
+    char *bytes = (char *)value;
+    if (*value >= -127 && *value <= 127) putc(bytes[0], auxiliary_ir_stream);
+    else {
+        putc(0x80, auxiliary_ir_stream);
+        putc(bytes[0], auxiliary_ir_stream);
+        putc(bytes[1], auxiliary_ir_stream);
+    }
+}
