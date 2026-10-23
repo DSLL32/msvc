@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "5c46a9b4437eb943894f131870f2704b42306c33a83f8e4f7226c0dfd36ed0d2",
+    "functions.json": "12bc16989db33104dfdc35cb0967678ecddedd35f8bae917412aa36e9d065ae4",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "2571b815ab141c7c94075f5b87200a0586d5ca5e3cce50477f1bcbd79afcfbdd",
-    "cases/canonical-map.txt": "f1806461e4dd70469eee1321746829fffdd5580ff4ffe5ec006c1cdc80ea0859",
+    "cases/original-entry-references.json": "d525ecb3972722adc4efdeb9fc4ac11b56196da940b7d941894969164f7a34d9",
+    "cases/canonical-map.txt": "6b6988f701623a4ab420a0ccaf2336a546b8fa232f4ba60c2aefeb60b934cf66",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1032-register_static_member_alias-8/entry-reference/original-receipt.json": "95242070af3dee9e0ac43919bd7c66cec236c861e98a35d9194bf1648e260069",
-    "cases/frontiers/state_machine_debug/1032-register_static_member_alias-8/entry-reference/original-events.txt": "f898962b9fcff3d1424c656d7e5e3dceb0fbe8a1fb5f8847218e9b1ec561a411",
-    "cases/frontiers/state_machine_debug/1032-register_static_member_alias-8/entry-reference/original-entries.plan": "a3509e8f137a89f8daa81043a1acaf49ea6a7971247e0f52688f61f666f2675f"
+    "cases/frontiers/state_machine_debug/1033-hash_symbol_index/entry-reference/original-receipt.json": "b93e067a58de2d29468dbeee22e84bc2c0cf3c16142cf3cab7c540d923e75026",
+    "cases/frontiers/state_machine_debug/1033-hash_symbol_index/entry-reference/original-events.txt": "cc153e093d5a992f4ca8e57d79f2e706787e249dfab905f5195a1ee040c5696d",
+    "cases/frontiers/state_machine_debug/1033-hash_symbol_index/entry-reference/original-entries.plan": "01330a0c5c8c344f840ac7f3e537bd301417bcd56aa6db06c319185e10e1d266"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2521,7 +2521,7 @@
     },
     "hash_symbol_index": {
       "logical": "_hash_symbol_index",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "hash_table_bucket": {
       "logical": "_hash_table_bucket@8",
@@ -6259,7 +6259,8 @@
     "create_static_member_alias",
     "make_anonymous_identifier",
     "mangle_static_member_name",
-    "register_static_member_alias"
+    "register_static_member_alias",
+    "hash_symbol_index"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10371,7 +10372,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1033,
+      "last": 1034,
       "seen": [
         "main",
         "message_text",
@@ -11314,12 +11315,13 @@
         "make_anonymous_identifier",
         "mangle_static_member_name",
         "register_static_member_alias",
-        "hash_symbol_index"
+        "hash_symbol_index",
+        "hash_low_pointer_bits"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_hash_symbol_index",
-        "native": "hash_symbol_index",
+        "logical": "_hash_low_pointer_bits",
+        "native": "hash_low_pointer_bits",
         "signal": 5
       }
     }

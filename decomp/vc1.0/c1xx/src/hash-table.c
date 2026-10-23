@@ -1,6 +1,7 @@
 /* Arena-backed tables shared by declaration lookup and later frontend passes. */
 #include "hash-table.h"
 #include "options.h"
+#include "declarations.h"
 #include <recon.h>
 
 /* Original 0x4ec10..0x4ecd5. */
@@ -166,4 +167,11 @@ void *__stdcall find_hash_value(HashTable *table, void *key)
 int __cdecl equal_pointer(void *left, void *right)
 {
     return left == right ? 1 : 0;
+}
+
+/* Original 0x56160..0x56168. Class-member alias tables hash the
+   declaration's stable emitted symbol index rather than its address. */
+unsigned __cdecl hash_symbol_index(void *key)
+{
+    return ((CppSymbol *)key)->index;
 }

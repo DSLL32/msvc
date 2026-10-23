@@ -1,0 +1,123 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1033,
+  "terminal": "_hash_low_pointer_bits",
+  "candidate": "_hash_symbol_index",
+  "pending_accepted": [],
+  "configuration_sha256": "5a72b55a75abd11c245c5463b1eee6d3d9b19435df1b18f1e047aa0bca81f44a",
+  "capture_seconds": 1.5683143502101302,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 3831,
+      "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-debug",
+  "first_entry_projection": {
+    "accepted_first": 997,
+    "accepted_last": 1034,
+    "accepted_prefix_sha256": "0e7d91c1578500b27ef9e452df6097ef0f3a7bd0b0c01e998a79d7f043638eec",
+    "expected": [
+      "_begin_debug_info",
+      "_write_debug_record",
+      "_write_ir_integer",
+      "_write_counted_ir",
+      "_write_ir_short",
+      "_parse_linkage@8",
+      "_find_intrinsic_index@4",
+      "_intrinsic_enabled@4",
+      "_pop_linkage",
+      "_declare_enumerator@12",
+      "_next_enumerator_value@8",
+      "_end_enum_specifier",
+      "_layout_bit_field@16",
+      "_begin_braced_initializer@4",
+      "_push_braced_initializer@4",
+      "_copy_initializer_symbol@12",
+      "_begin_nested_initializer",
+      "_flush_initializer_constructors",
+      "_advance_braced_initializer@4",
+      "_enumerator_expression@4",
+      "_initialize_element@8",
+      "_select_braced_initializer@4",
+      "_find_next_initializer_member@8",
+      "_is_initializer_data_member@4",
+      "_finish_braced_initializer_element",
+      "_emit_initializer_constant@4",
+      "_end_nested_initializer",
+      "_finish_implicit_initializers",
+      "_end_braced_initializer@4",
+      "_finish_braced_initializer@4",
+      "_inferred_initializer_count",
+      "_validate_union_member@8",
+      "_create_static_member_alias@4",
+      "_make_anonymous_identifier",
+      "_mangle_static_member_name@8",
+      "_register_static_member_alias@8",
+      "_hash_symbol_index"
+    ],
+    "observed": [
+      "_begin_debug_info",
+      "_write_debug_record",
+      "_write_ir_integer",
+      "_write_counted_ir",
+      "_write_ir_short",
+      "_parse_linkage@8",
+      "_find_intrinsic_index@4",
+      "_intrinsic_enabled@4",
+      "_pop_linkage",
+      "_declare_enumerator@12",
+      "_next_enumerator_value@8",
+      "_end_enum_specifier",
+      "_layout_bit_field@16",
+      "_begin_braced_initializer@4",
+      "_push_braced_initializer@4",
+      "_copy_initializer_symbol@12",
+      "_begin_nested_initializer",
+      "_flush_initializer_constructors",
+      "_advance_braced_initializer@4",
+      "_enumerator_expression@4",
+      "_initialize_element@8",
+      "_select_braced_initializer@4",
+      "_find_next_initializer_member@8",
+      "_is_initializer_data_member@4",
+      "_finish_braced_initializer_element",
+      "_emit_initializer_constant@4",
+      "_end_nested_initializer",
+      "_finish_implicit_initializers",
+      "_end_braced_initializer@4",
+      "_finish_braced_initializer@4",
+      "_inferred_initializer_count",
+      "_validate_union_member@8",
+      "_create_static_member_alias@4",
+      "_make_anonymous_identifier",
+      "_mangle_static_member_name@8",
+      "_register_static_member_alias@8",
+      "_hash_symbol_index"
+    ],
+    "events_sha256": "cc153e093d5a992f4ca8e57d79f2e706787e249dfab905f5195a1ee040c5696d",
+    "plan_sha256": "01330a0c5c8c344f840ac7f3e537bd301417bcd56aa6db06c319185e10e1d266"
+  }
+}

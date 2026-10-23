@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_hash_symbol_index",
+    "start": 352608,
+    "end": 352616
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_hash_low_pointer_bits",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3930076789110899,
+  "total_operation_seconds": 3.7930464074015617,
+  "original_capture_seconds": 1.5683143502101302
+}
