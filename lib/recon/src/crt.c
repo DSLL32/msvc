@@ -1663,5 +1663,8 @@ WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
 }
 WEAK int recon_iswctype(WCHAR character,WCHAR mask)
 {
-    (void)character;(void)mask;recon_unsupported("unreviewed UTF16 iswctype");return 0;
+    if (character>=128 || (mask!=4 && mask!=8) || recon_lc_handle[2] || recon_lc_codepage)
+        recon_unsupported("iswctype outside default-C ASCII digit/space scope");
+    if (mask==4) return character>='0' && character<='9'?4:0;
+    return character==' ' || (character>='\t' && character<='\r')?8:0;
 }

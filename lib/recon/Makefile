@@ -244,3 +244,8 @@ build/stdin-profile-510: tests/stdin-profile.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 stdin-profile-check: build/stdin-profile-default build/stdin-profile-510
 	$(PYTHON) tests/check-stdin-profile.py build/stdin-profile-default build/stdin-profile-510
+
+build/wctype-probe: tests/wctype-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+wctype-check: build/wctype-probe
+	$(PYTHON) tests/check-wctype.py build/wctype-probe

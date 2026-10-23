@@ -596,3 +596,7 @@ a shared static4096-byte buffer (originalRVA42780), count0, flags101, descriptor
 It has user-buffer ownership and survives dup2/close/reopen without heap-free.
 Untouched contents have no live-byte equivalence claim. Default VC1 startup is
 unchanged; this is provider initial-state behavior, not a case/API reseed.
+
+iswctype supports the proved default-C ASCII digit/space masks4/8, retaining
+those exact mask bits and both error slots. All128 ASCII values across4 sentinel
+pairs match the actual provider; non-ASCII/other masks/locales fail explicitly.

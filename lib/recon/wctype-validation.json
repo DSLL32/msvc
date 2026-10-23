@@ -1,0 +1,11 @@
+{
+  "scope": "Default-C ASCII iswctype digit4/space8; exact result bits and error preservation",
+  "reference": "tests/wctype-original.json",
+  "provider_bodies": [
+    "iswctype4131..416c +c5ba..c5ee",
+    "ASCII direct canonical wide-table mask; nonASCII/NLS paths unsupported"
+  ],
+  "original_proof": "Actual loaded provider/probe hFile verification;1024 rows all128 ASCII x2 masks x4 sentinel pairs",
+  "native_checks": "GCC/Clang exact stdout hash/length plus3 unsupported-scope controls and default/SDK surface checks",
+  "combined_build_checks_seconds": 2.343
+}
