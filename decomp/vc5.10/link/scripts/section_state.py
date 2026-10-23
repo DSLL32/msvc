@@ -42,22 +42,43 @@ def compare(original,state,trap,events):
     formals=trap['section_group_formals'];native_formals=state['section_group_formals']
     finder=state['function']=='find_contribution_group'
     group_initializer=state['function']=='initialize_group_enumerator'
+    group_step=state['function']=='next_contribution_group'
     assert formals['name']==0x4021f4
     assert formals['section']==left[-1]['address']
     assert native_formals['name'] and native_formals['section']==right[-1]['address']
     assert formals['text']==native_formals['text']=='.edata'
-    if group_initializer:
+    if group_initializer or group_step:
         current=trap['group_enumerator_formals'];ncurrent=state['group_enumerator_formals']
-        assert current['enumerator']==trap['stack'][1]==trap['esp']+0x1c
-        assert current['section']==trap['stack'][2]==formals['section']
-        assert current['owner_stack']==trap['esp']+0x30
+        assert current['enumerator']==trap['stack'][1]==trap['esp']+(0x1c if group_initializer else 0x18)
+        assert current['section']==formals['section']
+        if group_initializer:assert current['section']==trap['stack'][2]
+        assert current['owner_stack']==trap['esp']+(0x30 if group_initializer else 0x2c)
         assert struct.unpack('<2I',(original/'group-finder-inputs.bin').read_bytes())==(formals['section'],formals['name'])
-        assert current['initial_value_contract']==ncurrent['initial_value_contract']=='uninitialized output record; no incoming bytes consumed'
-        assert len((original/'group-enumerator-before.bin').read_bytes())==len(bytes.fromhex(ncurrent['before']))==16
         assert ncurrent['enumerator']==ncurrent['owner_local']and ncurrent['enumerator']
         assert ncurrent['section']==native_formals['section']
-        assert trap['frontier_inputs']==dict(formals=[current['enumerator'],current['section']],hidden_register_inputs=[])
-        assert state['frontier_inputs']==dict(formals=[ncurrent['enumerator'],ncurrent['section']],hidden_register_inputs=[])
+        if group_initializer:
+            assert current['initial_value_contract']==ncurrent['initial_value_contract']=='uninitialized output record; no incoming bytes consumed'
+            assert len((original/'group-enumerator-before.bin').read_bytes())==len(bytes.fromhex(ncurrent['before']))==16
+            assert trap['frontier_inputs']==dict(formals=[current['enumerator'],current['section']],hidden_register_inputs=[])
+            assert state['frontier_inputs']==dict(formals=[ncurrent['enumerator'],ncurrent['section']],hidden_register_inputs=[])
+        else:
+            assert current['initial_value_contract']==ncurrent['initial_value_contract']=='fully initialized group enumerator record'
+            assert trap['frontier_inputs']==dict(formals=[current['enumerator']],hidden_register_inputs=[])
+            assert state['frontier_inputs']==dict(formals=[ncurrent['enumerator']],hidden_register_inputs=[])
+            initialized=enum_bytes(0x40fc70,0x40fd90,formals['section'],0)
+            ninitialized=enum_bytes(state['group_callback_addresses']['next_contribution_group'],state['group_callback_addresses']['end_section_enumerator'],native_formals['section'],0)
+            assert (original/'group-enumerator.bin').read_bytes()==initialized
+            assert bytes.fromhex(ncurrent['before'])==ninitialized
+            before,after=list(pairs(events,'group_enum_observation',1))[0]
+            assert len(state['group_enum_calls'])==1
+            call=state['group_enum_calls'][0]
+            returned(before,after,(0x40e689,0x40e68e),8)
+            assert before['arguments']==after['arguments']==[current['enumerator'],formals['section']]
+            assert len((original/'group-enumerator-before-0.bin').read_bytes())==len(bytes.fromhex(call['before']))==16
+            assert (original/'group-enumerator-after-0.bin').read_bytes()==initialized
+            assert call['enumerator']==ncurrent['enumerator']and call['section']==native_formals['section']
+            assert call['return_stack']==call['entry_stack']+12
+            assert bytes.fromhex(call['after'])==ninitialized
     else:
         assert formals['name']==trap['stack'][2 if finder else 1]
         assert formals['section']==trap['stack'][1 if finder else 2]
@@ -116,7 +137,7 @@ def check_calls(original,state,trap,events,left,right):
     initializers=list(pairs(events,'section_enum_observation',8))
     steps=list(pairs(events,'section_next_observation',36))
     ends=list(pairs(events,'section_end_observation',8))
-    group_initializer=state['function']=='initialize_group_enumerator'
+    group_initializer=state['function']in ('initialize_group_enumerator','next_contribution_group')
     resolution_count=9 if group_initializer else 8
     resolutions=list(pairs(events,'section_resolve_observation',resolution_count))
     for key,count in [('section_lookup_calls',8),('section_create_calls',8),('section_flag_calls',16),('section_enum_calls',8),('section_next_calls',36),('section_end_calls',8),('section_resolve_calls',resolution_count),('link_string_calls',10),('duplicate_calls',15)]:

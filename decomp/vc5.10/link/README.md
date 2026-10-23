@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 65 application
-functions (29,383 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 66 application
+functions (29,417 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_group_enumerator`; hello-win32 has not completed.
+next frontier is `next_contribution_group`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -368,3 +368,10 @@ stack-local ownership are checked explicitly; uninitialized incoming bytes are
 retained without cross-platform equality. Both builds, 124 state negatives and
 the strict 78-vertex/71-RET audit pass. The stale compiled-counterpart binding
 rejection remains recorded alongside its subsequent static-only refresh.
+
+The 34-byte group-enumerator initializer is accepted after its actual return.
+Both callbacks, complete export-section pointer, NULL current-group slot and
+all 16 output bytes match their typed roles; the next group-step stub receives
+the owned initialized local. Original/native captures, 131 state negatives and
+the strict 79-vertex/72-RET audit pass. Incoming uninitialized bytes remain
+separate from the fully initialized output contract.

@@ -40,6 +40,8 @@ def plan(accepted,case="help"):
         result.extend([(0xefac,'observe:section_lookup_call'),(0xefb1,'observe:section_lookup_return'),(0xefe2,'observe:section_name_call'),(0xefe7,'observe:section_name_return'),(0xf219,'observe:section_resolve_call'),(0xf21e,'observe:section_resolve_return')])
     if '_find_contribution_group@8'in accepted:
         result.extend([(0xe67e,'observe:group_resolve_call'),(0xe683,'observe:group_resolve_return')])
+    if '_initialize_group_enumerator@8'in accepted:
+        result.extend([(0xe689,'observe:group_enum_call'),(0xe68e,'observe:group_enum_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

@@ -1,0 +1,24 @@
+{
+  "application_functions": 66,
+  "original_application_extent_bytes": 29417,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "fresh_original": 1,
+  "fresh_native": 1,
+  "fresh_boundary_negative_controls": 131,
+  "reused_protocol_and_preservation_controls": "Unchanged exact-hash controller/import/provider/closed-slot controls and finite semantic witnesses.",
+  "seconds": {
+    "original": 1.570239837281406,
+    "native": 0.47424242179840803,
+    "audit": 0.8483482776209712,
+    "cached_help_fixture": {
+      "setup": 0.056967332027852535,
+      "execution": 0.003848530352115631,
+      "checks": 0.0004144776612520218,
+      "total": 0.06438525952398777
+    }
+  },
+  "next_frontier": "_next_contribution_group@4",
+  "actual_inputs": "one pointer to fully initialized16-byte finder stacklocal; next/end callbacks, exportsection and NULLcurrent verified",
+  "scope": "Whole34-byte initializer and actual RET8 completed with before/after output bytes; pending first group step has not returned. Uninitialized constructor input bytes retained separately without cross-platform equality."
+}

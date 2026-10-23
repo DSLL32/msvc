@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "status": "callback-slot semantic witness; additional common-tool support pending",
+  "owner": "?FullLink@LinkContext@@QAEHPAE@Z",
+  "preserves": [
+    "edi"
+  ],
+  "original": {
+    "target_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+    "slot": 4714192,
+    "initial_bytes": "00000000",
+    "initialization_basis": {
+      "rule": "PE loader zero fill beyond SizeOfRawData within VirtualSize",
+      "section": {
+        "name": ".data",
+        "rva": 421888,
+        "size": 1536,
+        "off": 416256,
+        "virtual_size": 186708,
+        "flags": 3221225536
+      }
+    },
+    "absolute_encoded_slot_reference_count": 5,
+    "reference_file_offsets": [
+      208082,
+      208119,
+      223013,
+      277399,
+      396686
+    ],
+    "assignments": [
+      {
+        "site": 4405456,
+        "bytes": "c705d0ee470070444600",
+        "target": 4605040,
+        "method": "LinkContext::VxdWriteHeaders"
+      },
+      {
+        "site": 4405493,
+        "bytes": "c705d0ee4700709d4500",
+        "target": 4562288,
+        "method": "LinkContext::PeWriteHeaders"
+      }
+    ],
+    "calls": [
+      {
+        "sequence_site": 4420384,
+        "bytes": "518bcdff15d0ee4700",
+        "call_site": 4420387
+      },
+      {
+        "sequence_site": 4474770,
+        "bytes": "8bcd52ff15d0ee4700",
+        "call_site": 4474773
+      },
+      {
+        "sequence_site": 4594057,
+        "bytes": "528bcfff15d0ee4700",
+        "call_site": 4594060
+      }
+    ],
+    "required_preservation_call": 4474773,
+    "allowed_targets": [
+      {
+        "method": "LinkContext::PeWriteHeaders",
+        "address": 4562288
+      },
+      {
+        "method": "LinkContext::VxdWriteHeaders",
+        "address": 4605040
+      }
+    ]
+  },
+  "rebuilt": {
+    "pe_sha256": "c614abbe9931389bdd970c871ee36d35873100f0d83ee9631344bb93544e06b8",
+    "map_sha256": "9100ed2677725c2ad8c44e28b2f5565e13018a16735235424871a5729da7afc7",
+    "slot": 4256744,
+    "symbol": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@",
+    "code_reference_count": 3,
+    "code_references": [
+      {
+        "object": "build/full-link.obj",
+        "object_sha256": "08016634c8781bc12c8f84e02423ec0c830ed5ba5ca2ec192e099c50cb4b32ff",
+        "section": ".text",
+        "offset": 9337,
+        "relocation_kind": 6,
+        "form": "call absolute memory",
+        "prefix": "ff15"
+      },
+      {
+        "object": "build/link-driver.obj",
+        "object_sha256": "578be00729300d051436cb6a4e93b7bcda7243074fb398e389da09f3abc75671",
+        "section": ".text",
+        "offset": 2576,
+        "relocation_kind": 6,
+        "form": "store immediate function pointer",
+        "prefix": "c705"
+      },
+      {
+        "object": "build/link-driver.obj",
+        "object_sha256": "578be00729300d051436cb6a4e93b7bcda7243074fb398e389da09f3abc75671",
+        "section": ".text",
+        "offset": 2622,
+        "relocation_kind": 6,
+        "form": "store immediate function pointer",
+        "prefix": "c705"
+      }
+    ],
+    "required_preservation_call": 4240791,
+    "debug_metadata_references": [
+      {
+        "object": "build/full-link.obj",
+        "object_sha256": "08016634c8781bc12c8f84e02423ec0c830ed5ba5ca2ec192e099c50cb4b32ff",
+        "section": ".debug$S",
+        "offset": 1654,
+        "relocation_kind": 11,
+        "section_flags": 1108344904
+      },
+      {
+        "object": "build/full-link.obj",
+        "object_sha256": "08016634c8781bc12c8f84e02423ec0c830ed5ba5ca2ec192e099c50cb4b32ff",
+        "section": ".debug$S",
+        "offset": 1658,
+        "relocation_kind": 10,
+        "section_flags": 1108344904
+      },
+      {
+        "object": "build/link-driver.obj",
+        "object_sha256": "578be00729300d051436cb6a4e93b7bcda7243074fb398e389da09f3abc75671",
+        "section": ".debug$S",
+        "offset": 2589,
+        "relocation_kind": 11,
+        "section_flags": 1108344904
+      },
+      {
+        "object": "build/link-driver.obj",
+        "object_sha256": "578be00729300d051436cb6a4e93b7bcda7243074fb398e389da09f3abc75671",
+        "section": ".debug$S",
+        "offset": 2593,
+        "relocation_kind": 10,
+        "section_flags": 1108344904
+      }
+    ]
+  },
+  "abi": {
+    "original_and_win32_member_bytes": 4,
+    "native_member_bytes": 8,
+    "native_adjustment": 0,
+    "receiver": "ECX",
+    "stack_arguments": [
+      "int file"
+    ],
+    "callee_cleanup": 4,
+    "allowed_projection": "Only standalone globals, the six already named methods, an unambiguous initial NULL, and zero native this adjustment; all other values fail closed."
+  },
+  "closure_basis": "Zero-initialized global has only two evidenced constructor assignments, selecting actual PE or VXD method. The complete target has exactly five encoded absolute references: those two writes and three exact receiver/stack/indirect-call sequences. Its address is not passed to another function. Current rebuilt COFF code has exactly two immediate constructor stores and one FullLink CALL[slot], with no address-taking/other reference. Constructor caller run_linker derives is_vxd as boolean has_switch(vxd), selecting exactly one known assignment before FullLink. This is a finite original/rebuilt slot contract, not general pointer analysis.",
+  "scope_guard": "Revalidate target SHA, all original slot-reference count/locations, exact assignment/call bytes, every current rebuilt source-object code relocation to slot, both named target ABIs and zero-adjustment projection. Any new assignment/reference/unknown value requires explicit review before enabling the contract; no unknown callback is inferred or granted preservation. Inspect all source-object section relocations: reject any loaded non-code or address-taking alias. Only the exact four discarded CodeView .debug$S SECTION/SECREL metadata relocations are allowed in addition to the three code references.",
+  "existing_validator": {
+    "path": "scripts/member_pointers.py",
+    "sha256": "bbd773c89dc73685884ea25df72472315ade3b4804bdc59adfdda5252e3cfab9",
+    "result": {
+      "callbacks": {
+        "image_header_size": {
+          "original_slot": 4714828,
+          "rebuilt_slot": 4252452,
+          "assigned_methods": {
+            "pe": "LinkContext::PeHeaderSize",
+            "vxd": "LinkContext::VxdHeaderSize"
+          },
+          "original_call_sequences": [
+            [
+              4471349,
+              "8d5424508bcd52ff154cf14700"
+            ]
+          ],
+          "stack_cleanup": 4
+        },
+        "image_write_section": {
+          "original_slot": 4714744,
+          "rebuilt_slot": 4252476,
+          "assigned_methods": {
+            "pe": "LinkContext::PeWriteSection",
+            "vxd": "LinkContext::VxdWriteSection"
+          },
+          "original_call_sequences": [
+            [
+              4456868,
+              "8d5424205256508bcfff15f8f04700"
+            ],
+            [
+              4465851,
+              "8d4424385051528bcbff15f8f04700"
+            ]
+          ],
+          "stack_cleanup": 12
+        },
+        "image_write_headers": {
+          "original_slot": 4714192,
+          "rebuilt_slot": 4252440,
+          "assigned_methods": {
+            "pe": "LinkContext::PeWriteHeaders",
+            "vxd": "LinkContext::VxdWriteHeaders"
+          },
+          "original_call_sequences": [
+            [
+              4420384,
+              "518bcdff15d0ee4700"
+            ],
+            [
+              4474770,
+              "8bcd52ff15d0ee4700"
+            ],
+            [
+              4594057,
+              "528bcfff15d0ee4700"
+            ]
+          ],
+          "stack_cleanup": 4
+        }
+      },
+      "qualification": "Three separate standalone globals only; no embedded664-byte context field, array stride, serialization or nonzero this adjustment is covered. These actual callback bodies remain named traps until reached."
+    }
+  },
+  "caller_constructor_evidence": [
+    {
+      "name": "_run_linker@8",
+      "start": 4492464,
+      "end": 4494016,
+      "original_code_sha256": "c7aa81450c157df7e030e4209c0e5216f3520acd09ef5109dbc0d5a153dc2d28"
+    },
+    {
+      "name": "LinkContext::Initialize",
+      "start": 4405200,
+      "end": 4405604,
+      "original_code_sha256": "0ee6601351b3ce2b196ba0221960a56bea28ac918736e1008b9908aeb4b48d78"
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/link-driver.h",
+      "sha256": "e5c1f2b46e3e7b744a6f3b409ec59621c0536a76b2b5530a85e321ce16d0597e"
+    },
+    {
+      "path": "src/link-driver.cpp",
+      "sha256": "c83bac5fb766f61acd25dafd01a01a19d9801e935706eda7a4e00f94eb0a9176"
+    },
+    {
+      "path": "src/full-link.cpp",
+      "sha256": "e78f910053dda34a5b8cdbbe9521563c80710ffd2f6703d2b9414e741385ba2a"
+    }
+  ],
+  "native_observation": {
+    "state": "cases/hello-win32/full-link-pending/native/state.json",
+    "state_sha256": "ce1d976e8153d365781ca6b127eb6872384796183a03f20f8ca3011e2c474447",
+    "original_member": "cases/hello-win32/full-link-pending/original/member-write-headers.bin",
+    "original_member_sha256": "d9885a1c1155e2e0d046f837bdc8cf445953caa46fd7df16a6e2cc8405bd879f",
+    "native_member": {
+      "bytes": 8,
+      "raw": "c0ea040800000000"
+    },
+    "qualification": "Observed PE value is one reached example only; full allowed set remains both inspected PE/VXD methods and is not replaced by this observation."
+  }
+}

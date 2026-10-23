@@ -82,7 +82,8 @@
     "_end_section_enumerator",
     "_resolve_output_section@4",
     "_create_contribution_group@8",
-    "_find_contribution_group@8"
+    "_find_contribution_group@8",
+    "_initialize_group_enumerator@8"
   ],
   "driver": [
     {
@@ -2374,10 +2375,10 @@
     {
       "name": "_initialize_group_enumerator@8",
       "start": 4258880,
-      "end": 4258881,
+      "end": 4258914,
       "source": "src/sections.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "initialize_group_enumerator",
       "abi": "stdcall void(GroupEnumerator *enumerator,OutputSection *section); actual writable16-byte output and section input, RET8; no hidden inputs"
     },

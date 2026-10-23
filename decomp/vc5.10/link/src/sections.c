@@ -78,7 +78,10 @@ ContributionGroup *__stdcall find_contribution_group(OutputSection *section,cons
 
 void __stdcall initialize_group_enumerator(GroupEnumerator *enumerator,OutputSection *section)
 {
-    __asm { int 3 }
+    enumerator->next=next_contribution_group;
+    enumerator->end=(void (__stdcall *)(GroupEnumerator *))end_section_enumerator;
+    enumerator->current=NULL;
+    enumerator->section=section;
 }
 
 BYTE __stdcall next_contribution_group(GroupEnumerator *enumerator)
