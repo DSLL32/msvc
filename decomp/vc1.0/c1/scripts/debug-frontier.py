@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--directory', required=True, type=Path)
     parser.add_argument('--reference', type=Path)
     parser.add_argument('--trace-flags',help='Logical function to observe at entry/return')
+    parser.add_argument('--trace-timestamps',action='store_true',help='Compare metadata adapter handle/result/output timestamp')
     parser.add_argument('--trace-function-finishes',action='store_true')
     parser.add_argument('--trace-enum-callbacks', action='store_true')
     parser.add_argument('--enum-callback-function', choices=['legacy','pdb'], default='legacy')
@@ -31,6 +32,9 @@ def main():
     if options.trace_function_finishes:
         assert options.trace_flags is None
         options.trace_flags = '_finish_function_definition'
+    if options.trace_timestamps:
+        assert options.trace_flags is None and not options.trace_function_finishes
+        options.trace_flags = '_get_file_timestamp@8'
     start = time.perf_counter()
     case = options.case.resolve()
     directory = options.directory.resolve()
@@ -97,7 +101,7 @@ def main():
                     from binary import PE
                     from images import imports
                     expected_record = next(r for r in imports(PE(ROOT/phase['target'])) if r['start']==address)
-                native_boundaries = {'_rename':'recon_rename','_tolower':'recon_tolower','__stat':'recon_stat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen','_qsort':'recon_qsort','_swap':'sort_swap','import:SetEndOfFile':'recon_SetEndOfFile'}
+                native_boundaries = {'_rename':'recon_rename','_tolower':'recon_tolower','__stat':'recon_stat','__fstat':'recon_fstat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen','_qsort':'recon_qsort','_swap':'sort_swap','import:SetEndOfFile':'recon_SetEndOfFile'}
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 
@@ -144,7 +148,13 @@ class FlagFinish(gdb.FinishBreakpoint):
     def __init__(self,count):
         super().__init__(gdb.newest_frame(),internal=True)
         self.count=count
+        if %r:
+            self.handle=int(gdb.parse_and_eval('handle'))
+            self.timestamp=gdb.parse_and_eval('timestamp')
     def stop(self):
+        if %r:
+            row=[self.count,self.handle,int(self.return_value),int(self.timestamp.dereference())]
+            with open(%r,'a') as log: log.write(json.dumps(row)+'\\n')
         record_flag_words(self.count,'finish')
         return False
 class FlagEntry(gdb.Breakpoint):
@@ -156,7 +166,7 @@ class FlagEntry(gdb.Breakpoint):
         return False
 FlagEntry(%r,internal=True)
 end
-""" % (str(directory/'flag-words.jsonl'),options.trace_function_finishes,str(directory/'function-symbols.jsonl'),probe_name)
+""" % (str(directory/'flag-words.jsonl'),options.trace_function_finishes,str(directory/'function-symbols.jsonl'),options.trace_timestamps,options.trace_timestamps,str(directory/'source-timestamps.jsonl'),probe_name)
     script = '''set pagination off
 set confirm off
 set disable-randomization off
@@ -231,7 +241,7 @@ end
                 expected = None if tail[2]=='unopened' else tail[3]
                 assert state['buffers'][name] == expected, ('pending buffer differs',name)
         else:
-            terminal_lines = [line for line in events.splitlines() if not ((options.trace_enum_callbacks and line.startswith('enum-callback ')) or (options.trace_flags and line.startswith('flag-words ')) or (options.trace_function_finishes and line.startswith('function-symbol ')))]
+            terminal_lines = [line for line in events.splitlines() if not ((options.trace_enum_callbacks and line.startswith('enum-callback ')) or (options.trace_flags and line.startswith('flag-words ')) or (options.trace_function_finishes and line.startswith('function-symbol ')) or (options.trace_timestamps and line.startswith('source-timestamp ')))]
             assert terminal_lines == ['exit '+str(phase['expected_exit'])] and state['frontier'] is None,(events,state)
             assert state['exit'] == phase['expected_exit'], ('native terminal status differs',state['exit'],phase['expected_exit'])
         if options.trace_enum_callbacks:
@@ -245,6 +255,12 @@ end
             assert actual == observed and actual, ('complete flag words differ at boundary',observed,actual)
             assert [r[1] for r in actual] == ['entry','finish']*(len(actual)//2)
             state['flag_word_boundaries'] = dict(function=options.trace_flags,observed=actual)
+        if options.trace_timestamps:
+            actual = [json.loads(line) for line in (directory/'source-timestamps.jsonl').read_text().splitlines()]
+            observed = [[int(v)for v in row]for row in re.findall(r'^source-timestamp (\d+) (\d+) (\d+) (\d+)$',events,re.M)]
+            assert actual == observed and actual, ('source metadata differs',observed,actual)
+            assert all(row[2:]==[1,1768480496]for row in actual),actual
+            state['source_timestamps'] = actual
         if options.trace_function_finishes:
             actual = [json.loads(line) for line in (directory/'function-symbols.jsonl').read_text().splitlines()]
             observed=[]

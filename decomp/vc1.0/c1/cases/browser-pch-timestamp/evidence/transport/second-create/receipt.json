@@ -1,0 +1,135 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /Od /G5 /W3 /Ycapi.h /FRproducer.sbr /Fpapi.pch producer.c",
+    "S:\\vc1.0\\c1\\transport\\browser-pch-timestamp-second-create\\stdout",
+    "S:\\vc1.0\\c1\\transport\\browser-pch-timestamp-second-create\\stderr",
+    "S:\\vc1.0\\c1\\transport\\browser-pch-timestamp-second-create\\events",
+    "S:\\vc1.0\\c1\\browser-pch-timestamp",
+    "S:\\vc1.0\\c1\\transport\\browser-pch-timestamp-second-create\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\browser-pch-timestamp-second-create"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 /Ycapi.h /FRproducer.sbr /Fpapi.pch producer.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\browser-pch-timestamp",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.7589531540870667,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001268 -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycapi.h -FR producer.sbr -Fpapi.pch -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001268 -f producer.c -Gs4096 -dos -Foproducer.obj -ML -Zi -G5 -W 3 "
+      ]
+    }
+  ],
+  "input_mtime_ns": 1768480496000000000,
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "api.h",
+        "bytes": 963,
+        "sha256": "0392a9c392d9cde5a8dea1e258941697e642e795eb385e853e28b68b155d036e",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "consumer.c",
+        "bytes": 849,
+        "sha256": "4df74c56a4b464f118fa0956db49b6d3ca2984670824e014068f55996c00dbe8",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "producer.c",
+        "bytes": 388,
+        "sha256": "e50a1d2ceefe3ac4cc0a8a9c0998a8431462f9fb75e77ebec9c98c133f6b5950",
+        "mtime_ns": 1768480496000000000
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001268db",
+        "bytes": 335,
+        "sha256": "694208f2be4a23e4f78f86a35ca958f8c128c4ee8452af898b01cb6a8dd79708",
+        "mtime_ns": 1792767238754192400
+      },
+      {
+        "name": "001268ex",
+        "bytes": 246,
+        "sha256": "e5a62d066794b9af082bfe24e1c29dd42e3b4384c8713f3524280c69fd17e642",
+        "mtime_ns": 1792767238754192400
+      },
+      {
+        "name": "001268gl",
+        "bytes": 305,
+        "sha256": "0e285ab6215bd0f63d1b8743d13c3b148a335814f17cca7a9f18c584f4bfa698",
+        "mtime_ns": 1792767238754192400
+      },
+      {
+        "name": "001268in",
+        "bytes": 58,
+        "sha256": "36ce72865d6632f448d6b2445066872e0aed6cd0fa8e34e780ddf2f2d2ff69e6",
+        "mtime_ns": 1792767238754192400
+      },
+      {
+        "name": "001268sy",
+        "bytes": 97,
+        "sha256": "525f557fd84c11843a24d1df6808d2b09ac78f1dbfc29c4ada1cc87ef89394e4",
+        "mtime_ns": 1792767238754192400
+      },
+      {
+        "name": "api.h",
+        "bytes": 963,
+        "sha256": "0392a9c392d9cde5a8dea1e258941697e642e795eb385e853e28b68b155d036e",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "api.pch",
+        "bytes": 38857,
+        "sha256": "b9ec240d13dd0a22288139e790b0c8ce3dbff563a8ea7111948d9d738da77795",
+        "mtime_ns": 1792767238754192400
+      },
+      {
+        "name": "consumer.c",
+        "bytes": 849,
+        "sha256": "4df74c56a4b464f118fa0956db49b6d3ca2984670824e014068f55996c00dbe8",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "producer.c",
+        "bytes": 388,
+        "sha256": "e50a1d2ceefe3ac4cc0a8a9c0998a8431462f9fb75e77ebec9c98c133f6b5950",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "producer.sbr",
+        "bytes": 1078,
+        "sha256": "bff367ea16163b932d1e8279c843c5fe90bbf15b0ab1bf41ab53fb6765d88c23",
+        "mtime_ns": 1792767238754192400
+      }
+    ]
+  }
+}

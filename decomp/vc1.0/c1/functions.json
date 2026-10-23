@@ -951,7 +951,13 @@
     "_parse_asm_binary_digits@4",
     "_evaluate_asm_unary@8",
     "_apply_asm_segment@8",
-    "_set_asm_address_operator@4"
+    "_set_asm_address_operator@4",
+    "_begin_browser_pch_record",
+    "_source_file_timestamp",
+    "_get_file_timestamp@8",
+    "__fstat",
+    "import:GetFileInformationByHandle",
+    "_restore_pch_browser_name@4"
   ],
   "driver": [
     {
@@ -3163,7 +3169,7 @@
     {
       "name": "_source_file_timestamp",
       "start": 112048,
-      "end": 112049
+      "end": 112075
     },
     {
       "name": "_append_macro_string@8",
@@ -4694,7 +4700,7 @@
     {
       "name": "_begin_browser_pch_record",
       "start": 161408,
-      "end": 161409
+      "end": 161460
     },
     {
       "name": "_stage_pch_intermediates",
@@ -4920,7 +4926,7 @@
     {
       "name": "_restore_pch_browser_name@4",
       "start": 161344,
-      "end": 161345
+      "end": 161405
     },
     {
       "name": "_restore_pch_debug_state@4",
@@ -5673,6 +5679,11 @@
       "name": "_has_parameter_shape_depth@8",
       "start": 260080,
       "end": 260081
+    },
+    {
+      "name": "_get_file_timestamp@8",
+      "start": 310800,
+      "end": 310856
     }
   ],
   "cases": {
@@ -5818,6 +5829,14 @@
     "inline-asm-expressions": {
       "accepted_from": 940,
       "accepted_count": 947
+    },
+    "browser-pch-create": {
+      "accepted_from": 947,
+      "accepted_count": 952
+    },
+    "browser-pch-use": {
+      "accepted_from": 952,
+      "accepted_count": 953
     }
   },
   "buffered_streams": [

@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Thirty-two native phases are complete: minimal C, optimized Win32 hello, DLL,
+Thirty-four native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, and assembler expression/directive checksum.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, and browser-bearing timestamp PCH create/reuse.
 
-There are 820 accepted source functions and 947 accepted original entries.
-Accepted original extents cover 233640/277234 code-section bytes (84.275377%):
-213873 frontend bytes, 19587 CRT bytes and 180 import-thunk bytes. This is a
+There are 824 accepted source functions and 953 accepted original entries.
+Accepted original extents cover 234498/277234 code-section bytes (84.584863%):
+214069 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 32 completed phase histories to fresh
-shared-prefix original first-entry captures. All 809 accepted application entries
+cases/original-entry-references.json binds 34 completed phase histories to fresh
+shared-prefix original first-entry captures. All 813 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 32 regression receipts are in cases/inline-asm-expressions/validation.json.
+current all 34 regression receipts are in cases/browser-pch-timestamp/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -257,3 +257,15 @@ streams match. Seven whole functions add785 frontend extent bytes. All32
 native phases,30 rejection checks, six graph/ABI/mask checks, three flag
 mutations,289 state/alias checks and both grammar suites pass. The graph audit
 caught and corrected the original comment-skip callee before acceptance.
+
+Completed browser-bearing timestamp PCH
+---------------------------------------
+cases/browser-pch-timestamp compiles one /FR+/Z7 explicit PCH producer and
+consumer with nested macro API and pinned-mtime __TIMESTAMP__ strings.
+All browser/PCH/IR bytes match exactly; actual native producer PCH/browser
+outputs feed the consumer, with a strictly validated frozen backend object.
+Four application functions add196 frontend bytes; independently matched
+_fstat and its import add662 support bytes. A read-only metadata witness
+proves the actual descriptor, return and timestamp at the native CRT seam.
+All34 native phases,32 rejections, six graph/ABI/mask checks, three flag
+mutations,289 state/alias checks and both grammars pass.

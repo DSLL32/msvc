@@ -1,0 +1,98 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/browser-pch-timestamp",
+  "phase": "c1-use",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 953,
+  "accepted_sha256": "6755401654b21d405168beafc1585424740b0d7179464d6024459cd598fee12a",
+  "executable_sha256": "3e5b35b0183ac7e2757bda9bde8d846d5185269ad631e09c006b84b80ee4b5cc",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yuapi.h -FR consumer.sbr -Fpapi.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\browser-pch-timestamp",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/browser-pch-timestamp",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.052885605953633785,
+  "execution_seconds": 1.5763385826721787,
+  "total_seconds": 1.6292264331132174,
+  "files": [
+    {
+      "name": "api.h",
+      "bytes": 963,
+      "sha256": "0392a9c392d9cde5a8dea1e258941697e642e795eb385e853e28b68b155d036e"
+    },
+    {
+      "name": "api.pch",
+      "bytes": 38857,
+      "sha256": "b9ec240d13dd0a22288139e790b0c8ce3dbff563a8ea7111948d9d738da77795"
+    },
+    {
+      "name": "consumer.c",
+      "bytes": 849,
+      "sha256": "4df74c56a4b464f118fa0956db49b6d3ca2984670824e014068f55996c00dbe8"
+    },
+    {
+      "name": "consumer.sbr",
+      "bytes": 412,
+      "sha256": "bde71b79dbfc1d04a9f7960ba8b1bf18f0217ae183860438f52325c6b1e436bc"
+    },
+    {
+      "name": "irdb",
+      "bytes": 127,
+      "sha256": "e587e86032d953517c7db6af71118656d539d17fd660cb577aa8a31822d4d787"
+    },
+    {
+      "name": "irex",
+      "bytes": 1394,
+      "sha256": "48ff84a11a4b63ea777e834330831633b1cd8a4f3c85fbd35810f73c7cd55cab"
+    },
+    {
+      "name": "irgl",
+      "bytes": 275,
+      "sha256": "22e0913cab4649430a3f00e7062b6e5f85e481d470f3d23d2aaed4166b04dcee"
+    },
+    {
+      "name": "irin",
+      "bytes": 110,
+      "sha256": "e66dec36a6f7e6611c6cc783e229d2405c95ff4cbc297e078df0c8e7ff470475"
+    },
+    {
+      "name": "irsy",
+      "bytes": 245,
+      "sha256": "f102ddaa68b89a75d7c34710824fcc0df88fec03b22d9f60af69f37bcf9cdafd"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 388,
+      "sha256": "e50a1d2ceefe3ac4cc0a8a9c0998a8431462f9fb75e77ebec9c98c133f6b5950"
+    },
+    {
+      "name": "producer.obj",
+      "bytes": 1833,
+      "sha256": "7f574cf83449e5fadcf1d50220a922dc519f679768f4ba73cd08f79f46361e43"
+    },
+    {
+      "name": "producer.sbr",
+      "bytes": 1078,
+      "sha256": "bff367ea16163b932d1e8279c843c5fe90bbf15b0ab1bf41ab53fb6765d88c23"
+    }
+  ]
+}

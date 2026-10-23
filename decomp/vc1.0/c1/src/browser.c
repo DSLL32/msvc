@@ -456,3 +456,23 @@ void note_browser_error(void)
 {
     if (browser_filename) write_browser_record(255,0);
 }
+
+/* Original0x27680..0x276b4. Explicit PCH production ends the retained
+   browser prefix and keeps this stream unfiltered for later reuse. */
+void begin_browser_pch_record(void)
+{
+    BrowserRecord record = browser_line_template;
+    record.kind = 16;
+    append_browser_record(&record);
+    browser_unfiltered = 1;
+}
+
+/* Original0x27640..0x2767d, RET4. Explicit PCH reuse names the retained
+   producer browser stream with an owned copy in a browser include record. */
+void __stdcall restore_pch_browser_name(char *filename)
+{
+    BrowserRecord record = browser_line_template;
+    record.kind = 15;
+    record.name = copy_browser_name(filename);
+    append_browser_record(&record);
+}

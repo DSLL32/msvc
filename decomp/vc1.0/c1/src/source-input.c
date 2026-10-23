@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <share.h>
+#include <sys/stat.h>
 #include "source-input.h"
 #include "preprocessor.h"
 #include "lexer.h"
@@ -357,4 +358,23 @@ void rewind_source_file(void)
     fill_source_buffer();
     --source_text_cursor;
     *source_text_cursor = '\n';
+}
+
+/* Original0x1b5b0..0x1b5cb. The metadata adapter writes the current
+   source descriptor's modification time; the original ignores its status. */
+long source_file_timestamp(void)
+{
+    long timestamp;
+    get_file_timestamp(source_handle,&timestamp);
+    return timestamp;
+}
+
+/* Original0x4be10..0x4be48, RET8. Descriptor metadata is queried
+   without changing the caller's timestamp on failure. */
+int __stdcall get_file_timestamp(int handle, long *timestamp)
+{
+    struct _stat info;
+    if (_fstat(handle,&info) != 0) return 0;
+    *timestamp = info.st_mtime;
+    return 1;
 }

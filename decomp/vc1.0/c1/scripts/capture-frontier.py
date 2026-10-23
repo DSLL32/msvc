@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--unmasked', action='store_true')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
+    parser.add_argument('--trace-timestamps',action='store_true',help='Observe source descriptor metadata adapter return and output timestamp')
     parser.add_argument('--trace-function-finishes',action='store_true',help='Observe current function symbol at finish entry and caller return')
     parser.add_argument('--entry-from', type=int)
     parser.add_argument('--entry-to', type=int)
@@ -42,6 +43,9 @@ def main():
     if options.trace_function_finishes:
         assert options.trace_flags is None
         options.trace_flags = '_finish_function_definition'
+    if options.trace_timestamps:
+        assert options.trace_flags is None and not options.trace_function_finishes
+        options.trace_flags = '_get_file_timestamp@8'
     start = time.perf_counter()
     spec = importlib.util.spec_from_file_location('c1_original_tool',Path(__file__).with_name('wine-tool.py'))
     wt = importlib.util.module_from_spec(spec)
@@ -129,6 +133,8 @@ def main():
     host_environment.pop('C1_ENUM_CALLBACK_RVA',None)
     host_environment.pop('C1_FLAG_PROBE_RVAS',None)
     host_environment.pop('C1_FUNCTION_SYMBOL_RVA',None)
+    host_environment.pop('C1_TIMESTAMP_PROBE',None)
+    if options.trace_timestamps: host_environment['C1_TIMESTAMP_PROBE']='1'
     if options.trace_function_finishes:
         assert original.read(0x2b148,10)==bytes.fromhex('c70540b1050000000000')
         host_environment['C1_FUNCTION_SYMBOL_RVA'] = '%x' % (0x5b140-original.base)
@@ -166,7 +172,7 @@ def main():
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
     receipt = dict(terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
-                   enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,
+                   enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
                    executable_sha256=sha(target), original_sha256=phase['sha256'],

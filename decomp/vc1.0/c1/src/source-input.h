@@ -34,6 +34,7 @@ int __stdcall open_input_handle(char *filename);
 extern unsigned scanner_flags;
 extern int final_newline_emitted;
 int fill_source_buffer(void);
+int __stdcall get_file_timestamp(int handle, long *timestamp);
 void emit_line_directive(void);
 void report_ide_source(void);
 void __stdcall record_line_information(unsigned flags);

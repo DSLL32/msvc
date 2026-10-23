@@ -1,0 +1,105 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/browser-pch-timestamp",
+  "phase": "c1-create",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 953,
+  "accepted_sha256": "6755401654b21d405168beafc1585424740b0d7179464d6024459cd598fee12a",
+  "executable_sha256": "069c0094ba4a5b0ab38cc1892b37854acab6bdae874f5471b54801e1bdc7a2b2",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycapi.h -FR producer.sbr -Fpapi.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\browser-pch-timestamp",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/browser-pch-timestamp",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05393926706165075,
+  "execution_seconds": 0.9736286886036396,
+  "total_seconds": 1.027570653706789,
+  "files": [
+    {
+      "name": "api.h",
+      "bytes": 963,
+      "sha256": "0392a9c392d9cde5a8dea1e258941697e642e795eb385e853e28b68b155d036e"
+    },
+    {
+      "name": "api.pch",
+      "bytes": 38857,
+      "sha256": "b9ec240d13dd0a22288139e790b0c8ce3dbff563a8ea7111948d9d738da77795"
+    },
+    {
+      "name": "consumer.c",
+      "bytes": 849,
+      "sha256": "4df74c56a4b464f118fa0956db49b6d3ca2984670824e014068f55996c00dbe8"
+    },
+    {
+      "name": "irdb",
+      "bytes": 335,
+      "sha256": "694208f2be4a23e4f78f86a35ca958f8c128c4ee8452af898b01cb6a8dd79708"
+    },
+    {
+      "name": "irex",
+      "bytes": 246,
+      "sha256": "e5a62d066794b9af082bfe24e1c29dd42e3b4384c8713f3524280c69fd17e642"
+    },
+    {
+      "name": "irgl",
+      "bytes": 305,
+      "sha256": "0e285ab6215bd0f63d1b8743d13c3b148a335814f17cca7a9f18c584f4bfa698"
+    },
+    {
+      "name": "irin",
+      "bytes": 58,
+      "sha256": "36ce72865d6632f448d6b2445066872e0aed6cd0fa8e34e780ddf2f2d2ff69e6"
+    },
+    {
+      "name": "irsy",
+      "bytes": 97,
+      "sha256": "525f557fd84c11843a24d1df6808d2b09ac78f1dbfc29c4ada1cc87ef89394e4"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 388,
+      "sha256": "e50a1d2ceefe3ac4cc0a8a9c0998a8431462f9fb75e77ebec9c98c133f6b5950"
+    },
+    {
+      "name": "producer.sbr",
+      "bytes": 1078,
+      "sha256": "bff367ea16163b932d1e8279c843c5fe90bbf15b0ab1bf41ab53fb6765d88c23"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 947,
+    "accepted_count": 952,
+    "expected": [
+      "_begin_browser_pch_record",
+      "_source_file_timestamp",
+      "_get_file_timestamp@8"
+    ],
+    "observed": [
+      "_begin_browser_pch_record",
+      "_source_file_timestamp",
+      "_get_file_timestamp@8"
+    ],
+    "seeded_prefix_sha256": "a6219370c21dc30997eecb5c9c36c25a941a618bce51d3190a3b612ec3e8b34f",
+    "plan_sha256": "86654df4d664a18f37ed8a07ffe7c3b109846f2b6219bf161d71186ad6df8db9",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

@@ -233,6 +233,36 @@ def main():
     rejects('asm-historical-entry-order', 'native trace inline-asm-expressions index 0: expected',
             lambda:checker.run_case('inline-asm-expressions', executable, private_root, (wrong,filter_path)))
 
+    _, browser_producer = checker.run_case('browser-pch-create', executable, directory, (cache,filter_path))
+    _, browser_consumer = checker.run_case('browser-pch-use', executable, directory, (cache,filter_path), dependency=browser_producer/'api.pch')
+    browser_fixture = checker.BINARY/'cases/browser-pch-timestamp'
+    browser_phase = json.loads((browser_fixture/'manifest.json').read_text())['phases']['c1-use']
+    saved_browser = (browser_producer/'producer.sbr').read_bytes()
+    corrupted = bytearray(saved_browser)
+    corrupted[-1] ^= 1
+    (browser_producer/'producer.sbr').write_bytes(corrupted)
+    bad_chain = directory/'bad-browser-producer'
+    bad_chain.mkdir()
+    rejects('browser-pch-actual-producer-stream', 'output bytes differ: producer.sbr',
+            lambda:checker.run_case('browser-pch-use', executable, bad_chain, dependency=browser_producer/'api.pch'))
+    (browser_producer/'producer.sbr').write_bytes(saved_browser)
+    saved_utime = checker.os.utime
+    changed_mtimes = []
+    def shift_consumer_mtime(path, *, ns):
+        if Path(path).name == 'consumer.c':
+            ns = (ns[0] + 8*3600*10**9, ns[1] + 8*3600*10**9)
+            changed_mtimes.append(str(path))
+        return saved_utime(path,ns=ns)
+    bad_timestamp = directory/'bad-browser-source-mtime'
+    bad_timestamp.mkdir()
+    checker.os.utime = shift_consumer_mtime
+    try:
+        rejects('browser-pch-pinned-source-mtime', 'output bytes differ: irin',
+                lambda:checker.run_case('browser-pch-use', executable, bad_timestamp, dependency=browser_producer/'api.pch'))
+        assert len(changed_mtimes) == 1
+    finally:
+        checker.os.utime = saved_utime
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

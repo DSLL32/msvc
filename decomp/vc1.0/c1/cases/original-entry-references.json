@@ -128,6 +128,14 @@
     "inline-asm-expressions": {
       "receipt": "cases/inline-asm-expressions/evidence/asm-expressions-complete-947.receipt.json",
       "sha256": "1e149948682d90c7f5d222dcd1a31b59a3e5d17e8b8929344d40a50f65513712"
+    },
+    "browser-pch-create": {
+      "receipt": "cases/browser-pch-timestamp/evidence/browser-pch-create-complete-952.receipt.json",
+      "sha256": "78e32db598b20314acf39f29b0cbd9dc547f23a79d1f6f02fa54ef95450a8dad"
+    },
+    "browser-pch-use": {
+      "receipt": "cases/browser-pch-timestamp/evidence/browser-pch-use-complete-953.receipt.json",
+      "sha256": "43df3b763a83e269fc7be5c108e35bfca44cfc334ee74146ab37fbd1b33f7547"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

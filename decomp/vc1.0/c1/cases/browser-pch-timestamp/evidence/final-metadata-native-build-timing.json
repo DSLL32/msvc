@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "native",
+    "native-trace"
+  ],
+  "seconds": 6.84048523940146,
+  "exit": 0
+}

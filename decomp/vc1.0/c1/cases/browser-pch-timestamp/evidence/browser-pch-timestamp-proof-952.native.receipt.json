@@ -1,0 +1,50 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "flag_word_boundaries": {
+    "function": "_get_file_timestamp@8",
+    "observed": [
+      [
+        0,
+        "entry",
+        0,
+        0
+      ],
+      [
+        0,
+        "finish",
+        0,
+        0
+      ]
+    ]
+  },
+  "source_timestamps": [
+    [
+      0,
+      9,
+      1,
+      1768480496
+    ]
+  ],
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.004711269401013851,
+  "execution_seconds": 0.154424661770463,
+  "total_seconds": 0.1636610236018896,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycapi.h -FR producer.sbr -Fpapi.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/browser-pch-timestamp-proof-952",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\browser-pch-timestamp"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "executable_sha256": "ca1fd34ecc53d55cb4ee8e6c1766aac24994d017c6a69406d787f475618ef41f"
+}

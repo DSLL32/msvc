@@ -481,7 +481,7 @@ void warn_ignored_token(void) { __asm { int 3 } }
 
 void __stdcall macro_scan_error(unsigned code) { __asm { int 3 } }
 
-long source_file_timestamp(void) { __asm { int 3 } return 0; }
+
 
 
 
@@ -833,7 +833,7 @@ void __stdcall materialize_based_symbol(FrontendSymbol *symbol) { __asm { int 3 
 
 
 
-void begin_browser_pch_record(void) { __asm { int 3 }  }
+
 
 
 
@@ -883,7 +883,7 @@ void begin_browser_pch_record(void) { __asm { int 3 }  }
 
 
 
-void __stdcall restore_pch_browser_name(char *filename) { __asm { int 3 } }
+
 
 
 

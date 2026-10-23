@@ -101,6 +101,8 @@ static DWORD flag_entry, flag_return, flag_scanner, flag_parser, flag_symbol;
 static unsigned char flag_entry_byte, flag_return_byte;
 static unsigned flag_count;
 static int flag_active, flag_step;
+static int timestamp_probe;
+static DWORD timestamp_handle, timestamp_pointer;
 static int dump_function_symbol(HANDLE process, HANDLE log, const char *boundary)
 {
     DWORD pointer, fields[7], got, written;
@@ -135,7 +137,8 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
                                  DWORD code, DWORD site)
 {
     CONTEXT context;
-    DWORD got;
+    DWORD got, arguments[3], timestamp, written;
+    char line[128];
     if (!flag_entry) return 0;
     if (flag_step && code == EXCEPTION_SINGLE_STEP) {
         memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
@@ -149,6 +152,10 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
+        if (timestamp_probe) {
+            if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
+            timestamp_handle = arguments[1]; timestamp_pointer = arguments[2];
+        }
         if (flag_active || !ReadProcessMemory(process,(void *)context.Esp,&flag_return,4,&got) || got != 4 ||
             flag_return == flag_entry ||
             !ReadProcessMemory(process,(void *)flag_return,&flag_return_byte,1,&got) || got != 1 ||
@@ -159,6 +166,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
+        if (timestamp_probe) {
+            if (!ReadProcessMemory(process,(void *)timestamp_pointer,&timestamp,4,&got) || got != 4) return -1;
+            sprintf(line,"source-timestamp %u %lu %lu %lu\n",flag_count,timestamp_handle,context.Eax,timestamp);
+            if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
+        }
         if (!dump_flag_words(process,log,"finish") ||
             !patch_debug_byte(process,flag_return,flag_return_byte)) return -1;
         flag_active = 0;
@@ -207,6 +219,8 @@ int main(int argc, char **argv)
     flag_option = getenv("C1_FUNCTION_SYMBOL_RVA");
     if (flag_option) flag_symbol_rva = strtoul(flag_option,0,16);
     if (flag_symbol_rva && !flag_entry_rva) return 2;
+    timestamp_probe = getenv("C1_TIMESTAMP_PROBE") != 0;
+    if (timestamp_probe && !flag_entry_rva) return 2;
 
     if (argc == 11) {
         plan = fopen(argv[10],"r");

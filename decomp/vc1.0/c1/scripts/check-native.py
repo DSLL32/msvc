@@ -34,10 +34,13 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'pdb-pch-binding-create':('pdb-pch-binding','c1-create'),
          'pdb-pch-binding-use':('pdb-pch-binding','c1-use'),
          'legacy-callback-adapter':('legacy-callback-adapter','c1'),
-         'inline-asm-expressions':('inline-asm-expressions','c1')}
+         'inline-asm-expressions':('inline-asm-expressions','c1'),
+         'browser-pch-create':('browser-pch-timestamp','c1-create'),
+         'browser-pch-use':('browser-pch-timestamp','c1-use')}
 
 
 CASE_DEPENDENCIES = {
+    'browser-pch-use':('browser-pch-create','api.pch'),
     'pdb-pch-binding-use':('pdb-pch-binding-create','binding.pch'),
     'pch-use':('pch-create','state.pch'),
     'debug-pch-use':('debug-pch-create','debug.pch'),

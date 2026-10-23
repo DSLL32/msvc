@@ -1,0 +1,28 @@
+{
+  "source_wrapper": {
+    "start": "0x1b5b0",
+    "end": "0x1b5cb",
+    "abi": "cdecl void arguments, returns signed32mtime; ignores adapter result",
+    "handle_global": "0x6a7d8 from raw1b5b8 A1operand"
+  },
+  "adapter": {
+    "start": "0x4be10",
+    "end": "0x4be48",
+    "abi": "stdcall(handle,long*),RET8",
+    "stack_frame_bytes": 36,
+    "callee": "LIBC.LIB lowio/obj/i386/FSTAT.OBJ _fstat5a850..5aae0 independently byte/relocation matched",
+    "mtime_offset": 28,
+    "success": "write output only when_fstat returns0; adapter returns1",
+    "failure": "leave output unchanged; adapter returns0"
+  },
+  "witness": {
+    "original": "source-timestamp0 fd9 return1 mtime1768480496",
+    "probe": "Read-only appadapter entry/callerreturn breakpoints; original byte restore/single-step preserves normal execution; compares rawfd/result/outputvalue against GDB. Full streams/files/buffers remain exact."
+  },
+  "native_shared": {
+    "commit": "80862b4e",
+    "symbol": "recon_fstat",
+    "evidence": "lib/recon/fstat-validation.json",
+    "scope": "Maintainer independently compared complete36-byte static-LIBC regular/char/pipe/invalid/closed-descriptor outputs and errno/doserrno/LastError including untouchedpadding14..15. C1 read-only adapter return witness independently verifies actualfd9,return1,mtime1768480496 plus full raw files/buffers. No GetFileInformationByHandle shim required at application boundary; its original import identity is explicitly unmasked support-only."
+  }
+}

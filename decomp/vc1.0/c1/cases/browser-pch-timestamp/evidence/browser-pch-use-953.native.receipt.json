@@ -1,0 +1,25 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0054540932178497314,
+  "execution_seconds": 0.1389927938580513,
+  "total_seconds": 0.14841708447784185,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yuapi.h -FR consumer.sbr -Fpapi.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/browser-pch-use-953",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\browser-pch-timestamp"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "executable_sha256": "6377db882a3b3ec761899ef23fc41af4aea585debbdb84157612469e27b242e8"
+}

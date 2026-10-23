@@ -1,27 +1,32 @@
 {
-  "authorization": "Root approved one successful safe inline-assembler expression/directive checksum case after legacy callback checkpoint6ccbb267. Validate public syntax and runtime first; unsupported forms remain probes.",
-  "baseline_commit": "6ccbb267474b00561ba7090eb9572fd4681da2a5",
-  "baseline_accepted_count": 940,
+  "authorization": "Root approved one /FR+/Z7 explicit PCH producer/consumer with nested macro API and pinned-mtime __TIMESTAMP__ strings after assembler checkpoint51e2b7c0. Complete raw browser/PCH/IR and actual native producer dependency; no broad normalization.",
+  "baseline_commit": "3663566e521ffe4523c491948bb1ece25c636e92",
+  "baseline_accepted_count": 947,
   "baseline_coverage": {
-    "accepted_union_bytes": 232855,
+    "accepted_union_bytes": 233640,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 213088,
+      "frontend_source": 213873,
       "CRT": 19587,
       "import_thunks": 180
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 83.99222317608951,
+    "percent": 84.27537747895279,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "cases": [
     {
-      "case": "inline-asm-expressions",
-      "phase": "c1",
-      "status": "complete;940 through947, five raw files/empty streams,32 phase native suite"
+      "case": "browser-pch-timestamp",
+      "phase": "c1-create",
+      "status": "complete;947 through952, all7rawfiles exact"
+    },
+    {
+      "case": "browser-pch-timestamp",
+      "phase": "c1-use",
+      "status": "complete;952 through953, all8rawfiles exact and actual native producer chain"
     }
   ],
   "status": "complete",
-  "previous_completed_authorization": "Legacy callback adapter complete6ccbb267;9 functions1242bytes,31 native phases.",
-  "completion": "cases/inline-asm-expressions/validation.json"
+  "previous_completed_authorization": "Assembler expression/directive checksum51e2b7c0;7functions785bytes,32nativephases",
+  "completion": "cases/browser-pch-timestamp/validation.json"
 }
