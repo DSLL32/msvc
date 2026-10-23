@@ -71,6 +71,8 @@ extend writable files to their declared size and remain valid after mapping
 handles close. Truncation fails while a mapping handle is open, preserving the
 mapped file sizes seen in the captured outputs. Text reads are bounded by raw
 bytes so reconstructed ftell/fseek keep their original buffer-position rules.
+Redirected stderr is buffered: explicit flush or normal exit writes pending bytes;
+an abrupt trap leaves them in the legacy FILE buffer.
 Formatting delegates to host libc after stream adaptation, with the encountered
 VC1 trailing-percent behavior preserved. `_snprintf` retains the VC1 exact-fit
 nontermination and -1 truncation result. Its ordinary conversions use host

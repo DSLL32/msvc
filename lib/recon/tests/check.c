@@ -158,6 +158,28 @@ int main(void)
     assert(_setmode(fd,0)==-1 && errno==EBADF);
     assert(_setmode(-1,0x4000)==-1 && errno==EBADF);
     {
+        ShimFILE previous;
+        int saved_error;
+        const char *message="\nDump of file debug.dll\n";
+        if (!(recon_osfile[2]&0x40)) assert(stderr->_flag==2);
+        assert(fflush(stderr)==0);
+        previous=*stderr;
+        saved_error=_dup(2); assert(saved_error>=0);
+        stream=fopen("N:\\stderr.txt","w+t"); assert(stream);
+        assert(_dup2(_fileno(stream),2)==0);
+        memset(stderr,0,sizeof(*stderr)); stderr->_file=2; stderr->_flag=2;
+        assert(fprintf(stderr,"%s",message)==24);
+        assert(stderr->_flag==0xa && stderr->_bufsiz==4096);
+        assert(stderr->_ptr-stderr->_base==24 && stderr->_cnt==4072);
+        assert(_filelength(_fileno(stream))==0); /* A trap must leave this pending. */
+        assert(fflush(stderr)==0 && _filelength(_fileno(stream))==26);
+        assert(_lseek(_fileno(stream),0,SEEK_SET)==0);
+        assert(_read(_fileno(stream),bytes,sizeof(bytes))==24 && !memcmp(bytes,message,24));
+        assert(_dup2(saved_error,2)==0 && _close(saved_error)==0);
+        recon_freebuf(stderr); *stderr=previous;
+        assert(fclose(stream)==0 && remove("N:\\stderr.txt")==0);
+    }
+    {
         struct _stat status;
         struct utimbuf times;
         times.actime=1600000001; times.modtime=1700000003;

@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "scope": "Correct VC1 redirected stderr buffering at LINK dump-FPO frontier; no partial-stream exclusion or per-target profile.",
+  "original": {
+    "target": "toolchains/1.0-nt/bin/LINK.EXE",
+    "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+    "before": {
+      "address": "0x30865",
+      "flag": 2,
+      "count": 0,
+      "base": null,
+      "pointer": null,
+      "bufsiz": 0,
+      "file": 2,
+      "osfile": "0x81",
+      "file_type": "DISK"
+    },
+    "frontier": {
+      "address": "0x344c0",
+      "flag": 10,
+      "count": 4072,
+      "bufsiz": 4096,
+      "used": 24,
+      "pending": "\nDump of file debug.dll\n",
+      "on_disk_bytes": 0
+    },
+    "terminal_stderr_bytes": 26,
+    "crt_paths": {
+      "stbuf": "0x54b10: redirected descriptor is not a terminal; no temporary-terminal buffering",
+      "getbuf": "0x57d40: allocate4096 and OR8 into FILE flags"
+    },
+    "raw_state": "redirected_error_handle 00000040 type 1\ntrap 00030865 exception 80000003 esp 0029faf0 eax 00085090 ecx 007cf410 edx 00000000\nstack 00 00085090\nstack 01 0007d290\nstack 02 007b0073\nstack 03 0029ff0c\nstack 04 007d0850\nstack 05 00000001\nstack 06 3fff1000\nstack 07 0007f1b8\nstack 08 0007f1b0\nstack 09 00000000\nstack 10 00000000\nstack 11 3fff1001\nstack 12 0003c70a\nstack 13 007cf410\nstack 14 0007f1b0\nstack 15 00000000\nstack 16 007cf410\nstderr flags 00000002 count 0 ptr 00000000 base 00000000 used 0 bufsiz 0 fd 2 osfile 81 handle 00000040 inherited_handle_matches 1\ntrap 000344c0 exception 80000003 esp 0029fa80 eax 0029fad0 ecx 00004200 edx 0029fad0\nstack 00 0003207d\nstack 01 0029fad0\nstack 02 007b0073\nstack 03 007d0850\nstack 04 00000001\nstack 05 00000000\nstack 06 000025c4\nstack 07 000025c2\nstack 08 00000003\nstack 09 00000000\nstack 10 00050b69\nstack 11 000025c2\nstack 12 007b0073\nstack 13 000025c2\nstack 14 00000003\nstack 15 007d4398\nstack 16 000025c2\nstderr flags 0000000a count 4072 ptr 007d1880 base 007d1868 used 24 bufsiz 4096 fd 2 osfile 81 handle 00000040 inherited_handle_matches 1\nstderr_buffer 00 0a\nstderr_buffer 01 44\nstderr_buffer 02 75\nstderr_buffer 03 6d\nstderr_buffer 04 70\nstderr_buffer 05 20\nstderr_buffer 06 6f\nstderr_buffer 07 66\nstderr_buffer 08 20\nstderr_buffer 09 66\nstderr_buffer 10 69\nstderr_buffer 11 6c\nstderr_buffer 12 65\nstderr_buffer 13 20\nstderr_buffer 14 64\nstderr_buffer 15 65\nstderr_buffer 16 62\nstderr_buffer 17 75\nstderr_buffer 18 67\nstderr_buffer 19 2e\nstderr_buffer 20 64\nstderr_buffer 21 6c\nstderr_buffer 22 6c\nstderr_buffer 23 0a\nexit 99\n",
+    "raw_state_sha256": "042acaeee647cdcacb7a4cf50e1ce22ab6712ce1edddd10c41ba41c5ce18153b"
+  },
+  "native": {
+    "unit_compilers": [
+      "GCC i386",
+      "Clang i386"
+    ],
+    "checks": "Redirect actual stderr into an owned text file; verify24pending bytes/flags10/count4072/4096buffer, physical length0 before flush,26bytes after flush and exact decoded text; restore original descriptor/FILE state.",
+    "link_fresh_frontier": "Worker independently confirmed exact partial streams at locate_fpo_data0x34620 after correction"
+  },
+  "finished_tool_regressions": [
+    {
+      "binary": "cl",
+      "cases": 57,
+      "commands": [
+        {
+          "label": "build",
+          "seconds": 1.4544836906716228,
+          "exit": 0
+        },
+        {
+          "label": "fixtures",
+          "seconds": 2.5486723836511374,
+          "exit": 0
+        }
+      ],
+      "wine_invoked": false,
+      "capture_performed": false
+    },
+    {
+      "binary": "rc",
+      "cases": 18,
+      "commands": [
+        {
+          "label": "build",
+          "seconds": 2.3189078299328685,
+          "exit": 0
+        },
+        {
+          "label": "fixtures",
+          "seconds": 1.9820383926853538,
+          "exit": 0
+        }
+      ],
+      "wine_invoked": false,
+      "capture_performed": false
+    },
+    {
+      "binary": "rcpp",
+      "cases": 20,
+      "commands": [
+        {
+          "label": "build",
+          "seconds": 2.0782204372808337,
+          "exit": 0
+        },
+        {
+          "label": "fixtures",
+          "seconds": 0.28668256662786007,
+          "exit": 0
+        },
+        {
+          "label": "classifiers",
+          "seconds": 0.06116827577352524,
+          "exit": 0
+        },
+        {
+          "label": "messages",
+          "seconds": 0.19655252248048782,
+          "exit": 0
+        }
+      ],
+      "wine_invoked": false,
+      "capture_performed": false
+    }
+  ],
+  "total_cases": 95,
+  "fixture_seconds": 4.817393342964351,
+  "wine_invoked_by_regressions": false,
+  "capture_performed_by_regressions": false,
+  "additional_header": "IMAGE_DEBUG_TYPE_FPO=3, matching original WINNT.H"
+}

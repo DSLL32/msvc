@@ -760,7 +760,9 @@ __attribute__((constructor)) static void initialize_crt(void)
         else if (recon_GetFileType((HANDLE)os_handles[i])==FILE_TYPE_CHAR) recon_osfile[i]|=0x40;
         recon_iob[i]._file=i; recon_iob[i]._flag=i?2:1;
     }
-    recon_iob[2]._flag|=4;
+    /* VC1 buffers redirected stderr just like stdout. Abrupt traps leave
+     * pending bytes in FILE; normal exit/fflush emits them. */
+    if (recon_osfile[2]&0x40) recon_iob[2]._flag|=4;
     for (i=0;i<256;++i) {
         unsigned bits=0;
         if (isupper(i)) bits|=1;
