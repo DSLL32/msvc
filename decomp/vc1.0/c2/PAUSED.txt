@@ -1,12 +1,7 @@
-C2 PAUSED: all approved cases complete at1061 acceptances/982 source graphs.
-Accepted extent union293617/399693=73.4606310343%, not branch coverage.
-Minimal, hello, loops, register pressure, aliasing and floating cases exit0 with
-matching traces/status/streams/objects; only COFF timestamp bytes4..7 normalized.
-Final floating object979 bytes, normalized SHA256
-b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e.
-Canonical/native/W3, full graph/extent audits and six native fixtures pass.
-No shim requests or pending checks. Do not reconstruct or start another case.
-Resume only after user chooses: /O1 /G3 integer pressure/loops; deep x87 calls
-and intrinsics; or /O2 /G4 floating stores/comparisons. See floating-complete.json
-for named traps/analysis sizes and remaining-x87-exchange-analysis.json for slot8.
-Current saved native cache is complete and reproducible from durable references.
+C2 ACTIVE at1062 acceptances/983 source graphs.
+Approved queue: i386 integer, deep x87 stack, then i486 floating.
+Original transport/IR/object references captured for all three.
+Current matched frontier @fold_integer_comparison@4 (0x57b00).
+Six complete object regressions plus native named-stub check pass.
+Canonical/algebra W3/graph/extent audits pass. No shared requests.
+Pause only after all three selected cases complete.

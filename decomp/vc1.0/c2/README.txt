@@ -2653,3 +2653,12 @@ or /O2 /G4 floating stores/comparisons (~718 analysis bytes). These are suggesti
 only. See cases/floating-complete.json for evidence, limits and remaining families;
 cases/floating-completion-extension-validation.json reproduces the final cached
 reference extension and rejects five corruptions without Wine.
+
+User-selected CPU/x87 queue active: checkpoint1062
+Original CL transport, actual frontend IR and independent backend references
+are captured for /O1 /G3 integer pressure/loops (572-byte object), deep x87
+/Oi /O2 /G5 calls/intrinsics (947 bytes), then /O2 /G4 floating stores (883 bytes).
+Current i386 case accepted the whole36-byte lift_both_unary transformation;
+original/native now match fold_integer_comparison. All six prior objects and
+new named-trap regression pass. See cases/i386-registration.json and queue.json.
+The earlier PAUSED/completion paragraphs remain historical checkpoints.

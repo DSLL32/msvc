@@ -212,7 +212,6 @@ void unsigned_integer_to_extended(const unsigned *integer, Extended *number) { _
 
 Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
 
-Node *__fastcall lift_both_unary(Node *node) { __asm int 3 }
 int __fastcall extract_complement(Node **node) { __asm int 3 }
 
 

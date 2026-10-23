@@ -1,0 +1,189 @@
+{
+  "checkpoint": 1062,
+  "base_commit": "7733385",
+  "status": "active approved three-case queue",
+  "frontier": "@fold_integer_comparison@4",
+  "source_graphs": 983,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1062,
+    "accepted_code_bytes": 293653,
+    "original_code_bytes": 399693,
+    "percentage": 73.46963794712441,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 479
+  },
+  "accepted_functions": [
+    {
+      "name": "@lift_both_unary@4",
+      "start": "0x55300",
+      "end": "0x55324",
+      "bytes": 36
+    }
+  ],
+  "reference_sequence": [
+    "cases/i386-initial.json",
+    "cases/i386-original-1062.json"
+  ],
+  "native_match": "cases/i386-original-1062-native.json",
+  "fixture_validation": "cases/native-all-validation.json",
+  "captures": [
+    {
+      "fixture": "../fixtures/c2-i386-integer",
+      "normalized_object_sha256": "0a6b9aab640ae847cbf4f9eaf03bc100dd334a186b35397791d43ca73e67ad2b"
+    },
+    {
+      "fixture": "../fixtures/c2-x87-stack",
+      "normalized_object_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1"
+    },
+    {
+      "fixture": "../fixtures/c2-i486-floating",
+      "normalized_object_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
+    }
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "measurements": {
+      "i3861062-warnings-timing.json": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "algebra"
+        ],
+        "seconds": 1.7471972303465009,
+        "returncode": 0,
+        "log_sha256": "a53177b693e2c2b7d18b1820e726cdce41b3504681120a1802f69a44af6c4112"
+      },
+      "i3861062-reference-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "i386",
+          "--receipt",
+          "cases/i386-original-1062.json"
+        ],
+        "seconds": 1.82897646445781,
+        "returncode": 0,
+        "log_sha256": "99d805d240d5ed6f64e1fd4f949c6fb98a27b7e74e11ec3bdaaeab7553b59d6b"
+      },
+      "i3861062-check-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.4572149505838752,
+        "returncode": 0,
+        "log_sha256": "6626f3746ffff3f338bb852c2b2ec315c528b8f7c03d6e9f6a4cf6f5a869058d"
+      },
+      "i386-initial-reference-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "i386",
+          "--receipt",
+          "cases/i386-initial.json"
+        ],
+        "seconds": 1.221182020381093,
+        "returncode": 0,
+        "log_sha256": "657012ceea081d56e7531855feb9892233b4a6030b7361b2a25538c2e73fd3b6"
+      },
+      "i3861062-canonical-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 30.258707552216947,
+        "returncode": 0,
+        "log_sha256": "d2da274a2a923406a8353bf846c2e1417488ba45dd8abc23c937bc3298008dae"
+      },
+      "i3861062-audit-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.90738058462739,
+        "returncode": 0,
+        "log_sha256": "cd0948e040375bf03c45762c66def97d72456632f9ce285b6fdb8e1c0544103e"
+      },
+      "i386-capture-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-stress.py",
+          "--fixture",
+          "../fixtures/c2-i386-integer",
+          "--stem",
+          "integer386",
+          "--flags",
+          "/O1",
+          "/G3"
+        ],
+        "seconds": 7.45149707980454,
+        "returncode": 0,
+        "log_sha256": "3cb43df425da283174f73034655d29eae71a809223b7143cd3c8bfce5969d9d5"
+      },
+      "i3861062-native-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 9.199128246866167,
+        "returncode": 0,
+        "log_sha256": "2ae8c3f37c513e7335614e9288c235913f54c3f355071aa7be2e2b39043945d5"
+      },
+      "x87-stack-capture-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-stress.py",
+          "--fixture",
+          "../fixtures/c2-x87-stack",
+          "--stem",
+          "stack87",
+          "--flags",
+          "/Oi",
+          "/O2",
+          "/G5"
+        ],
+        "seconds": 6.946635042317212,
+        "returncode": 0,
+        "log_sha256": "9175e833f3bb74c65178329305833bd21bdea9e2d72a15ae3ccc433ca8b7136f"
+      },
+      "i486-capture-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-stress.py",
+          "--fixture",
+          "../fixtures/c2-i486-floating",
+          "--stem",
+          "floating486",
+          "--flags",
+          "/O2",
+          "/G4"
+        ],
+        "seconds": 6.318774432875216,
+        "returncode": 0,
+        "log_sha256": "46161b095a864d8285c602050bb647b5d1f9ca9113d2b6464ca980b1ae523404"
+      }
+    }
+  },
+  "limits": [
+    "Six completed objects still match; new i386 case stops at matched named trap",
+    "Full canonical rebuild also emitted pre-existing frame-output.c(18) integral-size warnings; changed algebra.c /W3 compile is clean",
+    "No x87 slot8 path accepted or altered; queued cases use captured original C1, not reconstructed frontend"
+  ]
+}

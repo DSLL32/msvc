@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "i386-integer",
   "queued": [
     {
       "case": "hello-win32",
@@ -44,6 +44,85 @@
       "description": "x87 conversions and arithmetic, floating scheduling and late store movement",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
       "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json"
+    },
+    {
+      "case": "i386-integer",
+      "after": "optimizer-floating-point",
+      "phase": "c2",
+      "status": "active",
+      "flags": [
+        "/O1",
+        "/G3"
+      ],
+      "fixture_manifest": "../fixtures/c2-i386-integer/manifest.json",
+      "capture_policy": "Original CL/C1/C2 transport and standalone backend object independently captured; native-only fixtures",
+      "expected_output": {
+        "path": "expected/integer386.obj",
+        "bytes": 572,
+        "sha256": "9777c98032f33396acede7cd7440eabe91bfdb26c4602503df99760bc92bc4dc",
+        "output_name": "integer386.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "0a6b9aab640ae847cbf4f9eaf03bc100dd334a186b35397791d43ca73e67ad2b"
+      }
+    },
+    {
+      "case": "x87-stack",
+      "after": "i386-integer",
+      "phase": "c2",
+      "status": "queued",
+      "flags": [
+        "/Oi",
+        "/O2",
+        "/G5"
+      ],
+      "fixture_manifest": "../fixtures/c2-x87-stack/manifest.json",
+      "capture_policy": "Original CL/C1/C2 transport and standalone backend object independently captured; native-only fixtures",
+      "expected_output": {
+        "path": "expected/stack87.obj",
+        "bytes": 947,
+        "sha256": "13342e7bfb69d4dbbfc13566a8c08b3bea8f9ffe01765598ac7e9d900e203d20",
+        "output_name": "stack87.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1"
+      }
+    },
+    {
+      "case": "i486-floating",
+      "after": "x87-stack",
+      "phase": "c2",
+      "status": "queued",
+      "flags": [
+        "/O2",
+        "/G4"
+      ],
+      "fixture_manifest": "../fixtures/c2-i486-floating/manifest.json",
+      "capture_policy": "Original CL/C1/C2 transport and standalone backend object independently captured; native-only fixtures",
+      "expected_output": {
+        "path": "expected/floating486.obj",
+        "bytes": 883,
+        "sha256": "4399ca80dfd7f7c68d14498a6a4b5dd2b9db45184f8c6d4982cc86041da464bd",
+        "output_name": "floating486.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
+      }
     }
   ],
   "completed": [
@@ -96,5 +175,5 @@
       "normalized_sha256": "b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e"
     }
   ],
-  "status": "Approved queue complete; paused. Suggestions require user direction."
+  "status": "Active approved CPU/x87 queue; pause after all three complete"
 }

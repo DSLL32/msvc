@@ -1065,7 +1065,8 @@
     "@scheduled_float_latency@4",
     "@scheduler_call_float_arguments@4",
     "@extend_previous_instruction@8",
-    "@coff_section_symbol@4"
+    "@coff_section_symbol@4",
+    "@lift_both_unary@4"
   ],
   "driver": [
     {
@@ -4209,8 +4210,7 @@
     {
       "name": "@lift_both_unary@4",
       "start": 348928,
-      "end": 348929,
-      "provisional": true
+      "end": 348964
     },
     {
       "name": "@negate_tree@4",
@@ -7444,6 +7444,12 @@
       "accepted_from": 941,
       "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json",
       "fixture_manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870"
+    },
+    "i386": {
+      "arguments": "",
+      "accepted_from": 1061,
+      "fixture_manifest": "../fixtures/c2-i386-integer/manifest.json",
+      "fixture_manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29"
     }
   },
   "crt_defaults": {

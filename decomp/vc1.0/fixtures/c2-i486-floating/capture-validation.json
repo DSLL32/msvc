@@ -1,0 +1,30 @@
+{
+  "timing": {
+    "capture-compile": {
+      "seconds": 1.827408661134541,
+      "returncode": 0,
+      "stdout_sha256": "90785e1be7ae0e3c3b5d69969bf52ee4db9d68f48a99abc9023d61142888de32",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture-link": {
+      "seconds": 0.898855515755713,
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pipeline": {
+      "seconds": 2.1584549732506275,
+      "returncode": 0,
+      "stdout_sha256": "280411bf184725bdf56867e24864c7ff3216ef7b96abdc26bca0df3fb551df9a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "standalone": {
+      "seconds": 1.328069545328617,
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "standalone": "exit0, empty streams, object matches pipeline after only timestamp",
+  "scratch": "/root/.ai-tmp/vc1.0-c2/c2-i486-floating-capture-zw4ojcdo"
+}

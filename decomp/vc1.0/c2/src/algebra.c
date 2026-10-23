@@ -919,3 +919,14 @@ int __fastcall extract_reciprocal(Node **slot)
         return 1;
     }
 }
+
+/* Original [00055300,00055324). Remove the right unary wrapper first,
+   then put the left wrapper around the rebuilt binary expression. */
+Node *__fastcall lift_both_unary(Node *node)
+{
+    Node *left;
+    node = remove_right_wrapper(node);
+    left = node->left.node;
+    build_tree("PPLYLY", left->left.node, node->second.node, node, left);
+    return left;
+}
