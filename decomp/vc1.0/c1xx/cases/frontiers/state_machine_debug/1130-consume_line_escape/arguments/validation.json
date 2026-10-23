@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_consume_line_escape",
+  "case": "state_machine_debug",
+  "accepted_before": 1130,
+  "configuration_sha256": "1c9f6ce5519399f3e53dee1bf9ee122ffa67d0e34c358e3ade4f27eb201ca330",
+  "native_entry": "consume_line_escape",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      155664,
+      155863
+    ],
+    "argument_bytes": 0,
+    "proof": "Whole199B/cdeclRET0,nosemanticregisterinputs; PUSHsavedEBXonly, EBXinitializedbackslashvalue5cnotincominginput. Readsnextsourcebyte/incrementcursor, acceptsCRloop,newline incrementsline. NUL callsrecover_special_character21380, writesbackslash toactualnewcursor[-1],retries; otherbytesdecrementcursor/return0. Onnewline options.option_E8c014 may outputslashwhenparserflags08000000 thennewline throughpreprocessor_stream8c1d8 fputc811c0cdecl orcompiler_stack8cfd0 write_work_character32700/RET8. ReturnsfullEAX0/1. ExistingOUTPUT_CHARACTERmacro preserves same branches/calleegraph. No newstorage/hiddeninputs/unknownresults.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "d6b762a38e53ba533bbe2f7ee444cde83de2e108ecb5c90fcd628efad79705be",
+  "capture_timing": {
+    "original_capture_seconds": 0.8662187643349171,
+    "native_capture_seconds": 0.17228464409708977,
+    "total_operation_seconds": 1.2749092103913426
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "be3195fd7993bac60ba0fab5c972d2a65f903e484ab96ac60058a120f78d6ed3",
+    "native-commands.gdb": "b527ca5b39148080a05214ce7d8248e58b630dd296be2dff7072f456d82e512e",
+    "native-gdb.log": "b883a577dae9492afda160bed152d18d83d4d05bdc63e3ecadcc79d43e67de76",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "9ed8de5da2e0b6e1fb9b1d439bb4cc08d9d8b26574acc98cd944b27d62fa0131",
+    "original-configuration.json": "1c9f6ce5519399f3e53dee1bf9ee122ffa67d0e34c358e3ade4f27eb201ca330",
+    "original-disassembly.txt": "8e3219029a0bbf5c90ab21bc1fedcb6352784f12559c8884e7f2c9b227164ef6",
+    "original-events.txt": "7182538521f951a19ebad56b3428ec0c8f3ad73aa6ac395451ed2fcf77b7a17f",
+    "original-receipt.json": "0ff982faff442ed581a4f81fdb59cfdc2df72c5946b643f1ff481b133e92e6d7",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "079c745e3234ddfba11a9848553a30a2ae7c4f6ba0fc7d34e3de58648143702c"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

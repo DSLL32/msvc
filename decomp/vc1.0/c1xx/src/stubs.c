@@ -244,7 +244,6 @@ void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 
 void skip_line_comment(void) { __asm { int 3 } }
 void copy_block_comment(void) { __asm { int 3 } }
-int consume_line_escape(void) { __asm { int 3 } return 0; }
 void refill_source_or_error(void) { __asm { int 3 } }
 void browser_include_end(void) { __asm { int 3 } }
 void report_ide_source_end(void) { __asm { int 3 } }

@@ -854,6 +854,31 @@ void __stdcall append_deferred_token(unsigned char token)
         token_allocation_flags |= 0x40000000UL;
 }
 
+/* Original 0x26010..0x260d7. Backslash-newline accepts CR padding
+   and source-window boundaries while preserving preprocessor line output. */
+int consume_line_escape(void)
+{
+    unsigned char character;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        if (character == '\r') continue;
+        if (character == '\n') break;
+        if (!character) {
+            recover_special_character();
+            source_text_cursor[-1] = '\\';
+            continue;
+        }
+        --source_text_cursor;
+        return 0;
+    }
+    ++source_line_number;
+    if (options.option_E) {
+        if (cpp_parser_flags & 0x08000000UL) OUTPUT_CHARACTER('\\');
+        OUTPUT_CHARACTER('\n');
+    }
+    return 1;
+}
+
 /* Original 0x21380..0x214b8. A source sentinel either refills the
    input or handles the counted macro rescan argument/definition markers. */
 unsigned recover_special_character(void)

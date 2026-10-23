@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_consume_line_escape",
+    "start": 155664,
+    "end": 155863
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1130-consume_line_escape/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_fputc",
+    "_recover_special_character",
+    "_write_work_character@8"
+  ],
+  "next_frontier": "_decode_literal_escape@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5284724812954664,
+  "total_operation_seconds": 4.501757642254233,
+  "original_capture_seconds": 1.7694315882399678
+}

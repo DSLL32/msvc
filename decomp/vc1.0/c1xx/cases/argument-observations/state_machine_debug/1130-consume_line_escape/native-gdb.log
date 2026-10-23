@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x65949: file src/lexer.c, line 863.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, consume_line_escape () at src/lexer.c:863
+863	        character = (unsigned char)*source_text_cursor++;
+#0  consume_line_escape () at src/lexer.c:863
+#1  0x565ba523 in recover_special_character () at src/lexer.c:889
+#2  0x5659729b in scan_string_literal (wide=0, delimiter=34 '"') at src/literals.c:26
+#3  0x565be032 in read_lexical_token () at src/lexer.c:618
+#4  0x565bb805 in scan_token () at src/lexer.c:228
+#5  0x565bace5 in read_parser_token () at src/lexer.c:69
+#6  0x565b3bc7 in parse_translation_unit () at src/parser.c:83
+#7  0x5655e01f in compile_translation_unit () at src/frontend.c:73
+#8  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20
