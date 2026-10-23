@@ -1,5 +1,5 @@
 #include "functions.h"
-#include "output-callbacks.h"
+#include "coff-output.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
@@ -567,11 +567,40 @@ void output_callback_4850f5()
     __asm { int 3 }
 }
 
-void initialize_object_output(void)
-{
-    __asm { int 3 }
-}
 void initialize_codeview_output(void)
 {
     __asm { int 3 }
 }
+
+int __fastcall initialize_coff_output(C2ObjectOutput *writer)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned query_incremental_stream_size(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned __fastcall read_incremental_stream(void *buffer, unsigned bytes)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned char read_incremental_byte(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+int validate_incremental_options(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+void prepare_output_486e67(void) { __asm { int 3 } }
+void prepare_output_486a23(void) { __asm { int 3 } }
+void prepare_output_48710f(void) { __asm { int 3 } }
+void write_output_directives(void) { __asm { int 3 } }
+void writer_callback_41eb8a() { __asm { int 3 } }
+void writer_callback_48511c() { __asm { int 3 } }
+void writer_callback_45477a() { __asm { int 3 } }

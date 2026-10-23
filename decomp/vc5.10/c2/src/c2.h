@@ -118,7 +118,7 @@ typedef struct C2Pool {
     int remaining;
 } C2Pool;
 /* Pool4 is used directly for retained source-file names, not node accounting. */
-extern C2Pool c2_pools[5];
+extern C2Pool c2_pools[8];
 extern C2PoolBlock *c2_free_blocks;
 extern void *c2_types;
 typedef struct C2Real {

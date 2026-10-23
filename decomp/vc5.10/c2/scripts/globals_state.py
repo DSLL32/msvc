@@ -15,10 +15,18 @@ ROOTS = {
     'template': (0x497308, 'symbol_template'), 'input_name': (0x496a00, 'symbol_name'),
     'decorated_name': (0x497460, 'decorated_name'), 'source_pool': (0x48e050, 'c2_pools[4]'),
     'output_directives': (0x4980c0, 'output_directives'),
+    'object_output': (0x497e08, 'object_output'),
+    'object_output_open': (0x497e1c, 'object_output_open'),
+    'incremental_data': (0x49e31c, 'incremental_data'),
+    'directive_section': (0x4973fc, 'directive_section'),
+    'fpo_section': (0x497dc0, 'fpo_section'),
+    'writer_allocator': (0x41eb8a, 'writer_callback_41eb8a'),
+    'writer_error': (0x48511c, 'writer_callback_48511c'),
+    'writer_clock': (0x45477a, 'writer_callback_45477a'),
 }
 
 
-def complete_globals(read, addresses, directives=False):
+def complete_globals(read, addresses, directives=False, writer=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -152,4 +160,34 @@ def complete_globals(read, addresses, directives=False):
         # The unwritten second link and remaining4064 bytes retain that zeroing.
         result['directives'] = dict(head_offset=8, cursor_offset=32, remaining=4064,
             nodes=nodes, pool_bytes=data.hex())
+    if writer:
+        assert directives
+        later_pools = struct.unpack('<9I', read(addresses['pools'] + 60, 36))
+        assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
+        writer_head, writer_cursor, writer_remaining = later_pools[6:]
+        assert writer_head and writer_head not in (head, directive_head)
+        assert writer_cursor == writer_head + 64 and writer_remaining == 4032
+        data = bytearray(read(writer_head, 4096))
+        assert data[:8] == struct.pack('<II', 0, 4088)
+        assert struct.unpack_from('<HHI', data, 8) == (1, 0x14c, 0xffffffff)
+        source, output = struct.unpack_from('<II', data, 16)
+        assert source == writer_head + 40
+        assert read(source, 23) == b'numeric-control-flow.c\0'
+        assert output == u32(addresses['object_output']) and output
+        assert u32(addresses['object_output_open']) == 1
+        assert u32(addresses['incremental_data']) == 0
+        assert u32(addresses['directive_section']) == u32(addresses['fpo_section']) == 0
+        targets = []
+        for offset, key, normalized in ((24,'writer_allocator',0x50000001),
+                (28,'writer_error',0x50000002),(32,'writer_clock',0x50000003)):
+            assert struct.unpack_from('<I', data, offset)[0] == addresses[key]
+            struct.pack_into('<I', data, offset, normalized)
+            targets.append(key)
+        assert data[36] == 0
+        struct.pack_into('<II', data, 16, 0x60000028, 0x40000006)
+        result['writer'] = dict(offset=8, cursor_offset=64, remaining=4032,
+            source_offset=40, source='numeric-control-flow.c', format=1,
+            machine=0x14c, pending04=0xffffffff, debug=0,
+            file_global_alias=True, output_open=1, callback_identities=targets,
+            incremental_data_null=True, output_sections_null=True, pool_bytes=data.hex())
     return result

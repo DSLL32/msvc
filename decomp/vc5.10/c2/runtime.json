@@ -960,17 +960,105 @@
     "evidence": null
   },
   {
-    "name": "_initialize_object_output",
-    "start": 4537100,
-    "end": 4537101,
+    "name": "_initialize_codeview_output",
+    "start": 4554247,
+    "end": 4554248,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
   },
   {
-    "name": "_initialize_codeview_output",
-    "start": 4554247,
-    "end": 4554248,
+    "name": "@initialize_coff_output@4",
+    "start": 4537434,
+    "end": 4537435,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_query_incremental_stream_size",
+    "start": 4766779,
+    "end": 4766780,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_incremental_stream@8",
+    "start": 4766795,
+    "end": 4766796,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_read_incremental_byte",
+    "start": 4739862,
+    "end": 4739863,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_validate_incremental_options",
+    "start": 4707690,
+    "end": 4707691,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_486e67",
+    "start": 4746855,
+    "end": 4746856,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_486a23",
+    "start": 4745763,
+    "end": 4745764,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_48710f",
+    "start": 4747535,
+    "end": 4747536,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_write_output_directives",
+    "start": 4537831,
+    "end": 4537832,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_41eb8a",
+    "start": 4320138,
+    "end": 4320139,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_48511c",
+    "start": 4739356,
+    "end": 4739357,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_45477a",
+    "start": 4540282,
+    "end": 4540283,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

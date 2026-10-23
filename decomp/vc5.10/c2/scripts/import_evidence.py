@@ -56,6 +56,50 @@ def verify_free_provider(path, expected_sha256):
     return proof
 
 
+
+def verify_writer_provider(packet):
+    """Exact public boundaries, not a private dependency implementation."""
+    import json
+    public=packet['writer_provider_evidence']
+    assert {(r['symbol'],Path(r['path']).name)for r in public}=={
+        ('fopen','MSVCRT.DLL'),('fclose','MSVCRT.DLL'),
+        ('StreamQueryCb','MSPDB50.DLL'),('StreamRead','MSPDB50.DLL')}
+    for row in public:
+        path=ROOT/row['path']
+        assert path.parent==TARGET.parent and path.name in ('MSVCRT.DLL','MSPDB50.DLL')
+        data=path.read_bytes();assert sha(data)==row['sha256']
+        if path.name=='MSVCRT.DLL':assert row['sha256']==CANONICAL_CRT
+        read=pe_read(path);header=struct.unpack_from('<I',data,60)[0];opt=header+24
+        base=struct.unpack_from('<I',data,opt+28)[0];exports=struct.unpack('<IIHHIIIIIII',read(base+struct.unpack_from('<I',data,opt+96)[0],40))
+        ordinal,count,names,functions,name_table,ordinals=exports[5:]
+        assert 0<names<=count<65536
+        actual=[]
+        for index in range(names):
+            address=base+struct.unpack('<I',read(base+name_table+index*4,4))[0]
+            name=bytearray()
+            for i in range(256):
+                char=read(address+i,1)
+                if char==b'\0':break
+                name+=char
+            else:raise AssertionError('unbounded provider export')
+            if name.decode('ascii')==row['symbol']:
+                entry=struct.unpack('<H',read(base+ordinals+index*2,2))[0];assert entry<count
+                actual.append({'ordinal':ordinal+entry,'address':base+struct.unpack('<I',read(base+functions+entry*4,4))[0]})
+        assert actual==[row['export']]
+        for interval in row['ranges']:
+            assert interval['start']<interval['end']
+            assert sha(read(interval['start'],interval['end']-interval['start']))==interval['sha256']
+        if row['symbol']=='StreamQueryCb':assert read(row['export']['address'],8)==bytes.fromhex('8b4c24048b01ff20')
+        if row['symbol']=='StreamRead':assert read(row['export']['address'],22)==bytes.fromhex('ff7424108b4c2408ff7424108b01ff742410ff5004c3')
+    declaration=packet['mspdb_declaration'];path=BINARY/declaration['path']
+    assert sha(path.read_bytes())==declaration['sha256']
+    later=json.loads(path.read_text())
+    assert later['commit']=='805655a28bd8198004be2ac27e6e0290121a5e89'
+    assert later['scope'].startswith('Later published Microsoft declaration')
+    # Existing reader13 EBP claims remain exactly13; only eight finite targets
+    # acquire EDI, including two publicCRT calls and four pending stream helpers.
+
+
 def verify(config,graph):
     _,original,inventory=load();rebuilt=pe_read(BINARY/'build/c2.exe')
     maps={m[1]:int(m[2],16)for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',
@@ -78,7 +122,9 @@ def verify(config,graph):
             base=record['start'] if side=='original' else maps[record.get('symbol',record['name'])]
             direct={str(base+int(site)):identity for site,identity in record['direct_import_offsets'][side].items()}
             assert observed['direct_import_calls']==direct, 'direct import site inventory differs'
-        verify_free_provider(BINARY/record['provider_abi_evidence'],record['provider_abi_evidence_sha256'])
+        if record['name']=='@read_initializer_records@4':
+            verify_free_provider(BINARY/record['provider_abi_evidence'],record['provider_abi_evidence_sha256'])
+        else:assert record['name']=='_initialize_object_output','unknown resolver proof owner'
         contracts=config['register_imports']['preservation_contracts']
         paths={entry['evidence']['path'] for entry in contracts}
         assert len(paths)==1, 'reader ABI witness scope changed'
@@ -86,12 +132,23 @@ def verify(config,graph):
         assert all(entry['evidence']['sha256']==sha(content) for entry in contracts)
         packet=__import__('json').loads(content)
         assert packet['target_sha256']==sha(original) and packet['rebuilt_sha256']==sha((BINARY/'build/c2.exe').read_bytes())
+        if 'writer_scope'in packet:
+            verify_writer_provider(packet)
+            reader_targets={__import__('json').dumps(v,sort_keys=True)for v in packet['reader_scope_preserved']}
+            assert len(reader_targets)==13
+            assert {__import__('json').dumps(v['target'],sort_keys=True)for v in contracts if 'ebp'in v['preserves']}==reader_targets
+            expected_edi={'@c2_pool_allocate@8','@c2_report_internal@8','_query_incremental_stream_size',
+                '@read_incremental_stream@8','_read_incremental_byte','_validate_incremental_options'}
+            assert {v['target']['function']for v in contracts if 'edi'in v['preserves']and 'function'in v['target']}==expected_edi
+            assert {v['target']['import']['name']for v in contracts if 'edi'in v['preserves']and 'import'in v['target']}=={'fopen','fclose'}
+            assert all(set(v['preserves'])<= {'ebp','edi'}for v in contracts)
         definitions={r['name']:r for r in config['driver']+config['stubs']}
         declared={entry['target']['function'] for entry in contracts if 'function' in entry['target']}
         assert declared=={entry['function']for entry in packet['callee_preservation']}
         for entry in packet['callee_preservation']:
             definition=definitions[entry['function']]
-            assert entry['abi']==definition['abi'] and entry['source_symbol']==definition['native'] and entry['preserves']==['ebp']
+            contract=next(v for v in contracts if v['target'].get('function')==entry['function'])
+            assert entry['abi']==definition['abi'] and entry['source_symbol']==definition['native'] and entry['preserves']==contract['preserves']
             assert entry['rebuilt_entry']==maps[definition.get('symbol',definition['name'])]
             for chunk in entry['original']:
                 start,end=chunk['start'],chunk['end'];pos=offset(inventory,start,end-start)

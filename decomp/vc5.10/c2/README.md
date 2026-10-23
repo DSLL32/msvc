@@ -205,3 +205,23 @@ body returns the new node, refining the earlier pending stub's unobserved result
 Proof0070 records27 fresh/123 reused controls (19.969s), refreshed20 compile
 guards (2.701s), full70 audit0.482s, original capture2.326s, and native GDB0.523s.
 Current validator source is retained as ordinary checked files; no new archives.
+
+The561-byte object-output initializer is accepted as source71. It opens the
+actual outputFILE, allocates the encountered pool7, and constructs the typed
+32-byte writer. A fresh pair proves the actual writer formal/caller alias,
+source copy, all initialized4096 arena bytes, canonical FILEslot6 and empty
+partial object. Its three stored callback targets remain signature-pending
+masked INT3 functions with no body/ABI credit; finite member/target escape
+checks and compiled type guards hold before any callable consumer.
+
+The full71 graph/import audit resolves both EDI-cached fopen sites using eight
+individually ablated normal-return guarantees while preserving exactly the
+prior13 EBP guarantees. The unexecuted MSPDB cold path is identified through
+actual shipped exports/wrappers and a pinned later Microsoft public declaration;
+its reviewed cdecl/thiscall boundary supplies only EDI preservation, with no
+virtual implementation or executed-dependency claim. Source and dependency
+witnesses, review limits,24 affected writer controls and8 ablations are in0071.
+The protocol checkpoint refreshes37 controls and reuses113; its exact20 checker
+inputs now use ordinary owned files and a hash manifest. All historical archives
+remain untouched. Timing distinguishes the25.331s protocol controls,15.362s
+writer controls and0.777s ablations from capture/build/audit execution.

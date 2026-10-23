@@ -12,6 +12,38 @@ from accept import preflight
 from state import BINARY, sha
 
 
+
+def baseline_contracts(path, baseline):
+    """Read exact ordinary source manifests, or unchanged historical archives."""
+    from pathlib import PurePosixPath
+    if 'source_directory'in baseline:
+        assert 'source_archive'not in baseline
+        def relative(name):
+            assert isinstance(name,str)and name and '\\'not in name and ':'not in name
+            parts=PurePosixPath(name)
+            assert not parts.is_absolute()and '..'not in parts.parts and '.'not in parts.parts
+            return parts
+        directory=path.parent/relative(baseline['source_directory'])
+        manifest=path.parent/relative(baseline['source_manifest'])
+        assert directory.is_dir()and not directory.is_symlink()
+        assert directory.resolve().is_relative_to(path.parent.resolve())
+        assert manifest.is_file()and not manifest.is_symlink()and manifest.resolve().is_relative_to(path.parent.resolve())
+        raw=manifest.read_bytes();assert sha(raw)==baseline['source_manifest_sha256']
+        expected=json.loads(raw);assert isinstance(expected,dict)and expected
+        for name,digest in expected.items():
+            relative(name);assert isinstance(digest,str)and re.fullmatch('[0-9a-f]{64}',digest)
+        entries=list(directory.rglob('*'));assert all(not p.is_symlink()for p in entries)
+        actual={str(p.relative_to(directory)):sha(p.read_bytes())for p in entries if p.is_file()}
+        assert actual==expected==baseline['checker_contracts'],'ordinary checker snapshot differs'
+        return actual
+    archive=path.parent/baseline['source_archive']
+    assert sha(archive.read_bytes())==baseline['source_archive_sha256']
+    with tarfile.open(archive,'r:gz')as source:
+        actual={member.name:sha(source.extractfile(member).read())for member in source.getmembers()}
+    assert actual==baseline['checker_contracts'],'baseline checker/contract snapshot changed'
+    return actual
+
+
 def main():
     begin=time.monotonic()
     p=argparse.ArgumentParser(description=__doc__)
@@ -943,10 +975,7 @@ def main():
         result_path=BINARY/baseline['control_result'];assert sha(result_path.read_bytes())==baseline['control_result_sha256']
         prior=json_at(result_path);assert prior['count']==len(prior['rejected'])and not prior['accepted']
         covered=set(prior['rejected'])|set((prior.get('reuse')or{}).get('reused',[]))
-        archive=a.reviewed_baseline.parent/baseline['source_archive'];assert sha(archive.read_bytes())==baseline['source_archive_sha256']
-        with tarfile.open(archive,'r:gz')as source:
-            actual={member.name:sha(source.extractfile(member).read())for member in source.getmembers()}
-        assert actual==baseline['checker_contracts'],'baseline checker/contract snapshot changed'
+        actual=baseline_contracts(a.reviewed_baseline,baseline)
         selected=[]
         for name,change in mutations:
             if name not in covered or (a.affected and re.search(a.affected,name,re.I)):selected.append((name,change))
@@ -954,7 +983,7 @@ def main():
         mutations=selected
         reuse={'baseline':str(a.reviewed_baseline.resolve()),'baseline_sha256':sha(a.reviewed_baseline.read_bytes()),
             'baseline_control_result_sha256':baseline['control_result_sha256'],'baseline_checker_contracts':actual,
-            'current_checker_contracts':{name:sha((BINARY/name).read_bytes())for name in actual},
+            'current_checker_contracts':{name:sha((BINARY/name).read_bytes())for name in set(actual)|{'scripts/callback_evidence.py','scripts/writer_evidence.py'}},
             'baseline_proof_inputs':baseline['proof_inputs'],'review':a.review_note,'reused':reused,'count':len(reused)}
     with tempfile.TemporaryDirectory(prefix='candidate-negatives-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as scratch:
         for index,(name,change)in enumerate(mutations):

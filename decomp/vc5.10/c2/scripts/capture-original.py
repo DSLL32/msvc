@@ -34,6 +34,10 @@ def main():
     assert args.candidate==config['trial'],'candidate must be explicit in immutable trial configuration'
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot)
+    if config.get('writer_callback_boundary'):
+        content=(BINARY/config['writer_callback_boundary']).read_bytes()
+        assert sha(content)==config['writer_callback_boundary_sha256']
+        (output/'writer-callback-boundary.json').write_bytes(content)
     if config.get('output_callback_boundary'):
         content=(BINARY/config['output_callback_boundary']).read_bytes()
         assert sha(content)==config['output_callback_boundary_sha256']
@@ -110,7 +114,7 @@ def main():
                  execution_inputs={name:sha((output/name).read_bytes())if(output/name).exists()else None for name in (('child-environment-input.bin','child-command-input.bin','data-plan.txt')if data_model else('child-environment-input.bin','child-command-input.bin'))},
                  helper_status=result.returncode,seconds={'setup':setup,'execution':elapsed,'total':time.monotonic()-begin})
     if any(r.get('state_policy')=='globals-complete'for r in config['stubs']):
-        receipt['globals_complete_hashes']={name:sha((output/name).read_bytes())for name in ('unmodeled-original-data.bin','pool-block.bin','header-streams.bin')+ (('directive-pool.bin',)if any(r.get('frontier_contract')=='output-directives-complete'for r in config['stubs'])else())+ (('initializer-buffer.bin',)if any(r.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete') for r in config['stubs'])else())+ (('backend-streams.bin',)if any(r.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete') for r in config['stubs'])else())+ (('output-directive-value.bin',)if any(r.get('frontier_contract')=='output-directive-input'for r in config['stubs'])else())}
+        receipt['globals_complete_hashes']={name:sha((output/name).read_bytes())for name in ('unmodeled-original-data.bin','pool-block.bin','header-streams.bin')+ (('writer-pool.bin','output-file.bin')if any(r.get('frontier_contract')=='object-writer-input'for r in config['stubs'])else())+ (('directive-pool.bin',)if any(r.get('frontier_contract')in ('output-directives-complete','object-writer-input')for r in config['stubs'])else())+ (('initializer-buffer.bin',)if any(r.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input') for r in config['stubs'])else())+ (('backend-streams.bin',)if any(r.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input') for r in config['stubs'])else())+ (('output-directive-value.bin',)if any(r.get('frontier_contract')=='output-directive-input'for r in config['stubs'])else())}
     if(output/'unmodeled-original-data.bin').exists():receipt['unmodeled_original_data']={'classification':'UNMODELED; preservation only, no payload/extent/data credit','bytes':(output/'unmodeled-original-data.bin').stat().st_size,'sha256':sha((output/'unmodeled-original-data.bin').read_bytes())}
     for stream in ('stdout','stderr'):
         path=output/(stream+'.bin')

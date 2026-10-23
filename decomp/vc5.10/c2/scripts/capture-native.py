@@ -18,6 +18,10 @@ def main():
     base_snapshot=(BINARY/'functions.json').read_bytes();config,snapshot=trial_configuration(base_snapshot)
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot);(output/'configuration.json').write_bytes(snapshot)
+    if config.get('writer_callback_boundary'):
+        content=(BINARY/config['writer_callback_boundary']).read_bytes()
+        assert sha(content)==config['writer_callback_boundary_sha256']
+        (output/'writer-callback-boundary.json').write_bytes(content)
     if config.get('output_callback_boundary'):
         content=(BINARY/config['output_callback_boundary']).read_bytes()
         assert sha(content)==config['output_callback_boundary_sha256']
@@ -543,7 +547,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     complete_program="""if records and records[0].get('state_policy')=='globals-complete':
     exec(MODEL_SOURCE)
     addresses={key:int(gdb.parse_and_eval('&('+item[1]+')'))for key,item in ROOTS.items()}
-    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')=='output-directives-complete')
+    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')in ('output-directives-complete','object-writer-input'), writer=records[0].get('frontier_contract')=='object-writer-input')
     info['globals_complete']['formals']=[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument]
     info['globals_complete']['opaque_context_anchor_alias']=int(gdb.parse_and_eval('section_context'))==int(gdb.parse_and_eval('&section_context_identity'))
     if records[0].get('frontier_contract')=='initializer-input':
@@ -554,21 +558,29 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),
         'input_bytes':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
         'closed_globals_bytes':gdb.selected_inferior().read_memory(second,32).tobytes().hex()}
-    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
+    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input'):
         info['globals_complete']['streams']['active_input_alias']=int(gdb.parse_and_eval('c2_current_il'))==int(first)
         info['globals_complete']['streams']['valid_input_bytes']=gdb.selected_inferior().read_memory(first.dereference()['_base'],15).tobytes().hex()
-    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
+    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input'):
         opened=[]
         for name in ('expression_input','function_symbol_input'):
             file=gdb.parse_and_eval(name)
             opened.append({'index':(int(file)-iob)//32,'bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()})
         info['globals_complete']['streams']['backend_inputs']=opened
-    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete'):
+    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input'):
         info['output_setup']={'group_name':gdb.parse_and_eval('output_group_name').string(),
             'enabled':int(gdb.parse_and_eval('output_enabled')),
             'slots':[{'address':int(gdb.parse_and_eval('&'+name)),
                 'target':int(gdb.parse_and_eval(name+'.target'))}for name in ['output_slot_497de4', 'output_slot_499a00', 'output_slot_497e10', 'output_slot_497dbc', 'output_slot_497de0', 'output_slot_497dec', 'output_slot_497db0', 'output_slot_497dd4', 'output_slot_497ce4', 'output_slot_497ddc', 'output_slot_497dcc', 'output_slot_499750', 'output_slot_491070', 'output_slot_497db4', 'output_slot_491078', 'output_slot_497f60', 'output_slot_497dfc', 'output_slot_497f50', 'output_slot_49971c', 'output_slot_497cec']]}
         gdb.write('C2-OUTPUT-SETUP '+json.dumps(info['output_setup'],sort_keys=True)+'\\n')
+    if records[0].get('frontier_contract')=='object-writer-input':
+        argument=frame.read_var('writer');pool=gdb.parse_and_eval('c2_pools[7]');file=gdb.parse_and_eval('object_output')
+        info['object_writer']={'formals':[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument],
+            'pool_offset':int(argument)-int(pool['blocks']),
+            'caller_writer_alias':int(argument)==int(frame.older().read_var('writer')),
+            'file_index':(int(file)-iob)//32,
+            'file_bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()}
+        gdb.write('C2-OBJECT-WRITER '+json.dumps(info['object_writer'],sort_keys=True)+'\\n')
     if records[0].get('frontier_contract')=='output-directive-input':
         argument=frame.read_var('value')
         info['output_directive']={'kind':int(frame.read_var('kind')),'value':argument.string(),

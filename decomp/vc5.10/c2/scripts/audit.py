@@ -35,9 +35,12 @@ def run(config, report):
     from callback_evidence import verify as verify_callbacks
     callback_file=report.parent/'callback-evidence.json'
     callback_file.write_text(json.dumps(verify_callbacks(json.loads(config.read_text()),parsed),indent=2)+'\n')
+    from writer_evidence import verify as verify_writer
+    writer_file=report.parent/'writer-evidence.json'
+    writer_file.write_text(json.dumps(verify_writer(json.loads(config.read_text()),parsed),indent=2)+'\n')
     assert parsed==json.loads(report.read_text()),'audit report differs'
     return dict(command=args,seconds=time.monotonic()-begin,configuration_sha256=sha(config.read_bytes()),
-                tool_sha256=sha(executable.read_bytes()),callback_evidence_sha256=sha(callback_file.read_bytes()),import_residuals_sha256=sha(residual.read_bytes()),data_evidence_sha256=sha(data_receipt.read_bytes()),report_sha256=sha(report.read_bytes()),
+                tool_sha256=sha(executable.read_bytes()),writer_evidence_sha256=sha(writer_file.read_bytes()),callback_evidence_sha256=sha(callback_file.read_bytes()),import_residuals_sha256=sha(residual.read_bytes()),data_evidence_sha256=sha(data_receipt.read_bytes()),report_sha256=sha(report.read_bytes()),
                 target_sha256=sha(TARGET.read_bytes()),rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                 rebuilt_map_sha256=sha((BINARY/'build/c2.map').read_bytes()),
                 provenance_sha256=sha(source_file.read_bytes()),metadata_sha256=sha((BINARY/'build/graph-metadata.json').read_bytes()),runtime_sha256=sha((BINARY/'runtime.json').read_bytes()),

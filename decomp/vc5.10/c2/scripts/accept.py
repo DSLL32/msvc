@@ -15,6 +15,9 @@ def preflight(name,original,native,validation=None):
     assert len(records)==1,'source candidate needs explicit original graph vertex'
     assert name not in base['accepted'],'candidate already accepted'
     assert not records[0].get('pending_signature'),'function-address identity lacks actual callable ABI'
+    if records[0].get('requires_writer_review'):
+        review=json.loads((BINARY/records[0]['requires_writer_review']).read_text())
+        assert review['approved']is True and review['boundary_sha256']==base['writer_callback_boundary_sha256'],'finite writer boundary review pending'
     if records[0].get('requires_callback_review'):
         review=json.loads((BINARY/records[0]['requires_callback_review']).read_text())
         assert review['approved'] is True and review['boundary_sha256']==base['output_callback_boundary_sha256'],'finite callback boundary review pending'
@@ -46,7 +49,7 @@ def main():
         if side=='original':files += [p.name for p in source.glob('cache-message-*.bin')]+[p.name for p in source.glob('diagnostic-format.bin')]
         files += [p.name for p in source.glob('artifact-*.bin')]
         if side=='original':files += [p.name for p in source.glob('intermediate-*.bin')]
-        if side=='original':files += [name for name in ('runtime-original.json','runtime-rebuilt.json','graph-metadata.json','pool-block.bin','pool-descriptors.bin','real-records.bin','extended-destination.bin','x87-state.bin','extended-after.bin','x87-after.bin','x87-final.bin','intrinsic-model.json','intrinsic-table.bin','section-name.bin','section-class.bin','section-globals.bin','section-node.bin','section-list.bin','unmodeled-original-data.bin','sections.bin','section-addresses.bin','symbol-scope.bin','symbol-template.bin','symbol-name.bin','source-name-pool.bin','decorated-name.bin','function-symbol.bin','filename-node.bin','initializer-buffer.bin','backend-streams.bin','output-directive-value.bin','directive-pool.bin')if(source/name).exists()]
+        if side=='original':files += [name for name in ('runtime-original.json','runtime-rebuilt.json','graph-metadata.json','pool-block.bin','pool-descriptors.bin','real-records.bin','extended-destination.bin','x87-state.bin','extended-after.bin','x87-after.bin','x87-final.bin','intrinsic-model.json','intrinsic-table.bin','section-name.bin','section-class.bin','section-globals.bin','section-node.bin','section-list.bin','unmodeled-original-data.bin','sections.bin','section-addresses.bin','symbol-scope.bin','symbol-template.bin','symbol-name.bin','source-name-pool.bin','decorated-name.bin','function-symbol.bin','filename-node.bin','initializer-buffer.bin','backend-streams.bin','output-directive-value.bin','directive-pool.bin','writer-pool.bin','output-file.bin')if(source/name).exists()]
         for name in files:shutil.copyfile(source/name,destination/name)
     def preserve_inputs(directory,manifest,destination):
         # Ordinary owned source files preserve exact compiled content while
@@ -60,6 +63,7 @@ def main():
     if(a.native/'data-model.json').exists():shutil.copyfile(a.native/'data-model.json',a.proof/'native/data-model.json')
     if(a.native/'intrinsic-model.json').exists():shutil.copyfile(a.native/'intrinsic-model.json',a.proof/'native/intrinsic-model.json')
     for side,source in [('original',a.original),('native',a.native)]:
+        if(source/'writer-callback-boundary.json').exists():shutil.copyfile(source/'writer-callback-boundary.json',a.proof/side/'writer-callback-boundary.json')
         if(source/'output-callback-boundary.json').exists():shutil.copyfile(source/'output-callback-boundary.json',a.proof/side/'output-callback-boundary.json')
     if(a.original/'helper-inputs.json').exists():
         shutil.copyfile(a.original/'helper-inputs.json',a.proof/'original/helper-inputs.json')
@@ -72,7 +76,7 @@ def main():
     shutil.copyfile(Path(result['graph_report']).parent/'data-evidence.json',validation_folder/'data-evidence.json')
     shutil.copyfile(Path(result['graph_report']).parent/'win32-inputs.json',validation_folder/'win32-inputs.json')
     preserve_inputs(Path(result['graph_report']).parent/'win32-inputs',json.loads((Path(result['graph_report']).parent/'win32-inputs.json').read_text()),validation_folder/'win32-inputs')
-    for name in ('callback-evidence.json',):
+    for name in ('callback-evidence.json','writer-evidence.json'):
         source=Path(result['graph_report']).parent/name
         if source.exists():shutil.copyfile(source,validation_folder/name)
     for name in ('configuration.json','pending-correction.json'):

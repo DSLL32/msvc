@@ -1,0 +1,187 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/object-writer-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/object-writer-original/graph-audit.json",
+    "matched": "@initialize_coff_output@4",
+    "original": "0x453c5a",
+    "native": "initialize_coff_output",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "initialize_coff_output",
+      "symbol_start": "0x6340",
+      "symbol_size": 88,
+      "static_pc": "0x6378",
+      "int3_sites": [
+        "0x6377"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output"
+    ],
+    "candidates": [
+      "_initialize_object_output"
+    ],
+    "acceptance": false
+  },
+  "count": 24,
+  "rejected": [
+    {
+      "control": "actual writer formal omitted",
+      "reason": ""
+    },
+    {
+      "control": "actual writer formal type changed",
+      "reason": ""
+    },
+    {
+      "control": "caller writer pointer alias lost",
+      "reason": ""
+    },
+    {
+      "control": "writer points to wrong allocated offset",
+      "reason": ""
+    },
+    {
+      "control": "writer output FILE identity changed",
+      "reason": ""
+    },
+    {
+      "control": "writer actual original ECX changed",
+      "reason": ""
+    },
+    {
+      "control": "writer initialized format differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "writer pending04 stored value differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "writer callback identity differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "writer untouched padding differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "writer initialized full tail differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "original writer source alias differs",
+      "reason": ""
+    },
+    {
+      "control": "original writer callback target differs",
+      "reason": ""
+    },
+    {
+      "control": "original writer source string differs",
+      "reason": ""
+    },
+    {
+      "control": "original output FILE mode differs",
+      "reason": ""
+    },
+    {
+      "control": "partial object gains unexpected byte",
+      "reason": ""
+    },
+    {
+      "control": "pending member direct invocation",
+      "reason": "pending writer callback invocation/escape requires recovered actual signature"
+    },
+    {
+      "control": "pending member target invocation",
+      "reason": "pending writer callback invocation/escape requires recovered actual signature"
+    },
+    {
+      "control": "pending member escape",
+      "reason": "pending writer callback invocation/escape requires recovered actual signature"
+    },
+    {
+      "control": "pending target direct invocation",
+      "reason": "pending writer target may only be declared, stored, or trap"
+    },
+    {
+      "control": "erased pending callback signature guard",
+      "reason": "pending signature hold"
+    },
+    {
+      "control": "compile rejects output_allocator directcall",
+      "diagnostic_sha256": "36970c336e1613d82eded0b965428e58b22c20e81b16da40f055f72e003d9c23"
+    },
+    {
+      "control": "compile rejects output_error directcall",
+      "diagnostic_sha256": "bcee6ba2fa1d3f364f25f046445645579cc8f2da2e4c509b5828aac1b6c1c0bd"
+    },
+    {
+      "control": "compile rejects output_clock directcall",
+      "diagnostic_sha256": "50c31b186a51bcc87d3aac3fcf30828a0a76e0a6f1d9220e5ddac07d038056e5"
+    }
+  ],
+  "seconds": 15.362292571924627,
+  "original_receipt_sha256": "2f7ed46321489956791d39cea7b0891904bc22aa7f3324be61c489c3bfe71353",
+  "native_receipt_sha256": "45f094fdec984f2e651b62c810682e02a290beb83161fc2f2865c6be6596bcf1",
+  "checker_sha256": "e0ce7e5901ebb496136c8a5045a173dc3554c29bbb4b15501216a5e9eb4e2cf9"
+}
