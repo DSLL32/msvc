@@ -9,6 +9,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap};
 #[derive(Clone, Default)]
 pub struct Options {
     pub roots: Vec<u32>,
+    pub record_dataflow: bool,
     pub imports: Option<std::sync::Arc<crate::imports::Catalog>>,
     pub code_chunks: Vec<(u32, u32)>,
     pub fallthrough_entries: Vec<u32>,
@@ -32,6 +33,10 @@ pub struct Graph {
     pub unresolved_tail: bool,
     pub tails: BTreeSet<u32>,
     pub instructions: BTreeMap<u32, Inst>,
+    pub roots: BTreeSet<u32>,
+    pub successors: BTreeMap<u32, BTreeSet<u32>>,
+    pub indirect_calls: BTreeSet<u32>,
+    pub import_calls: BTreeMap<u32, crate::imports::Identity>,
     pub covered: usize,
     pub tables: Vec<(u32, u32)>,
 }
@@ -60,6 +65,9 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
     pending.extend(&options.roots);
     let mut owners = HashMap::new();
     let mut out = Graph::default();
+    if options.record_dataflow {
+        out.roots.extend(pending.iter().copied());
+    }
     while let Some(a) = pending.pop() {
         if out.instructions.contains_key(&a) {
             continue;
@@ -109,7 +117,10 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                     for off in [4, 8] {
                         let target = crate::pe::u32_at(b, off)?;
                         if inside(target) {
-                            pending.push(target)
+                            pending.push(target);
+                            if options.record_dataflow {
+                                out.roots.insert(target);
+                            }
                         }
                     }
                 }
@@ -132,6 +143,9 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 ensure!(!is_data(t), "call enters declared text data at {t:x}");
                 if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t)) {
                     out.imports.insert(identity.clone());
+                    if options.record_dataflow {
+                        out.import_calls.insert(a, identity.clone());
+                    }
                 } else {
                     out.calls.insert(t);
                 }
@@ -141,7 +155,13 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 .and_then(|c| c.absolute_transfer(&i))
             {
                 out.imports.insert(identity.clone());
+                if options.record_dataflow {
+                    out.import_calls.insert(a, identity.clone());
+                }
             } else {
+                if options.record_dataflow {
+                    out.indirect_calls.insert(a);
+                }
                 out.indirect = true
             }
         }
@@ -149,7 +169,10 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
             if let Some(t) = i.imm() {
                 ensure!(!is_data(t), "branch enters declared text data at {t:x}");
                 if inside(t) {
-                    pending.push(t)
+                    pending.push(t);
+                    if options.record_dataflow {
+                        out.successors.entry(a).or_default().insert(t);
+                    }
                 } else {
                     if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t))
                     {
@@ -167,6 +190,9 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 out.imports.insert(identity.clone());
             } else if let Some(targets) = options.switches.get(&a) {
                 pending.extend(targets);
+                if options.record_dataflow {
+                    out.successors.entry(a).or_default().extend(targets);
+                }
             } else {
                 ensure!(options.infer_switches, "undeclared indirect jump at {a:x}");
                 let mut targets = Vec::new();
@@ -192,7 +218,10 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                     if let Some(m) = i.mem() {
                         out.tables.push((m.disp, m.disp + 4 * targets.len() as u32));
                     }
-                    pending.extend(targets);
+                    pending.extend(&targets);
+                    if options.record_dataflow {
+                        out.successors.entry(a).or_default().extend(targets);
+                    }
                 }
             }
             out.instructions.insert(a, i);
@@ -205,7 +234,10 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 "conditional branch enters declared text data at {t:x}"
             );
             if inside(t) {
-                pending.push(t)
+                pending.push(t);
+                if options.record_dataflow {
+                    out.successors.entry(a).or_default().insert(t);
+                }
             } else {
                 ensure!(!options.strict, "conditional target outside extent");
                 if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t)) {
@@ -221,6 +253,9 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
             // library fragment/alias has a separately identified successor.
         } else if i.next() == chunk_end && inside(i.next()) {
             pending.push(i.next());
+            if options.record_dataflow {
+                out.successors.entry(a).or_default().insert(i.next());
+            }
         } else if i.next() == chunk_end
             && (options.fallthrough_entry == Some(chunk_end)
                 || options.fallthrough_entries.contains(&chunk_end))
@@ -233,6 +268,9 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 "extent ends before terminal instruction at {a:x}"
             );
             pending.push(i.next());
+            if options.record_dataflow {
+                out.successors.entry(a).or_default().insert(i.next());
+            }
         }
         out.instructions.insert(a, i);
     }

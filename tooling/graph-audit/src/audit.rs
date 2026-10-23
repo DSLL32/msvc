@@ -833,6 +833,28 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     };
     let original_imports = import_catalog(&x.original_imports, &x.oi);
     let rebuilt_imports = import_catalog(&x.rebuilt_imports, &x.ri);
+    let register_contracts = if a.resolve_register_imports {
+        Some((
+            crate::register_imports::Contracts::parse(
+                &metadata,
+                &x.oi,
+                original_imports
+                    .as_ref()
+                    .context("missing original import catalog")?,
+                &a.project,
+            )?,
+            crate::register_imports::Contracts::parse(
+                &metadata,
+                &x.ri,
+                rebuilt_imports
+                    .as_ref()
+                    .context("missing rebuilt import catalog")?,
+                &a.project,
+            )?,
+        ))
+    } else {
+        None
+    };
     for f in &progress {
         if !x.accepted.contains(&f.name) {
             continue;
@@ -845,6 +867,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             infer_switches: true,
             infer_seh: true,
             imports: original_imports.clone(),
+            record_dataflow: a.resolve_register_imports,
             code_chunks: f.code_chunks.clone(),
             fallthrough_entries: f
                 .code_ranges()
@@ -858,12 +881,13 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         let mut options = options;
         apply_metadata(&mut options, &metadata["functions"][&f.name]["original"])?;
         validate_text_data(&x.o, f, &options.data, &x.oi)?;
-        let l = flow::walk(&d, &x.o, f.start, f.end, &options)
+        let mut l = flow::walk(&d, &x.o, f.start, f.end, &options)
             .with_context(|| format!("original {}", f.name))?;
         let mut rebuilt_options = Options {
             infer_switches: true,
             infer_seh: true,
             imports: rebuilt_imports.clone(),
+            record_dataflow: a.resolve_register_imports,
             code_chunks: other.code_chunks.clone(),
             fallthrough_entries: other
                 .code_ranges()
@@ -879,8 +903,31 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             &metadata["functions"][&f.name]["rebuilt"],
         )?;
         validate_text_data(&x.r, other, &rebuilt_options.data, &x.ri)?;
-        let r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
+        let mut r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
             .with_context(|| format!("reconstructed {}", f.name))?;
+        let register_report = if a.resolve_register_imports {
+            let strict = crate::register_imports::strict_policy(
+                &metadata["functions"][&f.name]["register_imports"],
+            )?;
+            let oc = original_imports
+                .as_ref()
+                .context("missing original import catalog")?;
+            let rc = rebuilt_imports
+                .as_ref()
+                .context("missing rebuilt import catalog")?;
+            let (left_contracts, right_contracts) = register_contracts
+                .as_ref()
+                .context("missing preservation contracts")?;
+            let left = crate::register_imports::resolve(&mut l, oc, left_contracts, strict)
+                .with_context(|| format!("original {} register imports", f.name))?;
+            let right = crate::register_imports::resolve(&mut r, rc, right_contracts, strict)
+                .with_context(|| format!("rebuilt {} register imports", f.name))?;
+            Some(
+                json!({"original":left,"rebuilt":right,"require_all_register_calls_resolved":strict}),
+            )
+        } else {
+            None
+        };
         ensure!(
             equivalent(&l.calls, &r.calls, &oa, &ra),
             "{} call graph differs: original {:?}; reconstruction {:?}",
@@ -962,6 +1009,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         if a.check_imports {
             function_report["imports"] = json!(l.imports);
         }
+        if let Some(register_report) = register_report {
+            function_report["register_imports"] = register_report;
+        }
         report.insert(f.name.clone(), function_report);
     }
     if a.check_callbacks {
@@ -996,6 +1046,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
     if a.check_imports {
         result["import_catalogs"] = json!({"original":{"slots":original_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":original_imports.as_ref().map(|c|c.thunks.len())},"rebuilt":{"slots":rebuilt_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":rebuilt_imports.as_ref().map(|c|c.thunks.len())}});
+    }
+    if a.resolve_register_imports {
+        result["register_import_inputs"] = json!({"original_sha256":crate::index::hash(&x.o.data),"rebuilt_sha256":crate::index::hash(&x.r.data),"metadata_sha256":crate::index::hash(&serde_json::to_vec(&metadata)?),"preservation_contracts":metadata["register_imports"]["preservation_contracts"]});
     }
     if x.oi.iter().chain(&x.ri).any(|r| !r.code_chunks.is_empty()) {
         let mut domains = BTreeMap::new();

@@ -5,6 +5,7 @@ mod flow;
 mod imports;
 mod index;
 mod pe;
+mod register_imports;
 use anyhow::Result;
 use clap::{Parser, ValueEnum};
 use std::path::PathBuf;
@@ -44,6 +45,12 @@ pub struct Args {
         help = "Compare verified DLL/name-or-ordinal identities of direct IAT and import-thunk transfers"
     )]
     pub check_imports: bool,
+    #[arg(
+        long,
+        requires = "check_imports",
+        help = "Conservatively resolve EBX/ESI/EDI IAT calls with explicit callee-preservation evidence"
+    )]
+    pub resolve_register_imports: bool,
     #[arg(long)]
     pub check_references: bool,
     #[arg(long)]
@@ -97,6 +104,7 @@ fn run() -> Result<()> {
     anyhow::ensure!(
         args.discovery != Discovery::Legacy
             || !(args.check_imports
+                || args.resolve_register_imports
                 || args.check_ret
                 || args.check_references
                 || args.check_callbacks
@@ -124,6 +132,7 @@ fn run() -> Result<()> {
         for (enabled, name) in [
             (args.check_ret, "ret_cleanup"),
             (args.check_imports, "known_imports"),
+            (args.resolve_register_imports, "register_imports"),
             (args.check_references, "function_references"),
             (args.check_callbacks, "callback_tables"),
             (args.check_ownership, "extent_ownership"),

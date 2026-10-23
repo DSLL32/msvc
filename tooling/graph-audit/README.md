@@ -81,6 +81,7 @@ are opt-in:
 
 | Flag | Check |
 | --- | --- |
+| `--resolve-register-imports` | With `--check-imports`, conservatively resolve cached EBX/ESI/EDI import calls using the existing CFG and explicit, hash-bound callee-preservation witnesses. |
 | `--check-imports` | Compare verified DLL+name/ordinal import transfers, normalizing direct IAT calls and proven import thunks while retaining declared source/runtime vertices. Standalone profiles only. |
 | `--check-ret` | Compare RET cleanup sets, inheriting identified direct tail callees; unknown indirect tail ABIs and cycles fail. CVPACK also checks declared cleanup. |
 | `--check-references` | Compare immediate references to indexed function entries, with alias bijection. Available for the seven standalone profiles. |
@@ -137,6 +138,56 @@ with a thunk. DLL basename and ASCII case are normalized; export name case and
 ordinals are preserved. Unresolved register/indexed/segment-relative transfers
 remain indirect, and malformed import tables fail. This opt-in check leaves the
 default and legacy reports unchanged.
+
+`--resolve-register-imports` adds a must-value pass over those same discovered
+instructions and control-flow edges. It tracks only EBX/ESI/EDI, seeds full-width
+MOVs from verified absolute IAT slots, and copies full-width register MOVs.
+Other writes (including partial and implicit writes) clear the affected fact.
+Every entry/SEH root starts unknown; joins retain only identities agreed by all
+reachable predecessors, and loops run to a fixed point. Segmented/indexed loads,
+stack values, arbitrary pointers, register tail jumps and external RET cleanup
+are not inferred. Unknown calls clear all facts. Across a call, a fact survives
+only under an explicit contract for that actual named callee or qualified import.
+A calling-convention annotation on the caller is insufficient.
+
+Add contracts to schema-1 metadata, and enable strict resolution on functions
+whose register calls must all be imports:
+
+```json
+{
+  "schema": 1,
+  "register_imports": {
+    "preservation_contracts": [{
+      "target": {"import": {"dll": "msvcrt.dll", "name": "_stricmp"}},
+      "preserves": ["ebx", "esi", "edi"],
+      "evidence": {"path": "cases/register-preservation.json", "sha256": "<64 lowercase hex digits>"}
+    }]
+  },
+  "functions": {
+    "_configure_link_options@12": {
+      "register_imports": {"require_all_register_calls_resolved": true}
+    }
+  }
+}
+```
+
+For a source/runtime callee use `target: {"function": "<logical index name>"}`.
+Targets must exist in both verified indexes/catalogs; no name/address guesses or
+blanket ABI default apply. Contract evidence is a project-relative regular file:
+the canonical path must stay inside `--project`, and its SHA256 must match.
+The witness packet's semantic proof and binding to actual callee bodies/providers
+remain the target checker's responsibility; the graph tool validates the packet
+bytes rather than interpreting arbitrary proof formats. Unknown/custom ABI calls
+need a separately justified preservation proof; otherwise they are barriers.
+
+Per-function `register_imports` reports both sides' resolved and unresolved
+register callsites, other unresolved calls, direct import callsites and CFG roots.
+Top-level `register_import_inputs` binds PE and metadata hashes plus the verified
+contracts. Strict mode rejects any unresolved register call, even when another
+call already supplies the same import or an indirect topology bit. Genuine
+callbacks stay indirect in non-strict functions. Graph equality still compares
+target sets, not instruction ordering or callsite correspondence. The flag is
+optional, CFG-only, standalone-profile-only; flag-off reports are unchanged.
 
 Per-function `imports` fields and the `import_catalogs` slot maps record the
 verified identities separately from function edges. No loader is invoked. Import
@@ -361,4 +412,13 @@ Logical-to-MAP symbol controls:
 python3 tooling/graph-audit/check-symbols.py \
   --scratch ~/.ai-tmp/graph-audit/symbol-cli \
   --report ~/.ai-tmp/graph-audit/symbol-cli-validation.json
+```
+
+Cached-register import controls (no compiler, target execution or Wine):
+
+```sh
+python3 tooling/graph-audit/check-register-imports.py \
+  --binary tooling/graph-audit/target/release/graph-audit \
+  --scratch ~/.ai-tmp/graph-audit/register-import-cli \
+  --report ~/.ai-tmp/graph-audit/register-import-cli-validation.json
 ```

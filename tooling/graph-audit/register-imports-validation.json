@@ -1,0 +1,3425 @@
+{
+  "timestamp_utc": "2026-10-23T16:05:46.275219+00:00",
+  "scope": "Opt-in cached EBX/ESI/EDI import CALL must-values using the shared discovered CFG. Static CLI checks only; no target/compiler/Wine execution. Real corpus compares only configure_link_options; other logical callees remain indexed graph targets. Eight-profile regression uses unchanged frozen pre-adoption VC1 snapshots, not later live frontier claims.",
+  "binary_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+  "unit_tests": {
+    "passed": 39,
+    "existing": 28,
+    "new": 11,
+    "clippy": "all-targets -D warnings passed"
+  },
+  "strict_contracts": {
+    "required_imports": [
+      "__p__pgmptr",
+      "_makepath",
+      "_splitpath",
+      "_stricmp",
+      "atoi",
+      "fopen"
+    ],
+    "provider": "msvcrt.dll",
+    "witness_path": "decomp/vc5.10/link/cases/help/options-import-preservation.json",
+    "witness_sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24",
+    "required_direct_helper_contracts": 0,
+    "analysis_note": "Removing every35 reviewed helper contract preserves all147 resolutions. No live helper-body preservation assumption required. Removing each retained import contract fails strict resolution. Witness semantics reviewed by LINK/orchestrator/root; tool checks contained file SHA only."
+  },
+  "cli": {
+    "scope": "Synthetic CLI contract/dataflow mutations. No compiler, target run or Wine.",
+    "binary_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+    "positive_report": {
+      "checked_accepted_extents": null,
+      "checked_functions": 1,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "known_imports",
+        "register_imports",
+        "extent_ownership",
+        "whole_extent_boundaries"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "_caller": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 0,
+          "slots": {
+            "4198736": {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            },
+            "4198740": {
+              "dll": "msvcrt.dll",
+              "name": "Bar"
+            }
+          }
+        },
+        "rebuilt": {
+          "normalizable_thunks": 0,
+          "slots": {
+            "4198736": {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            },
+            "4198740": {
+              "dll": "msvcrt.dll",
+              "name": "Bar"
+            }
+          }
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "cl",
+      "register_import_inputs": {
+        "metadata_sha256": "a9185f11abcac139828f378340802f7b495103201f9ce7645fce56cb0d683767",
+        "original_sha256": "7bbabbc8edb5a29be3372f14504039ed672c82d02fc68ff4323dc4614d26828a",
+        "preservation_contracts": [
+          {
+            "evidence": {
+              "path": "packet.json",
+              "sha256": "02de97761580dac0e017227eddc7b354187e0640b2695a382dcdcc010266f4c4"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "Foo"
+              }
+            }
+          }
+        ],
+        "rebuilt_sha256": "ef09455b753aedcd8188f11a583b03ba15413517bc6abf1507caaf2a533cfe5a"
+      }
+    },
+    "results": [
+      {
+        "case": "cached_call_equals_direct_IAT",
+        "accepted": true,
+        "seconds": 0.0048886919394135475,
+        "diagnostic": "",
+        "function": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "explicit_preservation_repeated_calls",
+        "accepted": true,
+        "seconds": 0.003456631675362587,
+        "diagnostic": "",
+        "function": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                },
+                "4198408": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                },
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "require_import_flag",
+        "accepted": false,
+        "seconds": 0.0017070351168513298,
+        "diagnostic": "error: the following required arguments were not provided:\n  --check-imports\n\nUsage: graph-audit --profile <PROFILE> --project <PROJECT> --check-imports --repo <REPO> --original <ORIGINAL> --rebuilt <REBUILT> --config <CONFIG> --runtime <RUNTIME> --rebuilt-runtime <REBUILT_RUNTIME> --metadata <METADATA> --map <MAP> --resolve-register-imports\n\nFor more information, try '--help'.",
+        "function": null
+      },
+      {
+        "case": "legacy_mode_rejects_feature",
+        "accepted": false,
+        "seconds": 0.0017341012135148048,
+        "diagnostic": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks",
+        "function": null
+      },
+      {
+        "case": "bypassed_seed",
+        "accepted": false,
+        "seconds": 0.00428001768887043,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198408}",
+        "function": null
+      },
+      {
+        "case": "wrong_register",
+        "accepted": false,
+        "seconds": 0.003744947724044323,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198406}",
+        "function": null
+      },
+      {
+        "case": "wrong_seed_IAT_identity",
+        "accepted": false,
+        "seconds": 0.0027876868844032288,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Bar\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}",
+        "function": null
+      },
+      {
+        "case": "partial_SI_write",
+        "accepted": false,
+        "seconds": 0.0026972368359565735,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198410}",
+        "function": null
+      },
+      {
+        "case": "implicit_ESI_write",
+        "accepted": false,
+        "seconds": 0.002767292782664299,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198407}",
+        "function": null
+      },
+      {
+        "case": "unknown_import_call_barrier",
+        "accepted": false,
+        "seconds": 0.00375185813754797,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198408}",
+        "function": null
+      },
+      {
+        "case": "unknown_custom_direct_call_barrier",
+        "accepted": false,
+        "seconds": 0.0027795173227787018,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198411}",
+        "function": null
+      },
+      {
+        "case": "named_direct_callee_preservation",
+        "accepted": true,
+        "seconds": 0.002915017306804657,
+        "diagnostic": "",
+        "function": {
+          "edges": [
+            "_helper"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198411": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198405": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "stale_witness_digest",
+        "accepted": false,
+        "seconds": 0.0025896932929754257,
+        "diagnostic": "graph-audit: stale preservation evidence SHA256: packet.json",
+        "function": null
+      },
+      {
+        "case": "absolute_witness_path",
+        "accepted": false,
+        "seconds": 0.0038764402270317078,
+        "diagnostic": "graph-audit: preservation evidence must be project-relative",
+        "function": null
+      },
+      {
+        "case": "missing_witness_file",
+        "accepted": false,
+        "seconds": 0.0026955408975481987,
+        "diagnostic": "graph-audit: resolve preservation evidence file: No such file or directory (os error 2)",
+        "function": null
+      },
+      {
+        "case": "unsupported_preserved_register",
+        "accepted": false,
+        "seconds": 0.003579329699277878,
+        "diagnostic": "graph-audit: only ebx/esi/edi preservation is supported",
+        "function": null
+      },
+      {
+        "case": "missing_named_callee",
+        "accepted": false,
+        "seconds": 0.002603374421596527,
+        "diagnostic": "graph-audit: preservation function missing from verified index: _missing",
+        "function": null
+      },
+      {
+        "case": "unknown_qualified_import",
+        "accepted": false,
+        "seconds": 0.004569327458739281,
+        "diagnostic": "graph-audit: preservation import missing from verified IAT: Identity { dll: \"other.dll\", symbol: Name { name: \"Foo\" } }",
+        "function": null
+      },
+      {
+        "case": "symlink_witness_escape",
+        "accepted": false,
+        "seconds": 0.004533031955361366,
+        "diagnostic": "graph-audit: preservation evidence escapes project or is not a file",
+        "function": null
+      },
+      {
+        "case": "genuine_unknown_callback_stays_indirect",
+        "accepted": true,
+        "seconds": 0.00398939847946167,
+        "diagnostic": "",
+        "function": {
+          "edges": [
+            "indirect"
+          ],
+          "imports": [],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": [
+                4198400
+              ]
+            },
+            "rebuilt": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": [
+                4198400
+              ]
+            },
+            "require_all_register_calls_resolved": false
+          }
+        }
+      }
+    ]
+  },
+  "real_corpus": {
+    "scope": "Frozen VC5 LINK cached-IAT corpus checks, mutations and repeated CLI timing.\n\nRequires a scratch snapshot with command.json listing explicit tool inputs, a\nbound witness packet, and ONLY _configure_link_options@12 selected for comparison.\nNever rebuilds, runs a target, calls another graph-discovery engine or uses Wine.\n",
+    "binary_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+    "baseline_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+    "input_sha256": {
+      "config": "8603e9133c5a695dd0630dc27f7d00e8476a0ae54aa8682e7300cac024ce9b8b",
+      "metadata": "24d0b07773df2ca8d4bf6aa3a4d0f7cec9e0e6e588f8c7a249b6de25d0ae7381",
+      "original": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "rebuilt": "baf8f624f54b33db179a2ef7205f1ba26414259bc51fa59408b2c8960b32dc1a",
+      "map": "7d0504c91e3fecf26b9b8578325cc239f91e396498bb5a8436be57a0a8f5f360",
+      "runtime": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396",
+      "rebuilt-runtime": "4b4be4bca19fd15ff0edc4dafc60763996e3a3dcebcaa52118deaef30b87c798"
+    },
+    "positive_report": {
+      "checked_accepted_extents": null,
+      "checked_functions": 1,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "known_imports",
+        "register_imports",
+        "function_references",
+        "extent_ownership",
+        "whole_extent_boundaries"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "_configure_link_options@12": {
+          "edges": [
+            "StringTable::Lookup",
+            "_add_default_library@8",
+            "_add_delay_library@4",
+            "_add_librarian_export@16",
+            "_add_mac_data@12",
+            "_add_mac_import@16",
+            "_allocate_memory@4",
+            "_append_argument@8",
+            "_append_argument_record@12",
+            "_append_bytes@12",
+            "_canonicalize_argument@8",
+            "_copy_repro_file@8",
+            "_disable_warning@4",
+            "_disallow_library@12",
+            "_duplicate_argument@4",
+            "_enable_order_file",
+            "_enable_warning_errors",
+            "_exclude_default_library@8",
+            "_find_argument@8",
+            "_find_library@12",
+            "_has_delay_library@4",
+            "_link_fatal",
+            "_link_warning",
+            "_linker_usage",
+            "_parse_machine@8",
+            "_parse_switch@8",
+            "_record_incremental_include@8",
+            "_record_symbol_reference@8",
+            "_release_memory@4",
+            "_remove_delay_library@4",
+            "_set_mac_import_versions@16",
+            "_set_mac_initializer@8",
+            "_set_mac_terminator@8",
+            "_switch_number@12",
+            "_valid_section_name@4"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_filelength"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_mbschr"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_mbsicmp"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcpy"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_stricmp"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_strnicmp"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "atoi"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "fgets"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "sscanf"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "strtok"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {
+                "4477760": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4477873": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4477888": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4477951": {
+                  "dll": "msvcrt.dll",
+                  "name": "fgets"
+                },
+                "4478002": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4478033": {
+                  "dll": "msvcrt.dll",
+                  "name": "strtok"
+                },
+                "4478057": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478078": {
+                  "dll": "msvcrt.dll",
+                  "name": "strtok"
+                },
+                "4478104": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4478160": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                },
+                "4479233": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4479329": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4481742": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4481927": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4483836": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483866": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483896": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483959": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484589": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4484685": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4485005": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbschr"
+                },
+                "4486187": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4486212": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4486255": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4486442": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4486508": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbsicmp"
+                },
+                "4486609": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4486705": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4486766": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486826": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4486949": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4487339": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbschr"
+                },
+                "4487370": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbsnbcpy"
+                },
+                "4487846": {
+                  "dll": "msvcrt.dll",
+                  "name": "__p__pgmptr"
+                },
+                "4487894": {
+                  "dll": "msvcrt.dll",
+                  "name": "_makepath"
+                },
+                "4487950": {
+                  "dll": "msvcrt.dll",
+                  "name": "_filelength"
+                },
+                "4488034": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4488067": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                },
+                "4488308": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4488333": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4488376": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4489420": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4489445": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4489488": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4490275": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4490372": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4490468": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4490641": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4490729": {
+                  "dll": "msvcrt.dll",
+                  "name": "strtok"
+                },
+                "4490755": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4477432": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4477592": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478398": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478428": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478505": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478542": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478617": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478644": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478669": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478703": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478737": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478771": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478834": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478925": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478957": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4478989": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479018": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479047": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479076": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479150": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479352": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479427": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479518": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479549": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479605": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479683": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479795": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479854": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479900": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4479988": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480039": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480111": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480139": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480195": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480302": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480412": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480492": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480583": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480614": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480656": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480816": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480874": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480932": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4480986": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481019": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481116": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481152": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481278": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481382": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481623": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4481771": {
+                  "dll": "msvcrt.dll",
+                  "name": "atoi"
+                },
+                "4481780": {
+                  "dll": "msvcrt.dll",
+                  "name": "atoi"
+                },
+                "4481839": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482200": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482333": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482422": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482458": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482547": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482607": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4482664": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483220": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483411": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483498": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483522": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483576": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483635": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483683": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483705": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4483742": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484041": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484065": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484088": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484112": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484187": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484239": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484407": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484506": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484729": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484848": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484879": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484910": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4484970": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485199": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485236": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485273": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485385": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485422": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485459": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485496": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485518": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485540": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485588": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485625": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485653": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485693": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485730": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485824": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485942": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4485991": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486021": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486088": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486110": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486341": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486728": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4486972": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487050": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487065": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487080": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487095": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487149": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487193": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487230": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487267": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487304": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487488": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487711": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4487755": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4487807": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4487855": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4487916": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4488202": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488556": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488592": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488632": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488665": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488698": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488782": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488873": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488901": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488954": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4488984": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489014": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489050": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489146": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489195": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489256": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489278": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489574": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489662": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489774": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489802": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489893": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489924": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4489980": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4490094": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4490202": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4490545": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                }
+              },
+              "roots": [
+                4477232
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4207125": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4207328": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4207554": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4207705": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4207726": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4207794": {
+                  "dll": "msvcrt.dll",
+                  "name": "fgets"
+                },
+                "4207847": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4207892": {
+                  "dll": "msvcrt.dll",
+                  "name": "strtok"
+                },
+                "4207937": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4207961": {
+                  "dll": "msvcrt.dll",
+                  "name": "strtok"
+                },
+                "4208001": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4208068": {
+                  "dll": "msvcrt.dll",
+                  "name": "strtok"
+                },
+                "4208109": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4208167": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                },
+                "4208471": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208510": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208626": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208668": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208818": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208870": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208922": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4208981": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209037": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209092": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209149": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209332": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209393": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209453": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209511": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209572": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209629": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209713": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4209820": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4209938": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4209966": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210060": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210240": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210293": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210363": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210476": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210608": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210761": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210820": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4210999": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211053": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211203": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211263": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211330": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211433": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211582": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211693": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211873": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211926": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4211968": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212128": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212274": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212350": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212487": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212550": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212640": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212682": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212859": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4212997": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4213341": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4213578": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4213623": {
+                  "dll": "msvcrt.dll",
+                  "name": "atoi"
+                },
+                "4213648": {
+                  "dll": "msvcrt.dll",
+                  "name": "atoi"
+                },
+                "4213759": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4213863": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4214136": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4214424": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4214520": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4214608": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4214703": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4214827": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4214942": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4215628": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4215944": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216127": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216177": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216235": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216388": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216449": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216481": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216523": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216697": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216752": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216808": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216858": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4216942": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217019": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217095": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217208": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217321": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217395": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217653": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217785": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4217887": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4218005": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4218054": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218267": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218320": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218372": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218442": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218506": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbschr"
+                },
+                "4218811": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218853": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4218895": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219010": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219052": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219094": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219136": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219163": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219228": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219303": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219373": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219415": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219454": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219510": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219552": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219732": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4219950": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4220026": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4220079": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4220140": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4220172": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4220299": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4220345": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4220393": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4220501": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4220641": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4220759": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4220819": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4220895": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbsicmp"
+                },
+                "4220958": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221025": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221099": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4221243": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4221271": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221392": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221420": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221457": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221485": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221540": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221592": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221634": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221676": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221718": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4221782": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbschr"
+                },
+                "4221870": {
+                  "dll": "msvcrt.dll",
+                  "name": "_mbsnbcpy"
+                },
+                "4222023": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4222328": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4222395": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4222452": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4222501": {
+                  "dll": "msvcrt.dll",
+                  "name": "__p__pgmptr"
+                },
+                "4222510": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4222554": {
+                  "dll": "msvcrt.dll",
+                  "name": "_makepath"
+                },
+                "4222575": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4222627": {
+                  "dll": "msvcrt.dll",
+                  "name": "_filelength"
+                },
+                "4222770": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4222818": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                },
+                "4223046": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4223246": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4223304": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4223372": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4223427": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4223481": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4223605": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4223651": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4223711": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4223960": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224143": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224203": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224264": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224303": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224342": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224384": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224560": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224630": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224721": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224749": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4224990": {
+                  "dll": "msvcrt.dll",
+                  "name": "strchr"
+                },
+                "4225036": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4225084": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4225197": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225273": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225439": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225478": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225661": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225713": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225767": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4225946": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4226005": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4226046": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4226147": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4226265": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4226507": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4206928
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 6,
+          "slots": {
+            "4198400": {
+              "dll": "imagehlp.dll",
+              "name": "MapFileAndCheckSumA"
+            },
+            "4198404": {
+              "dll": "imagehlp.dll",
+              "name": "CheckSumMappedFile"
+            },
+            "4198408": {
+              "dll": "imagehlp.dll",
+              "name": "BindImageEx"
+            },
+            "4198412": {
+              "dll": "imagehlp.dll",
+              "name": "ReBaseImage"
+            },
+            "4198420": {
+              "dll": "kernel32.dll",
+              "name": "VirtualAlloc"
+            },
+            "4198424": {
+              "dll": "kernel32.dll",
+              "name": "CopyFileA"
+            },
+            "4198428": {
+              "dll": "kernel32.dll",
+              "name": "SearchPathA"
+            },
+            "4198432": {
+              "dll": "kernel32.dll",
+              "name": "GetSystemInfo"
+            },
+            "4198436": {
+              "dll": "kernel32.dll",
+              "name": "GetDiskFreeSpaceA"
+            },
+            "4198440": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            "4198444": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4198448": {
+              "dll": "kernel32.dll",
+              "name": "FindClose"
+            },
+            "4198452": {
+              "dll": "kernel32.dll",
+              "name": "FindNextFileA"
+            },
+            "4198456": {
+              "dll": "kernel32.dll",
+              "name": "FindFirstFileA"
+            },
+            "4198460": {
+              "dll": "kernel32.dll",
+              "name": "GetTempFileNameA"
+            },
+            "4198464": {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            },
+            "4198468": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileA"
+            },
+            "4198472": {
+              "dll": "kernel32.dll",
+              "name": "CloseHandle"
+            },
+            "4198476": {
+              "dll": "kernel32.dll",
+              "name": "GetLastError"
+            },
+            "4198480": {
+              "dll": "kernel32.dll",
+              "name": "GlobalMemoryStatus"
+            },
+            "4198484": {
+              "dll": "kernel32.dll",
+              "name": "SetEnvironmentVariableA"
+            },
+            "4198488": {
+              "dll": "kernel32.dll",
+              "name": "GetCommandLineA"
+            },
+            "4198492": {
+              "dll": "kernel32.dll",
+              "name": "GetCurrentProcess"
+            },
+            "4198496": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4198500": {
+              "dll": "kernel32.dll",
+              "name": "GetVersion"
+            },
+            "4198504": {
+              "dll": "kernel32.dll",
+              "name": "GetFileSize"
+            },
+            "4198508": {
+              "dll": "kernel32.dll",
+              "name": "DeleteFileA"
+            },
+            "4198512": {
+              "dll": "kernel32.dll",
+              "name": "GetTempPathA"
+            },
+            "4198516": {
+              "dll": "kernel32.dll",
+              "name": "ExitProcess"
+            },
+            "4198520": {
+              "dll": "kernel32.dll",
+              "name": "VirtualFree"
+            },
+            "4198524": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            },
+            "4198528": {
+              "dll": "kernel32.dll",
+              "name": "Sleep"
+            },
+            "4198532": {
+              "dll": "kernel32.dll",
+              "name": "SetFilePointer"
+            },
+            "4198536": {
+              "dll": "kernel32.dll",
+              "name": "SetEndOfFile"
+            },
+            "4198540": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileMappingA"
+            },
+            "4198544": {
+              "dll": "kernel32.dll",
+              "name": "MapViewOfFileEx"
+            },
+            "4198548": {
+              "dll": "kernel32.dll",
+              "name": "UnmapViewOfFile"
+            },
+            "4198556": {
+              "dll": "msdis100.dll",
+              "name": "?CchFormatAddr@DIS@@QBEIKPADI@Z"
+            },
+            "4198560": {
+              "dll": "msdis100.dll",
+              "name": "?PfncchfixupSet@DIS@@QAEP6GIPBV1@KIPADIPAK@ZP6GI0KI1I2@Z@Z"
+            },
+            "4198564": {
+              "dll": "msdis100.dll",
+              "name": "??0DISARM@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198568": {
+              "dll": "msdis100.dll",
+              "name": "?PfncchaddrSet@DIS@@QAEP6GIPBV1@KPADIPAK@ZP6GI0K1I2@Z@Z"
+            },
+            "4198572": {
+              "dll": "msdis100.dll",
+              "name": "?PvClientSet@DIS@@QAEPAXPAX@Z"
+            },
+            "4198576": {
+              "dll": "msdis100.dll",
+              "name": "??0DISX86@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198580": {
+              "dll": "msdis100.dll",
+              "name": "??0DISMIPS@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198584": {
+              "dll": "msdis100.dll",
+              "name": "??0DISAXP@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198588": {
+              "dll": "msdis100.dll",
+              "name": "??0DISSH@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198592": {
+              "dll": "msdis100.dll",
+              "name": "?CchFormatInstr@DIS@@QBEIPADI@Z"
+            },
+            "4198596": {
+              "dll": "msdis100.dll",
+              "name": "??0DISPPC@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198604": {
+              "dll": "msvcrt.dll",
+              "name": "_itoa"
+            },
+            "4198608": {
+              "dll": "msvcrt.dll",
+              "name": "_tempnam"
+            },
+            "4198612": {
+              "dll": "msvcrt.dll",
+              "name": "_spawnvp"
+            },
+            "4198616": {
+              "dll": "msvcrt.dll",
+              "name": "_spawnv"
+            },
+            "4198620": {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            },
+            "4198624": {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            "4198628": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsicmp"
+            },
+            "4198632": {
+              "dll": "msvcrt.dll",
+              "name": "remove"
+            },
+            "4198636": {
+              "dll": "msvcrt.dll",
+              "name": "__unDName"
+            },
+            "4198640": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4198644": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4198648": {
+              "dll": "msvcrt.dll",
+              "name": "longjmp"
+            },
+            "4198652": {
+              "dll": "msvcrt.dll",
+              "name": "_fcloseall"
+            },
+            "4198656": {
+              "dll": "msvcrt.dll",
+              "name": "putc"
+            },
+            "4198660": {
+              "dll": "msvcrt.dll",
+              "name": "vprintf"
+            },
+            "4198664": {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            },
+            "4198668": {
+              "dll": "msvcrt.dll",
+              "name": "fseek"
+            },
+            "4198672": {
+              "dll": "msvcrt.dll",
+              "name": "ftell"
+            },
+            "4198676": {
+              "dll": "msvcrt.dll",
+              "name": "getc"
+            },
+            "4198680": {
+              "dll": "msvcrt.dll",
+              "name": "rewind"
+            },
+            "4198684": {
+              "dll": "msvcrt.dll",
+              "name": "fwrite"
+            },
+            "4198688": {
+              "dll": "msvcrt.dll",
+              "name": "time"
+            },
+            "4198692": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            },
+            "4198696": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4198700": {
+              "dll": "msvcrt.dll",
+              "name": "_setjmp3"
+            },
+            "4198704": {
+              "dll": "msvcrt.dll",
+              "name": "_seh_longjmp_unwind"
+            },
+            "4198708": {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            },
+            "4198712": {
+              "dll": "msvcrt.dll",
+              "name": "_fullpath"
+            },
+            "4198716": {
+              "dll": "msvcrt.dll",
+              "name": "_stricmp"
+            },
+            "4198720": {
+              "dll": "msvcrt.dll",
+              "name": "qsort"
+            },
+            "4198724": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            },
+            "4198728": {
+              "dll": "msvcrt.dll",
+              "name": "_mbstok"
+            },
+            "4198732": {
+              "dll": "msvcrt.dll",
+              "name": "strcspn"
+            },
+            "4198736": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsrchr"
+            },
+            "4198740": {
+              "dll": "msvcrt.dll",
+              "name": "_tzset"
+            },
+            "4198744": {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            },
+            "4198748": {
+              "dll": "msvcrt.dll",
+              "name": "strrchr"
+            },
+            "4198752": {
+              "dll": "msvcrt.dll",
+              "name": "__CxxFrameHandler"
+            },
+            "4198756": {
+              "dll": "msvcrt.dll",
+              "name": "_mbclen"
+            },
+            "4198760": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            },
+            "4198764": {
+              "dll": "msvcrt.dll",
+              "name": "isalnum"
+            },
+            "4198768": {
+              "dll": "msvcrt.dll",
+              "name": "strncat"
+            },
+            "4198772": {
+              "dll": "msvcrt.dll",
+              "name": "bsearch"
+            },
+            "4198776": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4198780": {
+              "dll": "msvcrt.dll",
+              "name": "isprint"
+            },
+            "4198784": {
+              "dll": "msvcrt.dll",
+              "name": "fputc"
+            },
+            "4198788": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4198792": {
+              "dll": "msvcrt.dll",
+              "name": "puts"
+            },
+            "4198796": {
+              "dll": "msvcrt.dll",
+              "name": "_fsopen"
+            },
+            "4198800": {
+              "dll": "msvcrt.dll",
+              "name": "ctime"
+            },
+            "4198804": {
+              "dll": "msvcrt.dll",
+              "name": "fputs"
+            },
+            "4198808": {
+              "dll": "msvcrt.dll",
+              "name": "realloc"
+            },
+            "4198812": {
+              "dll": "msvcrt.dll",
+              "name": "strtok"
+            },
+            "4198816": {
+              "dll": "msvcrt.dll",
+              "name": "_strdup"
+            },
+            "4198820": {
+              "dll": "msvcrt.dll",
+              "name": "_mbschr"
+            },
+            "4198824": {
+              "dll": "msvcrt.dll",
+              "name": "_mbscmp"
+            },
+            "4198828": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcmp"
+            },
+            "4198832": {
+              "dll": "msvcrt.dll",
+              "name": "atoi"
+            },
+            "4198836": {
+              "dll": "msvcrt.dll",
+              "name": "_mktemp"
+            },
+            "4198840": {
+              "dll": "msvcrt.dll",
+              "name": "rename"
+            },
+            "4198844": {
+              "dll": "msvcrt.dll",
+              "name": "strstr"
+            },
+            "4198848": {
+              "dll": "msvcrt.dll",
+              "name": "_filelength"
+            },
+            "4198852": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcpy"
+            },
+            "4198856": {
+              "dll": "msvcrt.dll",
+              "name": "calloc"
+            },
+            "4198860": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsdec"
+            },
+            "4198864": {
+              "dll": "msvcrt.dll",
+              "name": "_searchenv"
+            },
+            "4198868": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbicmp"
+            },
+            "4198872": {
+              "dll": "msvcrt.dll",
+              "name": "_mbspbrk"
+            },
+            "4198876": {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            "4198880": {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            },
+            "4198884": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4198888": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4198892": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4198896": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4198900": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4198904": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4198908": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4198912": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4198916": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4198920": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4198924": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            "4198928": {
+              "dll": "msvcrt.dll",
+              "name": "_purecall"
+            },
+            "4198932": {
+              "dll": "msvcrt.dll",
+              "name": "??3@YAXPAX@Z"
+            },
+            "4198936": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4198940": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4198944": {
+              "dll": "msvcrt.dll",
+              "name": "isdigit"
+            },
+            "4198948": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4198952": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            "4198956": {
+              "dll": "msvcrt.dll",
+              "name": "_strupr"
+            },
+            "4198960": {
+              "dll": "msvcrt.dll",
+              "name": "_strnicmp"
+            },
+            "4198964": {
+              "dll": "msvcrt.dll",
+              "name": "setvbuf"
+            },
+            "4198968": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4198972": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4198976": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4198980": {
+              "dll": "msvcrt.dll",
+              "name": "sscanf"
+            },
+            "4198984": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            "4198988": {
+              "dll": "msvcrt.dll",
+              "name": "_write"
+            },
+            "4198992": {
+              "dll": "msvcrt.dll",
+              "name": "_lseek"
+            },
+            "4198996": {
+              "dll": "msvcrt.dll",
+              "name": "_read"
+            },
+            "4199000": {
+              "dll": "msvcrt.dll",
+              "name": "_tell"
+            },
+            "4199004": {
+              "dll": "msvcrt.dll",
+              "name": "_close"
+            },
+            "4199008": {
+              "dll": "msvcrt.dll",
+              "name": "_sopen"
+            },
+            "4199012": {
+              "dll": "msvcrt.dll",
+              "name": "__doserrno"
+            },
+            "4199016": {
+              "dll": "msvcrt.dll",
+              "name": "_stat"
+            },
+            "4199020": {
+              "dll": "msvcrt.dll",
+              "name": "_access"
+            },
+            "4199024": {
+              "dll": "msvcrt.dll",
+              "name": "_unlink"
+            },
+            "4199028": {
+              "dll": "msvcrt.dll",
+              "name": "_chsize"
+            },
+            "4199032": {
+              "dll": "msvcrt.dll",
+              "name": "strncpy"
+            },
+            "4199036": {
+              "dll": "msvcrt.dll",
+              "name": "_ismbcspace"
+            },
+            "4199040": {
+              "dll": "msvcrt.dll",
+              "name": "fgets"
+            },
+            "4199044": {
+              "dll": "msvcrt.dll",
+              "name": "_ultoa"
+            },
+            "4199052": {
+              "dll": "mspdb50.dll",
+              "name": "?OpenValidate@PDB@@SAHPAD00KKPAJQADPAPAU1@@Z"
+            },
+            "4199056": {
+              "dll": "mspdb50.dll",
+              "name": "TruncStFromSz"
+            },
+            "4199060": {
+              "dll": "mspdb50.dll",
+              "name": "SigForPbCb"
+            }
+          }
+        },
+        "rebuilt": {
+          "normalizable_thunks": 1,
+          "slots": {
+            "4231168": {
+              "dll": "kernel32.dll",
+              "name": "GetSystemInfo"
+            },
+            "4231172": {
+              "dll": "kernel32.dll",
+              "name": "VirtualAlloc"
+            },
+            "4231176": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            "4231180": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4231184": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            },
+            "4231188": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4231192": {
+              "dll": "kernel32.dll",
+              "name": "GlobalMemoryStatus"
+            },
+            "4231200": {
+              "dll": "msvcrt.dll",
+              "name": "_mbspbrk"
+            },
+            "4231204": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbicmp"
+            },
+            "4231208": {
+              "dll": "msvcrt.dll",
+              "name": "_stricmp"
+            },
+            "4231212": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4231216": {
+              "dll": "msvcrt.dll",
+              "name": "_fullpath"
+            },
+            "4231220": {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            },
+            "4231224": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4231228": {
+              "dll": "msvcrt.dll",
+              "name": "calloc"
+            },
+            "4231232": {
+              "dll": "msvcrt.dll",
+              "name": "sscanf"
+            },
+            "4231236": {
+              "dll": "msvcrt.dll",
+              "name": "isdigit"
+            },
+            "4231240": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4231244": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4231248": {
+              "dll": "msvcrt.dll",
+              "name": "setvbuf"
+            },
+            "4231252": {
+              "dll": "msvcrt.dll",
+              "name": "_strnicmp"
+            },
+            "4231256": {
+              "dll": "msvcrt.dll",
+              "name": "_strupr"
+            },
+            "4231260": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            "4231264": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4231268": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4231272": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4231276": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            },
+            "4231280": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4231284": {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            },
+            "4231288": {
+              "dll": "msvcrt.dll",
+              "name": "_filelength"
+            },
+            "4231292": {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            },
+            "4231296": {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            "4231300": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcpy"
+            },
+            "4231304": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsicmp"
+            },
+            "4231308": {
+              "dll": "msvcrt.dll",
+              "name": "_mbschr"
+            },
+            "4231312": {
+              "dll": "msvcrt.dll",
+              "name": "atoi"
+            },
+            "4231316": {
+              "dll": "msvcrt.dll",
+              "name": "strtok"
+            },
+            "4231320": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            "4231324": {
+              "dll": "msvcrt.dll",
+              "name": "fgets"
+            },
+            "4231328": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4231332": {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            },
+            "4231336": {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            "4231340": {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            },
+            "4231344": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4231348": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4231352": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4231356": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4231360": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4231364": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4231368": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4231372": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4231376": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4231380": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4231384": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4231388": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            }
+          }
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "link",
+      "register_import_inputs": {
+        "metadata_sha256": "1c36635eb01ac0f8462fe91b3e923c048f52f9d42697d4011081a052cd18834c",
+        "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+        "preservation_contracts": [
+          {
+            "evidence": {
+              "path": "cases/help/options-import-preservation.json",
+              "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "__p__pgmptr"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/help/options-import-preservation.json",
+              "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "_makepath"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/help/options-import-preservation.json",
+              "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "_splitpath"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/help/options-import-preservation.json",
+              "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "_stricmp"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/help/options-import-preservation.json",
+              "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "atoi"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/help/options-import-preservation.json",
+              "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "fopen"
+              }
+            }
+          }
+        ],
+        "rebuilt_sha256": "baf8f624f54b33db179a2ef7205f1ba26414259bc51fa59408b2c8960b32dc1a"
+      }
+    },
+    "import_call_multiplicity": {
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_stricmp\"}": 147,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"atoi\"}": 2,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"fopen\"}": 3,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_splitpath\"}": 10,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"sprintf\"}": 6,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"fgets\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"strchr\"}": 5,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"strtok\"}": 3,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"sscanf\"}": 8,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"fclose\"}": 2,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_mbschr\"}": 2,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_mbsicmp\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_mbsnbcpy\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"__p__pgmptr\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_makepath\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_filelength\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"fread\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"_strnicmp\"}": 1,
+      "{\"dll\": \"msvcrt.dll\", \"name\": \"fprintf\"}": 1
+    },
+    "results": [
+      {
+        "case": "real_frozen_dispatcher_all147_resolved",
+        "accepted": true,
+        "seconds": 0.08996649645268917,
+        "diagnostic": ""
+      },
+      {
+        "case": "seed_bypass_new_predecessor",
+        "accepted": false,
+        "seconds": 0.04694204963743687,
+        "diagnostic": "graph-audit: original _configure_link_options@12 register imports: unresolved register import calls: {4477432, 4477592, 4478398, 4478428, 4478505, 4478542, 4478834, 4479150, 4479352, 4479427, 4479605, 4479683, 4479795, 4479854, 4479900, 4479988, 4480039, 4480195, 4480302, 4480412, 4480492, 4480656, 4480816, 4480874, 4480932, 4481116, 4481152, 4481278, 4481382, 4481623, 4481839, 4482200, 4483220, 4483411, 4483576, 4483635, 4483683, 4483705, 4483742, 4484187, 4484239, 4484407, 4484506, 4484729, 4484970, 4485199, 4485236, 4485273, 4485385, 4485422, 4485459, 4485496, 4485518, 4485540, 4485588, 4485625, 4485653, 4485693, 4485730, 4486088, 4486110, 4486341, 4486728, 4486972, 4487149, 4487193, 4487230, 4487267, 4487304, 4487488, 4487711, 4488202, 4488782, 4488954, 4488984, 4489014, 4489050, 4489146, 4489195, 4489256, 4489278, 4489574, 4489662, 4489774, 4489802, 4489980, 4490094, 4490202, 4490545}"
+      },
+      {
+        "case": "wrong_register_first_call",
+        "accepted": false,
+        "seconds": 0.04285898059606552,
+        "diagnostic": "graph-audit: original _configure_link_options@12 register imports: unresolved register import calls: {4477432, 4477592, 4478398, 4478428, 4478505, 4478542, 4478834, 4479150, 4479352, 4479427, 4479605, 4479683, 4479795, 4479854, 4479900, 4479988, 4480039, 4480195, 4480302, 4480412, 4480492, 4480656, 4480816, 4480874, 4480932, 4481116, 4481152, 4481278, 4481382, 4481623, 4481839, 4482200, 4483220, 4483411, 4483576, 4483635, 4483683, 4483705, 4483742, 4484187, 4484239, 4484407, 4484506, 4484729, 4484970, 4485199, 4485236, 4485273, 4485385, 4485422, 4485459, 4485496, 4485518, 4485540, 4485588, 4485625, 4485653, 4485693, 4485730, 4486088, 4486110, 4486341, 4486728, 4486972, 4487149, 4487193, 4487230, 4487267, 4487304, 4487488, 4487711, 4488202, 4488782, 4488954, 4488984, 4489014, 4489050, 4489146, 4489195, 4489256, 4489278, 4489574, 4489662, 4489774, 4489802, 4489980, 4490094, 4490202, 4490545}"
+      },
+      {
+        "case": "wrong_atoi_IAT_slot",
+        "accepted": false,
+        "seconds": 0.04924818780273199,
+        "diagnostic": "graph-audit: _configure_link_options@12 import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"__p__pgmptr\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_filelength\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_makepath\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_mbschr\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_mbsicmp\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_mbsnbcpy\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_splitpath\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_stricmp\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_strnicmp\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fclose\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fgets\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fopen\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fprintf\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fread\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"sprintf\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"sscanf\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strchr\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strtok\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"__p__pgmptr\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_filelength\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_makepath\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_mbschr\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_mbsicmp\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_mbsnbcpy\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_splitpath\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_stricmp\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_strnicmp\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"atoi\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fclose\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fgets\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fopen\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fprintf\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"fread\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"sprintf\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"sscanf\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strchr\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strtok\" } }}"
+      },
+      {
+        "case": "partial_SI_clobber_live_cache",
+        "accepted": false,
+        "seconds": 0.04394462797790766,
+        "diagnostic": "graph-audit: original _configure_link_options@12 register imports: unresolved register import calls: {4477432, 4477592, 4478398, 4478428, 4478505, 4478542, 4478834, 4479150, 4479352, 4479427, 4479605, 4479683, 4479795, 4479854, 4479900, 4479988, 4480039, 4480195, 4480302, 4480412, 4480492, 4480656, 4480816, 4480874, 4480932, 4481116, 4481152, 4481278, 4481382, 4481623, 4481839, 4482200, 4483220, 4483411, 4483576, 4483635, 4483683, 4483705, 4483742, 4484187, 4484239, 4484407, 4484506, 4484729, 4484970, 4485199, 4485236, 4485273, 4485385, 4485422, 4485459, 4485496, 4485518, 4485540, 4485588, 4485625, 4485653, 4485693, 4485730, 4486088, 4486110, 4486341, 4486728, 4486972, 4487149, 4487193, 4487230, 4487267, 4487304, 4487488, 4487711, 4488202, 4488782, 4488954, 4488984, 4489014, 4489050, 4489146, 4489195, 4489256, 4489278, 4489574, 4489662, 4489774, 4489802, 4489980, 4490094, 4490202, 4490545}"
+      },
+      {
+        "case": "partial_BH_clobber_live_cache",
+        "accepted": false,
+        "seconds": 0.044468143954873085,
+        "diagnostic": "graph-audit: original _configure_link_options@12 register imports: unresolved register import calls: {4481771, 4481780}"
+      },
+      {
+        "case": "existing_paths_need_no_direct_callee_contract",
+        "accepted": true,
+        "seconds": 0.09199848305433989,
+        "diagnostic": ""
+      },
+      {
+        "case": "unknown_import_callee_barrier",
+        "accepted": false,
+        "seconds": 0.044542133808135986,
+        "diagnostic": "graph-audit: original _configure_link_options@12 register imports: unresolved register import calls: {4477592, 4478398, 4478428, 4478505, 4478542, 4478644, 4478669, 4478703, 4478737, 4478771, 4478834, 4478957, 4478989, 4479018, 4479047, 4479076, 4479150, 4479352, 4479427, 4479549, 4479605, 4479683, 4479795, 4479854, 4479900, 4479988, 4480039, 4480139, 4480195, 4480302, 4480412, 4480492, 4480614, 4480656, 4480816, 4480874, 4480932, 4481019, 4481116, 4481152, 4481278, 4481382, 4481623, 4481780, 4481839, 4482200, 4482422, 4482458, 4482547, 4482607, 4482664, 4483220, 4483411, 4483522, 4483576, 4483635, 4483683, 4483705, 4483742, 4484065, 4484088, 4484112, 4484187, 4484239, 4484407, 4484506, 4484729, 4484879, 4484910, 4484970, 4485199, 4485236, 4485273, 4485385, 4485422, 4485459, 4485496, 4485518, 4485540, 4485588, 4485625, 4485653, 4485693, 4485730, 4485942, 4485991, 4486021, 4486088, 4486110, 4486341, 4486728, 4486972, 4487065, 4487080, 4487095, 4487149, 4487193, 4487230, 4487267, 4487304, 4487488, 4487711, 4487855, 4487916, 4488202, 4488592, 4488632, 4488665, 4488698, 4488782, 4488901, 4488954, 4488984, 4489014, 4489050, 4489146, 4489195, 4489256, 4489278, 4489574, 4489662, 4489774, 4489802, 4489924, 4489980, 4490094, 4490202, 4490545}"
+      },
+      {
+        "case": "injected_unknown_direct_callee_in_live_cache",
+        "accepted": false,
+        "seconds": 0.044968792237341404,
+        "diagnostic": "graph-audit: original _configure_link_options@12 register imports: unresolved register import calls: {4477432, 4477592, 4478398, 4478428, 4478505, 4478542, 4478834, 4479150, 4479352, 4479427, 4479605, 4479683, 4479795, 4479854, 4479900, 4479988, 4480039, 4480195, 4480302, 4480412, 4480492, 4480656, 4480816, 4480874, 4480932, 4481116, 4481152, 4481278, 4481382, 4481623, 4481839, 4482200, 4483220, 4483411, 4483576, 4483635, 4483683, 4483705, 4483742, 4484187, 4484239, 4484407, 4484506, 4484729, 4484970, 4485199, 4485236, 4485273, 4485385, 4485422, 4485459, 4485496, 4485518, 4485540, 4485588, 4485625, 4485653, 4485693, 4485730, 4486088, 4486110, 4486341, 4486728, 4486972, 4487149, 4487193, 4487230, 4487267, 4487304, 4487488, 4487711, 4488202, 4488782, 4488954, 4488984, 4489014, 4489050, 4489146, 4489195, 4489256, 4489278, 4489574, 4489662, 4489774, 4489802, 4489980, 4490094, 4490202, 4490545}"
+      },
+      {
+        "case": "approved_previous_workload",
+        "accepted": true,
+        "seconds": 0.067641232162714,
+        "diagnostic": ""
+      },
+      {
+        "case": "new_flag_off_exact_report",
+        "accepted": true,
+        "seconds": 0.06940001528710127,
+        "diagnostic": ""
+      }
+    ],
+    "timings": {
+      "approved_graph_ABI_extent": {
+        "median_seconds": 0.06560765858739614,
+        "min_seconds": 0.0645748283714056,
+        "max_seconds": 0.0749939950183034,
+        "samples_seconds": [
+          0.0662329513579607,
+          0.0645748283714056,
+          0.06465805973857641,
+          0.06530103087425232,
+          0.06663033366203308,
+          0.0749939950183034,
+          0.06560765858739614
+        ]
+      },
+      "new_same_workload_flag_off": {
+        "median_seconds": 0.06961741298437119,
+        "min_seconds": 0.06866353657096624,
+        "max_seconds": 0.07056297920644283,
+        "samples_seconds": [
+          0.06959353014826775,
+          0.0703157540410757,
+          0.07038117852061987,
+          0.06866353657096624,
+          0.06902207527309656,
+          0.07056297920644283,
+          0.06961741298437119
+        ]
+      },
+      "new_plus_import_dataflow": {
+        "median_seconds": 0.08721036184579134,
+        "min_seconds": 0.08600566070526838,
+        "max_seconds": 0.09118627570569515,
+        "samples_seconds": [
+          0.09118627570569515,
+          0.08607655484229326,
+          0.08600566070526838,
+          0.08747836202383041,
+          0.08705462981015444,
+          0.08721036184579134,
+          0.08733475673943758
+        ]
+      }
+    }
+  },
+  "flag_off_parity": {
+    "binary_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+    "baseline_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+    "results": {
+      "cl-cfg": {
+        "canonical_report_sha256": "cf78640ba7c7599729543c6bf11e0ee241a43e8635071f82e07c292acd543c05",
+        "checked_functions": 110,
+        "baseline_seconds": 0.041971202939748764,
+        "current_seconds": 0.04338147956877947
+      },
+      "cl-legacy": {
+        "canonical_report_sha256": "b7525d69b6023dcdc5f786ea4bcc238f67258d15ee3245bb3081ce62aa5fe94d",
+        "checked_functions": 110,
+        "baseline_seconds": 0.027923377230763435,
+        "current_seconds": 0.02990927267819643
+      },
+      "c1-cfg": {
+        "canonical_report_sha256": "96c7cc14b2761b9f945704db6091e189cbffaafef3bcba75af885319168d5dc7",
+        "checked_functions": 710,
+        "baseline_seconds": 0.33592589758336544,
+        "current_seconds": 0.34326821845024824
+      },
+      "c1-legacy": {
+        "canonical_report_sha256": "dece5c0c8b993ab3f234f81fe23bbc1fbe0631baf0b6555e8fff70f49c82a4fb",
+        "checked_functions": 710,
+        "baseline_seconds": 0.36807660572230816,
+        "current_seconds": 0.3901786273345351
+      },
+      "c1xx-cfg": {
+        "canonical_report_sha256": "98fc9b7e3dbfacf06dfc8398c4829c743feaa307e6755ef2bd0b15862404c401",
+        "checked_functions": 769,
+        "baseline_seconds": 0.4035784723237157,
+        "current_seconds": 0.39714560844004154
+      },
+      "c1xx-legacy": {
+        "canonical_report_sha256": "9d87a70b654aa8fdbb14989fefa5e58aca95eac44c6b9649900ace291b71b92f",
+        "checked_functions": 769,
+        "baseline_seconds": 0.41694321762770414,
+        "current_seconds": 0.44244148302823305
+      },
+      "c2-cfg": {
+        "canonical_report_sha256": "0cc4167022bac06d55b40f2b9ac3c9081ca66ad8ceb1836cdac7605a3cff74bc",
+        "checked_functions": 995,
+        "baseline_seconds": 0.48724354803562164,
+        "current_seconds": 0.5298003423959017
+      },
+      "c2-legacy": {
+        "canonical_report_sha256": "5dc759916c06a2c897eaf67e55f808cc862924e0e479c66b8b57ea761bbbb702",
+        "checked_functions": 995,
+        "baseline_seconds": 0.42575656343251467,
+        "current_seconds": 0.4551861872896552
+      },
+      "link-cfg": {
+        "canonical_report_sha256": "f30c82efed8c8af4f84e4c1f9f3901372abedd5d356662b24c1041ad15d69fbb",
+        "checked_functions": 617,
+        "baseline_seconds": 0.3241418795660138,
+        "current_seconds": 0.3339475365355611
+      },
+      "link-legacy": {
+        "canonical_report_sha256": "81ef25285bd6d111a8547a6a52d6392ea07578d497e6c6bc5222764524e7ed56",
+        "checked_functions": 626,
+        "baseline_seconds": 0.23915603291243315,
+        "current_seconds": 0.2627717265859246
+      },
+      "rc-cfg": {
+        "canonical_report_sha256": "19b53a3e7adb9add38816c04cbcdbe4b2813a762a6a4a7fb8dcf205fc94f3595",
+        "checked_functions": 193,
+        "baseline_seconds": 0.07412006985396147,
+        "current_seconds": 0.07620449084788561
+      },
+      "rc-legacy": {
+        "canonical_report_sha256": "6c0b91fe032cab647563c630b96e0c2e9edd6c3fc40c229c6520a544afac736c",
+        "checked_functions": 193,
+        "baseline_seconds": 0.056617122143507004,
+        "current_seconds": 0.05502974987030029
+      },
+      "rcpp-cfg": {
+        "canonical_report_sha256": "f54d316db8b6f3bfe91be008a164f4d036492c791901e773f24ad73330b5396b",
+        "checked_functions": 161,
+        "baseline_seconds": 0.05970774032175541,
+        "current_seconds": 0.06597364414483309
+      },
+      "rcpp-legacy": {
+        "canonical_report_sha256": "0ab7057ba00c3e93714eacb353977c07affaaa7b1118d6613e8f1ec91336fde4",
+        "checked_functions": 161,
+        "baseline_seconds": 0.056740875355899334,
+        "current_seconds": 0.05775893293321133
+      },
+      "cvpack-cfg": {
+        "canonical_report_sha256": "01327f184a9c3ade1e9ebff21d437adfce61026fce280897a4042c6cb90abc06",
+        "checked_functions": 14,
+        "baseline_seconds": 0.04087106138467789,
+        "current_seconds": 0.04201481118798256
+      },
+      "cvpack-legacy": {
+        "canonical_report_sha256": "da9807040eab2f2526841bfc0a78de150e6e28cfbc2ae154a0eabf681b5d71a8",
+        "checked_functions": 14,
+        "baseline_seconds": 0.04359676223248243,
+        "current_seconds": 0.04722153954207897
+      }
+    }
+  },
+  "load_average": [
+    3.22998046875,
+    3.68212890625,
+    3.50830078125
+  ],
+  "limits": [
+    "Only full MOV IAT loads/register copies for EBX/ESI/EDI; other/partial/implicit writes kill.",
+    "Unknown call contracts kill tracked facts. No stack/memory/pointer guessing, register-JMP resolution or external RET inference.",
+    "Import graph equality compares target sets; this target additionally compares per-import call multiplicity from exposed sites.",
+    "INT3 stays terminal in shared CFG; explicit resumed entries are unknown roots. INTO/INT1/INT/syscalls kill facts.",
+    "Timing includes startup, decoding, evidence hash checks, extra graph/ABI/extent checks and JSON stdout; excludes compile/fixtures/Wine. New enabled workload performs more checks than baseline."
+  ]
+}

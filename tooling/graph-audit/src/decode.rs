@@ -3,6 +3,7 @@ use anyhow::{Context, Result};
 use capstone::{arch::x86::X86OperandType, prelude::*};
 #[derive(Clone, Debug)]
 pub struct Mem {
+    pub segment: u16,
     pub base: u16,
     pub index: u16,
     pub scale: i32,
@@ -12,6 +13,7 @@ pub struct Mem {
 pub enum Op {
     Imm(u32),
     Mem(Mem),
+    Reg(u16),
     Other,
 }
 #[derive(Clone, Debug)]
@@ -24,6 +26,8 @@ pub struct Inst {
     pub jump: bool,
     pub ret: bool,
     pub bytes: Vec<u8>,
+    pub writes: Vec<u16>,
+    pub address_size: u8,
 }
 impl Inst {
     pub fn next(&self) -> u32 {
@@ -71,11 +75,13 @@ impl Decoder {
                     match v.op_type {
                         X86OperandType::Imm(n) => Op::Imm(n as u32),
                         X86OperandType::Mem(v) => Op::Mem(Mem {
+                            segment: v.segment().0,
                             base: v.base().0,
                             index: v.index().0,
                             scale: v.scale(),
                             disp: v.disp() as u32,
                         }),
+                        X86OperandType::Reg(r) => Op::Reg(r.0),
                         _ => Op::Other,
                     },
                     v.size,
@@ -91,6 +97,8 @@ impl Decoder {
             jump: detail.groups().iter().any(|g| g.0 == 1),
             ret: detail.groups().iter().any(|g| g.0 == 3),
             bytes: i.bytes().to_vec(),
+            writes: detail.regs_write().iter().map(|r| r.0).collect(),
+            address_size: x.addr_size(),
         }))
     }
     pub fn linear(&self, pe: &Pe, start: u32, end: u32) -> Result<Vec<Inst>> {

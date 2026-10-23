@@ -698,3 +698,298 @@ fn logical_symbol_mapping_is_explicit_injective_and_preserves_physical_aliases()
     symbol_aliases(&json!([{"name":"_main"}]), &mut publics).unwrap();
     assert_eq!(publics, original);
 }
+
+fn register_analysis(
+    code: &[u8],
+    roots: Vec<u32>,
+    contracts: serde_json::Value,
+    strict: bool,
+) -> anyhow::Result<crate::register_imports::Report> {
+    use crate::{
+        imports::{Catalog, Identity, Symbol},
+        register_imports::{Contracts, resolve},
+    };
+    let p = image(code);
+    let id = Identity {
+        dll: "msvcrt.dll".into(),
+        symbol: Symbol::Name {
+            name: "first".into(),
+        },
+    };
+    let id2 = Identity {
+        dll: "msvcrt.dll".into(),
+        symbol: Symbol::Name {
+            name: "second".into(),
+        },
+    };
+    let catalog = Catalog {
+        slots: [(0x402000, id), (0x402004, id2)].into(),
+        ..Default::default()
+    };
+    let mut g = walk(
+        &Decoder::new()?,
+        &p,
+        0x401000,
+        0x401000 + code.len() as u32,
+        &Options {
+            roots,
+            imports: Some(std::sync::Arc::new(catalog.clone())),
+            record_dataflow: true,
+            ..Default::default()
+        },
+    )?;
+    let c = Contracts::parse(
+        &contracts,
+        &[crate::index::Record {
+            name: "_helper".into(),
+            start: 0x401100,
+            end: 0x401101,
+            shared: vec![],
+            code_chunks: vec![],
+            evidence: serde_json::Value::Null,
+            pending_extent: false,
+        }],
+        &catalog,
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")),
+    )?;
+    resolve(&mut g, &catalog, &c, strict)
+}
+fn preserve_first() -> serde_json::Value {
+    serde_json::json!({"register_imports":{"preservation_contracts":[{"target":{"import":{"dll":"msvcrt.dll","name":"first"}},"preserves":["ebx","esi","edi"],"evidence":{"path":"fixtures/register-preservation.json","sha256":crate::index::hash(include_bytes!("../fixtures/register-preservation.json"))}}]}})
+}
+#[test]
+fn register_iat_seed_and_copy() {
+    // mov esi,[IAT]; mov edi,esi; call edi; ret
+    let r = register_analysis(
+        &[0x8b, 0x35, 0, 0x20, 0x40, 0, 0x8b, 0xfe, 0xff, 0xd7, 0xc3],
+        vec![],
+        serde_json::json!({}),
+        true,
+    )
+    .unwrap();
+    assert_eq!(r.resolved_register_calls.len(), 1);
+    assert!(r.unresolved_register_calls.is_empty());
+}
+#[test]
+fn register_unknown_call_kills_and_explicit_contract_preserves() {
+    let code = [0x8b, 0x35, 0, 0x20, 0x40, 0, 0xff, 0xd6, 0xff, 0xd6, 0xc3];
+    let r = register_analysis(&code, vec![], serde_json::json!({}), false).unwrap();
+    assert_eq!(r.resolved_register_calls.len(), 1);
+    assert_eq!(r.unresolved_register_calls.len(), 1);
+    assert!(register_analysis(&code, vec![], serde_json::json!({}), true).is_err());
+    assert_eq!(
+        register_analysis(&code, vec![], preserve_first(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        2
+    );
+}
+#[test]
+fn register_partial_writes_and_implicit_string_writes_kill() {
+    for op in [
+        vec![0x66, 0xbe, 0, 0],
+        vec![0x5e],
+        vec![0xac],
+        vec![0xf3, 0xa5],
+    ] {
+        let mut code = vec![0x8b, 0x35, 0, 0x20, 0x40, 0]; // esi seed
+        code.extend(op);
+        code.extend([0xff, 0xd6, 0xc3]);
+        assert!(
+            register_analysis(&code, vec![], preserve_first(), true).is_err(),
+            "{code:x?}"
+        );
+    }
+    for op in [vec![0xb3, 0], vec![0xb7, 0], vec![0x66, 0xbb, 0, 0]] {
+        let mut code = vec![0x8b, 0x1d, 0, 0x20, 0x40, 0];
+        code.extend(op);
+        code.extend([0xff, 0xd3, 0xc3]);
+        assert!(register_analysis(&code, vec![], preserve_first(), true).is_err());
+    }
+}
+#[test]
+fn register_branch_join_unknown_and_conflicting_identity() {
+    // jz bypass seed; mov esi,[first]; call esi
+    assert!(
+        register_analysis(
+            &[0x74, 6, 0x8b, 0x35, 0, 0x20, 0x40, 0, 0xff, 0xd6, 0xc3],
+            vec![],
+            preserve_first(),
+            true
+        )
+        .is_err()
+    );
+    // jz second; mov esi,[first]; jmp call; second: mov esi,[second]; call esi
+    assert!(
+        register_analysis(
+            &[
+                0x74, 8, 0x8b, 0x35, 0, 0x20, 0x40, 0, 0xeb, 6, 0x8b, 0x35, 4, 0x20, 0x40, 0, 0xff,
+                0xd6, 0xc3
+            ],
+            vec![],
+            preserve_first(),
+            true
+        )
+        .is_err()
+    );
+}
+#[test]
+fn register_loop_cannot_invent_facts_and_reload_recovers() {
+    // call esi; jnz call; ret
+    assert!(
+        register_analysis(
+            &[0xff, 0xd6, 0x75, 0xfc, 0xc3],
+            vec![],
+            preserve_first(),
+            true
+        )
+        .is_err()
+    );
+    let code = [
+        0x8b, 0x35, 0, 0x20, 0x40, 0, 0x66, 0xbe, 0, 0, 0x8b, 0x35, 0, 0x20, 0x40, 0, 0xff, 0xd6,
+        0x75, 0xfc, 0xc3,
+    ];
+    assert_eq!(
+        register_analysis(&code, vec![], preserve_first(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        1
+    );
+}
+#[test]
+fn register_additional_root_unknown_and_segmented_load_not_seed() {
+    let code = [0x8b, 0x35, 0, 0x20, 0x40, 0, 0xff, 0xd6, 0xc3];
+    assert!(register_analysis(&code, vec![0x401006], preserve_first(), true).is_err());
+    assert!(
+        register_analysis(
+            &[0x64, 0x8b, 0x35, 0, 0x20, 0x40, 0, 0xff, 0xd6, 0xc3],
+            vec![],
+            preserve_first(),
+            true
+        )
+        .is_err()
+    );
+}
+#[test]
+fn register_untracked_and_indexed_values_remain_unknown() {
+    assert!(
+        register_analysis(
+            &[0xa1, 0, 0x20, 0x40, 0, 0xff, 0xd0, 0xc3],
+            vec![],
+            preserve_first(),
+            true
+        )
+        .is_err()
+    );
+    assert!(
+        register_analysis(
+            &[0x8b, 0xb0, 0, 0x20, 0x40, 0, 0xff, 0xd6, 0xc3],
+            vec![],
+            preserve_first(),
+            true
+        )
+        .is_err()
+    );
+}
+#[test]
+fn register_direct_callee_contract_is_explicit_and_partial() {
+    let code = [
+        0x8b, 0x35, 0, 0x20, 0x40, 0, 0xe8, 0xf5, 0, 0, 0, 0xff, 0xd6, 0xc3,
+    ];
+    assert!(register_analysis(&code, vec![], serde_json::json!({}), true).is_err());
+    let mut m = preserve_first();
+    m["register_imports"]["preservation_contracts"][0]["target"] =
+        serde_json::json!({"function":"_helper"});
+    assert_eq!(
+        register_analysis(&code, vec![], m.clone(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        1
+    );
+    m["register_imports"]["preservation_contracts"][0]["preserves"] = serde_json::json!(["ebx"]);
+    assert!(register_analysis(&code, vec![], m, true).is_err());
+}
+#[test]
+fn register_contract_metadata_and_stale_evidence_reject() {
+    let code = [0xc3];
+    for (key, value) in [
+        (
+            "evidence",
+            serde_json::json!({"path":"fixtures/register-preservation.json","sha256":"0".repeat(64)}),
+        ),
+        (
+            "evidence",
+            serde_json::json!({"path":"/etc/passwd","sha256":"0".repeat(64)}),
+        ),
+        (
+            "evidence",
+            serde_json::json!("unchecked mutable proof string"),
+        ),
+        ("preserves", serde_json::json!(["eax"])),
+        ("preserves", serde_json::json!(["esi", "esi"])),
+        ("target", serde_json::json!({"function":"_missing"})),
+        (
+            "target",
+            serde_json::json!({"import":{"dll":"other.dll","name":"first"}}),
+        ),
+        (
+            "target",
+            serde_json::json!({"function":"_helper","import":{"dll":"msvcrt.dll","name":"first"}}),
+        ),
+    ] {
+        let mut m = preserve_first();
+        m["register_imports"]["preservation_contracts"][0][key] = value;
+        assert!(register_analysis(&code, vec![], m, true).is_err(), "{key}");
+    }
+    assert!(
+        crate::register_imports::strict_policy(
+            &serde_json::json!({"require_all_register_calls_resolved":"yes"})
+        )
+        .is_err()
+    );
+    assert!(
+        crate::register_imports::strict_policy(&serde_json::json!({"misspelled":true})).is_err()
+    );
+}
+#[test]
+fn register_same_value_join_is_known_and_terminal_sibling_clobber_is_local() {
+    // first seed; jz sibling; call esi; ret; sibling: xor esi,esi; ret
+    let code = [
+        0x8b, 0x35, 0, 0x20, 0x40, 0, 0x74, 3, 0xff, 0xd6, 0xc3, 0x31, 0xf6, 0xc3,
+    ];
+    assert_eq!(
+        register_analysis(&code, vec![], preserve_first(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        1
+    );
+    // jz secondseed; seedfirst; jmp join; seedfirst; call esi
+    let code = [
+        0x74, 8, 0x8b, 0x35, 0, 0x20, 0x40, 0, 0xeb, 6, 0x8b, 0x35, 0, 0x20, 0x40, 0, 0xff, 0xd6,
+        0xc3,
+    ];
+    assert_eq!(
+        register_analysis(&code, vec![], preserve_first(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        1
+    );
+}
+#[test]
+fn register_software_interrupts_do_not_preserve_cached_facts() {
+    for interrupt in [vec![0xce], vec![0xf1], vec![0xcd, 0x80]] {
+        let mut code = vec![0x8b, 0x35, 0, 0x20, 0x40, 0];
+        code.extend(interrupt);
+        code.extend([0xff, 0xd6, 0xc3]);
+        assert!(register_analysis(&code, vec![], preserve_first(), true).is_err());
+    }
+    // INT3 remains terminal in discovery. An explicitly evidenced continuation
+    // is a new unknown root; no pre-handler register fact may leak into it.
+    let code = [0x8b, 0x35, 0, 0x20, 0x40, 0, 0xcc, 0xff, 0xd6, 0xc3];
+    assert!(register_analysis(&code, vec![0x401007], preserve_first(), true).is_err());
+}
