@@ -45,6 +45,7 @@ def check(original, native, require_audit=True, audit_path=None):
     cfg = json.loads((PROJECT / "functions.json").read_text())
     candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
     if candidate["case"] == "minimal":
+        require(not candidate.get('test_prototype_seed'),'prototype data auxiliary cannot promote a function')
         require(not candidate.get('test_pool_seed'),'pool constructor data auxiliary cannot promote a function')
         require(candidate.get('test_pdb_seed') is None,'PDB data auxiliary cannot promote a function')
         require(not candidate.get('test_seed'),'auxiliary/seeded executions cannot promote a function')

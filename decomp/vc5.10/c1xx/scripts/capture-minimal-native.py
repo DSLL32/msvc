@@ -135,6 +135,9 @@ if any(f.name=='primitive_type_ranks' for f in gdb.lookup_type('FrontendData').f
     for name,count in [('primitive_type_rank',65),('complex_type_rank',69)]:
         value['frontend'][name]=[int(gdb.parse_and_eval('frontend_bss.%s[%d]'%(name,i))) for i in range(count)]
         value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),int(gdb.parse_and_eval('sizeof(frontend_bss.'+name+')'))]
+if any(f.name=='empty_metadata_prototype' for f in gdb.lookup_type('FrontendBss').fields()):
+    value['frontend']['empty_metadata_prototype']=list(bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)&frontend_bss.empty_metadata_prototype')),20)))
+    value['frontend']['storage']['empty_metadata_prototype']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.empty_metadata_prototype')),20]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -210,6 +213,16 @@ end
         result_point=output/'collect-value-copy-result.gdb'
         result_point.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'value-copy-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'value-copy-result-argv.bin'))))
         observer+='break *initialize_frontend_19\ncommands\nsilent\nsource '+str(result_point)+'\ncontinue\nend\n'
+    if model['schema']>=23:
+        entry=output/'collect-prototype-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'prototype-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'prototype-entry-argv.bin'))))
+        change=''
+        if trial.get('test_prototype_seed'):
+            change='python\ngdb.selected_inferior().write_memory(int(gdb.parse_and_eval("(unsigned int)&frontend_bss.empty_metadata_prototype")),bytes(range(1,21)))\nend\n'
+        observer+='break *initialize_frontend_36\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
+        result=output/'collect-prototype-result.gdb'
+        result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'prototype-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'prototype-result-argv.bin'))))
+        observer+='break *initialize_frontend_37\ncommands\nsilent\nsource '+str(result)+'\ncontinue\nend\n'
     if model['schema']>=16:
         signature=output/'collect-signature-entry.gdb'
         signature.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'signature-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'signature-entry-argv.bin'))))

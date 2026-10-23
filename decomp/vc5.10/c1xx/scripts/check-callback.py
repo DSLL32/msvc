@@ -31,7 +31,7 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=35,
+    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=36,
               'no reviewed callback decoder for this function')
     index=34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -40,7 +40,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -177,6 +177,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=22:
         spec=importlib.util.spec_from_file_location('type_rank_state',Path(__file__).with_name('type_rank_state.py'));ranks=importlib.util.module_from_spec(spec);spec.loader.exec_module(ranks)
         ranks.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=23:
+        spec=importlib.util.spec_from_file_location('prototype_state',Path(__file__).with_name('prototype_state.py'));prototype=importlib.util.module_from_spec(spec);spec.loader.exec_module(prototype)
+        prototype.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')

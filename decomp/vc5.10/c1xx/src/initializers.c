@@ -155,7 +155,9 @@ void initialize_frontend_35(void)
 
 void initialize_frontend_36(void)
 {
-    __asm { int 3 }
+    unsigned i;
+    for (i = 0; i < sizeof(frontend_bss.empty_metadata_prototype); ++i)
+        frontend_bss.empty_metadata_prototype[i] = 0;
 }
 
 void initialize_frontend_37(void)

@@ -462,8 +462,7 @@
     {
       "name": "_initialize_frontend_36",
       "start": 272861879,
-      "end": 272861880,
-      "pending_extent": true,
+      "end": 272861912,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },

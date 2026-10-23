@@ -66,6 +66,8 @@ int initialize_compiler_pass(void)
             frontend_bss.primitive_type_rank[i] = 0;
         for (i = 0; i < sizeof(frontend_bss.complex_type_rank); ++i)
             frontend_bss.complex_type_rank[i] = 0;
+        for (i = 0; i < sizeof(frontend_bss.empty_metadata_prototype); ++i)
+            frontend_bss.empty_metadata_prototype[i] = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

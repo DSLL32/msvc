@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: type-rank helper accepted after independent concrete review; next callback35",
+  "state": "autonomous minimal C++ reconstruction: callback36 empty prototype reset tested, awaiting concrete projection review before promotion",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",

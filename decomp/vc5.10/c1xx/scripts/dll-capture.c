@@ -297,6 +297,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "primitive-type-rank-%s.bin", suffix); save_blob(name, data, 65);
     readmem(base + 0xc4c80, data, 69);
     sprintf(name, "complex-type-rank-%s.bin", suffix); save_blob(name, data, 69);
+    readmem(base + 0xc64a0, data, 20);
+    sprintf(name, "empty-prototype-%s.bin", suffix); save_blob(name, data, 20);
     readmem(base + 0xc4c78, data, 4);
     sprintf(name, "type-ranks-ready-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xc0834, data, 4);
@@ -421,6 +423,7 @@ static void seed_frontend_restore(void)
         write_mem(base + 0xc0b88, numeric, 8);
         value = 165; write_mem(base + 0xc0b80, &value, 1);
     }
+    memset(bytes, 165, 20); write_mem(base + 0xc64a0, bytes, 20);
     value = 37; write_mem(base + 0xc4c78, &value, 4);
     value = 37; write_mem(base + 0xc0834, &value, 4);
     value = allocated + 4; write_mem(base + 0xc0ac8, &value, 4);
@@ -640,6 +643,16 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x38ab7 || address == base + 0x38ad8) {
+                    BYTE bss[0xf69c]; unsigned k;
+                    if (address == base + 0x38ab7 && getenv("C1XX_TEST_PROTOTYPE")) {
+                        for (k = 0; k < 20; ++k) bss[k] = (BYTE)(k + 1);
+                        write_mem(base + 0xc64a0, bss, 20);
+                        fprintf(events, "prototype-seed actual-entry=00038ab7 bytes=20 values=1..20 code-mock=0\n");
+                    }
+                    readmem(base + 0xb9000, bss, sizeof(bss));
+                    save_blob(address == base + 0x38ab7 ? "prototype-bss-entry.bin" : "prototype-bss-result.bin", bss, sizeof(bss));
+                }
                 if (address == base + 0x38550 && getenv("C1XX_TEST_PDB_CONTEXT")) {
                     DWORD owned, fields[6], k, object = atoi(getenv("C1XX_TEST_PDB_OBJECT"));
                     DWORD object_base;

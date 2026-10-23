@@ -144,6 +144,7 @@ int main(void)
             frontend_bss.token_value.integer = 0x1122334455667788i64;
             frontend_bss.sentinel_token.value.integer = -7;
             frontend_bss.sentinel_token.kind = 165;
+            memset(frontend_bss.empty_metadata_prototype, 165, sizeof(frontend_bss.empty_metadata_prototype));
             frontend_bss.type_ranks_initialized = 37;
             frontend_bss.source_signature = 37;
             for (i = 0; i < sizeof(frontend_bss.pools) / sizeof(frontend_bss.pools[0]); ++i) {

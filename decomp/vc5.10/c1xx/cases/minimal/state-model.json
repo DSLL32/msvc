@@ -1,5 +1,5 @@
 {
-  "schema": 22,
+  "schema": 23,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1673,6 +1673,15 @@
       "native_expression": "frontend_bss.complex_type_rank",
       "original_default": "all zero bytes",
       "evidence": "Minimal contiguous domain covering all actual initialized table writes; no later consumer beyond this domain is accepted"
+    },
+    {
+      "name": "empty_metadata_prototype",
+      "class": "bss",
+      "original_address": 273441952,
+      "bytes": 20,
+      "native_expression": "frontend_bss.empty_metadata_prototype",
+      "original_default": "20 zero bytes",
+      "evidence": "Actual whole20B reset/copy/equality prototype, no invented interior fields or larger-object layout"
     }
   ],
   "initializers": [

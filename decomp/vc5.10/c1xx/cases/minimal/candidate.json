@@ -60,7 +60,7 @@
     "_initialize_type_ranks",
     "_initialize_frontend_35"
   ],
-  "trial": null,
+  "trial": "_initialize_frontend_36",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -498,6 +498,12 @@
       "owner": "_initialize_frontend_35",
       "start_rva": 232118,
       "end_rva": 232119,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_36",
+      "start_rva": 232119,
+      "end_rva": 232152,
       "entry": 1
     }
   ],

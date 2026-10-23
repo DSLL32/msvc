@@ -73,6 +73,7 @@ typedef struct FrontendBss {
     int type_ranks_initialized;
     unsigned char primitive_type_rank[65];
     unsigned char complex_type_rank[69];
+    unsigned char empty_metadata_prototype[20];
 } FrontendBss;
 
 #ifdef __cplusplus

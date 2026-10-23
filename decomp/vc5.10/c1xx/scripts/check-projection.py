@@ -39,7 +39,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -95,6 +95,7 @@ def field_map(model,observed):
         known['primitive_type_rank']=(0x104c4cc8,65,'bss','frontend_bss.primitive_type_rank')
         known['complex_type_rank']=(0x104c4c80,69,'bss','frontend_bss.complex_type_rank')
         s.require(observed['type_rank_layout']=={'size':8,'fields':{'code':[0,4],'rank':[4,1]}} and model['initialized_padding']=={'bytes':51,'record_count':17,'record_size':8,'semantic_bytes_per_record':5,'kind':'natural record padding, no original semantic counterpart'},'unmodeled type-rank record storage')
+    if model['schema']>=23:known['empty_metadata_prototype']=(0x104c64a0,20,'bss','frontend_bss.empty_metadata_prototype')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -106,7 +107,7 @@ def field_map(model,observed):
             s.require(row['component_types']==wanted,'context scalar was treated as a pointer')
         first,last=row['original_address'],row['original_address']+row['bytes']
         address,width=observed['storage'][row['name']]
-        alignment=1 if row['name'] in ('primitive_type_rank','complex_type_rank') else 4
+        alignment=1 if row['name'] in ('primitive_type_rank','complex_type_rank','empty_metadata_prototype') else 4
         s.require(row['bytes']==width and first%alignment==address%alignment==0,'field width/alignment differs')
         original.append((first,last));native.append((address,address+width))
         if row['class']=='initialized':
@@ -128,9 +129,10 @@ def field_map(model,observed):
     if model['schema']>=19:fields.append('pools')
     if model['schema']>=21:fields.append('type_ranks_initialized')
     if model['schema']>=22:fields += ['primitive_type_rank','complex_type_rank']
+    if model['schema']>=23:fields.append('empty_metadata_prototype')
     initialized=['first_invocation']+(['primitive_type_ranks','complex_type_ranks'] if model['schema']>=22 else [])
     s.require(observed['declared_fields']=={'initialized':initialized,'bss':fields} and
-              observed['known_sizes']=={'initialized':140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count}[model['schema']]},
+              observed['known_sizes']=={'initialized':140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else model['initialized_padding']['bytes'] if kind=='initialized' and model['schema']>=22 else 0
@@ -141,11 +143,11 @@ def field_map(model,observed):
                       for row in model['fields'] if row['class']=='bss')
         ranges += [(observed['bss_address']+276+i*36+33,observed['bss_address']+276+(i+1)*36) for i in range(output_count)]
         if model['schema']>=15:ranges.append((observed['bss_address']+577,observed['bss_address']+580))
-        if model['schema']>=22:ranges.append((observed['bss_address']+890,observed['bss_address']+892))
+        if model['schema']>=22:ranges.append((observed['bss_address']+890+(20 if model['schema']>=23 else 0),observed['bss_address']+892+(20 if model['schema']>=23 else 0)))
         ranges.sort()
         s.require(ranges[0][0]==observed['bss_address'] and
                   all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
-                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0),'unaccounted native padding/storage gap')
+                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0),'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):

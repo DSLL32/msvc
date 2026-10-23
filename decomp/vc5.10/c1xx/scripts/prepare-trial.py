@@ -87,6 +87,9 @@ def prepare():
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial_name=='CompilerPool::Initialize':
         trial['validation_observers'].append({'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'})
+    trial['test_prototype_seed']=bool(candidate.get('test_prototype_seed'))
+    if trial['test_prototype_seed']:
+        trial['auxiliary_prototype_data_seed']={'owner':'_initialize_frontend_36','point':'actual entry before target body, after BSS reset','bytes':20,'values':'1..20','code_or_allocator_mock':False}
     trial['test_pool_seed']=bool(candidate.get('test_pool_seed'))
     if trial['test_pool_seed']:
         trial['auxiliary_pool_data_seed']={'owner':'CompilerPool::Initialize','point':'actual member entry before body','cursor':'owned snapshot+4','remaining':23,'minimum_pages':37,'arena':'owned snapshot+8; never dereferenced','actual_this_and_argument_unchanged':True,'code_or_allocator_mock':False}
