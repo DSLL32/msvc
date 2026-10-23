@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_rank_operator_operands@12",
+    "start": 488192,
+    "end": 488505
+  },
+  "distinct_direct_callees": [
+    "_builtin_unary_expression@8",
+    "_classify_expression_conversion@16",
+    "_reject_overload_candidate@12",
+    "_set_overload_phase"
+  ],
+  "next_frontier": "_make_selected_operator_call@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2597107859328389,
+  "total_operation_seconds": 3.5700366646051407,
+  "original_capture_seconds": 1.6692502265796065
+}

@@ -36,6 +36,13 @@ IrToken *__stdcall convert_reference_initializer(CType *type, IrToken *expressio
     return result;
 }
 
+/* Original 0x671f0..0x67227, stdcall 4. */
+int __stdcall reference_source_is_array(CType *type)
+{
+    if (!type || !type->related) return 0;
+    return (type->related->flags & 0x77) == 2;
+}
+
 /* Original 0x67230..0x6727a, stdcall 12. */
 int __stdcall reference_requires_temporary(CType *referent, IrToken *expression,
     int *extension_binding)

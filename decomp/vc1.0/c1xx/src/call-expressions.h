@@ -30,7 +30,9 @@ struct OverloadCandidate {
     CType *current_parameter, *this_type;
     struct OverloadCandidate *next, *previous;
     OverloadArgumentRank *ranks;
-    unsigned conversion_index, field24, field28, field2c;
+    unsigned conversion_index;
+    struct BuiltinOperator *builtin_rule;
+    CType *builtin_left_type, *builtin_right_type;
     unsigned char flags, reserved31[3];
 };
 typedef struct OverloadSearch {
@@ -50,6 +52,9 @@ typedef char OverloadRankSizeMustBe12[(sizeof(OverloadArgumentRank) == 12) ? 1 :
 typedef char OverloadSearchCurrentOffsetMustBe32[(offsetof(OverloadSearch, current) == 32) ? 1 : -1];
 typedef char OverloadCandidateQualificationOffsetMustBe8[(offsetof(OverloadCandidate, qualification) == 8) ? 1 : -1];
 typedef char OverloadSearchOperationOffsetMustBe12[(offsetof(OverloadSearch, operation) == 12) ? 1 : -1];
+typedef char OverloadCandidateBuiltinRuleOffsetMustBe36[(offsetof(OverloadCandidate, builtin_rule) == 36) ? 1 : -1];
+typedef char OverloadCandidateBuiltinLeftOffsetMustBe40[(offsetof(OverloadCandidate, builtin_left_type) == 40) ? 1 : -1];
+typedef char OverloadCandidateBuiltinRightOffsetMustBe44[(offsetof(OverloadCandidate, builtin_right_type) == 44) ? 1 : -1];
 typedef char OverloadCandidateFlagsOffsetMustBe48[(offsetof(OverloadCandidate, flags) == 48) ? 1 : -1];
 typedef OverloadCandidate *(__stdcall *OverloadFailure)(OverloadSearch *search);
 OverloadSearch *new_overload_search(CppSymbol *functions, unsigned count,

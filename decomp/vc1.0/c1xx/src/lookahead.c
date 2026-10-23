@@ -4,6 +4,67 @@
 
 int parenthesis_lookahead_depth; /* original 0x9d7cc */
 
+/* Original 0x18ea0..0x18f12, stdcall 8. Replay the declaration token
+   as a type expression, retaining its original type-specifier symbol. */
+void __stdcall convert_deferred_type_token(DeferredToken *token, CType *type)
+{
+    ArenaPool *pool;
+    IrToken *expression;
+    if (token_allocation_flags & 0x20000020UL)
+        expression = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken))
+            refill_arena(&compiler_arena, pool);
+        expression = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    expression->flags = 0;
+    expression->type = type;
+    expression->kind = 0xa3;
+    expression->value.pointer = token->type_specifier;
+    current_token_code = 0xa3;
+    token->lexical_token = token->parser_token = 0xa3;
+    token->value.expression = expression;
+}
+
+/* Original 0x19080..0x19152, stdcall 4. Parentheses in the deferred
+   sequence delimit declaration contexts; the mode argument is not read. */
+void __stdcall resolve_nested_deferred_types(unsigned char unused_mode)
+{
+    DeferredToken *token = deferred_token_cursor + 1, *saved_cursor;
+    unsigned char replayed;
+    int depth = 0;
+    while (token != deferred_token_end) {
+        switch (token->lexical_token) {
+        case 0x80:
+            ++depth;
+            if (++declaration_depth >= 60) fatal_error(13);
+            declaration_spec_flags[declaration_depth] &= ~1;
+            declaration_spec_flags[declaration_depth] &= ~2;
+            break;
+        case 0x88:
+            if (--depth < 0) return;
+            if (declaration_depth > 0) --declaration_depth;
+            break;
+        case 0xb5:
+            if (depth <= 1)
+                convert_deferred_type_token(token, token->value.declaration.type);
+            else {
+                token_allocation_flags &= ~0x80000000UL;
+                saved_cursor = deferred_token_cursor;
+                deferred_token_cursor = token;
+                replayed = resolve_parenthesis_candidate(0);
+                unget_token(replayed);
+                deferred_token_cursor = saved_cursor;
+            }
+            break;
+        }
+        ++token;
+    }
+}
+
 /* Original 0x19190..0x1933e. The auxiliary parser may recurse through the
    lexer, so restore its caller's declaration depth and token cursor before
    deciding how the saved type token is to be replayed. */

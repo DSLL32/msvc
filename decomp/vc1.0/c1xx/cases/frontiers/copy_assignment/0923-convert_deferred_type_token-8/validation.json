@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_deferred_type_token@8",
+    "start": 102048,
+    "end": 102163
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_resolve_nested_deferred_types@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2449444429948926,
+  "total_operation_seconds": 2.6120161954313517,
+  "original_capture_seconds": 0.8164258878678083
+}

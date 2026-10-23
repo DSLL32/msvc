@@ -919,7 +919,17 @@
     "_temporary_reference_matches@8",
     "_remove_frontend_record@4",
     "_replace_temporary_reference@12",
-    "_append_builtin_operator_candidates@20"
+    "_append_builtin_operator_candidates@20",
+    "_begin_builtin_operand_types@16",
+    "_next_builtin_operand_type@4",
+    "_builtin_operand_type_matches@16",
+    "_rank_operator_operands@12",
+    "_make_selected_operator_call@12",
+    "_add_builtin_operator_candidate@20",
+    "_reference_source_is_array@4",
+    "_append_expression_destructor@8",
+    "_convert_deferred_type_token@8",
+    "_resolve_nested_deferred_types@4"
   ],
   "driver": [
     {
@@ -3403,7 +3413,7 @@
     {
       "name": "_convert_deferred_type_token@8",
       "start": 102048,
-      "end": 102049
+      "end": 102163
     },
     {
       "name": "_copy_qualified_declarator@8",
@@ -3708,7 +3718,7 @@
     {
       "name": "_resolve_nested_deferred_types@4",
       "start": 102528,
-      "end": 102529
+      "end": 102739
     },
     {
       "name": "_initialize_lookahead_parser",
@@ -5174,7 +5184,7 @@
     {
       "name": "_append_expression_destructor@8",
       "start": 270128,
-      "end": 270129
+      "end": 270254
     },
     {
       "name": "_find_label_record@4",
@@ -6780,12 +6790,12 @@
     {
       "name": "_rank_operator_operands@12",
       "start": 488192,
-      "end": 488193
+      "end": 488505
     },
     {
       "name": "_make_selected_operator_call@12",
       "start": 489728,
-      "end": 489729
+      "end": 489996
     },
     {
       "name": "_report_operator_overload_failure@4",
@@ -7141,7 +7151,7 @@
     {
       "name": "_reference_source_is_array@4",
       "start": 422384,
-      "end": 422385
+      "end": 422440
     },
     {
       "name": "_strip_reference_type@4",
@@ -7206,17 +7216,37 @@
     {
       "name": "_begin_builtin_operand_types@16",
       "start": 487264,
-      "end": 487265
+      "end": 487363
     },
     {
       "name": "_next_builtin_operand_type@4",
       "start": 487376,
-      "end": 487377
+      "end": 487521
     },
     {
       "name": "_add_builtin_operator_candidate@20",
       "start": 487920,
-      "end": 487921
+      "end": 488182
+    },
+    {
+      "name": "_builtin_operand_is_lvalue@4",
+      "start": 488512,
+      "end": 488513
+    },
+    {
+      "name": "_builtin_operand_type_matches@16",
+      "start": 487536,
+      "end": 487914
+    },
+    {
+      "name": "_convert_selected_operator_operand",
+      "start": 489680,
+      "end": 489681
+    },
+    {
+      "name": "_equivalent_operand_types@8",
+      "start": 407264,
+      "end": 407265
     }
   ],
   "cases": {
@@ -7258,8 +7288,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_begin_builtin_operand_types@16",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/original-events.txt",
+      "terminal": "_cast_to_type@8",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7305,7 +7335,17 @@
         "cases/frontiers/copy_assignment/0911-temporary_reference_matches-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0912-remove_frontend_record-4/frontier-extension.json",
         "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0915-begin_builtin_operand_types-16/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0916-next_builtin_operand_type-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0917-builtin_operand_type_matches-16/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0918-rank_operator_operands-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0919-make_selected_operator_call-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0920-add_builtin_operator_candidate-20/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0921-reference_source_is_array-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0922-append_expression_destructor-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0923-convert_deferred_type_token-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/frontier-extension.json"
       ]
     }
   },

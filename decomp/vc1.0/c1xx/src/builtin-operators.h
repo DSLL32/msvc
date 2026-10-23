@@ -21,4 +21,9 @@ void __stdcall begin_builtin_operand_types(BuiltinOperandIterator *iterator,
 int __stdcall next_builtin_operand_type(BuiltinOperandIterator *iterator);
 void __stdcall add_builtin_operator_candidate(OverloadSearch *search,
     BuiltinOperator *rule, CType *left, CType *right, unsigned *count);
+int __stdcall builtin_operand_is_lvalue(IrToken *expression);
+int __stdcall builtin_operand_type_matches(CType *type, CType *category,
+    unsigned require_lvalue, int from_conversion);
+IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigned index, IrToken *operand);
+int __stdcall equivalent_operand_types(CType *left, CType *right);
 #endif

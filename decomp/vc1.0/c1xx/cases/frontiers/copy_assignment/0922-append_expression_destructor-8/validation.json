@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_append_expression_destructor@8",
+    "start": 270128,
+    "end": 270254
+  },
+  "distinct_direct_callees": [
+    "_make_class_pointer_type@8",
+    "_make_destructor_call@20",
+    "_new_right_typed_expression@12"
+  ],
+  "next_frontier": "_convert_deferred_type_token@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24082699418067932,
+  "total_operation_seconds": 2.970541681163013,
+  "original_capture_seconds": 1.2173428777605295
+}

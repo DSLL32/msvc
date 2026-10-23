@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_next_builtin_operand_type@4",
+    "start": 487376,
+    "end": 487521
+  },
+  "distinct_direct_callees": [
+    "_builtin_operand_is_lvalue@4",
+    "_builtin_operand_type_matches@16",
+    "_next_conversion_type@4"
+  ],
+  "next_frontier": "_builtin_operand_type_matches@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.25522897858172655,
+  "total_operation_seconds": 3.376445522531867,
+  "original_capture_seconds": 1.5688479086384177
+}

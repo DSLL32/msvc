@@ -8,6 +8,7 @@
 #include "function-definitions.h"
 #include "constructor-initializers.h"
 #include "inline-vector.h"
+#include "unary-expressions.h"
 #include <recon.h>
 
 /* Original [0x61540,0x615dc). Some class operations have a builtin form
@@ -447,4 +448,196 @@ void __stdcall append_builtin_operator_candidates(OverloadSearch *search,
         }
         ++rule;
     } while (rule->token == operation);
+}
+
+/* Original 0x76f60..0x76fc2, stdcall 16. Class operands expose
+   their conversion-target set; scalar operands are returned only once. */
+void __stdcall begin_builtin_operand_types(BuiltinOperandIterator *iterator,
+    IrToken *expression, CType *category, unsigned require_lvalue)
+{
+    iterator->expression = expression;
+    iterator->class_conversion = expression->type &&
+        is_class_or_reference_type(expression->type) ? 1 : 0;
+    if (iterator->class_conversion)
+        begin_conversion_types(&iterator->conversions,
+            cpp_context_stack->items[expression->type->field08]);
+    iterator->category = category;
+    iterator->require_lvalue = require_lvalue;
+}
+
+/* Original 0x76fd0..0x77060, stdcall 4. Scalar operands are consumed
+   once; class operands skip conversion targets outside this rule's category. */
+int __stdcall next_builtin_operand_type(BuiltinOperandIterator *iterator)
+{
+    if (!iterator->class_conversion) {
+        if (!iterator->expression) return 0;
+        if (iterator->require_lvalue && !builtin_operand_is_lvalue(iterator->expression))
+            return 0;
+        iterator->type = iterator->expression->type;
+        iterator->expression = 0;
+        return builtin_operand_type_matches(iterator->type, iterator->category,
+            iterator->require_lvalue, 0);
+    }
+    while (next_conversion_type(&iterator->conversions)) {
+        if (builtin_operand_type_matches(iterator->conversions.type, iterator->category,
+            iterator->require_lvalue, 1)) {
+            iterator->type = iterator->conversions.type;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+TypeShape *__stdcall skip_reference_shape(TypeShape *shape);
+/* Original 0x77070..0x771e9, stdcall 16. Match the rule's scalar,
+   pointer and class-pointer patterns after removing a based prefix and one
+   reference shape. Assignment through a conversion requires a reference. */
+int __stdcall builtin_operand_type_matches(CType *type, CType *category,
+    unsigned require_lvalue, int from_conversion)
+{
+    TypeShape *shape;
+    unsigned short flags, category_flags;
+    if (!type) return 0;
+    flags = type->flags;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (require_lvalue && from_conversion && (!shape || !(shape->flags & 0x40)))
+        return 0;
+    shape = skip_reference_shape(shape);
+    category_flags = category->flags & 0x2fdf;
+    switch (category_flags) {
+    case 0x40:
+        return ((flags & 0x840) || (!require_lvalue && (flags & 0x200))) && !shape;
+    case 0x83:
+        return shape && (shape->flags & 0x30) ? 1 : 0;
+    case 0x84:
+    case 0x88:
+        if (!shape || !(shape->flags & 3)) return 0;
+        if (category_flags == 0x88 && (flags & 0x80) && !shape->related) return 0;
+        return 1;
+    case 0x8c:
+        if (!shape || (shape->flags & 0x77) != 1) return 0;
+        return is_unqualified_class_type(dereference_pointer_type(type)) ? 1 : 0;
+    case 0x140:
+        return ((flags & 0x940) || (!require_lvalue && (flags & 0x200))) && !shape;
+    default:
+        return 0;
+    }
+}
+
+/* Original 0x77300..0x77438, stdcall 12. Member operators rank their
+   implicit object before the explicit right operand. Builtin candidates carry
+   their two parameter types directly instead of a function parameter cursor. */
+int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right)
+{
+    OverloadCandidate *candidate;
+    OverloadArgumentRank *ranks;
+    CppSymbol *function;
+    CType *target;
+    IrToken *operand;
+    unsigned flags;
+    for (candidate = search->candidates; candidate; candidate = candidate->next) {
+        ranks = candidate->ranks;
+        flags = (search->flags & 4) ? 1 : 0;
+        operand = left;
+        set_overload_phase(search, 8);
+        if (!(candidate->flags & 0x10)) {
+            function = candidate->function;
+            if ((function->declaration_flags & 0x400) &&
+                (function->cpp.parts.member_flags & 1)) {
+                target = candidate->this_type;
+                operand = builtin_unary_expression(OP_BIT_AND, left);
+            } else target = *candidate->parameter_cursor++;
+        } else target = candidate->builtin_left_type;
+        ranks->parameter_type = target;
+        ranks->rank = classify_expression_conversion(target, operand, flags, candidate);
+        if (ranks->rank & 0x2000) {
+            if (reject_overload_candidate(candidate, search, operand)) return 0;
+        } else if (right) {
+            set_overload_phase(search, 9);
+            ++ranks;
+            ++candidate->conversion_index;
+            /* The original reads the right type without advancing this cursor. */
+            target = (candidate->flags & 0x10) ? candidate->builtin_right_type :
+                *candidate->parameter_cursor;
+            ranks->parameter_type = target;
+            ranks->rank = classify_expression_conversion(target, right, flags, candidate);
+            if ((ranks->rank & 0x2000) &&
+                reject_overload_candidate(candidate, search, right)) return 0;
+        }
+    }
+    return 1;
+}
+
+/* Original 0x77900..0x77a0b, stdcall 12. Builtin winners become
+   ordinary expression nodes; function winners retain their member qualifier
+   and use the normal resolved-call ABI. */
+IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate,
+    IrToken *left, IrToken *right)
+{
+    unsigned char operation;
+    IrToken *arguments = 0, *object, *converted_left, *converted_right;
+    unsigned count;
+    if (!candidate->function) {
+        operation = candidate->builtin_rule->token;
+        converted_left = convert_selected_operator_operand(candidate, 0, left);
+        if (operation == OP_POST_INCREMENT || operation == OP_POST_DECREMENT ||
+            operation == OP_PRE_INCREMENT || operation == OP_PRE_DECREMENT)
+            return builtin_binary_expression(operation, converted_left, make_integer_constant(1));
+        if (!right) return builtin_unary_expression(operation, converted_left);
+        converted_right = convert_selected_operator_operand(candidate, 1, right);
+        if (operation == OP_LOGICAL_AND || operation == OP_LOGICAL_OR)
+            converted_right = prepare_expression(converted_right, 3);
+        return builtin_binary_expression(operation, converted_left, converted_right);
+    }
+    if (!(candidate->function->declaration_flags & 0x400)) {
+        arguments = append_expression(0, left, 0);
+        object = 0;
+        count = 1;
+    } else {
+        object = builtin_unary_expression(OP_BIT_AND, left);
+        count = 0;
+    }
+    if (right) {
+        arguments = append_expression(arguments, right, 0);
+        ++count;
+    }
+    if (candidate->qualification)
+        bind_selected_overload(candidate->qualification, candidate->function);
+    return make_resolved_call(candidate->function, object, arguments, count, 0);
+}
+
+/* Original 0x771f0..0x772f5, stdcall 20. Avoid duplicate builtin
+   operand pairs, then reserve the same candidate/rank storage used by function
+   overloads. Unassigned candidate fields retain their allocator initialization. */
+void __stdcall add_builtin_operator_candidate(OverloadSearch *search,
+    BuiltinOperator *rule, CType *left, CType *right, unsigned *count)
+{
+    OverloadCandidate *candidate;
+    OverloadArgumentRank *ranks;
+    if (!rule) return;
+    for (candidate = search->storage; candidate; candidate = candidate->next) {
+        if ((candidate->flags & 0x10) &&
+            equivalent_operand_types(candidate->builtin_left_type, left) &&
+            equivalent_operand_types(candidate->builtin_right_type, right)) return;
+    }
+    ++*count;
+    begin_overload_candidate_cursor(search, &candidate, &ranks);
+    candidate = search->current;
+    if (candidate->flags & 0x20) {
+        candidate->next = candidate + 1;
+        candidate->next->previous = candidate;
+        candidate->ranks = search->rank_cursor;
+        search->rank_cursor += search->argument_count;
+        search->current = candidate->next;
+    }
+    search->current->flags |= 0x20;
+    candidate = search->current;
+    ranks = search->rank_cursor;
+    candidate->ranks = ranks;
+    candidate->builtin_rule = rule;
+    candidate->builtin_left_type = left;
+    candidate->builtin_right_type = right;
+    candidate->flags |= 0x10;
+    save_overload_candidate_cursor(search, candidate, ranks);
 }

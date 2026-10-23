@@ -283,7 +283,6 @@ void finish_pch_capture(void) { __asm { int 3 } }
 void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } }
 
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
-void __stdcall convert_deferred_type_token(DeferredToken *token, CType *type) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
@@ -334,7 +333,6 @@ unsigned __stdcall member_function_pointer_size(TypeShape *shape) { __asm { int 
 
 void __stdcall set_deferred_type_name(DeferredToken *token) { __asm { int 3 } }
 int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } return 0; }
-void __stdcall resolve_nested_deferred_types(unsigned char unused_mode) { __asm { int 3 } }
 int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
@@ -488,7 +486,6 @@ unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *targ
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }
-IrToken *__stdcall append_expression_destructor(IrToken *expression, IrToken *object) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall find_label_record(CppSymbol *label) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
 
@@ -580,8 +577,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 IrToken *__stdcall make_null_member_pointer(CType *type) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_overloaded_arrow(IrToken *object) { __asm { int 3 } return 0; }
-int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 
 int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
@@ -618,9 +613,8 @@ char *__stdcall mangle_pointee_shape(char *cursor, CType *type) { __asm { int 3 
 
 IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
-int __stdcall reference_source_is_array(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall class_tag_for_result_type(CType *type) { __asm { int 3 } return 0; }
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
-void __stdcall begin_builtin_operand_types(BuiltinOperandIterator *iterator, IrToken *expression, CType *category, unsigned require_lvalue) { __asm { int 3 } }
-int __stdcall next_builtin_operand_type(BuiltinOperandIterator *iterator) { __asm { int 3 } return 0; }
-void __stdcall add_builtin_operator_candidate(OverloadSearch *search, BuiltinOperator *rule, CType *left, CType *right, unsigned *count) { __asm { int 3 } }
+int __stdcall builtin_operand_is_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigned index, IrToken *operand) { __asm { int 3 } return 0; }
+int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }

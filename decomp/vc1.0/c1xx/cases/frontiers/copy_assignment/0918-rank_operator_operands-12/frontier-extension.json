@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 918,
+  "accepted": "_rank_operator_operands@12",
+  "terminal": "_make_selected_operator_call@12",
+  "original_capture": "cases/frontiers/copy_assignment/0918-rank_operator_operands-12/original-receipt.json",
+  "original_capture_sha256": "1a814e9ce884bfa1e2faaf6b5d814d9dad8bc1ba6b9cc50df6519accbe680664",
+  "original_events": "cases/frontiers/copy_assignment/0918-rank_operator_operands-12/original-events.txt",
+  "original_events_sha256": "125a4963bb79f49ecd284328203e85470ca54049cafd977b45f2db92c53bf680",
+  "original_configuration": "cases/frontiers/copy_assignment/0918-rank_operator_operands-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -16,11 +16,11 @@
     "plan_sha256": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f"
   },
   "copy_assignment": {
-    "receipt": "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/entry-reference/original-receipt.json",
-    "receipt_sha256": "4bc2a4bd58aea00579b6b7f3c9f6cb8a22c064018b171be3d93849a9ae3558f5",
-    "events": "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/entry-reference/original-events.txt",
-    "events_sha256": "eeaaab03b36d6decde648293cddd86b99ad00742e675e225b8be71a0cdc6ac69",
-    "plan": "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/entry-reference/original-entries.plan",
-    "plan_sha256": "d86087ff84d614c414265e9f729c26dc3cf0a75cd568dd970040935161b654bd"
+    "receipt": "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "4eec6d177e2bf0add3066e4a9b1c03bbbda01b3c16577749c7f7b845541765a2",
+    "events": "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/entry-reference/original-events.txt",
+    "events_sha256": "289def0df1819146be259def426a2e37e0983afd3ca7ef93b7f8f2714d309bcf",
+    "plan": "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/entry-reference/original-entries.plan",
+    "plan_sha256": "1f108960ff1cb0c53bd6062b048f4455dfba9cd35acf4c0d3bdf1b748fcdcdff"
   }
 }

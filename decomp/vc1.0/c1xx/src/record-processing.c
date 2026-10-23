@@ -388,3 +388,22 @@ IrToken *__stdcall append_symbol_destructor(IrToken *expression, CppSymbol *symb
     }
     return destructor;
 }
+
+/* Original 0x41f30..0x41fad, stdcall 8. The recorded object is already
+   an address; temporarily give it the class pointer type used by cleanup. */
+IrToken *__stdcall append_expression_destructor(IrToken *expression, IrToken *object)
+{
+    CType *saved_type;
+    CppSymbol *tag;
+    IrToken *destructor;
+    if (error_count != ir_function_error_count) return expression;
+    saved_type = object->type;
+    if (!saved_type) return expression;
+    tag = cpp_context_stack->items[saved_type->field08];
+    object->type = make_class_pointer_type(tag, 0);
+    destructor = make_destructor_call(tag, object, 3, 1, 0);
+    object->type = saved_type;
+    if (expression)
+        return new_right_typed_expression(0x40, expression, destructor);
+    return destructor;
+}

@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ad9e in make_selected_operator_call (candidate=0x5661e540, left=0x5661986c, right=0x56619894) at src/stubs.c:583
+583	IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+#0  0x5655ad9e in make_selected_operator_call (candidate=0x5661e540, left=0x5661986c, right=0x56619894) at src/stubs.c:583
+#1  0x5657a3ee in resolve_operator_overload (operation=61 '=', left=0x5661986c, right=0x56619894, arity=1, diagnose=1, failure=0xffffd61c) at src/operators.c:281
+#2  0x5657a0ec in resolve_operator_expression (operation=61 '=', left=0x5661986c, right=0x56619894, arity=1, failure=0xffffd61c) at src/operators.c:217
+#3  0x565810bf in binary_expression (operation=61 '=', left=0x5661986c, right=0x56619894) at src/binary-expressions.c:830
+#4  0x565a7948 in parse_translation_unit () at src/parser-expression-actions.inc:99
+#5  0x5655e0af in compile_translation_unit () at src/frontend.c:73
+#6  0x56558856 in guarded_compile () at src/c1xx.c:28
+#7  0x56558824 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20
