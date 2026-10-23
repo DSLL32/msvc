@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "function": "_record_friend@12",
+  "native_entry": "record_friend",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "parser_member",
+      "original": 573936
+    },
+    {
+      "name": "class_owner",
+      "original": 573948
+    }
+  ],
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 0
+    }
+  ],
+  "native_expressions": {
+    "raw_context": "(unsigned)type",
+    "context_base": "(unsigned)&declaration_spec_storage[0]",
+    "raw_member": "(unsigned)function",
+    "parser_member": "(unsigned)parser_value.symbol",
+    "raw_owner": "(unsigned)owner",
+    "class_owner": "(unsigned)class_contexts[current_class_context].symbol",
+    "class_index": "current_class_context"
+  },
+  "formals": [
+    {
+      "name": "owner",
+      "stack_index": 0,
+      "native_field": "raw_owner",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "class_owner",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "class_owner",
+        "identity": "class_contexts[0].symbol; matching checkpoint current_class_context=0 is required"
+      }
+    },
+    {
+      "name": "type",
+      "stack_index": 1,
+      "native_field": "raw_context",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 608508,
+        "native_anchor_field": "context_base",
+        "offset": 8,
+        "object": "declaration_spec_storage[1]"
+      }
+    },
+    {
+      "name": "function",
+      "stack_index": 2,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "parser_member",
+        "original_anchor_address": 573936,
+        "native_anchor_field": "parser_member",
+        "identity": "active parser semantic symbol; parser reduction84 supplies parser_value.symbol to declare_class_member, which forwards it here without copying in this mode"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204672,
+      204778
+    ],
+    "argument_bytes": 12,
+    "proof": "PUSH ESI/EDI then owner at ESP+12, type at ESP+16, function at ESP+20. Only class-friend branch dereferences type; all three actual formals are observed. ESI receives allocate_permanent result, EDI receives owner; incoming volatile registers are defined by stack/loads/call before use. RET12 at0x31fc9/0x31fe7. Function pointer equals current parser_value.symbol after apply_declaration_type in this reached case; owner equals current class slot. No hidden/register argument."
+  }
+}

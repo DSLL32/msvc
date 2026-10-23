@@ -1,0 +1,44 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00031f80 <.text+0x1af80>:
+   31f80:	56                   	push   esi
+   31f81:	57                   	push   edi
+   31f82:	8b 7c 24 0c          	mov    edi,DWORD PTR [esp+0xc]
+   31f86:	6a 0c                	push   0xc
+   31f88:	8b 47 20             	mov    eax,DWORD PTR [edi+0x20]
+   31f8b:	80 48 33 40          	or     BYTE PTR [eax+0x33],0x40
+   31f8f:	e8 bc 8d 03 00       	call   0x6ad50
+   31f94:	8b f0                	mov    esi,eax
+   31f96:	8b 47 10             	mov    eax,DWORD PTR [edi+0x10]
+   31f99:	89 06                	mov    DWORD PTR [esi],eax
+   31f9b:	c7 46 08 00 00 00 00 	mov    DWORD PTR [esi+0x8],0x0
+   31fa2:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   31fa6:	0b c0                	or     eax,eax
+   31fa8:	75 26                	jne    0x31fd0
+   31faa:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   31fae:	56                   	push   esi
+   31faf:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   31fb2:	0f bf 48 08          	movsx  ecx,WORD PTR [eax+0x8]
+   31fb6:	a1 2c f3 09 00       	mov    eax,ds:0x9f32c
+   31fbb:	8b 44 88 04          	mov    eax,DWORD PTR [eax+ecx*4+0x4]
+   31fbf:	89 46 04             	mov    DWORD PTR [esi+0x4],eax
+   31fc2:	e8 79 ff ff ff       	call   0x31f40
+   31fc7:	5f                   	pop    edi
+   31fc8:	5e                   	pop    esi
+   31fc9:	c2 0c 00             	ret    0xc
+   31fcc:	8d 64 24 00          	lea    esp,[esp+0x0]
+   31fd0:	89 46 04             	mov    DWORD PTR [esi+0x4],eax
+   31fd3:	6a 00                	push   0x0
+   31fd5:	6a ff                	push   0xffffffff
+   31fd7:	6a ff                	push   0xffffffff
+   31fd9:	50                   	push   eax
+   31fda:	e8 c1 2e 00 00       	call   0x34ea0
+   31fdf:	56                   	push   esi
+   31fe0:	e8 5b ff ff ff       	call   0x31f40
+   31fe5:	5f                   	pop    edi
+   31fe6:	5e                   	pop    esi
+   31fe7:	c2 0c 00             	ret    0xc

@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_record_friend@12",
+    "start": 204672,
+    "end": 204778
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1057-record_friend-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_append_friend_record@4",
+    "_capture_inline_member_declaration@16"
+  ],
+  "next_frontier": "_append_friend_record@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4206705177202821,
+  "total_operation_seconds": 4.013274465687573,
+  "original_capture_seconds": 1.667937682941556
+}

@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_record_friend@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1057,
+  "configuration_sha256": "df4981641a8fefe5d4b12ac1f6f37168726352bc828666b2a5b5dd42c11866a2",
+  "native_entry": "record_friend",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "owner",
+      "stack_index": 0,
+      "native_field": "raw_owner",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "class_owner",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "class_owner",
+        "identity": "class_contexts[0].symbol; matching checkpoint current_class_context=0 is required",
+        "original_anchor_value": 8301700,
+        "native_anchor_value": 1449262212
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449262212,
+      "result": "match"
+    },
+    {
+      "name": "type",
+      "stack_index": 1,
+      "native_field": "raw_context",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 608508,
+        "native_anchor_field": "context_base",
+        "offset": 8,
+        "object": "declaration_spec_storage[1]",
+        "native_object_address": 1449159136
+      },
+      "original_raw": 608516,
+      "native_raw": 1449159144,
+      "result": "match"
+    },
+    {
+      "name": "function",
+      "stack_index": 2,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "parser_member",
+        "original_anchor_address": 573936,
+        "native_anchor_field": "parser_member",
+        "identity": "active parser semantic symbol; parser reduction84 supplies parser_value.symbol to declare_class_member, which forwards it here without copying in this mode",
+        "original_anchor_value": 8303300,
+        "native_anchor_value": 1449263812
+      },
+      "original_raw": 8303300,
+      "native_raw": 1449263812,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204672,
+      204778
+    ],
+    "argument_bytes": 12,
+    "proof": "PUSH ESI/EDI then owner at ESP+12, type at ESP+16, function at ESP+20. Only class-friend branch dereferences type; all three actual formals are observed. ESI receives allocate_permanent result, EDI receives owner; incoming volatile registers are defined by stack/loads/call before use. RET12 at0x31fc9/0x31fe7. Function pointer equals current parser_value.symbol after apply_declaration_type in this reached case; owner equals current class slot. No hidden/register argument.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "53c48b2b07b9edf42f71727d4c10e453ad6604d24dc86ce1ca4868435b368360",
+  "capture_timing": {
+    "original_capture_seconds": 1.066919106990099,
+    "native_capture_seconds": 0.17882687877863646,
+    "total_operation_seconds": 1.4780750311911106
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "3e295d949332f8ce876dce6c4fde90fd771ffddfe128a87ae7999c0ef8fa336f",
+    "native-commands.gdb": "bf5eaab3b6811b9a94ad5fa3f2c878d5846b19d00c03927ac59a3424ab9efc45",
+    "native-gdb.log": "334e2ddaa34343ad4bd81282ce39738b597d5608777957caa0ddf7bcba8a941b",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "550517c5b7ef4a74469929c23d15c6b3374b3084f63520412c45559a3856a2c5",
+    "original-configuration.json": "df4981641a8fefe5d4b12ac1f6f37168726352bc828666b2a5b5dd42c11866a2",
+    "original-disassembly.txt": "a24515f7d3c69566a97e2429c4702ce16d44e5f4bcdca87792752ee946db007b",
+    "original-events.txt": "f7beef16a36cfcb0eae0fa2b78c4f6656f6af3e07e878e47ea7032b35c04d1d9",
+    "original-receipt.json": "f7448bc9e3c2ecca0ad5606c9e2fab129937607e63336d9b7b833efdd73b8fe0",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "04faa2e4259b8f7a071542d6c017a26c933f2632868589c1c9340495910b8c68"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 0
+    }
+  ]
+}

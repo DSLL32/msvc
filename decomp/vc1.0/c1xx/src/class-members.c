@@ -9,6 +9,25 @@ void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
 #define CLASS_CONTEXT (class_contexts[current_class_context])
 #define CLASS_TAG (CLASS_CONTEXT.symbol)
 
+/* Original 0x31f80..0x31fea. Friendship records share their owner's symbol
+   index as the hash key and retain either a class or a function symbol. */
+void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function)
+{
+    FriendRecord *record;
+    owner->detail.class_info->flags |= 0x40;
+    record = allocate_permanent(sizeof(FriendRecord));
+    record->owner_index = owner->index;
+    record->next = 0;
+    if (!function) {
+        record->symbol = cpp_context_stack->items[type->type->field08];
+        append_friend_record(record);
+        return;
+    }
+    record->symbol = function;
+    capture_inline_member_declaration(function, -1, -1, 0);
+    append_friend_record(record);
+}
+
 /* Original 0x2fc10..0x2fd8b. The by-value storage argument is present in
    the ABI but unused here; qualified declarations take storage from context. */
 void __stdcall declare_friend_member(DeclarationType *context, CppSymbol *member,

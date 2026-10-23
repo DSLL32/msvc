@@ -12,6 +12,15 @@ void __stdcall begin_class_members(ClassMemberIterator *iterator, CppSymbol *tag
 int __stdcall next_class_member(ClassMemberIterator *iterator);
 
 void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function);
+typedef struct FriendRecord {
+    unsigned owner_index;
+    CppSymbol *symbol;
+    struct FriendRecord *next;
+} FriendRecord;
+typedef char FriendRecordSizeMustBe12[(sizeof(FriendRecord) == 12) ? 1 : -1];
+typedef char FriendRecordSymbolOffsetMustBe4[(offsetof(FriendRecord, symbol) == 4) ? 1 : -1];
+typedef char FriendRecordNextOffsetMustBe8[(offsetof(FriendRecord, next) == 8) ? 1 : -1];
+void __stdcall append_friend_record(FriendRecord *record);
 void __stdcall browser_friend_reference(CppSymbol *symbol);
 void __stdcall validate_anonymous_aggregate(DeclarationType *type);
 void __stdcall declare_anonymous_aggregate(CType *type);

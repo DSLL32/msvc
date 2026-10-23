@@ -1061,7 +1061,8 @@
     "_write_storage_specification@8",
     "_format_storage_spec@8",
     "_format_storage_extensions@8",
-    "_declare_friend_member@24"
+    "_declare_friend_member@24",
+    "_record_friend@12"
   ],
   "driver": [
     {
@@ -3607,7 +3608,7 @@
     {
       "name": "_record_friend@12",
       "start": 204672,
-      "end": 204673
+      "end": 204778
     },
     {
       "name": "_browser_friend_reference@4",
@@ -7858,6 +7859,11 @@
       "name": "_format_storage_extensions@8",
       "start": 426944,
       "end": 427117
+    },
+    {
+      "name": "_append_friend_record@4",
+      "start": 204608,
+      "end": 204609
     }
   ],
   "cases": {
@@ -8058,7 +8064,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_record_friend@12",
+      "terminal": "_append_friend_record@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8081,7 +8087,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1056-declare_friend_member-24/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1057-record_friend-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8143,7 +8149,8 @@
         "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1054-format_storage_spec-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1055-format_storage_extensions-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1056-declare_friend_member-24/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1056-declare_friend_member-24/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1057-record_friend-12/frontier-extension.json"
       ]
     }
   },
