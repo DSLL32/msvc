@@ -677,6 +677,37 @@ int recon_stat(const char *name,struct recon_stat *out)
     out->st_ctime=out->st_mtime;
     return 0;
 }
+/* VC1 FSTAT.OBJ uses descriptor identity for device/pipe st_dev, but zero
+ * for disk files. It preserves the two alignment bytes at offsets14..15. */
+WEAK int recon_fstat(int descriptor,struct recon_stat *out)
+{
+    struct stat64 info; int saved_errno=errno,fd; unsigned mode;
+    DWORD saved_error=recon_GetLastError();
+    if ((unsigned)descriptor>=recon_nhandle) {errno=EBADF;return -1;}
+    fd=(int)os_handles[descriptor]-1;
+    if (os_handles[descriptor]<=0 || fstat64(fd,&info)) {
+        recon_SetLastError(ERROR_INVALID_HANDLE);errno=EBADF;return -1;
+    }
+    if (!out) recon_unsupported("_fstat NULL destination");
+    if (S_ISCHR(info.st_mode)) mode=0020000;
+    else if (S_ISFIFO(info.st_mode)) mode=0010000;
+    else if (S_ISREG(info.st_mode)) mode=0100000;
+    else recon_unsupported("_fstat unreviewed file type");
+    out->st_ino=0;out->st_uid=out->st_gid=0;out->st_nlink=1;
+    if (mode==0100000) {
+        out->st_mode=mode|((info.st_mode&0222)?0666:0444);
+        out->st_dev=out->st_rdev=0;
+        out->st_size=(long)(uint32_t)info.st_size;
+        out->st_atime=info.st_atim.tv_sec<0 || info.st_atim.tv_sec>INT32_MAX?-1:(long)info.st_atim.tv_sec;
+        out->st_mtime=info.st_mtim.tv_sec<0 || info.st_mtim.tv_sec>INT32_MAX?-1:(long)info.st_mtim.tv_sec;
+        /* The proved Wine environment exposes modification as creation. */
+        out->st_ctime=out->st_mtime;
+    } else {
+        out->st_mode=mode;out->st_dev=out->st_rdev=descriptor;
+        out->st_size=out->st_atime=out->st_mtime=out->st_ctime=0;
+    }
+    errno=saved_errno;recon_SetLastError(saved_error);return 0;
+}
 int recon_remove(const char *name)
 {
     char path[PATH_MAX]; return recon_host_path(name,path,sizeof(path))<0?-1:remove(path);

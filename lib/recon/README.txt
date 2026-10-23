@@ -562,3 +562,10 @@ read buffer without explicit-setvbuf400 temporarily sets _bufsiz512; the next
 successful _filbuf restores4096 after reading512. Explicit buffers retain their
 size. FILE count/pointer and logical/physical file positions have an exact
 original probe. Default VC1 behavior is unchanged.
+
+_fstat supplies the legacy36-byte descriptor structure, retaining alignment
+bytes14..15. Regular files use dev/rdev0, readonly-derived permissions and
+signed32-bit UTC times; the proved Wine environment uses mtime as creation.
+Char/pipe handles use descriptor identity and zero sizes/times. Invalid bounds
+preserve LastError/doserrno while setting errno9; closed handles set LastError6.
+Success preserves errors. Directory/socket/error variants remain unsupported.

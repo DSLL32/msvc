@@ -212,3 +212,8 @@ build/read-prefetch-probe: tests/read-prefetch-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 read-prefetch-check: build/read-prefetch-probe
 	$(PYTHON) tests/check-read-prefetch.py build/read-prefetch-probe
+
+build/fstat-probe: tests/fstat-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+fstat-check: build/fstat-probe
+	$(PYTHON) tests/check-fstat.py build/fstat-probe
