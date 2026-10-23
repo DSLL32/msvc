@@ -1,5 +1,5 @@
 {
-  "active": "inline-records",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -395,9 +395,17 @@
       "exit": 0,
       "object_bytes": 1009,
       "normalized_sha256": "8db2f39e2b4fc3d205ec8c92f622e175dc3b0c2f3ce66c3298f37097f6aab8d1"
+    },
+    {
+      "case": "inline-records",
+      "accepted_frontiers": 1146,
+      "reconstructed_functions": 1067,
+      "exit": 0,
+      "object_bytes": 1554,
+      "normalized_sha256": "cf8da121524ed69c6564373078cc43e866ad4d93fc5e74dc679a844eac03256a"
     }
   ],
-  "status": "G5 joins and G3 deep-call cases complete; root reviewed next single inline-records case",
+  "status": "Inline-records complete; preparing next single substantial proposal for root review.",
   "next_case_proposals": [
     {
       "case": "G3 rematerialization across deep calls",

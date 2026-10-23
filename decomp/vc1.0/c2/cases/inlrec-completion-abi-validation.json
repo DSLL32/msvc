@@ -1,0 +1,84 @@
+{
+  "method": "CFG traversal of original/canonical machine RET operands; jump-table data not decoded as instructions",
+  "checkpoint": 1146,
+  "accepted_slice": [
+    1143,
+    1146
+  ],
+  "checked": [
+    {
+      "name": "@pair_pentium_fallthrough_jump@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x47da3",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x47f05",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x47f56",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x47f60",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x8031f",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@register_machine_label@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x68d14",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x512a1",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@widen_instruction_encoding@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x3313c",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3316d",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x33104",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x330cc",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x51478",
+          "stack_bytes": 0
+        }
+      ]
+    }
+  ],
+  "seconds": 0.26012747175991535,
+  "return_width_evidence": "Three fastcall routines have no stack arguments and RET0. Pairing/encoding helpers return32-bit int; label registration is void; new_internal_label returns LabelSymbol*, stored via its SymbolHeader prefix."
+}

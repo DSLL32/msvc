@@ -1,0 +1,451 @@
+{
+  "status": "complete",
+  "case": "inline-records",
+  "profile": "inlrec",
+  "checkpoint": 1146,
+  "source_graphs": 1067,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1146,
+    "accepted_code_bytes": 313424,
+    "original_code_bytes": 399693,
+    "percentage": 78.41618442154353,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 539
+  },
+  "added_acceptances": 38,
+  "accepted_from": 1108,
+  "flags": [
+    "/O2",
+    "/Ob2",
+    "/G5"
+  ],
+  "original_capture": {
+    "timing": {
+      "pipeline": {
+        "seconds": 2.579839006997645,
+        "returncode": 0,
+        "stdout_sha256": "a01315615ab5025c2193a9cb89542e3f6719b92a37eb5665aa4fbb9b87ef4ed4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "standalone": {
+        "seconds": 1.1533396588638425,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "standalone": "exit0, empty streams, object matches pipeline after only timestamp",
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
+    },
+    "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+    "capture_lock": "S:\\vc1.0\\c2\\capture.lock",
+    "total_seconds": 3.773085130378604
+  },
+  "original_completion": {
+    "label": "inlrec-original-1146",
+    "profile": "inlrec",
+    "accepted": 1146,
+    "events": "exit 0\n",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "masked_sha256": "1912590be4d38850debf4431963bc18cb03d17c7af5041dd9e3d58801afafb44",
+    "config_sha256": "c31358675543614e0e55b42c634174fe7382045d64c5525cf30223ca253319e3",
+    "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+    "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+    "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+    "inputs": {
+      "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+      "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+      "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+      "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+    },
+    "environment": {
+      "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+    },
+    "directory": "S:\\vc1.0\\c2\\original-inlrec-eq_bvszr",
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
+    },
+    "first_entry_projection": {
+      "expected": [],
+      "observed": [],
+      "seeded": [],
+      "entry_plan_sha256": null
+    },
+    "logical": "exit:0",
+    "original_va": null,
+    "outputs": [
+      {
+        "path": "cases/inlrec-original-1146/inlrec.obj",
+        "name": "inlrec.obj",
+        "bytes": 1554,
+        "sha256": "ce83cfdb331fdcb89908084eb5114ea66b339e7d2a0b30c6247f70b39495b51c",
+        "normalized_sha256": "cf8da121524ed69c6564373078cc43e866ad4d93fc5e74dc679a844eac03256a",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      }
+    ],
+    "setup_seconds": 0.2300718929618597,
+    "execution_seconds": 0.8117286385968328,
+    "check_seconds": 0.02584361471235752,
+    "total_seconds": 1.0676444498822093
+  },
+  "native_completion": {
+    "receipt": "cases/native-all-validation.json",
+    "cases": 13,
+    "all_completed": true,
+    "fixture_seconds": 0.49206752050668,
+    "setup_seconds": 0.12891687732189894,
+    "negative_seconds": 0.023010815493762493,
+    "rejections": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ]
+  },
+  "final_functions": [
+    {
+      "name": "@pair_pentium_fallthrough_jump@8",
+      "start": 294272,
+      "end": 294753
+    },
+    {
+      "name": "@register_machine_label@4",
+      "start": 429312,
+      "end": 429333
+    },
+    {
+      "name": "@widen_instruction_encoding@8",
+      "start": 208880,
+      "end": 209262
+    }
+  ],
+  "final_abi": "cases/inlrec-completion-abi-validation.json",
+  "inventory": "cases/remaining-code-inventory.json",
+  "checkpoints": [
+    "cases/inlrec-first-checkpoint.json",
+    "cases/inlrec-binding-checkpoint.json",
+    "cases/inlrec-evaluation-checkpoint.json",
+    "cases/inlrec-materialization-checkpoint.json",
+    "cases/inlrec-substitution-checkpoint.json",
+    "cases/inlrec-node-checkpoint.json",
+    "cases/inlrec-bitfield-switch-checkpoint.json"
+  ],
+  "limits": [
+    "Complete1554-byte object/status/stdout/stderr match original; normalize only COFF bytes4..7.",
+    "Actual inline candidate construction confirmed,38 accepted entries. Completion does not imply every reconstructed branch executed. Global-load predicate, inline assembly callbacks and extra return-transfer helpers remain named traps when unreached.",
+    "Final /W3 found LabelSymbol*/SymbolHeader* assignment warning. Corrected to typed LabelSymbol and explicit header-member pointers; failure retained at cases/inlrec-branch-label-initial-w3.log. Rebuilt original/native and13-object suite/audits pass.",
+    "Encoding search reloads operand count after each sizing call. Label split chain/counts and original fflush calls preserved.",
+    "Still184 pending application/support rows (178provisional) and70603code/data/alignment bytes unclassified; these are not assumed CRT. Continue one reviewed substantial case."
+  ],
+  "timing": {
+    "frontier1144-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 18.04873846657574,
+      "returncode": 0,
+      "log_sha256": "9223cf9f715544aa84efc9658a935a4b1a1052ce881f94247b49fdeddbddd981"
+    },
+    "frontier1144-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 38.193844586610794,
+      "returncode": 0,
+      "log_sha256": "fbf89a4cf4beb72318f9b618be76d326696eff422223ad6448686ec3cecacbda"
+    },
+    "frontier1144-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6461578086018562,
+      "returncode": 0,
+      "log_sha256": "dd3add0ac7d0e768c39c85c9237b31e5f0b57f9511a650eec7e86e50dfbd5297"
+    },
+    "frontier1144-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1144.json"
+      ],
+      "seconds": 0.23159535136073828,
+      "returncode": 0,
+      "log_sha256": "90803ab4456332a64e3f445c53c511f404e160588eef724d46284c065e817fa5"
+    },
+    "frontier1144-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1144.json"
+      ],
+      "seconds": 1.2182337949052453,
+      "returncode": 0,
+      "log_sha256": "86a8546daf2ff4ecdaa936d7bcda133611a4164b0624dcbb3ee20230251b3827"
+    },
+    "frontier1145-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3569561187177896,
+      "returncode": 0,
+      "log_sha256": "e7aa5f7c6f71e655705e12544d2d0c6882b10ad6b2bd0a189e468d2cbd4b248f"
+    },
+    "frontier1145-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.469893961213529,
+      "returncode": 0,
+      "log_sha256": "478a21ad63605d541bda8e4eeabaf81717db2fe1814533fe4315098ff6598708"
+    },
+    "frontier1145-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.647945056669414,
+      "returncode": 0,
+      "log_sha256": "ab6e8db3df4b7042174d9ea993edc8124a631fbf7a90926bf6c753922e69966e"
+    },
+    "frontier1145-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1145.json"
+      ],
+      "seconds": 0.22467072773724794,
+      "returncode": 0,
+      "log_sha256": "62a95a9ced348ed781e7a8e8f1a858f19925cdd5a89f18ae060354a468dca81b"
+    },
+    "frontier1145-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1145.json"
+      ],
+      "seconds": 2.052862579934299,
+      "returncode": 0,
+      "log_sha256": "0b79166db67bcee979211b4faec023f6f3e97a670f221be3beeb0128a9533a22"
+    },
+    "frontier1146-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3963826755061746,
+      "returncode": 0,
+      "log_sha256": "5fdbe4fc8a3f95ed5c9313f508d6b4730f7db30be7c13a5a61b42186c6b882cb"
+    },
+    "frontier1146-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.0778958713635802,
+      "returncode": 0,
+      "log_sha256": "478a21ad63605d541bda8e4eeabaf81717db2fe1814533fe4315098ff6598708"
+    },
+    "frontier1146-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5930064814165235,
+      "returncode": 0,
+      "log_sha256": "0e11024ce76aedb000cc9c1ef04937744383e3b5184eb4913acb769e6b934698"
+    },
+    "frontier1146-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1146.json"
+      ],
+      "seconds": 1.1360158799216151,
+      "returncode": 0,
+      "log_sha256": "2dc8dbfb40e3c67252b65388722c20193ef3780ef6271d19d6fb6cd86c067126"
+    },
+    "inline-alignment-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "branch-scheduler",
+        "machine-layout"
+      ],
+      "seconds": 2.332361607812345,
+      "returncode": 1,
+      "log_sha256": "2daba727eaf14e35784e72dd6e274496bc9379b3b78155f2dff967d2e2696ca2"
+    },
+    "inlrec-final-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3354658987373114,
+      "returncode": 0,
+      "log_sha256": "5fdbe4fc8a3f95ed5c9313f508d6b4730f7db30be7c13a5a61b42186c6b882cb"
+    },
+    "inlrec-final-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.141594191081822,
+      "returncode": 0,
+      "log_sha256": "598ab17e8ed7a47e2fef00c257bf2c137abdb01fdeffe220648cfc48b33303db"
+    },
+    "inlrec-final-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.592316078953445,
+      "returncode": 0,
+      "log_sha256": "809036005a2fbf61d107b3f06d4066edf37dbe8f3a52c946eeb29243e0d5ebad"
+    },
+    "inlrec-final-data-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-data"
+      ],
+      "seconds": 5.777666352689266,
+      "returncode": 0,
+      "log_sha256": "7cb98bbd7ac5a773225617cbfaf9e718a82fdeafe3e93dd9a81daf21782705e8"
+    },
+    "inlrec-final-negatives-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-negatives"
+      ],
+      "seconds": 16.74699905142188,
+      "returncode": 0,
+      "log_sha256": "ad0c538dbf24569fd9b3f7d207b23888b641221288bde7fe43fc1f02644d776e"
+    },
+    "inlrec-final-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "branch-scheduler",
+        "machine-layout"
+      ],
+      "seconds": 2.069279896095395,
+      "returncode": 0,
+      "log_sha256": "57ef65d57b32a22bfa756ac754bd8cc2fe1ab9113a356ba1e334edcfd5944d20"
+    }
+  },
+  "measured_command_account": {
+    "graph_abi_coverage": {
+      "commands": 39,
+      "failed": 1,
+      "seconds": 198.36258486565202
+    },
+    "combined_build": {
+      "commands": 46,
+      "failed": 2,
+      "seconds": 552.4205360002816
+    },
+    "fixture_check": {
+      "commands": 38,
+      "failed": 0,
+      "seconds": 39.25548110622913
+    },
+    "other_measured": {
+      "commands": 1,
+      "failed": 0,
+      "seconds": 0.07955918088555336
+    },
+    "native_debug": {
+      "commands": 40,
+      "failed": 2,
+      "seconds": 9.11602940224111
+    },
+    "original_reference": {
+      "commands": 39,
+      "failed": 0,
+      "seconds": 67.9837970212102
+    },
+    "canonical_warnings": {
+      "commands": 7,
+      "failed": 1,
+      "seconds": 33.25776566192508
+    },
+    "data_checks": {
+      "commands": 1,
+      "failed": 0,
+      "seconds": 5.777666352689266
+    },
+    "rejection_checks": {
+      "commands": 1,
+      "failed": 0,
+      "seconds": 16.74699905142188
+    }
+  },
+  "timing_notes": [
+    "Groups sum measured durations, including failed/repeated frontier1109..1146 commands, and may overlap; not task wall-clock. Individual prior attempts remain in checkpoint receipts.",
+    "Reference and native fixture receipts split setup/run/check where measured. Fixtures contain noWine.",
+    "Combined canonical/native/traced builds and dependency rebuilds remain unsplit. Analysis/edit time and incidental uninstrumented script attempts unmeasured.",
+    "An initial completion-document script had a syntax error before executing; corrected without altering acceptance or rerunning tests."
+  ]
+}

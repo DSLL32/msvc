@@ -50,8 +50,8 @@
   "probe_sha256": "050675857edd13ad80bdfa759d75f16f9ab549a27530889e7a88e0570c75fee1",
   "executes_wine": false,
   "timing": {
-    "compile_seconds": 0.1641122940927744,
-    "execution_seconds": 0.001617439091205597,
-    "total_seconds": 0.17282664962112904
+    "compile_seconds": 0.15024602133780718,
+    "execution_seconds": 0.0014396551996469498,
+    "total_seconds": 0.15698408614844084
   }
 }

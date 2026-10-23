@@ -1,13 +1,15 @@
 {
-  "checkpoint": 1108,
-  "metric": "Index inventory, not recovered function/branch coverage; categories may overlap, so their separate union byte counts are not additive",
+  "checkpoint": 1146,
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1234,
-    "accepted_rows": 1029,
-    "accepted_union_bytes": 296851,
-    "unaccepted_rows": 205,
-    "unaccepted_provisional_rows": 199,
-    "unaccepted_indexed_extent_bytes": 725
+    "indexed_rows": 1251,
+    "accepted_rows": 1067,
+    "accepted_union_bytes": 303788,
+    "unaccepted_rows": 184,
+    "unaccepted_provisional_rows": 178,
+    "unaccepted_indexed_extent_bytes": 704,
+    "unaccepted_proven_indexed_extent_bytes": 448
   },
   "crt": {
     "indexed_rows": 194,
@@ -15,7 +17,8 @@
     "accepted_union_bytes": 9540,
     "unaccepted_rows": 131,
     "unaccepted_provisional_rows": 0,
-    "unaccepted_indexed_extent_bytes": 14906
+    "unaccepted_indexed_extent_bytes": 14906,
+    "unaccepted_proven_indexed_extent_bytes": 14906
   },
   "import_thunks": {
     "indexed_rows": 28,
@@ -23,10 +26,12 @@
     "accepted_union_bytes": 96,
     "unaccepted_rows": 12,
     "unaccepted_provisional_rows": 0,
-    "unaccepted_indexed_extent_bytes": 72
+    "unaccepted_indexed_extent_bytes": 72,
+    "unaccepted_proven_indexed_extent_bytes": 72
   },
-  "unclassified_code_union_bytes": 77519,
-  "unclassified_ranges": 629,
+  "original_code_bytes": 399693,
+  "unclassified_code_union_bytes": 70603,
+  "unclassified_ranges": 639,
   "largest_unclassified_ranges": [
     {
       "start": "0x29920",
@@ -84,14 +89,9 @@
       "bytes": 1615
     },
     {
-      "start": "0x645c1",
-      "end": "0x64ba0",
-      "bytes": 1503
-    },
-    {
-      "start": "0x6f601",
+      "start": "0x6f621",
       "end": "0x6fb70",
-      "bytes": 1391
+      "bytes": 1359
     },
     {
       "start": "0x24741",
@@ -114,11 +114,6 @@
       "bytes": 1151
     },
     {
-      "start": "0x650c0",
-      "end": "0x65520",
-      "bytes": 1120
-    },
-    {
       "start": "0x6b2c1",
       "end": "0x6b6a0",
       "bytes": 991
@@ -137,52 +132,33 @@
       "start": "0x4ab41",
       "end": "0x4aea0",
       "bytes": 863
-    },
-    {
-      "start": "0x65d31",
-      "end": "0x66090",
-      "bytes": 863
-    },
-    {
-      "start": "0x38ae1",
-      "end": "0x38e20",
-      "bytes": 831
-    },
-    {
-      "start": "0x27531",
-      "end": "0x27850",
-      "bytes": 799
     }
   ],
-  "limits": [
-    "One-byte provisional rows identify known entry traps only; they do not measure unrecovered function bodies.",
-    "Unclassified code includes alignment, shared text data, undiscovered application routines and possibly unmatched library/support code; it is not all attributable to application C.",
-    "Accepted application rows include explicitly indexed support/boundary helpers; CRT/import classification follows independent runtime identities, not guessed names."
-  ],
-  "unaccepted_application": [
+  "limit": "Unclassified ranges can include application/support functions, code data and alignment; no CRT/stdlib attribution without identity evidence.",
+  "pending_application": [
     {
       "name": "_compiler_control@4",
       "start": 312672,
       "end": 312704,
-      "extent_status": "indexed extent; not reconstructed"
+      "extent_status": "indexed extent"
     },
     {
       "name": "_initialize_debugging",
       "start": 455536,
       "end": 455712,
-      "extent_status": "indexed extent; not reconstructed"
+      "extent_status": "indexed extent"
     },
     {
       "name": "@compiler_internal_error@8",
       "start": 457584,
       "end": 457616,
-      "extent_status": "indexed extent; not reconstructed"
+      "extent_status": "indexed extent"
     },
     {
       "name": "_compiler_report",
       "start": 459360,
       "end": 459440,
-      "extent_status": "indexed extent; not reconstructed"
+      "extent_status": "indexed extent"
     },
     {
       "name": "@report_context_error@12",
@@ -195,20 +171,13 @@
       "name": "@suffix_matches@12",
       "start": 462768,
       "end": 462864,
-      "extent_status": "indexed extent; not reconstructed"
+      "extent_status": "indexed extent"
     },
     {
       "name": "@release_initializer@4",
       "start": 321760,
       "end": 321792,
-      "extent_status": "indexed extent; not reconstructed"
-    },
-    {
-      "name": "@format_function_name@4",
-      "start": 319344,
-      "end": 319345,
-      "provisional": true,
-      "extent_status": "entry placeholder"
+      "extent_status": "indexed extent"
     },
     {
       "name": "_ide_message",
@@ -242,13 +211,6 @@
       "name": "@clone_alias_symbol@4",
       "start": 318768,
       "end": 318769,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_compiler_warning",
-      "start": 459920,
-      "end": 459921,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -617,30 +579,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@lower_bitfield_reference@4",
-      "start": 364720,
-      "end": 364721,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@lower_target_address@4",
       "start": 456192,
       "end": 456193,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@lower_bitfield_assignment@4",
-      "start": 364944,
-      "end": 364945,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@new_storage_reference@4",
-      "start": 361920,
-      "end": 361921,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -666,13 +607,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@aligned_value_size@4",
-      "start": 361584,
-      "end": 361585,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@assign_parameter_register@12",
       "start": 162336,
       "end": 162337,
@@ -683,104 +617,6 @@
       "name": "@discard_sequence_tail@4",
       "start": 337840,
       "end": 337841,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@bind_inline_arguments@12",
-      "start": 413456,
-      "end": 413457,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@check_inline_argument_aliases@4",
-      "start": 413344,
-      "end": 413345,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@analyze_inline_returns@8",
-      "start": 413200,
-      "end": 413201,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@merge_inline_scope@8",
-      "start": 413632,
-      "end": 413633,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@new_inline_storage@8",
-      "start": 413152,
-      "end": 413153,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@find_inline_binding@8",
-      "start": 411024,
-      "end": 411025,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@inline_argument_prefix@4",
-      "start": 412992,
-      "end": 412993,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@materialize_inline_arguments@12",
-      "start": 412576,
-      "end": 412577,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@substitute_inline_body@24",
-      "start": 411072,
-      "end": 411073,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@recycle_inline_site@4",
-      "start": 410992,
-      "end": 410993,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@recycle_inline_binding@4",
-      "start": 411008,
-      "end": 411009,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@value_node_type@8",
-      "start": 363296,
-      "end": 363297,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@refresh_tree_references@4",
-      "start": 337120,
-      "end": 337121,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@new_inline_site@16",
-      "start": 415376,
-      "end": 415377,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1107,13 +943,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@emit_switch_table@16",
-      "start": 425296,
-      "end": 425297,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "_compare_allocation_load_counts",
       "start": 407056,
       "end": 407057,
@@ -1152,13 +981,6 @@
       "name": "@close_machine_region@8",
       "start": 296496,
       "end": 296497,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@process_special_machine_region_reference@8",
-      "start": 296848,
-      "end": 296849,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1240,20 +1062,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@register_machine_label@4",
-      "start": 429312,
-      "end": 429313,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@pair_pentium_fallthrough_jump@8",
-      "start": 294272,
-      "end": 294273,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@redirect_pentium_branch_labels@8",
       "start": 292736,
       "end": 292737,
@@ -1289,30 +1097,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@adjust_factor_constant@12",
-      "start": 352592,
-      "end": 352593,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@push_unary_into_left@4",
       "start": 348544,
       "end": 348545,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_subtraction_overflows",
-      "start": 465466,
-      "end": 465467,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@is_subword_mask_pattern@8",
-      "start": 159056,
-      "end": 159057,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1362,13 +1149,6 @@
       "name": "@lookup_external_name@4",
       "start": 320848,
       "end": 320849,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@emit_explicit_block_transfer@20",
-      "start": 121488,
-      "end": 121489,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1569,13 +1349,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@widen_instruction_encoding@8",
-      "start": 208880,
-      "end": 208881,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@add_alignment_prefix@4",
       "start": 209264,
       "end": 209265,
@@ -1586,6 +1359,62 @@
       "name": "_multiplication_overflows",
       "start": 465336,
       "end": 465337,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@undecorate_function_name@4",
+      "start": 456224,
+      "end": 456225,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@change_warning_override@8",
+      "start": 460208,
+      "end": 460209,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@diagnostic_format@4",
+      "start": 460912,
+      "end": 460913,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_emit_diagnostic",
+      "start": 459440,
+      "end": 459441,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@mark_inline_assembly_parameter@8",
+      "start": 414320,
+      "end": 414321,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@substitute_inline_assembly_symbol@8",
+      "start": 413888,
+      "end": 413889,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@second_return_value_register@4",
+      "start": 158976,
+      "end": 158977,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@inline_argument_has_global_load@4",
+      "start": 414656,
+      "end": 414657,
       "provisional": true,
       "extent_status": "entry placeholder"
     }

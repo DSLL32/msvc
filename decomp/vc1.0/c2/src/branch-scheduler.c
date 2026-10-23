@@ -4,6 +4,7 @@
 #include "machine-layout.h"
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
+#include "jump-threading.h"
 #include <stdio.h>
 #include <recon.h>
 int scheduler_has_indirect_branch; /* 000830a8 */
@@ -223,4 +224,56 @@ int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstru
         instruction = previous;
     }
     return 0;
+}
+
+/* Original [00047d80,00047f61). Copy up to two fall-through operations
+   before a jump, retaining a single pairable first operation as its middle.
+   Split the destination label after the copied source prefix and retarget
+   only this jump, preserving the old/new label reference counts. */
+int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle)
+{
+    MachineInstruction *label, *block, *instruction, *last, *copy, *new_label;
+    SymbolHeader *symbol;
+    LabelSymbol *new_symbol;
+    int count = 0, changed = 0;
+    symbol = jump->operands[0].value.symbol;
+    if (symbol->kind != 3) return 0;
+    label = label_machine_instruction((LabelSymbol *)symbol);
+    block = label;
+    while (BRANCH_KIND(block) != 7) block = block->previous;
+    if (!block || (((MachineBlockHeader *)block)->flags & 3)) return 0;
+    instruction = label->next;
+    fflush(stdout);
+    while (instruction) {
+        while (instruction && !EDGE_MACHINE(instruction) && BRANCH_KIND(instruction) != 1)
+            instruction = instruction->next;
+        if (!instruction || (EDGE_MACHINE(instruction) && EDGE_BLOCKS_SCAN(BRANCH_OPERATION(instruction))) ||
+            BRANCH_KIND(instruction) == 1) break;
+        last = instruction;
+        copy = clone_machine_record(instruction);
+        fflush(stdout);
+        insert_machine_after(jump->previous, copy);
+        ++count;
+        if (count == 1 && !*middle) {
+            scheduler_branch_pipe = 2;
+            if (classify_pentium_pipe(instruction, &scheduler_branch_pipe)) {
+                *middle = copy;
+                instruction = instruction->next;
+                continue;
+            }
+        }
+        changed = 1;
+        break;
+    }
+    if (!count) return 0;
+    new_symbol = new_internal_label();
+    new_label = new_machine_instruction(1);
+    fflush(stdout);
+    new_symbol->references = 1;
+    new_label->record.symbol = &new_symbol->symbol;
+    insert_machine_after(last, new_label);
+    register_machine_label(new_label);
+    --((LabelSymbol *)jump->operands[0].value.symbol)->references;
+    jump->operands[0].value.symbol = &new_symbol->symbol;
+    return changed;
 }

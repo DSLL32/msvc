@@ -157,7 +157,6 @@ int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm in
 #include "float-peepholes.h"
 #include "float-machine.h"
 #include <recon.h>
-int __fastcall widen_instruction_encoding(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
 int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
@@ -293,9 +292,7 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
-void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
 
-int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
 void __fastcall coff_write_dword(unsigned value) { __asm int 3 }

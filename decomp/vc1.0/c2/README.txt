@@ -171,3 +171,10 @@ regressions and1064 graphs pass. Eight cleanup ABIs and2700 arithmetic
 boundary comparisons pass; short-mask rejection and corrected383-byte
 switch generator proof remain in cases/inlrec-bitfield-switch-checkpoint.json.
 Current frontier is the Pentium fallthrough-jump pairing helper.
+
+Inline-records is complete at1146 accepted entries/1067 source graphs. Its
+1554-byte object matches original CL/C1/C2 and standalone C2 after only the
+four-byte COFF timestamp normalization; all13 native cases now complete.
+Original /W3, data audits, graph/extent audits and focused negatives pass.
+cases/inlrec-completion.json records timings/failures/limits; scripts/inventory.py
+refreshes the application/library/import/unclassified inventory for the next case.

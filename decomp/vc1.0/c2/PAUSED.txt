@@ -1,3 +1,7 @@
+C2 active autonomous queue: inline-records COMPLETE1146 accepted /1067 source graphs.
+313424/399693 code-extent union bytes; not branch coverage. All13 complete objects pass.
+Next single substantial case awaits root review; see cases/inlrec-completion.json and remaining-code-inventory.json.
+
 C2 active: inlrec1143 accepted /1064 source graphs; matching pair_pentium_fallthrough_jump47d80.
 See cases/inlrec-bitfield-switch-checkpoint.json for full extents, ABI/overflow proofs and mask correction.
 

@@ -1,0 +1,2 @@
+src/branch-scheduler.c
+src/branch-scheduler.c(268) : warning C4133: '=' : incompatible types - from 'struct LabelSymbol *' to 'struct SymbolHeader *'

@@ -1147,7 +1147,10 @@
     "@emit_switch_table@16",
     "@switch_range_at@8",
     "@emit_explicit_block_transfer@20",
-    "@process_special_machine_region_reference@8"
+    "@process_special_machine_region_reference@8",
+    "@pair_pentium_fallthrough_jump@8",
+    "@register_machine_label@4",
+    "@widen_instruction_encoding@8"
   ],
   "driver": [
     {
@@ -5845,8 +5848,7 @@
     {
       "name": "@register_machine_label@4",
       "start": 429312,
-      "end": 429313,
-      "provisional": true
+      "end": 429333
     },
     {
       "name": "@merge_jump_diamond@12",
@@ -6136,8 +6138,7 @@
     {
       "name": "@pair_pentium_fallthrough_jump@8",
       "start": 294272,
-      "end": 294273,
-      "provisional": true
+      "end": 294753
     },
     {
       "name": "@pair_pentium_taken_edge@16",
@@ -7418,8 +7419,7 @@
     {
       "name": "@widen_instruction_encoding@8",
       "start": 208880,
-      "end": 208881,
-      "provisional": true
+      "end": 209262
     },
     {
       "name": "@add_alignment_prefix@4",

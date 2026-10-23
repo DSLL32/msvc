@@ -3,6 +3,7 @@
 #include "machine-layout.h"
 #include "records.h"
 #include "function-input.h"
+#include "instruction-encoding.h"
 #include <recon.h>
 extern int optimize_global, codeview_debug, string_blocks;
 /* Original [000685d0,00068870), including its twelve-entry kind table. */
@@ -269,4 +270,57 @@ int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsi
         return 0;
     }
     return widen_instruction_encoding(instruction, bytes);
+}
+
+/* Original [00068d00,00068d15). Add a newly split label to the current
+   function's side chain and publish its machine-stream position. */
+void __fastcall register_machine_label(MachineInstruction *instruction)
+{
+    instruction->labels.next = machine_context->labels.next;
+    machine_context->labels.next = instruction;
+    ((LabelSymbol *)instruction->record.symbol)->instruction = instruction;
+}
+
+/* Original [00032ff0,0003316e). Absorb alignment by enlarging an
+   existing memory displacement. Search backwards within the same block;
+   no-base indexed addresses already require a full displacement. */
+int __fastcall widen_instruction_encoding(MachineInstruction *instruction, unsigned bytes)
+{
+    MachineOperand *operand;
+    unsigned kind, displacement_bytes, encoding;
+    int index, length;
+    enum { NO_BASE_REGISTER = 0x1b };
+    while ((instruction->opcode & 15) != 7 && (instruction->opcode & 15) != 1) {
+        if (!(instruction->opcode & 15)) {
+            for (index = 0; index < machine_operand_counts[(unsigned char)(instruction->opcode >> 8)]; ++index) {
+                operand = &instruction->operands[index == 0 ? 0 : 1];
+                kind = operand->flags & 15;
+                if (kind != OPERAND_BASED && (kind != OPERAND_INDEXED ||
+                    operand->value.address->base.words.number == NO_BASE_REGISTER)) continue;
+                displacement_mode(instruction, operand, &displacement_bytes);
+                length = (int)machine_instruction_size(instruction);
+                encoding = instruction->record.encoding_length;
+                if (bytes == 1 && length <= 4 && !displacement_bytes) {
+                    encoding = (encoding & ~0xc000U) | 0x2000;
+                    instruction->record.encoding_length =
+                        (encoding & ~0x3ffU) | ((unsigned)(length + 1) & 0x3ff);
+                    return 1;
+                }
+                if (bytes == 3 && displacement_bytes == 1) {
+                    encoding = (encoding & ~0x8000U) | 0x6000;
+                    instruction->record.encoding_length =
+                        (encoding & ~0x3ffU) | ((unsigned)(length + 3) & 0x3ff);
+                    return 1;
+                }
+                if (bytes == 4 && !displacement_bytes) {
+                    encoding = (encoding & ~0x6000U) | 0x8000;
+                    instruction->record.encoding_length =
+                        (encoding & ~0x3ffU) | ((unsigned)(length + 4) & 0x3ff);
+                    return 1;
+                }
+            }
+        }
+        instruction = instruction->previous;
+    }
+    return 0;
 }
