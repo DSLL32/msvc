@@ -1,0 +1,33 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004e130 <.text+0x37130>:
+   4e130:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   4e134:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   4e137:	8b 00                	mov    eax,DWORD PTR [eax]
+   4e139:	8b 48 08             	mov    ecx,DWORD PTR [eax+0x8]
+   4e13c:	8a 01                	mov    al,BYTE PTR [ecx]
+   4e13e:	24 1f                	and    al,0x1f
+   4e140:	3c 0f                	cmp    al,0xf
+   4e142:	75 0e                	jne    0x4e152
+   4e144:	0f bf 41 0c          	movsx  eax,WORD PTR [ecx+0xc]
+   4e148:	8b 0d 2c f3 09 00    	mov    ecx,DWORD PTR ds:0x9f32c
+   4e14e:	8b 4c 81 04          	mov    ecx,DWORD PTR [ecx+eax*4+0x4]
+   4e152:	8a 01                	mov    al,BYTE PTR [ecx]
+   4e154:	24 1f                	and    al,0x1f
+   4e156:	3c 04                	cmp    al,0x4
+   4e158:	75 09                	jne    0x4e163
+   4e15a:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+   4e15e:	89 08                	mov    DWORD PTR [eax],ecx
+   4e160:	c2 08 00             	ret    0x8
+   4e163:	8b 41 08             	mov    eax,DWORD PTR [ecx+0x8]
+   4e166:	50                   	push   eax
+   4e167:	68 8d 02 00 00       	push   0x28d
+   4e16c:	e8 0f 50 02 00       	call   0x73180
+   4e171:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+   4e175:	83 c4 08             	add    esp,0x8
+   4e178:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+   4e17e:	c2 08 00             	ret    0x8

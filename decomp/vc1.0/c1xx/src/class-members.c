@@ -3,6 +3,20 @@
 #include "parameters.h"
 #include <recon.h>
 
+/* Original 0x4e130..0x4e181. Qualified member-pointer names must
+   resolve to a class tag, following a base-list link when necessary. */
+void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name)
+{
+    CppSymbol *symbol = (CppSymbol *)name->resolution->binding->target;
+    if ((symbol->kind & 31) == 15)
+        symbol = cpp_context_stack->items[((BaseClassLink *)symbol)->context_index];
+    if ((symbol->kind & 31) == 4) *result = symbol;
+    else {
+        report_syntax_error(653, symbol->name);
+        *result = 0;
+    }
+}
+
 /* Original0x30bb0..0x30c91. Count overloads that survive omission of
    the class's trivial special members. Preserve the original NULL cursor. */
 unsigned __stdcall count_emitted_overloads(OverloadSet *overloads)

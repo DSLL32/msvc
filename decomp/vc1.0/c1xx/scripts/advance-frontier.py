@@ -4,6 +4,7 @@ Reconstruction/reference operation only: never imported or run by fixtures.
 Requires a completed canonical/native build and a reviewed complete extent.
 """
 import argparse
+from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
 from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
@@ -102,6 +103,8 @@ def main():
             assert formal['result']==validate_unused_conversion_text(args.candidate, formal, anchors, entry_native, words)
         elif binding['kind']=='class-first-virtual-table':
             validate_virtual_table_owner(args.candidate, formal, anchors, entry_native, words)
+        elif binding['kind']=='parser-context-slot':
+            validate_parser_context_owner(args.candidate, formal, anchors, entry_native, words, entry_original, (argument_directory/'original-events.txt').read_text(), config, sha(argument_directory/'original-events.txt'))
         elif binding['kind']=='null-pointer':
             assert formal['original_raw']==formal['native_raw']==0, 'null pointer argument differs'
         elif binding['kind']=='scalar':

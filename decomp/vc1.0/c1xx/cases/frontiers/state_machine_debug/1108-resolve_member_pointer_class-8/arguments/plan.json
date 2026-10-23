@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "function": "_resolve_member_pointer_class@8",
+  "native_entry": "resolve_member_pointer_class",
+  "argument_words": 4,
+  "ownership_register": "esi,eax",
+  "ownership_caller_extent": [
+    162083,
+    162168
+  ],
+  "native_caller_locals": {
+    "caller_result": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "member_class",
+      "address_of": true,
+      "address_only": true
+    },
+    "caller_right": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "right"
+    },
+    "caller_name": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "right",
+      "index": -1,
+      "fields": [
+        "context"
+      ]
+    }
+  },
+  "native_expressions": {
+    "raw_result": "(unsigned)result",
+    "raw_name": "(unsigned)name"
+  },
+  "original_observations": [
+    {
+      "name": "parser_context",
+      "original": 610340
+    }
+  ],
+  "formals": [
+    {
+      "name": "result",
+      "stack_index": 0,
+      "native_field": "raw_result",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 96568,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_result",
+        "native_owner_local": "member_class",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "Actual parser member_class output local: LEA EAX[ESP+4c]2792e/PUSH27932/CALL27933 return27938. Native actual caller local address only; no unwritten result prestate read/compare/initialization."
+      }
+    },
+    {
+      "name": "name",
+      "stack_index": 1,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "parser-context-slot",
+        "original_owner_function": "_parse_translation_unit",
+        "identity": "Actual consumed right[-1].context DWORD: MOV EAX[ESI-8]2792a/PUSH2792d. Same-context ESI is bounded/aligned within existing allocated220-element parser_value_stack (original94ffc), exact fresh DWORD atESI-8 equalsarg1; native actual caller right[-1].context read only after equivalent stack bounds. No general negative-index array dump or new default."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319792,
+      319873
+    ],
+    "argument_bytes": 8,
+    "proof": "No frame/save, resultESP+4/nameESP+8; RET8. Follow qualifier.resolution.binding.target, optional kind15basecontext_index+12 through cpp_context_stack; kind4 publishes tag, else report653 thenNULL. Never reads output prestate; sole directcallee73180 report_syntax_error. No incoming semantic register/hiddeninput, ESI/EAX anchors are actual caller slot/output owners only."
+  }
+}

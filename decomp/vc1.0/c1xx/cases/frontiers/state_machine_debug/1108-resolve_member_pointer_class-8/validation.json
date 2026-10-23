@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_member_pointer_class@8",
+    "start": 319792,
+    "end": 319873
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1108-resolve_member_pointer_class-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_member_pointer_class_kind@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.49852967262268066,
+  "total_operation_seconds": 3.5653518941253424,
+  "original_capture_seconds": 0.9164427211508155
+}

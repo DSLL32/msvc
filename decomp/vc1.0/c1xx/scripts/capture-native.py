@@ -52,12 +52,20 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
             commands += ['    owner = gdb.newest_frame().older()',
                          '    assert owner is not None and owner.name() == '+repr(owner['function']),
                          '    owner_value = owner.read_var('+repr(owner['local'])+')']
+            if 'index' in owner:
+                assert owner['index']==-1 and owner['function']=='parse_translation_unit' and owner['local']=='right' and fields==['context'], 'only the consumed parser right[-1].context slot is supported'
+                commands += ['    parser_stack_base=int(gdb.parse_and_eval("(unsigned)parser_stacks.data.semantic.values"))',
+                             '    assert parser_stack_base+8 <= int(owner_value) < parser_stack_base+220*8 and (int(owner_value)-parser_stack_base)%8==0, "parser right outside bounded semantic stack"',
+                             '    parser_slot_address=int(owner_value)-8',
+                             '    owner_value=owner_value[-1]']
             for field in fields:
                 commands += ['    owner_value = owner_value['+repr(field)+']']
             if owner.get('address_only'):
                 assert owner.get('address_of') and not fields
             value_expression = 'None' if owner.get('address_only') else 'int(owner_value)'
             commands += ['    result["caller_locals"]['+repr(key)+'] = {"function": owner.name(), "local": '+repr(owner['local'])+', "fields": '+repr(fields)+', "value": '+value_expression+'}']
+            if 'index' in owner:
+                commands += ['    result["caller_locals"]['+repr(key)+'].update(index=-1,slot_address=parser_slot_address,stack_base=parser_stack_base,stack_elements=220)']
             if owner.get('address_of'):
                 assert not fields, 'address observation is bounded to an actual immediate caller local'
                 commands += ['    result["caller_locals"]['+repr(key)+']["address"] = int(owner_value.address)']

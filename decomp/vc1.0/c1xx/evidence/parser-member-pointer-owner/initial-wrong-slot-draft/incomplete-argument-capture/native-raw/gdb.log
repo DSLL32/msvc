@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x6dddc: file src/class-members.c, line 10.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, resolve_member_pointer_class (result=0xffffd634, name=0x56627168) at src/class-members.c:10
+10	    CppSymbol *symbol = (CppSymbol *)name->resolution->binding->target;
+#0  resolve_member_pointer_class (result=0xffffd634, name=0x56627168) at src/class-members.c:10
+#1  0x565b4861 in parse_translation_unit () at src/parser-declarator-actions.inc:25
+#2  0x5655e05f in compile_translation_unit () at src/frontend.c:73
+#3  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558884 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

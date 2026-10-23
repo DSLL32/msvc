@@ -220,7 +220,6 @@ IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *exp
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination) { __asm { int 3 } }
 void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
-void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name) { __asm { int 3 } }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }

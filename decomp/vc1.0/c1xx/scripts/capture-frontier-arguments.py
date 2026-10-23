@@ -5,6 +5,7 @@ The original observer defaults to four words, with an explicit six-word option.
 Unsupported transport holds rather than guessing registers or dumping objects.
 """
 import argparse
+from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
 from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
@@ -36,6 +37,11 @@ def main():
     name = config['cases'][args.case]['terminal']
     assert plan['function'] == name
     assert not plan['register_inputs'] and not plan['hidden_inputs'] and not plan['unknown_inputs'], 'unsupported ABI transport holds acceptance'
+    for formal in plan['formals']:
+        if formal['binding']['kind']=='parser-context-slot':
+            from parser_context_owner import STACK_BASE, STACK_ELEMENTS
+            slot=next(row for row in plan['original_observations'] if row['name']=='parser_context')
+            assert STACK_BASE<=slot['original']<STACK_BASE+(STACK_ELEMENTS-1)*8 and (slot['original']-STACK_BASE)%8==0, 'parser observation outside allocated semantic stack'
     requested_words = plan.get('argument_words', 4)
     assert requested_words in (4, 6)
     assert all(0 <= item['stack_index'] < requested_words for item in plan['formals']), 'formal exceeds requested original stack words'
@@ -44,7 +50,7 @@ def main():
         assert item.get('bytes',4) in (2,4)
         command += ['--observe-short' if item.get('bytes',4)==2 else '--observe-state', item['name']+'='+hex(item['original'])]
     if plan.get('ownership_register'):
-        owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind']=='caller-owned-pointer'}
+        owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind'] in ('caller-owned-pointer','parser-context-slot')}
         assert len(owners)==1, 'one explicit actual ownership caller per observation'
         command += ['--ownership-register', plan['ownership_register'], '--entry-plan', '--entry-owner', owners.pop()]
     original = Path(subprocess.check_output(command, cwd=BINARY, text=True).strip().splitlines()[-1]).parent
@@ -77,6 +83,8 @@ def main():
             validate_unused_conversion_text(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'class-first-virtual-table':
             validate_virtual_table_owner(name, item, anchors, checkpoint, words)
+        elif binding['kind'] == 'parser-context-slot':
+            validate_parser_context_owner(name, item, anchors, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
         elif binding['kind'] == 'null-pointer':
             assert item['original_raw'] == item['native_raw'] == 0
         elif binding['kind'] == 'object-offset':

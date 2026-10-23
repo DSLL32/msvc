@@ -1,0 +1,61 @@
+{
+  "control": "pass",
+  "proof_sha256": "3ee1df4df8caa6869ce9391133f5151215ac9fb9bcbcdb1001f3b3964417bdc4",
+  "negatives": [
+    {
+      "test": "missing-input-anchor",
+      "result": "held",
+      "reason": "missing parser right owner anchor"
+    },
+    {
+      "test": "wrong-slot",
+      "result": "held",
+      "reason": "parser input is not actual right[-1] slot"
+    },
+    {
+      "test": "short-read",
+      "result": "held",
+      "reason": "missing exact parser context read"
+    },
+    {
+      "test": "unreadable-word",
+      "result": "held",
+      "reason": "missing exact parser context read"
+    },
+    {
+      "test": "wrong-input-owner",
+      "result": "held",
+      "reason": "actual original parser context differs"
+    },
+    {
+      "test": "original-right-outside-stack",
+      "result": "held",
+      "reason": "parser right outside allocated semantic stack"
+    },
+    {
+      "test": "native-right-outside-stack",
+      "result": "held",
+      "reason": "native parser right outside allocated semantic stack"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "missing-output-anchor",
+      "result": "held",
+      "reason": "missing actual output owner anchor"
+    },
+    {
+      "test": "wrong-output-local",
+      "result": "held",
+      "reason": "unwritten output prestate must remain address-only"
+    },
+    {
+      "test": "invented-output-prestate",
+      "result": "held",
+      "reason": "unwritten output prestate must remain address-only"
+    }
+  ]
+}
