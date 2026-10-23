@@ -20,12 +20,13 @@ def validate(config,pe):
            'compact_type_list':(0x272a0,40,202,0x26cfa,112,33,36),
            'store_type':(0x19580,40,202,0x27ab1,160,45,48),
            'hash_type':(0x1c1a0,40,202,0x19590,184,51,54),
-           'save_type':(0x19860,40,202,0x196fa,184,51,54)}
+           'save_type':(0x19860,40,202,0x196fa,184,51,54),
+           'append_buffer':(0x22f40,40,202,0x19a65,224,61,64)}
     assert p.get('frontiers'),'missing packed symbol frontier contracts'
     for name,site in p['frontiers'].items():
         assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
         if name!='write_search_symbol':
-            assert (site['kind'],site['record_length'],site['callback_index'])==((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type')else(4,34,27))),'unreviewed packed symbol callback selection'
+            assert (site['kind'],site['record_length'],site['callback_index'])==((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer')else(4,34,27))),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
     for source,digest in p['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'packed symbol source changed'
@@ -71,15 +72,26 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     old_cursor=int.from_bytes(bytes(memory[0x335f0+i]for i in range(4)),'little')
     assert old_cursor==post['cursor']and native_state['globals']['symbol_output']['address']==b['cursor'],'packed symbol observed cursor differs from actual global'
     assert old_input==a['input']+site['input_offset']and native_state['globals']['symbol_input']['address']==b['input']+site['input_offset'],'wrong actual packed symbol source cursor'
-    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type'):
+    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer'):
         registers=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(registers[::2],registers[1::2])}
-        length_slot={'compact_pointer':1,'compact_type_list':16,'store_type':28,'hash_type':34,'save_type':34}.get(name)
+        length_slot={'compact_pointer':1,'compact_type_list':16,'store_type':28,'hash_type':34,'save_type':34,'append_buffer':44}.get(name)
         length=words[length_slot]if length_slot is not None else registers['ebp']
         assert length&0xffff==site['record_length'],'wrong original callback record length'
         if name=='intern_global':
             assert site['nested_return_slot']==2 and site['nested_return_address']==0x25172 and words[2]==0x25172,'wrong original nested symbol frame'
             assert registers['edx']==0x1afe0 and registers['ecx']==old_input,'wrong original nested symbol callback arguments'
             assert b['nested_caller']=='convert_udt_symbol','wrong native nested symbol frame'
+        elif name=='append_buffer':
+            expected={'10':0x196fa,'16':0x27ab1,'28':0x26cfa,'37':0x2711d,'43':0x26a7a,'52':0x26509,'54':0x25830,'56':0x25172}
+            assert site['nested_returns']==expected and all(words[int(slot)]==value for slot,value in expected.items()),'wrong original append buffer nested frames'
+            assert (site['type_index'],site['list_count'])==(4115,1)and (b['type_index'],b['list_count'])==(4115,1),'wrong appended list identity/count'
+            assert b['nested_callers']==['save_type','store_type','compact_type_list','compact_new_type','compact_pointer','compact_new_type','convert_new_type','convert_udt_symbol'],'wrong native append buffer frame chain'
+            assert len(old_walks['local_type_records'])==len(new_walks['local_type_records'])==1
+            offset=19*28;old_table,new_table=old_walks['local_type_records'][0],new_walks['local_type_records'][0]
+            assert registers['ebx']==old_table['address']+offset and b['type_record']==new_table['address']+offset,'wrong appended record owner'
+            assert registers['ecx']==0x3301c and words[1]==8 and registers['edx']==int.from_bytes(bytes.fromhex(old_table['bytes'])[offset:offset+4],'little'),'wrong pending append copy arguments'
+            old_page=int.from_bytes(bytes(memory[0x37198+i]for i in range(4)),'little')
+            assert registers['esi']==old_page and b['page']==native_state['globals']['type_pages'][0]['address'],'wrong append caller type page owner'
         elif name in('hash_type','save_type'):
             assert site['nested_returns']=={'6':0x27ab1,'18':0x26cfa,'27':0x2711d,'33':0x26a7a,'42':0x26509,'44':0x25830,'46':0x25172}and all(words[int(slot)]==value for slot,value in site['nested_returns'].items()),'wrong original type hash nested frames'
             assert (site['type_index'],site['list_count'])==(4115,1)and (b['type_index'],b['list_count'])==(4115,1),'wrong hashed list identity/count'

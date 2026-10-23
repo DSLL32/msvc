@@ -251,6 +251,23 @@ def capture_symbol_output():
     if f.name()=='intern_global':
         assert caller.name()=='convert_udt_symbol','unreviewed nested symbol output caller'
         entry['nested_caller']=caller.name();caller=caller.older()
+    if f.name()=='append_buffer':
+        names=[]
+        assert caller.name()=='save_type','unreviewed append buffer caller'
+        entry['type_record']=int(caller.read_var('entry'));entry['page']=int(caller.read_var('page'))
+        assert entry['page']==int(gdb.parse_and_eval('type_pages[0]'))and int(caller.read_var('page_index'))==int(caller.read_var('slot'))==0
+        assert int(f.read_var('data'))==int(caller.read_var('original'))and int(f.read_var('size'))==8
+        assert int(f.read_var('buffer'))==int(gdb.parse_and_eval('&type_symbol_storage'))
+        names.append(caller.name());caller=caller.older()
+        assert caller.name()=='store_type'and int(caller.read_var('entry'))==entry['type_record']
+        names.append(caller.name());caller=caller.older()
+        assert caller.name()=='compact_type_list'and int(caller.read_var('type'))==4115
+        entry['type_index']=int(caller.read_var('type'));entry['list_count']=int(caller.read_var('count'))
+        assert entry['list_count']==1
+        for expected in('compact_type_list','compact_new_type','compact_pointer','compact_new_type','convert_new_type','convert_udt_symbol'):
+            assert caller.name()==expected,'unreviewed append buffer frame chain'
+            names.append(caller.name());caller=caller.older()
+        entry['nested_callers']=names
     if f.name()in('hash_type','save_type'):
         names=[]
         assert caller.name()=='store_type','unreviewed type hash caller'
@@ -305,14 +322,50 @@ def capture_symbol_output():
         entry['nested_callers']=names
         if f.name()=='compact_new_type':entry['type_index']=int(f.read_var('type'))
         assert entry['type_index']==4134,'unreviewed compact symbol type'
-    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
     assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size
     if f.name()=='write_search_symbol':assert cursor==base+4==int(f.read_var('buffer'))
     else:
-        expected=(16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type')else(40,4,34,27))
+        expected=(16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer')else(40,4,34,27))
         assert cursor==base+expected[0] and int(caller.read_var('kind'))==expected[1] and int(caller.read_var('length'))==expected[2] and int(caller.read_var('index'))==expected[3]
         entry['record_kind']=int(caller.read_var('kind'));entry['record_length']=int(caller.read_var('length'));entry['callback_index']=int(caller.read_var('index'))
     entry.update(cursor=cursor,frontier=f.name(),parent='pack_new_types',postbytes=bytes(gdb.selected_inferior().read_memory(base,size)).hex())
     return [entry]
+
+
+def install_type_page_observer(source,line):
+    import gdb
+    gdb.cvpack_type_pages=[]
+    class Allocated(gdb.Breakpoint):
+        def __init__(self):super().__init__(source+':'+str(line),internal=True)
+        def stop(self):
+            try:
+                f=gdb.newest_frame();assert f.name()=='save_type'
+                base=int(f.read_var('page'));owner=int(f.read_var('entry'))
+                index=int(gdb.parse_and_eval('next_type_index'));capacity=int(gdb.parse_and_eval('type_page_capacity'))
+                roots=gdb.parse_and_eval('type_pages');assert roots.type.sizeof==480
+                assert not gdb.cvpack_type_pages and base and index==0x1000 and capacity==512
+                raw_roots=bytes(gdb.selected_inferior().read_memory(roots.address,480));assert raw_roots==b'\0'*480
+                gdb.cvpack_type_pages.append(dict(base=base,owner=owner,size=2048,index=index,capacity=capacity,roots_before=raw_roots.hex(),before=bytes(gdb.selected_inferior().read_memory(base,2048)).hex()))
+                return False
+            except Exception as error:gdb.cvpack_type_pages.append(dict(error=str(error)));return True
+    Allocated()
+
+
+def capture_type_page():
+    import gdb
+    rows=getattr(gdb,'cvpack_type_pages',[])
+    if not rows:return []
+    assert len(rows)==1 and not rows[0].get('error'),'invalid type page allocation observations'
+    result=rows[0].copy();f=gdb.newest_frame();caller=f.older()
+    assert f.name()=='append_buffer'and caller.name()=='save_type','unreviewed type page consumer'
+    assert result['owner']==int(caller.read_var('entry'))and result['base']==int(caller.read_var('page'))
+    assert int(caller.read_var('page_index'))==int(caller.read_var('slot'))==0
+    assert int(gdb.parse_and_eval('next_type_index'))==0x1000 and int(gdb.parse_and_eval('type_page_capacity'))==512
+    roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))
+    assert int(f.read_var('size'))==8 and int(f.read_var('data'))==int(caller.read_var('original'))
+    assert int(f.read_var('buffer'))==int(gdb.parse_and_eval('&type_symbol_storage'))
+    result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
+    return [result]

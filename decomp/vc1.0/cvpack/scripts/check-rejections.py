@@ -71,6 +71,12 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_append_buffer
+    append_pair=BINARY/'cases/hello-debug-dll/evidence/0074-save_type'
+    if append_pair.is_dir():check_append_buffer(append_pair)
+    from type_pages_checks import check as check_type_pages
+    pages=BINARY/'cases/hello-debug-dll/evidence/0074-save_type'
+    if pages.is_dir():check_type_pages(pages)
     from type_hash_checks import check as check_type_hash_tables
     check_type_hash_tables(config,original,reject)
     from symbol_output_checks import check_saved_type

@@ -84,8 +84,13 @@ extern unsigned char current_module_pe;
 extern unsigned short module_type_base;
 extern unsigned short module_type_count;
 extern unsigned short module_symbol_count;
-extern unsigned long module_symbol_bytes;
-extern unsigned short module_line_count;
+typedef struct UDTSymbol {
+    struct UDTSymbol *next;
+    unsigned short length, kind, type;
+    unsigned char name[1];
+} UDTSymbol;
+extern UDTSymbol *module_udt_symbols;
+extern unsigned short emit_udt_symbols;
 extern int types_compacted;
 extern unsigned long type_signature;
 extern unsigned long type_directory;

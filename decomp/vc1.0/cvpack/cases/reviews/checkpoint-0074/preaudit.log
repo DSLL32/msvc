@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/audit.py", line 352, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/audit.py", line 263, in main
+    assert result.returncode==0,result.stderr.decode('utf8','replace')
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: graph-audit: unrooted code 1a5a3: jmp 0x1a700
+

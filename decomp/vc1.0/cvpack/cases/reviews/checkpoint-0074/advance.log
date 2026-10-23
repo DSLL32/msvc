@@ -1,0 +1,9 @@
+make: Nothing to be done for 'graph-identities'.
+make: Nothing to be done for 'graph-audit-tool'.
+exception 80000003 va 00022f40 base 00010000 first 1
+Restored entry ranges: 72
+/root/.ai-tmp/vc1.0-cvpack/0074-save_type-original/receipt.json
+hello-debug-dll trap {'setup': 0.17362770158797503, 'execution': 0.015640592202544212, 'debugging': 1.758645093999803, 'checks': 0.0176000464707613, 'total': 1.9655186124145985}
+/root/.ai-tmp/vc1.0-cvpack/0074-save_type-native/receipt.json
+74 complete original/compiler CFG/callee/ABI functions; 165 contextual data objects; strict CRT/import identities verified.
+Fresh original/native candidate proof passes without acceptance: save_type

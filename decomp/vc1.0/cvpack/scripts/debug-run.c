@@ -367,6 +367,8 @@ static ReadSite read_sites[32];
 static DWORD symbol_base,symbol_size,symbol_input_base,symbol_module,symbol_entry;
 static DWORD symbol_padding,symbol_skipped,symbol_step,symbol_tf,symbol_thread;
 static unsigned char symbol_before[8192];
+static DWORD type_page_base,type_page_step,type_page_tf,type_page_thread;
+static unsigned char type_page_before[2048];
 static DWORD pdb_read_enabled, pdb_read_step, pdb_read_tf, pdb_read_site;
 static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
 static DWORD read_active_site, read_address, read_size, read_handle;
@@ -400,6 +402,8 @@ static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
         }
         if (read_site_count && address<=0x2504e && 0x2504e<address+length)
             if (!WriteProcessMemory(child,(void *)0x2504e,&trap,1,&bytes) || bytes!=1) return -1;
+        if (read_site_count && address<=0x199d7 && 0x199d7<address+length)
+            if (!WriteProcessMemory(child,(void *)0x199d7,&trap,1,&bytes) || bytes!=1) return -1;
         FlushInstructionCache(child, (void *)address, length);
         memset(&context, 0, sizeof(context));
         context.ContextFlags = CONTEXT_CONTROL;
@@ -724,7 +728,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     if(frontier==0x1bee0) { defined=4;offset=4; }
     else if(frontier==0x255c0) { defined=16;offset=4; }
     else if(frontier==0x25800 || frontier==0x1b500) { defined=40;offset=28; }
-    else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0 || frontier==0x19860) { defined=40;offset=202; }
+    else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0 || frontier==0x19860 || frontier==0x22f40) { defined=40;offset=202; }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
@@ -732,6 +736,60 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
        !ReadProcessMemory(child,(void *)symbol_base,array_bytes,symbol_size,&bytes) || bytes!=symbol_size) return 0;
     used=sprintf(object_line,"symbol-output base %08lx size %lu cursor %08lx frontier %08lx bytes ",symbol_base,symbol_size,cursor,frontier);
     for(i=0;i<symbol_size;++i)used+=sprintf(object_line+used,"%02x",array_bytes[i]);
+    object_line[used++]='\n';
+    return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;
+}
+
+static int observe_type_page(HANDLE child,HANDLE log,HANDLE thread,DWORD tid)
+{
+    CONTEXT context;DWORD size,index=0,capacity=0,bytes,written,i,roots[120];int used;
+    unsigned char instruction=0x83;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+    if(type_page_base || type_page_step || !GetThreadContext(thread,&context) || context.Eip!=0x199d8 ||
+       !ReadProcessMemory(child,(void *)context.Esp,&size,4,&bytes) || bytes!=4 || size!=2048 ||
+       !ReadProcessMemory(child,(void *)0x37398,&index,2,&bytes) || bytes!=2 || index!=0x1000 ||
+       !ReadProcessMemory(child,(void *)0x33924,&capacity,2,&bytes) || bytes!=2 || capacity!=512 || !context.Eax ||
+       !ReadProcessMemory(child,(void *)context.Eax,type_page_before,2048,&bytes) || bytes!=2048) return 0;
+    if(!ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots))return 0;
+    for(i=0;i<120;++i)if(roots[i])return 0;
+    type_page_base=context.Eax;
+    used=sprintf(object_line,"type-page-allocation base %08lx size %lu index %lu capacity %lu owner %08lx esp %08lx before ",
+        type_page_base,size,index,capacity,context.Ebx,context.Esp);
+    for(i=0;i<2048;++i)used+=sprintf(object_line+used,"%02x",type_page_before[i]);
+    used+=sprintf(object_line+used," roots_before ");
+    for(i=0;i<sizeof(roots);++i)used+=sprintf(object_line+used,"%02x",((unsigned char *)roots)[i]);
+    object_line[used++]='\n';
+    if(!WriteFile(log,object_line,used,&written,0) || written!=(DWORD)used ||
+       !WriteProcessMemory(child,(void *)0x199d7,&instruction,1,&bytes) || bytes!=1) return 0;
+    FlushInstructionCache(child,(void *)0x199d7,1);
+    type_page_step=0x199da;type_page_tf=context.EFlags&0x100;type_page_thread=tid;
+    context.Eip=0x199d7;context.EFlags|=0x100;
+    return SetThreadContext(thread,&context);
+}
+
+static int rearm_type_page(HANDLE child,HANDLE log,HANDLE thread,DWORD address,DWORD tid)
+{
+    CONTEXT context;DWORD bytes,written;unsigned char trap=0xcc;
+    char line[]="type-page-rearm 000199d7 000199da\n";
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_CONTROL;
+    if(address!=type_page_step || tid!=type_page_thread || !GetThreadContext(thread,&context) || context.Eip!=type_page_step ||
+       !WriteProcessMemory(child,(void *)0x199d7,&trap,1,&bytes) || bytes!=1) return 0;
+    FlushInstructionCache(child,(void *)0x199d7,1);
+    if(!WriteFile(log,line,sizeof(line)-1,&written,0) || written!=sizeof(line)-1) return 0;
+    context.EFlags=(context.EFlags&~0x100UL)|type_page_tf;type_page_step=0;
+    return SetThreadContext(thread,&context);
+}
+
+static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
+{
+    DWORD roots[120],bytes,written,i;int used;
+    if(!type_page_base)return 1;
+    if(type_page_step || frontier!=0x22f40 ||
+       !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
+    for(i=1;i<120;++i)if(roots[i])return 0;
+    if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;
+    used=sprintf(object_line,"type-page-output base %08lx size 2048 frontier %08lx bytes ",type_page_base,frontier);
+    for(i=0;i<2048;++i)used+=sprintf(object_line+used,"%02x",array_bytes[i]);
     object_line[used++]='\n';
     return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;
 }
@@ -987,7 +1045,7 @@ int main(int argc, char **argv)
     DEBUG_EVENT event;
     CONTEXT context;
     HANDLE output, error, log, thread, original;
-    DWORD base, written, disposition, i, words[64], count;
+    DWORD base, written, disposition, i, words[96], count;
     char command[2048], line[1024];
     int loader_break, restored;
     char program[1024], child_environment[2048];
@@ -1092,6 +1150,15 @@ int main(int argc, char **argv)
                     if(!observe_symbol_allocation(child.hProcess,log,thread,event.dwThreadId)) return 29;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
                 }
+                if (thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x199d7) {
+                    if(!observe_type_page(child.hProcess,log,thread,event.dwThreadId)) return 32;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(type_page_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_type_page(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId)) return 33;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
                 if(symbol_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
                     if(!rearm_symbol_allocation(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId)) return 30;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
@@ -1193,6 +1260,7 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if(!dump_type_page(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 34;
                 if(!dump_symbol_allocation(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 31;
                 if (!dump_read_progress(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words)) return 28;
                 if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 15;

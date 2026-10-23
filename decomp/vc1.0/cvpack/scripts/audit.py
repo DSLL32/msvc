@@ -266,6 +266,8 @@ def main():
         assert set(report['functions'])==expected and report['checked_functions']==len(expected),'incomplete Rust graph report'
     text_end=max(rebuilt.base+s['rva']+s['virtual_size'] for s in rebuilt.sections if s['flags']&0x20)
     addresses=sorted(set(linked.values())|{text_end})
+    from type_pages import validate as validate_type_pages
+    validate_type_pages(config,original)
     from type_hash import validate as validate_type_hash
     validate_type_hash(config,original)
     from symbol_output import validate as validate_symbol_output

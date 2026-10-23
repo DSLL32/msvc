@@ -7,7 +7,7 @@ void **name_hash_buckets, **type_hash_buckets;
 unsigned short *name_hash_counts, *type_hash_counts;
 void **global_symbol_hash, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
 TypeDerivation *derived_types;
-unsigned short derived_type_capacity, type_page_count;
+unsigned short derived_type_capacity, type_page_capacity;
 unsigned char *type_work_a, *type_work_b;
 GrowingBuffer type_record_storage, type_symbol_storage;
 TypeRecord *empty_type;
@@ -27,7 +27,7 @@ void initialize_type_tables(void)
     type_work_a = checked_zero(0x800);
     type_work_b = checked_zero(0x800);
     derived_type_capacity = 128;
-    type_page_count = 0;
+    type_page_capacity = 0;
     initialize_buffer(&type_record_storage, 0x1000);
     initialize_buffer(&type_symbol_storage, 0x7f00);
     empty_type = checked_zero(sizeof(*empty_type));
@@ -1188,4 +1188,107 @@ unsigned short __fastcall hash_type(const unsigned char *record)
         remaining = (unsigned short)(end-cursor);
     }
     return ((unsigned short)type_hash_high<<8|type_hash_low)&0xfff;
+}
+
+unsigned short next_type_index = 0x1000;
+unsigned char **type_pages[120];
+UDTSymbol *last_udt_symbol;
+
+void __fastcall save_type(TypeRecord *entry)
+{
+    unsigned char *original, *record, *name;
+    unsigned char **page;
+    unsigned short length, saved_index, kind;
+    unsigned long padding, record_size, i, bucket;
+    int relative, page_index, slot;
+    UDTSymbol *symbol;
+    TypeCacheEntry *cached;
+
+    if (type_recursion_error) { entry->index = 0; return; }
+    original = entry->data;
+    if (*(unsigned short *)(original+2) == 5 && emit_udt_symbols) {
+        name = original+14;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        if (*name && (*name != 10 || strncmp((char *)name+1, "(untagged)", 10))) {
+            padding = 3-((*name+6)&3);
+            record_size = *name+padding+5;
+            symbol = checked_alloc(record_size+6);
+            if (!module_udt_symbols) module_udt_symbols = symbol;
+            else last_udt_symbol->next = symbol;
+            symbol->length = (unsigned short)record_size;
+            symbol->kind = 4;
+            symbol->type = next_type_index;
+            for (i = 0; i < (unsigned long)*name+1; ++i) symbol->name[i] = name[i];
+            for (i = 0; i < padding; ++i) symbol->name[*name+1+i] = 0;
+            last_udt_symbol = symbol;
+            symbol->next = NULL;
+        }
+    }
+    if ((int)next_type_index-(int)type_page_capacity == 0x1000) {
+        type_page_capacity += 0x200;
+        page = checked_alloc(0x800);
+        page_index = ((int)next_type_index-0x1000)/512;
+#ifdef RECON_NATIVE_TEST
+        if (page_index < 0 || page_index >= 120) __asm { int 3 }
+#endif
+        type_pages[page_index] = page;
+    }
+    length = *(unsigned short *)original+2;
+    if (length > 0xc000) {
+        *(unsigned short *)original = 2;
+        *(unsigned short *)(original+2) = 0xf;
+        length = 4;
+        warning(6, NULL, NULL);
+    }
+    relative = (int)next_type_index-0x1000;
+    page_index = relative/512;
+    slot = relative%512;
+#ifdef RECON_NATIVE_TEST
+    if (page_index < 0 || page_index >= 120 || slot < 0) __asm { int 3 }
+#endif
+    page = type_pages[page_index];
+    page[slot] = append_buffer(&type_symbol_storage, original, length);
+    if (entry->flags & 0x38) release_type_data(entry);
+    entry->data = page[((int)next_type_index-0x1000)%512];
+    entry->index = next_type_index++;
+    saved_index = next_type_index-1;
+    record = entry->data;
+    kind = *(unsigned short *)(record+2);
+    switch (kind) {
+    case 4: case 5:
+        name = record+14;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 6:
+        name = record+10;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 7:
+        name = record+12;
+        break;
+    default:
+        goto complete;
+    }
+    bucket = *name;
+    for (i = 0; i < *name; ++i) bucket += name[i+1];
+    bucket &= 511;
+    for (cached = ((TypeCacheEntry **)type_work_b)[bucket]; cached; cached = cached->next) {
+        if (!cached->type) break;
+        if (*(unsigned short *)(cached->type+2) == kind &&
+            !strncmp((char *)cached->name, (char *)name, *name+1)) goto complete;
+    }
+    if (!cached) {
+        cached = checked_zero(sizeof(*cached));
+        if (!cached) fatal_error(13, NULL, NULL);
+        cached->next = ((TypeCacheEntry **)type_work_b)[bucket];
+        ((TypeCacheEntry **)type_work_b)[bucket] = cached;
+    }
+    cached->type = record;
+    cached->name = name;
+    cached->index = saved_index;
+complete:
+    if (!next_type_index) {
+        warning(9, module_name(current_module), NULL);
+        type_recursion_error = 1;
+    }
 }

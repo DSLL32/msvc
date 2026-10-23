@@ -115,5 +115,6 @@ void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 int find_forward_type(unsigned short kind, const unsigned char *name, TypeCacheEntry **named) { __asm { int 3 } return 0; }
-void __fastcall save_type(TypeRecord *entry) { __asm { int 3 } }
 void record_derived_types(unsigned short type, unsigned short list) { __asm { int 3 } }
+
+void *__fastcall append_buffer(GrowingBuffer *buffer, const void *data, unsigned long size) { __asm { int 3 } return NULL; }

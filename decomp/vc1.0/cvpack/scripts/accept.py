@@ -147,6 +147,12 @@ def main():
     if symbol_proof:
         original_objects['packed_symbol_allocation']=[symbol_proof['original_namespace']]
         native_objects['packed_symbol_allocation']=[symbol_proof['native_namespace']]
+    from type_pages import compare as compare_type_pages
+    page_path=native/args.case/'type-pages.json'
+    page_proof=compare_type_pages(config,pe,events,json.loads(page_path.read_text())if page_path.exists()else [],original_objects,native_objects,state,args.case)if args.case=='hello-debug-dll'else None
+    if page_proof:
+        original_objects['type_pointer_page']=[page_proof['original_namespace']]
+        native_objects['type_pointer_page']=[page_proof['native_namespace']]
     for item in ([] if completed else json.loads((BINARY/'data.json').read_text())):
         raw=bytes(memory[item['original']+i]for i in range(item['size']))
         actual=state['globals'][item['name']]
@@ -160,6 +166,19 @@ def main():
                 value=[]
                 while memory[pointer]:value.append(memory[pointer]);pointer+=1
                 expected.append(bytes(value).hex())
+        elif item.get('kind')=='pointer-array':
+            assert item['size']%4==0 and len(actual)==item['size']//4,'global pointer-array extent differs'
+            expected=[]
+            for index,entry in enumerate(actual):
+                value=int.from_bytes(raw[index*4:index*4+4],'little')
+                assert entry['null']==(value==0)and (entry['address']==0)==(value==0),'global pointer-array null state differs'
+                identity=dict(null=not value)
+                if value:
+                    old_id=pointer_identity(original_objects,value);new_id=pointer_identity(native_objects,entry['address'])
+                    assert old_id==new_id,('global pointer-array owner differs',item['name'],index,old_id,new_id)
+                    identity['object']=old_id
+                expected.append(identity)
+            actual=expected
         elif isinstance(actual,dict):
             value=int.from_bytes(raw,'little')
             assert actual['null']==(value==0) and (actual['address']==0)==(value==0)
@@ -255,7 +274,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -276,7 +295,7 @@ def main():
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,pdb_header_reads=pdb_read_proof,consumed_undefined_input=consumed_proof,
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
-        read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,
+        read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,type_page_lifetime=page_proof,
         observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',

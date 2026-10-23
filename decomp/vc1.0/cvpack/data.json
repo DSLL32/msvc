@@ -395,8 +395,8 @@
     "source": "src/types.c"
   },
   {
-    "name": "type_page_count",
-    "symbol": "_type_page_count",
+    "name": "type_page_capacity",
+    "symbol": "_type_page_capacity",
     "original": 211236,
     "size": 2,
     "source": "src/types.c"
@@ -651,14 +651,14 @@
     "size": 2
   },
   {
-    "name": "module_symbol_bytes",
-    "symbol": "_module_symbol_bytes",
+    "name": "module_udt_symbols",
+    "symbol": "_module_udt_symbols",
     "original": 210452,
     "size": 4
   },
   {
-    "name": "module_line_count",
-    "symbol": "_module_line_count",
+    "name": "emit_udt_symbols",
+    "symbol": "_emit_udt_symbols",
     "original": 210464,
     "size": 2
   },
@@ -1069,6 +1069,29 @@
     "symbol": "_type_hash_mix",
     "original": 216724,
     "size": 1,
+    "source": "src/types.c"
+  },
+  {
+    "name": "next_type_index",
+    "symbol": "_next_type_index",
+    "original": 226200,
+    "size": 2,
+    "source": "src/types.c"
+  },
+  {
+    "name": "type_pages",
+    "symbol": "_type_pages",
+    "original": 225688,
+    "size": 480,
+    "source": "src/types.c",
+    "kind": "pointer-array",
+    "provenance": "1000..ffff ushort compacted indices address120 pages of512 entries. Only37198..37378 claimed; following32 bytes before37398 remain unclassified."
+  },
+  {
+    "name": "last_udt_symbol",
+    "symbol": "_last_udt_symbol",
+    "original": 211768,
+    "size": 4,
     "source": "src/types.c"
   }
 ]

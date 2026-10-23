@@ -7,8 +7,8 @@ unsigned char current_module_pe;
 unsigned short module_type_base;
 unsigned short module_type_count;
 unsigned short module_symbol_count;
-unsigned long module_symbol_bytes;
-unsigned short module_line_count;
+UDTSymbol *module_udt_symbols;
+unsigned short emit_udt_symbols;
 int types_compacted;
 unsigned long type_signature;
 unsigned long type_directory;
@@ -34,8 +34,8 @@ int pack_module(unsigned short module)
     unsigned count;
 
     current_module_pe = is_pe_image;
-    module_type_base = module_type_count = module_symbol_count = module_line_count = 0;
-    module_symbol_bytes = 0;
+    module_type_base = module_type_count = module_symbol_count = emit_udt_symbols = 0;
+    module_udt_symbols = 0;
     types_compacted = 0;
     type_signature = 0x0fffffff;
     type_directory = symbol_directory = public_directory = line_directory = old_line_directory = 0;

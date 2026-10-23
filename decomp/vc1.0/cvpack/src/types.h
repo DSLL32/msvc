@@ -53,7 +53,7 @@ extern void **name_hash_buckets, **type_hash_buckets;
 extern unsigned short *name_hash_counts, *type_hash_counts;
 extern void **global_symbol_hash, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
 extern TypeDerivation *derived_types;
-extern unsigned short derived_type_capacity, type_page_count;
+extern unsigned short derived_type_capacity, type_page_capacity;
 extern unsigned char *type_work_a, *type_work_b;
 extern GrowingBuffer type_record_storage, type_symbol_storage;
 extern TypeRecord *empty_type;
@@ -79,6 +79,7 @@ unsigned short __fastcall hash_type(const unsigned char *);
 void release_type_data(TypeRecord *);
 int find_forward_type(unsigned short, const unsigned char *, TypeCacheEntry **);
 void __fastcall save_type(TypeRecord *);
+void *__fastcall append_buffer(GrowingBuffer *, const void *, unsigned long);
 void record_derived_types(unsigned short, unsigned short);
 
 void reserve_extra_type(unsigned short, unsigned short *);
