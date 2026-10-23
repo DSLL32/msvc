@@ -6,7 +6,7 @@
 
 typedef struct DeclarationParameterInfo {
     int count;
-    unsigned short flags, field06;
+    unsigned short debug_index, field06;
     CType *types[1];
 } DeclarationParameterInfo;
 typedef struct DefaultArgument {

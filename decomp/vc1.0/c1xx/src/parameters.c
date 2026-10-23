@@ -16,7 +16,7 @@ DeclarationParameterInfo *void_parameter_list(void)
     if (!void_parameters) {
         void_parameters = allocate_permanent(sizeof(DeclarationParameterInfo));
         void_parameters->count = 1;
-        void_parameters->flags = 0;
+        void_parameters->debug_index = 0;
         void_parameters->types[0] = type_0080;
     }
     return void_parameters;
@@ -157,7 +157,7 @@ DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *he
     }
     created = allocate_permanent(bytes + 4);
     created->parameters.count = candidate->count;
-    created->parameters.flags = candidate->flags;
+    created->parameters.debug_index = candidate->debug_index;
     created->parameters.field06 = candidate->field06;
     for (i = 0; i < (unsigned)count; ++i)
         created->parameters.types[i] = candidate->types[i];

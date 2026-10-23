@@ -1,0 +1,22 @@
+Breakpoint 1 at 0x37b19: file src/debug-types.c, line 19.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, reference_parameter_debug_types (parameters=0x56622450) at src/debug-types.c:19
+19	    DeclarationParameterInfo *declarations = parameters->declarations;
+#0  reference_parameter_debug_types (parameters=0x56622450) at src/debug-types.c:19
+#1  0x5658d1ae in count_debug_methods (overloads=0x56621fcc, field_properties=0x5664c71c) at src/debug-types.c:89
+#2  0x5658d597 in debug_tag_type (tag=0x56621c84) at src/debug-types.c:171
+#3  0x5658dce7 in base_debug_type (type=0x5662299c) at src/debug-types.c:340
+#4  0x5658cde0 in reference_debug_type (type=0x5662299c) at src/debug-types.c:396
+#5  0x5658ccd4 in reference_debug_type (type=0x56622938) at src/debug-types.c:373
+#6  0x565a3917 in prepare_symbol_debug_type (symbol=0x566480d4) at src/symbol-output.c:14
+#7  0x565a4063 in emit_symbol_declaration (symbol=0x566480d4) at src/symbol-output.c:148
+#8  0x565a4989 in serialize_scope (scope=0x56648150) at src/function-finalization.c:137
+#9  0x565a476d in finish_function_output () at src/function-finalization.c:92
+#10 0x565a4562 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#11 0x565a4364 in end_function_definition () at src/function-finalization.c:22
+#12 0x565afb64 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#13 0x5655e10f in compile_translation_unit () at src/frontend.c:73
+#14 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#15 0x56558874 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_reference_parameter_debug_types@4",
+  "native_entry": "reference_parameter_debug_types",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    449920,
+    450431
+  ],
+  "native_caller_locals": {
+    "caller_parameters": {
+      "frame": 1,
+      "function": "count_debug_methods",
+      "local": "parameters"
+    }
+  },
+  "native_expressions": {
+    "raw_parameters": "(unsigned)parameters"
+  },
+  "formals": [
+    {
+      "name": "parameters",
+      "stack_index": 0,
+      "native_field": "raw_parameters",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 384768,
+        "original_owner_function": "_count_debug_methods@8",
+        "native_owner_field": "caller_parameters",
+        "native_owner_function": "count_debug_methods",
+        "native_owner_local": "parameters",
+        "identity": "Actual accepted caller function-shape parameters: EBX=interned current function type.related at0x6deb2; MOV EAX,[EBX+8]0x6def7, PUSH EAX0x6defa/CALL0x6defb return0x6df00. Native caller parameters local selects exactly shape->data.parameters; EAX is caller ownership anchor, not an incoming callee ABI register."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      449200,
+      449309
+    ],
+    "argument_bytes": 4,
+    "proof": "Four saved registers; MOV ESI,[adjustedESP+20] loads sole stack formal. ESI+12 selects DeclarationParameterInfo; count is zero for first canonical void type, otherwise only count low byte. WORD declarations+4 is debug index, not flags; existing producers/offset retained while naming refined. Only two raw calls0x6d6e0 reference_debug_type and0x6df80 reserve_debug_type, no incoming register/hidden input; AL return and RET4 at0x6db1a."
+  }
+}

@@ -1083,7 +1083,8 @@
     "_debug_tag_type@4",
     "_reserve_debug_type@4",
     "_class_virtual_table_group_count@4",
-    "_count_debug_methods@8"
+    "_count_debug_methods@8",
+    "_reference_parameter_debug_types@4"
   ],
   "driver": [
     {
@@ -8226,7 +8227,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_reference_parameter_debug_types@4",
+      "terminal": "_emit_debug_class@12",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8249,7 +8250,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1079-reference_parameter_debug_types-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8333,7 +8334,8 @@
         "cases/frontiers/state_machine_debug/1075-debug_tag_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1076-reserve_debug_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1079-reference_parameter_debug_types-4/frontier-extension.json"
       ]
     }
   },

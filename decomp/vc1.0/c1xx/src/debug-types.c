@@ -12,6 +12,25 @@ unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 
+/* Original 0x6dab0..0x6db1d. Intern a parameter-list debug record once,
+   retaining the low-byte parameter count used by the original emitter. */
+unsigned char __stdcall reference_parameter_debug_types(FunctionParameters *parameters)
+{
+    DeclarationParameterInfo *declarations = parameters->declarations;
+    unsigned char count = 0;
+    unsigned i, record;
+    if (declarations->types[0] != type_0080)
+        count = (unsigned char)declarations->count;
+    if (!declarations->debug_index) {
+        for (i = 0; i < count; ++i)
+            if (declarations->types[i]) reference_debug_type(declarations->types[i]);
+        declarations->debug_index = next_debug_type_index;
+        record = reserve_debug_type(3);
+        debug_types[record].subject.parameters = parameters;
+    }
+    return count;
+}
+
 /* Original 0x6dd80..0x6df7f. Register emitted method signatures and
    accumulate the class properties contributed by their overload set. */
 unsigned __stdcall count_debug_methods(OverloadSet *overloads,
@@ -20,6 +39,7 @@ unsigned __stdcall count_debug_methods(OverloadSet *overloads,
     CppSymbol *function, *next, *owner;
     CType *type, description, *base;
     TypeShape *shape;
+    FunctionParameters *parameters;
     unsigned count = 0, record;
     unsigned char argument_count;
 #ifdef RECON_NATIVE_TEST
@@ -63,9 +83,10 @@ unsigned __stdcall count_debug_methods(OverloadSet *overloads,
             description.related = shape->related;
             base = intern_type((TypeDescription *)&description);
             reference_debug_type(base);
+            parameters = shape->data.parameters;
             if (function->cpp.parts.member_flags & 1)
-                reference_debug_type(shape->data.parameters->associated_type);
-            argument_count = reference_parameter_debug_types(shape->data.parameters);
+                reference_debug_type(parameters->associated_type);
+            argument_count = reference_parameter_debug_types(parameters);
             type->debug_index = next_debug_type_index;
             record = reserve_debug_type(0);
             debug_types[record].subject.type = type;

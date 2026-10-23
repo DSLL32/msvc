@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_reference_parameter_debug_types@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1079,
+  "configuration_sha256": "ee75e2ca7ee1454fd78285ca36110211e5317841dd6a712603538d65363e3c42",
+  "native_entry": "reference_parameter_debug_types",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "parameters",
+      "stack_index": 0,
+      "native_field": "raw_parameters",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 384768,
+        "original_owner_function": "_count_debug_methods@8",
+        "native_owner_field": "caller_parameters",
+        "native_owner_function": "count_debug_methods",
+        "native_owner_local": "parameters",
+        "identity": "Actual accepted caller function-shape parameters: EBX=interned current function type.related at0x6deb2; MOV EAX,[EBX+8]0x6def7, PUSH EAX0x6defa/CALL0x6defb return0x6df00. Native caller parameters local selects exactly shape->data.parameters; EAX is caller ownership anchor, not an incoming callee ABI register.",
+        "original_owner_value": 8303696,
+        "native_owner_value": 1449272400
+      },
+      "original_raw": 8303696,
+      "native_raw": 1449272400,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      449200,
+      449309
+    ],
+    "argument_bytes": 4,
+    "proof": "Four saved registers; MOV ESI,[adjustedESP+20] loads sole stack formal. ESI+12 selects DeclarationParameterInfo; count is zero for first canonical void type, otherwise only count low byte. WORD declarations+4 is debug index, not flags; existing producers/offset retained while naming refined. Only two raw calls0x6d6e0 reference_debug_type and0x6df80 reserve_debug_type, no incoming register/hidden input; AL return and RET4 at0x6db1a.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "dd593b2175414cfca66e43ad78b4fa348854ce1ab924f3b204090614072e99c7",
+  "capture_timing": {
+    "original_capture_seconds": 1.5186841040849686,
+    "native_capture_seconds": 0.1920551797375083,
+    "total_operation_seconds": 2.0003418996930122
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "91c3f1d40b48f64baf5c79300ccee3add16c78b7c450e65e0e2cd857fc8f09e9",
+    "native-commands.gdb": "1f24109da6855bb4afc549b55dff4153ba8d3e970dc3f81467a03227cbefa816",
+    "native-gdb.log": "cde9790075ff5316d741e48757c26090e739bea5e44ba2d80122127385a9c171",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "f14f63eab08600c0c57b719d35f3b062c8e7cb95c1fee56763c25e4f98d21571",
+    "original-configuration.json": "ee75e2ca7ee1454fd78285ca36110211e5317841dd6a712603538d65363e3c42",
+    "original-disassembly.txt": "89547cc5458ee75cb8af12a339d93bc3b1ce0b00937194facd2e2023e14bfcff",
+    "original-entries.plan": "9dbbe5b1c7a6b70512515c4ecc45e44915af2de3a913849cb3b555e37dcd3ad3",
+    "original-events.txt": "178ad05d6867b03c7a0777a6122b76621c3201f23fb5f4196669970947c82260",
+    "original-ownership-caller-disassembly.txt": "92b20de1b89bfbde30429afe0f60fe09895f956a70e5fb88f3f8c13f14bee71c",
+    "original-receipt.json": "16f6a7054a44307ea775728d14e2b14506254b2c5183b6157e0d2eb6a723368a",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d5b192394fb5cef5e47cad696b9eb2905570021ec4ecb6bca2409a62af2bbca5"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

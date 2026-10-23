@@ -1,0 +1,48 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006dab0 <.text+0x56ab0>:
+   6dab0:	53                   	push   ebx
+   6dab1:	56                   	push   esi
+   6dab2:	57                   	push   edi
+   6dab3:	55                   	push   ebp
+   6dab4:	8b 74 24 14          	mov    esi,DWORD PTR [esp+0x14]
+   6dab8:	b3 00                	mov    bl,0x0
+   6daba:	8b 4e 0c             	mov    ecx,DWORD PTR [esi+0xc]
+   6dabd:	8d 79 08             	lea    edi,[ecx+0x8]
+   6dac0:	a1 9c f2 09 00       	mov    eax,ds:0x9f29c
+   6dac5:	39 07                	cmp    DWORD PTR [edi],eax
+   6dac7:	74 02                	je     0x6dacb
+   6dac9:	8a 19                	mov    bl,BYTE PTR [ecx]
+   6dacb:	66 83 79 04 00       	cmp    WORD PTR [ecx+0x4],0x0
+   6dad0:	75 42                	jne    0x6db14
+   6dad2:	8b eb                	mov    ebp,ebx
+   6dad4:	81 e5 ff 00 00 00    	and    ebp,0xff
+   6dada:	0b ed                	or     ebp,ebp
+   6dadc:	74 14                	je     0x6daf2
+   6dade:	8b ff                	mov    edi,edi
+   6dae0:	8b 07                	mov    eax,DWORD PTR [edi]
+   6dae2:	0b c0                	or     eax,eax
+   6dae4:	74 06                	je     0x6daec
+   6dae6:	50                   	push   eax
+   6dae7:	e8 f4 fb ff ff       	call   0x6d6e0
+   6daec:	83 c7 04             	add    edi,0x4
+   6daef:	4d                   	dec    ebp
+   6daf0:	75 ee                	jne    0x6dae0
+   6daf2:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   6daf5:	66 8b 0d 54 f4 09 00 	mov    cx,WORD PTR ds:0x9f454
+   6dafc:	66 89 48 04          	mov    WORD PTR [eax+0x4],cx
+   6db00:	6a 03                	push   0x3
+   6db02:	e8 79 04 00 00       	call   0x6df80
+   6db07:	c1 e0 04             	shl    eax,0x4
+   6db0a:	8b 0d b0 cc 08 00    	mov    ecx,DWORD PTR ds:0x8ccb0
+   6db10:	89 74 08 04          	mov    DWORD PTR [eax+ecx*1+0x4],esi
+   6db14:	8a c3                	mov    al,bl
+   6db16:	5d                   	pop    ebp
+   6db17:	5f                   	pop    edi
+   6db18:	5e                   	pop    esi
+   6db19:	5b                   	pop    ebx
+   6db1a:	c2 04 00             	ret    0x4
