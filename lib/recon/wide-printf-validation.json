@@ -1,0 +1,57 @@
+{
+  "scope": "MSVCRT_510 profile/default-C ASCII WCHAR16 plain%S plus%c/lowercase%.4x/%% and literal bytes. Unknown mixed grammar/nonASCII/locale denied. Formats without wide conversion retain existing vasprintf.",
+  "original_proofs": [
+    {
+      "path": "decomp/vc5.10/cvtres/cases/final-validation-group/wide-format-observations.json",
+      "sha256": "2b414d1b1b51c1a896142d0f653863338d4c58f646347ba6c1b5e58a81435b4f",
+      "raw_sha256": {
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-original/events.txt": "f3e618f38e2bed11ef9a369c7431a9d8cfb7397ea40b2197fd654f21da5d0729",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-original/receipt.json": "cef2401026f3b7f89a4e2886617362ad039865a6d7a8ad58cbf8aeb33fb12314",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-native-before/state.json": "7968a34d89409976533340a0dbebf2372cba99e340684bbb7e4392286a144702",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-native-before/receipt.json": "ff2a7be15df3d5ceae5ff15c727b6e631865fd985827b08612dca177775f98a6"
+      }
+    },
+    {
+      "path": "decomp/vc5.10/cvtres/cases/final-validation-group/duplicate-wide-observations.json",
+      "sha256": "14076558232811f409199ed7c30d4253b91aa295d9b2aa0614c2e22514de35e1",
+      "raw_sha256": {
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-printf-original/events.txt": "c929ae483ffdaef0c9f2d07e7499e52da0642bfd92baf7f14c3385f06167bd51",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-printf-original/receipt.json": "8799e2ef6623feb5597f2e6aa7d95f21140d213b6fe3d4dd429d177b756858ec"
+      }
+    }
+  ],
+  "actual_calls": [
+    {
+      "format_hex": "616464696e67207265736f75726365202d2d20747970653a25532c2563",
+      "wide_hex": "220043005500530054004f004d00540059005000450022000000",
+      "result": 38,
+      "appended_hex": "616464696e67207265736f75726365202d2d20747970653a22435553544f4d54595045222c20"
+    },
+    {
+      "format_hex": "6e616d653a25532c2563",
+      "wide_hex": "22004e0041004d0045004400440041005400410022000000",
+      "result": 18,
+      "appended_hex": "6e616d653a224e414d454444415441222c20"
+    },
+    {
+      "format_hex": "6e616d653a25532c2563",
+      "wide_hex": "22004e0041004d00450044004b004e004f0057004e0022000000",
+      "result": 19,
+      "appended_hex": "6e616d653a224e414d45444b4e4f574e222c20"
+    },
+    {
+      "format_hex": "6475706c6963617465207265736f75726365202d2d20747970653a25532c2563",
+      "wide_hex": "220043005500530054004f004d00540059005000450022000000",
+      "result": 41,
+      "appended_hex": "6475706c6963617465207265736f75726365202d2d20747970653a22435553544f4d54595045222c20"
+    },
+    {
+      "format_hex": "6e616d653a25532c206c616e67756167653a3078252e34780a",
+      "wide_hex": "22004e0041004d0045004400440041005400410022000000",
+      "result": 34,
+      "appended_hex": "6e616d653a224e414d454444415441222c206c616e67756167653a3078303430390a"
+    }
+  ],
+  "native_checks": "GCC/Clang five actual call return/count/order/output matches plus changed argument/order values and7 unknown-scope controls. Existing vprintf/stdio-profile checks pass.",
+  "limits": "No general printf/locale/wchar32 reinterpretation; no explicit error-sentinel expansion claimed from these target observations."
+}

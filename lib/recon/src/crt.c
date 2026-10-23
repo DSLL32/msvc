@@ -826,18 +826,95 @@ size_t recon_fwrite(const void *p,size_t size,size_t count,ShimFILE *s)
 }
 int recon_fputs(const char *text,ShimFILE *s) { size_t n=strlen(text); return recon_fwrite(text,1,n,s)==n?0:EOF; }
 int recon_puts(const char *text) { return recon_fputs(text,&recon_iob[1])==EOF?EOF:recon_fputc('\n',&recon_iob[1]); }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static int format_has_wide_string(const char *format)
+{
+    const char *p=format;
+    while (*p) {
+        if (*p++!='%') continue;
+        while (*p && !strchr("diouxXfFeEgGaAcspnCS%",*p)) ++p;
+        if (*p=='S') return 1;
+        if (*p) ++p;
+    }
+    return 0;
+}
+static void append_formatted_bytes(char **buffer,size_t *used,size_t *capacity,
+                                   const char *text,size_t length)
+{
+    size_t needed,next;
+    char *grown;
+    if (length>(size_t)INT_MAX-*used) recon_unsupported("wide printf count overflow");
+    needed=*used+length+1;
+    if (needed>*capacity) {
+        next=*capacity?*capacity:128;
+        while (next<needed) {
+            if (next>(size_t)INT_MAX/2) { next=needed;break; }
+            next*=2;
+        }
+        grown=realloc(*buffer,next);
+        if (!grown) recon_unsupported("wide printf allocation failure");
+        *buffer=grown;*capacity=next;
+    }
+    memcpy(*buffer+*used,text,length);*used+=length;(*buffer)[*used]=0;
+}
+static int format_wide_ascii(char **output,const char *format,va_list args)
+{
+    char *buffer=NULL,byte,number[9];
+    size_t used=0,capacity=0;
+    const WCHAR *wide;
+    unsigned value;
+    int count;
+    if (recon_lc_handle[2] || recon_lc_codepage)
+        recon_unsupported("wide printf outside default-C locale");
+    while (*format) {
+        if ((unsigned char)*format>=128) recon_unsupported("nonASCII wide printf format");
+        if (*format!='%') {
+            append_formatted_bytes(&buffer,&used,&capacity,format++,1);continue;
+        }
+        ++format;
+        if (*format=='S') {
+            wide=va_arg(args,const WCHAR *);
+            if (!wide) recon_unsupported("NULL wide printf argument");
+            while (*wide) {
+                if (*wide>=128) recon_unsupported("nonASCII WCHAR16 printf argument");
+                byte=(char)*wide++;append_formatted_bytes(&buffer,&used,&capacity,&byte,1);
+            }
+            ++format;
+        } else if (*format=='c') {
+            value=(unsigned)va_arg(args,int);
+            if (value>=128) recon_unsupported("nonASCII wide printf char argument");
+            byte=(char)value;append_formatted_bytes(&buffer,&used,&capacity,&byte,1);++format;
+        } else if (!strncmp(format,".4x",3)) {
+            value=va_arg(args,unsigned);count=snprintf(number,sizeof(number),"%.4x",value);
+            if (count<0 || count>8) recon_unsupported("wide printf hex formatting");
+            append_formatted_bytes(&buffer,&used,&capacity,number,count);format+=3;
+        } else if (*format=='%') {
+            append_formatted_bytes(&buffer,&used,&capacity,"%",1);++format;
+        } else recon_unsupported("unreviewed mixed WCHAR16 printf grammar");
+    }
+    if (!buffer) { buffer=malloc(1);if(!buffer)recon_unsupported("wide printf empty allocation");buffer[0]=0; }
+    *output=buffer;return (int)used;
+}
+#endif
 int recon_vfprintf(ShimFILE *s,const char *format,va_list args)
 {
     char *text,*copy=NULL; size_t length=strlen(format),percent=0;
     int count,result;
-    /* VC1 prints the valid prefix of LINK's formats ending in a lone '%'.
-     * glibc rejects the whole conversion. Preserve literal %% pairs. */
-    while (percent<length && format[length-percent-1]=='%') ++percent;
-    if (percent&1) {
-        copy=strdup(format); if (!copy) return -1;
-        copy[length-1]=0; format=copy;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (format_has_wide_string(format)) count=format_wide_ascii(&text,format,args);
+    else
+#endif
+    {
+        /* VC1 prints the valid prefix of LINK's formats ending in a lone '%'.
+         * glibc rejects the whole conversion. Preserve literal %% pairs. */
+        while (percent<length && format[length-percent-1]=='%') ++percent;
+        if (percent&1) {
+            copy=strdup(format); if (!copy) return -1;
+            copy[length-1]=0; format=copy;
+        }
+        count=vasprintf(&text,format,args);
     }
-    count=vasprintf(&text,format,args); free(copy);
+    free(copy);
     if (count<0) return -1;
     result=recon_fwrite(text,1,count,s)==(unsigned)count?count:-1; free(text); return result;
 }

@@ -271,3 +271,8 @@ build/startup-precision-53: tests/startup-precision.c $(SOURCES) $(HEADERS) | bu
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $< $(SOURCES) -o $@
 startup-precision-check: build/startup-precision-default build/startup-precision-53
 	$(PYTHON) tests/check-startup-precision.py build/startup-precision-default build/startup-precision-53
+
+build/wide-printf-probe: tests/wide-printf-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+wide-printf-check: build/wide-printf-probe
+	$(PYTHON) tests/check-wide-printf.py build/wide-printf-probe
