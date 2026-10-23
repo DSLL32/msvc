@@ -1058,10 +1058,77 @@ char *recon_ultoa(unsigned long value,char *out,int radix)
     return out;
 }
 char *recon_itoa(int n,char *s,int radix) { if (n<0 && radix==10) { *s='-'; recon_ultoa(0U-(unsigned)n,s+1,radix); } else recon_ultoa((unsigned)n,s,radix); return s; }
+ReconMktempObservation recon_mktemp_observation;
+static unsigned mktemp_process_owner;
+static void mktemp_expected_state(const char *text,unsigned values[3])
+{
+    unsigned n; char *end; unsigned long number; int saved_errno=errno;
+    if (!text) recon_unsupported("strict mktemp missing prestate");
+    for (n=0;n<3;++n) {
+        if (*text<'0' || *text>'9') recon_unsupported("strict mktemp invalid prestate");
+        errno=0;number=strtoul(text,&end,10);
+        if (errno || number>UINT_MAX || (n<2?*end!=',':*end!=0))
+            recon_unsupported("strict mktemp invalid prestate");
+        values[n]=(unsigned)number; text=end+1;
+    }
+    errno=saved_errno;
+}
+static char *mktemp_strict(char *pattern,const char *expected,const char *suffix)
+{
+    ReconMktempObservation *record=&recon_mktemp_observation;
+    char path[PATH_MAX],parent[PATH_MAX],*slash,*end;
+    const char *setting=getenv("RECON_MKTEMP_FD");
+    struct stat info; unsigned state[3]; size_t length,i; long fd;
+    int before_errno=errno; DWORD before_last=recon_GetLastError();
+    unsigned before_dos=recon_doserrno;
+    if ((unsigned)getpid()!=mktemp_process_owner || record->count)
+        recon_unsupported("strict mktemp repeated/child invocation");
+    if (!pattern || !expected || !suffix || strcmp(pattern,expected))
+        recon_unsupported("strict mktemp unknown template");
+    length=strlen(pattern);
+    if (length<6 || length>=MAX_PATH || strcmp(pattern+length-6,"XXXXXX") ||
+        (length>6 && pattern[length-7]=='X') || strlen(suffix)!=6)
+        recon_unsupported("strict mktemp invalid template/suffix");
+    for (i=0;i<6;++i) if (!((suffix[i]>='a' && suffix[i]<='z') ||
+        (suffix[i]>='A' && suffix[i]<='Z') || (suffix[i]>='0' && suffix[i]<='9')))
+        recon_unsupported("strict mktemp nonASCII suffix");
+    mktemp_expected_state(getenv("RECON_MKTEMP_PRESTATE"),state);
+    if ((unsigned)before_errno!=state[0] || before_dos!=state[1] || before_last!=state[2])
+        recon_unsupported("strict mktemp entry state mismatch");
+    memset(record,0,sizeof(*record)); record->magic=0x31544d52;record->version=1;
+    record->owner=getpid();record->count=1;record->argument=(uintptr_t)pattern;
+    record->before_errno=before_errno;record->before_doserrno=before_dos;
+    record->before_last_error=before_last;strcpy(record->before,pattern);
+    memcpy(pattern+length-6,suffix,6);
+    if (recon_host_path(pattern,path,sizeof(path))) recon_unsupported("strict mktemp invalid path");
+    strcpy(parent,path);slash=strrchr(parent,'/');
+    if (slash) {if(slash==parent)slash[1]=0;else *slash=0;} else strcpy(parent,".");
+    if (stat(parent,&info) || !S_ISDIR(info.st_mode)) recon_unsupported("strict mktemp missing parent");
+    if (!lstat(path,&info) || errno!=ENOENT) recon_unsupported("strict mktemp collision/unknown access failure");
+    /* Canonical _access calls GetFileAttributesA, then _dosmaperr. For this
+     * observed missing file in an existing directory, both Win32 errors are2.
+     * _mktemp restores its saved errno after the failed existence check. */
+    recon_SetLastError(ERROR_FILE_NOT_FOUND);recon_doserrno=ERROR_FILE_NOT_FOUND;errno=before_errno;
+    record->result=(uintptr_t)pattern;record->after_errno=errno;
+    record->after_doserrno=recon_doserrno;record->after_last_error=recon_GetLastError();
+    strcpy(record->after,pattern);
+    if (setting) {
+        if (*setting<'0' || *setting>'9') recon_unsupported("strict mktemp invalid receipt fd");
+        fd=strtol(setting,&end,10);
+        if (*end || fd<3 || fd>INT_MAX || fstat(fd,&info) || !S_ISREG(info.st_mode) ||
+            info.st_size!=sizeof(*record) || pwrite(fd,record,sizeof(*record),0)!=sizeof(*record))
+            recon_unsupported("strict mktemp receipt write");
+    }
+    errno=before_errno; return pattern;
+}
 char *recon_mktemp(char *pattern)
 {
-    const char *fixed=getenv("RECON_MKTEMP_SUFFIX");
-    size_t length=strlen(pattern),i; unsigned pid=(unsigned)getpid();
+    const char *fixed=getenv("RECON_MKTEMP_SUFFIX"),*expected=getenv("RECON_MKTEMP_TEMPLATE");
+    size_t length,i; unsigned pid=(unsigned)getpid();
+    if (expected) return mktemp_strict(pattern,expected,fixed);
+    if (getenv("RECON_MKTEMP_PRESTATE") || getenv("RECON_MKTEMP_FD"))
+        recon_unsupported("mktemp receipt/prestate without strict template");
+    length=strlen(pattern);
     int saved_errno=errno,collision; char letter=0;
     if (length<6 || strcmp(pattern+length-6,"XXXXXX") ||
         (length>6 && pattern[length-7]=='X')) return NULL;
@@ -1142,6 +1209,7 @@ int recon_spawnlp(int mode,const char *file,const char *first,...)
 }
 __attribute__((constructor)) static void initialize_crt(void)
 {
+    mktemp_process_owner=getpid();
     int i; FILE *command; char program[PATH_MAX]; size_t bytes,total=1; char **e,*cursor;
     for (i=0;i<256;++i) pushed_byte[i]=-1;
     for (i=0;i<3;++i) {

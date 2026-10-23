@@ -179,6 +179,13 @@ char *recon_getcwd(char *,int);
 char *recon_find(const char *);
 char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
 char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
+typedef struct ReconMktempObservation {
+    uint32_t magic,version,owner,count,argument,result;
+    int32_t before_errno,after_errno;
+    uint32_t before_doserrno,after_doserrno,before_last_error,after_last_error;
+    char before[MAX_PATH],after[MAX_PATH];
+} ReconMktempObservation;
+extern ReconMktempObservation recon_mktemp_observation;
 char *recon_strcpy(char *,const char *);
 char *recon_getpath(const char *,char *,int);
 int recon_wcscmp(const WCHAR *,const WCHAR *);

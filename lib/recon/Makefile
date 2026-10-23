@@ -194,3 +194,7 @@ build/ascii-terminal-probe: tests/ascii-terminal-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 ascii-terminal-check: build/ascii-terminal-probe
 	$(PYTHON) tests/check-ascii-terminal.py build/ascii-terminal-probe
+build/mktemp-probe: tests/mktemp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mktemp-check: build/mktemp-probe
+	$(PYTHON) tests/check-mktemp.py build/mktemp-probe

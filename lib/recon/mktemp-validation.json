@@ -1,0 +1,12 @@
+{
+  "scope": "Strict case-bound one-call mktemp template/suffix/prestate; existing parent/missing filename only; canonical access effects and borrowed result",
+  "original_probe": "tests/mktemp-original.json",
+  "provider_analysis": [
+    "mktemp22827..228fa",
+    "access63f8..642d",
+    "dosmaperr6bec and error2 mapping"
+  ],
+  "native_checks": "GCC/Clang canonical four error pairs, fullstrings/alias; missing/repeated/child invocations, collision/unknownpattern/prestate/FDsize/suffix;receipt magic/owner/count/alias/error mutation negatives",
+  "gcc_seconds": 1.037,
+  "clang_seconds": 1.2
+}

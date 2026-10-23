@@ -537,3 +537,15 @@ _isatty returns the canonical FDEV mask (64) or0, with unsigned descriptor bound
 and unchanged errors; it is not a host Boolean tty test. CharNextA supports the
 observed explicit ACP1252 ASCII path: next-byte alias for non-NUL, same pointer
 at NUL, unchanged errors. Non-ASCII bytes/other profiles remain unsupported.
+
+Strict one-call mktemp replay opts in with RECON_MKTEMP_TEMPLATE (exact input),
+RECON_MKTEMP_SUFFIX (six captured ASCII alphanumerics), and
+RECON_MKTEMP_PRESTATE='errno,doserrno,LastError'. These assert actual state;
+no entry-state seeding occurs inside the shim. Existing parent/missing candidate
+is required; collisions, repeated/child calls and other failures are unsupported.
+Canonical _access sets doserrno/LastError2, then _mktemp restores saved errno.
+RECON_MKTEMP_FD optionally records the typed recon_mktemp_observation (RMT1,
+568 bytes) in a dedicated regular file. lib/recon/mktemp.py prepares/validates
+that receipt, requiring one PID-owned invocation and matching aliases/strings/
+errors. Fixtures must separately bind the original full directory inventory.
+Unconfigured legacy mktemp behavior remains unchanged.
