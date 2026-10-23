@@ -385,6 +385,14 @@
       "original_rva": "0x21e90",
       "kind": "integer",
       "bytes": 4
+    },
+    {
+      "name": "rc_number_buffer",
+      "original_rva": "0x14a80",
+      "kind": "address-identity",
+      "bytes": 4,
+      "pointee_rva": "0x17708",
+      "identity": "rc_number_spelling_address_identity"
     }
   ],
   "options": {

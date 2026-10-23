@@ -16,6 +16,7 @@ def capture_preprocessor(path):
     for row in specification['globals']:
         value=gdb.parse_and_eval(row['name']);address=int(value.address)
         record=dict(address=address,bytes=bytes(gdb.selected_inferior().read_memory(address,row['bytes'])).hex())
+        if row['kind']=='address-identity':record['identity_address']=int(gdb.parse_and_eval('&'+row['identity']))
         if row['kind']=='wide-string':record['text']=wide_bytes(int(value))
         if row['kind']in ['crt-file','crt-buffered-file']and int(value):
             record['file_state']=bytes(gdb.selected_inferior().read_memory(int(value),32)).hex()

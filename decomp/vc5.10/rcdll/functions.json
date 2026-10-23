@@ -51,7 +51,8 @@
     "rc_read_identifier",
     "rc_character_class",
     "rc_directive_code",
-    "rc_next_token"
+    "rc_next_token",
+    "rc_read_number"
   ],
   "functions": [
     {
@@ -1264,8 +1265,7 @@
       "end": "0x12412",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_read_fraction",
@@ -1300,6 +1300,60 @@
       "end": "0x5693",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_integer_value",
+      "start": "0x125aa",
+      "end": "0x12698",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_based_integer_kind",
+      "start": "0x12698",
+      "end": "0x126af",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_decimal_integer_kind",
+      "start": "0x126af",
+      "end": "0x126cb",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_long_integer_kind",
+      "start": "0x126cb",
+      "end": "0x126e2",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_unsigned_integer_kind",
+      "start": "0x126e2",
+      "end": "0x126fb",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_store_integer",
+      "start": "0x736b",
+      "end": "0x7443",
+      "abi": "stdcall",
+      "stack_bytes": 8,
       "kind": "application",
       "stub": true
     }

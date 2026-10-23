@@ -429,7 +429,7 @@ def prefix_trial(original,native):
 def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,output_open=False):
     text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
     assert arguments['count']==20 and arguments['argv']==argv
-    current_line=1 if b['function']in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']else 0
+    current_line=1 if b['function']in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else 0
     assert arguments['prepared_lines']==len(source.splitlines())==126 and arguments['current_line']==current_line
     raw=(original/'globals.bin').read_bytes()
     assert struct.unpack_from('<I',raw,0x29458-0x14000)[0]==126 and struct.unpack_from('<I',raw,0x16ce8-0x14000)[0]==current_line
@@ -437,7 +437,7 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,outp
     filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
-    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']
+    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']
     if buffered_output:
         length=len(buffered_output_prefix(b));assert old[0]-old[2]==new[0]-new[2]==length and old[1:2]+old[3:]==new[1:2]+new[3:]==(4096-length,138,4,0,4096,0)
     else:assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
@@ -647,7 +647,7 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 events=(original/'events.txt').read_text()
                 assert re.findall(r'^cpp-output-pointer ([0-9a-f]+)$',events,re.M)==['%08x'%int.from_bytes(old,'little')]
                 left=struct.unpack('<8I',raw_bytes(events,'cpp-output-file'));right=struct.unpack('<8I',bytes.fromhex(actual['file_state']))
-                if b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']:
+                if b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:
                     prefix=buffered_output_prefix(b);length=len(prefix)
                     assert left[2]and right[2]and left[0]-left[2]==right[0]-right[2]==length
                     assert left[1:2]+left[3:]==right[1:2]+right[3:]==(4096-length,138,4,0,4096,0)
@@ -659,7 +659,7 @@ def preprocessor_state(original,native,b,state,remaining,advance):
             left=int.from_bytes(old,'little');right=int.from_bytes(new,'little')
             if left:
                 original_frame=struct.unpack('<9I',read(0x18e80,36));native_frame=struct.unpack('<9I',bytes.fromhex(observed['globals']['rc_source_frames']['bytes'])[:36])
-                cursor_offset=14 if b['function']=='rc_read_number'else 10 if b['function']in ['rc_directive_code','rc_next_token']else 6 if b['function']=='rc_character_class'else 4 if b['function']=='rc_read_identifier'else 2 if b['function']in ['rc_handle_directive','rc_read_nonspace']else 0
+                cursor_offset=14 if b['function']in ['rc_read_number','rc_get_logical_character']else 10 if b['function']in ['rc_directive_code','rc_next_token']else 6 if b['function']=='rc_character_class'else 4 if b['function']=='rc_read_identifier'else 2 if b['function']in ['rc_handle_directive','rc_read_nonspace']else 0
                 assert left==original_frame[5]+cursor_offset and right==native_frame[5]+cursor_offset and right>0
             else:assert old==new
         elif row['kind']=='source-stack':
@@ -669,11 +669,11 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 old_file=int.from_bytes(read(0x21e88,4),'little');new_file=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_file']['bytes']),'little')
                 old_buffer=struct.unpack('<9I',old[:36])[5];new_buffer=struct.unpack('<9I',new[:36])[5]
                 old_name=new_name=0
-                if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']:
+                if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:
                     old_name=int(re.findall(r'^source-name-result ([0-9a-f]+)$',(original/'events.txt').read_text(),re.M)[0],16)
                     new_name=b['arguments']['source_name_copies'][0]['result']
-                assert left==(4098,old_file,0,old_name,0,old_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']else 0,2,0)
-                assert right==(4098,new_file,0,new_name,0,new_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']else 0,2,0)
+                assert left==(4098,old_file,0,old_name,0,old_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else 0,2,0)
+                assert right==(4098,new_file,0,new_name,0,new_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else 0,2,0)
             else:assert old==new
         elif row['kind']=='crt-buffered-file':
             if any(old):
@@ -686,6 +686,9 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 position=re.findall(r'^cpp-source-position (\d+)$',events,re.M);assert len(position)==1
                 assert re.findall(r'^pos:\s*(\d+)$',b['arguments']['source_fdinfo'],re.M)==position
             else:assert old==new
+        elif row['kind']=='address-identity':
+            assert int.from_bytes(old,'little')==0x71c20000+int(row['pointee_rva'],16)
+            assert int.from_bytes(new,'little')==actual['identity_address']and actual['identity_address']!=observed['globals']['rc_macro_name']['address']
         elif row['kind']=='wide-string':
             assert bytes.fromhex(actual['text'])==wide(int.from_bytes(old,'little'))
         else:assert old==new,'preprocessor global differs: '+row['name']
@@ -815,7 +818,7 @@ def parsed_option_state(original,native,b,original_arguments,extra_blocks=0,outp
     assert opened==dict(input=wide[4]['pointer'],output=wide[6]['pointer'],defines=globals['rc_cpp_defines']['address'],undefines=globals['rc_cpp_undefines']['address'])
     for field,expected in [('rc_cpp_input',wide[4]['pointer']),('rc_cpp_output',wide[6]['pointer']),('rc_cpp_path_characters',wide[9]['pointer']+6),('rc_cpp_option_argument',wide[18]['pointer'])]:
         assert int.from_bytes(bytes.fromhex(globals[field]['bytes']),'little')==expected
-    assert globals['rc_cpp_active']['bytes']==('00000000'if b['function']in ['rc_next_token','rc_read_number']else'01000000')and globals['rc_cpp_E']['bytes']=='01000000'and globals['rc_cpp_P']['bytes']=='00000000'
+    assert globals['rc_cpp_active']['bytes']==('00000000'if b['function']in ['rc_next_token','rc_read_number','rc_get_logical_character']else'01000000')and globals['rc_cpp_E']['bytes']=='01000000'and globals['rc_cpp_P']['bytes']=='00000000'
     for field,slots in [('rc_cpp_defines',[(99,7,4),(98,8,4),(97,19,0)]),('rc_cpp_includes',[(99,11,4),(98,13,0),(97,15,0),(96,17,0)]),('rc_cpp_undefines',[])]:
         raw=bytes.fromhex(globals[field]['bytes']);count=struct.unpack_from('<I',raw)[0];assert count==100-len(slots)
         wanted=[0]*100
@@ -1005,25 +1008,25 @@ def find_macro_trial(original,native):
 
 
 def _macro_setup_trial(original,native,stage):
-    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9),'duplicate':('rc_duplicate_source_name',35,'rc_emit_source_line',0x71c23f27),'emit':('rc_emit_source_line',36,'rc_write_preprocessed',0x71c24275),'write':('rc_write_preprocessed',37,'rc_quote_source_filename',0x71c24281),'quote':('rc_quote_source_filename',38,'rc_character_token',0x71c24220),'token':('rc_character_token',39,'rc_list_macro',0x71c23f6d),'listing':('rc_list_macro',40,'rc_scan_line_start',0x71c23fa3),'scanline':('rc_scan_line_start',41,'rc_handle_directive',0x71c320ad),'directive':('rc_handle_directive',42,'rc_read_nonspace',0x71c2635d),'nonspace':('rc_read_nonspace',43,'rc_read_identifier',0x71c263b6),'identifier':('rc_read_identifier',44,'rc_character_class',0x71c31b76),'classlookup':('rc_character_class',45,'rc_directive_code',0x71c263cd),'dictionary':('rc_directive_code',46,'rc_next_token',0x71c26533),'lexer':('rc_next_token',47,'rc_read_number',0x71c2381e)}[stage]
-    source_opened=stage!='copy';refilled=stage in ['refill','duplicate','emit','write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer']
+    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9),'duplicate':('rc_duplicate_source_name',35,'rc_emit_source_line',0x71c23f27),'emit':('rc_emit_source_line',36,'rc_write_preprocessed',0x71c24275),'write':('rc_write_preprocessed',37,'rc_quote_source_filename',0x71c24281),'quote':('rc_quote_source_filename',38,'rc_character_token',0x71c24220),'token':('rc_character_token',39,'rc_list_macro',0x71c23f6d),'listing':('rc_list_macro',40,'rc_scan_line_start',0x71c23fa3),'scanline':('rc_scan_line_start',41,'rc_handle_directive',0x71c320ad),'directive':('rc_handle_directive',42,'rc_read_nonspace',0x71c2635d),'nonspace':('rc_read_nonspace',43,'rc_read_identifier',0x71c263b6),'identifier':('rc_read_identifier',44,'rc_character_class',0x71c31b76),'classlookup':('rc_character_class',45,'rc_directive_code',0x71c263cd),'dictionary':('rc_directive_code',46,'rc_next_token',0x71c26533),'lexer':('rc_next_token',47,'rc_read_number',0x71c2381e),'number':('rc_read_number',48,'rc_get_logical_character',0x71c32296)}[stage]
+    source_opened=stage!='copy';refilled=stage in ['refill','duplicate','emit','write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer','number']
     config=read_configuration(original/'functions.json')
     assert config.get('trial_function')==trial and len(config['accepted'])==accepted
     assert json.loads((original/'receipt.json').read_text())['case']=='resources-rich-trailing-space','no-space source overread is unsupported'
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
     assert a['words'][0]==caller
     if not source_opened:assert a['words'][2]==1
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_next_token'if stage=='lexer'else'rc_read_identifier'if stage=='identifier'else'rc_handle_directive'if stage in ['directive','nonspace','classlookup','dictionary','lexer']else'rc_scan_line_start'if stage=='scanline'else'rc_quote_source_filename'if stage=='quote'else'rc_emit_source_line'if stage in ['emit','write']else'rc_open_source'if source_opened else'rc_open_preprocessor')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_read_number'if stage=='number'else'rc_next_token'if stage=='lexer'else'rc_read_identifier'if stage=='identifier'else'rc_handle_directive'if stage in ['directive','nonspace','classlookup','dictionary','lexer','number']else'rc_scan_line_start'if stage=='scanline'else'rc_quote_source_filename'if stage=='quote'else'rc_emit_source_line'if stage in ['emit','write']else'rc_open_source'if source_opened else'rc_open_preprocessor')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
     assert forwarded[2]==0x71c344f8+4+100*4 and b['arguments']['setup_iteration']==100
     forwarded[2]=0x71c344f8
-    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=11 if stage in ['duplicate','emit','write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer']else 10 if source_opened else 9,output_open=True);proof.update(state)
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=11 if stage in ['duplicate','emit','write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer','number']else 10 if source_opened else 9,output_open=True);proof.update(state)
     globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
     old_wide=[int(x,16)for x in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
     if not source_opened:assert a['words'][1]==old_wide[4]
     assert b['arguments']['source_open']==dict(path=wide[4]['pointer'],first=1,path_bytes=wide[4]['bytes'],formal_bytes=dict(path=4,first=4))
     assert raw_bytes(text,'source-open-input')==bytes.fromhex(wide[4]['bytes'])
-    assert globals['rc_macro_hash']['bytes']==('28'if stage in ['classlookup','dictionary','lexer']else'04')and globals['rc_macro_name_length']['bytes']==('05000000'if stage in ['classlookup','dictionary','lexer']else'0b000000')
+    assert globals['rc_macro_hash']['bytes']==('28'if stage in ['classlookup','dictionary','lexer','number']else'04')and globals['rc_macro_name_length']['bytes']==('05000000'if stage in ['classlookup','dictionary','lexer','number']else'0b000000')
     if not source_opened:
         assert globals['rc_source_depth']['bytes']=='ffffffff'and globals['rc_source_cursor']['bytes']==globals['rc_source_encoding']['bytes']==globals['rc_source_file']['bytes']=='00000000'
         assert globals['rc_source_frames']['bytes']=='00'*(36*1024)
@@ -1098,12 +1101,12 @@ def _macro_setup_trial(original,native,stage):
     spec=spec_from_file_location('copy_seh',HERE/'scripts/check-copy-seh.py');module=module_from_spec(spec);spec.loader.exec_module(module);seh=module.verify()
     proof.update(trial=trial,preprocessor=parser,trim=dict(original_word_before=32,word_after=0,owned_terminal_preserved=True,all_other_packed_bytes_unchanged=True,native_store_elf_pc=hex(store_pc-5),native_store_opcode='66c7000000'),copies=observations,source_open=dict(input=input_name,first=1,stack_bytes=8,hidden=dict(depth=-1,cursor=None,encoding=0,current_file=None,frame_count=1024,frame_bytes=36,frames_zero=True)),seh=seh,exception_scope='Native normal readable-memory path only; native faults stop. Windows source retains actual filter/handler; no native fault recovery equivalence.',lookup_reference=dict(path='cases/resources-rich/acceptance-0032.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0032.json')))
     if source_opened:proof['source_open']=source_open_state(original,native,b,state,input_name,refilled=refilled)
-    if stage in ['emit','write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer']:proof['source_line']=source_line_state(original,native,a,b)
-    if stage in ['write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer']:proof['output_write']=output_write_state(original,native,b)
+    if stage in ['emit','write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer','number']:proof['source_line']=source_line_state(original,native,a,b)
+    if stage in ['write','quote','token','listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer','number']:proof['output_write']=output_write_state(original,native,b)
     if stage=='quote':proof['quote']=quote_source_state(original,native,a,b)
     if stage=='token':proof['character_lookup']=listing_marker_state(original,native,a,b)
-    if stage in ['listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer']:proof['macro_listing']=listing_marker_state(original,native,a,b)
-    if stage in ['classlookup','dictionary','lexer']:proof['class_lookup']=completed_class_reads(original,native,a,b)
+    if stage in ['listing','scanline','directive','nonspace','identifier','classlookup','dictionary','lexer','number']:proof['macro_listing']=listing_marker_state(original,native,a,b)
+    if stage in ['classlookup','dictionary','lexer','number']:proof['class_lookup']=completed_class_reads(original,native,a,b)
     return proof
 
 
@@ -1121,13 +1124,13 @@ def source_open_state(original,native,b,state,input_name,refilled=False):
     requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
     results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
     payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
-    assert len(requests)==len(results)==len(payloads)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']else 15)
+    assert len(requests)==len(results)==len(payloads)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else 15)
     assert requests[14][1:]==('9','8206','00000000')and int(results[14][0],16)+8==old_buffer and results[14][1]=='00000000'
     assert requests[14][0]==requests[4][0]and payloads[14]==('8206','00'*8206)
     source=(original/'source'/input_name.rsplit('\\',1)[-1]).read_bytes()
     expected_buffer=b'\0'*8+source+b'\0'*(8198-len(source))if refilled else b'\0'*8206
     assert raw_bytes(text,'source-new-buffer')==expected_buffer
-    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']else 15)
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else 15)
     allocation=allocations[14];identity=b['heap_identity'];block=next(row for row in identity['blocks']if row['payload']+8==new_buffer)
     assert allocation['heap']==block['owner']==identity['handle']and allocation['result']+8==new_buffer
     assert allocation['bytes']==block['bytes']==8206 and allocation['flags']==block['flags']==9
@@ -1164,7 +1167,7 @@ def refill_state(original,native,b,old_buffer,new_buffer):
         original_filename=int.from_bytes((original/'globals.bin').read_bytes()[0x149c4-0x14000:0x149c8-0x14000],'little')
         old_frontier=original_raw(original);assert old_frontier['words'][1]==original_filename
     else:source_name_state(original,native,b)
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_next_token'if b['function']=='rc_read_number'else'rc_read_identifier'if b['function']=='rc_character_class'else'rc_handle_directive'if b['function']in ['rc_read_nonspace','rc_read_identifier','rc_directive_code','rc_next_token','rc_read_number']else'rc_scan_line_start'if b['function']=='rc_handle_directive'else'rc_quote_source_filename'if b['function']=='rc_character_token'else'rc_emit_source_line'if b['function']in ['rc_write_preprocessed','rc_quote_source_filename']else'rc_open_source')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_read_number'if b['function']=='rc_get_logical_character'else'rc_next_token'if b['function']=='rc_read_number'else'rc_read_identifier'if b['function']=='rc_character_class'else'rc_handle_directive'if b['function']in ['rc_read_nonspace','rc_read_identifier','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else'rc_scan_line_start'if b['function']=='rc_handle_directive'else'rc_quote_source_filename'if b['function']=='rc_character_token'else'rc_emit_source_line'if b['function']in ['rc_write_preprocessed','rc_quote_source_filename']else'rc_open_source')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
 
 
 def refill_source_trial(original,native):
@@ -1204,7 +1207,7 @@ def source_line_state(original,native,a,b):
     before=raw_bytes(text,'source-line-format-before');after=raw_bytes(text,'source-line-format-after')
     assert len(before)==len(after)==1024 and before==bytes.fromhex(record['before'])and after==bytes.fromhex(record['after'])
     assert after==wanted+before[len(wanted):]
-    if b['function']not in ['rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']:assert globals['rc_macro_name']['bytes']==after.hex()
+    if b['function']not in ['rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:assert globals['rc_macro_name']['bytes']==after.hex()
     file=int.from_bytes(bytes.fromhex(globals['rc_cpp_output_file']['bytes']),'little');old_file=int.from_bytes((original/'globals.bin').read_bytes()[0x18e74-0x14000:0x18e78-0x14000],'little')
     write=b['arguments']['write']if b['function']=='rc_write_preprocessed'else b['arguments']['output_writes'][0]['args']
     if b['function']=='rc_write_preprocessed':
@@ -1231,7 +1234,7 @@ def output_write_state(original,native,b):
     assert left[2]and right[2]and left[0]-left[2]==right[0]-right[2]==16
     assert left[1:2]+left[3:]==right[1:2]+right[3:]==(4080,138,4,0,4096,0)
     assert bytes.fromhex(record['written_buffer'])==wanted
-    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']:
+    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:
         assert raw_bytes(text,'output-write-after-file')==raw_bytes(text,'cpp-output-file')
         assert record['after_file']==globals['rc_cpp_output_file']['file_state']
         assert raw_bytes(text,'cpp-output-buffer')==wanted
@@ -1266,7 +1269,7 @@ def quote_source_filename_trial(original,native):
 
 
 def buffered_output_prefix(b):
-    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']:return '#line 1 '.encode('utf-16le')
+    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:return '#line 1 '.encode('utf-16le')
     path=bytes.fromhex(b['arguments']['source_open']['path_bytes']).decode('utf-16le')
     assert path.endswith('\0')and '\0'not in path[:-1]
     return ('#line 1 "'+path[:-1].replace('\\','\\\\')+'"\r\n').encode('utf-16le')
@@ -1274,7 +1277,7 @@ def buffered_output_prefix(b):
 
 def listing_marker_state(original,native,a,b):
     text=(original/'events.txt').read_text();arguments=b['arguments'];globals=arguments['preprocessor']['globals']
-    completed=b['function']in ['rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']
+    completed=b['function']in ['rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']
     if completed:
         records=arguments['macro_listings'];assert records==json.loads((native/'macro-listings.json').read_text())and len(records)==1
         marker=records[0]
@@ -1284,16 +1287,16 @@ def listing_marker_state(original,native,a,b):
         assert re.findall(r'^listing-return esp=([0-9a-f]+) enabled=(\d+)$',text,re.M)==[('%08x'%(sp+8),'0')]
         assert marker['return_esp']==marker['entry_esp']+8 and marker['enabled_before']==marker['enabled_after']==0
         assert marker['record']==marker['after']and raw_bytes(text,'listing-record-before')==raw_bytes(text,'listing-record-after')
-        assert arguments['scan_line']==dict(formals=[],cursor=int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little'),current_line=1 if b['function']in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']else 0)
+        assert arguments['scan_line']==dict(formals=[],cursor=int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little'),current_line=1 if b['function']in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']else 0)
         left=raw_bytes(text,'listing-record-before');name=raw_bytes(text,'listing-name');value=raw_bytes(text,'listing-text')
     else:
         marker=arguments['marker'];pointer=a['words'][1]
         assert re.findall(r'^source-marker pointer=([0-9a-f]+) parent-bp=([0-9a-f]+)$',text,re.M)==[('%08x'%pointer,'%08x'%a['registers']['ebp'])]
         assert marker['frame_pointer']-128<marker['pointer']<marker['frame_pointer']
         left=raw_bytes(text,'source-marker-record');name=raw_bytes(text,'source-marker-name');value=raw_bytes(text,'source-marker-text')
-    source_bp=a['words'][4]if b['function']=='rc_character_class'else int(re.findall(r'^source-owner-bp ([0-9a-f]+)$',text,re.M)[0],16)if b['function']=='rc_read_number'else a['words'][3]if b['function']=='rc_next_token'else a['registers']['ebp']
+    source_bp=a['words'][4]if b['function']=='rc_character_class'else int(re.findall(r'^source-owner-bp ([0-9a-f]+)$',text,re.M)[0],16)if b['function']in ['rc_read_number','rc_get_logical_character']else a['words'][3]if b['function']=='rc_next_token'else a['registers']['ebp']
     assert pointer==source_bp-16
-    if b['function']in ['rc_character_class','rc_next_token','rc_read_number']:assert re.findall(r'^source-owner-bp ([0-9a-f]+)$',text,re.M)==['%08x'%source_bp]
+    if b['function']in ['rc_character_class','rc_next_token','rc_read_number','rc_get_logical_character']:assert re.findall(r'^source-owner-bp ([0-9a-f]+)$',text,re.M)==['%08x'%source_bp]
     assert marker['pointer']==marker['object']and marker['object_bytes']==16 and marker['formal_bytes']==4 and marker['parent']=='rc_open_source'
     right=bytes.fromhex(marker['record']);assert len(left)==len(right)==16
     assert struct.unpack_from('<III',left)==(0,0x71c2124c,0x71c36cf8)
@@ -1303,7 +1306,7 @@ def listing_marker_state(original,native,a,b):
     assert name==bytes.fromhex(marker['name_bytes'])=='!\0'.encode('utf-16le')
     assert value==bytes.fromhex(marker['text_bytes'])==b'\0\0'
     assert globals['rc_macro_listing_enabled']['bytes']=='00000000'
-    if b['function']in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number']:
+    if b['function']in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:
         assert arguments['directive']==dict(formals=[],scanner_character=ord('#'),scanner_character_bytes=2)
         if b['function']in ['rc_read_nonspace','rc_read_identifier','rc_character_class']:
             if b['function']=='rc_read_nonspace':assert arguments['nonspace']==dict(formals=[])
@@ -1313,8 +1316,8 @@ def listing_marker_state(original,native,a,b):
                 assert arguments['identifier']==dict(character=ord('l'),formal_bytes=2,stack_slot_bytes=4,parent_character=ord('l'))
             assert globals['rc_expanding_macro']['bytes']==globals['rc_in_directive']['bytes']=='00000000'
         frame=struct.unpack('<9I',bytes.fromhex(globals['rc_source_frames']['bytes'])[:36])
-        assert arguments['scan_line']['cursor']==frame[5]+(14 if b['function']=='rc_read_number'else 10 if b['function']in ['rc_directive_code','rc_next_token']else 6 if b['function']=='rc_character_class'else 4 if b['function']=='rc_read_identifier'else 2)
-        assert globals['rc_cpp_active']['bytes']==('00000000'if b['function']in ['rc_next_token','rc_read_number']else'01000000')
+        assert arguments['scan_line']['cursor']==frame[5]+(14 if b['function']in ['rc_read_number','rc_get_logical_character']else 10 if b['function']in ['rc_directive_code','rc_next_token']else 6 if b['function']=='rc_character_class'else 4 if b['function']=='rc_read_identifier'else 2)
+        assert globals['rc_cpp_active']['bytes']==('00000000'if b['function']in ['rc_next_token','rc_read_number','rc_get_logical_character']else'01000000')
         assert bytes.fromhex(globals['rc_character_tokens']['bytes'])[ord('#')*2:ord('#')*2+2]==b'\x0b\x00'and arguments['current_line']==1
     path=bytes.fromhex(arguments['source_open']['path_bytes']).decode('utf-16le')[:-1]
     quoted=('"'+path.replace('\\','\\\\')+'"').encode('utf-16le')
@@ -1325,8 +1328,10 @@ def listing_marker_state(original,native,a,b):
         assert arguments['class']==dict(character=ord('i'),formal_bytes=2,stack_slot_bytes=4,table_entry=16,identifier_cursor=globals['rc_macro_name']['address']+2,hash=76)
         table=bytes.fromhex(globals['rc_character_classes']['bytes']);assert len(table)==512 and struct.unpack_from('<H',table,ord('i')*2)[0]==16
         assert struct.unpack_from('<H',table,ord('$')*2)[0]==16
-    if b['function']in ['rc_directive_code','rc_next_token','rc_read_number']:
+    if b['function']in ['rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character']:
         complete=bytearray(wanted);complete[:10]='line\0'.encode('utf-16le');wanted=bytes(complete)
+        if b['function']=='rc_get_logical_character':
+            changed=bytearray(wanted);changed[:2]='1'.encode('utf-16le');wanted=bytes(changed)
     assert len(wanted)==1024 and globals['rc_macro_name']['bytes']==wanted.hex()
     prefix=buffered_output_prefix(b)
     assert raw_bytes(text,'cpp-output-buffer')==prefix
@@ -1415,4 +1420,15 @@ def next_token_trial(original,native):
     assert args['numeric_token']==dict(first=49,formal_bytes=2,stack_slot_bytes=4,parent_character=49,parent_class=29,buffer_active=0)
     assert globals['rc_number_buffer_active']['bytes']=='00000000'
     proof['numeric_token']=dict(first=49,formal_bytes=2,stack_slot_bytes=4,cleanup=4,parent_class=29,cursor_offset=14,hidden_inputs=dict(buffer_active=0,alternate_buffer='not read while disabled',token_kind=1,token_value=None,output_active=0,source_encoding=2,source_depth=0,source_file='verified prepared UTF16FILE'),descriptor_scope='44 named pointer+BYTE kind rows verified statically; unconsumed keywords/uninitialized padding unclaimed. Native variable lookup holds unavailable rows. No lexer return yet; next callee remains trapped.')
+    return proof
+
+
+def read_number_trial(original,native):
+    proof=_directive_lookup_trial(original,native,'number')
+    a=original_raw(original);b=native_raw(native);args=b['arguments'];globals=args['preprocessor']['globals'];text=(original/'events.txt').read_text()
+    assert args['numeric_token']==dict(first=49,formal_bytes=2,stack_slot_bytes=4,parent_character=49,parent_class=29,buffer_active=0)
+    assert args['logical_character']==dict(formals=[],begin=globals['rc_macro_name']['address'],cursor=globals['rc_macro_name']['address']+2,radix=10,token=7)
+    assert re.findall(r'^number-parser-state first=(\d+) radix=(\d+) token=(\d+) begin=([0-9a-f]+) cursor=([0-9a-f]+)$',text,re.M)==[('49','10','7','71c38128','71c3812a')]
+    assert globals['rc_number_buffer_active']['bytes']=='00000000'
+    proof['number_parser']=dict(first=49,first_formal_bytes=2,stack_slot_bytes=4,radix=10,provisional_token=7,scratch_initialized_word=49,cursor_offset=2,next_formals=[],next_hidden_inputs=dict(source_cursor_offset=14,current_word=32,source_depth=0,alternate_mode=0),alternate_buffer_scope='Address identity only: distinct original17708/global native anchor, equality/copy only before source guard; no pointee bytes/capacity/layout or data extent credit.',return_scope='AL unsigned8; no number-parser return reached yet.')
     return proof

@@ -217,12 +217,6 @@ void __cdecl rc_read_string(void)
     __asm int 3
 }
 
-unsigned char __stdcall rc_read_number(WCHAR first)
-{
-    __asm int 3
-    return 0;
-}
-
 unsigned char __stdcall rc_read_fraction(WCHAR *end)
 {
     __asm int 3
@@ -242,6 +236,42 @@ int __stdcall rc_read_macro_identifier(WCHAR first)
 }
 
 int __stdcall rc_expand_macro(RcMacro *macro)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned __stdcall rc_parse_integer_value(const WCHAR *text,unsigned radix)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned char __stdcall rc_based_integer_kind(int value)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned char __stdcall rc_decimal_integer_kind(int value)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned char __stdcall rc_long_integer_kind(int value)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
+{
+    __asm int 3
+    return 0;
+}
+
+void * __stdcall rc_store_integer(unsigned short token,const unsigned *value)
 {
     __asm int 3
     return 0;

@@ -391,3 +391,12 @@ their kind is one BYTE, and padding/other keyword rows remain unclaimed.
 A plain Linux guard probe links the production lexer object with an explicitly
 controlled number dependency and confirms unavailable descriptor128 traps in the
 lexer itself; descriptor7 returns94. This does not accept the number parser.
+
+Number scanning is accepted (668 bytes), reaching the logical-character reader
+after writing digit1 with radix10 and provisional token7. The body retains hex,
+octal, floating continuation, suffix and integer-storage paths behind named
+helpers. [Verification](cases/resources-rich-trailing-space/read-number-verification.json)
+records eight fresh controls and exact initialized scratch/owner/cursor inputs.
+The alternate buffer is only an address identity, with no contents, capacity or
+data-extent credit. Native alternate mode traps before any dereference; mode0
+reaches the named reader stub. No complete integer result is claimed yet.

@@ -110,8 +110,12 @@ build/native/directive-boundary-host: build/native/directive-names.o scripts/dir
 
 # Auxiliary guard check: localize only the dependency stub being controlled.
 # All target objects, including the lexer, remain the production objects.
-build/native/descriptor-stubs.o: build/native/stubs.o
+build/native/descriptor-number.o: build/native/numbers.o
 	objcopy --localize-symbol=rc_read_number $< $@
-build/native/descriptor-boundary-host: $(NATIVE_OBJECTS) build/native/descriptor-stubs.o scripts/descriptor-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(filter-out build/native/stubs.o,$(NATIVE_OBJECTS)) scripts/descriptor-boundary-host.c build/native/descriptor-stubs.o $(NATIVE_SHIMS) -o $@
+build/native/descriptor-boundary-host: $(NATIVE_OBJECTS) build/native/descriptor-number.o scripts/descriptor-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(filter-out build/native/numbers.o,$(NATIVE_OBJECTS)) scripts/descriptor-boundary-host.c build/native/descriptor-number.o $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-descriptor-boundary-source.json --host scripts/descriptor-boundary-host.c
+
+build/native/number-mode-boundary-host: $(NATIVE_OBJECTS) scripts/number-mode-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/number-mode-boundary-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-number-mode-boundary-source.json --host scripts/number-mode-boundary-host.c
