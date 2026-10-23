@@ -370,8 +370,24 @@ int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int 
 }
 
 CppSymbol *__stdcall find_class_special_member(CppSymbol *tag, char *name);
-void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *constructor, int model);
 void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor, int model);
+
+/* Original 0x371b0..0x37222. A closure omits the constructor's explicit
+   defaulted parameters and is indexed by that original constructor symbol. */
+void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *constructor, int model)
+{
+    TypeShape *shape = constructor->type->related;
+    CppSymbol *closure;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    closure = create_implicit_special_member(tag, 7, model,
+        (unsigned short)(shape->attributes & 7), 1);
+    if ((constructor->storage[2] & 4) && !(closure->storage[2] & 4)) {
+        closure->storage[2] |= 4;
+        closure->storage[2] = (closure->storage[2] & ~8) | (constructor->storage[2] & 8);
+        if (closure->storage[2] & 8) defer_generated_member(closure);
+    }
+    set_hash_value(default_constructor_closure_table(), constructor, closure);
+}
 
 /* Original 0x37070..0x37170. Create at most one closure for each pointer
    model when a nontrivial default constructor takes explicit default arguments. */

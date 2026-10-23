@@ -1,0 +1,52 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000371b0 <.text+0x201b0>:
+   371b0:	56                   	push   esi
+   371b1:	57                   	push   edi
+   371b2:	8b 74 24 10          	mov    esi,DWORD PTR [esp+0x10]
+   371b6:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   371b9:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   371bc:	0b c0                	or     eax,eax
+   371be:	74 08                	je     0x371c8
+   371c0:	f6 00 77             	test   BYTE PTR [eax],0x77
+   371c3:	75 03                	jne    0x371c8
+   371c5:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   371c8:	66 8b 40 02          	mov    ax,WORD PTR [eax+0x2]
+   371cc:	66 25 07 00          	and    ax,0x7
+   371d0:	6a 01                	push   0x1
+   371d2:	50                   	push   eax
+   371d3:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   371d7:	50                   	push   eax
+   371d8:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   371dc:	6a 07                	push   0x7
+   371de:	50                   	push   eax
+   371df:	e8 ec 02 00 00       	call   0x374d0
+   371e4:	8b f8                	mov    edi,eax
+   371e6:	f6 46 1c 04          	test   BYTE PTR [esi+0x1c],0x4
+   371ea:	74 24                	je     0x37210
+   371ec:	8a 47 1c             	mov    al,BYTE PTR [edi+0x1c]
+   371ef:	a8 04                	test   al,0x4
+   371f1:	75 1d                	jne    0x37210
+   371f3:	0c 04                	or     al,0x4
+   371f5:	88 47 1c             	mov    BYTE PTR [edi+0x1c],al
+   371f8:	8a 4e 1c             	mov    cl,BYTE PTR [esi+0x1c]
+   371fb:	32 c8                	xor    cl,al
+   371fd:	80 e1 08             	and    cl,0x8
+   37200:	32 c8                	xor    cl,al
+   37202:	88 4f 1c             	mov    BYTE PTR [edi+0x1c],cl
+   37205:	f6 c1 08             	test   cl,0x8
+   37208:	74 06                	je     0x37210
+   3720a:	57                   	push   edi
+   3720b:	e8 90 07 00 00       	call   0x379a0
+   37210:	57                   	push   edi
+   37211:	56                   	push   esi
+   37212:	e8 69 ff ff ff       	call   0x37180
+   37217:	50                   	push   eax
+   37218:	e8 c3 7a 01 00       	call   0x4ece0
+   3721d:	5f                   	pop    edi
+   3721e:	5e                   	pop    esi
+   3721f:	c2 0c 00             	ret    0xc

@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "function": "_make_default_constructor_closure@12",
+  "native_entry": "make_default_constructor_closure",
+  "argument_words": 4,
+  "ownership_register": "ebx",
+  "ownership_caller_extent": [
+    225392,
+    225648
+  ],
+  "original_observations": [
+    {
+      "name": "class_owner",
+      "original": 573948
+    }
+  ],
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 0
+    }
+  ],
+  "native_caller_locals": {
+    "caller_member": {
+      "frame": 1,
+      "function": "declare_default_constructor_closures",
+      "local": "member"
+    }
+  },
+  "native_expressions": {
+    "raw_tag": "(unsigned)tag",
+    "raw_constructor": "(unsigned)constructor",
+    "class_owner": "(unsigned)class_contexts[current_class_context].symbol",
+    "class_index": "current_class_context",
+    "model": "model"
+  },
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "class_owner",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "class_owner",
+        "identity": "current class slot0 symbol"
+      }
+    },
+    {
+      "name": "constructor",
+      "stack_index": 1,
+      "native_field": "raw_constructor",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 160095,
+        "original_owner_function": "_declare_default_constructor_closures@4",
+        "native_owner_field": "caller_member",
+        "native_owner_function": "declare_default_constructor_closures",
+        "native_owner_local": "member",
+        "identity": "actual accepted caller iteration member: EBX loaded from selected constructor at0x370f0, type/default/model helper calls preserve EBX, PUSH EBX0x37158/CALL0x3715a return0x3715f. Native actual caller local member selects that symbol. No forced static alias or recursive symbol reads."
+      }
+    },
+    {
+      "name": "model",
+      "stack_index": 2,
+      "native_field": "model",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32,
+        "type": "int"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      225712,
+      225826
+    ],
+    "argument_bytes": 12,
+    "proof": "PUSH ESI/EDI then constructor from ESP+16. After two additional pushes model comes from ESP+28 (entryESP+12) and tag from ESP+24 after another push (entryESP+4). RET12 at0x3721f. Constructor pointer loaded to ESI, EDI comes from create_implicit_special_member return; AL/CL derive storage loads. No incoming semantic register or hidden input. EBX is observed only as a caller ownership anchor, not a callee ABI input."
+  }
+}

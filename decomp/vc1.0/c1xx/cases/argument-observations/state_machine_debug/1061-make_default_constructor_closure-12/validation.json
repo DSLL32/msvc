@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_default_constructor_closure@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1061,
+  "configuration_sha256": "e27a286085d813a0f94445805690827b647a1c76b41115c84e915ffbee9e9ea4",
+  "native_entry": "make_default_constructor_closure",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "class_owner",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "class_owner",
+        "identity": "current class slot0 symbol",
+        "original_anchor_value": 8301700,
+        "native_anchor_value": 1449262212
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449262212,
+      "result": "match"
+    },
+    {
+      "name": "constructor",
+      "stack_index": 1,
+      "native_field": "raw_constructor",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 160095,
+        "original_owner_function": "_declare_default_constructor_closures@4",
+        "native_owner_field": "caller_member",
+        "native_owner_function": "declare_default_constructor_closures",
+        "native_owner_local": "member",
+        "identity": "actual accepted caller iteration member: EBX loaded from selected constructor at0x370f0, type/default/model helper calls preserve EBX, PUSH EBX0x37158/CALL0x3715a return0x3715f. Native actual caller local member selects that symbol. No forced static alias or recursive symbol reads.",
+        "original_owner_value": 8302420,
+        "native_owner_value": 1449262932
+      },
+      "original_raw": 8302420,
+      "native_raw": 1449262932,
+      "result": "match"
+    },
+    {
+      "name": "model",
+      "stack_index": 2,
+      "native_field": "model",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32,
+        "type": "int"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      225712,
+      225826
+    ],
+    "argument_bytes": 12,
+    "proof": "PUSH ESI/EDI then constructor from ESP+16. After two additional pushes model comes from ESP+28 (entryESP+12) and tag from ESP+24 after another push (entryESP+4). RET12 at0x3721f. Constructor pointer loaded to ESI, EDI comes from create_implicit_special_member return; AL/CL derive storage loads. No incoming semantic register or hidden input. EBX is observed only as a caller ownership anchor, not a callee ABI input.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "aba7c05f5f5cc3cafe97c76138146e51f01413172fff1fd8a82154729d578bda",
+  "capture_timing": {
+    "original_capture_seconds": 1.869734295643866,
+    "native_capture_seconds": 0.1854554396122694,
+    "total_operation_seconds": 2.352482996881008
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "0f1db0cb6eedde55618f5f6d1ce3d9e3b564218839cd7cdd1c96e1183b150a2e",
+    "native-commands.gdb": "5be6f3f29e2b149da60174dcd63701f9cf8b7a7bc13ae7e274f9e734ce734033",
+    "native-gdb.log": "a664fedfdae3944de068cec4098c4231dd9ca9eab804704266917d5706cc0c30",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "8eca78a52607ad1d6be8e5464ed619e18bb4dbf26a220b5c3198ee900ef90847",
+    "original-configuration.json": "e27a286085d813a0f94445805690827b647a1c76b41115c84e915ffbee9e9ea4",
+    "original-disassembly.txt": "706723a4b5084b4259050b3961b951b6cb378fe8c701a44587f917d2cf6960b1",
+    "original-events.txt": "5b67ec7faf86c79adb1c9817eb1345db63b70a05a8574253ce9474fc913d1a1e",
+    "original-ownership-caller-disassembly.txt": "552f27518714ef326c207ea28bfef0bddbfae5d6b67c09c5a275a14bed5a7848",
+    "original-receipt.json": "19b4d3921bd55271365d4e20f9eb53692d89cc2ece7dd3beb8f78c85434d5cec",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "00783c9f996d874af9799cf9b489378348ead9b52d2ddfbc19c18753912f4aeb",
+    "original-entries.plan": "7f3d6d18854cc584d35b5a7239e213e686dc04322f411d55e26d22703973ed16"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 0
+    }
+  ]
+}

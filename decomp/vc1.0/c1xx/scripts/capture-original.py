@@ -27,11 +27,12 @@ def main():
     parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--accepted-count', type=int)
     parser.add_argument('--entry-plan', action='store_true', help='capture and assert the accepted application first-entry sequence')
+    parser.add_argument('--entry-owner', help='capture only this accepted owner entry; labelled separately from full case projection')
     parser.add_argument('--candidate', help='explicit proposed function to unmask for fresh acceptance evidence')
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
     parser.add_argument('--argument-words', type=int, choices=(4, 6), default=4,
         help='explicit raw stack-word count for a proved current ABI; default remains four')
-    parser.add_argument('--ownership-register', choices=('esi',),
+    parser.add_argument('--ownership-register', choices=('esi', 'ebx'),
         help='explicit caller-owned allocation anchor; not an extra callee ABI input')
     parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
         help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')
@@ -53,6 +54,7 @@ def main():
     records = [r for r in json.loads((BINARY / 'runtime.json').read_text()) if r['start'] not in drivers]
     records += imports(image) + config['driver']
     accepted = config['accepted'][:count]
+    assert not args.entry_owner or (args.entry_plan and args.entry_owner in accepted), 'owner entry must already be accepted'
     pending = json.loads(args.pending_accepted.read_text()) if args.pending_accepted else []
     assert not pending or count == len(config['accepted'])
     assert all(name not in accepted for name in pending) and len(set(pending)) == len(pending)
@@ -90,6 +92,9 @@ def main():
             if match and ':' not in match[2]:sources[match[1]]=Path(match[2]).stem
         first=config['cases'][args.case].get('accepted_from',0)
         plan_names=[name for name in accepted[first:] if name in sources and sources[name]!='runtime']
+        if args.entry_owner:
+            assert args.entry_owner in sources and sources[args.entry_owner]!='runtime'
+            plan_names=[args.entry_owner]
         by_name={r['name']:r for r in records}
         data=bytearray(executable.read_bytes())
         rows=[]
@@ -129,9 +134,9 @@ def main():
         receipt['argument_observation'] = argument_observation(events, args.argument_words)
     receipt['observer_sha256'] = hashlib.sha256((BINARY/'build/debug-run.exe').read_bytes()).hexdigest()
     if args.ownership_register:
-        anchors = re.findall(r'^ownership-anchor esi ([0-9a-f]{8})$', events, re.M)
+        anchors = re.findall(r'^ownership-anchor '+args.ownership_register+r' ([0-9a-f]{8})$', events, re.M)
         assert len(anchors) == 1, 'missing/unreadable requested ownership register'
-        receipt['ownership_register_observations'] = [dict(register='esi', value=int(anchors[0],16), read_succeeded=True)]
+        receipt['ownership_register_observations'] = [dict(register=args.ownership_register, value=int(anchors[0],16), read_succeeded=True)]
     if observations:
         states=re.findall(r'^state \d+ ([0-9a-f]+)$',(directory/'events.txt').read_text(),re.M)
         assert len(states)==len(config['checkpoint_state'])+len(observations)
@@ -139,11 +144,15 @@ def main():
     if args.entry_plan:
         observed=re.findall(r'^entry (\S+) rva [0-9a-f]+ byte [0-9a-f]+$',(directory/'events.txt').read_text(),re.M)
         assert observed==plan_names,(observed,plan_names)
-        receipt['first_entry_projection']=dict(accepted_first=first,accepted_last=len(accepted),
+        projection = dict(accepted_first=first,accepted_last=len(accepted),
             accepted_prefix_sha256=hashlib.sha256(json.dumps(accepted,separators=(',',':')).encode()).hexdigest(),
             expected=plan_names,observed=observed,
             events_sha256=hashlib.sha256((directory/'events.txt').read_bytes()).hexdigest(),
             plan_sha256=hashlib.sha256((directory/'entries.plan').read_bytes()).hexdigest())
+        if args.entry_owner:
+            projection['scope']='single explicitly selected accepted ownership caller entry; not a full case trace'
+            receipt['ownership_entry_projection']=projection
+        else: receipt['first_entry_projection']=projection
     (directory / 'receipt.json').write_text(json.dumps(receipt, indent=2)+'\n')
     print(directory / 'receipt.json')
 

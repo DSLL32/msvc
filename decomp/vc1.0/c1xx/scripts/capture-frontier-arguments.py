@@ -41,7 +41,9 @@ def main():
     for item in plan.get('original_observations', []):
         command += ['--observe-state', item['name']+'='+hex(item['original'])]
     if plan.get('ownership_register'):
-        command += ['--ownership-register', plan['ownership_register'], '--entry-plan']
+        owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind']=='caller-owned-pointer'}
+        assert len(owners)==1, 'one explicit actual ownership caller per observation'
+        command += ['--ownership-register', plan['ownership_register'], '--entry-plan', '--entry-owner', owners.pop()]
     original = Path(subprocess.check_output(command, cwd=BINARY, text=True).strip().splitlines()[-1]).parent
     out = BINARY/'cases/argument-observations'/args.case/('%04d-' % len(config['accepted']) + re.sub(r'[^A-Za-z_0-9-]', '-', name.lstrip('_@')))
     out.mkdir(parents=True, exist_ok=False)
@@ -85,8 +87,12 @@ def main():
             registers = [row for row in receipt['ownership_register_observations'] if row['register'] == binding['original_register']]
             assert len(registers) == 1 and registers[0]['read_succeeded']
             assert re.findall(r'^caller ([0-9a-f]+)$', events, re.M) == ['%08x' % binding['original_caller_rva']]
-            assert binding['original_owner_function'] in receipt['first_entry_projection']['observed']
+            projection=receipt.get('ownership_entry_projection', receipt.get('first_entry_projection'))
+            assert binding['original_owner_function'] in projection['observed']
             assert binding['original_owner_function'] in config['accepted']
+            assert projection['events_sha256'] == sha(original/'events.txt')
+            owner_record=next(row for row in config['driver'] if row['name']==binding['original_owner_function'])
+            assert re.search(r'^entry '+re.escape(binding['original_owner_function'])+r' rva %08x byte [0-9a-f]{2}$' % (owner_record['start']-config['target']['base']), events, re.M), 'actual accepted owner entry/RVA missing'
             owner = checkpoint['caller_locals'][binding['native_owner_field']]
             assert owner['function'] == binding['native_owner_function'] and owner['local'] == binding['native_owner_local']
             binding['original_owner_value'] = registers[0]['value']
@@ -109,6 +115,8 @@ def main():
     assert [m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$', events, re.M)] == checkpoint['buffers']
     for filename in ('receipt.json', 'events.txt', 'configuration.json', 'stdout.bin', 'stderr.bin'):
         shutil.copyfile(original/filename, out/('original-'+filename))
+    if (original/'entries.plan').exists():
+        shutil.copyfile(original/'entries.plan', out/'original-entries.plan')
     for filename in ('checkpoint.json', 'commands.gdb', 'gdb.log', 'timing.json', 'stdout.bin', 'stderr.bin'):
         shutil.copyfile(out/'native-raw'/filename, out/('native-'+filename))
     shutil.rmtree(out/'native-raw')

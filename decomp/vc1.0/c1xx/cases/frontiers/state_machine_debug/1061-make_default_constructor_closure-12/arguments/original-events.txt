@@ -1,0 +1,30 @@
+entry _declare_default_constructor_closures@4 rva 00027070 byte 83
+exception 80000003 rva 000271b0 base 00010000 first 1
+buffer 0 1 00
+buffer 1 0 
+buffer 2 37 008e0000010204210101040301020413010104630102041201010402010204040101040007
+buffer 3 12 1186032e1d30016400000000
+buffer 4 10 0c010a00030401000000
+state 0 00000001
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 00000000
+state 5 00000000
+state 6 88100008
+state 7 00000000
+state 8 000000af
+state 9 00000001
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+state 14 007eac84
+caller 0002715f
+argument 0 007eac84
+argument 1 007eaf54
+argument 2 00000000
+argument 3 00095004
+argument-words requested 4 actual 4 context 1
+ownership-anchor ebx 007eaf54
+exit 99

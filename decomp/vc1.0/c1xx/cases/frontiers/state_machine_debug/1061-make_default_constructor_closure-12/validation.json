@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_default_constructor_closure@12",
+    "start": 225712,
+    "end": 225826
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_create_implicit_special_member@20",
+    "_default_constructor_closure_table",
+    "_defer_generated_member@4",
+    "_set_hash_value@12"
+  ],
+  "next_frontier": "_default_constructor_closure_table",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4287579581141472,
+  "total_operation_seconds": 3.572445164434612,
+  "original_capture_seconds": 1.2180125443264842
+}

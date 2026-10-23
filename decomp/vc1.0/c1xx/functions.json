@@ -1065,7 +1065,8 @@
     "_record_friend@12",
     "_append_friend_record@4",
     "_find_friend_record@4",
-    "_hash_first_word"
+    "_hash_first_word",
+    "_make_default_constructor_closure@12"
   ],
   "driver": [
     {
@@ -4331,7 +4332,7 @@
     {
       "name": "_make_default_constructor_closure@12",
       "start": 225712,
-      "end": 225713
+      "end": 225826
     },
     {
       "name": "_begin_class_member_search@12",
@@ -7872,6 +7873,11 @@
       "name": "_find_friend_record@4",
       "start": 204576,
       "end": 204595
+    },
+    {
+      "name": "_default_constructor_closure_table",
+      "start": 225664,
+      "end": 225665
     }
   ],
   "cases": {
@@ -8072,7 +8078,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_make_default_constructor_closure@12",
+      "terminal": "_default_constructor_closure_table",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8095,7 +8101,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1060-hash_first_word/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8161,7 +8167,8 @@
         "cases/frontiers/state_machine_debug/1057-record_friend-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1058-append_friend_record-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1059-find_friend_record-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1060-hash_first_word/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1060-hash_first_word/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/frontier-extension.json"
       ]
     }
   },

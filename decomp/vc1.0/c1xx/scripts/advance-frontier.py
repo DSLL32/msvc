@@ -106,8 +106,14 @@ def main():
             raw_anchors=re.findall(r'^ownership-anchor '+binding['original_register']+r' ([0-9a-f]{8})$',(argument_directory/'original-events.txt').read_text(),re.M)
             assert raw_anchors==['%08x'%registers[0]['value']], 'owner register evidence differs'
             assert re.findall(r'^caller ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M)==['%08x'%binding['original_caller_rva']]
-            assert binding['original_owner_function'] in entry_original['first_entry_projection']['observed']
+            projection=entry_original.get('ownership_entry_projection', entry_original.get('first_entry_projection'))
+            assert binding['original_owner_function'] in projection['observed']
             assert binding['original_owner_function'] in config['accepted']
+            assert projection['events_sha256']==sha(argument_directory/'original-events.txt'), 'owner entry events hash differs'
+            if (argument_directory/'original-entries.plan').exists():
+                assert projection['plan_sha256']==sha(argument_directory/'original-entries.plan'), 'owner entry plan hash differs'
+            owner_record=next(row for row in config['driver'] if row['name']==binding['original_owner_function'])
+            assert re.search(r'^entry '+re.escape(binding['original_owner_function'])+r' rva %08x byte [0-9a-f]{2}$'%(owner_record['start']-config['target']['base']),(argument_directory/'original-events.txt').read_text(),re.M), 'actual accepted owner entry/RVA missing'
             owner=entry_native['caller_locals'][binding['native_owner_field']]
             assert owner['function']==binding['native_owner_function'] and owner['local']==binding['native_owner_local'], 'actual native owner differs'
             assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']

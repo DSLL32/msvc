@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1061,
+  "accepted": "_make_default_constructor_closure@12",
+  "terminal": "_default_constructor_closure_table",
+  "original_capture": "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/original-receipt.json",
+  "original_capture_sha256": "fd821501ee4b464becfbcddd46f05c557fca96ea4f3ca15c4433901de2a0ec0e",
+  "original_events": "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/original-events.txt",
+  "original_events_sha256": "ce20874d32f9637e3d5bb28795b0688d865d4857b9508f14eb300c89ccfa1254",
+  "original_configuration": "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}
