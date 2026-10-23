@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_40",
+  "trials": [
+    {
+      "seed": null,
+      "group_entry_seed": false,
+      "auxiliary_BSS_seed": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-empty40-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-empty40-native-1",
+      "original_receipt_sha256": "4e311c4cafbe391c1e7c463926f5e4b5ddb4c7ca0b70c9cf8d91361af07375ca",
+      "native_receipt_sha256": "f63e37b3b78fc702d57b8123437bf1a450720697e4559b565468f5537db4b5e5",
+      "audit": "build/audits/bac69da1c6c0f3f7ba2475e6bfbd211300b9b9bebd851be4b19d623f4d094ce6.json",
+      "comparison": {
+        "trial": "_initialize_frontend_40",
+        "frontier": "_initialize_frontend_41",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1045,
+        "native_bss_size": 1076,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8431,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 4.171821434050798,
+        "native_seconds": 11.00968657899648
+      }
+    }
+  ],
+  "incremental_build_audit_seconds": 2.0378921031951904,
+  "fresh_targeted_negative_controls": {
+    "result": "PASS",
+    "trial": "_initialize_frontend_40",
+    "count": 3,
+    "seconds": 5.292810261249542,
+    "rejected": [
+      "missing-original-empty-entry",
+      "missing-native-empty-entry",
+      "false-frontier-PC"
+    ]
+  },
+  "reused_controls": {
+    "packet": "cases/minimal/comment-constructor-trials.json",
+    "sha256": "51467e981e749bb1bb96ca0d3e4027520ae976426ca92a4c6fcd4dc428899b4b",
+    "kind": "unchanged22 comment/reset controls reused; current ordinary pair checks accepted prefix freshly"
+  }
+}

@@ -197,7 +197,6 @@ void destroy_generated_comment(void)
 
 void initialize_frontend_40(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_41(void)
