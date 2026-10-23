@@ -27,7 +27,7 @@ def check(original,native,require_audit=True,audit_path=None):
     registrar=trial['trial']=='_register_cleanup'
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=17,
+    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=18,
               'no reviewed callback decoder for this function')
     index=16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -36,7 +36,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -143,6 +143,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=6:
         check_outputs(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps,model)
     if model['schema']>=14:check_deferred(original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=15:check_token_value(original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
     if require_audit:s.audit(trial,audit_path)
@@ -154,6 +155,9 @@ def check(original,native,require_audit=True,audit_path=None):
             'output_constructor_fields_checked':9*model.get('native_padding',{}).get('output_count',0),
             'cleanup_registration_checked':registrar or wrapper09,
             'nonzero_output_constructor_input_checked':bool(trial.get('test_constructor_seed')),
+            'token_semantic_bytes_checked':17 if model['schema']>=15 else 0,
+            'token_pointer_arm_tested':False,
+            'token_unknown_tail_bytes_each':32 if model['schema']>=15 else None,
             'deferred_work_pointer_checked':model['schema']>=14,
             'nonzero_deferred_constructor_input_checked':bool(trial.get('test_deferred_seed')),
             'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8516,
@@ -260,3 +264,49 @@ def check_deferred(original,native,trial,text,pre,phase,state,seed,final,symbols
               registration['symbol']=='register_cleanup' and registration['args']=={'cleanup':int(destructor[1],16)} and
               registration['frontend']['cleanup_count']==8 and registration['frontend']['deferred_work']==0 and
               pointer('%03d'%int(register[0]))==0,'deferred destructor registration input differs')
+
+
+def token_raw(directory,suffix):
+    source=(directory/('token-source-'+suffix+'.bin')).read_bytes()
+    payload=(directory/('sentinel-payload-'+suffix+'.bin')).read_bytes()
+    header=(directory/('sentinel-header-'+suffix+'.bin')).read_bytes()
+    s.require(len(source)==len(payload)==40 and len(header)==8,'missing complete original token payload/header')
+    return source,payload,header
+
+
+def check_token_value(original,native,trial,text,pre,phase,state,seed,final,symbols,traps):
+    def values(raw):return struct.unpack_from('<q',raw[0])[0],{'kind':raw[2][0],'value':struct.unpack_from('<q',raw[1])[0]}
+    zero=(0,{'kind':0,'value':0})
+    s.require(values(token_raw(original,'000'))==zero,'token prefix/kind defaults differ')
+    before=token_raw(original,'006');expected=(0x1122334455667788,{'kind':165,'value':-7}) if seed else zero
+    s.require(values(before)==(pre['frontend']['token_value'],pre['frontend']['sentinel_token'])==expected,
+              'nonzero token prefix/kind reset inputs differ')
+    s.require(values(token_raw(original,'phase'))==(phase['frontend']['token_value'],phase['frontend']['sentinel_token'])==zero,
+              'token prefix/kind escaped BSS clear')
+    entry=json.loads((native/'value-copy-entry.json').read_text())
+    symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_frontend_18$',symbols,re.M)
+    s.require(symbol is not None and entry['pc']==int(symbol[1],16) and entry['symbol']=='initialize_frontend_18' and entry['args']=={},
+              'not actual token copy entry')
+    rows=[row for row in traps if row[1]=='0003891e'];s.require(len(rows)==1,'missing token copy raw entry')
+    suffix='%03d'%int(rows[0][0]);old=token_raw(original,suffix)
+    variant=trial.get('test_token_seed')
+    number=0x1122334455667788 if variant=='positive' else -0x112233445566778 if variant=='negative' else 0
+    wanted=(number,{'kind':165,'value':-7}) if variant else zero
+    s.require(values(old)==(entry['frontend']['token_value'],entry['frontend']['sentinel_token'])==wanted,
+              'token copy integer-arm input differs')
+    if variant:
+        s.require(trial['auxiliary_token_data_seed']=={'owner':'_initialize_frontend_18','point':'entry before target body','arm':'integer',
+            'source':number,'old_cache':-7,'old_kind':165,'unknown_tails_seeded':False,'pointer_arm_tested':False,'code_or_allocator_mock':False} and
+                  'token-seed role=callback-entry arm=integer sign='+variant+' unknown-tails-seeded=0 pointer-arm-tested=0' in text,
+                  'undeclared token integer auxiliary roles')
+    else:s.require('auxiliary_token_data_seed' not in trial,'ordinary token input mocked')
+    after=token_raw(original,final)
+    s.require(after[0]==old[0] and after[1]==old[0] and after[2][0]==1 and after[2][1:]==old[2][1:],
+              'complete ORIGINAL-to-ORIGINAL40-byte internal copy/source/header preservation differs')
+    s.require((state['frontend']['token_value'],state['frontend']['sentinel_token'])==(number,{'kind':1,'value':number}) and
+              entry['frontend']['sentinel_padding']==state['frontend']['sentinel_padding'],
+              'typed token prefix/kind copy or native own padding preservation differs')
+    for key,value in entry['frontend'].items():
+        if key not in ('sentinel_token',):s.require(state['frontend'][key]==value,'token copy changed adjacent modeled native state '+key)
+    # The unknown original tails are compared only with ORIGINAL source bytes.
+    # No native object or integer conversion represents those bytes or pointers.

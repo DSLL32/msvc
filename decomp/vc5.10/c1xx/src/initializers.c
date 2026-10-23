@@ -104,7 +104,8 @@ void initialize_frontend_17(void)
 
 void initialize_frontend_18(void)
 {
-    __asm { int 3 }
+    frontend_bss.sentinel_token.kind = 1;
+    frontend_bss.sentinel_token.value = frontend_bss.token_value;
 }
 
 void initialize_frontend_19(void)

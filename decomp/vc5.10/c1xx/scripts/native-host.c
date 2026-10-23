@@ -124,6 +124,9 @@ int main(void)
                 frontend_bss.output_buffers[i].mode = 23;
             }
             frontend_bss.deferred_work = (DeferredWorkFrame *)frontend_bss.saved_state;
+            frontend_bss.token_value.integer = 0x1122334455667788i64;
+            frontend_bss.sentinel_token.value.integer = -7;
+            frontend_bss.sentinel_token.kind = 165;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

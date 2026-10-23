@@ -258,6 +258,12 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "output-buffer-08-%s.bin", suffix); save_blob(name, data, 33);
     readmem(base + 0xc0578, data, 4);
     sprintf(name, "deferred-work-%s.bin", suffix); save_blob(name, data, 4);
+    readmem(base + 0xba8c8, data, 40);
+    sprintf(name, "token-source-%s.bin", suffix); save_blob(name, data, 40);
+    readmem(base + 0xc0b88, data, 40);
+    sprintf(name, "sentinel-payload-%s.bin", suffix); save_blob(name, data, 40);
+    readmem(base + 0xc0b80, data, 8);
+    sprintf(name, "sentinel-header-%s.bin", suffix); save_blob(name, data, 8);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -356,6 +362,14 @@ static void seed_frontend_restore(void)
     seed_output_buffer(6, "nonzero-BSS-reset");
     seed_output_buffer(7, "nonzero-BSS-reset");
     write_mem(base + 0xc0578, &allocated, 4);
+    {
+        DWORD numeric[2];
+        numeric[0] = 0x55667788; numeric[1] = 0x11223344;
+        write_mem(base + 0xba8c8, numeric, 8);
+        numeric[0] = 0xfffffff9; numeric[1] = 0xffffffff;
+        write_mem(base + 0xc0b88, numeric, 8);
+        value = 165; write_mem(base + 0xc0b80, &value, 1);
+    }
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -540,6 +554,18 @@ int main(int argc, char **argv)
                     if (!owned) fail("deferred seed needs owned snapshot");
                     write_mem(base + 0xc0578, &owned, 4);
                     fprintf(events, "deferred-seed role=constructor-entry value=owned-snapshot never-dereferenced=1\n");
+                }
+                if (address == base + 0x3891e && getenv("C1XX_TEST_TOKEN_COPY")) {
+                    const char *variant = getenv("C1XX_TEST_TOKEN_COPY");
+                    __int64 source, cache = -7;
+                    BYTE kind = 165;
+                    if (!strcmp(variant, "positive")) source = 0x1122334455667788i64;
+                    else if (!strcmp(variant, "negative")) source = -0x112233445566778i64;
+                    else fail("unknown token numeric seed");
+                    write_mem(base + 0xba8c8, &source, 8);
+                    write_mem(base + 0xc0b88, &cache, 8);
+                    write_mem(base + 0xc0b80, &kind, 1);
+                    fprintf(events, "token-seed role=callback-entry arm=integer sign=%s unknown-tails-seeded=0 pointer-arm-tested=0\n", variant);
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

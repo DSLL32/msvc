@@ -297,8 +297,8 @@
     {
       "name": "_initialize_frontend_18",
       "start": 272861470,
-      "end": 272861471,
-      "pending_extent": true,
+      "end": 272861499,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },

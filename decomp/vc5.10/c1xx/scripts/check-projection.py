@@ -38,7 +38,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -60,10 +60,17 @@ def field_map(model,observed):
         for i,base in enumerate((0x104bf5c0,0x104c0590,0x104bf358,0x104c0360,0x104c0840,0x104c0230,0x104c00f8,0x104bf228)[:output_count]):
             for name,(_,width) in layout.items():
                 known['output_buffer_%02d.'%(i+1)+name]=(base+original_offsets[name],width,'bss','frontend_bss.output_buffers[%d].'%i+name)
+        padding={'bytes':3*output_count,'kind':'natural trailing C object padding; no original semantic counterpart','output_buffer_size':36,'output_mapped_bytes':33,'output_count':output_count}
+        if model['schema']>=15:padding.update(bytes=3*output_count+3,sentinel_size=12,sentinel_padding_bytes=3)
         s.require(observed['output_native_layout']=={'size':36,'fields':layout} and observed['output_count']==output_count and
-                  model['native_padding']=={'bytes':3*output_count,'kind':'natural trailing C object padding; no original semantic counterpart',
-                    'output_buffer_size':36,'output_mapped_bytes':33,'output_count':output_count},'unexpected compact output layout/padding')
+                  model['native_padding']==padding,'unexpected compact output layout/padding')
     if model['schema']>=14:known['deferred_work']=(0x104c0578,4,'bss','frontend_bss.deferred_work')
+    if model['schema']>=15:
+        known.update({'token_value':(0x104ba8c8,8,'bss','frontend_bss.token_value'),'sentinel_token.kind':(0x104c0b80,1,'bss','frontend_bss.sentinel_token.kind'),'sentinel_token.value':(0x104c0b88,8,'bss','frontend_bss.sentinel_token.value')})
+        s.require(model['token_projection']=={'original_payload_bytes':40,'modeled_prefix_bytes':8,'unmodeled_tail_bytes':32,'kind_is_discriminator':True,'tested_union_arm':'integer auxiliary only; normal zero prefix copied without interpretation','pointer_arm':'writer-proven opaque object pointer; no raw original/native pointer integer comparison','unknown_consumers':'hard named trap before any unmodeled field read, escape, serialization or comparison'},'wrong token projection/variant scope')
+        full=[(0x104ba8c8,0x104ba8f0),(0x104c0b88,0x104c0bb0)]
+        s.require(disjoint(full) and all(not any(a<row['original_address']+row['bytes'] and row['original_address']<z for a,z in full) for row in model['fields'] if row['name'] not in ('token_value','sentinel_token.value')),'token payload tail aliases another modeled field')
+        s.require(observed['token_value_layout']=={'size':8,'is_union':True,'fields':{'integer':[0,8],'pointer':[0,4]}} and observed['sentinel_native_layout']=={'size':12,'fields':{'kind':[0,1],'value':[4,8]}},'unmodeled token union/sentinel storage')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -91,8 +98,9 @@ def field_map(model,observed):
     if model['schema']>=5:fields.append('source_position')
     if model['schema']>=6:fields.append('output_buffers')
     if model['schema']>=14:fields.append('deferred_work')
+    if model['schema']>=15:fields += ['token_value','sentinel_token']
     s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
-              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568}[model['schema']]},
+              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else 0
@@ -102,10 +110,11 @@ def field_map(model,observed):
         ranges=sorted((observed['storage'][row['name']][0],observed['storage'][row['name']][0]+row['bytes'])
                       for row in model['fields'] if row['class']=='bss')
         ranges += [(observed['bss_address']+276+i*36+33,observed['bss_address']+276+(i+1)*36) for i in range(output_count)]
+        if model['schema']>=15:ranges.append((observed['bss_address']+577,observed['bss_address']+580))
         ranges.sort()
         s.require(ranges[0][0]==observed['bss_address'] and
                   all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
-                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0),'unaccounted native padding/storage gap')
+                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0),'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):

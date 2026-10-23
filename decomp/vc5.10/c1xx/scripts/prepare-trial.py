@@ -85,6 +85,10 @@ def prepare():
     if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
+    trial['test_token_seed']=candidate.get('test_token_seed')
+    if trial['test_token_seed']:
+        if trial['test_token_seed'] not in ('positive','negative'):raise ValueError('unknown token seed arm')
+        trial['auxiliary_token_data_seed']={'owner':'_initialize_frontend_18','point':'entry before target body','arm':'integer','source':0x1122334455667788 if trial['test_token_seed']=='positive' else -0x112233445566778,'old_cache':-7,'old_kind':165,'unknown_tails_seeded':False,'pointer_arm_tested':False,'code_or_allocator_mock':False}
     trial['test_deferred_seed']=bool(candidate.get('test_deferred_seed'))
     if trial['test_deferred_seed']:
         trial['auxiliary_deferred_data_seed']={'owner':'_initialize_deferred_work','point':'entry before target body','deferred_work':'owned snapshot identity; never dereferenced','code_or_allocator_mock':False}

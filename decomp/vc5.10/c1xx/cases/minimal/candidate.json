@@ -38,7 +38,7 @@
     "_initialize_deferred_work",
     "_initialize_frontend_17"
   ],
-  "trial": null,
+  "trial": "_initialize_frontend_18",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -333,7 +333,13 @@
       "start_rva": 231709,
       "end_rva": 231710,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_18",
+      "start_rva": 231710,
+      "end_rva": 231739,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_17 accepted; next frontier _initialize_frontend_18"
+  "stage": "sentinel token copy candidate; promotion held for concrete projection review"
 }

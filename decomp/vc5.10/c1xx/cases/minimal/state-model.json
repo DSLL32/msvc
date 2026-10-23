@@ -1,5 +1,5 @@
 {
-  "schema": 14,
+  "schema": 15,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -797,6 +797,38 @@
       "original_default": 0,
       "pointer_identity": "NULL or owned snapshot identity only; frame contents UNMODELED",
       "evidence": "constructor38904 clears pointer;44809 lazily allocates12-byte list frame,4d0c0 pushes parent at+8,4cbf4 pops it"
+    },
+    {
+      "name": "token_value",
+      "class": "bss",
+      "original_address": 273393864,
+      "bytes": 8,
+      "native_expression": "frontend_bss.token_value",
+      "original_default": "zero-initialized prefix; numeric auxiliary arm only",
+      "union_variants": [
+        "signed i64",
+        "opaque object pointer; not tested or interpreted by accepted code"
+      ]
+    },
+    {
+      "name": "sentinel_token.kind",
+      "class": "bss",
+      "original_address": 273419136,
+      "bytes": 1,
+      "native_expression": "frontend_bss.sentinel_token.kind",
+      "original_default": 0
+    },
+    {
+      "name": "sentinel_token.value",
+      "class": "bss",
+      "original_address": 273419144,
+      "bytes": 8,
+      "native_expression": "frontend_bss.sentinel_token.value",
+      "original_default": "zero-initialized prefix; numeric auxiliary arm only",
+      "union_variants": [
+        "signed i64",
+        "opaque object pointer; not tested or interpreted by accepted code"
+      ]
     }
   ],
   "initializers": [
@@ -1018,10 +1050,21 @@
   ],
   "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use",
   "native_padding": {
-    "bytes": 24,
+    "bytes": 27,
     "kind": "natural trailing C object padding; no original semantic counterpart",
     "output_buffer_size": 36,
     "output_mapped_bytes": 33,
-    "output_count": 8
+    "output_count": 8,
+    "sentinel_size": 12,
+    "sentinel_padding_bytes": 3
+  },
+  "token_projection": {
+    "original_payload_bytes": 40,
+    "modeled_prefix_bytes": 8,
+    "unmodeled_tail_bytes": 32,
+    "kind_is_discriminator": true,
+    "tested_union_arm": "integer auxiliary only; normal zero prefix copied without interpretation",
+    "pointer_arm": "writer-proven opaque object pointer; no raw original/native pointer integer comparison",
+    "unknown_consumers": "hard named trap before any unmodeled field read, escape, serialization or comparison"
   }
 }

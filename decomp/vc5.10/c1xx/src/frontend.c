@@ -47,6 +47,9 @@ int initialize_compiler_pass(void)
             frontend_bss.output_buffers[i].mode = 0;
         }
         frontend_bss.deferred_work = NULL;
+        frontend_bss.token_value.integer = 0;
+        frontend_bss.sentinel_token.kind = 0;
+        frontend_bss.sentinel_token.value.integer = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

@@ -27,6 +27,17 @@ typedef struct FrontendSourcePosition {
 /* Frame contents remain unknown until a semantic consumer is reached. */
 typedef struct DeferredWorkFrame DeferredWorkFrame;
 
+/* Encountered semantic variants only; the original 32-byte tail is unmodeled. */
+typedef union TokenValue {
+    __int64 integer;
+    void *pointer;
+} TokenValue;
+
+typedef struct SentinelToken {
+    unsigned char kind;
+    TokenValue value;
+} SentinelToken;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -37,6 +48,8 @@ typedef struct FrontendBss {
     FrontendSourcePosition source_position;
     OutputBuffer output_buffers[FRONTEND_OUTPUT_BUFFERS];
     DeferredWorkFrame *deferred_work;
+    TokenValue token_value;
+    SentinelToken sentinel_token;
 } FrontendBss;
 
 extern FrontendData frontend_data;

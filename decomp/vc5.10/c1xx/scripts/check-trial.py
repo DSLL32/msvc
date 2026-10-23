@@ -46,6 +46,7 @@ def check(original, native, require_audit=True, audit_path=None):
     candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
     if candidate["case"] == "minimal":
         require(not candidate.get('test_seed'),'auxiliary/seeded executions cannot promote a function')
+        require(not candidate.get('test_token_seed'),'token data auxiliary cannot promote a function')
         require(not candidate.get('test_deferred_seed'),'deferred-work data auxiliary cannot promote a function')
         require(not candidate.get('test_constructor_seed'),'constructor data-seed auxiliary cannot promote a function')
         filename={'_InvokeCompilerPass@12':'check-minimal.py',

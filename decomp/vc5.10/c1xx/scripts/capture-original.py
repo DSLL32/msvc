@@ -133,6 +133,8 @@ def main():
         environment.pop("C1XX_OBSERVE_INIT_COPY", None)
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_DEFERRED_CONSTRUCTOR',None)
+        environment.pop('C1XX_TEST_TOKEN_COPY',None)
+        if trial.get('test_token_seed'):environment['C1XX_TEST_TOKEN_COPY']=trial['test_token_seed']
         if trial.get('test_deferred_seed'):environment['C1XX_TEST_DEFERRED_CONSTRUCTOR']='1'
         if trial.get('test_constructor_seed'):
             environment['C1XX_TEST_OUTPUT_CONSTRUCTOR']=str(int(trial['trial'][-2:]))
