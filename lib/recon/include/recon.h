@@ -216,6 +216,7 @@ unsigned char *recon_mbsdec(const unsigned char *,const unsigned char *);
 void recon_mbccpy(unsigned char *,const unsigned char *);
 int recon_ismbcspace(unsigned int);
 void *recon_cpp_new(size_t);
+void recon_cpp_delete(void *);
 int recon_system(const char *);
 int recon_spawnve(int,const char *,const char *const *,const char *const *);
 int recon_spawnvpe(int,const char *,const char *const *,const char *const *);
@@ -453,6 +454,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _mbccpy recon_mbccpy
 #define _ismbcspace recon_ismbcspace
 #define crt_operator_new recon_cpp_new
+#define crt_operator_delete recon_cpp_delete
 #define system recon_system
 #define _spawnve recon_spawnve
 #define _spawnvpe recon_spawnvpe

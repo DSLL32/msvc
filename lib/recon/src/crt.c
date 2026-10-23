@@ -186,6 +186,11 @@ WEAK void *recon_cpp_new(size_t size)
     return result;
 }
 
+WEAK void recon_cpp_delete(void *pointer)
+{
+    (void)pointer;recon_unsupported("unreviewed operator delete ownership/lifetime");
+}
+
 /* Canonical VC5 CVTRES: isolated rb/deny-write and wb/exclusive files.
  * Other opens, aliases, mappings and failure paths need separate evidence.
  * HANDLE inheritance remains the explicitly bounded no-child native model. */
