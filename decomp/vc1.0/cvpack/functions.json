@@ -441,7 +441,8 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": []
     },
     {
       "name": "free_type_tables",
@@ -6479,16 +6480,62 @@
       "native": "finalize_derived_types",
       "symbol": "_finalize_derived_types",
       "original": 114448,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        114448,
+        115095
+      ],
+      "abi": "void finalize_derived_types(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0122-finalize_derived_types/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "alignment_padding": [
+        [
+          115051,
+          115056
+        ]
+      ]
+    },
+    {
+      "name": "type_scratch",
+      "native": "type_scratch",
+      "symbol": "_type_scratch",
+      "original": 126896,
       "source": "src/stubs.c",
       "kind": "application",
       "status": "stub",
       "extent": null,
-      "abi": "void finalize_derived_types(void)",
+      "abi": "void *type_scratch(unsigned long)",
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -7241,6 +7288,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 121
+    },
+    {
+      "function": "finalize_derived_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 122
     }
   ],
   "support_unmasked": [
@@ -7847,11 +7900,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "f9cecc357e044c011e2f470757b5f46fe2675715a67f6e1b43b1d34a67b145d1"
+    "evidence_sha256": "c0c4ec1a076697631fc7f1f7605932bd2e405866c551a9d087910859e519e29e"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "2c9b862064135d572b4f693b5379d05458d1a854c3d33e2e3ce3db0385d89217"
+    "evidence_sha256": "c187b0f6dbe0989af62be3b4246d315810da64d336da44dc93a925b94b7aaf59"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7883,35 +7936,35 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "dda0c5994006a9cd73d86b4d990f35b42ee8e2e60e1db69ff86084b579a05677"
+    "evidence_sha256": "9846673e035ffe19fc71fceeac58bde0952a0b732a0c2a4f6f09ca100fa1968d"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "b8b113cd948b53162c8f9b6b8f3e32b1bea0b53dd23f76833b0d911db9c12403"
+    "evidence_sha256": "be5c515e48fe804b0a8f665bae7f8824e40d5502a73c766e8ae297771104fdcb"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "390a6aab61c145fe1f4571e156d87cbe438b28c5bacf1547e7a977e8dd32b119"
+    "evidence_sha256": "109597604c617a9756a5fb27264ca9f62b937c8bff7b43061fcb259b863b9bf3"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "4d34e31b0a05192b14ed7f2428eb4c4df19a236c4f251bea81fbfead58fc50df"
+    "evidence_sha256": "2153df010f207af075be27f94036f2a0a130c9454c48c932a8148fed5a5c2a7a"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "fc4c1dcee5d7e80e6803b6bea386876426257bc9775115b215ce1f2daafb41b2"
+    "evidence_sha256": "f070e1a757c534d92e25b2329ed30e0e70977052246c5e7cc22be2c6755501ae"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "deebb962ed3d4e92d419b131e23e0293fdf3d778c088f091c08581431d71f7de"
+    "evidence_sha256": "a15ea4f3b6e5617e88feeac4e8097108d1bb2fe3e89e0bca504fe29a71bc53f5"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "103597090bccad02a7096ebcccbb8a3624b818fe5f3a7ad1a8a70798cd6a20fc"
+    "evidence_sha256": "c518c4313a19ea8ba37dae02975d181319264ed38c1f34ff293ace0b06e77ab2"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "2f4944c781c767b6db2dd2b3479813a597be97a372db299c7c8057ec254b6b5a"
+    "evidence_sha256": "7227433246689736344e44f32dcd938663981186c11152920aede8f62c28863c"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
@@ -7919,14 +7972,14 @@
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "80d6591e2640d15fd4c96454e96bfdd13575a404cb6dff65dead173441b604f2"
+    "evidence_sha256": "28303e2fc1e3dfbd7b541c713c46498cc2e3bb557377997a4cd5e294c8be29fb"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "40cb1ed2f8cc656cfee43f99026def30869db55b58f6a4d792b11f4f3f9cd48f"
+    "evidence_sha256": "ce229ebb93565f704da3d8ac69d824be469628c1ea6a24196f42409e742e07de"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "67908f3f46dd1bdefc083c7cab3c5ea4c7ea8b589cb227e8a4c57b87742d44f5"
+    "sha256": "91ea02a6321b987239a6f2f2d66b3335b3957702dd38b1d2b71aa8a8d22d7eb6"
   }
 }

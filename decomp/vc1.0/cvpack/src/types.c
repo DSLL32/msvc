@@ -1980,3 +1980,56 @@ void finalize_types(void)
     free(type_hash_buckets);
     free(type_hash_extra_d);
 }
+
+void finalize_derived_types(void)
+{
+    TypeDerivation *derived;
+    TypeHashEntry *node, *created;
+    unsigned char *scratch, *owner;
+    unsigned short i, count, j, bucket;
+    unsigned long k, size;
+    int relative;
+
+    if (type_recursion_error) return;
+    for (i = 0; i < derived_type_count; ++i) {
+        derived = &derived_types[i];
+        count = derived->count;
+        scratch = type_scratch(count*2+6);
+        *(unsigned short *)scratch = (unsigned short)(count*2+4);
+        *(unsigned short *)(scratch+2) = 0x205;
+        *(unsigned short *)(scratch+4) = count;
+        for (j = 0; count; ++j, --count)
+            ((unsigned short *)(scratch+6))[j] = derived->list[count-1];
+        free(derived->list);
+        bucket = hash_type(scratch);
+        node = (TypeHashEntry *)type_hash_buckets[bucket];
+        while (node) {
+            size = *(unsigned short *)node->data+2;
+            for (k = 0; k < size && node->data[k] == scratch[k]; ++k) {}
+            if (k == size) break;
+            node = node->next;
+        }
+        relative = (int)derived->type-0x1000;
+        owner = type_pages[relative/512][relative%512]+2;
+        if (!node) {
+            created = checked_alloc(sizeof(*created));
+            created->index = next_type_index;
+            created->data = append_buffer(&type_symbol_storage, scratch,
+                                         *(unsigned short *)scratch+2);
+            created->next = (TypeHashEntry *)type_hash_buckets[bucket];
+            type_hash_buckets[bucket] = created;
+            ++type_hash_counts[bucket];
+            if ((int)next_type_index-(int)type_page_capacity == 0x1000) {
+                type_page_capacity += 512;
+                type_pages[((int)next_type_index-0x1000)/512] = checked_alloc(2048);
+            }
+            relative = (int)next_type_index-0x1000;
+            type_pages[relative/512][relative%512] = created->data;
+            *(unsigned short *)(owner+8) = next_type_index;
+            if (!++next_type_index) {
+                warning(9, module_name(current_module), NULL);
+                type_recursion_error = 1;
+            }
+        } else *(unsigned short *)(owner+8) = node->index;
+    }
+}

@@ -11,7 +11,7 @@ int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
 { __asm { int 3 } return 0; }
 int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
 
-void finalize_derived_types(void) { __asm { int 3 } }
+void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 void print_statistics(void) { __asm { int 3 } }
 void free_type_tables(void) { __asm { int 3 } }
 int update_image_checksum(const char *name, unsigned long length, unsigned char read_only)
