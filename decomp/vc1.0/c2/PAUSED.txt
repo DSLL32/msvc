@@ -1,7 +1,7 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified787 acceptances/709 source graphs. Loop graph preparation passed;
-matching hoist_invariant_region_stores0x5f1c0 in value-motion stage.
-Extent union214312/399693=53.6191526997%, not branch coverage.
+Verified793 acceptances/715 source graphs. Invariant classification passed;
+matching collect_basic_region_inductions0x5f070 in value-motion stage.
+Extent union215074/399693=53.8097990207%, not branch coverage.
 Canonical/W3, graph/extent/mask and native fixtures pass; full hello incomplete.
-See cases/hello-loop-values.json for reference/data/limit/timing evidence.
-Continue invariant store motion; no shared shim requests.
+See cases/hello-invariant-dominance.json for reference/data/limit/timing evidence.
+Continue basic induction collection; no shared shim requests.

@@ -1984,3 +1984,14 @@ agree at hoist_invariant_region_stores5f1c0.709 graph/extent checks, native
 fixtures, canonical and three modules/W3 pass. Nested continuation rewiring is
 not claimed exercised by this single loop. Full hello output remains incomplete;
 see cases/hello-loop-values.json for ordered references, layouts and timing.
+
+Invariant stores: checkpoint793
+-------------------------------
+The store-motion parent, exit/backedge dominance wrappers and recursive invariant
+classifier are recovered. Three contextual BitSet pointers retain the original
+seen-memory, selected-value and invariant-expression sets. All182 node-shape
+entries establish the semantic VALUE_EXPRESSION flag correspondence. Original
+and native agree at collect_basic_region_inductions5f070;715 graph/extent checks,
+canonical/W3 and native fixtures pass, including shared flush correction3805d73.
+Actual store movement and every alias/volatile guard branch are not claimed
+covered. Full hello object remains incomplete. See cases/hello-invariant-dominance.json.

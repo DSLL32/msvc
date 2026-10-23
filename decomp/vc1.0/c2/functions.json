@@ -791,7 +791,13 @@
     "@find_tree_opcode@4",
     "@collect_region_values@4",
     "@collect_region_value_tree@4",
-    "@add_region_candidate@8"
+    "@add_region_candidate@8",
+    "_hoist_invariant_region_stores",
+    "@work_dominates_region_exits@4",
+    "@work_dominates_block@8",
+    "@work_dominates_region_backedges@4",
+    "@work_dominates_target_predecessors@8",
+    "@classify_region_invariants@4"
   ],
   "driver": [
     {
@@ -4625,8 +4631,7 @@
     {
       "name": "_hoist_invariant_region_stores",
       "start": 389568,
-      "end": 389569,
-      "provisional": true
+      "end": 389851
     },
     {
       "name": "_collect_basic_region_inductions",
@@ -6126,6 +6131,43 @@
       "name": "@add_region_candidate@8",
       "start": 392192,
       "end": 392255
+    },
+    {
+      "name": "@work_dominates_region_exits@4",
+      "start": 390048,
+      "end": 390142
+    },
+    {
+      "name": "@work_dominates_region_backedges@4",
+      "start": 389936,
+      "end": 389947
+    },
+    {
+      "name": "@classify_region_invariants@4",
+      "start": 391168,
+      "end": 391440
+    },
+    {
+      "name": "@can_hoist_region_store@4",
+      "start": 391104,
+      "end": 391105,
+      "provisional": true
+    },
+    {
+      "name": "@remove_region_candidate@8",
+      "start": 391024,
+      "end": 391025,
+      "provisional": true
+    },
+    {
+      "name": "@work_dominates_block@8",
+      "start": 389920,
+      "end": 389934
+    },
+    {
+      "name": "@work_dominates_target_predecessors@8",
+      "start": 389952,
+      "end": 390040
     }
   ],
   "cases": {

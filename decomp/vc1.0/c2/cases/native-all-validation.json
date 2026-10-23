@@ -1,7 +1,7 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "8cfdd83150a6300ef1c69acc035d4c58d7fbe5072b293ea3324e442ae7b86db5",
+  "executable_sha256": "0ed96a9f92bc4bbe4bce3b62ec1f881c4dcf8f188aa8d6fde64a0f3d468e4a97",
   "trace_enabled": true,
   "shared_hashes": {
     "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
@@ -18,7 +18,7 @@
     "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
     "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
     "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
-    "lib/recon/src/crt.c": "4be31e907a70597b1281f38a56b05ccf594106b401ae98982fd7015a1cae5879",
+    "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
     "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
     "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
     "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
@@ -41,22 +41,22 @@
           4
         ]
       },
-      "setup_seconds": 0.01697042863816023,
-      "execution_seconds": 0.006286498159170151,
-      "check_seconds": 0.0016459468752145767,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-_2zrjwfr/minimal"
+      "setup_seconds": 0.01803555805236101,
+      "execution_seconds": 0.00690196268260479,
+      "check_seconds": 0.001591023989021778,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ml2uc7cx/minimal"
     },
     {
       "profile": "hello",
-      "terminal": "_hoist_invariant_region_stores",
+      "terminal": "_collect_basic_region_inductions",
       "returncode": -5,
-      "application_entries": 435,
+      "application_entries": 441,
       "seeded_entries": 270,
       "output": null,
-      "setup_seconds": 0.0135771743953228,
-      "execution_seconds": 0.009725677780807018,
-      "check_seconds": 0.0011083725839853287,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-_2zrjwfr/hello"
+      "setup_seconds": 0.012596772983670235,
+      "execution_seconds": 0.008135640062391758,
+      "check_seconds": 0.0009944327175617218,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ml2uc7cx/hello"
     }
   ],
   "rejected": [
@@ -64,8 +64,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.21119925938546658,
-  "suite_setup_seconds": 0.12947347201406956,
-  "negative_check_seconds": 0.022862358018755913,
+  "fixture_seconds": 0.21240687556564808,
+  "suite_setup_seconds": 0.1349560935050249,
+  "negative_check_seconds": 0.02094971016049385,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }
