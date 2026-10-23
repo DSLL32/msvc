@@ -29,12 +29,22 @@ class PE:
         raise ValueError('unbacked address %08x' % va)
 
     def read(self, va, size):
-        p = self.offset(va)
-        return self.data[p:p+size]
+        assert size>=0
+        for section in self.sections:
+            start=self.base+section['rva'];mapped=max(section['virtual_size'],section['size'])
+            if start<=va and va+size<=start+mapped:
+                relative=va-start;backed=max(0,min(size,section['size']-relative))
+                offset=section['off']+relative
+                return self.data[offset:offset+backed]+bytes(size-backed)
+        raise ValueError('unmapped address range %08x + %x'%(va,size))
 
     def string(self, va):
-        p = self.offset(va)
-        return self.data[p:self.data.index(b'\0', p)].decode('latin1')
+        data=bytearray()
+        for i in range(32768):
+            byte=self.read(va+i,1)
+            if byte==b'\0':return data.decode('latin1')
+            data+=byte
+        raise ValueError('unterminated PE string %08x'%va)
 
 def archive(path):
     data = Path(path).read_bytes()

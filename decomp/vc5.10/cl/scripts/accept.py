@@ -179,6 +179,9 @@ def validate(base,receipt,name,project=PROJECT,root=ROOT,review_only=False):
     if '_classify_input' in trial['accepted']:
         from input_kinds import verify
         assert audit['input_kinds']==verify(project,root),'input-kind receipt differs from compiled data'
+    if '_prepare_jobs' in trial['accepted']:
+        from mre_imports import verify
+        assert audit['mre_imports']==verify(project,root),'external MSPDB import proof differs'
     report=json.loads(checked_file(audit['report']).read_text())
     assert report['discovery']=='cfg' and name in report['functions'],'candidate was not audited'
     # A native-only retry is valid only against this exact recorded original

@@ -20,6 +20,29 @@ typedef struct OptionRule {
 } OptionRule;
 typedef struct SpecialOption { char *name; char *pattern; } SpecialOption;
 typedef struct Input Input;
+typedef struct CompilerPass CompilerPass;
+typedef struct Job Job;
+typedef struct DeferredInput {
+    struct DeferredInput *next;
+    BOOL is_cpp;
+    char *source_name, *object_name;
+    unsigned timestamp;
+} DeferredInput;
+/* The remaining allocation tail stays undefined until its consumers are reached. */
+struct Job {
+    Job *next;
+    Input *input;
+    unsigned status;
+    DeferredInput deferred;
+    unsigned unrecovered;
+    char *browser_name;
+};
+typedef struct PendingWork {
+    DeferredInput *outdated, *sources;
+    unsigned unrecovered;
+    DeferredInput *recycled;
+    unsigned unrecovered_tail;
+} PendingWork;
 struct Option {
     Option *next;
     unsigned flags;
@@ -37,15 +60,17 @@ struct Input {
 };
 typedef struct Driver {
     Option *options, *other_options;
-    Input *related_input;
+    CompilerPass *current_pass;
     Input *inputs;
-    char *program, *base_name, *output_name;
+    Job *current_jobs;
+    DeferredInput *deferred_inputs;
+    DeferredInput **deferred_tail;
     Input *current_input;
     char *temporary, *include_path, *directory;
 } Driver;
 typedef int (__stdcall *InvokeCompilerPass)(int, char **, BOOL);
 typedef void (__stdcall *AbortCompilerPass)(int);
-typedef struct CompilerPass {
+struct CompilerPass {
     char *name, *path, *environment;
     char option_prefix[4];
     unsigned flags;
@@ -53,7 +78,7 @@ typedef struct CompilerPass {
     InvokeCompilerPass invoke;
     AbortCompilerPass abort;
     char *options;
-} CompilerPass;
+};
 typedef struct InputKind {
     char *extension;
     int category;
@@ -69,6 +94,9 @@ extern int debug_exceptions, error_count, output_produced, default_c_language;
 extern char *source_language, *image_name;
 extern int is_dll;
 extern int keep_preprocessor_output;
+extern int cleanup_temporaries;
+extern int minimal_rebuild, reproducible, first_dependency_scan;
+extern char *object_name, *pdb_name, *browser_name;
 extern CompilerPass compiler_passes[5];
 extern InputKind input_kinds[11];
 
@@ -154,5 +182,16 @@ void release(void *);
 void fatal(unsigned, ...);
 void prepare_execution(void);
 void run_driver(Driver *);
+Job *source_jobs(Driver *);
+Job *create_job(Input *);
+unsigned file_timestamp(Driver *);
+Job *jobs_from_deferred(DeferredInput *);
+Job *prepare_jobs(Driver *, Job *, PendingWork *);
+Job *next_jobs(Driver *, PendingWork *);
+int run_jobs(Driver *, Job *);
+int run_passes(int *, Driver *, int (*)(Driver *));
+int link_pass(Driver *);
+int final_pass(Driver *);
+char *file_name(char *, char *);
 void driver_exit(int);
 #endif

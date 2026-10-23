@@ -3,8 +3,9 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/5.10
 RECON = ../../../lib/recon
 NATIVE_CC ?= clang
+LLVM_DLLTOOL ?= llvm-dlltool
 # Freeze the shared release actually compiled, independently of concurrent WIP.
-RECON_SHARED_REVISION ?= 300e5e52
+RECON_SHARED_REVISION ?= 3098cc5d
 export RECON_SHARED_REVISION
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TEST -DRECON_NATIVE_ENTRY_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -I$(RECON)/include -I$(RECON)/native
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
@@ -32,17 +33,19 @@ build/native/%.o: src/%.c $(SOURCE_HEADERS) $(NATIVE_RELEASE) Makefile scripts/n
 	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) -c $< -o $@
 build/native-trace/%.o: src/%.c $(SOURCE_HEADERS) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py | build/native-trace
 	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-build/native/CL.EXE: $(addprefix build/native/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c
-	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c $(NATIVE_SHIMS) -Wl,--wrap=main -o $@
-build/native-trace/CL.EXE: $(addprefix build/native-trace/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c
-	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main -o $@
+build/native/CL.EXE: $(addprefix build/native/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c scripts/mre-host.c
+	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c $(NATIVE_SHIMS) -Wl,--wrap=main -o $@
+build/native-trace/CL.EXE: $(addprefix build/native-trace/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c scripts/mre-host.c
+	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main -o $@
 build/%.obj: src/%.c $(ORIGINAL_HEADERS) Makefile | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /MD /I$(RECON)/include /Fobuild/$*.obj $<
 build/resources.bin: src/messages.rc cases/help/resources.json scripts/resources.py ../../../lib/recon/resources.py | build
 	$(PYTHON) scripts/resources.py --prepare $@
 build/messages.res: src/messages.rc | build
 	$(TOOL) RC.EXE /r /fo$@ $<
-build/cl.exe: $(addprefix build/,$(addsuffix .obj,$(NAMES))) $(TC)/lib/SETARGV.OBJ $(TC)/lib/USER32.LIB build/messages.res
+build/mspdb50.lib: scripts/mspdb50.def scripts/mre_imports.py cases/minimal-c/mre-imports.json | build
+	$(PYTHON) scripts/mre_imports.py --build-import-library $@ --dlltool $(LLVM_DLLTOOL)
+build/cl.exe: $(addprefix build/,$(addsuffix .obj,$(NAMES))) $(TC)/lib/SETARGV.OBJ $(TC)/lib/USER32.LIB build/messages.res build/mspdb50.lib
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/cl.map /out:$@ $^
 	$(PYTHON) scripts/resources.py --verify-rebuilt
 runtime.json: scripts/identify-runtime.py scripts/binary.py cases/help/import-support.json $(TC)/bin/CL.EXE $(TC)/lib/MSVCRT.LIB $(TC)/lib/SETARGV.OBJ

@@ -7,16 +7,16 @@ char *expand_filename(char *out, char *text, Driver *state)
 {
     char *start = out, *filename, *temporary;
     char basename[256];
-    Input *related;
+    CompilerPass *pass;
     int sequence;
     if (state->current_input) {
         filename = state->current_input->name;
         sequence = state->current_input->sequence;
-        related = state->related_input;
+        pass = state->current_pass;
     } else {
         filename = "";
         sequence = -1;
-        related = NULL;
+        pass = NULL;
     }
     while (*text) {
         if (*text++ != '%') {
@@ -35,7 +35,7 @@ char *expand_filename(char *out, char *text, Driver *state)
             out = append_literal(out, basename);
             break;
         case 'e':
-            temporary = related ? related->name : NULL;
+            temporary = pass ? pass->path : NULL;
             out = append_literal(out, temporary ? temporary : "");
             break;
         case 'f': out = append_literal(out, filename); break;
@@ -48,7 +48,7 @@ char *expand_filename(char *out, char *text, Driver *state)
             break;
         case 't':
             out = append_literal(out, state->temporary);
-            if (state->program && sequence != -1) {
+            if (state->current_jobs && sequence != -1) {
                 out[-6] = (char)('a' + sequence / 10);
                 out[-5] = (char)('0' + sequence % 10);
             }

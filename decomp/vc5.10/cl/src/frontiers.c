@@ -18,10 +18,30 @@ void fatal(unsigned id, ...) {
     __asm int 3
 
 } /* 00405361 */
-void run_driver(Driver *state) {
-    __asm int 3
-
-} /* 0040332c */
+unsigned file_timestamp(Driver *state) { __asm int 3
+    return 0;
+}
+Job *jobs_from_deferred(DeferredInput *inputs) { __asm int 3
+    return NULL;
+}
+Job *next_jobs(Driver *state, PendingWork *pending) { __asm int 3
+    return NULL;
+}
+int run_jobs(Driver *state, Job *jobs) { __asm int 3
+    return 0;
+}
+int run_passes(int *passes, Driver *state, int (*callback)(Driver *)) { __asm int 3
+    return 0;
+}
+int link_pass(Driver *state) { __asm int 3
+    return 0;
+}
+int final_pass(Driver *state) { __asm int 3
+    return 0;
+}
+char *file_name(char *out, char *name) { __asm int 3
+    return NULL;
+}
 void driver_exit(int status) {
     __asm int 3
 

@@ -12,7 +12,7 @@ PROJECT=Path(__file__).resolve().parents[1]
 PROJECTION='cl-application-frontier-v1: typed parameters and reconstructed driver state'
 SCALARS={'no_logo':0x409660,'echo_response':0x40963c,'help_requested':0x40965c,
  'cleanup_temporaries':0x40901c,'is_dll':0x409658,'first_option_pass':0x409030,'map_requested':0x40960c,'bk_requested':0x409668,'reproducible':0x409604,'timing_requested':0x40964c,'bz_requested':0x4095c4,'minimal_rebuild':0x40966c,'allow_pch':0x409670,'keep_preprocessor_output':0x409024,'use_standard_include':0x409010,'source_count':0x409630,'options_after_link':0x409678,'link_warning':0x40967c,'show_commands':0x409014,'message_capacity':0x4091a8,'debug_exceptions':0x4095c8,'error_count':0x409650,
- 'output_produced':0x4095cc,'default_c_language':0x4095d0}
+ 'output_produced':0x4095cc,'default_c_language':0x4095d0,'first_dependency_scan':0x409018}
 POINTERS={'object_name':0x4095c0,'image_name':0x409644,'ir_prefix':0x4095f8,'map_name':0x409638,'pdb_name':0x4095bc,'browser_name':0x409648,'free_options':0x409674,'driver':0x409020,'unrecognized_options':0x409634,'source_language':0x4095b8,'format_buffer':0x4097a4}
 PARAMETERS={
  'install_control_handler':[], 'skip_space':[('text','string')],
@@ -76,7 +76,11 @@ PARAMETERS={
  'append_text':[('out','string'),('text','string')],
  'join_text':[('left','string'),('right','string')],
  'release':[('memory','owned_string')], 'prepare_execution':[],
- 'run_driver':[('state','driver')], 'driver_exit':[('status','signed')]
+ 'run_driver':[('state','driver')], 'source_jobs':[('state','driver')],
+ 'create_job':[('input','inputs')],
+ 'prepare_jobs':[('state','driver'),('jobs','jobs'),('pending','output_buffer')],
+ 'run_jobs':[('state','driver'),('jobs','jobs')],
+ 'driver_exit':[('status','signed')]
 }
 
 def format_types(text):
@@ -90,7 +94,8 @@ def format_types(text):
     return result
 
 class Memory:
-    def __init__(self,read,rule_base):self.read=read;self.rule_base=rule_base;self.option_ids={}
+    def __init__(self,read,rule_base):
+        self.read=read;self.rule_base=rule_base;self.option_ids={};self.input_ids={};self.job_ids={}
     def words(self,address,count):return struct.unpack('<%dI'%count,self.read(address,4*count))
     def string(self,address):
         if not address:return None
@@ -140,10 +145,24 @@ class Memory:
         while address:
             assert address not in seen and len(seen)<4096
             seen.add(address);v=self.words(address,4)
-            result.append({'name':self.string(v[1]),'kind':v[2],'explicit_kind':v[3]&0xffff,
-                'sequence':struct.unpack('<h',struct.pack('<I',v[3])[2:])[0]})
+            if address in self.input_ids:result.append({'ref':self.input_ids[address]})
+            else:
+                identity=len(self.input_ids)+1;self.input_ids[address]=identity
+                result.append({'id':identity,'name':self.string(v[1]),'kind':v[2],'explicit_kind':v[3]&0xffff,
+                    'sequence':struct.unpack('<h',struct.pack('<I',v[3])[2:])[0]})
             address=v[0]
         return result
+    def jobs(self,address):
+        rows=[];seen=set()
+        while address:
+            assert address not in seen and len(seen)<4096
+            seen.add(address);v=self.words(address,3)
+            if address in self.job_ids:rows.append({'ref':self.job_ids[address]})
+            else:
+                identity=len(self.job_ids)+1;self.job_ids[address]=identity
+                rows.append({'id':identity,'input':self.inputs(v[1]),'status':v[2]})
+            address=v[0]
+        return rows
     def driver(self,address):
         if not address:return None
         v=self.words(address,11)
@@ -169,6 +188,8 @@ class Memory:
         if kind=='string':return self.string(value)
         if kind=='vector':return self.vector(value)
         if kind=='driver':return self.driver(value)
+        if kind=='inputs':return self.inputs(value)
+        if kind=='jobs':return self.jobs(value)
         if kind in ('output_unsigned','format_arguments','output_buffer'):
             assert value,'null required output/va_list pointer'
             self.words(value,1) # Validate addressed storage, not uninitialized output contents.

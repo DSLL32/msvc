@@ -67,7 +67,7 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help')
     verify_native_build(json.loads((native_dir/'native-build.json').read_text()),expected['native_sha256'],PROJECT)
     if reuse_original is not None:
         result['original_reuse']={'capture':binding(observed/'capture.json'),
-            'reason':'Native-only rebuild/recapture after shared-source update; original target, candidate, mask and raw state unchanged.'}
+            'reason':'Explicit native-only retry or decoder refresh; original execution inputs, target, candidate and mask unchanged; historical raw records preserved.'}
     for platform,directory in (('original',observed),('native',native_dir)):
         if platform=='original' and reuse_original is not None and original_state.name=='state.json' and (directory/'observation.json').exists():
             result[platform]=binding(directory/'observation.json')

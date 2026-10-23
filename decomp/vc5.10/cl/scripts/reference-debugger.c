@@ -26,6 +26,10 @@ static FILE *trace;
 static int observe_mktemp;
 static FILE *mktemp_events;
 static DWORD mktemp_argument,mktemp_calls;
+static int observe_mre;
+static DWORD mre_calls;
+static DWORD mre_sites[] = { 0x3597,0x35c1,0x35ca,0x3686,0x36b9,0x36e2 };
+static DWORD mre_slots[] = { 0x40a300,0x40a314,0x40a304,0x40a308,0x40a30c,0x40a310 };
 
 static void patch_byte(DWORD address, BYTE value)
 {
@@ -297,6 +301,7 @@ int main(int argc,char **argv)
     }
     for (i=0;i<entry_count;++i)
         if (!strcmp(entry_guards[i].name,"prepare_environment")) observe_mktemp=1;
+        else if (!strcmp(entry_guards[i].name,"prepare_jobs")) observe_mre=1;
     output_path(path,"trace.txt");trace=fopen(path,"wb");if (!trace) return 43;
     output_path(path,"events.txt");events=fopen(path,"wb");
     if (!events) return 3;
@@ -341,6 +346,15 @@ int main(int argc,char **argv)
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
             save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+            if (observe_mre) {
+                BYTE call[6];DWORD slot;
+                for (i=0;i<6;++i) {
+                    memory(target_base+mre_sites[i],call,sizeof(call));memcpy(&slot,call+2,4);
+                    if (call[0]!=0xff || call[1]!=0x15 || slot!=mre_slots[i]) return 67;
+                    fprintf(events,"mre-guard site=%08lx iat=%08lx\n",target_base+mre_sites[i],slot);
+                    patch_byte(target_base+mre_sites[i],0xcc);
+                }
+            }
             if (observe_resources) {
                 BYTE before,after;
                 memory(target_base+0x534d,&before,1);memory(target_base+0x5353,&after,1);
@@ -371,6 +385,9 @@ int main(int argc,char **argv)
             DWORD code=event.u.Exception.ExceptionRecord.ExceptionCode;
             DWORD address=(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
             EntryGuard *guard=NULL;
+            int mre_site=0;
+            if (observe_mre) for (i=0;i<6;++i)
+                if (address==target_base+mre_sites[i]) mre_site=1;
             for (i=0;i<entry_count;++i)
                 if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;
             if (code==EXCEPTION_BREAKPOINT && guard) {
@@ -393,6 +410,10 @@ int main(int argc,char **argv)
                 fprintf(trace,"%s\n",guard->name);fflush(trace);guard->seen=1;
                 patch_byte(address,(BYTE)guard->byte);context.Eip=address;
                 if (!SetThreadContext(thread,&context)) return 47;
+            } else if (code==EXCEPTION_BREAKPOINT && mre_site) {
+                ++mre_calls;
+                fprintf(events,"mre-unexpected-call address=%08lx\n",address);fflush(events);
+                TerminateProcess(child,0x7002);
             } else if (code==EXCEPTION_BREAKPOINT && observe_resources &&
                 (address==target_base+0x534d || address==target_base+0x5353)) {
                 BYTE output[256];
@@ -489,6 +510,11 @@ int main(int argc,char **argv)
             }
         } else if (event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
             fprintf(events,"exit event=%lu status=%lu\n",event_number,event.u.ExitProcess.dwExitCode);
+            if (observe_mre) {
+                output_path(path,"mre-calls.txt");snapshot=fopen(path,"wb");
+                if (!snapshot) return 68;
+                fprintf(snapshot,"%lu\n",mre_calls);fclose(snapshot);
+            }
             fclose(events);fclose(trace);if (mktemp_events) fclose(mktemp_events);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
             ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
             return event.u.ExitProcess.dwExitCode==0x7001 ? 0:event.u.ExitProcess.dwExitCode;

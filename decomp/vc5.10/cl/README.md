@@ -15,8 +15,8 @@ acceptance journal for the measured evidence.
 Help artifacts are frozen and independently verified. The authorized next case is a
 genuine minimal-C compile. Its in-process frontend and backend child boundaries
 require complete captured response contracts; unknown dependencies fail.
-The driver prefix has added seven functions with fresh candidate-inclusive
-proofs; it currently traps at `run_driver`.
+The driver prefix has added eleven functions with fresh candidate-inclusive
+proofs; it currently traps at `run_jobs`.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
@@ -30,6 +30,11 @@ Read-only boundary captures compare FILE ownership, CRT descriptors and separate
 Win32 standard handles, destinations, positions and errors through `_dup2(1,2)`.
 Untouched buffer bytes are unclaimed. See `cases/minimal-c/stdio-profile.json`
 and `scripts/check-streams.py` for the eleven semantic mutation controls.
+The `/Gm`-disabled path makes zero MSPDB calls: six original callsite guards and
+a native host counter enforce this. Six qualified stdcall declarations retain
+their verified DLL exports; the native adapter always fails if invoked. The
+original build uses a declaration-only LLVM import library, with decorated names
+preserved verbatim and accepted by original LINK. No MSPDB behavior is supplied.
 
 Fresh trials compare candidate-inclusive masked originals against native i386
 `-O0 -g` builds: named frontier, decoded parameters/driver state, streams and

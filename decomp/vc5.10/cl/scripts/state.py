@@ -100,6 +100,7 @@ def basic_project(platform,directory):
 
 def project(platform,directory):
     directory=Path(directory);result=basic_project(platform,directory)
+    result['wrapper_decoder_sha256']=sha(Path(__file__))
     if (directory/'case-inputs.json').exists():
         from case_inputs import load
         case=json.loads((directory/'case-inputs.json').read_text())
@@ -131,6 +132,25 @@ def project(platform,directory):
             if platform=='native':names+=['gdb_streams.py']
             result['raw_inputs'].update({name:sha(directory/name)for name in names})
             result['stream_decoder_sha256']=sha(Path(streams_state.__file__))
+        config=json.loads((directory/'config.json').read_text())
+        if '_prepare_jobs' in config['accepted']:
+            assert case['case']=='minimal-c','MRE invocation boundary not established for this case'
+            if platform=='original':
+                text=(directory/'events.txt').read_text()
+                guards=re.findall(r'^mre-guard site=([0-9a-f]{8}) iat=([0-9a-f]{8})$',text,re.M)
+                assert guards==[('%08x'%site,'%08x'%slot)for site,slot in
+                    [(0x403597,0x40a300),(0x4035c1,0x40a314),(0x4035ca,0x40a304),(0x403686,0x40a308),(0x4036b9,0x40a30c),(0x4036e2,0x40a310)]]
+                assert 'mre-unexpected-call' not in text
+                count=(directory/'mre-calls.txt').read_text();assert count=='0\n'
+                from mre_imports import declarations
+                assert sha(directory/'loaded-mspdb50.bin')==declarations()['provider_sha256']
+                names=['mre-calls.txt','events.txt','loaded-mspdb50.bin']
+            else:
+                phase='entry' if result['fields'].get('status')==0 else 'frontier'
+                record=json.loads((directory/('streams-'+phase+'.json')).read_text());assert record['mre_calls']==0
+                names=['streams-'+phase+'.json','gdb_streams.py']
+            result['fields']['external_mre_calls']=0
+            result['raw_inputs'].update({name:sha(directory/name)for name in names})
     observed=(directory/'mktemp-before.bin').exists() if platform=='original' else (directory/'mktemp-expected.json').exists()
     if observed:
         import mktemp_state

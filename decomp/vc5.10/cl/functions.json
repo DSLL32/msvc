@@ -69,7 +69,11 @@
     "_create_input",
     "_unlink_option",
     "_disable_pass",
-    "_prepare_execution"
+    "_prepare_execution",
+    "_run_driver",
+    "_source_jobs",
+    "_create_job",
+    "_prepare_jobs"
   ],
   "driver": [
     {
@@ -312,10 +316,13 @@
     {
       "name": "_run_driver",
       "start": 4207404,
-      "end": 4207405,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "run_driver"
+      "end": 4207869,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "run_driver",
+      "evidence": {
+        "kind": "complete source job grouping/pending-queue drain/link and output processing body disassembly",
+        "range": "0040332c..004034fd"
+      }
     },
     {
       "name": "_driver_exit",
@@ -931,6 +938,103 @@
         "kind": "complete input record allocation/name ownership/initial fields disassembly",
         "range": "00401063..00401094"
       }
+    },
+    {
+      "name": "_source_jobs",
+      "start": 4207869,
+      "end": 4207943,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "source_jobs",
+      "evidence": {
+        "kind": "complete source-input job list and single-job temporary lifetime body disassembly",
+        "range": "004034fd..00403547"
+      }
+    },
+    {
+      "name": "_prepare_jobs",
+      "start": 4207966,
+      "end": 4208393,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "prepare_jobs",
+      "evidence": {
+        "kind": "complete optional MRE dependency scan body disassembly; six external calls fail closed; minimal-C Gm0 fast path only",
+        "range": "0040355e..00403709"
+      }
+    },
+    {
+      "name": "_next_jobs",
+      "start": 4208393,
+      "end": 4208394,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "next_jobs"
+    },
+    {
+      "name": "_run_jobs",
+      "start": 4209591,
+      "end": 4209592,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "run_jobs"
+    },
+    {
+      "name": "_run_passes",
+      "start": 4210183,
+      "end": 4210184,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "run_passes"
+    },
+    {
+      "name": "_link_pass",
+      "start": 4211307,
+      "end": 4211308,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "link_pass"
+    },
+    {
+      "name": "_final_pass",
+      "start": 4210269,
+      "end": 4210270,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "final_pass"
+    },
+    {
+      "name": "_file_name",
+      "start": 4213032,
+      "end": 4213033,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "file_name"
+    },
+    {
+      "name": "_create_job",
+      "start": 4207943,
+      "end": 4207966,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "create_job",
+      "evidence": {
+        "kind": "complete40-byte job allocation and three initialized prefix-word body disassembly; remaining tail undefined",
+        "range": "00403547..0040355e"
+      }
+    },
+    {
+      "name": "_file_timestamp",
+      "start": 4208954,
+      "end": 4208955,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "file_timestamp"
+    },
+    {
+      "name": "_jobs_from_deferred",
+      "start": 4209501,
+      "end": 4209502,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "jobs_from_deferred"
     }
   ],
   "runtime": [

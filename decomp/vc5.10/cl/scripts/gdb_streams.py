@@ -32,4 +32,6 @@ def capture(directory,phase):
         'win32':[query(handle)for handle in win32],'osfile':flags,
         'errors':{'errno':value('(int)errno'),'doserrno':value('recon_doserrno'),
             'last_error':value('last_error'),'x87_control_word':value('$fctrl')}}
+    config=json.loads((directory/'config.json').read_text())
+    if '_prepare_jobs' in config['accepted']:result['mre_calls']=value('mre_call_count')
     (directory/('streams-'+phase+'.json')).write_text(json.dumps(result,indent=2)+'\n')

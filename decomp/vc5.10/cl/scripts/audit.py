@@ -28,6 +28,9 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
         result.update(native_grammar=project/'build/native-trace/CL.EXE',grammar_proof=project/'cases/help/rule-grammar.json',grammar_verifier=project/'scripts/rules.py')
     if '_classify_input' in json.loads((config or project/'functions.json').read_text())['accepted']:
         result.update(input_kind_proof=project/'cases/minimal-c/input-kinds.json',input_kind_verifier=project/'scripts/input_kinds.py')
+    if '_prepare_jobs' in json.loads((config or project/'functions.json').read_text())['accepted']:
+        result.update(mre_proof=project/'cases/minimal-c/mre-imports.json',mre_verifier=project/'scripts/mre_imports.py',
+            mre_host=project/'scripts/mre-host.c',mre_definition=project/'scripts/mspdb50.def',mre_provider=root/'toolchains/5.10/bin/MSPDB50.DLL',mre_library=project/'build/mspdb50.lib')
     return result
 
 
@@ -103,6 +106,9 @@ def run(config,report):
     if '_classify_input' in config_value['accepted']:
         from input_kinds import verify
         receipt['input_kinds']=verify(PROJECT,ROOT)
+    if '_prepare_jobs' in config_value['accepted']:
+        from mre_imports import verify
+        receipt['mre_imports']=verify(PROJECT,ROOT)
     report.with_suffix('.receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     if status==0:print(json.dumps({'status':0,'passes':list(passes),'seconds':elapsed}))
     return status

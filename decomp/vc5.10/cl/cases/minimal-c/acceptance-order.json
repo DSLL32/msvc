@@ -71,6 +71,46 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-execution-1/pair.json",
         "sha256": "09caeea413a533a41a657b7c47a36744ce16eb7fd75dd8a7e1a504eb63e0761a"
       }
+    },
+    {
+      "order": 8,
+      "candidate": "_run_driver",
+      "class": "application",
+      "extent_bytes": 465,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/run-driver-1/pair.json",
+        "sha256": "9c1789b0a30b35a20b79f4f4eefd4707c9cacbcf4d4e220ae0fbee82c74218df"
+      }
+    },
+    {
+      "order": 9,
+      "candidate": "_source_jobs",
+      "class": "application",
+      "extent_bytes": 74,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/source-jobs-1/pair.json",
+        "sha256": "81b71e5326f0376aba229aa4d517aa4dac5e491a8923eacde9381960ddc086d6"
+      }
+    },
+    {
+      "order": 10,
+      "candidate": "_create_job",
+      "class": "application",
+      "extent_bytes": 23,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/create-job-1/pair.json",
+        "sha256": "d9b84baa0b0a7ae326cdb2eff1ee7c8f14160069d1fcf24d07b874e1ac29b30f"
+      }
+    },
+    {
+      "order": 11,
+      "candidate": "_prepare_jobs",
+      "class": "application",
+      "extent_bytes": 427,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-jobs-3/pair.json",
+        "sha256": "096908d98f354a5eb729cd16ddb9a44c73a1f8d08fd220488e6e5ff8be4efe3b"
+      }
     }
   ]
 }
