@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_for_increment",
+    "start": 261632,
+    "end": 261740
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1163-begin_for_increment/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_begin_for_increment_region",
+    "_remove_last_frontend_record"
+  ],
+  "next_frontier": "_begin_for_increment_region",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8913356084376574,
+  "total_operation_seconds": 5.122262826189399,
+  "original_capture_seconds": 1.7689865455031395
+}

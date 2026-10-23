@@ -1167,7 +1167,8 @@
     "_finish_extended_arithmetic",
     "_scan_character_literal@4",
     "_begin_for_condition",
-    "_begin_for_condition_region"
+    "_begin_for_condition_region",
+    "_begin_for_increment"
   ],
   "driver": [
     {
@@ -2586,7 +2587,7 @@
     {
       "name": "_begin_for_increment",
       "start": 261632,
-      "end": 261633
+      "end": 261740
     },
     {
       "name": "_begin_function_definition@8",
@@ -8370,6 +8371,11 @@
       "name": "_begin_for_condition_region",
       "start": 261568,
       "end": 261626
+    },
+    {
+      "name": "_begin_for_increment_region",
+      "start": 261744,
+      "end": 261745
     }
   ],
   "cases": {
@@ -8570,7 +8576,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_begin_for_increment",
+      "terminal": "_begin_for_increment_region",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8593,7 +8599,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1162-begin_for_condition_region/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1163-begin_for_increment/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8761,7 +8767,8 @@
         "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1160-scan_character_literal-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1161-begin_for_condition/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1162-begin_for_condition_region/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1162-begin_for_condition_region/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1163-begin_for_increment/frontier-extension.json"
       ]
     }
   },

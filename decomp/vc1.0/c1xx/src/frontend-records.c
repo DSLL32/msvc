@@ -7,6 +7,7 @@
 #include "record-processing.h"
 #include "cpp-context.h"
 #include <setjmp.h>
+void begin_for_increment_region(void);
 #include <recon.h>
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
@@ -809,4 +810,24 @@ void begin_for_condition_region(void)
     record.next = 0;
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3fe00..0x3fe6b. Drop an empty condition region;
+   otherwise close it before opening the increment evaluation region. */
+void begin_for_increment(void)
+{
+    FrontendRecord record;
+    if (ir_records_suppressed) return;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x26)
+        remove_last_frontend_record();
+    else {
+        record.kind = 0x27;
+        record.flags = 0;
+        record.field02 = 0;
+        record.sequence = 0;
+        record.next = 0;
+        record.previous = 0;
+        append_frontend_record(&record, sizeof(record));
+    }
+    begin_for_increment_region();
 }

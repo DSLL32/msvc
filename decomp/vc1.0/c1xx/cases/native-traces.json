@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "bf99d9418a22f274676bc8c92012c878d51af2f3399232991bc9194c98ccea9a",
+    "functions.json": "a265b9c17e02bf0c0521a63e92277637a9c106e82657aec9c115307fa15a11b8",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "fd01e39e96c5ba7897a247f013e29ead4113c8619cb8a852a7c7218f10aaf317",
-    "cases/canonical-map.txt": "c1f3032312047df1e9af70c290f0a40074eef0720d134653dd89ebec0ea1c41f",
+    "cases/original-entry-references.json": "8a884d4fb462511b68cecfcd4458f32839a79a5b4435943e0c0bd74ffc8fed19",
+    "cases/canonical-map.txt": "c63b07e9fee30e9b6ef3927f81305b79b464aeaacc74cc90cd747e792adb8186",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1162-begin_for_condition_region/entry-reference/original-receipt.json": "c4356b51801538ba62a105b694b0a2688f973dc21b8c467f8fe925f37be33f6c",
-    "cases/frontiers/state_machine_debug/1162-begin_for_condition_region/entry-reference/original-events.txt": "9c0851d64d4393d748091d16b47238580c0f2f2a7920f7ff6484b7d45598d05d",
-    "cases/frontiers/state_machine_debug/1162-begin_for_condition_region/entry-reference/original-entries.plan": "4c7927d33135afa2af949da4c7335377d3df4214f38d8bdb4fc37aec814e3a57"
+    "cases/frontiers/state_machine_debug/1163-begin_for_increment/entry-reference/original-receipt.json": "76c3faa6df103ee9263751f69cc92b2d826a7c0bf7b832fcb10072c6915026cc",
+    "cases/frontiers/state_machine_debug/1163-begin_for_increment/entry-reference/original-events.txt": "ad6c24a1ed68831c120bf1188639aede64e49fc4c10057fe9abbe501ce0fb1e4",
+    "cases/frontiers/state_machine_debug/1163-begin_for_increment/entry-reference/original-entries.plan": "16d52a99f130a0736cedc1938ce5675a9d7640074a071f52079292717dcd52c5"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -424,6 +424,10 @@
     },
     "begin_for_increment": {
       "logical": "_begin_for_increment",
+      "source": "src/frontend-records.c"
+    },
+    "begin_for_increment_region": {
+      "logical": "_begin_for_increment_region",
       "source": "src/stubs.c"
     },
     "begin_frontend_scope": {
@@ -6785,7 +6789,8 @@
     "finish_extended_arithmetic",
     "scan_character_literal",
     "begin_for_condition",
-    "begin_for_condition_region"
+    "begin_for_condition_region",
+    "begin_for_increment"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10908,7 +10913,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1163,
+      "last": 1164,
       "seen": [
         "main",
         "message_text",
@@ -11970,12 +11975,13 @@
         "scan_character_literal",
         "begin_for_condition",
         "begin_for_condition_region",
-        "begin_for_increment"
+        "begin_for_increment",
+        "begin_for_increment_region"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_for_increment",
-        "native": "begin_for_increment",
+        "logical": "_begin_for_increment_region",
+        "native": "begin_for_increment_region",
         "signal": 5
       }
     }
