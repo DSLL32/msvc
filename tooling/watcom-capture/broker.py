@@ -96,6 +96,19 @@ class Broker:
             raise ProtocolError("WCC launch breakpoint/context mismatch")
         return index,event,actual
 
+    def wcc_prepare_entry(self):
+        return struct.unpack("<I",self.fixed(22,b"",4))[0]
+
+    def wcc_entry_trap(self,before):
+        self.fixed(23,b"",0)
+        event=self.event();actual=self.context()
+        expected=dict(before);expected["eip"]+=1
+        if (event["code"]!=1 or event["exception"]!=0x80000003 or
+                not event["first_chance"] or event["exception_address"]!=before["eip"] or
+                actual!=expected):
+            raise ProtocolError("actual CF entry INT3/context mismatch")
+        return event,actual
+
     def flat_selectors(self,actual):
         packet=struct.unpack("<12I",self.fixed(19,b"",48));result={};proof=[]
         for index,name in enumerate(("cs","ss","ds","es")):

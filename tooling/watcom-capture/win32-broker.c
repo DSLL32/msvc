@@ -16,7 +16,7 @@ enum { MAP_BYTES=16384, PAYLOAD=256, MAX_PAYLOAD=4096, MAX_SEQUENCE=1000000,
        MAX_TRAPS=64, MAX_EVENTS=10000, MAX_STEPS=10000, MAX_READ=512 };
 enum { OP_EVENT=10, OP_CONTEXT=11, OP_READ=12, OP_TRAP=13, OP_CONSUME=14,
        OP_ARM=15, OP_STEP=16, OP_LOADER=17, OP_STOP=18, OP_SELECTORS=19, OP_REGION=20,
-       OP_WCC_PREFIX=21 };
+       OP_WCC_PREFIX=21, OP_WCC_ENTRY=22, OP_WCC_ENTRY_TRAP=23 };
 typedef struct Trap { DWORD address; BYTE saved; int active; } Trap;
 static BYTE *area;
 static HANDLE map_file=INVALID_HANDLE_VALUE, map_handle, child, thread;
@@ -26,6 +26,10 @@ static DEBUG_EVENT event;
 static int pending, created, entry_reached, armed, exiting, child_exit_seen;
 static int loader_break_seen;
 static int wcc_prefix, wcc_stopped;
+static int wcc_handoff, wcc_at_entry, wcc_trap_running, wcc_entry_stopped;
+static unsigned wcc_instruction;
+static DWORD wcc_cf_base, wcc_cf_entry;
+static CONTEXT wcc_entry_context;
 static DWORD child_pid, child_tid, image_base, image_size, entry_rva, entry_byte;
 static DWORD teb, entry_address, ntdll_base, ntdll_size;
 static DWORD events, steps, started, lease_tick, lease_value, seen;
@@ -208,6 +212,23 @@ static int next_event(void)
                 /* Raw full context is returned. Consumed TF is permitted only after
                    the recorded exact ARM readback; no other flags are normalized. */
                 armed=0;
+                if(wcc_handoff) {
+                    if(++wcc_instruction==6) {
+                        if(value.Eip!=wcc_cf_entry || !trap_ready(wcc_cf_entry)) return 0;
+                        wcc_at_entry=1;wcc_entry_context=value;
+                        fprintf(log_file,"wcc-cf-entry-db pc=%08lx cf-instructions=0\n",value.Eip);
+                    }
+                }
+            } else if(wcc_trap_running && !wcc_entry_stopped &&
+                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                      event.u.Exception.dwFirstChance &&
+                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==wcc_cf_entry &&
+                      value.Eip==wcc_cf_entry+1 && trap_ready(wcc_cf_entry)) {
+                CONTEXT expected=wcc_entry_context;
+                expected.Eip=wcc_cf_entry+1;
+                if(!same_context(&expected,&value)) return 0;
+                wcc_entry_stopped=1;
+                fprintf(log_file,"wcc-cf-entry-int3 pc=%08lx cf-instructions=0\n",value.Eip);
             } else if(wcc_prefix && !wcc_stopped &&
                       event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                       event.u.Exception.dwFirstChance &&
@@ -267,6 +288,26 @@ static int arm(const DWORD *packet)
        !memory(before.Eip,&opcode,1) || opcode==0xcc) return 0;
     pack_context(actual,&before);
     if(memcmp(actual,packet,64)) return 0;
+    if(wcc_handoff) {
+        static const DWORD offsets[]={0x10763,0x10015,0x10016,0x10019,0x1001b,0x1001d};
+        static const BYTE lengths[]={5,1,3,2,2,2};
+        static const BYTE instructions[6][5]={{0xe8,0xad,0xf8,0xff,0xff},{0x0e},
+            {0x66,0x8c,0xcb},{0xb4,2},{0x2b,0xc9},{0xff,0xd6}};
+        BYTE bytes[5];DWORD next,sp;
+        if(wcc_entry_stopped || wcc_instruction>=6 ||
+           before.Eip!=image_base+offsets[wcc_instruction] ||
+           !memory(before.Eip,bytes,lengths[wcc_instruction]) ||
+           memcmp(bytes,instructions[wcc_instruction],lengths[wcc_instruction])) return 0;
+        next=wcc_instruction==0?image_base+0x10015:
+             wcc_instruction==5?wcc_cf_entry:before.Eip+lengths[wcc_instruction];
+        sp=before.Esp;
+        if(wcc_instruction==0 || wcc_instruction==1 || wcc_instruction==5) {
+            if(sp<4) return 0;
+            sp-=4;
+        }
+        if(packet[16]!=next || packet[17]!=sp || packet[18]!=before.SegCs ||
+           (wcc_instruction==5 && (before.Esi!=wcc_cf_entry || !trap_ready(wcc_cf_entry)))) return 0;
+    }
     expected_pc=packet[16];expected_sp=packet[17];expected_cs=packet[18];
     requested=before;requested.EFlags|=0x100;
     if(!SetThreadContext(thread,&requested) || !context(&observed) ||
@@ -299,6 +340,42 @@ static int continue_wcc_prefix(DWORD *index)
     fprintf(log_file,"wcc-prefix entry=%08lx launch=%08lx\n",entry_address,image_base+0x10763);
     fflush(log_file);
     if(!budget() || !ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
+    pending=0;return 1;
+}
+static int prepare_wcc_entry(DWORD *index)
+{
+    DWORD slots[3];CONTEXT value;MEMORY_BASIC_INFORMATION region;unsigned i;
+    /* This is one verified loader-to-CF entry, not permission for a CF body.
+       All initialized bytes/fixups must already match in the controller. */
+    if(!pending || !wcc_stopped || wcc_handoff || armed || !context(&value) ||
+       value.Eip!=image_base+0x10764 || value.EFlags&0x100 ||
+       !memory(image_base+0x30000,slots,sizeof(slots)) || !slots[1] || slots[1]!=slots[2] ||
+       !bounds(slots[1],0x91000) || slots[0]!=slots[1]+0x2fe00 || value.Esi!=slots[0] ||
+       value.Ebx!=slots[1] || value.Edx!=image_base+0x10788 ||
+       trap_count==MAX_TRAPS ||
+       VirtualQueryEx(child,(void *)slots[0],&region,sizeof(region))!=sizeof(region) ||
+       region.State!=MEM_COMMIT || region.Protect&(PAGE_GUARD|PAGE_NOACCESS) ||
+       !patch(slots[0],0x88,0xcc)) return 0;
+    traps[trap_count].address=slots[0];traps[trap_count].saved=0x88;
+    traps[trap_count].active=1;*index=trap_count++;
+    for(i=0;i<trap_count;i++) if(traps[i].address==image_base+0x10763 && traps[i].active) break;
+    if(i==trap_count || !consume(i)) return 0;
+    wcc_cf_base=slots[1];wcc_cf_entry=slots[0];wcc_handoff=1;
+    fprintf(log_file,"wcc-entry-armed base=%08lx entry=%08lx original=88 masked=cc\n",wcc_cf_base,wcc_cf_entry);
+    fflush(log_file);return 1;
+}
+static int continue_wcc_entry_trap(void)
+{
+    CONTEXT value;DWORD actual_return;
+    if(!budget() || !pending || !wcc_at_entry || wcc_trap_running || wcc_entry_stopped || armed ||
+       wcc_instruction!=6 || !context(&value) || !same_context(&value,&wcc_entry_context) ||
+       value.Eip!=wcc_cf_entry || value.EFlags&0x100 || !trap_ready(wcc_cf_entry) ||
+       event.dwDebugEventCode!=EXCEPTION_DEBUG_EVENT ||
+       event.u.Exception.ExceptionRecord.ExceptionCode!=EXCEPTION_SINGLE_STEP ||
+       !event.u.Exception.dwFirstChance ||
+       !memory(value.Esp,&actual_return,4) || actual_return!=image_base+0x1001f) return 0;
+    wcc_trap_running=1;
+    if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
     pending=0;return 1;
 }
 static int teardown(DWORD code)
@@ -360,11 +437,16 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
     MEMORY_BASIC_INFORMATION region;unsigned i;
     *reply_length=0;
     if(length>sizeof(packet)) return 0;
-    /* After a prefix has run, it can never be resumed by another RPC. Only the
-       first EVENT may receive its launch stop; afterward inspection/STOP only. */
+    /* Default prefix capture is permanently stopped. Explicit OP22 admits only
+       six byte-bound loader instructions, then inspection/STOP at CF entry.
+       No RPC can admit the first CF body byte or a different transfer target. */
     if(wcc_prefix && operation!=OP_CONTEXT && operation!=OP_READ &&
        operation!=OP_SELECTORS && operation!=OP_REGION && operation!=OP_STOP &&
-       !(operation==OP_EVENT && !wcc_stopped)) return 0;
+       !(operation==OP_EVENT && (!wcc_stopped || (wcc_handoff && !wcc_at_entry) ||
+                                (wcc_trap_running && !wcc_entry_stopped))) &&
+       !(operation==OP_WCC_ENTRY && wcc_stopped && !wcc_handoff) &&
+       !(operation==OP_WCC_ENTRY_TRAP && wcc_at_entry && !wcc_trap_running) &&
+       !((operation==OP_ARM || operation==OP_STEP) && wcc_handoff && !wcc_at_entry)) return 0;
     memcpy(packet,area+PAYLOAD,length);
     if(operation==OP_EVENT && !length) {
         if(!next_event()) return 0;
@@ -412,6 +494,10 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
     if(operation==OP_WCC_PREFIX && !length && continue_wcc_prefix(&index)) {
         *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
     }
+    if(operation==OP_WCC_ENTRY && !length && prepare_wcc_entry(&index)) {
+        *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
+    }
+    if(operation==OP_WCC_ENTRY_TRAP && !length) return continue_wcc_entry_trap();
     if(operation==OP_STOP && !length) return teardown(0x6000);
     return 0;
 }

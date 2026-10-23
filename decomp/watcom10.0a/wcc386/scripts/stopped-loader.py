@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Explicit stopped original-loader capture; never imported by native fixtures.
 
-Requires a separately reviewed, hash-bound plan. The launch CALL stays trapped;
-no CF instruction executes and this capture grants no application credit.
+Requires a separately reviewed, hash-bound plan. Default stops before launch;
+explicit entry_handoff executes only known loader instructions and the installed
+CF entry INT3. No original CF instruction or application credit is admitted.
 """
 import argparse
 import hashlib
@@ -23,6 +24,7 @@ sys.path[:]=[str(ROOT/'tooling/watcom-capture')]+[path for path in sys.path
 from broker import Broker
 from cf_identity import Image
 from ipc import Client,ProtocolError
+from wcc_handoff import enter
 
 STUB=ROOT/'toolchains/watcom10.0a/binnt/WCC386.EXE'
 PAYLOAD=ROOT/'toolchains/watcom10.0a/binb/WCC386.EXE'
@@ -188,6 +190,10 @@ def capture(plan_path):
             receipt['timing']['full_relocation_comparison_seconds']=time.monotonic()-tick
             require(broker.context()==actual and broker.read(base+0x30000,16)==struct.pack('<4I',*slots) and
                     broker.read(base+0x10763,5)==b'\xcc\xad\xf8\xff\xff','stopped state changed during inspection')
+            if plan.get('entry_handoff',False):
+                tick=time.monotonic()
+                receipt['entry_handoff']=enter(broker,event,actual,allocation,entry_address,snapshot)
+                receipt['timing']['six_loader_instructions_and_actual_entry_int3_seconds']=time.monotonic()-tick
             tick=time.monotonic();broker.stop();out,err=child.communicate(timeout=8)
             receipt['timing']['owned_teardown_seconds']=time.monotonic()-tick
             require(child.returncode==0 and not out and not err,'broker failed or unexpected launcher streams')

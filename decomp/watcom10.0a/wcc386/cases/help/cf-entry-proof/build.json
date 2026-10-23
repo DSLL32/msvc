@@ -1,0 +1,45 @@
+{
+  "scope": "Build only authored debug broker using MSVC5.10; no original Watcom loader or generated broker execution",
+  "source_sha256": "7b938de1ad6e6657386979904607763f0940cf9f76fd0d3a6ba4a344036c7940",
+  "environment_sha256": "830a2b392a297825d9521e1a202456e1831062f7dae8c0d45b26d55e1e7c5f42",
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/MT",
+        "/W3",
+        "/FoS:\\watcom-capture\\wcc-entry-build1\\broker.obj",
+        "R:\\tooling\\watcom-capture\\win32-broker.c"
+      ],
+      "status": 0,
+      "seconds": 1.6508073564618826,
+      "stdout_sha256": "558e6489c9b5f42a3a54322bc410a56362bef885bf5ea9e1459f508e156b3755",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/subsystem:console",
+        "/out:S:\\watcom-capture\\wcc-entry-build1\\broker.exe",
+        "/map:S:\\watcom-capture\\wcc-entry-build1\\broker.map",
+        "S:\\watcom-capture\\wcc-entry-build1\\broker.obj",
+        "kernel32.lib"
+      ],
+      "status": 0,
+      "seconds": 0.7220646869391203,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "artifacts": {
+    "broker.obj": "5d5ebea8e5c25eb3819bbac988b4e0aeae661b4f72506167c143b00a42c58a75",
+    "broker.exe": "57b5e5f74b0e8a1f94d9eb2886c70887977ec66f9b785cb1a4238d0b89185777",
+    "broker.map": "015593dcfaf4bc34967bdd625d0a87154fda3520e27a159802c6de70eac5b2e5"
+  }
+}
