@@ -62,7 +62,7 @@
   ],
   "count": 13,
   "checker_sha256": "6c9903f4df1ef41fa30fc4f45a59a77636464ec02b4efb004baa7a7901954b2e",
-  "decoder_sha256": "c1a6da20fb1702f9af5e57f3f401775f12db8c0bfc00e25bff6e661f611d5fb1",
+  "decoder_sha256": "2f5bd1e6ca091648dc04d61afab4d6c260df49c9d5b493d699aaf45d49609082",
   "inputs": [
     {
       "path": "cases/hello-debug-dll/evidence/0051-initialize-module-type-storage/original/receipt.json",
@@ -89,5 +89,5 @@
       "sha256": "b9bd9f880cdddba15c4241f9784ac56d32dda0017cf3b87452b951212ae22f32"
     }
   ],
-  "seconds": 1.229384466074407
+  "seconds": 1.2197963120415807
 }

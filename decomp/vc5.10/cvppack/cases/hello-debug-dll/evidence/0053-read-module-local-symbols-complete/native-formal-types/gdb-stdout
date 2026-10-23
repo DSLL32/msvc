@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56597645 in read_module_global_types (index=6, entry=0x566a4398) at src/stubs.c:27
+27	void read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }

@@ -113,6 +113,19 @@ def compare(config,data,events,native,artifacts=None,views=None):
     assert native['function'] == record['native_symbol']
     parameters = {};object_parameters=[]
     assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
+    if config.get('require_native_argument_inventory'):
+        actual=native['observed_argument_names'];expected=[item['name'] for item in record['parameters']]
+        assert len(actual)==len(expected) and set(actual)==set(expected), 'actual frontier formal-argument inventory differs'
+        types=native['observed_argument_types']
+        assert len(types)==len(expected) and {item['name'] for item in types}==set(expected), 'actual frontier formal-type inventory differs'
+        for item in record['parameters']:
+            actual=next(row for row in types if row['name']==item['name'])
+            integer=item['kind']=='integer'
+            assert actual['kind']==('integer' if integer else 'pointer'), 'actual frontier formal type differs'
+            assert actual['width']==(item.get('native_width',4) if integer else 4), 'actual frontier formal width differs'
+            required=item.get('width') if item['kind']=='caller-local-pointer' else item.get('element_size') if item['kind']=='blob-element-pointer' else 4 if item['kind']=='integer-pointer' else None
+            if required is not None:assert actual.get('pointee_width')==required, 'actual frontier pointee extent differs'
+
     for item in record['parameters']:
         value = original['registers'][item['register']] if 'register' in item else original['stack'][item['slot']]
         if item['kind'] == 'integer':
@@ -477,8 +490,22 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     used_uninitialized.add(owner)
             elif item.get('module_buffer'):
                 module_buffer(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'))
+            elif 'buffer_alias' in item:
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                alias=item['buffer_alias'];source=global_integer(alias)
+                target=int.from_bytes(bytes.fromhex(native['globals'][alias]),'little')
+                assert address==source and other==target, 'retained subsection buffer alias differs'
+                pair(address,other)
             elif 'allocation' in item:
-                allocation(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'),item['allocation'])
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                allocation(address,other,item['allocation'])
+                if address and item.get('read_contents'):
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==image_sizes[address], 'incomplete read-buffer capacity observation'
+                    for read in original['file_reads']:
+                        if address<=read['buffer']<address+image_sizes[address]:
+                            offset=read['buffer']-address;end=offset+read['returned']
+                            assert end<=image_sizes[address] and left[offset:end]==right[offset:end], 'initialized subsection buffer bytes differ'
             elif 'blob' in item:
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if address in allocation_aliases:assert allocation_aliases[address]==other,'subsection output/global allocation alias differs'

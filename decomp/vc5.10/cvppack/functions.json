@@ -58,7 +58,8 @@
     "read_module_types",
     "read_new_module_types",
     "initialize_module_type_storage",
-    "reset_type_name_cache"
+    "reset_type_name_cache",
+    "read_module_local_symbols"
   ],
   "functions": [
     {
@@ -1346,10 +1347,38 @@
       "acceptance_proof": "cases/hello-debug-dll/evidence/0039-read-module-symbols-live-capacity/promotion.json"
     },
     {
-      "name": "read_module_lines",
-      "symbol": "_read_module_lines",
-      "native_symbol": "read_module_lines",
+      "name": "read_module_local_symbols",
+      "symbol": "_read_module_local_symbols",
+      "native_symbol": "read_module_local_symbols",
       "original": 4214896,
+      "status": "accepted",
+      "extent": [
+        4214896,
+        4215075
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/promotion.json"
+    },
+    {
+      "name": "read_module_global_types",
+      "symbol": "_read_module_global_types",
+      "native_symbol": "read_module_global_types",
+      "original": 4215744,
       "status": "stub",
       "extent": null,
       "ret": 0,
@@ -1368,16 +1397,6 @@
           "element_size": 12
         }
       ]
-    },
-    {
-      "name": "read_module_global_types",
-      "symbol": "_read_module_global_types",
-      "native_symbol": "read_module_global_types",
-      "original": 4215744,
-      "status": "stub",
-      "extent": null,
-      "ret": 0,
-      "parameters": []
     },
     {
       "name": "pack_symbols",
@@ -2260,6 +2279,17 @@
       "owner": "read_new_module_types",
       "local": "raw",
       "segment_input": true
+    },
+    {
+      "return_pc": 4214968,
+      "owner": "read_module_local_symbols",
+      "local": "type_data",
+      "global_buffer": true,
+      "allocated_global": "type_data",
+      "capacity_global": "line_capacity",
+      "count_parameter": "entry",
+      "count_member": "size"
     }
-  ]
+  ],
+  "require_native_argument_inventory": true
 }

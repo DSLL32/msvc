@@ -62,6 +62,11 @@
     "kind": "pointer",
     "allocation": {
       "size_global": "symbol_capacity"
+    },
+    "read_contents": true,
+    "blob": {
+      "count": "symbol_capacity",
+      "element_size": 1
     }
   },
   {
@@ -71,6 +76,11 @@
     "kind": "pointer",
     "allocation": {
       "size_global": "line_capacity"
+    },
+    "read_contents": true,
+    "blob": {
+      "count": "line_capacity",
+      "element_size": 1
     }
   },
   {
@@ -994,5 +1004,12 @@
     "original": 4281092,
     "size": 4,
     "kind": "integer"
+  },
+  {
+    "name": "module_symbol_records",
+    "original": 4281556,
+    "size": 4,
+    "kind": "pointer",
+    "buffer_alias": "type_data"
   }
 ]

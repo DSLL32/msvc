@@ -1,0 +1,5 @@
+{
+  "schema": 1,
+  "status": "not-promoted-incomplete-next-frontier-ABI",
+  "reason": "Original next frontier has two actual C formals (index,entry); old metadata omitted both. Raw retained unchanged; typed replacement has complete schema and GDB argument inventory."
+}

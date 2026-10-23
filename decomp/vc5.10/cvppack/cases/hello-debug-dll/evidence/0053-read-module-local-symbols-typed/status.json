@@ -1,0 +1,5 @@
+{
+  "schema": 1,
+  "status": "not-promoted-observation-extended",
+  "reason": "Formal-argument inventory complete. Final observation adds live public-buffer bytes, including initialized stale prefix beyond the most recent shorter read; earlier read receipts alone do not prove current contents."
+}

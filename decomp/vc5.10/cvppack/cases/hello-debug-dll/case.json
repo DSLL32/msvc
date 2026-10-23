@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0052-reset-type-name-cache/original",
-  "reference_receipt_sha256": "7f6e5d4916a82ceae2a9cb768b23a84382768e442ef4f1528e9eea7291af10a5",
+  "reference": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/original",
+  "reference_receipt_sha256": "cbaa1f07b67011cae0f84fdaa21612b01b79f6afe316d95012e68b99f7e01996",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -58,6 +58,7 @@
     "read_new_module_types",
     "initialize_module_type_storage",
     "reset_type_name_cache",
-    "read_module_lines"
+    "read_module_local_symbols",
+    "read_module_global_types"
   ]
 }

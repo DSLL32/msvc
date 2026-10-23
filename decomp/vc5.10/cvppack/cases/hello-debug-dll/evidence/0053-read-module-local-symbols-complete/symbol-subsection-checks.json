@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "rejected": [
+    {
+      "name": "changed-local-symbol-byte",
+      "diagnostic": "initialized subsection buffer bytes differ"
+    },
+    {
+      "name": "changed-retained-public-prefix",
+      "diagnostic": "initialized subsection buffer bytes differ"
+    },
+    {
+      "name": "incomplete-local-symbol-capacity",
+      "diagnostic": "incomplete read-buffer capacity observation"
+    },
+    {
+      "name": "retained-subsection-alias",
+      "diagnostic": "retained subsection buffer alias differs"
+    },
+    {
+      "name": "omitted-actual-formals",
+      "diagnostic": "actual frontier formal-argument inventory differs"
+    },
+    {
+      "name": "omitted-actual-formal-types",
+      "diagnostic": "actual frontier formal-type inventory differs"
+    },
+    {
+      "name": "integer-pointer-formal-confusion",
+      "diagnostic": "actual frontier formal type differs"
+    },
+    {
+      "name": "wrong-formal-width",
+      "diagnostic": "actual frontier formal width differs"
+    },
+    {
+      "name": "wrong-directory-pointee-extent",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "empty-contract-cannot-hide-observed-formals",
+      "diagnostic": "actual frontier formal-argument inventory differs"
+    }
+  ],
+  "count": 14,
+  "actual_gdb_contract_rejections": [
+    {
+      "name": "omitted-formals",
+      "returncode": 1,
+      "bad_config_sha256": "19f23ffb0e8a49fc0dcc6299558e21935b60c521b463218b87a37e215e41162a",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565e7645 in read_module_global_types (index=6, entry=0x569722b8) at src/stubs.c:27\n27\tvoid read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: ('incomplete frontier ABI contract', ['index', 'entry'], [])\n/root/.ai-tmp/cvpack-formal-observer-v7mpv0n4/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('incomplete frontier ABI contract', ['index', 'entry'], [])\n",
+      "script_sha256": "322b8d1218cb6906e3b70d242f0bb2aa2eff8370e80f73825065b36bd74ade0e"
+    },
+    {
+      "name": "integer-as-pointer",
+      "returncode": 1,
+      "bad_config_sha256": "4b50a6365245c1a534cdb3a712ec8840755c464d2399c4edb71c0ae8d5515df2",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5662a645 in read_module_global_types (index=6, entry=0x577142b8) at src/stubs.c:27\n27\tvoid read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: pointer ABI formal is not an actual pointer\n/root/.ai-tmp/cvpack-formal-observer-ghevc3n5/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: pointer ABI formal is not an actual pointer\n",
+      "script_sha256": "322b8d1218cb6906e3b70d242f0bb2aa2eff8370e80f73825065b36bd74ade0e"
+    },
+    {
+      "name": "integer-width",
+      "returncode": 1,
+      "bad_config_sha256": "4f975b35922e239bde7da460932eef8d7d61f01e78f17d9ab8aab4dce4d7ec50",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565d0645 in read_module_global_types (index=6, entry=0x56d002b8) at src/stubs.c:27\n27\tvoid read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: ('actual frontier formal width differs', 'index', 'unsigned int', 4, 2)\n/root/.ai-tmp/cvpack-formal-observer-fez7ykrz/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('actual frontier formal width differs', 'index', 'unsigned int', 4, 2)\n",
+      "script_sha256": "322b8d1218cb6906e3b70d242f0bb2aa2eff8370e80f73825065b36bd74ade0e"
+    },
+    {
+      "name": "directory-pointee",
+      "returncode": 1,
+      "bad_config_sha256": "ae5ec10aa2d9bb1fb74e2c04548f9723b628d9553cf3f6c1c67679e1d7f06cf3",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x56631645 in read_module_global_types (index=6, entry=0x57b562b8) at src/stubs.c:27\n27\tvoid read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-formal-observer-78vfqmfg/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "script_sha256": "322b8d1218cb6906e3b70d242f0bb2aa2eff8370e80f73825065b36bd74ade0e"
+    }
+  ],
+  "native_owned_public_tail_change_allowed": true,
+  "formal_types": [
+    {
+      "name": "index",
+      "kind": "integer",
+      "width": 4,
+      "native_type": "unsigned int"
+    },
+    {
+      "name": "entry",
+      "kind": "pointer",
+      "width": 4,
+      "native_type": "CodeViewDirectoryEntry *",
+      "pointee_width": 12
+    }
+  ],
+  "reads_checked": 26,
+  "checker_sha256": "c278fa52e2d9aca7105f94aa90e62810e18f56f173796863896b57cfced5e90e",
+  "decoder_sha256": "2f5bd1e6ca091648dc04d61afab4d6c260df49c9d5b493d699aaf45d49609082",
+  "gdb_observer_sha256": "322b8d1218cb6906e3b70d242f0bb2aa2eff8370e80f73825065b36bd74ade0e",
+  "original_receipt_sha256": "cbaa1f07b67011cae0f84fdaa21612b01b79f6afe316d95012e68b99f7e01996",
+  "native_receipt_sha256": "41a35dbc0cea0760e517cd5048fbe589dd4a66ffa86bcd11a57113b664c1e3c9",
+  "seconds": 2.589023551903665
+}

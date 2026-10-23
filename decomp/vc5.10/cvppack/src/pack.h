@@ -27,7 +27,7 @@ void prepare_precompiled_types(ModuleInfo *info);
 void read_module_symbols(unsigned index, CodeViewDirectoryEntry *entry);
 const char *module_name(ModuleInfo *info);
 unsigned widen_subsection(unsigned char **buffer, unsigned size, unsigned *capacity);
-void read_module_lines(unsigned index, CodeViewDirectoryEntry *entry);
+void read_module_local_symbols(unsigned index, CodeViewDirectoryEntry *entry);
 void read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry);
 void pack_symbols(void *symbols, CodeViewDirectoryEntry *entry);
 unsigned __fastcall map_legacy_index(unsigned index);

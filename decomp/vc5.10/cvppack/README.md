@@ -175,3 +175,19 @@ a new narrowly scoped provider/SDK witness and single-fact removal control
 prove that requirement. There are now 52 accepted application functions and
 13,958 extent bytes (22.28% with the same qualification); the next frontier is
 `read_module_lines`. No reconstructed MSPDB call has been traversed.
+
+The local-symbol subsection reader 0x405070 is accepted as
+`read_module_local_symbols` (its old line-reader name was a hypothesis).
+Current defined local/public buffer bytes and the retained subsection alias
+match, including bytes retained after a shorter public read. Before promotion,
+an incomplete next-stub ABI contract was caught and corrected: actual GDB DWARF
+formals now independently verify names/count, integer/pointer kind, widths and
+known pointee extents. Four real GDB mismatch runs and ten buffer/ABI mutations
+fail; changing native-owned public allocation tails remains allowed. Earlier
+incomplete observations remain explicitly not promoted. The full original
+buffer capture is reused unchanged for the later native-only type-inventory
+observation and its strict bound sidecar. The parent independently reviewed
+this correction before acceptance. There are 53 accepted application functions,
+14,137 extent bytes (22.56% of the qualified denominator). Exact paths, fresh/
+reused controls and timings are in
+`cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/function-review.json`.

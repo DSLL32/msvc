@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "candidate": "read_module_local_symbols",
+  "accepted_functions": 53,
+  "application_extent_bytes": 14137,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 22.56072260700265,
+  "qualification": "Accepted application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4214896,
+    4215075
+  ],
+  "frontier": "read_module_global_types",
+  "frontier_parameters": {
+    "index": 6,
+    "entry": {
+      "root": "directory_entries",
+      "index": 6,
+      "bytes": "27010200ae68000000010000"
+    }
+  },
+  "independent_parent_review": "passed actual source/ABI, exact pair and14controls before promotion",
+  "fresh_checks": {
+    "symbol_buffer_and_ABI": 14,
+    "actual_GDB_formal_rejections": 4,
+    "affected_regressions": [
+      {
+        "path": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/type-record-state-checks.json",
+        "sha256": "f5dfff81290c3ecf4bdc919268fb9d18016c60693b7d05e1e4790596c89f03b6",
+        "seconds": 1.2197963120415807,
+        "count": 13
+      },
+      {
+        "path": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/read-state-checks.json",
+        "sha256": "8809f963f691f4899dfa5ad60064d1c38cb0c9c4d7bf83277733076749074352",
+        "seconds": 0.6542059173807502,
+        "count": 17
+      },
+      {
+        "path": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/initialized-storage-checks.json",
+        "sha256": "e74cd81fd61ce2886b17dcae4e658233131f896ae947f8ea9eb32c5364e85287",
+        "seconds": 0.4050343846902251,
+        "count": 8
+      }
+    ],
+    "positive_own_tails": [
+      "public unused allocation tail",
+      "type segment unused8bytes"
+    ]
+  },
+  "superseded": [
+    "../0053-read-module-local-symbols/status.json",
+    "../0053-read-module-local-symbols-typed/status.json"
+  ],
+  "original_reuse": {
+    "original_receipt_sha256": "cbaa1f07b67011cae0f84fdaa21612b01b79f6afe316d95012e68b99f7e01996",
+    "native_receipt_sha256": "41a35dbc0cea0760e517cd5048fbe589dd4a66ffa86bcd11a57113b664c1e3c9",
+    "audit_sha256": "bd8820ec082d12c11fd9cccec16843472a34ada72fae274c6ecfe326fb6432a9",
+    "reason": "Original complete buffer observations unchanged; actual native DWARF type guard added by native-only recapture with exact config/input/mask/candidate binding."
+  },
+  "original_sources_match_native": true,
+  "decoder_sha256": "2f5bd1e6ca091648dc04d61afab4d6c260df49c9d5b493d699aaf45d49609082",
+  "gdb_observer_sha256": "322b8d1218cb6906e3b70d242f0bb2aa2eff8370e80f73825065b36bd74ade0e",
+  "seconds": {
+    "complete_trial": {
+      "original_build": 0.028879240155220032,
+      "native_build": 1.5025240620598197,
+      "graph_tool_build": 0.03179730009287596,
+      "original_capture": 3.3657083734869957,
+      "native_capture": 0.5516445124521852,
+      "pair_check": 0.3623885549604893
+    },
+    "native_formal_refresh": {
+      "direct_execution": 0.01125284843146801,
+      "gdb_execution": 0.3792996844276786,
+      "total": 0.4898804845288396
+    },
+    "current_audit": 0.46480034943670034,
+    "symbol_controls": 2.589023551903665,
+    "fixture": {
+      "preparation": 0.002552120015025139,
+      "execution": 0.5506544690579176,
+      "checks": 0.00465288944542408,
+      "total": 0.7453228728845716
+    }
+  }
+}

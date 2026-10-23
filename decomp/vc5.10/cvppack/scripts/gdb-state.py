@@ -170,6 +170,33 @@ def capture(configuration,data_file,output):
     state['global_addresses']={item['name']:int(gdb.parse_and_eval('&'+item['name'])) for item in data}
     record=next((row for row in config['functions'] if row['native_symbol']==frame.name()),None)
     parameters={}
+    if record:
+        block=frame.block()
+        while block is not None and block.function is None:block=block.superblock
+        assert block is not None, 'frontier function has no actual debug block'
+        formals={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument}
+        arguments=list(formals)
+        declared=[item['name'] for item in record.get('parameters',[])]
+        assert len(arguments)==len(declared) and set(arguments)==set(declared), ('incomplete frontier ABI contract',arguments,declared)
+        inventory=[]
+        for item in record.get('parameters',[]):
+            actual=formals[item['name']];integer=item['kind']=='integer'
+            if integer:
+                assert actual.code in (gdb.TYPE_CODE_INT,gdb.TYPE_CODE_BOOL,gdb.TYPE_CODE_ENUM,gdb.TYPE_CODE_CHAR), 'integer ABI formal is not an actual integer'
+            else:
+                assert actual.code==gdb.TYPE_CODE_PTR, 'pointer ABI formal is not an actual pointer'
+            width=item.get('native_width',4) if integer else 4
+            assert actual.sizeof==width, ('actual frontier formal width differs',item['name'],str(actual),actual.sizeof,width)
+            observation=dict(name=item['name'],kind='integer' if integer else 'pointer',width=int(actual.sizeof),native_type=str(actual))
+            if not integer:
+                pointee=actual.target().strip_typedefs()
+                if pointee.code not in (gdb.TYPE_CODE_VOID,gdb.TYPE_CODE_FUNC):observation['pointee_width']=int(pointee.sizeof)
+                required=item.get('width') if item['kind']=='caller-local-pointer' else item.get('element_size') if item['kind']=='blob-element-pointer' else 4 if item['kind']=='integer-pointer' else None
+                if required is not None:assert observation.get('pointee_width')==required, 'actual pointer formal pointee extent differs'
+                if item['kind']=='function-pointer':assert pointee.code==gdb.TYPE_CODE_FUNC, 'callback formal is not an actual function pointer'
+            inventory.append(observation)
+        state['observed_argument_names']=arguments
+        state['observed_argument_types']=inventory
     for item in (record or {}).get('parameters',[]):
         value=frame.read_var(item['name'])
         if item['kind']=='string':parameters[item['name']]=dict(null=int(value)==0,bytes=(value.string(encoding='latin1').encode('latin1')+b'\0').hex() if int(value) else None)

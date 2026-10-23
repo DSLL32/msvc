@@ -42,7 +42,7 @@ int pack_module(unsigned short module)
             prepare_precompiled_types(current_module_info);
             break;
         case 0x123: read_module_symbols(index, entry); break;
-        case 0x124: read_module_lines(index, entry); break;
+        case 0x124: read_module_local_symbols(index, entry); break;
         case 0x127: read_module_global_types(index, entry); break;
         }
     }
@@ -216,4 +216,20 @@ void read_module_types(CodeViewDirectoryEntry *entry, int precompiled)
     }
     if (!module_precompiled_limit) module_precompiled_limit = type_record_count;
     if (!module_type_entries) reset_type_name_cache();
+}
+
+/* Read the local-symbol subsection and retain its start [00405070,00405123). */
+unsigned char *module_symbol_records;
+void read_module_local_symbols(unsigned index, CodeViewDirectoryEntry *entry)
+{
+    if (entry->offset != image_read_mode) {
+        image_read_mode = entry->offset;
+        seek_cached_file(input_file, codeview_file_offset + entry->offset, 0);
+    }
+    if (read_cached_file(input_file, type_data, entry->size) != entry->size)
+        fatal_error(1007, "Symbols", module_name(current_module_info));
+    image_read_mode += entry->size;
+    entry->size = widen_subsection((unsigned char **)&type_data, entry->size, &source_line_bytes);
+    module_symbol_records = type_data;
+    line_entry_index = index;
 }
