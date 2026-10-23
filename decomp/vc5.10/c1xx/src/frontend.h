@@ -91,6 +91,30 @@ typedef struct CompilerWorkBuffer {
     BYTE *limit;
 } CompilerWorkBuffer;
 
+/* These nine descriptors are encountered by the arena-initialization loop.
+ * The reset member proves only zero for reset_value; later uses stay pending. */
+typedef struct ArenaDescriptor {
+    unsigned kind;
+    unsigned reserve_bytes;
+    unsigned commit_unit;
+    unsigned flags;
+    unsigned alignment;
+} ArenaDescriptor;
+
+typedef struct CompilerArena {
+    BYTE *cursor;
+    BYTE *committed_limit;
+    BYTE *base;
+    unsigned committed_bytes;
+    const ArenaDescriptor *descriptor;
+    unsigned reserve_bytes;
+    unsigned reset_value;
+    int mapped_view;
+#ifdef __cplusplus
+    int RECON_THISCALL Reserve(const ArenaDescriptor *descriptor, BYTE *address);
+#endif
+} CompilerArena;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -124,6 +148,7 @@ typedef struct FrontendBss {
     int command_argc;
     char **command_argv;
     CompilerWorkBuffer work_buffers[2];
+    CompilerArena arenas[9];
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -131,6 +156,7 @@ extern "C" {
 #endif
 extern FrontendData frontend_data;
 extern FrontendBss frontend_bss;
+extern const ArenaDescriptor arena_descriptors[9];
 extern int restore_mode;
 extern Initializer frontend_initializers[FRONTEND_INITIALIZERS];
 void *checked_malloc(unsigned bytes);
@@ -144,6 +170,8 @@ void initialize_frontend_hook(void);
 int process_early_option(char *argument, int state);
 char *read_command_argument(char *source, char *argument, unsigned capacity);
 void initialize_compiler_environment(void);
+void initialize_default_arena(void);
+void initialize_pool_arenas(void);
 void process_compiler_options(int argc, char **argv);
 int compile_translation_unit(void);
 void cleanup_main(void);

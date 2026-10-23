@@ -362,6 +362,10 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xba854, data + 8, 4);
     readmem(base + 0xb9028, data + 12, 4);
     sprintf(name, "work-buffers-%s.bin", suffix); save_blob(name, data, 16);
+    readmem(base + 0xc6500, data, 288);
+    sprintf(name, "arenas-%s.bin", suffix); save_blob(name, data, 288);
+    readmem(base + 0xd5af8, data, 180);
+    sprintf(name, "arena-descriptors-%s.bin", suffix); save_blob(name, data, 180);
     readmem(base + 0xc6d28, data, 12);
     sprintf(name, "deferred-actions-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc6b40, data, 12);
@@ -599,6 +603,20 @@ static void seed_frontend_restore(void)
     value = allocated + 400; write_mem(base + 0xb9028, &value, 4);
     value = allocated + 4; write_mem(base + 0xc6b40, &value, 4);
     value = allocated + 8; write_mem(base + 0xc6b48, &value, 4);
+    {
+        DWORD arenas[72]; unsigned i;
+        for (i = 0; i < 9; ++i) {
+            arenas[i*8] = allocated + 64 + 4*i;
+            arenas[i*8+1] = allocated + 128 + 4*i;
+            arenas[i*8+2] = allocated + 192 + 4*i;
+            arenas[i*8+3] = 17;
+            arenas[i*8+4] = base + 0xd5af8 + i*20;
+            arenas[i*8+5] = 23;
+            arenas[i*8+6] = 37;
+            arenas[i*8+7] = 29;
+        }
+        write_mem(base + 0xc6500, arenas, sizeof(arenas));
+    }
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -918,6 +936,13 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38df1 || address == base + 0x38e33) {
+                    BYTE *arena_bss = (BYTE *)malloc(0xf69c);
+                    if (!arena_bss) fail("allocate arena BSS observation");
+                    readmem(base + 0xb9000, arena_bss, 0xf69c);
+                    save_blob(address == base + 0x38df1 ? "arena-bss-entry.bin" : "arena-bss-frontier.bin", arena_bss, 0xf69c);
+                    free(arena_bss);
+                }
                 if (address == base + 0x38d07) {
                     BYTE allocation_bss[0xf69c];
                     readmem(base + 0xb9000, allocation_bss, sizeof(allocation_bss));
@@ -969,6 +994,13 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
+                if (address == base + 0x38df1 || address == base + 0x38e33) {
+                    BYTE *arena_bss = (BYTE *)malloc(0xf69c);
+                    if (!arena_bss) fail("allocate arena BSS observation");
+                    readmem(base + 0xb9000, arena_bss, 0xf69c);
+                    save_blob(address == base + 0x38df1 ? "arena-bss-entry.bin" : "arena-bss-frontier.bin", arena_bss, 0xf69c);
+                    free(arena_bss);
                 }
                 if (address == base + 0x38d07) {
                     BYTE allocation_bss[0xf69c];

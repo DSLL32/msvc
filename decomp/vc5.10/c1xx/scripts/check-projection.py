@@ -39,7 +39,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -122,6 +122,13 @@ def field_map(model,observed):
         s.require(observed['work_buffer_layout']=={'size':8,'fields':{'data':[0,4],'limit':[4,4]}},'work buffer contains unknown storage')
     if model['schema']>=30:
         for name,rva in [('option_zb',0xcd09c),('option_bm',0xcd4ac),('option_zm_percent',0xcdc28)]:known[name]=(0x10400000+rva,4,'initialized','frontend_data.'+name)
+    if model['schema']>=31:
+        known['arenas']=(0x104c6500,288,'bss','frontend_bss.arenas')
+        known['arena_descriptors']=(0x104d5af8,180,'external','arena_descriptors')
+        s.require(next(row for row in model['fields'] if row['name']=='arenas')['component_types']==['pointer','pointer','pointer','u32','descriptor-pointer','u32','u32','int']*9,'arena component types/pointer identity omitted')
+        arena_fields=('cursor','committed_limit','base','committed_bytes','descriptor','reserve_bytes','reset_value','mapped_view')
+        descriptor_fields=('kind','reserve_bytes','commit_unit','flags','alignment')
+        s.require(observed['arena_native_layout']=={'size':32,'fields':{name:[i*4,4] for i,name in enumerate(arena_fields)}} and observed['descriptor_native_layout']=={'size':20,'fields':{name:[i*4,4] for i,name in enumerate(descriptor_fields)}},'arena/descriptor exact typed layout differs')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -162,11 +169,12 @@ def field_map(model,observed):
     if model['schema']>=27:fields += ['deferred_action_head','deferred_action_tail','deferred_action_depth']
     if model['schema']>=28:fields += ['break_into_debugger','command_argc','command_argv']
     if model['schema']>=29:fields += ['work_buffers']
+    if model['schema']>=31:fields += ['arenas']
     initialized=['first_invocation']+(['primitive_type_ranks','complex_type_ranks'] if model['schema']>=22 else [])
     if model['schema']>=28:initialized += ['compiler_phase','option_c9il','compiler_flags','system_info']
     if model['schema']>=30:initialized += ['option_zb','option_bm','option_zm_percent']
     s.require(observed['declared_fields']=={'initialized':initialized,'bss':fields} and
-              observed['known_sizes']=={'initialized':200 if model['schema']>=30 else 188 if model['schema']>=28 else 140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count,26:916+16*pool_count,27:928+16*pool_count,28:940+16*pool_count,29:956+16*pool_count,30:956+16*pool_count}[model['schema']]},
+              observed['known_sizes']=={'initialized':200 if model['schema']>=30 else 188 if model['schema']>=28 else 140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count,26:916+16*pool_count,27:928+16*pool_count,28:940+16*pool_count,29:956+16*pool_count,30:956+16*pool_count,31:1244+16*pool_count}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else model['initialized_padding']['bytes'] if kind=='initialized' and model['schema']>=22 else 0
@@ -182,7 +190,7 @@ def field_map(model,observed):
         ranges.sort()
         s.require(ranges[0][0]==observed['bss_address'] and
                   all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
-                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0)+(68 if model['schema']>=24 else 0)+(8 if model['schema']>=25 else 0)+(88 if model['schema']>=26 else 0)+(12 if model['schema']>=27 else 0)+(12 if model['schema']>=28 else 0)+(16 if model['schema']>=29 else 0),'unaccounted native padding/storage gap')
+                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0)+(68 if model['schema']>=24 else 0)+(8 if model['schema']>=25 else 0)+(88 if model['schema']>=26 else 0)+(12 if model['schema']>=27 else 0)+(12 if model['schema']>=28 else 0)+(16 if model['schema']>=29 else 0)+(288 if model['schema']>=31 else 0),'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):

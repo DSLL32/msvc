@@ -105,6 +105,16 @@ int initialize_compiler_pass(void)
             frontend_bss.work_buffers[i].data = NULL;
             frontend_bss.work_buffers[i].limit = NULL;
         }
+        for (i = 0; i < 9; ++i) {
+            frontend_bss.arenas[i].cursor = NULL;
+            frontend_bss.arenas[i].committed_limit = NULL;
+            frontend_bss.arenas[i].base = NULL;
+            frontend_bss.arenas[i].committed_bytes = 0;
+            frontend_bss.arenas[i].descriptor = NULL;
+            frontend_bss.arenas[i].reserve_bytes = 0;
+            frontend_bss.arenas[i].reset_value = 0;
+            frontend_bss.arenas[i].mapped_view = 0;
+        }
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
@@ -243,10 +253,6 @@ void initialize_frontend_hook(void)
 {
 }
 
-void initialize_compiler_environment(void)
-{
-    __asm { int 3 }
-}
 
 void process_compiler_options(int argc, char **argv)
 {

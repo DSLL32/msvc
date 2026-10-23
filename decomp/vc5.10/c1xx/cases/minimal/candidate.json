@@ -73,7 +73,8 @@
     "_reserve_work_buffer",
     "_initialize_intermediate_files",
     "_process_early_option",
-    "_initialize_frontend_hook"
+    "_initialize_frontend_hook",
+    "_initialize_compiler_environment"
   ],
   "trial": null,
   "ranges": [
@@ -641,7 +642,19 @@
       "start_rva": 232944,
       "end_rva": 232945,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_compiler_environment",
+      "start_rva": 232945,
+      "end_rva": 233011,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_compiler_environment",
+      "start_rva": 467280,
+      "end_rva": 467295,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_frontend_hook accepted; next frontier _initialize_compiler_environment"
+  "stage": "_initialize_compiler_environment accepted; next frontier _initialize_default_arena"
 }

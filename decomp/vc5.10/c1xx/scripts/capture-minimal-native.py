@@ -53,7 +53,7 @@ if frame.name()=='reserve_work_buffer' and value['pc']==int(gdb.parse_and_eval('
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['reserve_bytes'],value['args']['commit_bytes']]}
 if frame.name()=='recon_GetSystemInfo' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&recon_GetSystemInfo')):
     value['args']={'output':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
-if frame.name()=='initialize_frontend_hook' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&initialize_frontend_hook')):
+if frame.name() in ('initialize_frontend_hook','initialize_compiler_environment','initialize_default_arena') and value['pc']==int(gdb.parse_and_eval('(unsigned int)&'+frame.name())):
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[]}
 if frame.name() in ('initialize_intermediate_files','process_early_option') and value['pc']==int(gdb.parse_and_eval('(unsigned int)&'+frame.name())):
     names=['argv'] if frame.name()=='initialize_intermediate_files' else ['argument','state']
@@ -63,6 +63,8 @@ if frame.name() in ('initialize_intermediate_files','process_early_option') and 
     formal_block=gdb.block_for_pc(value['pc'])
     while formal_block and not formal_block.function:formal_block=formal_block.superblock
     value['formal_inventory']=[{'name':item.name,'type':str(item.type)} for item in formal_block if item.is_argument] if formal_block else []
+if frame.name()=='initialize_default_arena':
+    value['caller_return_pc']=int(frame.older().pc())
 if frame.name()=='initialize_work_buffers':
     value['caller_return_pc']=int(frame.older().pc())
 if frame.name()=='c1xx_main' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&c1xx_main')):
@@ -216,6 +218,15 @@ if any(f.name=='work_buffers' for f in gdb.lookup_type('FrontendBss').fields()):
     for i in range(2):
         for name in ('data','limit'):value['frontend']['storage']['work_buffer_%02d.%s'%(i+1,name)]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.work_buffers[%d].%s'%(i,name))),4]
     value['frontend']['work_buffer_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerWorkBuffer)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerWorkBuffer').fields()}}
+if any(f.name=='arenas' for f in gdb.lookup_type('FrontendBss').fields()):
+    arena_address=int(gdb.parse_and_eval('(unsigned int)&frontend_bss.arenas'))
+    descriptor_address=int(gdb.parse_and_eval('(unsigned int)&arena_descriptors'))
+    value['frontend']['arenas']=list(struct.unpack('<72I',gdb.selected_inferior().read_memory(arena_address,288)))
+    value['frontend']['arena_descriptors']=list(struct.unpack('<45I',gdb.selected_inferior().read_memory(descriptor_address,180)))
+    value['frontend']['storage']['arenas']=[arena_address,288]
+    value['frontend']['storage']['arena_descriptors']=[descriptor_address,180]
+    value['frontend']['arena_native_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerArena)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerArena').fields() if not f.is_base_class and f.bitpos is not None}}
+    value['frontend']['descriptor_native_layout']={'size':int(gdb.parse_and_eval('sizeof(ArenaDescriptor)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('ArenaDescriptor').fields()}}
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -334,6 +345,10 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if model['schema']>=31:
+        entry=output/'collect-arena-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'arena-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'arena-entry-argv.bin'))))
+        observer+='break *initialize_compiler_environment\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
     if model['schema']>=29:
         entry=output/'collect-work-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'work-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'work-entry-argv.bin'))))

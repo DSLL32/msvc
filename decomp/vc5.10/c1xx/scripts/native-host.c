@@ -236,6 +236,16 @@ int main(void)
             frontend_bss.work_buffers[0].limit = (BYTE *)frontend_bss.saved_state + 200;
             frontend_bss.work_buffers[1].data = (BYTE *)frontend_bss.saved_state + 300;
             frontend_bss.work_buffers[1].limit = (BYTE *)frontend_bss.saved_state + 400;
+            for (i = 0; i < 9; ++i) {
+                frontend_bss.arenas[i].cursor = (BYTE *)frontend_bss.saved_state + 64 + 4*i;
+                frontend_bss.arenas[i].committed_limit = (BYTE *)frontend_bss.saved_state + 128 + 4*i;
+                frontend_bss.arenas[i].base = (BYTE *)frontend_bss.saved_state + 192 + 4*i;
+                frontend_bss.arenas[i].committed_bytes = 17;
+                frontend_bss.arenas[i].descriptor = &arena_descriptors[i];
+                frontend_bss.arenas[i].reserve_bytes = 23;
+                frontend_bss.arenas[i].reset_value = 37;
+                frontend_bss.arenas[i].mapped_view = 29;
+            }
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

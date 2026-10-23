@@ -28,6 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
+    environment_candidate=trial['trial']=='_initialize_compiler_environment'
     hook_candidate=trial['trial']=='_initialize_frontend_hook'
     work_candidate=trial['trial']=='_initialize_work_buffers'
     main_candidate=trial['trial']=='_main'
@@ -38,16 +39,16 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
+    s.require(environment_candidate or hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
               'no reviewed callback decoder for this function')
-    index=42 if hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=42 if environment_candidate or hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -114,6 +115,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_initialize_intermediate_files' in trial['accepted']:path.append(('process_early_option',0x38d56))
     if '_process_early_option' in trial['accepted']:path += [('process_early_option',0x38d56)]*24+[('initialize_frontend_hook',0x38df0)]
     if '_initialize_frontend_hook' in trial['accepted']:path.append(('initialize_compiler_environment',0x38df1))
+    if '_initialize_compiler_environment' in trial['accepted']:path.append(('initialize_default_arena',0x38e33))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -239,6 +241,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_initialize_frontend_hook' in trial['accepted']:
         spec=importlib.util.spec_from_file_location('system_info_state',Path(__file__).with_name('system_info_state.py'));system=importlib.util.module_from_spec(spec);spec.loader.exec_module(system)
         system.check(s,d,original,native,trial,text,state,final,symbols,traps)
+    if model['schema']>=31:
+        spec=importlib.util.spec_from_file_location('arena_state',Path(__file__).with_name('arena_state.py'));arena=importlib.util.module_from_spec(spec);spec.loader.exec_module(arena)
+        arena.check(s,d,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
