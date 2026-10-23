@@ -1,0 +1,390 @@
+{
+  "case": "automatic-pch",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1-create": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "N:\\auto-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/c1-create/case.h",
+          "bytes": 159,
+          "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536",
+          "mtime_ns": 1792736790566563500
+        },
+        {
+          "path": "inputs/c1-create/test.c",
+          "bytes": 246,
+          "sha256": "916a2a7f1bc8222ca6b2e49e9c9ce45448670fa7a1fe99a6ed605c48897d43e1",
+          "mtime_ns": 1792736790566563500
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-create/irex",
+          "output_name": "irex",
+          "bytes": 179,
+          "sha256": "49c0444f25095a5dfdfb6386ab603d7541914e9ffa87ab58338ebbc35950717d"
+        },
+        {
+          "path": "expected/c1-create/irgl",
+          "output_name": "irgl",
+          "bytes": 77,
+          "sha256": "35bd6463c34b705acfc8a5d7fe2879076ad6a8ab01ac597c282895263435732a"
+        },
+        {
+          "path": "expected/c1-create/irin",
+          "output_name": "irin",
+          "bytes": 6,
+          "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+        },
+        {
+          "path": "expected/c1-create/irsy",
+          "output_name": "irsy",
+          "bytes": 67,
+          "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+        },
+        {
+          "path": "expected/c1-create/state.pch",
+          "output_name": "state.pch",
+          "bytes": 38026,
+          "sha256": "263fb279f6535b5196dc5ba33f4cb7e2728678b449fa928b2fe145beaf5fa750"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /YXcase.h /Fpstate.pch /Fetest.exe test.c",
+      "captured_original_environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\auto-pch\\001904 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "captured_temporary_prefix": "N:\\auto-pch\\001904",
+      "normalization": "none",
+      "captured_full_working_tree": [
+        {
+          "name": "case.h",
+          "bytes": 159,
+          "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536",
+          "role": "frontend input"
+        },
+        {
+          "name": "test.c",
+          "bytes": 246,
+          "sha256": "916a2a7f1bc8222ca6b2e49e9c9ce45448670fa7a1fe99a6ed605c48897d43e1",
+          "role": "frontend input"
+        }
+      ],
+      "captured_unchanged_files": [
+        "case.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "independent_original_verification": {
+        "receipts": [
+          "evidence/c1-create-original-1.receipt.json",
+          "evidence/c1-create-original-2.receipt.json"
+        ],
+        "exact": true,
+        "ignored_fields": []
+      },
+      "backend_reference_program": {
+        "bytes": 2097152,
+        "sha256": "c66bbc763c96704d7e67872afbc378803c25bd3baaf257e4da423ac4cae27672",
+        "execution_receipt": "evidence/auto-pch-CL-program.json",
+        "assignment": "reference only; backend phases not queued"
+      }
+    },
+    "c1-reuse": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "N:\\auto-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/c1-reuse/case.h",
+          "bytes": 159,
+          "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536",
+          "mtime_ns": 1792736790566563500
+        },
+        {
+          "path": "inputs/c1-reuse/test.c",
+          "bytes": 246,
+          "sha256": "916a2a7f1bc8222ca6b2e49e9c9ce45448670fa7a1fe99a6ed605c48897d43e1",
+          "mtime_ns": 1792736790566563500
+        },
+        {
+          "path": "inputs/c1-reuse/state.pch",
+          "bytes": 38026,
+          "sha256": "263fb279f6535b5196dc5ba33f4cb7e2728678b449fa928b2fe145beaf5fa750",
+          "mtime_ns": 1792736792542523800
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-reuse/irex",
+          "output_name": "irex",
+          "bytes": 999,
+          "sha256": "38b680f84a94b124fb0fb78f7ec0182bf786d6fe4a164ee71e91da9fc143f0f1"
+        },
+        {
+          "path": "expected/c1-reuse/irgl",
+          "output_name": "irgl",
+          "bytes": 85,
+          "sha256": "d5b23aadd9142aad1160be6e7a0240bb33358dbc014430da500b2ddf6918af9d"
+        },
+        {
+          "path": "expected/c1-reuse/irin",
+          "output_name": "irin",
+          "bytes": 6,
+          "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+        },
+        {
+          "path": "expected/c1-reuse/irsy",
+          "output_name": "irsy",
+          "bytes": 67,
+          "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Using precompiled header\r\n",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /YXcase.h /Fpstate.pch /Fetest.exe test.c",
+      "captured_original_environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\auto-pch\\001676 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "captured_temporary_prefix": "N:\\auto-pch\\001676",
+      "normalization": "none",
+      "captured_full_working_tree": [
+        {
+          "name": "case.h",
+          "bytes": 159,
+          "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536",
+          "role": "frontend input"
+        },
+        {
+          "name": "state.pch",
+          "bytes": 38026,
+          "sha256": "263fb279f6535b5196dc5ba33f4cb7e2728678b449fa928b2fe145beaf5fa750",
+          "role": "frontend input"
+        },
+        {
+          "name": "test.c",
+          "bytes": 246,
+          "sha256": "916a2a7f1bc8222ca6b2e49e9c9ce45448670fa7a1fe99a6ed605c48897d43e1",
+          "role": "frontend input"
+        },
+        {
+          "name": "test.exe",
+          "bytes": 2097152,
+          "sha256": "c66bbc763c96704d7e67872afbc378803c25bd3baaf257e4da423ac4cae27672",
+          "role": "unchanged backend reference; excluded after independent frontend dependency verification"
+        },
+        {
+          "name": "test.obj",
+          "bytes": 369,
+          "sha256": "6ddb6910e0bc8a429b5be934a3be530e1423cd933e3f697c377c638e24feefc6",
+          "role": "unchanged backend reference; excluded after independent frontend dependency verification"
+        }
+      ],
+      "captured_unchanged_files": [
+        "case.h",
+        "state.pch",
+        "test.c",
+        "test.exe",
+        "test.obj"
+      ],
+      "generated_input_dependency": {
+        "input_name": "state.pch",
+        "case": "automatic-pch-create",
+        "output_name": "state.pch"
+      },
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "independent_original_verification": {
+        "receipts": [
+          "evidence/c1-reuse-original-1.receipt.json",
+          "evidence/c1-reuse-original-2.receipt.json"
+        ],
+        "exact": true,
+        "ignored_fields": []
+      },
+      "backend_reference_program": {
+        "bytes": 2097152,
+        "sha256": "849f5f270c8a0879484e34bd797bb26429f508cd8d4ef6dc1c77182737a7aefe",
+        "execution_receipt": "evidence/auto-pch-reuse-CL-program.json",
+        "assignment": "reference only; backend phases not queued"
+      }
+    },
+    "c1-changed": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "N:\\auto-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/c1-changed/case.h",
+          "bytes": 159,
+          "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536",
+          "mtime_ns": 1792736790566563500
+        },
+        {
+          "path": "inputs/c1-changed/test.c",
+          "bytes": 246,
+          "sha256": "cbcfe26aa4012031dab80bff71b172937aae00f77c989b1ea2207002513b9834",
+          "mtime_ns": 1792736798090412500
+        },
+        {
+          "path": "inputs/c1-changed/state.pch",
+          "bytes": 38026,
+          "sha256": "263fb279f6535b5196dc5ba33f4cb7e2728678b449fa928b2fe145beaf5fa750",
+          "mtime_ns": 1792736792542523800
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-changed/irex",
+          "output_name": "irex",
+          "bytes": 179,
+          "sha256": "43a4c0613db511bd3199bd0888c1e009fa3e2b75b1c50afc913946876c7e416b"
+        },
+        {
+          "path": "expected/c1-changed/irgl",
+          "output_name": "irgl",
+          "bytes": 77,
+          "sha256": "35bd6463c34b705acfc8a5d7fe2879076ad6a8ab01ac597c282895263435732a"
+        },
+        {
+          "path": "expected/c1-changed/irin",
+          "output_name": "irin",
+          "bytes": 6,
+          "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+        },
+        {
+          "path": "expected/c1-changed/irsy",
+          "output_name": "irsy",
+          "bytes": 67,
+          "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+        },
+        {
+          "path": "expected/c1-changed/state.pch",
+          "output_name": "state.pch",
+          "bytes": 38027,
+          "sha256": "845e1976efe106174d21727ab1532c58f5e6ee588198196ac6e86c1b81d5b700"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /YXcase.h /Fpstate.pch /Fetest.exe test.c",
+      "captured_original_environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\auto-pch\\000108 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "captured_temporary_prefix": "N:\\auto-pch\\000108",
+      "normalization": "none",
+      "captured_full_working_tree": [
+        {
+          "name": "case.h",
+          "bytes": 159,
+          "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536",
+          "role": "frontend input"
+        },
+        {
+          "name": "state.pch",
+          "bytes": 38026,
+          "sha256": "263fb279f6535b5196dc5ba33f4cb7e2728678b449fa928b2fe145beaf5fa750",
+          "role": "frontend input"
+        },
+        {
+          "name": "test.c",
+          "bytes": 246,
+          "sha256": "cbcfe26aa4012031dab80bff71b172937aae00f77c989b1ea2207002513b9834",
+          "role": "frontend input"
+        },
+        {
+          "name": "test.exe",
+          "bytes": 2097152,
+          "sha256": "849f5f270c8a0879484e34bd797bb26429f508cd8d4ef6dc1c77182737a7aefe",
+          "role": "unchanged backend reference; excluded after independent frontend dependency verification"
+        },
+        {
+          "name": "test.obj",
+          "bytes": 369,
+          "sha256": "a7d252aba510540921536a5f7e110ecf1a654c5e345266e5806ca93378d26e32",
+          "role": "unchanged backend reference; excluded after independent frontend dependency verification"
+        }
+      ],
+      "captured_unchanged_files": [
+        "case.h",
+        "test.c",
+        "test.exe",
+        "test.obj"
+      ],
+      "generated_input_dependency": {
+        "input_name": "state.pch",
+        "case": "automatic-pch-reuse",
+        "output_name": "state.pch"
+      },
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "independent_original_verification": {
+        "receipts": [
+          "evidence/c1-changed-original-1.receipt.json",
+          "evidence/c1-changed-original-2.receipt.json"
+        ],
+        "exact": true,
+        "ignored_fields": []
+      },
+      "backend_reference_program": {
+        "bytes": 2097152,
+        "sha256": "209f5684277734ee4d28ec29cacb4c671f5c0632b4997056f3ff61fe78ab227f",
+        "execution_receipt": "evidence/auto-pch-changed-CL-program.json",
+        "assignment": "reference only; backend phases not queued"
+      }
+    }
+  },
+  "status": "original CL capture and two independent original C1 replays raw exact; approved queued case",
+  "capture": {
+    "provenance": "Untouched CL child _spawnvpe transport captured in C1 private scratch/prefix; helper source read-only from CL. C2/LINK references are not queued.",
+    "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
+  },
+  "input_metadata_provenance": "Automatic PCH records header mtime as a32-bit Unix-second value: original capture0x6adafe16 equals case.h mtime. Recreating inputs at a later mtime changed only that byte range in state.pch. Preserve captured input mtimes; no output normalization."
+}

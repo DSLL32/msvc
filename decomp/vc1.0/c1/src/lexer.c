@@ -1391,3 +1391,60 @@ void __stdcall copy_quoted_literal(int delimiter)
         questions = 0;
     }
 }
+
+/* Original0x22770..0x2286d. Preserve block comments in preprocessing
+   output while retaining physical lines, trigraphs and escaped line joins. */
+void copy_block_comment(void)
+{
+    unsigned char character, category;
+    fwrite("/*",2,1,preprocessor_stream);
+    for (;;) {
+        do {
+            character = (unsigned char)*source_text_cursor++;
+            category = character_class[character];
+        } while (category == CC_CARRIAGE_RETURN);
+        if (category == CC_ESCAPE_OR_END) {
+            if (character == '?') {
+                if (recover_trigraph() & 0x40) fputc(character,preprocessor_stream);
+            } else if (character == '\\') {
+                putc('\\',stdout);
+                consume_line_escape();
+            } else recover_special_character();
+            continue;
+        }
+        if (category == CC_STAR && match_source_character('/')) {
+            fwrite("*/",2,1,preprocessor_stream);
+            return;
+        }
+        if (category == CC_NEWLINE) ++source_line_number;
+        fputc(character,preprocessor_stream);
+    }
+}
+
+/* Original0x226a0..0x22767. Keep a line comment and its escaped physical
+   lines, leaving the final newline for the ordinary source-line driver. */
+void copy_line_comment(void)
+{
+    unsigned char character, category;
+    fwrite("//",2,1,preprocessor_stream);
+    for (;;) {
+        do {
+            character = (unsigned char)*source_text_cursor++;
+            category = character_class[character];
+        } while (category == CC_CARRIAGE_RETURN);
+        if (category == CC_ESCAPE_OR_END) {
+            if (character == '?') {
+                if (recover_trigraph() & 0x40) fputc(character,preprocessor_stream);
+            } else if (character == '\\') {
+                putc('\\',stdout);
+                consume_line_escape();
+            } else recover_special_character();
+            continue;
+        }
+        if (category == CC_NEWLINE) {
+            --source_text_cursor;
+            return;
+        }
+        fputc(character,preprocessor_stream);
+    }
+}

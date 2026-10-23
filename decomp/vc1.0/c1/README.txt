@@ -2,18 +2,19 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-Thirteen cases are complete: minimal C, optimized Win32 hello, DLL,
+Fourteen cases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, PCH creation and dependent use, do-while, nested SEH, inline
-assembly, browser output, and preprocessing with /E, /EP and /P. There are 665
-reconstructed source functions and 776 accepted original entries. Browser and
+assembly, browser output, preprocessing with /E, /EP and /P, and preserved
+comments with /C /E. There are 667
+reconstructed source functions and 778 accepted original entries. Browser and
 preprocessor cases retain exact invocations, dependencies and fresh original/
 native frontier evidence under cases/. Unvisited functions retain named trapping stubs.
 The do-while trial reconstructs exactly one function, begin_do_statement; its
 source, original captures and current exit terminal are durable in cases/do-while/.
 cases/do-while/validation.json records the one-function workflow trial timings.
 
-Accepted original code extents cover 207208 of 277234 code-section bytes,
-74.741193%. This is a clipped extent union including shared text data, accepted
+Accepted original code extents cover 207662 of 277234 code-section bytes,
+74.904954%. This is a clipped extent union including shared text data, accepted
 CRT and import thunks; it is not branch coverage. scripts/coverage.py reports the
 source/CRT/import breakdown from the original-toolchain build and metadata.
 
@@ -46,9 +47,9 @@ The BINMODE.OBJ default is retained with RECON_DEFAULT_FMODE=0x8000.
 scripts/native-traces.py validates all 844 native application definitions and a
 cached projection of the original accepted first-entry histories. The projection
 excludes matched CRT, target CRT overrides and imports on both sides. There are
-654 accepted application entries: minimal 172, hello-win32 249, DLL 1, numeric 103,
+656 accepted application entries: minimal 172, hello-win32 249, DLL 1, numeric 103,
 PCH-create 43, PCH-use 7, do-while 1, SEH 10, inline assembly 33, browser 27 and
-preprocessing 8. Every case seeds the previously accepted application
+preprocessing 8 and comment preservation 2. Every case seeds the previously accepted application
 prefix. The shared seen-state descriptor is supplied even though current C1
 cases have no child processes. New or missing application definitions fail before
 launch. The cache is not silently refreshed. Explicit --write regeneration reads
@@ -74,6 +75,7 @@ browser                971    69     6    79  test.sbr 236
 preprocessor-E           -     -     -     -  stdout 381
 preprocessor-EP          -     -     -     -  stdout 292
 preprocessor-P           -     -     -     -  test.i 381
+comments                 -     -     -     -  stdout 337
 
 All four primary intermediates match raw bytes. Numeric stderr is the captured
 line-24 C4069 CRLF warning; other compilation streams are empty and all cases exit 0. Preprocessing stdout
@@ -86,7 +88,7 @@ PCH creation and use run at N:\pch in separate private host namespaces. The actu
 native producer's PCH must match the immutable reference byte for byte before it
 is copied to the consumer. Selecting pch-use automatically runs the producer.
 The consumer's PCH input remains unchanged. There are no captured process doubles
-or external Windows dependencies in these thirteen completed frontend cases.
+or external Windows dependencies in these fourteen completed frontend cases.
 
 Each run keeps status, streams, trace and artifacts under ~/.ai-tmp/vc1.0-c1/.
 Receipts split setup, native execution and output checks; trace-cache preparation
@@ -108,7 +110,7 @@ period-style Win32 C with original calls and ABIs. scripts/wine-tool.py is used
 only for this explicit compilation. PE/index helpers in scripts/images.py do
 not execute any target.
 
-The call-graph audit checks all 665 accepted source functions, direct/tail calls,
+The call-graph audit checks all 667 accepted source functions, direct/tail calls,
 indirect-call presence and complete instruction boundaries. State audits check
 269 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
 boundary, 72 scalar options, 21 option targets, 17 pragma rules, five hash
@@ -158,7 +160,8 @@ rows and3128 gotos match both the model and linked original-compiler tables.
 Dictionary,operand-rule,layout and format audits cover all encountered data.
 The fixture completes with exact instruction and label IR records.
 
-The assigned queue is complete and paused. Remaining identified application
+The approved next queue is active: comment preservation is complete; prototype
+output and automatic PCH producer/reuser/conditional invalidation follow. Remaining identified application
 families include comment-preserving preprocessing, /Zg declaration printing,
 automatic PCH creation/rebuild and conditional replay, further assembly operand
 forms, diagnostic/error recovery, and unvisited expression/initializer branches.
@@ -187,8 +190,13 @@ PCH transfers retain their observed 8191-byte payload. Source-input/PCH users
 share browser_output and browser_pending_flags with the browser writer.
 The graph audit rejects external code-section switch tables missing from masks.
 
-Final queue verification is recorded in cases/preprocessor/validation.json.
+The previous SEH/assembly/browser/preprocessor queue verification is recorded in cases/preprocessor/validation.json.
 The original-toolchain clean -j2 build/audits took 40.831s; native clean -j4
 builds 6.620s. After a prototype declaration followup, final thirteen-case native
 trace/output commands took 0.477s/0.265s; eight rejection checks took 0.325s.
 Separate setup, execution and oracle durations remain in each case receipt.
+
+Approved continuation is registered in cases/approved-queue.json. Untouched CL
+transport and two independent original C1 runs validate every new phase before
+reconstruction. Automatic PCH pins header mtimes and CL's fd2-to-fd1 alias in
+input preparation; no output timestamp/path/stream normalization is used.

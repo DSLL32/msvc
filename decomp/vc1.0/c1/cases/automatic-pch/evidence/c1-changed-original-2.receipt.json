@@ -1,0 +1,56 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/automatic-pch",
+  "phase": "c1-changed",
+  "unmasked": true,
+  "accepted_count": 776,
+  "accepted_sha256": "5574fddcb7eb3b7999107b9347fe88265fb1b946adcef15ff640a8c10a89e536",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "5823b07a6b6f72dec60d1f09ca29414a3f4acd414b176585e7aad3de20551ec1",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\auto-pch",
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/automatic-pch-c1-changed-original-2/auto-pch",
+  "preparation_seconds": 0.006890379823744297,
+  "execution_seconds": 1.532290036790073,
+  "total_seconds": 1.5391830625012517,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 159,
+      "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536"
+    },
+    {
+      "name": "irex",
+      "bytes": 179,
+      "sha256": "43a4c0613db511bd3199bd0888c1e009fa3e2b75b1c50afc913946876c7e416b"
+    },
+    {
+      "name": "irgl",
+      "bytes": 77,
+      "sha256": "35bd6463c34b705acfc8a5d7fe2879076ad6a8ab01ac597c282895263435732a"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+    },
+    {
+      "name": "irsy",
+      "bytes": 67,
+      "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+    },
+    {
+      "name": "state.pch",
+      "bytes": 38027,
+      "sha256": "845e1976efe106174d21727ab1532c58f5e6ee588198196ac6e86c1b81d5b700"
+    },
+    {
+      "name": "test.c",
+      "bytes": 246,
+      "sha256": "cbcfe26aa4012031dab80bff71b172937aae00f77c989b1ea2207002513b9834"
+    }
+  ]
+}

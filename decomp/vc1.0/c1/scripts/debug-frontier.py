@@ -36,7 +36,10 @@ def main():
         source = case/item['path']
         data = source.read_bytes()
         assert hashlib.sha256(data).hexdigest() == item['sha256']
-        (work/source.name).write_bytes(data)
+        target_input = work/source.name
+        target_input.write_bytes(data)
+        if 'mtime_ns' in item:
+            os.utime(target_input,ns=(item['mtime_ns'],item['mtime_ns']))
     windows = lambda p:'Z:'+str(p).replace('/', '\\')
     env = dict(LC_ALL='C', TZ='PST8PDT',
                RECON_PROGRAM_PATH=windows(ROOT/'toolchains/1.0-nt/bin/C13232.EXE'),
@@ -66,10 +69,17 @@ def main():
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 
+    alias_stderr = phase.get('stdio', {}).get('stderr_to_stdout', False)
+    redirection = '>'+shlex.quote(str(directory/'stdout'))
+    if alias_stderr:
+        redirection += ' 2>&1'
+        (directory/'stderr').write_bytes(b'')
+    else:
+        redirection += ' 2>'+shlex.quote(str(directory/'stderr'))
     script = '''set pagination off
 set confirm off
 set disable-randomization off
-%srun >%s 2>%s
+%srun %s
 python
 import gdb,json,struct
 state={'buffers':{},'frames':[]}
@@ -95,7 +105,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break,shlex.quote(str(directory/'stdout')),shlex.quote(str(directory/'stderr')),names,str(directory/'state.json'))
+''' % (runtime_break,redirection,names,str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -129,7 +139,7 @@ end
         assert (reference/'stderr').read_bytes() == (directory/'stderr').read_bytes(), 'stderr differs at frontier'
         state['fresh_original_match'] = True
     state.update(preparation_seconds=prepared,execution_seconds=execution,total_seconds=time.perf_counter()-start,
-                 environment=env,executable_sha256=hashlib.sha256((BINARY/'build/native/C13232.EXE').read_bytes()).hexdigest())
+                 environment=env,stdio=phase.get('stdio', {'stderr_to_stdout':False}),executable_sha256=hashlib.sha256((BINARY/'build/native/C13232.EXE').read_bytes()).hexdigest())
     (directory/'receipt.json').write_text(json.dumps(state,indent=2)+'\n')
     print(state.get('frontier'),state.get('fresh_original_match'),directory/'receipt.json')
 

@@ -1,0 +1,79 @@
+{
+  "case": "prototypes",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "N:\\prototypes",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/c1/case.h",
+          "bytes": 153,
+          "sha256": "d7e3516b4d339059b4c530d767653818bbb788149a1dddde828a23f470020e6a"
+        },
+        {
+          "path": "inputs/c1/test.c",
+          "bytes": 490,
+          "sha256": "099ce5ee739f5f79588d17dae1226e83ecab98d02773657c0a677ff8223b0fb1"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 0,
+      "expected_stdout": "extern int __cdecl transform(int value,const char *text);\r\nextern int (__cdecl *__cdecl select_callback(int which))(int ,const char *);\r\nextern int __stdcall apply_callback(int (__cdecl *callback)(int ,const char *),int value);\r\nextern int (*__cdecl choose_table(int which))[3];\r\nextern struct Pair __cdecl combine(struct Pair left,const struct Pair *right);\r\n",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /Zg test.c",
+      "captured_original_environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\prototypes\\001668 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "captured_temporary_prefix": "N:\\prototypes\\001668",
+      "normalization": "none",
+      "captured_full_working_tree": [
+        {
+          "name": "case.h",
+          "bytes": 153,
+          "sha256": "d7e3516b4d339059b4c530d767653818bbb788149a1dddde828a23f470020e6a",
+          "role": "frontend input"
+        },
+        {
+          "name": "test.c",
+          "bytes": 490,
+          "sha256": "099ce5ee739f5f79588d17dae1226e83ecab98d02773657c0a677ff8223b0fb1",
+          "role": "frontend input"
+        }
+      ],
+      "captured_unchanged_files": [
+        "case.h",
+        "test.c"
+      ],
+      "independent_original_verification": {
+        "receipts": [
+          "evidence/c1-original-1.receipt.json",
+          "evidence/c1-original-2.receipt.json"
+        ],
+        "exact": true,
+        "ignored_fields": []
+      },
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      }
+    }
+  },
+  "status": "original CL capture and two independent original C1 replays raw exact; approved queued case",
+  "capture": {
+    "provenance": "Untouched CL child _spawnvpe transport captured in C1 private scratch/prefix; helper source read-only from CL. C2/LINK references are not queued.",
+    "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
+  }
+}

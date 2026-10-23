@@ -1,0 +1,56 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/automatic-pch",
+  "phase": "c1-reuse",
+  "unmasked": true,
+  "accepted_count": 776,
+  "accepted_sha256": "5574fddcb7eb3b7999107b9347fe88265fb1b946adcef15ff640a8c10a89e536",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\auto-pch",
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/automatic-pch-c1-reuse-original-1/auto-pch",
+  "preparation_seconds": 0.006927730515599251,
+  "execution_seconds": 1.1712635774165392,
+  "total_seconds": 1.1781942006200552,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 159,
+      "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536"
+    },
+    {
+      "name": "irex",
+      "bytes": 999,
+      "sha256": "38b680f84a94b124fb0fb78f7ec0182bf786d6fe4a164ee71e91da9fc143f0f1"
+    },
+    {
+      "name": "irgl",
+      "bytes": 85,
+      "sha256": "d5b23aadd9142aad1160be6e7a0240bb33358dbc014430da500b2ddf6918af9d"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+    },
+    {
+      "name": "irsy",
+      "bytes": 67,
+      "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+    },
+    {
+      "name": "state.pch",
+      "bytes": 38026,
+      "sha256": "263fb279f6535b5196dc5ba33f4cb7e2728678b449fa928b2fe145beaf5fa750"
+    },
+    {
+      "name": "test.c",
+      "bytes": 246,
+      "sha256": "916a2a7f1bc8222ca6b2e49e9c9ce45448670fa7a1fe99a6ed605c48897d43e1"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'pch-create':('pch','c1-create'), 'pch-use':('pch','c1-use'),
          'do-while':('do-while','c1'), 'seh':('seh','c1'), 'inline-asm':('inline-asm','c1'), 'browser':('browser','c1'),
          'preprocessor-E':('preprocessor','c1-E'), 'preprocessor-EP':('preprocessor','c1-EP'),
-         'preprocessor-P':('preprocessor','c1-P')}
+         'preprocessor-P':('preprocessor','c1-P'), 'comments':('comments','c1')}
 
 
 def sha(data):
@@ -81,7 +81,7 @@ def validate_artifacts(work, fixture, phase):
 def run_case(name, executable, directory, traces=None, dependency=None):
     start = time.perf_counter()
     fixture_name, phase_name = CASES[name]
-    fixture = (BINARY/'cases'/fixture_name if name in ('do-while','seh','inline-asm','browser','preprocessor-E','preprocessor-EP','preprocessor-P') else FIXTURES/fixture_name)
+    fixture = (BINARY/'cases'/fixture_name if name in ('do-while','seh','inline-asm','browser','preprocessor-E','preprocessor-EP','preprocessor-P','comments') else FIXTURES/fixture_name)
     manifest = fixture/'manifest.json'
     metadata = json.loads(manifest.read_text())
     phase = metadata['phases'][phase_name]
@@ -113,6 +113,8 @@ def run_case(name, executable, directory, traces=None, dependency=None):
         target = work/basename
         assert not target.exists(), 'duplicate input basename'
         target.write_bytes(data)
+        if 'mtime_ns' in item:
+            os.utime(target,ns=(item['mtime_ns'],item['mtime_ns']))
     for item in metadata.get('toolchain_dependencies', []) + phase.get('toolchain_dependencies', []):
         captured(ROOT/item['path'], item)
     for item in phase['outputs']:
@@ -137,16 +139,21 @@ def run_case(name, executable, directory, traces=None, dependency=None):
     try:
         result = subprocess.run([str(executable)], cwd=work, env=env,
                                 stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE, timeout=30, **options)
+                                stderr=(subprocess.STDOUT if phase.get('stdio', {}).get('stderr_to_stdout') else subprocess.PIPE),
+                                timeout=30, **options)
     finally:
         if trace_stream is not None:
             trace_stream.close()
         if state_stream is not None:
             state_stream.close()
+    if result.stderr is None:
+        assert phase.get('stdio', {}).get('stderr_to_stdout')
+        result.stderr = b''
     execution = time.perf_counter()-execution_start
     (case_root/'stdout').write_bytes(result.stdout)
     (case_root/'stderr').write_bytes(result.stderr)
     state = dict(case=name, work=str(work), exit=result.returncode,
+                 stdio=phase.get('stdio', {'stderr_to_stdout':False}),
                  stdout_bytes=len(result.stdout), stderr_bytes=len(result.stderr),
                  setup_seconds=setup, execution_seconds=execution)
     (case_root/'execution.json').write_text(json.dumps(state, indent=2)+'\n')

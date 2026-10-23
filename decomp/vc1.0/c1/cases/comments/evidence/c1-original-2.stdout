@@ -1,0 +1,15 @@
+#line 1 "test.c"
+#line 1 "case.h"
+
+
+/* Header block comment. */
+
+#line 6 "case.h"
+#line 2 "test.c"
+/* First block, with "quotes", a backslash \ and slash /.
+   Second physical line. */
+int value = ((4) * 3); // first line comment
+// A continued line comment \
+still comment text
+int after = value + \
+1; /* final block */

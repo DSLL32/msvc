@@ -780,7 +780,9 @@
     "import:GetCurrentProcess",
     "import:DuplicateHandle",
     "_freopen",
-    "import:SetStdHandle"
+    "import:SetStdHandle",
+    "_copy_block_comment",
+    "_copy_line_comment"
   ],
   "driver": [
     {
@@ -2861,7 +2863,7 @@
     {
       "name": "_copy_block_comment",
       "start": 141168,
-      "end": 141169
+      "end": 141422
     },
     {
       "name": "_skip_block_comment",
@@ -3336,7 +3338,7 @@
     {
       "name": "_copy_line_comment",
       "start": 140960,
-      "end": 140961
+      "end": 141160
     },
     {
       "name": "_discard_line_comment",
@@ -5238,6 +5240,11 @@
       "arguments": "",
       "accepted_from": 771,
       "accepted_count": 776
+    },
+    "comments": {
+      "arguments": "",
+      "accepted_from": 776,
+      "accepted_count": 778
     }
   },
   "buffered_streams": [

@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "312784e913bad8efaeb10fd9b5bbea5c8e47b81a7aacef2a8c8153ce72311674",
+    "functions.json": "6a004cc1255ac4bbd495ad3eea7e7b0eb92bcf49b6b91695044f9838750a475c",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "d01f4b15898a4d12799c44f0425b3f4b5cd7bf9915238ea6050053f1fa70c61c"
+    "sha256": "e827d66551d01c9b9c50513bac70d6181875ce32382eadb42d55199b9d99ac78"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -703,7 +703,7 @@
     },
     "copy_block_comment": {
       "logical": "_copy_block_comment",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "copy_browser_name": {
       "logical": "_copy_browser_name",
@@ -715,7 +715,7 @@
     },
     "copy_line_comment": {
       "logical": "_copy_line_comment",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "copy_macro_quoted_literal": {
       "logical": "_copy_macro_quoted_literal@12",
@@ -4048,7 +4048,9 @@
     "read_number_text",
     "read_macro_string",
     "append_macro_string",
-    "copy_quoted_literal"
+    "copy_quoted_literal",
+    "copy_block_comment",
+    "copy_line_comment"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4969,6 +4971,19 @@
       "last": 776,
       "seen_count": 654,
       "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "comments": {
+      "first": 776,
+      "last": 778,
+      "seen_count": 654,
+      "expected": [
+        "copy_block_comment",
+        "copy_line_comment"
+      ],
       "terminal": {
         "kind": "exit",
         "code": 0

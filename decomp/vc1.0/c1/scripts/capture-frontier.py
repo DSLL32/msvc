@@ -53,7 +53,11 @@ def main():
     for item in phase['inputs']:
         source = case/item['path']
         assert sha(source) == item['sha256']
-        (work/source.name).write_bytes(source.read_bytes())
+        target_input = work/source.name
+        target_input.write_bytes(source.read_bytes())
+        if 'mtime_ns' in item:
+            import os
+            os.utime(target_input,ns=(item['mtime_ns'],item['mtime_ns']))
     for item in phase.get('toolchain_dependencies', []):
         assert sha(ROOT/item['path']) == item['sha256']
     target = ROOT/phase['target']
@@ -81,6 +85,8 @@ def main():
     command = ['wine', str(options.debugger.resolve()), wt.windows(target), '',
                wt.windows(directory/'stdout'), wt.windows(directory/'stderr'),
                wt.windows(directory/'events'), canonical or wt.windows(work), 'MSC_CMD_FLAGS='+flags, buffers]
+    if phase.get('stdio', {}).get('stderr_to_stdout'):
+        command.append('stderr-to-stdout')
     preparation = time.perf_counter()-start
     run_start = time.perf_counter()
     result = subprocess.run(command, env=wt.environment(), stdout=subprocess.PIPE,
@@ -95,6 +101,7 @@ def main():
                    debugger_sha256=sha(options.debugger), child_arguments=[],
                    child_environment={'MSC_CMD_FLAGS':flags},
                    child_working_directory=canonical or wt.windows(work),
+                   child_stdio=phase.get('stdio', {'stderr_to_stdout':False}),
                    host_working_directory=str(work),
                    preparation_seconds=preparation, execution_seconds=time.perf_counter()-run_start,
                    total_seconds=time.perf_counter()-start,

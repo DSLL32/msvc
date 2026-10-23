@@ -467,7 +467,6 @@ void pch_record_string(unsigned kind, unsigned value, char *text) { __asm { int 
 int __stdcall pch_macro_defined(char *name) { __asm { int 3 } return 0; }
 int pch_replay_mismatch(void) { __asm { int 3 } return 0; }
 
-void copy_block_comment(void) { __asm { int 3 } }
 
 
 
@@ -622,7 +621,6 @@ int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; 
 int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 
 
-void copy_line_comment(void) { __asm { int 3 } }
 
 
 

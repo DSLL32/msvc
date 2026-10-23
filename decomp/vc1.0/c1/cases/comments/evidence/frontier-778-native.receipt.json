@@ -1,0 +1,21 @@
+{
+  "buffers": {},
+  "frames": [],
+  "frontier": null,
+  "fresh_original_match": true,
+  "preparation_seconds": 0.0031645745038986206,
+  "execution_seconds": 0.1301150657236576,
+  "total_seconds": 0.134810084477067,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -C -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/comments-native-778",
+    "RECON_CANONICAL_CWD": "N:\\comments"
+  },
+  "stdio": {
+    "stderr_to_stdout": false
+  },
+  "executable_sha256": "2e90e362b4f8fc8a33f49f5401dc3580070baab8d0c2955933d07b844d744cc0"
+}

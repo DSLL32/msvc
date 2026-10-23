@@ -1,0 +1,34 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/comments",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 777,
+  "accepted_sha256": "eccccee136f6de77ca54430016795b27ca46092fb6e52250e5e520629dac0e98",
+  "executable_sha256": "8f58d932d194b69004eb86a7d274288468aec2e73d63bdb0433e64b7ce9418c6",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -C -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\comments",
+  "child_stdio": {
+    "stderr_to_stdout": false
+  },
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/comments-frontier-777/comments",
+  "preparation_seconds": 0.049142529256641865,
+  "execution_seconds": 0.6851299675181508,
+  "total_seconds": 0.734275464899838,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 133,
+      "sha256": "e20f27e18ecc85387b6ed98747280ded9846e8b91d5fe0c8579aa104224f6612"
+    },
+    {
+      "name": "test.c",
+      "bytes": 240,
+      "sha256": "425deaa66fa8456b9a4f120307f24b9813696e647e638bdcf86a78e8cf463997"
+    }
+  ]
+}
