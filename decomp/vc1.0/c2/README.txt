@@ -89,3 +89,16 @@ The i486 register-pair helper provisional *_lea names actually test PUSH pairs;
 source comments preserve that distinction without altering cached identities.
 Completion evidence/timings and unstarted next-case proposals are recorded in
 cases/x87-completion.json, cases/i486-completion.json and cases/queue.json.
+
+The default make audit now invokes tooling/graph-audit's common Rust CFG engine
+through the shared quiet build helper, then the existing scoped RET ABI proof.
+Enabled flags: --check-ownership --check-extents --check-accepted-extents. They
+check application ownership, whole tails/switch exclusions and all accepted
+CRT/import extents on both images. The original Python graph checker remains
+available explicitly as make audit-python; make audit-negatives checks current
+scratch mutations and the21 focused graph/SEH/extent safeguards. make audit-data
+retains the contextual ISA/intrinsic/radix proofs. No original recapture occurs.
+Global --check-ret remains off: finish_debugging's unresolved indirect callback
+tail has no inferred cleanup contract. The existing15 application ABI proofs
+remain enabled; a changed RET8->RET4 is independently rejected. See
+cases/rust-audit-integration.json for current hashes, parity and measured times.

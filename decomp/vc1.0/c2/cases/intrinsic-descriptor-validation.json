@@ -6,7 +6,7 @@
       "id": 106,
       "addresses": [
         "0x84078",
-        "0x86050"
+        "0x88050"
       ],
       "extent_bytes": 16
     },
@@ -15,7 +15,7 @@
       "id": 107,
       "addresses": [
         "0x84088",
-        "0x86060"
+        "0x88060"
       ],
       "extent_bytes": 16
     },
@@ -24,7 +24,7 @@
       "id": 110,
       "addresses": [
         "0x840b8",
-        "0x86070"
+        "0x88070"
       ],
       "extent_bytes": 16
     },
@@ -33,7 +33,7 @@
       "id": 111,
       "addresses": [
         "0x840c8",
-        "0x86080"
+        "0x88080"
       ],
       "extent_bytes": 16
     },
@@ -42,7 +42,7 @@
       "id": 132,
       "addresses": [
         "0x84218",
-        "0x86090"
+        "0x88090"
       ],
       "extent_bytes": 16
     },
@@ -51,7 +51,7 @@
       "id": 133,
       "addresses": [
         "0x84228",
-        "0x860a0"
+        "0x880a0"
       ],
       "extent_bytes": 16
     },
@@ -60,7 +60,7 @@
       "id": 174,
       "addresses": [
         "0x844b8",
-        "0x860b0"
+        "0x880b0"
       ],
       "extent_bytes": 16
     },
@@ -69,7 +69,7 @@
       "id": 92,
       "addresses": [
         "0x83f98",
-        "0x86030"
+        "0x88030"
       ],
       "extent_bytes": 16
     },
@@ -78,7 +78,7 @@
       "id": 93,
       "addresses": [
         "0x83fa8",
-        "0x86040"
+        "0x88040"
       ],
       "extent_bytes": 16
     }
@@ -106,7 +106,7 @@
     ]
   },
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "rebuilt_sha256": "8d1fe5e5f37f03ebcd23aa106bc1a8311907a2bb1522ed673a73f3984dd5e133",
+  "rebuilt_sha256": "7ae207cce5fbdd06b464ff751bc741a88285084c92cb0e3192e504f2db6f1405",
   "executes_wine": false,
   "address_identity": "Interpreter does not expose descriptor addresses or perform arithmetic between descriptors"
 }

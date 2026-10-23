@@ -6,6 +6,8 @@ RECON = ../../../lib/recon
 .PHONY: all win32 clean check frontier prefix replay audit hello-frontier hello-check hello-replay coverage
 all: native-trace
 
+include ../../../tooling/graph-audit/graph-audit.mk
+
 # Explicit canonical compiler build, outside native fixture execution.
 win32: build/c2.exe
 
@@ -24,8 +26,28 @@ check replay: native-trace-check
 frontier: native-trace
 	$(PYTHON) scripts/check-native.py --profile minimal
 
-audit: build/runtime.json runtime.json
+audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
+	$(GRAPH_AUDIT_BIN) --repo ../../.. --project . --profile c2 --discovery cfg --check-ownership --check-extents --check-accepted-extents --report build/graph-audit.json
+	$(PYTHON) scripts/check-frontier-abi.py
+
+# Explicit Python compatibility/focused proofs remain available; fixtures do not
+# invoke a compiler, Cargo or Wine. Data checks retain their individual scope.
+.PHONY: audit-python audit-negatives audit-data
+audit-python: build/runtime.json runtime.json
 	$(PYTHON) scripts/audit-graph.py
+audit-negatives: $(GRAPH_AUDIT_BIN)
+	$(PYTHON) scripts/check-audit-graph.py
+	$(PYTHON) scripts/check-rust-audit.py --binary $(GRAPH_AUDIT_BIN)
+audit-data: build/c2.exe native
+	$(PYTHON) scripts/check-float-peephole-data.py
+	$(PYTHON) scripts/check-float-stack-effects.py
+	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
+	$(PYTHON) scripts/check-float-dispatcher-data.py
+	$(PYTHON) scripts/check-float-promotion-costs.py
+	$(PYTHON) scripts/check-scheduler-stack-operands.py
+	$(PYTHON) scripts/check-integer-radix-contract.py
+	$(PYTHON) scripts/check-intrinsic-descriptors.py
+	$(PYTHON) scripts/check-runtime-intrinsic-data.py
 
 
 hello-frontier hello-check hello-replay: native-trace

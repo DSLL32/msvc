@@ -1,0 +1,164 @@
+{
+  "checkpoint": 1089,
+  "source_graphs": 1010,
+  "shared_tool_sha256": "a13a4700fc7e30ab53a3217af2d28afc1525934f727e6829c1afd2aedf3d02e8",
+  "canonical_sha256": "7ae207cce5fbdd06b464ff751bc741a88285084c92cb0e3192e504f2db6f1405",
+  "flags": [
+    "call_graph",
+    "extent_ownership",
+    "whole_extent_boundaries",
+    "accepted_index_extents"
+  ],
+  "checked_accepted_extents": {
+    "original": 1089,
+    "rebuilt": 1089
+  },
+  "parity": "cases/rust-cfg-comparison.json: all1010 original and canonical Python graph sets equal RustCFG",
+  "negative_checks": "cases/rust-audit-negatives.json",
+  "residuals": {
+    "RET": "Global --check-ret rejects unresolved indirect tail _finish_debugging JMP[7b92c]. Existing15-function CFG-based RET proof remains default; no assumed callback ABI.",
+    "data": "Original/canonical contextual ISA, intrinsic descriptors, radix caller contract and x87 encoding proofs remain under make audit-data",
+    "python": "make audit-python remains explicit full compatibility diagnostic;21 focused graph/extent/SEH/switch tests retained in audit-negatives"
+  },
+  "timings": {
+    "rust-audit-flags-timing": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/c2",
+        "--profile",
+        "c2",
+        "--check-ret",
+        "--check-ownership",
+        "--check-extents",
+        "--report",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/rust-flags.json"
+      ],
+      "seconds": 0.035718806087970734,
+      "returncode": 1,
+      "log_sha256": "d7e4544cda718e78ce20a0ddf0d7a0b1b4f75b36285f0e28209848e67f843f3b"
+    },
+    "rust-current-negatives-timing": {
+      "command": [
+        "python3",
+        "scripts/check-rust-audit.py",
+        "--binary",
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit"
+      ],
+      "seconds": 15.414468528702855,
+      "returncode": 0,
+      "log_sha256": "57ef5af26e827d4097de961b7b1e9833a0156f0dd5bf552d831ae7eb09845878"
+    },
+    "python-audit-baseline-timing": {
+      "command": [
+        "python3",
+        "scripts/audit-graph.py"
+      ],
+      "seconds": 4.396778955124319,
+      "returncode": 0,
+      "log_sha256": "9ec6cce3fd83e8d7bb9a4e5269b0c2eb025a88be6d04a7416226190daee65669"
+    },
+    "rust-audit-extents-timing": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/c2",
+        "--profile",
+        "c2",
+        "--check-ownership",
+        "--check-extents",
+        "--report",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/rust-extents.json"
+      ],
+      "seconds": 0.6996190482750535,
+      "returncode": 0,
+      "log_sha256": "0f462faf49fdcad59850a06514f5b477916defec2f761706424cdd377029b68c"
+    },
+    "rust-integration-focused-timing": {
+      "command": [
+        "python3",
+        "scripts/check-audit-graph.py"
+      ],
+      "seconds": 0.10446883644908667,
+      "returncode": 0,
+      "log_sha256": "9cad6d78b1d4a2868ba1fa74b40ee26168f74ff9489bad274223742764b434bb"
+    },
+    "rust-integration-native-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 1.7223392017185688,
+      "returncode": 0,
+      "log_sha256": "cc7e90f5b97afc377c605fe45d8393a140238a60cf7fb2213c3ca945e69950c2"
+    },
+    "rust-audit-cfg-timing": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/c2",
+        "--profile",
+        "c2",
+        "--report",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/rust-cfg.json"
+      ],
+      "seconds": 0.5019921828061342,
+      "returncode": 0,
+      "log_sha256": "9644b5bac91abffdb7942bd2e4da79a14c329a6d37fe4444a26558607b8cda63"
+    },
+    "rust-integration-data-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-data"
+      ],
+      "seconds": 2.827593478374183,
+      "returncode": 0,
+      "log_sha256": "d7918b53853f80a460971900ccd8285db6f645b5179ae3f9c42d1e720465345d"
+    },
+    "rust-accepted-positive-timing": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/c2",
+        "--profile",
+        "c2",
+        "--check-ownership",
+        "--check-extents",
+        "--check-accepted-extents",
+        "--report",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/rust-accepted.json"
+      ],
+      "seconds": 1.342293294146657,
+      "returncode": 0,
+      "log_sha256": "aa8a7b5f74ef7a78ad4460f6156860464ba862ffb7bf0e6fc4b6d344646dc9b8"
+    },
+    "rust-default-make-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 1.8244921304285526,
+      "returncode": 0,
+      "log_sha256": "2170086f8ff48f61d65ddb3e0a2b06408bcc56b2c44b98d5388f584644689ba4"
+    }
+  },
+  "no_original_recapture": true,
+  "notes": [
+    "Runtime/import accepted-body extent checks supplied by common --check-accepted-extents on both images",
+    "All nine native artifact cases and existing fixture negatives pass; no target/source/accepted metadata changes for audit migration",
+    "Cargo built through quiet shared helper once when needed; executable invoked directly with diagnostics intact; no cargo run/Wine in graph audit or fixtures",
+    "Interactive integration time unmeasured; measured commands include failures and current-snapshot mutations"
+  ]
+}
