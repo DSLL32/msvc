@@ -97,7 +97,8 @@
     "link_symbol_scopes",
     "record_symbol_references",
     "record_symbol_reference",
-    "rewrite_module_global_types"
+    "rewrite_module_global_types",
+    "create_widen"
   ],
   "functions": [
     {
@@ -1733,8 +1734,11 @@
       "symbol": "_create_widen",
       "native_symbol": "create_widen",
       "original": 4260496,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260496,
+        4260518
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1748,7 +1752,8 @@
           "original_delta": 48,
           "initialized": true
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0092-create-widen-named-import/promotion.json"
     },
     {
       "name": "release_widen",
@@ -1768,7 +1773,45 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "object",
+          "slot": 1,
+          "kind": "widen-object",
+          "owner": "widen_subsection",
+          "local": "object",
+          "original_output_delta": 60
+        },
+        {
+          "name": "output",
+          "slot": 2,
+          "kind": "caller-local-pointer",
+          "owner": "widen_subsection",
+          "local": "output",
+          "width": 16,
+          "owner_return": 4215476,
+          "original_delta": 36,
+          "initialized": true
+        },
+        {
+          "name": "input",
+          "slot": 3,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "type_data",
+            "symbol_data",
+            "module_data"
+          ],
+          "offset": 4,
+          "count_slot": 4,
+          "count_name": "size"
+        },
+        {
+          "name": "size",
+          "slot": 4,
+          "kind": "integer"
+        }
+      ]
     },
     {
       "name": "emit_widen",
@@ -3586,5 +3629,21 @@
   ],
   "require_native_argument_inventory": true,
   "observe_global_type_lookup": true,
-  "observe_recursive_type_compare": true
+  "observe_recursive_type_compare": true,
+  "observe_widen_factory": {
+    "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "table_rva": 138800,
+    "slots": [
+      122788,
+      126830,
+      126977,
+      126608,
+      126719,
+      127122,
+      127148,
+      127174,
+      127180,
+      127269
+    ]
+  }
 }

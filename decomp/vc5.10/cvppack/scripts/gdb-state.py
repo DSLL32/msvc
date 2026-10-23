@@ -16,6 +16,7 @@ image_allocations=[]
 checked_allocations=[]
 cleared_allocations=[]
 module_allocations=[]
+widen_factory_calls=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -172,6 +173,35 @@ def install(configuration):
             AllocationReturned(record);return False
     AllocationEntered()
 
+    if config.get('observe_widen_factory'):
+        class WidenFactoryReturned(gdb.FinishBreakpoint):
+            def __init__(self,call):
+                self.call=call
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                call=self.call;inferior=gdb.selected_inferior()
+                call.update(result=int(self.return_value),object=int.from_bytes(bytes(inferior.read_memory(call['output_argument'],4)),'little'),
+                    exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                assert call['object']==int(gdb.parse_and_eval("&'native-widen.c'::opaque")),'factory did not return the actual provider object'
+                table=int.from_bytes(bytes(inferior.read_memory(call['object'],4)),'little')
+                slots=bytes(inferior.read_memory(table,40));names=['destroy','unknown','unknown','record','unknown','unknown','unknown','unknown','query','emit']
+                expected=[int(gdb.parse_and_eval("&'native-widen.c'::"+name)) for name in names]
+                assert [int.from_bytes(slots[i:i+4],'little') for i in range(0,40,4)]==expected,'provider vtable typed function identities differ'
+                call['vtable_roles']=names
+                call['vtable_slots']=[int.from_bytes(slots[i:i+4],'little') for i in range(0,40,4)]
+                call['provider_functions']={name:int(gdb.parse_and_eval("&'native-widen.c'::"+name)) for name in set(names)}
+                return False
+        class WidenFactoryEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('cvpack_widen_factory',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();out=int(frame.read_var('out'));owner=frame.older()
+                while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
+                assert owner is not None and int(owner.read_var('object').address)==out,'factory output is not actual caller local object'
+                call=dict(output_argument=out,capacity=int(frame.read_var('capacity')),flags=int(frame.read_var('flags')),
+                    entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),owner='widen_subsection',local='object')
+                widen_factory_calls.append(call);WidenFactoryReturned(call);return False
+        WidenFactoryEntered()
+
     if config.get('observe_global_type_lookup'):
         class LookupReturned(gdb.FinishBreakpoint):
             def __init__(self,record,output):
@@ -260,13 +290,14 @@ def capture(configuration,data_file,output):
         elif item['kind']=='argv':parameters[item['name']]=[(value[i].string(encoding='latin1').encode('latin1')+b'\0').hex() for i in range(int(frame.read_var('argc')))]
         elif item['kind']=='integer-pointer':parameters[item['name']]=dict(null=int(value)==0,bytes=bytes(inferior.read_memory(int(value),4)).hex() if int(value) else None)
         elif item['kind']=='global-buffer':
-            names=[name for name in item['allowed_globals'] if int(gdb.parse_and_eval(name))==int(value)]
+            names=[name for name in item['allowed_globals'] if int(gdb.parse_and_eval(name))+item.get('offset',0)==int(value)]
             assert len(names)==1,'buffer argument does not alias specified global'
             if 'count_name' in item:size=int(frame.read_var(item['count_name']))
             else:
                 entry=frame.read_var(item['entry_name']);size=int(entry.dereference()['size'])
             assert 0<=size<=65536
             parameters[item['name']]=dict(global_name=names[0],size=size,bytes=bytes(inferior.read_memory(int(value),size)).hex())
+            if item.get('offset'):parameters[item['name']]['offset']=item['offset']
         elif item['kind']=='blob-element-pointer':
             root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
             assert root<=address<root+count*item['element_size'] and (address-root)%item['element_size']==0,'argument is not a directory element'
@@ -359,6 +390,14 @@ def capture(configuration,data_file,output):
             size=int.from_bytes(bytes(inferior.read_memory(address,2)),'little')+2
             assert 2<=size<=item['capacity']
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],bytes=bytes(inferior.read_memory(address,size)).hex())
+        elif item['kind']=='widen-object':
+            owner=frame.older()
+            while owner is not None and owner.name()!=item['owner']:owner=owner.older()
+            assert owner is not None and int(owner.read_var(item['local']))==int(value),'opaque object caller-local alias differs'
+            assert len(widen_factory_calls)==1 and widen_factory_calls[0]['object']==int(value),'opaque object was not returned by observed factory'
+            assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==1 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'opaque object provider lifetime/state differs'
+            state.setdefault('widen_object_arguments',{})[item['name']]=dict(address=int(value),output_slot=int(owner.read_var(item['local']).address))
+            parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state='created',owner=item['owner'],local=item['local'])
         elif item['kind']=='caller-local-pointer':
             owner=frame.older()
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
@@ -417,6 +456,7 @@ def capture(configuration,data_file,output):
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
+    state['widen_factory_calls']=widen_factory_calls
     state['subsection_allocations']=subsection_allocations
     state['image_allocations']=image_allocations
     state['checked_allocations']=checked_allocations

@@ -39,7 +39,6 @@ void rewrite_mips_procedure_symbol(void) { __asm { int 3 } }
 
 const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }
 
-int create_widen(WidenTi **object) { __asm { int 3 } return 0; }
 void release_widen(WidenTi *object) { __asm { int 3 } }
 int query_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size) { __asm { int 3 } return 0; }
 int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size, unsigned flags) { __asm { int 3 } return 0; }

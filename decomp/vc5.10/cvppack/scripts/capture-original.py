@@ -101,6 +101,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',404b59:module-allocation-entry,404b5f:module-allocation-result'
     if any(r['name']=='initialize_module_type_storage' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',40fb97:cleared-allocation-entry,40fb9d:cleared-allocation-result'
+    if config.get('observe_widen_factory'):
+        env['VC510_CVPACK_PROBES']+=',41029c:widen-factory-call,4102a2:widen-factory-return'
     if config.get('observe_global_type_lookup'):
         env['VC510_CVPACK_PROBES']+=',402c24:lookup-type-enter,402c4e:lookup-type-sentinel-return,402c8c:lookup-type-normal-return'
     if config.get('observe_recursive_type_compare'):

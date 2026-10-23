@@ -49,6 +49,10 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
     provider = Path(original['actual_loaded_crt']['capture_path'])
     assert provider.stat().st_size == 277776 and sha(provider) == CRT_SHA, 'actual loaded-provider bytes differ'
     assert sha(Path(original['actual_target_capture'])) == original['masked_image_sha256'], 'actual child image differs'
+    if config.get('observe_widen_factory') and case['name']=='hello-debug-dll':
+        actual_provider=original['actual_loaded_mspdb']
+        assert actual_provider['sha256']==config['observe_widen_factory']['provider_sha256']
+        assert sha(Path(actual_provider['path']))==config['observe_widen_factory']['provider_sha256'],'actual loaded MSPDB provider bytes differ'
     assert original['plan_sha256'] == sha(original_dir / 'runtime-plan')
     historical_audit = json.loads((original_dir/'audit.json').read_text())
     assert original['audit_sha256'] == sha(original_dir/'audit.json')

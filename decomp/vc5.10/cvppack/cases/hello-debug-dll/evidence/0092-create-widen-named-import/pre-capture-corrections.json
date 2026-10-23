@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "earlier_attempts": [
+    {
+      "path": "cases/hello-debug-dll/evidence/0092-create-widen",
+      "stage": "static source inventory",
+      "reason": "C++ source file needed inclusion in source-ownership inventory; no original capture ran."
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0092-create-widen-typed-query",
+      "stage": "strict static import audit",
+      "reason": "Original imports by decorated name; putting explicit@13 in old LIB definition generated ordinal import. Removed ordinal syntax while retaining independently verified provider ordinal13 evidence; now identical named import. No original capture ran."
+    }
+  ],
+  "native_cpp_build": {
+    "first_error": "Host has no i386 C++ standard library headers; these minimal interface TUs use no C++ standard library. -nostdinc++ matches already-reviewed native interface exerciser; no extra SDK or runtime requested."
+  },
+  "factory_export_evidence": "cases/hello-debug-dll/widen-factory-import.json"
+}

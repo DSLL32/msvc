@@ -10,6 +10,8 @@ def inputs():
     files.extend([BINARY/'Makefile',BINARY/'scripts/debug-run.c',BINARY/'scripts/native-driver.c',BINARY/'scripts/native-resources.py',ROOT/'lib/recon/resources.py'])
     files.extend(BINARY/name for name in ('scripts/native-widen.c','scripts/native-widen-abi.h','scripts/native-widen.py'))
     files.extend((BINARY/'src').glob('*.cpp'))
+    files.extend((BINARY/'src').glob('*.def'))
+    files.append(BINARY/'scripts/native-widen-factory.cpp')
     for folder in ('src','include','native'):
         files.extend(path for path in (ROOT/'lib/recon'/folder).rglob('*') if path.suffix in ('.c','.h'))
     return sorted(set(path.resolve() for path in files))

@@ -100,7 +100,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
     functions = config['functions']
     assert len({r['name'] for r in functions}) == len(functions)
     assert len({r['symbol'] for r in functions}) == len(functions)
-    source = '\n'.join(path.read_text() for path in (BINARY / 'src').glob('*.c'))
+    source = '\n'.join(path.read_text() for pattern in ('*.c','*.cpp') for path in (BINARY / 'src').glob(pattern))
     live={row['name']:row for row in json.loads((BINARY/'functions.json').read_text())['functions']}
     historical_bodies=[]
     for record in functions:
@@ -144,6 +144,31 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
     assert result.returncode == 0, result.stderr.decode()
     graph = json.loads(result.stdout)
     import_sites=switches.check_import_sites(graph)
+    factory_import=None
+    if config.get('observe_widen_factory'):
+        from binary import u16,u32,COFF
+        policy=config['observe_widen_factory'];provider=ROOT/'toolchains/5.10/bin/MSPDB50.DLL'
+        module=PE(provider)
+        assert sha(provider)==policy['provider_sha256']=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
+        import struct
+        assert [value-module.base for value in struct.unpack('<10I',module.read(module.base+policy['table_rva'],40))]==policy['slots'],'factory canonical provider vtable differs'
+        name='?fCreate@WidenTi@@SAHAAPAU1@IH@Z'
+        directory=module.read(module.base+u32(module.data,module.optional+96),40)
+        ordinal_base,count,functions_table,names_table,ordinals_table=(u32(directory,16),u32(directory,24),u32(directory,28),u32(directory,32),u32(directory,36))
+        exports=[]
+        for index in range(count):
+            if module.string(module.base+u32(module.read(module.base+names_table+index*4,4),0))!=name:continue
+            slot=u16(module.read(module.base+ordinals_table+index*2,2),0)
+            exports.append(dict(name=name,ordinal=ordinal_base+slot,entry=module.base+u32(module.read(module.base+functions_table+slot*4,4),0)))
+        assert len(exports)==1 and exports[0]['ordinal']==13,'factory actual export differs'
+        definition=BINARY/'src/mspdb50.def'
+        assert definition.read_text()=='LIBRARY MSPDB50.DLL\nEXPORTS\n    '+name+'\n','factory import definition differs'
+        obj=COFF((BINARY/'build/widen.obj').read_bytes())
+        bodies=[s['name'] for s in obj.symbols.values() if s.get('type')==0x20 and s['section']>0]
+        assert bodies==['_create_widen'],'extra target C++ function vertices'
+        imports=[s['name'] for s in obj.symbols.values() if s['name'].startswith('__imp_')]
+        assert imports==['__imp_'+name],'factory target import symbol differs'
+        factory_import=dict(provider_sha256=sha(provider),export=exports[0],definition_sha256=sha(definition),object_sha256=sha(BINARY/'build/widen.obj'),target_functions=bodies)
     rebuilt=PE(BINARY/'build/CVPACK.EXE')
     publics={}
     for line in (BINARY/'build/cvpack.map').read_text().splitlines():
@@ -215,7 +240,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        cached_import_sites=import_sites, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references,type_flag_references=type_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        cached_import_sites=import_sites, factory_import=factory_import, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references,type_flag_references=type_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,

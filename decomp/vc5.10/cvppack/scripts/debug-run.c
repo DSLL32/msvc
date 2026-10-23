@@ -221,6 +221,7 @@ static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
     } else if (site == 0x4102a2) {
         if (!read_bytes(process, widen_output, &object, 4) || !read_bytes(process, object, &table, 4)) return;
         fprintf(log, "widen create-return %lu %08lx %08lx\n", context->Eax, object, table);
+        memory(log, process, widen_output, 4);
         memory(log, process, object, 4);
         memory(log, process, table, 40);
     } else if (site == 0x4102d5 || site == 0x4102f7 || site == 0x41031a) {
@@ -460,7 +461,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 memory(log, process, value, (DWORD)length + 2);
         }
         if (argument_kind[i] == 'P' && value) memory(log, process, value, 4);
-        if (argument_kind[i] == 'F' && value && argument_buffer_count[i] <= 4)
+        if (argument_kind[i] == 'F' && value && argument_buffer_count[i] <= 16)
             memory(log, process, value, argument_buffer_count[i]);
         if ((argument_kind[i] == 'B' || argument_kind[i] == 'C') && value &&
             read_bytes(process, context->Esp + argument_buffer_count[i]*4, &count, 4)) {

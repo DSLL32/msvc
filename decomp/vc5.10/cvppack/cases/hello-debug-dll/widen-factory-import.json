@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "provider_path": "toolchains/5.10/bin/MSPDB50.DLL",
+  "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+  "export": {
+    "name": "?fCreate@WidenTi@@SAHAAPAU1@IH@Z",
+    "ordinal": 13,
+    "entry": 271703856
+  },
+  "target_import_iat": 4285004,
+  "target_import_name": "?fCreate@WidenTi@@SAHAAPAU1@IH@Z",
+  "interface": "WidenTi::fCreate(WidenTi *&, unsigned, int), cdecl; existing independent original/native ABI proof in abi/receipt.json"
+}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 167, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 37, in main
+    audit_candidate(output / 'configuration.json', args.candidate, output / 'audit.json')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 144, in run
+    assert result.returncode == 0, result.stderr.decode()
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: graph-audit: _create_widen import graph differs: original {Identity { dll: "mspdb50.dll", symbol: Name { name: "?fCreate@WidenTi@@SAHAAPAU1@IH@Z" } }}; reconstruction {Identity { dll: "mspdb50.dll", symbol: Ordinal { ordinal: 13 } }}
+

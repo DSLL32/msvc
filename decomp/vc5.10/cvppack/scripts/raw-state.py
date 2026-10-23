@@ -78,6 +78,22 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
+    widen_factory_calls=[];module_bases={};error=None
+    for ordinal,line in enumerate(lines):
+        if line.startswith('module '):
+            parts=line.split()
+            if len(parts)==3:module_bases[parts[2].lower()]=int(parts[1],16)
+        elif line.startswith('last-error '):error=int(line.split()[1])
+        elif line.startswith('widen create-call '):
+            _,_,output,capacity,flags=line.split()
+            widen_factory_calls.append(dict(output_argument=int(output,16),capacity=int(capacity),flags=int(flags),entry_last_error=error))
+        elif line.startswith('widen create-return '):
+            assert widen_factory_calls and 'result' not in widen_factory_calls[-1],'unexpected factory return'
+            _,_,result,object,table=line.split();observed={}
+            for following in lines[ordinal+1:ordinal+5]:
+                if not following.startswith('memory '):break
+                _,observed_address,contents=following.split();observed[int(observed_address,16)]=bytes.fromhex(contents)
+            widen_factory_calls[-1].update(result=int(result),object=int(object,16),table=int(table,16),memory=observed,exit_last_error=error)
     type_compare_calls=[]
     for line in lines:
         if line.startswith('type-compare-failed'):raise AssertionError('incomplete recursive comparison observation')
@@ -129,7 +145,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -137,6 +153,21 @@ def compare(config,data,events,native,artifacts=None,views=None):
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']
+    factories=original['widen_factory_calls']
+    if config.get('observe_widen_factory'):
+        assert len(factories)==len(native.get('widen_factory_calls',[]))<=1,'factory lifetime inventory differs'
+        policy=config['observe_widen_factory'];roles=['destroy','unknown','unknown','record','unknown','unknown','unknown','unknown','query','emit']
+        for before,after in zip(factories,native['widen_factory_calls']):
+            assert before['capacity']==after['capacity']==256 and before['flags']==after['flags']==0 and before['result']==after['result']==1,'factory actual arguments/result differ'
+            assert before['entry_last_error']==before['exit_last_error']==after['entry_last_error']==after['exit_last_error']==0,'factory actual LastError differs'
+            base=original['module_bases']['mspdb50.dll']
+            assert before['table']==base+policy['table_rva'],'factory actual provider vtable identity differs'
+            observed=before['memory']
+            assert observed.get(before['output_argument'])==before['object'].to_bytes(4,'little'),'factory actual output pointer write differs'
+            assert observed[before['object']]==before['table'].to_bytes(4,'little'),'factory actual opaque object vptr differs'
+            assert len(observed[before['table']])==40 and [value-base for value in struct.unpack('<10I',observed[before['table']])]==policy['slots'],'factory original method identities differ'
+            assert after['vtable_roles']==roles and after['vtable_slots']==[after['provider_functions'][name] for name in roles],'factory native typed method identities differ'
+            assert after['owner']=='widen_subsection' and after['local']=='object','factory native output owner differs'
     parameters = {};object_parameters=[];arena_parameters=[]
     assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
     if config.get('require_native_argument_inventory'):
@@ -183,7 +214,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert 0<=size<=capacity and len(original['memory'][pointer])==size
                     parameters[item['name']].update(size=size,capacity=capacity,bytes=original['memory'][pointer].hex())
         elif item['kind']=='global-buffer':
-            names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and int.from_bytes(original['memory'][row['original']],'little')==value]
+            names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and int.from_bytes(original['memory'][row['original']],'little')+item.get('offset',0)==value]
             assert len(names)==1,'buffer argument does not alias specified original global'
             if 'count_slot' in item:size=original['stack'][item['count_slot']]
             else:
@@ -194,6 +225,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert 0<=size<=65536
             assert len(original['memory'][value])==size
             parameters[item['name']]=dict(global_name=names[0],size=size,bytes=original['memory'][value].hex())
+            if item.get('offset'):parameters[item['name']]['offset']=item['offset']
         elif item['kind']=='blob-element-pointer':
             row=next(row for row in data if row['name']==item['root']);root=int.from_bytes(original['memory'][row['original']],'little')
             row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
@@ -265,6 +297,12 @@ def compare(config,data,events,native,artifacts=None,views=None):
             raw=original['memory'][value];size=int.from_bytes(raw[:2],'little')+2
             assert len(raw)==size and 2<=size<=item['capacity']
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],bytes=raw.hex())
+        elif item['kind']=='widen-object':
+            assert len(factories)==1 and factories[0]['object']==value,'opaque original object was not returned by observed factory'
+            assert factories[0]['output_argument']==original['esp']+item['original_output_delta'],'opaque original output argument caller alias differs'
+            after=native['widen_factory_calls'][0];argument=native['widen_object_arguments'][item['name']]
+            assert after['object']==argument['address'] and after['output_argument']==argument['output_slot'],'opaque native factory output/argument alias differs'
+            parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state='created',owner=item['owner'],local=item['local'])
         elif item['kind']=='caller-local-pointer':
             assert original['stack'][0]==item['owner_return'] and value==original['esp']+item['original_delta'],'original output argument caller-local identity differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])

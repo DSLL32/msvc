@@ -1,14 +1,14 @@
 # VC5.10 CVPACK
 
 Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
-`cvppack`. Reconstructed source is readable Win32 C, compiled with the provided
+`cvppack`. Reconstructed source is readable Win32 C with a minimal genuine C++ DLL interface, compiled with the provided
 5.10 toolchain and also as native i386 Linux code through `lib/recon`.
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`create_widen`, after completing the first module's copied source lines. There are 91
-accepted application functions / 28,315 extent bytes, plus 784 associated switch-data
-bytes. This is 45.19% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`query_widen`, after the first actual opaque factory call. There are 92
+accepted application functions / 28,337 extent bytes, plus 784 associated switch-data
+bytes. This is 45.22% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -73,7 +73,7 @@ normally. This limitation has no unsupported-path equivalence claim.
 Module source-line copies bind the complete original256B input to one allocation shared by its directory and ModuleInfo. Rewrite allocation provenance retains actual call-time operands across module-global resets and input-buffer reuse.
 
 The reviewed MSPDB WidenTi case provider is outside application coverage and has
-not yet been traversed by the reconstruction. It enforces 21 actual lifetimes,
+now supplied its first factory result; query/emit/release remain pending. It enforces 21 actual lifetimes,
 complete inputs/aliases/sequences/capacities and actual thiscall interfaces,
 writing only observed prefixes and preserving each native allocation's own tail.
 The unreached Record slot fails closed. See `cases/hello-debug-dll/DEPENDENCY.md`.
