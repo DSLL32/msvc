@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "fa6300fa0adca98579eaf91f578461403a2ef9e722e6defd5953f81c154f1fdc",
+    "functions.json": "869c7fc66b4ac05ca366d56379b546894799dfe8124d98c7a2453a9ae08f047b",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f5b8b83f813ef036ef7586102fc248cbe57ae52078211031aae021ffc437ca82",
-    "cases/canonical-map.txt": "04ad0133208e6db46c943ea60051b22e37c64d06e59760b8723d718e275ade91",
+    "cases/original-entry-references.json": "28feabdc550bad7c625e77c43ce0d5636d74348f87dbe9d46cb5bd54af3d83ff",
+    "cases/canonical-map.txt": "d8135d41948e0ed55a764aec3869b27c756c0f70e00a9aa6d74a4318204ee100",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/state_machine_debug-seed/entry-reference/original-receipt.json": "68d784fbcf0f434f45ffb38db7b823aebf0e1001e568353c2a7353007d65c6b5",
-    "cases/state_machine_debug-seed/entry-reference/original-events.txt": "7171d5af181d1bb49f8993a271a6bc0c63111c137676bba879a526164d3448af",
-    "cases/state_machine_debug-seed/entry-reference/original-entries.plan": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "cases/frontiers/state_machine_debug/0997-begin_debug_info/entry-reference/original-receipt.json": "9710e24cbe76fa93116db1556bba40baafff9be197065a14f9ac90041d23ebb7",
+    "cases/frontiers/state_machine_debug/0997-begin_debug_info/entry-reference/original-events.txt": "37ab835495808628a52e4f988590312a150638f517d8f8c30b9808d9644c8d95",
+    "cases/frontiers/state_machine_debug/0997-begin_debug_info/entry-reference/original-entries.plan": "637048b1b4fc6858e6654e71b7d4dd6b9f33ebf6087ffceca8a78480959a81a3"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -337,7 +337,7 @@
     },
     "begin_debug_info": {
       "logical": "_begin_debug_info",
-      "source": "src/stubs.c"
+      "source": "src/debug-info.c"
     },
     "begin_destructor_body": {
       "logical": "_begin_destructor_body@4",
@@ -409,6 +409,10 @@
     },
     "begin_initializer_function": {
       "logical": "_begin_initializer_function@4",
+      "source": "src/stubs.c"
+    },
+    "begin_line_record_debug_info": {
+      "logical": "_begin_line_record_debug_info",
       "source": "src/stubs.c"
     },
     "begin_member_lookup": {
@@ -5163,6 +5167,10 @@
       "logical": "_write_counted_ir",
       "source": "src/stubs.c"
     },
+    "write_debug_record": {
+      "logical": "_write_debug_record",
+      "source": "src/stubs.c"
+    },
     "write_decorated_name": {
       "logical": "_write_decorated_name@16",
       "source": "src/mangling.c"
@@ -6139,7 +6147,8 @@
     "make_class_delete_call",
     "single_qualified_function",
     "has_single_function",
-    "emit_vector_deleting_destructor_body"
+    "emit_vector_deleting_destructor_body",
+    "begin_debug_info"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10251,7 +10260,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 997,
+      "last": 998,
       "seen": [
         "main",
         "message_text",
@@ -11158,12 +11167,13 @@
         "emit_vector_deleting_destructor_body"
       ],
       "expected": [
-        "begin_debug_info"
+        "begin_debug_info",
+        "write_debug_record"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_debug_info",
-        "native": "begin_debug_info",
+        "logical": "_write_debug_record",
+        "native": "write_debug_record",
         "signal": 5
       }
     }

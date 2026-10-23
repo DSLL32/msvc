@@ -60,7 +60,7 @@ void __stdcall record_string_literal(IrToken *token) { __asm { int 3 } }
 IrToken *__stdcall materialize_string_literal(IrToken *token) { __asm { int 3 } return 0; }
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
-void begin_debug_info(void) { __asm { int 3 } }
+
 void load_precompiled_header(void) { __asm { int 3 } }
 void record_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
 int resume_pch_source_input(void) { __asm { int 3 } return 0; }
@@ -619,3 +619,6 @@ IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigne
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
+
+void write_debug_record(unsigned record, ...) { __asm { int 3 } }
+void begin_line_record_debug_info(void) { __asm { int 3 } }

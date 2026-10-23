@@ -1,0 +1,27 @@
+entry _begin_debug_info rva 0005d660 byte 83
+exception 80000003 rva 000604a0 base 00010000 first 1
+buffer 0 1 00
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016400000000
+buffer 4 0 
+state 0 00000000
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 ffffffff
+state 5 00000000
+state 6 00000000
+state 7 00000000
+state 8 0000007b
+state 9 00000000
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+caller 0005d686
+argument 0 0000000c
+argument 1 000698aa
+argument 2 007e0004
+argument 3 00000001
+exit 99

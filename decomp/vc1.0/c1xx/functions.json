@@ -1001,7 +1001,8 @@
     "_make_class_delete_call@12",
     "_single_qualified_function@4",
     "_has_single_function@4",
-    "_emit_vector_deleting_destructor_body@4"
+    "_emit_vector_deleting_destructor_body@4",
+    "_begin_debug_info"
   ],
   "driver": [
     {
@@ -1212,7 +1213,7 @@
     {
       "name": "_begin_debug_info",
       "start": 448096,
-      "end": 448097
+      "end": 448184
     },
     {
       "name": "_load_precompiled_header",
@@ -7606,6 +7607,16 @@
       "name": "_single_qualified_function@4",
       "start": 230768,
       "end": 230815
+    },
+    {
+      "name": "_write_debug_record",
+      "start": 459936,
+      "end": 459937
+    },
+    {
+      "name": "_begin_line_record_debug_info",
+      "start": 460800,
+      "end": 460956
     }
   ],
   "cases": {
@@ -7806,7 +7817,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_begin_debug_info",
+      "terminal": "_write_debug_record",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7829,8 +7840,11 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/state_machine_debug-seed/original-events.txt",
-      "original_seed": "cases/state_machine_debug-seed"
+      "terminal_evidence": "cases/frontiers/state_machine_debug/0997-begin_debug_info/original-events.txt",
+      "original_seed": "cases/state_machine_debug-seed",
+      "frontier_extensions": [
+        "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json"
+      ]
     }
   },
   "runtime_data": [
@@ -9970,6 +9984,23 @@
         {
           "name": "_debug_file",
           "original": 576700,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_record_buffer",
+      "original": 576692,
+      "fields": [
+        {
+          "name": "_debug_record_buffer",
+          "original": 576692,
+          "bytes": 4
+        },
+        {
+          "name": "_debug_stream_offset",
+          "original": 652380,
           "bytes": 4
         }
       ]

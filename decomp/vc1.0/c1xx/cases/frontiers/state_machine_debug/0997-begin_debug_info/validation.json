@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_debug_info",
+    "start": 448096,
+    "end": 448184
+  },
+  "distinct_direct_callees": [
+    "_begin_line_record_debug_info",
+    "_checked_malloc@4",
+    "_write_debug_record"
+  ],
+  "next_frontier": "_write_debug_record",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.38952028658241034,
+  "total_operation_seconds": 3.630551070906222,
+  "original_capture_seconds": 1.4172155614942312
+}
