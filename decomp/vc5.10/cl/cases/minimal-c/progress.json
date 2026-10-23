@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
-  "state": "C2-boundary-accepted",
-  "checkpoint": "unload_pass promoted after independent C2 provider review",
-  "next_frontier": "cleanup_files",
-  "accepted_application_functions": 74,
-  "accepted_application_extent_bytes": 13626,
+  "state": "cleanup-loop-accepted",
+  "checkpoint": "cleanup_files accepted through typed delete_temporary(kind0) frontier",
+  "next_frontier": "delete_temporary",
+  "accepted_application_functions": 75,
+  "accepted_application_extent_bytes": 13784,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -305,11 +305,26 @@
         "affected_52_controls": 12.2325175460428,
         "independent_52_controls": 12.076918640173972
       }
+    },
+    {
+      "candidate": "_cleanup_files",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-2/pair.json",
+        "sha256": "c18a30c13039910d0aba263d0efa1bd7c67924e799234e3f29ed74ce91212000"
+      },
+      "seconds": {
+        "audit": 0.5539857828989625,
+        "original_setup": 0.02428357768803835,
+        "original_execution": 40.52128295227885,
+        "native_gdb": 0.3329612426459789,
+        "affected_57_controls": 12.502769782207906
+      },
+      "controls": "57 refreshed affected controls incl actual helper formal and suffix-table memory;35 acceptance controls refreshed. Initial offline stale preserve1 assertion rejected valid kind0 raw; corrected reader selected actual next formal from trial config, then native-only continuation reused unchanged original."
     }
   ],
-  "checks": "Fresh candidate-inclusive unload/C2 boundary;52 affected raw-response/effect/child-input/state/GDB controls pass, independently repeated. Existing unchanged protocol controls reused from execute_pass checkpoint. Cached help native fixture34.384ms total/7.997ms execution.",
+  "checks": "Fresh candidate-inclusive cleanup body/ABI/graph proof; complete suffix table matches original/rebuilt/native; actual helper kind0, driver aliases and persistent provider state independently decoded.57 affected controls and35 acceptance protocol controls pass.",
   "dependency_boundaries": "C1 Invoke/detach/release plus full synchronous C2 child request/input/status/object/error effects are accepted through strict owned native providers. The trial stops at genuine cleanup_files(preserve=1); full compile remains incomplete.",
-  "observed_gap": "No current shared gap; reconstruct driver cleanup next.",
+  "observed_gap": "No current shared gap. Next delete_temporary helper will execute file removal; unknown API error effects remain unclaimed.",
   "current_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/orchestrator-review.json",
     "sha256": "43f2c497cf393901be08a4d417e848163d2b5d69ca70d446d5417f453e4effa7",
@@ -320,5 +335,5 @@
     "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed."
   },
   "dependency_observation": "dependency-boundary-2.json",
-  "whole_text_extent_percent": 71.48253068932956
+  "whole_text_extent_percent": 72.31140488930858
 }

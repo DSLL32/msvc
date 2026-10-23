@@ -28,6 +28,7 @@ PARAMETERS={
  'execute_pass':[('mode','signed'),('pass','pass'),('name','string'),('environment','string'),('args','vector')],
  'unload_pass':[('pass','pass')],
  'cleanup_files':[('preserve','signed')],
+ 'delete_temporary':[('kind','signed')],
  'quoted_length':[('text','string')],
  'quote_argument':[('out','output_buffer'),('text','string')],
  'expanded_length':[('text','string'),('state','driver')],
@@ -273,11 +274,12 @@ def snapshot(read,context):
     assert context['globals']['ir_prefix']==driver_address+32,'driver temporary/IR-prefix storage alias differs'
     if 'compiler_passes_address' in context:
         fields['compiler_passes']=memory.passes(context['compiler_passes_address'])
-    if symbol in ('unload_pass','cleanup_files'):
+    if symbol in ('unload_pass','cleanup_files','delete_temporary'):
         base=context['compiler_passes_address'];index=1 if symbol=='unload_pass' else 3
         record=base+36*index
         if symbol=='unload_pass':assert context['arguments'][0]==record,'unload argument is not C1 pass'
-        else:assert context['arguments']==[1],'unknown successful cleanup argument'
+        elif symbol=='cleanup_files':assert context['arguments']==[1],'unknown successful cleanup argument'
+        else:assert context['arguments']==[0],'unknown initial cleanup suffix index'
         assert memory.word_reads[(driver_address,11)][2]==record,'pass/current-driver alias differs'
         identity=context['compiler_module']
         assert identity['sha256']=='7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d'
@@ -288,6 +290,15 @@ def snapshot(read,context):
         fields['execution_aliases']={'pass_index':index,'pass_is_current':True,'active_pass_is_current':True,
                                     'interrupted':interrupted,'pass_running':running}
         fields['dependency_crt']=dependency_crt(memory,context['crt_addresses'],after_child=index==3)
+    if symbol=='delete_temporary':
+        rows=[]
+        for index in range(8):
+            pointer,per_input=memory.words(context['temporary_suffixes_address']+8*index,2)
+            if index==7:
+                assert (pointer,per_input)==(0,0),'cleanup suffix sentinel differs'
+            else:rows.append({'suffix':memory.string(pointer),'per_input':per_input})
+        assert rows==[{'suffix':name,'per_input':int(name!='lk')}for name in ('ex','sy','gl','in','st','db','lk')]
+        fields['temporary_suffixes']=rows
     if symbol=='execute_pass':
         mode,record,name,environment,argv=context['arguments']
         base=context['compiler_passes_address'];assert base<=record<base+180 and (record-base)%36==0
@@ -347,13 +358,14 @@ def original_context(directory,address,stack):
     symbol=record['native_symbol'];parameters=PARAMETERS[symbol]
     context={'symbol':symbol,'arguments':list(stack[1:1+len(parameters)]),
         'globals':{**SCALARS,**POINTERS},'rule_base':0x406340,'compiler_passes_address':0x4090a8}
+    if symbol=='delete_temporary':context['temporary_suffixes_address']=0x406300
     if symbol=='run_passes':context['callbacks']={'final_pass':next(row['start']for row in index['driver']if row['name']=='_final_pass')}
     if symbol=='write_message':context['varargs']=list(stack[3:])
     if (directory/'mb-state.bin').exists():
         mb=(directory/'mb-state.bin').read_bytes();crt=(directory/'crt-state.bin').read_bytes()
         assert len(mb)==261 and all(not flag&4 for flag in mb[5:133]),'unreviewed ASCII lead-byte state'
         context['crt_mb']={'codepage':struct.unpack_from('<I',mb)[0],'mb_cur_max':struct.unpack_from('<I',crt,12)[0]}
-    if symbol in ('unload_pass','cleanup_files'):
+    if symbol in ('unload_pass','cleanup_files','delete_temporary'):
         import re
         from binary import PE
         from dependency_packet import exports,C1_SHA
@@ -376,7 +388,7 @@ def original_context(directory,address,stack):
         assert words[0]==crt.base==0x78000000 and words[22]==c1.base==0x10600000
         assert words[21]==(0x4090cc if symbol=='unload_pass' else 0x409114)
         if symbol=='unload_pass':assert stack[1]==words[21]
-        else:assert stack[1]==1 and words[20]==0
+        else:assert stack[1]==(1 if symbol=='cleanup_files' else 0) and words[20]==0
         context['crt_mb']={'codepage':words[6],'mb_cur_max':words[5]}
         assert ce['_InvokeCompilerPass@12']=={'ordinal':2,'rva':0x12229}
         assert ce['_AbortCompilerPass@4']=={'ordinal':1,'rva':0x43975}
@@ -414,10 +426,11 @@ def capture_native(directory,gdb):
         'globals':{name:int(gdb.parse_and_eval('(unsigned)&'+('driver_storage.temporary' if name=='ir_prefix' else name))) for name in [*SCALARS,*POINTERS]}}
     context['rule_base']=int(gdb.parse_and_eval('(unsigned)option_rules'))
     context['compiler_passes_address']=int(gdb.parse_and_eval('(unsigned)compiler_passes'))
+    if symbol=='delete_temporary':context['temporary_suffixes_address']=int(gdb.parse_and_eval('(unsigned)temporary_suffixes'))
     if symbol=='run_passes':context['callbacks']={'final_pass':int(gdb.parse_and_eval('(unsigned)final_pass'))}
     context['crt_mb']={name:int(gdb.parse_and_eval(expression)) for name,expression in
         [('codepage','recon_mb_codepage'),('mb_cur_max','recon_mb_cur_max')]}
-    if symbol in ('unload_pass','cleanup_files'):
+    if symbol in ('unload_pass','cleanup_files','delete_temporary'):
         value=lambda expression:int(gdb.parse_and_eval(expression))&0xffffffff
         context['compiler_module']={'sha256':gdb.parse_and_eval('((NativeModule *)cl_c1_module)->sha256').string(),
             'module':value('(unsigned)cl_c1_module'),'invoke':value('(unsigned)invoke_compiler_pass'),

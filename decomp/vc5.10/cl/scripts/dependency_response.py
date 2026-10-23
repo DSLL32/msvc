@@ -120,7 +120,10 @@ def decode(directory):
     assert digest(read('config.json')) == capture['config_sha256']
     assert '_execute_pass' in config['accepted']
     full_stage='_unload_pass'in config['accepted']
-    assert not full_stage or '_cleanup_files'not in config['accepted'],'later cleanup frontier not implemented in this response contract'
+    cleanup_stage='_cleanup_files'in config['accepted']
+    assert not cleanup_stage or '_delete_temporary'not in config['accepted'],'later deletion frontier not implemented in this response contract'
+    next_address='00404f6f' if cleanup_stage else '00404ed1' if full_stage else '004054ec'
+    next_frontier='delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
     phases_expected=CHILD_PHASES if full_stage else PHASES
     masked = construct(config)
     assert capture['target_sha256'] == TARGET_SHA
@@ -141,7 +144,7 @@ def decode(directory):
         assert digest(read(item['name'])) == item['sha256'] and len(read(item['name'])) == item['bytes']
     events = read('observer/events.txt').decode('ascii')
     target_events = read('events.txt').decode('ascii')
-    assert re.findall(r'^trap .*address=([0-9a-f]{8}) ', target_events, re.M) == ['00404ed1'if full_stage else'004054ec']
+    assert re.findall(r'^trap .*address=([0-9a-f]{8}) ', target_events, re.M) == [next_address]
     assert re.findall(r'^exit .*status=(\d+)$', target_events, re.M) == ['28673'], 'missing controlled trap-stop exit'
     assert not re.search(r'analysis-stop|exception ', target_events)
     assert 'analysis-stop' not in events
@@ -152,6 +155,8 @@ def decode(directory):
     phases, contexts = {}, {}
     for name in phases_expected:
         phases[name], contexts[name] = phase_snapshot(directory, read, name, errors[name])
+    if cleanup_stage:
+        assert u32(read('observer/frontier-stack.bin'),4)==0,'unexpected first temporary suffix index'
     assert [phases[name]['event'] for name in phases_expected] == sorted(phases[name]['event'] for name in phases_expected)
     c1 = PE(directory / 'observer/loaded-c1.bin')
     assert c1.base == 0x10600000 and c1.entry == 0x1202a
@@ -235,13 +240,14 @@ def decode(directory):
             'post_ctype_hex': read('observer/invoke-after-ctype.bin').hex(),
             'lowio_flags': [read('observer/invoke-before-lowio-0.bin')[36 * index + 4] for index in range(3)],
             'outputs': ir, 'sequence': [0, 1, 2,3]if full_stage else[0,1,2],
-            'next_frontier': 'cleanup_files'if full_stage else'unload_pass',
+            'next_frontier': next_frontier,
             'decoder_sha256': digest(Path(__file__).read_bytes())}
-    if full_stage:result['child']=child_response(directory,read,capture,events,phases,contexts,ir,prefix)
+    if full_stage:result['child']=child_response(directory,read,capture,events,phases,contexts,ir,prefix,
+                                               frontier_argument=0 if cleanup_stage else 1)
     return result
 
 
-def child_response(directory,read,capture,events,phases,contexts,ir,prefix):
+def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument):
     after=phases['invoke-after']
     assert phases['free-before']['pass_words'][5:8]==after['pass_words'][5:8]
     for phase in ('free-before','c1-entry-0','free-after'):
@@ -286,7 +292,7 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix):
                  'crt_environment_sha256','os_environment_sha256','mb_state_sha256','ctype_sha256','file0_2_words','streams'):
         assert before[name]==after[name]==frontier[name],'unreviewed child/frontier state: '+name
     assert not frontier['argv'] and frontier['argument_vector']==0 and frontier['pass_words'][5:8]==[0,0,0]
-    assert struct.unpack_from('<I',read('context.bin'),208)[0]==1,'unexpected cleanup preserve argument'
+    assert struct.unpack_from('<I',read('context.bin'),208)[0]==frontier_argument,'unexpected cleanup/helper argument'
     for name,record in ir.items():
         assert capture['files']['observer/c2-input/'+name]==record==capture['files'][name]
     assert read('observer/c2-output/test.obj')==read('test.obj') and len(read('test.obj'))==275

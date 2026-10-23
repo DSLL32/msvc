@@ -26,7 +26,7 @@ Job *next_jobs(Driver *state, PendingWork *pending) { __asm int 3
 Job *advance_jobs(Job *jobs) { __asm int 3
     return NULL;
 }
-void cleanup_files(int preserve) { __asm int 3 }
+void delete_temporary(int kind) { __asm int 3 }
 int link_pass(Driver *state) { __asm int 3
     return 0;
 }

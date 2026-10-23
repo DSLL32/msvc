@@ -78,7 +78,7 @@ def run(original,native):
     original_negative('actual original BOOL differs',{'observer/invoke-before-stack.bin':lambda b:integer(b,8,0)})
     original_negative('actual original execution globals differ',{'observer/invoke-before-execution-words.bin':lambda b:integer(b,0,1)})
     original_negative('actual original argument bytes differ',{'observer/invoke-before-caller-argv.bin':lambda b:b.replace(b'test.c',b'jest.c')})
-    frontier_address=0x404ed1 if 'child' in response else 0x4054ec
+    frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f}[response['next_frontier']]
     original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(('address=%08x'%frontier_address).encode(),('address=%08x'%(frontier_address+1)).encode())})
     original_negative('actual original IR copies disagree',{'observer/c1-output/'+next(iter(response['outputs'])):lambda b:b+b'x'})
     original_negative('unobserved extra Invoke',{'observer/events.txt':lambda b:b+b'invoke-call argc=26 argv=00000001 last=1 function=10612229 esp=0031f574\n'})
@@ -91,6 +91,8 @@ def run(original,native):
         original_negative('actual backend DOS error effect omitted',{'mktemp-spawn-after-ptd.bin':lambda b:integer(b,12,2)})
         original_negative('backend assignment trailing space omitted',{'observer/putenv-2-before-assignment.bin':lambda b:b[:-2]+b'\0'})
         original_negative('backend insertion loses old string identity',{'observer/putenv-2-after-crt-environment.bin':lambda b:integer(b,8,1)})
+    if response['next_frontier']=='delete_temporary':
+        original_negative('actual helper suffix index differs',{'observer/frontier-stack.bin':lambda b:integer(b,4,1)})
     request_negative('actual BOOL argument changed',lambda f:f.update(last=0))
     request_negative('actual frontend input changed',lambda f:f['argv']['strings'].__setitem__(4,'other.c'))
     request_negative('actual argv pointer alias changed',lambda f:f['argv']['pointers'].__setitem__(1,1))
@@ -171,6 +173,16 @@ def run(original,native):
     memory_negative('post-Invoke active pass differs',context['execution_addresses']['active_pass'],struct.pack('<I',0))
     memory_negative('post-Invoke codepage reset',crt['mb_codepage'],struct.pack('<I',0))
     memory_negative('post-Invoke ctype byte differs',struct.unpack('<I',bytes(backing[crt['pctype_slot']+i]for i in range(4)))[0],b'\xff')
+    if response['next_frontier']=='delete_temporary':
+        table=context['temporary_suffixes_address']
+        memory_negative('actual suffix role differs',table+4,struct.pack('<I',0))
+        pointer=struct.unpack('<I',bytes(backing[table+i]for i in range(4)))[0]
+        memory_negative('actual suffix literal differs',pointer,b'x')
+        memory_negative('actual suffix sentinel differs',table+56,struct.pack('<I',1))
+        changed=copy.deepcopy(context);changed['arguments']=[1]
+        try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
+        except AssertionError:passed.append('actual helper formal differs')
+        else:raise AssertionError('helper formal mutation was accepted')
     assert verify(native)==actual,'mutations were not fully restored'
     print(json.dumps({'result':'PASS','actual_next_frontier':response['next_frontier'],'IR_files':4,
                       'negatives':len(passed),'seconds':time.perf_counter()-started}))

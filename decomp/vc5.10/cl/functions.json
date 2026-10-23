@@ -86,7 +86,8 @@
     "_quote_argument",
     "_append_text",
     "_execute_pass",
-    "_unload_pass"
+    "_unload_pass",
+    "_cleanup_files"
   ],
   "driver": [
     {
@@ -1094,9 +1095,9 @@
     {
       "name": "_cleanup_files",
       "start": 4214481,
-      "end": 4214482,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
+      "end": 4214639,
+      "pending_extent": false,
+      "state": "implemented; fresh candidate proof pending",
       "native_symbol": "cleanup_files",
       "abi": {
         "calling_convention": "cdecl",
@@ -1109,9 +1110,24 @@
         ],
         "hidden_register_arguments": [],
         "callee_stack_cleanup": 0,
-        "evidence": "Caller run_jobs passes literal1 at the reached successful source-job cleanup branch; cleanup entry reads sole stack argument. Exact body reconstruction remains pending."
+        "evidence": "Complete158-byte body reads sole preserve stack argument; EBX/ESI/EDI saved then assigned before use; pushed ECX values reserve local storage only. No hidden inputs; RET0."
       },
-      "input_observation": "Next candidate may reach this frontier; actual formal and all consumed global/list/file state must be decoded before promotion."
+      "input_observation": {
+        "kind": "actual preceding unload candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2-native",
+        "owned_archive": "cases/minimal-c/unload-pass-proof.tar.gz",
+        "scope": "Actual preserve1 plus full driver/job/input state, pass/execution aliases, CRT/OS/FILE and canonical provider state independently decoded."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete cleanup body and contextual suffix table reconstruction",
+        "range": [
+          "0x404ed1",
+          "0x404f6f"
+        ],
+        "data": "Seven typed suffix/per-input records plus NULL/0 sentinel at406300..406340; literals inline in driver.c."
+      }
     },
     {
       "name": "_find_file",
@@ -1231,6 +1247,33 @@
           "0x40550d"
         ],
         "behavior": "If module is nonNULL, call qualified kernel32!FreeLibrary(module), then clear module/invoke/abort. Ignore BOOL result; preserve cdecl caller cleanup and ESI."
+      }
+    },
+    {
+      "name": "_delete_temporary",
+      "native_symbol": "delete_temporary",
+      "start": 4214639,
+      "end": 4214746,
+      "pending_extent": false,
+      "state": "named INT3 frontier",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "kind",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete107-byte original body reads sole kind argument atEBP+8; no register read before assignment; locals1024-byte filename buffer."
+      },
+      "input_observation": {
+        "kind": "actual preceding cleanup candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-2-native",
+        "scope": "Actual kind0 plus all eight suffix records/strings, driver current input/job/temporary and persistent CRT/OS/FILE/module state captured; no hidden register inputs."
       }
     }
   ],

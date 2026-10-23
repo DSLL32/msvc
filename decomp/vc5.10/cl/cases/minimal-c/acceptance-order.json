@@ -241,6 +241,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/pair.json",
         "sha256": "cfef3984ac67c6e38afa0ec762b3562727d3e3896f3d41bbc54778aa873ddba8"
       }
+    },
+    {
+      "order": 25,
+      "candidate": "_cleanup_files",
+      "class": "application",
+      "extent_bytes": 158,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-2/pair.json",
+        "sha256": "c18a30c13039910d0aba263d0efa1bd7c67924e799234e3f29ed74ce91212000"
+      }
     }
   ]
 }

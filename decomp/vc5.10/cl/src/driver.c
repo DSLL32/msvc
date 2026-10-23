@@ -10,6 +10,43 @@ static char mre_error[1024];
 int interrupted, pass_running;
 CompilerPass *active_pass;
 
+/* 00406300: the frontend/backend's per-input files, then linker scratch. */
+TemporarySuffix temporary_suffixes[8] = {
+    { "ex", 1 }, { "sy", 1 }, { "gl", 1 }, { "in", 1 },
+    { "st", 1 }, { "db", 1 }, { "lk", 0 }, { NULL, 0 }
+};
+
+/* 00404ed1..00404f6f: preserve global scratch between source files. */
+void cleanup_files(int preserve)
+{
+    Input *saved;
+    Job *job;
+    int kind;
+    if (bk_requested || !driver->temporary)
+        return;
+    saved = driver->current_input;
+    for (kind = 0; temporary_suffixes[kind].suffix; ++kind) {
+        if (preserve) {
+            if (!temporary_suffixes[kind].per_input)
+                continue;
+        } else if (temporary_suffixes[kind].per_input) {
+            if (!saved)
+                continue;
+            if (driver->current_jobs) {
+                for (job = driver->current_jobs; job; job = job->next) {
+                    driver->current_input = job->input;
+                    delete_temporary(kind);
+                }
+                continue;
+            }
+            driver->current_input = saved;
+        } else
+            driver->current_input = NULL;
+        delete_temporary(kind);
+    }
+    driver->current_input = saved;
+}
+
 /* 004054ec..0040550d: release the loaded pass and invalidate its cached exports. */
 void unload_pass(CompilerPass *pass)
 {

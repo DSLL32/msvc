@@ -631,7 +631,7 @@ int main(int argc,char **argv)
                     if (stack[1]!=dependency_pass) return 111;
                     dependency_state("frontier",teb,event.dwThreadId,&context,input,out,err);
                 }
-                if (dependency_response && address==target_base+0x4ed1) {
+                if (dependency_response && (address==target_base+0x4ed1 || address==target_base+0x4f6f)) {
                     DWORD saved_argv=dependency_argv,state;
                     /* execute_pass's child_args is no longer live here. */
                     dependency_argv=0;
