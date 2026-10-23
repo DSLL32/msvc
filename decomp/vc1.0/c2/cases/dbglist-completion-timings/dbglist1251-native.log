@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/debug-frontier.py", line 74, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/debug-frontier.py", line 33, in main
+    assert not reference['logical'].startswith('exit:'), 'Complete cases use the native trace/stream/status/object check'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Complete cases use the native trace/stream/status/object check

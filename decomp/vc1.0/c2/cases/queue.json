@@ -1,5 +1,5 @@
 {
-  "active": "debug-asm-listing",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -403,11 +403,42 @@
       "exit": 0,
       "object_bytes": 1554,
       "normalized_sha256": "cf8da121524ed69c6564373078cc43e866ad4d93fc5e74dc679a844eac03256a"
+    },
+    {
+      "case": "debug-asm-listing",
+      "accepted_frontiers": 1251,
+      "reconstructed_functions": 1141,
+      "exit": 0,
+      "object_bytes": 2280,
+      "listing_bytes": 7635,
+      "pdb_bytes": 564,
+      "normalized_sha256": "91d647df04590819875175d14a963ffb9b2a0ab54c8aab8abce828de1814a5fd",
+      "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Approved debug/listing source frozen and original-validated; pending SetStdHandle shim transition validation at1148, then actual CodeView app frontier.",
-  "next_case_proposals": [],
-  "current_runtime_frontier": "import:SetStdHandle",
+  "status": "All14 registered cases complete; next OMF single-case proposal pending root review.",
+  "next_case_proposals": [
+    {
+      "case": "omf-typed-debug",
+      "status": "pending root review",
+      "flags": [
+        "/omf",
+        "/c",
+        "/Od",
+        "/G3",
+        "/Z7"
+      ],
+      "purpose": "Broad OMF serializer, relocatable typed data and CodeView output through externally observable functions/static pointer data/typed local scopes/inlineasm local labels.",
+      "analysis_envelope": {
+        "start": "0x6a350",
+        "end": "0x6bd10",
+        "bytes": 6592,
+        "status": "Envelope only; body extents/reachability not proved"
+      },
+      "validation": "Untouched original CL support and actual child transport first; standalone original C2 must reproduce full object/streams/status and complete artifact inventory before freezing. No new acceptance credited by proposal."
+    }
+  ],
+  "current_runtime_frontier": null,
   "historical_proposals": [
     {
       "case": "G3 rematerialization across deep calls",

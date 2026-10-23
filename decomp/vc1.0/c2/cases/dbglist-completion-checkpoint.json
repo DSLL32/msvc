@@ -1,0 +1,203 @@
+{
+  "checkpoint": 1251,
+  "previous_checkpoint": 1250,
+  "status": "complete",
+  "new_application": [
+    {
+      "name": "@coff_write_lines@8",
+      "start": 454720,
+      "end": 454920,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "contribution",
+            "location": "ECX",
+            "type": "CoffContribution pointer"
+          },
+          {
+            "name": "base",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-coff-write-lines-abi/validation.json"
+      }
+    }
+  ],
+  "new_extent_bytes": 200,
+  "excluded_alignment": [
+    "0x6f108",
+    "0x6f110"
+  ],
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1251,
+    "accepted_code_bytes": 336432,
+    "original_code_bytes": 399693,
+    "percentage": 84.17260247239757,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 601
+  },
+  "application_graphs": 1141,
+  "all_native_cases": 14,
+  "debug_case": {
+    "profile": "dbglist",
+    "terminal": "exit:0",
+    "returncode": 0,
+    "application_entries": 74,
+    "seeded_entries": 1062,
+    "output": {
+      "artifacts": [
+        {
+          "name": "dbglist.obj",
+          "bytes": 2280,
+          "normalized_sha256": "91d647df04590819875175d14a963ffb9b2a0ab54c8aab8abce828de1814a5fd",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        {
+          "name": "dbglist.cod",
+          "bytes": 7635,
+          "normalized_sha256": "b0f0ca713d195c33e15a62461cc845d8f27bd821863f32e317aacb7cab2139aa",
+          "ignored_timestamp": []
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 564,
+          "normalized_sha256": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570",
+          "ignored_timestamp": []
+        }
+      ]
+    },
+    "setup_seconds": 0.01425127498805523,
+    "execution_seconds": 0.008506462909281254,
+    "check_seconds": 0.0023697195574641228,
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hknole1e/dbglist"
+  },
+  "artifact_policy": "Exact inventory/streams/status, object timestamp offset4 size4 only; dbglist.cod CRLF and whole msvc.pdb exact, PDB equals immutable564-byte preinput. No clock or pointer normalization added.",
+  "graph_report_sha256": "50907a6b0a07a9eab95773de0949ab2502638002a3fc8c6584069e1da9f19d89",
+  "native_validation_sha256": "011d4a07376d74326a26b012196f26e8a9eab013077c60ddfb1cfa94d5ef0ee4",
+  "remaining_inventory": "cases/remaining-code-inventory.json",
+  "actual_abi": "cases/dbglist-coff-write-lines-abi/validation.json",
+  "control_evidence": "cases/coff-write-lines-validation.json",
+  "timings": {
+    "dbglist1251-W3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "coff-finalize"
+      ],
+      "seconds": 2.1986837117001414,
+      "returncode": 0,
+      "log_sha256": "70f6f16cd3267e6cae719f3e7f6263f52639820ba3252619378440a290a8ac88"
+    },
+    "dbglist1251-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.606082746759057,
+      "returncode": 0,
+      "log_sha256": "6a62a83808efc36ad526b14e35aab9025b832493a89ed3aab94eb46d4d9ae34d"
+    },
+    "dbglist1251-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1250.json",
+        "--extend-after",
+        "cases/dbglist-original-1251.json"
+      ],
+      "seconds": 0.3313278816640377,
+      "returncode": 0,
+      "log_sha256": "89e9f3ed5e3a9e973e73f0dc6906572ed5eff64364a85f23ab69ee3c451ba95c"
+    },
+    "dbglist1251-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-coff-lines-entry.py"
+      ],
+      "seconds": 2.1892233565449715,
+      "returncode": 0,
+      "log_sha256": "a677bd0ef199cce7f177fb87e33491ff5c1d318e6e5458d8330889da58583b2b"
+    },
+    "dbglist1251-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 12.39216781873256,
+      "returncode": 0,
+      "log_sha256": "3c82f73cba259c5fccf77362bf750f68f39c924f658811f18ef7ac4e9a3b3765"
+    },
+    "dbglist1251-native-all-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 2.3665943425148726,
+      "returncode": 0,
+      "log_sha256": "5c258b95348ccddc4d707d30bedf63ebf48fabece0e3e7133f884841b5cfa586"
+    },
+    "dbglist1251-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1251.json"
+      ],
+      "seconds": 0.08061892818659544,
+      "returncode": 1,
+      "log_sha256": "6db993d122d8950162f96bd5edf5efc980fbc70f40e860c85c06d64ddae84dce"
+    },
+    "dbglist1251-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.7630821969360113,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "dbglist1251-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1251.json"
+      ],
+      "seconds": 1.9021377619355917,
+      "returncode": 0,
+      "log_sha256": "a92d275e9877c5a1f8b2511be8d7a2ac36b8765ffb992d336bc41295ad8831ff"
+    }
+  },
+  "limits": "Actual ECX contribution/EDX0, section.last identity, ring26 lines and symbol-vector indexed auxiliary owners12/23 observed before body. Whole200-byte C retains line-zero handles, debug low-bytebit0, byte positions, exact6-byte fwrite count/order and original free-list splice.160 original/canonical shapes include rings/full/empty blocks, signed count condition, wraparound, changing globals through child mocks and short-write diagnostic requests. Mocks do not independently accept CRT/vector/error behavior or real error branches; complete actual artifacts provide end-to-end oracle. No new handwritten CRT; pre-existing5 runtime.c overrides inventoried read-only to root.",
+  "failed_attempt": "debug-frontier invoked after original exited0 and correctly rejected because it requires a named trap. No native program run or false match claimed from that invocation; native cache then extended with terminal exit0 and native full fixture/artifact suite passed.",
+  "unmeasured": "Analysis/edit wall time unmeasured. Native/canonical build2.606s combined unsplit. Audit12.392s includes ABI/storage/160 controls, not Rust-only graph time. Original/reference and native fixture receipts split setup/execution/check separately. Failed helper invocation .081s retained."
+}

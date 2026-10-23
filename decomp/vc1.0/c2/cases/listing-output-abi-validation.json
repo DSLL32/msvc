@@ -14,7 +14,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5ade8",
+          "address": "0x5af08",
           "stack_bytes": 0
         }
       ],
@@ -31,7 +31,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5ae50",
+          "address": "0x5af70",
           "stack_bytes": 0
         }
       ],
@@ -48,7 +48,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5ae84",
+          "address": "0x5afa4",
           "stack_bytes": 0
         }
       ],
@@ -81,7 +81,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5af0b",
+          "address": "0x5b02b",
           "stack_bytes": 0
         }
       ],
@@ -98,7 +98,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b03e",
+          "address": "0x5b15e",
           "stack_bytes": 0
         }
       ],
@@ -115,7 +115,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b190",
+          "address": "0x5b2b0",
           "stack_bytes": 0
         }
       ],
@@ -144,7 +144,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b4f8",
+          "address": "0x5b618",
           "stack_bytes": 0
         }
       ],
@@ -161,7 +161,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b52f",
+          "address": "0x5b64f",
           "stack_bytes": 0
         }
       ],
@@ -178,7 +178,7 @@
       ],
       "canonical": [
         {
-          "address": "0x573ca",
+          "address": "0x573b6",
           "stack_bytes": 0
         }
       ],
@@ -203,7 +203,7 @@
       ],
       "canonical": [
         {
-          "address": "0x575f3",
+          "address": "0x575df",
           "stack_bytes": 0
         }
       ],
@@ -220,7 +220,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b682",
+          "address": "0x5b7a2",
           "stack_bytes": 0
         }
       ],
@@ -237,7 +237,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b76a",
+          "address": "0x5b88a",
           "stack_bytes": 4
         }
       ],
@@ -274,7 +274,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5b9d4",
+          "address": "0x5baf4",
           "stack_bytes": 0
         }
       ],
@@ -307,7 +307,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5bbb0",
+          "address": "0x5bcd0",
           "stack_bytes": 0
         }
       ],
@@ -328,7 +328,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5bca6",
+          "address": "0x5bdc6",
           "stack_bytes": 0
         }
       ],
@@ -345,7 +345,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5bd5b",
+          "address": "0x5be7b",
           "stack_bytes": 0
         }
       ],
@@ -362,7 +362,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5bd7c",
+          "address": "0x5be9c",
           "stack_bytes": 0
         }
       ],
@@ -379,7 +379,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5bf91",
+          "address": "0x5c0b1",
           "stack_bytes": 0
         }
       ],
@@ -396,7 +396,7 @@
       ],
       "canonical": [
         {
-          "address": "0x13438",
+          "address": "0x13424",
           "stack_bytes": 0
         }
       ],
@@ -413,7 +413,7 @@
       ],
       "canonical": [
         {
-          "address": "0x16617",
+          "address": "0x16603",
           "stack_bytes": 0
         }
       ],
@@ -434,7 +434,7 @@
       ],
       "canonical": [
         {
-          "address": "0x16ca4",
+          "address": "0x16c90",
           "stack_bytes": 0
         }
       ],
@@ -451,7 +451,7 @@
       ],
       "canonical": [
         {
-          "address": "0x171f4",
+          "address": "0x171e0",
           "stack_bytes": 4
         }
       ],
@@ -472,7 +472,7 @@
       ],
       "canonical": [
         {
-          "address": "0x17249",
+          "address": "0x17235",
           "stack_bytes": 0
         }
       ],
@@ -489,7 +489,7 @@
       ],
       "canonical": [
         {
-          "address": "0x16cdc",
+          "address": "0x16cc8",
           "stack_bytes": 0
         }
       ],
@@ -518,7 +518,7 @@
       ],
       "canonical": [
         {
-          "address": "0x53826",
+          "address": "0x53812",
           "stack_bytes": 4
         }
       ],
@@ -535,7 +535,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57683",
+          "address": "0x5766f",
           "stack_bytes": 16
         }
       ],
@@ -564,7 +564,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5c1ea",
+          "address": "0x5c30a",
           "stack_bytes": 4
         }
       ],
@@ -581,7 +581,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58a6b",
+          "address": "0x58b8b",
           "stack_bytes": 0
         }
       ],
@@ -598,7 +598,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58c51",
+          "address": "0x58d71",
           "stack_bytes": 0
         }
       ],
@@ -619,7 +619,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58d57",
+          "address": "0x58e77",
           "stack_bytes": 0
         }
       ],
@@ -636,7 +636,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58e00",
+          "address": "0x58f20",
           "stack_bytes": 0
         }
       ],
@@ -657,7 +657,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58e6a",
+          "address": "0x58f8a",
           "stack_bytes": 0
         }
       ],
@@ -674,7 +674,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58f6e",
+          "address": "0x5908e",
           "stack_bytes": 0
         }
       ],
@@ -695,7 +695,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58fe7",
+          "address": "0x59107",
           "stack_bytes": 0
         }
       ],
@@ -724,7 +724,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5916d",
+          "address": "0x5928d",
           "stack_bytes": 0
         }
       ],
@@ -741,7 +741,7 @@
       ],
       "canonical": [
         {
-          "address": "0x59271",
+          "address": "0x59391",
           "stack_bytes": 0
         }
       ],
@@ -758,7 +758,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5a54d",
+          "address": "0x5a66d",
           "stack_bytes": 4
         }
       ],
@@ -779,7 +779,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5a472",
+          "address": "0x5a592",
           "stack_bytes": 0
         }
       ],
@@ -796,7 +796,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5a36f",
+          "address": "0x5a48f",
           "stack_bytes": 0
         }
       ],
@@ -853,7 +853,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5a2d4",
+          "address": "0x5a3f4",
           "stack_bytes": 0
         }
       ],
@@ -870,7 +870,7 @@
       ],
       "canonical": [
         {
-          "address": "0x59f62",
+          "address": "0x5a082",
           "stack_bytes": 0
         }
       ],
@@ -887,7 +887,7 @@
       ],
       "canonical": [
         {
-          "address": "0x59c75",
+          "address": "0x59d95",
           "stack_bytes": 4
         }
       ],
@@ -908,7 +908,7 @@
       ],
       "canonical": [
         {
-          "address": "0x597f5",
+          "address": "0x59915",
           "stack_bytes": 4
         }
       ],
@@ -937,7 +937,7 @@
       ],
       "canonical": [
         {
-          "address": "0x59714",
+          "address": "0x59834",
           "stack_bytes": 0
         }
       ],
@@ -954,7 +954,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5969c",
+          "address": "0x597bc",
           "stack_bytes": 0
         }
       ],
@@ -975,7 +975,7 @@
       ],
       "canonical": [
         {
-          "address": "0x594a1",
+          "address": "0x595c1",
           "stack_bytes": 0
         }
       ],
@@ -992,7 +992,7 @@
       ],
       "canonical": [
         {
-          "address": "0x593d2",
+          "address": "0x594f2",
           "stack_bytes": 0
         }
       ],
@@ -1021,7 +1021,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5932c",
+          "address": "0x5944c",
           "stack_bytes": 0
         }
       ],
@@ -1038,7 +1038,7 @@
       ],
       "canonical": [
         {
-          "address": "0x55407",
+          "address": "0x553f3",
           "stack_bytes": 0
         }
       ],
@@ -1055,7 +1055,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57931",
+          "address": "0x5791d",
           "stack_bytes": 8
         }
       ],
@@ -1076,7 +1076,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5546b",
+          "address": "0x55457",
           "stack_bytes": 0
         }
       ],
@@ -1093,7 +1093,7 @@
       ],
       "canonical": [
         {
-          "address": "0x577ca",
+          "address": "0x577b6",
           "stack_bytes": 0
         }
       ],
@@ -1110,7 +1110,7 @@
       ],
       "canonical": [
         {
-          "address": "0x576b2",
+          "address": "0x5769e",
           "stack_bytes": 0
         }
       ],
@@ -1127,7 +1127,7 @@
       ],
       "canonical": [
         {
-          "address": "0x576fe",
+          "address": "0x576ea",
           "stack_bytes": 0
         }
       ],
@@ -1144,7 +1144,7 @@
       ],
       "canonical": [
         {
-          "address": "0x540ea",
+          "address": "0x540d6",
           "stack_bytes": 0
         }
       ],
@@ -1161,7 +1161,7 @@
       ],
       "canonical": [
         {
-          "address": "0x547ae",
+          "address": "0x5479a",
           "stack_bytes": 0
         }
       ],
@@ -1178,7 +1178,7 @@
       ],
       "canonical": [
         {
-          "address": "0x55ca1",
+          "address": "0x55c8d",
           "stack_bytes": 0
         }
       ],
@@ -1195,7 +1195,7 @@
       ],
       "canonical": [
         {
-          "address": "0x54224",
+          "address": "0x54210",
           "stack_bytes": 0
         }
       ],
@@ -1232,7 +1232,7 @@
       ],
       "canonical": [
         {
-          "address": "0x54508",
+          "address": "0x544f4",
           "stack_bytes": 0
         }
       ],
@@ -1249,7 +1249,7 @@
       ],
       "canonical": [
         {
-          "address": "0x548f3",
+          "address": "0x548df",
           "stack_bytes": 0
         }
       ],
@@ -1266,7 +1266,7 @@
       ],
       "canonical": [
         {
-          "address": "0x54a13",
+          "address": "0x549ff",
           "stack_bytes": 0
         }
       ],
@@ -1295,7 +1295,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5944a",
+          "address": "0x5956a",
           "stack_bytes": 0
         }
       ],
@@ -1312,7 +1312,7 @@
       ],
       "canonical": [
         {
-          "address": "0x54ae3",
+          "address": "0x54acf",
           "stack_bytes": 0
         }
       ],
@@ -1329,7 +1329,7 @@
       ],
       "canonical": [
         {
-          "address": "0x54c41",
+          "address": "0x54c2d",
           "stack_bytes": 0
         }
       ],
@@ -1346,7 +1346,7 @@
       ],
       "canonical": [
         {
-          "address": "0x53f8f",
+          "address": "0x53f7b",
           "stack_bytes": 0
         }
       ],
@@ -1363,7 +1363,24 @@
       ],
       "canonical": [
         {
-          "address": "0x15419",
+          "address": "0x15405",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@coff_write_lines@8",
+      "original": [
+        {
+          "address": "0x6f107",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57a51",
           "stack_bytes": 0
         }
       ],
@@ -1371,7 +1388,7 @@
       "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
     }
   ],
-  "seconds": 0.5444752564653754,
+  "seconds": 0.5266808243468404,
   "accepted_slices": [
     [
       1162,
@@ -1379,7 +1396,7 @@
     ],
     [
       1206,
-      1250
+      1251
     ]
   ],
   "word_argument": "coff_write_word original6eff3 storesCX; original/native frontier observed65529, source unsigned short parameter preserves low16 bits",

@@ -4,6 +4,37 @@
 #include <recon.h>
 CoffScope *coff_trailer_scope; /* 000851c0: optional bytes following the string table */
 CoffObjectSymbol *coff_last_written_symbol; /* 000851dc */
+/* Original [0006f040,0006f108); the following eight bytes are alignment.
+   Line-zero entries name functions; their auxiliary record receives the
+   current line-table file offset instead of rebasing the entry's symbol id. */
+void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base)
+{
+    CoffLineBlock *last = contribution->lines, *block = last;
+    CoffLine *line;
+    CoffSymbolEntry *symbol;
+    unsigned position = contribution->lines_offset;
+    unsigned count;
+    unsigned char debug = (unsigned char)coff_debug;
+    do {
+        block = block->next;
+        line = block->entries;
+        for (count = 0; (int)count < (int)block->count; ++count, ++line) {
+            if (!line->line && (debug & 1)) {
+                symbol = coff_vector_get(coff_symbol_entries, line->location + 2);
+                ((CoffFunctionAuxiliary *)symbol->data.auxiliary)->line_offset = position;
+                debug = (unsigned char)coff_debug;
+            } else line->location += base;
+            position += sizeof(CoffLine);
+        }
+        count = block->count;
+        if (fwrite(block->entries, sizeof(CoffLine), count, coff_file) != count)
+            coff_error_handler(14, "d:\\usr\\cuda\\src\\P2\\coffemit.c", 0x9d3);
+        debug = (unsigned char)coff_debug;
+    } while (block != last);
+    block = last->next;
+    last->next = coff_free_lines;
+    coff_free_lines = block;
+}
 /* Original [0006e190,0006e220). A directory entry describes one physical
    contribution, retaining the writer's cumulative physical-address field. */
 void __fastcall coff_write_section_header(CoffContribution *contribution)

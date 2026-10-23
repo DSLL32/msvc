@@ -1254,7 +1254,8 @@
     "@write_codeview_local_data@4",
     "_write_codeview_compile_record",
     "@read_codeview_initializers@4",
-    "@release_initializer@4"
+    "@release_initializer@4",
+    "@coff_write_lines@8"
   ],
   "driver": [
     {
@@ -4346,8 +4347,25 @@
     {
       "name": "@coff_write_lines@8",
       "start": 454720,
-      "end": 454721,
-      "provisional": true
+      "end": 454920,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "contribution",
+            "location": "ECX",
+            "type": "CoffContribution pointer"
+          },
+          {
+            "name": "base",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-coff-write-lines-abi/validation.json"
+      }
     },
     {
       "name": "@input_bytes@8",

@@ -396,3 +396,16 @@ coff_write_lines6f040. Canonical graph/extent/ABI and reconstructed-body/W3 pass
 existing return-valued INT3 stubs still emit C4035 under W3 and are not disguised.
 77new bytes:336232/399693=84.1226% accepted code extent, not branch coverage.
 Full failed-attempt/timing ledger: cases/dbglist-input-release-checkpoint.json.
+
+Checkpoint1251 completes debug-asm-listing with the whole200-byte COFF line
+writer. Actual contribution/base0, circular26-record block and auxiliary owners
+12/23 match;160 original/canonical controls cover debug/address rules, rings,
+wraparound, six-byte write requests and free-list splice with explicit child
+mocks. All14 native cases now exit0 with exact streams/artifacts. Debug object
+2280 bytes matches after only its established timestamp4..7; listing7635 CRLF
+bytes and complete564-byte PDB are exact, PDB unchanged from input. Original
+compiler/W3,1141 app graphs and extent/ABI/storage checks pass. Coverage is
+336432/399693=84.1726% accepted code extent, not branch coverage. Completion,
+failed helper invocation and split timing: cases/dbglist-completion-checkpoint.json.
+Remaining inventory keeps154 pending app/support rows and54544 unclassified
+bytes separate from proven CRT; next single-case proposal is pending review.

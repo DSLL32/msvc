@@ -193,6 +193,32 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         if(node)exit(276);
         if(free_head)dump_bytes(process,"free_initializer_hex",free_head,28);
     }
+    if(!strcmp(call->name,"@coff_write_lines@8")) {
+        DWORD contribution=call->args[0],last=read_word(process,contribution+20);
+        DWORD block=read_word(process,last+4),seen=0,debug=read_word(process,image_base+0x6905c);
+        DWORD vector=read_word(process,image_base+0x751a8),section=read_word(process,contribution+4);
+        sprintf(line,"coff_lines_state last %08lx free_head %08lx debug %lu vector %08lx section %08lx owner %08lx file %08lx\n",
+            last,read_word(process,image_base+0x751cc),debug,vector,section,read_word(process,section),read_word(process,image_base+0x69064));log_line(line);
+        dump_bytes(process,"contribution_hex",contribution,56);
+        do {
+            DWORD count=read_word(process,block),i;
+            if(count>50||++seen>256)exit(277);
+            sprintf(line,"coff_lines_block address %08lx count %lu next %08lx\n",block,count,read_word(process,block+4));log_line(line);
+            dump_bytes(process,"coff_lines_hex",block+8,count*6);
+            for(i=0;i<count;++i)if((debug&1)&&!(read_word(process,block+8+i*6+4)&65535)) {
+                DWORD index=read_word(process,block+8+i*6)+2,slot=index-1;
+                DWORD capacity=read_word(process,vector+4)&65535,chunk=read_word(process,vector+24),steps=0;
+                if(!capacity||!index||index>read_word(process,vector))exit(278);
+                while(slot>=capacity){slot-=capacity;chunk=read_word(process,chunk);if(!chunk||++steps>256)exit(279);}
+                { DWORD entry=read_word(process,chunk+4+4*slot),auxiliary=read_word(process,entry+4);
+                  sprintf(line,"coff_lines_aux index %lu entry %08lx auxiliary %08lx\n",index,entry,auxiliary);log_line(line);
+                  dump_bytes(process,"coff_lines_aux_hex",auxiliary,18); }
+            }
+            if(block==last)break;
+            block=read_word(process,block+4);
+        }while(block);
+        if(block!=last)exit(280);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

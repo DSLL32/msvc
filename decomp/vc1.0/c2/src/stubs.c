@@ -148,7 +148,6 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
-void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }
 
 
