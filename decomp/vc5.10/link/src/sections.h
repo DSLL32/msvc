@@ -3,6 +3,16 @@
 #include <windows.h>
 #include "full-link.h"
 #include <recon.h>
+
+typedef struct GroupEnumerator {
+    BYTE (__stdcall *next)(struct GroupEnumerator *);
+    void (__stdcall *end)(struct GroupEnumerator *);
+    OutputSection *section;
+    ContributionGroup *current;
+} GroupEnumerator;
+typedef char GroupEnumeratorSize[(sizeof(GroupEnumerator)==16)?1:-1];
+void __stdcall initialize_group_enumerator(GroupEnumerator *,OutputSection *);
+BYTE __stdcall next_contribution_group(GroupEnumerator *);
 #ifdef __cplusplus
 extern "C" {
 #endif

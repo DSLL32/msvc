@@ -293,11 +293,11 @@ static int snapshot(DWORD address)
         }
         fprintf(events,"}");
     }
-    if((address==base+0xe700 || address==base+0xe670) || address==base+0xe620 || address==base+0xfd90 || address==base+0xfc00 || address==base+0xfbd0 || address==base+0x5e820 || address==base+0xf130 || address==base+0xef90 || address==base+0x3e170 || address==base+0x62eb0 || address==base+0x4f5b0 || address==base+0xe360 || address==base+0x48630 || address==base+0x42f50 || address==base+0xe3b0 || address==base+0x4fd80) {
+    if((address==base+0xe700 || address==base+0xe670 || address==base+0xfc40) || address==base+0xe620 || address==base+0xfd90 || address==base+0xfc00 || address==base+0xfbd0 || address==base+0x5e820 || address==base+0xf130 || address==base+0xef90 || address==base+0x3e170 || address==base+0x62eb0 || address==base+0x4f5b0 || address==base+0xe360 || address==base+0x48630 || address==base+0x42f50 || address==base+0xe3b0 || address==base+0x4fd80) {
         DWORD output;
         if(!ReadProcessMemory(process,(void *)(base+0x7efa4),&output,4,&got)||got!=4||
            !remote_string(output,value,sizeof(value)))return 0;
-        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",((address==base+0xe700 || address==base+0xe670)||address==base+0xe620||address==base+0xfd90||address==base+0xfc00||address==base+0xfbd0||address==base+0x5e820||address==base+0xf130||address==base+0xef90||address==base+0x3e170||address==base+0x62eb0||address==base+0x4f5b0||address==base+0xe360||address==base+0xe3b0||address==base+0x4fd80)?configuration_context:address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
+        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",((address==base+0xe700 || address==base+0xe670 || address==base+0xfc40)||address==base+0xe620||address==base+0xfd90||address==base+0xfc00||address==base+0xfbd0||address==base+0x5e820||address==base+0xf130||address==base+0xef90||address==base+0x3e170||address==base+0x62eb0||address==base+0x4f5b0||address==base+0xe360||address==base+0xe3b0||address==base+0x4fd80)?configuration_context:address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
         if(address==base+0x42f50) {
             unsigned char initial;
             if(!ReadProcessMemory(process,(void *)stack[1],&initial,1,&got)||got!=1||!save_memory(stack[1],1,"pack-requested-before.bin"))return 0;
@@ -310,14 +310,14 @@ static int snapshot(DWORD address)
            !save_memory(stack[1],4,"output-module-before.bin"))return 0;
         fprintf(events,",\"output_module_formals\":{\"module\":%lu,\"destination_global\":%lu,\"initial\":%lu},\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",stack[1],base+0x7f028,initial,full_link_receiver,full_link_output,full_link_initial);
     }
-    if(address==base+0x4fd80 || address==base+0xe360 || address==base+0x4f5b0 || address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670)) {
+    if(address==base+0x4fd80 || address==base+0xe360 || address==base+0x4f5b0 || address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670 || address==base+0xfc40)) {
         DWORD module=context.Esi,library,arena,header[4],kind,mp=0,lp=0;
         char filename[128];
-        if((address==base+0xe360 || address==base+0x4f5b0 || address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670)) && (!ReadProcessMemory(process,(void *)(base+0x7f028),&module,4,&got)||got!=4))return 0;
+        if((address==base+0xe360 || address==base+0x4f5b0 || address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670 || address==base+0xfc40)) && (!ReadProcessMemory(process,(void *)(base+0x7f028),&module,4,&got)||got!=4))return 0;
         if(!ReadProcessMemory(process,(void *)(module+0x64),&library,4,&got)||got!=4||
            !save_memory(module,156,"output-module.bin")||!save_memory(library,68,"output-library.bin"))return 0;
         fprintf(events,",\"module_constructor\":{\"result_slot\":%lu,\"initial\":%lu,\"module\":%lu,\"library\":%lu},\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",module_output_slot,module_output_initial,module,library,full_link_receiver,full_link_output,full_link_initial);
-        if(address==base+0xe360 || address==base+0x4f5b0 || address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670)) {
+        if(address==base+0xe360 || address==base+0x4f5b0 || address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670 || address==base+0xfc40)) {
             if(!ReadProcessMemory(process,(void *)(module+4),&mp,4,&got)||got!=4||
                !ReadProcessMemory(process,(void *)library,&lp,4,&got)||got!=4||
                !save_memory(mp,23,"output-module-name.bin")||!save_memory(lp,24,"output-library-name.bin"))return 0;
@@ -325,7 +325,7 @@ static int snapshot(DWORD address)
             if(address==base+0x4f5b0)fprintf(events,"%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4]);
             if(address==base+0xef90 || address==base+0xf130)fprintf(events,"%lu,%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4],stack[5]);
             if(address==base+0x5e820)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
-            if(address==base+0xfbd0 || (address==base+0xe700 || address==base+0xe670))fprintf(events,"%lu,%lu",stack[1],stack[2]);
+            if(address==base+0xfbd0 || (address==base+0xe700 || address==base+0xe670 || address==base+0xfc40))fprintf(events,"%lu,%lu",stack[1],stack[2]);
             if(address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620)fprintf(events,"%lu",stack[1]);
             fprintf(events,"]}");
             if(address==base+0x4f5b0 && (!save_memory(base+0x94700,4,"section-map-global.bin")||
@@ -341,7 +341,7 @@ static int snapshot(DWORD address)
             sprintf(filename,"output-%s-page.bin",kind?"library":"module");if(!save_memory(header[3],header[1]+header[2],filename))return 0;
         }
     }
-    if(address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670)) {
+    if(address==base+0x62eb0 || address==base+0x3e170 || address==base+0xef90 || address==base+0xf130 || address==base+0x5e820 || address==base+0xfbd0 || address==base+0xfc00 || address==base+0xfd90 || address==base+0xe620 || (address==base+0xe700 || address==base+0xe670 || address==base+0xfc40)) {
         DWORD map,headers;
         if(!ReadProcessMemory(process,(void *)(base+0x94700),&map,4,&got)||got!=4||
            !ReadProcessMemory(process,(void *)(base+0x94898),&headers,4,&got)||got!=4||
@@ -380,12 +380,18 @@ static int snapshot(DWORD address)
         }
         fprintf(events,"]");
     }
-    if((address==base+0xe700 || address==base+0xe670)) {
+    if((address==base+0xe700 || address==base+0xe670 || address==base+0xfc40)) {
         static const DWORD slots[]={0x7ef60,0x7ef44,0x7ef58,0x7f058,0x7f0ac,0x7f098,0x7f054,0x7f050,0x7ef00,0x7f184,0x7f134,0x7f140,0x7f068,0x7ef80,0x7f15c,0x7ef70,0x7f0c4,0x7efb8,0x7efbc};
         DWORD list[2],node,record[18],arena,header[4],value,count=0;
         DWORD name=stack[address==base+0xe670?2:1],section=stack[address==base+0xe670?1:2];
         WORD section_count;
         char filename[128],text[128];
+        if(address==base+0xfc40) {
+            if(!ReadProcessMemory(process,(void *)(context.Esp+0x34),&name,4,&got)||got!=4||
+               !save_memory(context.Esp+0x30,8,"group-finder-inputs.bin")||
+               !save_memory(stack[1],16,"group-enumerator-before.bin"))return 0;
+            fprintf(events,",\"group_enumerator_formals\":{\"enumerator\":%lu,\"section\":%lu,\"owner_stack\":%lu,\"initial_value_contract\":\"uninitialized output record; no incoming bytes consumed\"}",stack[1],stack[2],context.Esp+0x30);
+        }
         if(!remote_string(name,text,sizeof(text))||
            !ReadProcessMemory(process,(void *)(configuration_context+0x1b4),list,8,&got)||got!=8)return 0;
         fprintf(events,",\"section_group_formals\":{\"name\":%lu,\"section\":%lu,\"text\":",name,section);quoted(text);
@@ -462,7 +468,7 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || (((address==base+0xe700 || address==base+0xe670) || address==base+0xe620 || address==base+0xfd90 || address==base+0xfc00 || address==base+0xfbd0 || address==base+0x5e820 || address==base+0xf130 || address==base+0xef90 || address==base+0x3e170 || address==base+0x62eb0 || address==base+0x4f5b0 || address==base+0xe360 || address==base+0x4fd80 || address==base+0xe3b0 || address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
+    if(address==base+0x45130 || (((address==base+0xe700 || address==base+0xe670 || address==base+0xfc40) || address==base+0xe620 || address==base+0xfd90 || address==base+0xfc00 || address==base+0xfbd0 || address==base+0x5e820 || address==base+0xf130 || address==base+0xef90 || address==base+0x3e170 || address==base+0x62eb0 || address==base+0x4f5b0 || address==base+0xe360 || address==base+0x4fd80 || address==base+0xe3b0 || address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
@@ -727,14 +733,14 @@ int main(int argc, char **argv)
                         if(!before) {sprintf(filename,"section-copied-name-%u.bin",section_name_count);if(!save_memory(context.Eax,strlen(text)+1,filename)){failed=6;break;}}
                         fprintf(events,"{\"event\":\"section_name_observation\",\"index\":%u,\"before\":%d,\"site\":%lu,\"argument\":%lu,\"entry_stack\":%lu,\"stack\":%lu,\"result\":%lu,\"text\":",section_name_count,before,site,section_name_pointer,section_name_stack,context.Esp,context.Eax);quoted(text);fprintf(events,"}\n");
                         if(!before)++section_name_count;
-                    } else if(!strncmp(entries[index].name,"observe:section_resolve_",24)) {
+                    } else if(!strncmp(entries[index].name,"observe:section_resolve_",24)||!strncmp(entries[index].name,"observe:group_resolve_",22)) {
                         DWORD got;
                         int before=strstr(entries[index].name,"_call")!=NULL;
                         if(before) {
                             if(!ReadProcessMemory(process,(void *)context.Esp,&section_resolve_pointer,4,&got)||got!=4){failed=6;break;}
                             section_resolve_stack=context.Esp;
                         }
-                        if(!rearm_observer(before?"observe:section_resolve_return":"observe:section_resolve_call")){failed=6;break;}
+                        if(!rearm_observer(!strncmp(entries[index].name,"observe:group_resolve_",22)?(before?"observe:group_resolve_return":"observe:group_resolve_call"):(before?"observe:section_resolve_return":"observe:section_resolve_call"))){failed=6;break;}
                         fprintf(events,"{\"event\":\"section_resolve_observation\",\"index\":%u,\"before\":%d,\"site\":%lu,\"argument\":%lu,\"entry_stack\":%lu,\"stack\":%lu,\"result\":%lu}\n",section_resolve_count,before,site,section_resolve_pointer,section_resolve_stack,context.Esp,context.Eax);
                         if(!before)++section_resolve_count;
                     } else if(!strncmp(entries[index].name,"observe:section_end_",20)) {

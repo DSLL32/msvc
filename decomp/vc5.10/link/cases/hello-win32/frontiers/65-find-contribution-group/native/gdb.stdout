@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+initialize_group_enumerator (enumerator=0xffffcff8, section=0xf7fb11f8) at src/sections.c:82
+82	}

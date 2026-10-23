@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 421, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 398, in main
+    audit = audit_trial(args.native / 'functions.json')
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 257, in audit_trial
+    full_link_witness=full_link_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),
+        PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text(),trial)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/full-link-preservation.py", line 82, in check
+    closed_guard=check_closed_slot(original,rebuilt,map_text)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/full-link-preservation.py", line 93, in check_closed_slot
+    assert sha(rebuilt.data)==right['pe_sha256']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

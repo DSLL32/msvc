@@ -1,0 +1,25 @@
+{
+  "application_functions": 65,
+  "original_application_extent_bytes": 29383,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "fresh_original": 1,
+  "fresh_native": 1,
+  "fresh_boundary_negative_controls": 124,
+  "reused_protocol_and_preservation_controls": "Unchanged exact-hash controller/import/provider/closed-slot controls and finite semantic witnesses.",
+  "seconds": {
+    "original": 1.065066327340901,
+    "native": 0.44700551498681307,
+    "audit": 0.852940283715725,
+    "cached_help_fixture": {
+      "setup": 0.052978379651904106,
+      "execution": 0.0037557221949100494,
+      "checks": 0.0003785742446780205,
+      "total": 0.05999996978789568
+    }
+  },
+  "next_frontier": "_initialize_group_enumerator@8",
+  "actual_inputs": "enumerator=owned uninitialized16-byte finder stacklocal; section=complete exportsection; exactly2stackformals/nohidden",
+  "scope": "Whole141-byte finder reconstructed. Newly reached non-NULL section resolution returns identical exportrecord; group enumeration has not initialized or returned yet. Incoming local output bytes retained but not cross-compared.",
+  "history": "Original-helper declaration-after-statement error fixed before fresh captures. Premature prospective binding from partialbuild rejected; currentPE/MAP static counterpart binding refreshed without new original capture."
+}

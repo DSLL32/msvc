@@ -61,6 +61,32 @@ ContributionGroup *__stdcall create_contribution_group(const char *name,OutputSe
     return group;
 }
 
+ContributionGroup *__stdcall find_contribution_group(OutputSection *section,const char *name)
+{
+    GroupEnumerator enumerator;
+    ContributionGroup *group=NULL;
+    initialize_group_enumerator(&enumerator,resolve_output_section(section));
+    while (next_contribution_group(&enumerator)) {
+        if (!strcmp(enumerator.current->name,name)) {
+            group=enumerator.current;
+            break;
+        }
+    }
+    end_section_enumerator((SectionEnumerator *)&enumerator);
+    return group;
+}
+
+void __stdcall initialize_group_enumerator(GroupEnumerator *enumerator,OutputSection *section)
+{
+    __asm { int 3 }
+}
+
+BYTE __stdcall next_contribution_group(GroupEnumerator *enumerator)
+{
+    __asm { int 3 }
+    return 0;
+}
+
 OutputSection *__stdcall find_matching_output_section(OutputModule *module,const char *name,
     DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header)
 {

@@ -41,12 +41,28 @@ def compare(original,state,trap,events):
     assert state['section_initializer_this']==state['context_this']
     formals=trap['section_group_formals'];native_formals=state['section_group_formals']
     finder=state['function']=='find_contribution_group'
-    assert formals['name']==trap['stack'][2 if finder else 1]==0x4021f4
-    assert formals['section']==trap['stack'][1 if finder else 2]==left[-1]['address']
+    group_initializer=state['function']=='initialize_group_enumerator'
+    assert formals['name']==0x4021f4
+    assert formals['section']==left[-1]['address']
     assert native_formals['name'] and native_formals['section']==right[-1]['address']
     assert formals['text']==native_formals['text']=='.edata'
-    assert trap['frontier_inputs']==dict(formals=[formals['section'],formals['name']]if finder else[formals['name'],formals['section']],hidden_register_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[native_formals['section'],native_formals['name']]if finder else[native_formals['name'],native_formals['section']],hidden_register_inputs=[])
+    if group_initializer:
+        current=trap['group_enumerator_formals'];ncurrent=state['group_enumerator_formals']
+        assert current['enumerator']==trap['stack'][1]==trap['esp']+0x1c
+        assert current['section']==trap['stack'][2]==formals['section']
+        assert current['owner_stack']==trap['esp']+0x30
+        assert struct.unpack('<2I',(original/'group-finder-inputs.bin').read_bytes())==(formals['section'],formals['name'])
+        assert current['initial_value_contract']==ncurrent['initial_value_contract']=='uninitialized output record; no incoming bytes consumed'
+        assert len((original/'group-enumerator-before.bin').read_bytes())==len(bytes.fromhex(ncurrent['before']))==16
+        assert ncurrent['enumerator']==ncurrent['owner_local']and ncurrent['enumerator']
+        assert ncurrent['section']==native_formals['section']
+        assert trap['frontier_inputs']==dict(formals=[current['enumerator'],current['section']],hidden_register_inputs=[])
+        assert state['frontier_inputs']==dict(formals=[ncurrent['enumerator'],ncurrent['section']],hidden_register_inputs=[])
+    else:
+        assert formals['name']==trap['stack'][2 if finder else 1]
+        assert formals['section']==trap['stack'][1 if finder else 2]
+        assert trap['frontier_inputs']==dict(formals=[formals['section'],formals['name']]if finder else[formals['name'],formals['section']],hidden_register_inputs=[])
+        assert state['frontier_inputs']==dict(formals=[native_formals['section'],native_formals['name']]if finder else[native_formals['name'],native_formals['section']],hidden_register_inputs=[])
     assert trap['section_list']==[left[0]['address'],left[-1]['address']+68]
     assert state['section_list']==[right[0]['address'],right[-1]['address']+68]
     expected_handles=[0,1,2,3,4,5,5,5,6,7,None,None,None,None,None,None,None,None,None]
@@ -100,8 +116,10 @@ def check_calls(original,state,trap,events,left,right):
     initializers=list(pairs(events,'section_enum_observation',8))
     steps=list(pairs(events,'section_next_observation',36))
     ends=list(pairs(events,'section_end_observation',8))
-    resolutions=list(pairs(events,'section_resolve_observation',8))
-    for key,count in [('section_lookup_calls',8),('section_create_calls',8),('section_flag_calls',16),('section_enum_calls',8),('section_next_calls',36),('section_end_calls',8),('section_resolve_calls',8),('link_string_calls',10),('duplicate_calls',15)]:
+    group_initializer=state['function']=='initialize_group_enumerator'
+    resolution_count=9 if group_initializer else 8
+    resolutions=list(pairs(events,'section_resolve_observation',resolution_count))
+    for key,count in [('section_lookup_calls',8),('section_create_calls',8),('section_flag_calls',16),('section_enum_calls',8),('section_next_calls',36),('section_end_calls',8),('section_resolve_calls',resolution_count),('link_string_calls',10),('duplicate_calls',15)]:
         assert len(state[key])==count,key
     context=trap['validation_context'];ncontext=state['context_this']
     next_function=state['section_callback_addresses']['next_output_section']
@@ -178,3 +196,9 @@ def check_calls(original,state,trap,events,left,right):
         assert call['result']==duplicate['result']==right[i]['name']
         assert call['return_stack']==call['entry_stack']+8
     assert step==36
+    if group_initializer:
+        before,after=resolutions[-1];native=state['section_resolve_calls'][-1]
+        returned(before,after,(0x40e67e,0x40e683),4)
+        assert before['argument']==after['argument']==after['result']==left[-1]['address']
+        assert native['section']==native['result']==right[-1]['address']
+        assert native['return_stack']==native['entry_stack']+8

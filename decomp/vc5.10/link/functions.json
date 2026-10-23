@@ -81,7 +81,8 @@
     "_next_output_section@4",
     "_end_section_enumerator",
     "_resolve_output_section@4",
-    "_create_contribution_group@8"
+    "_create_contribution_group@8",
+    "_find_contribution_group@8"
   ],
   "driver": [
     {
@@ -1259,11 +1260,11 @@
     {
       "name": "_find_contribution_group@8",
       "start": 4253296,
-      "end": 4253297,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
-      "abi": "stdcall ContributionGroup *(OutputSection *section,const char *name); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "end": 4253437,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "abi": "stdcall ContributionGroup *(OutputSection *section,const char *name); two actual stack inputs, RET8; no hidden inputs",
+      "pending_extent": false,
       "native_symbol": "find_contribution_group"
     },
     {
@@ -2369,6 +2370,26 @@
       "pending_extent": false,
       "native_symbol": "resolve_output_section",
       "abi": "stdcall OutputSection *(OutputSection *section); one stack input, RET4; no hidden inputs"
+    },
+    {
+      "name": "_initialize_group_enumerator@8",
+      "start": 4258880,
+      "end": 4258881,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_group_enumerator",
+      "abi": "stdcall void(GroupEnumerator *enumerator,OutputSection *section); actual writable16-byte output and section input, RET8; no hidden inputs"
+    },
+    {
+      "name": "_next_contribution_group@4",
+      "start": 4258928,
+      "end": 4258929,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "next_contribution_group",
+      "abi": "stdcall BYTE(GroupEnumerator *enumerator); one actual stack input, RET4; no hidden inputs"
     }
   ],
   "text_data": [
