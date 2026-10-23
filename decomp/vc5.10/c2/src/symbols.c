@@ -54,3 +54,10 @@ C2Symbol *__fastcall lookup_global_symbol(unsigned serial)
     }
     return NULL;
 }
+
+unsigned next_symbol_serial(void)
+{
+    if (!c2_il_initial_symbol_count)
+        c2_fatal(0x37);
+    return c2_il_initial_symbol_count++;
+}

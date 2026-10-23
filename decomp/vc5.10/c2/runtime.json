@@ -204,14 +204,6 @@
     "evidence": null
   },
   {
-    "name": "_next_symbol_serial",
-    "start": 4249048,
-    "end": 4249049,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@is_constant_symbol@4",
     "start": 4538458,
     "end": 4538459,

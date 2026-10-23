@@ -166,7 +166,7 @@ def main():
                           ('compact signed extended type flag differs',lambda r:changed_compact_field(r,54,0x52)),
                           ('compact signed source line differs',lambda r:changed_compact_field(r,44,1)),
                           ('compact signed source file differs',lambda r:changed_compact_field(r,90,1))]
-        if current_state['function']in ('update_symbol_storage','lookup_global_symbol','next_symbol_serial'):
+        if current_state['function']in ('update_symbol_storage','lookup_global_symbol','next_symbol_serial','put_symbol'):
             def changed_completed_field(root,index,value,size=4):
                 import struct
                 data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);struct.pack_into('<H'if size==2 else'<I',data,index,value)
@@ -196,6 +196,32 @@ def main():
             mutations += [('global lookup returned section loses code alias',lambda r:changed_type_input(r,'selected_section_code_alias',False)),
                           ('global lookup original returned section differs',lambda r:changed_next_serial_raw(r,'selected-section','0048fb68')),
                           ('global lookup original caller identifier differs',lambda r:changed_next_serial_raw(r,'identifier','6'))]
+        if current_state['function']=='put_symbol':
+            def wrong_put_original_queue(root):
+                path=root/'o/events.txt';raw=path.read_text();raw=re.sub(r'^(put-input .* insertion=)[0-9a-f]+$',lambda m:m[1]+'004973f0',raw,flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')
+            def old_function_section(root):
+                import struct
+                data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);struct.pack_into('<I',data,36,5);changed_type_input(root,'symbol_bytes',data.hex())
+            mutations += [('put symbol loses actual scope formal',lambda r:changed_type_input(r,'formals',[{'name':'symbol','type':'C2Symbol *'}])),
+                          ('put symbol loses actual symbol formal',lambda r:changed_type_input(r,'formals',[{'name':'scope','type':'C2ScopeHash *'}])),
+                          ('put symbol scope loses global alias',lambda r:changed_type_input(r,'scope_global_alias',False)),
+                          ('put symbol scope loses caller table alias',lambda r:changed_type_input(r,'scope_caller_alias',False)),
+                          ('put symbol pending function loses symbol alias',lambda r:changed_type_input(r,'pending_function_alias',False)),
+                          ('put symbol pending insertion loses head alias',lambda r:changed_type_input(r,'pending_insertion_head_alias',False)),
+                          ('put symbol original pending insertion differs',wrong_put_original_queue),
+                          ('put symbol keeps obsolete section serial5',old_function_section),
+                          ('COMDAT section pool offset differs',lambda r:changed_type_input(r,'section_offset',680)),
+                          ('COMDAT owner loses function alias',lambda r:changed_type_input(r,'section_owner_alias',False)),
+                          ('COMDAT parent loses code section alias',lambda r:changed_type_input(r,'section_parent_code_alias',False)),
+                          ('COMDAT name loses function-name alias',lambda r:changed_type_input(r,'section_name_alias',False)),
+                          ('COMDAT group pool offset differs',lambda r:changed_type_input(r,'group_offset',768)),
+                          ('COMDAT group count differs',lambda r:changed_type_input(r,'group_bytes','00'*4+'01'+'00'*7)),
+                          ('COMDAT group typed size differs',lambda r:changed_type_input(r,'group_size',16)),
+                          ('COMDAT raw owner pointer differs',lambda r:changed_type_raw(r,'sections.bin',508)),
+                          ('COMDAT raw parent pointer differs',lambda r:changed_type_raw(r,'sections.bin',504)),
+                          ('COMDAT raw group pointer differs',lambda r:changed_type_raw(r,'sections.bin',466)),
+                          ('COMDAT raw selection differs',lambda r:changed_type_raw(r,'sections.bin',512)),
+                          ('COMDAT raw pool group count differs',lambda r:changed_type_raw(r,'pool-block.bin',768))]
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
