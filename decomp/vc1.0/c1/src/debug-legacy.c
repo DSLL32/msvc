@@ -487,3 +487,24 @@ void __stdcall write_legacy_bitfield_type(FrontendSymbol *member)
     record[2] = legacy_primitive_type_index(member->type->flags);
     write_legacy_type_record(6);
 }
+
+/* Original0x48280..0x482f5. Close a full field list with LF_INDEX,
+   reserving a new queued record for the remaining members. Enum slices
+   retain both their current position and limit; records only need position. */
+void __cdecl begin_legacy_field_continuation(unsigned char kind, void *payload,
+    unsigned first, unsigned limit)
+{
+    unsigned short *continuation = (unsigned short *)
+        ((unsigned char *)debug_record_buffer + legacy_field_bytes + 4);
+    unsigned queued;
+    continuation[0] = 0x405;
+    continuation[1] = next_debug_type_index;
+    queued = queue_debug_record(kind);
+    debug_type_records[queued].value.pointer = payload;
+    if (kind != 2) {
+        debug_type_records[queued].auxiliary = first;
+        first = limit;
+    }
+    debug_type_records[queued].index = (unsigned short)first;
+    write_legacy_type_record(legacy_field_bytes + 6);
+}

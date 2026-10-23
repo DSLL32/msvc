@@ -11,10 +11,10 @@
     {
       "case": "combined-types-literals",
       "phase": "c1",
-      "status": "active; actual original CL and two independent standalone C1 raw outputs/status/streams verified; baseline frontier capture852"
+      "status": "complete; raw original/native files/status/streams and ordered10-entry trace match at862"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "active",
+  "status": "complete; paused for user selection",
   "previous_completed_authorization": "User selected embedded CodeView /Z7 first, then both /Ob1 and /Ob2 bounded inlining cases. Complete these families, then pause."
 }

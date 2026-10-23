@@ -1,0 +1,10 @@
+18190 83 _fold_floating_binary@12
+3c4e9 55 _add_extended
+3c587 55 _multiply_extended
+3c80f 55 _compare_extended
+3c5d6 55 _divide_extended
+3c753 55 _extended_to_integer
+3c85b 9b _truncate_extended
+12310 53 _decode_escape@8
+11b00 53 _concatenate_string_literals@8
+38280 a1 _begin_legacy_field_continuation

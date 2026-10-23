@@ -863,7 +863,10 @@
     "_compare_extended",
     "_divide_extended",
     "_extended_to_integer",
-    "_truncate_extended"
+    "_truncate_extended",
+    "_decode_escape@8",
+    "_concatenate_string_literals@8",
+    "_begin_legacy_field_continuation"
   ],
   "driver": [
     {
@@ -1766,7 +1769,7 @@
     {
       "name": "_concatenate_string_literals@8",
       "start": 137984,
-      "end": 137985
+      "end": 138151
     },
     {
       "name": "_report_expected_token@8",
@@ -3555,7 +3558,7 @@
     {
       "name": "_decode_escape@8",
       "start": 140048,
-      "end": 140049
+      "end": 140860
     },
     {
       "name": "_convert_pascal_string@4",
@@ -5462,7 +5465,7 @@
     {
       "name": "_begin_legacy_field_continuation",
       "start": 295552,
-      "end": 295553
+      "end": 295670
     },
     {
       "name": "_add_extended",
@@ -5583,6 +5586,10 @@
     "inlining-ob2": {
       "accepted_from": 852,
       "accepted_count": 852
+    },
+    "combined-types-literals": {
+      "accepted_from": 852,
+      "accepted_count": 862
     }
   },
   "buffered_streams": [

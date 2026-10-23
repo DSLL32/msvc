@@ -1,15 +1,16 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Twenty-one cases are complete: minimal C, optimized Win32 hello, DLL,
+Twenty-two cases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
-and /O2 /Ob1 plus /Ob2 small functions with early returns.
+/O2 /Ob1 plus /Ob2 small functions with early returns, and the combined
+enum/long-record/literal/floating case.
 
-There are736 accepted source functions and859 accepted original entries.
-Accepted original extents cover220689/277234 code-section bytes (79.603873%):
-201440 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
+There are739 accepted source functions and862 accepted original entries.
+Accepted original extents cover221786/277234 code-section bytes (79.999567%):
+202537 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -31,12 +32,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds21 completed case histories to fresh
-shared-prefix original first-entry captures. All725 accepted application entries
+cases/original-entry-references.json binds22 completed case histories to fresh
+shared-prefix original first-entry captures. All728 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all21 regression receipts are in cases/embedded-codeview/validation.json.
+current all22 regression receipts are in cases/combined-types-literals/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -63,6 +64,7 @@ automatic-pch-changed   179    67     6    77  state.pch38022
 embedded-codeview     1196   177    74   332  irdb643
 inlining-ob1          1369   223    15   162
 inlining-ob2          1369   223    15   162
+combined-types        1611   186   198   484  irdb1261
 
 All primary intermediates match raw bytes. Numeric stderr retains the captured
 line24 C4069 CRLF warning. Only identified timestamp DWORDs at irdb+14 and
@@ -96,7 +98,7 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check736 function graphs and instruction boundaries,
+Original compiler audits check739 function graphs and instruction boundaries,
 286 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
@@ -122,12 +124,13 @@ durable. Independent grammar/layout/ABI analysis remains available in scripts/
 and cases/analysis/. Measured builds, setup, reference capture, native execution
 and checks are reported separately in current validation receipts.
 
-Current substantial case
-------------------------
-cases/combined-types-literals is the one active approved case after the21
-completed regressions. Its original /Z7 /O2 transport and complete oracles are
-frozen; seven floating arithmetic/conversion functions now reach a matched
-decode_escape frontier. No extra case is queued.
+Completed substantial case
+--------------------------
+cases/combined-types-literals completes the approved single combined case.
+Its original /Z7 /O2 transport and raw oracles are frozen; ten new functions
+cover floating arithmetic/comparison/conversion, richer escape/literal handling
+and a continued debug field list. Its C enum declarations lower to int and do
+not reach enum debug writers. All22 normal cases pass; no extra case is queued.
 
 Shared graph audit
 ------------------

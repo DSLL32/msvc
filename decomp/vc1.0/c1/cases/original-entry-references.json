@@ -84,6 +84,10 @@
     "inlining-ob2": {
       "receipt": "cases/graph-audit/entry-projections/inlining-ob2.json",
       "sha256": "58f4e5d19befbd683fa45cc581cb46c390eec8caa5e441d178659611a7d5d2d2"
+    },
+    "combined-types-literals": {
+      "receipt": "cases/combined-types-literals/evidence/combined-complete-862.receipt.json",
+      "sha256": "3d06f15f5b1acc1ec1f41cd270a593d2143206a271935b6640483b8b08cc7567"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

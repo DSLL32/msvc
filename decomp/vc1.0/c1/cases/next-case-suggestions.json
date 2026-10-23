@@ -1,33 +1,28 @@
 {
-  "authorization": "Selected /Z7 and /Ob1-/Ob2 families complete. The suggestions below are unassigned; paused for user selection.",
-  "remaining_original_code_extent_bytes": 57799,
+  "authorization": "Combined enum/type/literal/floating single case complete. All suggestions below are unassigned; paused for user selection.",
+  "remaining_original_code_extent_bytes": 55448,
   "metric": "Remaining code-section bytes outside accepted extent union, including unknown application and runtime code; not branch coverage.",
   "suggestions": [
     {
-      "case": "Enum-typed globals and parameters under /Z7, with a larger record whose debug field list exceeds264 bytes.",
+      "case": "Debug-bearing explicit PCH producer/consumer under supported /Z7 with ordinary /Yc and /Yu, validating /Yd only as a relevant variant.",
       "grounding": [
-        "_write_legacy_enum_members@12 at48530",
-        "_initialize_hash_walk@8 at32b10",
-        "_next_hash_entry@4 at32b30",
-        "_compare_legacy_enumerators at48fc0",
-        "_write_legacy_signed_number@8 at48bb0",
-        "_begin_legacy_field_continuation at48280"
+        "initialize_frontend sets pch_separate_debug iff debug_info&&!option_Yd&&(pch_create||pch_create_file)",
+        "finish_pch_output calls declare_pch_debug_library and finish_pch_debug_symbols on that separate-debug path",
+        "pch-reader restore calls restore_pch_debug_state or restore_pch_separate_debug according to captured settings",
+        "CL has explicit Yc/Yu/Yd option rows; exact combined behavior still requires untouched original validation"
       ],
-      "reason": "Current types source uses enum constants but no enum-typed object; its ordinary record fields fit one debug list. The enum hash walk, sorting and signed numeric leaf and continuation writers therefore remain trapped.",
-      "approximate_reachable_scope": "Five independently disassembled pending enum helpers total565 bytes. The broader47630..48ff0 embedded-type band has1680 uncovered bytes, including gaps/other pending helpers. Neither number promises whole-band reachability."
+      "reason": "Existing explicit/automatic PCH cases do not combine legacy debug types with captured PCH debug state. Source enum tags are retained in the PCH graph even though ordinary declarations lower to int; no enum-writer reachability promise.",
+      "approximate_reachable_scope": "Unmeasured; multiple identified pending PCH/debug entry points. Do not reuse the misleading ordinary-enum debug estimate."
     },
     {
-      "case": "Escaped and adjacent narrow/wide string literals, floating constant arithmetic and float/double aggregate initializers.",
+      "case": "Deliberate diagnostic/recovery input with malformed declarations, incomplete records and recoverable expression/token errors.",
       "grounding": [
-        "_concatenate_string_literals@8 at21b00",
-        "_decode_escape@8 at22310",
-        "_fold_floating_binary@12 at28190",
-        "_extended_to_integer at4c753",
-        "_write_ir_float at4b960",
-        "_write_ir_double at4b980"
+        "translation-unit parser syntax-error branches call report_parser_error and recover_parser_token",
+        "declaration/expression checks call report_type_syntax_error/report_syntax_error",
+        "lexer exposes token recovery and expected-token reporters"
       ],
-      "reason": "Current cases tokenize strings and floating constants but miss literal concatenation, richer escapes, floating folding and the dedicated IR constant writers.",
-      "approximate_reachable_scope": "The bounded21b00..22400 scanner band has524 uncovered bytes and28190..28300 folding band368; conversion/IR helpers add unmeasured extents. These are band estimates, not proven function sizes."
+      "reason": "Successful valid-source cases avoid most diagnostic dispatch, formatting, error accounting and parser-recovery code.",
+      "approximate_reachable_scope": "Unmeasured; gate/caller evidence exists but exact reachable function sizes are not established."
     }
   ],
   "extent_estimate_policy": "Band estimates subtract the exact clipped accepted union from bounded frontend code regions containing the named original stubs. They include unverified gaps/shared text, are not accepted function extents, and do not promise every byte is reached by one case.",
@@ -41,6 +36,13 @@
       "case": "inlining-ob1/ob2",
       "new_functions": 0,
       "reason": "Existing ordinary frontend inline-candidate serialization is complete; remaining inline-query family requires normalized_Ol and option_qc."
+    },
+    {
+      "case": "combined-types-literals",
+      "new_functions": 10,
+      "new_extent_bytes": 2351,
+      "enum_reachability": "C enum source declarations lower to ordinary int; enum debug helpers remain unvisited."
     }
-  ]
+  ],
+  "internal_inline_gate_analysis": "Internal standalone MSC_CMD_FLAGS -qc -Ol entries exist and directly gate the pending inline-query family. CL generic /d1 forwarding is statically available, but an untouched successful full pipeline is not validated. Ordinary /Ob1-/Ob2 does not exercise this family."
 }

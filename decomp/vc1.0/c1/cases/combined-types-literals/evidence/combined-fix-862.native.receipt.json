@@ -1,0 +1,21 @@
+{
+  "buffers": {},
+  "frames": [],
+  "frontier": null,
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003459865227341652,
+  "execution_seconds": 0.13607406243681908,
+  "total_seconds": 0.14200220257043839,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f combined.c -Ze -Zp8 -Focombined.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "executable_sha256": "e7832e72857151ed107627fe0d22414423e24bd033f9475955a0e503c3bccc96"
+}

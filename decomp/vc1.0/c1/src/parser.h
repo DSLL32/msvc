@@ -341,7 +341,7 @@ IrToken *__stdcall make_identifier_expression(char *name);
 IrToken *__stdcall make_subscript_expression(IrToken *base, IrToken *index);
 IrToken *__stdcall make_segment_expression(IrToken *left, IrToken *right);
 FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned kind, int arena);
-void __stdcall concatenate_string_literals(void *left, void *right);
+void __stdcall concatenate_string_literals(StringToken *left, StringToken *right);
 IrToken *__stdcall prepare_named_function_call(char *name);
 IrToken *__stdcall prepare_call_expression(IrToken *operand);
 ArgumentNode *__stdcall append_argument(ArgumentNode *arguments, IrToken *argument, int flags);

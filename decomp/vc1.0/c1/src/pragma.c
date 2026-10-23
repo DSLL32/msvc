@@ -212,7 +212,7 @@ void process_pragma(void)
         if (!pending_pragma_text && current_token_code == TOK_COMMA && read_pragma_token() == TOK_STRING) {
             comment_text = current_token_value;
             while (read_pragma_token() == TOK_STRING)
-                concatenate_string_literals(&comment_text, &current_token_value);
+                concatenate_string_literals(&comment_text.string, &current_token_value.string);
             text_work_cursor = (unsigned char *)comment_text.identifier;
             pending_pragma_text = text_work_cursor;
         }
@@ -265,7 +265,7 @@ void process_pragma(void)
         }
         optimization_text = current_token_value;
         while (read_pragma_token() == TOK_STRING)
-            concatenate_string_literals(&optimization_text, &current_token_value);
+            concatenate_string_literals(&optimization_text.string, &current_token_value.string);
         pragma_argument.text = optimization_text.identifier;
         optimization_pragma_text = optimization_text.identifier;
         if (current_token_code != TOK_COMMA) {
@@ -310,7 +310,7 @@ void process_pragma(void)
         }
         segment_text = current_token_value;
         while (read_pragma_token() == TOK_STRING)
-            concatenate_string_literals(&segment_text, &current_token_value);
+            concatenate_string_literals(&segment_text.string, &current_token_value.string);
         name = intern_identifier(segment_text.identifier);
         text_work_cursor = (unsigned char *)segment_text.identifier;
         if (current_token_code == TOK_COMMA) {
@@ -318,7 +318,7 @@ void process_pragma(void)
             if (current_token_code != TOK_STRING) PRAGMA_BAD_FORM();
             segment_class = current_token_value;
             while (read_pragma_token() == TOK_STRING)
-                concatenate_string_literals(&segment_class, &current_token_value);
+                concatenate_string_literals(&segment_class.string, &current_token_value.string);
             class_name = intern_identifier(segment_class.identifier);
             text_work_cursor = (unsigned char *)segment_class.identifier;
         } else {

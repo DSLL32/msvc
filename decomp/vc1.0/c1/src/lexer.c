@@ -1474,3 +1474,109 @@ void skip_declaration_tokens(void)
         }
     }
 }
+
+/* Original0x22310..0x2263b. Decode one character after a backslash,
+   leaving the first non-digit unread. Narrow numeric escapes sign-extend;
+   wide escapes retain all16 bits. Trigraphs and escaped lines may restart. */
+unsigned short __stdcall decode_escape(unsigned char character, int wide)
+{
+    unsigned value, digits, special;
+    unsigned short escaped;
+    unsigned char following;
+    for (;;) {
+        if (character_flags[character] & CF_OCTAL) {
+            value = integer_digit_value(character);
+            digits = 1;
+            following = next_source_character();
+            while ((character_flags[following] & CF_OCTAL) && digits < 3) {
+                value = value * 8 + integer_digit_value(following);
+                ++digits;
+                following = next_source_character();
+            }
+            if (!options.option_E) {
+                if (!wide && value != (unsigned char)value)
+                    report_syntax_error(22,value);
+                else if (value != (unsigned short)value)
+                    report_syntax_error(188,value);
+                if (character_flags[following] & CF_DECIMAL) compiler_warning(4,125);
+            }
+            --source_text_cursor;
+            return wide ? (unsigned short)value : (unsigned short)(signed char)value;
+        }
+        switch (character) {
+        case 'a': return 7;
+        case 'b': return 8;
+        case 'f': return 12;
+        case 'n': return options.option_m ? 13 : 10;
+        case 'r': return options.option_m ? 10 : 13;
+        case 't': return 9;
+        case 'v': return 11;
+        case '\\':
+            if (!consume_line_escape()) return character;
+            character = next_source_character();
+            continue;
+        case '?':
+            special = recover_trigraph();
+            if (!(special & ~0x40UL)) return character;
+            character = next_source_character();
+            continue;
+        case '\'': case '"': return character;
+        case 'x':
+            following = next_source_character();
+            value = 0;
+            if (!(character_flags[following] & CF_HEX)) report_syntax_error(153);
+            else {
+                while (character_flags[following] & CF_HEX) {
+                    value = value * 16 + integer_digit_value(following);
+                    following = next_source_character();
+                }
+            }
+            if (!wide && value != (unsigned char)value) report_syntax_error(22,value);
+            else if (value != (unsigned short)value) report_syntax_error(188,value);
+            --source_text_cursor;
+            return wide ? (unsigned short)value : (unsigned short)(signed char)value;
+        default:
+            escaped = character;
+            if (character_class[character] == CC_LEAD_BYTE) {
+                do {
+                    following = (unsigned char)*source_text_cursor++;
+                    if (!following) recover_special_character();
+                } while (!following);
+                escaped = ((unsigned short)character << 8) | following;
+                compiler_warning(1,129,(unsigned)escaped);
+            } else compiler_warning(1,129,(int)(signed char)character);
+            return escaped;
+        }
+    }
+}
+
+/* Original0x21b00..0x21ba6. Replace the left terminator with the next
+   literal, retaining its width and Pascal-string conversion flags. */
+void __stdcall concatenate_string_literals(StringToken *left, StringToken *right)
+{
+    unsigned wide = left->flags & 1;
+    unsigned offset = left->bytes - (wide ? 2 : 1);
+    unsigned bytes = right->bytes;
+    unsigned combined = offset + bytes;
+    unsigned char *destination, *source;
+    unsigned words, tail;
+    if (left->text + combined > expression_storage + 2048) {
+        compiler_warning(1,9);
+        return;
+    }
+    if ((right->flags & 1) != wide) compiler_warning(1,14);
+    left->bytes = (unsigned short)combined;
+    if (left->flags & 2) {
+        left->text[0] = 'P';
+        if (left->flags & 2) convert_pascal_string(left);
+    }
+    destination = left->text + offset;
+    source = right->text;
+    /* Match the original forward word copies before its byte tail. */
+    for (words = bytes >> 2; words; --words) {
+        *(unsigned *)destination = *(unsigned *)source;
+        destination += 4;
+        source += 4;
+    }
+    for (tail = bytes & 3; tail; --tail) *destination++ = *source++;
+}

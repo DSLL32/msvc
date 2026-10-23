@@ -142,7 +142,6 @@ void report_ide_line(void) { __asm { int 3 } }
 /* Original 0x19600. */
 
 /* Original 0x21b00. */
-void __stdcall concatenate_string_literals(void *left, void *right) { __asm { int 3 } }
 
 /* Original 0x22b70. */
 void __stdcall report_expected_token(unsigned char actual, int expected) { __asm { int 3 } }
@@ -622,7 +621,6 @@ int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; 
 void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
 void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }
 
-unsigned short __stdcall decode_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }
 void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
 
 /* Original 0x3c140. */
@@ -820,7 +818,6 @@ void __stdcall initialize_hash_walk(HashWalk *walk, HashTable *table) { __asm { 
 int __stdcall next_hash_entry(HashWalk *walk) { __asm { int 3 } return 0; }
 int __cdecl compare_legacy_enumerators(const void *left, const void *right) { __asm { int 3 } return 0; }
 unsigned __stdcall write_legacy_signed_number(unsigned char *destination, int number) { __asm { int 3 } return 0; }
-void begin_legacy_field_continuation(unsigned char kind, void *payload, unsigned first, unsigned limit) { __asm { int 3 } }
 void __stdcall write_legacy_enum_members(EnumeratorSymbol **enumerators, unsigned first, unsigned limit) { __asm { int 3 } }
 
 

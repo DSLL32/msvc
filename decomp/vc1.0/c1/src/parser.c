@@ -948,7 +948,8 @@ read_action:
             node->value.words.high = right[0].words.high;
             break;
         case 217:
-            concatenate_string_literals((char *)right[-1].node + 12, right);
+            concatenate_string_literals((StringToken *)((char *)right[-1].node + 12),
+                &right->token.string);
             break;
         case 218:
             ++unevaluated_type_depth;

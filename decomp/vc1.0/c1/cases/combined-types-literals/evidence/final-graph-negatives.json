@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "tool_sha256": "174e2e92d07ece99f7583e028a07a276d48631fa97d45e07205c1831b07a09a5",
+  "canonical_inputs": {
+    "exe": "a10701670159acb964e5868c5d63247b98a6081fddf53819c78a4638719d323a",
+    "map": "83a2020ce5d8d05b058f823f855c0d7973756adc13b5f35822512a7f2130ba3a",
+    "config": "70230f7df9032b8fdc43c6177546331e5275fb13a3d8550e1e9d3e5d5a4812d2"
+  },
+  "flags": [
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "checks": [
+    {
+      "test": "canonical-positive",
+      "accepted": true,
+      "seconds": 0.7480106735602021,
+      "diagnostic": ""
+    },
+    {
+      "test": "wrong-direct-callee",
+      "accepted": false,
+      "seconds": 0.0196668254211545,
+      "diagnostic": "graph-audit: _main call graph differs: original {\"_compile_translation_unit\", \"_guarded_compile\", \"_message_text\", \"_parse_options\", \"_signal\"}; reconstruction {\"0xdeadbeef\", \"_compile_translation_unit\", \"_guarded_compile\", \"_message_text\", \"_parse_options\", \"_signal\"}"
+    },
+    {
+      "test": "regressed-two-slot-PCH-ABI",
+      "accepted": false,
+      "seconds": 0.6620936607941985,
+      "diagnostic": "graph-audit: _mark_pch_pointer_array@16 RET cleanup differs"
+    },
+    {
+      "test": "missing-public-mapping",
+      "accepted": false,
+      "seconds": 0.6620149835944176,
+      "diagnostic": "graph-audit: _mark_pch_scope_directory call graph differs: original {\"_mark_pch_pointer_array@16\", \"_mark_pch_symbol_chain@4\"}; reconstruction {\"0x1be01\", \"_mark_pch_symbol_chain@4\"}"
+    },
+    {
+      "test": "split-original-RET-operand",
+      "accepted": false,
+      "seconds": 0.6720238709822297,
+      "diagnostic": "graph-audit: original _mark_pch_pointer_array@16: truncated instruction 444b0"
+    },
+    {
+      "test": "masked-external-floating-switch-table",
+      "accepted": false,
+      "seconds": 0.3368826285004616,
+      "diagnostic": "Traceback (most recent call last):\n  File \"/root/msvc2/decomp/vc1.0/c1/scripts/audit-text-masks.py\", line 52, in <module>\n    assert any(left <= cursor and cursor+4 <= right\n           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n               for left,right in function.get('shared',[])), \\\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: external switch table is masked: _fold_floating_binary@12 at 28468"
+    }
+  ],
+  "policy": "Scratch mutations only; no Wine, original execution or working-tree artifact changes."
+}
