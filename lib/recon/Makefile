@@ -189,3 +189,8 @@ build/getenv-probe: tests/getenv-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 getenv-check: build/getenv-probe
 	$(PYTHON) tests/check-getenv.py build/getenv-probe
+
+build/ascii-terminal-probe: tests/ascii-terminal-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+ascii-terminal-check: build/ascii-terminal-probe
+	$(PYTHON) tests/check-ascii-terminal.py build/ascii-terminal-probe

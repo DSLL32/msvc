@@ -1,0 +1,7 @@
+{
+  "scope": "Canonical _isatty full unsigned bounds/FDEV mask and ACP1252 ASCII CharNextA including NUL",
+  "reference": "tests/ascii-terminal-original.json",
+  "native_checks": "GCC/Clang exact original output across6 descriptors,4 error pairs and ASCII/NUL pointer offsets; nonASCII denial",
+  "gcc_seconds": 0.988,
+  "clang_seconds": 1.25
+}

@@ -847,7 +847,11 @@ UINT WINAPI recon_GetACP(void)
     return 1252;
 }
 LPSTR WINAPI recon_CharNextA(LPCSTR text)
-{ (void)text; recon_unsupported("unreviewed CharNextA"); return NULL; }
+{
+    if (recon_GetACP()!=1252 || !text || (unsigned char)*text>=128)
+        recon_unsupported("CharNextA outside captured ACP1252 ASCII scope");
+    return (LPSTR)(text+(*text!=0));
+}
 
 int __cdecl recon_wsprintfA(LPSTR output,LPCSTR format,...)
 { (void)output; (void)format; recon_unsupported("unreviewed wsprintfA"); return 0; }

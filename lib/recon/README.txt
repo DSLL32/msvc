@@ -532,3 +532,8 @@ returns a borrowed value pointer. Mutating it changes that environment entry.
 Unbound consumers retain host-libc behavior. Native host adapters must use
 recon_host_getenv for their Linux configuration controls after binding; shim
 implementation files already retain host getenv through RECON_SHIM_IMPL.
+
+_isatty returns the canonical FDEV mask (64) or0, with unsigned descriptor bounds
+and unchanged errors; it is not a host Boolean tty test. CharNextA supports the
+observed explicit ACP1252 ASCII path: next-byte alias for non-NUL, same pointer
+at NUL, unchanged errors. Non-ASCII bytes/other profiles remain unsupported.

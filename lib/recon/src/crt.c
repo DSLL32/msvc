@@ -478,6 +478,12 @@ WEAK char *recon_find(const char *pattern)
 }
 /* VC1 __setmode changes only the descriptor's text bit, without flushing
  * a FILE or resetting its input state. Descriptor errors precede mode errors. */
+/* Canonical _isatty is an unsigned descriptor-bound check followed by the
+ * FDEV mask, even for a closed slot. Invalid input returns0 without errors. */
+WEAK int recon_isatty(int fd)
+{
+    return (unsigned)fd<recon_nhandle ? recon_osfile[fd]&0x40 : 0;
+}
 WEAK int recon_setmode(int fd,int mode)
 {
     unsigned char previous;

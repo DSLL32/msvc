@@ -218,6 +218,7 @@ void recon_record_terminal_status(uint32_t);
 /* Resolve DOS paths with explicit RECON_DRIVE_X mappings (Z defaults to /).
  * No Wine prefix or executable discovery is performed. */
 int recon_host_path(const char *,char *,size_t);
+int recon_isatty(int);
 /* Host-only scope guards shared by the CRT and Win32 file implementations. */
 int recon_fsopen_restricted(HANDLE);
 void recon_fsopen_check_path(const char *);
@@ -312,6 +313,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define putchar(c) recon_fputc((c),stdout)
 #define fopen recon_fopen
 #define _fsopen recon_fsopen
+#define _isatty recon_isatty
 #define getenv recon_getenv
 #define freopen recon_freopen
 #define setbuf recon_setbuf
