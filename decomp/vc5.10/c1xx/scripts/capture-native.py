@@ -23,6 +23,7 @@ def main():
     args = parser.parse_args()
     if not args.name.replace("-", "").replace("_", "").isalnum():
         raise ValueError("invalid fresh capture name")
+    capture_started = time.perf_counter()
     output = SCRATCH / args.name
     output.mkdir(parents=True, exist_ok=False)
     binary = PROJECT / "build/native/c1xx-host"
@@ -66,6 +67,7 @@ def main():
     candidate = json.loads((PROJECT / candidate_path).read_text())
     minimal = candidate['case'] == 'minimal'
     completion = False
+    prepared_at = time.perf_counter()
     if minimal:
         spec = importlib.util.spec_from_file_location('minimal_capture',Path(__file__).with_name('capture-minimal-native.py'))
         adapter = importlib.util.module_from_spec(spec);spec.loader.exec_module(adapter)
@@ -148,6 +150,7 @@ def main():
     for item, digest in snapshot_inputs.items():
         if sha(PROJECT / item) != digest:
             raise ValueError("capture configuration/build changed during native run")
+    (output/'capture-timing.json').write_text(json.dumps({'snapshot_provenance_setup_seconds':prepared_at-capture_started,'execution_seconds':elapsed,'post_execution_verification_seconds':time.perf_counter()-prepared_at-elapsed,'scope':'outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures'},indent=2)+'\n')
     receipt = {"schema": 1, "kind": "native-completion" if completion else "native-gdb-frontier", "exit": result.returncode, "seconds": elapsed,
                "native_sha256": native_sha, "snapshot_inputs": snapshot_inputs,
                "compiled_source_provenance_sha256": sha(output / "build-provenance.json"),

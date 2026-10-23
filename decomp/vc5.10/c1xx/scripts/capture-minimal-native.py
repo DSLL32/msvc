@@ -31,7 +31,8 @@ def capture(project,output,binary,trial):
     wrapper.chmod(0o755)
     collector=output/'collect.gdb'
     collector.write_text('''python
-import gdb,json,struct
+import gdb,json,struct,time
+recon_collect_started=time.perf_counter()
 frame=gdb.newest_frame()
 value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
        'control_word':int(gdb.parse_and_eval('$fctrl')),'args':{}}
@@ -161,6 +162,10 @@ if any(f.name=='com_initialized' for f in gdb.lookup_type('FrontendBss').fields(
         value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),4]
     value['frontend']['generated_comment']=list(bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)&frontend_bss.generated_comment')),74)))
     value['frontend']['storage']['generated_comment']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.generated_comment')),74]
+if any(f.name=='deferred_action_depth' for f in gdb.lookup_type('FrontendBss').fields()):
+    for name in ('deferred_action_head','deferred_action_tail','deferred_action_depth'):
+        value['frontend'][name]=int(gdb.parse_and_eval(('' if name=='deferred_action_depth' else '(unsigned int)')+'frontend_bss.'+name))
+        value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),4]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -172,7 +177,6 @@ raw=struct.pack('<II',int(argv),argc);strings=[]
 for n in range(argc):
     pointer=int(argv[n]);text=argv[n].string(encoding='latin1').encode('latin1')+b'\\0'
     raw+=struct.pack('<II',pointer,len(text))+text;strings.append(text[:-1].decode('latin1'))
-open(@@ARGV@@,'wb').write(raw)
 value['invocation']={'argc':argc,'mode':mode,'argv_address':int(argv),'argv':strings}
 host=frame
 while host is not None and host.name()!='main':host=host.older()
@@ -180,7 +184,10 @@ if host is None:raise RuntimeError('no actual native DLL host frame')
 spec=host.read_var('spec')
 value['registration']={key:spec[key].string() for key in ('name','path','sha256')}
 value['registration']['flags']=int(spec['flags']);value['registered_token']=int(host.read_var('module'))
+recon_serialize_started=time.perf_counter()
+open(@@ARGV@@,'wb').write(raw)
 open(@@STATE@@,'w').write(json.dumps(value,indent=2)+'\\n')
+recon_collect_timings.append({'state_file':@@STATE@@.rsplit('/',1)[-1],'collection_seconds':recon_serialize_started-recon_collect_started,'serialization_io_seconds':time.perf_counter()-recon_serialize_started})
 end
 '''.replace('@@ARGV@@',repr(str(output/'native-argv.bin'))).replace('@@STATE@@',repr(str(output/'state.json'))))
     commands=output/'commands.gdb'
@@ -277,6 +284,18 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if model['schema']>=27:
+        entry=output/'collect-action-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'action-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'action-entry-argv.bin'))))
+        change=''
+        if trial.get('test_action_seed'):
+            change='python\nowned=int(gdb.parse_and_eval("(unsigned int)frontend_bss.saved_state"))\n'
+            for name,offset in [('deferred_action_head',4),('deferred_action_tail',8)]:change+='value=gdb.parse_and_eval("frontend_bss.'+name+'")\nvalue.assign(gdb.Value(owned+%d).cast(value.type))\n'%offset
+            change+='end\nset variable frontend_bss.deferred_action_depth=17\n'
+        observer+='break *initialize_frontend_41\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
+        result=output/'collect-action-result.gdb'
+        result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'action-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'action-result-argv.bin'))))
+        observer+='break *initialize_frontend_42\ncommands\nsilent\nsource '+str(result)+'\ncontinue\nend\n'
     if model['schema']>=26:
         entry=output/'collect-comment-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'comment-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'comment-entry-argv.bin'))))
@@ -330,12 +349,20 @@ end
         auxiliary_collector=output/'collect-aux-call.gdb'
         auxiliary_collector.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'aux-call.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'aux-call-argv.bin'))))
         auxiliary='bt\nsource '+str(auxiliary_collector)+'\nreturn (void *)c1xx_aux_new_payload\npython\nimport gdb,json\nopen('+repr(str(output/'aux-return.json'))+',"w").write(json.dumps({"eax":int(gdb.parse_and_eval("$eax")),"pc":int(gdb.parse_and_eval("$pc")),"role":"mock-return","helper_accepted":False})+"\\n")\nend\ncontinue\n'
-    commands.write_text('set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+auxiliary+'bt\nsource '+str(collector)+'\nquit\n')
+    timing_start='python\nimport time,json\nrecon_collect_timings=[]\nrecon_first_command=time.perf_counter()\nend\n'
+    timing_before_run='python\nrecon_before_run=time.perf_counter()\nend\n'
+    timing_after_run='python\nrecon_after_run=time.perf_counter()\nend\n'
+    timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings},indent=2)+"\\n")\nend\n'
+    commands.write_text(timing_start+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
                           stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)
     elapsed=time.perf_counter()-started
     (output/'gdb.txt').write_bytes(result.stdout)
+    if (output/'gdb-timing.json').exists():
+        timing=json.loads((output/'gdb-timing.json').read_text());collect=sum(row['collection_seconds'] for row in timing['collectors']);serialize=sum(row['serialization_io_seconds'] for row in timing['collectors'])
+        timing['summary']={'gdb_total_seconds':elapsed,'startup_seconds':timing['first_command']-started,'breakpoint_setup_seconds':timing['before_run']-timing['first_command'],'collection_seconds':collect,'serialization_io_seconds':serialize,'residual_inferior_debugger_seconds':elapsed-(timing['before_run']-started)-collect-serialize,'collector_count':len(timing['collectors']),'scope':'residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution'}
+        (output/'gdb-timing.json').write_text(json.dumps(timing,indent=2)+'\n')
     if result.returncode or b'Program received signal SIGTRAP' not in result.stdout:
         raise ValueError('native pass has no actual INT3 frontier; '+result.stdout.decode(errors='replace'))
     return result,elapsed

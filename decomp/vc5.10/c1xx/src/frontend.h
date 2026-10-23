@@ -48,6 +48,7 @@ typedef struct SentinelToken {
 struct CompilerArena;
 struct PchImage;
 struct PendingGroup;
+struct DeferredAction;
 
 /* Genuine thiscall POD: no implicit constructors, vtable or unknown fields. */
 typedef struct CompilerPool {
@@ -104,6 +105,9 @@ typedef struct FrontendBss {
     char generated_comment[74];
     unsigned comment_value_offset;
     unsigned generated_comment_length;
+    struct DeferredAction *deferred_action_head;
+    struct DeferredAction *deferred_action_tail;
+    int deferred_action_depth;
 } FrontendBss;
 
 #ifdef __cplusplus

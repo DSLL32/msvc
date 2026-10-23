@@ -201,7 +201,9 @@ void initialize_frontend_40(void)
 
 void initialize_frontend_41(void)
 {
-    __asm { int 3 }
+    frontend_bss.deferred_action_head = NULL;
+    frontend_bss.deferred_action_tail = NULL;
+    frontend_bss.deferred_action_depth = 0;
 }
 
 void initialize_frontend_42(void)

@@ -305,6 +305,8 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xc6cb8, data + 78, 4);
     readmem(base + 0xc6c44, data + 82, 4);
     sprintf(name, "generated-comment-%s.bin", suffix); save_blob(name, data, 86);
+    readmem(base + 0xc6d28, data, 12);
+    sprintf(name, "deferred-actions-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc6b40, data, 12);
     sprintf(name, "pending-groups-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc64b8, data, 68);
@@ -499,6 +501,9 @@ static void seed_frontend_restore(void)
     memset(bytes, 165, 74); write_mem(base + 0xc6ba8, bytes, 74);
     value = 23; write_mem(base + 0xc6cb8, &value, 4);
     value = 29; write_mem(base + 0xc6c44, &value, 4);
+    value = allocated + 4; write_mem(base + 0xc6d28, &value, 4);
+    value = allocated + 8; write_mem(base + 0xc6d2c, &value, 4);
+    value = 17; write_mem(base + 0xc6d30, &value, 4);
     value = allocated + 4; write_mem(base + 0xc6b40, &value, 4);
     value = allocated + 8; write_mem(base + 0xc6b48, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
@@ -706,6 +711,19 @@ int main(int argc, char **argv)
                         save_blob(address == base + 0x38af9 ? "comment-bss-entry.bin" : "comment-bss-result.bin", comment_bss, sizeof(comment_bss));
                     }
                 }
+                if (address == base + 0x38bea || address == base + 0x38bfc) {
+                    BYTE action_bss[0xf69c];
+                    if (address == base + 0x38bea && getenv("C1XX_TEST_ACTION")) {
+                        DWORD owned, values[3];
+                        readmem(base + 0xc4d50, &owned, 4);
+                        if (!owned) fail("action seed needs snapshot identity");
+                        values[0] = owned + 4; values[1] = owned + 8; values[2] = 17;
+                        write_mem(base + 0xc6d28, values, sizeof(values));
+                        fprintf(events, "action-seed actual-entry=00038bea head=snapshot+4 tail=snapshot+8 depth=17 code-mock=0\n");
+                    }
+                    readmem(base + 0xb9000, action_bss, sizeof(action_bss));
+                    save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
                 if (address == base + 0x38ae2 || address == base + 0x38aef) {
                     BYTE group_bss[0xf69c];
                     if (address == base + 0x38af9 || address == base + 0x386ae) {
@@ -724,6 +742,19 @@ int main(int argc, char **argv)
                         readmem(base + 0xb9000, comment_bss, sizeof(comment_bss));
                         save_blob(address == base + 0x38af9 ? "comment-bss-entry.bin" : "comment-bss-result.bin", comment_bss, sizeof(comment_bss));
                     }
+                }
+                if (address == base + 0x38bea || address == base + 0x38bfc) {
+                    BYTE action_bss[0xf69c];
+                    if (address == base + 0x38bea && getenv("C1XX_TEST_ACTION")) {
+                        DWORD owned, values[3];
+                        readmem(base + 0xc4d50, &owned, 4);
+                        if (!owned) fail("action seed needs snapshot identity");
+                        values[0] = owned + 4; values[1] = owned + 8; values[2] = 17;
+                        write_mem(base + 0xc6d28, values, sizeof(values));
+                        fprintf(events, "action-seed actual-entry=00038bea head=snapshot+4 tail=snapshot+8 depth=17 code-mock=0\n");
+                    }
+                    readmem(base + 0xb9000, action_bss, sizeof(action_bss));
+                    save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
                 if (address == base + 0x38ae2 && getenv("C1XX_TEST_PENDING_GROUP")) {
                         DWORD owned, value;

@@ -154,3 +154,8 @@ The generated-comment constructor is accepted separately (226 bytes). Its
 unknown original capacity/tails remain unmodeled. Four pairs and22 new controls
 are in `cases/minimal/comment-constructor-trials.json`. Schema26 has1045 semantic
 BSS bytes and31 natural native padding bytes. The next frontier is callback40.
+
+Callback41 clears deferred-action head/tail pointers and a signed nesting depth;
+node layout remains opaque. Four pairs and18 new negative controls are recorded
+in `cases/minimal/action-trials.json`, with GDB observation timing separate from
+fixture execution. Schema27 has1057 semantic BSS bytes and31 padding bytes.

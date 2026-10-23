@@ -1,5 +1,5 @@
 {
-  "schema": 26,
+  "schema": 27,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1906,6 +1906,36 @@
       "native_expression": "frontend_bss.generated_comment_length",
       "original_default": 0,
       "evidence": "constructor38af9 and generated-header output/COM cleanup consumers; only encountered string extent, not original capacity"
+    },
+    {
+      "name": "deferred_action_head",
+      "class": "bss",
+      "original_address": 273444136,
+      "bytes": 4,
+      "native_expression": "frontend_bss.deferred_action_head",
+      "original_default": 0,
+      "evidence": "3500f/6f64c first/append linked polymorphic actions; 475bf/475f9 increments/decrements nesting depth; 54227 positive-depth deferred execution",
+      "component_type": "opaque pointer"
+    },
+    {
+      "name": "deferred_action_tail",
+      "class": "bss",
+      "original_address": 273444140,
+      "bytes": 4,
+      "native_expression": "frontend_bss.deferred_action_tail",
+      "original_default": 0,
+      "evidence": "3500f/6f64c first/append linked polymorphic actions; 475bf/475f9 increments/decrements nesting depth; 54227 positive-depth deferred execution",
+      "component_type": "opaque pointer"
+    },
+    {
+      "name": "deferred_action_depth",
+      "class": "bss",
+      "original_address": 273444144,
+      "bytes": 4,
+      "native_expression": "frontend_bss.deferred_action_depth",
+      "original_default": 0,
+      "evidence": "3500f/6f64c first/append linked polymorphic actions; 475bf/475f9 increments/decrements nesting depth; 54227 positive-depth deferred execution",
+      "component_type": "signed int"
     }
   ],
   "initializers": [

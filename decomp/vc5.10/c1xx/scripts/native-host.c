@@ -176,6 +176,9 @@ int main(void)
             memset(frontend_bss.generated_comment, 165, sizeof(frontend_bss.generated_comment));
             frontend_bss.comment_value_offset = 23;
             frontend_bss.generated_comment_length = 29;
+            frontend_bss.deferred_action_head = (struct DeferredAction *)((unsigned char *)frontend_bss.saved_state + 4);
+            frontend_bss.deferred_action_tail = (struct DeferredAction *)((unsigned char *)frontend_bss.saved_state + 8);
+            frontend_bss.deferred_action_depth = 17;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

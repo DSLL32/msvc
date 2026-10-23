@@ -92,6 +92,9 @@ int initialize_compiler_pass(void)
             frontend_bss.generated_comment[i] = 0;
         frontend_bss.comment_value_offset = 0;
         frontend_bss.generated_comment_length = 0;
+        frontend_bss.deferred_action_head = NULL;
+        frontend_bss.deferred_action_tail = NULL;
+        frontend_bss.deferred_action_depth = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
