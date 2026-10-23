@@ -331,6 +331,87 @@
       "native_offset": 300,
       "default": 0,
       "default_proof": "first raw loaded BSS snapshot; constructor12423 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].data",
+      "original_rva": 343744,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].data",
+      "native_offset": 304,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].cursor",
+      "original_rva": 343748,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].cursor",
+      "native_offset": 308,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].capacity",
+      "original_rva": 343752,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].capacity",
+      "native_offset": 312,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].relocated",
+      "original_rva": 343756,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].relocated",
+      "native_offset": 316,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].relocation_context",
+      "original_rva": 343760,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].relocation_context",
+      "native_offset": 320,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].stream",
+      "original_rva": 343764,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].stream",
+      "native_offset": 324,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].good",
+      "original_rva": 343768,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].good",
+      "native_offset": 328,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].mode",
+      "original_rva": 343772,
+      "bytes": 1,
+      "native_field": "c1_bss.output_buffers[2].mode",
+      "native_offset": 332,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
+    },
+    {
+      "name": "output_buffers[2].file_descriptor",
+      "original_rva": 344032,
+      "bytes": 4,
+      "native_field": "c1_bss.output_buffers[2].file_descriptor",
+      "native_offset": 336,
+      "default": 0,
+      "default_proof": "first raw loaded BSS snapshot; constructor12472 explicitly initializes this field"
     }
   ],
   "outside_bss": [
@@ -569,6 +650,31 @@
       "constructor_native_symbol": "initialize_output_buffer_12423",
       "destructor_rva": 145721,
       "destructor_native_symbol": "destroy_output_buffer_23939"
+    },
+    {
+      "original_object_rva": 343744,
+      "native_field": "c1_bss.output_buffers[2]",
+      "native_size": 36,
+      "native_offset": 304,
+      "original_unmodeled_offsets": [
+        [
+          29,
+          288
+        ]
+      ],
+      "type_evidence": {
+        "buffer_base_cursor_capacity": "member1012 checks cursor+size <= data+capacity; memberf7e3 grows and copies buffer",
+        "relocated_and_context": "cold2f251 invokes relocated(context,old_data,new_data)",
+        "FILE_stream": "memberfe60 passes stream to fwrite;1fc99 closes it using fclose",
+        "good": "memberf886 ANDs it with allocation success",
+        "mode_and_descriptor": "constructor writes zero BYTE at28 and signed -1 DWORD at288; subsequent domain not yet recovered"
+      },
+      "object_extent_unknown": true,
+      "index": 2,
+      "constructor_rva": 74866,
+      "constructor_native_symbol": "initialize_output_buffer_12472",
+      "destructor_rva": 145714,
+      "destructor_native_symbol": "destroy_output_buffer_23932"
     }
   ]
 }

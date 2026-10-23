@@ -1,0 +1,1 @@
+{"status": "PASS", "valid_reuse": true, "rejected": ["different-elf", "different-candidate", "changed-owned-source", "missing-archived-content", "corrupted-archived-content"], "seconds": 0.11132131423801184}

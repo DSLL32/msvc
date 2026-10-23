@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from provenance import freeze, native_sources
+from provenance import freeze, native_sources, reuse_native_sources
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
@@ -22,18 +22,25 @@ def main():
     parser.add_argument("--name", required=True)
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     parser.add_argument("--restore-probe", action="store_true")
+    parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
     assert args.name.replace("-", "").replace("_", "").isalnum()
     output = SCRATCH / args.name
     output.mkdir(parents=True, exist_ok=False)
     binary = PROJECT / "build/native/c1-host"
-    assert subprocess.run(["make", "-q", "build/native/c1-host"], cwd=PROJECT,
-                          stdout=subprocess.DEVNULL).returncode == 0, "rebuild the stale native binary first"
-    freeze(native_sources(), output / "source-snapshot.json")
     binary_sha = sha(binary)
     candidate_path = PROJECT / ("cases/" + args.case + "/candidate.json")
     candidate = json.loads(candidate_path.read_text())
+    source_reuse = None
+    if args.reuse_build_from:
+        source_reuse = reuse_native_sources(args.reuse_build_from.resolve(), output / "source-snapshot.json",
+                                            binary, candidate_path, PROJECT / "build/c1.dll",
+                                            PROJECT / candidate.get("audit_config", "functions.json"))
+    else:
+        assert subprocess.run(["make", "-q", "build/native/c1-host"], cwd=PROJECT,
+                              stdout=subprocess.DEVNULL).returncode == 0, "rebuild the stale native binary first"
+        freeze(native_sources(), output / "source-snapshot.json")
     field_map = json.loads((PROJECT / candidate["field_map"]).read_text()) if candidate.get("field_map") else {}
     buffer_models = field_map.get("output_buffers", [])
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
@@ -255,7 +262,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     receipt = {"schema": 1, "kind": "native-gdb-frontier",
                "candidate_path": "cases/" + args.case + "/candidate.json",
                "probe": "restore" if args.restore_probe else "normal", "seconds": elapsed,
-               "native_sha256": binary_sha,
+               "native_sha256": binary_sha, "build_source_reuse": source_reuse,
                "rebuilt_sha256": sha(PROJECT / "build/c1.dll"),
                "candidate_sha256": sha(output / "candidate.json"),
                "functions_sha256": sha(output / "functions.json"),

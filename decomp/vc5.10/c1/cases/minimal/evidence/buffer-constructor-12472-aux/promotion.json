@@ -1,0 +1,13 @@
+{
+  "accepted_function": "_initialize_output_buffer_12472",
+  "role": "auxiliary nonzero typed constructor/BSS restore evidence; normal acceptance is separate",
+  "bytes": 58,
+  "application_bytes_after": 935,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1392,
+  "modeled_original_bss_bytes": 331,
+  "native_bss_size": 340,
+  "native_padding_bytes": 9,
+  "source_reuse": "same normal ELF and immutable compiled-source manifest; current owned source exact; shared worktree drift ignored; all five rejection controls pass; no extra original run"
+}

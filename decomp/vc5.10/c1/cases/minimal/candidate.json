@@ -131,6 +131,21 @@
       "start_rva": 74787,
       "end_rva": 74845,
       "entry": 1
+    },
+    {
+      "start_rva": 74859,
+      "end_rva": 74866,
+      "entry": 1
+    },
+    {
+      "start_rva": 74924,
+      "end_rva": 74938,
+      "entry": 0
+    },
+    {
+      "start_rva": 74866,
+      "end_rva": 74924,
+      "entry": 1
     }
   ],
   "functions": [
@@ -385,6 +400,36 @@
         ]
       ],
       "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1246b",
+      "native_symbol": "initialize_state_1246b",
+      "role": "application",
+      "chunks": [
+        [
+          74859,
+          74866
+        ],
+        [
+          74924,
+          74938
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_12472",
+      "native_symbol": "initialize_output_buffer_12472",
+      "role": "application",
+      "chunks": [
+        [
+          74866,
+          74924
+        ]
+      ],
+      "source": "src/buffers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -400,8 +445,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74859,
-    "native_symbol": "initialize_state_1246b",
+    "rva": 74938,
+    "native_symbol": "initialize_state_124ba",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -533,7 +578,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "Second output-buffer constructor is sole new candidate",
+  "staging_role": "initialize_output_buffer_12472 is the only new function",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -542,6 +587,10 @@
     {
       "original_rva": 145721,
       "native_symbol": "destroy_output_buffer_23939"
+    },
+    {
+      "original_rva": 145714,
+      "native_symbol": "destroy_output_buffer_23932"
     }
   ]
 }

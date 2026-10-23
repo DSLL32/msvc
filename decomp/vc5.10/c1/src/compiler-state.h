@@ -36,7 +36,7 @@ typedef struct CompilerBss {
     CompilerContextState context;
     CompilerContextState current_context;
     CompilerContextState contexts[6];
-    CompilerOutputBuffer output_buffers[2];
+    CompilerOutputBuffer output_buffers[3];
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;
@@ -50,6 +50,8 @@ int __cdecl initialize_output_buffer_12423(void);
 void __cdecl destroy_output_buffer_23939(void);
 void __cdecl destroy_output_buffer_23940(void);
 int __cdecl register_compiler_cleanup(C1Initializer);
+int __cdecl initialize_output_buffer_12472(void);
+void __cdecl destroy_output_buffer_23932(void);
 void __cdecl initialize_state_12365(void);
 void __cdecl initialize_state_12377(void);
 void __cdecl initialize_state_12389(void);

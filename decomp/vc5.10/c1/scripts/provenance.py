@@ -43,3 +43,28 @@ def native_sources():
     for directory in (PROJECT / "src", ROOT / "lib/recon/src", ROOT / "lib/recon/include", ROOT / "lib/recon/native"):
         paths.extend(path for path in directory.rglob("*") if path.is_file() and path.suffix in (".c", ".h"))
     return paths
+
+
+def reuse_native_sources(directory, destination, binary, candidate_path, rebuilt, config):
+    """Reuse a verified ELF's real inputs, never current shared worktree bytes."""
+    receipt_path = directory / "receipt.json"
+    receipt = json.loads(receipt_path.read_text())
+    assert receipt["kind"] == "native-gdb-frontier" and not receipt.get("build_source_reuse")
+    for name, item in receipt["artifacts"].items():
+        path = directory / name
+        assert path.stat().st_size == item["size"] and sha(path) == item["sha256"]
+    check(directory)
+    assert receipt["native_sha256"] == sha(binary), "different ELF"
+    assert receipt["candidate_sha256"] == sha(candidate_path), "different candidate"
+    assert receipt["rebuilt_sha256"] == sha(rebuilt), "different Win32 DLL"
+    assert receipt["functions_sha256"] == sha(config), "different function trial"
+    manifest = directory / "source-snapshot.json"
+    records = json.loads(manifest.read_text())
+    prefix = str(PROJECT.relative_to(ROOT)) + "/"
+    owned = {str(path.relative_to(ROOT)) for path in native_sources() if path.is_relative_to(PROJECT)}
+    assert owned == {name for name in records if name.startswith(prefix)}, "owned source set changed"
+    assert all(sha(ROOT / name) == records[name]["sha256"] for name in owned), "owned source content changed"
+    destination.write_bytes(manifest.read_bytes())
+    return {"directory": str(directory), "receipt_sha256": sha(receipt_path),
+            "source_manifest_sha256": sha(manifest), "native_sha256": sha(binary),
+            "policy": "same verified ELF and owned sources; original immutable shared inputs retained"}

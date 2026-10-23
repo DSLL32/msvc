@@ -1,0 +1,578 @@
+{
+  "schema": 1,
+  "review_gate": "autonomous same-protocol continuation after reviewed first candidate",
+  "ranges": [
+    {
+      "start_rva": 73770,
+      "end_rva": 73934,
+      "entry": 1
+    },
+    {
+      "start_rva": 197340,
+      "end_rva": 197400,
+      "entry": 0
+    },
+    {
+      "start_rva": 73934,
+      "end_rva": 74126,
+      "entry": 1
+    },
+    {
+      "start_rva": 197400,
+      "end_rva": 197435,
+      "entry": 0
+    },
+    {
+      "start_rva": 74275,
+      "end_rva": 74281,
+      "entry": 1
+    },
+    {
+      "start_rva": 74126,
+      "end_rva": 74161,
+      "entry": 1
+    },
+    {
+      "start_rva": 74281,
+      "end_rva": 74405,
+      "entry": 1
+    },
+    {
+      "start_rva": 197465,
+      "end_rva": 197513,
+      "entry": 0
+    },
+    {
+      "start_rva": 74405,
+      "end_rva": 74597,
+      "entry": 1
+    },
+    {
+      "start_rva": 197513,
+      "end_rva": 197639,
+      "entry": 0
+    },
+    {
+      "start_rva": 59289,
+      "end_rva": 59318,
+      "entry": 1
+    },
+    {
+      "start_rva": 189724,
+      "end_rva": 189739,
+      "entry": 0
+    },
+    {
+      "start_rva": 74597,
+      "end_rva": 74615,
+      "entry": 1
+    },
+    {
+      "start_rva": 74615,
+      "end_rva": 74633,
+      "entry": 1
+    },
+    {
+      "start_rva": 74633,
+      "end_rva": 74660,
+      "entry": 1
+    },
+    {
+      "start_rva": 74660,
+      "end_rva": 74661,
+      "entry": 1
+    },
+    {
+      "start_rva": 74661,
+      "end_rva": 74662,
+      "entry": 1
+    },
+    {
+      "start_rva": 74662,
+      "end_rva": 74663,
+      "entry": 1
+    },
+    {
+      "start_rva": 74663,
+      "end_rva": 74670,
+      "entry": 1
+    },
+    {
+      "start_rva": 74728,
+      "end_rva": 74742,
+      "entry": 0
+    },
+    {
+      "start_rva": 74670,
+      "end_rva": 74728,
+      "entry": 1
+    },
+    {
+      "start_rva": 74742,
+      "end_rva": 74780,
+      "entry": 1
+    },
+    {
+      "start_rva": 197639,
+      "end_rva": 197664,
+      "entry": 0
+    },
+    {
+      "start_rva": 74780,
+      "end_rva": 74787,
+      "entry": 1
+    },
+    {
+      "start_rva": 74845,
+      "end_rva": 74859,
+      "entry": 0
+    },
+    {
+      "start_rva": 74787,
+      "end_rva": 74845,
+      "entry": 1
+    },
+    {
+      "start_rva": 74859,
+      "end_rva": 74866,
+      "entry": 1
+    },
+    {
+      "start_rva": 74924,
+      "end_rva": 74938,
+      "entry": 0
+    }
+  ],
+  "functions": [
+    {
+      "name": "_c1_crt_entry@12",
+      "native_symbol": "_DllMainCRTStartup",
+      "role": "linked-crt-support",
+      "chunks": [
+        [
+          73770,
+          73934
+        ],
+        [
+          197340,
+          197400
+        ]
+      ],
+      "status": "accepted-prefix",
+      "source": "src/native-crt.c"
+    },
+    {
+      "name": "_c1_crt_init@12",
+      "native_symbol": "_CRT_INIT",
+      "role": "linked-crt-support",
+      "chunks": [
+        [
+          73934,
+          74126
+        ],
+        [
+          197400,
+          197435
+        ]
+      ],
+      "source": "src/native-crt.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_DllMain@12",
+      "native_symbol": "DllMain",
+      "role": "application",
+      "chunks": [
+        [
+          74126,
+          74161
+        ]
+      ],
+      "source": "src/dllmain.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_InvokeCompilerPass@12",
+      "native_symbol": "InvokeCompilerPass",
+      "role": "application",
+      "chunks": [
+        [
+          74281,
+          74405
+        ],
+        [
+          197465,
+          197513
+        ]
+      ],
+      "source": "src/exports.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_compiler_pass",
+      "native_symbol": "initialize_compiler_pass",
+      "role": "application",
+      "chunks": [
+        [
+          74405,
+          74597
+        ],
+        [
+          197513,
+          197639
+        ]
+      ],
+      "source": "src/pass.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_allocate_compiler_memory",
+      "native_symbol": "allocate_compiler_memory",
+      "role": "application",
+      "chunks": [
+        [
+          59289,
+          59318
+        ],
+        [
+          189724,
+          189739
+        ]
+      ],
+      "source": "src/pass.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12365",
+      "native_symbol": "initialize_state_12365",
+      "role": "application",
+      "chunks": [
+        [
+          74597,
+          74615
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12377",
+      "native_symbol": "initialize_state_12377",
+      "role": "application",
+      "chunks": [
+        [
+          74615,
+          74633
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12389",
+      "native_symbol": "initialize_state_12389",
+      "role": "application",
+      "chunks": [
+        [
+          74633,
+          74660
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a4",
+      "native_symbol": "initialize_state_123a4",
+      "role": "application",
+      "chunks": [
+        [
+          74660,
+          74661
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a5",
+      "native_symbol": "initialize_state_123a5",
+      "role": "application",
+      "chunks": [
+        [
+          74661,
+          74662
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a6",
+      "native_symbol": "initialize_state_123a6",
+      "role": "application",
+      "chunks": [
+        [
+          74662,
+          74663
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a7",
+      "native_symbol": "initialize_state_123a7",
+      "role": "application",
+      "chunks": [
+        [
+          74663,
+          74670
+        ],
+        [
+          74728,
+          74742
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_123ae",
+      "native_symbol": "initialize_output_buffer_123ae",
+      "role": "application",
+      "chunks": [
+        [
+          74670,
+          74728
+        ]
+      ],
+      "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_register_compiler_cleanup",
+      "native_symbol": "register_compiler_cleanup",
+      "role": "application",
+      "chunks": [
+        [
+          74742,
+          74780
+        ],
+        [
+          197639,
+          197664
+        ]
+      ],
+      "source": "src/pass.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1241c",
+      "native_symbol": "initialize_state_1241c",
+      "role": "application",
+      "chunks": [
+        [
+          74780,
+          74787
+        ],
+        [
+          74845,
+          74859
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_12423",
+      "native_symbol": "initialize_output_buffer_12423",
+      "role": "application",
+      "chunks": [
+        [
+          74787,
+          74845
+        ]
+      ],
+      "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1246b",
+      "native_symbol": "initialize_state_1246b",
+      "role": "application",
+      "chunks": [
+        [
+          74859,
+          74866
+        ],
+        [
+          74924,
+          74938
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "sole-new-candidate"
+    }
+  ],
+  "text_data": [],
+  "expected_initial_frontier": {
+    "module_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "rva": 73770,
+    "native_symbol": "c1_crt_entry",
+    "abi": "stdcall, HINSTANCE/DWORD/LPVOID, cleanup12"
+  },
+  "unreconstructed_exports": [
+    "_AbortCompilerPass@4"
+  ],
+  "audit_config": "cases/minimal/trial.json",
+  "expected_frontier": {
+    "rva": 74866,
+    "native_symbol": "initialize_output_buffer_12472",
+    "kind": "initialization-helper",
+    "native_args": [],
+    "abi": "cdecl no arguments, cleanup0",
+    "caller": {
+      "native_symbol": "initialize_state_1246b",
+      "return_rva": 74864
+    }
+  },
+  "imports": [
+    {
+      "name": "import:_initterm",
+      "start_rva": 74275,
+      "end_rva": 74281,
+      "iat_rva": 381160,
+      "provider": "msvcrt.dll",
+      "provider_rva": 5909,
+      "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "native_symbol": "recon_initterm",
+      "contract": "lib/recon/initterm-validation.json",
+      "status": "accepted-prefix"
+    }
+  ],
+  "case": "minimal",
+  "reference": "cases/minimal/reference",
+  "input_files": [
+    {
+      "name": "test.c",
+      "source": "cases/minimal/inputs/test.c",
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+    }
+  ],
+  "case_contract": {
+    "case": "minimal",
+    "source": "cases/minimal/inputs/test.c",
+    "argc": 11,
+    "argv": [
+      "c1.dll",
+      "-il",
+      ".\\minimal",
+      "-f",
+      "test.c",
+      "-W",
+      "1",
+      "-G5",
+      "-Ot",
+      "-Ob0",
+      "-nologo"
+    ],
+    "BOOL": 1,
+    "oracle": "fresh direct-DLL minimal-baseline-001",
+    "actual_driver_contract": "fresh minimal-cl-001",
+    "driver_defaults_are_not_case_requirements": true,
+    "native_host_argv": [
+      "minimal"
+    ],
+    "artifacts": [
+      "minimalex",
+      "minimalgl",
+      "minimalin",
+      "minimalsy"
+    ],
+    "status": "first-new-frontier-not-yet-accepted"
+  },
+  "field_map": "cases/minimal/field-map.json",
+  "restore_probe": {
+    "snapshot_first_call": 324508639,
+    "live_first_call": 0,
+    "cleanup_count": 7,
+    "pass_mode": 1,
+    "reuse_state": 9,
+    "callback_rvas": [
+      74597,
+      74615
+    ],
+    "post_restore_rva": 197589,
+    "context": {
+      "object": "first_call-address",
+      "value": 23,
+      "saved_frame": "owned-snapshot-allocation"
+    },
+    "callback_context_auxiliary": {
+      "entry_rva": 74597,
+      "object": "first_call-address",
+      "value": 23,
+      "saved_frame": "owned-snapshot-allocation",
+      "expected_result": [
+        0,
+        0,
+        0
+      ],
+      "normal_case": false
+    },
+    "current_context": {
+      "object": "first_call-address",
+      "value": 29,
+      "saved_frame": "owned-snapshot-allocation"
+    },
+    "current_context_callback_auxiliary": {
+      "entry_rva": 74615,
+      "object": "first_call-address",
+      "value": 29,
+      "saved_frame": "owned-snapshot-allocation",
+      "expected_result": [
+        0,
+        0,
+        0
+      ],
+      "normal_case": false
+    },
+    "contexts": {
+      "object": "first_call-address",
+      "values": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "saved_frame": "owned-snapshot-allocation"
+    },
+    "contexts_callback_auxiliary": {
+      "entry_rva": 74633,
+      "count": 6,
+      "normal_case": false
+    },
+    "output_buffers": {
+      "pointer_roles": "own snapshot interior pointers; sentinel callback initialize_state_12365 is never invoked",
+      "capacity_base": 47,
+      "good": 9,
+      "mode_base": 165,
+      "descriptor_base": 57,
+      "normal_case": false
+    }
+  },
+  "staging_role": "initialize_state_1246b is the only new function",
+  "registered_cleanup": [
+    {
+      "original_rva": 145728,
+      "native_symbol": "destroy_output_buffer_23940"
+    },
+    {
+      "original_rva": 145721,
+      "native_symbol": "destroy_output_buffer_23939"
+    }
+  ]
+}

@@ -21,7 +21,9 @@
     "_initialize_output_buffer_123ae",
     "_register_compiler_cleanup",
     "_initialize_state_1241c",
-    "_initialize_output_buffer_12423"
+    "_initialize_output_buffer_12423",
+    "_initialize_state_1246b",
+    "_initialize_output_buffer_12472"
   ],
   "driver": [
     {
@@ -174,6 +176,24 @@
       "name": "_initialize_output_buffer_12423",
       "start": 274801699,
       "end": 274801757,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1246b",
+      "start": 274801771,
+      "end": 274801778,
+      "role": "application",
+      "code_chunks": [
+        [
+          274801836,
+          274801850
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_12472",
+      "start": 274801778,
+      "end": 274801836,
       "role": "application"
     }
   ],

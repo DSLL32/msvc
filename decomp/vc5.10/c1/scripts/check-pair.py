@@ -36,6 +36,20 @@ def checked_receipt(directory):
     for item in candidate.get("input_files", []):
         assert sha(directory / item["name"]) == item["sha256"] == sha(PROJECT / item["source"])
     check_source_snapshot(directory)
+    reuse = receipt.get("build_source_reuse")
+    if reuse:
+        origin = Path(reuse["directory"])
+        assert origin.resolve() != directory.resolve()
+        assert sha(origin / "receipt.json") == reuse["receipt_sha256"]
+        assert sha(origin / "source-snapshot.json") == reuse["source_manifest_sha256"]
+        origin_record = json.loads((origin / "receipt.json").read_text())
+        assert not origin_record.get("build_source_reuse"), "reuse chains are not accepted"
+        prior = checked_receipt(origin)
+        assert prior["native_sha256"] == receipt["native_sha256"] == reuse["native_sha256"]
+        assert (directory / "source-snapshot.json").read_bytes() == (origin / "source-snapshot.json").read_bytes()
+        records = json.loads((directory / "source-snapshot.json").read_text())
+        prefix = str(PROJECT.relative_to(ROOT)) + "/"
+        assert all(sha(ROOT / name) == item["sha256"] for name, item in records.items() if name.startswith(prefix))
     return receipt
 
 

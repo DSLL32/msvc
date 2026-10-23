@@ -179,7 +179,7 @@ Initializer/allocator staging completed after the reviewed two-body trial:
 allocator INT3 frontier, followed by `evidence/allocator-staged-promotion/` with
 the real allocator as the only new candidate and genuine first-copy state.
 The older two-body normal/restore captures remain explicitly auxiliary evidence;
-their historical roles were not relabeled. Only four initialized bytes and 298
+their historical roles were not relabeled. Only four initialized bytes and 331
 BSS bytes are currently modeled; other compiler state remains UNMODELED. All 34
 initializer slots are represented, and execution stops at the first unreconstructed
 callback. See `cases/minimal/INITIALIZER-REVIEW.md` for the original review packet.
@@ -237,3 +237,12 @@ remain absent. Normal/auxiliary controls reject44/93 corruptions.
 The local audit wrapper accepts an explicit `--auditor` path for approved
 immutable tool binaries. Audit receipts bind the actual path/hash; checker-only
 refreshes issue fresh validation without rerunning unchanged execution evidence.
+
+The third wrapper/constructor are accepted separately, reaching callback124ba
+with three destructor identities registered. Auxiliary typed reset/restore
+validation rejects100 corruptions. `capture-native.py --reuse-build-from DIR`
+can reuse the exact verified normal ELF and immutable compiled sources for an
+auxiliary capture: candidate, Win32 DLL and all owned source contents must still
+match. Shared worktree drift does not overwrite the recorded inputs. Five
+negative controls reject changed ELF/candidate/owned source and missing/corrupt
+archived content.

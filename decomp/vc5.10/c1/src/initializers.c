@@ -51,7 +51,8 @@ void __cdecl initialize_state_1241c(void)
 
 void __cdecl initialize_state_1246b(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_12472();
+    register_compiler_cleanup(destroy_output_buffer_23932);
 }
 
 void __cdecl initialize_state_124ba(void)
