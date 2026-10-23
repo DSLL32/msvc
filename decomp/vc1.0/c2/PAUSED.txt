@@ -1,7 +1,7 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified781 acceptances/703 source graphs. Natural-loop construction and
-compaction passed; matching reduce_flow_regions0x5a140.
-Extent union213537/399693=53.4252538824%, not branch coverage.
+Verified787 acceptances/709 source graphs. Loop graph preparation passed;
+matching hoist_invariant_region_stores0x5f1c0 in value-motion stage.
+Extent union214312/399693=53.6191526997%, not branch coverage.
 Canonical/W3, graph/extent/mask and native fixtures pass; full hello incomplete.
-See cases/hello-natural-loops.json for references/limits/timing.
-Continue nested-region reduction; no shared shim requests.
+See cases/hello-loop-values.json for reference/data/limit/timing evidence.
+Continue invariant store motion; no shared shim requests.

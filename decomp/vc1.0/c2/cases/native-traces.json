@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "ceec58fd8653f9e83ab0c2955b89067c324dddcc2f82f9b960f1c901c17ba635",
+    "functions.json": "b00977ead28f7a216e2c8b11796496ece7f66eb14805b5f78f6798167969d937",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -45,6 +45,10 @@
     "add_protected_flow_edge": {
       "logical": "@add_protected_flow_edge@8",
       "source": "src/stubs.c"
+    },
+    "add_region_candidate": {
+      "logical": "@add_region_candidate@8",
+      "source": "src/work-optimizer.c"
     },
     "add_register_affinity": {
       "logical": "@add_register_affinity@12",
@@ -798,9 +802,13 @@
       "logical": "@collect_pentium_candidates@8",
       "source": "src/scheduler.c"
     },
+    "collect_region_value_tree": {
+      "logical": "@collect_region_value_tree@4",
+      "source": "src/work-optimizer.c"
+    },
     "collect_region_values": {
       "logical": "@collect_region_values@4",
-      "source": "src/stubs.c"
+      "source": "src/work-optimizer.c"
     },
     "collect_register_affinities": {
       "logical": "@collect_register_affinities@4",
@@ -1365,6 +1373,10 @@
     "find_transfer_use_boundary": {
       "logical": "@find_transfer_use_boundary@8",
       "source": "src/machine-transfers.c"
+    },
+    "find_tree_opcode": {
+      "logical": "@find_tree_opcode@4",
+      "source": "src/tree-types.c"
     },
     "find_work_value": {
       "logical": "@find_work_value@4",
@@ -3096,7 +3108,7 @@
     },
     "reduce_flow_regions": {
       "logical": "@reduce_flow_regions@4",
-      "source": "src/stubs.c"
+      "source": "src/flow-regions.c"
     },
     "reduce_global_node": {
       "logical": "@reduce_global_node@4",
@@ -3860,7 +3872,7 @@
     },
     "tree_contains_opcode": {
       "logical": "@tree_contains_opcode@8",
-      "source": "src/stubs.c"
+      "source": "src/tree-types.c"
     },
     "tree_order_key": {
       "logical": "@tree_order_key@12",
@@ -11867,6 +11879,396 @@
               "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/outside-region-after"
             }
           }
+        },
+        {
+          "accepted_function": "@reduce_flow_regions@4",
+          "accepted_kind": "application",
+          "previous_logical": "@reduce_flow_regions@4",
+          "original_extent": [
+            "0x5a140",
+            "0x5a2fb"
+          ],
+          "before": {
+            "path": "cases/hello-original-781.json",
+            "sha256": "bdcfd5b9f2a7de12fb7b60b01ca1e7f1f34799fceb68423e7a8e86f980b08cd5",
+            "capture": {
+              "label": "outside-region-after",
+              "accepted": 781,
+              "logical": "@reduce_flow_regions@4",
+              "original_va": "0x5a140",
+              "events": "exception 80000003 rva 0004a140 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1885054912418127,
+              "execution_check_seconds": 1.1855803579092026,
+              "total_seconds": 1.3740863483399153,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9147eba13bbcf4ac9fbb3913e9dbd4438061e74c089608d822cb6e08afb0b349",
+              "config_sha256": "ceec58fd8653f9e83ab0c2955b89067c324dddcc2f82f9b960f1c901c17ba635",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/outside-region-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-782.json",
+            "sha256": "1d2cd3588a7e6ac3d446ff8dc23ef27196d7832c8aa8f1d427dfe24fac65233f",
+            "capture": {
+              "label": "reduce-regions-after",
+              "accepted": 782,
+              "logical": "@tree_contains_opcode@8",
+              "original_va": "0x586f0",
+              "events": "exception 80000003 rva 000486f0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.24927678983658552,
+              "execution_check_seconds": 1.4866943657398224,
+              "total_seconds": 1.7359718577936292,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "77047c75da51e2d4fc7dfdee3806f3394582206d9d457d7ce59d314555695f70",
+              "config_sha256": "6f5f085e5901ba32cd094435b6bde3d6a2bfa0fffc51f9037cee17eee092a213",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/reduce-regions-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@tree_contains_opcode@8",
+          "accepted_kind": "application",
+          "previous_logical": "@tree_contains_opcode@8",
+          "original_extent": [
+            "0x586f0",
+            "0x586fb"
+          ],
+          "before": {
+            "path": "cases/hello-original-782.json",
+            "sha256": "1d2cd3588a7e6ac3d446ff8dc23ef27196d7832c8aa8f1d427dfe24fac65233f",
+            "capture": {
+              "label": "reduce-regions-after",
+              "accepted": 782,
+              "logical": "@tree_contains_opcode@8",
+              "original_va": "0x586f0",
+              "events": "exception 80000003 rva 000486f0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.24927678983658552,
+              "execution_check_seconds": 1.4866943657398224,
+              "total_seconds": 1.7359718577936292,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "77047c75da51e2d4fc7dfdee3806f3394582206d9d457d7ce59d314555695f70",
+              "config_sha256": "6f5f085e5901ba32cd094435b6bde3d6a2bfa0fffc51f9037cee17eee092a213",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/reduce-regions-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-783.json",
+            "sha256": "6d746eea56dc7dbdcd42e2751841db5388a494ff6dbe16a222c5e9091a70fafa",
+            "capture": {
+              "label": "contains-opcode-after",
+              "accepted": 783,
+              "logical": "@find_tree_opcode@4",
+              "original_va": "0x58700",
+              "events": "exception 80000003 rva 00048700 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.20736476220190525,
+              "execution_check_seconds": 1.083501891233027,
+              "total_seconds": 1.2908671302720904,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "7d6958e11f45a937117beb49db2e8c84e9b46837c9e36331641190bc10f0d08d",
+              "config_sha256": "f2f5a10713d15849e3f4bb78c6c8fcd7bb2760074bc5dfbf3d381f21a2311039",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/contains-opcode-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@find_tree_opcode@4",
+          "accepted_kind": "application",
+          "previous_logical": "@find_tree_opcode@4",
+          "original_extent": [
+            "0x58700",
+            "0x58765"
+          ],
+          "before": {
+            "path": "cases/hello-original-783.json",
+            "sha256": "6d746eea56dc7dbdcd42e2751841db5388a494ff6dbe16a222c5e9091a70fafa",
+            "capture": {
+              "label": "contains-opcode-after",
+              "accepted": 783,
+              "logical": "@find_tree_opcode@4",
+              "original_va": "0x58700",
+              "events": "exception 80000003 rva 00048700 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.20736476220190525,
+              "execution_check_seconds": 1.083501891233027,
+              "total_seconds": 1.2908671302720904,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "7d6958e11f45a937117beb49db2e8c84e9b46837c9e36331641190bc10f0d08d",
+              "config_sha256": "f2f5a10713d15849e3f4bb78c6c8fcd7bb2760074bc5dfbf3d381f21a2311039",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/contains-opcode-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-784.json",
+            "sha256": "1137e4684d6b54d1f5852e65dbd9eec76307a0565a30dab676c6bccce5fff3d7",
+            "capture": {
+              "label": "find-opcode-after",
+              "accepted": 784,
+              "logical": "@collect_region_values@4",
+              "original_va": "0x5c120",
+              "events": "exception 80000003 rva 0004c120 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19486428517848253,
+              "execution_check_seconds": 0.9418467534705997,
+              "total_seconds": 1.1367114763706923,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "46c314dc76227e04574493a2f390ec03bc9233aca6570f402c18ed9b7307a956",
+              "config_sha256": "be48b8618dae5d5916c7dab0d781e54f95a8d43984f104fd5955a40c3d55e9d2",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/find-opcode-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@collect_region_values@4",
+          "accepted_kind": "application",
+          "previous_logical": "@collect_region_values@4",
+          "original_extent": [
+            "0x5c120",
+            "0x5c168"
+          ],
+          "before": {
+            "path": "cases/hello-original-784.json",
+            "sha256": "1137e4684d6b54d1f5852e65dbd9eec76307a0565a30dab676c6bccce5fff3d7",
+            "capture": {
+              "label": "find-opcode-after",
+              "accepted": 784,
+              "logical": "@collect_region_values@4",
+              "original_va": "0x5c120",
+              "events": "exception 80000003 rva 0004c120 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19486428517848253,
+              "execution_check_seconds": 0.9418467534705997,
+              "total_seconds": 1.1367114763706923,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "46c314dc76227e04574493a2f390ec03bc9233aca6570f402c18ed9b7307a956",
+              "config_sha256": "be48b8618dae5d5916c7dab0d781e54f95a8d43984f104fd5955a40c3d55e9d2",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/find-opcode-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-785.json",
+            "sha256": "e64ab83aa55053ce5ca8205a6e53235ca27372122a0a7e9d01138ae5925a79d3",
+            "capture": {
+              "label": "collect-region-after",
+              "accepted": 785,
+              "logical": "@collect_region_value_tree@4",
+              "original_va": "0x5fba0",
+              "events": "exception 80000003 rva 0004fba0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1828233264386654,
+              "execution_check_seconds": 1.1289555756375194,
+              "total_seconds": 1.3117794059216976,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "cd7238f9b34d180d215185125cb84b836e3bf13e8cf02409a7b86bb19cc6ea68",
+              "config_sha256": "ab87f3c4e170dea8f8751b84351895c299bc6fff49c65f81ad3fc704e5a2ec95",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/collect-region-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@collect_region_value_tree@4",
+          "accepted_kind": "application",
+          "previous_logical": "@collect_region_value_tree@4",
+          "original_extent": [
+            "0x5fba0",
+            "0x5fbf5"
+          ],
+          "before": {
+            "path": "cases/hello-original-785.json",
+            "sha256": "e64ab83aa55053ce5ca8205a6e53235ca27372122a0a7e9d01138ae5925a79d3",
+            "capture": {
+              "label": "collect-region-after",
+              "accepted": 785,
+              "logical": "@collect_region_value_tree@4",
+              "original_va": "0x5fba0",
+              "events": "exception 80000003 rva 0004fba0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1828233264386654,
+              "execution_check_seconds": 1.1289555756375194,
+              "total_seconds": 1.3117794059216976,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "cd7238f9b34d180d215185125cb84b836e3bf13e8cf02409a7b86bb19cc6ea68",
+              "config_sha256": "ab87f3c4e170dea8f8751b84351895c299bc6fff49c65f81ad3fc704e5a2ec95",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/collect-region-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-786.json",
+            "sha256": "b70ee7e16fa7e6a858336f429b6274dad6d9ed47b282aa701edf2aef6e8a2198",
+            "capture": {
+              "label": "collect-value-tree-after",
+              "accepted": 786,
+              "logical": "@add_region_candidate@8",
+              "original_va": "0x5fc00",
+              "events": "exception 80000003 rva 0004fc00 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18560289777815342,
+              "execution_check_seconds": 1.1119689857587218,
+              "total_seconds": 1.2975723147392273,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9876005b7d211591bc4b0b70ef12cc3adac964b1b7e43a2bedd6b7c5f455a441",
+              "config_sha256": "e5464c60e9ef1458aeec660e6b6ba40572cd4eee302b11fbc6ae6bab10a5fb75",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/collect-value-tree-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@add_region_candidate@8",
+          "accepted_kind": "application",
+          "previous_logical": "@add_region_candidate@8",
+          "original_extent": [
+            "0x5fc00",
+            "0x5fc3f"
+          ],
+          "before": {
+            "path": "cases/hello-original-786.json",
+            "sha256": "b70ee7e16fa7e6a858336f429b6274dad6d9ed47b282aa701edf2aef6e8a2198",
+            "capture": {
+              "label": "collect-value-tree-after",
+              "accepted": 786,
+              "logical": "@add_region_candidate@8",
+              "original_va": "0x5fc00",
+              "events": "exception 80000003 rva 0004fc00 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18560289777815342,
+              "execution_check_seconds": 1.1119689857587218,
+              "total_seconds": 1.2975723147392273,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9876005b7d211591bc4b0b70ef12cc3adac964b1b7e43a2bedd6b7c5f455a441",
+              "config_sha256": "e5464c60e9ef1458aeec660e6b6ba40572cd4eee302b11fbc6ae6bab10a5fb75",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/collect-value-tree-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-787.json",
+            "sha256": "cd4597d88b9641ff5267bf57329b7703ed9d83dd8108f0563b3871d5d1cfa202",
+            "capture": {
+              "label": "region-candidate-add-after",
+              "accepted": 787,
+              "logical": "_hoist_invariant_region_stores",
+              "original_va": "0x5f1c0",
+              "events": "exception 80000003 rva 0004f1c0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.24603156559169292,
+              "execution_check_seconds": 1.3625366715714335,
+              "total_seconds": 1.6085692076012492,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "abdc5c96d585a98aeac3fa8d985cd2f92b2ec6fdc43082f53e5694c97487de81",
+              "config_sha256": "b00977ead28f7a216e2c8b11796496ece7f66eb14805b5f78f6798167969d937",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/region-candidate-add-after"
+            }
+          }
         }
       ],
       "extent_corrections": [
@@ -12264,7 +12666,7 @@
     },
     "hello": {
       "first": 352,
-      "last": 781,
+      "last": 787,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -12966,9 +13368,15 @@
         "simplify_flow_regions",
         "compact_flow_region",
         "region_is_outside",
-        "reduce_flow_regions"
+        "reduce_flow_regions",
+        "tree_contains_opcode",
+        "find_tree_opcode",
+        "collect_region_values",
+        "collect_region_value_tree",
+        "add_region_candidate",
+        "hoist_invariant_region_stores"
       ],
-      "terminal": "@reduce_flow_regions@4",
+      "terminal": "_hoist_invariant_region_stores",
       "returncode": -5,
       "terminal_kind": "application"
     }

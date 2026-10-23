@@ -387,3 +387,26 @@ void __fastcall inspect_tree_repeatability(Node *node)
     }
     tree_repeatable = 0;
 }
+
+static unsigned searched_opcode; /* 000836f4: current recursive operator search. */
+int __fastcall find_tree_opcode(Node *node);
+/* Original [000586f0,000586fb). The recursive worker shares one search
+   opcode while walking all non-leaf operators. */
+int __fastcall tree_contains_opcode(Node *node, unsigned opcode)
+{
+    searched_opcode = opcode;
+    return find_tree_opcode(node);
+}
+
+/* Original [00058700,00058765). Search left recursively and the right
+   spine iteratively. Leaf opcodes are deliberately excluded from this query. */
+int __fastcall find_tree_opcode(Node *node)
+{
+    for (;;) {
+        if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return 0;
+        if (node->opcode == searched_opcode) return 1;
+        if (find_tree_opcode(node->left.node) == 1) return 1;
+        if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return 0;
+        node = node->second.node;
+    }
+}

@@ -86,7 +86,6 @@ Expression *__fastcall substitute_inline_body(Function *function, InlineBinding 
     unsigned source_location, InlineSite *site, int hidden_result) { __asm int 3 }
 void __fastcall recycle_inline_site(InlineSite *site) { __asm int 3 }
 void __fastcall recycle_inline_binding(InlineBinding *binding) { __asm int 3 }
-int __fastcall tree_contains_opcode(Node *node, unsigned opcode) { __asm int 3 }
 unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
 void __fastcall release_node_children(Node *node) { __asm int 3 }
@@ -287,7 +286,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
-WorkItem *__fastcall reduce_flow_regions(FlowRegion *regions) { __asm int 3 }
 
 
 
@@ -316,7 +314,6 @@ void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replaceme
 
 int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
 
-void __fastcall collect_region_values(FlowRegion *region) { __asm int 3 }
 
 
 int __fastcall available_chain_operands(Node *node, BitSet *available) { __asm int 3 }

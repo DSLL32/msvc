@@ -785,7 +785,13 @@
     "@mark_flow_region@4",
     "@simplify_flow_regions@4",
     "@compact_flow_region@4",
-    "@region_is_outside@8"
+    "@region_is_outside@8",
+    "@reduce_flow_regions@4",
+    "@tree_contains_opcode@8",
+    "@find_tree_opcode@4",
+    "@collect_region_values@4",
+    "@collect_region_value_tree@4",
+    "@add_region_candidate@8"
   ],
   "driver": [
     {
@@ -2574,8 +2580,7 @@
     {
       "name": "@tree_contains_opcode@8",
       "start": 362224,
-      "end": 362225,
-      "provisional": true
+      "end": 362235
     },
     {
       "name": "@value_node_type@8",
@@ -4101,8 +4106,7 @@
     {
       "name": "@reduce_flow_regions@4",
       "start": 368960,
-      "end": 368961,
-      "provisional": true
+      "end": 369403
     },
     {
       "name": "@rotate_flow_regions@4",
@@ -4401,8 +4405,7 @@
     {
       "name": "@collect_region_values@4",
       "start": 377120,
-      "end": 377121,
-      "provisional": true
+      "end": 377192
     },
     {
       "name": "@hoist_region_values@4",
@@ -6108,6 +6111,21 @@
       "start": 375312,
       "end": 375313,
       "provisional": true
+    },
+    {
+      "name": "@find_tree_opcode@4",
+      "start": 362240,
+      "end": 362341
+    },
+    {
+      "name": "@collect_region_value_tree@4",
+      "start": 392096,
+      "end": 392181
+    },
+    {
+      "name": "@add_region_candidate@8",
+      "start": 392192,
+      "end": 392255
     }
   ],
   "cases": {

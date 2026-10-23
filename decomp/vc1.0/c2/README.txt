@@ -1972,3 +1972,15 @@ Native/original agree at reduce_flow_regions5a140.703 graph/extent checks, nativ
 fixtures, canonical and two modules/W3 pass. Actual block relocation and switch
 redirection bodies are not claimed covered by the current loop path. Full hello
 output remains incomplete; see cases/hello-natural-loops.json for evidence/timing.
+
+Loop values: checkpoint787
+--------------------------
+Nested-region reduction preserves continuation branches and enclosing graph
+links. Non-leaf opcode search retains its separate wrapper/recursive worker and
+contextual search opcode. Natural-loop candidate collection walks effects and
+canonical stores;24-byte RegionValue records now name the encountered tree and
+WorkValue identifier while retaining unknown fields explicitly. Native/original
+agree at hoist_invariant_region_stores5f1c0.709 graph/extent checks, native
+fixtures, canonical and three modules/W3 pass. Nested continuation rewiring is
+not claimed exercised by this single loop. Full hello output remains incomplete;
+see cases/hello-loop-values.json for ordered references, layouts and timing.

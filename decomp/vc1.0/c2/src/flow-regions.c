@@ -1,6 +1,7 @@
 /* Natural and irreducible regions in the global work graph. */
 #include "flow-edges.h"
 #include "bitsets.h"
+#include "expression-fields.h"
 #include <recon.h>
 static WorkItem *region_candidate; /* 0007becc */
 static WorkItem *irreducible_last; /* 0007bec8 */
@@ -227,4 +228,67 @@ int __fastcall region_is_outside(FlowRegion *candidate, FlowRegion *region)
     for (; candidate; candidate = candidate->parent)
         if (candidate == region) return 0;
     return 1;
+}
+
+/* Original [0005a140,0005a2fb). Extend an enclosing region past its
+   children, inserting a labeled continuation when its old terminal branch
+   must still lead back to the enclosing header. Return the furthest block. */
+WorkItem *__fastcall reduce_flow_regions(FlowRegion *regions)
+{
+    WorkItem *furthest = regions->last, *last, *old_last;
+    Expression *expression, *header_expression;
+    Node *branch, *label, *jump, *target;
+    SymbolHeader *old_label;
+    short number;
+    for (; regions; regions = regions->next) {
+        if (regions->children) {
+            last = reduce_flow_regions(regions->children);
+            if (regions->last->number < last->number) {
+                old_last = regions->last;
+                expression = old_last->body.expressions;
+                while (expression) {
+                    branch = expression->tree;
+                    if (branch->opcode == 0x38 || branch->opcode == 0x3a ||
+                        branch->opcode == 0x3c) break;
+                    expression = expression->next;
+                }
+                if (!expression) regions->last = last;
+                else {
+                    label = new_flow_label_node();
+                    jump = new_node(0x3a);
+                    if (branch->opcode == 0x3c) {
+                        for (header_expression = regions->header->body.expressions;
+                             header_expression; header_expression = header_expression->next) {
+                            if (header_expression->tree->opcode == 0x29) {
+                                jump->right.symbol = header_expression->tree->right.symbol;
+                                break;
+                            }
+                        }
+                        old_label = jump->right.symbol;
+                        if (branch->right.symbol == old_label) branch->right.symbol = label->right.symbol;
+                        for (target = branch->second.node; target->opcode != 0x4c;
+                             target = target->second.node)
+                            if (target->right.symbol == old_label) target->right.symbol = label->right.symbol;
+                    } else {
+                        jump->right.symbol = branch->right.symbol;
+                        branch->right.symbol = label->right.symbol;
+                    }
+                    number = last->number;
+                    if (ensure_flow_branch(last, last->next)) last = last->next;
+                    last = build_work_lists("SNRnlTLnl", last, label, jump);
+                    last->region = regions;
+                    last->number = number;
+                    regions->last = last;
+                    remove_flow_reference(&old_last->successors, regions->header);
+                    remove_flow_reference(&regions->header->predecessors, old_last);
+                    connect_flow_blocks(old_last, last);
+                    connect_flow_blocks(last, regions->header);
+                    last->flags |= old_last->flags & 1;
+                    global_flow_changed = 1;
+                }
+            } else last = regions->last;
+        } else last = regions->last;
+        if (last->number > furthest->number) furthest = last;
+    }
+    return furthest;
 }

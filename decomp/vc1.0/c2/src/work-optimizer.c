@@ -1049,3 +1049,53 @@ Node *__fastcall next_work_value_node(WorkValue **cursor)
     *cursor = value->previous;
     return node;
 }
+
+static FlowRegion *collecting_region; /* 0007bea4: candidate-value collection. */
+void __fastcall collect_region_value_tree(Node *node);
+/* Original [0005c120,0005c168). Collect candidate values from every
+   expression in an ordinary natural loop, excluding its preheader. */
+void __fastcall collect_region_values(FlowRegion *region)
+{
+    WorkItem *work, *after;
+    Expression *expression;
+    if (region->flags & 1) return;
+    collecting_region = region;
+    region->candidates = 0;
+    after = region->last->next;
+    for (work = region->header; work != after; work = work->next)
+        for (expression = work->body.expressions; expression; expression = expression->next)
+            collect_region_value_tree(expression->tree);
+}
+
+void __fastcall add_region_candidate(Node *node, FlowRegion *region);
+/* Original [0005fba0,0005fbf5). Visit children first, then collect each
+   side-effecting operator using the canonical store tree for assignments. */
+void __fastcall collect_region_value_tree(Node *node)
+{
+    unsigned shape = node_shapes[node->opcode];
+    if ((shape & NODE_ARITY) == NODE_LEAF) return;
+    collect_region_value_tree(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        collect_region_value_tree(node->second.node);
+    shape = node_shapes[node->opcode];
+    if (shape & NODE_SIDE_EFFECT) {
+        if (shape & NODE_WRITES_LEFT) node = node->detail.node;
+        add_region_candidate(node, collecting_region);
+    }
+}
+
+/* Original [0005fc00,0005fc3f). Link one candidate, recording canonical
+   memory identity for a store. Arena three supplies the zeroed record. */
+void __fastcall add_region_candidate(Node *node, FlowRegion *region)
+{
+    RegionValue *candidate = arena_alloc(3, sizeof(RegionValue));
+    WorkValue *value;
+    candidate->tree = node;
+    if (node->opcode == 0x32) {
+        value = intern_work_value(node);
+        candidate->value_identifier = value->identifier;
+        candidate->tree = value->canonical;
+    }
+    candidate->next = region->candidates;
+    region->candidates = candidate;
+}

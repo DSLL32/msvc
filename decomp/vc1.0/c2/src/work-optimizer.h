@@ -51,13 +51,16 @@ extern BitSet *work_clobbered_values;
 void __fastcall merge_predecessor_references(WorkItem *work);
 void __fastcall analyze_block_references(WorkItem *work);
 WorkReferenceTable *new_work_reference_table(void);
-/* Encountered prefix of the 24-byte record linked through region+24.
-   The current consumer reads next and tree only; field04 is uninterpreted. */
+/* Arena-three24-byte candidate linked through region+24. A store uses
+   the canonical WorkValue tree/identifier; the other fields remain unknown. */
 typedef struct RegionValue {
     struct RegionValue *next;
     unsigned field04;
     Node *tree;
+    unsigned value_identifier;
+    unsigned field10, field14;
 } RegionValue;
+typedef char RegionValueSizeCheck[sizeof(RegionValue) == 24 ? 1 : -1];
 extern BitSet *work_killed_values;
 void __fastcall release_work_reference_table(WorkReferenceTable *table);
 void flag_killed_work_references(void);
