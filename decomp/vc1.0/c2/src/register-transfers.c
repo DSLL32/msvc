@@ -5,6 +5,7 @@
 #include "work-optimizer.h"
 #include "expression-fields.h"
 #include "function-input.h"
+#include "flow-edges.h"
 #include <recon.h>
 
 AllocationBinding *allocation_register_bindings; /* 0007b9bc */
@@ -352,4 +353,82 @@ void *__fastcall find_register_allocation(unsigned short number, int want_range)
     }
     compiler_internal_error("@(#)nglobreg.c:1.35", 0x68a);
     return 0;
+}
+
+int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, SymbolHeader *new_label);
+/* Original [00061d40,00061f8d). A critical predecessor edge needs its
+   own register reload. Reuse a transfer block when possible; otherwise split
+   before the destination and redirect every explicit incoming label reference. */
+void __fastcall split_register_transfer_edge(AllocationRange *range, Node *value,
+    WorkItem *work, FlowLink *edge)
+{
+    WorkItem *predecessor = edge->work, *transfer, *previous;
+    Expression *expression, *scan;
+    Node *label, *node, *entry;
+    SymbolHeader *target;
+    unsigned number;
+    expression = work->body.expressions;
+    while (expression && expression->tree->opcode != 0x29) expression = expression->next;
+    target = expression->tree->right.symbol;
+    if ((predecessor->flags & 4) || !predecessor->successors->next) transfer = predecessor;
+    else {
+        previous = work->previous;
+        if (!(previous->flags & 4)) {
+            expression = previous->body.expressions;
+            for (scan = expression; scan; scan = scan->next)
+                if (scan->tree->opcode == 0x3a || scan->tree->opcode == 0x3c) break;
+            if (!scan) {
+                node = new_node(0x3a);
+                node->right.symbol = target;
+                insert_tree_expression(expression, 0, node);
+            }
+        }
+        transfer = new_work_item();
+        transfer->previous = work->previous;
+        transfer->next = work;
+        work->previous->next = transfer;
+        work->previous = transfer;
+        transfer->flags |= 4;
+        transfer->number = -1;
+        transfer->pass.selection.definitions = assign_bitset(0, work->pass.selection.uses);
+        intersect_bitset(transfer->pass.selection.definitions, predecessor->pass.selection.definitions);
+        transfer->pass.selection.uses = assign_bitset(0, transfer->pass.selection.definitions);
+        label = new_flow_label_node();
+        transfer->body.expressions = new_expression();
+        transfer->body.expressions->tree = label;
+        node = new_node(0x3a);
+        node->right.symbol = target;
+        insert_tree_expression(transfer->body.expressions, 0, node);
+        transfer->region = work->region;
+        if (transfer->region && transfer->region->header == work) transfer->region->header = transfer;
+        for (expression = predecessor->body.expressions; expression; expression = expression->next) {
+            node = expression->tree;
+            switch (node->opcode) {
+            case 0x38: case 0x3a:
+                if (node->right.symbol == target) node->right.symbol = label->right.symbol;
+                break;
+            case 0x3c:
+                if (node->right.symbol == target) node->right.symbol = label->right.symbol;
+                for (entry = node->second.node; entry->opcode != 0x4c; entry = entry->second.node)
+                    if (entry->right.symbol == target) entry->right.symbol = label->right.symbol;
+                break;
+            case 0x45:
+                compiler_internal_error("@(#)nglobreg.c:1.35", 0x733);
+                break;
+            case 0x4f:
+                if (node->detail.control.code == 0x16)
+                    redirect_assembly_label(node, target, label->right.symbol);
+                break;
+            }
+        }
+        add_flow_predecessor(transfer, predecessor);
+        add_flow_successor(predecessor, transfer);
+        remove_flow_reference(&predecessor->successors, work);
+        edge->work = transfer;
+        add_flow_successor(transfer, work);
+        transfer->flags |= work->flags & 1;
+    }
+    number = range->number;
+    emit_global_register_transfer(0x24, number, value, transfer, 0);
+    transfer->pass.selection.definitions = bitset_include(transfer->pass.selection.definitions, number & 0x3fff);
 }

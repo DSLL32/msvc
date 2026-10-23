@@ -902,7 +902,10 @@
     "@remove_parent_counter_records@4",
     "@materialize_numbered_tree@4",
     "@invalidate_work_tree@4",
-    "@find_assignment_operand@8"
+    "@find_assignment_operand@8",
+    "@distribute_unary_tree@4",
+    "_addition_overflows",
+    "@split_register_transfer_edge@16"
   ],
   "driver": [
     {
@@ -4007,8 +4010,7 @@
     {
       "name": "@distribute_unary_tree@4",
       "start": 348368,
-      "end": 348369,
-      "provisional": true
+      "end": 348413
     },
     {
       "name": "@is_negatable_negative_constant@4",
@@ -4989,8 +4991,7 @@
     {
       "name": "@split_register_transfer_edge@16",
       "start": 400704,
-      "end": 400705,
-      "provisional": true
+      "end": 401293
     },
     {
       "name": "@mark_register_definition_ends@12",
@@ -6119,8 +6120,7 @@
     {
       "name": "_addition_overflows",
       "start": 465406,
-      "end": 465407,
-      "provisional": true
+      "end": 465466
     },
     {
       "name": "_subtraction_overflows",
@@ -6600,6 +6600,12 @@
       "name": "@remove_parent_counter_records@4",
       "start": 395824,
       "end": 395924
+    },
+    {
+      "name": "@redirect_assembly_label@12",
+      "start": 162816,
+      "end": 162817,
+      "provisional": true
     }
   ],
   "cases": {

@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "69b53620960bc66be89541292ad0f429384eaa2d124374868a27be501d3e0cc3",
+    "functions.json": "071ac8f34511fd9cb790f42f711ac6a9ac8ba6e8717570bdde58d59f4ac9c08f",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -64,7 +64,7 @@
     },
     "addition_overflows": {
       "logical": "_addition_overflows",
-      "source": "src/stubs.c"
+      "source": "src/integer-fold.c"
     },
     "address_changed_between": {
       "logical": "@address_changed_between@12",
@@ -1120,7 +1120,7 @@
     },
     "distribute_unary_tree": {
       "logical": "@distribute_unary_tree@4",
-      "source": "src/stubs.c"
+      "source": "src/global-tree.c"
     },
     "double_to_extended": {
       "logical": "_double_to_extended",
@@ -3242,6 +3242,10 @@
       "logical": "@recycle_inline_site@4",
       "source": "src/stubs.c"
     },
+    "redirect_assembly_label": {
+      "logical": "@redirect_assembly_label@12",
+      "source": "src/stubs.c"
+    },
     "redirect_flow_label": {
       "logical": "@redirect_flow_label@12",
       "source": "src/flow-edges.c"
@@ -4056,7 +4060,7 @@
     },
     "split_register_transfer_edge": {
       "logical": "@split_register_transfer_edge@16",
-      "source": "src/stubs.c"
+      "source": "src/register-transfers.c"
     },
     "split_switch_ranges": {
       "logical": "@split_switch_ranges@24",
@@ -20431,6 +20435,213 @@
               "total_seconds": 1.4478374887257814
             }
           }
+        },
+        {
+          "accepted_function": "@distribute_unary_tree@4",
+          "accepted_kind": "application",
+          "previous_logical": "@distribute_unary_tree@4",
+          "original_extent": [
+            "0x550d0",
+            "0x550fd"
+          ],
+          "before": {
+            "path": "cases/loops-original-898.json",
+            "sha256": "6a1b3690cbfa786ff14b01bc9303dc4d5f808ffd9c0890736d08449b776a2ab2",
+            "capture": {
+              "label": "loops-original-898",
+              "profile": "loops",
+              "accepted": 898,
+              "events": "exception 80000003 rva 000450d0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "b15337cd52a66821e6730bf0899d9dabd84443eb5bfe91f08df4db2517b011d9",
+              "config_sha256": "69b53620960bc66be89541292ad0f429384eaa2d124374868a27be501d3e0cc3",
+              "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+              "inputs": {
+                "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+                "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-mq00w3yv",
+              "logical": "@distribute_unary_tree@4",
+              "original_va": "0x550d0",
+              "setup_seconds": 0.19956401083618402,
+              "execution_seconds": 1.2405900759622455,
+              "check_seconds": 0.0076828934252262115,
+              "total_seconds": 1.4478374887257814
+            }
+          },
+          "after": {
+            "path": "cases/loops-original-899.json",
+            "sha256": "513fe6651cc0900db4c12a43682add9b832c20689cba14f221b483f9b42371c8",
+            "capture": {
+              "label": "loops-original-899",
+              "profile": "loops",
+              "accepted": 899,
+              "events": "exception 80000003 rva 000619fe base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "7eb306909e9c257a1dcb294f75ed6f65937e3c8d9a4f2bb4f97411cac8476439",
+              "config_sha256": "9c7a96e20d815f6737a7df98ed111ad7dea341232c1c721523232025904c09f2",
+              "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+              "inputs": {
+                "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+                "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-ab1twvef",
+              "logical": "_addition_overflows",
+              "original_va": "0x719fe",
+              "setup_seconds": 0.20637106709182262,
+              "execution_seconds": 0.6772536532953382,
+              "check_seconds": 0.006123080849647522,
+              "total_seconds": 0.8897482519969344
+            }
+          }
+        },
+        {
+          "accepted_function": "_addition_overflows",
+          "accepted_kind": "application",
+          "previous_logical": "_addition_overflows",
+          "original_extent": [
+            "0x719fe",
+            "0x71a3a"
+          ],
+          "before": {
+            "path": "cases/loops-original-899.json",
+            "sha256": "513fe6651cc0900db4c12a43682add9b832c20689cba14f221b483f9b42371c8",
+            "capture": {
+              "label": "loops-original-899",
+              "profile": "loops",
+              "accepted": 899,
+              "events": "exception 80000003 rva 000619fe base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "7eb306909e9c257a1dcb294f75ed6f65937e3c8d9a4f2bb4f97411cac8476439",
+              "config_sha256": "9c7a96e20d815f6737a7df98ed111ad7dea341232c1c721523232025904c09f2",
+              "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+              "inputs": {
+                "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+                "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-ab1twvef",
+              "logical": "_addition_overflows",
+              "original_va": "0x719fe",
+              "setup_seconds": 0.20637106709182262,
+              "execution_seconds": 0.6772536532953382,
+              "check_seconds": 0.006123080849647522,
+              "total_seconds": 0.8897482519969344
+            }
+          },
+          "after": {
+            "path": "cases/loops-original-900.json",
+            "sha256": "12e173451a07c2f5e2664cef095c253ee43d20a59a72cda647b0bf295599fcd9",
+            "capture": {
+              "label": "loops-original-900",
+              "profile": "loops",
+              "accepted": 900,
+              "events": "exception 80000003 rva 00051d40 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "70db0d9c8bb992d724d5df66f3ce31e91965899aef820932bcea84ece9119665",
+              "config_sha256": "7418eb74ea429462d0c1f998683ca97068dd1b1400242501ff5420173eec5380",
+              "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+              "inputs": {
+                "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+                "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-eimix1cb",
+              "logical": "@split_register_transfer_edge@16",
+              "original_va": "0x61d40",
+              "setup_seconds": 0.1983750481158495,
+              "execution_seconds": 1.2784713804721832,
+              "check_seconds": 0.00626103300601244,
+              "total_seconds": 1.4831078704446554
+            }
+          }
+        },
+        {
+          "accepted_function": "@split_register_transfer_edge@16",
+          "accepted_kind": "application",
+          "previous_logical": "@split_register_transfer_edge@16",
+          "original_extent": [
+            "0x61d40",
+            "0x61f8d"
+          ],
+          "before": {
+            "path": "cases/loops-original-900.json",
+            "sha256": "12e173451a07c2f5e2664cef095c253ee43d20a59a72cda647b0bf295599fcd9",
+            "capture": {
+              "label": "loops-original-900",
+              "profile": "loops",
+              "accepted": 900,
+              "events": "exception 80000003 rva 00051d40 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "70db0d9c8bb992d724d5df66f3ce31e91965899aef820932bcea84ece9119665",
+              "config_sha256": "7418eb74ea429462d0c1f998683ca97068dd1b1400242501ff5420173eec5380",
+              "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+              "inputs": {
+                "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+                "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-eimix1cb",
+              "logical": "@split_register_transfer_edge@16",
+              "original_va": "0x61d40",
+              "setup_seconds": 0.1983750481158495,
+              "execution_seconds": 1.2784713804721832,
+              "check_seconds": 0.00626103300601244,
+              "total_seconds": 1.4831078704446554
+            }
+          },
+          "after": {
+            "path": "cases/loops-original-901.json",
+            "sha256": "50110271064e8915892b99b8bd5679fdded2b51cd9d29f506a4c0b29738f3930",
+            "capture": {
+              "label": "loops-original-901",
+              "profile": "loops",
+              "accepted": 901,
+              "events": "exception 80000003 rva 00011c90 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c32db66459107a4808ad48e51eaef37a2d6456edaba2a074b5ce8cffde03681e",
+              "config_sha256": "071ac8f34511fd9cb790f42f711ac6a9ac8ba6e8717570bdde58d59f4ac9c08f",
+              "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+              "inputs": {
+                "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+                "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-4lb1ys0r",
+              "logical": "@integer_width_mask@4",
+              "original_va": "0x21c90",
+              "setup_seconds": 0.2015179842710495,
+              "execution_seconds": 1.0390464179217815,
+              "check_seconds": 0.006413773633539677,
+              "total_seconds": 1.2469785697758198
+            }
+          }
         }
       ]
     }
@@ -21485,7 +21696,7 @@
     },
     "loops": {
       "first": 840,
-      "last": 898,
+      "last": 901,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -22304,9 +22515,12 @@
         "materialize_numbered_tree",
         "invalidate_work_tree",
         "find_assignment_operand",
-        "distribute_unary_tree"
+        "distribute_unary_tree",
+        "addition_overflows",
+        "split_register_transfer_edge",
+        "integer_width_mask"
       ],
-      "terminal": "@distribute_unary_tree@4",
+      "terminal": "@integer_width_mask@4",
       "terminal_kind": "application",
       "returncode": -5
     }

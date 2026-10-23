@@ -113,3 +113,18 @@ Node *__fastcall fold_integer_node(Node *node)
     release_tree(node);
     return constant;
 }
+
+/* Original [000719fe,00071a3a). Match byte/word/dword ADD flags using
+   unsigned arithmetic, so the checker itself never overflows signed C. */
+int __cdecl addition_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes)
+{
+    unsigned mask, sign, sum;
+    if (bytes == 2) { mask = 0xffff; sign = 0x8000; }
+    else if ((int)bytes < 2) { mask = 0xff; sign = 0x80; }
+    else { mask = ~0U; sign = 0x80000000U; }
+    left &= mask;
+    right &= mask;
+    sum = left + right;
+    if (is_unsigned) return mask == ~0U ? sum < left : sum > mask;
+    return (~(left ^ right) & (left ^ sum) & sign) != 0;
+}

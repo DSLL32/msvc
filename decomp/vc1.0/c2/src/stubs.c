@@ -231,7 +231,6 @@ int extended_to_integer(const Extended *number, int *result) { __asm int 3 }
 
 
 Node *__fastcall simplify_reciprocal(Node *node) { __asm int 3 }
-Node *__fastcall distribute_unary_tree(Node *node) { __asm int 3 }
 
 Node *__fastcall copy_factor_exponent(Node *node) { __asm int 3 }
 
@@ -323,7 +322,7 @@ void __fastcall release_allocation_range(AllocationRange *range) { __asm int 3 }
 
 void __fastcall restore_excluded_registers(Node *node) { __asm int 3 }
 
-void __fastcall split_register_transfer_edge(AllocationRange *range, Node *value, WorkItem *work, FlowLink *edge) { __asm int 3 }
+int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }
 void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *value, AllocationRange *range) { __asm int 3 }
 
 MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *transfer) { __asm int 3 }
@@ -386,7 +385,6 @@ unsigned short __fastcall intrinsic_argument_width(Node *node, int skip_first) {
 int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }
-int __cdecl addition_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
 int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }

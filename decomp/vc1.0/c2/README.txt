@@ -2241,3 +2241,11 @@ Global loop expression rewriting passed: checkpoint898
 native fixtures pass. See cases/loops-global-rewrite.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Loop instruction selection reached: checkpoint901
+----------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@integer_width_mask@4. 823 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-global-transfers.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

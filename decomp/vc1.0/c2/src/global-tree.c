@@ -964,3 +964,13 @@ Node *__fastcall fold_bitwise_and(Node *node)
     }
     return node;
 }
+
+/* Original [000550d0,000550fd). Distribute a unary outer operation
+   over its binary left child, cloning the outer node for the first operand. */
+Node *__fastcall distribute_unary_tree(Node *node)
+{
+    Node *left = node->left.node;
+    tree_changed = 1;
+    return build_tree("PLYPLYLY", left->left.node, clone_node(node),
+                      left->second.node, node, left);
+}
