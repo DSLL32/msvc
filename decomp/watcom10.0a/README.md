@@ -12,10 +12,13 @@ function boundaries, and ABIs.
 Retain applicable copyright/license notices when reusing released source and
 record its exact path, commit, and binary-specific adaptations.
 
-WLIB and WLINK are PE32 programs. WLINK reference execution uses only the
-separate `.patched/WLINK.EXE`; its GS compatibility substitutions, original and
-patched hashes, and validation provenance are recorded beside it. Keep the
-unmodified executable intact and distinguish patched capture provenance.
+WLIB and WLINK are PE32 programs. Their Wine captures use separate
+`.patched/WLIB.EXE` and `.patched/WLINK.EXE` copies for the proved resource-reader
+GS compatibility substitutions. WASM uses the unchanged `.patched/binnt/WASM.EXE`
+loader with `.patched/binb/WASM.EXE`. Patch hashes, exact sites, and selector and
+buffer-ownership limits are recorded in the corresponding case metadata. Keep
+originals intact and distinguish patched capture provenance; the patches grant
+no application reconstruction credit.
 
 The other tools contain CF payloads in their `binb` containers. Their `binnt`
 stubs allocate and relocate the payload, then enter its native i386 code and
@@ -41,6 +44,14 @@ No per-function ABI veneers or object-format translation are required.
 Before accepting functions, verify original/native compiler probes, CF code
 ownership and mask handling, and graph-audit input support. A blocked build or
 unrun case does not count as a successful reconstruction.
+
+`tooling/graph-audit/` supports explicit CF image-offset inputs and actual Watcom
+PE MAP files (`--map-format watcom10`). Declare proved code, shared data, and SEH
+roots explicitly. CF import and callback-table checks remain unsupported; RET
+cleanup comparison does not replace the target's Watcom ABI checks. The separate
+`tooling/watcom-capture/` controller must verify observed allocation and relocated
+bytes and stop unknown transfers before execution; its byte verifier is not a
+code classifier or proof that a process was observed.
 
 Use the shared repository Wine prefix for explicit original builds and captures.
 Cached fixtures and debugging run natively on i386 Linux, without Wine. Shared
