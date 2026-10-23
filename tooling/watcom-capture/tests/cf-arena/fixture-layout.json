@@ -1,0 +1,144 @@
+{
+  "scope": "authored PE initialized virtual image; HIGHLOW addends normalized by actual ImageBase only; no synthesized CFG",
+  "source": {
+    "path": "arena-payload.c",
+    "sha256": "defb22a43e4b0e3d243a1c8cad4c3b229ca5b803ff795f18a6040e5633140025"
+  },
+  "pe": {
+    "path": "payload.exe",
+    "sha256": "fe4b295d8679d23f5754c40c61ebea304155bc381347ec2a29f2d5562b2c3cfb",
+    "image_base": 4194304,
+    "size_of_image": 16384,
+    "sections": [
+      {
+        "name": ".text",
+        "rva": 4096,
+        "virtual_size": 121,
+        "raw_size": 512,
+        "raw_offset": 1024,
+        "characteristics": 1610612768
+      },
+      {
+        "name": ".data",
+        "rva": 8192,
+        "virtual_size": 12,
+        "raw_size": 512,
+        "raw_offset": 1536,
+        "characteristics": 3221225536
+      },
+      {
+        "name": ".reloc",
+        "rva": 12288,
+        "virtual_size": 40,
+        "raw_size": 512,
+        "raw_offset": 2048,
+        "characteristics": 1107296320
+      }
+    ]
+  },
+  "map": {
+    "path": "payload.map",
+    "sha256": "4acbda4cf86f486035dba5e2e6e6300ad7795def1a38ae13c02cdea31c0640d4"
+  },
+  "normalized_fixup_offsets": [
+    4100,
+    4108,
+    4119,
+    4136,
+    4141,
+    4159,
+    4200,
+    4208,
+    8192,
+    8196
+  ],
+  "groups": [
+    {
+      "count": 10,
+      "first": 4100,
+      "last": 8196
+    }
+  ],
+  "functions": {
+    "probe_leaf": {
+      "start": 4096,
+      "end": 4114,
+      "symbol": "_probe_leaf"
+    },
+    "probe_unknown": {
+      "start": 4114,
+      "end": 4129,
+      "symbol": "_probe_unknown"
+    },
+    "probe_jump_direct": {
+      "start": 4129,
+      "end": 4134,
+      "symbol": "_probe_jump_direct"
+    },
+    "probe_jump_indirect": {
+      "start": 4134,
+      "end": 4140,
+      "symbol": "_probe_jump_indirect"
+    },
+    "probe_forged_return": {
+      "start": 4140,
+      "end": 4149,
+      "symbol": "_probe_forged_return"
+    },
+    "probe_prefix": {
+      "start": 4149,
+      "end": 4180,
+      "symbol": "_probe_prefix"
+    },
+    "probe_bad_return_prefix": {
+      "start": 4180,
+      "end": 4195,
+      "symbol": "_probe_bad_return_prefix"
+    },
+    "probe_unknown_indirect_call": {
+      "start": 4195,
+      "end": 4206,
+      "symbol": "_probe_unknown_indirect_call"
+    },
+    "probe_unknown_indirect_jump": {
+      "start": 4206,
+      "end": 4212,
+      "symbol": "_probe_unknown_indirect_jump"
+    }
+  },
+  "marker": {
+    "rva": 8200,
+    "size": 4,
+    "type": "volatile DWORD",
+    "initial_value": 0,
+    "write": true
+  },
+  "pointer": {
+    "rva": 8192,
+    "size": 4,
+    "type": "volatile near cdecl function pointer",
+    "target_rva": 4096,
+    "write": false
+  },
+  "unknown_pointer": {
+    "rva": 8196,
+    "size": 4,
+    "type": "volatile near cdecl function pointer",
+    "target_rva": 4114,
+    "write": false
+  },
+  "tail_abi": {
+    "scope": "authored instrumentation only; not production audit permission",
+    "helpers": [
+      "probe_jump_direct",
+      "probe_jump_indirect",
+      "probe_unknown_indirect_jump"
+    ],
+    "contract": "near JMP preserves live caller frame; admitted leaf ends in RET0; unknown destination is a frontier before body",
+    "evidence": {
+      "path": "arena-payload.c",
+      "sha256": "defb22a43e4b0e3d243a1c8cad4c3b229ca5b803ff795f18a6040e5633140025"
+    },
+    "residual": "unresolved indirect-tail owners have local_ret_cleanup_set=[] and checked_ret_cleanup_set=null in full export; never checked0"
+  }
+}

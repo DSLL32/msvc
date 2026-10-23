@@ -1,0 +1,76 @@
+{
+  "authored_fixture_only": true,
+  "application_accepted_functions": 0,
+  "target": {
+    "path": "tooling/watcom-capture/tests/cf-arena/payload.cf",
+    "sha256": "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc",
+    "image": {
+      "format": "watcom-cf",
+      "coordinates": "image-offset",
+      "analysis_base": 0,
+      "initialized_sha256": "889fce7305fb1f38e33c20db5781181c51897cac6eaa513f6d119ecec9a31619",
+      "relocation_sha256": "4f23ed9fcf6c4bc47126699d728fe2fb636b4a05223b364d66987cb05fcb0c58",
+      "loader": {
+        "path": "tooling/watcom-capture/tests/cf-arena/loader.exe",
+        "sha256": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b"
+      },
+      "layout_evidence": {
+        "path": "fixture-layout.json",
+        "sha256": "8fc5107e38ccd33a3464d974b93cf41c7e68c8b53ae67dd79b6ae260e87008cd"
+      }
+    }
+  },
+  "driver": [
+    {
+      "name": "_probe_leaf",
+      "start": 4096,
+      "end": 4114
+    },
+    {
+      "name": "_probe_unknown",
+      "start": 4114,
+      "end": 4129
+    },
+    {
+      "name": "_probe_jump_direct",
+      "start": 4129,
+      "end": 4134
+    },
+    {
+      "name": "_probe_jump_indirect",
+      "start": 4134,
+      "end": 4140
+    },
+    {
+      "name": "_probe_forged_return",
+      "start": 4140,
+      "end": 4149
+    },
+    {
+      "name": "_probe_prefix",
+      "start": 4149,
+      "end": 4180
+    },
+    {
+      "name": "_probe_bad_return_prefix",
+      "start": 4180,
+      "end": 4195
+    },
+    {
+      "name": "_probe_unknown_indirect_call",
+      "start": 4195,
+      "end": 4206
+    },
+    {
+      "name": "_probe_unknown_indirect_jump",
+      "start": 4206,
+      "end": 4212
+    }
+  ],
+  "accepted": [
+    "_probe_leaf",
+    "_probe_unknown",
+    "_probe_jump_direct",
+    "_probe_forged_return"
+  ]
+}

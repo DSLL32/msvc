@@ -1,0 +1,6 @@
+*.exe binary
+*.cf binary
+*.obj binary
+*.map binary
+*.stdout binary
+*.stderr binary
