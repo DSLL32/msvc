@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 718 accepted frontiers, including 626 frontend
+PARTIAL binary reconstruction: 728 accepted frontiers, including 636 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1600,3 +1600,25 @@ Combined measured wall:4.781096seconds.
 
 Accepted extent union210776/476418bytes is44.241821%, not branch coverage.
 virtual_diamond remains incomplete at shift_inherited_virtual_table0x79f50.
+
+Virtual-group offset checkpoint:728 accepted frontiers,643 source functions.
+Ten whole functions beyond41ece83 adjust all four table kinds, select virtual
+this identities, combine inherited access, locate/create primary vbtable entries,
+retain override hooks, query offsets and persist complete groups. The first
+virtual-base identity wins; later direct adjustments leave it untouched. The
+original override hook is exactly RET8, retained as a separate empty C function.
+
+Group offsets+8/+12 and pointer symbol+16 now have contextual names and both
+original/native layout checks. The inherited-access4x4matrix is defined beside
+its consumer with private/protected/public meaning; its16bytes are audited
+against the original. Group copying preserves all36bytes and honors its arena
+argument while its existing table-copy callback keeps its own distinct ABI.
+
+Every0718through0727 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible files. Completed cpp_basic
+remains raw byte-exact. Full643-function graph, contextual data/defaults/callback
+identities, both grammars, both cached native cases and25negative checks pass.
+Combined measured wall:4.866464seconds.
+
+Accepted extent union211509/476418bytes is44.395678%, not branch coverage.
+virtual_diamond remains incomplete at place_base_subobject0x793c0.

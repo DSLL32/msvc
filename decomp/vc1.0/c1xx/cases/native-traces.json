@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "601d898bd92f6780fd9ebba94f51ee5cd848c495398a561347fa943af27b7996",
+    "functions.json": "fe9e34a7d1a8be0702724ca9e3c0d6f86d2db8b510f9219d796f995f8e6a553f",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "6e95af55f408207981db4dce60ad783e1d6887e2d23d15a9e4bca879b90b235e",
+    "cases/canonical-map.txt": "4740bc77ff7d3f16c604807d4200dd81d33793ce34b943bfdca9faf0bc3d8a36",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -722,7 +722,47 @@
     "cases/virtual-diamond-frontiers/0717-shift_virtual_base_group-12/original-configuration.json": "5a0c519854f3f234d7f3948c366e69199faa47cd02cdb5bab871841a048be407",
     "cases/virtual-diamond-frontiers/0717-shift_virtual_base_group-12/frontier-extension.json": "ad72e3a9c63c7ced777800f91a5e60312ba6650421cad6c2202e6a21b4fe0b71",
     "cases/virtual-diamond-frontiers/0717-shift_virtual_base_group-12/original-receipt.json": "e941ea096a6ca0da8bf6185a55b083a2e1373cc788c4556ebe2c06d2855001a8",
-    "cases/virtual-diamond-frontiers/0717-shift_virtual_base_group-12/original-events.txt": "cb9812bf725991a24181b58ffa36ba43fc7c296f0033971222ecf7f2fecb0ff4"
+    "cases/virtual-diamond-frontiers/0717-shift_virtual_base_group-12/original-events.txt": "cb9812bf725991a24181b58ffa36ba43fc7c296f0033971222ecf7f2fecb0ff4",
+    "cases/virtual-diamond-frontiers/0718-shift_inherited_virtual_table-12/original-configuration.json": "a4532b0ce6112fed32112cc363c3bc9650a159bc10de18522f6ceef2fc0171e2",
+    "cases/virtual-diamond-frontiers/0718-shift_inherited_virtual_table-12/frontier-extension.json": "5ece213b8cb213f1b82738bdd9f13f853aeca699a3d0f8f684a90bddc66ee750",
+    "cases/virtual-diamond-frontiers/0718-shift_inherited_virtual_table-12/original-receipt.json": "3c0d0562fe8638ec2d2c6888fc7c3887d8a0ea3fed9e815c4e8b297f47ef4aec",
+    "cases/virtual-diamond-frontiers/0718-shift_inherited_virtual_table-12/original-events.txt": "ff4a1d2d9880c8d735b9b53360db523f29c9a6cc552d085eb0951ef7358e73b5",
+    "cases/virtual-diamond-frontiers/0719-adjust_virtual_this-8/original-configuration.json": "028a29512005080bcd1f2c002c6640413a3e3592e56b1a074fffe2ec570a4786",
+    "cases/virtual-diamond-frontiers/0719-adjust_virtual_this-8/frontier-extension.json": "f3a9922c05db7e3777b234aa469528332054196fb4a2bd507c730749d5f93b35",
+    "cases/virtual-diamond-frontiers/0719-adjust_virtual_this-8/original-receipt.json": "c43ed83c0ad14438a14a79f5f2ba8e0e3aaed65308db294b5df63945bd8e19fb",
+    "cases/virtual-diamond-frontiers/0719-adjust_virtual_this-8/original-events.txt": "87b4e4f92904adf5b918e37ed72134a12aec1c63d248c9c55a40a16e109e4c82",
+    "cases/virtual-diamond-frontiers/0720-set_virtual_this_base-8/original-configuration.json": "5bc50982976c623ae81319a956339ed50b1b63995fcdbb4c21a29a059ed733d2",
+    "cases/virtual-diamond-frontiers/0720-set_virtual_this_base-8/frontier-extension.json": "e58573ea9bd361694d059f1e0db63c5f489a46d96907a109425ed2e4d018afd4",
+    "cases/virtual-diamond-frontiers/0720-set_virtual_this_base-8/original-receipt.json": "dac752ca516002961b1fcaff1fd4ec94c9d80f10eab6924f8e7e1b78fad1b4a0",
+    "cases/virtual-diamond-frontiers/0720-set_virtual_this_base-8/original-events.txt": "d6d468b64e78632934416d74227d0c93f04665d72ee7768e95f6057d72c2ff77",
+    "cases/virtual-diamond-frontiers/0721-combine_member_access-8/original-configuration.json": "1585a24f59eba9307fc74786bb1207a6d3c57367182c691801c7965f3efc24ad",
+    "cases/virtual-diamond-frontiers/0721-combine_member_access-8/frontier-extension.json": "8205f08b38b00b1411fb8d4ee32f967637089840587bc2e297cd841c31955ac9",
+    "cases/virtual-diamond-frontiers/0721-combine_member_access-8/original-receipt.json": "84d24b3333606652246c670cbdd1ef9ea51745893db7c75a2da6dee5e3cdb3a7",
+    "cases/virtual-diamond-frontiers/0721-combine_member_access-8/original-events.txt": "3c2eb86e7b9f8f34215eee70f2e737da58bd15c371dd5006759e5688e74a321c",
+    "cases/virtual-diamond-frontiers/0722-find_virtual_base_group_offsets-8/original-configuration.json": "38dc0ace5269f673172a2ebe26fcd0e86377658ad056c68fcb19a7a357357045",
+    "cases/virtual-diamond-frontiers/0722-find_virtual_base_group_offsets-8/frontier-extension.json": "13556b283c8891b64d80be0b3acfb9e1dc80779ef869db8f9e23e0fbd82fda98",
+    "cases/virtual-diamond-frontiers/0722-find_virtual_base_group_offsets-8/original-receipt.json": "cb17e7158c409489720b964207826a8cc0743f22dfdd4069193ca6a475be3f00",
+    "cases/virtual-diamond-frontiers/0722-find_virtual_base_group_offsets-8/original-events.txt": "d3679f4ae42853061bb5b460ec792aa21b9280546cb4e1a67ca555d4a93aa4ae",
+    "cases/virtual-diamond-frontiers/0723-primary_virtual_base_table-4/original-configuration.json": "75bb229af14e8c8b2226d0a4d6764ac12171f1922536e9d48784233d4a203c11",
+    "cases/virtual-diamond-frontiers/0723-primary_virtual_base_table-4/frontier-extension.json": "59131c5a8439b05786a05c9c2a890b5e2e59a825d84540f158d2d9f0e884c8d1",
+    "cases/virtual-diamond-frontiers/0723-primary_virtual_base_table-4/original-receipt.json": "fb02cf9933933766a185ae329051d82879614f7b256348694d73201eeef87c85",
+    "cases/virtual-diamond-frontiers/0723-primary_virtual_base_table-4/original-events.txt": "9b2046e831e3e776e149f8a2fba14ce59a238175af47efd7b4d6aeb211bf9c00",
+    "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/original-configuration.json": "4629d588ab0ffa9413fe76d95b083130354bb18e2f6e5a9c71f6be17d95ac9de",
+    "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/frontier-extension.json": "5ca2fa6ff289ad0ca6d84610f115774c5929dedf6cf54ddfb4b0bb202c1eea60",
+    "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/original-receipt.json": "2e46ec98d4d570b31090498e76201d0aed1e42baefc6dea2dbafe3dc161c78ad",
+    "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/original-events.txt": "74f00bf6da2430bab1ff4db286c835f3f919dca1f40f39c303da5f0954749194",
+    "cases/virtual-diamond-frontiers/0725-validate_virtual_override-8/original-configuration.json": "a7140e2151bd710cbb999357a6b6cdfd68d030d63f239a6a32a90d72dbf1f4e9",
+    "cases/virtual-diamond-frontiers/0725-validate_virtual_override-8/frontier-extension.json": "2e87c8b495741f49233712b6001d985056942a525074e93011c10d7df9d2e837",
+    "cases/virtual-diamond-frontiers/0725-validate_virtual_override-8/original-receipt.json": "6c5c4d3e1783e4395b19a09259003d0119f30f126ba8a3d2a4d9fc86078d516f",
+    "cases/virtual-diamond-frontiers/0725-validate_virtual_override-8/original-events.txt": "1b0f0745128872107aff24c56e6268ce4667c9cdfda599b44cfb1c96f0271af1",
+    "cases/virtual-diamond-frontiers/0726-virtual_table_object_offset-4/original-configuration.json": "116c4b9da93e85abd2c84abcfb31f562414fa3368e75a4d8c6cb0ea70c42e0c0",
+    "cases/virtual-diamond-frontiers/0726-virtual_table_object_offset-4/frontier-extension.json": "7a9c44e3a9aead9e0b471823c34cfb14368d8ea5ae4264feafc9e4b910151a1b",
+    "cases/virtual-diamond-frontiers/0726-virtual_table_object_offset-4/original-receipt.json": "0244ae75dc18e7e422b2468eb87dbe293d3754d6d897cb6b459fe2988a2fbe68",
+    "cases/virtual-diamond-frontiers/0726-virtual_table_object_offset-4/original-events.txt": "e6d3ed12ca1391333b09b150c468c8460f24782f9d7c7285d1316aac18a43d89",
+    "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/original-configuration.json": "f8e2dafe8e230a6e1d653b6b4b1d4d0fd9007f740658eeaab9ddfdb54943e668",
+    "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/frontier-extension.json": "9990369a09dc4fb26924814523663f37772d6fe9748786761c40bda46e250f98",
+    "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/original-receipt.json": "aaa88c86829c7064cee76b6f51fa05118e0b89909b229afce375bdcd5b97b53a",
+    "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/original-events.txt": "3d60867e767136d31515cf9af231a00a7e16329bcd76f2c577305708934a39ac"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -744,6 +784,10 @@
     "add_declaration_parameter": {
       "logical": "_add_declaration_parameter@16",
       "source": "src/declarations.c"
+    },
+    "add_direct_this_displacement": {
+      "logical": "_add_direct_this_displacement@8",
+      "source": "src/stubs.c"
     },
     "add_function_shape": {
       "logical": "_add_function_shape@12",
@@ -792,6 +836,10 @@
     "adjust_virtual_member_object": {
       "logical": "_adjust_virtual_member_object@20",
       "source": "src/stubs.c"
+    },
+    "adjust_virtual_this": {
+      "logical": "_adjust_virtual_this@8",
+      "source": "src/class-finalization.c"
     },
     "adjusted_this_expression": {
       "logical": "_adjusted_this_expression@4",
@@ -1515,7 +1563,7 @@
     },
     "clone_class_virtual_group": {
       "logical": "_clone_class_virtual_group@8",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "clone_class_virtual_table": {
       "logical": "_clone_class_virtual_table@8",
@@ -1547,7 +1595,7 @@
     },
     "combine_member_access": {
       "logical": "_combine_member_access@8",
-      "source": "src/stubs.c"
+      "source": "src/member-access.c"
     },
     "common_binary_type": {
       "logical": "_common_binary_type@12",
@@ -1779,7 +1827,7 @@
     },
     "create_virtual_base_group_offsets": {
       "logical": "_create_virtual_base_group_offsets@8",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "create_virtual_pointer": {
       "logical": "_create_virtual_pointer@8",
@@ -2491,7 +2539,7 @@
     },
     "find_virtual_base_group_offsets": {
       "logical": "_find_virtual_base_group_offsets@8",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "finish_array_declarator": {
       "logical": "_finish_array_declarator@20",
@@ -4069,6 +4117,10 @@
       "logical": "_preprocess_translation_unit",
       "source": "src/stubs.c"
     },
+    "primary_virtual_base_table": {
+      "logical": "_primary_virtual_base_table@4",
+      "source": "src/class-finalization.c"
+    },
     "primary_virtual_table": {
       "logical": "_primary_virtual_table@4",
       "source": "src/class-finalization.c"
@@ -4801,6 +4853,10 @@
       "logical": "_set_pure_virtual_member@12",
       "source": "src/stubs.c"
     },
+    "set_virtual_this_base": {
+      "logical": "_set_virtual_this_base@8",
+      "source": "src/class-finalization.c"
+    },
     "share_inherited_type_set": {
       "logical": "_share_inherited_type_set@8",
       "source": "src/class-type-sets.c"
@@ -4811,7 +4867,7 @@
     },
     "shift_inherited_virtual_table": {
       "logical": "_shift_inherited_virtual_table@12",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "shift_virtual_base_group": {
       "logical": "_shift_virtual_base_group@12",
@@ -5047,7 +5103,7 @@
     },
     "validate_virtual_override": {
       "logical": "_validate_virtual_override@8",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "vector_count": {
       "logical": "_vector_count@4",
@@ -5059,6 +5115,10 @@
     },
     "virtual_base_access_level": {
       "logical": "_virtual_base_access_level@8",
+      "source": "src/stubs.c"
+    },
+    "virtual_base_entry_byte_offset": {
+      "logical": "_virtual_base_entry_byte_offset@8",
       "source": "src/stubs.c"
     },
     "virtual_base_entry_width": {
@@ -5075,7 +5135,7 @@
     },
     "virtual_table_object_offset": {
       "logical": "_virtual_table_object_offset@4",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "virtual_table_owners": {
       "logical": "_virtual_table_owners@4",
@@ -5776,7 +5836,17 @@
     "class_allows_vtordisp",
     "has_construction_virtual_override",
     "track_empty_base_layout",
-    "shift_virtual_base_group"
+    "shift_virtual_base_group",
+    "shift_inherited_virtual_table",
+    "adjust_virtual_this",
+    "set_virtual_this_base",
+    "combine_member_access",
+    "find_virtual_base_group_offsets",
+    "primary_virtual_base_table",
+    "create_virtual_base_group_offsets",
+    "validate_virtual_override",
+    "virtual_table_object_offset",
+    "clone_class_virtual_group"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6444,7 +6514,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 718,
+      "last": 728,
       "seen": [
         "main",
         "message_text",
@@ -7074,12 +7144,22 @@
         "has_construction_virtual_override",
         "track_empty_base_layout",
         "shift_virtual_base_group",
-        "shift_inherited_virtual_table"
+        "shift_inherited_virtual_table",
+        "adjust_virtual_this",
+        "set_virtual_this_base",
+        "combine_member_access",
+        "find_virtual_base_group_offsets",
+        "primary_virtual_base_table",
+        "create_virtual_base_group_offsets",
+        "validate_virtual_override",
+        "virtual_table_object_offset",
+        "clone_class_virtual_group",
+        "place_base_subobject"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_shift_inherited_virtual_table@12",
-        "native": "shift_inherited_virtual_table",
+        "logical": "_place_base_subobject@12",
+        "native": "place_base_subobject",
         "signal": 5
       }
     }

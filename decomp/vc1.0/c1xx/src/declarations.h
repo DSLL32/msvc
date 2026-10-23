@@ -57,7 +57,7 @@ typedef struct VirtualTable {
     int entry_count;
     int entry_capacity;
     VirtualEntry *entries;
-    unsigned byte_size, object_offset, field24;
+    unsigned byte_size, object_offset, virtual_base_offset;
     BaseClassLink *inheritance_path;
     struct VirtualTable *source_table;
     CppSymbol *unshared_owner;
@@ -65,7 +65,8 @@ typedef struct VirtualTable {
 } VirtualTable;
 typedef struct VirtualTableGroup {
     CppSymbol *tag;
-    unsigned object_offset, field08, field0c, field10;
+    unsigned object_offset, virtual_pointer_offset, virtual_base_table_offset;
+    CppSymbol *virtual_base_pointer;
     Vector *tables, *base_tables;
     unsigned char flags, reserved_flags[3];
     unsigned has_vtordisp;
@@ -73,6 +74,7 @@ typedef struct VirtualTableGroup {
 typedef char VirtualEntrySizeMustBe16[(sizeof(VirtualEntry) == 16) ? 1 : -1];
 typedef char VirtualTableSizeMustBe56[(sizeof(VirtualTable) == 56) ? 1 : -1];
 typedef char VirtualTableOwnerOffsetMustBe48[(offsetof(VirtualTable, unshared_owner) == 48) ? 1 : -1];
+typedef char VirtualTableVirtualBaseOffsetMustBe36[(offsetof(VirtualTable, virtual_base_offset) == 36) ? 1 : -1];
 typedef char VirtualTablePathOffsetMustBe40[(offsetof(VirtualTable, inheritance_path) == 40) ? 1 : -1];
 typedef char VirtualTableSourceOffsetMustBe44[(offsetof(VirtualTable, source_table) == 44) ? 1 : -1];
 typedef char VirtualTableOwnersOffsetMustBe52[(offsetof(VirtualTable, shared_owners) == 52) ? 1 : -1];
@@ -81,6 +83,9 @@ typedef char VirtualTableEntriesOffsetMustBe24[(offsetof(VirtualTable, entries) 
 typedef char VirtualTableGroupTagOffsetMustBe0[(offsetof(VirtualTableGroup, tag) == 0) ? 1 : -1];
 typedef char VirtualTableGroupOffsetOffsetMustBe4[(offsetof(VirtualTableGroup, object_offset) == 4) ? 1 : -1];
 typedef char VirtualTableGroupFlagsOffsetMustBe28[(offsetof(VirtualTableGroup, flags) == 28) ? 1 : -1];
+typedef char VirtualTableGroupPointerOffsetMustBe8[(offsetof(VirtualTableGroup, virtual_pointer_offset) == 8) ? 1 : -1];
+typedef char VirtualTableGroupTableOffsetMustBe12[(offsetof(VirtualTableGroup, virtual_base_table_offset) == 12) ? 1 : -1];
+typedef char VirtualTableGroupPointerSymbolOffsetMustBe16[(offsetof(VirtualTableGroup, virtual_base_pointer) == 16) ? 1 : -1];
 typedef char VirtualTableGroupSizeMustBe36[(sizeof(VirtualTableGroup) == 36) ? 1 : -1];
 typedef char VirtualTableGroupBaseTablesOffsetMustBe24[(offsetof(VirtualTableGroup, base_tables) == 24) ? 1 : -1];
 typedef char VirtualTableGroupContextOffsetMustBe32[(offsetof(VirtualTableGroup, has_vtordisp) == 32) ? 1 : -1];

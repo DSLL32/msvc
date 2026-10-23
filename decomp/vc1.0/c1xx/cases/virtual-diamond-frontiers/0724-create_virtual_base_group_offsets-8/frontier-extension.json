@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 724,
+  "accepted": "_create_virtual_base_group_offsets@8",
+  "terminal": "_validate_virtual_override@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/original-receipt.json",
+  "original_capture_sha256": "2e46ec98d4d570b31090498e76201d0aed1e42baefc6dea2dbafe3dc161c78ad",
+  "original_events": "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/original-events.txt",
+  "original_events_sha256": "74f00bf6da2430bab1ff4db286c835f3f919dca1f40f39c303da5f0954749194",
+  "original_configuration": "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.866463899612427,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/virtual-group-offsets-checkpoint.log",
+  "raw_log_sha256": "4ae9dfee7579d82677b5aff67b7257ea094c1d796a29fb93eae96de3a0e261d6",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture timings separate"
+}

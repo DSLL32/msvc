@@ -422,19 +422,15 @@ short __stdcall format_function_parameters(short text, FunctionParameters *param
 
 
 
-int __stdcall find_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag) { __asm { int 3 } return 0; }
-void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag) { __asm { int 3 } }
 
 
 
-void __stdcall validate_virtual_override(CppSymbol *member, VirtualEntry *entry) { __asm { int 3 } }
 
 void __stdcall collapse_virtual_conflicts(VirtualEntry *entry) { __asm { int 3 } }
 
 int __stdcall equal_vectors(Vector *left, Vector *right) { __asm { int 3 } return 0; }
 
 
-void *__stdcall clone_class_virtual_group(void *item, int arena) { __asm { int 3 } return 0; }
 
 
 
@@ -554,7 +550,6 @@ IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attribu
 IrToken *__stdcall clear_most_derived_argument(IrToken *call) { __asm { int 3 } return 0; }
 QualifierBinding * __stdcall make_table_qualifier_path(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }
 void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *value) { __asm { int 3 } }
-unsigned __stdcall virtual_table_object_offset(VirtualTable *table) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
@@ -613,8 +608,6 @@ QualifierBinding *__stdcall skip_base_qualifier_path(QualifierBinding *binding) 
 unsigned char __stdcall virtual_base_access_level(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
     CppSymbol *member) { __asm { int 3 } return 0; }
-unsigned char __stdcall combine_member_access(unsigned char member_access,
-    unsigned char base_access) { __asm { int 3 } return 0; }
 void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
     unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base) { __asm { int 3 } }
 
@@ -666,8 +659,9 @@ int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
-void __stdcall shift_inherited_virtual_table(VirtualTable *table, BaseClassLink *base, unsigned displacement) { __asm { int 3 } }
 VirtualTableGroup *__stdcall copy_inherited_virtual_group(VirtualTableGroup *group, BaseClassLink *base, int arena) { __asm { int 3 } return 0; }
 void __stdcall merge_virtual_group_entries(CppSymbol *tag, VirtualTableGroup *destination, VirtualTableGroup *source) { __asm { int 3 } }
 void __stdcall release_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
 int __stdcall layout_anonymous_data(CType *type) { __asm { int 3 } return 0; }
+void __stdcall add_direct_this_displacement(VirtualAdjustment *adjustment, unsigned displacement) { __asm { int 3 } }
+unsigned __stdcall virtual_base_entry_byte_offset(VirtualEntry *entry, VirtualTable *table) { __asm { int 3 } return 0; }

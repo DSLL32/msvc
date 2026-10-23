@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_shift_inherited_virtual_table@12",
+    "start": 499536,
+    "end": 499759
+  },
+  "distinct_direct_callees": [
+    "_adjust_virtual_this@8"
+  ],
+  "next_frontier": "_adjust_virtual_this@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3624914772808552,
+  "total_operation_seconds": 5.632961124181747,
+  "original_capture_seconds": 3.0224284110590816
+}

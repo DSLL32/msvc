@@ -139,3 +139,21 @@ int get_base_initialization_access(void)
 {
     return base_initialization_access;
 }
+
+/* Original 0x9ec80. Rows and columns are unavailable/private/protected/
+   public. An inherited private member is inaccessible; otherwise the path
+   can lower its protection to private or protected. */
+const unsigned char inherited_access_levels[4][4] = {
+    { 0, 0, 0, 0 },
+    { 0, 0, 0, 0 },
+    { 0, 1, 2, 2 },
+    { 0, 1, 2, 3 }
+};
+
+/* Original 0x31800..0x31815. Both access arguments are byte-valued
+   stack slots; the original caller supplies the two-bit domain. */
+unsigned char __stdcall combine_member_access(unsigned char member_access,
+    unsigned char base_access)
+{
+    return inherited_access_levels[member_access][base_access];
+}

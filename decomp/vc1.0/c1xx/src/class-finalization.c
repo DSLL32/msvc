@@ -1348,3 +1348,138 @@ void __stdcall shift_virtual_base_group(VirtualTableGroup *group,
     }
     group->flags = combine_member_access(group->flags, (unsigned char)(base->flags & 3));
 }
+
+void __stdcall adjust_virtual_this(VirtualAdjustment *adjustment, BaseClassLink *base);
+
+/* Original 0x79f50..0x7a02e. Dispatch entries adjust their this path;
+   direct vbtable entries move only when they name a base. Grouped kinds2/3
+   retain the group's displacement separately from the original object offset. */
+void __stdcall shift_inherited_virtual_table(VirtualTable *table,
+    BaseClassLink *base, unsigned displacement)
+{
+    int index;
+    switch (table->kind) {
+    case 0: case 2:
+        for (index = 0; index < table->entry_count; ++index)
+            adjust_virtual_this(&table->entries[index].dispatch.this_adjustment, base);
+        if (table->kind == 0) table->object_offset += displacement;
+        else table->virtual_base_offset = displacement;
+        return;
+    case 1:
+        table->object_offset += displacement;
+        for (index = 0; index < table->entry_count; ++index)
+            if (table->entries[index].base.base)
+                table->entries[index].base.pointer_offset += displacement;
+        return;
+    case 3:
+        table->virtual_base_offset = displacement;
+        return;
+    }
+}
+
+void __stdcall add_direct_this_displacement(VirtualAdjustment *adjustment,
+    unsigned displacement);
+void __stdcall set_virtual_this_base(VirtualAdjustment *adjustment, CppSymbol *tag);
+
+/* Original 0x78870..0x788a6. Select the virtual identity or fixed
+   displacement helper from the direct inheritance path's virtual flag. */
+void __stdcall adjust_virtual_this(VirtualAdjustment *adjustment, BaseClassLink *base)
+{
+    if (base->state & 1)
+        set_virtual_this_base(adjustment, cpp_context_stack->items[base->context_index]);
+    else
+        add_direct_this_displacement(adjustment, base->displacement);
+}
+
+/* Original 0x78850..0x7886c. The first virtual base on the path wins;
+   an existing virtual identity leaves the entire adjustment untouched. */
+void __stdcall set_virtual_this_base(VirtualAdjustment *adjustment, CppSymbol *tag)
+{
+    if (!adjustment->virtual_base_class)
+        adjustment->virtual_base_class = tag->detail.class_info->type_index;
+}
+
+VirtualTable *__stdcall primary_virtual_base_table(CppSymbol *tag);
+unsigned __stdcall virtual_base_entry_byte_offset(VirtualEntry *entry, VirtualTable *table);
+
+/* Original 0x7a9d0..0x7aa4c. Reuse the first primary-vbtable entry
+   naming this canonical base. Record its pointer location, byte index and
+   pointer symbol together; absence leaves all three group fields untouched. */
+int __stdcall find_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag)
+{
+    VirtualTable *table = primary_virtual_base_table(tag);
+    VirtualEntry *entry;
+    int index;
+    for (index = 0; index < table->entry_count; ++index) {
+        entry = &table->entries[index];
+        if (entry->base.base != group->tag) continue;
+        group->virtual_pointer_offset = virtual_table_object_offset(table);
+        group->virtual_base_table_offset = virtual_base_entry_byte_offset(entry, table);
+        group->virtual_base_pointer = table->pointer;
+        return 1;
+    }
+    return 0;
+}
+
+/* Original 0x78b40..0x78b52. Keep this selector distinct from the
+   vftable selector: both delegate to the same unchecked first-item getter. */
+VirtualTable *__stdcall primary_virtual_base_table(CppSymbol *tag)
+{
+    return first_vector_item(tag->detail.class_info->virtual_base_tables);
+}
+
+/* Original 0x7aa50..0x7aaab. Missing virtual bases append one generic
+   entry to the primary vbtable and reserve one integer-sized byte offset.
+   Its unused entry suffix remains untouched, as in the native initializer. */
+void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag)
+{
+    VirtualTable *table = first_vector_item(tag->detail.class_info->virtual_base_tables);
+    VirtualEntry entry;
+    initialize_virtual_base_entry(&entry, tag, group->tag);
+    append_virtual_entry(table, &entry);
+    group->virtual_pointer_offset = tag->detail.class_info->virtual_base_pointer_offset;
+    group->virtual_base_table_offset = reserve_virtual_table_offset(table, virtual_base_entry_width());
+    group->virtual_base_pointer = table->pointer;
+}
+
+/* Original 0x7a960..0x7a962 is exactly RET8 in this build. Keep its
+   separate call and both stack slots despite the deliberately empty body. */
+void __stdcall validate_virtual_override(CppSymbol *member, VirtualEntry *entry)
+{
+}
+
+/* Original 0x78c00..0x78c0c. Grouped tables add their virtual-base
+   displacement to the pointer's offset within its original object. */
+unsigned __stdcall virtual_table_object_offset(VirtualTable *table)
+{
+    return table->virtual_base_offset + table->object_offset;
+}
+
+/* Original 0x79060..0x790f7. Preserve the complete group, then copy
+   both vectors through the original table-persistence callback. Unlike that
+   callback, the group itself uses the supplied arena (including -1). */
+void *__stdcall clone_class_virtual_group(void *item, int arena)
+{
+    VirtualTableGroup *group = item, *copy;
+    ArenaPool *pool;
+    int index = arena, family;
+    Vector *tables;
+    if (!arena) copy = allocate_permanent(sizeof(VirtualTableGroup));
+    else {
+        if (index == -1) index = 0;
+        pool = &compiler_arena.pools[index];
+        if (pool->remaining < (int)sizeof(VirtualTableGroup))
+            refill_arena(&compiler_arena, pool);
+        copy = (VirtualTableGroup *)pool->next;
+        pool->remaining -= sizeof(VirtualTableGroup);
+        pool->next += sizeof(VirtualTableGroup);
+    }
+    *copy = *group;
+    for (family = 0; family < 2; ++family) {
+        tables = family ? group->base_tables : group->tables;
+        tables = copy_vector_elements(tables, arena, clone_class_virtual_table);
+        if (family) copy->base_tables = tables;
+        else copy->tables = tables;
+    }
+    return copy;
+}

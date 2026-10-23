@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.019322917796671,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-shift-inherited-virtual-table-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 18.927378123626113,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-shift-inherited-virtual-table-canonical.log"
+  }
+]

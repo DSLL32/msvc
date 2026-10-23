@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_set_virtual_this_base@8",
+    "start": 493648,
+    "end": 493677
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_combine_member_access@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.38734913151711226,
+  "total_operation_seconds": 5.5824224557727575,
+  "original_capture_seconds": 2.9257120052352548
+}

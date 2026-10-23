@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.1661194870248437,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-validate-virtual-override-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.593606600537896,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-validate-virtual-override-canonical.log"
+  }
+]

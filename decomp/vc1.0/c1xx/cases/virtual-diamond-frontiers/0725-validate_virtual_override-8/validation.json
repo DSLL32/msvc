@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_validate_virtual_override@8",
+    "start": 502112,
+    "end": 502115
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_virtual_table_object_offset@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3800596036016941,
+  "total_operation_seconds": 5.641501147300005,
+  "original_capture_seconds": 2.9723171135410666
+}

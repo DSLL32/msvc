@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_virtual_base_group_offsets@8",
+    "start": 502224,
+    "end": 502349
+  },
+  "distinct_direct_callees": [
+    "_primary_virtual_base_table@4",
+    "_virtual_base_entry_byte_offset@8",
+    "_virtual_table_object_offset@4"
+  ],
+  "next_frontier": "_primary_virtual_base_table@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.37441637367010117,
+  "total_operation_seconds": 4.9286672761663795,
+  "original_capture_seconds": 2.3707364574074745
+}

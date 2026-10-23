@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_virtual_table_object_offset@4",
+    "start": 494592,
+    "end": 494605
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_clone_class_virtual_group@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3669320298358798,
+  "total_operation_seconds": 6.6366090551018715,
+  "original_capture_seconds": 3.9259039107710123
+}
