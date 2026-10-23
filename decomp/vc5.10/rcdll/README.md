@@ -417,3 +417,10 @@ records eleven fresh controls, including raw source-word mutation with a
 matching declared word, plus an upper-EAX scope control. Descriptor guard probing
 also passes after adapting its auxiliary dependency object to the defined number
 parser. Source-boundary and splice behavior remain behind named helpers.
+
+Integer conversion is accepted (238 bytes), reaching digit conversion with the
+full32-bit argument49, radix10, original scratch cursor and zero accumulator/
+previous value. [Verification](cases/resources-rich-trailing-space/integer-value-verification.json)
+records seven fresh controls, including rejection of an argument whose low16
+bits still match. The complete source retains signed decimal overflow checks,
+octal/hex bounds and diagnostic paths. No integer result has returned yet.

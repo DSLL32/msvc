@@ -52,10 +52,11 @@ int __stdcall rc_read_macro_identifier(WCHAR first);
 int __stdcall rc_expand_macro(RcMacro *macro);
 extern WCHAR *rc_number_buffer;
 extern WCHAR rc_number_spelling_address_identity;
-unsigned __stdcall rc_parse_integer_value(const WCHAR *text,unsigned radix);
+unsigned __stdcall rc_parse_integer_value(const WCHAR *text,int radix);
 unsigned char __stdcall rc_based_integer_kind(int value);
 unsigned char __stdcall rc_decimal_integer_kind(int value);
 unsigned char __stdcall rc_long_integer_kind(int value);
 unsigned char __stdcall rc_unsigned_integer_kind(unsigned value);
 void * __stdcall rc_store_integer(unsigned short token,const unsigned *value);
+int __stdcall rc_digit_value(int character);
 #endif

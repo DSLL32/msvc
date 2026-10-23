@@ -53,7 +53,8 @@
     "rc_directive_code",
     "rc_next_token",
     "rc_read_number",
-    "rc_get_logical_character"
+    "rc_get_logical_character",
+    "rc_parse_integer_value"
   ],
   "functions": [
     {
@@ -1309,8 +1310,7 @@
       "end": "0x12698",
       "abi": "stdcall",
       "stack_bytes": 8,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_based_integer_kind",
@@ -1354,6 +1354,15 @@
       "end": "0x7443",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_digit_value",
+      "start": "0x126fb",
+      "end": "0x12731",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }
