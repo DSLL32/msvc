@@ -3,6 +3,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "expression-fields.h"
+#include "algebra.h"
 #include <recon.h>
 extern int floating_frontend;
 extern int optimize_global;
@@ -397,4 +398,73 @@ void __fastcall reduce_assignment_operator(Node *assignment, Node *operand,
     assignment->opcode = map_assignment_opcode(operation->opcode, 1);
     assignment->second.node = operand;
     release_node(operation);
+}
+
+int __fastcall function_float_stack_depth(FunctionSymbol *symbol);
+/* Original [000673a0,000675b1). The signed identifier word at node+8
+   temporarily records x87 expression depth during this pass. Evaluation
+   order favors the deeper operand; reversed SUB/DIV retain distinct opcodes. */
+void __fastcall lower_float_expression(Node *node)
+{
+    unsigned arity;
+    short depth, left_depth, right_depth;
+    Node *left, *right;
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        lower_float_expression(node->left.node);
+        if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+            lower_float_expression(node->second.node);
+    }
+    switch (node->opcode) {
+    case 2: case 3: case 4: case 5:
+    case 0x1f: case 0x20: case 0x21: case 0x22: case 0x23: case 0x24:
+        left = node->left.node; right = node->second.node;
+        left_depth = left->info.words.identifier;
+        right_depth = right->info.words.identifier;
+        depth = left_depth > right_depth ? left_depth : right_depth;
+        if (node->attributes.words.type & 0x1000) ++depth;
+        node->info.words.identifier = depth;
+        if ((node->attributes.words.type & 0x1000) && left_depth < right_depth) {
+            node->left.node = right; node->second.node = left;
+            if (node->opcode >= 0x1f && node->opcode <= 0x24)
+                node->opcode = map_comparison_opcode(node->opcode, 0);
+            else if (node->opcode == 3) node->opcode = 0xb1;
+            else if (node->opcode == 5) node->opcode = 0xb2;
+        }
+        break;
+    case 8:
+        node->info.words.identifier = node->left.node->info.words.identifier;
+        break;
+    case 0x30: case 0x33:
+        node->info.words.identifier = (node->attributes.words.type & 0x1000) ? 1 : 0;
+        break;
+    case 0x34:
+        depth = node->left.node->info.words.identifier;
+        node->info.words.identifier = depth > 1 ? depth : 1;
+        break;
+    case 0x3e: case 0x7a:
+        left = node->left.node;
+        if (left->opcode == 0x26 && left->right.symbol->kind == 4)
+            node->info.words.identifier = (short)function_float_stack_depth(left->right.function);
+        else node->info.words.identifier = 8;
+        break;
+    case 0x40:
+        node->info.words.identifier = 0;
+        break;
+    case 0xaa:
+        node->info.words.identifier = (short)(node->left.node->info.words.identifier + 1);
+        break;
+    case 0x55:
+        return;
+    default:
+        arity = node_shapes[node->opcode] & NODE_ARITY;
+        if (arity == NODE_BINARY) {
+            left_depth = node->left.node->info.words.identifier;
+            right_depth = node->second.node->info.words.identifier;
+            node->info.words.identifier = left_depth > right_depth ? left_depth : right_depth;
+        } else if (arity == NODE_UNARY)
+            node->info.words.identifier = node->left.node->info.words.identifier;
+        else if (arity == NODE_LEAF) node->info.words.identifier = 0;
+        break;
+    }
+    if (node->info.words.identifier >= 8) node->info.words.identifier = 8;
 }

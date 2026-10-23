@@ -2416,3 +2416,9 @@ Signed extended conversion and allocation-range cleanup: checkpoint958
 @record_float_register@8. 879 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-truncation.json for extent union, limits and measured timings.
+
+Floating register declarations and expression-depth ordering: checkpoint961
+3 acceptances pass fresh original/native matching; current frontier
+_finish_target_expression. 882 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-depth.json for extent union, limits and measured timings.

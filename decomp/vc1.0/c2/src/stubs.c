@@ -88,7 +88,6 @@ Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
-void __fastcall lower_float_expression(Node *node) { __asm int 3 }
 void finish_target_expression(void) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
@@ -293,7 +292,6 @@ void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, uns
 void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
 
 
-void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol) { __asm int 3 }
 
 
 
@@ -397,3 +395,4 @@ int __cdecl divide_extended(const Extended *left, const Extended *right, Extende
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
+int __fastcall function_float_stack_depth(FunctionSymbol *symbol) { __asm int 3 }

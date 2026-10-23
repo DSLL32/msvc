@@ -3,6 +3,15 @@
 #include "global-work.h"
 #include "bitsets.h"
 #include <recon.h>
+/* Original twelve-byte remembered floating-register declaration. Padding at
+   offset2 is never initialized or read by record_float_register. */
+typedef struct FloatRegisterDeclaration {
+    unsigned short number, reserved;
+    SymbolHeader *symbol;
+    struct FloatRegisterDeclaration *next;
+} FloatRegisterDeclaration;
+typedef char FloatRegisterDeclarationSizeCheck[sizeof(FloatRegisterDeclaration) == 12 ? 1 : -1];
+extern FloatRegisterDeclaration *float_register_declarations;
 /* Native connected definition range. field06 is not consumed by this driver. */
 typedef struct AllocationRange {
     struct AllocationRange *next;

@@ -962,7 +962,10 @@
     "_subtract_extended",
     "_extended_to_integer",
     "_truncate_extended",
-    "@release_allocation_range@4"
+    "@release_allocation_range@4",
+    "@record_float_register@8",
+    "@float_register_heap_allocate@4",
+    "@lower_float_expression@4"
   ],
   "driver": [
     {
@@ -3049,8 +3052,7 @@
     {
       "name": "@lower_float_expression@4",
       "start": 422816,
-      "end": 422817,
-      "provisional": true
+      "end": 423345
     },
     {
       "name": "_finish_target_expression",
@@ -4892,8 +4894,7 @@
     {
       "name": "@record_float_register@8",
       "start": 258576,
-      "end": 258577,
-      "provisional": true
+      "end": 258616
     },
     {
       "name": "@collect_allocation_ranges@4",
@@ -6841,6 +6842,17 @@
       "name": "_truncate_extended",
       "start": 464376,
       "end": 464417
+    },
+    {
+      "name": "@float_register_heap_allocate@4",
+      "start": 234896,
+      "end": 234932
+    },
+    {
+      "name": "@function_float_stack_depth@4",
+      "start": 162656,
+      "end": 162657,
+      "provisional": true
     }
   ],
   "cases": {

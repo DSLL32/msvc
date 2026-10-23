@@ -665,3 +665,25 @@ void __fastcall release_allocation_range(AllocationRange *range)
     range->next = free_allocation_ranges;
     free_allocation_ranges = range;
 }
+
+FloatRegisterDeclaration *float_register_declarations; /* 00082e74 */
+void *__fastcall float_register_heap_allocate(unsigned bytes);
+/* Original [0003f210,0003f238). Keep the original nonzeroed heap record
+   and its own declaration chain, distinct from range/arena allocation. */
+void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol)
+{
+    FloatRegisterDeclaration *declaration = float_register_heap_allocate(sizeof(*declaration));
+    declaration->number = number;
+    declaration->symbol = symbol;
+    declaration->next = float_register_declarations;
+    float_register_declarations = declaration;
+}
+
+/* Original [00039590,000395b4). Floating-register/motion storage uses
+   ordinary malloc, with the module's own internal-error location on failure. */
+void *__fastcall float_register_heap_allocate(unsigned bytes)
+{
+    void *block = malloc(bytes);
+    if (!block) compiler_internal_error("@(#)fltreg.c:1.31", 0x169b);
+    return block;
+}
