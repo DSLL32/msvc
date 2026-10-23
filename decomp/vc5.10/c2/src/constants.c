@@ -18,6 +18,18 @@ void c2_real_from_int(int *input, C2Real *output)
     }
 }
 
+/* Private ESI/ST(0) ABI; ordinary C cannot represent this incoming value.
+ * Store only the ten-byte payload, leaving the caller's kind untouched. */
+__declspec(naked) void store_extended(void)
+{
+    RECON_TRACE_NAKED_ENTRY(store_extended)
+    __asm {
+        fstp tbyte ptr [esi]
+        fwait
+        ret
+    }
+}
+
 void c2_initialize_constants(void)
 {
     int value = 0;

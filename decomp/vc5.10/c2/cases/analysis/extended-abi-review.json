@@ -27,5 +27,9 @@
   "proposed_store_source": "__declspec(naked) void store_extended(void) { RECON_TRACE_NAKED_ENTRY(store_extended) __asm { fstp tbyte ptr [esi]\n fwait\n ret\n } }",
   "current_validation_tool": "90f7ef6d / fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
   "negative_controls": 73,
-  "shared_maintainer": "Confirmed intended macro usage and preserved raw state; no shared changes required"
+  "shared_maintainer": "Confirmed intended macro usage and preserved raw state; no shared changes required",
+  "store_accepted": true,
+  "store_proof": "cases/acceptance/0040-extended-store",
+  "observation_adjustment": "GDB break after normally executed PUSHF/before PUSHAL; original savedFLAGS and all x87/ESI preserved. Displaced stepping disabled to retain actual FSTP FIP. Failed earlier store-native raw preserved in scratch. No production macro change.",
+  "direct_native_check": "Required once the compilation path completes; current numeric case still traps at unaccepted opcode initialization."
 }

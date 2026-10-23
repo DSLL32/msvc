@@ -1,0 +1,38 @@
+{
+  "original_build": {
+    "command": [
+      "make",
+      "-j4",
+      "original"
+    ],
+    "seconds": 1.3580117411911488,
+    "status": 0
+  },
+  "native_build": {
+    "command": [
+      "make",
+      "-j4",
+      "native"
+    ],
+    "seconds": 2.252016568556428,
+    "status": 0
+  },
+  "build_parallel": true,
+  "capture_helper_build": {
+    "seconds": 1.311670895665884,
+    "status": 0
+  },
+  "audit_seconds": 0.06743076909333467,
+  "original_capture": {
+    "setup": 0.13792035728693008,
+    "execution": 0.9030624274164438,
+    "total": 1.0814978424459696
+  },
+  "native_capture": {
+    "execution": 0.22629944514483213,
+    "total": 0.31523669604212046
+  },
+  "rejection_checks": {
+    "control_and_rejections": 21.02150027640164
+  }
+}

@@ -6,11 +6,13 @@ from pathlib import Path
 import re
 import shutil
 import tempfile
+import time
 from accept import preflight
 from state import sha
 
 
 def main():
+    begin=time.monotonic()
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--function',required=True);p.add_argument('--original',type=Path,required=True);p.add_argument('--native',type=Path,required=True);p.add_argument('--validation',type=Path)
     a=p.parse_args()
@@ -107,6 +109,30 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'extended_results'in current_state:
+        def changed_extended_results(root,change):
+            path=root/'n/state.json';state=json_at(path);change(state['extended_results']);write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text()
+            for label,values in [('C2-STORE-ABI-ENTRY',state['extended_results']['entries']),('C2-STORE-STEP',state['extended_results']['steps']),('C2-EXTENDED-RESULTS',[state['extended_results']])]:
+                rows=iter(values)
+                raw=re.sub(r'^'+label+r' .+$',lambda m:label+' '+json.dumps(next(rows),sort_keys=True),raw,flags=re.M)
+            path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def original_pop_missing(root):
+            import struct
+            path=root/'o/x87-after.bin';data=bytearray(path.read_bytes());struct.pack_into('<I',data,4,0xffff3800);struct.pack_into('<I',data,8,0xffff7fff);path.write_bytes(data)
+        def original_kind_changed(root):
+            path=root/'o/extended-after.bin';data=bytearray(path.read_bytes());data[10]=0;path.write_bytes(data)
+        mutations += [('stored real-one payload differs',lambda r:changed_extended_results(r,lambda v:v['records'].__setitem__(1,'00'*12))),
+                      ('stored real-two kind differs',lambda r:changed_extended_results(r,lambda v:v['records'].__setitem__(2,v['records'][2][:20]+'0000'))),
+                      ('FSTP writes past ten-byte payload',lambda r:changed_extended_results(r,lambda v:v['steps'][1].__setitem__('payload','00'*12))),
+                      ('FSTP fails to pop its x87 input',lambda r:changed_extended_results(r,lambda v:v['steps'][1].__setitem__('tag',0x7fff))),
+                      ('naked tracing saves debugger TF',lambda r:changed_extended_results(r,lambda v:v['entries'][0].__setitem__('saved_flags',v['entries'][0]['saved_flags']|0x100))),
+                      ('store uses debugger scratch FIP',lambda r:changed_extended_results(r,lambda v:v['steps'][1].__setitem__('instruction',1))),
+                      ('tracing changes nonzero incoming raw80 value',lambda r:changed_extended_results(r,lambda v:v['entries'][1].__setitem__('registers',['00'*10]*8))),
+                      ('store before/after instruction identity differs',lambda r:changed_extended_results(r,lambda v:v['steps'][1].__setitem__('pc',v['steps'][1]['pc']+1))),
+                      ('original FSTP stack-pop evidence differs',original_pop_missing),
+                      ('original store changed caller kind',original_kind_changed)]
     if 'extended_store'in current_state:
         def changed_x87(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['extended_store'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
@@ -359,6 +385,6 @@ def main():
             try:preflight(a.function,root/'o',root/'n',root/'v/receipt.json'if a.validation else None)
             except (AssertionError,KeyError,ValueError):passed.append(name)
             else:raise AssertionError('negative accepted: '+name)
-    print(json.dumps({'function':a.function,'count':len(passed),'rejected':passed,'control_frontier':control[1]['matched'],'accepted':False},indent=2))
+    print(json.dumps({'function':a.function,'count':len(passed),'rejected':passed,'control_frontier':control[1]['matched'],'accepted':False,'seconds':{'control_and_rejections':time.monotonic()-begin}},indent=2))
 
 if __name__=='__main__':main()

@@ -130,13 +130,5 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
-  },
-  {
-    "name": "_store_extended",
-    "start": 4609886,
-    "end": 4609887,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
   }
 ]

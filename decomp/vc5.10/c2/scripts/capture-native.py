@@ -37,7 +37,10 @@ class Entered(gdb.Breakpoint):
             gdb.write('C2-SOURCE-ENTRY %%s 0x%%x\\n'%%(self.logical,int(gdb.parse_and_eval('$pc'))))
         return False
 for record in %r:
-    Entered(record.get('native',record['name'].lstrip('_')),record['name'])
+    symbol=record.get('native',record['name'].lstrip('_'))
+    # Stepping a breakpointed PUSHF can save debugger TF into the naked
+    # helper's real flags frame. Observe immediately after its normal PUSHF.
+    Entered('*store_extended+1'if symbol=='store_extended'else symbol,record['name'])
 """ % [r for r in config['driver']+config['support']if r['name']in config['accepted']and r.get('kind')!='import']
     prefix_program=prefix_program.replace('trace=[]','trace=[]\nentry_input={}\nexit_status=None')
     observation='''    def stop(self):
@@ -67,19 +70,52 @@ def process_exited(event):
         gdb.write('C2-PROCESS-EXIT %d\\n'%exit_status)
 gdb.events.exited.connect(process_exited)
 '''
-    if any(r.get('state_policy')=='extended-store'for r in config['stubs']):
+    if any(r.get('state_policy')=='extended-store'for r in config['stubs'])or '_store_extended'in config['accepted']:
+        import re
+        decoded=subprocess.check_output(['objdump','-d','-Mintel','--disassemble=store_extended',str(executable)],text=True)
+        starts=re.findall(r'^([0-9a-f]+) <store_extended>:$',decoded,re.M)
+        stores=re.findall(r'^\s*([0-9a-f]+):\s+db 3e\s+fstp\s+TBYTE PTR \[esi\]$',decoded,re.M)
+        store_offsets=[]
+        if '_store_extended'in config['accepted']:
+            assert len(starts)==len(stores)==1,'need exactly the native private FSTP80'
+            at=int(stores[0],16)-int(starts[0],16)
+            store_offsets=[(at,'before'),(at+2,'after')]
         prefix_program+='''
 store_abi_entry={}
+store_abi_entries=[]
+store_steps=[]
+store_breakpoints=[]
+class StoreStep(gdb.Breakpoint):
+    def __init__(self,spec,phase):
+        self.phase=phase
+        super().__init__(spec,internal=True)
+    def stop(self):
+        pointer=int(gdb.parse_and_eval('$esi'))
+        item=dict(phase=self.phase,pointer=pointer,pc=int(gdb.parse_and_eval('$pc')),
+            flags=int(gdb.parse_and_eval('$eflags')),
+            payload=gdb.selected_inferior().read_memory(pointer,12).tobytes().hex(),
+            control=int(gdb.parse_and_eval('$fctrl')),status=int(gdb.parse_and_eval('$fstat')),tag=int(gdb.parse_and_eval('$ftag')),
+            instruction=int(gdb.parse_and_eval('$fioff'))&0xffffffff,data_pointer=int(gdb.parse_and_eval('$fooff'))&0xffffffff,
+            registers=[gdb.selected_frame().read_register('st%d'%i).bytes.hex()for i in range(8)])
+        store_steps.append(item)
+        gdb.write('C2-STORE-STEP '+json.dumps(item,sort_keys=True)+'\\n')
+        return False
 class StoreABI(gdb.Breakpoint):
     def stop(self):
+        if not store_breakpoints:
+            base=int(gdb.parse_and_eval('&store_extended'))
+            for offset,phase in STORE_OFFSETS:
+                store_breakpoints.append(StoreStep('*'+hex(base+offset),phase))
         store_abi_entry.update(destination=int(gdb.parse_and_eval('$esi')),
+            saved_flags=int.from_bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$esp')),4).tobytes(),'little'),
             control=int(gdb.parse_and_eval('$fctrl')),status=int(gdb.parse_and_eval('$fstat')),tag=int(gdb.parse_and_eval('$ftag')),
             instruction=int(gdb.parse_and_eval('$fioff'))&0xffffffff,data_pointer=int(gdb.parse_and_eval('$fooff'))&0xffffffff,
             registers=[gdb.selected_frame().read_register('st%d'%i).bytes.hex()for i in range(8)])
         gdb.write('C2-STORE-ABI-ENTRY '+json.dumps(store_abi_entry,sort_keys=True)+'\\n')
+        store_abi_entries.append(dict(store_abi_entry))
         return False
-StoreABI('store_extended',internal=True)
-'''
+StoreABI('*store_extended+1',internal=True)
+'''.replace('STORE_OFFSETS',repr(store_offsets))
     (output/'gdb-prefix.py').write_text(prefix_program)
     program="""import gdb,json
 from pathlib import Path
@@ -101,7 +137,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -109,7 +145,7 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
-    if records[0].get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+    if records[0].get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
         vector=gdb.parse_and_eval('recon_crt_environment');index=0;origin=None
         while int(vector[index]):
             entry=vector[index];prefix=gdb.selected_inferior().read_memory(entry,14).tobytes()
@@ -121,7 +157,7 @@ if len(records)==1:
         info['alignment_option']={'alignment':None if not int(alignment)else alignment.string(),'current':current.string(),
                                   'current_offset':int(current)-origin,'operand':operand.string(),'operand_offset':int(operand)-origin,
                                   'argv_offset':int(argv)-int(array.address),'argv_value_alias':int(argv[0])==int(current)}
-    if records[0].get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+    if records[0].get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
         import hashlib
         table=gdb.parse_and_eval('c2_symbol_hash')
         data=gdb.selected_inferior().read_memory(table.address,4096).tobytes()
@@ -150,7 +186,12 @@ if len(records)==1:
             'pointer':destination,'entry':store_abi_entry,
             'registers':[gdb.selected_frame().read_register('st%%d'%%i).bytes.hex()for i in range(8)]}
         gdb.write('C2-STORE-ABI-STOP '+json.dumps(info['extended_store'],sort_keys=True)+'\\n')
-    if records[0].get('state_policy')in ('pool-result','real-from-int','extended-store'):
+    if records[0].get('state_policy')=='extended-results':
+        info['extended_results']={'control':int(gdb.parse_and_eval('$fctrl')),'status':int(gdb.parse_and_eval('$fstat')),'tag':int(gdb.parse_and_eval('$ftag')),
+            'records':[gdb.selected_inferior().read_memory(gdb.parse_and_eval('&'+name),12).tobytes().hex()for name in ('c2_real_zero','c2_real_one','c2_real_two')],
+            'entries':store_abi_entries,'steps':store_steps}
+        gdb.write('C2-EXTENDED-RESULTS '+json.dumps(info['extended_results'],sort_keys=True)+'\\n')
+    if records[0].get('state_policy')in ('pool-result','real-from-int','extended-store','extended-results'):
         pools=gdb.parse_and_eval('c2_pools');arena=pools[0];head=arena['blocks']
         assert int(head)
         info['pool_result']={'free':int(gdb.parse_and_eval('c2_free_blocks')),
@@ -159,15 +200,15 @@ if len(records)==1:
             'next':int(head.dereference()['next']),'capacity':int(head.dereference()['capacity']),
             'payload':gdb.selected_inferior().read_memory(int(head)+8,4088).tobytes().hex(),
             'other_pools':[gdb.selected_inferior().read_memory(pools[i].address,12).tobytes().hex()for i in (1,2,3)]}
-    if records[0].get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+    if records[0].get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
         first=gdb.parse_and_eval('c2_input');second=gdb.parse_and_eval('c2_globals_input');iob=gdb.parse_and_eval('&recon_iob[0]')
         info['header_streams']={'input_index':(int(first)-int(iob))//32,'globals_index':(int(second)-int(iob))//32,
                                 'input':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
                                 'globals':gdb.selected_inferior().read_memory(second,32).tobytes().hex(),
                                 'distinct':int(first)!=int(second),'x87_control':int(gdb.parse_and_eval('$fctrl'))}
-        if records[0]['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+        if records[0]['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
             info['header_streams']['active_index']=(int(gdb.parse_and_eval('c2_current_il'))-int(iob))//32
-        if records[0]['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+        if records[0]['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
             stream=second.dereference();valid=int(stream['_cnt'])+int(stream['_ptr'])-int(stream['_base'])
             assert 0<valid<=int(stream['_bufsiz'])<=4096
             info['header_streams']['valid_buffer']=gdb.selected_inferior().read_memory(stream['_base'],valid).tobytes().hex()
@@ -251,7 +292,7 @@ if len(records)==1:
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
     if config.get('data_model'):
-        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store'):
+        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results'):
     if records[0]['state_policy']=='wildcard-match':
         info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
                       'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
@@ -301,7 +342,7 @@ else:
 '''.replace('STATE_PATH',repr(str(output/'state.json')))
     program=completion+textwrap.indent(program,'    ')
     (output/'gdb-state.py').write_text(program)
-    command=['/usr/bin/gdb','-nx','-batch','-ex','set pagination off','-ex','set confirm off',
+    command=['/usr/bin/gdb','-nx','-batch','-ex','set pagination off','-ex','set confirm off','-ex','set displaced-stepping off',
              '-ex','source '+str(output/'gdb-prefix.py'),
              '-ex','run '+ ' '.join(config['case']['arguments'])+' > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin'),
              '-ex','source '+str(output/'gdb-state.py'),str(executable)]
