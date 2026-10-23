@@ -1023,7 +1023,8 @@
     "_advance_braced_initializer@4",
     "_enumerator_expression@4",
     "_initialize_element@8",
-    "_select_braced_initializer@4"
+    "_select_braced_initializer@4",
+    "_find_next_initializer_member@8"
   ],
   "driver": [
     {
@@ -7673,7 +7674,7 @@
     {
       "name": "_find_next_initializer_member@8",
       "start": 290640,
-      "end": 290641
+      "end": 290816
     },
     {
       "name": "_finish_braced_initializer_element",
@@ -7694,6 +7695,16 @@
       "name": "_initializer_object_expression@4",
       "start": 285328,
       "end": 285329
+    },
+    {
+      "name": "_emit_initializer_padding@4",
+      "start": 284672,
+      "end": 284673
+    },
+    {
+      "name": "_is_initializer_data_member@4",
+      "start": 199408,
+      "end": 199409
     }
   ],
   "cases": {
@@ -7894,7 +7905,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_find_next_initializer_member@8",
+      "terminal": "_is_initializer_data_member@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7917,7 +7928,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1018-select_braced_initializer-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1019-find_next_initializer_member-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7941,7 +7952,8 @@
         "cases/frontiers/state_machine_debug/1015-advance_braced_initializer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1016-enumerator_expression-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1017-initialize_element-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1018-select_braced_initializer-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1018-select_braced_initializer-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1019-find_next_initializer_member-8/frontier-extension.json"
       ]
     }
   },

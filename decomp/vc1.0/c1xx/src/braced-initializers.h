@@ -26,4 +26,6 @@ typedef char InitializerCopiedClassInfoMustBe60[(sizeof(ClassInfo) == 60) ? 1 : 
 int __stdcall select_braced_initializer(IrToken *value);
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value);
 IrToken *__stdcall initializer_object_expression(CType *type);
+void __stdcall emit_initializer_padding(CppSymbol *symbol);
+int __stdcall is_initializer_data_member(CppSymbol *symbol);
 #endif

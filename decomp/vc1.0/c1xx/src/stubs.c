@@ -206,7 +206,7 @@ void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
-void __stdcall emit_initializer_constant(IrToken *target) { __asm { int 3 } }
+void __stdcall emit_initializer_constant(CppSymbol *target) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
@@ -629,8 +629,9 @@ void begin_line_record_debug_info(void) { __asm { int 3 } }
 
 void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __asm { int 3 } }
 
-CppSymbol *__stdcall find_next_initializer_member(CppSymbol *owner, CppSymbol *member) { __asm { int 3 } return 0; }
 int finish_braced_initializer_element(void) { __asm { int 3 } return 0; }
 
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
 IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } return 0; }
+void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
+int __stdcall is_initializer_data_member(CppSymbol *symbol) { __asm { int 3 } return 0; }

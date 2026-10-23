@@ -404,3 +404,29 @@ int __stdcall select_braced_initializer(IrToken *value)
     }
     return 0;
 }
+
+/* Original 0x46f50..0x47000. Skip declarations that do not own an
+   initializable data member. Anonymous markers delimit nested aggregate
+   lists; padding records also terminate an accumulated bit-field unit. */
+CppSymbol *__stdcall find_next_initializer_member(CppSymbol *owner, CppSymbol *member)
+{
+    unsigned kind;
+    while (member) {
+        kind = member->kind & 31;
+        if (kind >= 1 && kind <= 13 && kind != 5 && member->name == name_unnamed) {
+            if (!(member->attributes & 0x1800)) {
+                if (initializer_bit_field_pending) {
+                    integer_constant_scratch = initializer_bit_field_value;
+                    emit_initializer_constant(owner);
+                    initializer_bit_field_pending = 0;
+                }
+                emit_initializer_padding(member);
+            } else {
+                if (member->attributes & 0x1000) return 0;
+                if (member->attributes & 0x800) return member;
+            }
+        } else if (is_initializer_data_member(member)) return member;
+        member = member->next;
+    }
+    return 0;
+}

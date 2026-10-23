@@ -25,7 +25,7 @@ void __stdcall write_literal_initializer(CppSymbol *symbol, IrToken *value, FILE
 void __stdcall write_initializer_value(CppSymbol *symbol, IrToken *value, FILE *file);
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value);
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value);
-void __stdcall emit_initializer_constant(IrToken *target);
+void __stdcall emit_initializer_constant(CppSymbol *target);
 IrToken *__stdcall prepare_constructor_arguments(CppSymbol *tag, IrToken *value);
 IrToken *__stdcall make_object_constructor_call(unsigned char mode, unsigned short attributes,
     IrToken *placement, CppSymbol *symbol, IrToken *arguments, IrToken *object, IrToken *array_bound);
