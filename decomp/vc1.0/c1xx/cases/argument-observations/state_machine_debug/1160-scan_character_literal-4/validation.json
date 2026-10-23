@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_scan_character_literal@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1160,
+  "configuration_sha256": "e222bf07b31f40dd3faa6babdd3d4a3d9651a623998bbc7ed44b34ad3fd266e0",
+  "native_entry": "scan_character_literal",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "wide",
+      "stack_index": 0,
+      "native_field": "raw_wide",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      150464,
+      151038
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 unsignedcharreturnAL",
+    "proof": "Whole574B SUB16/save4regs, wideentryESP+4=>adjustedESP+36; RET4/ALkind7or9. No incomingGPR/CPUflags/x87formal, count/value/escapehistory/lead initialized beforeuse. Wide usesalreadyacceptedstring scanner1/apostrophe andexactWORDfirstvalue/lengthwarning; count2iflength>=4 else0 retained. Narrow classdispatch/recovermask~50/escape-decoder0/leadbyte refill/secondescape reorder/signextend-singlechar preserved. Missing/overlong diagnostics andcursor decrements retained. Existing token_allocation_flags rawconstant mode versus newliteral allocation. Originaltypes proven atowninitializer:694ac storesflag64type to9f274,694dc flag42type to9f288,69542 flag41/attrs1000 to9f264. Count>1 selects0064 beforewide condition; noC1semantic substitution. No newsource/dataobject or invented guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "9f56514e94eb459c34aa37ceba60ec4527d4a468af3fa5ab4cee9f394d6e3c9f",
+  "capture_timing": {
+    "original_capture_seconds": 1.6192883858457208,
+    "native_capture_seconds": 0.18260531313717365,
+    "total_operation_seconds": 2.085237806662917
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "878035b59802ef030ca13fdf380a331bdc5ae999907973cc8cafd930ddd5d36a",
+    "native-commands.gdb": "b73a981ecbcf2fb3596fe7bd55eccd1afa9409ad1cb8fb2def932f91248361c5",
+    "native-gdb.log": "770c402804c5c98bc1222b50bcd5714f1e868010a2f7d413c1e93fe92a7cd886",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "1f49f1b9a8360f5a620fe98523605eb19615719d60069e45e8555495cd8d136f",
+    "original-configuration.json": "e222bf07b31f40dd3faa6babdd3d4a3d9651a623998bbc7ed44b34ad3fd266e0",
+    "original-disassembly.txt": "99fa9c7eb6dd594922c6a36fa9eb05081410b7fbd7e8834cfd5ebe123d8a2d08",
+    "original-events.txt": "e071511bbdadd244742ddef2b4ea6b98e161141ab38ebf138969e0796530c2c7",
+    "original-receipt.json": "f4988950dd135a58e9c223320d997c638d995c5f5c109d7b110a93c9235c9b63",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "515dbacf78b4b714add3ab5d82cfcd9107ef8da84b6179529b6a840cd2f7b0c7"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1164,7 +1164,8 @@
     "_save_extended_in_arena@16",
     "_fold_floating_binary@12",
     "_multiply_extended",
-    "_finish_extended_arithmetic"
+    "_finish_extended_arithmetic",
+    "_scan_character_literal@4"
   ],
   "driver": [
     {
@@ -3393,7 +3394,7 @@
     {
       "name": "_scan_character_literal@4",
       "start": 150464,
-      "end": 150465
+      "end": 151038
     },
     {
       "name": "_scan_string_literal@8",
@@ -8562,7 +8563,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_scan_character_literal@4",
+      "terminal": "_begin_for_condition",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8585,7 +8586,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1160-scan_character_literal-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8750,7 +8751,8 @@
         "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1158-multiply_extended/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1160-scan_character_literal-4/frontier-extension.json"
       ]
     }
   },
@@ -11287,6 +11289,42 @@
           "name": "_extended_round_limit",
           "original": 681704,
           "bytes": 10
+        }
+      ]
+    },
+    {
+      "name": "_type_0041_q1000",
+      "kind": "state",
+      "original": 651876,
+      "fields": [
+        {
+          "name": "_type_0041_q1000",
+          "original": 651876,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_0064",
+      "kind": "state",
+      "original": 651892,
+      "fields": [
+        {
+          "name": "_type_0064",
+          "original": 651892,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_0042",
+      "kind": "state",
+      "original": 651912,
+      "fields": [
+        {
+          "name": "_type_0042",
+          "original": 651912,
+          "bytes": 4
         }
       ]
     }

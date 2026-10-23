@@ -247,7 +247,6 @@ void report_ide_source_end(void) { __asm { int 3 } }
 void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
-unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }

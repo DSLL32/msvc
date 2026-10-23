@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x43cf9: file src/literals.c, line 351.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, scan_character_literal (wide=0) at src/literals.c:351
+351	    int count, escape_count = 0, lead = 0;
+#0  scan_character_literal (wide=0) at src/literals.c:351
+#1  0x565c002c in read_lexical_token () at src/lexer.c:610
+#2  0x565bd8d5 in scan_token () at src/lexer.c:228
+#3  0x565bcdb5 in read_parser_token () at src/lexer.c:69
+#4  0x565b5c87 in parse_translation_unit () at src/parser.c:84
+#5  0x5655df4f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

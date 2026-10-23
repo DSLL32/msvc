@@ -1,0 +1,177 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00024bc0 <.text+0xdbc0>:
+   24bc0:	83 ec 10             	sub    esp,0x10
+   24bc3:	53                   	push   ebx
+   24bc4:	56                   	push   esi
+   24bc5:	57                   	push   edi
+   24bc6:	55                   	push   ebp
+   24bc7:	c7 44 24 14 00 00 00 	mov    DWORD PTR [esp+0x14],0x0
+   24bce:	00 
+   24bcf:	2b f6                	sub    esi,esi
+   24bd1:	83 3d ac f7 09 00 01 	cmp    DWORD PTR ds:0x9f7ac,0x1
+   24bd8:	1a c0                	sbb    al,al
+   24bda:	24 fe                	and    al,0xfe
+   24bdc:	04 09                	add    al,0x9
+   24bde:	88 44 24 13          	mov    BYTE PTR [esp+0x13],al
+   24be2:	39 74 24 24          	cmp    DWORD PTR [esp+0x24],esi
+   24be6:	74 4a                	je     0x24c32
+   24be8:	6a 27                	push   0x27
+   24bea:	6a 01                	push   0x1
+   24bec:	e8 af 02 00 00       	call   0x24ea0
+   24bf1:	a1 50 c1 08 00       	mov    eax,ds:0x8c150
+   24bf6:	66 8b 00             	mov    ax,WORD PTR [eax]
+   24bf9:	25 ff ff 00 00       	and    eax,0xffff
+   24bfe:	89 44 24 18          	mov    DWORD PTR [esp+0x18],eax
+   24c02:	66 83 3d 54 c1 08 00 	cmp    WORD PTR ds:0x8c154,0x4
+   24c09:	04 
+   24c0a:	76 0c                	jbe    0x24c18
+   24c0c:	6a 42                	push   0x42
+   24c0e:	6a 03                	push   0x3
+   24c10:	e8 9b e7 04 00       	call   0x733b0
+   24c15:	83 c4 08             	add    esp,0x8
+   24c18:	bd 02 00 00 00       	mov    ebp,0x2
+   24c1d:	66 83 3d 54 c1 08 00 	cmp    WORD PTR ds:0x8c154,0x4
+   24c24:	04 
+   24c25:	0f 83 3c 01 00 00    	jae    0x24d67
+   24c2b:	2b ed                	sub    ebp,ebp
+   24c2d:	e9 35 01 00 00       	jmp    0x24d67
+   24c32:	8b 3d 48 fc 09 00    	mov    edi,DWORD PTR ds:0x9fc48
+   24c38:	c7 44 24 18 00 00 00 	mov    DWORD PTR [esp+0x18],0x0
+   24c3f:	00 
+   24c40:	a1 4c c1 08 00       	mov    eax,ds:0x8c14c
+   24c45:	2b ed                	sub    ebp,ebp
+   24c47:	8a 18                	mov    bl,BYTE PTR [eax]
+   24c49:	33 c0                	xor    eax,eax
+   24c4b:	8a c3                	mov    al,bl
+   24c4d:	ff 05 4c c1 08 00    	inc    DWORD PTR ds:0x8c14c
+   24c53:	80 b8 b0 d5 09 00 07 	cmp    BYTE PTR [eax+0x9d5b0],0x7
+   24c5a:	0f 84 f0 00 00 00    	je     0x24d50
+   24c60:	33 c0                	xor    eax,eax
+   24c62:	8a c3                	mov    al,bl
+   24c64:	8a 80 b0 d5 09 00    	mov    al,BYTE PTR [eax+0x9d5b0]
+   24c6a:	25 ff 00 00 00       	and    eax,0xff
+   24c6f:	83 f8 03             	cmp    eax,0x3
+   24c72:	74 10                	je     0x24c84
+   24c74:	83 f8 05             	cmp    eax,0x5
+   24c77:	0f 84 c3 00 00 00    	je     0x24d40
+   24c7d:	83 f8 2a             	cmp    eax,0x2a
+   24c80:	74 2e                	je     0x24cb0
+   24c82:	eb 31                	jmp    0x24cb5
+   24c84:	e8 f7 c6 ff ff       	call   0x21380
+   24c89:	a9 af ff ff ff       	test   eax,0xffffffaf
+   24c8e:	0f 85 8c 00 00 00    	jne    0x24d20
+   24c94:	a8 10                	test   al,0x10
+   24c96:	74 1d                	je     0x24cb5
+   24c98:	ff 44 24 14          	inc    DWORD PTR [esp+0x14]
+   24c9c:	6a 00                	push   0x0
+   24c9e:	e8 7d 14 00 00       	call   0x26120
+   24ca3:	50                   	push   eax
+   24ca4:	e8 57 0c 00 00       	call   0x25900
+   24ca9:	8a d8                	mov    bl,al
+   24cab:	eb 08                	jmp    0x24cb5
+   24cad:	8d 49 00             	lea    ecx,[ecx+0x0]
+   24cb0:	be 01 00 00 00       	mov    esi,0x1
+   24cb5:	83 7c 24 14 01       	cmp    DWORD PTR [esp+0x14],0x1
+   24cba:	7f 15                	jg     0x24cd1
+   24cbc:	33 c0                	xor    eax,eax
+   24cbe:	8a c3                	mov    al,bl
+   24cc0:	8b 4c 24 18          	mov    ecx,DWORD PTR [esp+0x18]
+   24cc4:	c1 e1 08             	shl    ecx,0x8
+   24cc7:	0b c1                	or     eax,ecx
+   24cc9:	89 44 24 18          	mov    DWORD PTR [esp+0x18],eax
+   24ccd:	88 1f                	mov    BYTE PTR [edi],bl
+   24ccf:	eb 13                	jmp    0x24ce4
+   24cd1:	33 c0                	xor    eax,eax
+   24cd3:	8a c3                	mov    al,bl
+   24cd5:	c1 e0 08             	shl    eax,0x8
+   24cd8:	09 44 24 18          	or     DWORD PTR [esp+0x18],eax
+   24cdc:	8a 47 ff             	mov    al,BYTE PTR [edi-0x1]
+   24cdf:	88 07                	mov    BYTE PTR [edi],al
+   24ce1:	88 5f ff             	mov    BYTE PTR [edi-0x1],bl
+   24ce4:	47                   	inc    edi
+   24ce5:	45                   	inc    ebp
+   24ce6:	0b f6                	or     esi,esi
+   24ce8:	74 36                	je     0x24d20
+   24cea:	a1 4c c1 08 00       	mov    eax,ds:0x8c14c
+   24cef:	8a 18                	mov    bl,BYTE PTR [eax]
+   24cf1:	ff 05 4c c1 08 00    	inc    DWORD PTR ds:0x8c14c
+   24cf7:	0a db                	or     bl,bl
+   24cf9:	75 1b                	jne    0x24d16
+   24cfb:	05 00 00 00 00       	add    eax,0x0
+   24d00:	e8 7b c6 ff ff       	call   0x21380
+   24d05:	a1 4c c1 08 00       	mov    eax,ds:0x8c14c
+   24d0a:	8a 18                	mov    bl,BYTE PTR [eax]
+   24d0c:	ff 05 4c c1 08 00    	inc    DWORD PTR ds:0x8c14c
+   24d12:	0a db                	or     bl,bl
+   24d14:	74 ea                	je     0x24d00
+   24d16:	2b f6                	sub    esi,esi
+   24d18:	eb 9b                	jmp    0x24cb5
+   24d1a:	8d 9b 00 00 00 00    	lea    ebx,[ebx+0x0]
+   24d20:	a1 4c c1 08 00       	mov    eax,ds:0x8c14c
+   24d25:	8a 18                	mov    bl,BYTE PTR [eax]
+   24d27:	33 c0                	xor    eax,eax
+   24d29:	8a c3                	mov    al,bl
+   24d2b:	ff 05 4c c1 08 00    	inc    DWORD PTR ds:0x8c14c
+   24d31:	80 b8 b0 d5 09 00 07 	cmp    BYTE PTR [eax+0x9d5b0],0x7
+   24d38:	0f 85 22 ff ff ff    	jne    0x24c60
+   24d3e:	eb 10                	jmp    0x24d50
+   24d40:	6a 01                	push   0x1
+   24d42:	e8 39 e4 04 00       	call   0x73180
+   24d47:	83 c4 04             	add    esp,0x4
+   24d4a:	ff 0d 4c c1 08 00    	dec    DWORD PTR ds:0x8c14c
+   24d50:	83 3d ac f7 09 00 00 	cmp    DWORD PTR ds:0x9f7ac,0x0
+   24d57:	75 0e                	jne    0x24d67
+   24d59:	83 fd 01             	cmp    ebp,0x1
+   24d5c:	75 09                	jne    0x24d67
+   24d5e:	0f be 44 24 18       	movsx  eax,BYTE PTR [esp+0x18]
+   24d63:	89 44 24 18          	mov    DWORD PTR [esp+0x18],eax
+   24d67:	0b ed                	or     ebp,ebp
+   24d69:	75 1d                	jne    0x24d88
+   24d6b:	68 89 00 00 00       	push   0x89
+   24d70:	e8 0b e4 04 00       	call   0x73180
+   24d75:	c7 44 24 1c 00 00 00 	mov    DWORD PTR [esp+0x1c],0x0
+   24d7c:	00 
+   24d7d:	83 c4 04             	add    esp,0x4
+   24d80:	ff 0d 4c c1 08 00    	dec    DWORD PTR ds:0x8c14c
+   24d86:	eb 0f                	jmp    0x24d97
+   24d88:	83 fd 04             	cmp    ebp,0x4
+   24d8b:	7e 0a                	jle    0x24d97
+   24d8d:	6a 0f                	push   0xf
+   24d8f:	e8 ec e3 04 00       	call   0x73180
+   24d94:	83 c4 04             	add    esp,0x4
+   24d97:	f6 05 92 f7 09 00 40 	test   BYTE PTR ds:0x9f792,0x40
+   24d9e:	74 14                	je     0x24db4
+   24da0:	f6 05 92 f7 09 00 01 	test   BYTE PTR ds:0x9f792,0x1
+   24da7:	75 0b                	jne    0x24db4
+   24da9:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   24dad:	a3 50 c1 08 00       	mov    ds:0x8c150,eax
+   24db2:	eb 3c                	jmp    0x24df0
+   24db4:	8d 44 24 18          	lea    eax,[esp+0x18]
+   24db8:	50                   	push   eax
+   24db9:	8a 44 24 17          	mov    al,BYTE PTR [esp+0x17]
+   24dbd:	50                   	push   eax
+   24dbe:	e8 3d 78 00 00       	call   0x2c600
+   24dc3:	a3 50 c1 08 00       	mov    ds:0x8c150,eax
+   24dc8:	83 fd 01             	cmp    ebp,0x1
+   24dcb:	7e 07                	jle    0x24dd4
+   24dcd:	a1 74 f2 09 00       	mov    eax,ds:0x9f274
+   24dd2:	eb 13                	jmp    0x24de7
+   24dd4:	83 7c 24 24 00       	cmp    DWORD PTR [esp+0x24],0x0
+   24dd9:	74 07                	je     0x24de2
+   24ddb:	a1 88 f2 09 00       	mov    eax,ds:0x9f288
+   24de0:	eb 05                	jmp    0x24de7
+   24de2:	a1 64 f2 09 00       	mov    eax,ds:0x9f264
+   24de7:	8b 0d 50 c1 08 00    	mov    ecx,DWORD PTR ds:0x8c150
+   24ded:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+   24df0:	8a 44 24 13          	mov    al,BYTE PTR [esp+0x13]
+   24df4:	5d                   	pop    ebp
+   24df5:	5f                   	pop    edi
+   24df6:	5e                   	pop    esi
+   24df7:	5b                   	pop    ebx
+   24df8:	83 c4 10             	add    esp,0x10
+   24dfb:	c2 04 00             	ret    0x4

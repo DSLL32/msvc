@@ -6,6 +6,7 @@
 #include "function-definitions.h"
 #include "braced-initializers.h"
 #include "ir.h"
+#include "binary-expressions.h"
 #include <stdlib.h>
 #include <recon.h>
 
@@ -338,4 +339,82 @@ unsigned char *__stdcall encode_literal_segment(unsigned char *segment,
     *segment++ = temporary[0];
     *segment++ = temporary[1];
     return segment;
+}
+
+/* Original 0x24bc0..0x24dfd. Preserve narrow multicharacter byte order,
+   escape history, DBCS tails, and the wide-string scanner's byte count. */
+unsigned char __stdcall scan_character_literal(int wide)
+{
+    unsigned char character, category, code;
+    unsigned char *write;
+    unsigned flags, value;
+    int count, escape_count = 0, lead = 0;
+    code = options.configuration.option_J ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
+    if (wide) {
+        scan_string_literal(1, '\'');
+        value = *(unsigned short *)current_token_value.string.text;
+        if (current_token_value.string.length > 4) compiler_warning(3, 66);
+        count = current_token_value.string.length >= 4 ? 2 : 0;
+    } else {
+        write = text_work_cursor;
+        value = 0;
+        count = 0;
+        character = (unsigned char)*source_text_cursor++;
+        while (character_class[character] != CC_APOSTROPHE) {
+            category = character_class[character];
+            switch (category) {
+            case CC_ESCAPE_OR_END:
+                flags = recover_special_character();
+                if (flags & ~0x50U) goto next_character;
+                if (flags & 0x10) {
+                    ++escape_count;
+                    character = (unsigned char)decode_literal_escape(next_source_character(), 0);
+                }
+                break;
+            case CC_NEWLINE:
+                report_syntax_error(1);
+                --source_text_cursor;
+                goto finish_narrow;
+            case CC_LEAD_BYTE: lead = 1; break;
+            }
+            for (;;) {
+                if (escape_count <= 1) {
+                    value = (value << 8) | character;
+                    *write = character;
+                } else {
+                    value |= (unsigned)character << 8;
+                    *write = write[-1];
+                    write[-1] = character;
+                }
+                ++write;
+                ++count;
+                if (!lead) break;
+                character = (unsigned char)*source_text_cursor++;
+                while (!character) {
+                    recover_special_character();
+                    character = (unsigned char)*source_text_cursor++;
+                }
+                lead = 0;
+            }
+next_character:
+            character = (unsigned char)*source_text_cursor++;
+        }
+finish_narrow:
+        if (!options.configuration.option_J && count == 1)
+            value = (signed char)value;
+    }
+    if (!count) {
+        report_syntax_error(137);
+        value = 0;
+        --source_text_cursor;
+    } else if (count > 4) report_syntax_error(15);
+    if ((token_allocation_flags & 0x400000) && !(token_allocation_flags & 0x10000))
+        current_token_value.words.low = value;
+    else {
+        current_token_value.expression = new_literal_constant(code, &value);
+        if (count > 1) current_token_value.expression->type = type_0064;
+        else if (wide) current_token_value.expression->type = type_0042;
+        else current_token_value.expression->type = type_0041_q1000;
+    }
+    return code;
 }

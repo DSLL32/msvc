@@ -1,0 +1,30 @@
+{
+  "scope": "Whole574B character literal scanner, allbranches reconstructed",
+  "abi": "stdcall4 intwide/ALtoken7or9, fourdefaultstackwords observe actualwideformal; nohidden/registerinputs",
+  "semantics": "Narrow multicharacter accumulation, second/subsequentescape byteorder, DBCStail recovery, signedonebytechar and diagnostics/cursor behavior retained. Wide uses existingstring scanner/count0or2 basedonUTF16byte length.",
+  "cpp_type_order": "Afterliteral allocation count>1 selects existingtype0064, elsewide selects0042, else0041qualifiedattrs1000. This differs from C1 counterpart; exactC1XX original branchorder retained, no frontend behavior repair.",
+  "builtin_provenance": [
+    {
+      "original": 651892,
+      "store": 431276,
+      "name": "type_0064",
+      "type_flags": 100
+    },
+    {
+      "original": 651912,
+      "store": 431324,
+      "name": "type_0042",
+      "type_flags": 66
+    },
+    {
+      "original": 651876,
+      "store": 431426,
+      "name": "type_0041_q1000",
+      "type_flags": 65,
+      "type_attributes": 4096
+    }
+  ],
+  "data": "Only contextual default/address-alias metadata added for three existing builtin globals; no new sourceobjects",
+  "build_correction": "Initial native build held missingnew_literal_constant declaration; included existingbinary-expressions.h, thenbothnative/originalbuilds passed. Initial failedbuild log retained under sharedscratch.",
+  "credit": "One574B appscanner, no CRTbody/transportcredit"
+}
