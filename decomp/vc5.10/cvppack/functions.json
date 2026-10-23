@@ -65,7 +65,8 @@
     "compact_type_index",
     "scan_module_symbols",
     "add_symbol_segment",
-    "has_symbol_segment"
+    "has_symbol_segment",
+    "rewrite_module_symbols"
   ],
   "functions": [
     {
@@ -1517,12 +1518,15 @@
       "acceptance_proof": "cases/hello-debug-dll/evidence/0057-scan-module-symbols/promotion.json"
     },
     {
-      "name": "rewrite_new_lines",
-      "symbol": "_rewrite_new_lines",
-      "native_symbol": "rewrite_new_lines",
+      "name": "rewrite_module_symbols",
+      "symbol": "_rewrite_module_symbols",
+      "native_symbol": "rewrite_module_symbols",
       "original": 4237200,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4237200,
+        4237824
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1575,7 +1579,8 @@
           ],
           "native_pointee_width": 2
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0060-rewrite-module-symbols/promotion.json"
     },
     {
       "name": "rewrite_module_global_types",
@@ -2266,6 +2271,197 @@
           "kind": "string"
         }
       ]
+    },
+    {
+      "name": "rewrite_bp_relative_symbol",
+      "symbol": "_rewrite_bp_relative_symbol",
+      "native_symbol": "rewrite_bp_relative_symbol",
+      "original": 4238448,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "enter_symbol_scope",
+      "symbol": "_enter_symbol_scope",
+      "native_symbol": "enter_symbol_scope",
+      "original": 4238224,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "leave_symbol_scope",
+      "symbol": "_leave_symbol_scope",
+      "native_symbol": "leave_symbol_scope",
+      "original": 4238272,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_symbol_type4",
+      "symbol": "_rewrite_symbol_type4",
+      "native_symbol": "rewrite_symbol_type4",
+      "original": 4238384,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_global_data_symbol",
+      "symbol": "_rewrite_global_data_symbol",
+      "native_symbol": "rewrite_global_data_symbol",
+      "original": 4238848,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_register16_symbol",
+      "symbol": "_rewrite_register16_symbol",
+      "native_symbol": "rewrite_register16_symbol",
+      "original": 4238320,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_data16_symbol",
+      "symbol": "_rewrite_data16_symbol",
+      "native_symbol": "rewrite_data16_symbol",
+      "original": 4238704,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_global_data16_symbol",
+      "symbol": "_rewrite_global_data16_symbol",
+      "native_symbol": "rewrite_global_data16_symbol",
+      "original": 4238768,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_type_name_symbol",
+      "symbol": "_rewrite_type_name_symbol",
+      "native_symbol": "rewrite_type_name_symbol",
+      "original": 4238512,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_object_name_symbol",
+      "symbol": "_rewrite_object_name_symbol",
+      "native_symbol": "rewrite_object_name_symbol",
+      "original": 4238592,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_procedure16_symbol",
+      "symbol": "_rewrite_procedure16_symbol",
+      "native_symbol": "rewrite_procedure16_symbol",
+      "original": 4238928,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_procedure32_symbol",
+      "symbol": "_rewrite_procedure32_symbol",
+      "native_symbol": "rewrite_procedure32_symbol",
+      "original": 4239040,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_mips_procedure_symbol",
+      "symbol": "_rewrite_mips_procedure_symbol",
+      "native_symbol": "rewrite_mips_procedure_symbol",
+      "original": 4239136,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "write_segment_record",
+      "symbol": "_write_segment_record",
+      "native_symbol": "write_segment_record",
+      "original": 4251440,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "allocation-output",
+          "owner": "rewrite_module_symbols",
+          "allocation_site": 4237265,
+          "cursor": "symbol_output",
+          "write_size": 12
+        },
+        {
+          "name": "segment",
+          "slot": 2,
+          "kind": "integer",
+          "native_width": 2
+        }
+      ]
+    },
+    {
+      "name": "link_symbol_scopes",
+      "symbol": "_link_symbol_scopes",
+      "native_symbol": "link_symbol_scopes",
+      "original": 4250976,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "allocation-output",
+          "owner": "rewrite_module_symbols",
+          "allocation_site": 4237265,
+          "cursor": "symbol_output",
+          "write_size": 0
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "record_symbol_references",
+      "symbol": "_record_symbol_references",
+      "native_symbol": "record_symbol_references",
+      "original": 4256928,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
     }
   ],
   "support_unmasked": [

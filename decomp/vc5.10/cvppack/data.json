@@ -1029,5 +1029,44 @@
     "original": 4271712,
     "size": 510,
     "kind": "bytes"
+  },
+  {
+    "name": "symbol_rewriters",
+    "original": 4268968,
+    "size": 312,
+    "kind": "bytes",
+    "function_table": true
+  },
+  {
+    "name": "symbol_input",
+    "original": 4281112,
+    "size": 4,
+    "kind": "pointer",
+    "buffer_cursor": {
+      "root": "type_data",
+      "capacity": "line_capacity"
+    }
+  },
+  {
+    "name": "symbol_output",
+    "original": 4281104,
+    "size": 4,
+    "kind": "pointer",
+    "written_allocation": {
+      "site": 4237265,
+      "owner": "rewrite_module_symbols"
+    }
+  },
+  {
+    "name": "discard_symbol_depth",
+    "original": 4281108,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "packed_symbol_bytes",
+    "original": 4281576,
+    "size": 4,
+    "kind": "integer"
   }
 ]

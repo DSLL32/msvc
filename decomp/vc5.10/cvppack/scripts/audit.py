@@ -111,9 +111,13 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(BINARY/'build/native/CVPACK')],text=True)
     sizes={line.split()[-1]:int(line.split()[1],16) for line in symbols.splitlines() if len(line.split())==4}
     data=json.loads((BINARY/'data.json').read_text())
+    # Historical /help indices predate these callbacks. Initial data still uses
+    # the current named source index, without counting those bodies as checked.
+    function_tables=switches.function_tables(list(live.values()))
     for item in data:
         assert sizes[item['name']]==item['size'], ('native global type/extent differs',item['name'])
-        assert pe.read(item['original'],item['size'])==rebuilt.read(publics['_'+item['name']],item['size']), ('initial Win32 data differs',item['name'])
+        if not item.get('function_table'):
+            assert pe.read(item['original'],item['size'])==rebuilt.read(publics['_'+item['name']],item['size']), ('initial Win32 data differs',item['name'])
     import importlib.util
     spec=importlib.util.spec_from_file_location('resource_evidence',BINARY/'scripts/resource-evidence.py')
     resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)
@@ -127,7 +131,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        cached_import_sites=import_sites, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        cached_import_sites=import_sites, function_tables=function_tables, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,

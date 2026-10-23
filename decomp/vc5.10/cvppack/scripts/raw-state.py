@@ -129,7 +129,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
     for item in record['parameters']:
         value = original['registers'][item['register']] if 'register' in item else original['stack'][item['slot']]
         if item['kind'] == 'integer':
-            parameters[item['name']] = value
+            width=item.get('native_width',4)
+            assert width in (1,2,4),'unsupported integer ABI width'
+            parameters[item['name']] = value & ((1 << (width*8))-1)
         elif item['kind'] == 'string':
             parameters[item['name']] = dict(null=value==0,bytes=original['strings'][value].hex() if value else None)
         elif item['kind'] == 'argv':
@@ -194,6 +196,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=dict(function=item['function'])
         elif item['kind'] == 'object-pointer':
             object_parameters.append((item,value))
+        elif item['kind']=='allocation-output':
+            owned=[row for row in original['image_allocations'] if row['site']==item['allocation_site']]
+            assert len(owned)==1,'symbol output allocation lifetime differs'
+            allocation=owned[0]
+            row=next(row for row in data if row['name']==item['cursor'])
+            assert value==int.from_bytes(original['memory'][row['original']],'little'),'symbol output argument cursor alias differs'
+            offset=value-allocation['address']
+            assert 0<=offset<=allocation['size']-item['write_size'],'symbol output argument extent differs'
+            parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
         else:
             raise AssertionError('unimplemented parameter kind: '+item['kind'])
     reads=[]
@@ -264,7 +275,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
     assert len(original['image_allocations'])==len(native.get('image_allocations',[])),'image allocation inventory differs'
     for left,right in zip(original['image_allocations'],native.get('image_allocations',[])):
         sites={0x4062b0:('debug_directory','module_capacity'),0x4062d3:('symbol_data','symbol_capacity'),
-               0x4062f7:('type_data','line_capacity'),0x40631b:('module_data','type_capacity'),0x40639d:None}
+               0x4062f7:('type_data','line_capacity'),0x40631b:('module_data','type_capacity'),0x40639d:None,0x40a7d1:None}
         assert left['site'] in sites,'unknown actual image allocator caller'
         if sites[left['site']] is not None:
             name,size_name=sites[left['site']]
@@ -272,6 +283,14 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert int.from_bytes(original['memory'][row['original']],'little')==left['address'],'actual allocation not assigned to its evidenced output'
             row=next(row for row in data if row['name']==size_name)
             assert int.from_bytes(original['memory'][row['original']],'little')==left['size'],'actual allocation request differs from capacity source'
+        if left['site']==0x40a7d1:
+            def value(name):
+                item=next(row for row in data if row['name']==name)
+                return int.from_bytes(original['memory'][item['original']],'little')
+            entries=original['memory'][value('directory_entries')];index=value('line_entry_index')
+            size=int.from_bytes(entries[index*12+8:index*12+12],'little')
+            assert size+value('module_symbol_count')-value('module_reference_count')==left['size'],'symbol rewrite allocation expression differs'
+            assert right.get('owner')=='rewrite_module_symbols','symbol output allocation owner differs'
         assert left['size']==right['size'] and left['address'] and right['address'],'actual image allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live image allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
@@ -518,6 +537,21 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             assert len(a)==len(b)==18+int.from_bytes(a[16:18],'little') and source+len(a)<=owner+image_sizes[owner]
                             assert a[4:]==b[4:],'initialized public node header/record/padding differs'
                             source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
+            elif item.get('written_allocation'):
+                spec=item['written_allocation'];owned=[row for row in original['image_allocations'] if row['site']==spec['site']]
+                assert len(owned)==1,'symbol output allocation lifetime differs'
+                owner=owned[0];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                offset=address-owner['address'];capacity=owner['size'];destination=image_aliases[owner['address']]
+                assert 0<=offset<=capacity and other==destination+offset,'symbol output cursor allocation/offset differs'
+                left=original['memory'][owner['address']];right=bytes.fromhex(native['memory'][str(destination)])
+                assert len(left)==len(right)==capacity,'incomplete symbol output capacity observation'
+                assert left[:offset]==right[:offset],'initialized symbol output prefix differs'
+                used_uninitialized.add(owner['address']);pair(owner['address'],destination)
+            elif item.get('buffer_cursor'):
+                spec=item['buffer_cursor'];base=global_integer(spec['root']);capacity=global_integer(spec['capacity'])
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                destination=int.from_bytes(bytes.fromhex(native['globals'][spec['root']]),'little')
+                assert 0<=address-base<=capacity and other==destination+address-base,'symbol input cursor buffer/offset differs'
             elif item.get('interior_allocation'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little');spec=item['interior_allocation']
                 assert bool(address)==bool(other),'arena cursor NULL state differs'
@@ -586,6 +620,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert len(left)==len(right)==count*4
                     for index in range(count):
                         linked(int.from_bytes(left[index*4:index*4+4],'little'),int.from_bytes(right[index*4:index*4+4],'little'),shape)
+        elif item.get('function_table'):
+            assert len(raw)==len(actual)==312,'symbol callback table extent differs'
+            for offset in range(0,312,8):
+                assert raw[offset:offset+4]==actual[offset:offset+4],'symbol callback kind/reserved differs'
+                address=int.from_bytes(raw[offset+4:offset+8],'little');other=int.from_bytes(actual[offset+4:offset+8],'little')
+                if address:
+                    function=next(row for row in config['functions'] if row['original']==address)
+                    assert other==native['function_addresses'][function['native_symbol']],'symbol callback logical identity differs'
+                else:assert other==0,'symbol callback NULL identity differs'
         else:
             assert raw == actual, ('application global differs',item['name'],raw.hex(),actual.hex())
         globals_checked.append(item['name'])

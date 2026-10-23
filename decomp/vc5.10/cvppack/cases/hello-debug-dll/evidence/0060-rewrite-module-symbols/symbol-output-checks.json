@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 18,
+  "rejected": [
+    {
+      "name": "changed-output-signature",
+      "diagnostic": "initialized symbol output prefix differs"
+    },
+    {
+      "name": "truncated-full-output-observation",
+      "diagnostic": "incomplete symbol output capacity observation"
+    },
+    {
+      "name": "wrong-output-owner",
+      "diagnostic": "symbol output allocation owner differs"
+    },
+    {
+      "name": "wrong-output-request-size",
+      "diagnostic": "actual image allocation request/result differs"
+    },
+    {
+      "name": "changed-output-cursor",
+      "diagnostic": "symbol output cursor allocation/offset differs"
+    },
+    {
+      "name": "wrong-output-argument-offset",
+      "diagnostic": "('typed ABI arguments differ', {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 12}, 'segment': 1}, {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 5, 'capacity': 8705, 'write_size': 12}, 'segment': 1})"
+    },
+    {
+      "name": "wrong-output-argument-write-extent",
+      "diagnostic": "('typed ABI arguments differ', {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 12}, 'segment': 1}, {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 13}, 'segment': 1})"
+    },
+    {
+      "name": "wrong-low-segment-word",
+      "diagnostic": "('typed ABI arguments differ', {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 12}, 'segment': 1}, {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 12}, 'segment': 2})"
+    },
+    {
+      "name": "wrong-actual-short-width",
+      "diagnostic": "actual frontier formal width differs"
+    },
+    {
+      "name": "wrong-dispatch-kind",
+      "diagnostic": "symbol callback kind/reserved differs"
+    },
+    {
+      "name": "wrong-logical-callback",
+      "diagnostic": "symbol callback logical identity differs"
+    },
+    {
+      "name": "invented-default-callback",
+      "diagnostic": "symbol callback NULL identity differs"
+    },
+    {
+      "name": "changed-raw-low-segment-word",
+      "diagnostic": "('typed ABI arguments differ', {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 12}, 'segment': 0}, {'buffer': {'owner': 'rewrite_module_symbols', 'offset': 4, 'capacity': 8705, 'write_size': 12}, 'segment': 1})"
+    }
+  ],
+  "static_rejections": [
+    {
+      "name": "changed-static-kind",
+      "diagnostic": "symbol rewrite table kind/reserved differs"
+    },
+    {
+      "name": "changed-static-reserved",
+      "diagnostic": "symbol rewrite table kind/reserved differs"
+    },
+    {
+      "name": "changed-static-callback",
+      "diagnostic": "symbol rewrite table callback identity differs"
+    },
+    {
+      "name": "changed-static-default",
+      "diagnostic": "symbol rewrite table NULL callback differs"
+    },
+    {
+      "name": "forged-refreshed-table-proof",
+      "diagnostic": "forged current data proof"
+    }
+  ],
+  "owned_capacity": 8705,
+  "initialized_prefix": 4,
+  "native_owned_tail_change_allowed": true,
+  "dead_ushort_high_word_change_allowed": true,
+  "actual_original_pushed_segment_word": 13303809,
+  "ushort_load": {
+    "address": 4251444,
+    "bytes": "668b4c2408"
+  },
+  "callback_rows": 39,
+  "original_receipt_sha256": "d64a35f2ff4a5ec23ae17b080f2cf3186e4a1d7489c43f99543049983cb59d75",
+  "native_receipt_sha256": "84ae8050fc48de00f0d09886e6e21a12dce783b34fd0d2a32866f6721d1ad94b",
+  "decoder_sha256": "3d3abb3d2e4feae070bc40c3227431748387ba899b5985c082ce6af35c6bb17c",
+  "checker_sha256": "1a7bd06b151aa14b1555346ab00510705f3551888cd390ab39da0564ba291edf",
+  "table_validator_sha256": "77dcb6ecf7c4445cfeb7f78581d7eaaf70bca35f47796b2f0b6013e213882d9e",
+  "seconds": 2.73737586196512
+}

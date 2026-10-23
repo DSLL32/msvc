@@ -1,0 +1,2685 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/CVPACK.EXE",
+    "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "entry": 4260656,
+    "application_main": 4212256
+  },
+  "accepted": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "fatal_error",
+    "print_banner",
+    "message_text",
+    "files_initialize",
+    "allocate_page",
+    "allocate_zero",
+    "allocate_file",
+    "select_input_name",
+    "open_cached_file",
+    "prepare_cached_file",
+    "find_cached_file",
+    "take_free_file",
+    "move_cached_file",
+    "duplicate_string",
+    "open_mapped_file",
+    "create_mapping",
+    "initialize_type_tables",
+    "allocate_cleared",
+    "initialize_arena",
+    "allocate_bytes",
+    "read_image_debug",
+    "seek_cached_file",
+    "mapped_seek",
+    "read_cached_file",
+    "mapped_read",
+    "tell_cached_file",
+    "read_codeview_signature",
+    "read_codeview_directory",
+    "compare_directory_entries",
+    "classify_debug_directory",
+    "load_debug_subsection",
+    "find_module_info",
+    "initialize_module_pack",
+    "pack_module",
+    "initialize_single_module",
+    "read_module_symbols",
+    "widen_subsection",
+    "pack_symbols",
+    "map_legacy_index",
+    "compact_legacy_index",
+    "map_primitive_type",
+    "flush_type_stack",
+    "insert_public_symbol",
+    "symbol_record_key",
+    "allocate_public_block",
+    "read_module_types",
+    "read_new_module_types",
+    "initialize_module_type_storage",
+    "reset_type_name_cache",
+    "read_module_local_symbols",
+    "read_module_source_lines",
+    "map_type_index",
+    "compact_type_index",
+    "scan_module_symbols",
+    "add_symbol_segment",
+    "has_symbol_segment"
+  ],
+  "functions": [
+    {
+      "name": "cvpack_main",
+      "symbol": "_main",
+      "native_symbol": "cvpack_main",
+      "original": 4212256,
+      "status": "accepted",
+      "extent": [
+        4212256,
+        4212917
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "argc",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "argv",
+          "slot": 2,
+          "kind": "argv"
+        }
+      ],
+      "acceptance_proof": "cases/help/evidence/0001-main-reviewed/promotion.json"
+    },
+    {
+      "name": "initialize_messages",
+      "symbol": "_initialize_messages",
+      "native_symbol": "initialize_messages",
+      "original": 4224640,
+      "status": "accepted",
+      "extent": [
+        4224640,
+        4224646
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "string"
+        },
+        {
+          "name": "program",
+          "slot": 2,
+          "kind": "string"
+        },
+        {
+          "name": "resources",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/help/evidence/0002-initialize-messages/promotion.json"
+    },
+    {
+      "name": "parse_options",
+      "symbol": "_parse_options",
+      "native_symbol": "parse_options",
+      "original": 4212928,
+      "status": "accepted",
+      "extent": [
+        4212928,
+        4213158
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "argc",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "argv",
+          "slot": 2,
+          "kind": "argv"
+        }
+      ],
+      "text_data": [
+        [
+          4213160,
+          4213208
+        ]
+      ],
+      "acceptance_proof": "cases/help/evidence/0003-parse-options/promotion.json"
+    },
+    {
+      "name": "files_initialize",
+      "symbol": "_files_initialize",
+      "native_symbol": "files_initialize",
+      "original": 4198560,
+      "status": "accepted",
+      "extent": [
+        4198560,
+        4198795
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "pages",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "files",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "page_shift",
+          "slot": 3,
+          "kind": "integer"
+        },
+        {
+          "name": "file_pages",
+          "slot": 4,
+          "kind": "integer"
+        },
+        {
+          "name": "file_shift",
+          "slot": 5,
+          "kind": "integer"
+        },
+        {
+          "name": "mapped",
+          "slot": 6,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0007-files-initialize/promotion.json"
+    },
+    {
+      "name": "print_banner",
+      "symbol": "_print_banner",
+      "native_symbol": "print_banner",
+      "original": 4213216,
+      "status": "accepted",
+      "extent": [
+        4213216,
+        4213289
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/help/evidence/0005-print-banner/promotion.json"
+    },
+    {
+      "name": "select_input_name",
+      "symbol": "_select_input_name",
+      "native_symbol": "select_input_name",
+      "original": 4213296,
+      "status": "accepted",
+      "extent": [
+        4213296,
+        4213580
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "string"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0011-select-input-name/promotion.json"
+    },
+    {
+      "name": "initialize_type_tables",
+      "symbol": "_initialize_type_tables",
+      "native_symbol": "initialize_type_tables",
+      "original": 4239344,
+      "status": "accepted",
+      "extent": [
+        4239344,
+        4239677
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0020-initialize-type-tables/promotion.json"
+    },
+    {
+      "name": "read_image_debug",
+      "symbol": "_read_image_debug",
+      "native_symbol": "read_image_debug",
+      "original": 4218112,
+      "status": "accepted",
+      "extent": [
+        4218112,
+        4219875
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0024-read-image-debug-typed/promotion.json"
+    },
+    {
+      "name": "initialize_module_pack",
+      "symbol": "_initialize_module_pack",
+      "native_symbol": "initialize_module_pack",
+      "original": 4215264,
+      "status": "accepted",
+      "extent": [
+        4215264,
+        4215344
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0036-initialize-module-pack/promotion.json"
+    },
+    {
+      "name": "pack_module",
+      "symbol": "_pack_module",
+      "native_symbol": "pack_module",
+      "original": 4213776,
+      "status": "accepted",
+      "extent": [
+        4213776,
+        4214446
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "module",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4214448,
+          4214487
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0037-pack-module/promotion.json"
+    },
+    {
+      "name": "write_debug_directory",
+      "symbol": "_write_debug_directory",
+      "native_symbol": "write_debug_directory",
+      "original": 4215344,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "free_type_tables",
+      "symbol": "_free_type_tables",
+      "native_symbol": "free_type_tables",
+      "original": 4239680,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "print_statistics",
+      "symbol": "_print_statistics",
+      "native_symbol": "print_statistics",
+      "original": 4256000,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "flush_packed_file",
+      "symbol": "_flush_packed_file",
+      "native_symbol": "flush_packed_file",
+      "original": 4221408,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "get_file_size",
+      "symbol": "_get_file_size",
+      "native_symbol": "get_file_size",
+      "original": 4200768,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "map_file_region",
+      "symbol": "_map_file_region",
+      "native_symbol": "map_file_region",
+      "original": 4203840,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "close_file",
+      "symbol": "_close_file",
+      "native_symbol": "close_file",
+      "original": 4200064,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "warning",
+      "symbol": "_warning",
+      "native_symbol": "warning",
+      "original": 4216224,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "message",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "first",
+          "slot": 2,
+          "kind": "string"
+        },
+        {
+          "name": "second",
+          "slot": 3,
+          "kind": "string"
+        }
+      ]
+    },
+    {
+      "name": "fatal_error",
+      "symbol": "_fatal_error",
+      "native_symbol": "fatal_error",
+      "original": 4216016,
+      "status": "accepted",
+      "extent": [
+        4216016,
+        4216211
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "message",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "first",
+          "slot": 2,
+          "kind": "string"
+        },
+        {
+          "name": "second",
+          "slot": 3,
+          "kind": "string"
+        }
+      ],
+      "acceptance_proof": "cases/help/evidence/0004-fatal-error/promotion.json"
+    },
+    {
+      "name": "message_text",
+      "symbol": "_message_text",
+      "native_symbol": "message_text",
+      "original": 4224528,
+      "status": "accepted",
+      "extent": [
+        4224528,
+        4224632
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "message",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/help/evidence/0006-message-text/promotion.json"
+    },
+    {
+      "name": "allocate_zero",
+      "symbol": "_allocate_zero",
+      "native_symbol": "allocate_zero",
+      "original": 4198416,
+      "status": "accepted",
+      "extent": [
+        4198416,
+        4198458
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0009-allocate-zero/promotion.json"
+    },
+    {
+      "name": "allocate_page",
+      "symbol": "_allocate_page",
+      "native_symbol": "allocate_page",
+      "original": 4202256,
+      "status": "accepted",
+      "extent": [
+        4202256,
+        4202276
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0008-allocate-page/promotion.json"
+    },
+    {
+      "name": "allocate_file",
+      "symbol": "_allocate_file",
+      "native_symbol": "allocate_file",
+      "original": 4198800,
+      "status": "accepted",
+      "extent": [
+        4198800,
+        4198824
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0010-allocate-file/promotion.json"
+    },
+    {
+      "name": "open_cached_file",
+      "symbol": "_open_cached_file",
+      "native_symbol": "open_cached_file",
+      "original": 4199184,
+      "status": "accepted",
+      "extent": [
+        4199184,
+        4199286
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "string"
+        },
+        {
+          "name": "flags",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "mode",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0012-open-cached-file/promotion.json"
+    },
+    {
+      "name": "prepare_cached_file",
+      "symbol": "_prepare_cached_file",
+      "native_symbol": "prepare_cached_file",
+      "original": 4199296,
+      "status": "accepted",
+      "extent": [
+        4199296,
+        4199415
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "string"
+        },
+        {
+          "name": "flags",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "mode",
+          "slot": 3,
+          "kind": "integer"
+        },
+        {
+          "name": "created",
+          "slot": 4,
+          "kind": "integer-pointer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0013-prepare-cached-file/promotion.json"
+    },
+    {
+      "name": "open_mapped_file",
+      "symbol": "_open_mapped_file",
+      "native_symbol": "open_mapped_file",
+      "original": 4202816,
+      "status": "accepted",
+      "extent": [
+        4202816,
+        4203115
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        },
+        {
+          "name": "flags",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "created",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0018-open-mapped-file/promotion.json"
+    },
+    {
+      "name": "open_stream_file",
+      "symbol": "_open_stream_file",
+      "native_symbol": "open_stream_file",
+      "original": 4199696,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "find_cached_file",
+      "symbol": "_find_cached_file",
+      "native_symbol": "find_cached_file",
+      "original": 4199536,
+      "status": "accepted",
+      "extent": [
+        4199536,
+        4199685
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "string"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0014-find-cached-file/promotion.json"
+    },
+    {
+      "name": "take_free_file",
+      "symbol": "_take_free_file",
+      "native_symbol": "take_free_file",
+      "original": 4199424,
+      "status": "accepted",
+      "extent": [
+        4199424,
+        4199527
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0015-take-free-file/promotion.json"
+    },
+    {
+      "name": "duplicate_string",
+      "symbol": "_duplicate_string",
+      "native_symbol": "duplicate_string",
+      "original": 4198512,
+      "status": "accepted",
+      "extent": [
+        4198512,
+        4198552
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "string"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0017-duplicate-string/promotion.json"
+    },
+    {
+      "name": "move_cached_file",
+      "symbol": "_move_cached_file",
+      "native_symbol": "move_cached_file",
+      "original": 4202656,
+      "status": "accepted",
+      "extent": [
+        4202656,
+        4202802
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        },
+        {
+          "name": "source",
+          "slot": 2,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "free_files",
+            "closed_files",
+            "active_files",
+            "last_closed_file"
+          ],
+          "nullable": false
+        },
+        {
+          "name": "source_last",
+          "slot": 3,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "free_files",
+            "closed_files",
+            "active_files",
+            "last_closed_file"
+          ],
+          "nullable": true
+        },
+        {
+          "name": "destination",
+          "slot": 4,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "free_files",
+            "closed_files",
+            "active_files",
+            "last_closed_file"
+          ],
+          "nullable": false
+        },
+        {
+          "name": "destination_last",
+          "slot": 5,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "free_files",
+            "closed_files",
+            "active_files",
+            "last_closed_file"
+          ],
+          "nullable": true
+        },
+        {
+          "name": "append",
+          "slot": 6,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0016-move-cached-file/promotion.json"
+    },
+    {
+      "name": "release_cached_file",
+      "symbol": "_release_cached_file",
+      "native_symbol": "release_cached_file",
+      "original": 4200208,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_mapping",
+      "symbol": "_create_mapping",
+      "native_symbol": "create_mapping",
+      "original": 4203648,
+      "status": "accepted",
+      "extent": [
+        4203648,
+        4203831
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0019-create-mapping-typed-frontier/promotion.json"
+    },
+    {
+      "name": "mapped_seek",
+      "symbol": "_mapped_seek",
+      "native_symbol": "mapped_seek",
+      "original": 4203120,
+      "status": "accepted",
+      "extent": [
+        4203120,
+        4203233
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "origin",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0026-mapped-seek/promotion.json"
+    },
+    {
+      "name": "allocate_cleared",
+      "symbol": "_allocate_cleared",
+      "native_symbol": "allocate_cleared",
+      "original": 4258704,
+      "status": "accepted",
+      "extent": [
+        4258704,
+        4258766
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 1
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0021-allocate-cleared/promotion.json"
+    },
+    {
+      "name": "allocate_bytes",
+      "symbol": "_allocate_bytes",
+      "native_symbol": "allocate_bytes",
+      "original": 4258656,
+      "status": "accepted",
+      "extent": [
+        4258656,
+        4258696
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 1
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0023-allocate-bytes/promotion.json"
+    },
+    {
+      "name": "initialize_arena",
+      "symbol": "_initialize_arena",
+      "native_symbol": "initialize_arena",
+      "original": 4259680,
+      "status": "accepted",
+      "extent": [
+        4259680,
+        4259704
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "arena",
+          "kind": "global-pointer",
+          "slot": 1,
+          "allowed_globals": [
+            "type_arena",
+            "type_large_arena"
+          ],
+          "nullable": false
+        },
+        {
+          "name": "capacity",
+          "kind": "integer",
+          "slot": 2
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0022-initialize-arena/promotion.json"
+    },
+    {
+      "name": "seek_cached_file",
+      "symbol": "_seek_cached_file",
+      "native_symbol": "seek_cached_file",
+      "original": 4200720,
+      "status": "accepted",
+      "extent": [
+        4200720,
+        4200768
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "origin",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0025-seek-cached-file/promotion.json"
+    },
+    {
+      "name": "read_cached_file",
+      "symbol": "_read_cached_file",
+      "native_symbol": "read_cached_file",
+      "original": 4200832,
+      "status": "accepted",
+      "extent": [
+        4200832,
+        4200880
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "output-buffer",
+          "count_slot": 3,
+          "count_name": "size",
+          "owner": "read_image_debug",
+          "local": "dos",
+          "capacity": 64,
+          "owner_return_slot": 0,
+          "owner_return": 4218192,
+          "original_delta": 100
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0027-read-cached-file/promotion.json"
+    },
+    {
+      "name": "tell_cached_file",
+      "symbol": "_tell_cached_file",
+      "native_symbol": "tell_cached_file",
+      "original": 4201088,
+      "status": "accepted",
+      "extent": [
+        4201088,
+        4201118
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0029-tell-cached-file-stable/promotion.json"
+    },
+    {
+      "name": "read_codeview_signature",
+      "symbol": "_read_codeview_signature",
+      "native_symbol": "read_codeview_signature",
+      "original": 4216464,
+      "status": "accepted",
+      "extent": [
+        4216464,
+        4216669
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0030-read-codeview-signature/promotion.json"
+    },
+    {
+      "name": "read_codeview_directory",
+      "symbol": "_read_codeview_directory",
+      "native_symbol": "read_codeview_directory",
+      "original": 4216752,
+      "status": "accepted",
+      "extent": [
+        4216752,
+        4217095
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0031-read-codeview-directory/promotion.json"
+    },
+    {
+      "name": "classify_debug_directory",
+      "symbol": "_classify_debug_directory",
+      "native_symbol": "classify_debug_directory",
+      "original": 4217360,
+      "status": "accepted",
+      "extent": [
+        4217360,
+        4218048
+      ],
+      "ret": 0,
+      "parameters": [],
+      "text_data": [
+        [
+          4218048,
+          4218112
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0033-classify-debug-directory-owned/promotion.json"
+    },
+    {
+      "name": "seek_stream_file",
+      "symbol": "_seek_stream_file",
+      "native_symbol": "seek_stream_file",
+      "original": 4200464,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "grow_mapping",
+      "symbol": "_grow_mapping",
+      "native_symbol": "grow_mapping",
+      "original": 4203584,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "mapped_read",
+      "symbol": "_mapped_read",
+      "native_symbol": "mapped_read",
+      "original": 4203248,
+      "status": "accepted",
+      "extent": [
+        4203248,
+        4203357
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "output-buffer",
+          "count_slot": 3,
+          "count_name": "size",
+          "owner": "read_image_debug",
+          "local": "dos",
+          "capacity": 64,
+          "owner_return_slot": 4,
+          "owner_return": 4218192,
+          "original_delta": 116
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0028-mapped-read/promotion.json"
+    },
+    {
+      "name": "stream_read",
+      "symbol": "_stream_read",
+      "native_symbol": "stream_read",
+      "original": 4200880,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 40,
+            "link": 36,
+            "string": 0,
+            "handle": 16,
+            "view": {
+              "offset": 20,
+              "length_offset": 24
+            }
+          }
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "output-buffer",
+          "count_slot": 3,
+          "count_name": "size",
+          "owner": "read_image_debug",
+          "local": "dos",
+          "capacity": 64,
+          "owner_return_slot": 4,
+          "owner_return": 4218192,
+          "original_delta": 116
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "compare_directory_entries",
+      "symbol": "_compare_directory_entries",
+      "native_symbol": "compare_directory_entries",
+      "original": 4216672,
+      "status": "accepted",
+      "extent": [
+        4216672,
+        4216752
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "first",
+          "slot": 1,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "second",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0032-compare-directory-entries/promotion.json"
+    },
+    {
+      "name": "load_debug_subsection",
+      "symbol": "_load_debug_subsection",
+      "native_symbol": "load_debug_subsection",
+      "original": 4217104,
+      "status": "accepted",
+      "extent": [
+        4217104,
+        4217234
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "data",
+          "slot": 2,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "libraries",
+            "segment_map",
+            "segment_names"
+          ],
+          "nullable": false
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "libraries_size",
+            "segment_map_size",
+            "segment_names_size"
+          ],
+          "nullable": false
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0034-load-debug-subsection-stable/promotion.json"
+    },
+    {
+      "name": "find_module_info",
+      "symbol": "_find_module_info",
+      "native_symbol": "find_module_info",
+      "original": 4217248,
+      "status": "accepted",
+      "extent": [
+        4217248,
+        4217355
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "module",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0035-find-module-info/promotion.json"
+    },
+    {
+      "name": "initialize_single_module",
+      "symbol": "_initialize_single_module",
+      "native_symbol": "initialize_single_module",
+      "original": 4213584,
+      "status": "accepted",
+      "extent": [
+        4213584,
+        4213767
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "info",
+          "slot": 2,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0038-initialize-single-module-exact-switch/promotion.json"
+    },
+    {
+      "name": "read_module_types",
+      "symbol": "_read_module_types",
+      "native_symbol": "read_module_types",
+      "original": 4214496,
+      "status": "accepted",
+      "extent": [
+        4214496,
+        4214893
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "precompiled",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0049-read-module-types/promotion.json"
+    },
+    {
+      "name": "prepare_precompiled_types",
+      "symbol": "_prepare_precompiled_types",
+      "native_symbol": "prepare_precompiled_types",
+      "original": 4205712,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "read_module_symbols",
+      "symbol": "_read_module_symbols",
+      "native_symbol": "read_module_symbols",
+      "original": 4215088,
+      "status": "accepted",
+      "extent": [
+        4215088,
+        4215256
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0039-read-module-symbols-live-capacity/promotion.json"
+    },
+    {
+      "name": "read_module_local_symbols",
+      "symbol": "_read_module_local_symbols",
+      "native_symbol": "read_module_local_symbols",
+      "original": 4214896,
+      "status": "accepted",
+      "extent": [
+        4214896,
+        4215075
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/promotion.json"
+    },
+    {
+      "name": "read_module_source_lines",
+      "symbol": "_read_module_source_lines",
+      "native_symbol": "read_module_source_lines",
+      "original": 4215744,
+      "status": "accepted",
+      "extent": [
+        4215744,
+        4215886
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0054-read-module-source-lines/promotion.json"
+    },
+    {
+      "name": "pack_symbols",
+      "symbol": "_pack_symbols",
+      "native_symbol": "pack_symbols",
+      "original": 4237824,
+      "status": "accepted",
+      "extent": [
+        4237824,
+        4238215
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "symbol_data"
+          ],
+          "entry_slot": 2,
+          "entry_name": "entry",
+          "count_offset": 8
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0041-pack-symbols-types/promotion.json"
+    },
+    {
+      "name": "decode_legacy_lines",
+      "symbol": "_decode_legacy_lines",
+      "native_symbol": "decode_legacy_lines",
+      "original": 4229952,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_legacy_lines",
+      "symbol": "_rewrite_legacy_lines",
+      "native_symbol": "rewrite_legacy_lines",
+      "original": 4230496,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "scan_module_symbols",
+      "symbol": "_scan_module_symbols",
+      "native_symbol": "scan_module_symbols",
+      "original": 4236160,
+      "status": "accepted",
+      "extent": [
+        4236160,
+        4237076
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "lines",
+          "slot": 1,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "type_data"
+          ],
+          "count_slot": 2,
+          "count_name": "size"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "symbols",
+          "slot": 3,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_symbol_count"
+          ],
+          "native_pointee_width": 2
+        },
+        {
+          "name": "references",
+          "slot": 4,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_reference_count"
+          ],
+          "native_pointee_width": 2
+        }
+      ],
+      "text_data": [
+        [
+          4237076,
+          4237096
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0057-scan-module-symbols/promotion.json"
+    },
+    {
+      "name": "rewrite_module_symbols",
+      "symbol": "_rewrite_module_symbols",
+      "native_symbol": "rewrite_module_symbols",
+      "original": 4237200,
+      "status": "candidate",
+      "extent": [
+        4237200,
+        4237824
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "lines",
+          "slot": 1,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "type_data"
+          ],
+          "entry_slot": 2,
+          "entry_name": "entry",
+          "count_offset": 8
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "info",
+          "slot": 3,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        },
+        {
+          "name": "symbols",
+          "slot": 4,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_symbol_count"
+          ],
+          "native_pointee_width": 2
+        },
+        {
+          "name": "references",
+          "slot": 5,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_reference_count"
+          ],
+          "native_pointee_width": 2
+        }
+      ]
+    },
+    {
+      "name": "rewrite_module_global_types",
+      "symbol": "_rewrite_module_global_types",
+      "native_symbol": "rewrite_module_global_types",
+      "original": 4215920,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "widen_subsection",
+      "symbol": "_widen_subsection",
+      "native_symbol": "widen_subsection",
+      "original": 4215376,
+      "status": "accepted",
+      "extent": [
+        4215376,
+        4215738
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "symbol_data",
+            "type_data",
+            "module_data"
+          ],
+          "buffer_count_slot": 2,
+          "buffer_count_name": "size",
+          "capacity_global": "source_symbol_bytes"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "capacity",
+          "slot": 3,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "source_symbol_bytes",
+            "source_line_bytes",
+            "source_type_bytes"
+          ]
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0040-widen-subsection-typed-continuation/promotion.json"
+    },
+    {
+      "name": "module_name",
+      "symbol": "_module_name",
+      "native_symbol": "module_name",
+      "original": 4216368,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "info",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_widen",
+      "symbol": "_create_widen",
+      "native_symbol": "create_widen",
+      "original": 4260496,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "object",
+          "slot": 1,
+          "kind": "caller-local-pointer",
+          "owner": "widen_subsection",
+          "local": "object",
+          "width": 4,
+          "owner_return": 4215447,
+          "original_delta": 48,
+          "initialized": true
+        }
+      ]
+    },
+    {
+      "name": "release_widen",
+      "symbol": "_release_widen",
+      "native_symbol": "release_widen",
+      "original": 4260528,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "query_widen",
+      "symbol": "_query_widen",
+      "native_symbol": "query_widen",
+      "original": 4260576,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "emit_widen",
+      "symbol": "_emit_widen",
+      "native_symbol": "emit_widen",
+      "original": 4260608,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "resize_bytes",
+      "symbol": "_resize_bytes",
+      "native_symbol": "resize_bytes",
+      "original": 4198464,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "map_legacy_index",
+      "symbol": "@map_legacy_index@4",
+      "source_name": "map_legacy_index",
+      "native_symbol": "map_legacy_index",
+      "original": 4203984,
+      "status": "accepted",
+      "extent": [
+        4203984,
+        4204001
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0042-map-legacy-index/promotion.json"
+    },
+    {
+      "name": "map_type_index",
+      "symbol": "@map_type_index@4",
+      "source_name": "map_type_index",
+      "native_symbol": "map_type_index",
+      "original": 4206720,
+      "status": "accepted",
+      "extent": [
+        4206720,
+        4206737
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0055-map-type-index/promotion.json"
+    },
+    {
+      "name": "symbol_record_key",
+      "symbol": "_symbol_record_key",
+      "source_name": "symbol_record_key",
+      "native_symbol": "symbol_record_key",
+      "original": 4247376,
+      "status": "accepted",
+      "extent": [
+        4247376,
+        4247801
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "local-record",
+          "owner": "pack_symbols",
+          "local": "record",
+          "capacity": 512,
+          "owner_return": 4248113,
+          "original_delta": 96
+        },
+        {
+          "name": "hash",
+          "slot": 2,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "hash",
+          "width": 4,
+          "original_delta": 44,
+          "owner_return": 4248113,
+          "initialized": false
+        },
+        {
+          "name": "name",
+          "slot": 3,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "name",
+          "width": 2,
+          "original_delta": 48,
+          "owner_return": 4248113,
+          "initialized": false
+        },
+        {
+          "name": "segment",
+          "slot": 4,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "segment",
+          "width": 2,
+          "original_delta": 52,
+          "owner_return": 4248113,
+          "initialized": true
+        },
+        {
+          "name": "offset",
+          "slot": 5,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "offset",
+          "width": 4,
+          "original_delta": 56,
+          "owner_return": 4248113,
+          "initialized": true
+        },
+        {
+          "name": "flags",
+          "slot": 6,
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4247804,
+          4247848
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0047-symbol-record-key/promotion.json"
+    },
+    {
+      "name": "insert_public_symbol",
+      "symbol": "_insert_public_symbol",
+      "source_name": "insert_public_symbol",
+      "native_symbol": "insert_public_symbol",
+      "original": 4248048,
+      "status": "accepted",
+      "extent": [
+        4248048,
+        4248614
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "local-record",
+          "owner": "pack_symbols",
+          "local": "record",
+          "capacity": 512,
+          "owner_return": 4238187,
+          "original_delta": 32
+        },
+        {
+          "name": "key",
+          "slot": 2,
+          "kind": "function-pointer",
+          "function": "symbol_record_key",
+          "original": 4247376
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0046-insert-public-symbol/promotion.json"
+    },
+    {
+      "name": "compact_legacy_index",
+      "symbol": "@compact_legacy_index@4",
+      "source_name": "compact_legacy_index",
+      "native_symbol": "compact_legacy_index",
+      "original": 4204016,
+      "status": "accepted",
+      "extent": [
+        4204016,
+        4205470
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4205472,
+          4205598
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0043-compact-legacy-index/promotion.json"
+    },
+    {
+      "name": "flush_type_stack",
+      "symbol": "_flush_type_stack",
+      "source_name": "flush_type_stack",
+      "native_symbol": "flush_type_stack",
+      "original": 4206240,
+      "status": "accepted",
+      "extent": [
+        4206240,
+        4206692
+      ],
+      "ret": 0,
+      "parameters": [],
+      "text_data": [
+        [
+          4206692,
+          4206708
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0045-flush-type-stack-memmove/promotion.json"
+    },
+    {
+      "name": "map_primitive_type",
+      "symbol": "_map_primitive_type",
+      "source_name": "map_primitive_type",
+      "native_symbol": "map_primitive_type",
+      "original": 4203936,
+      "status": "accepted",
+      "extent": [
+        4203936,
+        4203981
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0044-map-primitive-type/promotion.json"
+    },
+    {
+      "name": "lookup_global_type",
+      "symbol": "_lookup_global_type",
+      "source_name": "lookup_global_type",
+      "native_symbol": "lookup_global_type",
+      "original": 4205600,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "convert_legacy_record",
+      "symbol": "_convert_legacy_record",
+      "source_name": "convert_legacy_record",
+      "native_symbol": "convert_legacy_record",
+      "original": 4224656,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "compact_legacy_pointer",
+      "symbol": "@compact_legacy_pointer@4",
+      "source_name": "compact_legacy_pointer",
+      "native_symbol": "compact_legacy_pointer",
+      "original": 4209296,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "match_forward_type",
+      "symbol": "@match_forward_type@12",
+      "source_name": "match_forward_type",
+      "native_symbol": "match_forward_type",
+      "original": 4246704,
+      "status": "stub",
+      "extent": null,
+      "ret": 4,
+      "parameters": []
+    },
+    {
+      "name": "associate_forward_type",
+      "symbol": "@associate_forward_type@8",
+      "source_name": "associate_forward_type",
+      "native_symbol": "associate_forward_type",
+      "original": 4206160,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "compact_type_list",
+      "symbol": "@compact_type_list@8",
+      "source_name": "compact_type_list",
+      "native_symbol": "compact_type_list",
+      "original": 4209696,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "resolve_recursive_type",
+      "symbol": "_resolve_recursive_type",
+      "source_name": "resolve_recursive_type",
+      "native_symbol": "resolve_recursive_type",
+      "original": 4246544,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "intern_type",
+      "symbol": "@intern_type@4",
+      "source_name": "intern_type",
+      "native_symbol": "intern_type",
+      "original": 4239888,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "compact_type_index",
+      "symbol": "@compact_type_index@4",
+      "source_name": "compact_type_index",
+      "native_symbol": "compact_type_index",
+      "original": 4206752,
+      "status": "accepted",
+      "extent": [
+        4206752,
+        4209161
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4209164,
+          4209288
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0056-compact-type-index/promotion.json"
+    },
+    {
+      "name": "allocate_public_block",
+      "symbol": "_allocate_public_block",
+      "native_symbol": "allocate_public_block",
+      "original": 4239824,
+      "status": "accepted",
+      "extent": [
+        4239824,
+        4239885
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0048-allocate-public-block/promotion.json"
+    },
+    {
+      "name": "numeric_leaf_size",
+      "symbol": "_numeric_leaf_size",
+      "native_symbol": "numeric_leaf_size",
+      "original": 4258992,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "read_new_module_types",
+      "symbol": "_read_new_module_types",
+      "native_symbol": "read_new_module_types",
+      "original": 4243712,
+      "status": "accepted",
+      "extent": [
+        4243712,
+        4245135
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "precompiled",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4245136,
+          4245152
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0050-read-new-module-types/promotion.json"
+    },
+    {
+      "name": "read_legacy_module_types",
+      "symbol": "_read_legacy_module_types",
+      "native_symbol": "read_legacy_module_types",
+      "original": 4245152,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "reset_type_name_cache",
+      "symbol": "_reset_type_name_cache",
+      "native_symbol": "reset_type_name_cache",
+      "original": 4245344,
+      "status": "accepted",
+      "extent": [
+        4245344,
+        4245409
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0052-reset-type-name-cache/promotion.json"
+    },
+    {
+      "name": "initialize_module_type_storage",
+      "symbol": "_initialize_module_type_storage",
+      "source_name": "initialize_module_type_storage",
+      "native_symbol": "initialize_module_type_storage",
+      "original": 4245280,
+      "status": "accepted",
+      "extent": [
+        4245280,
+        4245341
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0051-initialize-module-type-storage/promotion.json"
+    },
+    {
+      "name": "record_widen",
+      "symbol": "_record_widen",
+      "source_name": "record_widen",
+      "native_symbol": "record_widen",
+      "original": 4260544,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "use_precompiled_types",
+      "symbol": "_use_precompiled_types",
+      "source_name": "use_precompiled_types",
+      "native_symbol": "use_precompiled_types",
+      "original": 4245808,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "register_type_server",
+      "symbol": "_register_type_server",
+      "source_name": "register_type_server",
+      "native_symbol": "register_type_server",
+      "original": 4242592,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "find_type_server",
+      "symbol": "@find_type_server@20",
+      "source_name": "find_type_server",
+      "native_symbol": "find_type_server",
+      "original": 4245424,
+      "status": "stub",
+      "extent": null,
+      "ret": 12,
+      "parameters": []
+    },
+    {
+      "name": "add_symbol_segment",
+      "symbol": "_add_symbol_segment",
+      "native_symbol": "add_symbol_segment",
+      "original": 4237104,
+      "status": "accepted",
+      "extent": [
+        4237104,
+        4237196
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "segment",
+          "slot": 1,
+          "kind": "integer",
+          "native_width": 2
+        },
+        {
+          "name": "symbols",
+          "slot": 2,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_symbol_count"
+          ],
+          "native_pointee_width": 2
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0058-add-symbol-segment/promotion.json"
+    },
+    {
+      "name": "has_symbol_segment",
+      "symbol": "_has_symbol_segment",
+      "native_symbol": "has_symbol_segment",
+      "original": 4251376,
+      "status": "accepted",
+      "extent": [
+        4251376,
+        4251435
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "segment",
+          "slot": 1,
+          "kind": "integer",
+          "native_width": 2
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0059-has-symbol-segment/promotion.json"
+    },
+    {
+      "name": "read_type_database",
+      "symbol": "_read_type_database",
+      "native_symbol": "read_type_database",
+      "original": 4241904,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "path",
+          "slot": 1,
+          "kind": "string"
+        }
+      ]
+    },
+    {
+      "name": "rewrite_bp_relative_symbol",
+      "symbol": "_rewrite_bp_relative_symbol",
+      "native_symbol": "rewrite_bp_relative_symbol",
+      "original": 4238448,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "enter_symbol_scope",
+      "symbol": "_enter_symbol_scope",
+      "native_symbol": "enter_symbol_scope",
+      "original": 4238224,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "leave_symbol_scope",
+      "symbol": "_leave_symbol_scope",
+      "native_symbol": "leave_symbol_scope",
+      "original": 4238272,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_symbol_type4",
+      "symbol": "_rewrite_symbol_type4",
+      "native_symbol": "rewrite_symbol_type4",
+      "original": 4238384,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_global_data_symbol",
+      "symbol": "_rewrite_global_data_symbol",
+      "native_symbol": "rewrite_global_data_symbol",
+      "original": 4238848,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_register16_symbol",
+      "symbol": "_rewrite_register16_symbol",
+      "native_symbol": "rewrite_register16_symbol",
+      "original": 4238320,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_data16_symbol",
+      "symbol": "_rewrite_data16_symbol",
+      "native_symbol": "rewrite_data16_symbol",
+      "original": 4238704,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_global_data16_symbol",
+      "symbol": "_rewrite_global_data16_symbol",
+      "native_symbol": "rewrite_global_data16_symbol",
+      "original": 4238768,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_type_name_symbol",
+      "symbol": "_rewrite_type_name_symbol",
+      "native_symbol": "rewrite_type_name_symbol",
+      "original": 4238512,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_object_name_symbol",
+      "symbol": "_rewrite_object_name_symbol",
+      "native_symbol": "rewrite_object_name_symbol",
+      "original": 4238592,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_procedure16_symbol",
+      "symbol": "_rewrite_procedure16_symbol",
+      "native_symbol": "rewrite_procedure16_symbol",
+      "original": 4238928,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_procedure32_symbol",
+      "symbol": "_rewrite_procedure32_symbol",
+      "native_symbol": "rewrite_procedure32_symbol",
+      "original": 4239040,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "rewrite_mips_procedure_symbol",
+      "symbol": "_rewrite_mips_procedure_symbol",
+      "native_symbol": "rewrite_mips_procedure_symbol",
+      "original": 4239136,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "write_segment_record",
+      "symbol": "_write_segment_record",
+      "native_symbol": "write_segment_record",
+      "original": 4251440,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "allocation-output",
+          "owner": "rewrite_module_symbols",
+          "allocation_site": 4237265,
+          "cursor": "symbol_output",
+          "write_size": 12
+        },
+        {
+          "name": "segment",
+          "slot": 2,
+          "kind": "integer",
+          "native_width": 2
+        }
+      ]
+    },
+    {
+      "name": "link_symbol_scopes",
+      "symbol": "_link_symbol_scopes",
+      "native_symbol": "link_symbol_scopes",
+      "original": 4250976,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "allocation-output",
+          "owner": "rewrite_module_symbols",
+          "allocation_site": 4237265,
+          "cursor": "symbol_output",
+          "write_size": 0
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "record_symbol_references",
+      "symbol": "_record_symbol_references",
+      "native_symbol": "record_symbol_references",
+      "original": 4256928,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    }
+  ],
+  "support_unmasked": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 4260656,
+      "end": 4260992,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__setargv",
+      "start": 4230224,
+      "end": 4230240,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__setdefaultprecision",
+      "start": 4261008,
+      "end": 4261040,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__matherr",
+      "start": 4261040,
+      "end": 4261056,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 4260640,
+      "end": 4260646,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 4260992,
+      "end": 4260998,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_initterm",
+      "start": 4260998,
+      "end": 4261004,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 4261056,
+      "end": 4261062,
+      "evidence": "cases/help/crt-support.json"
+    }
+  ],
+  "loader_data": [],
+  "review_gate": "root approved scaffold and first main; autonomous help only",
+  "native_entry_guard": false,
+  "read_sites": [
+    {
+      "return_pc": 4218192,
+      "owner": "read_image_debug",
+      "local": "dos",
+      "capacity": 64,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4218257,
+      "owner": "read_image_debug",
+      "local": "signature",
+      "capacity": 4,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4218351,
+      "owner": "read_image_debug",
+      "local": "signature",
+      "capacity": 4,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4218412,
+      "owner": "read_image_debug",
+      "local": "image_file_header",
+      "capacity": 20,
+      "global_buffer": true
+    },
+    {
+      "return_pc": 4218515,
+      "owner": "read_image_debug",
+      "local": "optional",
+      "capacity": 224,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4218647,
+      "owner": "read_image_debug",
+      "local": "section",
+      "capacity": 40,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4218783,
+      "owner": "read_image_debug",
+      "local": "directory",
+      "capacity": 28,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4218947,
+      "owner": "read_image_debug",
+      "local": "section",
+      "capacity": 40,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4219177,
+      "owner": "read_image_debug",
+      "local": "section",
+      "capacity": 40,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4219339,
+      "owner": "read_image_debug",
+      "local": "directory",
+      "capacity": 28,
+      "global_buffer": false
+    },
+    {
+      "return_pc": 4216482,
+      "owner": "read_codeview_signature",
+      "local": "codeview_signature",
+      "capacity": 4,
+      "global_buffer": true
+    },
+    {
+      "return_pc": 4216776,
+      "owner": "read_codeview_directory",
+      "local": "directory_relative_offset",
+      "capacity": 4,
+      "global_buffer": true
+    },
+    {
+      "return_pc": 4216838,
+      "owner": "read_codeview_directory",
+      "local": "codeview_directory_header",
+      "capacity": 16,
+      "global_buffer": true
+    },
+    {
+      "return_pc": 4216971,
+      "owner": "read_codeview_directory",
+      "local": "directory_entries",
+      "heap_buffer": true,
+      "count": "directory_count",
+      "element_size": 12,
+      "spare_elements": 6
+    },
+    {
+      "return_pc": 4217189,
+      "owner": "load_debug_subsection",
+      "local": "buffer",
+      "heap_buffer": true,
+      "count_parameter": "entry",
+      "count_member": "size"
+    },
+    {
+      "return_pc": 4213693,
+      "owner": "initialize_single_module",
+      "local": "current_module_buffer",
+      "global_buffer": true,
+      "heap_buffer": true,
+      "count_parameter": "entry",
+      "count_member": "size",
+      "allocation_kind": "module"
+    },
+    {
+      "return_pc": 4215160,
+      "owner": "read_module_symbols",
+      "local": "symbol_data",
+      "global_buffer": true,
+      "allocated_global": "symbol_data",
+      "capacity_global": "symbol_capacity",
+      "count_parameter": "entry",
+      "count_member": "size"
+    },
+    {
+      "return_pc": 4214577,
+      "owner": "read_module_types",
+      "local": "line_data",
+      "global_buffer": true,
+      "allocated_global": "line_data",
+      "capacity_global": "type_segment_bytes",
+      "capacity_max": 65512,
+      "count_literal": 4
+    },
+    {
+      "return_pc": 4243911,
+      "owner": "read_new_module_types",
+      "local": "raw",
+      "segment_input": true
+    },
+    {
+      "return_pc": 4214968,
+      "owner": "read_module_local_symbols",
+      "local": "type_data",
+      "global_buffer": true,
+      "allocated_global": "type_data",
+      "capacity_global": "line_capacity",
+      "count_parameter": "entry",
+      "count_member": "size"
+    },
+    {
+      "return_pc": 4215816,
+      "owner": "read_module_source_lines",
+      "local": "module_data",
+      "global_buffer": true,
+      "allocated_global": "module_data",
+      "capacity_global": "type_capacity",
+      "count_parameter": "entry",
+      "count_member": "size"
+    }
+  ],
+  "require_native_argument_inventory": true
+}

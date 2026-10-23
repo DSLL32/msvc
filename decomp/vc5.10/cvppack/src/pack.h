@@ -51,6 +51,30 @@ void scan_module_symbols(void *lines, unsigned size, unsigned short *symbols, un
 void add_symbol_segment(unsigned short segment, unsigned short *symbols);
 int has_symbol_segment(unsigned short segment);
 void read_type_database(const char *path);
-void rewrite_new_lines(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references);
+typedef void (*SymbolRewriteProc)(void);
+typedef struct SymbolRewriteEntry {
+    unsigned short kind, reserved;
+    SymbolRewriteProc rewrite;
+} SymbolRewriteEntry;
+extern SymbolRewriteEntry symbol_rewriters[39];
+extern unsigned char *symbol_input, *symbol_output;
+extern unsigned discard_symbol_depth, packed_symbol_bytes;
+void rewrite_module_symbols(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references);
+unsigned short write_segment_record(unsigned char *buffer, unsigned short segment);
+int link_symbol_scopes(unsigned char *buffer, unsigned size);
+void record_symbol_references(unsigned char *buffer, unsigned size, unsigned short module);
+void enter_symbol_scope(void);
+void leave_symbol_scope(void);
+void rewrite_symbol_type4(void);
+void rewrite_bp_relative_symbol(void);
+void rewrite_global_data_symbol(void);
+void rewrite_register16_symbol(void);
+void rewrite_data16_symbol(void);
+void rewrite_global_data16_symbol(void);
+void rewrite_type_name_symbol(void);
+void rewrite_object_name_symbol(void);
+void rewrite_procedure16_symbol(void);
+void rewrite_procedure32_symbol(void);
+void rewrite_mips_procedure_symbol(void);
 void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info);
 #endif

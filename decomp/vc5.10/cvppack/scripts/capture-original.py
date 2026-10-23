@@ -93,6 +93,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',4062b0:image-allocation-entry,4062b2:image-allocation-result,4062d3:image-allocation-entry,4062d5:image-allocation-result,4062f7:image-allocation-entry,4062f9:image-allocation-result,40631b:image-allocation-entry,40631d:image-allocation-result,40639d:image-allocation-entry,40639f:image-allocation-result'
     if any(r['name']=='allocate_bytes' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',40fb66:checked-allocation-entry,40fb6c:checked-allocation-result'
+    if any(r['name']=='rewrite_module_symbols' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',40a7d1:image-allocation-entry,40a7d7:image-allocation-result'
     if any(r['name']=='initialize_single_module' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',404b59:module-allocation-entry,404b5f:module-allocation-result'
     if any(r['name']=='initialize_module_type_storage' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):

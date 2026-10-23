@@ -1,0 +1,40 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/diagnostics.obj src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/files.obj src/files.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/image.obj src/image.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/input.obj src/input.c
+files.c
+input.c
+image.c
+diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/legacy-types.obj src/legacy-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/main.obj src/main.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/messages.obj src/messages.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/modern-types.obj src/modern-types.c
+messages.c
+modern-types.c
+legacy-types.c
+main.c
+src/legacy-types.c(161) : warning C4101: 'position' : unreferenced local variable
+src/main.c(34) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/module-types.obj src/module-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/options.obj src/options.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/pack.obj src/pack.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/primitive-types.obj src/primitive-types.c
+pack.c
+options.c
+module-types.c
+primitive-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/publics.obj src/publics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-rewrite.obj src/symbol-rewrite.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-scan.obj src/symbol-scan.c
+publics.c
+stubs.c
+symbol-scan.c
+symbol-rewrite.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/types.obj src/types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /Fobuild/debug-run.obj scripts/debug-run.c
+types.c
+debug-run.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/diagnostics.obj build/files.obj build/image.obj build/input.obj build/legacy-types.obj build/main.obj build/messages.obj build/modern-types.obj build/module-types.obj build/options.obj build/pack.obj build/primitive-types.obj build/publics.obj build/stubs.obj build/symbol-rewrite.obj build/symbol-scan.obj build/types.obj build/resources.res
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/debug-run.exe build/debug-run.obj

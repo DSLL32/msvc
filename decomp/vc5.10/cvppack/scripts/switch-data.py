@@ -6,6 +6,35 @@ from state import BINARY, ROOT, sha
 from binary import COFF, PE, u32
 
 
+def function_tables(available, original=None, rebuilt=None):
+    """Check the encountered typed callback data using real linked symbols."""
+    original=original or PE(ROOT/'toolchains/5.10/bin/CVPACK.EXE')
+    rebuilt=rebuilt or PE(BINARY/'build/CVPACK.EXE')
+    publics={}
+    for line in (BINARY/'build/cvpack.map').read_text().splitlines():
+        match=re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',line)
+        if match:publics[match[1]]=int(match[2],16)
+    proof=[]
+    for item in json.loads((BINARY/'data.json').read_text()):
+        if not item.get('function_table'):continue
+        before=original.read(item['original'],item['size'])
+        after=rebuilt.read(publics['_'+item['name']],item['size']);rows=[]
+        for offset in range(0,item['size'],8):
+            kind,reserved,address=struct.unpack_from('<HHI',before,offset)
+            other_kind,other_reserved,other=struct.unpack_from('<HHI',after,offset)
+            assert (kind,reserved)==(other_kind,other_reserved) and reserved==0,'symbol rewrite table kind/reserved differs'
+            if address:
+                function=next(row for row in available if row['original']==address)
+                assert other==publics[function['symbol']],'symbol rewrite table callback identity differs'
+                name=function['name']
+            else:
+                assert other==0,'symbol rewrite table NULL callback differs'
+                name=None
+            rows.append(dict(kind=kind,function=name))
+        proof.append(dict(name=item['name'],original=item['original'],rebuilt=publics['_'+item['name']],size=item['size'],rows=rows))
+    return proof
+
+
 def prepare(checked,destination,available=None):
     metadata=dict(schema=1,functions={});proof=dict(schema=1,tables=[])
     evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'
@@ -108,6 +137,9 @@ def prepare(checked,destination,available=None):
             pointer_relocations=[dict(offset=offset,symbol=target,kind=kind) for offset,target,kind in rows],
             rebuilt_data=[base+start,base+end],rebuilt_targets=targets,class_map=remap.hex(),
             original_class_map=[0x404ec8,0x404ed7]))
+    if any(row['name']=='rewrite_module_symbols' for row in checked):
+        assert available is not None
+        proof['function_tables']=function_tables(available)
     (destination/'graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
     (destination/'graph-metadata-proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     return destination/'graph-metadata.json',destination/'graph-metadata-proof.json'

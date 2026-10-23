@@ -60,7 +60,7 @@ int pack_module(unsigned short module)
         } else {
             total_line_bytes += entry->size;
             scan_module_symbols(type_data, entry->size, &module_symbol_count, &module_reference_count);
-            rewrite_new_lines(type_data, entry, current_module_info, &module_symbol_count, &module_reference_count);
+            rewrite_module_symbols(type_data, entry, current_module_info, &module_symbol_count, &module_reference_count);
         }
     }
     if (type_entry_index) {

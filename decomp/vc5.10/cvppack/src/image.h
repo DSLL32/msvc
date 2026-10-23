@@ -26,7 +26,9 @@ typedef struct ModuleInfo {
     unsigned fields_before[2];
     unsigned char *data;
     unsigned size;
-    unsigned fields_after[6];
+    unsigned char *symbols;
+    unsigned symbols_size;
+    unsigned fields_after[4];
     struct ModuleInfo *next;
 } ModuleInfo;
 typedef struct ModuleIndex {

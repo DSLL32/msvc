@@ -33,6 +33,7 @@ static DWORD blob_address[64],blob_size[64],blob_pointer[64],blob_child_size[64]
 static DWORD blob_count_address[64],blob_element_size[64],blob_count_width[64];
 static DWORD widen_output, widen_object, widen_arguments[4];
 static DWORD widen_capacities[2];
+static DWORD symbol_output_base, symbol_output_capacity;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
 static void configure(void)
@@ -312,6 +313,8 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (count > 65512) count = 65512;
         memory(log, process, item, count);
     }
+    if (full_graphs && symbol_output_base)
+        memory(log, process, symbol_output_base, symbol_output_capacity);
     if (full_graphs && read_bytes(process, 0x412cf4, &value, 4) && value) {
         DWORD bucket, node, next_node, visited;
         WORD length;
@@ -432,10 +435,12 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (entry == 0x40591a && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "subsection-allocation-call %08lx %lu\n", context->Esi, value);
     else if (entry == 0x405920) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
-    if (entry == 0x4062b0 || entry == 0x4062d3 || entry == 0x4062f7 || entry == 0x40631b || entry == 0x40639d) {
+    if (entry == 0x4062b0 || entry == 0x4062d3 || entry == 0x4062f7 || entry == 0x40631b || entry == 0x40639d || entry == 0x40a7d1) {
         if (read_bytes(process, context->Esp, &value, 4)) fprintf(log, "image-allocation-call %08lx %lu\n", entry, value);
-    } else if (entry == 0x4062b2 || entry == 0x4062d5 || entry == 0x4062f9 || entry == 0x40631d || entry == 0x40639f) {
+        if (entry == 0x40a7d1) symbol_output_capacity = value;
+    } else if (entry == 0x4062b2 || entry == 0x4062d5 || entry == 0x4062f9 || entry == 0x40631d || entry == 0x40639f || entry == 0x40a7d7) {
         fprintf(log, "image-allocation-return %08lx\n", context->Eax);
+        if (entry == 0x40a7d7) symbol_output_base = context->Eax;
     }
     if (entry == 0x40fb66 && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "checked-allocation-call %lu\n", value);

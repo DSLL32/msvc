@@ -28,7 +28,22 @@ void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
 void read_type_database(const char *path) { __asm { int 3 } }
-void rewrite_new_lines(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references) { __asm { int 3 } }
+unsigned short write_segment_record(unsigned char *buffer, unsigned short segment) { __asm { int 3 } return 0; }
+int link_symbol_scopes(unsigned char *buffer, unsigned size) { __asm { int 3 } return 0; }
+void record_symbol_references(unsigned char *buffer, unsigned size, unsigned short module) { __asm { int 3 } }
+void enter_symbol_scope(void) { __asm { int 3 } }
+void leave_symbol_scope(void) { __asm { int 3 } }
+void rewrite_symbol_type4(void) { __asm { int 3 } }
+void rewrite_bp_relative_symbol(void) { __asm { int 3 } }
+void rewrite_global_data_symbol(void) { __asm { int 3 } }
+void rewrite_register16_symbol(void) { __asm { int 3 } }
+void rewrite_data16_symbol(void) { __asm { int 3 } }
+void rewrite_global_data16_symbol(void) { __asm { int 3 } }
+void rewrite_type_name_symbol(void) { __asm { int 3 } }
+void rewrite_object_name_symbol(void) { __asm { int 3 } }
+void rewrite_procedure16_symbol(void) { __asm { int 3 } }
+void rewrite_procedure32_symbol(void) { __asm { int 3 } }
+void rewrite_mips_procedure_symbol(void) { __asm { int 3 } }
 void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }
 
 const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }

@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "candidate": "rewrite_module_symbols",
+  "accepted_functions": 60,
+  "application_extent_bytes": 18396,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 29.357505346142798,
+  "qualification": "Application extents / whole text, including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "source_extent": [
+    4237200,
+    4237824
+  ],
+  "original_body_sha256": "982ee3fd45c706eed5102cea5311229ed7186031599657a1e3a704f53b1a54f3",
+  "source_sha256": "a9625054fac83fbd4df84ce8d58a546ab565ac52cf05d3378ea1f925ceda6d18",
+  "fresh_pair": true,
+  "next_frontier": "write_segment_record",
+  "callback_table": {
+    "rows": 39,
+    "non_null_distinct_callbacks": 13,
+    "bytes": 312,
+    "scope": "Encountered structured program data; not code-extent credit. Original/rebuilt logical identities and native actual function addresses checked.",
+    "proof": "proof-refresh/graph-metadata-proof.json",
+    "proof_sha256": "4b9370b5ce4c13028ca7d15e4b9ed11f0373bb50c5e3b87e5d863f873a68a712"
+  },
+  "proof_refresh": {
+    "reason": "Moved callback-table checks into independently regenerated current metadata proof; same original/native bytes and execution inputs reused without Wine.",
+    "historical_audit_sha256": "b8c5f515498fe99896d748ccc9ca7943144a47d91bd96338350b5f8085aa071a",
+    "current_audit_sha256": "e9043e6b95a7fdab375b56049bb2a094182010d395d52b576977106a2abdd6d6"
+  },
+  "output_contract": {
+    "capacity": 8705,
+    "initialized_prefix": 4,
+    "native_owned_tail": 8701,
+    "owner": "rewrite_module_symbols",
+    "cursor_offset": 4,
+    "next_write_extent": 12
+  },
+  "ushort_contract": {
+    "address": 4251444,
+    "bytes": "668b4c2408"
+  },
+  "fresh_negative_count": 18,
+  "affected_controls": {
+    "read-state-checks.json": {
+      "path": "read-state-checks.json",
+      "sha256": "901d17c62b540524c45719279455f36429410ee6b0974ae0a11e6c09be8dc18d"
+    },
+    "initialized-storage-checks.json": {
+      "path": "initialized-storage-checks.json",
+      "sha256": "2b2b4180a2c1ef7c6bd279875e2172f31cbd6ab5f7ff88567f8cfbec5a4f0296"
+    },
+    "type-record-state-checks.json": {
+      "path": "type-record-state-checks.json",
+      "sha256": "01a458a96f681cffbc3f9c94b026363bd39f11625b803e27fbb816c9bab7ca21"
+    },
+    "abi-state-checks.json": {
+      "path": "abi-state-checks.json",
+      "sha256": "87ad4032941fb43e5c993961112a9a963d7389d1f14a8628700bc4daead21bea"
+    }
+  },
+  "protocol_checkpoint": {
+    "count": 24,
+    "report": "help-protocol-report.json",
+    "sha256": "5dea6f8ac66254932b4d02da45fe6c5539d98f2bca63b1b97266192f90510359"
+  },
+  "seconds": {
+    "trial": {
+      "original_build": 4.623754635453224,
+      "native_build": 2.3551885141059756,
+      "graph_tool_build": 0.030787931755185127,
+      "original_capture": 7.133004268631339,
+      "native_capture": 0.6594385020434856,
+      "pair_check": 0.48135878797620535
+    },
+    "controls": 2.73737586196512,
+    "fixtures": {
+      "hello-debug-dll": {
+        "schema": 1,
+        "case": "hello-debug-dll",
+        "terminal": "trap",
+        "native_only": true,
+        "native_sha256": "666717087890088498d002ea4f5830a86ced3f5e19373730b5db751b9b527c8a",
+        "reference_receipt_sha256": "d64a35f2ff4a5ec23ae17b080f2cf3186e4a1d7489c43f99543049983cb59d75",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": {
+          "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+          "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+          "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+          "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+          "instances": 21
+        },
+        "seconds": {
+          "preparation": 0.002551574259996414,
+          "execution": 0.7645267406478524,
+          "checks": 0.004633774980902672,
+          "total": 1.0453094709664583
+        }
+      },
+      "help": {
+        "schema": 1,
+        "case": "help",
+        "terminal": "exit",
+        "native_only": true,
+        "native_sha256": "666717087890088498d002ea4f5830a86ced3f5e19373730b5db751b9b527c8a",
+        "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": null,
+        "seconds": {
+          "preparation": 0.0025814948603510857,
+          "execution": 0.005854032933712006,
+          "checks": 0.002688013017177582,
+          "total": 0.016118943691253662
+        }
+      }
+    },
+    "protocol": {
+      "native_capture": 0.1446460010483861,
+      "candidate_audit": 0.32689075358211994,
+      "pair_check": 0.1738087059929967,
+      "negative_checks": 1.41568723320961
+    }
+  }
+}

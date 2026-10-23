@@ -143,7 +143,7 @@ def install(configuration):
         def __init__(self):super().__init__('*malloc',internal=True)
         def stop(self):
             frame=gdb.newest_frame();owner=frame.older()
-            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared'):return False
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared','rewrite_module_symbols'):return False
             stack=int(gdb.parse_and_eval('$esp'))
             size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
             if owner.name()=='read_codeview_directory':
@@ -153,6 +153,8 @@ def install(configuration):
                 record=dict(size=size);cleared_allocations.append(record)
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
+            elif owner.name()=='rewrite_module_symbols':
+                record=dict(size=size,owner=owner.name());image_allocations.append(record)
             elif owner.name()=='read_image_debug':
                 record=dict(size=size);image_allocations.append(record)
             else:
@@ -243,6 +245,12 @@ def capture(configuration,data_file,output):
             assert int(value)==int(gdb.parse_and_eval('&'+item['function'])),'function-pointer argument differs'
             parameters[item['name']]=dict(function=item['function'])
         elif item['kind']=='object-pointer':parameters[item['name']]=dict(null=int(value)==0,address=int(value))
+        elif item['kind']=='allocation-output':
+            owned=[row for row in image_allocations if row.get('owner')==item['owner']]
+            assert len(owned)==1,'symbol output allocation lifetime differs'
+            allocation=owned[0];offset=int(value)-allocation['address']
+            assert int(value)==int(gdb.parse_and_eval(item['cursor'])) and 0<=offset<=allocation['size']-item['write_size'],'symbol output argument ownership/extent differs'
+            parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
         elif item['kind']=='global-pointer':
             address=int(value)
             if not address:
@@ -268,6 +276,8 @@ def capture(configuration,data_file,output):
     state['cleared_allocations']=cleared_allocations
     state['module_allocations']=module_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
+    if any(item.get('function_table') for item in data):
+        state['function_addresses']={row['native_symbol']:int(gdb.parse_and_eval('&'+row['native_symbol'])) for row in config['functions']}
     memory={};strings={};handles={};mapped_views={};captured_shapes={}
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
     def linked(head,shape):
@@ -396,6 +406,12 @@ def capture(configuration,data_file,output):
                     length=int.from_bytes(bytes(inferior.read_memory(name,1)),'little')+1
                     memory[str(name)]=bytes(inferior.read_memory(name,length)).hex()
                 node=int.from_bytes(raw[16:20],'little')
+    for item in data:
+        if item.get('written_allocation'):
+            owned=[row for row in image_allocations if row.get('owner')==item['written_allocation']['owner']]
+            assert len(owned)==1,'symbol output allocation lifetime differs'
+            allocation=owned[0]
+            memory[str(allocation['address'])]=bytes(inferior.read_memory(allocation['address'],allocation['size'])).hex()
     for item in data:
         if item.get('type_record_table'):
             address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
