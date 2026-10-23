@@ -1,0 +1,19 @@
+{
+  "scope": "Canonical MSVCRT510 CP0/MB_CUR_MAX1/default-C ASCII _mbsstr",
+  "rows": 556,
+  "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/mb-strstr-original-02/receipt.json",
+  "receipt_sha256": "eeb8ea46203762f70bd6745de024835db377e3d0720c2823165b416e0342e732",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "probe_source_sha256": "d220ce704515fd33d3b25857c6d414b310cbabe01fac945ea4eca63768b59ca1",
+  "stdout_sha256": "902c4c572c7dc4f5e66d63ac003e7d3ca152f40244e3a7395842819d0fb17bde",
+  "buffer_offsets_sha256": "650e1d81f67c6be12a44ab90a20be1db9bfe32d3973f05d1a337f6dc4c88105d",
+  "canonical_extents_rva": [
+    "24638..246d4 (_mbsstr)",
+    "97a5..97ef + 100b8..1010a (strstr)",
+    "561a (single-character strchr tail)"
+  ],
+  "startup_internal_codepage": 1252,
+  "measured_internal_codepage": 0,
+  "setup": "_setmbcp(0), outside all measured rows",
+  "first_failed_probe": "/root/.ai-tmp/msvc2/recon-maintenance/mb-strstr-original"
+}

@@ -863,3 +863,13 @@ storage8/16 and signal behavior are unchanged. This supplies no Watcom FILE or
 allocator implementation. Native GCC calling conventions are intentional;
 original Watcom headers/compiler remain responsible for original ABI audits.
 Run make -j4 watcom-surface-check for the explicit target/host split and denials.
+
+The reached _mbsstr subset requires CP0, MB_CUR_MAX1 and the default C ctype
+locale, with two nonNULL terminated ASCII strings. It returns the first borrowed
+match in the actual text, the text base for an empty needle, orNULL for absence.
+Complete input buffers, error channels and live x87 state are unchanged in the
+bounded original/native matrix. NonASCII, other codepages and unproved locales
+remain unsupported; the separately applied1252 profile does not enable this API.
+The original reference probe records its ordinary startup ACP1252 state, then
+establishes CP0 with _setmbcp(0) before measured calls. Its prior rejected startup
+attempt remains retained. Run make -j4 mb-strstr-check (native only).

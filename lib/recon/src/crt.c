@@ -2148,7 +2148,18 @@ WEAK int recon_mbsnbicmp(const unsigned char *left,const unsigned char *right,si
     return 0;
 }
 WEAK unsigned char *recon_mbsstr(const unsigned char *text,const unsigned char *needle)
-{ (void)text; (void)needle; recon_unsupported("unreviewed _mbsstr"); return NULL; }
+{
+    const unsigned char *cursor;
+    ascii_multibyte_scope();
+    if (!text || !needle) recon_unsupported("_mbsstr null argument");
+    for (cursor=text;*cursor;++cursor)
+        if (*cursor>=128) recon_unsupported("_mbsstr nonASCII text");
+    for (cursor=needle;*cursor;++cursor)
+        if (*cursor>=128) recon_unsupported("_mbsstr nonASCII needle");
+    /* The canonical CP0 branch delegates to ordinary strstr. Its result is
+     * borrowed from text, including text itself for an empty needle. */
+    return (unsigned char *)strstr((const char *)text,(const char *)needle);
+}
 WEAK unsigned char *recon_mbsupr(unsigned char *text)
 { (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)

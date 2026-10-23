@@ -448,3 +448,9 @@ build/watcom-host-probe: tests/watcom-host-probe.c $(SOURCES) $(HEADERS) | build
 watcom-surface-check: build/watcom-surface-probe build/watcom-host-probe
 	./build/watcom-surface-probe
 	./build/watcom-host-probe
+
+.PHONY: mb-strstr-check
+build/mb-strstr-probe: tests/mb-strstr-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mb-strstr-probe.c $(SOURCES) -o $@
+mb-strstr-check: build/mb-strstr-probe
+	$(PYTHON) tests/check-mb-strstr.py build/mb-strstr-probe
