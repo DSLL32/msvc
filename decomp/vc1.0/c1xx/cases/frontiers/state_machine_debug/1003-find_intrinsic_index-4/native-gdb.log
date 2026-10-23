@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558e38 in intrinsic_enabled (index=22) at src/stubs.c:121
+121	int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
+#0  0x56558e38 in intrinsic_enabled (index=22) at src/stubs.c:121
+#1  0x5656a068 in make_overload_symbol (symbol=0x566170b8) at src/declaration-lookup.c:292
+#2  0x565692fa in insert_scope_symbol (scope=0x56615048, symbol=0x566170b8) at src/declaration-lookup.c:261
+#3  0x56569f22 in insert_symbol (symbol=0x566170b8) at src/declaration-lookup.c:245
+#4  0x5656e2a3 in resolve_declaration (context=0x565ff6d8 <declaration_spec_storage+8>, declaration=0x566170b8) at src/resolve-declaration.c:193
+#5  0x5656755e in apply_declaration_type (context=0x565ff6d8 <declaration_spec_storage+8>, declaration=0x566170b8) at src/declaration-bind.c:111
+#6  0x56567c2d in complete_declaration (context=0x565ff6d8 <declaration_spec_storage+8>, declaration=0x566170b8) at src/declaration-bind.c:205
+#7  0x565aab74 in parse_translation_unit () at src/parser-declaration-actions.inc:306
+#8  0x5655e26f in compile_translation_unit () at src/frontend.c:73
+#9  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

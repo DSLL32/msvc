@@ -117,7 +117,7 @@ unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __a
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
-int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
+
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
 void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter) { __asm { int 3 } }

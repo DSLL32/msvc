@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "707aa4be544b3947ff09a8ac40ca65d0bbe36746fbac52603f4b16e6f4069078",
+    "functions.json": "570e01163d54fbbc4cbcd3894854f226930eb07deee38f251b213c406c4df349",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "546957f5951c9b051dd385832ddb0be80df23679f78187b894119da9e054c40f",
-    "cases/canonical-map.txt": "679289beda8f7e9432ab387a2e44a17f6e6a656f0065b74cd978933528e07df3",
+    "cases/original-entry-references.json": "8f1418a8767fc13233f0c0353044124cf8ed98fc33b596d54ee61abeb0df909f",
+    "cases/canonical-map.txt": "cc2bc703e2de19a7c2929c0b277b5b577f35f401bea8b432ba94e7bea20927e2",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1002-parse_linkage-8/entry-reference/original-receipt.json": "1e7178e6b8fb18e4d8ad2028298196f98d78b054dd8d4b70ecf2b4999f164052",
-    "cases/frontiers/state_machine_debug/1002-parse_linkage-8/entry-reference/original-events.txt": "752914d7f8748cc4f9ceba4f946d0214199725a1b9d0598cec755a25a8a57136",
-    "cases/frontiers/state_machine_debug/1002-parse_linkage-8/entry-reference/original-entries.plan": "dc386057fc25735cffd97988889025fd8f8fa7e08d35c57416b6a716902f69b3"
+    "cases/frontiers/state_machine_debug/1003-find_intrinsic_index-4/entry-reference/original-receipt.json": "6d76cd5bd96f012b47fc8d8a1c1c23c5471422e6265cb1356866ceac528ffd32",
+    "cases/frontiers/state_machine_debug/1003-find_intrinsic_index-4/entry-reference/original-events.txt": "eb7b9ad645a281797983c35623a36715196f7798e7c258ad38d15a4d575e84e9",
+    "cases/frontiers/state_machine_debug/1003-find_intrinsic_index-4/entry-reference/original-entries.plan": "40e23a1876da48d5cc91d819faa052ae0b26104a9c3b9e2d4950591029914f8b"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1993,7 +1993,7 @@
     },
     "find_intrinsic_index": {
       "logical": "_find_intrinsic_index@4",
-      "source": "src/stubs.c"
+      "source": "src/intrinsics.c"
     },
     "find_label": {
       "logical": "_find_label@4",
@@ -6153,7 +6153,8 @@
     "write_ir_integer",
     "write_counted_ir",
     "write_ir_short",
-    "parse_linkage"
+    "parse_linkage",
+    "find_intrinsic_index"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10265,7 +10266,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1003,
+      "last": 1004,
       "seen": [
         "main",
         "message_text",
@@ -11178,12 +11179,13 @@
         "write_counted_ir",
         "write_ir_short",
         "parse_linkage",
-        "find_intrinsic_index"
+        "find_intrinsic_index",
+        "intrinsic_enabled"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_find_intrinsic_index@4",
-        "native": "find_intrinsic_index",
+        "logical": "_intrinsic_enabled@4",
+        "native": "intrinsic_enabled",
         "signal": 5
       }
     }
