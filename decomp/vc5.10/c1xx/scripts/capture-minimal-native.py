@@ -368,11 +368,11 @@ end
     if 'CompilerArena::Reserve' in trial['accepted']:
         entry=output/'collect-arena-size-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'arena-size-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'arena-size-entry-argv.bin'))))
-        observer+='break *calculate_arena_reservation\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
+        observer+='set $arena_size_seen = 0\nbreak *calculate_arena_reservation\ncommands\nsilent\nif $arena_size_seen == 0\nsource '+str(entry)+'\nset $arena_size_seen = 1\nend\ncontinue\nend\n'
     if '_initialize_default_arena' in trial['accepted']:
         entry=output/'collect-arena-member-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'arena-member-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'arena-member-entry-argv.bin'))))
-        observer+='break *_ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
+        observer+='set $arena_member_seen = 0\nbreak *_ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh\ncommands\nsilent\nif $arena_member_seen == 0\nsource '+str(entry)+'\nset $arena_member_seen = 1\nend\ncontinue\nend\n'
     if model['schema']>=31:
         entry=output/'collect-arena-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'arena-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'arena-entry-argv.bin'))))
@@ -474,7 +474,7 @@ end
     scaler_finish=''
     if trial.get('scaler_observers'):
         from scaler_probe import setup as setup_scaler
-        scaler_observer,scaler_finish=setup_scaler(output,binary,collector,model)
+        scaler_observer,scaler_finish=setup_scaler(output,binary,collector,model,trial)
         observer+=scaler_observer
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)

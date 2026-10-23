@@ -130,6 +130,13 @@ def prepare():
         trial['system_info_observers']={'owner':'_main','before_rva':0x38c42,'after_rva':0x38c48,'provider_iat_rva':0xc91f4,'destination_rva':0xcd7b8,'output_bytes':36,'scope':'one actual GetSystemInfo; no GlobalMemoryStatus or fabricated fields'}
     if '_calculate_arena_reservation' in accepted:
         trial['scaler_observers']={'owner':'_calculate_arena_reservation','original_points':[0x38ed7,0x38edd,0x38ee3,0x38ee9,0x38eee,0x38e81,0x38ea9,0x38eaf],'ftol_thunk_rva':0x38f04,'ftol_iat_rva':0xc90c8,'provider_export':'MSVCRT.dll!_ftol','provider_bytes':39,'x87_entry_profile':[0x027f,0x0020,0xffff],'scope':'actual math/conversion/QWORD return and single real TOP_DOWN reservation; no mock or code substitution'}
+    if 'CompilerArena::Reset' in accepted:
+        trial['scaler_observers'].update(calls=9,scope='nine ordered actual descriptor/calculator/API/Reset calls; persistent observer points; no code or API mock')
+        trial['arena_reset_observers']={'entry_rva':0x38f0a,'return_rva':0x38ec8,'calls':9,'receiver_rvas':[0xc6500+i*32 for i in range(9)],'return_semantics':'void; caller overwrites EAX','full_original_bss_guard':True}
+    trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
+    if trial['test_arena_reset_seed']:
+        if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')
+        trial['auxiliary_arena_reset_data_seed']={'point':'each actual Reset entry before body','cursor':'owned reserved base+4','committed_limit':'owned reserved base+8','committed_bytes':17,'reset_value':37,'other_fields_unchanged':True,'code_or_API_mock':False}
     trial['test_action_seed']=bool(candidate.get('test_action_seed'))
     if trial['test_action_seed']:
         trial['auxiliary_action_data_seed']={'owner':'_initialize_frontend_41','point':'actual entry after BSS reset','head':'owned snapshot+4','tail':'owned snapshot+8','depth':17,'pointees_dereferenced':False,'code_or_allocator_mock':False}

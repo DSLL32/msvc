@@ -49,7 +49,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,symbols,trap
         require(member['raw_entry_abi']['ecx']==wanted['this'] and member['raw_entry_abi']['stack_arguments']==[wanted['descriptor'],0],'native raw ECX/stack2 differ')
         ret=member['raw_entry_abi']['return_pc'];require(helper<ret<helper+helper_size and (reserved or state['caller_return_pc']==ret),'native member caller differs')
         code=bytes(d.elf_byte(native,ret-5+i) for i in range(5));require(code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==member_start,'not actual native helper-to-member CALL')
-        old_member=re.findall(r'^trap seq=\d+ rva=00038e70 .*ecx=(\w+) edi=\w+ stack=([0-9a-f,]+)$',text,re.M);require(len(old_member)==1,'missing original member ECX/stack witness')
+        old_member=re.findall(r'^trap seq=\d+ rva=00038e70 .*ecx=(\w+) edi=\w+ stack=([0-9a-f,]+)$',text,re.M);require(len(old_member)==(9 if 'CompilerArena::Reset' in trial['accepted'] else 1),'missing original member ECX/stack witness')
         ecx,stack=old_member[0];words=[int(v,16) for v in stack.split(',')]
         require(int(ecx,16)==0x104c6500 and words[:3]==[0x10438e67,0x104d5af8,0],'original member receiver/descriptor/address/caller differ')
         require(member['frontend']==entry['frontend'] and member['target_state']==state['target_state'],'member entry observation mutated target state')

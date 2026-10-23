@@ -26,6 +26,9 @@ def value80(value):
 
 
 def check(s,d,original,native,trial,text,state,final,symbol_table,traps):
+    if "CompilerArena::Reset" in trial["accepted"]:
+        from arena_reset_state import check as check_reset
+        return check_reset(s,d,original,native,trial,text,state,final,symbol_table,traps)
     def require(value,message):s.require(value,'reservation scaler: '+message)
     def read(name):return json.loads((native/(name+'.json')).read_text())
     def one(name):

@@ -46,6 +46,7 @@ def check(original, native, require_audit=True, audit_path=None):
     candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
     if candidate["case"] == "minimal":
         require(not candidate.get("prospective_only"), "prospective raw-only observations cannot promote functions")
+        require(not candidate.get('test_arena_reset_seed'),'Reset data auxiliary cannot promote a function')
         require(not candidate.get('test_action_seed'),'action data auxiliary cannot promote a function')
         require(not candidate.get('test_comment_seed'),'comment data auxiliary cannot promote a function')
         require(not candidate.get('test_group_seed'),'group data auxiliary cannot promote a function')
@@ -77,6 +78,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_initialize_default_arena':'check-callback.py',
                   'CompilerArena::Reserve':'check-callback.py',
                   '_calculate_arena_reservation':'check-callback.py',
+                  'CompilerArena::Reset':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

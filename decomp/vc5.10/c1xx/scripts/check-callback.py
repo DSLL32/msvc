@@ -28,7 +28,8 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    scaler_candidate=trial['trial']=='_calculate_arena_reservation'
+    reset_candidate=trial['trial']=='CompilerArena::Reset'
+    scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
     environment_candidate=trial['trial']=='_initialize_compiler_environment'
@@ -122,6 +123,8 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_initialize_default_arena' in trial['accepted']:path.append(('CompilerArena::Reserve',0x38e70))
     if 'CompilerArena::Reserve' in trial['accepted']:path.append(('calculate_arena_reservation',0x38ed2))
     if '_calculate_arena_reservation' in trial['accepted']:path += [('support:_ftol',0x38f04),('CompilerArena::Reset',0x38f0a)]
+    if 'CompilerArena::Reset' in trial['accepted']:
+        path += [('CompilerArena::Reserve',0x38e70),('calculate_arena_reservation',0x38ed2),('support:_ftol',0x38f04),('CompilerArena::Reset',0x38f0a)]*8+[('initialize_pool_arenas',0x38f1b)]
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]

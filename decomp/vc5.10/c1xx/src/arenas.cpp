@@ -54,7 +54,10 @@ int RECON_THISCALL CompilerArena::Reserve(const ArenaDescriptor *descriptor,
 
 void RECON_THISCALL CompilerArena::Reset(void)
 {
-    __asm { int 3 }
+    committed_bytes = 0;
+    cursor = base;
+    committed_limit = base;
+    reset_value = 0;
 }
 
 /* The existing compiler CRT conversion returns a signed QWORD. The caller

@@ -33,7 +33,10 @@ static int return_active, restore_observer, pool_return_observer;
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
-static unsigned scaler_sequence;
+static unsigned scaler_sequence, reset_sequence;
+static int reset_observers, scaler_pending = -1;
+static BYTE reset_return_byte;
+static int reset_return_active;
 static int scaler_observers;
 static DWORD scaler_provider;
 static const DWORD scaler_points[8] = { 0x38ed7,0x38edd,0x38ee3,0x38ee9,0x38eee,0x38e81,0x38ea9,0x38eaf };
@@ -223,6 +226,9 @@ static void prepare_mask(void)
             patch(base+scaler_points[i],0xcc);
         }
         scaler_observers=1;
+        reset_observers = getenv("C1XX_OBSERVE_ARENA_RESET") != NULL;
+        reset_return_byte=snapshot[0x38ec8-code_rva];
+        if (reset_observers && reset_return_byte!=0x5f) fail("Reset caller return opcode");
         fprintf(events,"scaler-observers points=8 one-shot=1 after-full-mask-readback=1 no-code-mock=1\n");
     }
     if ((getenv("C1XX_TEST_INIT_RESTORE") || getenv("C1XX_OBSERVE_INIT_COPY")) && !baseline) {
@@ -858,10 +864,25 @@ int main(int argc, char **argv)
             if (!thread) fail("unknown debug thread");
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
-            if (code == EXCEPTION_SINGLE_STEP && pending >= 0) {
+            if (code == EXCEPTION_SINGLE_STEP && scaler_pending >= 0) {
+                patch(base+scaler_points[scaler_pending],0xcc);scaler_pending=-1;
+                context.EFlags &= ~0x100;
+                if (!SetThreadContext(thread,&context))fail("persistent scaler step context");
+            } else if (code == EXCEPTION_SINGLE_STEP && pending >= 0) {
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && reset_return_active && address==base+0x38ec8) {
+                BYTE *blob;char name[80];DWORD saved_state;
+                blob=(BYTE *)malloc(0xf69c);if(!blob)fail("Reset return observation allocation");
+                fprintf(events,"arena-reset-return index=%u pc=%08lx ecx=%08lx eax=%08lx edi=%08lx esi=%08lx ebx=%08lx esp=%08lx error=%lu\n",reset_sequence,address,context.Ecx,context.Eax,context.Edi,context.Esi,context.Ebx,context.Esp,thread_error(&context,thread));
+                readmem(base+0xb9000,blob,0xf69c);sprintf(name,"reset-return-bss-%03u.bin",reset_sequence);save_blob(name,blob,0xf69c);
+                readmem(base+0xcc000,blob,8520);sprintf(name,"reset-return-data-%03u.bin",reset_sequence);save_blob(name,blob,8520);
+                readmem(base+0xc4d50,&saved_state,4);readmem(saved_state,blob,8520);sprintf(name,"reset-return-saved-%03u.bin",reset_sequence);save_blob(name,blob,8520);
+                readmem(base+0xcb000,blob,0xa4);sprintf(name,"reset-return-support-%03u.bin",reset_sequence);save_blob(name,blob,0xa4);
+                sprintf(name,"reset-return-fp-%03u.bin",reset_sequence);save_blob(name,&context.FloatSave,sizeof(context.FloatSave));free(blob);
+                ++reset_sequence;patch(address,reset_return_byte);reset_return_active=0;context.Eip=address;
+                if (!SetThreadContext(thread,&context))fail("Reset return context");
             } else if (code == EXCEPTION_BREAKPOINT && scaler_observers &&
                     (address==base+0x38ed7 || address==base+0x38edd || address==base+0x38ee3 || address==base+0x38ee9 || address==base+0x38eee || address==base+0x38e81 || address==base+0x38ea9 || address==base+0x38eaf)) {
                 DWORD words[5],saved_state;
@@ -884,11 +905,13 @@ int main(int argc, char **argv)
                 if(point==7) {
                     MEMORY_BASIC_INFORMATION region;
                     if(!context.Eax || VirtualQueryEx(child,(void *)context.Eax,&region,sizeof(region))!=sizeof(region))fail("arena reserved region");
-                    sprintf(name,"arena-region.bin");save_blob(name,&region,sizeof(region));
+                    sprintf(name,reset_observers ? "arena-region-%03u.bin" : "arena-region.bin",scaler_sequence/8);save_blob(name,&region,sizeof(region));
                     fprintf(events,"arena-api-after result=%08lx esp=%08lx error=%lu region-base=%08lx bytes=%08lx state=%08lx protect=%08lx allocation-protect=%08lx type=%08lx\n",context.Eax,context.Esp,thread_error(&context,thread),(DWORD)region.BaseAddress,region.RegionSize,region.State,region.Protect,region.AllocationProtect,region.Type);
                 }
                 free(blob);++scaler_sequence;patch(address,scaler_saved[point]);
-                context.Eip=address;if(!SetThreadContext(thread,&context))fail("scaler observer context");
+                context.Eip=address;
+                if(reset_observers){scaler_pending=point;context.EFlags|=0x100;}
+                if(!SetThreadContext(thread,&context))fail("scaler observer context");
             } else if (code == EXCEPTION_BREAKPOINT && system_observer_active && (address==base+0x38c42 || address==base+0x38c48)) {
                 DWORD argument;BYTE *state_bss;SYSTEM_INFO info;
                 state_bss=(BYTE *)malloc(0xf69c);if(!state_bss)fail("system info observation buffer");
@@ -988,20 +1011,34 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
-                if (address == base + 0x38f0a) {
+                if (address == base + 0x38f0a && reset_observers) {
+                    DWORD fields[8],words[1];BYTE *blob;char name[80];
+                    if(reset_sequence>=9 || reset_return_active || context.Ecx!=base+0xc6500+reset_sequence*32)fail("Reset receiver/order");
+                    readmem(context.Esp,words,4);if(words[0]!=base+0x38ec8)fail("Reset caller");
+                    readmem(context.Ecx,fields,32);
+                    if(getenv("C1XX_TEST_ARENA_RESET")) {
+                        fields[0]=fields[2]+4;fields[1]=fields[2]+8;fields[3]=17;fields[6]=37;
+                        write_mem(context.Ecx,fields,32);
+                        fprintf(events,"arena-reset-seed index=%u cursor=base+4 limit=base+8 committed=17 reset=37 code-mock=0\n",reset_sequence);
+                    }
+                    blob=(BYTE *)malloc(0xf69c);if(!blob)fail("Reset entry guard allocation");
+                    readmem(base+0xb9000,blob,0xf69c);sprintf(name,"reset-entry-bss-%03u.bin",reset_sequence);save_blob(name,blob,0xf69c);free(blob);
+                    patch(base+0x38ec8,0xcc);reset_return_active=1;
+                }
+                if (address == base + 0x38f0a && reset_sequence==0) {
                     BYTE *reset_bss = (BYTE *)malloc(0xf69c);
                     if (!reset_bss) fail("arena reset frontier guard");
                     readmem(base+0xb9000,reset_bss,0xf69c);
                     save_blob("arena-bss-reset-frontier.bin",reset_bss,0xf69c);free(reset_bss);
                 }
-                if (address == base + 0x38ed2) {
+                if (address == base + 0x38ed2 && scaler_sequence==0) {
                     BYTE *size_bss = (BYTE *)malloc(0xf69c);
                     if (!size_bss) fail("allocate arena sizing BSS observation");
                     readmem(base + 0xb9000, size_bss, 0xf69c);
                     save_blob("arena-bss-size-frontier.bin", size_bss, 0xf69c);
                     free(size_bss);
                 }
-                if (address == base + 0x38e70) {
+                if (address == base + 0x38e70 && scaler_sequence==0) {
                     BYTE *member_bss = (BYTE *)malloc(0xf69c);
                     if (!member_bss) fail("allocate arena member BSS observation");
                     readmem(base + 0xb9000, member_bss, 0xf69c);
@@ -1067,20 +1104,34 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
-                if (address == base + 0x38f0a) {
+                if (address == base + 0x38f0a && reset_observers) {
+                    DWORD fields[8],words[1];BYTE *blob;char name[80];
+                    if(reset_sequence>=9 || reset_return_active || context.Ecx!=base+0xc6500+reset_sequence*32)fail("Reset receiver/order");
+                    readmem(context.Esp,words,4);if(words[0]!=base+0x38ec8)fail("Reset caller");
+                    readmem(context.Ecx,fields,32);
+                    if(getenv("C1XX_TEST_ARENA_RESET")) {
+                        fields[0]=fields[2]+4;fields[1]=fields[2]+8;fields[3]=17;fields[6]=37;
+                        write_mem(context.Ecx,fields,32);
+                        fprintf(events,"arena-reset-seed index=%u cursor=base+4 limit=base+8 committed=17 reset=37 code-mock=0\n",reset_sequence);
+                    }
+                    blob=(BYTE *)malloc(0xf69c);if(!blob)fail("Reset entry guard allocation");
+                    readmem(base+0xb9000,blob,0xf69c);sprintf(name,"reset-entry-bss-%03u.bin",reset_sequence);save_blob(name,blob,0xf69c);free(blob);
+                    patch(base+0x38ec8,0xcc);reset_return_active=1;
+                }
+                if (address == base + 0x38f0a && reset_sequence==0) {
                     BYTE *reset_bss = (BYTE *)malloc(0xf69c);
                     if (!reset_bss) fail("arena reset frontier guard");
                     readmem(base+0xb9000,reset_bss,0xf69c);
                     save_blob("arena-bss-reset-frontier.bin",reset_bss,0xf69c);free(reset_bss);
                 }
-                if (address == base + 0x38ed2) {
+                if (address == base + 0x38ed2 && scaler_sequence==0) {
                     BYTE *size_bss = (BYTE *)malloc(0xf69c);
                     if (!size_bss) fail("allocate arena sizing BSS observation");
                     readmem(base + 0xb9000, size_bss, 0xf69c);
                     save_blob("arena-bss-size-frontier.bin", size_bss, 0xf69c);
                     free(size_bss);
                 }
-                if (address == base + 0x38e70) {
+                if (address == base + 0x38e70 && scaler_sequence==0) {
                     BYTE *member_bss = (BYTE *)malloc(0xf69c);
                     if (!member_bss) fail("allocate arena member BSS observation");
                     readmem(base + 0xb9000, member_bss, 0xf69c);

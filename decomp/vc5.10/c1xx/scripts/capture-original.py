@@ -139,6 +139,10 @@ def main():
         if trial.get('system_info_observers'):environment['C1XX_OBSERVE_SYSTEM_INFO']='1'
         environment.pop('C1XX_OBSERVE_SCALER',None)
         if trial.get('scaler_observers'):environment['C1XX_OBSERVE_SCALER']='1'
+        environment.pop('C1XX_OBSERVE_ARENA_RESET',None)
+        if trial.get('arena_reset_observers'):environment['C1XX_OBSERVE_ARENA_RESET']='1'
+        environment.pop('C1XX_TEST_ARENA_RESET',None)
+        if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_DEFERRED_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_TOKEN_COPY',None)

@@ -1,0 +1,72 @@
+{
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "candidate": "CompilerArena::Reset",
+  "rva": 233226,
+  "bytes": 17,
+  "original_instructions": "8b410833d289510c8901894104895118c3",
+  "source": "src/arenas.cpp",
+  "ABI": "void thiscall; ECX this, no stack arguments, RET0; caller overwrites EAX",
+  "direct_caller": {
+    "call_rva": 233155,
+    "return_rva": 233160,
+    "continuation_bytes": "5fb8010000005ec20800"
+  },
+  "fields_written": {
+    "cursor": "base",
+    "committed_limit": "base",
+    "committed_bytes": 0,
+    "reset_value": 0
+  },
+  "other_fields_preserved": [
+    "base",
+    "descriptor",
+    "reserve_bytes",
+    "mapped_view"
+  ],
+  "dynamic_scope": {
+    "calls": 9,
+    "receiver_rvas": [
+      812288,
+      812320,
+      812352,
+      812384,
+      812416,
+      812448,
+      812480,
+      812512,
+      812544
+    ],
+    "descriptor_rvas": [
+      875256,
+      875276,
+      875296,
+      875316,
+      875336,
+      875356,
+      875376,
+      875396,
+      875416
+    ],
+    "allocations": "first TOP_DOWN reserve, then eight ordinary reserve-only opaque regions",
+    "next_frontier": {
+      "name": "_initialize_pool_arenas",
+      "rva": 233243,
+      "ABI": "cdecl no arguments",
+      "caller_return_rva": 233007
+    }
+  },
+  "auxiliary_data_seed": {
+    "point": "actual Reset entry on every real receiver",
+    "cursor": "owned base+4",
+    "committed_limit": "owned base+8",
+    "committed_bytes": 17,
+    "reset_value": 37,
+    "API_or_code_mocks": false
+  },
+  "limits": [
+    "No EAX return-value semantic claim",
+    "Uncommitted payload never read",
+    "No regular-reserve 64KiB alignment/global address ordering claim",
+    "Unknown initialized8371bytes and future arena consumers remain unmodeled"
+  ]
+}

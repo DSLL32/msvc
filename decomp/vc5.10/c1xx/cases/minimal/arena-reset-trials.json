@@ -1,0 +1,361 @@
+{
+  "schema": 1,
+  "trial": "CompilerArena::Reset",
+  "status": "accepted; all3 paired proofs and25 affected controls passed; no new policy gate",
+  "trials": [
+    {
+      "seed": null,
+      "auxiliary": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-native-2",
+      "original_receipt_sha256": "9520d2c821c5950682e3e23617a27c8204d6173703aeb0cc1ae0fae4e6b1739f",
+      "native_receipt_sha256": "87e2c654e431b32d829c09f407c464fb062798d31c5e8ad6b73435a2823b2047",
+      "comparison": {
+        "trial": "CompilerArena::Reset",
+        "frontier": "_initialize_pool_arenas",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 14.591720674186945,
+        "native_seconds": 5.304091374389827
+      },
+      "validation_audit_sha256": "2704297c0be9ce9fa439946ee7e4c9976849cc855c8b7031e2460f8041ec6bd7",
+      "conversion_inventory": [
+        {
+          "index": 0,
+          "signed_qword": -52428800,
+          "rounded": 52428800
+        },
+        {
+          "index": 1,
+          "signed_qword": -10485760,
+          "rounded": 10485760
+        },
+        {
+          "index": 2,
+          "signed_qword": -5242880,
+          "rounded": 5242880
+        },
+        {
+          "index": 3,
+          "signed_qword": -10485760,
+          "rounded": 10485760
+        },
+        {
+          "index": 4,
+          "signed_qword": -10485760,
+          "rounded": 10485760
+        },
+        {
+          "index": 5,
+          "signed_qword": -5242880,
+          "rounded": 5242880
+        },
+        {
+          "index": 6,
+          "signed_qword": -5242880,
+          "rounded": 5242880
+        },
+        {
+          "index": 7,
+          "signed_qword": -5242880,
+          "rounded": 5242880
+        },
+        {
+          "index": 8,
+          "signed_qword": -5242880,
+          "rounded": 5242880
+        }
+      ]
+    },
+    {
+      "seed": "restore-nonzero",
+      "auxiliary": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-restore-nonzero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-restore-nonzero-aux-native-1",
+      "original_receipt_sha256": "f6ea18e3556589caa8576b7cbac1889f1c2618b3aafe24ae2556e1674f5fd62a",
+      "native_receipt_sha256": "c46122753741d559fba82a20a2dedd7d85951e4651a8ebcf18788c229ec16dd9",
+      "comparison": {
+        "trial": "CompilerArena::Reset",
+        "frontier": "_initialize_pool_arenas",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 15.14279664400965,
+        "native_seconds": 5.446504325605929
+      },
+      "validation_audit_sha256": "032defef1fb7a5b1af2d47194aead5547a2f8b0d9617a3f250449ad0d3306f40",
+      "conversion_inventory": [
+        {
+          "index": 0,
+          "signed_qword": -21495808,
+          "rounded": 21495808
+        },
+        {
+          "index": 1,
+          "signed_qword": -4299161,
+          "rounded": 4325376
+        },
+        {
+          "index": 2,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 3,
+          "signed_qword": -4299161,
+          "rounded": 4325376
+        },
+        {
+          "index": 4,
+          "signed_qword": -4299161,
+          "rounded": 4325376
+        },
+        {
+          "index": 5,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 6,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 7,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 8,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        }
+      ]
+    },
+    {
+      "seed": "restore-zero",
+      "auxiliary": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-restore-zero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-restore-zero-aux-native-1",
+      "original_receipt_sha256": "0cd910e024570ee7021c36d86477fc256e932ed8e5dba7fb8b054ecf78170cf5",
+      "native_receipt_sha256": "30a7122b3264ff1cd71b4d50b3b544acf5ee46b5b3290d9e3eb908c44139187c",
+      "comparison": {
+        "trial": "CompilerArena::Reset",
+        "frontier": "_initialize_pool_arenas",
+        "seed": "restore-zero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 14.895504912361503,
+        "native_seconds": 5.54765544924885
+      },
+      "validation_audit_sha256": "1053a71488e753b7bb2c3ab7240158a0146c8f669e93732dcaea9a67a31d6f65",
+      "conversion_inventory": [
+        {
+          "index": 0,
+          "signed_qword": -21495808,
+          "rounded": 21495808
+        },
+        {
+          "index": 1,
+          "signed_qword": -4299161,
+          "rounded": 4325376
+        },
+        {
+          "index": 2,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 3,
+          "signed_qword": -4299161,
+          "rounded": 4325376
+        },
+        {
+          "index": 4,
+          "signed_qword": -4299161,
+          "rounded": 4325376
+        },
+        {
+          "index": 5,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 6,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 7,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        },
+        {
+          "index": 8,
+          "signed_qword": -2149580,
+          "rounded": 2162688
+        }
+      ]
+    }
+  ],
+  "source_plan": "cases/minimal/evidence/arena-reset-plan.json",
+  "source_plan_sha256": "f400ceb7a7153bb5d100e09b26f6b46748f5d3c59814c09fcaff0a9b38054b78",
+  "observations": "nine real Reserve/calculator/VirtualAlloc/Reset entry-return pairs; all mutable reads remain live",
+  "normal_native_refresh": {
+    "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-original-1",
+    "prototype_native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-native-1",
+    "actual_native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reset-native-2",
+    "reason": "native-only addition of preprologue noarg nextfrontier formal/return observation; original inputs/controller/mask unchanged"
+  },
+  "historical_controls_reused": {
+    "packet": "cases/minimal/scaler-trials.json",
+    "sha256": "2c61162f43b240f511c69bb662de9f673f9477dc5a6a6f7bc867217d3852296c",
+    "scope": "unchanged one-time profile/provider/controller/CRT namespace controls; fresh Reset repetition/state controls separate"
+  },
+  "controls": {
+    "loop": {
+      "scope": "fresh repeated loop/Reset/nextfrontier raw controls only; strict full graph separately mandatory; prior unchanged profile/protocol controls reused",
+      "result": "PASS",
+      "count": 19,
+      "seconds": 35.15711195115,
+      "rejected": [
+        "missing-last-call",
+        "last-Reserve-this",
+        "last-descriptor",
+        "last-FP-live80",
+        "last-QWORD-high",
+        "last-rounded-result",
+        "regular-API-kind",
+        "last-API-stack",
+        "last-owned-size",
+        "last-Reset-this",
+        "last-Reset-formals",
+        "last-Reset-return-stack",
+        "last-Reset-nonvolatile",
+        "last-Reset-field",
+        "next-formals",
+        "next-caller",
+        "original-late-FP",
+        "original-last-Reset-unknown-BSS",
+        "final-last-arena"
+      ]
+    },
+    "known_nonzero_fields": {
+      "result": "PASS",
+      "scope": "six focused auxiliary semantic-field mutations after full immutable protocol+strict audit; no execution",
+      "count": 6,
+      "seconds": 2.4782617753371596,
+      "rejected": [
+        "incoming-cursor",
+        "incoming-committed",
+        "outgoing-cursor",
+        "outgoing-limit",
+        "outgoing-committed",
+        "outgoing-reset-value"
+      ]
+    },
+    "fresh_unique_mutants": 25,
+    "reused_profile_protocol": "unchanged controls in pinned historical_controls_reused packet",
+    "earlier_analysis_campaign": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/reset-negative.log",
+      "scope": "initial19-run campaign; two original mutations then only established receipt/profile denial; superseded by final19 campaign with focused semantic controls, retained unchanged",
+      "seconds": 36.19384808000177
+    },
+    "focused_original_refinement": {
+      "scope": "fresh repeated loop/Reset/nextfrontier raw controls only; strict full graph separately mandatory; prior unchanged profile/protocol controls reused",
+      "result": "PASS",
+      "count": 2,
+      "seconds": 3.2216981751844287,
+      "rejected": [
+        "original-late-FP",
+        "original-last-Reset-unknown-BSS"
+      ]
+    }
+  },
+  "checker_hashes": {
+    "scripts/arena_reset_state.py": "d5708ec4297955d7d9260138e6663483c6aefb08e578442908ad5a9afdda6a42",
+    "scripts/check-arena-reset-negative.py": "6433fe6cf05fa1d016cf6cab1499fbe9a66f81510ca36fffa38f716b128185dc",
+    "scripts/check-arena-reset-seed-negative.py": "ac696f908b06a947741c0bb306d4b7e187c22a5ea338d6a5c2f118ebda6f40fd",
+    "scripts/scaler_probe.py": "c54d52847b250f785422879203547c5c15e306e78146e45554646ff09f8e1702",
+    "scripts/dll-capture.c": "8004fc948434e35290a541317c56202f16ed0ffa2d36b034d5d02d37ec0bf685",
+    "scripts/capture-minimal-native.py": "15bce4bcac3b88be6ef835cb6a0bebf28dd1ee0e911c8392fbaec878cc1d00f3"
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.005937359295785427,
+      "setup": 0.0008515920490026474,
+      "execution": 0.0022189244627952576,
+      "checks": 0.003644712269306183,
+      "total": 0.013361101038753986
+    }
+  },
+  "build_timing": {
+    "win32-provenance.json": 0.5422825198620558,
+    "native/provenance.json": 1.552586461417377
+  },
+  "ordinary_promotion_scope": "one17B application Reset; existing supports/prefix unchanged; no extra code/data credit"
+}

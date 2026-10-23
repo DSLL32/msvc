@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: calculator accepted; genuine CompilerArena::Reset frontier",
+      "status": "active: nine arena resets accepted; genuine noarg pool initializer frontier",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -49,7 +49,8 @@
       "environment_validation": "minimal/environment-trials.json",
       "default_arena_validation": "minimal/default-arena-trial.json",
       "arena_reserve_validation": "minimal/arena-reserve-trial.json",
-      "scaler_validation": "minimal/scaler-trials.json"
+      "scaler_validation": "minimal/scaler-trials.json",
+      "arena_reset_validation": "minimal/arena-reset-trials.json"
     },
     {
       "id": "cpp-basic",

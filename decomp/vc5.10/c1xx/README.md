@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **72 application functions (3,149 bytes)**, **two historical CRT
+Accepted code is **73 application functions (3,166 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 3,612 accepted code bytes are 0.4808% of the 751,216-byte code extent; this is not
+The 3,629 accepted code bytes are 0.4831% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in CompilerArena::Reset after the first real arena reservation.
+stopping in the real noarg pool initializer after nine arena reservations.
 
 ## Target and ABI
 
@@ -266,3 +266,13 @@ calculator.28 new FP/state/ABI controls plus8 support-scope controls pass;
 `cases/minimal/scaler-trials.json` retains the exact finite first-call scope.
 Captures took9.48–9.74s original and5.18–5.36s native GDB; the separate completed
 lifecycle fixture took13.46ms total/1.90ms execution with no Wine.
+
+The17-byte void Reset member is accepted after all nine real arena iterations.
+Natural and both explicitly seeded/restore pairs verify each receiver, signed64
+conversion, owned reserve-only API result and actual Reset entry/RET0; nonzero
+cursor/limit/committed/reset-value inputs prove its four assignments and whole
+neighbor guards.25 new affected controls pass; unchanged profile/protocol controls
+are hash-referenced. `cases/minimal/arena-reset-trials.json` records the14.59–15.14s
+original/5.30–5.55s native GDB observations and13.36ms native-only lifecycle fixture.
+No new data fields, import support, reserved-payload reads or meaningful Reset
+EAX return value are claimed. The next real frontier is initialize_pool_arenas.
