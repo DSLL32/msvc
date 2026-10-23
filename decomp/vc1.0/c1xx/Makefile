@@ -35,7 +35,7 @@ OBJECTS += build/debug-types.obj build/debug-fields.obj
 OBJECTS += build/object-initializers.obj build/text-format.obj build/type-diagnostics.obj build/directives.obj build/literals.obj build/virtual-table-output.obj build/special-member-lookup.obj build/initializer-records.obj
 OBJECTS += build/allocation-expressions.obj build/call-expressions.obj
 OBJECTS += build/numeric-scanning.obj build/numeric-conversion.obj build/reference-initializers.obj
-OBJECTS += build/member-access.obj build/member-expressions.obj
+OBJECTS += build/member-access.obj build/member-expressions.obj build/member-pointers.obj
 OBJECTS += build/mangling.obj build/symbol-output.obj build/function-finalization.obj build/statement-scopes.obj build/return-statements.obj
 OBJECTS += build/expression-output.obj build/expression-records.obj build/expression-copy.obj
 OBJECTS += build/unary-expressions.obj build/inline-analysis.obj
@@ -107,6 +107,7 @@ native-rejections: native-trace
 	$(PYTHON) scripts/check-debug-base-query-policy.py
 	$(PYTHON) scripts/check-overload-count-null-policy.py
 	$(PYTHON) scripts/check-debug-method-list-null-policy.py
+	$(PYTHON) scripts/check-member-pointer-model-policy.py
 build/graph-metadata.json: functions.json scripts/graph_metadata.py | build
 	$(PYTHON) scripts/graph_metadata.py $@
 graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json

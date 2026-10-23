@@ -1,0 +1,7 @@
+{
+  "branch": "data",
+  "injected_model": 0,
+  "helper_was_unaccepted_stub": true,
+  "stopped_function": "member_pointer_expression",
+  "status": "pass"
+}

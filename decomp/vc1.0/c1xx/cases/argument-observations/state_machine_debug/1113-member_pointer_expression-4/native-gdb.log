@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x4f5bb: file src/member-pointers.c, line 31.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, member_pointer_expression (qualifier=0x5664ca28) at src/member-pointers.c:31
+31	    BaseClassLink *virtual_base = 0;
+#0  member_pointer_expression (qualifier=0x5664ca28) at src/member-pointers.c:31
+#1  0x565abffd in builtin_unary_expression (operation=58 ':', operand=0x566362e0) at src/unary-expressions.c:160
+#2  0x565abc4f in unary_expression (operation=58 ':', expression=0x566362e0) at src/unary-expressions.c:86
+#3  0x565b840e in parse_translation_unit () at src/parser-expression-actions.inc:141
+#4  0x5655e12f in compile_translation_unit () at src/frontend.c:73
+#5  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558884 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

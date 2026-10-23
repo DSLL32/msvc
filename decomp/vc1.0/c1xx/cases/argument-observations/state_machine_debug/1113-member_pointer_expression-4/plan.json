@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_member_pointer_expression@4",
+  "native_entry": "member_pointer_expression",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    390004,
+    390036
+  ],
+  "native_caller_locals": {
+    "caller_qualifier": {
+      "frame": 1,
+      "function": "builtin_unary_expression",
+      "local": "symbol"
+    }
+  },
+  "native_expressions": {
+    "raw_qualifier": "(unsigned)qualifier"
+  },
+  "formals": [
+    {
+      "name": "qualifier",
+      "stack_index": 0,
+      "native_field": "raw_qualifier",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 324496,
+        "original_owner_function": "_builtin_unary_expression@8",
+        "native_owner_function": "builtin_unary_expression",
+        "native_owner_field": "caller_qualifier",
+        "native_owner_local": "symbol",
+        "identity": "Actual accepted unary caller retains qualifier EDI, loads its binding at5f37f/382/385 updates target selected function5f388, PUSHEDI5f387/CALL5f38b return5f390. Native actual caller symbol local is the same qualifier descriptor; register is owner identity, not hidden callee input."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      303040,
+      303607
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole567B, SUBESP16/saveEBX/ESI/EDI12: formalESP+32; allRET4, EAXIrToken*. All named callees independently inspected for exactRET cleanup, including nested find_member_call_binding fourargs/RET16 then resolve_member_pointer_path threeargs/RET12; error helper enclosing_qualifier_class one formal/RET4 despite outer pending report argument. No incoming semantic register/hiddeninput. Initialized displacement0/virtualbaseNULL, ownerwrittenbeforeaddress use; unsupported model in bothbranches returns unwrittenentryESP-4local at4a0e4/4a18a, preserved Win32 with precise native traps/publicreachUNKNOWN. Integer-constant allocation order preserved explicitly."
+  }
+}

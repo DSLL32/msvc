@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1113,
-  "driver_functions": 1018,
+  "accepted_frontiers": 1114,
+  "driver_functions": 1019,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1025,
-  "current_frontier": "_member_pointer_expression@4",
-  "original_frontier_va": "0x49fc0",
+  "reconstructed_source_functions": 1026,
+  "current_frontier": "_member_pointer_inheritance_model@4",
+  "original_frontier_va": "0x49e10",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_member_pointer_expression@4",
-    "original_va": "0x49fc0"
+    "current_frontier": "_member_pointer_inheritance_model@4",
+    "original_va": "0x49e10"
   },
-  "current_native_application_entries": 116,
+  "current_native_application_entries": 117,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 284469,
+    "accepted_code_bytes": 285036,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 59.709960580834476,
-    "accepted_frontiers": 1113,
-    "source_functions": 1025,
-    "accepted_source_text_and_switch_bytes": 272536,
+    "accepted_code_percent": 59.82897371635833,
+    "accepted_frontiers": 1114,
+    "source_functions": 1026,
+    "accepted_source_text_and_switch_bytes": 273103,
     "section_ranges": [
       [
         94208,
@@ -162,16 +162,29 @@
         "authorization": "Established exact native uninitialized-cursor guard policy after independent raw def-use/frame check",
         "evidence": "evidence/debug-method-list-null/analysis.json",
         "coverage_note": "NULL jumps6facd to6fb30, skipping cursor stores6fb1b/6fb28; cursor entryESP-8 is unwritten. Public reachability UNKNOWN; no malformed-only/CRT/stale-stack equivalence claim."
+      },
+      {
+        "function": "_member_pointer_expression@4",
+        "original": [
+          303040,
+          303607
+        ],
+        "condition": "inheritance model outside 1..4, in either data-member or method branch",
+        "behavior": "exact native-only INT3 before original unwritten entryESP-4 result read",
+        "win32": "original-style uninitialized result local retained",
+        "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
+        "evidence": "evidence/member-pointer-model-domain/analysis.json",
+        "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 284469,
+    "accepted_code_bytes": 285036,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 59.709960580834476,
-    "accepted_frontiers": 1113,
-    "source_functions": 1025,
-    "accepted_source_text_and_switch_bytes": 272536,
+    "accepted_code_percent": 59.82897371635833,
+    "accepted_frontiers": 1114,
+    "source_functions": 1026,
+    "accepted_source_text_and_switch_bytes": 273103,
     "section_ranges": [
       [
         94208,
@@ -308,13 +321,26 @@
         "authorization": "Established exact native uninitialized-cursor guard policy after independent raw def-use/frame check",
         "evidence": "evidence/debug-method-list-null/analysis.json",
         "coverage_note": "NULL jumps6facd to6fb30, skipping cursor stores6fb1b/6fb28; cursor entryESP-8 is unwritten. Public reachability UNKNOWN; no malformed-only/CRT/stale-stack equivalence claim."
+      },
+      {
+        "function": "_member_pointer_expression@4",
+        "original": [
+          303040,
+          303607
+        ],
+        "condition": "inheritance model outside 1..4, in either data-member or method branch",
+        "behavior": "exact native-only INT3 before original unwritten entryESP-4 result read",
+        "win32": "original-style uninitialized result local retained",
+        "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
+        "evidence": "evidence/member-pointer-model-domain/analysis.json",
+        "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "state_machine_debug",
   "status": "state_machine_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/validation.json",
+  "latest_verification": "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -342,11 +368,11 @@
     },
     "state_machine_debug": {
       "status": "partial",
-      "frontier": "_member_pointer_expression@4",
-      "latest_verification": "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/validation.json"
+      "frontier": "_member_pointer_inheritance_model@4",
+      "latest_verification": "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/validation.json"
     }
   },
-  "next_operation": "Continue _member_pointer_expression@4 reconstruction",
+  "next_operation": "Continue _member_pointer_inheritance_model@4 reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

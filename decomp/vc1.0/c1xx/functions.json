@@ -1117,7 +1117,8 @@
     "_member_pointer_class_kind@4",
     "_query_inheritance_model@4",
     "_infer_inheritance_model@4",
-    "_class_has_zero_base_offsets@4"
+    "_class_has_zero_base_offsets@4",
+    "_member_pointer_expression@4"
   ],
   "driver": [
     {
@@ -3081,7 +3082,7 @@
     {
       "name": "_member_pointer_expression@4",
       "start": 303040,
-      "end": 303041
+      "end": 303607
     },
     {
       "name": "_register_label@4",
@@ -8160,6 +8161,56 @@
       "name": "_class_has_zero_base_offsets@4",
       "start": 319520,
       "end": 319677
+    },
+    {
+      "name": "_enclosing_qualifier_class@4",
+      "start": 493536,
+      "end": 493537
+    },
+    {
+      "name": "_resolve_member_pointer_path@12",
+      "start": 303616,
+      "end": 303617
+    },
+    {
+      "name": "_member_pointer_owner_class@4",
+      "start": 319456,
+      "end": 319457
+    },
+    {
+      "name": "_class_virtual_base_pointer_offset@4",
+      "start": 507616,
+      "end": 507617
+    },
+    {
+      "name": "_member_pointer_virtual_function@4",
+      "start": 318448,
+      "end": 318449
+    },
+    {
+      "name": "_make_compact_method_pointer@12",
+      "start": 303712,
+      "end": 303713
+    },
+    {
+      "name": "_make_virtual_method_pointer@16",
+      "start": 304032,
+      "end": 304033
+    },
+    {
+      "name": "_make_general_method_pointer@20",
+      "start": 304496,
+      "end": 304497
+    },
+    {
+      "name": "_make_virtual_data_member_pointer@12",
+      "start": 304912,
+      "end": 304913
+    },
+    {
+      "name": "_make_general_data_member_pointer@16",
+      "start": 305120,
+      "end": 305121
     }
   ],
   "cases": {
@@ -8360,7 +8411,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_member_pointer_expression@4",
+      "terminal": "_member_pointer_inheritance_model@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8383,7 +8434,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8501,7 +8552,8 @@
         "cases/frontiers/state_machine_debug/1109-member_pointer_class_kind-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1110-query_inheritance_model-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/frontier-extension.json"
       ]
     }
   },
@@ -11190,6 +11242,19 @@
       "authorization": "Established exact native uninitialized-cursor guard policy after independent raw def-use/frame check",
       "evidence": "evidence/debug-method-list-null/analysis.json",
       "coverage_note": "NULL jumps6facd to6fb30, skipping cursor stores6fb1b/6fb28; cursor entryESP-8 is unwritten. Public reachability UNKNOWN; no malformed-only/CRT/stale-stack equivalence claim."
+    },
+    {
+      "function": "_member_pointer_expression@4",
+      "original": [
+        303040,
+        303607
+      ],
+      "condition": "inheritance model outside 1..4, in either data-member or method branch",
+      "behavior": "exact native-only INT3 before original unwritten entryESP-4 result read",
+      "win32": "original-style uninitialized result local retained",
+      "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
+      "evidence": "evidence/member-pointer-model-domain/analysis.json",
+      "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
     }
   ]
 }
