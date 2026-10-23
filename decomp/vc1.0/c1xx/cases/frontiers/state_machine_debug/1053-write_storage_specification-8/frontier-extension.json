@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1053,
+  "accepted": "_write_storage_specification@8",
+  "terminal": "_format_storage_spec@8",
+  "original_capture": "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/original-receipt.json",
+  "original_capture_sha256": "b3a1f91409867b360ddacb7352165a809f98744f7dc7f076fe58621db698f3b9",
+  "original_events": "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/original-events.txt",
+  "original_events_sha256": "9c2272bbbd7d50a3f46cb5b75b099774905cad8cefe7a1c9e14e407bc43241ce",
+  "original_configuration": "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

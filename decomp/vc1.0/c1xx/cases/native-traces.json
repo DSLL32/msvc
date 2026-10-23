@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4c550235676edb11fe0c8782ae99dc56316d756538bc241b1e4afe4fc195679a",
+    "functions.json": "7812371a4c5f41bf7f02a8d55d9d8acb1951c347c1e72d76504c228998734714",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "4c19417f5abb7a027990adc1558d9b5f7df54d0df52b19d5402a2e9bcc54feaa",
-    "cases/canonical-map.txt": "ddf4705834a33ba1ad6b722bb5df1f984d114c5a5d62fc0d16706716855ba40d",
+    "cases/original-entry-references.json": "e1c1a34d2501c2afeaa3bdd7ad0cdc39b463705b2c0fc664969ea63a35c11e7f",
+    "cases/canonical-map.txt": "dc55fac667886fbcbecf1c4520cff40bbac41b91c02380365bfd183e4057d655",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1052-read_number_text-4/entry-reference/original-receipt.json": "d531211f9044da78be62d6702d4f9274e38379139e1cb0f538b9808f5693828c",
-    "cases/frontiers/state_machine_debug/1052-read_number_text-4/entry-reference/original-events.txt": "75d82597e31a0259f06efa89f23a6c12c583a1f4f8d3685a54ce31b17503abb5",
-    "cases/frontiers/state_machine_debug/1052-read_number_text-4/entry-reference/original-entries.plan": "e91056756e525f6156d1ba68a0120777c1aa2b20420a98cc12b6d755411c40b3"
+    "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/entry-reference/original-receipt.json": "b3a1f91409867b360ddacb7352165a809f98744f7dc7f076fe58621db698f3b9",
+    "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/entry-reference/original-events.txt": "9c2272bbbd7d50a3f46cb5b75b099774905cad8cefe7a1c9e14e407bc43241ce",
+    "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/entry-reference/original-entries.plan": "f6d5a32770632039e1e9a9e528969349ee3b6c82e3947eb839482bafa07cd5d0"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -5361,7 +5361,7 @@
     },
     "write_storage_specification": {
       "logical": "_write_storage_specification@8",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "write_switch_dispatch": {
       "logical": "_write_switch_dispatch",
@@ -6335,7 +6335,8 @@
     "type_kind_name",
     "release_type_diagnostic",
     "format_this_qualifiers",
-    "read_number_text"
+    "read_number_text",
+    "write_storage_specification"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10447,7 +10448,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1053,
+      "last": 1054,
       "seen": [
         "main",
         "message_text",
@@ -11410,12 +11411,13 @@
         "release_type_diagnostic",
         "format_this_qualifiers",
         "read_number_text",
-        "write_storage_specification"
+        "write_storage_specification",
+        "format_storage_spec"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_write_storage_specification@8",
-        "native": "write_storage_specification",
+        "logical": "_format_storage_spec@8",
+        "native": "format_storage_spec",
         "signal": 5
       }
     }

@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_write_storage_specification@8",
+    "start": 427120,
+    "end": 427236
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_begin_type_diagnostic",
+    "_end_type_diagnostic",
+    "_format_storage_spec@8",
+    "_fwrite",
+    "_type_diagnostic_text@4",
+    "_write_work_bytes@16"
+  ],
+  "next_frontier": "_format_storage_spec@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.39868212305009365,
+  "total_operation_seconds": 3.0789504451677203,
+  "original_capture_seconds": 0.7160185277462006
+}

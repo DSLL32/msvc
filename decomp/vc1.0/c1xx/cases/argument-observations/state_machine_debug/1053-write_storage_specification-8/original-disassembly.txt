@@ -1,0 +1,51 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00068470 <.text+0x51470>:
+   68470:	57                   	push   edi
+   68471:	e8 ba 05 00 00       	call   0x68a30
+   68476:	8a 44 24 0a          	mov    al,BYTE PTR [esp+0xa]
+   6847a:	c1 e0 10             	shl    eax,0x10
+   6847d:	66 8b 44 24 08       	mov    ax,WORD PTR [esp+0x8]
+   68482:	50                   	push   eax
+   68483:	6a 00                	push   0x0
+   68485:	e8 66 00 00 00       	call   0x684f0
+   6848a:	50                   	push   eax
+   6848b:	e8 e0 05 00 00       	call   0x68a70
+   68490:	8b d0                	mov    edx,eax
+   68492:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+   68496:	0b c0                	or     eax,eax
+   68498:	75 26                	jne    0x684c0
+   6849a:	a1 d0 cf 08 00       	mov    eax,ds:0x8cfd0
+   6849f:	50                   	push   eax
+   684a0:	6a 01                	push   0x1
+   684a2:	8b fa                	mov    edi,edx
+   684a4:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   684a9:	2b c0                	sub    eax,eax
+   684ab:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   684ad:	f7 d1                	not    ecx
+   684af:	49                   	dec    ecx
+   684b0:	51                   	push   ecx
+   684b1:	52                   	push   edx
+   684b2:	e8 b9 a3 fc ff       	call   0x32870
+   684b7:	e8 84 05 00 00       	call   0x68a40
+   684bc:	5f                   	pop    edi
+   684bd:	c2 08 00             	ret    0x8
+   684c0:	50                   	push   eax
+   684c1:	6a 01                	push   0x1
+   684c3:	8b fa                	mov    edi,edx
+   684c5:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   684ca:	2b c0                	sub    eax,eax
+   684cc:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   684ce:	f7 d1                	not    ecx
+   684d0:	49                   	dec    ecx
+   684d1:	51                   	push   ecx
+   684d2:	52                   	push   edx
+   684d3:	e8 38 8d 01 00       	call   0x81210
+   684d8:	83 c4 10             	add    esp,0x10
+   684db:	e8 60 05 00 00       	call   0x68a40
+   684e0:	5f                   	pop    edi
+   684e1:	c2 08 00             	ret    0x8

@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_write_storage_specification@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1053,
+  "configuration_sha256": "edf55ae71e75139a63f4455b5ab344b0a3d4eb44cdb23322d3a52cf6acdeb3ce",
+  "native_entry": "write_storage_specification",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "storage",
+      "location": "entry ESP+4",
+      "stack_index": 0,
+      "original_raw": 1157628193,
+      "native_raw": 289,
+      "native_field": "storage_fields",
+      "binding": {
+        "kind": "scalar",
+        "bits": 24,
+        "fields": [
+          "StorageSpec.flags: unsigned short",
+          "StorageSpec.extended: unsigned char"
+        ],
+        "unused_padding": "The fourth storage byte is never consumed. Wrapper reads entry ESP+4..6 explicitly and reconstructs the outgoing word; no incoming padding is forwarded as a semantic field."
+      },
+      "result": "match"
+    },
+    {
+      "name": "stream",
+      "location": "entry ESP+8",
+      "stack_index": 1,
+      "original_raw": 0,
+      "native_raw": 0,
+      "native_field": "raw_stream",
+      "binding": {
+        "kind": "null-pointer",
+        "type": "FILE *"
+      },
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      427120,
+      427236
+    ],
+    "argument_bytes": 8,
+    "proof": "After PUSH EDI, MOV AL,[ESP+0xa] and MOV AX,[ESP+8] consume precisely the three StorageSpec bytes. Stream is read from entry ESP+8. EAX is supplied by begin_type_diagnostic before partial-register packing; EDI is preserved/restored. No incoming register or additional hidden pointer input.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "ce50469b9d145001b1bcb4b571d56fd6cb37b9283a27c2a53a9b5fa5822596e5",
+  "capture_timing": {
+    "original_capture_seconds": 0.6156396949663758,
+    "native_capture_seconds": 0.1731678517535329,
+    "total_operation_seconds": 0.9955560369417071
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "b6fe339e14cf2294bd5cd978d9d2b357ee02791e36ef9addf84445eb14e1eca2",
+    "native-commands.gdb": "57c26307f4aff632571dacb0a1259ac144928fa36668aa85f8c50aa6d48dac86",
+    "native-gdb.log": "93b00ae6feb0e7b4d377f9296f5a8c348b63163bbb7c7fd4b20bdd2394e1310e",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "99ecc98951a53bf020526819c0f2aabdaa6a704101926bf7d45a7b3a230da1ad",
+    "original-configuration.json": "edf55ae71e75139a63f4455b5ab344b0a3d4eb44cdb23322d3a52cf6acdeb3ce",
+    "original-disassembly.txt": "64e4478243b745a1790b852c3b57c5362acc59dfaa15526b305b5e2d7544770d",
+    "original-events.txt": "89717413fee21fd46075f18b61b7272b9a9e1f22b34f9fca8275ad0db0a9f45f",
+    "original-receipt.json": "c81bb9324c0d406ce0289eed8f536cb4c219b524bb573f62f5fae56e9d63fb5a",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

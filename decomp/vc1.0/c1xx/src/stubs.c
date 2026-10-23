@@ -387,7 +387,6 @@ void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *const
 
 
 
-void __stdcall write_storage_specification(StorageSpec storage, FILE *file) { __asm { int 3 } }
 
 
 

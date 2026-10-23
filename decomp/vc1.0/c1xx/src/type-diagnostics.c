@@ -590,3 +590,18 @@ short __stdcall format_this_qualifiers(short text, CType *type)
     }
     return text;
 }
+
+/* Original 0x68470..0x684e4. Format storage in a temporary diagnostic
+   nesting level and copy its text to the supplied file or compiler text
+   stack before releasing that level. Only the three storage bytes are used. */
+void __stdcall write_storage_specification(StorageSpec storage, FILE *stream)
+{
+    char *text;
+    unsigned length;
+    begin_type_diagnostic();
+    text = type_diagnostic_text(format_storage_spec(0, storage));
+    for (length = 0; text[length]; ++length) {}
+    if (!stream) write_work_bytes(text, length, 1, compiler_stack);
+    else fwrite(text, length, 1, stream);
+    end_type_diagnostic();
+}

@@ -76,6 +76,8 @@ def main():
             assert binding['native_object_address']==entry_native[binding['native_anchor_field']]
             assert formal['original_raw']-binding['original_object']==binding['offset'], 'original logical pointer offset differs'
             assert formal['native_raw']-binding['native_object_address']==binding['offset'], 'native logical pointer offset differs'
+        elif binding['kind']=='null-pointer':
+            assert formal['original_raw']==formal['native_raw']==0, 'null pointer argument differs'
         elif binding['kind']=='scalar':
             mask=(1<<binding['bits'])-1
             assert formal['original_raw']&mask==formal['native_raw']&mask
