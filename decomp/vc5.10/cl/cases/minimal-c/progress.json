@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
-  "state": "scheduler-accepted",
-  "checkpoint": "next_jobs accepted through actual driver_exit(status0)",
-  "next_frontier": "driver_exit",
-  "accepted_application_functions": 77,
-  "accepted_application_extent_bytes": 14452,
+  "state": "completed",
+  "checkpoint": "normal driver_exit accepted; complete native compile regression passes",
+  "next_frontier": null,
+  "accepted_application_functions": 78,
+  "accepted_application_extent_bytes": 14472,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -353,15 +353,34 @@
         "affected_66_controls": 19.28388651739806
       },
       "controls": "66 fresh effect/exit-formal/MREcount controls plus12 genuineMRE declaration/zero-call negatives. All14 actual original callsites guarded and8 native dependency names fail125; actualcalls0."
+    },
+    {
+      "candidate": "_driver_exit",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/driver-exit-3/pair.json",
+        "sha256": "157e3ea7da357d1efe80b938d5b30154f1d77707d9d84c13dcd10b83ba3b65e7"
+      },
+      "independent_review": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/driver-exit-3/orchestrator-review.json",
+        "sha256": "c9e57968579ccc59807970df40619cbbaf7b1d3fd5ffb76921c232ffcd04f755"
+      },
+      "seconds": {
+        "original_setup": 0.02449795976281166,
+        "original_execution": 5.715149059891701,
+        "native_gdb_final": 0.41752718295902014,
+        "audit_final": 0.5499178236350417,
+        "affected_24_FILE_controls": 1.4792410135269165
+      },
+      "controls": "Independent69 negatives24.933s retained from native2 for unchanged premises; new24 FILE/alias negatives independently1.464s, freshnative3.35 protocol negatives pass. No additional original."
     }
   ],
-  "checks": "Complete scheduler body/ABI/CFG/import audit plus fresh original/native driver_exit status0 frontier. Both MRE guards0; caller-local PendingWork pointer observed, undefined unused payload never read/seeded.66 affected +12 MRE controls pass.",
-  "dependency_boundaries": "C1 Invoke/detach/release plus full synchronous C2 child request/input/status/object/error effects are accepted through strict owned native providers. The trial stops at genuine cleanup_files(preserve=1); full compile remains incomplete.",
-  "observed_gap": "No current shared gap. Implement20-byte final exit body; complete-case/cache/fixture validation still pending.",
+  "checks": "Fresh masked20-byte driver_exit candidate completed0 with75application entries/exactstreams/object,7unlink calls, full C1/C2 contracts and independent GDB CRT/FILE/standard-handle proof.69 dependency and35 protocol controls retained;24 new FILE/alias negatives pass.",
+  "dependency_boundaries": "Actual C1 load/export/Invoke/detach/free and synchronous C2 complete inputs/files/status/CRT+OS effects accepted through strict native providers. Complete CL compile then cleans temporary IR and exits0.",
+  "observed_gap": null,
   "current_review": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/orchestrator-review.json",
-    "sha256": "43f2c497cf393901be08a4d417e848163d2b5d69ca70d446d5417f453e4effa7",
-    "scope": "33-byte unload function through genuine cleanup_files preserve1, including full C2 command/79 OS environment entries/IR/executable/MSVCRT/MSPDB bytes and object/error effects. No full-case completion credit."
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/driver-exit-3/orchestrator-review.json",
+    "sha256": "c9e57968579ccc59807970df40619cbbaf7b1d3fd5ffb76921c232ffcd04f755",
+    "scope": "Final20-byte function, naturalstatus0, completecase trace/streams/object/dependencies/7removals and fresh native FILE/CRT/Winstd handles."
   },
   "shared_gap_resolution": {
     "_mbclen": "Fresh original quoted-length-2 path/error proof; native denial retained, then5f724e69 CP0/ASCII support and native-only retry passed.",
@@ -369,11 +388,25 @@
     "_unlink": "Native missing st incorrectly retainedDOS0; shared5d8163a9 corrects canonical profile error mapping. Native-only retry reused unchanged valid original; all6 calls/fullfrontier match."
   },
   "dependency_observation": "dependency-boundary-2.json",
-  "whole_text_extent_percent": 75.81575910187807,
+  "whole_text_extent_percent": 75.92067988668555,
   "protocol_control_reuse": {
-    "check-acceptance.py": "3ab4e2851efeb84ca50a9d4e9c3225225a5b54b787e3062ab177a771a89fe536",
-    "accept.py": "2d301375fce896e990bda1f5dbc819af804ab43b935a5445f8eb153ce2e6f289",
-    "audit.py": "66facf84eceaba87abb7a421003154854751fb6d92985d4c895b7f56ef18fd82",
-    "mask.py": "176f5d6dc952979a271269de7a35e6f846b1201c61fbf83eb7a09a96f41a857e"
+    "reused_protocol": {
+      "check-acceptance.py": {
+        "negative_controls": 35,
+        "sha256": "3ab4e2851efeb84ca50a9d4e9c3225225a5b54b787e3062ab177a771a89fe536"
+      },
+      "check-dependency-response.py": {
+        "negative_controls": 69,
+        "sha256": "412094eefb3ff5877bec7e9e1f66f6a536f90f78fae7b2ff209d5b6d3e218b5a"
+      }
+    },
+    "affected": {
+      "check-completion-streams.py": {
+        "negative_controls": 24,
+        "seconds": 1.4792410135269165,
+        "sha256": "8a88d80f2e044936fb8e66d8bcfb49fcf24a921c4d318377f917f9a52a4b8156"
+      }
+    },
+    "premise": "Same original target/mask/case/source/native bytes and C1/C2 contract. Native controller-only extension observes full FILE/stdhandle state at existing postchild/exit stops; new24controls target that slice. No new original run."
   }
 }

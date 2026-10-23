@@ -25,9 +25,15 @@ def run(original,native):
     started=time.perf_counter()
     response=original_decode(original)
     actual=verify(native)
-    expected=frontier_decode(original,'original')['fields']
-    assert frontier_decode(native,'native')['fields']==expected
-    assert expected['frontier']==response['next_frontier'] and len(actual['outputs'])==4
+    completed=response.get('completed',False)
+    if completed:
+        assert project_state('original',original)['fields']==project_state('native',native)['fields']
+        assert response['next_frontier']is None and actual['completed']
+    else:
+        expected=frontier_decode(original,'original')['fields']
+        assert frontier_decode(native,'native')['fields']==expected
+        assert expected['frontier']==response['next_frontier']
+    assert len(actual['outputs'])==4
     request_path=native/'dependency-native/request-2-2.bin'
     attempted=native/'dependency-native/attempt-2-2.bin'
     receipt_path=native/'dependency-native.json'
@@ -79,11 +85,12 @@ def run(original,native):
     original_negative('actual original BOOL differs',{'observer/invoke-before-stack.bin':lambda b:integer(b,8,0)})
     original_negative('actual original execution globals differ',{'observer/invoke-before-execution-words.bin':lambda b:integer(b,0,1)})
     original_negative('actual original argument bytes differ',{'observer/invoke-before-caller-argv.bin':lambda b:b.replace(b'test.c',b'jest.c')})
-    frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f,'next_jobs':0x403709,'driver_exit':0x404fda}[response['next_frontier']]
-    original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(('address=%08x'%frontier_address).encode(),('address=%08x'%(frontier_address+1)).encode())})
+    if not completed:
+        frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f,'next_jobs':0x403709,'driver_exit':0x404fda}[response['next_frontier']]
+        original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(('address=%08x'%frontier_address).encode(),('address=%08x'%(frontier_address+1)).encode())})
     original_negative('actual original IR copies disagree',{'observer/c1-output/'+next(iter(response['outputs'])):lambda b:b+b'x'})
     original_negative('unobserved extra Invoke',{'observer/events.txt':lambda b:b+b'invoke-call argc=26 argv=00000001 last=1 function=10612229 esp=0031f574\n'})
-    original_negative('wrong controlled stop status',{'events.txt':lambda b:b.replace(b'status=28673',b'status=0')})
+    original_negative('wrong terminal status',{'events.txt':lambda b:b.replace(b'status=0'if completed else b'status=28673',b'status=1')})
     if 'child' in response:
         original_negative('actual backend wait mode differs',{'observer/spawn-before-stack.bin':lambda b:integer(b,0,1)})
         original_negative('actual backend argv pointer differs',{'observer/spawn-before-stack.bin':lambda b:integer(b,8,1)})
@@ -175,7 +182,11 @@ def run(original,native):
         original_negative('original removal filename differs',{'observer/unlink-1-before-filename.bin':lambda b:b.replace(b'ex',b'ey')})
         original_negative('original removal formal alias differs',{'observer/unlink-1-before-stack.bin':lambda b:integer(b,0,1)})
         original_negative('original missing-file DOS effect omitted',{'mktemp-unlink-5-after-ptd.bin':lambda b:integer(b,12,0)})
-        original_negative('original final-frontier first formal differs',{'context.bin':lambda b:integer(b,208,1)})
+        if completed:
+            original_negative('original exit formal differs',{'observer/exit-before-stack.bin':lambda b:integer(b,0,1)})
+            original_negative('original exit identity differs',{'observer/events.txt':lambda b:b.replace(b'exit-call status=0',b'exit-call status=1')})
+        else:
+            original_negative('original final-frontier first formal differs',{'context.bin':lambda b:integer(b,208,1)})
         if response['next_frontier']=='next_jobs':
             original_negative('original next_jobs pending caller alias differs',{'context.bin':lambda b:integer(b,212,1)})
     if response['next_frontier']=='driver_exit':
@@ -183,46 +194,55 @@ def run(original,native):
         def mre_count(value):
             fields=json.loads(value);fields['mre_calls']=1;return encoded(fields)
         negative('native nonzero MRE inventory',{native/'streams-frontier.json':mre_count},check=lambda p:project_state('native',p))
-    # Replay the independent GDB memory transcript against altered target bytes.
-    raw=json.loads((native/'frontier-memory.json').read_text());backing={}
-    for item in raw['ranges']:
-        for index,byte in enumerate(bytes.fromhex(item['data'])):
-            address=item['address']+index
-            assert address not in backing or backing[address]==byte
-            backing[address]=byte
-    def memory_negative(label,address,value):
-        changed=backing.copy()
-        for index,byte in enumerate(value):changed[address+index]=byte
-        try:fields=snapshot(lambda a,n:bytes(changed[a+i]for i in range(n)),raw['context'])
-        except (AssertionError,KeyError):passed.append(label);return
-        assert fields!=expected,'independent GDB decoder accepted changed state: '+label
-        passed.append(label)
-    context=raw['context'];crt=context['crt_addresses'];module=context['compiler_passes_address']+36
-    memory_negative('post-Invoke cached module differs',module+20,struct.pack('<I',context['compiler_module']['module'] if 'child' in response else 0))
-    memory_negative('post-Invoke active pass differs',context['execution_addresses']['active_pass'],struct.pack('<I',0))
-    memory_negative('post-Invoke codepage reset',crt['mb_codepage'],struct.pack('<I',0))
-    memory_negative('post-Invoke ctype byte differs',struct.unpack('<I',bytes(backing[crt['pctype_slot']+i]for i in range(4)))[0],b'\xff')
-    if response['next_frontier']=='delete_temporary':
-        table=context['temporary_suffixes_address']
-        memory_negative('actual suffix role differs',table+4,struct.pack('<I',0))
-        pointer=struct.unpack('<I',bytes(backing[table+i]for i in range(4)))[0]
-        memory_negative('actual suffix literal differs',pointer,b'x')
-        memory_negative('actual suffix sentinel differs',table+56,struct.pack('<I',1))
-        changed=copy.deepcopy(context);changed['arguments']=[1]
-        try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
-        except AssertionError:passed.append('actual helper formal differs')
-        else:raise AssertionError('helper formal mutation was accepted')
-    if response['next_frontier']=='next_jobs':
-        memory_negative('next_jobs minimal-rebuild guard differs',context['globals']['minimal_rebuild'],struct.pack('<I',1))
-        changed=copy.deepcopy(context);changed['arguments'][1]+=4
-        try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
-        except AssertionError:passed.append('actual next_jobs caller-local pending alias differs')
-        else:raise AssertionError('next_jobs caller-local alias mutation was accepted')
-    if response['next_frontier']=='driver_exit':
-        changed=copy.deepcopy(context);changed['arguments']=[1]
-        try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
-        except AssertionError:passed.append('actual final status argument differs')
-        else:raise AssertionError('final exit status mutation accepted')
+    if not completed:
+        # Replay the independent GDB memory transcript against altered target bytes.
+        raw=json.loads((native/'frontier-memory.json').read_text());backing={}
+        for item in raw['ranges']:
+            for index,byte in enumerate(bytes.fromhex(item['data'])):
+                address=item['address']+index
+                assert address not in backing or backing[address]==byte
+                backing[address]=byte
+        def memory_negative(label,address,value):
+            changed=backing.copy()
+            for index,byte in enumerate(value):changed[address+index]=byte
+            try:fields=snapshot(lambda a,n:bytes(changed[a+i]for i in range(n)),raw['context'])
+            except (AssertionError,KeyError):passed.append(label);return
+            assert fields!=expected,'independent GDB decoder accepted changed state: '+label
+            passed.append(label)
+        context=raw['context'];crt=context['crt_addresses'];module=context['compiler_passes_address']+36
+        memory_negative('post-Invoke cached module differs',module+20,struct.pack('<I',context['compiler_module']['module'] if 'child' in response else 0))
+        memory_negative('post-Invoke active pass differs',context['execution_addresses']['active_pass'],struct.pack('<I',0))
+        memory_negative('post-Invoke codepage reset',crt['mb_codepage'],struct.pack('<I',0))
+        memory_negative('post-Invoke ctype byte differs',struct.unpack('<I',bytes(backing[crt['pctype_slot']+i]for i in range(4)))[0],b'\xff')
+        if response['next_frontier']=='delete_temporary':
+            table=context['temporary_suffixes_address']
+            memory_negative('actual suffix role differs',table+4,struct.pack('<I',0))
+            pointer=struct.unpack('<I',bytes(backing[table+i]for i in range(4)))[0]
+            memory_negative('actual suffix literal differs',pointer,b'x')
+            memory_negative('actual suffix sentinel differs',table+56,struct.pack('<I',1))
+            changed=copy.deepcopy(context);changed['arguments']=[1]
+            try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
+            except AssertionError:passed.append('actual helper formal differs')
+            else:raise AssertionError('helper formal mutation was accepted')
+        if response['next_frontier']=='next_jobs':
+            memory_negative('next_jobs minimal-rebuild guard differs',context['globals']['minimal_rebuild'],struct.pack('<I',1))
+            changed=copy.deepcopy(context);changed['arguments'][1]+=4
+            try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
+            except AssertionError:passed.append('actual next_jobs caller-local pending alias differs')
+            else:raise AssertionError('next_jobs caller-local alias mutation was accepted')
+        if response['next_frontier']=='driver_exit':
+            changed=copy.deepcopy(context);changed['arguments']=[1]
+            try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
+            except AssertionError:passed.append('actual final status argument differs')
+            else:raise AssertionError('final exit status mutation accepted')
+    else:
+        for phase in ('postchild','exit'):
+            path=native/('native-'+phase+'-gdb.json')
+            for field,value in (('pid',1),('mre_calls',1),('status',1),('x87_control_word',0)):
+                negative('actual completion '+phase+' '+field+' differs',{path:lambda b,field=field,value=value:encoded({**json.loads(b),field:value})})
+            def changed_memory(b):
+                fields=json.loads(b);fields['ranges'][0]['data']='ff'+fields['ranges'][0]['data'][2:];return encoded(fields)
+            negative('actual completion '+phase+' memory differs',{path:changed_memory})
     assert verify(native)==actual,'mutations were not fully restored'
     print(json.dumps({'result':'PASS','actual_next_frontier':response['next_frontier'],'IR_files':4,
                       'negatives':len(passed),'seconds':time.perf_counter()-started}))

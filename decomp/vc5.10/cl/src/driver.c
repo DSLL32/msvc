@@ -10,6 +10,13 @@ static char mre_error[1024];
 int interrupted, pass_running;
 CompilerPass *active_pass;
 
+/* 00404fda..00404fee: remove global scratch before the CRT terminates. */
+void driver_exit(int status)
+{
+    cleanup_files(0);
+    exit(status);
+}
+
 /* 00406300: the frontend/backend's per-input files, then linker scratch. */
 TemporarySuffix temporary_suffixes[8] = {
     { "ex", 1 }, { "sy", 1 }, { "gl", 1 }, { "in", 1 },

@@ -271,6 +271,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1/pair.json",
         "sha256": "196ac6a61d808100751e182bf1cf31904eb5226376dfb4d2395f38b14ab0d5fb"
       }
+    },
+    {
+      "order": 28,
+      "candidate": "_driver_exit",
+      "class": "application",
+      "extent_bytes": 20,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/driver-exit-3/pair.json",
+        "sha256": "157e3ea7da357d1efe80b938d5b30154f1d77707d9d84c13dcd10b83ba3b65e7"
+      }
     }
   ]
 }

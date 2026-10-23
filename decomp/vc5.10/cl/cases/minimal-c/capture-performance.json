@@ -36,5 +36,14 @@
       "fresh_affected_controls": 66,
       "extra_original_run": false
     }
+  },
+  "final_required_capture": {
+    "directory": "driver-exit-1-original",
+    "seconds": 5.715149059891701,
+    "full_snapshots": 19,
+    "unlink_calls": 7,
+    "qualified_exit_calls": 1,
+    "actual_terminal_status": 0,
+    "note": "Required fresh20-byte final candidate, not a profiling run. Successiveprefix/warmstate differs from earlierold40.521s capture."
   }
 }

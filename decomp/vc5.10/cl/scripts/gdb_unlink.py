@@ -31,5 +31,8 @@ def install(directory):
             path=directory/filename[2:]
             record={'filename':filename,'present_before':path.exists(),'before':errors(),
                 'argument_is_local_buffer':pointer==local}
+            if not records and '_driver_exit'in config['accepted']:
+                from completion_state import observe
+                observe(directory,gdb,'postchild')
             records.append(record);save();Return(frame,record,path);return False
     Entry('recon_unlink',internal=True)

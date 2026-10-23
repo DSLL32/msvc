@@ -31,10 +31,6 @@ int link_pass(Driver *state) { __asm int 3
 }
 void start_timer(void) { __asm int 3 }
 void stop_timer(char *name) { __asm int 3 }
-void driver_exit(int status) {
-    __asm int 3
-
-} /* 00404fda */
 
 BOOL WINAPI console_control_handler(DWORD event)
 {

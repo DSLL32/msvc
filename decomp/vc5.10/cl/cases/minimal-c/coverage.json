@@ -1,0 +1,23 @@
+{
+  "kind": "accepted original function extents, not branch/instruction coverage",
+  "denominator": {
+    "section": ".text",
+    "virtual_bytes": 19062,
+    "exact_non_crt_bytes": null
+  },
+  "application": {
+    "functions": 78,
+    "extent_bytes": 14472,
+    "minimal_case_reached_entries": 75,
+    "percent_of_whole_text": 75.92067988668555
+  },
+  "support": {
+    "selected_records": 15,
+    "extent_bytes": 476,
+    "source_credit": false
+  },
+  "new_since_help": {
+    "functions": 28,
+    "extent_bytes": 6297
+  }
+}

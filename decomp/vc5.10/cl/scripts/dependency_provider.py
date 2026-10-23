@@ -38,11 +38,15 @@ def config_bytes(response, identity):
 
 
 class Provider:
-    def __init__(self, original, directory, spawn_reader=None):
+    def __init__(self, original, directory, spawn_reader=None, cached_fixture=False):
         self.directory = Path(directory).resolve()
+        self.cached_fixture=cached_fixture
         self.raw = self.directory / 'dependency-response' / 'original'
         copy_raw(original, self.raw)
         self.response = original_response(self.raw)
+        if cached_fixture:
+            assert self.response.get("completed"),"cached fixture requires complete owned response"
+            (self.directory/"cached-fixture.json").write_bytes(encoded({"mode":"cached-native-regression","capture_sha256":self.response["capture_sha256"]}))
         if 'child'in self.response:
             # These were explicit original child-directory inputs. They remain
             # inert PE bytes; neither the adapter nor the native shim runs them.
@@ -163,18 +167,22 @@ class Provider:
                 'observations':self.spawn_observations,
                 'payloads':[{'profile':profile,'bytes':len(data),'sha256':digest(data)}for profile,data in self.spawn_payloads]}))
             self.spawn_broker.check()
-        verify(self.directory)
+        verify(self.directory,cached_fixture=self.cached_fixture)
 
     def close(self):
         self.broker.close()
         if self.spawn_broker is not None:self.spawn_broker.close()
 
 
-def verify(directory):
+def verify(directory,cached_fixture=False):
     """Recheck actual request bytes and final files, independently of server logs."""
     directory = Path(directory)
     raw = directory / 'dependency-response' / 'original'
+    marker=directory/'cached-fixture.json'
+    if not cached_fixture:assert not marker.exists(),'cached regression cannot supply fresh acceptance state'
     response = original_response(raw)
+    if cached_fixture:
+        assert response.get('completed') and json.loads(marker.read_text())=={'mode':'cached-native-regression','capture_sha256':response['capture_sha256']}
     data = encoded(response)
     assert (directory / 'dependency-response.json').read_bytes() == data
     identity = digest(data)
@@ -182,7 +190,8 @@ def verify(directory):
     assert (directory / 'dependency-config.bin').read_bytes() == config
     receipt = json.loads((directory / 'dependency-native.json').read_text())
     process = json.loads((directory / 'native-process.json').read_text())
-    assert re.findall(r'^NATIVE_PROCESS_PID=(\d+)$',(directory/'debugger.txt').read_text(),re.M)==[str(process['pid'])]
+    if not cached_fixture:
+        assert re.findall(r'^NATIVE_PROCESS_PID=(\d+)$',(directory/'debugger.txt').read_text(),re.M)==[str(process['pid'])]
     assert receipt['pid'] == process['pid'] and receipt['response_sha256'] == identity
     assert not receipt['errors']
     assert receipt['configuration_sha256'] == digest(config)
@@ -208,11 +217,11 @@ def verify(directory):
         else:value=path.read_bytes()
         assert expected == {'bytes': len(value), 'sha256': digest(value)}, 'actual C1 output differs'
         outputs[name] = expected
-    if 'child'in response:verify_spawn(directory,response,process['pid'])
-    if 'deletions'in response:
+    if 'child'in response:verify_spawn(directory,response,process['pid'],cached_fixture)
+    if 'deletions'in response and not cached_fixture:
         removed=json.loads((directory/'native-unlink-gdb.json').read_text())
         assert removed=={'pid':process['pid'],'calls':response['deletions']},'actual native removal inputs/results/errors/effects differ'
-    else:assert not (directory / 'test.obj').exists(), 'C2 ran before the unload frontier'
+    elif 'child'not in response:assert not (directory / 'test.obj').exists(), 'C2 ran before the unload frontier'
     prefix=response['invoke_argv'][2][2:]
     assert {p.name for p in directory.glob(prefix+'*')}==(set()if 'deletions'in response else set(response['outputs'])),'unexpected C1 intermediate artifact'
     capture=json.loads((raw/'capture.json').read_text())
@@ -233,10 +242,11 @@ def summary(response):
         result['child']={'calls':1,'status':0,'environment_source':'target-os',
                          'outputs':response['child']['outputs'],'parent_state':response['child']['after']}
     if 'deletions'in response:result['deletions']=response['deletions']
+    if response.get('completed'):result.update(completed=True,exit=response['exit'])
     return result
 
 
-def verify_spawn(directory,response,pid):
+def verify_spawn(directory,response,pid,cached_fixture=False):
     child=response['child']
     reader=directory/'spawn_reader.py'
     revision=json.loads((directory/'native-build.json').read_text())['shared_revision']
@@ -260,6 +270,24 @@ def verify_spawn(directory,response,pid):
     # request, not the response's expected pointer values. The initial vector
     # remains borrowed; insertion moves only the current vector and retains its
     # existing 78 owned strings.
+    if cached_fixture:
+        assert response.get('completed')
+    elif response.get('completed'):
+        from completion_state import decode
+        decode(directory,'postchild',response,pid);decode(directory,'exit',response,pid)
+    else:
+        verify_frontier_environment(directory)
+    for name,expected in child['outputs'].items():
+        value=(directory/name).read_bytes()
+        assert expected=={'bytes':len(value),'sha256':digest(value)},'actual backend output differs'
+    executable=(directory/'C2.EXE').read_bytes()
+    assert child['executable_input']=={'bytes':len(executable),'sha256':digest(executable)}
+    for name,expected in child['provider_inputs'].items():
+        value=(directory/name).read_bytes()
+        assert expected=={'bytes':len(value),'sha256':digest(value)},'backend provider input differs'
+
+
+def verify_frontier_environment(directory):
     frontier=json.loads((directory/'frontier-memory.json').read_text());memory={}
     for item in frontier['ranges']:
         for offset,value in enumerate(bytes.fromhex(item['data'])):
@@ -273,11 +301,3 @@ def verify_spawn(directory,response,pid):
     assert current!=previous['address']
     assert [word(current+4*i)for i in range(78)]==previous['pointers']
     assert word(current+4*78) and word(current+4*78)not in previous['pointers'] and word(current+4*79)==0
-    for name,expected in child['outputs'].items():
-        value=(directory/name).read_bytes()
-        assert expected=={'bytes':len(value),'sha256':digest(value)},'actual backend output differs'
-    executable=(directory/'C2.EXE').read_bytes()
-    assert child['executable_input']=={'bytes':len(executable),'sha256':digest(executable)}
-    for name,expected in child['provider_inputs'].items():
-        value=(directory/name).read_bytes()
-        assert expected=={'bytes':len(value),'sha256':digest(value)},'backend provider input differs'

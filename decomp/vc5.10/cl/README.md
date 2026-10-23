@@ -12,18 +12,19 @@ input/output/alias/error state. Standard streams use regular files, matching the
 original capture. See `cases/help/{completed,coverage,timings}.json` and the
 acceptance journal for the measured evidence.
 
-Help artifacts are frozen and independently verified. The authorized next case is a
-genuine minimal-C compile. Its in-process frontend and backend child boundaries
-require complete captured response contracts; unknown dependencies fail.
-The compile case has added twenty-seven functions with fresh candidate-inclusive
-proofs: 77 application functions /14,452 original extent bytes in total (75.82%
-of whole `.text`). It now reaches `driver_exit(status=0)` after the verified
-26-argument C1 invocation, unload and synchronous C2 child. Native providers
-validate complete arguments, input libraries, IR and target environment before
-replaying captured files and measured external CRT effects. GDB independently
-checks module/export caches, environment ownership, character tables, streams and
-child error effects. The cleanup loop and six actual temporary removals are accepted; the final exit routine
-and complete-case success remain pending.
+Both help and the genuine minimal-C compile are complete. There are now 78
+accepted application functions /14,472 original extent bytes (75.92% of whole
+`.text`); the non-CRT denominator remains unclassified. The compile executes 75
+distinct application entries, produces the exact 275-byte object and `test.c`
+line, then removes all temporary IR and exits0. Source still compiles with
+original CL; native dependency providers validate the real C1 DLL and C2 child
+inputs before applying their captured outputs and observable CRT/OS effects.
+Fresh GDB proofs cover aliases, tables, stream ownership, environment lifetimes,
+seven actual unlink calls and the qualified exit call. Cached fixtures use no
+GDB or Wine. Both cases take about 1.42 seconds total with a warm build; the
+minimal executable takes about64ms and help about4ms, with setup/checks split in
+`cases/minimal-c/timings.json`. The owned original response is under
+`cases/minimal-c/reference/`, and the full final proof is archived separately.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
@@ -37,8 +38,8 @@ Read-only boundary captures compare FILE ownership, CRT descriptors and separate
 Win32 standard handles, destinations, positions and errors through `_dup2(1,2)`.
 Untouched buffer bytes are unclaimed. See `cases/minimal-c/stdio-profile.json`
 and `scripts/check-streams.py` for the eleven semantic mutation controls.
-The `/Gm`-disabled path makes zero MSPDB calls: six original callsite guards and
-a native host counter enforce this. Six qualified stdcall declarations retain
+The `/Gm`-disabled path makes zero MSPDB calls: fourteen original callsite guards and
+a native host counter enforce this. Eight qualified stdcall declarations retain
 their verified DLL exports; the native adapter always fails if invoked. The
 original build uses a declaration-only LLVM import library, with decorated names
 preserved verbatim and accepted by original LINK. No MSPDB behavior is supplied.
@@ -192,7 +193,11 @@ The C2 boundary is separately accepted with a fresh masked unload trial reaching
 `cleanup_files`. Its raw original/native response, immutable build inputs and
 independent review are in `cases/minimal-c/unload-pass-proof.tar.gz`; all 52
 affected child/effect/GDB rejection controls pass. The unmasked analyses add no
-code credit, and the compile case is not yet complete.
+code credit. The final exit trial then completes naturally with no trap; its
+actual first-entry trace, full status, streams, object and seven removals match
+natively. The regression reference owns885 immutable original payloads and
+accepts timestamp normalization only for the COFF header TimeDateStamp. Cached
+regression mode is explicitly rejected as fresh acceptance evidence.
 
 `scripts/dependency_packet.py` freezes a recursive immutable raw manifest and
 decodes those observations. `scripts/check-dependency-packet.py MANIFEST` runs

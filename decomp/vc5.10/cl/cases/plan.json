@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "help-completed-minimal-c-authorized",
+  "state": "help-and-minimal-c-completed",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -47,8 +47,9 @@
     "help",
     "minimal-c"
   ],
-  "next_case_gate": "Independent help review passed; actual minimal-C entry/input and complete DLL/process response contracts required.",
+  "next_case_gate": "Final minimal-C independently reviewed; response-file/options/diagnostic queue approved next, fresh inputs/references required.",
   "completed_cases": [
-    "help"
+    "help",
+    "minimal-c"
   ]
 }

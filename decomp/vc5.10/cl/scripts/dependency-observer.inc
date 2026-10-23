@@ -8,12 +8,12 @@ static BYTE dependency_c1_entry_byte;
 static DWORD dependency_invocations,dependency_unloads;
 static unsigned dependency_putenv_calls,dependency_unlink_calls;
 static char dependency_ir_prefix[MAX_PATH];
-static DWORD dependency_sites[] = {0x563d,0x5655,0x5660,0x56c9,0x54f9,0x572e,0x55d2,0x4fd1};
-static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff};
-static BYTE dependency_after_bytes[8];
-static DWORD dependency_lengths[] = {6,2,2,3,6,6,6,6};
-static int dependency_pending[8];
-static int dependency_installed[8];
+static DWORD dependency_sites[] = {0x563d,0x5655,0x5660,0x56c9,0x54f9,0x572e,0x55d2,0x4fd1,0x4fe6};
+static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff};
+static BYTE dependency_after_bytes[9];
+static DWORD dependency_lengths[] = {6,2,2,3,6,6,6,6,6};
+static int dependency_pending[9];
+static int dependency_installed[9];
 
 static void dependency_save(const char *phase,const char *kind,const void *data,DWORD size)
 {
@@ -157,7 +157,7 @@ static void dependency_install(int masked)
     if (!!masked!=!!dependency_response) ExitProcess(110);
     fclose(file);dependency_analysis=1;output_path(path,"observer");CreateDirectoryA(path,NULL);
     output_path(path,"observer\\events.txt");dependency_events=fopen(path,"wb");if (!dependency_events) ExitProcess(95);
-    for (i=0;i<(dependency_complete?8U:6U);++i) {
+    for (i=0;i<(dependency_complete?9U:6U);++i) {
         memory(target_base+dependency_sites[i],call,dependency_lengths[i]);
         /* A fresh masked trial must never restore an unaccepted helper body.
          * In particular unload_pass can still be the next named frontier. */
@@ -183,8 +183,8 @@ static int dependency_point(DWORD address)
 {
     unsigned i;
     if (!dependency_analysis) return -1;
-    if (address==dependency_c1_entry) return 8;
-    for (i=0;i<(dependency_complete?8U:6U);++i)
+    if (address==dependency_c1_entry) return 9;
+    for (i=0;i<(dependency_complete?9U:6U);++i)
         if (dependency_installed[i] && (address==target_base+dependency_sites[i] || (dependency_pending[i] && address==target_base+dependency_sites[i]+dependency_lengths[i]))) return i;
     return -1;
 }
@@ -192,11 +192,21 @@ static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT 
 {
     char phase[64];DWORD args[3],actual;
     static const char *names[] = {"load","get-invoke","get-abort","invoke","free","spawn","putenv","unlink"};
-    if (point==8) {
+    if (point==9) {
         memory(context->Esp+4,args,12);
         fprintf(dependency_events,"c1-entry event=%lu module=%08lx reason=%lu reserved=%08lx\n",event_number,args[0],args[1],args[2]);
         sprintf(phase,"c1-entry-%lu",args[1]);dependency_state(phase,teb,tid,context,input,out,err);
         patch_byte(address,dependency_c1_entry_byte);context->Eip=address;return;
+    }
+    if (point==8) {
+        DWORD state,status;
+        dependency_argv=0;
+        memory(target_base+0x9020,&state,4);memory(state+8,&dependency_pass,4);
+        memory(context->Esp,&status,4);memory(target_base+0xa254,&actual,4);
+        if (actual!=exported(crt_base,"exit")) ExitProcess(114);
+        dependency_state("exit-before",teb,tid,context,input,out,err);
+        fprintf(dependency_events,"exit-call status=%lu function=%08lx esp=%08lx\n",status,actual,context->Esp);fflush(dependency_events);
+        patch_byte(address,dependency_bytes[point]);context->Eip=address;return;
     }
     sprintf(phase,"%s-%s",names[point],dependency_pending[point]?"after":"before");
     if (point==6) {

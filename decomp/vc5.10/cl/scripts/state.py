@@ -87,7 +87,7 @@ def basic_project(platform,directory):
             posix=re.findall(r'^NATIVE_POSIX_STATUS=(\d+)$',text,re.M)
             assert len(posix)==1 and read(directory,int(posix[0]))==0
             inputs+=['terminal-status.bin','status_reader.py','native-process.json','native-build.json','native_status.py','gdb_capture.py','gdb-capture.py']
-        return {'projection':'cl-help-completion-v1','fields':{'status':0},'decoder_sha256':sha(Path(__file__)),
+        return {'projection':('cl-case-completion-v1'if(directory/'case-inputs.json').exists()else'cl-help-completion-v1'),'fields':{'status':0},'decoder_sha256':sha(Path(__file__)),
             'raw_inputs':{name:sha(directory/name)for name in inputs}}
     if (directory/'frontier-memory.json').exists():
         from frontier_state import decode
@@ -119,6 +119,9 @@ def project(platform,directory):
             paths += [directory/name for name in result['fields']['dependency']['outputs']if (directory/name).exists()]
             if 'deletions'in result['fields']['dependency']:
                 paths += [directory/'native-unlink-gdb.json',directory/'gdb_unlink.py']
+                if result['fields']['dependency'].get('completed'):
+                    paths += [directory/name for name in ('native-postchild-gdb.json','native-exit-gdb.json','gdb_exit.py','completion_state.py')]
+                    paths += [directory/('streams-'+phase+suffix)for phase in ('postchild','exit')for suffix in ('.json','-iob.bin')]
         else:
             response=dependency_response.decode(directory)
             result['fields']['dependency']=dependency_provider.summary(response)

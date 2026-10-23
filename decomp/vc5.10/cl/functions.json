@@ -89,7 +89,8 @@
     "_unload_pass",
     "_cleanup_files",
     "_delete_temporary",
-    "_next_jobs"
+    "_next_jobs",
+    "_driver_exit"
   ],
   "driver": [
     {
@@ -348,7 +349,7 @@
       "start": 4214746,
       "end": 4214766,
       "pending_extent": false,
-      "state": "named INT3 frontier",
+      "state": "implemented; fresh completed-case proof pending",
       "native_symbol": "driver_exit",
       "abi": {
         "calling_convention": "cdecl",
@@ -368,6 +369,15 @@
         "original": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1-original",
         "native": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1-native",
         "scope": "Actual sole status0 formal, no hidden inputs; complete driver/CRT/module/env/FILE/deletion state independently decoded after both next_jobs early returns."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete20-byte final driver body reconstruction",
+        "range": [
+          "0x404fda",
+          "0x404fee"
+        ],
+        "behavior": "Call cleanup_files(0), then pass sole int status to qualified MSVCRT!exit. No target-local CRT body or error reseeding."
       }
     },
     {

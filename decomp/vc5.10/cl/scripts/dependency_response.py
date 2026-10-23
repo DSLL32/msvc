@@ -51,7 +51,7 @@ def phase_snapshot(directory, read, phase, errors):
     if words[20]:
         argv_pointer, argv = vector(read('observer/' + phase + '-caller-argv.bin'))
     else:
-        assert phase=='frontier','missing live argv at a dependency call'
+        assert phase in ('frontier','exit-before'),'missing live argv at a dependency call'
         argv_pointer,argv=0,[]
     assert (env_pointer, argv_pointer) == (words[1], words[20])
     streams = json.loads(read('streams-' + phase + '.json'))
@@ -122,11 +122,13 @@ def decode(directory):
     full_stage='_unload_pass'in config['accepted']
     cleanup_stage='_cleanup_files'in config['accepted']
     deletion_stage='_delete_temporary'in config['accepted']
-    assert not deletion_stage or '_driver_exit'not in config['accepted'],'normal completion not implemented in this response contract'
+    completed='_driver_exit'in config['accepted']
+    assert not completed or deletion_stage and '_next_jobs'in config['accepted']
+    terminal='exit-before'if completed else'frontier'
     scheduler_stage='_next_jobs'in config['accepted']
     next_address='00404fda' if scheduler_stage else '00403709' if deletion_stage else '00404f6f' if cleanup_stage else '00404ed1' if full_stage else '004054ec'
-    next_frontier='driver_exit' if scheduler_stage else 'next_jobs' if deletion_stage else 'delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
-    phases_expected=CHILD_PHASES if full_stage else PHASES
+    next_frontier=None if completed else 'driver_exit' if scheduler_stage else 'next_jobs' if deletion_stage else 'delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
+    phases_expected=(CHILD_PHASES[:-1]+('exit-before',)if completed else CHILD_PHASES)if full_stage else PHASES
     masked = construct(config)
     assert capture['target_sha256'] == TARGET_SHA
     assert digest(masked) == capture['original_mask_sha256'] == digest(read('CL.EXE')) == digest(read('loaded-target.bin'))
@@ -146,8 +148,8 @@ def decode(directory):
         assert digest(read(item['name'])) == item['sha256'] and len(read(item['name'])) == item['bytes']
     events = read('observer/events.txt').decode('ascii')
     target_events = read('events.txt').decode('ascii')
-    assert re.findall(r'^trap .*address=([0-9a-f]{8}) ', target_events, re.M) == [next_address]
-    assert re.findall(r'^exit .*status=(\d+)$', target_events, re.M) == ['28673'], 'missing controlled trap-stop exit'
+    assert re.findall(r'^trap .*address=([0-9a-f]{8}) ', target_events, re.M) == ([]if completed else[next_address])
+    assert re.findall(r'^exit .*status=(\d+)$', target_events, re.M) == (['0']if completed else['28673']), 'missing actual terminal/controlled stop status'
     assert not re.search(r'analysis-stop|exception ', target_events)
     assert 'analysis-stop' not in events
     if not full_stage:
@@ -176,7 +178,7 @@ def decode(directory):
         if name != 'load': assert parameters[1] == (0x408524 if name == 'get-invoke' else 0x40850c)
     assert read('observer/get-invoke-before-argument.bin') == b'_InvokeCompilerPass@12\0'
     assert read('observer/get-abort-before-argument.bin') == b'_AbortCompilerPass@4\0'
-    before, after, frontier = [phases[name] for name in ('invoke-before', 'invoke-after', 'frontier')]
+    before, after, frontier = [phases[name] for name in ('invoke-before', 'invoke-after', terminal)]
     assert before['pass_words'][5:8]==after['pass_words'][5:8]==[c1.base,c1.base+0x12229,c1.base+0x43975]
     invocation = re.findall(r'^invoke-call argc=(\d+) argv=([0-9a-f]{8}) last=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$', events, re.M)
     assert len(invocation) == 1
@@ -242,15 +244,22 @@ def decode(directory):
             'post_ctype_hex': read('observer/invoke-after-ctype.bin').hex(),
             'lowio_flags': [read('observer/invoke-before-lowio-0.bin')[36 * index + 4] for index in range(3)],
             'outputs': ir, 'sequence': [0, 1, 2,3]if full_stage else[0,1,2],
-            'next_frontier': next_frontier,
+            'next_frontier': next_frontier, 'completed':completed,
             'decoder_sha256': digest(Path(__file__).read_bytes())}
     if full_stage:result['child']=child_response(directory,read,capture,events,phases,contexts,ir,prefix,
-                                               frontier_argument=0 if cleanup_stage else 1,deletion_stage=deletion_stage,scheduler_stage=scheduler_stage)
-    if deletion_stage:result['deletions']=deletion_response(directory,read,capture,events,phases,prefix,ir)
+                                               frontier_argument=0 if cleanup_stage else 1,deletion_stage=deletion_stage,scheduler_stage=scheduler_stage,terminal=terminal)
+    if deletion_stage:result['deletions']=deletion_response(directory,read,capture,events,phases,prefix,ir,terminal)
+    if completed:
+        calls=re.findall(r'^exit-call status=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
+        crt=PE(directory/'loaded-msvcrt.bin')
+        assert len(calls)==1 and calls[0][0]=='0' and int(calls[0][1],16)==crt.base+exports(crt)['exit']['rva']
+        assert int(calls[0][2],16)==u32(contexts[terminal],196)
+        assert u32(read('observer/exit-before-stack.bin'),0)==0,'actual exit formal differs'
+        result['exit']={'status':0,'errors':phases[terminal]['errors'],'x87_control_word':phases[terminal]['x87_control_word']}
     return result
 
 
-def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument,deletion_stage,scheduler_stage):
+def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument,deletion_stage,scheduler_stage,terminal):
     after=phases['invoke-after']
     assert phases['free-before']['pass_words'][5:8]==after['pass_words'][5:8]
     for phase in ('free-before','c1-entry-0','free-after'):
@@ -276,7 +285,7 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
     assert u32(contexts['putenv-2-after'],176)==0 and u32(contexts['putenv-2-before'],196)==u32(contexts['putenv-2-after'],196)
     for name in ('argv','argument_pointers','argument_vector','cwd','file0_2_words','streams','mb_state_sha256','ctype_sha256','x87_control_word'):
         assert phases['putenv-2-before'][name]==phases['putenv-2-after'][name]
-    before,after,frontier=[phases[name]for name in ('spawn-before','spawn-after','frontier')]
+    before,after,frontier=[phases[name]for name in ('spawn-before','spawn-after',terminal)]
     assert before['errors']=={'errno':0,'doserrno':2,'last_error':2} and after['errors']=={'errno':0,'doserrno':0,'last_error':2}
     if not deletion_stage:assert frontier['errors']==after['errors']
     assert u32(contexts['spawn-after'],176)==0 and u32(contexts['spawn-before'],196)==u32(contexts['spawn-after'],196)
@@ -295,7 +304,9 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
                  'crt_environment_sha256','os_environment_sha256','mb_state_sha256','ctype_sha256','file0_2_words','streams'):
         assert before[name]==after[name]==frontier[name],'unreviewed child/frontier state: '+name
     assert not frontier['argv'] and frontier['argument_vector']==0 and frontier['pass_words'][5:8]==[0,0,0]
-    if scheduler_stage:
+    if terminal=='exit-before':
+        assert u32(read('observer/exit-before-stack.bin'),0)==0,'unexpected actual exit formal'
+    elif scheduler_stage:
         assert u32(read('context.bin'),208)==0,'unexpected actual final status argument'
     elif deletion_stage:
         context=read('context.bin')
@@ -316,17 +327,17 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
             'stdout_hex':'','stderr_hex':''}
 
 
-def deletion_response(directory,read,capture,events,phases,prefix,ir):
+def deletion_response(directory,read,capture,events,phases,prefix,ir,terminal):
     """Fresh actually executed CRT calls; never a replayed filesystem effect."""
-    names=[prefix+suffix for suffix in ('ex','sy','gl','in','st','db')]
-    phase_names=[f'unlink-{index}-{when}'for index in range(1,7)for when in ('before','after')]
+    names=[prefix+suffix for suffix in (('ex','sy','gl','in','st','db','lk')if terminal=='exit-before'else('ex','sy','gl','in','st','db'))]
+    phase_names=[f'unlink-{index}-{when}'for index in range(1,len(names)+1)for when in ('before','after')]
     errors=original_states(directory,phase_names,'observer/events.txt')
     from dependency_packet import exports
     crt=PE(directory/'loaded-msvcrt.bin')
     function=crt.base+exports(crt)['_unlink']['rva']
     calls=re.findall(r'^unlink-call sequence=(\d+) function=([0-9a-f]{8}) argument=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
     returns=re.findall(r'^unlink-return sequence=(\d+) result=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
-    assert len(calls)==len(returns)==6,'missing/extra unlink invocation'
+    assert len(calls)==len(returns)==len(names),'missing/extra unlink invocation'
     records=[]
     previous=phases['spawn-after']['errors']
     for index,(filename,call,returned)in enumerate(zip(names,calls,returns),1):
@@ -357,6 +368,6 @@ def deletion_response(directory,read,capture,events,phases,prefix,ir):
         records.append({'filename':filename,'present_before':present,'present_after':False,
             'result':status,'before':errors[before],'after':errors[after],'argument_is_local_buffer':True})
         previous=errors[after]
-    assert previous==phases['frontier']['errors']
+    assert previous==phases[terminal]['errors']
     assert not any(name in capture['files']for name in ir),'temporary IR survived cleanup'
     return records
