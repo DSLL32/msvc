@@ -478,6 +478,13 @@ BOOL WINAPI recon_GetCPInfo(UINT page,CPINFO *info)
 {
     CPINFO result;
     if (!info) { last_error=ERROR_INVALID_PARAMETER; return FALSE; }
+    if (!page && getenv("RECON_ACP")) {
+        int saved_errno=errno;
+        if (recon_GetACP()!=1252) recon_unsupported("GetCPInfo unreviewed ACP profile");
+        info->MaxCharSize=1;info->DefaultChar[0]='?';info->DefaultChar[1]=0;
+        memset(info->LeadByte,0,sizeof(info->LeadByte));
+        errno=saved_errno;return TRUE;
+    }
     memset(&result,0,sizeof(result)); result.DefaultChar[0]='?';
     switch (page) {
     case 0: case 1: case 437: case 1252: result.MaxCharSize=1; break;

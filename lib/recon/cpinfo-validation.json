@@ -1,0 +1,7 @@
+{
+  "scope": "Explicit ACP1252 GetCPInfo0 fields/error preservation and untouched native padding18..19",
+  "reference": "tests/cpinfo-original.json",
+  "original_proof": "Actual probe and canonical CRT hFile hashes independently debugger-verified;4 sentinel pairs, full20-byte outputs",
+  "native_checks": "GCC/Clang original output plus alternate native padding a7/c9 retained;default/ACP checks",
+  "combined_build_checks_seconds": 2.303
+}

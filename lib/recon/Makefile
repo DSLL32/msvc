@@ -232,3 +232,8 @@ build/mb-icmp-probe: tests/mb-icmp-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mb-icmp-check: build/mb-icmp-probe
 	$(PYTHON) tests/check-mb-icmp.py build/mb-icmp-probe
+
+build/cpinfo-probe: tests/cpinfo-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+cpinfo-check: build/cpinfo-probe
+	$(PYTHON) tests/check-cpinfo.py build/cpinfo-probe

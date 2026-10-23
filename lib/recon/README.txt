@@ -585,3 +585,8 @@ encountered append, untouched tails, pointer alias and error preservation.
 _mbsicmp supports the proved CP0/SBCS/default-C ASCII path, matching the
 canonical _stricmp normalized sign, case folding, prefix/NUL termination and
 unchanged errors. Unknown codepages/locales/non-ASCII remain unsupported.
+
+With explicit RECON_ACP=1252, GetCPInfo(0) writes only its defined fields and
+preserves errno/LastError plus each native caller's padding18..19. Actual20-byte
+original buffers and alternate native padding controls verify this; unconfigured
+legacy behavior and other codepages are unchanged.
