@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "cca27d7fe872cfb1472bf2500eaa3b64c0f0ea29148ebf65c0a2709785c4f880",
+    "functions.json": "cb624e58190eb8e12413bdc7a94f8e2f11863ceff7d09436f7f05b5abb170b23",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f9f713c90cc8c93320e531b459488d233c29eea92689a7e1f09ba94b13948c6e",
-    "cases/canonical-map.txt": "bcd3ebfd2c810e37812468864a446d39eefbe568f4f7e8762318eca122a1f168",
+    "cases/original-entry-references.json": "8f6b3dd2fe3314119816b29c574a6fbdf21f51da5c69c039b4c8c4e18af6b58a",
+    "cases/canonical-map.txt": "e73b6c577db00c1fc87757b55091cf5291f7f85227ad58c507997185a5077426",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/entry-reference/original-receipt.json": "a61bd7216c97b6f7412486817021e0af935f05e412547f69cf1da7b6a7b250b4",
-    "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/entry-reference/original-events.txt": "ffa071c2bf06bfbc85f2bf2a62b9a8e60c8c8256b43873b7dbdc2d737b1cc1c2",
-    "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/entry-reference/original-entries.plan": "b441f3a886e5f6685a0c620012579d91e13e7f7533903b1386de762e7865a846"
+    "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/entry-reference/original-receipt.json": "e303143854331ec09be35362bf09ff86802ca8d23b74afae250255c3e47ab57a",
+    "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/entry-reference/original-events.txt": "62133e5f089c665ec488804077cb839d692dc12386594126cb705e83081eb15c",
+    "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/entry-reference/original-entries.plan": "e25ce078cb5d9d66cee382cb180f4d886abee911879b0bb86b779bc33364241a"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -250,6 +250,10 @@
     "apply_option": {
       "logical": "_apply_option",
       "source": "src/options.c"
+    },
+    "apply_symbol_based_type": {
+      "logical": "_apply_symbol_based_type@8",
+      "source": "src/stubs.c"
     },
     "apply_type_symbol": {
       "logical": "_apply_type_symbol@12",
@@ -2253,7 +2257,7 @@
     },
     "flush_initializer_constructors": {
       "logical": "_flush_initializer_constructors",
-      "source": "src/stubs.c"
+      "source": "src/braced-initializers.c"
     },
     "flush_initializer_records": {
       "logical": "_flush_initializer_records",
@@ -6180,7 +6184,8 @@
     "begin_braced_initializer",
     "push_braced_initializer",
     "copy_initializer_symbol",
-    "begin_nested_initializer"
+    "begin_nested_initializer",
+    "flush_initializer_constructors"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10292,7 +10297,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1014,
+      "last": 1015,
       "seen": [
         "main",
         "message_text",
@@ -11216,12 +11221,13 @@
         "push_braced_initializer",
         "copy_initializer_symbol",
         "begin_nested_initializer",
-        "flush_initializer_constructors"
+        "flush_initializer_constructors",
+        "advance_braced_initializer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_flush_initializer_constructors",
-        "native": "flush_initializer_constructors",
+        "logical": "_advance_braced_initializer@4",
+        "native": "advance_braced_initializer",
         "signal": 5
       }
     }

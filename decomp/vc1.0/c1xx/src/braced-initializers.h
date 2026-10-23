@@ -17,6 +17,7 @@ extern int braced_initializer_depth, initializer_excess_reported;
 extern CType *initializer_selected_type;
 void __stdcall push_braced_initializer(CppSymbol *symbol);
 void flush_initializer_constructors(void);
+void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base);
 int __stdcall advance_braced_initializer(int mode);
 void __stdcall copy_initializer_symbol(CppSymbol *destination, ClassInfo *class_info, CppSymbol *source);
 typedef char InitializerCopiedClassInfoMustBe60[(sizeof(ClassInfo) == 60) ? 1 : -1];

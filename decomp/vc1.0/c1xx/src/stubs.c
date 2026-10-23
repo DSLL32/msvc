@@ -624,5 +624,7 @@ IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __as
 
 void begin_line_record_debug_info(void) { __asm { int 3 } }
 
-void flush_initializer_constructors(void) { __asm { int 3 } }
+
 int __stdcall advance_braced_initializer(int mode) { __asm { int 3 } return 0; }
+
+void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __asm { int 3 } }

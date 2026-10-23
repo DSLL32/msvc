@@ -2,6 +2,7 @@
 #include "braced-initializers.h"
 #include "lexer.h"
 #include "cpp-context.h"
+#include "constructor-initializers.h"
 #include <recon.h>
 
 int initializer_excess_reported; /* original 0x915a8 */
@@ -126,4 +127,46 @@ void begin_nested_initializer(void)
     current_braced_initializer->flags = 1;
     if (is_scalar_initializer_symbol(current_braced_initializer->symbol))
         current_braced_initializer->flags |= 4;
+}
+
+/* Original 0x480f0..0x48268. Emit a pending run of constructed
+   array elements using an owned temporary symbol/type, then retain whether
+   the emitted expression introduced a diagnostic. */
+void flush_initializer_constructors(void)
+{
+    int saved_errors = error_count;
+    IrToken *object, *offset;
+    CppSymbol *temporary;
+    char *name;
+    ArenaPool *pool;
+    unsigned count;
+    if (initializer_value_error_reported || !initializer_constructor_count) return;
+    offset = make_integer_constant(initializer_constructor_offset);
+    object = new_ir_expression(0x59, symbol_reference(initializer_storage_symbol),
+        offset, type_0000);
+    name = make_anonymous_identifier();
+    temporary = new_declarator(name);
+    *temporary = *initializer_storage_symbol;
+    temporary->name = name;
+    pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+    temporary->type = (CType *)pool->next;
+    pool->remaining -= sizeof(CType);
+    pool->next += sizeof(CType);
+    *temporary->type = *initializer_storage_symbol->type;
+    count = initializer_constructor_count;
+    temporary->type->related = intern_type_shape(new_type_shape(2,
+        initializer_storage_symbol->type->related->attributes, &count));
+    if (initializer_storage_symbol->attributes & 2) {
+        apply_symbol_based_type(temporary,
+            initializer_storage_symbol->type->related->data.based_symbol);
+        temporary->type->related = intern_type_shape(temporary->type->related);
+    }
+    temporary->type = remove_type_qualifiers(temporary->type, 0x3000);
+    object->type = temporary->type;
+    object->type = parameter_reference_type(object);
+    emit_expression_statement(make_object_constructor_call(0, 0, 0, temporary,
+        0, object, 0));
+    initializer_constructor_count = 0;
+    if (error_count > saved_errors) initializer_value_error_reported = 1;
 }
