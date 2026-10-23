@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_begin_for_increment_region",
+  "native_entry": "begin_for_increment_region",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      261744,
+      261802
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole58B SUB16localrecord/plainRET/nosavedGPR/noincomingstack/GPR/x87/CPUflagsformal. Initializeskind28andall15remainingbyteszero thenappendexisting16BFrontendRecord; no extra suppressionguard or hidden state, no newdata/callee."
+  }
+}

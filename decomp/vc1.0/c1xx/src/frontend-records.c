@@ -7,8 +7,9 @@
 #include "record-processing.h"
 #include "cpp-context.h"
 #include <setjmp.h>
-void begin_for_increment_region(void);
 #include <recon.h>
+
+void begin_for_increment_region(void);
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
 FrontendRecord *ir_record_tail; /* original 0xa0a04 */
@@ -830,4 +831,18 @@ void begin_for_increment(void)
         append_frontend_record(&record, sizeof(record));
     }
     begin_for_increment_region();
+}
+
+/* Original 0x3fe70..0x3fea9. Open the increment's paired evaluation
+   region with a fully defined sixteen-byte frontend record. */
+void begin_for_increment_region(void)
+{
+    FrontendRecord record;
+    record.kind = 0x28;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
 }
