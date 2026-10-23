@@ -29,3 +29,18 @@ void rewrite_procedure32_symbol(void)
     }
     *(unsigned *)(symbol_input + 28) = map_type_index(*(unsigned *)(symbol_input + 28));
 }
+
+/* Module contribution ranges [0040af80,0040afe9). */
+int module_contains_address(ModuleInfo *info, unsigned short segment, unsigned offset)
+{
+    unsigned char *data = info->data;
+    unsigned short count, i;
+    ModuleCodeSegment *entry;
+    if (!data) fatal_error(1001, NULL, NULL);
+    count = *(unsigned short *)(data + 4);
+    entry = (ModuleCodeSegment *)(data + 8);
+    for (i = 0; i < count; ++i, ++entry)
+        if (offset - entry->offset < entry->size && segment == entry->segment)
+            return 1;
+    return 0;
+}

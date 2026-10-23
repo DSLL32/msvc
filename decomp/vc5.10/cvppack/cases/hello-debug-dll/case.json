@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0063-rewrite-procedure32-symbol/original",
-  "reference_receipt_sha256": "0cfa4cb08ed0a2dd86d9bc312349d6e0d4d5cbca1017266ecd51f0b103377215",
+  "reference": "cases/hello-debug-dll/evidence/0064-module-contains-address/original",
+  "reference_receipt_sha256": "af3be1b54a9face66fc35e01abcda72cd9620e1daaefe17b4a4dcb663e5ca414",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -69,6 +69,7 @@
     "write_segment_record",
     "rewrite_object_name_symbol",
     "rewrite_procedure32_symbol",
-    "module_contains_address"
+    "module_contains_address",
+    "compact_type_list"
   ]
 }

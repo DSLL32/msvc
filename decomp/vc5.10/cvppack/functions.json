@@ -69,7 +69,8 @@
     "rewrite_module_symbols",
     "write_segment_record",
     "rewrite_object_name_symbol",
-    "rewrite_procedure32_symbol"
+    "rewrite_procedure32_symbol",
+    "module_contains_address"
   ],
   "functions": [
     {
@@ -2494,8 +2495,11 @@
       "symbol": "_module_contains_address",
       "native_symbol": "module_contains_address",
       "original": 4239232,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4239232,
+        4239337
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2523,7 +2527,8 @@
           "slot": 3,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0064-module-contains-address/promotion.json"
     }
   ],
   "support_unmasked": [

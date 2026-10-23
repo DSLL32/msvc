@@ -32,6 +32,10 @@ typedef struct ModuleInfo {
     unsigned fields_after[4];
     struct ModuleInfo *next;
 } ModuleInfo;
+typedef struct ModuleCodeSegment {
+    unsigned short segment, reserved;
+    unsigned offset, size;
+} ModuleCodeSegment;
 typedef struct ModuleIndex {
     unsigned short module, reserved;
     unsigned directory_index;

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "native_only": true,
-  "positive_pairs": 3,
+  "positive_pairs": 4,
   "rejected": [
     "wrong-native-ECX-argument",
     "wrong-raw-original-ECX-argument",
@@ -9,6 +9,13 @@
     "modern-raw-original-ECX-argument",
     "modern-actual-formal-width",
     "modern-omitted-actual-formals",
+    "two-register-native-ECX",
+    "two-register-native-EDX",
+    "two-register-raw-ECX",
+    "two-register-raw-EDX",
+    "lost-recursion-depth",
+    "lost-recursion-stack",
+    "lost-current-type-visiting-flag",
     "record-content",
     "record-capacity",
     "record-owner",
@@ -21,7 +28,7 @@
     "wrong-callback-divisor"
   ],
   "decoder_sha256": "3d3abb3d2e4feae070bc40c3227431748387ba899b5985c082ce6af35c6bb17c",
-  "checker_sha256": "3ee3cafd849b79ede7cdfc2585bc853b6a7c2ab97060f4728f4fff783c071eab",
+  "checker_sha256": "29d0820d30c06da32013e53734d69b39586809f85872be14c71df3fea161ca2a",
   "inputs": [
     {
       "pair": "0042-map-legacy-index",
@@ -37,7 +44,12 @@
       "pair": "0055-map-type-index",
       "original_receipt_sha256": "2db15c58d7edd442cf82ab38616c2414041ce7d51140bd026859d456ee9a33ca",
       "native_receipt_sha256": "39f57959959f0084357515d4c76688a18714a546e93affbe71da178d14e7a602"
+    },
+    {
+      "pair": "0064-module-contains-address",
+      "original_receipt_sha256": "af3be1b54a9face66fc35e01abcda72cd9620e1daaefe17b4a4dcb663e5ca414",
+      "native_receipt_sha256": "0aed7a748ee03facbe392f0e9c8d639bdc22e1a3c7f7373c5fa5fab2a13f95b1"
     }
   ],
-  "seconds": 1.4944016952067614
+  "seconds": 2.8889179499819875
 }

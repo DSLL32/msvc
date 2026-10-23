@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "candidate": "module_contains_address",
+  "accepted_functions": 64,
+  "application_extent_bytes": 18734,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 29.896907216494846,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4239232,
+    4239337
+  ],
+  "source_review": "Scans actual12Bmodule contribution entries after8Bheader, preserving unsigned offset subtraction and16-bit count/segment ABI.",
+  "fresh_pair": true,
+  "next_frontier": "compact_type_list",
+  "new_executed_scope": "First nonprimitive1008procedure type: ECXindex100c/EDXcount4, recursion depth1/stack1011/current record17visiting flag0x440. Full336record table/47names/27reads/118allocations/108output prefix stillmatch.",
+  "fresh_abi_control_pairs": 4,
+  "fresh_abi_rejections": 23,
+  "new_abi_rejections": 7,
+  "reused_controls": {
+    "path": "cases/hello-debug-dll/evidence/0063-rewrite-procedure32-symbol/function-review.json",
+    "sha256": "c18c81b7111f8ab0a264217dfe9fd31440833967e65118ac06333d4ff07ab496",
+    "reason": "Same decoder/observer/protocol; fresh whole-state pair and additional ECX/EDX/recursive-state mutations."
+  },
+  "seconds": {
+    "trial": {
+      "original_build": 4.111845857463777,
+      "native_build": 2.4966807197779417,
+      "graph_tool_build": 0.047808906994760036,
+      "original_capture": 5.366108227521181,
+      "native_capture": 0.7140326742082834,
+      "pair_check": 0.5398151651024818
+    },
+    "controls": 2.8889179499819875,
+    "fixtures": {
+      "hello-debug-dll": {
+        "schema": 1,
+        "case": "hello-debug-dll",
+        "terminal": "trap",
+        "native_only": true,
+        "native_sha256": "b774e3be8b41e87d02c9bf2aeb172d25a4b0efae94df4c17de7f8c18109f124f",
+        "reference_receipt_sha256": "af3be1b54a9face66fc35e01abcda72cd9620e1daaefe17b4a4dcb663e5ca414",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": {
+          "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+          "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+          "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+          "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+          "instances": 21
+        },
+        "seconds": {
+          "preparation": 0.0025181863456964493,
+          "execution": 0.6464929040521383,
+          "checks": 0.004426491446793079,
+          "total": 0.8881381116807461
+        }
+      },
+      "help": {
+        "schema": 1,
+        "case": "help",
+        "terminal": "exit",
+        "native_only": true,
+        "native_sha256": "b774e3be8b41e87d02c9bf2aeb172d25a4b0efae94df4c17de7f8c18109f124f",
+        "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": null,
+        "seconds": {
+          "preparation": 0.0026431549340486526,
+          "execution": 0.006653347983956337,
+          "checks": 0.0026549072936177254,
+          "total": 0.01682419702410698
+        }
+      }
+    }
+  }
+}
