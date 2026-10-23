@@ -13,7 +13,10 @@
     "_allocate_compiler_memory",
     "_initialize_state_12365",
     "_initialize_state_12377",
-    "_initialize_state_12389"
+    "_initialize_state_12389",
+    "_initialize_state_123a4",
+    "_initialize_state_123a5",
+    "_initialize_state_123a6"
   ],
   "driver": [
     {
@@ -100,6 +103,24 @@
       "name": "_initialize_state_12389",
       "start": 274801545,
       "end": 274801572,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a4",
+      "start": 274801572,
+      "end": 274801573,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a5",
+      "start": 274801573,
+      "end": 274801574,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a6",
+      "start": 274801574,
+      "end": 274801575,
       "role": "application"
     }
   ],

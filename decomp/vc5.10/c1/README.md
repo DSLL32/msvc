@@ -202,3 +202,7 @@ The six-element context-record reset (RVA12389, 27 bytes) is accepted. The
 72-byte typed array has per-element zero-default and nonzero reset/restore
 proofs. No later consumer has established its domain; it remains named
 `contexts` and does not authorize interpreting other unmodeled bytes.
+
+The three independent one-byte callbacks at RVA123a4/123a5/123a6 are accepted
+in order, each through its own fresh matching pair and graph/ABI audit.
+They introduce no new data fields or fixture behavior.

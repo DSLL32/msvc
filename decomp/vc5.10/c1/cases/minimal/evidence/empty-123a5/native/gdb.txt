@@ -1,0 +1,12 @@
+Breakpoint 1 at 0x804acc9: file src/pass.c, line 40.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+initialize_state_123a6 () at src/initializers.c:39
+39	}
+#0  initialize_state_123a6 () at src/initializers.c:39
+#1  0x0804ac83 in initialize_compiler_pass () at src/pass.c:29
+#2  0x0804a819 in InvokeCompilerPass (argc=11, argv=0xffffd8d8, mode=1) at src/exports.c:11
+#3  0x0804b8f9 in c1_native_host (argc=2, argv=0xffffda04) at scripts/native-host.c:57
+#4  0x08055a65 in main (argc=2, argv=0xffffda04) at ../../../lib/recon/src/entry.c:14

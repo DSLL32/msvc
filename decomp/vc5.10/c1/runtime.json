@@ -14,27 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_123a4",
-    "start": 274801572,
-    "end": 274801573,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
-    "name": "_initialize_state_123a5",
-    "start": 274801573,
-    "end": 274801574,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
-    "name": "_initialize_state_123a6",
-    "start": 274801574,
-    "end": 274801575,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_123a7",
     "start": 274801575,
     "end": 274801576,

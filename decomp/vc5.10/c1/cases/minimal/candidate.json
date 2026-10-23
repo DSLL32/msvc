@@ -76,6 +76,21 @@
       "start_rva": 74633,
       "end_rva": 74660,
       "entry": 1
+    },
+    {
+      "start_rva": 74660,
+      "end_rva": 74661,
+      "entry": 1
+    },
+    {
+      "start_rva": 74661,
+      "end_rva": 74662,
+      "entry": 1
+    },
+    {
+      "start_rva": 74662,
+      "end_rva": 74663,
+      "entry": 1
     }
   ],
   "functions": [
@@ -214,6 +229,45 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a4",
+      "native_symbol": "initialize_state_123a4",
+      "role": "application",
+      "chunks": [
+        [
+          74660,
+          74661
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a5",
+      "native_symbol": "initialize_state_123a5",
+      "role": "application",
+      "chunks": [
+        [
+          74661,
+          74662
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a6",
+      "native_symbol": "initialize_state_123a6",
+      "role": "application",
+      "chunks": [
+        [
+          74662,
+          74663
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -229,8 +283,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74660,
-    "native_symbol": "initialize_state_123a4",
+    "rva": 74663,
+    "native_symbol": "initialize_state_123a7",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -354,5 +408,5 @@
       "normal_case": false
     }
   },
-  "staging_role": "Six-context array reset is the only new function"
+  "staging_role": "Distinct empty callback 123a6 is the only new function"
 }

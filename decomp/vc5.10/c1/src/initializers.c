@@ -27,17 +27,14 @@ void __cdecl initialize_state_12389(void)
 
 void __cdecl initialize_state_123a4(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl initialize_state_123a5(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl initialize_state_123a6(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl initialize_state_123a7(void)
