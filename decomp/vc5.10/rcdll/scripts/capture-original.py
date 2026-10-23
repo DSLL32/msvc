@@ -18,7 +18,11 @@ SHA_CRT='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45);p.add_argument('--case',choices=['help','resources-rich'],default='help')
+    p.add_argument('--heap-observations',type=int,default=1);p.add_argument('--free-observations',type=int,default=0);p.add_argument('--character-observations',type=int,default=0);p.add_argument('--api-census',action='store_true')
     a=p.parse_args();out=a.output.resolve()
+    limits=[a.heap_observations,a.free_observations,a.character_observations]
+    if a.api_census:limits=[8192,8192,8192]
+    if not all(0<=value<=8192 for value in limits):p.error('observer limits must be 0..8192')
     out.relative_to(Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')
     if out.exists():p.error('output must be a new explicit scratch directory')
     out.mkdir(parents=True)
@@ -81,6 +85,7 @@ def main():
               'XAUTHORITY','WINEPREFIX','WINEARCH','WINEDEBUG','WINESERVER',
               'WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH'}
         env={key:value for key,value in env.items() if key in keep}
+    env.update({key:str(value)for key,value in zip(['RCDLL_CAPTURE_HEAP_LIMIT','RCDLL_CAPTURE_FREE_LIMIT','RCDLL_CAPTURE_CHARACTER_LIMIT'],limits)})
     command=['wine',str(out/'debug-original.exe'),a.mode,tools.windows(out/'RC.EXE'),'ranges.txt']
     if child_cwd:command += ['case-args.txt',child_cwd]
     started=time.perf_counter()
@@ -92,6 +97,7 @@ def main():
             status=None;timed_out=True
     elapsed=time.perf_counter()-started
     report=dict(preflight=dict(tls=False,entry_guard_nonrelocated=True,relocation_sites=len(relocation_sites),loader_data_ranges=[['0x1000','0x114c'],['0x12e2c','0x13371']],import_cycle_scope='target has only canonical MSVCRT and Wine system KERNEL32/USER32 imports; canonical MSVCRT imports no RCDLL'),case=a.case,args=case_args,child_cwd=child_cwd,environment={key:env[key]for key in ['INCLUDE','LIB','WINEPATH']},mode=a.mode,command=command,status=status,timed_out=timed_out,elapsed_seconds=elapsed,wineprefix=env['WINEPREFIX'],wine_override=env['WINEDLLOVERRIDES'],argv0=tools.windows(out/'RC.EXE'),target_sha256=sha(tc/'RCDLL.DLL'),crt_expected_sha256=SHA_CRT,candidate_sha256=sha(HERE/'functions.json'),debugger_sha256=sha(out/'debug-original.exe'),files={})
+    report['observation_limits']=dict(zip(['heap','free','character'],limits));report['api_census']=a.api_census
     for name in ['helper-compiled-source.json','case-args.txt','environment-utf16.bin','compiled-source.json','candidate.json','functions.json','ranges.txt','validation-versions.json','stdout.bin','stderr.bin','events.txt','relocated-text.bin','masked-text.bin','globals.bin','completion-globals.bin','loaded-target.bin','loaded-crt.bin','loaded-driver.bin']:
         f=out/name
         if f.exists():report['files'][name]=dict(bytes=f.stat().st_size,sha256=sha(f))

@@ -1,0 +1,50 @@
+{
+  "function": "rc_release",
+  "original_start": "0x109fd",
+  "original_end": "0x10a1c",
+  "original_code_bytes": 31,
+  "abi": "stdcall1/ret4; conditional HeapFree(heap,1,block-8); return0",
+  "accepted_application_functions": 10,
+  "accepted_application_bytes": 4657,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 7.024662493400709,
+  "crt_functions": 2,
+  "crt_bytes": 555,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_prepare_input",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/release-trial-original2",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/release-trial-native4",
+  "original_seconds": 1.61846992559731,
+  "native_gdb_seconds": 0.19223347958177328,
+  "audit_seconds": 0.03858636133372784,
+  "negative_controls": 22,
+  "gate_sha256": "4d96914f8d66c5dcf973ba2370c45ce59fa834696408c29012e44b6b92b0bc8f",
+  "notes": [
+    "full ordered captured target environment bound separately from native host controls",
+    "complete mutable argv aliases,20preprocessor args,live528/268 blocks and empty .res partialwrite match",
+    "ordinary original observers4allocations/1free/1character; no repeated API census",
+    "native-only recapture consumed shared-library rebuild; original reused unchanged"
+  ],
+  "graph_audit_record": "audit-0012.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.003660013899207115,
+      "execution": 0.0023297397419810295,
+      "checks": 0.0011515477672219276,
+      "total": 0.007761302404105663
+    },
+    "native_sha256": "cc28fa2959fe69b570074842605f6e93a5c8db543672c0df5dbc5f0ba1f33461",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  }
+}

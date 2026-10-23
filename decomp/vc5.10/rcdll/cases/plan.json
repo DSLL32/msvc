@@ -13,7 +13,8 @@
     "rc_is_option",
     "rc_emit",
     "rc_message",
-    "rc_format"
+    "rc_format",
+    "rc_release"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

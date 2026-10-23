@@ -11,3 +11,10 @@ void *__stdcall rc_allocate(int bytes)
     }
     return block+8;
 }
+
+int __stdcall rc_release(void *block)
+{
+    if (block)
+        HeapFree(rc_heap,1,(char *)block-8);
+    return 0;
+}

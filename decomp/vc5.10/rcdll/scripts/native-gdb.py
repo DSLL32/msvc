@@ -72,12 +72,16 @@ def capture():
             arguments['block']=pointer
             arguments['payload']=bytes(gdb.selected_inferior().read_memory(pointer-8,528)).hex()
             arguments['include']=gdb.parse_and_eval('rc_include_paths').string()
+            pointer=int(frame.older().read_var('new_paths'))&0xffffffff
+            arguments['new_paths']=pointer
+            arguments['new_payload']=bytes(gdb.selected_inferior().read_memory(pointer-8,528)).hex()
         if name=='rc_allocate':arguments['bytes']=int(frame.read_var('bytes'))
         if name=='rc_is_option':arguments['value']=int(frame.read_var('value'))
         if name=='rc_emit':
             message=frame.read_var('message');length=len(message.string())+1
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
+        if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
         if name=='rc_format':
             arguments['capacity']=int(frame.read_var('capacity'))
             template=frame.read_var('format').cast(gdb.lookup_type('char').pointer())
@@ -104,7 +108,27 @@ def capture():
                     break
                 cursor=cursor.dereference()['next']
         heap=json.loads((output.parent/'heap.json').read_text()) if (output.parent/'heap.json').exists() else []
-        result=dict(export_vector=vector,heap_identity=heap_identity,heap=heap,diagnostic_callback=int(gdb.parse_and_eval("(void *)fixture_diagnostic"))&0xffffffff,jump=jump,exit_array=exit_array,allocations=json.loads((output.parent/'allocations.json').read_text()),module=module,globals=globals,kind='completion' if complete else 'frontier',function=raw_name,rva=f['start'],raw_pc=pc,executed_byte=instruction.hex(),registers=registers,arguments=arguments,config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest())
+        environment=[];environment_vector=gdb.parse_and_eval('fixture_target_environment')
+        if int(environment_vector):
+            for index in range(16385):
+                if not int(environment_vector[index]):break
+                environment.append(environment_vector[index].string())
+            else:raise AssertionError('unterminated target environment')
+        case_inputs=dict(environment=environment,host_cwd=gdb.parse_and_eval('fixture_host_cwd').string(),include=gdb.parse_and_eval('fixture_input_include').string()if int(gdb.parse_and_eval('fixture_input_include'))else None,codepage=gdb.parse_and_eval('fixture_input_codepage').string()if int(gdb.parse_and_eval('fixture_input_codepage'))else None)
+        rich={}
+        if name=='rc_prepare_input':
+            rich['buffers']={}
+            for field,size in [('rc_output_path',260),('rc_input_path',260),('rc_input_name',260),('rc_preprocessed_path',260),('rc_notice_text',520)]:
+                value=gdb.parse_and_eval(field)
+                rich['buffers'][field]=bytes(gdb.selected_inferior().read_memory(int(value.address),size)).hex()
+            rich['temporaries']={field:gdb.parse_and_eval(field).string()for field in ['rc_input_temporary','rc_output_temporary']}
+            count=int(frame.older().read_var('argument_count'));assert 0<count<=256
+            rich['preprocessor_argv']=[gdb.parse_and_eval('rc_preprocessor_arguments[%d]'%index).string()for index in range(count)]
+            file=gdb.parse_and_eval('rc_output_file');rich['output_file']=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex()
+            descriptor=int(file.dereference()['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
+            rich['output_file_host_path']=os.readlink('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,handle))
+            rich['output_file_fdinfo']=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,handle)).read_text()
+        result=dict(rich=rich,case_inputs=case_inputs,export_vector=vector,heap_identity=heap_identity,heap=heap,diagnostic_callback=int(gdb.parse_and_eval("(void *)fixture_diagnostic"))&0xffffffff,jump=jump,exit_array=exit_array,allocations=json.loads((output.parent/'allocations.json').read_text()),module=module,globals=globals,kind='completion' if complete else 'frontier',function=raw_name,rva=f['start'],raw_pc=pc,executed_byte=instruction.hex(),registers=registers,arguments=arguments,config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest())
     except Exception as error:
         result=dict(kind='error',error=str(error))
     output.write_text(json.dumps(result,indent=2)+'\n')

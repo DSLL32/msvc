@@ -20,7 +20,7 @@ def run():
     with tempfile.TemporaryDirectory(prefix='help-fixture-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
         out=Path(scratch);(out/'filter.txt').write_text(''.join(native_name(name)+'\n'for name in names));(out/'seen.txt').write_text('')
         env=os.environ.copy()
-        for key in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH','RCDLL_NEGATIVE_MODULE_SHA','RECON_TRACE_STATE_FD']:env.pop(key,None)
+        for key in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH','RCDLL_NEGATIVE_MODULE_SHA','RECON_TRACE_STATE_FD','RECON_RC_ENVIRONMENT']:env.pop(key,None)
         env.update(RECON_RC_ARGV0=manifest['argv0'],RECON_RC_DLL_PATH=manifest['module_path'],RECON_RC_RESOURCES=str(HERE/'build/help-resources.bin'),RECON_TRACE_FILTER=str(out/'filter.txt'),RECON_TRACE_SEEN=str(out/'seen.txt'))
         setup=time.perf_counter()-started
         with (out/'trace.txt').open('wb')as trace:
@@ -37,7 +37,7 @@ def run():
         assert events[0:2]==['attach','export-call RC 0 0 callback 0 2']
         assert events[-3:]==['export-return 0','detach','detach-return 1']
         checks=time.perf_counter()-before
-    report=dict(logical_name_aliases=LOGICAL_NAME_ALIASES,case='help',status='pass',stdout_bytes=len(result.stdout),application_entries=len(names),seconds=dict(setup=setup,execution=execution,checks=checks,total=time.perf_counter()-started),native_sha256=sha(native),reference_manifest_sha256=sha(reference/'manifest.json'))
+    report=dict(logical_name_aliases=LOGICAL_NAME_ALIASES,case='help',status='pass',stdout_bytes=len(result.stdout),application_entries=len(logical_trace((reference/'trace.txt').read_text())),seconds=dict(setup=setup,execution=execution,checks=checks,total=time.perf_counter()-started),native_sha256=sha(native),reference_manifest_sha256=sha(reference/'manifest.json'))
     (HERE/'build/fixture-timing.json').write_text(json.dumps(report,indent=2)+'\n')
     return report
 if __name__=='__main__':print(json.dumps(run(),indent=2))

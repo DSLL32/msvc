@@ -23,6 +23,9 @@ static unsigned point_count;
 static int baseline,guarded,ready;
 static DWORD callback_text,callback_bytes,lifecycle_reason,format_dest,format_capacity,export_count,export_vector;
 static DWORD export_storage[256],export_lengths[256];
+static DWORD heap_allocation_size;
+static DWORD character_pointer;
+static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
 {
@@ -112,12 +115,13 @@ static void save_file(HANDLE input,const char *name)
 }
 static unsigned point(DWORD at,int kind)
 {
-    BYTE trap=0xcc;Point *p;
-    if(point_count==2048)fail("point-overflow");
-    p=points+point_count;
+    BYTE trap=0xcc;Point *p;unsigned index;
+    for(index=0;index<point_count;++index)if(!points[index].active)break;
+    if(index==point_count){if(point_count==2048)fail("point-overflow");++point_count;}
+    p=points+index;
     p->at=at;p->kind=kind;p->active=1;
     readmem(at,&p->original,1);writebytes(at,&trap,1);
-    return point_count++;
+    return index;
 }
 static void load(DWORD at,HANDLE file)
 {
@@ -193,16 +197,19 @@ static void snapshot_and_mask(void)
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7466,13);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7b77,22);
+        for(n=0;n<range_count;++n)if(character_limit&&ranges[n].start==0x7443 && ranges[n].kind)point(base+0x8215,26);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x84c4 && ranges[n].kind)point(base+0x850b,17);
-        for(n=0;n<range_count;++n)if(ranges[n].start==0x109b2 && ranges[n].kind)point(base+0x109c3,19);
+        for(n=0;n<range_count;++n)if(heap_limit&&ranges[n].start==0x109b2 && ranges[n].kind)point(base+0x109c3,19);
+        for(n=0;n<range_count;++n)if(free_limit&&ranges[n].start==0x109fd && ranges[n].kind)point(base+0x10a11,24);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8bcd && ranges[n].kind)point(exe_base+0x1100,7);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8b46 && ranges[n].kind)point(base+0x8b6f,4);
     }else{
         point(base+0x8b46,3);point(base+0x8b6f,4);
         point(base+0x2c64,5);
         point(exe_base+0x1100,7);
-        point(base+0x7466,13);point(base+0x2c98,15);point(base+0x850b,17);point(base+0x109c3,19);
+        point(base+0x7466,13);point(base+0x2c98,15);point(base+0x850b,17);if(heap_limit)point(base+0x109c3,19);
         point(base+0x7b77,22);
+        if(free_limit)point(base+0x10a11,24);if(character_limit)point(base+0x8215,26);
     }
     ready=1;fprintf(events,"snapshot-ready mode=%s\n",baseline?"baseline":"masked");fflush(events);
 }
@@ -267,12 +274,16 @@ static int trap(HANDLE thread,DWORD address)
         else if(p->kind==17){
             DWORD error;readmem(initial_teb+0x34,&error,4);readmem(c.Esp,words,12);fprintf(events,"heap-create %lu %lu %lu last-error=%08lx\n",words[0],words[1],words[2],error);point(base+0x8511,18);
         }else if(p->kind==18){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"heap-result %08lx last-error=%08lx\n",c.Eax,error);}
-        else if(p->kind==19){DWORD error;readmem(initial_teb+0x34,&error,4);readmem(c.Esp,words,12);fprintf(events,"heap-alloc %08lx %lu %lu last-error=%08lx\n",words[0],words[1],words[2],error);point(base+0x109c9,20);}
-        else if(p->kind==20){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"heap-alloc-result %08lx last-error=%08lx\n",c.Eax,error);hexbytes("heap-alloc-payload",c.Eax,528);}
+        else if(p->kind==19){DWORD error;readmem(initial_teb+0x34,&error,4);readmem(c.Esp,words,12);heap_allocation_size=words[2];if(heap_allocation_size>1048576)fail("heap-observation-size");fprintf(events,"heap-alloc %08lx %lu %lu last-error=%08lx\n",words[0],words[1],words[2],error);point(base+0x109c9,20);}
+        else if(p->kind==20){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"heap-alloc-result %08lx last-error=%08lx\n",c.Eax,error);if(c.Eax)hexbytes("heap-alloc-payload",c.Eax,heap_allocation_size);if(++heap_observed<heap_limit)point(base+0x109c3,19);}
         else if(p->kind==11){readmem(c.Esp,words,4);fprintf(events,"crt-malloc-size %lu\n",words[0]);point(base+0x12c36,12);}
         else if(p->kind==12)fprintf(events,"crt-malloc-result %08lx\n",c.Eax);
         else if(p->kind==22){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"getacp-call last-error=%08lx\n",error);point(base+0x7b7d,23);}
         else if(p->kind==23){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"getacp-result %lu last-error=%08lx\n",c.Eax,error);}
+        else if(p->kind==24){DWORD error;readmem(initial_teb+0x34,&error,4);readmem(c.Esp,words,12);fprintf(events,"heap-free %08lx %lu %08lx last-error=%08lx\n",words[0],words[1],words[2],error);point(base+0x10a17,25);}
+        else if(p->kind==25){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"heap-free-result %lu last-error=%08lx\n",c.Eax,error);if(++free_observed<free_limit)point(base+0x10a11,24);}
+        else if(p->kind==26){DWORD error;readmem(initial_teb+0x34,&error,4);readmem(c.Esp,&character_pointer,4);fprintf(events,"charnext-call %08lx last-error=%08lx\n",character_pointer,error);hexbytes("charnext-input",character_pointer,string_bytes(character_pointer));point(base+0x821b,27);}
+        else if(p->kind==27){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"charnext-result %08lx delta=%ld last-error=%08lx\n",c.Eax,(long)(c.Eax-character_pointer),error);if(++characters_observed<character_limit)point(base+0x8215,26);}
         else if(p->kind==21){
             readmem(c.Esp,words,16);
             fprintf(events,"driver-main %08lx caller=%08lx argc=%lu argv=%08lx envp=%08lx\n",address,words[0],words[1],words[2],words[3]);
@@ -296,7 +307,22 @@ static int trap(HANDLE thread,DWORD address)
         if(address==base+0x109fd){
             DWORD include;readmem(base+0x25588,&include,4);
             hexbytes("release-block",words[1]-8,528);
+            hexbytes("release-new-block",c.Ebx-8,528);
             hexbytes("release-include",include,string_bytes(include));
+        }
+        {
+            DWORD pointer;
+            readmem(base+0x25588,&pointer,4);if(pointer)hexbytes("include-current-block",pointer-8,528);
+            readmem(base+0x25f4c,&pointer,4);if(pointer){hexbytes("input-temporary",pointer,string_bytes(pointer));hexbytes("input-temporary-block",pointer-8,268);}
+            readmem(base+0x25474,&pointer,4);if(pointer){hexbytes("output-temporary",pointer,string_bytes(pointer));hexbytes("output-temporary-block",pointer-8,268);}
+            readmem(base+0x25994,&pointer,4);if(pointer)hexbytes("output-file-state",pointer,32);
+        }
+        if(address==base+0x856c||address==base+0x8b72){
+            DWORD count,pointer;char label[80];
+            readmem(c.Ebp-4,&count,4);if(count>256)fail("preprocessor-count");
+            fprintf(events,"preprocessor-count %lu\n",count);
+            for(n=0;n<count;++n){readmem(base+0x25590+4*n,&pointer,4);sprintf(label,"preprocessor-argv-%u",n);hexbytes(label,pointer,string_bytes(pointer));}
+            hexbytes("prepare-path",words[1],string_bytes(words[1]));
         }
         {
             FILE *state;
@@ -335,6 +361,14 @@ int main(int argc,char **argv)
     STARTUPINFOA startup;PROCESS_INFORMATION process;DEBUG_EVENT event;
     DWORD status,i;HANDLE thread;FILE *file;char command[2048],tail[1800];const char *directory=NULL;int stop=0;
     if(argc!=4&&argc!=6)return 125;
+    {
+        char value[32];
+        if(GetEnvironmentVariableA("RCDLL_CAPTURE_HEAP_LIMIT",value,sizeof(value)))heap_limit=atoi(value);
+        if(GetEnvironmentVariableA("RCDLL_CAPTURE_FREE_LIMIT",value,sizeof(value)))free_limit=atoi(value);
+        if(GetEnvironmentVariableA("RCDLL_CAPTURE_CHARACTER_LIMIT",value,sizeof(value)))character_limit=atoi(value);
+        if(heap_limit>8192||free_limit>8192||character_limit>8192)return 125;
+        SetEnvironmentVariableA("RCDLL_CAPTURE_HEAP_LIMIT",NULL);SetEnvironmentVariableA("RCDLL_CAPTURE_FREE_LIMIT",NULL);SetEnvironmentVariableA("RCDLL_CAPTURE_CHARACTER_LIMIT",NULL);
+    }
     baseline=!strcmp(argv[1],"baseline");
     if(!baseline&&strcmp(argv[1],"masked"))return 125;
     file=fopen(argv[3],"rb");if(!file)return 125;

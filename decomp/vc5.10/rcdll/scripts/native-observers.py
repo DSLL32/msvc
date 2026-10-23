@@ -34,6 +34,15 @@ class HeapReturned(gdb.FinishBreakpoint):
         self.entry['last_error_after']=int(gdb.parse_and_eval('last_error'))
         if self.entry['operation']=='allocate':
             self.entry['payload']=bytes(gdb.selected_inferior().read_memory(self.entry['result'],self.entry['bytes'])).hex()
+        if self.entry['operation']=='free':
+            cursor=gdb.parse_and_eval('native_heaps')
+            while int(cursor)and int(cursor)!=self.entry['heap']:cursor=cursor.dereference()['next']
+            assert int(cursor),'freed allocation owner disappeared'
+            block=cursor.dereference()['blocks'];live=[]
+            while int(block):
+                item=block.dereference();live.append(dict(payload=int(item['payload'])&0xffffffff,bytes=int(item['requested_size']),flags=int(item['flags'])))
+                block=item['next']
+            self.entry['live_after']=live
         save_heaps();return False
 class HeapEntered(gdb.Breakpoint):
     def __init__(self,name,operation):self.operation=operation;super().__init__(name,internal=True)
@@ -47,6 +56,16 @@ class HeapEntered(gdb.Breakpoint):
         for name,formal in zip(fields,formals):entry[name]=int(frame.read_var(formal))&0xffffffff
         heaps.append(entry);save_heaps();HeapReturned(frame,entry);return False
 HeapEntered('recon_HeapCreate','create');HeapEntered('recon_HeapAlloc','allocate');save_heaps()
+class FreeEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('recon_HeapFree',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_release':return False
+        entry=dict(operation='free',caller=caller.name(),last_error_before=int(gdb.parse_and_eval('last_error')))
+        for name,formal in [('heap','handle'),('flags','flags'),('payload','payload')]:entry[name]=int(frame.read_var(formal))&0xffffffff
+        heaps.append(entry);save_heaps();HeapReturned(frame,entry);return False
+FreeEntered()
+
 
 class Complete(gdb.Breakpoint):
     def __init__(self):super().__init__('fixture_complete',internal=True)

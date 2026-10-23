@@ -14,7 +14,8 @@
     "rc_is_option",
     "rc_emit",
     "rc_message",
-    "rc_format"
+    "rc_format",
+    "rc_release"
   ],
   "functions": [
     {
@@ -72,16 +73,96 @@
       "stub": false,
       "text_data": [
         [
-          "0x845c",
-          "0x84c4"
-        ],
-        [
           "0x11fc",
           "0x11fe"
         ],
         [
+          "0x1218",
+          "0x1219"
+        ],
+        [
+          "0x1244",
+          "0x1247"
+        ],
+        [
+          "0x1264",
+          "0x1268"
+        ],
+        [
+          "0x141c",
+          "0x141f"
+        ],
+        [
+          "0x1420",
+          "0x1423"
+        ],
+        [
+          "0x1424",
+          "0x142c"
+        ],
+        [
+          "0x142c",
+          "0x1430"
+        ],
+        [
+          "0x1430",
+          "0x1433"
+        ],
+        [
+          "0x1434",
+          "0x143b"
+        ],
+        [
+          "0x143c",
+          "0x1445"
+        ],
+        [
+          "0x1464",
+          "0x1471"
+        ],
+        [
+          "0x1474",
+          "0x1477"
+        ],
+        [
+          "0x1478",
+          "0x147b"
+        ],
+        [
+          "0x147c",
+          "0x1480"
+        ],
+        [
+          "0x1480",
+          "0x1485"
+        ],
+        [
+          "0x1488",
+          "0x1491"
+        ],
+        [
+          "0x1494",
+          "0x149d"
+        ],
+        [
+          "0x14b4",
+          "0x14b9"
+        ],
+        [
+          "0x14c4",
+          "0x14c7"
+        ],
+        [
+          "0x14e8",
+          "0x14f3"
+        ],
+        [
           "0x14f8",
           "0x1504"
+        ],
+        [
+          "0x845c",
+          "0x84c4"
         ]
       ]
     },
@@ -110,7 +191,7 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",
-      "stub": true
+      "stub": false
     },
     {
       "name": "rc_is_option",
@@ -258,7 +339,7 @@
     }
   ],
   "lifecycle": "CRT process attach; RC export; CRT process detach",
-  "status": "first RC-export/help case complete; paused",
+  "status": "resources-rich case in progress",
   "support_imports": [
     {
       "name": "import:_initterm",

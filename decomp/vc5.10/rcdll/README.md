@@ -1,16 +1,15 @@
 # RCDLL reconstruction
 
 Target: `toolchains/5.10/bin/RCDLL.DLL` (the toolchain contains no RCDLL.EXE).
-The first `RC` export `/help` case is complete and this worker is paused.
-The conventional application entry is `DllMain` (stdcall, three slots); the
-CRT wrapper and its PE entry symbol remain unchanged. Historical captures retain
-`rcdll_main`; runner/audit adapters explicitly map that one old logical name to
-`DllMain` without editing raw evidence. [Naming verification](cases/help/naming-cleanup.json)
-records the rebuilds and unchanged historical file hashes.
+The first `RC` export `/help` case is complete; the rich resource invocation is
+in progress. Conventional entries are `main`, `DllMain`, `_DllMainCRTStartup`
+and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
+editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
+records unchanged ABIs and function extents.
 
-Nine application functions (4,626 original code bytes), two embedded CRT functions
-(555 bytes), and two import-thunk boundaries have been accepted. Only help has
-been exercised dynamically; other command paths retain named, ABI-correct traps.
+Ten application functions (4,657 original code bytes), two embedded CRT functions
+(555 bytes), and two import-thunk boundaries have been accepted. The rich case
+currently matches at the next named trap, `rc_prepare_input`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -85,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes: accepted application extent coverage is 6.98% (9 functions). This denominator
+bytes. Current accepted application extent coverage is 7.02% (10 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -119,3 +118,16 @@ alias `main` to `rcdll_command_main` so the static harness keeps its own entry.
 Historical captures retain their original labels; bounded metadata aliases
 map those names for comparison. [Naming proof](cases/help/conventional-entry-names.json)
 records unchanged ABIs/extents and original/native build checks.
+
+Resources-rich now accepts `rc_release` (31 bytes); the matched next frontier is
+`rc_prepare_input`. [Verification](cases/resources-rich/release-verification.json)
+and [22 rejection controls](cases/resources-rich/release-gate.json) cover the full
+captured target environment, mutable arguments, live private-heap allocations,
+temporary names, 20 preprocessor arguments and the empty partial resource file.
+Target environment bindings exclude native host controls. Individually bounded
+main literals needed by the rich path were added after the complete-buffer gate
+caught masked string data; no data section is copied into source.
+
+The detailed original API census is opt-in (`--api-census`), separately accounted
+in [api-census.json](cases/resources-rich/api-census.json). Ordinary captures use
+finite observer counts; native fixtures never run that census or Wine.

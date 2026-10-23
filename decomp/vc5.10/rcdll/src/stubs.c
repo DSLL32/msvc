@@ -8,11 +8,6 @@ BOOL WINAPI Handler(DWORD event)
     __asm int 3
     return FALSE;
 }
-int __stdcall rc_release(void *block)
-{
-    __asm int 3
-    return 0;
-}
 void __stdcall rc_fatal(char *message)
 {
     __asm int 3

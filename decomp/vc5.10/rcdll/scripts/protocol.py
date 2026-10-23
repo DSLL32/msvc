@@ -297,7 +297,7 @@ def _rc_host_pair(original,native,stage):
 def dll_main_pair(original,native):return _rc_host_pair(original,native,"DllMain")
 def rc_entry_pair(original,native):return _rc_host_pair(original,native,"RC")
 
-def help_state(original,native,a,b):
+def help_state(original,native,a,b,extra_special=()):
     text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();module=b['module']
     bases=re.findall(r'^module RCDLL.dll actual=([0-9a-f]+) ',text,re.M)
     paths=re.findall(r'^module-path target (.+)$',text,re.M)
@@ -312,7 +312,7 @@ def help_state(original,native,a,b):
     matched={}
     special=['exit-array-pointer','module-handle','diagnostic-callback','opaque-jump-context','private-heap','include-buffer']
     for item in json.loads((HERE/'data.json').read_text()):
-        if item['kind'] in special:continue
+        if item['kind'] in special or item['name']in extra_special:continue
         offset=int(item['original_rva'],16)-0x14000
         value=raw[offset:offset+item['bytes']]
         assert value.hex()==b['globals'][item['name']],item['name']

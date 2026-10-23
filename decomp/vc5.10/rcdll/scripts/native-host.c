@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "rcdll.h"
 #include <recon.h>
 
@@ -14,6 +15,34 @@ int fixture_argument_count;
 char **fixture_argument_vector;
 char *fixture_argument_storage[257];
 unsigned fixture_argument_lengths[257];
+char fixture_host_cwd[4096];
+char *fixture_input_include,*fixture_input_codepage;
+char **fixture_target_environment;
+static int bind_environment(int count,char **vector)
+{
+    const char *name=recon_host_getenv("RECON_RC_ENVIRONMENT");
+    FILE *file;unsigned char *raw;char *text;char **values;
+    unsigned bytes,i,entries;
+    if(!name)return 1; /* Help returns before any target getenv call. */
+    file=fopen(name,"rb");if(!file)return 0;
+    raw=malloc(65536);if(!raw)return 0;
+    bytes=fread(raw,1,65536,file);
+    if(ferror(file)||!feof(file)||bytes<4||(bytes&1))return 0;
+    fclose(file);
+    if(raw[bytes-1]||raw[bytes-2]||raw[bytes-3]||raw[bytes-4])return 0;
+    text=malloc(bytes/2);values=malloc((bytes/2+1)*sizeof(*values));
+    if(!text||!values)return 0;
+    for(i=0;i<bytes/2;++i){if(raw[2*i+1]||raw[2*i]>127)return 0;text[i]=raw[2*i];}
+    free(raw);
+    for(entries=0,i=0;text[i];){
+        if(entries==16384)return 0;values[entries++]=text+i;
+        while(text[i])++i;++i;
+    }
+    if(i!=bytes/2-1)return 0;
+    values[entries]=NULL;fixture_target_environment=values;
+    recon_crt_bind_arguments(count,vector,values);
+    return 1;
+}
 static void bytes(const char *tag, const char *text, unsigned size)
 {
     const unsigned char *at = (const unsigned char *)text;
@@ -65,33 +94,36 @@ int main(int count, char **arguments)
 {
     int result;
     HINSTANCE module;
-    char *program = getenv("RECON_RC_ARGV0");
+    char *program = recon_host_getenv("RECON_RC_ARGV0");
     DWORD opaque_startup = 0;
     char option[] = "/help";
     char *vector[257];
     int target_count, i;
     if (count < 2 || count > 257 || !program) return 125;
+    if(!getcwd(fixture_host_cwd,sizeof(fixture_host_cwd)))return 125;
     target_count = count == 2 ? 2 : count-1;
     events = fopen(arguments[1], "wb");
     if (!events) return 125;
     fixture_module_spec.name = "RCDLL.dll";
-    fixture_module_spec.path = getenv("RECON_RC_DLL_PATH");
+    fixture_module_spec.path = recon_host_getenv("RECON_RC_DLL_PATH");
     fixture_module_spec.sha256 = "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0";
     fixture_module_spec.flags = RECON_MODULE_NO_TLS;
-    if (getenv("RCDLL_NEGATIVE_MODULE_SHA"))
-        fixture_module_spec.sha256 = getenv("RCDLL_NEGATIVE_MODULE_SHA");
+    if (recon_host_getenv("RCDLL_NEGATIVE_MODULE_SHA"))
+        fixture_module_spec.sha256 = recon_host_getenv("RCDLL_NEGATIVE_MODULE_SHA");
     if (!fixture_module_spec.path) return 125;
     fixture_module = recon_register_module(&fixture_module_spec);
     fixture_registered_identity = recon_module_identity(fixture_module);
     if (!fixture_module || !fixture_registered_identity ||
         recon_module_thread_calls_disabled(fixture_module)) return 126;
-    if (!getenv("RECON_RC_RESOURCES")) return 125;
-    recon_load_module_resources(fixture_module,getenv("RECON_RC_RESOURCES"));
+    if (!recon_host_getenv("RECON_RC_RESOURCES")) return 125;
+    recon_load_module_resources(fixture_module,recon_host_getenv("RECON_RC_RESOURCES"));
     module = fixture_module;
     vector[0]=program;
     if (count==2) vector[1]=option;
     else for (i=1; i<target_count; ++i) vector[i]=arguments[i+1];
     vector[target_count]=NULL;
+    if(!bind_environment(target_count,vector))return 125;
+    fixture_input_include=getenv("INCLUDE");fixture_input_codepage=getenv("RCCODEPAGE");
     fixture_argument_count=target_count;fixture_argument_vector=vector;
     for(i=0;i<target_count;++i){fixture_argument_storage[i]=vector[i];fixture_argument_lengths[i]=strlen(vector[i])+1;}
     fprintf(events,"attach\n"); fflush(events);
