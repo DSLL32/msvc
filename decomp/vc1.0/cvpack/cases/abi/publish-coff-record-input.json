@@ -1,0 +1,54 @@
+{
+  "size": 28,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "record",
+  "location": "allocation",
+  "base_register": "ebx",
+  "allocation": {
+    "size": 28,
+    "callee": 184240,
+    "call": 164941,
+    "returned": 164946,
+    "argument": 164939,
+    "carrier": 164949
+  },
+  "callsite": {
+    "start": 165344,
+    "end": 165350,
+    "sha256": "095ff75c42c3e06bc9c0c945acceff61836e1fabe15319a78c3f6f41f3f004aa"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 164939,
+    "end": 165350,
+    "sha256": "8c8c75eb7df4a24f80bdab18830ea74da1ec3f5bffe10c55a42a2b52bccace3a"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 165350
+    }
+  ],
+  "scope": "First actual publication consumes the complete constructor record and its name/line children. Same live malloc28 inEBX/native collect::record. All parent nonpointer bytes defined by zeroing/setters; name allocated length+1 and copied, lines count*6 allocated/read/transformed. Exact child pointer ownership and actual full payloads compared, no other module heap replay.",
+  "mode": "input",
+  "defined_bytes": 28,
+  "children": "coff-function",
+  "child_sources": [
+    {
+      "start": 166288,
+      "end": 166378,
+      "sha256": "659fd82ff8d3ea03840b16434c5802fdcf7ecd0840e75dedd264273d4e32fff9"
+    },
+    {
+      "start": 166800,
+      "end": 167083,
+      "sha256": "c9afaf2f3bf60e9cb526fde09291359695d6baf1afe4bdb30ad2775d681e01a5"
+    }
+  ]
+}

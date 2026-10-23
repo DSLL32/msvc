@@ -405,3 +405,8 @@ void read_coff_function_lines(CoffFunction *record, CoffFunction *previous,
     seek_file(strip_handle, position, 0);
     strip_read_offset = position;
 }
+
+void set_coff_function_end(CoffFunction *record, unsigned long end)
+{
+    record->end = end;
+}

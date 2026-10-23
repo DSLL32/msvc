@@ -17,7 +17,11 @@ def validate(item,pe):
         assert pe.read(a['argument'],2)==b'\x6a\x1c'and pe.read(a['carrier'],2)==b'\x8b\xd8','allocation size/carrier def-use changed'
         assert pe.read(a['call'],1)==b'\xe8'and a['returned']+int.from_bytes(pe.read(a['call']+1,4),'little',signed=True)==a['callee'],'allocation callee changed'
         if proof['base_register']=='ebx':
-            if proof['return_slots']in([dict(slot=0,address=0x2848c)],[dict(slot=0,address=0x285be)]):
+            if proof['return_slots']==[dict(slot=0,address=0x285e6)]:
+                assert proof['mode']=='input'and proof['defined_bytes']==28 and proof['children']=='coff-function','unreviewed publication record'
+                assert [(r['start'],r['end'])for r in proof['child_sources']]==[(0x28990,0x289ea),(0x28b90,0x28cab)],'unreviewed child allocation sources'
+                for r in proof['child_sources']:assert hashlib.sha256(pe.read(r['start'],r['end']-r['start'])).hexdigest()==r['sha256'],'changed child allocation/copy instructions'
+            elif proof['return_slots']in([dict(slot=0,address=0x2848c)],[dict(slot=0,address=0x285be)]):
                 assert proof.get('mode','output')=='output','unexpected constructor output mode'
             else:
                 assert proof['return_slots']==[dict(slot=0,address=0x28521)]and proof['mode']=='input'and proof['consumed_ranges']==[[8,12],[24,26]],'unreviewed allocation consumer'
@@ -57,7 +61,21 @@ def compare(item,descriptions,words,parameters,events,pe):
     defined=None
     if proof.get('mode')=='input':
         old=bytes.fromhex(match[1]);new=bytes.fromhex(actual['prebytes'])
-        if 'consumed_ranges'in proof:
+        if proof.get('children')=='coff-function':
+            left,right=bytearray(old),bytearray(new);children=actual.get('children',{});assert set(children)=={'0','16'},'missing COFF child observations'
+            for field in (0,16):
+                pointer=int.from_bytes(old[field:field+4],'little');native_pointer=int.from_bytes(new[field:field+4],'little')
+                matches=re.findall(r'^coff-child %08x %d ([0-9a-f]+) (\d+) ([0-9a-f]*)$'%(value,field),events,re.M)
+                assert len(matches)==1,'missing/duplicate original COFF child'
+                address,size,payload=matches[0];native=children[str(field)];size=int(size)
+                assert int(address,16)==pointer!=0 and native['address']==native_pointer!=0,'COFF child pointer/owner differs'
+                assert len(bytes.fromhex(payload))==size<=1024 and payload==native['bytes'],'COFF child payload differs'
+                if field:assert size==int.from_bytes(old[20:24],'little')*6,'COFF line allocation extent differs'
+                else:assert payload.endswith('00')and b'\0'not in bytes.fromhex(payload)[:-1],'invalid COFF filename'
+                left[field:field+4]=right[field:field+4]=b'\0'*4
+            assert left==right,'defined COFF parent fields differ'
+            defined=actual_length=proof['size']
+        elif 'consumed_ranges'in proof:
             ranges=proof['consumed_ranges'];assert all(0<=a<b<=proof['size']for a,b in ranges),'consumed field exceeds allocation'
             assert all(old[a:b]==new[a:b]for a,b in ranges),'consumed allocation field differs'
             defined=actual_length=sum(b-a for a,b in ranges)
@@ -70,5 +88,5 @@ def compare(item,descriptions,words,parameters,events,pe):
             r=proof['defined_length'];defined=int.from_bytes(old[r['offset']:r['offset']+r['width']],'little')+r['bias']
             actual_length=int.from_bytes(new[r['offset']:r['offset']+r['width']],'little')+r['bias']
         assert defined==actual_length and 1<=defined<=proof['size'],'invalid defined stack input length'
-        if 'consumed_ranges'not in proof:assert old[:defined]==new[:defined],'defined stack input bytes differ'
+        if 'consumed_ranges'not in proof and not proof.get('children'):assert old[:defined]==new[:defined],'defined stack input bytes differ'
     return dict(defined_input_bytes=defined,original_address=value,native_address=actual['address'],typed_local=actual['local'],original_undefined_bytes=match[1],native_undefined_bytes=actual['prebytes'])

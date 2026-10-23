@@ -5969,13 +5969,16 @@
       "native": "set_coff_function_end",
       "symbol": "_set_coff_function_end",
       "original": 166608,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        166608,
+        166620
+      ],
       "abi": "void set_coff_function_end(CoffFunction *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0116-set_coff_function_end/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5992,7 +5995,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "publish_coff_function",
@@ -6007,7 +6024,16 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/publish-coff-record-input.json",
+          "evidence_sha256": "2dc9bf949c4af8b77448da00b3264c92cf2e6c76b09f8467e0f7f7d22f51b22a"
+        }
+      ]
     },
     {
       "name": "read_coff_auxiliary",
@@ -7054,6 +7080,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 115
+    },
+    {
+      "function": "set_coff_function_end",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 116
     }
   ],
   "support_unmasked": [
@@ -7652,7 +7684,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "75669b22ef70ef186b599ed2936dd99134d68d4c385331410daf625fec2e58a2"
+    "evidence_sha256": "c206a82b86cab92a8ce7b15e509818aff45ae27ef95a9997051aa6d9268c4d38"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7728,6 +7760,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "e355d1ec316c8a513ad23c3cd5db2e25531178046dd8e0ee6106a1e120790fda"
+    "sha256": "055d89712f7b7f55e91ae9c73289f29d4356ad68067c5c390ab91d147a699657"
   }
 }

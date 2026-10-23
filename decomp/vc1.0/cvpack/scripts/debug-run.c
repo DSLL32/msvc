@@ -827,6 +827,35 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
     return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;
 }
 
+/* Publication consumes this one live CoffFunction and its two owned children. */
+static int dump_coff_children(HANDLE child, HANDLE log, DWORD parent)
+{
+    DWORD fields[7], offset, pointer, size, bytes, written, i;
+    int used;
+    if (!ReadProcessMemory(child, (void *)parent, fields, sizeof(fields), &bytes) || bytes != sizeof(fields)) return 0;
+    for (offset = 0; offset <= 16; offset += 16) {
+        pointer = fields[offset/4];
+        if (!pointer) return 0;
+        if (!offset) {
+            for (size = 0; size < 1024; ++size) {
+                if (!ReadProcessMemory(child, (void *)(pointer+size), array_bytes+size, 1, &bytes) || bytes != 1) return 0;
+                if (!array_bytes[size]) break;
+            }
+            if (size == 1024) return 0;
+            ++size;
+        } else {
+            if (fields[5] > 1024/6) return 0;
+            size = fields[5]*6;
+            if (size && (!ReadProcessMemory(child, (void *)pointer, array_bytes, size, &bytes) || bytes != size)) return 0;
+        }
+        used = sprintf(object_line, "coff-child %08lx %lu %08lx %lu ", parent, offset, pointer, size);
+        for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", array_bytes[i]);
+        object_line[used++] = '\n';
+        if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+    }
+    return 1;
+}
+
 static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *words, CONTEXT *context)
 {
     char specifications[2048], *cursor;
@@ -845,6 +874,8 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            if (entry == 0x28e00 && slot == 1 && size == 28 && input &&
+                !dump_coff_children(child, log, pointer)) return 0;
         }
         cursor += consumed;
         if (*cursor == ',') ++cursor;
