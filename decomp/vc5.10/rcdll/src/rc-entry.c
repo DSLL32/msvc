@@ -11,5 +11,5 @@ int WINAPI RC(HWND window, DWORD unused, RC_DIAGNOSTIC diagnostic,
     rc_window = window;
     rc_diagnostic = diagnostic;
     rc_resource = resource;
-    return rc_main(count, arguments);
+    return main(count, arguments);
 }

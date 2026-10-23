@@ -51,8 +51,8 @@ for i in range(count):
     ids.append(low)
 assert ids==[10001,20001]
 text=(HERE/'build/rcdll.map').read_text()
-for name in ['_Handler@4','_RC@24','_recon_dll_entry@12','_DllMain@12']:assert re.search(r'\s'+re.escape(name)+r'\s',text),name
+for name in ['_Handler@4','_RC@24','__DllMainCRTStartup@12','__CRT_INIT@12','_main','_DllMain@12']:assert re.search(r'\s'+re.escape(name)+r'\s',text),name
 assert '_rcdll_main@12' not in text,'obsolete application-entry symbol'
-entry=re.findall(r'\s_recon_dll_entry@12\s+([0-9a-fA-F]+)\s',text);assert len(entry)==1
+entry=re.findall(r'\s__DllMainCRTStartup@12\s+([0-9a-fA-F]+)\s',text);assert len(entry)==1
 assert int(entry[0],16)==new['base']+new['entry']
-print(json.dumps(dict(status='pass',exports=new['exports'],entry_symbol='_recon_dll_entry@12',application_entry_symbol='_DllMain@12',tls=False,message_ids=ids,message_language=1033,rebuilt_sha256=sha(HERE/'build/RCDLL.DLL'))))
+print(json.dumps(dict(status='pass',exports=new['exports'],entry_symbol='__DllMainCRTStartup@12',application_entry_symbol='_DllMain@12',tls=False,message_ids=ids,message_language=1033,rebuilt_sha256=sha(HERE/'build/RCDLL.DLL'))))

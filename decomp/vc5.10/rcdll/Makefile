@@ -22,11 +22,11 @@ build build/native:
 build/%.obj: src/%.c $(HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /I$(RECON)/include /Fo$@ $<
 build/RCDLL.DLL build/rcdll.map &: $(OBJECTS) src/rcdll.def build/help.res
-	$(TOOL) LINK.EXE /nologo /DLL /entry:recon_dll_entry@12 /def:src/rcdll.def /map:build/rcdll.map /out:build/RCDLL.DLL $(OBJECTS) build/help.res $(TC)/lib/MSVCRT.LIB kernel32.lib user32.lib
+	$(TOOL) LINK.EXE /nologo /DLL /entry:_DllMainCRTStartup@12 /def:src/rcdll.def /map:build/rcdll.map /out:build/RCDLL.DLL $(OBJECTS) build/help.res $(TC)/lib/MSVCRT.LIB kernel32.lib user32.lib
 	$(PYTHON) scripts/source-snapshot.py original build/original-source.json
 original: build/RCDLL.DLL
 build/native/%.o: src/%.c $(HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -Dmain=rcdll_command_main -finstrument-functions -c $< -o $@
 build/native/rcdll-host: $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) $(HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-source.json

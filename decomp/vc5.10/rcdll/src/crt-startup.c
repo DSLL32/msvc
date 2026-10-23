@@ -13,7 +13,7 @@ DLL_EXIT_FUNCTION *dll_exit_base;
 DLL_EXIT_FUNCTION dll_constructors[1];
 
 /* Embedded CRT _CRT_INIT, RVA12bb0..12d1c. */
-BOOL WINAPI rcdll_crt_init(HINSTANCE instance, DWORD reason, LPVOID reserved)
+BOOL WINAPI _CRT_INIT(HINSTANCE instance, DWORD reason, LPVOID reserved)
 {
     DWORD version;
     DLL_EXIT_FUNCTION *entry;

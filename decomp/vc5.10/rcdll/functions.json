@@ -4,11 +4,11 @@
   "image_base": "0x71c20000",
   "entry_rva": "0x12d20",
   "accepted": [
-    "recon_dll_entry",
-    "rcdll_crt_init",
+    "_DllMainCRTStartup",
+    "_CRT_INIT",
     "DllMain",
     "RC",
-    "rc_main",
+    "main",
     "rc_initialize",
     "rc_allocate",
     "rc_is_option",
@@ -18,7 +18,7 @@
   ],
   "functions": [
     {
-      "name": "recon_dll_entry",
+      "name": "_DllMainCRTStartup",
       "start": "0x12d20",
       "end": "0x12ddf",
       "abi": "stdcall",
@@ -54,7 +54,7 @@
       "stub": false
     },
     {
-      "name": "rcdll_crt_init",
+      "name": "_CRT_INIT",
       "start": "0x12bb0",
       "end": "0x12d1c",
       "abi": "stdcall",
@@ -63,7 +63,7 @@
       "stub": false
     },
     {
-      "name": "rc_main",
+      "name": "main",
       "start": "0x7443",
       "end": "0x845c",
       "abi": "cdecl",

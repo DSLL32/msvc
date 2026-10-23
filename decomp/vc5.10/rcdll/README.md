@@ -111,3 +111,11 @@ The capture includes actual loaded RC/RCDLL/CRT identities, the six export slots
 mutable argument pointers, Windows environment and working directory. RC and
 CVTRES consume this verified reference independently of RCDLL reconstruction.
 Its original capture took 0.666 seconds; no new target function is accepted yet.
+
+Current entry names use the conventional `main`, `DllMain`,
+`_DllMainCRTStartup` and `_CRT_INIT` identities. These names are inferred from
+function roles, not recovered debug symbols. Native target translation units
+alias `main` to `rcdll_command_main` so the static harness keeps its own entry.
+Historical captures retain their original labels; bounded metadata aliases
+map those names for comparison. [Naming proof](cases/help/conventional-entry-names.json)
+records unchanged ABIs/extents and original/native build checks.

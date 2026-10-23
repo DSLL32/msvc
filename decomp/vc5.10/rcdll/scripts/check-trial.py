@@ -7,7 +7,7 @@ import shutil
 import tempfile
 from protocol import LOGICAL_NAME_ALIASES,entry_trial_pair,crt_init_pair,dll_main_pair,rc_entry_pair,rc_main_pair,rc_initialize_pair,rc_allocate_pair,rc_is_option_pair,rc_emit_pair,rc_message_pair,rc_format_pair,sha,HERE
 p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path)
-p.add_argument('--frozen-trial',choices=['rc_format']);a=p.parse_args();trial=a.frozen_trial or json.loads((HERE/'functions.json').read_text())['trial_function'];validate={'recon_dll_entry':entry_trial_pair,'rcdll_crt_init':crt_init_pair,'DllMain':dll_main_pair,'RC':rc_entry_pair,'rc_main':rc_main_pair,'rc_initialize':rc_initialize_pair,'rc_allocate':rc_allocate_pair,'rc_is_option':rc_is_option_pair,'rc_emit':rc_emit_pair,'rc_message':rc_message_pair,'rc_format':rc_format_pair}[trial];proof=validate(a.original,a.native)
+p.add_argument('--frozen-trial',choices=['rc_format']);a=p.parse_args();trial=a.frozen_trial or json.loads((HERE/'functions.json').read_text())['trial_function'];validate={'_DllMainCRTStartup':entry_trial_pair,'_CRT_INIT':crt_init_pair,'DllMain':dll_main_pair,'RC':rc_entry_pair,'main':rc_main_pair,'rc_initialize':rc_initialize_pair,'rc_allocate':rc_allocate_pair,'rc_is_option':rc_is_option_pair,'rc_emit':rc_emit_pair,'rc_message':rc_message_pair,'rc_format':rc_format_pair}[trial];proof=validate(a.original,a.native)
 checks=[]
 with tempfile.TemporaryDirectory(prefix='trial-negatives-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     def rejected(name,mutate):
@@ -23,7 +23,7 @@ with tempfile.TemporaryDirectory(prefix='trial-negatives-',dir=Path.home()/'.ai-
         def change(old,new):
             path=new/'snapshot.json';raw=json.loads(path.read_text());raw['arguments'][field]=value;path.write_text(json.dumps(raw));refresh(new,'snapshot.json')
         return change
-    if trial not in ['DllMain','RC','rc_main','rc_initialize','rc_allocate','rc_is_option','rc_emit','rc_message','rc_format']:
+    if trial not in ['DllMain','RC','main','rc_initialize','rc_allocate','rc_is_option','rc_emit','rc_message','rc_format']:
         rejected('changed-reason',native_field('reason',0))
         rejected('changed-module',native_field('instance',0))
         rejected('zero-startup-context',native_field('reserved',0))
@@ -62,7 +62,7 @@ with tempfile.TemporaryDirectory(prefix='trial-negatives-',dir=Path.home()/'.ai-
         def heap(old,new):
             path=new/'snapshot.json';raw=json.loads(path.read_text());raw['heap'][0]['flags']=0;path.write_text(json.dumps(raw));refresh(new,'snapshot.json')
         rejected('wrong-heap-create-flags',heap)
-    elif trial=='rc_main':
+    elif trial=='main':
         def jump(old,new):
             path=new/'snapshot.json';raw=json.loads(path.read_text());raw['jump']['opaque_setjmp3']=0;path.write_text(json.dumps(raw));refresh(new,'snapshot.json')
         rejected('ordinary-context-instead-of-setjmp3',jump)
@@ -98,7 +98,7 @@ with tempfile.TemporaryDirectory(prefix='trial-negatives-',dir=Path.home()/'.ai-
         return change
     rejected('wrong-loaded-target',wrong_module('loaded-target.bin'))
     rejected('wrong-loaded-crt',wrong_module('loaded-crt.bin'))
-    if trial=='rcdll_crt_init':
+    if trial=='_CRT_INIT':
         def allocation(field,value):
             def change(old,new):
                 path=new/'snapshot.json';raw=json.loads(path.read_text());raw['allocations'][0][field]=value;path.write_text(json.dumps(raw));refresh(new,'snapshot.json')

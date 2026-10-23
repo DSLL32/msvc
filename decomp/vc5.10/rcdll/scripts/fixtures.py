@@ -7,7 +7,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import time
-from protocol import HERE,ROOT,callbacks,sha,logical_trace,LOGICAL_NAME_ALIASES
+from protocol import HERE,ROOT,callbacks,sha,logical_trace,LOGICAL_NAME_ALIASES,native_name
 
 def run():
     started=time.perf_counter();reference=HERE/'cases/help/reference'
@@ -18,7 +18,7 @@ def run():
     native=HERE/'build/native/rcdll-host';config=json.loads((HERE/'functions.json').read_text())
     names=[f['name']for f in config['functions']if f['kind']=='application' and f['name'] in config['accepted']]
     with tempfile.TemporaryDirectory(prefix='help-fixture-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
-        out=Path(scratch);(out/'filter.txt').write_text(''.join(name+'\n'for name in names));(out/'seen.txt').write_text('')
+        out=Path(scratch);(out/'filter.txt').write_text(''.join(native_name(name)+'\n'for name in names));(out/'seen.txt').write_text('')
         env=os.environ.copy()
         for key in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH','RCDLL_NEGATIVE_MODULE_SHA','RECON_TRACE_STATE_FD']:env.pop(key,None)
         env.update(RECON_RC_ARGV0=manifest['argv0'],RECON_RC_DLL_PATH=manifest['module_path'],RECON_RC_RESOURCES=str(HERE/'build/help-resources.bin'),RECON_TRACE_FILTER=str(out/'filter.txt'),RECON_TRACE_SEEN=str(out/'seen.txt'))

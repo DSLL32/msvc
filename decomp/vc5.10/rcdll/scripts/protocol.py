@@ -12,15 +12,29 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 NATIVE_PROOF_IMAGE=None
 def native_image():return NATIVE_PROOF_IMAGE or HERE/'build/native/rcdll-host'
 # Naming compatibility only: historical raw captures/receipts retain their names.
-LOGICAL_NAME_ALIASES={'rcdll_main':'DllMain'}
+HISTORICAL_IDENTITIES={
+    'rcdll_main':('DllMain',0x8b29,0x8b46,'stdcall',12),
+    'recon_dll_entry':('_DllMainCRTStartup',0x12d20,0x12ddf,'stdcall',12),
+    'rcdll_crt_init':('_CRT_INIT',0x12bb0,0x12d1c,'stdcall',12),
+    'rc_main':('main',0x7443,0x845c,'cdecl',0),
+}
+LOGICAL_NAME_ALIASES={name:value[0]for name,value in HISTORICAL_IDENTITIES.items()}
+LOGICAL_NAME_ALIASES['rcdll_command_main']='main' # Native target-TU linker alias only.
 def logical_name(name):return LOGICAL_NAME_ALIASES.get(name,name)
+def native_name(name):return 'rcdll_command_main' if name=='main' else name
 def logical_trace(text):return [logical_name(name)for name in text.splitlines()]
+def normalize_runtime(value):
+    if isinstance(value,list):return [normalize_runtime(item)for item in value]
+    if isinstance(value,dict):return {key:(logical_name(item)if key in ['function','caller']and isinstance(item,str)else normalize_runtime(item))for key,item in value.items()}
+    return value
 def normalize_configuration(raw):
-    # Return a separate logical view; never rewrite the frozen configuration.
+    # A logical view only. Never rewrite immutable historical evidence.
     config=json.loads(json.dumps(raw))
     for function in config['functions']:
-        if function['name'] in LOGICAL_NAME_ALIASES:
-            assert int(function['start'],16)==0x8b29 and function['abi']=='stdcall' and function['stack_bytes']==12
+        if function['name'] in HISTORICAL_IDENTITIES:
+            name,start,end,abi,slots=HISTORICAL_IDENTITIES[function['name']]
+            assert (int(function['start'],16),int(function['end'],16),function['abi'],function['stack_bytes'])==(start,end,abi,slots),'unbound historical alias'
+        else:assert function['name']!='rcdll_command_main','native linker alias is not an original logical ID'
         function['name']=logical_name(function['name'])
     config['accepted']=[logical_name(name)for name in config['accepted']]
     if config.get('trial_function'):config['trial_function']=logical_name(config['trial_function'])
@@ -122,12 +136,11 @@ def native_raw(snapshot):
         kind,offset,start,_,filesize=struct.unpack_from('<IIIII',binary,phoff+size*index)
         if kind==1 and start<=elf_pc-1<start+filesize:loaded.append(binary[offset+elf_pc-1-start])
     assert loaded==[0xcc],'raw GDB PC does not follow an INT3 in current ELF bytes'
-    raw['function']=logical_name(raw['function'])
-    return raw
+    return normalize_runtime(raw)
 
 def initial_pair(original,native):
     a=original_raw(original);b=native_raw(native)
-    assert a['function']==b['function']=='recon_dll_entry'
+    assert a['function']==b['function']=='_DllMainCRTStartup'
     assert a['rva']==int(b['rva'],16)==0x12d20
     assert a['words'][1]==b['arguments']['instance']==0x71c20000
     assert a['words'][2]==b['arguments']['reason']==1
@@ -140,8 +153,8 @@ def entry_trial_pair(original,native):
     """First source body: only argument forwarding and two read-only globals."""
     a=original_raw(original);b=native_raw(native)
     config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')=='recon_dll_entry' and config['accepted']==[]
-    assert a['function']==b['function']=='rcdll_crt_init' and a['rva']==int(b['rva'],16)==0x12bb0
+    assert config.get('trial_function')=='_DllMainCRTStartup' and config['accepted']==[]
+    assert a['function']==b['function']=='_CRT_INIT' and a['rva']==int(b['rva'],16)==0x12bb0
     module=b['module']
     assert b['arguments']['instance']==module['token'] and module['token']!=0
     assert module['name'].lower()=='rcdll.dll' and module['flags']==2
@@ -155,7 +168,7 @@ def entry_trial_pair(original,native):
     assert a['words'][3] and b['arguments']['reserved'],'opaque process-startup context must remain nonNULL'
     assert 0x71c32d20<=a['words'][0]<0x71c32ddf,'original next call is not from startup wrapper'
     gdb=(native/'gdb.stdout').read_text()
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in recon_dll_entry\s*\(',gdb,re.M),'native next call is not from startup wrapper'
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in (?:_DllMainCRTStartup|recon_dll_entry)\s*\(',gdb,re.M),'native next call is not from startup wrapper'
     for stream in ['stdout.bin','stderr.bin']:
         assert (original/stream).read_bytes()==(native/stream).read_bytes()==b''
     old=(original/'globals.bin').read_bytes()
@@ -172,7 +185,7 @@ def entry_trial_pair(original,native):
     assert matched['dll_attach_count']=='00000000'
     trace=[int(v,16)for v in re.findall(r'^entry ([0-9a-f]+)$',(original/'events.txt').read_text(),re.M)]
     assert trace==[0x12d20],'wrong trial execution prefix'
-    return dict(trial='recon_dll_entry',matched_frontier='rcdll_crt_init',globals=matched,arguments=dict(original_instance=a['words'][1],native_instance=b['arguments']['instance'],registered_module=module,reason=a['words'][2],original_reserved=a['words'][3],native_reserved=b['arguments']['reserved'],reserved_contract='opaque nonNULL process-startup context; wrapper only forwards, no dereference'),application_functions=0,crt_support_functions=1)
+    return dict(trial='_DllMainCRTStartup',matched_frontier='_CRT_INIT',globals=matched,arguments=dict(original_instance=a['words'][1],native_instance=b['arguments']['instance'],registered_module=module,reason=a['words'][2],original_reserved=a['words'][3],native_reserved=b['arguments']['reserved'],reserved_contract='opaque nonNULL process-startup context; wrapper only forwards, no dereference'),application_functions=0,crt_support_functions=1)
 
 def lifecycle_arguments(original,native,a,b):
     module=b['module']
@@ -192,8 +205,8 @@ def lifecycle_arguments(original,native,a,b):
 def crt_init_pair(original,native):
     a=original_raw(original);b=native_raw(native)
     config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')=='rcdll_crt_init'
-    assert config['accepted']==['recon_dll_entry']
+    assert config.get('trial_function')=='_CRT_INIT'
+    assert config['accepted']==['_DllMainCRTStartup']
     assert a['function']==b['function']=='DllMain' and a['rva']==int(b['rva'],16)==0x8b29
     arguments=lifecycle_arguments(original,native,a,b)
     raw=(original/'globals.bin').read_bytes();matched={}
@@ -213,18 +226,18 @@ def crt_init_pair(original,native):
     assert sizes==[128] and pointers==[old_base] and old_end==old_base!=0 and heads==['00000000']
     new=b['exit_array']
     assert new['base']==new['end'] and new['first']=='00000000'
-    assert b['allocations']==[dict(caller='rcdll_crt_init',bytes=128,result=new['base'])]
+    assert b['allocations']==[dict(caller='_CRT_INIT',bytes=128,result=new['base'])]
     assert int.from_bytes(bytes.fromhex(b['globals']['dll_exit_base']),'little')==new['base']
     assert int.from_bytes(bytes.fromhex(b['globals']['dll_exit_end']),'little')==new['end']
     assert re.findall(r'^entry ([0-9a-f]+)$',text,re.M)==['00012d20','00012bb0','00012e26']
     for stream in ['stdout.bin','stderr.bin']:assert (original/stream).read_bytes()==(native/stream).read_bytes()==b''
-    return dict(trial='rcdll_crt_init',matched_frontier='DllMain',arguments=arguments,globals=matched,exit_vector=dict(request_bytes=128,logical_cursor=0,first_callback=None,unwritten_tail='unread in this case; no callbacks registered'),application_functions=0,crt_support_functions=2,import_boundaries=1)
+    return dict(trial='_CRT_INIT',matched_frontier='DllMain',arguments=arguments,globals=matched,exit_vector=dict(request_bytes=128,logical_cursor=0,first_callback=None,unwritten_tail='unread in this case; no callbacks registered'),application_functions=0,crt_support_functions=2,import_boundaries=1)
 
 def _rc_host_pair(original,native,stage):
     a=original_raw(original);b=native_raw(native)
     config=read_configuration(original/'functions.json')
-    prefix=['recon_dll_entry','rcdll_crt_init']
-    expected='RC' if stage=='DllMain' else 'rc_main'
+    prefix=['_DllMainCRTStartup','_CRT_INIT']
+    expected='RC' if stage=='DllMain' else 'main'
     expected_rva=0x8b46 if stage=='DllMain' else 0x7443
     assert config.get('trial_function')==stage and config['accepted']==prefix+([] if stage=='DllMain' else ['DllMain'])
     assert a['function']==b['function']==expected and a['rva']==int(b['rva'],16)==expected_rva
@@ -254,7 +267,7 @@ def _rc_host_pair(original,native,stage):
     assert [int(v,16)for v in re.findall(r'^crt-malloc-result ([0-9a-f]+)$',text,re.M)]==[old_base]
     assert old_base==old_end!=0 and re.findall(r'^crt-exit-head 4 ([0-9a-f]+)$',text,re.M)==['00000000']
     assert new['base']==new['end']!=0 and new['first']=='00000000'
-    assert b['allocations']==[dict(caller='rcdll_crt_init',bytes=128,result=new['base'])]
+    assert b['allocations']==[dict(caller='_CRT_INIT',bytes=128,result=new['base'])]
     for field in ['base','end']:
         assert int.from_bytes(bytes.fromhex(b['globals']['dll_exit_'+field]),'little')==new[field]
     args=b['arguments'];words=a['words']
@@ -309,7 +322,7 @@ def help_state(original,native,a,b):
     assert [int(v,16)for v in re.findall(r'^crt-malloc-result ([0-9a-f]+)$',text,re.M)]==[old_base]
     assert old_base==old_end!=0 and re.findall(r'^crt-exit-head 4 ([0-9a-f]+)$',text,re.M)==['00000000']
     assert new['base']==new['end']!=0 and new['first']=='00000000'
-    assert b['allocations']==[dict(caller='rcdll_crt_init',bytes=128,result=new['base'])]
+    assert b['allocations']==[dict(caller='_CRT_INIT',bytes=128,result=new['base'])]
     for field in ['base','end']:assert int.from_bytes(bytes.fromhex(b['globals']['dll_exit_'+field]),'little')==new[field]
     assert struct.unpack_from('<III',raw,0x11f58)==(0,0x01001100,0)
     assert matched['rc_window']==matched['rc_resource']=='00000000'
@@ -320,11 +333,11 @@ def help_state(original,native,a,b):
 def rc_main_pair(original,native):
     a=original_raw(original);b=native_raw(native)
     config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')=='rc_main'
-    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','DllMain','RC']
+    assert config.get('trial_function')=='main'
+    assert config['accepted']==['_DllMainCRTStartup','_CRT_INIT','DllMain','RC']
     assert a['function']==b['function']=='rc_initialize' and a['rva']==int(b['rva'],16)==0x84c4
     assert a['words'][0]==0x71c2747a
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in (?:rcdll_command_main|rc_main)\s*\(',(native/'gdb.stdout').read_text(),re.M)
     matched=help_state(original,native,a,b)
     for field in ['rc_heap','rc_include_paths']:
         item=next(v for v in json.loads((HERE/'data.json').read_text())if v['name']==field)
@@ -347,16 +360,16 @@ def rc_main_pair(original,native):
     assert b['globals']['rc_abort_context']=='00'*64
     assert re.findall(r'^entry ([0-9a-f]+)$',text,re.M)==['00012d20','00012bb0','00012e26','00008b29','00008b46','00007443','00012de0']
     for stream in ['stdout.bin','stderr.bin']:assert (original/stream).read_bytes()==(native/stream).read_bytes()==b''
-    return dict(trial='rc_main',matched_frontier='rc_initialize',globals=matched,jump_context=dict(original_raw=context.hex(),registration=int(calls[0][2],16),try_level=int(calls[0][3],16),native=jump,contract='opaque count0 save; real caller-frame host context; target buffer never read, target longjmp/unwind rejected'),application_functions=3,crt_support_functions=2,import_boundaries=2)
+    return dict(trial='main',matched_frontier='rc_initialize',globals=matched,jump_context=dict(original_raw=context.hex(),registration=int(calls[0][2],16),try_level=int(calls[0][3],16),native=jump,contract='opaque count0 save; real caller-frame host context; target buffer never read, target longjmp/unwind rejected'),application_functions=3,crt_support_functions=2,import_boundaries=2)
 
 def rc_initialize_pair(original,native):
     a=original_raw(original);b=native_raw(native)
     config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_initialize'
-    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','DllMain','RC','rc_main']
+    assert config['accepted']==['_DllMainCRTStartup','_CRT_INIT','DllMain','RC','main']
     assert a['function']==b['function']=='rc_allocate' and a['rva']==int(b['rva'],16)==0x109b2
     assert a['words'][0]==0x71c274b7 and a['words'][1]==b['arguments']['bytes']==520
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in (?:rcdll_command_main|rc_main)\s*\(',(native/'gdb.stdout').read_text(),re.M)
     matched=help_state(original,native,a,b)
     assert matched['rc_language']=='8000'
     text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes()
@@ -400,10 +413,10 @@ def help_allocation(original,b,global_name='globals.bin'):
 def rc_allocate_pair(original,native):
     a=original_raw(original);b=native_raw(native);config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_allocate'
-    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','DllMain','RC','rc_main','rc_initialize']
+    assert config['accepted']==['_DllMainCRTStartup','_CRT_INIT','DllMain','RC','main','rc_initialize']
     assert a['function']==b['function']=='rc_is_option' and a['rva']==int(b['rva'],16)==0x10c4c
     assert a['words'][0]==0x71c274dc and a['words'][1]&255==b['arguments']['value']==ord('/')
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in (?:rcdll_command_main|rc_main)\s*\(',(native/'gdb.stdout').read_text(),re.M)
     matched=help_state(original,native,a,b);allocation=help_allocation(original,b)
     assert re.findall(r'^entry ([0-9a-f]+)$',(original/'events.txt').read_text(),re.M)==['00012d20','00012bb0','00012e26','00008b29','00008b46','00007443','00012de0','000084c4','000109b2']
     for stream in ['stdout.bin','stderr.bin']:assert (original/stream).read_bytes()==(native/stream).read_bytes()==b''
@@ -483,7 +496,7 @@ def native_completion(snapshot):
     start=[a for a,n in funcs if n=='fixture_complete'];assert len(start)==1
     elf_pc=start[0]+raw['raw_pc']-int(runtime[0],16)
     assert start[0]<=elf_pc<min(a for a,n in funcs if a>start[0])
-    return raw
+    return normalize_runtime(raw)
 
 def rc_format_pair(original,native):
     original_raw(original,complete=True);b=native_completion(native)

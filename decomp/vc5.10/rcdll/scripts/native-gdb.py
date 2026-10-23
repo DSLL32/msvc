@@ -8,12 +8,12 @@ from pathlib import Path
 output=Path(os.environ['RCDLL_NATIVE_SNAPSHOT'])
 config_path=Path(os.environ['RCDLL_NATIVE_CONFIG'])
 sys.path.insert(0,str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent))
-from protocol import read_configuration
+from protocol import read_configuration,logical_name
 config=read_configuration(config_path)
 def capture():
     try:
         frame=gdb.newest_frame()
-        name=frame.name()
+        raw_name=frame.name();name=logical_name(raw_name)
         matches=[f for f in config['functions'] if f['name']==name]
         pc=int(gdb.parse_and_eval('$eip'))
         instruction=bytes(gdb.selected_inferior().read_memory(pc-1,1))
@@ -24,10 +24,10 @@ def capture():
         f=dict(start=None) if complete else matches[0]
         gdb.execute('printf "RCDLL_PC=%08x\\n", $pc')
         gdb.execute('bt')
-        gdb.execute('info address '+name)
+        gdb.execute('info address '+raw_name)
         registers={n:int(gdb.parse_and_eval('$'+n))&0xffffffff for n in ['eip','esp','ebp','eax','ecx','edx','ebx','esi','edi']}
         arguments={'result':int(frame.read_var('result'))} if complete else {}
-        if name in ['recon_dll_entry','DllMain','rcdll_crt_init']:
+        if name in ['_DllMainCRTStartup','DllMain','_CRT_INIT']:
             arguments={n:int(frame.read_var(n))&0xffffffff for n in ['instance','reason','reserved']}
         globals={}
         for item in json.loads((config_path.parent/'data.json').read_text()):
@@ -45,13 +45,13 @@ def capture():
             vector=frame.read_var('arguments');arguments['argv']=[vector[n].string()for n in range(arguments['count'])]
             arguments['terminator']=int(vector[arguments['count']])
             arguments['host_callback']=int(gdb.parse_and_eval('(void *)fixture_diagnostic'))&0xffffffff
-        if name=='rc_main':
+        if name=='main':
             arguments['count']=int(frame.read_var('count'))
             vector=frame.read_var('arguments');arguments['argv']=[vector[n].string()for n in range(arguments['count'])]
             arguments['terminator']=int(vector[arguments['count']])
             arguments['host_callback']=int(gdb.parse_and_eval('(void *)fixture_diagnostic'))&0xffffffff
         jump=None
-        if any(f['name']=='rc_main' and not f.get('stub')for f in config['functions']):
+        if any(f['name']=='main' and not f.get('stub')for f in config['functions']):
             cursor=gdb.parse_and_eval('jump_contexts')
             legacy=int(gdb.parse_and_eval('&rc_abort_context'))
             while int(cursor):
@@ -104,7 +104,7 @@ def capture():
                     break
                 cursor=cursor.dereference()['next']
         heap=json.loads((output.parent/'heap.json').read_text()) if (output.parent/'heap.json').exists() else []
-        result=dict(export_vector=vector,heap_identity=heap_identity,heap=heap,diagnostic_callback=int(gdb.parse_and_eval("(void *)fixture_diagnostic"))&0xffffffff,jump=jump,exit_array=exit_array,allocations=json.loads((output.parent/'allocations.json').read_text()),module=module,globals=globals,kind='completion' if complete else 'frontier',function=name,rva=f['start'],raw_pc=pc,executed_byte=instruction.hex(),registers=registers,arguments=arguments,config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest())
+        result=dict(export_vector=vector,heap_identity=heap_identity,heap=heap,diagnostic_callback=int(gdb.parse_and_eval("(void *)fixture_diagnostic"))&0xffffffff,jump=jump,exit_array=exit_array,allocations=json.loads((output.parent/'allocations.json').read_text()),module=module,globals=globals,kind='completion' if complete else 'frontier',function=raw_name,rva=f['start'],raw_pc=pc,executed_byte=instruction.hex(),registers=registers,arguments=arguments,config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest())
     except Exception as error:
         result=dict(kind='error',error=str(error))
     output.write_text(json.dumps(result,indent=2)+'\n')

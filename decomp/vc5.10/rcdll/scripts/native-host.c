@@ -95,14 +95,14 @@ int main(int count, char **arguments)
     fixture_argument_count=target_count;fixture_argument_vector=vector;
     for(i=0;i<target_count;++i){fixture_argument_storage[i]=vector[i];fixture_argument_lengths[i]=strlen(vector[i])+1;}
     fprintf(events,"attach\n"); fflush(events);
-    if (!recon_dll_entry(module,DLL_PROCESS_ATTACH,&opaque_startup)) return 126;
+    if (!_DllMainCRTStartup(module,DLL_PROCESS_ATTACH,&opaque_startup)) return 126;
     fixture_thread_calls_disabled = recon_module_thread_calls_disabled(module);
     if (!fixture_thread_calls_disabled) return 126;
     fprintf(events,"export-call RC 0 0 callback 0 %d\n",target_count); fflush(events);
     result=RC(NULL,0,fixture_diagnostic,NULL,target_count,vector);
     fprintf(events,"export-return %d\n",result); fflush(events);
     fprintf(events,"detach\n"); fflush(events);
-    if (!recon_dll_entry(module,DLL_PROCESS_DETACH,(LPVOID)1)) return 126;
+    if (!_DllMainCRTStartup(module,DLL_PROCESS_DETACH,(LPVOID)1)) return 126;
     fprintf(events,"detach-return 1\n");
     fclose(events);
     fixture_complete(result);

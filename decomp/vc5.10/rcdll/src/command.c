@@ -33,7 +33,7 @@ int rc_new_style, rc_warnings, rc_special_type_count;
 WCHAR rc_special_file[257];
 WCHAR *rc_special_types[16];
 
-int __cdecl rc_main(int count, char **arguments)
+int __cdecl main(int count, char **arguments)
 {
     char *defines[100], *undefines[100];
     char drive[4], directory[256], name[256], extension[256];

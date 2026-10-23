@@ -8,7 +8,7 @@ from audit import run
 p=argparse.ArgumentParser();p.add_argument('--original',type=Path,required=True);p.add_argument('--native',type=Path,required=True);p.add_argument('--check-only',action='store_true')
 a=p.parse_args()
 config=json.loads((HERE/'functions.json').read_text())
-contracts={'recon_dll_entry':entry_trial_pair,'rcdll_crt_init':crt_init_pair,'DllMain':dll_main_pair,'RC':rc_entry_pair,'rc_main':rc_main_pair,'rc_initialize':rc_initialize_pair,'rc_allocate':rc_allocate_pair,'rc_is_option':rc_is_option_pair,'rc_emit':rc_emit_pair,'rc_message':rc_message_pair,'rc_format':rc_format_pair}
+contracts={'_DllMainCRTStartup':entry_trial_pair,'_CRT_INIT':crt_init_pair,'DllMain':dll_main_pair,'RC':rc_entry_pair,'main':rc_main_pair,'rc_initialize':rc_initialize_pair,'rc_allocate':rc_allocate_pair,'rc_is_option':rc_is_option_pair,'rc_emit':rc_emit_pair,'rc_message':rc_message_pair,'rc_format':rc_format_pair}
 assert config.get('trial_function') in contracts,'no implemented typed contract for this trial'
 proof=contracts[config['trial_function']](a.original,a.native)
 report=run()

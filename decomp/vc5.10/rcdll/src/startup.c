@@ -5,7 +5,7 @@ int dll_attach_count;
 BOOL (WINAPI *dll_raw_main)(HINSTANCE, DWORD, LPVOID);
 
 /* _DllMainCRTStartup, original RVA 12d20..12ddf (CRT support). */
-BOOL WINAPI recon_dll_entry(HINSTANCE instance, DWORD reason, LPVOID reserved)
+BOOL WINAPI _DllMainCRTStartup(HINSTANCE instance, DWORD reason, LPVOID reserved)
 {
     BOOL result = TRUE;
     if (reason == DLL_PROCESS_DETACH && dll_attach_count == 0)
@@ -14,15 +14,15 @@ BOOL WINAPI recon_dll_entry(HINSTANCE instance, DWORD reason, LPVOID reserved)
         if (dll_raw_main != NULL)
             result = dll_raw_main(instance, reason, reserved);
         if (result)
-            result = rcdll_crt_init(instance, reason, reserved);
+            result = _CRT_INIT(instance, reason, reserved);
         if (!result)
             return FALSE;
     }
     result = DllMain(instance, reason, reserved);
     if (reason == DLL_PROCESS_ATTACH && !result)
-        rcdll_crt_init(instance, DLL_PROCESS_DETACH, reserved);
+        _CRT_INIT(instance, DLL_PROCESS_DETACH, reserved);
     if (reason == DLL_PROCESS_DETACH || reason == DLL_THREAD_DETACH) {
-        if (!rcdll_crt_init(instance, reason, reserved))
+        if (!_CRT_INIT(instance, reason, reserved))
             result = FALSE;
         if (result && dll_raw_main != NULL)
             result = dll_raw_main(instance, reason, reserved);

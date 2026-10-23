@@ -15,7 +15,7 @@ class Entered(gdb.Breakpoint):
     def __init__(self):super().__init__('malloc',internal=True)
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
-        if caller is None or caller.name()!='rcdll_crt_init':return False
+        if caller is None or caller.name()!='_CRT_INIT':return False
         size=int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))
         entry=dict(caller=caller.name(),bytes=size)
         records.append(entry);save()
