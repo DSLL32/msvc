@@ -112,7 +112,7 @@ int __fastcall initialize_coff_output(C2ObjectOutput *writer)
     coff_symbol_count = 0;
     coff_pending_c90 = 1;
     initialize_coff_lists();
-    coff_output_list = new_output_list(1, NULL);
+    coff_output_list = new_output_list(1, 0);
     if (deferred_compilation) {
         if (!read_incremental_output()) {
             coff_symbol_buffer = malloc(4096);
@@ -160,4 +160,21 @@ void initialize_coff_lists(void)
     coff_free_chunks = NULL;
     coff_free_blocks_508 = NULL;
     coff_free_blocks_308 = NULL;
+}
+
+C2OutputList *__fastcall new_output_list(int buffered, int count_only)
+{
+    C2OutputList *list;
+    C2OutputChunk *chunk;
+
+    list = output_allocate(sizeof(*list));
+    chunk = new_output_chunk();
+    chunk->next = chunk;
+    list->count_only = count_only;
+    list->last = chunk;
+    list->buffered = buffered;
+    list->completed_bytes = 0;
+    list->used_bytes = 0;
+    list->write_count = 0;
+    return list;
 }

@@ -1048,14 +1048,6 @@
     "evidence": null
   },
   {
-    "name": "@new_output_list@8",
-    "start": 4320150,
-    "end": 4320151,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_read_incremental_output",
     "start": 4741010,
     "end": 4741011,
@@ -1075,6 +1067,14 @@
     "name": "@add_output_source@4",
     "start": 4531949,
     "end": 4531950,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_new_output_chunk",
+    "start": 4320202,
+    "end": 4320203,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

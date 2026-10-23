@@ -29,6 +29,19 @@ typedef char C2OutputTableUsedCheck[offsetof(C2OutputTable, used) == 8 ? 1 : -1]
 typedef char C2OutputTableFirstCheck[offsetof(C2OutputTable, first) == 24 ? 1 : -1];
 typedef char C2OutputPageSizeCheck[sizeof(C2OutputPage) == 8 ? 1 : -1];
 
+/* The encountered chunk prefix only; complete allocation/layout stays pending. */
+struct C2OutputChunk {
+    C2OutputChunk *next;
+};
+struct C2OutputList {
+    int buffered, count_only;
+    unsigned completed_bytes, used_bytes, write_count;
+    C2OutputChunk *last;
+};
+typedef char C2OutputListSizeCheck[sizeof(C2OutputList) == 24 ? 1 : -1];
+typedef char C2OutputListCountOnlyCheck[offsetof(C2OutputList, count_only) == 4 ? 1 : -1];
+typedef char C2OutputListLastCheck[offsetof(C2OutputList, last) == 20 ? 1 : -1];
+
 typedef struct C2ObjectOutput {
     unsigned short format, machine;
     long pending04;
@@ -76,7 +89,8 @@ extern unsigned coff_symbol_count;
 extern int coff_pending_c90;
 C2OutputTable *__fastcall new_output_table(unsigned short capacity);
 void initialize_coff_lists(void);
-C2OutputList *__fastcall new_output_list(int kind, void *context);
+C2OutputChunk *new_output_chunk(void);
+C2OutputList *__fastcall new_output_list(int buffered, int count_only);
 int read_incremental_output(void);
 void restore_incremental_output(void);
 void __fastcall add_output_source(char *name);

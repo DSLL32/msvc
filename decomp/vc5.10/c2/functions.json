@@ -85,7 +85,8 @@
     "@initialize_coff_output@4",
     "@new_output_table@4",
     "_writer_callback_41eb8a",
-    "_initialize_coff_lists"
+    "_initialize_coff_lists",
+    "@new_output_list@8"
   ],
   "driver": [
     {
@@ -228,17 +229,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4223068,
+            "slot": 4227164,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "c91d031874c8e665f58b9c73fe42919bc93179b73a274872d8ac1552838babc4",
+            "lifetime_sha256": "9cf9b291b2a71d5f00a136a3991e6072423868536e9e611738b598bbeac39103",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d5c704000894df4"
+                "bytes": "8b0d5c804000894df4"
               },
               {
                 "offset": 243,
@@ -400,17 +401,17 @@
             "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
           },
           "rebuilt": {
-            "slot": 4223072,
+            "slot": 4227168,
             "holder": "[EBP-0x4]",
             "lifetime": [
               42,
               191
             ],
-            "lifetime_sha256": "678e6c7f9fe6358f7968ee47756ff31a2f5df266c15db643a03bbd8a94818d3b",
+            "lifetime_sha256": "7f85ff4953af8f0200be8a382ab3fbeba2d341b25b3599d9ea3d78624f9eb7e4",
             "instructions": [
               {
                 "offset": 42,
-                "bytes": "a1607040008945fc"
+                "bytes": "a1608040008945fc"
               },
               {
                 "offset": 104,
@@ -482,17 +483,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4223096,
+            "slot": 4227192,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "8b10dc70a8ee13a7f6d6f62ad4723dd53c2b02cb5054340b04b67bbf3a2b35ed",
+            "lifetime_sha256": "11732fd301f4e0b2590002d966bd7f94c0162f8e2276c73f1202ff00e3755e98",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d78704000894df8"
+                "bytes": "8b0d78804000894df8"
               },
               {
                 "offset": 509,
@@ -631,17 +632,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4223100,
+            "slot": 4227196,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "4ac9b293f09e406c0fe56d13e659a01fbf3e8bf8ea22e11fa85fd58ad9073ee1",
+            "lifetime_sha256": "05f42215c1dc6ba356e6aa53a6b75ae4522f6523f3fec53970538004bed3e076",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a17c7040008945f8"
+                "bytes": "a17c8040008945f8"
               },
               {
                 "offset": 110,
@@ -692,17 +693,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4223104,
+            "slot": 4227200,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "bd6b926987a240c39999bfc8b283ae51be4b120189cec18ba485d15629446669",
+            "lifetime_sha256": "a3271ce199f6410770e5e976fb7632c83b02c7a50e76289f38487de9c4f4990a",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d80704000894dfc"
+                "bytes": "8b0d80804000894dfc"
               },
               {
                 "offset": 89,
@@ -912,12 +913,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223092,
+            "slot": 4227188,
             "holder": "[EBP-0x14]",
             "instructions": [
               {
                 "offset": 15,
-                "bytes": "8b0d74704000894dec"
+                "bytes": "8b0d74804000894dec"
               },
               {
                 "offset": 44,
@@ -929,16 +930,16 @@
               15,
               98
             ],
-            "lifetime_sha256": "953f0bc305f2e5058f8dbe660a98703474b253f140bac041b1d134bacef9c9ec",
+            "lifetime_sha256": "e3e213debdc04db65704e51ecc71634fe1ca133c42a9a2c004b63f78df8b677d",
             "accessed_data": [
               {
-                "slot": 4223088,
+                "slot": 4227184,
                 "dll": "MSVCRT.dll",
                 "symbol": "__mb_cur_max",
                 "abi": "imported 32-bit int variable"
               },
               {
-                "slot": 4223084,
+                "slot": 4227180,
                 "dll": "MSVCRT.dll",
                 "symbol": "_pctype",
                 "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
@@ -975,12 +976,12 @@
             "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
           },
           "rebuilt": {
-            "slot": 4223080,
+            "slot": 4227176,
             "holder": "[EBP-0x10]",
             "instructions": [
               {
                 "offset": 98,
-                "bytes": "a1687040008945f0"
+                "bytes": "a1688040008945f0"
               },
               {
                 "offset": 106,
@@ -996,7 +997,7 @@
               98,
               140
             ],
-            "lifetime_sha256": "e5a956ad405db09a1dd48049269c25b3951a8a84d0bc5c609bd8cebdf39b6cc5"
+            "lifetime_sha256": "626076e06b66b0e5e680650377a3ce2d09a7f740d53d8bff275b7ba1778486c0"
           }
         }
       ]
@@ -1455,12 +1456,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223064,
+            "slot": 4227160,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1587040008945f8"
+                "bytes": "a1588040008945f8"
               },
               {
                 "offset": 89,
@@ -1476,7 +1477,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "d30c7616a540d2d7e14c6e34cddd89d3f0de328dd2ab9f1df3bf556abe72d895"
+            "lifetime_sha256": "19599d9e512c1f9c632d98d1e10aa7fbbaabf84a6b311e330e37dc3ff05863a4"
           }
         }
       ]
@@ -1637,12 +1638,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223064,
+            "slot": 4227160,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1587040008945f8"
+                "bytes": "a1588040008945f8"
               },
               {
                 "offset": 89,
@@ -1666,7 +1667,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "02d40fa0ef4bf351f936e4131ad463b2f069d9b6c14607723fbe4eb95b2e9c31"
+            "lifetime_sha256": "9310a4634e54ea33db36bd039dbf7a8755531cff2cc7ef0f1342f8d3372ef784"
           }
         }
       ]
@@ -4098,16 +4099,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223064,
+            "slot": 4227160,
             "lifetime": [
               6,
               827
             ],
-            "lifetime_sha256": "8cc156daaf946283af0efac68a59c8154478e3946726aa6fa953dd749c3a2284",
+            "lifetime_sha256": "175908dda8d9835f4096fc624df3a2a12396637bd141e6374d6616ed2fea9f96",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158704000"
+                "bytes": "a158804000"
               },
               {
                 "offset": 11,
@@ -4358,16 +4359,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223064,
+            "slot": 4227160,
             "lifetime": [
               27,
               145
             ],
-            "lifetime_sha256": "9d0b310d4fcfa9045f79d463a64c978426c1569f2c356bd9cbb9430a41df5c2e",
+            "lifetime_sha256": "2c8f684bc6075053445e1b9c960aa64eae831d944eee6a4fe4e59e79ff69c64e",
             "instructions": [
               {
                 "offset": 27,
-                "bytes": "8b1558704000"
+                "bytes": "8b1558804000"
               },
               {
                 "offset": 33,
@@ -5552,16 +5553,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223064,
+            "slot": 4227160,
             "lifetime": [
               6,
               489
             ],
-            "lifetime_sha256": "8f62680aa7ffd4f4f33e72e789eeaff8fe6400b73d6ff37aa787da3841352ca1",
+            "lifetime_sha256": "b4bbd4181165cc98db1d5c9650c44f5c34d614f1d83a35c6c97f2c0328428374",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158704000"
+                "bytes": "a158804000"
               },
               {
                 "offset": 11,
@@ -5807,16 +5808,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4223064,
+            "slot": 4227160,
             "lifetime": [
               6,
               315
             ],
-            "lifetime_sha256": "b03f37f6930626f8bb8070aa46a31fc52a8a7930f6965c4d4983a2c5b4709405",
+            "lifetime_sha256": "f50bd635ad0a9314d23929902be2e351ec536af5de9c17fe57b1aa11edfe1c97",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158704000"
+                "bytes": "a158804000"
               },
               {
                 "offset": 11,
@@ -7065,17 +7066,17 @@
             "review": "Unique verified IATseed before all dispatches. No EBP rewrite until POP45246f; complete coldchunk included. Each named callee has an explicit incoming-EBP preservation witness. One pushESI/CALLEBP/ADDESP4 at47421f, no alias escape, branch-entry bypass or unknown other indirect call."
           },
           "rebuilt": {
-            "slot": 4223108,
+            "slot": 4227204,
             "holder": "direct IAT",
             "lifetime": [
               306,
               319
             ],
-            "lifetime_sha256": "0b4a29c688cdfb2cf0f1c40cb86dc1a68435bd7bbd0e5c1aba638f9e32a58a8b",
+            "lifetime_sha256": "6c390ebdda53313c6e6b9744057e612a18954bb701398c1b8f537f710e3181b3",
             "instructions": [
               {
                 "offset": 306,
-                "bytes": "8b55f852ff158470400083c404"
+                "bytes": "8b55f852ff158480400083c404"
               }
             ],
             "review": "cases/analysis/object-writer-import-review.json: exact fixed byte intervals unchanged except enumerated same-MAP data operands; all holder/load/call/cleanup instructions unchanged."
@@ -9086,6 +9087,194 @@
       ],
       "frontier_contract": "coff-lists-input",
       "state_model_sha256": "f84923ed20ee451de226b40d3007409d174bf9d507d2aca9f6c89eba7114074d"
+    },
+    {
+      "name": "@new_output_list@8",
+      "native": "new_output_list",
+      "start": 4320150,
+      "end": 4320202,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall intbufferedECX intcount_onlyEDX; C2OutputList*EAX RET0",
+      "evidence": "Complete52B constructor. Actual callers pass0/1 flags; consumer41f270 compares field4 with1 to skip storage/countonly. Old void*context labels were provisional zero-only; raw histories preserved. cases/analysis/output-list-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-list-input",
+      "state_model_sha256": "a59502b8f41d714f88e71fd4a2154086812f13e6312713b529b57ac295ce13bc"
     }
   ],
   "stubs": [
@@ -10388,14 +10577,44 @@
       "pending_signature": true
     },
     {
-      "name": "@new_output_list@8",
-      "native": "new_output_list",
-      "start": 4320150,
-      "end": 4320151,
+      "name": "_read_incremental_output",
+      "native": "read_incremental_output",
+      "start": 4741010,
+      "end": 4741011,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall intkindECX void*contextEDX; C2OutputList*EAX RET0",
-      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit.",
+      "abi": "cdecl noargs intEAX RET0",
+      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
+    },
+    {
+      "name": "_restore_incremental_output",
+      "native": "restore_incremental_output",
+      "start": 4740322,
+      "end": 4740323,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs callerignoresresult RET0",
+      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
+    },
+    {
+      "name": "@add_output_source@4",
+      "native": "add_output_source",
+      "start": 4531949,
+      "end": 4531950,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall char*nameECX callerignoresresult RET0",
+      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
+    },
+    {
+      "name": "_new_output_chunk",
+      "native": "new_output_chunk",
+      "start": 4320202,
+      "end": 4320203,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs; C2OutputChunk*EAX RET0",
+      "evidence": "Actual25B hot+9B cold returns free-list chunk or typed allocator508 result; body remains masked/namedINT3, zero credit.",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -10572,38 +10791,8 @@
       "expected_argv": [
         "-G5"
       ],
-      "frontier_contract": "coff-list-input",
-      "state_model_sha256": "a59502b8f41d714f88e71fd4a2154086812f13e6312713b529b57ac295ce13bc"
-    },
-    {
-      "name": "_read_incremental_output",
-      "native": "read_incremental_output",
-      "start": 4741010,
-      "end": 4741011,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs intEAX RET0",
-      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
-    },
-    {
-      "name": "_restore_incremental_output",
-      "native": "restore_incremental_output",
-      "start": 4740322,
-      "end": 4740323,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs callerignoresresult RET0",
-      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
-    },
-    {
-      "name": "@add_output_source@4",
-      "native": "add_output_source",
-      "start": 4531949,
-      "end": 4531950,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall char*nameECX callerignoresresult RET0",
-      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
+      "frontier_contract": "coff-chunk-input",
+      "state_model_sha256": "238e28a5f085dc0eab7ef38f3aba17d41308649c11d783582341e24e611a50b9"
     }
   ],
   "text_data": [
@@ -10860,7 +11049,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10872,7 +11061,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10884,7 +11073,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10896,7 +11085,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10908,7 +11097,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10920,7 +11109,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10932,7 +11121,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10944,7 +11133,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10956,7 +11145,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10968,7 +11157,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10982,7 +11171,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -10994,7 +11183,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11009,7 +11198,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11021,7 +11210,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11033,7 +11222,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11045,7 +11234,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11057,7 +11246,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11069,7 +11258,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11084,7 +11273,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11099,7 +11288,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11111,7 +11300,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11123,7 +11312,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11135,7 +11324,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       },
       {
@@ -11150,7 +11339,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8337fb66823d5becb0de305ee5295a8f559200eb731abc06666526ee9bd17c77"
+          "sha256": "2ffd79974d3d4b6e7bbfaa14946e254fb786e20d7e6c57ad0b9a5d9a7a0791e4"
         }
       }
     ]

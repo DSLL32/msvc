@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "c282fcb7044eb8f22883ae5f8af1bc814b5cebae4cf1f52c68e7a2f0544fe852",
+  "rebuilt_sha256": "53e88a5e14bd34290eba292068a65975030b36ab9de887d861f243d29ef11c82",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
@@ -43,7 +43,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_varuint",
-      "rebuilt_entry": 4205439
+      "rebuilt_entry": 4205423
     },
     {
       "function": "_input_compact_signed",
@@ -61,7 +61,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_compact_signed",
-      "rebuilt_entry": 4206438
+      "rebuilt_entry": 4206422
     },
     {
       "function": "@read_initializer_values@4",
@@ -166,7 +166,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "c2_read_il_byte",
-      "rebuilt_entry": 4204768
+      "rebuilt_entry": 4204752
     },
     {
       "function": "@input_string@8",
@@ -189,7 +189,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_string",
-      "rebuilt_entry": 4206266
+      "rebuilt_entry": 4206250
     },
     {
       "function": "@lookup_source_file@8",
@@ -250,7 +250,7 @@
       "review": "Recursive callee saves incoming EBP at4523dc before loading its own free intoEBP; all returning switch cases rejoin common POPEBP45246f/RET452474. Independent rebuilt standard frame restores viaLEAVE-equivalent/POPEBP/RET.",
       "original_body_accepted": false,
       "source_symbol": "read_initializer_records",
-      "rebuilt_entry": 4207368
+      "rebuilt_entry": 4207352
     },
     {
       "function": "@c2_pool_allocate@8",
@@ -273,7 +273,7 @@
       "review": "Complete accepted allocator saves incomingEDI at401011. Both normal exits restore it at401033/RET401036 and4010d4/RET4010d9. Cold allocation-failure fragment rejoins401049/4010a9; explicit memset/REP writes only data derived from allocated/free blocks, never the savedEDI stack slot.",
       "original_body_accepted": true,
       "source_symbol": "c2_pool_allocate",
-      "rebuilt_entry": 4210288
+      "rebuilt_entry": 4210272
     },
     {
       "function": "_query_incremental_stream_size",
@@ -363,11 +363,11 @@
       "review": "Complete33B writes only six globalDWORDs with EAX; no ESI write/call/stack escape; RET453de6.",
       "original_body_accepted": false,
       "source_symbol": "initialize_coff_lists",
-      "rebuilt_entry": 4222814
+      "rebuilt_entry": 4222798
     },
     {
       "function": "@new_output_list@8",
-      "abi": "fastcall intkindECX void*contextEDX; C2OutputList*EAX RET0",
+      "abi": "fastcall intbufferedECX intcount_onlyEDX; C2OutputList*EAX RET0",
       "preserves": [
         "esi"
       ],
@@ -378,10 +378,10 @@
           "sha256": "07b9bf7ee400887a4de04cc44721a5fba8d279b2c9a64753f590c2f0df11ca6b"
         }
       ],
-      "review": "Complete52B saves ESI41eb97 before all work/nested calls; common POPESI41ebc7 and RET41ebc9. No saved-register slot address escapes; ordinary child calls cannot alter caller saved slot.",
+      "review": "Complete52B saves ESI41eb97 before all work/nested calls; common POPESI41ebc7 and RET41ebc9. No saved-register slot address escapes; ordinary child calls cannot alter caller saved slot. Second DWORD refined from zero-only context label to integer count-only flag using actual0/1 callers and fullDWORD consumer equality; ESI save/restore, original range and RET0 unchanged.",
       "original_body_accepted": false,
       "source_symbol": "new_output_list",
-      "rebuilt_entry": 4200594
+      "rebuilt_entry": 4222863
     },
     {
       "function": "_read_incremental_output",
@@ -399,7 +399,7 @@
       "review": "Complete2374B includes post-RET switch cases. PUSHESI4857a2 under fixed local frame; only normal exits restore POPESI48584c/485eee before RET485852/485ef9. Caller-frame writes and passed buffers stay above saved register slots; no saved-slot escape. External104B classmap+8-entry32B jump table separately pinned; all targets in this interval. No body/data unmask or source credit.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_output",
-      "rebuilt_entry": 4200619
+      "rebuilt_entry": 4200594
     }
   ],
   "free_site": {

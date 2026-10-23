@@ -44,7 +44,7 @@ COFF_GLOBALS = {
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -184,7 +184,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
         writer_head, writer_cursor, writer_remaining = later_pools[6:]
         assert writer_head and writer_head not in (head, directive_head)
-        expected_cursor=1320 if initialized_output else 64
+        expected_cursor=(1344 if list_pending else 1320)if initialized_output else 64
         expected_remaining=4096-expected_cursor
         assert writer_cursor == writer_head + expected_cursor and writer_remaining == expected_remaining
         data = bytearray(read(writer_head, 4096))
@@ -236,5 +236,8 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         if initialized_output:
             copied.update(coff_table=0x60000040,coff_storage=0x60000518,coff_symbol_buffer=0x70000001)
             result['coff_allocations']={'table_offset':64,'table_bytes':32,'page_offset':96,'page_bytes':1208,'storage_offset':1304,'storage_bytes':16,'symbol_buffer':{'kind':'malloc','requested_bytes':4096,'payload':'UNMODELED; unread, no content/default credit'}}
+        if list_pending:
+            assert read(writer_head+1320,24)==bytes(24),'pending constructor list allocation is not allocator-zeroed'
+            result['coff_allocations']['pending_list']={'offset':1320,'bytes':24,'contents':'allocator zeroing only; constructor fields await child return'}
         result['coff'] = copied
     return result

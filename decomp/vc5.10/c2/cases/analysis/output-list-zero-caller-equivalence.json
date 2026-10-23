@@ -1,0 +1,342 @@
+{
+  "status": "PASS",
+  "scope": "Whole unchanged accepted caller bytes equal after exact actual MAP global/IAT, named CALL/JMP and exact known source-literal address projection only. NULL->integer0 changes no instruction or argument value/width; new constructor symbol relocates ordinarily. No source shaping or CFG replacement.",
+  "function": "@initialize_coff_output@4",
+  "old_extent": [
+    4222232,
+    4222646
+  ],
+  "new_extent": [
+    4222216,
+    4222630
+  ],
+  "old_sha256": "a7da9a6c13886c23c5bbe7138261cc25a8bf1bf1777357f0ff35aa1a8d9ef8a6",
+  "new_sha256": "5e876b052c6aa75efc49814a7b64b885b406ddaa7f9036a1688ba5aed7693254",
+  "old_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/lists75-original",
+  "old_rebuilt_sha256": "c282fcb7044eb8f22883ae5f8af1bc814b5cebae4cf1f52c68e7a2f0544fe852",
+  "new_rebuilt_sha256": "53e88a5e14bd34290eba292068a65975030b36ab9de887d861f243d29ef11c82",
+  "changes": [
+    {
+      "operand_offset": 31,
+      "identity": [
+        "MAP _deferred_compilation"
+      ],
+      "old_target": 4235252,
+      "new_target": 4239348
+    },
+    {
+      "operand_offset": 41,
+      "identity": [
+        "MAP _coff_new_output"
+      ],
+      "old_target": 4235152,
+      "new_target": 4239248
+    },
+    {
+      "operand_offset": 55,
+      "identity": [
+        "MAP _coff_machine"
+      ],
+      "old_target": 4235060,
+      "new_target": 4239156
+    },
+    {
+      "operand_offset": 66,
+      "identity": [
+        "MAP _coff_source_name"
+      ],
+      "old_target": 4235104,
+      "new_target": 4239200
+    },
+    {
+      "operand_offset": 78,
+      "identity": [
+        "MAP _coff_output"
+      ],
+      "old_target": 4235056,
+      "new_target": 4239152
+    },
+    {
+      "operand_offset": 90,
+      "identity": [
+        "MAP _coff_pending04"
+      ],
+      "old_target": 4235064,
+      "new_target": 4239160
+    },
+    {
+      "operand_offset": 101,
+      "identity": [
+        "MAP _output_allocate"
+      ],
+      "old_target": 4235080,
+      "new_target": 4239176
+    },
+    {
+      "operand_offset": 113,
+      "identity": [
+        "MAP _output_error_handler"
+      ],
+      "old_target": 4235084,
+      "new_target": 4239180
+    },
+    {
+      "operand_offset": 125,
+      "identity": [
+        "MAP _output_clock_handler"
+      ],
+      "old_target": 4235136,
+      "new_target": 4239232
+    },
+    {
+      "operand_offset": 136,
+      "identity": [
+        "MAP _coff_debug"
+      ],
+      "old_target": 4235128,
+      "new_target": 4239224
+    },
+    {
+      "operand_offset": 151,
+      "identity": [
+        "MAP _coff_table"
+      ],
+      "old_target": 4235132,
+      "new_target": 4239228
+    },
+    {
+      "operand_offset": 162,
+      "identity": [
+        "MAP _output_allocate"
+      ],
+      "old_target": 4235080,
+      "new_target": 4239176
+    },
+    {
+      "operand_offset": 167,
+      "identity": [
+        "MAP _coff_storage"
+      ],
+      "old_target": 4235144,
+      "new_target": 4239240
+    },
+    {
+      "operand_offset": 173,
+      "identity": [
+        "MAP _deferred_compilation"
+      ],
+      "old_target": 4235252,
+      "new_target": 4239348
+    },
+    {
+      "operand_offset": 187,
+      "identity": [
+        "MAP __imp__malloc"
+      ],
+      "old_target": 4223120,
+      "new_target": 4227216
+    },
+    {
+      "operand_offset": 195,
+      "identity": [
+        "MAP _coff_symbol_buffer"
+      ],
+      "old_target": 4235124,
+      "new_target": 4239220
+    },
+    {
+      "operand_offset": 201,
+      "identity": [
+        "MAP _coff_symbol_buffer"
+      ],
+      "old_target": 4235124,
+      "new_target": 4239220
+    },
+    {
+      "operand_offset": 214,
+      "identity": [
+        "same source literal 'E:\\\\utc\\\\src\\\\\\\\P2\\\\cofflib.c'"
+      ],
+      "old_target": 4234752,
+      "new_target": 4238848
+    },
+    {
+      "operand_offset": 219,
+      "identity": [
+        "@c2_report_internal@8"
+      ],
+      "old_target": 4198591,
+      "new_target": 4198591
+    },
+    {
+      "operand_offset": 225,
+      "identity": [
+        "MAP _coff_symbol_capacity"
+      ],
+      "old_target": 4235140,
+      "new_target": 4239236
+    },
+    {
+      "operand_offset": 236,
+      "identity": [
+        "MAP _coff_pending_e18"
+      ],
+      "old_target": 4235076,
+      "new_target": 4239172
+    },
+    {
+      "operand_offset": 245,
+      "identity": [
+        "MAP _coff_section_count"
+      ],
+      "old_target": 4235062,
+      "new_target": 4239158
+    },
+    {
+      "operand_offset": 254,
+      "identity": [
+        "MAP _coff_default_flags"
+      ],
+      "old_target": 4235108,
+      "new_target": 4239204
+    },
+    {
+      "operand_offset": 261,
+      "identity": [
+        "MAP _coff_flags"
+      ],
+      "old_target": 4235100,
+      "new_target": 4239196
+    },
+    {
+      "operand_offset": 267,
+      "identity": [
+        "MAP _coff_symbol_count"
+      ],
+      "old_target": 4235096,
+      "new_target": 4239192
+    },
+    {
+      "operand_offset": 277,
+      "identity": [
+        "MAP _coff_pending_c90"
+      ],
+      "old_target": 4234648,
+      "new_target": 4238744
+    },
+    {
+      "operand_offset": 298,
+      "identity": [
+        "@new_output_list@8"
+      ],
+      "old_target": 4200594,
+      "new_target": 4222863
+    },
+    {
+      "operand_offset": 303,
+      "identity": [
+        "MAP _coff_output_list"
+      ],
+      "old_target": 4235148,
+      "new_target": 4239244
+    },
+    {
+      "operand_offset": 309,
+      "identity": [
+        "MAP _deferred_compilation"
+      ],
+      "old_target": 4235252,
+      "new_target": 4239348
+    },
+    {
+      "operand_offset": 317,
+      "identity": [
+        "_read_incremental_output"
+      ],
+      "old_target": 4200619,
+      "new_target": 4200594
+    },
+    {
+      "operand_offset": 332,
+      "identity": [
+        "MAP __imp__malloc"
+      ],
+      "old_target": 4223120,
+      "new_target": 4227216
+    },
+    {
+      "operand_offset": 340,
+      "identity": [
+        "MAP _coff_symbol_buffer"
+      ],
+      "old_target": 4235124,
+      "new_target": 4239220
+    },
+    {
+      "operand_offset": 346,
+      "identity": [
+        "MAP _coff_symbol_buffer"
+      ],
+      "old_target": 4235124,
+      "new_target": 4239220
+    },
+    {
+      "operand_offset": 359,
+      "identity": [
+        "same source literal 'E:\\\\utc\\\\src\\\\\\\\P2\\\\cofflib.c'"
+      ],
+      "old_target": 4234780,
+      "new_target": 4238876
+    },
+    {
+      "operand_offset": 364,
+      "identity": [
+        "@c2_report_internal@8"
+      ],
+      "old_target": 4198591,
+      "new_target": 4198591
+    },
+    {
+      "operand_offset": 370,
+      "identity": [
+        "MAP _coff_symbol_capacity"
+      ],
+      "old_target": 4235140,
+      "new_target": 4239236
+    },
+    {
+      "operand_offset": 380,
+      "identity": [
+        "MAP _deferred_compilation"
+      ],
+      "old_target": 4235252,
+      "new_target": 4239348
+    },
+    {
+      "operand_offset": 388,
+      "identity": [
+        "_restore_incremental_output"
+      ],
+      "old_target": 4200633,
+      "new_target": 4200608
+    },
+    {
+      "operand_offset": 396,
+      "identity": [
+        "MAP _coff_source_name"
+      ],
+      "old_target": 4235104,
+      "new_target": 4239200
+    },
+    {
+      "operand_offset": 401,
+      "identity": [
+        "@add_output_source@4"
+      ],
+      "old_target": 4200645,
+      "new_target": 4200620
+    }
+  ],
+  "all_other_bytes_equal": true,
+  "script_sha256": "890abf6f902cbce7e61c734c6583ff15ffec2c3e67e5a49e24fabb30f16a0c85"
+}

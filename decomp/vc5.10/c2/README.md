@@ -7,12 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 70 application functions (15683 bytes) and five CRT
+Current reconstruction has 71 application functions (15735 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the COFF list constructor with kind1 and zero second value. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16121 source bytes are 2.813% of 573183 `.text`
+currently stops at the output-chunk allocator after the list constructor
+allocated its24-byte record. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16173 source bytes are 2.822% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -275,3 +276,17 @@ integer flag. Twelve new input/reset controls passed in12.916s and4 refreshed/
 149 reused protocol controls in4.903s. No free-list payload layout is invented;
 incomplete pointer types and unused499690's DWORD writer stay narrowly scoped.
 Full timing and native fixture evidence are in0075.
+
+Source76 reconstructs the52-byte list constructor and its24-byte layout. Actual
+DWORD0/4 are buffered/count-only flags: four direct callers produce0/1, and
+the fullDWORD consumer equality bypasses storage for count-only1. Conventional
+Win32 int preserves the copied bits; signedness is otherwise unobservable.
+Earlier zero-only pointer labels remain immutable. The accepted caller's NULL
+to0 spelling has a whole-byte equivalence certificate, projecting only exact
+MAP/IAT/known-source-literal/named-call addresses. A fresh pair checks both
+actual integer caller formals and its allocator-zeroed24-byte record at offset
+1320, cursor1344, before the pending chunk child returns. Only the encountered
+chunk next-pointer prefix is typed; its complete extent remains unclaimed.
+Eleven affected controls passed in12.358s;18 refreshed/135 reused protocol
+controls took8.772s. Exact compiled snapshots, code certificate and elapsed
+accounting are in0076; native help execution remains2.638ms.

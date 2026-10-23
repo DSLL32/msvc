@@ -1,0 +1,45 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 7.126789110712707,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.7675013886764646,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 2.0980768678709865,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.8739682976156473,
+    "execution": 2.0025650542229414,
+    "total": 2.9242381704971194
+  },
+  "native_capture": {
+    "execution": 0.43092390056699514,
+    "total": 0.5413992442190647
+  },
+  "audit_seconds": 0.7826327802613378,
+  "protocol_controls": {
+    "fresh": 18,
+    "reused": 135,
+    "seconds": 8.772346428595483
+  },
+  "list_state_controls": {
+    "fresh": 11,
+    "seconds": 12.357938843779266
+  },
+  "fixture": {
+    "setup": 0.010186949744820595,
+    "execution": 0.0026384778320789337,
+    "checks": 0.00021066144108772278,
+    "total": 0.01350710541009903
+  },
+  "preserved_failures": "Caller byte certificate initially rejected unnamed relocated data/literal operands, then qualified exact actual MAP/IAT/known-source-literal identities. Initial original audit caught stale rebuilt IAT slot metadata before Wine; failed folder retained. First native controller selected wrong caller frame, final native-only capture corrected it. No original rerun solely controller/parser correction; exploratory failed elapsed not separately measured."
+}
