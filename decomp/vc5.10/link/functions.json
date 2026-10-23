@@ -78,7 +78,8 @@
     "_find_matching_output_section@20",
     "_adjust_output_section_flags@12",
     "_initialize_section_enumerator@8",
-    "_next_output_section@4"
+    "_next_output_section@4",
+    "_end_section_enumerator"
   ],
   "driver": [
     {
@@ -1346,11 +1347,11 @@
     {
       "name": "_end_section_enumerator",
       "start": 4259216,
-      "end": 4259217,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
+      "end": 4259219,
+      "source": "src/sections.c",
+      "status": "implemented",
       "abi": "stdcall void(SectionEnumerator *enumerator); actual RET4 at40fd90 and FullLink4435a2LEA/4435a6PUSH/4435a7CALL prove one stack input; still unreconstructed",
-      "pending_extent": true,
+      "pending_extent": false,
       "native_symbol": "end_section_enumerator",
       "symbol": "_end_section_enumerator@4"
     },

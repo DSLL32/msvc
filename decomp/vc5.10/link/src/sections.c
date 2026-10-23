@@ -106,3 +106,7 @@ BYTE __stdcall next_output_section(SectionEnumerator *enumerator)
     else enumerator->current=enumerator->first;
     return enumerator->current!=NULL;
 }
+
+void __stdcall end_section_enumerator(SectionEnumerator *enumerator)
+{
+}

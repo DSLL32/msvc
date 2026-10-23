@@ -34,6 +34,8 @@ def plan(accepted,case="help"):
         result.extend([(0xf16e,'observe:section_enum_call'),(0xf173,'observe:section_enum_return')])
     if '_next_output_section@4'in accepted:
         result.extend([(0xf178,'observe:section_next_call'),(0xf17d,'observe:section_next_return')])
+    if '_end_section_enumerator'in accepted:
+        result.extend([(0xf1d6,'observe:section_end_call'),(0xf1db,'observe:section_end_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

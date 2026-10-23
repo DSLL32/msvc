@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -298,8 +298,8 @@ if args.frontier=='_initialize_output_modules@4':
     negative('lost module output formal',lambda s:s['output_module_formals'].__setitem__('module',0))
     negative('lost module global alias',lambda s:s['output_module_formals'].__setitem__('destination_global',0))
     negative('wrong module initial value',lambda s:s['output_module_formals'].__setitem__('initial',1))
-if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
-    if args.frontier in ('_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
+if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
+    if args.frontier in ('_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
         negative('changed initializer formal list',lambda s:s['frontier_inputs']['formals'].append(1))
         negative('changed copied name',lambda s:s['output_names'][0].__setitem__('bytes','00'))
         negative('lost name ownership',lambda s:s['output_names'][1].__setitem__('address',0))
@@ -309,7 +309,7 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
         negative('wrong string return pointer',lambda s:s['link_string_calls'][0].__setitem__('result',0))
         negative('wrong returned string bytes',lambda s:s['link_string_calls'][1].__setitem__('text','other'))
         negative('invented hidden initializer argument',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
-        if args.frontier in ('_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
+        if args.frontier in ('_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
             negative('changed pool capacity',lambda s:s['module_section_pools'].__setitem__('module_section_capacity',499))
             negative('lost pool initialized flag',lambda s:s['module_section_pools'].__setitem__('module_section_pools_ready',0))
             negative('lost pool allocation',lambda s:s['module_section_pools'].__setitem__('module_section_map',0))
@@ -319,14 +319,14 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
             negative('wrong virtual-wrapper RET16 cleanup',lambda s:s['virtual_memory_calls'][0].__setitem__('return_stack',0))
             negative('wrong virtual-wrapper result',lambda s:s['virtual_memory_calls'][1].__setitem__('result',0))
             negative('wrong virtual-wrapper flags',lambda s:s['virtual_memory_calls'][0]['arguments'].__setitem__(2,0x1000))
-            if args.frontier in ('_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
+            if args.frontier in ('_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
                 for key in ('module','name','flags','sections','header'):
                     negative('wrong section creation formal '+key,lambda s,k=key:s['section_creation_formals'].__setitem__(k,1))
                 negative('wrong section creation name bytes',lambda s:s['section_creation_formals'].__setitem__('text','.text'))
                 negative('lost section driver receiver',lambda s:s.__setitem__('section_initializer_this',0))
                 negative('premature section output',lambda s:s['section_handles'].__setitem__(0,1))
                 negative('comdat reset lost before sections',lambda s:s.__setitem__('comdat_arena',1))
-                if args.frontier in ('_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator'):
+                if args.frontier in ('_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
                     for key in ('enumerator','sections','owner_local','normalized_pointer'):
                         negative('wrong enumerator formal/owner '+key,lambda s,k=key:s['section_enumerator_formals'].__setitem__(k,0))
                     negative('changed normalized section flags',lambda s:s['section_enumerator_formals'].__setitem__('normalized',0))
@@ -337,19 +337,27 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
                     negative('wrong global BSS initialization input',lambda s:s['section_flag_calls'][0].__setitem__('initialize_bss',1))
                     negative('wrong flag helper subsystem',lambda s:s['section_flag_calls'][0].__setitem__('subsystem',1))
                     negative('wrong adjusted flags result',lambda s:s['section_flag_calls'][0].__setitem__('after',0))
-                    if args.frontier in ('_next_output_section@4','_end_section_enumerator'):
+                    if args.frontier in ('_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
                         negative('missing initializer normal return',lambda s:s['section_enum_calls'].pop())
                         negative('wrong initializer RET8 cleanup',lambda s:s['section_enum_calls'][0].__setitem__('return_stack',0))
                         negative('wrong enum output owner',lambda s:s['section_enum_calls'][0].__setitem__('enumerator',0))
                         negative('wrong next callback identity',lambda s:s['section_callback_addresses'].__setitem__('next_output_section',0))
                         negative('wrong end callback identity',lambda s:s['section_callback_addresses'].__setitem__('end_section_enumerator',0))
                         negative('changed initialized record bytes',lambda s:s['section_enum_calls'][0].__setitem__('after','00'*16))
-                        if args.frontier=='_end_section_enumerator':
+                        if args.frontier in ('_end_section_enumerator','_resolve_output_section@4'):
                             negative('missing step normal return',lambda s:s['section_next_calls'].pop())
                             negative('wrong byte step result',lambda s:s['section_next_calls'][0].__setitem__('result',1))
                             negative('wrong step RET4 cleanup',lambda s:s['section_next_calls'][0].__setitem__('return_stack',0))
                             negative('wrong step output record',lambda s:s['section_next_calls'][0].__setitem__('after','00'*16))
                             negative('lost step input pointer',lambda s:s['section_next_calls'][0].__setitem__('enumerator',0))
+                            if args.frontier=='_resolve_output_section@4':
+                                negative('wrong actual resolved-section formal',lambda s:s['resolution_formals'].__setitem__('section',1))
+                                negative('lost caller current value',lambda s:s['resolution_formals'].__setitem__('caller_current',1))
+                                negative('lost caller current owner',lambda s:s['resolution_formals'].__setitem__('caller_current_slot',0))
+                                negative('missing real cleanup return',lambda s:s['section_end_calls'].pop())
+                                negative('wrong cleanup RET4',lambda s:s['section_end_calls'][0].__setitem__('return_stack',0))
+                                negative('cleanup changed record',lambda s:s['section_end_calls'][0].__setitem__('after','00'*16))
+                                negative('cleanup did not return',lambda s:s['section_end_calls'][0].__setitem__('normal_return',False))
                 if args.frontier=='_adjust_output_section_flags@12':
                     for key in ('flags','name','header','owner_local'):
                         negative('wrong flag-adjustment formal/owner '+key,lambda s,k=key:s['section_flag_formals'].__setitem__(k,0))
