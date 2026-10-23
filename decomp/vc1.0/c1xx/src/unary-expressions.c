@@ -3,6 +3,35 @@
 #include "unary-expressions.h"
 #include <recon.h>
 
+/* Original 0x3b6d0..0x3b797. sizeof retains a named array's
+   undegraded type and rejects function and bit-field operands. */
+IrToken *__stdcall sizeof_expression(IrToken *expression)
+{
+    CType *type = expression->type;
+    CppSymbol *symbol;
+    TypeShape *shape;
+    unsigned kind;
+    if (!type) goto invalid;
+    if ((expression->flags & 7) == 4) {
+        symbol = expression->value.pointer;
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape) {
+            kind = shape->flags & 0x77;
+            if (kind == 2) return sizeof_type(symbol->type);
+            if (kind == 4 && (expression->type->related->flags & 8)) goto invalid;
+        }
+    } else {
+        if (token_categories[expression->kind] == OP_DEREFERENCE &&
+            ((IrToken *)expression->value.pointer)->kind == 0x3e) goto invalid;
+        if (type->related && (type->related->flags & 8)) goto invalid;
+    }
+    return sizeof_type(expression->type);
+invalid:
+    report_syntax_error(70);
+    return 0;
+}
+
 /* Original 0x5f070..0x5f0e5, stdcall4. Walk the value-producing side
    of an lvalue expression until its pointer-model source can be inspected. */
 IrToken *__stdcall find_expression_type_base(IrToken *expression)

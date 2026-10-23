@@ -1,0 +1,76 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003b6d0 <.text+0x246d0>:
+   3b6d0:	8b 4c 24 04          	mov    ecx,DWORD PTR [esp+0x4]
+   3b6d4:	8b 51 04             	mov    edx,DWORD PTR [ecx+0x4]
+   3b6d7:	0b d2                	or     edx,edx
+   3b6d9:	75 0f                	jne    0x3b6ea
+   3b6db:	6a 46                	push   0x46
+   3b6dd:	e8 9e 7a 03 00       	call   0x73180
+   3b6e2:	83 c4 04             	add    esp,0x4
+   3b6e5:	2b c0                	sub    eax,eax
+   3b6e7:	c2 04 00             	ret    0x4
+   3b6ea:	8a 41 01             	mov    al,BYTE PTR [ecx+0x1]
+   3b6ed:	24 07                	and    al,0x7
+   3b6ef:	3c 04                	cmp    al,0x4
+   3b6f1:	75 56                	jne    0x3b749
+   3b6f3:	8b 51 0c             	mov    edx,DWORD PTR [ecx+0xc]
+   3b6f6:	8b 42 0c             	mov    eax,DWORD PTR [edx+0xc]
+   3b6f9:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   3b6fc:	0b c0                	or     eax,eax
+   3b6fe:	0f 84 87 00 00 00    	je     0x3b78b
+   3b704:	f6 00 77             	test   BYTE PTR [eax],0x77
+   3b707:	75 03                	jne    0x3b70c
+   3b709:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   3b70c:	0b c0                	or     eax,eax
+   3b70e:	74 7b                	je     0x3b78b
+   3b710:	66 8b 00             	mov    ax,WORD PTR [eax]
+   3b713:	66 25 77 00          	and    ax,0x77
+   3b717:	66 3d 02 00          	cmp    ax,0x2
+   3b71b:	75 0c                	jne    0x3b729
+   3b71d:	8b 42 0c             	mov    eax,DWORD PTR [edx+0xc]
+   3b720:	50                   	push   eax
+   3b721:	e8 7a 00 00 00       	call   0x3b7a0
+   3b726:	c2 04 00             	ret    0x4
+   3b729:	66 3d 04 00          	cmp    ax,0x4
+   3b72d:	75 5c                	jne    0x3b78b
+   3b72f:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+   3b732:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   3b735:	f6 00 08             	test   BYTE PTR [eax],0x8
+   3b738:	74 51                	je     0x3b78b
+   3b73a:	6a 46                	push   0x46
+   3b73c:	e8 3f 7a 03 00       	call   0x73180
+   3b741:	83 c4 04             	add    esp,0x4
+   3b744:	2b c0                	sub    eax,eax
+   3b746:	c2 04 00             	ret    0x4
+   3b749:	33 c0                	xor    eax,eax
+   3b74b:	8a 01                	mov    al,BYTE PTR [ecx]
+   3b74d:	80 b8 1f 19 0a 00 46 	cmp    BYTE PTR [eax+0xa191f],0x46
+   3b754:	75 1a                	jne    0x3b770
+   3b756:	8b 41 0c             	mov    eax,DWORD PTR [ecx+0xc]
+   3b759:	80 38 3e             	cmp    BYTE PTR [eax],0x3e
+   3b75c:	75 12                	jne    0x3b770
+   3b75e:	6a 46                	push   0x46
+   3b760:	e8 1b 7a 03 00       	call   0x73180
+   3b765:	83 c4 04             	add    esp,0x4
+   3b768:	2b c0                	sub    eax,eax
+   3b76a:	c2 04 00             	ret    0x4
+   3b76d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   3b770:	8b 42 04             	mov    eax,DWORD PTR [edx+0x4]
+   3b773:	0b c0                	or     eax,eax
+   3b775:	74 14                	je     0x3b78b
+   3b777:	f6 00 08             	test   BYTE PTR [eax],0x8
+   3b77a:	74 0f                	je     0x3b78b
+   3b77c:	6a 46                	push   0x46
+   3b77e:	e8 fd 79 03 00       	call   0x73180
+   3b783:	83 c4 04             	add    esp,0x4
+   3b786:	2b c0                	sub    eax,eax
+   3b788:	c2 04 00             	ret    0x4
+   3b78b:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+   3b78e:	50                   	push   eax
+   3b78f:	e8 0c 00 00 00       	call   0x3b7a0
+   3b794:	c2 04 00             	ret    0x4

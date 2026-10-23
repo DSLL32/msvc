@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_sizeof_expression@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1127,
+  "configuration_sha256": "65a540b58747673112ac6dde0931f9572b757cddbe8cd3b099c01a62d30cb621",
+  "native_entry": "sizeof_expression",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 104160,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "right",
+        "native_owner_fields": [
+          "expression"
+        ],
+        "identity": "Actual parser rule298 loads expressionEAXfrom[ESIright+0]296d4/nonNULLcheck296d6/PUSHEAX296da/CALL296db return296e0. Native actual right->expression currentsemanticfield, equivalent right[0].expression; no negativeindex/arbitraryslot or unknownprestate.",
+        "original_owner_value": 8364220,
+        "native_owner_value": 1449358980
+      },
+      "original_raw": 8364220,
+      "native_raw": 1449358980,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      243408,
+      243607
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole199B leafstackexpressionESP+4,RET4/EAXexpression; report_syntax_errorcdecl andsizeof_type3b7a0..3b831/RET4. Symbolformflags&7==4 inspectsoriginalsymbol.type array/functionshapes andsizeofarraybeforedecay; non-symbolform rejects indirectbitfield(token_categories[kind]==46,left.kind3e) andfunction8shape. Otherpaths sizeofactualexpression.type. No hidden/registersemanticinputs/unknownresult, no new table/data. Diagnostic70 normalizedlocalgoto preserves singlecalleegraph.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "d0a6065c93705f18355a57aab65b9b8938baa7cf4b7350cc322ff98a8556fa47",
+  "capture_timing": {
+    "original_capture_seconds": 1.0675239190459251,
+    "native_capture_seconds": 0.1901654489338398,
+    "total_operation_seconds": 1.560026471503079
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "ea878ceef11de1b267dd97d1b62a66ff6dc780793211bd5bd01c1688d9ac41e3",
+    "native-commands.gdb": "1c716af214af45f64db8c27933ec2db515ae329bc0335731c08566464069c724",
+    "native-gdb.log": "b47a7ed2e0f976dff02df44dad3dfb935d9f9913431c15b78d3cc4954a2ecfb1",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "5f97c6e7c1cbc9b5175af3964d724032d78fcd42af88df31024254c1c9dfe8f4",
+    "original-configuration.json": "65a540b58747673112ac6dde0931f9572b757cddbe8cd3b099c01a62d30cb621",
+    "original-disassembly.txt": "9057476731277baba7763da5e815959cc8e63afcb598fad1fa1c6784d421be2e",
+    "original-entries.plan": "370c711dccbb5b7397929f7868231d8379173ff12fc5f749b725f67b72b94d54",
+    "original-events.txt": "8c34b83995ac157abfb0e723fbaacfd27d0db1faabad6b5143a0f8948b376166",
+    "original-ownership-caller-disassembly.txt": "90c75398b98869b690bbfc9c784202a27edd52343207f8de3ea865a7d0dc2ba0",
+    "original-receipt.json": "d3050b6249ce015b8e5a8fc3db59ac204f4d254728742de2d2bd7c73be1cd753",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "8f634c621a3e90ec3b1d043378ed531d3e95047b4e5ab1fd9c778b8dbd985f6c"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

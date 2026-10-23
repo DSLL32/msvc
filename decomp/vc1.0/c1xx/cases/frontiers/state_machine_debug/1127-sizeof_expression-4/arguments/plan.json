@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "function": "_sizeof_expression@4",
+  "native_entry": "sizeof_expression",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    169684,
+    169696
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "right",
+      "fields": [
+        "expression"
+      ]
+    }
+  },
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 104160,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "right",
+        "native_owner_fields": [
+          "expression"
+        ],
+        "identity": "Actual parser rule298 loads expressionEAXfrom[ESIright+0]296d4/nonNULLcheck296d6/PUSHEAX296da/CALL296db return296e0. Native actual right->expression currentsemanticfield, equivalent right[0].expression; no negativeindex/arbitraryslot or unknownprestate."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      243408,
+      243607
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole199B leafstackexpressionESP+4,RET4/EAXexpression; report_syntax_errorcdecl andsizeof_type3b7a0..3b831/RET4. Symbolformflags&7==4 inspectsoriginalsymbol.type array/functionshapes andsizeofarraybeforedecay; non-symbolform rejects indirectbitfield(token_categories[kind]==46,left.kind3e) andfunction8shape. Otherpaths sizeofactualexpression.type. No hidden/registersemanticinputs/unknownresult, no new table/data. Diagnostic70 normalizedlocalgoto preserves singlecalleegraph."
+  }
+}

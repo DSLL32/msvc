@@ -219,7 +219,6 @@ void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) {
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination) { __asm { int 3 } }
 void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
-IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }
 void skip_balanced_brace_body(void) { __asm { int 3 } }
 unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0; }
