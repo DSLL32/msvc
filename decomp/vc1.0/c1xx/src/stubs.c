@@ -435,7 +435,7 @@ CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 }
 IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
 
 
-IrToken *__stdcall enumerator_expression(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
 
 IrToken *__stdcall based_type_expression(CType *type) { __asm { int 3 } return 0; }
 

@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_enumerator_expression@4",
+    "start": 247216,
+    "end": 247313
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_initialize_element@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.39689821284264326,
+  "total_operation_seconds": 2.974949339404702,
+  "original_capture_seconds": 0.6660209130495787
+}

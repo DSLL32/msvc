@@ -72,3 +72,24 @@ CType *end_enum_specifier(void)
         (!declaration_mode || options.option_FR)) browser_end_tag();
     return enumerator_context;
 }
+
+/* Original 0x3c5b0..0x3c611. An enum constant retains its enum
+   type while exposing the stored integer through an ordinary constant token. */
+IrToken *__stdcall enumerator_expression(CppSymbol *symbol)
+{
+    IrToken *value;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    if (token_allocation_flags & 0x20000020UL)
+        value = allocate_permanent(sizeof(IrToken));
+    else {
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        value = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    value->flags = 3;
+    value->kind = 7;
+    value->value.integer = ((EnumeratorSymbol *)symbol)->value;
+    value->type = symbol->type;
+    return value;
+}

@@ -1020,7 +1020,8 @@
     "_copy_initializer_symbol@12",
     "_begin_nested_initializer",
     "_flush_initializer_constructors",
-    "_advance_braced_initializer@4"
+    "_advance_braced_initializer@4",
+    "_enumerator_expression@4"
   ],
   "driver": [
     {
@@ -4520,7 +4521,7 @@
     {
       "name": "_enumerator_expression@4",
       "start": 247216,
-      "end": 247217
+      "end": 247313
     },
     {
       "name": "_finish_symbol_expression@8",
@@ -7876,7 +7877,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_enumerator_expression@4",
+      "terminal": "_initialize_element@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7899,7 +7900,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1015-advance_braced_initializer-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1016-enumerator_expression-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7920,7 +7921,8 @@
         "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1015-advance_braced_initializer-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1015-advance_braced_initializer-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1016-enumerator_expression-4/frontier-extension.json"
       ]
     }
   },
