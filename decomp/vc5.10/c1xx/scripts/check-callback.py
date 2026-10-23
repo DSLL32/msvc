@@ -21,7 +21,7 @@ def context(directory,suffix,name='context_stack'):
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(match is not None and 1<=int(match[1])<=7,'no reviewed callback decoder for this function')
+    s.require(match is not None and 1<=int(match[1])<=8,'no reviewed callback decoder for this function')
     index=int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
@@ -47,13 +47,16 @@ def check(original,native,require_audit=True,audit_path=None):
     expected=[('0','0002e3c6'),('1','0002e46a'),('2','000384ce'),('3','0002e52a'),('5','000384d4'),('6','00038550')]
     if not seed:expected.append(('7','000233ba'))
     expected += [(str((7 if seed else 8)+slot-1),'%08x'%(model['initializers'][slot]['original_address']-0x10400000)) for slot in range(1,index+2)]
+    if index==8:expected[-1]=(expected[-1][0],'00038666')
     expected_frontier=expected[-1][1]
     s.require([row[:2] for row in traps]==expected and re.findall(r'^frontier rva=(\w+)$',text,re.M)==[expected_frontier],
               'original callback did not advance to exact next callback')
     s.require([int(word,16) for word in traps[4][2].split(',')][1:4]==[26,pointer,1],'original raw Invoke ABI differs')
     trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']+([] if seed else ['checked_malloc'])+['initialize_frontend_%02d'%slot for slot in range(1,index+2)]
+    if index==8:trace[-1]='initialize_output_buffer_01'
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     frontier='initialize_frontend_%02d'%(index+1)
+    if index==8:frontier='initialize_output_buffer_01'
     s.require(state['symbol']==frontier and state['args']=={} and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)

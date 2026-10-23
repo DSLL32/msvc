@@ -1,4 +1,5 @@
 #include "frontend.h"
+#include "output.h"
 #include <recon.h>
 
 void initialize_frontend_01(void)
@@ -45,7 +46,8 @@ void initialize_frontend_07(void)
 
 void initialize_frontend_08(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_01();
+    register_cleanup(destroy_output_buffer_01);
 }
 
 void initialize_frontend_09(void)

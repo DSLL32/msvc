@@ -77,3 +77,9 @@ int cleanup_compiler_pass(void)
     __asm { int 3 }
     return 0;
 }
+
+int register_cleanup(Initializer cleanup)
+{
+    __asm { int 3 }
+    return 0;
+}
