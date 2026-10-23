@@ -1,0 +1,14 @@
+[
+  {
+    "pc": 134529488,
+    "ecx": 134645068,
+    "esp": 4294957148,
+    "return": 134529612,
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPchState *"
+      }
+    ]
+  }
+]

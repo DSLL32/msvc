@@ -15,56 +15,65 @@ spec.loader.exec_module(pair)
 PROJECT = pair.PROJECT
 
 
-def check(original, native, audit_directory=None):
+def check(original, native, audit_directory=None, prospective_tail_chain=False):
     o, n = pair.checked_receipt(original), pair.checked_receipt(native)
-    assert o["kind"] == "explicit-original-capture" and o["mode"] == "masked" and o["exit"] in (0, 125)
-    assert n["kind"] in ("native-gdb-frontier", "native-gdb-completion")
+    if prospective_tail_chain:
+        assert o['kind']=='original-prospective-tail-chain' and o['mode']=='masked' and o['exit']==125
+        assert n['kind']=='native-prospective-tail-chain'
+    else:
+        assert o["kind"] == "explicit-original-capture" and o["mode"] == "masked" and o["exit"] in (0, 125)
+        assert n["kind"] in ("native-gdb-frontier", "native-gdb-completion")
     assert o.get("probe", "normal") == n.get("probe", "normal")
     assert o.get("value_copy_sign") == n.get("value_copy_sign")
     assert o.get("pdb_reuse") == n.get("pdb_reuse")
     candidate = json.loads((original / "candidate.json").read_text())
     config = json.loads((original / "functions.json").read_text())
     assert candidate["functions"] and config["driver"], "trial itself is absent"
-    default_tool_path = "tooling/graph-audit/target/release/graph-audit"
-    native_path = "decomp/vc5.10/c1/build/native/c1-host"
-    captured_inputs = []
-    for directory, receipt in ((original, o), (native, n)):
-        assert receipt["audit_binding_sha256"] == pair.sha(directory / "audit-binding.json")
-        captured_binding = json.loads((directory / "audit-binding.json").read_text())
-        captured_tool_path = captured_binding.get("auditor_path", default_tool_path)
-        ignored = {captured_tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
-        execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path not in ignored}
-        assert all(pair.sha(pair.ROOT / path) == value for path, value in execution_inputs.items())
-        assert pair.sha(directory / "audit.json") == captured_binding["report_sha256"]
-        captured_inputs.append(execution_inputs)
-    assert captured_inputs[0] == {path: value for path, value in captured_inputs[1].items() if path != native_path}
-    execution_inputs = captured_inputs[1]
-    assert o["helper_sha256"] == pair.sha(PROJECT / "build/dll-capture.exe")
-    audit_directory = audit_directory or PROJECT / "build"
-    binding = json.loads((audit_directory / "trial-audit-binding.json").read_text())
-    tool_path = binding.get("auditor_path", default_tool_path)
-    assert all(pair.sha(pair.ROOT / path) == value for path, value in binding["inputs"].items())
-    assert {path: value for path, value in binding["inputs"].items() if path != tool_path} == execution_inputs
-    assert pair.sha(audit_directory / "trial-audit.json") == binding["report_sha256"]
-    report = json.loads((audit_directory / "trial-audit.json").read_text())
-    assert {f["name"] for f in candidate["functions"]} == {f["name"] for f in config["driver"]}
-    chunks = sorted(tuple(chunk) for f in candidate["functions"] for chunk in f["chunks"])
-    chunks += [(item["start_rva"], item["end_rva"]) for item in candidate.get("imports", [])]
-    chunks.sort()
-    assert chunks == sorted((r["start_rva"], r["end_rva"]) for r in candidate["ranges"])
-    assert all(start < end for start, end in chunks)
-    assert all(left[1] <= right[0] for left, right in zip(chunks, chunks[1:]))
-    expected_owned = {f["name"]: [[0x10600000 + a, 0x10600000 + b] for a, b in f["chunks"]]
-                      for f in candidate["functions"]}
-    expected_owned.update({item["name"]: [[0x10600000 + item["start_rva"], 0x10600000 + item["end_rva"]]]
-                           for item in candidate.get("imports", [])})
-    owned = report["owned_code_chunks"]["original"]
-    assert owned["functions"] == expected_owned
-    assert owned["logical_function_count"] == len(expected_owned)
-    assert report["checked_functions"] == len(candidate["functions"])
-    assert owned["interval_count"] == len(chunks)
-    assert owned["declared_code_bytes"] == sum(b - a for a, b in chunks)
-    assert {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"} <= set(report["checks"])
+    if prospective_tail_chain:
+        from prospective import check as check_prospective
+        assert check_prospective(original,candidate)==check_prospective(native,candidate)
+        assert o['helper_sha256']==pair.sha(PROJECT/'build/dll-capture.exe')
+    else:
+        default_tool_path = "tooling/graph-audit/target/release/graph-audit"
+        native_path = "decomp/vc5.10/c1/build/native/c1-host"
+        captured_inputs = []
+        for directory, receipt in ((original, o), (native, n)):
+            assert receipt["audit_binding_sha256"] == pair.sha(directory / "audit-binding.json")
+            captured_binding = json.loads((directory / "audit-binding.json").read_text())
+            captured_tool_path = captured_binding.get("auditor_path", default_tool_path)
+            ignored = {captured_tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
+            execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path not in ignored}
+            assert all(pair.sha(pair.ROOT / path) == value for path, value in execution_inputs.items())
+            assert pair.sha(directory / "audit.json") == captured_binding["report_sha256"]
+            captured_inputs.append(execution_inputs)
+        assert captured_inputs[0] == {path: value for path, value in captured_inputs[1].items() if path != native_path}
+        execution_inputs = captured_inputs[1]
+        assert o["helper_sha256"] == pair.sha(PROJECT / "build/dll-capture.exe")
+        audit_directory = audit_directory or PROJECT / "build"
+        binding = json.loads((audit_directory / "trial-audit-binding.json").read_text())
+        tool_path = binding.get("auditor_path", default_tool_path)
+        assert all(pair.sha(pair.ROOT / path) == value for path, value in binding["inputs"].items())
+        assert {path: value for path, value in binding["inputs"].items() if path != tool_path} == execution_inputs
+        assert pair.sha(audit_directory / "trial-audit.json") == binding["report_sha256"]
+        report = json.loads((audit_directory / "trial-audit.json").read_text())
+        assert {f["name"] for f in candidate["functions"]} == {f["name"] for f in config["driver"]}
+        chunks = sorted(tuple(chunk) for f in candidate["functions"] for chunk in f["chunks"])
+        chunks += [(item["start_rva"], item["end_rva"]) for item in candidate.get("imports", [])]
+        chunks.sort()
+        assert chunks == sorted((r["start_rva"], r["end_rva"]) for r in candidate["ranges"])
+        assert all(start < end for start, end in chunks)
+        assert all(left[1] <= right[0] for left, right in zip(chunks, chunks[1:]))
+        expected_owned = {f["name"]: [[0x10600000 + a, 0x10600000 + b] for a, b in f["chunks"]]
+                          for f in candidate["functions"]}
+        expected_owned.update({item["name"]: [[0x10600000 + item["start_rva"], 0x10600000 + item["end_rva"]]]
+                               for item in candidate.get("imports", [])})
+        owned = report["owned_code_chunks"]["original"]
+        assert owned["functions"] == expected_owned
+        assert owned["logical_function_count"] == len(expected_owned)
+        assert report["checked_functions"] == len(candidate["functions"])
+        assert owned["interval_count"] == len(chunks)
+        assert owned["declared_code_bytes"] == sum(b - a for a, b in chunks)
+        assert {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"} <= set(report["checks"])
     assert pair.sha(original / "loaded-target.bin") == o["target_sha256"] == config["target"]["sha256"] == pair.sha(pair.ROOT / config["target"]["path"])
     assert pair.sha(original / "loaded-msvcrt.bin") == o["canonical_crt_sha256"] == pair.sha(pair.ROOT / "toolchains/5.10/bin/MSVCRT.DLL")
     expected = candidate["expected_frontier"]
@@ -78,7 +87,7 @@ def check(original, native, audit_directory=None):
                        "execution_receipts": {"original": pair.sha(original / "receipt.json"),
                                               "native": pair.sha(native / "receipt.json")}})
         return result
-    assert o["exit"] == 125 and n["kind"] == "native-gdb-frontier"
+    assert o["exit"] == 125 and n["kind"] == ("native-prospective-tail-chain" if prospective_tail_chain else "native-gdb-frontier")
     raw = (original / "events.txt").read_text()
     frontiers = re.findall(r"^frontier rva=([0-9a-f]{8})$", raw, re.M)
     traps = re.findall(r"^trap seq=(\d+) rva=([0-9a-f]{8}).*stack=([0-9a-f,]+)\nlast-error=(\d+)$", raw, re.M)
@@ -140,18 +149,30 @@ def check(original, native, audit_directory=None):
                          "return_rva": 0x123f2 if expected["rva"] == 0x123f6 else 0x123ac})
                 assert state["caller"]["symbol"] == caller["native_symbol"]
                 owner = next(row for row in candidate["functions"] if row["native_symbol"] == caller["native_symbol"])
-                assert any(a <= caller["return_rva"] - 1 < b for a, b in owner["chunks"])
-                assert int(words.split(",")[0], 16) == module_base + caller["return_rva"]
                 snapshot = (original / "relocated-text.bin").read_bytes()
-                call_site = caller["return_rva"] - 5
-                assert snapshot[call_site - 0x1000] == 0xe8
-                displacement = struct.unpack_from("<i", snapshot, call_site - 0x1000 + 1)[0]
-                assert caller["return_rva"] + displacement == expected["rva"]
+                if caller.get("tailcall"):
+                    assert expected["calling_convention"] == "thiscall-tail" and expected["rva"] == 0x11e2a
+                    assert owner["chunks"] == [[0x1279c, 0x127a6]] and caller["tail_rva"] == 0x127a1
+                    assert caller["inherited_return_rva"] == 0x12348
+                    assert int(words.split(",")[0], 16) == module_base + 0x12348
+                    assert snapshot[0x1279c-0x1000:0x127a1-0x1000] == b"\xb9" + struct.pack("<I", module_base+0x58f68)
+                    assert snapshot[0x127a1-0x1000] == 0xe9
+                    displacement = struct.unpack_from("<i", snapshot, 0x127a2-0x1000)[0]
+                    assert 0x127a6 + displacement == expected["rva"]
+                else:
+                    assert any(a <= caller["return_rva"] - 1 < b for a, b in owner["chunks"])
+                    assert int(words.split(",")[0], 16) == module_base + caller["return_rva"]
+                    call_site = caller["return_rva"] - 5
+                    assert snapshot[call_site - 0x1000] == 0xe8
+                    displacement = struct.unpack_from("<i", snapshot, call_site - 0x1000 + 1)[0]
+                    assert caller["return_rva"] + displacement == expected["rva"]
                 if expected["rva"] == 0x123f6:
                     cb = expected.get("callback", {"native_symbol": "destroy_output_buffer_23940", "original_rva": 0x23940})
                     callback = re.search(r"^([0-9a-f]+) [0-9a-f]+ [Tt] " + re.escape(cb["native_symbol"]) + "$", symbols, re.M)
                     assert callback and state["args"] == {"callback": int(callback[1], 16)}
                     assert args[0] == module_base + cb["original_rva"]
+                elif expected.get("calling_convention") == "thiscall-tail":
+                    assert set(state["args"]) == {"this"}
                 elif expected.get("calling_convention") == "thiscall":
                     assert state["args"]["minimum_pages"] == args[0] == 1
                 else:
@@ -218,13 +239,19 @@ def check(original, native, audit_directory=None):
         offset = item["start_rva"] - 0x1000
         assert snapshot[offset:offset + 6] == b"\xff\x25" + struct.pack("<I", module_base + item["iat_rva"])
         assert item["end_rva"] - item["start_rva"] == 6
-        slot = report["import_catalogs"]["original"]["slots"][str(0x10600000 + item["iat_rva"])]
-        assert slot == {"dll": item["provider"], "name": "_initterm"}
+        if not prospective_tail_chain:
+            slot = report["import_catalogs"]["original"]["slots"][str(0x10600000 + item["iat_rva"])]
+            assert slot == {"dll": item["provider"], "name": "_initterm"}
     labels = ["module identity/token", "CRT attach count", "null raw callback", "Win32 last error", "x87 control WORD"]
     labels.append("actual pass argc/argv/BOOL and NUL terminator" if compiler_flow else "reason/reserved")
     if candidate.get("field_map"):
         labels += ["complete34-slot callback identity table", "modeled field map/storage nonoverlap",
                    "typed initialized/BSS/snapshot state; other bytes UNMODELED"]
+    if prospective_tail_chain:
+        return {'status':'matching prospective wrapper-to-member input; NOT acceptance',
+                'wrapper_rva':0x1279c,'frontier_rva':expected['rva'],'state':labels,
+                'promotion':False,'audit':'unresolved pending tail member; strict joint audit still required',
+                'execution_receipts':{'original':pair.sha(original/'receipt.json'),'native':pair.sha(native/'receipt.json')}}
     return {"status": "fresh matching next frontier and typed CRT state",
             "trial": [f["name"] for f in candidate["functions"]],
             "frontier_rva": expected["rva"], "native_symbol": state["symbol"],

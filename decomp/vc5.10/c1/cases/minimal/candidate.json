@@ -331,6 +331,16 @@
       "start_rva": 75643,
       "end_rva": 75676,
       "entry": 1
+    },
+    {
+      "start_rva": 75676,
+      "end_rva": 75686,
+      "entry": 1
+    },
+    {
+      "start_rva": 73258,
+      "end_rva": 73276,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1033,7 +1043,34 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "sole-new-candidate"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1279c",
+      "native_symbol": "initialize_state_1279c",
+      "role": "application",
+      "chunks": [
+        [
+          75676,
+          75686
+        ]
+      ],
+      "source": "src/pch-state.cpp",
+      "status": "joint-new-candidate:tail-wrapper"
+    },
+    {
+      "name": "CompilerPchState::Initialize",
+      "native_symbol": "CompilerPchState::Initialize",
+      "native_linkage_symbol": "_ZN16CompilerPchState10InitializeEv",
+      "role": "application",
+      "chunks": [
+        [
+          73258,
+          73276
+        ]
+      ],
+      "source": "src/pch-state.cpp",
+      "status": "joint-new-candidate:real-member"
     }
   ],
   "text_data": [],
@@ -1048,11 +1085,10 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75676,
-    "native_symbol": "initialize_state_1279c",
+    "rva": 75686,
+    "native_symbol": "initialize_state_127a6",
     "kind": "initialization-callback",
-    "native_args": [],
-    "abi": "cdecl void no arguments,cleanup0"
+    "native_args": []
   },
   "imports": [
     {
@@ -1237,9 +1273,27 @@
       "bytes": 20,
       "entry_rva": 75643,
       "normal_case": false
+    },
+    "pch_state": {
+      "entry_rva": 75676,
+      "pointer_roles": "owned snapshot interior sentinels; no handle API or semantic dereference before the named member trap",
+      "pointer_first_offset": 1024,
+      "pointer_stride": 8,
+      "image_count": 37,
+      "loaded_image_count": 19,
+      "stored_file_position": 287454020,
+      "file_offset": 1432778632,
+      "normal_case": false
+    },
+    "pch_member": {
+      "entry_rva": 73258,
+      "object_rva": 364392,
+      "bytes": 68,
+      "normal_case": false,
+      "pointer_roles": "owned snapshot interior sentinels; cleared by genuine member before any semantic consumer"
     }
   },
-  "staging_role": "Reviewed fixed20-byte empty-record prototype reset is sole new candidate; larger record layouts remain unknown",
+  "staging_role": "ROOT-approved ordered joint tail-wrapper1279c + actual member11e2a closure; prospective member-input receipts distinct and unaccepted",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1281,5 +1335,16 @@
       "original_rva": 145627,
       "native_symbol": "destroy_pdb_context_238db"
     }
-  ]
+  ],
+  "joint_acceptance": {
+    "kind": "ordered-tail-chain",
+    "functions": [
+      "_initialize_state_1279c",
+      "CompilerPchState::Initialize"
+    ],
+    "prospective_inputs": [
+      "cases/minimal/evidence/pch-prospective-normal/prospective-validation.json",
+      "cases/minimal/evidence/pch-prospective-clear-aux/prospective-validation.json"
+    ]
+  }
 }

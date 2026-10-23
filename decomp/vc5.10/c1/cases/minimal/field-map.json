@@ -1208,6 +1208,97 @@
         0
       ],
       "evidence": "Reviewed exact20-byte fixed-width byte prototype; actual stores and count5 copies, full loaded zero default; no invented internal fields"
+    },
+    {
+      "name": "pch_state",
+      "original_rva": 364392,
+      "bytes": 68,
+      "native_offset": 708,
+      "native_field": "c1_bss.pch_state",
+      "default": {
+        "image_count": 0,
+        "root_image": 0,
+        "images": 0,
+        "stored_file_position": 0,
+        "file_name": 0,
+        "file_offset": 0,
+        "file": 0,
+        "mapping_handles": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "loaded_image_count": 0,
+        "scratch_arena": 0,
+        "original_pages": 0,
+        "mapped_pages": 0
+      },
+      "members": [
+        {
+          "name": "image_count",
+          "offset": 0,
+          "bytes": 4
+        },
+        {
+          "name": "root_image",
+          "offset": 4,
+          "bytes": 4
+        },
+        {
+          "name": "images",
+          "offset": 8,
+          "bytes": 4
+        },
+        {
+          "name": "stored_file_position",
+          "offset": 12,
+          "bytes": 4
+        },
+        {
+          "name": "file_name",
+          "offset": 16,
+          "bytes": 4
+        },
+        {
+          "name": "file_offset",
+          "offset": 20,
+          "bytes": 4
+        },
+        {
+          "name": "file",
+          "offset": 24,
+          "bytes": 4
+        },
+        {
+          "name": "mapping_handles",
+          "offset": 28,
+          "bytes": 24
+        },
+        {
+          "name": "loaded_image_count",
+          "offset": 52,
+          "bytes": 4
+        },
+        {
+          "name": "scratch_arena",
+          "offset": 56,
+          "bytes": 4
+        },
+        {
+          "name": "original_pages",
+          "offset": 60,
+          "bytes": 4
+        },
+        {
+          "name": "mapped_pages",
+          "offset": 64,
+          "bytes": 4
+        }
+      ],
+      "evidence": "actual constructor zeros17DWORDs; distinct meaningful count/image/position/path/file/mapping/arena/page-table fields from own load/remap/close users; no pointed object layout claim"
     }
   ],
   "outside_bss": [
@@ -1609,7 +1700,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 708,
+    "native_bss_size": 776,
     "source_writer_rvas": [
       [
         12576,
@@ -1620,7 +1711,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75676,
+    "hard_frontier_rva": 75686,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -1955,7 +2046,7 @@
       "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
     }
   ],
-  "native_bss_size": 708,
+  "native_bss_size": 776,
   "empty_record_prototype": {
     "original_rva": 364368,
     "native_offset": 688,
@@ -1977,5 +2068,44 @@
     ],
     "larger_record_layout_known": false,
     "included_in_initialized_snapshot": false
+  },
+  "pch_state": {
+    "original_rva": 364392,
+    "native_offset": 708,
+    "modeled_bytes": 68,
+    "original_object_extent_unknown": true,
+    "members": {
+      "image_count": 0,
+      "root_image": 4,
+      "images": 8,
+      "stored_file_position": 12,
+      "file_name": 16,
+      "file_offset": 20,
+      "file": 24,
+      "mapping_handles": 28,
+      "loaded_image_count": 52,
+      "scratch_arena": 56,
+      "original_pages": 60,
+      "mapped_pages": 64
+    },
+    "mapping_handle_count": 6,
+    "native_method": "CompilerPchState::Initialize",
+    "native_linkage_symbol": "_ZN16CompilerPchState10InitializeEv",
+    "member_rva": 73258,
+    "larger_image_arena_layouts_known": false,
+    "member_evidence": {
+      "image_count": "4cfb2 ReadFile(this,4), signed count loops4d053 and3ad779",
+      "root_image": "4d010 calls4c735 and assigns+4; root polymorphic image used4d2d5",
+      "images": "4d024 allocates image_count*4 and storesarray+8;4d05c fills image pointers",
+      "stored_file_position": "4d092 ReadFile to+0c then compares current SetFilePointer position4d0b4",
+      "file_name": "4cf3d stores incoming path; CreateFileA/error paths use+10",
+      "file_offset": "4cf40 incoming offset then SetFilePointer4cf73",
+      "file": "4cf49 CreateFileA result; CloseHandle+18 in3add3",
+      "mapping_handles": "4d16c sets+1c CreateFileMapping result;3ad7f..3add3 explicitly CloseHandle each+1c/20/24/28/2c/30",
+      "loaded_image_count": "4d050 copies loaded header image_count to+34 before images are populated",
+      "scratch_arena": "4d3af..bb allocates32B arena then12a18 initializes;4d577 invokes arena cleanup237c6",
+      "original_pages": "4d2dc assigns page table;4d617 indexes old pointed value>>16 and applies image delta",
+      "mapped_pages": "4d389 assigns page table;4d5c8 indexes pointer-field address>>16 and visited bits"
+    }
   }
 }

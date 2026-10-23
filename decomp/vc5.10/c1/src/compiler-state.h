@@ -45,6 +45,26 @@ typedef struct CompilerPool {
     CompilerPool *RECON_THISCALL Initialize(unsigned);
 #endif
 } CompilerPool;
+/* Pointer-relocation/file context: fields are established by its own load,
+ * map and cleanup methods; pointed image/arena layouts remain separate. */
+typedef struct CompilerPchState {
+    int image_count;
+    struct CompilerPchImage *root_image;
+    struct CompilerPchImage **images;
+    DWORD stored_file_position;
+    const char *file_name;
+    DWORD file_offset;
+    HANDLE file;
+    HANDLE mapping_handles[6];
+    int loaded_image_count;
+    struct CompilerArena *scratch_arena;
+    struct CompilerPchImage **original_pages;
+    struct CompilerPchImage **mapped_pages;
+#ifdef __cplusplus
+    CompilerPchState *RECON_THISCALL Initialize(void);
+#endif
+} CompilerPchState;
+
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -61,6 +81,7 @@ typedef struct CompilerBss {
     /* Fixed-width all-zero prototype copied into later records; their layouts
      * are separate. No five logical fields are inferred from scalar stores. */
     BYTE empty_record_prototype[20];
+    CompilerPchState pch_state;
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

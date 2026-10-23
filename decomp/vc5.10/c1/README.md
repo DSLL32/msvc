@@ -2,16 +2,19 @@
 
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
-The lifecycle-only first case is complete. Minimal C compilation is now in progress. The native i386 harness
-and actual Win32 DLL compile the same reconstructed C. The lifecycle fixture resolves both compiler exports without invoking them.
-The new minimal case invokes the reconstructed pass wrapper and currently traps
-in its named pass initializer; AbortCompilerPass remains an INT3 stub.
+The lifecycle-only first case is complete. Minimal C compilation is in progress,
+currently reaching the last named initializer callback127a6. The native i386
+harness and actual Win32 DLL compile the same reconstructed source; two genuine
+thiscall members and their callers use small C++ translation units. The lifecycle
+fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
+AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is four application functions (`DllMain`,
-`InvokeCompilerPass`, the typed pass initializer and checked allocator, 569 original bytes), two linked CRT support functions
-(451 bytes), and one genuine import thunk (6 bytes). Their union is 1,026 of the
-`.text` virtual extent's 322,288 bytes (0.318%); that denominator includes CRT and unclassified code, not just application
-code. This is lifecycle coverage, not compiler-pass coverage.
+Accepted ownership is49 application functions /1701 original bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2158 of the `.text` virtual
+extent's322288 bytes (0.670%). That denominator includes CRT and unclassified
+code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
+and its tail wrapper were explicitly accepted as one ordered JOINT two-function
+closure after separate non-promotable prospective input evidence.
 
 `make -j4 native original` builds both targets. `make audit` uses the common Rust
 CFG tool with imports, callee cleanup, ownership and whole-extent checks.
@@ -372,3 +375,17 @@ Prototype negatives16/28, generic47/100 and4 formal/trace controls perpair pass.
 See `EMPTY-PROTOTYPE-REVIEW.json` and evidence/empty-prototype-* for immutable
 raw sources, field ownership and timings. Durable49 source functions:47 app /
 1673B +2 CRT /451B +6 import =2130B; next frontier1279c.
+
+The PCH tail wrapper1279c and real thiscall member11e2a are jointly accepted
+(10+18 original bytes), reaching127a6. The68-byte typed file/relocation context
+has exact zero defaults, nonzero before-clear and actual member reset proofs;
+pointed image/arena layouts and any larger context extent remain unknown.
+Actual ECX/formal-this, inherited original return versus native CALL, RET0,
+ESP+4/EAX-this/EDI and whole neighboring state are checked. Strict Rust auditing
+passes51 source functions with all import/RET/ownership/extent checks. Fresh
+core47/100 and new PCH34/43 controls pass; prior unchanged pool negatives are
+explicitly reused while all nine current entry/return pairs remain checked.
+See `cases/minimal/PCH-STATE-ANALYSIS.md` and `evidence/pch-joint-*` for original/
+native timings, immutable proof and the explicit two-function acceptance.
+Native cached lifecycle fixture4.36ms. Independent orchestrator review passed;
+historical prospective evidence remains raw-only, never relabeled acceptance.

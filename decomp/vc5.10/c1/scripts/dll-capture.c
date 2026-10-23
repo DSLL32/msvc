@@ -35,6 +35,9 @@ static int pdb_probe, pdb_seeded;
 static DWORD pool_objects[16];
 static unsigned pool_count;
 static int prototype_probe, prototype_seeded;
+static int pch_state_probe, pch_member_probe, pch_member_seeded, pch_return_active;
+static DWORD pch_return_address, pch_entry_esp, pch_entry_edi;
+static BYTE pch_return_saved;
 static int pool_member_probe, pool_member_seeded, pool_return_active;
 static DWORD pool_return_address, pool_entry_esp;
 static BYTE pool_return_saved;
@@ -409,6 +412,22 @@ static void seed_pools(DWORD saved)
     for (index = 0; index < pool_count; ++index) seed_pool(index, saved, "pool-seed");
 }
 
+static void seed_pch_state(DWORD saved, DWORD rva, const char *tag)
+{
+    static DWORD pointer_offsets[13] = {4,8,16,24,28,32,36,40,44,48,56,60,64};
+    DWORD value;
+    unsigned i;
+    value = 37; write_mem(base + 0x58f68, &value, 4);
+    value = 19; write_mem(base + 0x58f68 + 52, &value, 4);
+    value = 0x11223344; write_mem(base + 0x58f68 + 12, &value, 4);
+    value = 0x55667788; write_mem(base + 0x58f68 + 20, &value, 4);
+    for (i = 0; i < 13; ++i) {
+        value = saved + 1024 + i * 8;
+        write_mem(base + 0x58f68 + pointer_offsets[i], &value, 4);
+    }
+    fprintf(events, "%s rva=%08lx object=00058f68 allocation=%08lx bytes=68\n", tag, rva, saved);
+}
+
 static void seed_prototype(DWORD rva, unsigned first)
 {
     BYTE value[20];
@@ -477,6 +496,7 @@ static void seed_restore_state(void)
     if (pdb_probe) seed_pdb_context();
     seed_pools(saved);
     if (prototype_probe) seed_prototype(0x122a5, 1);
+    if (pch_state_probe) seed_pch_state(saved, 0x122a5, "pch-state-seed");
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -564,6 +584,18 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
             patch(pool_return_address, 0xcc); pool_return_active = 1;
         }
     }
+    if (address == base + 0x11e2a) {
+        unsigned i;
+        for (i = 0; i < count; ++i) if (ranges[i].entry && ranges[i].first == 0x11e2a) break;
+        if (i < count) {
+            if (pch_return_active || stack[0] != base + 0x12348 || context->Ecx != base + 0x58f68) fail("PCH member inherited caller/receiver");
+            pch_return_address = stack[0]; pch_entry_esp = context->Esp; pch_entry_edi = context->Edi;
+            readmem(pch_return_address, &pch_return_saved, 1);
+            if (pch_return_saved != snapshot[0x12348 - code_rva] || pch_return_saved != 0xeb) fail("PCH inherited return opcode");
+            fprintf(events, "pch-member-entry seq=%u edi=%08lx inherited-return=%08lx\n", sequence - 1, pch_entry_edi, pch_return_address);
+            patch(pch_return_address, 0xcc); pch_return_active = 1;
+        }
+    }
     if (address == base + entry_rva) {
         if (return_active) fail("nested target DLL entry unsupported");
         return_address = stack[0]; return_reason = stack[2];
@@ -630,6 +662,16 @@ int main(int argc, char **argv)
             if (fscanf(probe, "%lx %lx %lx %lx", &object, &bytes, &first, &callback) != 4 || object != 0x58f50 || bytes != 20 || first != 1 || callback != 0xa0) fail("prototype probe metadata");
             prototype_probe = 1; fclose(probe);
         }
+        probe = fopen("pch-state-probe.txt", "r");
+        if (probe) {
+            if (fscanf(probe, "%lx %lx", &object, &bytes) != 2 || object != 0x58f68 || bytes != 68) fail("PCH state probe metadata");
+            pch_state_probe = 1; fclose(probe);
+        }
+        probe = fopen("pch-member-probe.txt", "r");
+        if (probe) {
+            if (fscanf(probe, "%lx %lx %lx", &first, &object, &bytes) != 3 || first != 0x11e2a || object != 0x58f68 || bytes != 68) fail("PCH member probe metadata");
+            pch_member_probe = 1; fclose(probe);
+        }
     }
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
@@ -675,6 +717,13 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && pch_return_active && address == pch_return_address) {
+                fprintf(events, "pch-member-return seq=%u pc=%08lx eax=%08lx esp=%08lx entry-esp=%08lx edi=%08lx entry-edi=%08lx\n", sequence, address, context.Eax, context.Esp, pch_entry_esp, context.Edi, pch_entry_edi);
+                fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
+                fprintf(events, "x87-control=%04lx\n", context.FloatSave.ControlWord);
+                save_state(); patch(pch_return_address, pch_return_saved); pch_return_active = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("PCH return context");
             } else if (code == EXCEPTION_BREAKPOINT && pool_return_active && address == pool_return_address) {
                 fprintf(events, "pool-return seq=%u pc=%08lx eax=%08lx esp=%08lx entry-esp=%08lx\n", sequence, address, context.Eax, context.Esp, pool_entry_esp);
                 fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
@@ -730,6 +779,12 @@ int main(int argc, char **argv)
                 }
                 if (restore_probe && prototype_probe && !prototype_seeded && address == base + 0x1277b) {
                     seed_prototype(0x1277b, 0xa0); prototype_seeded = 1;
+                }
+                if (restore_probe && pch_member_probe && !pch_member_seeded && address == base + 0x11e2a) {
+                    DWORD saved;
+                    if (context.Ecx != base + 0x58f68) fail("PCH member seed receiver");
+                    readmem(base + 0x57818, &saved, 4);
+                    seed_pch_state(saved, 0x11e2a, "pch-member-seed"); pch_member_seeded = 1;
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

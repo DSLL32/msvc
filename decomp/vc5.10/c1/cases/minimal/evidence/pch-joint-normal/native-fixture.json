@@ -1,0 +1,1 @@
+{"case": "dll-lifecycle-and-exports", "status": "PASS", "native_only": true, "seconds": {"setup": 0.0015735020861029625, "execution": 0.002036668360233307, "checks": 0.00029153749346733093, "total": 0.00436022225767374}, "application_trace": ["DllMain"], "original_target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"}

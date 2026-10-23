@@ -146,10 +146,7 @@ void __cdecl initialize_state_1277b(void)
         c1_bss.empty_record_prototype[index] = 0;
 }
 
-void __cdecl initialize_state_1279c(void)
-{
-    __asm { int 3 }
-}
+
 
 void __cdecl initialize_state_127a6(void)
 {

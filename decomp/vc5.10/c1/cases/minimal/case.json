@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "pass wrapper, typed initializer and checked allocator accepted; first callback next"
+  "status": "49 application +2 CRT source functions accepted; final initializer callback127a6 next; minimal compilation remains incomplete"
 }

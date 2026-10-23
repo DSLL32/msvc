@@ -71,6 +71,7 @@ def main():
     parser.add_argument("--name", required=True, help="new scratch case directory name")
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     parser.add_argument("--restore-probe", action="store_true")
+    parser.add_argument("--prospective-tail-chain", action="store_true", help="bounded raw-only input observation, never acceptance")
     parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
     parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
     args = parser.parse_args()
@@ -78,6 +79,7 @@ def main():
     assert not args.negative_value or args.restore_probe
     assert not args.pdb_reuse or args.restore_probe
     assert args.name.replace("-", "").replace("_", "").isalnum()
+    assert not args.prospective_tail_chain or args.mode == "masked"
     checks = preflight()
     output = SCRATCH / "vc5.10/c1" / args.name
     output.mkdir(parents=True, exist_ok=False)
@@ -104,6 +106,10 @@ def main():
         (output / "pool-member-probe.txt").write_text("126fc %x\n" % len(field_map["pools"]))
     if args.restore_probe and field_map.get("empty_record_prototype"):
         (output / "prototype-probe.txt").write_text("58f50 14 01 a0\n")
+    if args.restore_probe and field_map.get("pch_state"):
+        (output / "pch-state-probe.txt").write_text("58f68 44\n")
+    if args.restore_probe and candidate.get("restore_probe", {}).get("pch_member"):
+        (output / "pch-member-probe.txt").write_text("11e2a 58f68 44\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -118,7 +124,11 @@ def main():
     shutil.copy2(PROJECT / ("cases/" + args.case + "/candidate.json"), output / "candidate.json")
     audit_config = PROJECT / candidate.get("audit_config", "functions.json")
     shutil.copy2(audit_config, output / "functions.json")
-    if candidate.get("functions"):
+    if args.prospective_tail_chain:
+        assert args.case == "minimal"
+        from prospective import freeze as freeze_prospective
+        freeze_prospective(output, candidate)
+    elif candidate.get("functions"):
         binding = json.loads((PROJECT / "build/trial-audit-binding.json").read_text())
         assert all(sha(ROOT / path) == value for path, value in binding["inputs"].items())
         shutil.copy2(PROJECT / "build/trial-audit.json", output / "audit.json")
@@ -141,7 +151,7 @@ def main():
         assert sha(loaded) == sha(TARGET)
     if loaded_crt.exists():
         assert sha(loaded_crt) == CRT_HASH
-    receipt = {"schema": 1, "kind": "explicit-original-capture",
+    receipt = {"schema": 1, "kind": "original-prospective-tail-chain" if args.prospective_tail_chain else "explicit-original-capture",
                "candidate_path": "cases/" + args.case + "/candidate.json",
                "probe": "restore" if args.restore_probe else "normal",
                "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,
