@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 50 application
-functions (27,546 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 51 application
+functions (27,646 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_output_modules`; hello-win32 has not completed.
+next frontier is `duplicate_link_string`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -233,3 +233,17 @@ including 57.4 ms setup, 3.95 ms ELF execution and 0.43 ms checking. The durable
 acceptance and both independent reviews are in
 cases/hello-win32/frontiers/50-full-link. Earlier pending evidence remains
 unchanged; no downstream pass or hello output completion is claimed.
+
+The 100-byte output-module initializer is accepted. It preserves the incremental
+calloc path and ordinary linker-arena path, allocates complete156/68-byte records,
+and delays publishing its output until both names are copied. The next actual
+string-copy input is captured as `" linker defined module"`; the two reached name
+literals own only their exact47 .text-data bytes. The initial masked-literal
+capture remains unchanged with an explicit correction record. Both record
+contents, output-slot NULL, separate arena/page ownership and all six actual
+VirtualAlloc call/return inputs and initially zero pages match. 86 current semantic
+negatives pass. The original capture took1.324 s, native GDB0.316 s and the full
+audit0.831 s total (0.451 s command/check phase), with64 vertices/57 real RET ABIs.
+Prospective FullLink counterpart addresses were refreshed without changing its
+original body/provider/closed-target semantics; each prior archive retains the
+actual earlier proof/checker/object bytes in full-link-proof/.

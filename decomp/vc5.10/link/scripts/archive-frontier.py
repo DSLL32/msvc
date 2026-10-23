@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Persist a validated frontier without duplicating provided DLL/EXE files."""
 import argparse
+import hashlib
 import gzip
 import json
 from pathlib import Path
@@ -29,6 +30,27 @@ for path in original.iterdir():
         (output/'mask.bin.gz').write_bytes(gzip.compress(path.read_bytes(),mtime=0))
     else:shutil.copyfile(path,output/path.name)
 (destination/'validation.json').write_text(json.dumps(validation,indent=2)+'\n')
+if validation['audit'].get('full_link_import_audit'):
+    # These prospective counterpart bindings change as later functions move
+    # rebuilt addresses. Preserve their exact earlier input bytes first.
+    binary=Path(__file__).resolve().parents[1]
+    manifest=[]
+    for name,digest in validation['audit']['input_sha256_before'].items():
+        source=Path(name)
+        try:relative=source.relative_to(binary)
+        except ValueError:continue
+        selected=(relative.as_posix()in {
+            'scripts/full-link-preservation.py','scripts/member_pointers.py',
+            'cases/hello-win32/full-link-import-preservation.json',
+            'cases/hello-win32/full-link-closed-slot.json',
+            'cases/hello-win32/full-link-audit-trial/metadata.json'}or
+            (relative.parts[0]=='build'and source.suffix=='.obj'))
+        if not selected:continue
+        data=source.read_bytes();assert hashlib.sha256(data).hexdigest()==digest
+        snapshot=destination/'full-link-proof'/relative
+        snapshot.parent.mkdir(parents=True,exist_ok=True);snapshot.write_bytes(data)
+        manifest.append(dict(project_path=relative.as_posix(),snapshot=str(snapshot.relative_to(destination)),sha256=digest))
+    (destination/'full-link-proof/input-snapshots.json').write_text(json.dumps(manifest,indent=2)+'\n')
 (destination/'storage.json').write_text(json.dumps(dict(original_capture=str(original),
     module_copies='Actual debugger hFile copies stay in the receipt-named original capture. Their bytes/hashes remain pinned by the unmodified receipt; provided toolchain files are not duplicated here.',
     mask_encoding='gzip with mtime 0; decode before applying the original receipt hash'),indent=2)+'\n')

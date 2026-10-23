@@ -14,6 +14,8 @@ static Entry entries[2048];
 static unsigned entry_count;
 static DWORD full_link_receiver, full_link_output, full_link_entry_stack;
 static BYTE full_link_initial;
+static unsigned virtual_count;
+static DWORD module_output_slot, module_output_initial;
 static DWORD crt_base, main_frame_base, configuration_context, parser_allocation_bytes, parser_allocation, duplicate_result, virtual_arguments[4];
 static DWORD library_search_arguments[2], library_search_stack;
 static DWORD released_argument, release_stack, release_count;
@@ -253,6 +255,7 @@ static int snapshot(DWORD address)
     /* Parameter roles are keyed to the exact known function ABI. */
     argument_index=0;
     switch(address-base) {
+    case 0x4fd80: /* duplicate_link_string(text) */
     case 0x5c530: /* search_library_paths(name, found) */
     case 0x5c650: /* canonicalize_argument(text, extension) */
     case 0x5c780: /* parse_argument(text, source) */
@@ -281,11 +284,11 @@ static int snapshot(DWORD address)
         }
         fprintf(events,"}");
     }
-    if(address==base+0x48630 || address==base+0x42f50 || address==base+0xe3b0) {
+    if(address==base+0x48630 || address==base+0x42f50 || address==base+0xe3b0 || address==base+0x4fd80) {
         DWORD output;
         if(!ReadProcessMemory(process,(void *)(base+0x7efa4),&output,4,&got)||got!=4||
            !remote_string(output,value,sizeof(value)))return 0;
-        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",address==base+0xe3b0?configuration_context:address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
+        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",(address==base+0xe3b0||address==base+0x4fd80)?configuration_context:address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
         if(address==base+0x42f50) {
             unsigned char initial;
             if(!ReadProcessMemory(process,(void *)stack[1],&initial,1,&got)||got!=1||!save_memory(stack[1],1,"pack-requested-before.bin"))return 0;
@@ -297,6 +300,21 @@ static int snapshot(DWORD address)
         if(!ReadProcessMemory(process,(void *)stack[1],&initial,4,&got)||got!=4||
            !save_memory(stack[1],4,"output-module-before.bin"))return 0;
         fprintf(events,",\"output_module_formals\":{\"module\":%lu,\"destination_global\":%lu,\"initial\":%lu},\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",stack[1],base+0x7f028,initial,full_link_receiver,full_link_output,full_link_initial);
+    }
+    if(address==base+0x4fd80) {
+        DWORD library,arena,header[4],kind;
+        char filename[128];
+        if(!ReadProcessMemory(process,(void *)(context.Esi+0x64),&library,4,&got)||got!=4||
+           !save_memory(context.Esi,156,"output-module.bin")||!save_memory(library,68,"output-library.bin"))return 0;
+        fprintf(events,",\"module_constructor\":{\"result_slot\":%lu,\"initial\":%lu,\"module\":%lu,\"library\":%lu},\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",module_output_slot,module_output_initial,context.Esi,library,full_link_receiver,full_link_output,full_link_initial);
+        for(kind=0;kind<2;++kind) {
+            DWORD slot=base+(kind?0x6758c:0x67590);
+            sprintf(filename,"output-%s-arena-pointer.bin",kind?"library":"module");if(!save_memory(slot,4,filename))return 0;
+            if(!ReadProcessMemory(process,(void *)slot,&arena,4,&got)||got!=4||!arena||
+               !ReadProcessMemory(process,(void *)arena,header,16,&got)||got!=16)return 0;
+            sprintf(filename,"output-%s-arena.bin",kind?"library":"module");if(!save_memory(arena,16,filename))return 0;
+            sprintf(filename,"output-%s-page.bin",kind?"library":"module");if(!save_memory(header[3],header[1]+header[2],filename))return 0;
+        }
     }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
@@ -352,7 +370,7 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || ((address==base+0xe3b0 || address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0x4fd80 || address==base+0xe3b0 || address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
@@ -588,8 +606,16 @@ int main(int argc, char **argv)
                         DWORD got;
                         if(!strcmp(entries[index].name,"observe:virtual_call")) {
                             if(!ReadProcessMemory(process,(void *)context.Esp,virtual_arguments,sizeof(virtual_arguments),&got)||got!=sizeof(virtual_arguments)){failed=6;break;}
-                        } else if(!context.Eax || !save_memory(context.Eax,virtual_arguments[1],"virtual-first-zero.bin")){failed=6;break;}
-                        fprintf(events,"{\"event\":\"virtual_observation\",\"name\":\"%s\",\"site\":%lu,\"arguments\":[%lu,%lu,%lu,%lu],\"eax\":%lu}\n",entries[index].name,site,virtual_arguments[0],virtual_arguments[1],virtual_arguments[2],virtual_arguments[3],context.Eax);
+                            if(!rearm_observer("observe:virtual_return")){failed=6;break;}
+                        } else {
+                            char filename[128];
+                            sprintf(filename,"virtual-%u-zero.bin",virtual_count);
+                            if(!context.Eax||!save_memory(context.Eax,virtual_arguments[1],filename)||
+                               (!virtual_count&&!save_memory(context.Eax,virtual_arguments[1],"virtual-first-zero.bin"))||
+                               !rearm_observer("observe:virtual_call")){failed=6;break;}
+                        }
+                        fprintf(events,"{\"event\":\"virtual_observation\",\"name\":\"%s\",\"site\":%lu,\"index\":%u,\"arguments\":[%lu,%lu,%lu,%lu],\"eax\":%lu}\n",entries[index].name,site,virtual_count,virtual_arguments[0],virtual_arguments[1],virtual_arguments[2],virtual_arguments[3],context.Eax);
+                        if(!strcmp(entries[index].name,"observe:virtual_return"))++virtual_count;
                     } else if((!strncmp(entries[index].name,"observe:mbs_",12) || !strncmp(entries[index].name,"observe:mbspbrk_",16))) {
                         DWORD arguments[3],got,codepage,locale_handle,mb_cur_max,locale_codepage;
                         unsigned argument_count=!strncmp(entries[index].name,"observe:mbspbrk_",16)?2:3;
@@ -635,6 +661,12 @@ int main(int argc, char **argv)
                                !arguments[0]||arguments[1]||arguments[2]){failed=6;break;}
                             configuration_context=arguments[0];
                             fprintf(events,"{\"event\":\"configuration_arguments\",\"context\":%lu,\"module\":%lu,\"file\":%lu}\n",arguments[0],arguments[1],arguments[2]);
+                        }
+                        if(!strcmp(entries[index].name,"_initialize_output_modules@4")) {
+                            DWORD got;
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),&module_output_slot,4,&got)||got!=4||
+                               !ReadProcessMemory(process,(void *)module_output_slot,&module_output_initial,4,&got)||got!=4){failed=6;break;}
+                            fprintf(events,"{\"event\":\"output_modules_entry\",\"result_slot\":%lu,\"initial\":%lu}\n",module_output_slot,module_output_initial);
                         }
                         if(!strcmp(entries[index].name,"?FullLink@LinkContext@@QAEHPAE@Z")) {
                             DWORD got;

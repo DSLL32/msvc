@@ -67,7 +67,8 @@
     "_search_library_paths@8",
     "_release_memory@4",
     "_validate_debug_options@4",
-    "?FullLink@LinkContext@@QAEHPAE@Z"
+    "?FullLink@LinkContext@@QAEHPAE@Z",
+    "_initialize_output_modules@4"
   ],
   "driver": [
     {
@@ -1235,11 +1236,11 @@
     {
       "name": "_initialize_output_modules@4",
       "start": 4252592,
-      "end": 4252593,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
-      "abi": "stdcall void(OutputModule **module); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "end": 4252692,
+      "source": "src/full-link-init.c",
+      "status": "implemented",
+      "abi": "stdcall void(OutputModule **module); RET4, two complete156/68-byte records and copied names",
+      "pending_extent": false,
       "native_symbol": "initialize_output_modules"
     },
     {
@@ -2274,6 +2275,16 @@
       "pending_extent": true,
       "native_symbol": "LinkContext::WriteVxdNames",
       "symbol": "?WriteVxdNames@LinkContext@@QAEXH@Z"
+    },
+    {
+      "name": "_duplicate_link_string@4",
+      "start": 4521344,
+      "end": 4521345,
+      "source": "src/full-link-init.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "duplicate_link_string",
+      "abi": "stdcall char *(const char *text); one stack input, actual RET4 paths; no hidden/register input observed in caller/callee"
     }
   ],
   "text_data": [
@@ -4084,6 +4095,22 @@
       "reason": "validate_debug_options contextual diagnostic literal",
       "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
       "sha256": "228899f35e9b735f602dab0d028cbfd02944cf3eba8e2606cba9cfaa10b69c9a"
+    },
+    {
+      "start": 4200508,
+      "end": 4200532,
+      "accepted": true,
+      "reason": "initialize_output_modules encountered name literal linker defined library",
+      "evidence": "src/full-link-init.c: initialize_output_modules; original40e3b0..40e414",
+      "sha256": "41a822e983685a23c269f0be001f481d904e09aa294bbc3bdb8849a32103575e"
+    },
+    {
+      "start": 4200532,
+      "end": 4200555,
+      "accepted": true,
+      "reason": "initialize_output_modules encountered name literal linker defined module",
+      "evidence": "src/full-link-init.c: initialize_output_modules; original40e3b0..40e414",
+      "sha256": "1167926ea93b7ad14c978e212e1af3bee86d5356bbf10ee64bd582f8e12d2bd5"
     }
   ],
   "cases": {

@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -298,5 +298,22 @@ if args.frontier=='_initialize_output_modules@4':
     negative('lost module output formal',lambda s:s['output_module_formals'].__setitem__('module',0))
     negative('lost module global alias',lambda s:s['output_module_formals'].__setitem__('destination_global',0))
     negative('wrong module initial value',lambda s:s['output_module_formals'].__setitem__('initial',1))
+if args.frontier=='_duplicate_link_string@4':
+    negative('wrong linker-owned name literal',lambda s:s['argument_detail'].__setitem__('text','linker defined module'))
+    negative('lost string formal pointer',lambda s:s['argument_detail'].__setitem__('address',0))
+    negative('wrong constructor output slot',lambda s:s['module_constructor'].__setitem__('result_slot',0))
+    negative('premature output publication',lambda s:s['module_constructor'].__setitem__('current',1))
+    negative('lost module allocation owner',lambda s:s['module_constructor'].__setitem__('module',0))
+    negative('lost library allocation owner',lambda s:s['module_constructor'].__setitem__('library',0))
+    negative('wrong allocated module bytes',lambda s:s['module_constructor'].__setitem__('module_raw','01'+s['module_constructor']['module_raw'][2:]))
+    negative('wrong allocated library bytes',lambda s:s['module_constructor'].__setitem__('library_raw','01'+s['module_constructor']['library_raw'][2:]))
+    negative('missing module arena',lambda s:s['output_module_arenas'].pop(0))
+    negative('wrong arena descriptor width',lambda s:s['output_module_arenas'][0].__setitem__('raw','00'*16))
+    negative('module arena unused tail changed',lambda s:s['output_module_arenas'][0].__setitem__('data',s['output_module_arenas'][0]['data'][:-2]+'01'))
+    negative('library arena unused tail changed',lambda s:s['output_module_arenas'][1].__setitem__('data',s['output_module_arenas'][1]['data'][:-2]+'01'))
+    negative('missing sixth allocation',lambda s:s['virtual_alloc_calls'].pop())
+    negative('wrong module virtual protection',lambda s:s['virtual_alloc_calls'][4]['arguments'].__setitem__(3,0x40))
+    negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
+    negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

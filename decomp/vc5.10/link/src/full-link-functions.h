@@ -18,6 +18,7 @@ void __cdecl record_file_access(void);
 void * __stdcall map_file_range(int file,long offset,unsigned bytes);
 void __cdecl initialize_contribution_pools(void);
 void __stdcall initialize_output_modules(OutputModule **module);
+char *__stdcall duplicate_link_string(const char *text);
 ContributionGroup * __stdcall find_contribution_group(OutputSection *section,const char *name);
 Contribution * __stdcall create_contribution(const char *name,DWORD bytes,DWORD flags,DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context);
 OutputSection * __stdcall find_output_section(const char *name,SectionList *sections);

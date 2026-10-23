@@ -11,7 +11,6 @@ extern "C" unsigned __stdcall mapped_write(FileRecord *file,const void *buffer,u
 extern "C" void __cdecl record_file_access(void) { __asm { int 3 } }
 extern "C" void * __stdcall map_file_range(int file,long offset,unsigned bytes) { __asm { int 3 } return 0; }
 extern "C" void __cdecl initialize_contribution_pools(void) { __asm { int 3 } }
-extern "C" void __stdcall initialize_output_modules(OutputModule **module) { __asm { int 3 } }
 extern "C" ContributionGroup * __stdcall find_contribution_group(OutputSection *section,const char *name) { __asm { int 3 } return 0; }
 extern "C" Contribution * __stdcall create_contribution(const char *name,DWORD bytes,DWORD flags,DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context) { __asm { int 3 } return 0; }
 extern "C" OutputSection * __stdcall find_output_section(const char *name,SectionList *sections) { __asm { int 3 } return 0; }

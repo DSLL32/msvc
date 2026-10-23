@@ -7,6 +7,7 @@
 #include <recon.h>
 
 typedef struct OutputModule OutputModule;
+typedef struct OutputLibrary OutputLibrary;
 typedef struct OutputSection OutputSection;
 typedef struct ContributionGroup ContributionGroup;
 typedef struct Contribution Contribution;
@@ -14,6 +15,20 @@ typedef struct ComdatRoot ComdatRoot;
 
 /* Only fields consumed by FullLink are named here. These are prefixes, not
  * claims about an allocation's complete size or its as-yet unknown tail. */
+/* The initializer allocates these complete records (156 and68 bytes). Only
+ * its name/library fields have yet been consumed; the other fields remain
+ * explicitly unnamed rather than borrowing another linker's layout. */
+struct OutputLibrary {
+    char *name;
+    DWORD reserved04[16];
+};
+struct OutputModule {
+    DWORD reserved00;
+    char *name;
+    BYTE reserved08[92];
+    OutputLibrary *library;
+    BYTE reserved68[52];
+};
 struct OutputSection {
     char *name;
     DWORD rva, reserved08, raw_size, virtual_size, reserved14, file_offset;
@@ -61,6 +76,9 @@ typedef struct MacResource {
     Contribution *contribution;
 } MacResource;
 
+typedef char OutputLibrarySize[(sizeof(OutputLibrary)==68)?1:-1];
+typedef char OutputModuleSize[(sizeof(OutputModule)==156)?1:-1];
+typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];
 typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];
 typedef char SectionFileOffsetAt18[(offsetof(OutputSection,file_offset)==0x18)?1:-1];
 typedef char SectionIndexAt30[(offsetof(OutputSection,index)==0x30)?1:-1];

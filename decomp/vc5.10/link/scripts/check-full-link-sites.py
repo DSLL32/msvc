@@ -17,6 +17,8 @@ args=parser.parse_args();start=time.perf_counter()
 checker=importlib.import_module('full-link-preservation')
 report=json.loads(args.input_report.read_text());rebuilt=PE(BINARY/'build/link.exe')
 positive=checker.check_resolution(report,rebuilt);rejected=[]
+callback,=report['register_import_inputs']['callback_preservation_contracts']
+rebuilt_callback_site=str(callback['rebuilt']['site'])
 def negative(name,mutate):
     changed=copy.deepcopy(report);mutate(changed)
     try:checker.check_resolution(changed,rebuilt)
@@ -27,7 +29,7 @@ negative('lost one cached fprintf while aggregate identity survives',lambda r:si
 negative('wrong late cached identity',lambda r:sites(r)['original']['resolved_register_calls'][str(0x444915)].__setitem__('name','sprintf'))
 negative('missing strict cached-call completeness',lambda r:sites(r).__setitem__('require_all_register_calls_resolved',False))
 negative('omitted original callback preservation application',lambda r:sites(r)['original'].__setitem__('callback_preservation',{}))
-negative('wrong applied callback slot',lambda r:sites(r)['rebuilt']['callback_preservation'][str(0x40ae4f)].__setitem__('slot',0))
+negative('wrong applied callback slot',lambda r:sites(r)['rebuilt']['callback_preservation'][rebuilt_callback_site].__setitem__('slot',0))
 negative('wrong applied callback witness digest',lambda r:sites(r)['original']['callback_preservation'][str(0x444795)]['evidence'].__setitem__('sha256','0'*64))
 negative('extra opaque original callback',lambda r:sites(r)['original']['other_unresolved_calls'].append(0x444865))
 negative('dropped provider preservation bit',lambda r:r['register_import_inputs']['preservation_contracts'][1].__setitem__('preserves',['edi']))

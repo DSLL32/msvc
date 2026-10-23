@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules')
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -168,7 +168,8 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
-    compare(original,state,trap,configuration_context=context)
+    additional=compare_output_modules(original,state,trap,events)if state['function']=='duplicate_link_string'else []
+    compare(original,state,trap,configuration_context=context,additional_arenas=additional)
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
         if state['function']=='LinkContext::FullLink':
@@ -179,11 +180,12 @@ def compare_configured(original,state,trap,events,canonical,search):
             assert formals['this']==original_entry['this']==context
             assert formals['pack_requested']==original_entry['pack_requested']==original_entry['stack_pointer']+28
             assert original_entry['initial']==formals['pack_requested_initial']
-            observed=trap['output_module_formals'];native_module=state['output_module_formals']
-            assert observed['module']==observed['destination_global']==trap['stack'][1]==0x47f028
-            assert observed['initial']==native_module['initial']==0
-            assert native_module['module']==native_module['destination_global']!=0
-            assert (original/'output-module-before.bin').read_bytes()==(original/'output-module-global.bin').read_bytes()==bytes(4)
+            if state['function']=='initialize_output_modules':
+                observed=trap['output_module_formals'];native_module=state['output_module_formals']
+                assert observed['module']==observed['destination_global']==trap['stack'][1]==0x47f028
+                assert observed['initial']==native_module['initial']==0
+                assert native_module['module']==native_module['destination_global']!=0
+                assert (original/'output-module-before.bin').read_bytes()==(original/'output-module-global.bin').read_bytes()==bytes(4)
         assert (original/'pack-requested-before.bin').read_bytes()==bytes([formals['pack_requested_initial']])
         assert formals['initial_value_contract']=='uninitialized caller local; no cross-platform value equality'
         assert native['this']==entry['this']==state['context_this']
@@ -192,3 +194,41 @@ def compare_configured(original,state,trap,events,canonical,search):
         assert native['pack_requested'] and not state['context_this']<=native['pack_requested']<state['context_this']+664
         # The caller has not initialized this out-byte. Both raw values stay
         # recorded; only its real pointer/owner/ABI is a boundary invariant.
+
+
+def compare_output_modules(original,state,trap,events):
+    """Actual new text argument plus two complete allocated records/pages."""
+    assert trap['argument_text']==state['argument_detail']['text']==' linker defined module'
+    assert trap['argument_pointer']==trap['stack'][1]==0x401854
+    assert state['argument_detail']['address']and state['argument_detail']['address']not in state['crt_argv_addresses']
+    left=trap['module_constructor'];right=state['module_constructor']
+    entry,=[e for e in events if e['event']=='output_modules_entry']
+    assert left['result_slot']==entry['result_slot']==0x47f028
+    assert left['initial']==entry['initial']==right['current']==0
+    assert (original/'output-module-global.bin').read_bytes()==bytes(4)
+    assert right['result_slot']==right['global_slot']and right['result_slot']
+    assert left['module']==trap['esi']and left['library']
+    module=bytearray((original/'output-module.bin').read_bytes());nmodule=bytearray.fromhex(right['module_raw'])
+    assert len(module)==len(nmodule)==156
+    assert struct.unpack_from('<I',module,100)[0]==left['library']
+    assert struct.unpack_from('<I',nmodule,100)[0]==right['library']
+    module[100:104]=nmodule[100:104]=bytes(4)
+    assert module==nmodule==bytes(156)
+    assert (original/'output-library.bin').read_bytes()==bytes.fromhex(right['library_raw'])==bytes(68)
+    assert len(state['output_module_arenas'])==2
+    additional=[]
+    for index,(name,size,slot) in enumerate([('module',156,0x467590),('library',68,0x46758c)]):
+        original_arena=struct.unpack('<I',(original/('output-'+name+'-arena-pointer.bin')).read_bytes())[0]
+        arena=struct.unpack('<4I',(original/('output-'+name+'-arena.bin')).read_bytes());native=state['output_module_arenas'][index];nheader=struct.unpack('<4I',bytes.fromhex(native['raw']))
+        assert original_arena and native['address']and native['slot']
+        assert arena[:3]==nheader[:3]==(0,size,4096-size)
+        assert arena[3]==left[name]and nheader[3]==right[name]and right[name]
+        raw=bytearray((original/('output-'+name+'-page.bin')).read_bytes());nraw=bytearray.fromhex(native['data'])
+        assert len(raw)==len(nraw)==4096
+        if not index:
+            assert struct.unpack_from('<I',raw,100)[0]==left['library']
+            assert struct.unpack_from('<I',nraw,100)[0]==right['library']
+            raw[100:104]=nraw[100:104]=bytes(4)
+        assert raw==nraw==bytes(4096)
+        additional.append(dict(original_arena=original_arena,native_arena=native['address'],original_base=arena[3],native_base=nheader[3],bytes=4096))
+    return additional

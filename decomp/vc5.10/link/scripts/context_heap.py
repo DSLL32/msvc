@@ -7,7 +7,7 @@ from member_pointers import CONTRACTS,project
 def words(data):return struct.unpack('<%dI'%(len(data)//4),data)
 
 
-def compare(original,state,trap,configuration_context=None):
+def compare(original,state,trap,configuration_context=None,additional_arenas=()):
     context=trap['stack'][1] if configuration_context is None else configuration_context
     ncontext=state['context_this']
     assert context and ncontext==state['caller_context'] and ncontext
@@ -62,6 +62,11 @@ def compare(original,state,trap,configuration_context=None):
             original_directory[offset:offset+4]=native_directory[offset:offset+4]=bytes(4)
         assert original_directory==native_directory==bytes(4096)
         assert pages[1]==npages[1]==bytes(len(pages[1]))
+    for arena in additional_arenas:
+        original_ranges.extend([(arena['original_arena'],16),(arena['original_base'],arena['bytes'])])
+        native_ranges.extend([(arena['native_arena'],16),(arena['native_base'],arena['bytes'])])
+        expected_virtual.append(dict(arguments=[0,arena['bytes'],0x3000,4],result=arena['native_base'],initial=bytes(arena['bytes']).hex()))
+        original_bases.append(arena['original_base'])
     for offset,(expected,nexpected) in roles.items():
         assert expected and nexpected
         assert struct.unpack_from('<I',data,offset)[0]==expected
@@ -76,10 +81,20 @@ def compare(original,state,trap,configuration_context=None):
     assert state['virtual_alloc_calls']==expected_virtual
     events=[json.loads(line) for line in (original/'events.jsonl').read_text().splitlines()]
     observations=[e for e in events if e['event']=='virtual_observation']
-    assert len(observations)==2
-    assert [e['site'] for e in observations]==[0x44f659,0x44f65f]
-    assert all(e['arguments']==[0,4096,0x3000,4] for e in observations)
-    assert observations[1]['eax']==original_bases[0]
+    if len(observations)==2:
+        assert not additional_arenas
+        assert [e['site'] for e in observations]==[0x44f659,0x44f65f]
+        assert all(e['arguments']==[0,4096,0x3000,4]for e in observations)
+        assert observations[1]['eax']==original_bases[0]
+    else:
+        assert len(observations)==2*len(expected_virtual)
+        for index,(base,expected)in enumerate(zip(original_bases,expected_virtual)):
+            call,returned=observations[2*index:2*index+2]
+            assert [call['site'],returned['site']]==[0x44f659,0x44f65f]
+            assert call['index']==returned['index']==index
+            assert call['arguments']==returned['arguments']==expected['arguments']
+            assert returned['eax']==base
+            assert (original/('virtual-%d-zero.bin'%index)).read_bytes()==bytes(expected['arguments'][1])
     assert (original/'virtual-first-zero.bin').read_bytes()==bytes(4096)
     for member,contract in CONTRACTS.items():
         filename={'image_header_size':'member-header-size.bin','image_write_section':'member-write-section.bin','image_write_headers':'member-write-headers.bin'}[member]

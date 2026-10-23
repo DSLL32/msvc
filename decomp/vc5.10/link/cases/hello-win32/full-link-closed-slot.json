@@ -72,15 +72,15 @@
     ]
   },
   "rebuilt": {
-    "pe_sha256": "8cbf687e05ff9232174e841f800219af5e0a3408a64d3ee312d97c680149606f",
-    "map_sha256": "af1b6088b640f128ddded1790a376a792b3b0cafeaf9bbf0b7ffdbe3a831d485",
-    "slot": 4252440,
+    "pe_sha256": "39b0fdbb5feb06c0f1500969919c045f59c8a2818b3c37b813023143ac598214",
+    "map_sha256": "feaf1deeae5b4b6f7dbc37c7e8e9d62a8583557e92b613afebbee2a4e6902a04",
+    "slot": 4252488,
     "symbol": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@",
     "code_reference_count": 3,
     "code_references": [
       {
         "object": "build/full-link.obj",
-        "object_sha256": "e8d3a103d5b69beeed33f87b866954b95b7a657206389000d95cfe33043ce6af",
+        "object_sha256": "9c7bdfa7cce5afc2f14c449a6d7fb849b51dcf154248755ca90cd07854d5d51a",
         "section": ".text",
         "offset": 9329,
         "relocation_kind": 6,
@@ -89,7 +89,7 @@
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "3d53e8ff6430589c3ac1ecdc8e86a2a4ddf43ff0c0f8b0b60300b871c73bd7d7",
+        "object_sha256": "32e438b3e0cd4cd5746de9d899166722ccbf8cb564e651d96eb52e599c32aa0e",
         "section": ".text",
         "offset": 2576,
         "relocation_kind": 6,
@@ -98,7 +98,7 @@
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "3d53e8ff6430589c3ac1ecdc8e86a2a4ddf43ff0c0f8b0b60300b871c73bd7d7",
+        "object_sha256": "32e438b3e0cd4cd5746de9d899166722ccbf8cb564e651d96eb52e599c32aa0e",
         "section": ".text",
         "offset": 2622,
         "relocation_kind": 6,
@@ -106,39 +106,39 @@
         "prefix": "c705"
       }
     ],
-    "required_preservation_call": 4238927,
+    "required_preservation_call": 4239087,
     "debug_metadata_references": [
       {
         "object": "build/full-link.obj",
-        "object_sha256": "e8d3a103d5b69beeed33f87b866954b95b7a657206389000d95cfe33043ce6af",
+        "object_sha256": "9c7bdfa7cce5afc2f14c449a6d7fb849b51dcf154248755ca90cd07854d5d51a",
         "section": ".debug$S",
-        "section_flags": 1108344904,
         "offset": 1654,
-        "relocation_kind": 11
+        "relocation_kind": 11,
+        "section_flags": 1108344904
       },
       {
         "object": "build/full-link.obj",
-        "object_sha256": "e8d3a103d5b69beeed33f87b866954b95b7a657206389000d95cfe33043ce6af",
+        "object_sha256": "9c7bdfa7cce5afc2f14c449a6d7fb849b51dcf154248755ca90cd07854d5d51a",
         "section": ".debug$S",
-        "section_flags": 1108344904,
         "offset": 1658,
-        "relocation_kind": 10
+        "relocation_kind": 10,
+        "section_flags": 1108344904
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "3d53e8ff6430589c3ac1ecdc8e86a2a4ddf43ff0c0f8b0b60300b871c73bd7d7",
+        "object_sha256": "32e438b3e0cd4cd5746de9d899166722ccbf8cb564e651d96eb52e599c32aa0e",
         "section": ".debug$S",
-        "section_flags": 1108344904,
         "offset": 2589,
-        "relocation_kind": 11
+        "relocation_kind": 11,
+        "section_flags": 1108344904
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "3d53e8ff6430589c3ac1ecdc8e86a2a4ddf43ff0c0f8b0b60300b871c73bd7d7",
+        "object_sha256": "32e438b3e0cd4cd5746de9d899166722ccbf8cb564e651d96eb52e599c32aa0e",
         "section": ".debug$S",
-        "section_flags": 1108344904,
         "offset": 2593,
-        "relocation_kind": 10
+        "relocation_kind": 10,
+        "section_flags": 1108344904
       }
     ]
   },
