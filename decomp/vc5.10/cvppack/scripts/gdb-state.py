@@ -382,6 +382,21 @@ def capture(configuration,data_file,output):
                 memory[str(node)]=bytes(inferior.read_memory(node,16+length+2)).hex()
                 node=int.from_bytes(header[:4],'little')
     for item in data:
+        if not item.get('type_name_cache'):continue
+        root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+        if not root:continue
+        heads=bytes(inferior.read_memory(root,2048));memory[str(root)]=heads.hex();visited=set()
+        for offset in range(0,2048,4):
+            node=int.from_bytes(heads[offset:offset+4],'little')
+            while node:
+                assert node not in visited and len(visited)<512,'aliased/circular type-name cache nodes'
+                visited.add(node);raw=bytes(inferior.read_memory(node,20));memory[str(node)]=raw.hex()
+                name=int.from_bytes(raw[:4],'little')
+                if name:
+                    length=int.from_bytes(bytes(inferior.read_memory(name,1)),'little')+1
+                    memory[str(name)]=bytes(inferior.read_memory(name,length)).hex()
+                node=int.from_bytes(raw[16:20],'little')
+    for item in data:
         if item.get('type_record_table'):
             address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
             if address:

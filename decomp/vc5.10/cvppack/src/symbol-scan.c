@@ -8,6 +8,15 @@
 unsigned short symbol_segment_count;
 unsigned short symbol_segments[255];
 
+/* Test the current module's segment list [0040def0,0040df2b). */
+int has_symbol_segment(unsigned short segment)
+{
+    unsigned short i;
+    for (i = 0; i < symbol_segment_count; ++i)
+        if (symbol_segments[i] == segment) return 1;
+    return 0;
+}
+
 /* Reserve a segment-change record once per segment [0040a730,0040a78c). */
 void add_symbol_segment(unsigned short segment, unsigned short *symbols)
 {

@@ -328,6 +328,33 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             if (node) fprintf(log, "public-node-observation-failed\n");
         }
     }
+    /* Encountered counted-name cache: 512 heads, 20-byte nodes and separately
+     * allocated length-prefixed names. Type payloads belong to captured segments. */
+    if (full_graphs && read_bytes(process, 0x412cd8, &value, 4) && value) {
+        DWORD bucket, node, fields[5], seen[512], visited = 0, k;
+        unsigned char length;
+        memory(log, process, value, 512 * 4);
+        for (bucket = 0; bucket < 512; ++bucket) {
+            if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                fprintf(log, "blob-observation-failed\n"); break;
+            }
+            while (node) {
+                for (k = 0; k < visited; ++k) if (seen[k] == node) break;
+                if (k < visited || visited == 512 || !read_bytes(process, node, fields, sizeof(fields))) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                seen[visited++] = node;
+                memory(log, process, node, sizeof(fields));
+                if (fields[0]) {
+                    if (!read_bytes(process, fields[0], &length, 1)) {
+                        fprintf(log, "blob-observation-failed\n"); return;
+                    }
+                    memory(log, process, fields[0], (DWORD)length + 1);
+                }
+                node = fields[4];
+            }
+        }
+    }
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
         if (argument_kind[i] == 'S' && value) string(log, process, value);

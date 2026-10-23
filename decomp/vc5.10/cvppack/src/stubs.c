@@ -27,7 +27,6 @@ void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
-int has_symbol_segment(unsigned short segment) { __asm { int 3 } return 0; }
 void read_type_database(const char *path) { __asm { int 3 } }
 void rewrite_new_lines(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references) { __asm { int 3 } }
 void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }

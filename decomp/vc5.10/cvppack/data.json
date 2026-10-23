@@ -376,7 +376,8 @@
     "kind": "pointer",
     "blob": {
       "size": 2048
-    }
+    },
+    "type_name_cache": true
   },
   {
     "name": "type_positions",

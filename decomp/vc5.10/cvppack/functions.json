@@ -64,7 +64,8 @@
     "map_type_index",
     "compact_type_index",
     "scan_module_symbols",
-    "add_symbol_segment"
+    "add_symbol_segment",
+    "has_symbol_segment"
   ],
   "functions": [
     {
@@ -1523,7 +1524,58 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "lines",
+          "slot": 1,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "type_data"
+          ],
+          "entry_slot": 2,
+          "entry_name": "entry",
+          "count_offset": 8
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "info",
+          "slot": 3,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        },
+        {
+          "name": "symbols",
+          "slot": 4,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_symbol_count"
+          ],
+          "native_pointee_width": 2
+        },
+        {
+          "name": "references",
+          "slot": 5,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_reference_count"
+          ],
+          "native_pointee_width": 2
+        }
+      ]
     },
     {
       "name": "rewrite_module_global_types",
@@ -2183,8 +2235,11 @@
       "symbol": "_has_symbol_segment",
       "native_symbol": "has_symbol_segment",
       "original": 4251376,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4251376,
+        4251435
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2193,7 +2248,8 @@
           "kind": "integer",
           "native_width": 2
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0059-has-symbol-segment/promotion.json"
     },
     {
       "name": "read_type_database",

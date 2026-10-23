@@ -410,6 +410,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         item=next(item for item in data if item['name']==name)
         return int.from_bytes(original['memory'][item['original']],'little')
     typed_records_checked=0
+    cached_type_names_checked=0
     globals_checked = []
     for item in data:
         raw = original['memory'][item['original']]
@@ -422,7 +423,43 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if item.get('type_record_table'):
+            if item.get('type_name_cache'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if pair(address,other):
+                    assert image_aliases[address]==other and image_sizes[address]==2048,'type-name bucket allocation differs'
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==2048,'incomplete type-name bucket observation'
+                    visited=set();cleared={row['address'] for row in original['cleared_allocations']}
+                    checked={row['address'] for row in original['checked_allocations']}
+                    table=global_integer('type_segments');base=int.from_bytes(original['memory'][table][:4],'little')
+                    for offset in range(0,2048,4):
+                        source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
+                        while source or destination:
+                            assert source and destination and source not in visited and len(visited)<512,'type-name node NULL/identity/chain differs'
+                            visited.add(source);pair(source,destination)
+                            assert source in cleared and image_aliases[source]==destination and image_sizes[source]==20,'type-name node allocation differs'
+                            a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
+                            assert len(a)==len(b)==20,'incomplete type-name node observation'
+                            assert a[8:16]==b[8:16],'type-name index/reserved fields differ'
+                            name=int.from_bytes(a[:4],'little');actual_name=int.from_bytes(b[:4],'little')
+                            pair(name,actual_name)
+                            if name:
+                                assert name in checked and image_aliases[name]==actual_name,'type-name counted string allocation differs'
+                                text=original['memory'][name];actual_text=bytes.fromhex(native['memory'][str(actual_name)])
+                                assert len(text)==len(actual_text)==image_sizes[name]==text[0]+1==actual_text[0]+1,'incomplete type-name counted string observation'
+                                assert text==actual_text,'type-name counted string bytes differ'
+                                assert sum(text)&511==offset//4,'type-name bucket/hash differs'
+                            payload=int.from_bytes(a[4:8],'little');actual_payload=int.from_bytes(b[4:8],'little')
+                            assert bool(payload)==bool(actual_payload),'type-name record NULL state differs'
+                            if payload:
+                                displacement=payload-base;segment=original['memory'][base]
+                                assert 0<=displacement<=len(segment)-4,'type-name record has no observed segment owner'
+                                length=int.from_bytes(segment[displacement:displacement+2],'little')+2
+                                assert length>=4 and any(row.get('segment_index')==0 and row['segment_offset']<=displacement and displacement+length<=row['segment_offset']+row['size'] for row in reads),'type-name record exceeds initialized segment'
+                                assert actual_payload==image_aliases[base]+displacement,'type-name record segment alias differs'
+                            source=int.from_bytes(a[16:20],'little');destination=int.from_bytes(b[16:20],'little')
+                            cached_type_names_checked+=1
+            elif item.get('type_record_table'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
                     assert global_integer('type_module_count')==1, 'reused type-table lifetime needs an explicit state contract'
@@ -565,4 +602,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']))
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

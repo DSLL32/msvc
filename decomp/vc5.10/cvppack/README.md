@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`has_symbol_segment`, with segment 1. There are 58 accepted application
-functions / 17,713 extent bytes, plus 497 associated switch-data bytes. This is
-28.27% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`rewrite_new_lines` (the symbol rewrite pass). There are 59 accepted
+application functions / 17,772 extent bytes, plus 497 associated switch-data bytes.
+This is 28.36% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 
@@ -48,7 +48,8 @@ master are specific to this toolchain; no VC1 output is reused.
 
 The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
-contents and defined symbol/source-module buffers. Uninitialized allocation tails
+contents, defined symbol/source-module buffers, and 47 owned counted type-name
+cache nodes with their bucket/segment aliases. Uninitialized allocation tails
 remain native owned; explicit positive controls permit changing them. The first
 module's type-table contract fails closed on reuse until that lifetime is observed.
 
