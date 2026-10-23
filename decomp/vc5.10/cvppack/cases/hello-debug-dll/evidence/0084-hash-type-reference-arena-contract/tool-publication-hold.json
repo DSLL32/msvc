@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "promoted": false,
+  "reason": "stale candidate audit input: graph_tool_sha256",
+  "frozen_audit_sha256": "828007f53c153cf4a1d65b9e54943701036ada8842c1187b6fa83ba7e26b7179",
+  "expected_tool_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+  "observed_tool_sha256": "eb2cd26c11408839b97ab3ff39e2df5d14ae96459b1f05806cc06d74e4c68cf7",
+  "configuration_sha256": "28a04b93e2f5c02eb41a4b0e02ffde97c3fb73c6af62d90ac41bdcf1ef0824cf",
+  "native_sha256": "8898835d6f1f4d6396736f12f61c833c127c40c0be027a354db517068f83d45a",
+  "rebuilt_sha256": "60d74e70f055094e3dd5c965ed731eb5198b980fb8b25a44c9cccb96a8e74a3a",
+  "scope": "Real acceptance rejection during announced root-approved shared-tool publication. Await explicit READY; retain raw/config/build bytes and derive a separate static sidecar only."
+}

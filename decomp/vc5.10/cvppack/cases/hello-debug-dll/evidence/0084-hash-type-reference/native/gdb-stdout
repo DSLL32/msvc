@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5662cd91 in index_recursive_type (data=0x56d5ba54 "\n", index=4132) at src/stubs.c:75
+75	void __fastcall index_recursive_type(unsigned char *data, unsigned index) { __asm { int 3 } }

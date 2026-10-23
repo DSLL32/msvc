@@ -250,6 +250,34 @@ def capture(configuration,data_file,output):
             assert indices,'type name has no observed immediate-size local-record owner'
             length=segment[address-base]+1
             parameters[item['name']]=dict(segment=0,offset=address-base,record_indices=indices,bytes=segment[address-base:address-base+length].hex())
+        elif item['kind']=='arena-type-record':
+            address=int(value);arena=gdb.parse_and_eval(item['arena']);node=int(arena['first']);seen=set();owners=[]
+            block_index=0;capacity=int(arena['capacity'])
+            while node:
+                assert node not in seen and len(seen)<1024,'arena argument owner chain is cyclic/unbounded'
+                seen.add(node);header=bytes(inferior.read_memory(node,12))
+                used=int.from_bytes(header[:4],'little');base=int.from_bytes(header[4:8],'little')
+                assert 0<=used<=capacity<=65536,'arena argument block extent invalid'
+                if base<=address<base+used:owners.append((block_index,base,used))
+                node=int.from_bytes(header[8:12],'little');block_index+=1
+            assert len(owners)==1,'arena argument has no initialized owned block'
+            block_index,base,used=owners[0];offset=address-base
+            assert offset+2<=used,'arena argument lacks initialized length'
+            length=int.from_bytes(bytes(inferior.read_memory(address,2)),'little')+2
+            assert 4<=length<=used-offset,'arena argument exceeds initialized record extent'
+            index=int(frame.read_var(item['index_parameter']))
+            counter=next(row for row in data if row['name']=='next_global_type')
+            limit=int(gdb.parse_and_eval(counter.get('native_expression',counter['name'])))
+            assert 0x1000<=index<limit,'arena argument index out of range'
+            count=int(gdb.parse_and_eval('type_record_count'));root=int(gdb.parse_and_eval('type_records'))
+            records=bytes(inferior.read_memory(root,count*32))
+            indices=[i for i in range(count) if int.from_bytes(records[i*32:i*32+4],'little')==address and int.from_bytes(records[i*32+4:i*32+8],'little')==index]
+            assert indices,'arena argument has no mapped local-record owner'
+            assert int(gdb.parse_and_eval('type_table_used'))==512 and index-0x1000<512,'arena argument block inventory needs explicit contract'
+            block=int(gdb.parse_and_eval('global_type_blocks[0]'));slot=bytes(inferior.read_memory(block+(index&511)*4,4))
+            assert int.from_bytes(slot,'little')==address,'arena argument/global index slot alias differs'
+            parameters[item['name']]=dict(arena=item['arena'],block_index=block_index,offset=offset,
+                record_indices=indices,index=index,bytes=bytes(inferior.read_memory(address,length)).hex())
         elif item['kind']=='type-record-data':
             address=int(value);base=int(gdb.parse_and_eval('type_segments[0]'))
             capacity=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)

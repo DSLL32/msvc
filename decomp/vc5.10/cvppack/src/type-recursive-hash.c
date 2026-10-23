@@ -56,3 +56,26 @@ unsigned __fastcall hash_recursive_type(TypeRecord *record)
     record->recursive_hash = hash & 0xfff;
     return record->recursive_hash;
 }
+
+/* Follow one recursive reference [0040e820,0040e8c4). */
+unsigned short __fastcall hash_type_reference(TypeRecord *record, unsigned short ordinal)
+{
+    unsigned short offset;
+    unsigned value, slot;
+    TypeRecord *target;
+    offset = record->flags & 1 ? record->extended_references[ordinal] :
+        record->reference_offsets[ordinal];
+    value = *(unsigned *)(record->data + offset);
+    if (value < module_type_base) return (unsigned short)value;
+    slot = value - module_type_base;
+    if (!module_type_low && slot == 0xffff - module_type_base) target = empty_type_record;
+    else {
+        target = &type_records[slot];
+        if (target->status & 0x1000)
+            /* Original low-byte output aliases the saved ordinal WORD. */
+            target = lookup_global_type(target->global_index - 0x1000,
+                                        (unsigned char *)&ordinal);
+    }
+    if (target->status & 4) return target->recursive_hash;
+    return (unsigned short)hash_recursive_type(target);
+}

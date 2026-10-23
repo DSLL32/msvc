@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 14,
+  "rejected": [
+    {
+      "name": "wrong-arena-argument-arena",
+      "diagnostic": "('typed ABI arguments differ', {'index': 4132, 'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}}, {'data': {'arena': 'type_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}, 'index': 4132})"
+    },
+    {
+      "name": "wrong-arena-argument-block_index",
+      "diagnostic": "('typed ABI arguments differ', {'index': 4132, 'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}}, {'data': {'arena': 'type_large_arena', 'block_index': 1, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}, 'index': 4132})"
+    },
+    {
+      "name": "wrong-arena-argument-offset",
+      "diagnostic": "('typed ABI arguments differ', {'index': 4132, 'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}}, {'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1605, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}, 'index': 4132})"
+    },
+    {
+      "name": "wrong-arena-argument-record_indices",
+      "diagnostic": "('typed ABI arguments differ', {'index': 4132, 'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}}, {'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [303], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}, 'index': 4132})"
+    },
+    {
+      "name": "wrong-arena-argument-index",
+      "diagnostic": "('typed ABI arguments differ', {'index': 4132, 'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}}, {'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4131, 'bytes': '0a0002101c1000000a000000'}, 'index': 4132})"
+    },
+    {
+      "name": "wrong-arena-argument-bytes",
+      "diagnostic": "('typed ABI arguments differ', {'index': 4132, 'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101c1000000a000000'}}, {'data': {'arena': 'type_large_arena', 'block_index': 0, 'offset': 1604, 'record_indices': [302], 'index': 4132, 'bytes': '0a0002101d1000000a000000'}, 'index': 4132})"
+    },
+    {
+      "name": "wrong-observed-byte-pointee",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "original-pointer-in-uninitialized-arena-tail",
+      "diagnostic": "arena argument has no initialized owned block"
+    },
+    {
+      "name": "original-interior-non-record-pointer",
+      "diagnostic": "arena argument exceeds initialized record extent"
+    },
+    {
+      "name": "original-wrong-index-owner",
+      "diagnostic": "arena argument has no mapped local-record owner"
+    },
+    {
+      "name": "both-lost-global-slot-alias",
+      "diagnostic": "arena argument/global index slot alias differs"
+    },
+    {
+      "name": "both-lost-local-index-owner",
+      "diagnostic": "arena argument has no mapped local-record owner"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "wrong-byte-pointee",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5664ed91 in index_recursive_type (data=0x5717b9e4 \"\\n\", index=4132) at src/stubs.c:75\n75\tvoid __fastcall index_recursive_type(unsigned char *data, unsigned index) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-arena-argument-abi-tnglg6r2/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "observer_sha256": "5dd5eea61e3b7eeeab0393b0db9fd3f26fe073f3e3c57946f761a51abc695227",
+      "bad_config_sha256": "054df977d625b20f507e6b8f5ba40fe9ddb89a5a2986a8bc61301f01f5421d6d"
+    },
+    {
+      "name": "wrong-arena-owner",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5657ed91 in index_recursive_type (data=0x572759e4 \"\\n\", index=4132) at src/stubs.c:75\n75\tvoid __fastcall index_recursive_type(unsigned char *data, unsigned index) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: arena argument has no initialized owned block\n/root/.ai-tmp/cvpack-arena-argument-abi-7xjtspjo/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: arena argument has no initialized owned block\n",
+      "observer_sha256": "5dd5eea61e3b7eeeab0393b0db9fd3f26fe073f3e3c57946f761a51abc695227",
+      "bad_config_sha256": "2c9e24d488452f27212b8210bbd7ae940922e70034b6bdb7f696a33888be47b4"
+    }
+  ],
+  "parameters": {
+    "index": 4132,
+    "data": {
+      "arena": "type_large_arena",
+      "block_index": 0,
+      "offset": 1604,
+      "record_indices": [
+        302
+      ],
+      "index": 4132,
+      "bytes": "0a0002101c1000000a000000"
+    }
+  },
+  "recursive_nodes_checked": 9,
+  "original_receipt_sha256": "616be49c8fcfe2e7f2a28fefba53f8e5cf45ef6b675de449b046aac15ed256d3",
+  "native_receipt_sha256": "dd1bfe34f227e2b120a6d6a01ac538249776c8cbf15d7f9014d08aee68ec13d1",
+  "checker_sha256": "7e95bbe9cc3e8c1938e71ba06efbd724b420d5d8d1bd1a49ae5f549dae6964a2",
+  "decoder_sha256": "1f4279945b98dc79f4df8d294d9dd63d54ceb9bed654ddf4d489efb28981b78a",
+  "observer_sha256": "5dd5eea61e3b7eeeab0393b0db9fd3f26fe073f3e3c57946f761a51abc695227",
+  "seconds": 4.395039179362357
+}

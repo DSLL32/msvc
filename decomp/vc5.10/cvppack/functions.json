@@ -89,7 +89,8 @@
     "resolve_recursive_type",
     "hash_recursive_type",
     "intern_recursive_type",
-    "mark_recursive_type"
+    "mark_recursive_type",
+    "hash_type_reference"
   ],
   "functions": [
     {
@@ -3104,8 +3105,11 @@
       "source_name": "hash_type_reference",
       "native_symbol": "hash_type_reference",
       "original": 4253728,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4253728,
+        4253892
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3122,7 +3126,8 @@
           "kind": "integer",
           "native_width": 2
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0084-hash-type-reference-arena-contract/promotion.json"
     },
     {
       "name": "mark_recursive_type",
@@ -3161,8 +3166,10 @@
         {
           "name": "data",
           "register": "ecx",
-          "kind": "unobserved-pointer",
-          "native_pointee_width": 1
+          "kind": "arena-type-record",
+          "native_pointee_width": 1,
+          "arena": "type_large_arena",
+          "index_parameter": "index"
         },
         {
           "name": "index",

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 250, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 220, in main
+    result = validate_pair(args.config, args.original, args.native,args.audit)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 74, in validate_pair
+    assert audit[key] == sha(path), ('stale candidate audit input',key)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('stale candidate audit input', 'graph_tool_sha256')

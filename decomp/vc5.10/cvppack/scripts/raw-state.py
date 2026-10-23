@@ -111,7 +111,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']
-    parameters = {};object_parameters=[]
+    parameters = {};object_parameters=[];arena_parameters=[]
     assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
     if config.get('require_native_argument_inventory'):
         actual=native['observed_argument_names'];expected=[item['name'] for item in record['parameters']]
@@ -215,6 +215,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert indices,'type name has no observed immediate-size local-record owner'
             length=segment[value-base]+1
             parameters[item['name']]=dict(segment=0,offset=value-base,record_indices=indices,bytes=segment[value-base:value-base+length].hex())
+        elif item['kind']=='arena-type-record':
+            arena_parameters.append((item,value))
         elif item['kind']=='type-record-data':
             def observed(name):
                 row=next(row for row in data if row['name']==name)
@@ -511,7 +513,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert len(before)==len(after)==av[0],'incomplete arena payload capacity'
             assert before[:x[0]]==after[:y[0]],'initialized arena payload bytes differ'
             assert x[1] not in arena_payloads,'arena payload identity reused'
-            arena_payloads[x[1]]=dict(native=y[1],used=x[0],capacity=av[0],bytes=before)
+            arena_payloads[x[1]]=dict(native=y[1],used=x[0],capacity=av[0],bytes=before,
+                arena=arena_item['name'],block_index=len(visited)-1)
             used_uninitialized.add(x[1]);pair(x[1],y[1])
             source,destination=x[2],y[2]
         assert len(visited)==av[1],'arena chain inventory differs'
@@ -532,6 +535,24 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert length>=4,'invalid arena type record length'
         assert 0<=length and offset+length<=row['used'],'type payload exceeds initialized arena prefix'
         return row['bytes'][offset:offset+length]
+    for spec,address in arena_parameters:
+        owners=[(base,row) for base,row in arena_payloads.items() if row['arena']==spec['arena'] and base<=address<base+row['used']]
+        assert len(owners)==1,'arena argument has no initialized owned block'
+        base,row=owners[0];offset=address-base
+        assert offset+2<=row['used'],'arena argument lacks initialized length'
+        length=int.from_bytes(row['bytes'][offset:offset+2],'little')+2
+        assert 4<=length<=row['used']-offset,'arena argument exceeds initialized record extent'
+        index=parameters[spec['index_parameter']]
+        assert 0x1000<=index<global_integer('next_global_type'),'arena argument index out of range'
+        records=original['memory'][global_integer('type_records')];count=global_integer('type_record_count')
+        indices=[i for i in range(count) if int.from_bytes(records[i*32:i*32+4],'little')==address and int.from_bytes(records[i*32+4:i*32+8],'little')==index]
+        assert indices,'arena argument has no mapped local-record owner'
+        root=next(item['original'] for item in data if item['name']=='global_type_blocks')
+        assert global_integer('type_table_used')==512 and index-0x1000<512,'arena argument block inventory needs explicit contract'
+        block=int.from_bytes(original['memory'][root][:4],'little');slot=(index&511)*4
+        assert int.from_bytes(original['memory'][block][slot:slot+4],'little')==address,'arena argument/global index slot alias differs'
+        parameters[spec['name']]=dict(arena=spec['arena'],block_index=row['block_index'],offset=offset,
+            record_indices=indices,index=index,bytes=row['bytes'][offset:offset+length].hex())
     typed_records_checked=0
     extended_references_checked=0
     recursive_type_nodes_checked=0
