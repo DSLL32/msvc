@@ -1071,3 +1071,34 @@ void __stdcall layout_bit_field(CppSymbol *member, char *name,
         member->detail.value = CLASS_CONTEXT.size;
     } else member->detail.value = 0;
 }
+
+/* Original 0x2fda0..0x2fe88. A union may not contain a class that
+   requires nontrivial construction, copying, assignment or destruction. The
+   first failed property selects the diagnostic and makes the member invalid. */
+int __stdcall validate_union_member(CppSymbol *owner, CppSymbol *member)
+{
+    CppSymbol *tag;
+    unsigned char trivial;
+    if ((member->storage[0] & 7) == 3)
+        report_declaration_diagnostic(203, 619, CLASS_TAG->name, member->name);
+    tag = class_type_of_member(member);
+    if (!tag) return 1;
+    trivial = tag->detail.class_info->trivial_special_members;
+    if (!(trivial & 2)) {
+        report_syntax_error(621, owner->name, member->name);
+        return 0;
+    }
+    if (!(trivial & 1)) {
+        report_syntax_error(620, owner->name, member->name);
+        return 0;
+    }
+    if (!(trivial & 4)) {
+        report_syntax_error(622, owner->name, member->name);
+        return 0;
+    }
+    if (!(trivial & 8)) {
+        report_syntax_error(623, owner->name, member->name);
+        return 0;
+    }
+    return 1;
+}

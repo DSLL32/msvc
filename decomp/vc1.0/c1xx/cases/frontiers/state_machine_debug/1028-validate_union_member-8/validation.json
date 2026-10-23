@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_validate_union_member@8",
+    "start": 196000,
+    "end": 196232
+  },
+  "distinct_direct_callees": [
+    "_class_type_of_member@4",
+    "_report_declaration_diagnostic",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_create_static_member_alias@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4376926142722368,
+  "total_operation_seconds": 3.3770525380969048,
+  "original_capture_seconds": 1.1173800760880113
+}

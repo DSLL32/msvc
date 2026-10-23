@@ -325,7 +325,6 @@ void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclar
 
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
 
-int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
 
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }

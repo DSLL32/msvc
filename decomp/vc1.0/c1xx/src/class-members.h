@@ -38,7 +38,7 @@ int __stdcall overrides_virtual_member(CppSymbol *member, CppSymbol *owner, int 
 int __stdcall compatible_override_return(CType *member, CType *inherited);
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage);
 void __stdcall validate_function_default_arguments(CppSymbol *function);
-int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member);
+int __stdcall validate_union_member(CppSymbol *owner, CppSymbol *member);
 CppSymbol *__stdcall class_type_of_member(CppSymbol *member);
 unsigned __stdcall layout_data_member(CppSymbol *member);
 void __stdcall align_class_member(unsigned alignment);
