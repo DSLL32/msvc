@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_check_extended_range",
+    "start": 479397,
+    "end": 479467
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1152-check_extended_range/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_double_to_extended",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8355294624343514,
+  "total_operation_seconds": 5.171888563781977,
+  "original_capture_seconds": 1.8205096255987883
+}

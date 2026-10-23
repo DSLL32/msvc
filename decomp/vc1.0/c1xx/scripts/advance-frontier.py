@@ -72,7 +72,8 @@ def main():
     assert sorted(formal['name'] for formal in argument_proof['formals'])==entry_native['declared_arguments'], 'formal argument observation coverage differs'
     cleanup=re.search(r'@(\d+)$',args.candidate)
     if cleanup: assert argument_proof['abi_analysis']['argument_bytes']==int(cleanup.group(1)), 'argument bytes differ from function ABI'
-    assert not argument_proof['register_inputs'] and not argument_proof['hidden_inputs'], 'add explicit reached register/hidden input observations before acceptance'
+    assert not argument_proof['hidden_inputs'], 'unobserved hidden inputs hold acceptance'
+    assert not argument_proof['register_inputs'] or (args.candidate=='_check_extended_range' and argument_proof.get('x87_inputs')), 'unsupported register ABI transport holds acceptance'
     if 'argument_observation' in argument_proof:
         from argument_words import observation as observe_argument_words
         observed = observe_argument_words((argument_directory/'original-events.txt').read_text(), argument_proof['argument_observation']['requested_words'])
@@ -92,6 +93,11 @@ def main():
             assert re.search(pattern,(argument_directory/'original-events.txt').read_text(),re.M), 'missing/short/unreadable exact WORD read'
     for requirement in argument_proof.get('state_requirements', []):
         assert original_states[requirement['index']] == entry_native[requirement['native_field']] == requirement['equals']
+    if argument_proof.get('x87_inputs'):
+        from x87_inputs import validate_range_inputs
+        x87_result=validate_range_inputs(args.candidate,argument_proof,entry_original,(argument_directory/'original-events.txt').read_text(),entry_native,anchors,config)
+        assert argument_proof['register_inputs']==x87_result['registers'], 'bound x87 formal values differ'
+        assert argument_proof['x87_environment']==x87_result['environment'], 'bound x87 entry environment differs'
     words=dict((int(index),int(value,16)) for index,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M))
     for formal in argument_proof['formals']:
         assert formal['original_raw']==words[formal['stack_index']]

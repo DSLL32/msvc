@@ -78,3 +78,38 @@ int extended_to_double(const Extended *value, double *result)
     }
     return overflow;
 }
+
+/* Original 0xa670a..0xa670f: sign and x87 comparison status. */
+ExtendedRangeState extended_range_state;
+
+/* Original 0x750a5..0x750ea. ST(0) supplies the limit, ST(1) the
+   value; the limit is popped and the signed value retained in ST(0).
+   Period C cannot express these operands or the x87 condition bits.
+   The narrow blocks transfer/compare them; sign and range decisions are C. */
+int check_extended_range(void)
+{
+    unsigned short status;
+    extended_range_state.negative = 0;
+    __asm {
+        fxch st(1)
+        ftst
+        fstsw status
+        fwait
+    }
+    extended_range_state.status = status;
+    if (status & 0x100) {
+        ++extended_range_state.negative;
+        __asm { fchs }
+    }
+    __asm {
+        fxch st(1)
+        fcomp st(1)
+        fstsw status
+        fwait
+    }
+    extended_range_state.status = status;
+    if (extended_range_state.negative) {
+        __asm { fchs }
+    }
+    return (status & 0x100) != 0;
+}

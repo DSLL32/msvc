@@ -15,6 +15,14 @@ typedef struct ExtendedLimit {
 #pragma pack()
 typedef char ExtendedLimitSizeMustBe10[(sizeof(ExtendedLimit) == 10) ? 1 : -1];
 extern ExtendedLimit double_round_limit;
+#pragma pack(2)
+typedef struct ExtendedRangeState {
+    int negative;
+    unsigned short status;
+} ExtendedRangeState;
+#pragma pack()
+typedef char ExtendedRangeStateSizeMustBe6[(sizeof(ExtendedRangeState) == 6) ? 1 : -1];
+extern ExtendedRangeState extended_range_state;
 /* Private ABI: ST(0) limit and ST(1) value; leaves the value in ST(0). */
 int check_extended_range(void);
 extern Extended extended_zero, scanned_floating_value;

@@ -24,3 +24,49 @@ def original_observation(events):
         assert requested_bytes==read_bytes==10 and read_succeeded==1,'short/unreadable x87 operand'
         inputs.append(dict(register=register,physical_index=physical,tag=kind,requested_bytes=10,read_bytes=10,read_succeeded=True,raw=raw))
     return dict(context,inputs=inputs)
+
+
+def validate_range_inputs(name,description,receipt,events,native,anchors,config):
+    """Bind only this reached double-conversion caller's two real operands."""
+    import copy,hashlib,struct,json
+    assert name=='_check_extended_range' and description.get('x87_inputs'), 'unsupported x87 ABI transport'
+    assert not description['formals'] and not description['hidden_inputs'] and not description['unknown_inputs']
+    rows=description['register_inputs']
+    assert [row['name'] for row in rows]==['st0','st1'], 'missing or extra x87 formal'
+    old=original_observation(events);assert old==receipt['x87_inputs'],'x87 receipt differs from raw original context'
+    new=native['x87_inputs']
+    assert new['requested']==new['actual']==2 and new['context_read']
+    for key in ['control','status','tag','top']:assert old[key]==new[key], 'x87 entry environment differs: '+key
+    assert [row['register'] for row in new['inputs']]==['st0','st1']
+    raw_native=re.findall(r'^st([01])\s+.*\(raw 0x([0-9a-f]{20})\)\s*$',new['raw_gdb'],re.M)
+    assert [name for name,value in raw_native]==['0','1']
+    assert [bytes.fromhex(value)[::-1].hex() for name,value in raw_native]==[row['raw'] for row in new['inputs']], 'native x87 raw register record differs'
+    owner=description['x87_owner']
+    assert owner==dict(original_function='_extended_to_double',native_function='extended_to_double',native_local='value',native_field='caller_value',original_register='esi',return_rva=0x64e12,source_address=0x97ba8,limit_address=0xa66de), 'wrong range operand owner binding'
+    assert receipt['terminal']==name and receipt['candidate'] is None
+    assert re.findall(r'^caller ([0-9a-f]+)$',events,re.M)==['00064e12'],'wrong genuine range helper caller'
+    projection=receipt['ownership_entry_projection'];assert projection['observed']==projection['expected']==['_extended_to_double']
+    assert projection['events_sha256']==hashlib.sha256(events.encode()).hexdigest()
+    assert projection['accepted_prefix_sha256']==hashlib.sha256(json.dumps(config['accepted'],separators=(',',':')).encode()).hexdigest()
+    caller=next(row for row in config['driver'] if row['name']=='_extended_to_double');assert caller['name'] in config['accepted']
+    assert re.search(r'^entry _extended_to_double rva %08x byte 55$'%(caller['start']-config['target']['base']),events,re.M)
+    original_owner=receipt['ownership_register_observations'];assert len(original_owner)==1 and original_owner[0]['register']=='esi' and original_owner[0]['read_succeeded'] and original_owner[0]['value']==0x97ba8
+    actual_owner=native['caller_locals']['caller_value'];assert actual_owner==dict(function='extended_to_double',local='value',fields=[],value=native['value_owner']), 'wrong actual native x87 value owner'
+    bound=[]
+    for i,(row,prefix,address) in enumerate(zip(rows,['limit','value'],[0xa66de,0x97ba8])):
+        expected=dict(kind='x87-memory-words',original_address=address,native_fields=[prefix+'_low',prefix+'_high',prefix+'_exponent'])
+        assert row['binding']==expected, 'wrong x87 operand memory binding'
+        parts=[]
+        for field,offset,width in zip(expected['native_fields'],[0,4,8],[4,4,2]):
+            read=anchors[field]
+            assert read['original']==address+offset and read['bytes']==read['read_bytes']==width and read['read_succeeded'],'wrong/short x87 memory read'
+            assert read['value']==native[field], 'actual x87 memory values differ'
+            parts.append(read['value'])
+        encoded=struct.pack('<IIH',*parts).hex()
+        left,right=old['inputs'][i],new['inputs'][i]
+        assert right['register']=='st'+str(i) and right['physical_index']==((new['top']+i)&7)
+        assert right['tag']==((new['tag']>>(2*right['physical_index']))&3)!=3
+        assert right['requested_bytes']==right['read_bytes']==10 and right['read_succeeded']
+        assert left['raw']==right['raw']==encoded, 'x87 operand slot/memory mapping differs'
+        result=copy.deepcopy(row);result.update(original_raw=left['raw'],native_raw=right['raw'],result='match');bound.append(result)
+    return dict(registers=bound,environment=dict(original={k:old[k] for k in ['control','status','tag','top']},native={k:new[k] for k in ['control','status','tag','top']}))

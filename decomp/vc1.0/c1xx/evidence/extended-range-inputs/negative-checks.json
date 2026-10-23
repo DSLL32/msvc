@@ -1,0 +1,33 @@
+{
+  "scope": "Read-only actual production preflight plus bounded synthetic missing/swapped/short-read/wrong-owner corruptions; no original execution or promotion",
+  "proof": "cases/argument-observations/state_machine_debug/1152-check_extended_range/validation.json",
+  "proof_sha256": "0d72a144c06af3fc20b4d9d728cd84f29b0fd60b27d169934456415e88707fe3",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _check_extended_range"
+    },
+    {
+      "test": "missing-operand",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "swapped-raw-operands",
+      "result": "held",
+      "reason": "x87 operand slot/memory mapping differs"
+    },
+    {
+      "test": "short-read",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-caller-owner",
+      "result": "held",
+      "reason": "wrong actual native x87 value owner"
+    }
+  ],
+  "elapsed_seconds": 0.172485307790339
+}

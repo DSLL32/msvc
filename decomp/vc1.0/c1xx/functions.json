@@ -1156,7 +1156,8 @@
     "___ld12mul",
     "__ld12told",
     "__RoundMan",
-    "_extended_to_double"
+    "_extended_to_double",
+    "_check_extended_range"
   ],
   "driver": [
     {
@@ -8328,7 +8329,7 @@
     {
       "name": "_check_extended_range",
       "start": 479397,
-      "end": 479398
+      "end": 479467
     }
   ],
   "cases": {
@@ -8529,7 +8530,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_check_extended_range",
+      "terminal": "_double_to_extended",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8552,7 +8553,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1151-extended_to_double/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1152-check_extended_range/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8709,7 +8710,8 @@
         "cases/frontiers/state_machine_debug/1148-ld12mul/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1149-ld12told/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1150-RoundMan/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1151-extended_to_double/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1151-extended_to_double/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1152-check_extended_range/frontier-extension.json"
       ]
     }
   },
@@ -11210,6 +11212,18 @@
           "name": "_double_round_limit",
           "original": 681694,
           "bytes": 10
+        }
+      ]
+    },
+    {
+      "name": "_extended_range_state",
+      "kind": "state",
+      "original": 681738,
+      "fields": [
+        {
+          "name": "_extended_range_state",
+          "original": 681738,
+          "bytes": 6
         }
       ]
     }

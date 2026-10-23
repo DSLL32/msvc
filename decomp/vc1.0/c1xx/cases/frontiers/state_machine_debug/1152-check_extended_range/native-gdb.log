@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a22b in double_to_extended (value=0xffffd4e0, result=0x566100a8 <scanned_floating_value>) at src/stubs.c:501
+501	int double_to_extended(const double *value, Extended *result) { __asm { int 3 } return 0; }
+#0  0x5655a22b in double_to_extended (value=0xffffd4e0, result=0x566100a8 <scanned_floating_value>) at src/stubs.c:501
+#1  0x5655fbef in convert_floating_literal (text=0x5660ffb8 <lexer_text_storage> "1.5", value=0x566100a8 <scanned_floating_value>) at src/floating.c:51
+#2  0x565a18ba in scan_float_tail (destination=0x5660ffbb <lexer_text_storage+3> "") at src/numeric-scanning.c:121
+#3  0x565a130f in scan_number (character=46 '.') at src/numeric-scanning.c:40
+#4  0x565bf39d in read_lexical_token () at src/lexer.c:587
+#5  0x565bce65 in scan_token () at src/lexer.c:228
+#6  0x565bc345 in read_parser_token () at src/lexer.c:69
+#7  0x565b5217 in parse_translation_unit () at src/parser.c:84
+#8  0x5655dfaf in compile_translation_unit () at src/frontend.c:73
+#9  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
