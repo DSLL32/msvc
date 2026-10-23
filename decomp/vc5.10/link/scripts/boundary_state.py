@@ -12,7 +12,7 @@ STAGES = {
     '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
     '_register_buffer4_cleanup': (3,3,2),
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
-    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_messages@16':(None,3,4),
+    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4),
 }
 BUFFERS = [('12',0x424e70,12288,1024,0x424ea0,0x424eb0),
            ('8',0x431d80,4000,500,0x431db0,0x431dc0),
@@ -70,7 +70,7 @@ def compare(name, original, native, original_state, native_state):
         assert native_state['operator_new_calls'][index]==dict(bytes=size,result=native_pointer)
     # Uninitialized allocation contents are not consumed before these frontiers.
     timing=(original/'timing.bin').read_bytes()
-    if name in ('_register_timing_cleanup','_main','_initialize_debug@8','_initialize_messages@16'):
+    if cursor is None or name=='_register_timing_cleanup':
         start,end,output,options,display=struct.unpack('<4IB3x',timing)
         nstart,nend,noutput,noptions,ndisplay=struct.unpack('<4IB3x',bytes.fromhex(native_state['app_globals']['timing']))
         # GetTickCount values are identified nondeterministic clocks only.
@@ -80,8 +80,15 @@ def compare(name, original, native, original_state, native_state):
         assert options==noptions==display==ndisplay==0
         assert timing[17:]==bytes.fromhex(native_state['app_globals']['timing'])[17:]==b'\0'*3
         stdout=(original/'crt-stdout.bin').read_bytes()
-        assert stdout.hex()==native_state['crt_stdout_bytes']
-        assert struct.unpack('<8I',stdout)==(0,0,0,2,1,0,0,0)
+        nstdout=bytes.fromhex(native_state['crt_stdout_bytes'])
+        if name in ('_run_linker@8','_initialize_repro'):
+            original_file=struct.unpack('<8I',stdout);native_file=struct.unpack('<8I',nstdout)
+            assert original_file[0]==original_file[2] and original_file[0]
+            assert native_file[0]==native_file[2] and native_file[0]
+            assert original_file[1:2]+original_file[3:]==native_file[1:2]+native_file[3:]==(0,0x40a,1,0,2048,0)
+        else:
+            assert stdout==nstdout
+            assert struct.unpack('<8I',stdout)==(0,0,0,2,1,0,0,0)
     else:
         assert timing.hex()==native_state['app_globals']['timing'] and not any(timing)
     observations=[event for event in events if event['event']=='atexit_observation']
@@ -94,7 +101,7 @@ def compare(name, original, native, original_state, native_state):
         assert (returned['name'],returned['site'],returned['eax'])==('observe:atexit_return_'+suffix,registration+10,0)
         assert native_state['atexit_calls'][index]==dict(callback='close_timing' if suffix=='timing' else 'free_buffer'+suffix,result=0)
 
-    if name in ('_initialize_debug@8','_initialize_messages@16'):
+    if cursor is None and name!='_main':
         observations=[event for event in events if event['event']=='console_observation']
         assert len(observations)==2
         call,returned=observations
@@ -107,10 +114,78 @@ def compare(name, original, native, original_state, native_state):
         assert original_state['debug_options_pointer']==native_state['frontier_arguments']['options']==0
         assert original_state['debug_environment']==native_state['frontier_arguments']['environment']=='LINK_DB'
 
-    if name=='_initialize_messages@16':
-        assert original_state['stack'][1:5]==list(native_state['frontier_arguments'].values())==[16,14,18,16]
+    if name in ('_get_debug_flag@4','_zero_allocate@4','_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro'):
         assert original_state['program_name']==native_state['program_name']=='LINK'
         assert original_state['program_name_pointer']==original_state['main_frame_pointer']-0x23c
         assert native_state['program_name_address']==native_state['basename_address']
         flags=(original/'debug-flags.bin').read_bytes()
         assert flags.hex()==native_state['debug_flags'] and not any(flags)
+
+    if name in ('_get_debug_flag@4','_zero_allocate@4','_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro'):
+        probes=[event for event in events if event['event']=='module_probe']
+        assert [event['name'] for event in probes]==['observe:module_call','observe:module_return','observe:proc_call','observe:proc_return']
+        module_call,module_return,proc_call,proc_return=probes
+        assert module_call['requested']=='kernel32.dll' and module_call['site']==0x40b568
+        module=module_return['eax']
+        assert module and module_return['site']==0x40b56e
+        assert proc_call['requested']=='IsTNT' and proc_call['arguments'][0]==module and proc_call['site']==0x40b578
+        assert proc_return['eax']==0 and proc_return['site']==0x40b57e
+        from binary import PE,u32
+        module_event,=[event for event in events if event['event']=='module' and event['base']==module]
+        module_pe=PE(original/('module-%03d.bin'%module_event['index']))
+        exports=module_pe.base+u32(module_pe.data,module_pe.optional+96)
+        assert module_pe.string(module_pe.base+u32(module_pe.read(exports+12,4),0)).lower()=='kernel32.dll'
+        assert native_state['module_probes']==[dict(kind='module',requested='kernel32.dll',module=0,result=1),dict(kind='proc',requested='IsTNT',module=1,result=0)]
+        slots_pointer,newest,count=struct.unpack('<3I',(original/'file-pointers.bin').read_bytes())
+        if name not in ('_initialize_memory','_run_linker@8','_initialize_repro'):assert newest==count==0
+        if name in ('_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro'):
+            assert slots_pointer and native_state['file_globals']['file_slots']
+            array=(original/'file-slots.bin').read_bytes()
+            if name=='_new_file_record':assert array.hex()==native_state['file_slots_bytes'] and not any(array)
+        else:assert slots_pointer==native_state['file_globals']['file_slots']==0
+        assert (original/'file-mapping-enabled.bin').read_bytes()==b'\1'
+        assert struct.unpack('<I',(original/'file-window-limit.bin').read_bytes())[0]==(14 if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0)
+        assert struct.unpack('<15I',(original/'file-statistics.bin').read_bytes())==(0,)*15
+        assert native_state['file_globals']==dict(file_slots=native_state['file_globals']['file_slots'],file_newest=native_state['file_globals']['file_newest'] if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0,file_record_count=16 if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0,file_window_limit=14 if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0,file_mapping_enabled=1)
+        assert native_state['file_statistics']==[0]*15
+        if name=='_get_debug_flag@4':
+            assert original_state['stack'][1]==native_state['frontier_arguments']['index']==44
+        elif name=='_zero_allocate@4':
+            assert original_state['stack'][1]==native_state['frontier_arguments']['bytes']==64
+
+        if name in ('_initialize_memory','_run_linker@8','_initialize_repro'):
+            pointers=struct.unpack('<16I',array)
+            native_pointers=struct.unpack('<16I',bytes.fromhex(native_state['file_slots_bytes']))
+            assert len(set(pointers))==len(set(native_pointers))==16 and all(pointers) and all(native_pointers)
+            assert slots_pointer not in pointers and native_state['file_globals']['file_slots'] not in native_pointers
+            assert newest==pointers[-1] and count==16
+            assert native_state['file_globals']['file_newest']==native_pointers[-1]
+            for index in range(16):
+                record=struct.unpack('<10I',(original/('file-record-%02u.bin'%index)).read_bytes())
+                native_record=struct.unpack('<10I',bytes.fromhex(native_state['file_records'][index]))
+                assert record[:9]==native_record[:9]==(0,0,index,0,0,0,0,0,0)
+                assert record[9]==(pointers[index-1] if index else 0)
+                assert native_record[9]==(native_pointers[index-1] if index else 0)
+
+    if name in ('_run_linker@8','_initialize_repro'):
+        system=(original/'system-after.bin').read_bytes();memory=(original/'memory-after.bin').read_bytes()
+        calls=native_state['system_calls']
+        assert [(call['kind'],call['after']) for call in calls]==[('system',system.hex()),('memory',memory.hex())]
+        assert struct.unpack('<I',(original/'allocation-page-size.bin').read_bytes())[0]==native_state['allocation_page_size']==struct.unpack_from('<I',system,4)[0]==4096
+        assert struct.unpack('<I',(original/'maximum-physical-memory.bin').read_bytes())[0]==native_state['maximum_physical_memory']==struct.unpack_from('<I',memory,8)[0]==0x7fffffff
+        assert struct.unpack('<I',(original/'selected-tool-kind.bin').read_bytes())[0]==native_state['selected_tool_kind']==1
+        assert original_state['selected_tool_name']==native_state['selected_tool_name']=='Linker'
+        assert native_state['selected_tool_name_address']==native_state['first_tool_name_address']
+        from binary import PE,u32
+        pe=PE(original/'module-000.bin')
+        table_name=u32(pe.read(0x467020,4),0)
+        assert original_state['selected_tool_name_pointer']==table_name
+        assert native_state['frontier_arguments']['argc']==2
+        if name=='_run_linker@8':
+            assert original_state['stack'][1]==2
+            assert original_state['stack'][2]==original_state['crt_argv_pointer']
+        else:
+            assert original_state['stack'][6]==2
+            assert original_state['stack'][7]==original_state['crt_argv_pointer']
+        assert native_state['frontier_arguments']['argv_address']==native_state['crt_argv_address']
+        assert native_state['frontier_arguments']['argv']==native_state['crt_argv']

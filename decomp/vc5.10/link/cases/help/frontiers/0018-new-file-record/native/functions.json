@@ -1,0 +1,473 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/LINK.EXE",
+    "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "__except_handler3",
+    "__setargv",
+    "__matherr",
+    "__setdefaultprecision",
+    "__initterm",
+    "__XcptFilter",
+    "__controlfp",
+    "_initialize_buffer12",
+    "import:??2@YAPAXI@Z",
+    "_allocate_buffer12",
+    "_atexit",
+    "__onexit",
+    "___dllonexit",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4",
+    "_allocate_buffer4",
+    "_register_buffer4_cleanup",
+    "_initialize_timing",
+    "_setup_timing",
+    "_register_timing_cleanup",
+    "_main",
+    "_initialize_debug@8",
+    "_initialize_file_cache@16",
+    "_get_debug_flag@4",
+    "_zero_allocate@4",
+    "_new_file_record"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4251280,
+      "end": 4252242,
+      "source": "src/driver.c",
+      "status": "implemented",
+      "abi": "cdecl int(int,char**,char**); original normal body+SEH filter/handler",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_buffer12",
+      "start": 4345440,
+      "end": 4345450,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer8",
+      "start": 4398448,
+      "end": 4398458,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer4",
+      "start": 4398560,
+      "end": 4398570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_timing",
+      "start": 4476512,
+      "end": 4476522,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer12",
+      "start": 4345456,
+      "end": 4345494,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer12_cleanup",
+      "start": 4345504,
+      "end": 4345518,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer12",
+      "start": 4345520,
+      "end": 4345539,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer8",
+      "start": 4398464,
+      "end": 4398502,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer8_cleanup",
+      "start": 4398512,
+      "end": 4398526,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer8",
+      "start": 4398528,
+      "end": 4398547,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer4",
+      "start": 4398576,
+      "end": 4398614,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer4_cleanup",
+      "start": 4398624,
+      "end": 4398638,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer4",
+      "start": 4398640,
+      "end": 4398659,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_setup_timing",
+      "start": 4476528,
+      "end": 4476570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_timing_cleanup",
+      "start": 4476576,
+      "end": 4476590,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_close_timing",
+      "start": 4476592,
+      "end": 4476691,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_console_control@4",
+      "start": 4250784,
+      "end": 4250817,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "console_control",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_debug@8",
+      "start": 4280880,
+      "end": 4281071,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_debug",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_file_cache@16",
+      "start": 4240736,
+      "end": 4240919,
+      "source": "src/files.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_file_cache",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_memory",
+      "start": 4519264,
+      "end": 4519338,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "cdecl",
+      "native_symbol": "initialize_memory",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_linker@8",
+      "start": 4492464,
+      "end": 4494016,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_linker",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_librarian@8",
+      "start": 4443680,
+      "end": 4443681,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_librarian",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_dumper@8",
+      "start": 4382800,
+      "end": 4383205,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_dumper",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_editor@8",
+      "start": 4388480,
+      "end": 4388481,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_editor",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_helper@8",
+      "start": 4252256,
+      "end": 4252337,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_helper",
+      "pending_extent": false
+    },
+    {
+      "name": "_save_exception@24",
+      "start": 4250832,
+      "end": 4251050,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "save_exception",
+      "pending_extent": false
+    },
+    {
+      "name": "_report_delayed_import@12",
+      "start": 4251056,
+      "end": 4251275,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "report_delayed_import",
+      "pending_extent": false
+    },
+    {
+      "name": "_cleanup_emulation",
+      "start": 4593072,
+      "end": 4593073,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "cdecl",
+      "native_symbol": "cleanup_emulation",
+      "pending_extent": true
+    },
+    {
+      "name": "_get_debug_flag@4",
+      "start": 4281072,
+      "end": 4281086,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "native_symbol": "get_debug_flag",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_new_file_record",
+      "start": 4240992,
+      "end": 4241006,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "new_file_record",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_zero_allocate@4",
+      "start": 4521584,
+      "end": 4521618,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "zero_allocate",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_out_of_memory",
+      "start": 4391632,
+      "end": 4391648,
+      "source": "src/files.c",
+      "status": "stub",
+      "native_symbol": "out_of_memory",
+      "abi": "cdecl"
+    }
+  ],
+  "text_data": [
+    {
+      "start": 4232232,
+      "end": 4232244,
+      "accepted": true,
+      "reason": "CRTEXE.OBJ contextual SEH scope table",
+      "evidence": "cases/runtime-entry-identity.json",
+      "sha256": "71cd0e84dd60b732f51a5f49fd8f67f26908a0567e4cbba001a09b86b89b5614"
+    },
+    {
+      "start": 4200424,
+      "end": 4200436,
+      "accepted": true,
+      "reason": "main SEH scope table: previous scope -1, filter 40e0e1, handler 40e10e",
+      "sha256": "42feff862ada3b71b3431d6e557a595dac60b8aec2f567ae008fdd500bc6c688",
+      "evidence": "original main prologue and complete SEH filter/handler disassembly"
+    },
+    {
+      "start": 4199740,
+      "end": 4199747,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Linker\\x00'",
+      "sha256": "d290aea9d523db3ae358d16a8d1114fab6159787a4c99d574d3d67b45e92746a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199724,
+      "end": 4199740,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Library Manager\\x00'",
+      "sha256": "98d7bbb928df4e36a0cfad259cc13f08f2ba1b99b3af4263f440d8ec418a40ef",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199716,
+      "end": 4199723,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Dumper\\x00'",
+      "sha256": "936775867db1c5a7b1a773140d8f923d31b2b6f0a4a7f8f648e9acb6bd9ebb95",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199708,
+      "end": 4199715,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Editor\\x00'",
+      "sha256": "7570cbbfb02e45c2192ab3fe939ca9b1dce249927f81f47927b872c275e0d8ca",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199700,
+      "end": 4199707,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Helper\\x00'",
+      "sha256": "1ec47ae778c26c1bc3250da6614c28b399667b10f2e03309aaaaaa8fcad5db70",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200416,
+      "end": 4200424,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'LINK_DB\\x00'",
+      "sha256": "00400638b4d8662a9999ae2284344468ac866c959fedfcbaeab42586794bdb5a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200376,
+      "end": 4200416,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n%s : error : Internal error during %s\\n\\x00'",
+      "sha256": "58dd088874d8129091f216f3eef59b71313ff08ab172cb5e8e1b07e9f738a19a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200232,
+      "end": 4200374,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n  ExceptionCode            = %08lX\\n  Excepti'",
+      "sha256": "4b1e469b5cce5c8823b7491dba3fc12a8e563493eff7303b645271b5145c17c6",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200192,
+      "end": 4200229,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'  ExceptionInformation[%2u] = %08lX\\n\\x00'",
+      "sha256": "2a2858608d2c3d96c56ed654551c05058a836e2deb30d7e68de73b77d1df24b7",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199816,
+      "end": 4200190,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\nCONTEXT:\\n  Eax    = %08lX  Esp    = %08lX\\n  '",
+      "sha256": "36805a3ead385b67378328497b9c154e34ae769d573a842897e7ec13bbba4bf3",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4202228,
+      "end": 4202239,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'SetupPhase\\x00'",
+      "sha256": "1a8cd746a5553c7dc6f70d7d46f901ab90396a3344c1713d8f00fbabb22f5e5e",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4203100,
+      "end": 4203103,
+      "accepted": true,
+      "reason": "initialize_debug sscanf format literal",
+      "evidence": "direct format argument at original 415280/4152d9",
+      "sha256": "0b782fc3030dbdf3756f17e7adf2ce5808dfc513ca7589adeb679c7d25eaef6f"
+    },
+    {
+      "start": 4199572,
+      "end": 4199578,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "86bb1a20f3ae296d8b3ff86cf62f0fb21fab388a7dbc2185278e7f2fd78293cd",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4199580,
+      "end": 4199593,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "d89b4bfe0229ab034c8597fbd9c4b70af3690382b8c700ec05d6923da518275c",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    }
+  ],
+  "cases": {
+    "help": {
+      "arguments": [
+        "/?"
+      ],
+      "complete": false
+    }
+  },
+  "review_gate": "approved"
+}

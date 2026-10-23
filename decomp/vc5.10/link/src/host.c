@@ -25,6 +25,10 @@ static int target_startup(int argc, char **argv, char **environment)
 #if defined(RECON_NATIVE_TEST)
 int main(int argc, char **argv, char **environment)
 {
+    const char *profile, *reference;
+    profile = getenv("RECON_SYSTEM_PROFILE");
+    reference = getenv("RECON_SYSTEM_REFERENCE");
+    if (profile || reference) recon_load_system_profile(profile, reference);
     exit(target_startup(argc, argv, environment));
     return 255;
 }

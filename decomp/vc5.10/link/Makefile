@@ -1,14 +1,16 @@
 PYTHON ?= python3
 NATIVE_CC ?= clang
+NATIVE_CXX ?= clang++
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
-SOURCES = src/driver-stubs.c src/driver.c src/initializers.c src/host.c
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
+SOURCES = src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/host.c
+CPP_SOURCES = src/link-driver.cpp
+OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES)) $(patsubst src/%.cpp,build/%.obj,$(CPP_SOURCES))
+NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES)) $(patsubst src/%.cpp,build/native/%.o,$(CPP_SOURCES))
 HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
 ORIGINAL_HEADERS = $(wildcard src/*.h)
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_APP_FLAGS = -DRECON_NATIVE_TRACE -finstrument-functions
 SHIMS = $(wildcard $(RECON)/src/*.c)
 
@@ -25,6 +27,13 @@ build build/native:
 
 build/%.obj: src/%.c $(ORIGINAL_HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /I$(RECON)/include /Fo$@ $<
+
+# The POD thiscall caller requires C++; no RTTI, EH or language runtime.
+build/%.obj: src/%.cpp $(ORIGINAL_HEADERS) | build
+	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /GR- /GX- /I$(RECON)/include /Fo$@ $<
+
+build/native/%.o: src/%.cpp $(HEADERS) Makefile | build/native
+	$(NATIVE_CXX) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti $(NATIVE_CPPFLAGS) $(NATIVE_APP_FLAGS) -c $< -o $@
 
 build/operator-new-alias.obj: scripts/weak-import.py | build
 	$(PYTHON) scripts/weak-import.py $@

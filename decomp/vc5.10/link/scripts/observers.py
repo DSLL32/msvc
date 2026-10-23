@@ -13,4 +13,10 @@ def plan(accepted):
             result += [(address+5-0x400000,'observe:atexit_call_'+suffix),(address+10-0x400000,'observe:atexit_return_'+suffix)]
     if '_main' in accepted:
         result += [(0xded2,'observe:console_call'),(0xded8,'observe:console_return')]
+    if '_initialize_file_cache@16' in accepted:
+        result += [(0xb568,'observe:module_call'),(0xb56e,'observe:module_return'),
+                   (0xb578,'observe:proc_call'),(0xb57e,'observe:proc_return')]
+    if '_initialize_memory' in accepted:
+        result += [(0x4f571,'observe:system_before'),(0x4f577,'observe:system_after'),
+                   (0x4f586,'observe:memory_before'),(0x4f58c,'observe:memory_after')]
     return result

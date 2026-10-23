@@ -1,0 +1,136 @@
+{
+  "kind": "native-i386-gdb-frontier",
+  "configuration_sha256": "949930abafd8a4b2c2958f8c4f248e3b992248345ed5704fb27490f47c7f09c9",
+  "native_sha256": "43fe9a94a014549d01c8bbcdcfb0efaec649a6a7b4f7fdeb27d1d68ad94dd9ea",
+  "rebuilt_sha256": "2bedc5490a5f54ad154e65e24921e6d9aafc3df9de1b5aa588bdbdfac5f615cc",
+  "source_files": {
+    "src/crt-imports.h": "fdd2bbde51b429c9106b37136d7a62f5ab706ad7216b412be3c157574a8c3616",
+    "src/driver-stubs.c": "bf464d7c4e9aaff9d65b63af45361af91399bdff46b93302660bfc3ec49e6116",
+    "src/driver.c": "9528710fbcb0a12bd278f267356563620c983eaaaa5455edfcc2101d95e82d18",
+    "src/files.c": "6cb56c589d34f06124104988e95e68e64ec8bc6cf9ff693d49d0bfc02343e110",
+    "src/files.h": "0d8f48c1ee9f723ef463619442dc4d26c03a134a158764e20a91f42590ed06fe",
+    "src/host.c": "153e8be6a6b9d6f94cdc43fc782a82a85c2d7195338a4b6be46b2a1e2c30de21",
+    "src/initializers.c": "0a2849251b7a4818f66e43376e66e39d52e11479051d2c00d1d3be61f01e48b0",
+    "src/initializers.h": "7587ee4278c51d9fe0990828291e235938df181bbd92dea9ef0bc7f9218e4937",
+    "src/link-driver.cpp": "60cfd691672248958854713c205a635de15977b2d84fedd39ac6bd89c418c948",
+    "src/link-driver.h": "e449b57f3d8b79b39c573ed391f08d7dd5b0607f68a28d265fada92367792e41",
+    "src/link.h": "c3d31fa73b10466f528721e3e4dc653ca6cc1c3ba05aeb7879e2e3343ea3ad5e",
+    "src/memory.c": "ca14184419a01921ae0ea667f97c997ba8137994b29bea72b44239fe6924786b"
+  },
+  "source_content": {
+    "project/crt-imports.h": "fdd2bbde51b429c9106b37136d7a62f5ab706ad7216b412be3c157574a8c3616",
+    "project/driver-stubs.c": "bf464d7c4e9aaff9d65b63af45361af91399bdff46b93302660bfc3ec49e6116",
+    "project/driver.c": "9528710fbcb0a12bd278f267356563620c983eaaaa5455edfcc2101d95e82d18",
+    "project/files.c": "6cb56c589d34f06124104988e95e68e64ec8bc6cf9ff693d49d0bfc02343e110",
+    "project/files.h": "0d8f48c1ee9f723ef463619442dc4d26c03a134a158764e20a91f42590ed06fe",
+    "project/host.c": "153e8be6a6b9d6f94cdc43fc782a82a85c2d7195338a4b6be46b2a1e2c30de21",
+    "project/initializers.c": "0a2849251b7a4818f66e43376e66e39d52e11479051d2c00d1d3be61f01e48b0",
+    "project/initializers.h": "7587ee4278c51d9fe0990828291e235938df181bbd92dea9ef0bc7f9218e4937",
+    "project/link-driver.cpp": "60cfd691672248958854713c205a635de15977b2d84fedd39ac6bd89c418c948",
+    "project/link-driver.h": "e449b57f3d8b79b39c573ed391f08d7dd5b0607f68a28d265fada92367792e41",
+    "project/link.h": "c3d31fa73b10466f528721e3e4dc653ca6cc1c3ba05aeb7879e2e3343ea3ad5e",
+    "project/memory.c": "ca14184419a01921ae0ea667f97c997ba8137994b29bea72b44239fe6924786b",
+    "recon/include/recon.h": "697a0b4fc7cc4224919b35c3b6729d28306b668def72d818283ee4f05e801eed",
+    "recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "recon/include/win32.h": "dcf06e67cb8066ba14f02588249b8eff9f8123783e2f7709ea7ee6cd94b1fa94",
+    "recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "recon/native/mbstring.h": "0c2356e18de5b15af7df29662e99b85dded9d9effd86d3d60263a7e2400d2d60",
+    "recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+    "recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "recon/src/crt.c": "c6acdfbd26a86176767a1e500b80a4b8765dd6e8f6425731aebe9987ebf59be9",
+    "recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "recon/src/entry.c": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
+    "recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+    "recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "recon/src/win32.c": "fa559a370816a9dc246f5ae7f1deb4a5beafd2b4f9a62b8a0e2f4d0f2c67edef"
+  },
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/link/native-3r048v8x/capture.gdb.py",
+    "--args",
+    "/root/msvc2/decomp/vc5.10/link/build/native/LINK.EXE",
+    "/?"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.21653141640126705,
+  "files": {
+    "gdb.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture.gdb.py": {
+      "bytes": 10979,
+      "sha256": "95adeabf442eb7d73b32efc9d9aa41f04e7533678bb0a99e1d485d7fcdabac81"
+    },
+    "functions.json": {
+      "bytes": 13912,
+      "sha256": "949930abafd8a4b2c2958f8c4f248e3b992248345ed5704fb27490f47c7f09c9"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state.json": {
+      "bytes": 6180,
+      "sha256": "dac2ea39fb6fac5cc97d41e6fc633edca3a7e453f26e0504e9aa1c33fe66250a"
+    },
+    "gdb.stdout": {
+      "bytes": 278,
+      "sha256": "d3a8236ef42b54a0196b0e75b5aa1d80a5db7e276e111f608f60eb75d7d06800"
+    },
+    "runtime.json": {
+      "bytes": 3430,
+      "sha256": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396"
+    },
+    "environment/binding.json": {
+      "bytes": 367,
+      "sha256": "e66aafd296adcbf255adf8a87a08ed58f35ea83af466ffaae15328cb5ac82929"
+    },
+    "environment/memory-after.bin": {
+      "bytes": 32,
+      "sha256": "fa0682b5b3e59897ef50e9040a70858324926411e301ea845f257f36e60b09d5"
+    },
+    "environment/system-before.bin": {
+      "bytes": 36,
+      "sha256": "de462deb816bae29bfaeec9840ec1519eb9051490b1b14a2a523149b44fd3de9"
+    },
+    "environment/system-after.bin": {
+      "bytes": 36,
+      "sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57"
+    },
+    "environment/system-profile.bin": {
+      "bytes": 136,
+      "sha256": "73e199f9fa18c29a2e3bee00a93a0ab8bc4e7c12d16207ea35b21a025177e5cf"
+    },
+    "environment/reference-receipt.json": {
+      "bytes": 11046,
+      "sha256": "d88bffda0ca5557ecbbb1491160f77d642cb5f605f4db4e5766c688229f476d5"
+    },
+    "environment/memory-before.bin": {
+      "bytes": 32,
+      "sha256": "67d07d78588a1cce40395d2ce2d624fee17d023b7f4b3c4aee78ff85aadee159"
+    },
+    "environment/events.jsonl": {
+      "bytes": 6134,
+      "sha256": "a3ab121dc31f8851b08c24d2a54ba30bfe0d77f9090933d12454e34da3e08379"
+    }
+  }
+}

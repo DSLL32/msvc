@@ -12,7 +12,7 @@ FILE *diagnostic_output;
 char *program_name;
 const char *selected_tool_name;
 int selected_tool_kind;
-unsigned char let_exceptions_escape, emulation_cleanup_pending;
+unsigned char let_exceptions_escape, logo_pending;
 char current_phase[32];
 const char *default_phase = "SetupPhase";
 
@@ -61,7 +61,7 @@ int __cdecl main(int argc, char **argv, char **environment)
         initialize_debug(debug_options, "LINK_DB");
         _splitpath(argv[0], NULL, NULL, basename, NULL);
         program_name = _strupr(basename);
-        initialize_messages(16, 14, 18, 16);
+        initialize_file_cache(16, 14, 18, 16);
         initialize_memory();
         tool = 0;
         if (argc >= 2 && (argv[1][0] == '/' || argv[1][0] == '-')) {
@@ -96,7 +96,7 @@ int __cdecl main(int argc, char **argv, char **environment)
     __except (save_exception(let_exceptions_escape, (exception_status = GetExceptionCode()),
                             GetExceptionInformation(), &delay_info,
                             &exception_record, &context)) {
-        if (emulation_cleanup_pending) cleanup_emulation();
+        if (logo_pending) print_logo();
         if (delay_info) report_delayed_import(exception_status, delay_info, 1);
         printf("\n%s : error : Internal error during %s\n",
                current_phase[0] ? current_phase : program_name, default_phase);

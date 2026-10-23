@@ -72,10 +72,19 @@ def main():
         ('target',0x94460,20,'timing.bin'),
         ('target',0x7eeb8,4,'diagnostic-output.bin'),
         ('target',0x7f1a0,256,'debug-flags.bin'),
+        ('target',0x67538,12,'file-pointers.bin'),
+        ('target',0x6754c,1,'file-mapping-enabled.bin'),
+        ('target',0x674dc,4,'file-window-limit.bin'),
+        ('target',0x674f4,60,'file-statistics.bin'),
+        ('target',0x944b4,4,'allocation-page-size.bin'),
+        ('target',0x7ef7c,4,'maximum-physical-memory.bin'),
+        ('target',0x7f138,4,'selected-tool-kind.bin'),
+        ('target',0x7f060,4,'selected-tool-name.bin'),
         ('crt',0x3fa88,4,'crt-fmode.bin'),
         ('crt',0x3fa94,4,'crt-commode.bin'),
         ('crt',0x3f928,4,'crt-adjust-fdiv.bin'),
         ('crt',0x3f590,32,'crt-stdout.bin')]
+    if '_zero_allocate@4' in config['accepted']:state_plan.append(('targetptr',0x67538,64,'file-slots.bin'))
     (capture / 'state-plan.txt').write_text(''.join('%s %x %d %s\n'%item for item in state_plan))
     (capture / 'entries.txt').write_text(''.join(entries))
     helper = BINARY / 'build/capture-help.exe'
@@ -110,7 +119,7 @@ def main():
                    native_sha256=sha((BINARY / 'build/native/LINK.EXE').read_bytes()),
                    rebuilt_sha256=sha((BINARY / 'build/link.exe').read_bytes()),
                    source_files={str(p.relative_to(BINARY)):sha(p.read_bytes())
-                                 for p in sorted((BINARY / 'src').glob('*.[ch]'))},
+                                 for p in sorted(p for p in (BINARY/'src').iterdir() if p.suffix in ('.c','.h','.cpp'))},
                    environment={k: env[k] for k in ['WINEDLLOVERRIDES', 'WINEPATH', 'TEMP', 'TMP']},
                    files=files)
     (capture / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')

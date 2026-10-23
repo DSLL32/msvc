@@ -30,7 +30,7 @@ def environment():
                   WINEDLLOVERRIDES='msvcrt,mspdb50,msdis100,imagehlp=n',
                   WINEPATH=windows(TC / 'bin'), INCLUDE=windows(TC / 'include'),
                   LIB=windows(TC / 'lib'))
-    for name in ['CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS', 'LINK32_DB','LINK_DB']:
+    for name in ['CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS', 'LINK32_DB','LINK_DB','LINK_REPRO','LINK_REPRO_NAME']:
         result.pop(name, None)
     return result
 

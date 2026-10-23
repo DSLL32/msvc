@@ -18,6 +18,7 @@ def sha(data): return hashlib.sha256(data).hexdigest()
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=BINARY / 'functions.json')
+    parser.add_argument('--environment-reference',type=Path,help='explicit cached original hardware sample; never invokes an original')
     args = parser.parse_args()
     subprocess.run(['make','-q','native'],cwd=BINARY,check=True)
     scratch = Path.home() / '.ai-tmp/msvc2/vc5.10/link'
@@ -28,7 +29,7 @@ def main():
     source_content={}
     content_paths=[]
     for category,directory in [('project',BINARY/'src'),('recon',BINARY.parents[2]/'lib/recon')]:
-        for source in sorted(directory.rglob('*.[ch]')):
+        for source in sorted(p for p in directory.rglob('*') if p.is_file() and p.suffix in ('.c','.h','.cpp')):
             if category=='recon' and source.relative_to(directory).parts[0] not in ('src','include','native'):continue
             name=category+'/'+str(source.relative_to(directory))
             data=source.read_bytes();destination=capture/'source'/name
@@ -41,7 +42,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -82,6 +83,39 @@ class ConsoleEntry(gdb.Breakpoint):
         ConsoleReturned(gdb.newest_frame(),name,add)
         return False
 ConsoleEntry('*recon_SetConsoleCtrlHandler',internal=True)
+class ModuleReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,kind,requested,module):
+        super().__init__(frame,internal=True);self.kind=kind;self.requested=requested;self.module=module
+    def stop(self):
+        state['module_probes'].append(dict(kind=self.kind,requested=self.requested,module=self.module,result=int(self.return_value)))
+        return False
+class ModuleEntry(gdb.Breakpoint):
+    def __init__(self,symbol,kind):super().__init__(symbol,internal=True);self.kind=kind
+    def stop(self):
+        args=gdb.parse_and_eval('(unsigned*)$esp')
+        module=int(args[1]) if self.kind=='proc' else 0
+        address=int(args[2 if self.kind=='proc' else 1])
+        requested=gdb.Value(address).cast(gdb.lookup_type('char').pointer()).string()
+        ModuleReturned(gdb.newest_frame(),self.kind,requested,module)
+        return False
+ModuleEntry('*recon_GetModuleHandleA','module')
+ModuleEntry('*recon_GetProcAddress','proc')
+class SystemReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,kind,address,size,before):
+        super().__init__(frame,internal=True);self.kind=kind;self.address=address;self.size=size;self.before=before
+    def stop(self):
+        after=gdb.selected_inferior().read_memory(self.address,self.size).tobytes().hex()
+        state['system_calls'].append(dict(kind=self.kind,address=self.address,before=self.before,after=after))
+        return False
+class SystemEntry(gdb.Breakpoint):
+    def __init__(self,symbol,kind,size):super().__init__(symbol,internal=True);self.kind=kind;self.size=size
+    def stop(self):
+        address=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
+        before=gdb.selected_inferior().read_memory(address,self.size).tobytes().hex()
+        SystemReturned(gdb.newest_frame(),self.kind,address,self.size,before)
+        return False
+SystemEntry('*recon_GetSystemInfo','system',36)
+SystemEntry('*recon_GlobalMemoryStatus','memory',32)
 def callback_names(begin,count):
     result=[]
     for index in range(count):
@@ -124,14 +158,34 @@ def stopped(event):
     state['diagnostic_output']=int(gdb.parse_and_eval('diagnostic_output'))
     if state['function']=='initialize_debug':
         state['frontier_arguments']=dict(options=int(frame.read_var('options')),environment=frame.read_var('environment').string())
-    if state['function']=='initialize_messages':
-        state['frontier_arguments']={name:int(frame.read_var(name)) for name in ('a','b','c','d')}
+    if state['function']=='get_debug_flag':state['frontier_arguments']=dict(index=int(frame.read_var('index')))
+    if state['function'] in ('run_linker','initialize_repro'):
+        driver=frame
+        while driver and driver.name()!='run_linker':driver=driver.older()
+        assert driver
+        count=int(driver.read_var('argc'));argv=driver.read_var('argv')
+        state['frontier_arguments']=dict(argc=count,argv=[argv[i].string() for i in range(count)],argv_address=int(argv))
+        state['selected_tool_name']=gdb.parse_and_eval('selected_tool_name').string()
+        state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
+        state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
+        state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
+    if state['function']=='zero_allocate':state['frontier_arguments']=dict(bytes=int(frame.read_var('bytes')))
+    if int(gdb.parse_and_eval('program_name')):
         state['program_name_address']=int(gdb.parse_and_eval('program_name'))
         state['program_name']=gdb.parse_and_eval('program_name').string()
         owner=frame
         while owner and owner.name()!='link_main':owner=owner.older()
         assert owner
         state['basename_address']=int(owner.read_var('basename').address)
+    state['allocation_page_size']=int(gdb.parse_and_eval('allocation_page_size'))
+    state['maximum_physical_memory']=int(gdb.parse_and_eval('maximum_physical_memory'))
+    state['file_globals']={name:int(gdb.parse_and_eval(name)) for name in ('file_slots','file_newest','file_record_count','file_window_limit','file_mapping_enabled')}
+    if state['file_globals']['file_slots']:
+        raw_slots=gdb.selected_inferior().read_memory(state['file_globals']['file_slots'],64).tobytes()
+        state['file_slots_bytes']=raw_slots.hex()
+        slots=[int.from_bytes(raw_slots[i:i+4],'little') for i in range(0,64,4)]
+        state['file_records']=[gdb.selected_inferior().read_memory(pointer,40).tobytes().hex() if pointer else None for pointer in slots]
+    state['file_statistics']=[int(gdb.parse_and_eval('file_statistics[%%d]'%%i)) for i in range(15)]
     state['debug_flags']=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&debug_flags')),256).tobytes().hex()
     state['app_globals']={}
     for symbol,size in [('buffer12',12),('buffer8',12),('buffer4',12),('timing',20)]:
@@ -152,6 +206,7 @@ def stopped(event):
     if frame:
         frame.select()
         count=int(gdb.parse_and_eval('argc'))
+        state['crt_argv_address']=int(gdb.parse_and_eval('argv'))
         state['crt_argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(count)]
         gdb.newest_frame().select()
     state['stack']=[int(gdb.parse_and_eval('((unsigned*)$esp)[%%d]'%%i)) for i in range(32)]
@@ -170,8 +225,14 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
                '--args', str(executable), '/?']
     start = time.perf_counter()
     environment = os.environ.copy()
-    for name in ['CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','LINK32_DB','LINK_DB']:environment.pop(name,None)
+    for name in ['CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','LINK32_DB','LINK_DB','LINK_REPRO','LINK_REPRO_NAME']:environment.pop(name,None)
     environment['RECON_PROGRAM_PATH'] = r'R:\toolchains\5.10\bin\LINK.EXE'
+    if '_initialize_memory' in configuration['accepted']:
+        assert args.environment_reference, 'explicit cached environment reference is required'
+        from environment_profile import prepare
+        profile,reference=prepare(args.environment_reference,capture)
+        environment['RECON_SYSTEM_PROFILE']=str(profile)
+        environment['RECON_SYSTEM_REFERENCE']=reference
     result = subprocess.run(command, cwd=capture, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20)
     elapsed = time.perf_counter() - start
     assert all(sha(path.read_bytes())==source_content[name] for path,name in content_paths), 'compiled sources changed during native capture'
@@ -181,11 +242,11 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
                    native_sha256=sha(executable.read_bytes()),
                    rebuilt_sha256=sha((BINARY / 'build/link.exe').read_bytes()),
                    source_files={str(p.relative_to(BINARY)):sha(p.read_bytes())
-                                 for p in sorted((BINARY / 'src').glob('*.[ch]'))},
+                                 for p in sorted(p for p in (BINARY/'src').iterdir() if p.suffix in ('.c','.h','.cpp'))},
                    source_content=source_content,
                    command=command, status=result.returncode, elapsed_seconds=elapsed,
-                   files={p.name:dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes()))
-                          for p in capture.iterdir() if p.is_file()})
+                   files={str(p.relative_to(capture)):dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes()))
+                          for p in capture.rglob('*') if p.is_file() and 'source' not in p.relative_to(capture).parts})
     (capture / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(capture)
     if result.returncode or not (capture / 'state.json').exists():

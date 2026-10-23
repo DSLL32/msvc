@@ -42,7 +42,7 @@ def bind_capture(directory, expected, kind):
     if kind!='original':
         assert receipt['native_sha256'] == sha((BINARY / 'build/native/LINK.EXE').read_bytes()), 'stale native executable'
         assert receipt['rebuilt_sha256'] == sha((BINARY / 'build/link.exe').read_bytes()), 'stale rebuilt executable'
-        sources = {str(p.relative_to(BINARY)):sha(p.read_bytes()) for p in sorted((BINARY / 'src').glob('*.[ch]'))}
+        sources = {str(p.relative_to(BINARY)):sha(p.read_bytes()) for p in sorted(p for p in (BINARY/'src').iterdir() if p.suffix in ('.c','.h','.cpp'))}
         assert receipt['source_files'] == sources, 'compiled sources changed after capture'
     for name,value in receipt.get('source_content',{}).items():
         assert sha((directory/'source'/name).read_bytes())==value, 'frozen source content changed'
@@ -103,6 +103,11 @@ def verify_frontier(original, native, expected_name, expected):
     # that contract exists, a matching address/stream alone cannot accept code.
     from boundary_state import compare
     compare(expected_name, original, native, traps[0], state)
+    if state.get('system_calls'):
+        binding=json.loads((native/'environment/binding.json').read_text())
+        assert binding['reference_sha256']==sha((original/'receipt.json').read_bytes()), 'native environment belongs to a different original sample'
+        assert (native/'environment/system-after.bin').read_bytes()==(original/'system-after.bin').read_bytes()
+        assert (native/'environment/memory-after.bin').read_bytes()==(original/'memory-after.bin').read_bytes()
 
 
 def audit_trial(path):

@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <windows.h>
 #include <recon.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 typedef void (__cdecl *Initializer)(void);
 typedef struct BufferBlock {
@@ -38,4 +42,7 @@ void __cdecl register_timing_cleanup(void);
 void __cdecl close_timing(void);
 /* Zero-section COFF alias binds this C spelling to ??2@YAPAXI@Z. */
 void *__cdecl crt_operator_new(unsigned bytes);
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -19,9 +19,10 @@ void __stdcall initialize_debug(char *options, const char *environment)
         while (*options && !(isdigit)((signed char)*options)) ++options;
     }
 }
-void __stdcall initialize_messages(unsigned a, unsigned b, unsigned c, unsigned d) { __asm { int 3 } }
-void __cdecl initialize_memory(void) { __asm { int 3 } }
-int __stdcall run_linker(int argc, char **argv) { __asm { int 3 } return 255; }
+int __stdcall get_debug_flag(unsigned index)
+{
+    return (signed char)debug_flags[index];
+}
 int __stdcall run_librarian(int argc, char **argv) { __asm { int 3 } return 255; }
 int __stdcall run_dumper(int argc, char **argv) { __asm { int 3 } return 255; }
 int __stdcall run_editor(int argc, char **argv) { __asm { int 3 } return 255; }
@@ -30,4 +31,4 @@ int __stdcall save_exception(unsigned char passthrough, DWORD code, EXCEPTION_PO
                             void **delay, EXCEPTION_RECORD *record, CONTEXT *context)
 { __asm { int 3 } return 1; }
 void __stdcall report_delayed_import(DWORD code, void *info, int fatal) { __asm { int 3 } }
-void __cdecl cleanup_emulation(void) { __asm { int 3 } }
+void __cdecl print_logo(void) { __asm { int 3 } }

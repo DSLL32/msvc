@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804a94c in new_file_record () at src/files.c:38
+38	FileRecord *__cdecl new_file_record(void) { __asm { int 3 } return NULL; }

@@ -109,25 +109,45 @@ static int snapshot(DWORD address)
         if (index) fputc(',', events);
         quoted(value);
     }
-    fprintf(events, "]");
+    fprintf(events, "],\"crt_argv_pointer\":%lu",arguments);
     if(address==base+0x15230) {
         if(!remote_string(stack[2],value,sizeof(value)))return 0;
         fprintf(events,",\"debug_options_pointer\":%lu,\"debug_environment\":",stack[1]);quoted(value);
     }
-    if(address==base+0xb560) {
+    if(address==base+0xb560 || address==base+0x152f0 || address==base+0x4fe70 || address==base+0xb660 || address==base+0x4f560 || address==base+0x48cb0 || address==base+0x44b10) {
         if(!ReadProcessMemory(process,(void *)(base+0x7f074),&pointer,4,&got)||got!=4||!remote_string(pointer,value,sizeof(value)))return 0;
-        fprintf(events,",\"program_name_pointer\":%lu,\"main_frame_pointer\":%lu,\"program_name\":",pointer,context.Ebp);quoted(value);
+        fprintf(events,",\"program_name_pointer\":%lu,\"main_frame_pointer\":%lu,\"program_name\":",pointer,address==base+0x44b10?stack[2]:context.Ebp);quoted(value);
+    }
+    if(address==base+0x48cb0 || address==base+0x44b10) {
+        if(!ReadProcessMemory(process,(void *)(base+0x7f060),&pointer,4,&got)||got!=4||!remote_string(pointer,value,sizeof(value)))return 0;
+        fprintf(events,",\"selected_tool_name_pointer\":%lu,\"selected_tool_name\":",pointer);quoted(value);
     }
     fprintf(events,"}\n");
     for (index = 0; index < request_count; ++index) {
-        address_base = !strcmp(requests[index].scope, "target") ? base : crt_base;
-        if (!address_base || !ReadProcessMemory(process, (void *)(address_base + requests[index].rva),
+        address_base = strcmp(requests[index].scope, "crt") ? base : crt_base;
+        pointer=address_base+requests[index].rva;
+        if(!strcmp(requests[index].scope,"targetptr")) {
+            if(!ReadProcessMemory(process,(void *)pointer,&pointer,4,&got)||got!=4||!pointer)return 0;
+        }
+        if (!address_base || !ReadProcessMemory(process, (void *)pointer,
             bytes, requests[index].size, &got) || got != requests[index].size) return 0;
         sprintf(path, "%s\\%s", output_directory, requests[index].name);
         output = CreateFileA(path, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
         if (output == INVALID_HANDLE_VALUE || !WriteFile(output, bytes, requests[index].size, &written, NULL) ||
             written != requests[index].size) return 0;
         CloseHandle(output);
+    }
+    if(address==base+0x4f560 || address==base+0x48cb0 || address==base+0x44b10) {
+        DWORD slots[16],array;
+        if(!ReadProcessMemory(process,(void *)(base+0x67538),&array,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)array,slots,sizeof(slots),&got)||got!=sizeof(slots))return 0;
+        for(index=0;index<16;++index) {
+            if(!ReadProcessMemory(process,(void *)slots[index],bytes,40,&got)||got!=40)return 0;
+            sprintf(path,"%s\\file-record-%02u.bin",output_directory,index);
+            output=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+            if(output==INVALID_HANDLE_VALUE||!WriteFile(output,bytes,40,&written,NULL)||written!=40)return 0;
+            CloseHandle(output);
+        }
     }
     fflush(events);
     return 1;
@@ -157,7 +177,7 @@ int main(int argc, char **argv)
     if (!file) return 3;
     while (request_count < 64 && fscanf(file, "%15s %lx %lu %127s", requests[request_count].scope,
            &requests[request_count].rva, &requests[request_count].size, requests[request_count].name) == 4) {
-        if ((strcmp(requests[request_count].scope,"target") && strcmp(requests[request_count].scope,"crt")) ||
+        if ((strcmp(requests[request_count].scope,"target") && strcmp(requests[request_count].scope,"crt") && strcmp(requests[request_count].scope,"targetptr")) ||
             requests[request_count].size > 65536) return 3;
         ++request_count;
     }
@@ -256,6 +276,33 @@ int main(int argc, char **argv)
                         DWORD arguments[2],got;
                         if(!ReadProcessMemory(process,(void *)context.Esp,arguments,8,&got)||got!=8){failed=6;break;}
                         fprintf(events,"{\"event\":\"console_observation\",\"name\":\"%s\",\"site\":%lu,\"arguments\":[%lu,%lu],\"eax\":%lu}\n",entries[index].name,site,arguments[0],arguments[1],context.Eax);
+                    } else if(!strncmp(entries[index].name,"observe:module_",15) || !strncmp(entries[index].name,"observe:proc_",13)) {
+                        DWORD arguments[2],got;
+                        char requested[512];
+                        if(!ReadProcessMemory(process,(void *)context.Esp,arguments,8,&got)||got!=8){failed=6;break;}
+                        fprintf(events,"{\"event\":\"module_probe\",\"name\":\"%s\",\"site\":%lu,\"arguments\":[%lu,%lu],\"eax\":%lu",entries[index].name,site,arguments[0],arguments[1],context.Eax);
+                        if(!strcmp(entries[index].name,"observe:module_call") || !strcmp(entries[index].name,"observe:proc_call")) {
+                            if(!remote_string(arguments[!strcmp(entries[index].name,"observe:proc_call")],requested,sizeof(requested))){failed=6;break;}
+                            fprintf(events,",\"requested\":");quoted(requested);
+                        }
+                        fprintf(events,"}\n");
+                    } else if(!strncmp(entries[index].name,"observe:system_",15) || !strncmp(entries[index].name,"observe:memory_",15)) {
+                        DWORD pointer,size,got,written;
+                        unsigned char observed[36];
+                        HANDLE saved;
+                        char path[1024];
+                        int system=entries[index].name[8]=='s';
+                        int before=!strcmp(entries[index].name+15,"before");
+                        size=system?36:32;
+                        if(before) {
+                            if(!ReadProcessMemory(process,(void *)context.Esp,&pointer,4,&got)||got!=4){failed=6;break;}
+                        } else pointer=context.Esp+(system?0x20:0);
+                        if(!ReadProcessMemory(process,(void *)pointer,observed,size,&got)||got!=size){failed=6;break;}
+                        sprintf(path,"%s\\%s-%s.bin",output_directory,system?"system":"memory",before?"before":"after");
+                        saved=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+                        if(saved==INVALID_HANDLE_VALUE||!WriteFile(saved,observed,size,&written,NULL)||written!=size){failed=6;break;}
+                        CloseHandle(saved);
+                        fprintf(events,"{\"event\":\"system_observation\",\"name\":\"%s\",\"site\":%lu,\"buffer\":%lu,\"bytes\":%lu,\"eax\":%lu}\n",entries[index].name,site,pointer,size,context.Eax);
                     } else fprintf(events, "{\"event\":\"entry\",\"name\":\"%s\",\"rva\":%lu}\n",
                                    entries[index].name, entries[index].rva);
                 }

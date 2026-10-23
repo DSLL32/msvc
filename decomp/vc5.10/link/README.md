@@ -2,9 +2,9 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Fourteen application functions are accepted: the four constructors, their
-allocation/registration helpers, main, and debug-option initialization. The first
-`/?` case is still in progress at file-cache initialization. Later
+shipped CRT startup boundary. Twenty application functions are accepted: constructors and their helpers, main,
+debug parsing, file-cache records, memory initialization and the main linker
+driver. The first `/?` case is still in progress at reproduction setup. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -114,3 +114,18 @@ branch cases. Full Rust graph/RET/ref/ownership checks still include both bodies
 qualified-import checks exclude only these documented residuals. Eighteen
 negative mutations reject wrong slots, calls, register writes, branches, restores
 and dispatch-row identities. Native exceptions are still fatal.
+
+The VC5 hardware profile is an explicit frozen sample of the original
+GetSystemInfo/GlobalMemoryStatus outputs. Native captures require
+`--environment-reference CAPTURE`; profile preparation validates the raw receipt
+and exact call inventory without Wine. Only the encountered page-size and
+physical-memory fields are consumed. Volatile memory availability is not an
+invariant. The shared verified VC5 CRT profile preserves the explicit setvbuf
+flag and buffer ownership; full FILE state remains checked.
+
+The genuine thiscall linker context requires one narrow C++ translation unit.
+It remains POD, with no constructors, destructors, RTTI, exception machinery or
+C++ runtime. `RECON_THISCALL` retains native i386 ECX-this/stack4/RET4; the
+original VC5 compiler supplies its implicit member convention. Other sources and
+the final shared shim compilation remain C. Native compilation needs no host
+C++ standard library.

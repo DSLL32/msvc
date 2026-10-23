@@ -6,7 +6,13 @@
  * convenience macro calls __p__iob instead, which adds a different vertex. */
 #ifdef _DLL
 #undef _iob
+#ifdef __cplusplus
+extern "C" {
+#endif
 _CRTIMP extern FILE _iob[];
+#ifdef __cplusplus
+}
+#endif
 #endif
 #include <recon.h>
 #endif

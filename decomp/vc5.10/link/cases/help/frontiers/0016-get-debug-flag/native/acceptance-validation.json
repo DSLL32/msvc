@@ -1,0 +1,1760 @@
+{
+  "candidate": "_get_debug_flag@4",
+  "expected_next": "_zero_allocate@4",
+  "trial_sha256": "992ece07374d0efdfea0d3fe713668848086366cc0415e84b66771f74d0cbc20",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-t9o_5dep",
+  "audit": {
+    "elapsed_seconds": 0.09192444756627083,
+    "full_command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "link",
+      "--discovery",
+      "cfg",
+      "--repo",
+      "/root/msvc2",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/link",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/link/build/link.map",
+      "--config",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/functions.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/link/runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/link/build/runtime.json",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/link/build/graph.json",
+      "--check-references",
+      "--check-ownership",
+      "--check-extents",
+      "--check-callbacks",
+      "--include-evidenced-runtime"
+    ],
+    "strict_command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "link",
+      "--discovery",
+      "cfg",
+      "--repo",
+      "/root/msvc2",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/link",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/link/build/link.map",
+      "--config",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/strict-ret-config.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/link/runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/link/build/runtime.json",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/link/build/graph.json",
+      "--check-ret",
+      "--check-references",
+      "--check-ownership",
+      "--check-extents",
+      "--check-callbacks",
+      "--include-evidenced-runtime"
+    ],
+    "import_command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "link",
+      "--discovery",
+      "cfg",
+      "--repo",
+      "/root/msvc2",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/link",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/link/build/link.map",
+      "--config",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/direct-import-config.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/link/runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/link/build/runtime.json",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/link/build/graph.json",
+      "--check-references",
+      "--check-ownership",
+      "--check-extents",
+      "--check-callbacks",
+      "--include-evidenced-runtime",
+      "--check-imports"
+    ],
+    "import_report": {
+      "checked_accepted_extents": null,
+      "checked_functions": 26,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "known_imports",
+        "function_references",
+        "callback_tables",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "evidenced_runtime_graphs"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "__XcptFilter": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            }
+          ]
+        },
+        "___dllonexit": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            }
+          ]
+        },
+        "__controlfp": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            }
+          ]
+        },
+        "__except_handler3": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            }
+          ]
+        },
+        "__initterm": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            }
+          ]
+        },
+        "__matherr": {
+          "edges": [],
+          "imports": []
+        },
+        "__onexit": {
+          "edges": [
+            "___dllonexit"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            }
+          ]
+        },
+        "__setargv": {
+          "edges": [],
+          "imports": []
+        },
+        "__setdefaultprecision": {
+          "edges": [
+            "__controlfp"
+          ],
+          "imports": []
+        },
+        "_allocate_buffer12": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            }
+          ]
+        },
+        "_allocate_buffer4": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            }
+          ]
+        },
+        "_allocate_buffer8": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            }
+          ]
+        },
+        "_atexit": {
+          "edges": [
+            "__onexit"
+          ],
+          "imports": []
+        },
+        "_get_debug_flag@4": {
+          "edges": [],
+          "imports": []
+        },
+        "_initialize_buffer12": {
+          "edges": [
+            "_allocate_buffer12",
+            "_register_buffer12_cleanup"
+          ],
+          "imports": []
+        },
+        "_initialize_buffer4": {
+          "edges": [
+            "_allocate_buffer4",
+            "_register_buffer4_cleanup"
+          ],
+          "imports": []
+        },
+        "_initialize_buffer8": {
+          "edges": [
+            "_allocate_buffer8",
+            "_register_buffer8_cleanup"
+          ],
+          "imports": []
+        },
+        "_initialize_file_cache@16": {
+          "edges": [
+            "_get_debug_flag@4",
+            "_new_file_record",
+            "_zero_allocate@4"
+          ],
+          "imports": [
+            {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            }
+          ]
+        },
+        "_initialize_timing": {
+          "edges": [
+            "_register_timing_cleanup",
+            "_setup_timing"
+          ],
+          "imports": []
+        },
+        "_mainCRTStartup": {
+          "edges": [
+            "__XcptFilter",
+            "__initterm",
+            "__setargv",
+            "__setdefaultprecision",
+            "_main"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            }
+          ]
+        },
+        "_register_buffer12_cleanup": {
+          "edges": [
+            "_atexit"
+          ],
+          "imports": []
+        },
+        "_register_buffer4_cleanup": {
+          "edges": [
+            "_atexit"
+          ],
+          "imports": []
+        },
+        "_register_buffer8_cleanup": {
+          "edges": [
+            "_atexit"
+          ],
+          "imports": []
+        },
+        "_register_timing_cleanup": {
+          "edges": [
+            "_atexit"
+          ],
+          "imports": []
+        },
+        "_setup_timing": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            }
+          ]
+        },
+        "import:??2@YAPAXI@Z": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            }
+          ]
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 6,
+          "slots": {
+            "4198400": {
+              "dll": "imagehlp.dll",
+              "name": "MapFileAndCheckSumA"
+            },
+            "4198404": {
+              "dll": "imagehlp.dll",
+              "name": "CheckSumMappedFile"
+            },
+            "4198408": {
+              "dll": "imagehlp.dll",
+              "name": "BindImageEx"
+            },
+            "4198412": {
+              "dll": "imagehlp.dll",
+              "name": "ReBaseImage"
+            },
+            "4198420": {
+              "dll": "kernel32.dll",
+              "name": "VirtualAlloc"
+            },
+            "4198424": {
+              "dll": "kernel32.dll",
+              "name": "CopyFileA"
+            },
+            "4198428": {
+              "dll": "kernel32.dll",
+              "name": "SearchPathA"
+            },
+            "4198432": {
+              "dll": "kernel32.dll",
+              "name": "GetSystemInfo"
+            },
+            "4198436": {
+              "dll": "kernel32.dll",
+              "name": "GetDiskFreeSpaceA"
+            },
+            "4198440": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            "4198444": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4198448": {
+              "dll": "kernel32.dll",
+              "name": "FindClose"
+            },
+            "4198452": {
+              "dll": "kernel32.dll",
+              "name": "FindNextFileA"
+            },
+            "4198456": {
+              "dll": "kernel32.dll",
+              "name": "FindFirstFileA"
+            },
+            "4198460": {
+              "dll": "kernel32.dll",
+              "name": "GetTempFileNameA"
+            },
+            "4198464": {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            },
+            "4198468": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileA"
+            },
+            "4198472": {
+              "dll": "kernel32.dll",
+              "name": "CloseHandle"
+            },
+            "4198476": {
+              "dll": "kernel32.dll",
+              "name": "GetLastError"
+            },
+            "4198480": {
+              "dll": "kernel32.dll",
+              "name": "GlobalMemoryStatus"
+            },
+            "4198484": {
+              "dll": "kernel32.dll",
+              "name": "SetEnvironmentVariableA"
+            },
+            "4198488": {
+              "dll": "kernel32.dll",
+              "name": "GetCommandLineA"
+            },
+            "4198492": {
+              "dll": "kernel32.dll",
+              "name": "GetCurrentProcess"
+            },
+            "4198496": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4198500": {
+              "dll": "kernel32.dll",
+              "name": "GetVersion"
+            },
+            "4198504": {
+              "dll": "kernel32.dll",
+              "name": "GetFileSize"
+            },
+            "4198508": {
+              "dll": "kernel32.dll",
+              "name": "DeleteFileA"
+            },
+            "4198512": {
+              "dll": "kernel32.dll",
+              "name": "GetTempPathA"
+            },
+            "4198516": {
+              "dll": "kernel32.dll",
+              "name": "ExitProcess"
+            },
+            "4198520": {
+              "dll": "kernel32.dll",
+              "name": "VirtualFree"
+            },
+            "4198524": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            },
+            "4198528": {
+              "dll": "kernel32.dll",
+              "name": "Sleep"
+            },
+            "4198532": {
+              "dll": "kernel32.dll",
+              "name": "SetFilePointer"
+            },
+            "4198536": {
+              "dll": "kernel32.dll",
+              "name": "SetEndOfFile"
+            },
+            "4198540": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileMappingA"
+            },
+            "4198544": {
+              "dll": "kernel32.dll",
+              "name": "MapViewOfFileEx"
+            },
+            "4198548": {
+              "dll": "kernel32.dll",
+              "name": "UnmapViewOfFile"
+            },
+            "4198556": {
+              "dll": "msdis100.dll",
+              "name": "?CchFormatAddr@DIS@@QBEIKPADI@Z"
+            },
+            "4198560": {
+              "dll": "msdis100.dll",
+              "name": "?PfncchfixupSet@DIS@@QAEP6GIPBV1@KIPADIPAK@ZP6GI0KI1I2@Z@Z"
+            },
+            "4198564": {
+              "dll": "msdis100.dll",
+              "name": "??0DISARM@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198568": {
+              "dll": "msdis100.dll",
+              "name": "?PfncchaddrSet@DIS@@QAEP6GIPBV1@KPADIPAK@ZP6GI0K1I2@Z@Z"
+            },
+            "4198572": {
+              "dll": "msdis100.dll",
+              "name": "?PvClientSet@DIS@@QAEPAXPAX@Z"
+            },
+            "4198576": {
+              "dll": "msdis100.dll",
+              "name": "??0DISX86@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198580": {
+              "dll": "msdis100.dll",
+              "name": "??0DISMIPS@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198584": {
+              "dll": "msdis100.dll",
+              "name": "??0DISAXP@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198588": {
+              "dll": "msdis100.dll",
+              "name": "??0DISSH@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198592": {
+              "dll": "msdis100.dll",
+              "name": "?CchFormatInstr@DIS@@QBEIPADI@Z"
+            },
+            "4198596": {
+              "dll": "msdis100.dll",
+              "name": "??0DISPPC@@QAE@W4DIST@DIS@@@Z"
+            },
+            "4198604": {
+              "dll": "msvcrt.dll",
+              "name": "_itoa"
+            },
+            "4198608": {
+              "dll": "msvcrt.dll",
+              "name": "_tempnam"
+            },
+            "4198612": {
+              "dll": "msvcrt.dll",
+              "name": "_spawnvp"
+            },
+            "4198616": {
+              "dll": "msvcrt.dll",
+              "name": "_spawnv"
+            },
+            "4198620": {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            },
+            "4198624": {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            "4198628": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsicmp"
+            },
+            "4198632": {
+              "dll": "msvcrt.dll",
+              "name": "remove"
+            },
+            "4198636": {
+              "dll": "msvcrt.dll",
+              "name": "__unDName"
+            },
+            "4198640": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4198644": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4198648": {
+              "dll": "msvcrt.dll",
+              "name": "longjmp"
+            },
+            "4198652": {
+              "dll": "msvcrt.dll",
+              "name": "_fcloseall"
+            },
+            "4198656": {
+              "dll": "msvcrt.dll",
+              "name": "putc"
+            },
+            "4198660": {
+              "dll": "msvcrt.dll",
+              "name": "vprintf"
+            },
+            "4198664": {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            },
+            "4198668": {
+              "dll": "msvcrt.dll",
+              "name": "fseek"
+            },
+            "4198672": {
+              "dll": "msvcrt.dll",
+              "name": "ftell"
+            },
+            "4198676": {
+              "dll": "msvcrt.dll",
+              "name": "getc"
+            },
+            "4198680": {
+              "dll": "msvcrt.dll",
+              "name": "rewind"
+            },
+            "4198684": {
+              "dll": "msvcrt.dll",
+              "name": "fwrite"
+            },
+            "4198688": {
+              "dll": "msvcrt.dll",
+              "name": "time"
+            },
+            "4198692": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            },
+            "4198696": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4198700": {
+              "dll": "msvcrt.dll",
+              "name": "_setjmp3"
+            },
+            "4198704": {
+              "dll": "msvcrt.dll",
+              "name": "_seh_longjmp_unwind"
+            },
+            "4198708": {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            },
+            "4198712": {
+              "dll": "msvcrt.dll",
+              "name": "_fullpath"
+            },
+            "4198716": {
+              "dll": "msvcrt.dll",
+              "name": "_stricmp"
+            },
+            "4198720": {
+              "dll": "msvcrt.dll",
+              "name": "qsort"
+            },
+            "4198724": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            },
+            "4198728": {
+              "dll": "msvcrt.dll",
+              "name": "_mbstok"
+            },
+            "4198732": {
+              "dll": "msvcrt.dll",
+              "name": "strcspn"
+            },
+            "4198736": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsrchr"
+            },
+            "4198740": {
+              "dll": "msvcrt.dll",
+              "name": "_tzset"
+            },
+            "4198744": {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            },
+            "4198748": {
+              "dll": "msvcrt.dll",
+              "name": "strrchr"
+            },
+            "4198752": {
+              "dll": "msvcrt.dll",
+              "name": "__CxxFrameHandler"
+            },
+            "4198756": {
+              "dll": "msvcrt.dll",
+              "name": "_mbclen"
+            },
+            "4198760": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            },
+            "4198764": {
+              "dll": "msvcrt.dll",
+              "name": "isalnum"
+            },
+            "4198768": {
+              "dll": "msvcrt.dll",
+              "name": "strncat"
+            },
+            "4198772": {
+              "dll": "msvcrt.dll",
+              "name": "bsearch"
+            },
+            "4198776": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4198780": {
+              "dll": "msvcrt.dll",
+              "name": "isprint"
+            },
+            "4198784": {
+              "dll": "msvcrt.dll",
+              "name": "fputc"
+            },
+            "4198788": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4198792": {
+              "dll": "msvcrt.dll",
+              "name": "puts"
+            },
+            "4198796": {
+              "dll": "msvcrt.dll",
+              "name": "_fsopen"
+            },
+            "4198800": {
+              "dll": "msvcrt.dll",
+              "name": "ctime"
+            },
+            "4198804": {
+              "dll": "msvcrt.dll",
+              "name": "fputs"
+            },
+            "4198808": {
+              "dll": "msvcrt.dll",
+              "name": "realloc"
+            },
+            "4198812": {
+              "dll": "msvcrt.dll",
+              "name": "strtok"
+            },
+            "4198816": {
+              "dll": "msvcrt.dll",
+              "name": "_strdup"
+            },
+            "4198820": {
+              "dll": "msvcrt.dll",
+              "name": "_mbschr"
+            },
+            "4198824": {
+              "dll": "msvcrt.dll",
+              "name": "_mbscmp"
+            },
+            "4198828": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcmp"
+            },
+            "4198832": {
+              "dll": "msvcrt.dll",
+              "name": "atoi"
+            },
+            "4198836": {
+              "dll": "msvcrt.dll",
+              "name": "_mktemp"
+            },
+            "4198840": {
+              "dll": "msvcrt.dll",
+              "name": "rename"
+            },
+            "4198844": {
+              "dll": "msvcrt.dll",
+              "name": "strstr"
+            },
+            "4198848": {
+              "dll": "msvcrt.dll",
+              "name": "_filelength"
+            },
+            "4198852": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcpy"
+            },
+            "4198856": {
+              "dll": "msvcrt.dll",
+              "name": "calloc"
+            },
+            "4198860": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsdec"
+            },
+            "4198864": {
+              "dll": "msvcrt.dll",
+              "name": "_searchenv"
+            },
+            "4198868": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbicmp"
+            },
+            "4198872": {
+              "dll": "msvcrt.dll",
+              "name": "_mbspbrk"
+            },
+            "4198876": {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            "4198880": {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            },
+            "4198884": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4198888": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4198892": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4198896": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4198900": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4198904": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4198908": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4198912": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4198916": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4198920": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4198924": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            "4198928": {
+              "dll": "msvcrt.dll",
+              "name": "_purecall"
+            },
+            "4198932": {
+              "dll": "msvcrt.dll",
+              "name": "??3@YAXPAX@Z"
+            },
+            "4198936": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4198940": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4198944": {
+              "dll": "msvcrt.dll",
+              "name": "isdigit"
+            },
+            "4198948": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4198952": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            "4198956": {
+              "dll": "msvcrt.dll",
+              "name": "_strupr"
+            },
+            "4198960": {
+              "dll": "msvcrt.dll",
+              "name": "_strnicmp"
+            },
+            "4198964": {
+              "dll": "msvcrt.dll",
+              "name": "setvbuf"
+            },
+            "4198968": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4198972": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4198976": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4198980": {
+              "dll": "msvcrt.dll",
+              "name": "sscanf"
+            },
+            "4198984": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            "4198988": {
+              "dll": "msvcrt.dll",
+              "name": "_write"
+            },
+            "4198992": {
+              "dll": "msvcrt.dll",
+              "name": "_lseek"
+            },
+            "4198996": {
+              "dll": "msvcrt.dll",
+              "name": "_read"
+            },
+            "4199000": {
+              "dll": "msvcrt.dll",
+              "name": "_tell"
+            },
+            "4199004": {
+              "dll": "msvcrt.dll",
+              "name": "_close"
+            },
+            "4199008": {
+              "dll": "msvcrt.dll",
+              "name": "_sopen"
+            },
+            "4199012": {
+              "dll": "msvcrt.dll",
+              "name": "__doserrno"
+            },
+            "4199016": {
+              "dll": "msvcrt.dll",
+              "name": "_stat"
+            },
+            "4199020": {
+              "dll": "msvcrt.dll",
+              "name": "_access"
+            },
+            "4199024": {
+              "dll": "msvcrt.dll",
+              "name": "_unlink"
+            },
+            "4199028": {
+              "dll": "msvcrt.dll",
+              "name": "_chsize"
+            },
+            "4199032": {
+              "dll": "msvcrt.dll",
+              "name": "strncpy"
+            },
+            "4199036": {
+              "dll": "msvcrt.dll",
+              "name": "_ismbcspace"
+            },
+            "4199040": {
+              "dll": "msvcrt.dll",
+              "name": "fgets"
+            },
+            "4199044": {
+              "dll": "msvcrt.dll",
+              "name": "_ultoa"
+            },
+            "4199052": {
+              "dll": "mspdb50.dll",
+              "name": "?OpenValidate@PDB@@SAHPAD00KKPAJQADPAPAU1@@Z"
+            },
+            "4199056": {
+              "dll": "mspdb50.dll",
+              "name": "TruncStFromSz"
+            },
+            "4199060": {
+              "dll": "mspdb50.dll",
+              "name": "SigForPbCb"
+            }
+          }
+        },
+        "rebuilt": {
+          "normalizable_thunks": 1,
+          "slots": {
+            "4202496": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4202500": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            },
+            "4202504": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4202508": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            "4202516": {
+              "dll": "msvcrt.dll",
+              "name": "isdigit"
+            },
+            "4202520": {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            },
+            "4202524": {
+              "dll": "msvcrt.dll",
+              "name": "sscanf"
+            },
+            "4202528": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4202532": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4202536": {
+              "dll": "msvcrt.dll",
+              "name": "setvbuf"
+            },
+            "4202540": {
+              "dll": "msvcrt.dll",
+              "name": "_strnicmp"
+            },
+            "4202544": {
+              "dll": "msvcrt.dll",
+              "name": "_strupr"
+            },
+            "4202548": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            "4202552": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4202556": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4202560": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4202564": {
+              "dll": "msvcrt.dll",
+              "name": "??2@YAPAXI@Z"
+            },
+            "4202568": {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            "4202572": {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            },
+            "4202576": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4202580": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4202584": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4202588": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4202592": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4202596": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4202600": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4202604": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4202608": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4202612": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4202616": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4202620": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            }
+          }
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "link"
+    },
+    "cached_import_residual": {
+      "_main": {
+        "original_cached_loads": [
+          {
+            "site": 4251736,
+            "slot": 4198964,
+            "identity": "msvcrt.dll!setvbuf",
+            "restore": 4251868
+          },
+          {
+            "site": 4251783,
+            "slot": 4198964,
+            "identity": "msvcrt.dll!setvbuf",
+            "restore": 4251868
+          },
+          {
+            "site": 4251989,
+            "slot": 4198968,
+            "identity": "msvcrt.dll!printf",
+            "restore": 4252237
+          }
+        ],
+        "original_cached_calls": [
+          {
+            "site": 4251742,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4251789,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4251810,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4251995,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4252033,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4252065,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4252197,
+            "identity": "msvcrt.dll!printf"
+          }
+        ],
+        "original_direct": [
+          {
+            "site": 4251346,
+            "identity": "kernel32.dll!SetConsoleCtrlHandler"
+          },
+          {
+            "site": 4251410,
+            "identity": "msvcrt.dll!isdigit"
+          },
+          {
+            "site": 4251459,
+            "identity": "msvcrt.dll!memmove"
+          },
+          {
+            "site": 4251511,
+            "identity": "msvcrt.dll!_splitpath"
+          },
+          {
+            "site": 4251527,
+            "identity": "msvcrt.dll!_strupr"
+          },
+          {
+            "site": 4251620,
+            "identity": "msvcrt.dll!_strnicmp"
+          },
+          {
+            "site": 4252204,
+            "identity": "msvcrt.dll!fflush"
+          }
+        ],
+        "dispatch_table": [
+          {
+            "name": "Linker",
+            "prefix_length": 4,
+            "kind": 1,
+            "function": "_run_linker@8",
+            "original_address": 4492464,
+            "rebuilt_address": 4198986
+          },
+          {
+            "name": "Library Manager",
+            "prefix_length": 3,
+            "kind": 2,
+            "function": "_run_librarian@8",
+            "original_address": 4443680,
+            "rebuilt_address": 4199005
+          },
+          {
+            "name": "Dumper",
+            "prefix_length": 4,
+            "kind": 3,
+            "function": "_run_dumper@8",
+            "original_address": 4382800,
+            "rebuilt_address": 4199024
+          },
+          {
+            "name": "Editor",
+            "prefix_length": 4,
+            "kind": 4,
+            "function": "_run_editor@8",
+            "original_address": 4388480,
+            "rebuilt_address": 4199043
+          },
+          {
+            "name": "Helper",
+            "prefix_length": 4,
+            "kind": 0,
+            "function": "_run_helper@8",
+            "original_address": 4252256,
+            "rebuilt_address": 4199062
+          }
+        ],
+        "rebuilt_direct": [
+          {
+            "site": 4199204,
+            "identity": "kernel32.dll!SetConsoleCtrlHandler"
+          },
+          {
+            "site": 4199373,
+            "identity": "msvcrt.dll!isdigit"
+          },
+          {
+            "site": 4199451,
+            "identity": "msvcrt.dll!memmove"
+          },
+          {
+            "site": 4199525,
+            "identity": "msvcrt.dll!_splitpath"
+          },
+          {
+            "site": 4199541,
+            "identity": "msvcrt.dll!_strupr"
+          },
+          {
+            "site": 4199693,
+            "identity": "msvcrt.dll!_strnicmp"
+          },
+          {
+            "site": 4199918,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4199943,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4199973,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4200000,
+            "identity": "msvcrt.dll!setvbuf"
+          },
+          {
+            "site": 4200270,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4200312,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4200388,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4200558,
+            "identity": "msvcrt.dll!printf"
+          },
+          {
+            "site": 4200569,
+            "identity": "msvcrt.dll!fflush"
+          }
+        ],
+        "rebuilt_iob_data_references": [
+          4199178,
+          4199910,
+          4199935,
+          4199965,
+          4199992
+        ],
+        "qualified_imports": [
+          "kernel32.dll!SetConsoleCtrlHandler",
+          "msvcrt.dll!_splitpath",
+          "msvcrt.dll!_strnicmp",
+          "msvcrt.dll!_strupr",
+          "msvcrt.dll!fflush",
+          "msvcrt.dll!isdigit",
+          "msvcrt.dll!memmove",
+          "msvcrt.dll!printf",
+          "msvcrt.dll!setvbuf"
+        ],
+        "preserved_register_abi": "Win32 cdecl/stdcall callees preserve EBX; all EBX/BX/BL/BH writes are checked through the actual POP EBX restores.",
+        "scope": "Finite main instruction intervals and exact COFF IAT relocations only; shared Rust retains full CFG/RET/reference/ownership/extent checks."
+      },
+      "_initialize_debug@8": {
+        "original_cached": [
+          {
+            "register": "edi",
+            "load": 4280918,
+            "restore": 4281064,
+            "slot": 4198944,
+            "identity": "msvcrt.dll!isdigit",
+            "calls": [
+              4280932,
+              4281000,
+              4281027
+            ]
+          },
+          {
+            "register": "ebp",
+            "load": 4280949,
+            "restore": 4281066,
+            "slot": 4198980,
+            "identity": "msvcrt.dll!sscanf",
+            "calls": [
+              4280966,
+              4281055
+            ]
+          }
+        ],
+        "rebuilt_direct": [
+          {
+            "site": 4198766,
+            "identity": "msvcrt.dll!getenv"
+          },
+          {
+            "site": 4198806,
+            "identity": "msvcrt.dll!isdigit"
+          },
+          {
+            "site": 4198843,
+            "identity": "msvcrt.dll!sscanf"
+          },
+          {
+            "site": 4198884,
+            "identity": "msvcrt.dll!isdigit"
+          },
+          {
+            "site": 4198925,
+            "identity": "msvcrt.dll!isdigit"
+          }
+        ],
+        "qualified_imports": [
+          "msvcrt.dll!getenv",
+          "msvcrt.dll!isdigit",
+          "msvcrt.dll!sscanf"
+        ],
+        "qualification": "Finite EDI/EBP cache lifetimes through their restores, including getenv-NULL branch after the last cached call; ordinary cdecl/stdcall preserves these registers. Rust owns CFG discovery."
+      }
+    },
+    "strict_projection_excludes_only_verified_import_thunks": [
+      "__XcptFilter",
+      "___dllonexit",
+      "__controlfp",
+      "__except_handler3",
+      "__initterm",
+      "import:??2@YAPAXI@Z"
+    ],
+    "input_sha256_before": {
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit": "30fc576ce5e055a36e806f4079862d08bcaa7a734eae4f93e28a30b2c0c4d269",
+      "/root/msvc2/toolchains/5.10/bin/LINK.EXE": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "/root/msvc2/decomp/vc5.10/link/build/link.exe": "c61e5b10c9336bb354a4d63627db4b5335ee4c4ef021e9ba8e72e6a08bd24459",
+      "/root/msvc2/decomp/vc5.10/link/build/link.map": "d7d37d240bbc430325ab29f26f5d4b70daecde6f058284f398ae0a39d8ce0c27",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/functions.json": "992ece07374d0efdfea0d3fe713668848086366cc0415e84b66771f74d0cbc20",
+      "/root/msvc2/decomp/vc5.10/link/runtime.json": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396",
+      "/root/msvc2/decomp/vc5.10/link/build/runtime.json": "9b5c2b3de195913188914dc8b1d3287fa11c4c230dbfe16374495226b73a0fc2",
+      "/root/msvc2/decomp/vc5.10/link/graph.json": "73131dee0c3d3285d1827d742513e6980be355b348d68aaae82eb654f563875c",
+      "/root/msvc2/decomp/vc5.10/link/build/graph.json": "106cb46965441c330729b141c9159a3297055ab52152933c8345cfe6d3ab4696",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/strict-ret-config.json": "ca9c96e8a40c68185cb3991b98007824d3a90228e2d6db9838ebcea655d9bb9e",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/direct-import-config.json": "747a5ac514661160594f56100cf7448c09e73fe3454c8a18f2438d9eac89502f",
+      "/root/msvc2/decomp/vc5.10/link/scripts/import-residual.py": "7ebfba6202c393cbe9e94806ad986436bf84d27659857e8123862884c9ffaf0a",
+      "/root/msvc2/decomp/vc5.10/link/build/driver.obj": "31389e00941091a1b361c973bc30f5dc192e934637e6491865be4d642b4e1a92",
+      "/root/msvc2/decomp/vc5.10/link/build/driver-stubs.obj": "14eb77ca6f082f94fc16b206c95bc7639f27f7aca004a7073a08d1f45ec7d7f5"
+    },
+    "input_sha256_after": {
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit": "30fc576ce5e055a36e806f4079862d08bcaa7a734eae4f93e28a30b2c0c4d269",
+      "/root/msvc2/toolchains/5.10/bin/LINK.EXE": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "/root/msvc2/decomp/vc5.10/link/build/link.exe": "c61e5b10c9336bb354a4d63627db4b5335ee4c4ef021e9ba8e72e6a08bd24459",
+      "/root/msvc2/decomp/vc5.10/link/build/link.map": "d7d37d240bbc430325ab29f26f5d4b70daecde6f058284f398ae0a39d8ce0c27",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/functions.json": "992ece07374d0efdfea0d3fe713668848086366cc0415e84b66771f74d0cbc20",
+      "/root/msvc2/decomp/vc5.10/link/runtime.json": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396",
+      "/root/msvc2/decomp/vc5.10/link/build/runtime.json": "9b5c2b3de195913188914dc8b1d3287fa11c4c230dbfe16374495226b73a0fc2",
+      "/root/msvc2/decomp/vc5.10/link/graph.json": "73131dee0c3d3285d1827d742513e6980be355b348d68aaae82eb654f563875c",
+      "/root/msvc2/decomp/vc5.10/link/build/graph.json": "106cb46965441c330729b141c9159a3297055ab52152933c8345cfe6d3ab4696",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/strict-ret-config.json": "ca9c96e8a40c68185cb3991b98007824d3a90228e2d6db9838ebcea655d9bb9e",
+      "/root/.ai-tmp/msvc2/vc5.10/link/masked-h_o0oxr0/direct-import-config.json": "747a5ac514661160594f56100cf7448c09e73fe3454c8a18f2438d9eac89502f",
+      "/root/msvc2/decomp/vc5.10/link/scripts/import-residual.py": "7ebfba6202c393cbe9e94806ad986436bf84d27659857e8123862884c9ffaf0a",
+      "/root/msvc2/decomp/vc5.10/link/build/driver.obj": "31389e00941091a1b361c973bc30f5dc192e934637e6491865be4d642b4e1a92",
+      "/root/msvc2/decomp/vc5.10/link/build/driver-stubs.obj": "14eb77ca6f082f94fc16b206c95bc7639f27f7aca004a7073a08d1f45ec7d7f5"
+    },
+    "full_report": {
+      "checked_accepted_extents": null,
+      "checked_functions": 28,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "function_references",
+        "callback_tables",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "evidenced_runtime_graphs"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "__XcptFilter": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "___dllonexit": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "__controlfp": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "__except_handler3": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "__initterm": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "__matherr": {
+          "edges": []
+        },
+        "__onexit": {
+          "edges": [
+            "___dllonexit",
+            "indirect"
+          ]
+        },
+        "__setargv": {
+          "edges": []
+        },
+        "__setdefaultprecision": {
+          "edges": [
+            "__controlfp"
+          ]
+        },
+        "_allocate_buffer12": {
+          "edges": [
+            "import:??2@YAPAXI@Z"
+          ]
+        },
+        "_allocate_buffer4": {
+          "edges": [
+            "import:??2@YAPAXI@Z"
+          ]
+        },
+        "_allocate_buffer8": {
+          "edges": [
+            "import:??2@YAPAXI@Z"
+          ]
+        },
+        "_atexit": {
+          "edges": [
+            "__onexit"
+          ]
+        },
+        "_get_debug_flag@4": {
+          "edges": []
+        },
+        "_initialize_buffer12": {
+          "edges": [
+            "_allocate_buffer12",
+            "_register_buffer12_cleanup"
+          ]
+        },
+        "_initialize_buffer4": {
+          "edges": [
+            "_allocate_buffer4",
+            "_register_buffer4_cleanup"
+          ]
+        },
+        "_initialize_buffer8": {
+          "edges": [
+            "_allocate_buffer8",
+            "_register_buffer8_cleanup"
+          ]
+        },
+        "_initialize_debug@8": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "_initialize_file_cache@16": {
+          "edges": [
+            "_get_debug_flag@4",
+            "_new_file_record",
+            "_zero_allocate@4",
+            "indirect"
+          ]
+        },
+        "_initialize_timing": {
+          "edges": [
+            "_register_timing_cleanup",
+            "_setup_timing"
+          ]
+        },
+        "_main": {
+          "edges": [
+            "_cleanup_emulation",
+            "_initialize_debug@8",
+            "_initialize_file_cache@16",
+            "_initialize_memory",
+            "_report_delayed_import@12",
+            "_save_exception@24",
+            "indirect"
+          ]
+        },
+        "_mainCRTStartup": {
+          "edges": [
+            "__XcptFilter",
+            "__initterm",
+            "__setargv",
+            "__setdefaultprecision",
+            "_main",
+            "indirect"
+          ]
+        },
+        "_register_buffer12_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_register_buffer4_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_register_buffer8_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_register_timing_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_setup_timing": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "import:??2@YAPAXI@Z": {
+          "edges": [
+            "indirect"
+          ]
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "link"
+    },
+    "strict_report": {
+      "checked_accepted_extents": null,
+      "checked_functions": 22,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "function_references",
+        "callback_tables",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "evidenced_runtime_graphs"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "__matherr": {
+          "edges": []
+        },
+        "__onexit": {
+          "edges": [
+            "___dllonexit",
+            "indirect"
+          ]
+        },
+        "__setargv": {
+          "edges": []
+        },
+        "__setdefaultprecision": {
+          "edges": [
+            "__controlfp"
+          ]
+        },
+        "_allocate_buffer12": {
+          "edges": [
+            "import:??2@YAPAXI@Z"
+          ]
+        },
+        "_allocate_buffer4": {
+          "edges": [
+            "import:??2@YAPAXI@Z"
+          ]
+        },
+        "_allocate_buffer8": {
+          "edges": [
+            "import:??2@YAPAXI@Z"
+          ]
+        },
+        "_atexit": {
+          "edges": [
+            "__onexit"
+          ]
+        },
+        "_get_debug_flag@4": {
+          "edges": []
+        },
+        "_initialize_buffer12": {
+          "edges": [
+            "_allocate_buffer12",
+            "_register_buffer12_cleanup"
+          ]
+        },
+        "_initialize_buffer4": {
+          "edges": [
+            "_allocate_buffer4",
+            "_register_buffer4_cleanup"
+          ]
+        },
+        "_initialize_buffer8": {
+          "edges": [
+            "_allocate_buffer8",
+            "_register_buffer8_cleanup"
+          ]
+        },
+        "_initialize_debug@8": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "_initialize_file_cache@16": {
+          "edges": [
+            "_get_debug_flag@4",
+            "_new_file_record",
+            "_zero_allocate@4",
+            "indirect"
+          ]
+        },
+        "_initialize_timing": {
+          "edges": [
+            "_register_timing_cleanup",
+            "_setup_timing"
+          ]
+        },
+        "_main": {
+          "edges": [
+            "_cleanup_emulation",
+            "_initialize_debug@8",
+            "_initialize_file_cache@16",
+            "_initialize_memory",
+            "_report_delayed_import@12",
+            "_save_exception@24",
+            "indirect"
+          ]
+        },
+        "_mainCRTStartup": {
+          "edges": [
+            "__XcptFilter",
+            "__initterm",
+            "__setargv",
+            "__setdefaultprecision",
+            "_main",
+            "indirect"
+          ]
+        },
+        "_register_buffer12_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_register_buffer4_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_register_buffer8_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_register_timing_cleanup": {
+          "edges": [
+            "_atexit"
+          ]
+        },
+        "_setup_timing": {
+          "edges": [
+            "indirect"
+          ]
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "link"
+    },
+    "qualification": "Exact FF25 import leaves have no local RET; typed external ABI remains at imported-library boundary. Every actual application/CRT body retains strict RET comparison.",
+    "stderr": ""
+  }
+}
