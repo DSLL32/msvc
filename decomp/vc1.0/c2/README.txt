@@ -2105,3 +2105,15 @@ Native/original agree at scheduled_address_changed_between42070 after finding
 disjoint same-base ranges.756 graph/extent checks, canonical/three modules-W3
 and native fixtures pass; origin-inference and several indexed/storage branches
 remain unvisited named traps. Full hello incomplete; see cases/hello-memory-range-comparison.json.
+
+General Pentium scheduling passed: checkpoint837
+------------------------------------------------
+Address-register stability, explicit/implicit instruction changes and ready-set
+candidate removal are whole functions. Corrected names describe their recovered
+semantics: scheduled_address_registers_stable and remove_pentium_ready_candidate.
+Both semantic refinements preserve exact original mask hashes/ABIs and retain
+old/new reference receipts plus explicit trace-cache provenance. All231 opcode
+properties confirm the implicit-register flag mapping. Native/original agree at
+pair_pentium_taken_edge47850 after general scheduling.759 graph/extent checks,
+canonical/W3 and native fixtures pass. Branch pairing/final hello output remain
+incomplete; see cases/hello-pentium-scheduling-complete.json for evidence/timings.

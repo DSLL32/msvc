@@ -1,0 +1,569 @@
+{
+  "checkpoint": 837,
+  "base_commit": "ca570d0",
+  "status": "active; general Pentium scheduling passed; taken-edge branch pairing next",
+  "accepted_functions": [
+    {
+      "name": "@remove_pentium_ready_candidate@4",
+      "start": 281792,
+      "end": 281874
+    },
+    {
+      "name": "@scheduled_address_registers_stable@16",
+      "start": 270448,
+      "end": 270752
+    },
+    {
+      "name": "@scheduled_instruction_changes_register@8",
+      "start": 270752,
+      "end": 270932
+    }
+  ],
+  "source_graphs": 759,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 837,
+    "accepted_code_bytes": 229197,
+    "original_code_bytes": 399693,
+    "percentage": 57.34326095278126,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 304
+  },
+  "current_frontier": {
+    "name": "@pair_pentium_taken_edge@16",
+    "original_va": "0x47850"
+  },
+  "validation": {
+    "canonical_build": "pass",
+    "W3": "scheduler clean",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "7b5ee875e3c3545a978dacbc952702ecbc28ef40fef4f2fe0b8347cc5fb419b4",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.02085250522941351,
+          "execution_seconds": 0.0057554952800273895,
+          "check_seconds": 0.001718420535326004,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-teufeep7/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@pair_pentium_taken_edge@16",
+          "returncode": -5,
+          "application_entries": 485,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.01710245106369257,
+          "execution_seconds": 0.010975736193358898,
+          "check_seconds": 0.0013104025274515152,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-teufeep7/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.24761327262967825,
+      "suite_setup_seconds": 0.14552209340035915,
+      "negative_check_seconds": 0.030673314817249775,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    }
+  },
+  "reference_evidence": [
+    {
+      "path": "cases/hello-original-835.json",
+      "sha256": "fe4017e1bc66558fe5e3f38402ce7bba333bf77b557585d06e88d5361b6ae149",
+      "capture": {
+        "label": "scheduled-address-stability-after",
+        "accepted": 835,
+        "logical": "@scheduled_instruction_changes_register@8",
+        "original_va": "0x421a0",
+        "events": "exception 80000003 rva 000321a0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.2124529778957367,
+        "execution_check_seconds": 1.2199972001835704,
+        "total_seconds": 1.4324508672580123,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "8e390844642f936186180d66e0b351f2e00d04f5444680ac0624f17db06f9c8f",
+        "config_sha256": "f3c8dabae97b5c7e1779f4f559cd94be37ab4a6937c73896fc77fdd19e0f9d1a",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/scheduled-address-stability-after"
+      },
+      "native": {
+        "executable_sha256": "b802873d3e268ee82efd25b168fbbe2f3f254fc33204a898a5888be35d3407ab",
+        "config_sha256": "f3c8dabae97b5c7e1779f4f559cd94be37ab4a6937c73896fc77fdd19e0f9d1a",
+        "seconds": 0.17691570427268744,
+        "logical": "@scheduled_instruction_changes_register@8",
+        "matched": true,
+        "log_sha256": "18adae83cf13e8079b70b345612e7f1c461aef36f7d45bcbfc62c6449c5572d0"
+      }
+    },
+    {
+      "path": "cases/hello-original-836.json",
+      "sha256": "568e5ae68892f54b173a50dcf2c7de4d68cafbe67afccf9362618471d9c0efbb",
+      "capture": {
+        "label": "scheduled-register-changes-after",
+        "accepted": 836,
+        "logical": "@remove_scheduled_float_exchange@4",
+        "original_va": "0x44cc0",
+        "events": "exception 80000003 rva 00034cc0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.20475121587514877,
+        "execution_check_seconds": 1.1867868574336171,
+        "total_seconds": 1.3915386851876974,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "213532d846c7359e88b29f93bde9f666c9a3649619bc12f44ade6c65b9ec3d7d",
+        "config_sha256": "c303b879604e7d1a377729fcc3ca64503d3190d74517498a54f29d3530f025dd",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/scheduled-register-changes-after"
+      },
+      "native": {
+        "executable_sha256": "a71e44cd53ea83aa369b5a4ef0b7a6fddec47953e72a582da1dfcc93e90abc1f",
+        "config_sha256": "c303b879604e7d1a377729fcc3ca64503d3190d74517498a54f29d3530f025dd",
+        "seconds": 0.15139401890337467,
+        "logical": "@remove_scheduled_float_exchange@4",
+        "matched": true,
+        "log_sha256": "4735d3fe6b9e74c67acdbeaeb858677f42df1931b11467778bb4662078d570f2"
+      }
+    },
+    {
+      "path": "cases/hello-original-837.json",
+      "sha256": "67f680ae93344f89af0109e0e7f2092a9164a46c498c3c3d572f32e24f5315c8",
+      "capture": {
+        "label": "ready-candidate-removal-after",
+        "accepted": 837,
+        "logical": "@pair_pentium_taken_edge@16",
+        "original_va": "0x47850",
+        "events": "exception 80000003 rva 00037850 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19951521791517735,
+        "execution_check_seconds": 1.4801319455727935,
+        "total_seconds": 1.6796481581404805,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "6785d39167f4a6d969bdc5ff409328087972c365d4eb1f51982c9a766ec26d72",
+        "config_sha256": "75d26a8c39617ec709f0effa064b5a3f8a5e9320f74ffd5006dbf74e5c9c5e89",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/ready-candidate-removal-after"
+      },
+      "native": {
+        "executable_sha256": "f457e715ba651bb844404ab3836fc49b33be97daca2087d3f7e57152b17ff666",
+        "config_sha256": "75d26a8c39617ec709f0effa064b5a3f8a5e9320f74ffd5006dbf74e5c9c5e89",
+        "seconds": 0.1494028801098466,
+        "logical": "@pair_pentium_taken_edge@16",
+        "matched": true,
+        "log_sha256": "7656ec5bc8349d0c8394c7694d8977a6bf8d7a04067cf90974b5aff5b7247c80"
+      }
+    }
+  ],
+  "data_provenance": {
+    "ready_candidates": "Existing SchedulerPairs.ready[5] at7c2d4,8-byte SchedulerCandidate records include instruction and undo pointer; removal copies both words and decrements ready_count82ff8. No float-specific state.",
+    "property_proof": "All231 original opcode-property words at82210: original bit40 equals semantic MC_IMPLICIT_REGISTERS, zero mismatches; source reuses named property and existing implicit_register_mask helper.",
+    "address_query": "Two signed16-bit address register IDs; based forms use one, indexed forms index then base, pseudo-base27 absent. Direction chooses chronological endpoints; scan includes start and excludes end, always via next.",
+    "name_migration": "Each refinement reverses only accepted-name+driver-name to byte-identical prior config. Fresh original masks/terminal events and inputs/env match byte-for-byte; native matching and fixedABI retained; only one hello trace-name entry replaced per rename, none minimal. Old/new receipts stored."
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Address stability and instruction change helper execute; unreachable-end diagnostic and every implicit/explicit register class not independently exercised.",
+    "General Pentium scheduler now returns to taken-edge branch scheduling. Full object output remains incomplete.",
+    "Ready-candidate removal is general scheduling, not floating exchange; removed misleading provisional name. Actual queued alternative cases not all covered.",
+    "No additional functions accepted by semantic renaming; acceptance count stays835/837 respectively."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "build_audit_fixtures": {
+      "ready-candidate-name-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 10.11423924472183,
+        "returncode": 0,
+        "log_sha256": "6c568623892336b610e87c0394a2e616f85e2ba8384ccc12be119f737ce55d11"
+      },
+      "address-stability-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.3397526890039444,
+        "returncode": 0,
+        "log_sha256": "07d0f8d416a3a5c2fd6effb07ea52e60841be4ae5f80bf73afa609e1b10e0944"
+      },
+      "address-path-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.8547210106626153,
+        "returncode": 0,
+        "log_sha256": "5b92df792480308308326206e75d38f2a6c22ba757cb57e8775d755c40218761"
+      },
+      "ready-and-stability-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.7733164643868804,
+        "returncode": 0,
+        "log_sha256": "a6babf3e23b103334c657c20474efba81ab038435f6e2a128a80859955e2a28c"
+      },
+      "ready-and-stability-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "scheduler"
+        ],
+        "seconds": 2.192551989108324,
+        "returncode": 0,
+        "log_sha256": "80057aff7c027cdb566494fdfa29a48cbab6fc625d4cd7ca50795681ee583be4"
+      },
+      "address-path-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "scheduler"
+        ],
+        "seconds": 2.438162785023451,
+        "returncode": 0,
+        "log_sha256": "80057aff7c027cdb566494fdfa29a48cbab6fc625d4cd7ca50795681ee583be4"
+      },
+      "scheduled-register-changes-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.2740305103361607,
+        "returncode": 0,
+        "log_sha256": "541f62f1991e05b51e7037320ab040ce870a4b9bf999ae92329a35e621fa2603"
+      },
+      "ready-candidate-removal-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.6852564960718155,
+        "returncode": 0,
+        "log_sha256": "f5386a12f5d401d60ab5d8dcf0ab729a9f842ba339c29fb1b6bc425845fcdd78"
+      },
+      "address-stability-name-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 10.722452241927385,
+        "returncode": 0,
+        "log_sha256": "df62e6dd81d9be9820f2c8847779cd7978a066105bb2ddf5119dd12b5645e3f7"
+      },
+      "ready-and-stability-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.35407268814742565,
+        "returncode": 0,
+        "log_sha256": "7a93af504d457ce9e6acdfdbfa3a7a70b7d8dae7350ee68038c1584bc1de840d"
+      },
+      "scheduled-address-stability-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 10.062659724615514,
+        "returncode": 0,
+        "log_sha256": "0efacf9fa31e0915f79b2fdf53df75c1a80acaffd55a60b2065c5c43e4bdcde1"
+      },
+      "address-stability-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.191820027306676,
+        "returncode": 0,
+        "log_sha256": "d6f85563d2da5979f819168e153b33b2feaac7f220fa6fe098755790e17191c3"
+      },
+      "address-path-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.30468582920730114,
+        "returncode": 0,
+        "log_sha256": "7d8baf67c235a0a35fe2c7d78bc7dfc13ea8df67320f1f6d9ccfc44f5178a049"
+      },
+      "address-stability-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "scheduler"
+        ],
+        "seconds": 1.2654313165694475,
+        "returncode": 0,
+        "log_sha256": "80057aff7c027cdb566494fdfa29a48cbab6fc625d4cd7ca50795681ee583be4"
+      }
+    },
+    "notes": [
+      "All repeated checks/name-refinement builds and extra explicit original captures included in respective evidence.",
+      "Name/header rebuilds10.1\u201310.7s mixed native/canonical, incremental2.3\u20132.7s unsplit.",
+      "Fresh renamed before receipts for next extensions:835-renamed and837-renamed. Fixture timing phases separate and no Wine."
+    ]
+  },
+  "name_refinements": [
+    {
+      "original_va": "0x42070",
+      "extent": [
+        "0x42070",
+        "0x421a0"
+      ],
+      "old_name": "@scheduled_address_changed_between@16",
+      "new_name": "@scheduled_address_registers_stable@16",
+      "reason": "Whole body returns1 iff both address registers stay unchanged; correct misleading provisional name without changing graph/ABI/body.",
+      "metadata_proof": "Reversing exactly accepted[] name and driver.name restores byte-identical prior functions.json; same accepted count835/ranges, fixedfastcall16 ABI.",
+      "trace_projection_renames": {
+        "minimal": 0,
+        "hello": 1
+      },
+      "before": {
+        "path": "cases/hello-original-835.json",
+        "sha256": "fe4017e1bc66558fe5e3f38402ce7bba333bf77b557585d06e88d5361b6ae149",
+        "capture": {
+          "label": "scheduled-address-stability-after",
+          "accepted": 835,
+          "logical": "@scheduled_instruction_changes_register@8",
+          "original_va": "0x421a0",
+          "events": "exception 80000003 rva 000321a0 base 00010000 first 1\nexit 99\n",
+          "setup_seconds": 0.2124529778957367,
+          "execution_check_seconds": 1.2199972001835704,
+          "total_seconds": 1.4324508672580123,
+          "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+          "masked_sha256": "8e390844642f936186180d66e0b351f2e00d04f5444680ac0624f17db06f9c8f",
+          "config_sha256": "f3c8dabae97b5c7e1779f4f559cd94be37ab4a6937c73896fc77fdd19e0f9d1a",
+          "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+          "inputs": {
+            "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+            "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+            "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+            "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+          },
+          "environment": {
+            "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+          },
+          "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/scheduled-address-stability-after"
+        }
+      },
+      "after": {
+        "path": "cases/hello-original-835-renamed.json",
+        "sha256": "6f316d16e01b970d40696360ecf54bd5de769e0c580c4b4360813dc568d45d9c",
+        "capture": {
+          "label": "address-stability-name-refined",
+          "accepted": 835,
+          "logical": "@scheduled_instruction_changes_register@8",
+          "original_va": "0x421a0",
+          "events": "exception 80000003 rva 000321a0 base 00010000 first 1\nexit 99\n",
+          "setup_seconds": 0.21209408063441515,
+          "execution_check_seconds": 0.7695217365399003,
+          "total_seconds": 0.9816162940114737,
+          "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+          "masked_sha256": "8e390844642f936186180d66e0b351f2e00d04f5444680ac0624f17db06f9c8f",
+          "config_sha256": "5efd58268ed8c9e7f0e4dbed869992802deb20250a34c64f9f63e9004c5753d1",
+          "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+          "inputs": {
+            "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+            "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+            "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+            "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+          },
+          "environment": {
+            "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+          },
+          "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/address-stability-name-refined"
+        }
+      },
+      "mask_proof": "Fresh original masked-image SHA256 identical before/after; next trap/inputs/environment/status/events identical.",
+      "native_matching": {
+        "executable_sha256": "f15e62a50874a68cdd91b6745e32713472b8c3cbc9099df52da24267e3ce62fd",
+        "config_sha256": "5efd58268ed8c9e7f0e4dbed869992802deb20250a34c64f9f63e9004c5753d1",
+        "seconds": 0.1478630220517516,
+        "logical": "@scheduled_instruction_changes_register@8",
+        "matched": true,
+        "log_sha256": "d3de2f455adf70278fcc70974f92b99a67b1259a478fa2e97b4343739ed79896"
+      }
+    },
+    {
+      "original_va": "0x44cc0",
+      "extent": [
+        "0x44cc0",
+        "0x44d12"
+      ],
+      "old_name": "@remove_scheduled_float_exchange@4",
+      "new_name": "@remove_pentium_ready_candidate@4",
+      "reason": "Whole body removes matching general Pentium ready candidate, retaining both instruction/undo words; no floating exchange operation.",
+      "metadata_proof": "Reversing exactly accepted[] name and driver.name restores byte-identical previous functions.json; same accepted count837/ranges/fixedfastcall4 ABI.",
+      "trace_projection_renames": {
+        "minimal": 0,
+        "hello": 1
+      },
+      "before": {
+        "path": "cases/hello-original-837.json",
+        "sha256": "67f680ae93344f89af0109e0e7f2092a9164a46c498c3c3d572f32e24f5315c8",
+        "capture": {
+          "label": "ready-candidate-removal-after",
+          "accepted": 837,
+          "logical": "@pair_pentium_taken_edge@16",
+          "original_va": "0x47850",
+          "events": "exception 80000003 rva 00037850 base 00010000 first 1\nexit 99\n",
+          "setup_seconds": 0.19951521791517735,
+          "execution_check_seconds": 1.4801319455727935,
+          "total_seconds": 1.6796481581404805,
+          "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+          "masked_sha256": "6785d39167f4a6d969bdc5ff409328087972c365d4eb1f51982c9a766ec26d72",
+          "config_sha256": "75d26a8c39617ec709f0effa064b5a3f8a5e9320f74ffd5006dbf74e5c9c5e89",
+          "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+          "inputs": {
+            "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+            "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+            "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+            "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+          },
+          "environment": {
+            "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+          },
+          "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/ready-candidate-removal-after"
+        }
+      },
+      "after": {
+        "path": "cases/hello-original-837-renamed.json",
+        "sha256": "e41870b49f38ce750ad6231a04fbd742aac2714737ce3680ec8e0e19fafb0363",
+        "capture": {
+          "label": "ready-candidate-name-refined",
+          "accepted": 837,
+          "logical": "@pair_pentium_taken_edge@16",
+          "original_va": "0x47850",
+          "events": "exception 80000003 rva 00037850 base 00010000 first 1\nexit 99\n",
+          "setup_seconds": 0.1995109273120761,
+          "execution_check_seconds": 0.6936048185452819,
+          "total_seconds": 0.8931161826476455,
+          "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+          "masked_sha256": "6785d39167f4a6d969bdc5ff409328087972c365d4eb1f51982c9a766ec26d72",
+          "config_sha256": "faf496d4346d883b85aeec59d18ac5b9708d7a20edf9b11120afa555016c26a6",
+          "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+          "inputs": {
+            "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+            "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+            "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+            "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+          },
+          "environment": {
+            "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+          },
+          "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/ready-candidate-name-refined"
+        }
+      },
+      "mask_proof": "Fresh original masked-image SHA256 identical before/after; next trap/inputs/environment/status/events identical.",
+      "native_matching": {
+        "executable_sha256": "f61c20a3f329ab45f487abfea0cef3d4c446df886435964aa68411347a7c4420",
+        "config_sha256": "faf496d4346d883b85aeec59d18ac5b9708d7a20edf9b11120afa555016c26a6",
+        "seconds": 0.18412749376147985,
+        "logical": "@pair_pentium_taken_edge@16",
+        "matched": true,
+        "log_sha256": "7656ec5bc8349d0c8394c7694d8977a6bf8d7a04067cf90974b5aff5b7247c80"
+      }
+    }
+  ]
+}

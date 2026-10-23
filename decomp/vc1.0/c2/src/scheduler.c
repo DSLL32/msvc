@@ -418,7 +418,7 @@ MachineInstruction *__fastcall choose_pentium_instruction(MachineInstruction *in
             if (SCHEDULER_BARRIER(scan)) break;
             scan = scan->next;
         }
-        remove_scheduled_float_exchange(instruction);
+        remove_pentium_ready_candidate(instruction);
         remove_machine_instruction(instruction);
         if (SCHEDULER_BARRIER(scan)) return saved_previous;
         instruction = scan;
@@ -539,7 +539,7 @@ int __fastcall try_schedule_barrier(MachineInstruction *instruction,
     if (scheduler_track_registers) update_scheduled_registers(instruction);
     if (instruction->record.scheduling->flags & 0x100) {
         instruction->record.scheduling->flags &= ~0x100U;
-        remove_scheduled_float_exchange(instruction);
+        remove_pentium_ready_candidate(instruction);
     }
     prune_pentium_candidate_undos(instruction, scheduler_ready_count);
     instruction->record.scheduling->flags |= 0x800;
@@ -556,7 +556,7 @@ int __fastcall try_schedule_barrier(MachineInstruction *instruction,
         scheduler_cursor = other;
         if (other->record.scheduling->flags & 0x100) {
             other->record.scheduling->flags &= ~0x100U;
-            remove_scheduled_float_exchange(other);
+            remove_pentium_ready_candidate(other);
         }
         prune_pentium_candidate_undos(other, scheduler_ready_count);
         other->record.scheduling->flags |= 0x800;
@@ -1761,7 +1761,7 @@ int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerM
     if (result == 1) return 1;
     if (relation == 1) {
         if (forward == 2) return 1;
-        return !scheduled_address_changed_between(first->instruction, last->instruction, first->operand, forward);
+        return !scheduled_address_registers_stable(first->instruction, last->instruction, first->operand, forward);
     }
     return 0;
 }
@@ -1861,4 +1861,63 @@ int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_byte
         if (right_origin != left_origin) return 0;
     }
     return 1;
+}
+
+/* Original [00042070,000421a0). This query returns1 when BOTH address
+   registers stay unchanged, and0 on a change.
+   Direction selects the chronological start/end; scanning always uses next. */
+int __fastcall scheduled_address_registers_stable(MachineInstruction *first, MachineInstruction *last,
+    MachineOperand *operand, int forward)
+{
+    short registers[2];
+    MachineInstruction *instruction, *end;
+    unsigned i, kind;
+    if ((operand->flags & 15) == OPERAND_BASED) {
+        registers[0] = (short)operand->value.address->base.words.number;
+        registers[1] = -1;
+    } else {
+        registers[0] = (short)operand->value.address->index.words.number;
+        registers[1] = (short)operand->value.address->base.words.number;
+        if (registers[1] == 27) registers[1] = -1;
+    }
+    for (i = 0; i < 2; ++i) {
+        if (registers[i] == -1) continue;
+        instruction = forward == 1 ? first : last;
+        end = forward == 1 ? last : first;
+        for (; instruction && instruction != end; instruction = instruction->next) {
+            kind = instruction->opcode & 15;
+            if ((kind == 0 || (kind >= 8 && kind <= 10)) &&
+                scheduled_instruction_changes_register(instruction, (unsigned short)registers[i])) return 0;
+        }
+        if (instruction != end) compiler_internal_error("@(#)sched.c:1.33", 0x63a);
+    }
+    return 1;
+}
+
+/* Original [000421a0,00042254). Calls clobber EAX/ECX/EDX; explicit
+   register writes and opcode-specific implicit definitions handle the rest.
+   Across all231 entries original property40 equals MC_IMPLICIT_REGISTERS. */
+int __fastcall scheduled_instruction_changes_register(MachineInstruction *instruction, unsigned short reg)
+{
+    unsigned operation = (unsigned char)(instruction->opcode >> 8), mask = 0;
+    MachineOperand *operand = &instruction->operands[0];
+    if (operation == MC_CALL && (reg == REG_EAX || reg == REG_ECX || reg == REG_EDX)) return 1;
+    if (machine_operand_counts[operation] > 0 && (operand->flags & 15) == OPERAND_REGISTER &&
+        writes_first_operand(instruction) && (operand->value.reg.words.number & 0x3fff) == reg) return 1;
+    if (machine_selection_properties[operation] & MC_IMPLICIT_REGISTERS)
+        mask = implicit_register_mask(instruction, 2);
+    return mask && (mask & (1U << (reg & 31))) != 0;
+}
+
+/* Original [00044cc0,00044d12). Remove one matching ready entry by
+   moving the last candidate, including its undo chain, into the vacant slot. */
+void __fastcall remove_pentium_ready_candidate(MachineInstruction *instruction)
+{
+    int i;
+    for (i = 0; i < scheduler_ready_count; ++i)
+        if (scheduler_pairs.ready[i].instruction == instruction) {
+            scheduler_pairs.ready[i] = scheduler_pairs.ready[scheduler_ready_count - 1];
+            --scheduler_ready_count;
+            return;
+        }
 }

@@ -1,6 +1,7 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified834 acceptances/756 source graphs; matching scheduled_address_changed_between42070.
-WinMain Pentium scheduling: memory range decisions now execute.
-Extent union228631/399693=57.2016522681%, not branch coverage.
+Verified837 acceptances/759 source graphs; matching pair_pentium_taken_edge47850.
+WinMain general Pentium scheduling passed; taken-edge branch pairing active.
+Extent union229197/399693=57.3432609528%, not branch coverage.
 Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-memory-range-comparison.json. No shared shim requests.
+See cases/hello-pentium-scheduling-complete.json. No shared shim requests.
+Next extension BEFORE receipt is cases/hello-original-837-renamed.json.

@@ -838,7 +838,10 @@
     "@assign_machine_operand@8",
     "@compare_scheduled_memory@36",
     "@release_machine_address@4",
-    "@memory_displacements_overlap@16"
+    "@memory_displacements_overlap@16",
+    "@scheduled_address_registers_stable@16",
+    "@scheduled_instruction_changes_register@8",
+    "@remove_pentium_ready_candidate@4"
   ],
   "driver": [
     {
@@ -5776,10 +5779,9 @@
       "provisional": true
     },
     {
-      "name": "@remove_scheduled_float_exchange@4",
+      "name": "@remove_pentium_ready_candidate@4",
       "start": 281792,
-      "end": 281793,
-      "provisional": true
+      "end": 281874
     },
     {
       "name": "@instruction_schedule_delay@4",
@@ -6488,16 +6490,20 @@
       "end": 244586
     },
     {
-      "name": "@scheduled_address_changed_between@16",
+      "name": "@scheduled_address_registers_stable@16",
       "start": 270448,
-      "end": 270449,
-      "provisional": true
+      "end": 270752
     },
     {
       "name": "@infer_scheduled_address_symbol@8",
       "start": 246592,
       "end": 246593,
       "provisional": true
+    },
+    {
+      "name": "@scheduled_instruction_changes_register@8",
+      "start": 270752,
+      "end": 270932
     }
   ],
   "cases": {

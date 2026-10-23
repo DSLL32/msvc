@@ -99,7 +99,7 @@ void __cdecl compact_pentium_candidates(void);
 int __fastcall pentium_previous_memory_delay(MachineInstruction *instruction);
 int __fastcall classify_pentium_pipe(MachineInstruction *instruction, int *pipe);
 void __fastcall insert_pentium_stall(int reason);
-void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction);
+void __fastcall remove_pentium_ready_candidate(MachineInstruction *instruction);
 int __fastcall instruction_schedule_delay(MachineInstruction *instruction);
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction);
 int __fastcall scheduler_move_conflict(MachineInstruction *first, MachineInstruction *last, int forward, int restore);
@@ -137,7 +137,8 @@ int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineIn
 int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstruction **middle, MachineInstruction *label, int *changed);
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle);
 void __fastcall assign_machine_operand(MachineOperand *destination, MachineOperand *source);
-int __fastcall scheduled_address_changed_between(MachineInstruction *first, MachineInstruction *last,
+int __fastcall scheduled_address_registers_stable(MachineInstruction *first, MachineInstruction *last,
     MachineOperand *operand, int forward);
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative);
+int __fastcall scheduled_instruction_changes_register(MachineInstruction *instruction, unsigned short reg);
 #endif

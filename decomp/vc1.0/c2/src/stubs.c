@@ -395,7 +395,6 @@ void __fastcall prepare_float_schedule(MachineInstruction *instruction) { __asm 
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
 void __fastcall insert_pentium_stall(int reason) { __asm int 3 }
-void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
@@ -465,6 +464,4 @@ void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
-int __fastcall scheduled_address_changed_between(MachineInstruction *first, MachineInstruction *last,
-    MachineOperand *operand, int forward) { __asm int 3 }
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }
