@@ -12,6 +12,8 @@ static unsigned char *mask;
 typedef struct Entry { DWORD rva; unsigned byte, seen; char name[128]; } Entry;
 static Entry entries[2048];
 static unsigned entry_count;
+static DWORD full_link_receiver, full_link_output, full_link_entry_stack;
+static BYTE full_link_initial;
 static DWORD crt_base, main_frame_base, configuration_context, parser_allocation_bytes, parser_allocation, duplicate_result, virtual_arguments[4];
 static DWORD library_search_arguments[2], library_search_stack;
 static DWORD released_argument, release_stack, release_count;
@@ -279,16 +281,22 @@ static int snapshot(DWORD address)
         }
         fprintf(events,"}");
     }
-    if(address==base+0x48630 || address==base+0x42f50) {
+    if(address==base+0x48630 || address==base+0x42f50 || address==base+0xe3b0) {
         DWORD output;
         if(!ReadProcessMemory(process,(void *)(base+0x7efa4),&output,4,&got)||got!=4||
            !remote_string(output,value,sizeof(value)))return 0;
-        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
+        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",address==base+0xe3b0?configuration_context:address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
         if(address==base+0x42f50) {
             unsigned char initial;
             if(!ReadProcessMemory(process,(void *)stack[1],&initial,1,&got)||got!=1||!save_memory(stack[1],1,"pack-requested-before.bin"))return 0;
             fprintf(events,",\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",context.Ecx,stack[1],initial);
         }
+    }
+    if(address==base+0xe3b0) {
+        DWORD initial;
+        if(!ReadProcessMemory(process,(void *)stack[1],&initial,4,&got)||got!=4||
+           !save_memory(stack[1],4,"output-module-before.bin"))return 0;
+        fprintf(events,",\"output_module_formals\":{\"module\":%lu,\"destination_global\":%lu,\"initial\":%lu},\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",stack[1],base+0x7f028,initial,full_link_receiver,full_link_output,full_link_initial);
     }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
@@ -344,7 +352,7 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || ((address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0xe3b0 || address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
@@ -627,6 +635,14 @@ int main(int argc, char **argv)
                                !arguments[0]||arguments[1]||arguments[2]){failed=6;break;}
                             configuration_context=arguments[0];
                             fprintf(events,"{\"event\":\"configuration_arguments\",\"context\":%lu,\"module\":%lu,\"file\":%lu}\n",arguments[0],arguments[1],arguments[2]);
+                        }
+                        if(!strcmp(entries[index].name,"?FullLink@LinkContext@@QAEHPAE@Z")) {
+                            DWORD got;
+                            full_link_receiver=context.Ecx;full_link_entry_stack=context.Esp;
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),&full_link_output,4,&got)||got!=4||
+                               !ReadProcessMemory(process,(void *)full_link_output,&full_link_initial,1,&got)||got!=1||
+                               !save_memory(full_link_output,1,"pack-requested-before.bin")){failed=6;break;}
+                            fprintf(events,"{\"event\":\"full_link_entry\",\"this\":%lu,\"pack_requested\":%lu,\"stack_pointer\":%lu,\"initial\":%u}\n",full_link_receiver,full_link_output,full_link_entry_stack,full_link_initial);
                         }
                         fprintf(events, "{\"event\":\"entry\",\"name\":\"%s\",\"rva\":%lu}\n",
                                    entries[index].name, entries[index].rva);

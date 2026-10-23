@@ -29,7 +29,14 @@ typedef struct LinkOptions {
     BYTE default180, reserved181[15];
 } LinkOptions;
 
-typedef struct LinkAuxiliaryData { DWORD reserved[11]; } LinkAuxiliaryData;
+typedef struct LinkContext LinkContext;
+typedef struct LinkAuxiliaryData {
+    DWORD reserved[11];
+#ifdef __cplusplus
+    void RECON_THISCALL PrepareOutput(void);
+    void RECON_THISCALL FinishOutput(LinkContext *context);
+#endif
+} LinkAuxiliaryData;
 typedef struct LinkPointerList {
     void *first;
     void **last;
@@ -54,7 +61,6 @@ extern const DefaultDosImage default_dos_image;
  * VC5 C cannot declare it. This POD has no implicit construction, destruction,
  * virtual dispatch, RTTI or exception machinery. Native calls also explicitly
  * use thiscall, rather than the Linux default C++ member convention. */
-typedef struct LinkContext LinkContext;
 struct LinkContext {
     char database_signature[32];
     WORD database_type, database_flags;
@@ -76,7 +82,11 @@ struct LinkContext {
     DWORD dos_image_size, pe_header_offset;
     int is_vxd;
     DWORD reserved1e8;
-    BYTE dynamic_vxd, reserved1ed[115];
+    BYTE dynamic_vxd, reserved1ed[83];
+    DWORD pdb_module_count, reserved244;
+    void *pdb_modules;
+    DWORD reserved24c[2], mac_module_count, reserved258;
+    void *mac_modules;
     LinkAuxiliaryData *auxiliary;
     BYTE reserved264[36];
     Contribution *incremental_contribution;
@@ -93,6 +103,45 @@ struct LinkContext {
     void RECON_THISCALL PeWriteHeaders(int file);
     void RECON_THISCALL VxdWriteHeaders(int file);
     int RECON_THISCALL FullLink(BYTE *pack_requested);
+    DWORD RECON_THISCALL RangeCodeBytes(DWORD start,DWORD limit,Contribution **last);
+    void RECON_THISCALL FoldIdenticalComdats(void);
+    void RECON_THISCALL PrintFoldedComdats(void);
+    Contribution * RECON_THISCALL CreateIncrementalContribution(void);
+    void RECON_THISCALL InitializeSections(void);
+    DWORD RECON_THISCALL BuildDosExtension(void **buffer);
+    void RECON_THISCALL ApplyMerges(void);
+    void RECON_THISCALL PrepareMacDebugSections(void);
+    void RECON_THISCALL PrepareMacRuntimeSections(void);
+    void RECON_THISCALL PrepareNativeRelocations(void);
+    BYTE RECON_THISCALL CanMergeReadOnlyData(void);
+    void RECON_THISCALL MergeExceptionSections(void);
+    void RECON_THISCALL ResolveEntryPoint(void);
+    WORD RECON_THISCALL CountOutputSections(void);
+    void RECON_THISCALL PrepareSectionLayout(void);
+    void RECON_THISCALL LayoutSections(DWORD *rva,DWORD *file_offset,DWORD *line_count);
+    void RECON_THISCALL WriteSections(DWORD *line_offset);
+    void RECON_THISCALL ApplySectionAttributes(void);
+    void RECON_THISCALL ResolveLocalImports(Contribution **contribution,IncludeSymbol **aliases);
+    void RECON_THISCALL ResolveUndefined(void);
+    void RECON_THISCALL CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second);
+    void RECON_THISCALL FinalizeOrder(void);
+    void RECON_THISCALL FinishNativeSections(void);
+    void RECON_THISCALL WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second);
+    void RECON_THISCALL WriteLocalImports(Contribution *contribution,IncludeSymbol **aliases);
+    void RECON_THISCALL EmitDebugDirectories(DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset);
+    void RECON_THISCALL FinishImage(void);
+    void RECON_THISCALL PassOne(void);
+    void RECON_THISCALL PassTwo(void);
+    void RECON_THISCALL PrepareMacJumpTables(void);
+    void RECON_THISCALL ResolveMacImports(void);
+    void RECON_THISCALL ResolveMacExports(void);
+    void RECON_THISCALL PrepareMacResources(void);
+    void RECON_THISCALL PrepareMacSections(void);
+    void RECON_THISCALL PrepareMacSymbols(void);
+    void RECON_THISCALL PrepareAuxiliarySections(void);
+    void RECON_THISCALL UpdateChecksum(void);
+    void RECON_THISCALL WriteVxdModuleTable(int file);
+    void RECON_THISCALL WriteVxdNames(int file);
 #endif
 };
 #ifdef __cplusplus
@@ -106,6 +155,8 @@ extern HeaderWriter image_write_headers;
 typedef char DefaultDosImageSize[(sizeof(DefaultDosImage)==128)?1:-1];
 typedef char LinkAuxiliaryDataSize[(sizeof(LinkAuxiliaryData)==44)?1:-1];
 typedef char LinkContextSymbolsAt1d0[(offsetof(LinkContext,symbols)==0x1d0)?1:-1];
+typedef char LinkContextPdbModulesAt248[(offsetof(LinkContext,pdb_modules)==0x248)?1:-1];
+typedef char LinkContextMacModulesAt25c[(offsetof(LinkContext,mac_modules)==0x25c)?1:-1];
 typedef char LinkContextAuxiliaryAt260[(offsetof(LinkContext,auxiliary)==0x260)?1:-1];
 typedef char LinkContextSectionsAt1b4[(offsetof(LinkContext,sections)==0x1b4)?1:-1];
 typedef char LinkContextIncrementalAt288[(offsetof(LinkContext,incremental_contribution)==0x288)?1:-1];

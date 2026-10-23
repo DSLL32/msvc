@@ -1,6 +1,7 @@
 #ifndef LINK_SYMBOLS_H
 #define LINK_SYMBOLS_H
 #include <windows.h>
+#include <stddef.h>
 #include "memory.h"
 #include <recon.h>
 #ifdef __cplusplus
@@ -20,7 +21,8 @@ typedef struct HashState {
 } HashState;
 typedef struct HashTable {
     HashState *state;
-    DWORD reserved[7];
+    const void *string_storage;
+    DWORD reserved[6];
 } HashTable;
 typedef struct StringNode StringNode;
 typedef struct StringTable {
@@ -29,12 +31,16 @@ typedef struct StringTable {
     StringNode **last;
 #ifdef __cplusplus
     StringNode *RECON_THISCALL Lookup(const unsigned char *,BYTE *);
+    void RECON_THISCALL SortSymbols(void);
+    StringNode * RECON_THISCALL LookupSymbol(WORD kind,const char *name,BYTE *created);
+    StringNode * RECON_THISCALL FindSymbol(const char *name);
 #endif
 } StringTable;
 StringTable *__stdcall create_string_table(StringTable **,unsigned,unsigned);
 void __stdcall initialize_hash_table(HashTable *,unsigned,unsigned,KeyNameFunction,WORD);
 const char *__stdcall string_key_name(const void *,const void *);
 typedef char HashStateSize[(sizeof(HashState)==56)?1:-1];
+typedef char StringStorageAt04[(offsetof(HashTable,string_storage)==4)?1:-1];
 typedef char StringTableSize[(sizeof(StringTable)==40)?1:-1];
 
 #ifdef __cplusplus

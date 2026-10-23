@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']=='LinkContext::FullLink'
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -171,8 +171,19 @@ def compare_configured(original,state,trap,events,canonical,search):
     compare(original,state,trap,configuration_context=context)
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
-        assert formals['this']==trap['ecx']==trap['stack'][5]==context
-        assert formals['pack_requested']==trap['stack'][1]==trap['esp']+28
+        if state['function']=='LinkContext::FullLink':
+            assert formals['this']==trap['ecx']==trap['stack'][5]==context
+            assert formals['pack_requested']==trap['stack'][1]==trap['esp']+28
+        else:
+            original_entry,=[e for e in events if e['event']=='full_link_entry']
+            assert formals['this']==original_entry['this']==context
+            assert formals['pack_requested']==original_entry['pack_requested']==original_entry['stack_pointer']+28
+            assert original_entry['initial']==formals['pack_requested_initial']
+            observed=trap['output_module_formals'];native_module=state['output_module_formals']
+            assert observed['module']==observed['destination_global']==trap['stack'][1]==0x47f028
+            assert observed['initial']==native_module['initial']==0
+            assert native_module['module']==native_module['destination_global']!=0
+            assert (original/'output-module-before.bin').read_bytes()==(original/'output-module-global.bin').read_bytes()==bytes(4)
         assert (original/'pack-requested-before.bin').read_bytes()==bytes([formals['pack_requested_initial']])
         assert formals['initial_value_contract']=='uninitialized caller local; no cross-platform value equality'
         assert native['this']==entry['this']==state['context_this']

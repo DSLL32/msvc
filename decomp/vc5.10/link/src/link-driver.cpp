@@ -255,12 +255,6 @@ void RECON_THISCALL LinkContext::VxdWriteSection(int file,void *section,void *he
 void RECON_THISCALL LinkContext::PeWriteHeaders(int file) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::VxdWriteHeaders(int file) { __asm { int 3 } }
 
-int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
-{
-    __asm { int 3 }
-    return 255;
-}
-
 /* Named original callees remain trapping until reached. */
 extern "C" {
 void __cdecl linker_usage(void)

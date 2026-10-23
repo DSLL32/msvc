@@ -134,7 +134,7 @@ physical-memory fields are consumed. Volatile memory availability is not an
 invariant. The shared verified VC5 CRT profile preserves the explicit setvbuf
 flag and buffer ownership; full FILE state remains checked.
 
-The genuine thiscall linker context and symbol lookup require two C++ caller translation units.
+The genuine thiscall linker context, symbol lookup and full-link driver require C++ caller translation units.
 It remains POD, with no constructors, destructors, RTTI, exception machinery or
 C++ runtime. `RECON_THISCALL` retains native i386 ECX-this/stack4/RET4; the
 original VC5 compiler supplies its implicit member convention; symbol lookup has
@@ -211,3 +211,16 @@ context layout. The original-toolchain object retains all 3,799 code bytes and
 fresh native capture matches the unchanged original FullLink boundary, with
 70 semantic negatives and the strict audit passing. Unknown record tails stay
 unmodeled; no FullLink implementation or additional acceptance credit is claimed.
+
+FullLink now has a readable whole-function implementation, including its cold
+section-merge continuation, with named trapping callees. Both compiler builds
+pass. The candidate-inclusive fresh pair reaches initialize_output_modules
+with its actual output-slot argument, initial NULL, full context/heap and caller
+out-byte ownership captured; 73 semantic negatives pass. Original capture took
+1.162 s and native GDB 0.322 s. This is pending work, not accepted code credit:
+the qualified-import gate still requires the common tool to preserve the cached
+fprintf identity across a proven header callback and concrete ordinary callees.
+Its exact 20 indirect sites comprise 10 direct imports, eight cached register
+calls and two genuine member callbacks. Four cached sites currently remain
+unresolved. Immutable candidate/raw/source/build evidence is under
+cases/hello-win32/full-link-pending; the canonical acceptance count stays 49.

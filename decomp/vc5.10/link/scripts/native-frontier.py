@@ -340,8 +340,10 @@ def stopped(event):
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
     configuration=frame
     while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
-    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink'):
-        receiver=(configuration if configuration else frame).read_var('this'if state['function']=='LinkContext::FullLink'else 'context')
+    full_frame=frame
+    while full_frame and full_frame.name()!='LinkContext::FullLink':full_frame=full_frame.older()
+    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules'):
+        receiver=(full_frame.read_var('this')if full_frame else (configuration if configuration else frame).read_var('context'))
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
         state['link_context']=gdb.selected_inferior().read_memory(state['context_this'],664).tobytes().hex()
@@ -357,14 +359,17 @@ def stopped(event):
                 arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
                 record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
             state['context_heap'].append(record)
-        if state['function']in ('validate_debug_options','LinkContext::FullLink'):
+        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules'):
             state['validation_arguments']=dict(context=int(receiver))
             state['output_name_pointer']=int(gdb.parse_and_eval('output_file_name'))
             state['output_name']=gdb.parse_and_eval('output_file_name').string()
             state['option_globals']={name:int(gdb.parse_and_eval(name))for name in ('incremental_requested','incremental_switch_set','debug_formats','pdb_enabled','debug_option_present')}
-        if state['function']=='LinkContext::FullLink':
-            output=frame.read_var('pack_requested')
+        if full_frame:
+            output=full_frame.read_var('pack_requested')
             state['full_link_formals']=dict(this=int(receiver),pack_requested=int(output),caller_output=int(driver.read_var('pack_requested').address),initial=gdb.selected_inferior().read_memory(int(output),1).tobytes().hex())
+        if state['function']=='initialize_output_modules':
+            module=frame.read_var('module')
+            state['output_module_formals']=dict(module=int(module),destination_global=int(gdb.parse_and_eval('&output_module')),initial=int(module.dereference()))
     elif state['function'] in ('LinkContext::Initialize','create_string_table','initialize_hash_table','hash_allocate','reserve_memory','create_memory_arena','allocate_memory'):
         owner=frame
         while owner and owner.name()!='LinkContext::Initialize':owner=owner.older()

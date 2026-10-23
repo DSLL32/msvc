@@ -77,6 +77,7 @@ def main():
     (capture / 'runtime.json').write_bytes((BINARY / 'runtime.json').read_bytes())
     state_plan = [
         ('target',0x67000,20,'initializers.bin'),
+        ('target',0x7f028,4,'output-module-global.bin'),
         ('target',0x94930,36,'startup-globals.bin'),
         ('target',0x809d0,12,'buffer12.bin'),
         ('target',0x943a8,12,'buffer8.bin'),

@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <stddef.h>
 #include "arguments.h"
+#include "symbols.h"
 #include <recon.h>
 
 typedef struct OutputModule OutputModule;
@@ -33,6 +34,16 @@ struct Contribution {
     ContributionGroup *group;
     Contribution *next;
 };
+/* A COFF symbol is the public prefix of the linker's extended symbol record.
+ * The flags and owner slots below are read by FullLink; later tail members
+ * remain unknown until their users are reconstructed. */
+struct StringNode {
+    IMAGE_SYMBOL symbol;
+    WORD reserved12;
+    Contribution *contribution;
+    DWORD final_value, reserved1c[5];
+    BYTE flags;
+};
 typedef struct SectionList {
     OutputSection *first, **last;
 } SectionList;
@@ -59,5 +70,8 @@ typedef char GroupNextAt24[(offsetof(ContributionGroup,next)==0x24)?1:-1];
 typedef char GroupSectionAt28[(offsetof(ContributionGroup,section)==0x28)?1:-1];
 typedef char ContributionGroupAt1c[(offsetof(Contribution,group)==0x1c)?1:-1];
 typedef char ContributionNextAt20[(offsetof(Contribution,next)==0x20)?1:-1];
+typedef char SymbolOwnerAt14[(offsetof(StringNode,contribution)==0x14)?1:-1];
+typedef char SymbolValueAt18[(offsetof(StringNode,final_value)==0x18)?1:-1];
+typedef char SymbolFlagsAt30[(offsetof(StringNode,flags)==0x30)?1:-1];
 
 #endif
