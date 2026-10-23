@@ -94,7 +94,13 @@
       "next_case": "hello-win32",
       "case": "Link genuine original 5.10 Win32 hello objects after help completion, then consider hello DLL.",
       "contract": "Fresh original input/master output; dependency contracts remain native-only and fail closed.",
-      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence.",
+      "state": "Help complete and independently reviewed; hello-win32 active.",
+      "completed_cases": [
+        "help"
+      ],
+      "completed_case_proof": "link/cases/help/completion-validation.json",
+      "completed_case_commit": "5ab1a8f1869640c3c3bebb5871f424bee4410026"
     },
     {
       "binary": "rcdll",

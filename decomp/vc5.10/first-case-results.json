@@ -2,7 +2,7 @@
   "schema": 1,
   "project": "vc5.10",
   "purpose": "Preserve first-case workflow trial results separately from ongoing autonomous reconstruction.",
-  "completed_first_cases": 8,
+  "completed_first_cases": 9,
   "total_first_cases": 9,
   "native_policy": "All measured fixtures execute native i386 ELF only, with cached original references.",
   "results": [
@@ -132,10 +132,28 @@
     {
       "binary": "link",
       "first_case": "/?",
-      "first_case_complete": false,
+      "first_case_complete": true,
       "worker_paused": false,
       "ongoing_queue": "next-cases.json#link",
-      "state": "First case still in progress; completion not claimed."
+      "application_functions": 45,
+      "application_extent_bytes": 19672,
+      "application_coverage_percent": null,
+      "coverage_qualification": "No complete instruction-only non-CRT denominator. Whole414810-byte .text includes import metadata, literals, tables and padding.",
+      "completion_proof": "link/cases/help/completion-validation.json",
+      "independently_verified": true,
+      "support_extent_bytes": 522,
+      "support_qualification": "Six CRT bodies and seven import leaves/13vertices, with five CRT and four import entries reached; support receives zero application credit.",
+      "independent_fixture_seconds": 0.049945355392992496,
+      "independent_execution_seconds": 0.003678920678794384,
+      "full_status": 1100,
+      "posix_status": 76,
+      "application_trace_entries": 45,
+      "stdout_bytes": 1430,
+      "stderr_bytes": 0,
+      "commits": [
+        "5ab1a8f1869640c3c3bebb5871f424bee4410026"
+      ],
+      "scope_qualification": "Initial help case complete; genuine hello-win32 linking now released through next-cases.json."
     },
     {
       "binary": "rcdll",
