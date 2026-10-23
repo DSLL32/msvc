@@ -2730,3 +2730,46 @@ MachineInstruction *__fastcall choose_generic_instruction(MachineInstruction *in
     }
     return instruction;
 }
+
+/* Original [000410f0,0004123f). Entry-label lookahead considers at most
+   five ordinary instructions and retains at most three movable choices.
+   The original leaves candidate0's undo unspecified: it is used only when
+   another candidate is selected and moved, whose undo is assigned here. */
+int __fastcall gather_generic_candidates(MachineInstruction *instruction,
+    SchedulerCandidate *candidates)
+{
+    MachineInstruction *scan;
+    int count = 1, examined = 0;
+    candidates[0].instruction = instruction;
+    if (SCHEDULER_BARRIER(instruction)) return 1;
+    for (scan = instruction->next; scan && examined < 5 && count < 3; scan = scan->next) {
+        if (SCHEDULER_BARRIER(scan)) break;
+        if (SCHEDULABLE_KIND(scan->opcode & 15)) {
+            if (scan_schedule_interval(scan, instruction->previous, 1, 4, 0, 1, 0)) {
+                candidates[count].instruction = scan;
+                candidates[count].undo = scheduler_undo;
+                ++count;
+            }
+            scheduler_undo = 0;
+            ++examined;
+        }
+    }
+    return count;
+}
+
+/* Original [00041070,000410e4). Select the smallest encoding estimate;
+   equal costs retain the first candidate, including its paired undo chain. */
+void __fastcall select_generic_candidate(int count, SchedulerCandidate *candidates)
+{
+    int selected, best, cost, index;
+    if (count == 1) return;
+    best = generic_instruction_size_cost(candidates[0].instruction);
+    cost = generic_instruction_size_cost(candidates[1].instruction);
+    if (best <= cost) selected = 0;
+    else { selected = 1; best = cost; }
+    for (index = 2; index < count; ++index) {
+        cost = generic_instruction_size_cost(candidates[index].instruction);
+        if (cost < best) { selected = index; best = cost; }
+    }
+    candidates[0] = candidates[selected];
+}

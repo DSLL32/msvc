@@ -1,6 +1,6 @@
-C2 ACTIVE at 1069 acceptances/990 source graphs.
-Approved queue: i386 integer, deep x87 stack, then i486 floating.
-Current matched frontier @gather_generic_candidates@8.
-Extent union 295691/399693 = 73.979529%, not branch coverage.
-Canonical/W3/audits and seven native cases pass (six complete objects).
-No shim requests. Pause only after all three selected cases complete.
+C2 ACTIVE at1071 acceptances/992 source graphs.
+Selected i386 case complete; all seven complete native object oracles pass.
+Next approved deep x87 stack/calls/intrinsics, then i486 floating.
+All three original captures are durable. Do not add another unapproved case.
+Anticipated i386 rematerialization-cost function remained unvisited.
+Pause after the remaining two selected cases complete.

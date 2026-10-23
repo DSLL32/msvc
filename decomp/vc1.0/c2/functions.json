@@ -1073,7 +1073,9 @@
     "@can_rewrite_induction_comparison@12",
     "@release_loop_tree_record@4",
     "@schedule_generic_instruction@4",
-    "@choose_generic_instruction@4"
+    "@choose_generic_instruction@4",
+    "@gather_generic_candidates@8",
+    "@select_generic_candidate@8"
   ],
   "driver": [
     {
@@ -7421,14 +7423,12 @@
     {
       "name": "@gather_generic_candidates@8",
       "start": 266480,
-      "end": 266481,
-      "provisional": true
+      "end": 266815
     },
     {
       "name": "@select_generic_candidate@8",
       "start": 266352,
-      "end": 266353,
-      "provisional": true
+      "end": 266468
     },
     {
       "name": "@find_generic_candidate@12",
@@ -7440,6 +7440,12 @@
       "name": "@swap_scheduled_address_registers@4",
       "start": 265952,
       "end": 265953,
+      "provisional": true
+    },
+    {
+      "name": "@generic_instruction_size_cost@4",
+      "start": 272496,
+      "end": 272497,
       "provisional": true
     }
   ],

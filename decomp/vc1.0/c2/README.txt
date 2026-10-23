@@ -2673,6 +2673,16 @@ Generic x86 issue checkpoint1069
 The whole generic issue driver and i386/i486 instruction chooser are recovered
 in readable C. Fresh matching reaches gather_generic_candidates; its collector,
 selector, search and address-swap children remain named traps. Seven native
-cases, canonical/W3 and991 whole-function graph/extent checks pass. The current
+cases, canonical/W3 and990 whole-function graph/extent checks pass. The current
 integer case exercises the entry-label path; x87/i486 branches remain unvisited.
 See cases/i386-generic-issue.json for limits and separate measured timings.
+
+Selected i386 integer case complete: checkpoint1071
+The /O1 /G3 loop/pressure case exits0 with its572-byte object identical after
+only timestamp bytes4..7 normalization. Ten source acceptances added comparison
+and loop cleanup plus generic scheduling/selection. All seven native complete
+objects pass, alongside992 graph checks and canonical/scheduler W3 builds.
+The anticipated i386 rematerialization-cost function was not reached and remains
+a named trap; candidate ranking takes its count1 early return. See
+cases/i386-complete.json for strict trace/output evidence, limits and measured
+retry accounting. Continue the approved deep x87 case, then i486 floating.

@@ -390,7 +390,7 @@ int inherit_float_motion_uses(void) { __asm int 3 }
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 
 
-int __fastcall gather_generic_candidates(MachineInstruction *instruction, SchedulerCandidate *candidates) { __asm int 3 }
-void __fastcall select_generic_candidate(int count, SchedulerCandidate *candidates) { __asm int 3 }
 MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instruction, int forward, int reason) { __asm int 3 }
 int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction) { __asm int 3 }
+
+int __fastcall generic_instruction_size_cost(MachineInstruction *instruction) { __asm int 3 }
