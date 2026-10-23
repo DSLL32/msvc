@@ -39,7 +39,7 @@ def compare(config,pe,events,native,old_walks,new_walks,case):
     assert proof and not native.get('error'),'resolver observer failed'
     original=parse(events);types=proof['types'];parents=proof['caller_types']
     if re.search(r'^exception 80000003 va (?:000257a0|00025920|000254f0|00025530) ',events,re.M):types=proof['procedure_frontier']['types'];parents=proof['procedure_frontier']['caller_types']
-    if re.search(r'^exception 80000003 va (?:00025480|0001bd60|0001d840|0001d790) ',events,re.M):types=proof['end_frontier']['types'];parents=proof['end_frontier']['caller_types']
+    if re.search(r'^exception 80000003 va (?:00025480|0001bd60|0001d840|0001d790|0001d943) ',events,re.M):types=proof['end_frontier']['types'];parents=proof['end_frontier']['caller_types']
     count=len(types);assert len(original['entries'])==len(original['returns'])==len(native['entries'])==len(native['returns'])==count,'missing/extra resolver calls or returns'
     assert events.splitlines().count('resolver-rearm 0001e700 0001e703')==count and events.splitlines().count('resolver-rearm 000265c5 000265c8')==count,'resolver per-call rearm missing'
     result=[]

@@ -24,7 +24,12 @@ def main():
     parser.add_argument('--inspect-context',action='store_true',help='retain encountered application globals')
     parser.add_argument('--stop-at',help='explicit identified CRT entry at which to inspect state')
     parser.add_argument('--guard-probe',choices=['good-twice','first-text','second-text','second-share','pdb-good-twice','pdb-second-write','pdb-second-share','pdb-second-name'],help='explicit original-only guard controller, never application acceptance')
+    parser.add_argument('--entry-progress-only',action='store_true',help='explicit filtered-entry progression; no broad application heap equality claim')
+    parser.add_argument('--reference-completion',action='store_true',help='stop at actual third module3 reference constructor caller return')
     args = parser.parse_args()
+    assert not(args.entry_progress_only and args.reference_completion), 'capture modes are separate'
+    assert not((args.entry_progress_only or args.reference_completion)and(args.unmasked or args.guard_probe or args.stop_at)), 'bounded capture modes require normal masked candidate'
+    assert not(args.entry_progress_only or args.reference_completion)or(args.case=='hello-debug-dll'and args.candidate==['create_symbol_reference']), 'only reviewed function97 boundary'
     start = time.perf_counter()
     config, original = load()
     record = case(args.case)
@@ -99,7 +104,7 @@ def main():
         image[bias:bias+len(body)]=body
         masked.write_bytes(image)
     from reads import validate as validate_reads
-    read_sites=validate_reads(config,original)if args.case=='hello-debug-dll'else []
+    read_sites=validate_reads(config,original)if args.case=='hello-debug-dll'and not args.entry_progress_only else []
     if read_sites:
         image=bytearray(masked.read_bytes())
         for site in read_sites:
@@ -130,6 +135,7 @@ def main():
     if args.case=='hello-debug-dll'and any(r['name']=='publish_recursive_type'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_RECURSIVE_ARENA']='1'
     if args.case=='hello-debug-dll'and any(r['name']=='publish_packed_type'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_PACKED_ARENA']='1'
     if args.case=='hello-debug-dll'and any(r['name']=='publish_packed_type'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_SYMBOL_BLOCKS']='1'
+    if args.case=='hello-debug-dll'and any(r['name']=='create_symbol_reference'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_SYMBOL_REFERENCES']='1'
     if args.case=='hello-debug-dll'and any(r['name']=='address_in_module'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_MODULE_ADDRESS']='1'
     from buffer_storage import validate as validate_buffer_storage
     if args.case=='hello-debug-dll':
@@ -159,6 +165,11 @@ def main():
                     requests.append('%x:%d'%(address,len(original.string(address))+1))
         env['CVPACK_CAPTURE_INSPECT']=','.join(requests)
     if args.watch_spawn:env['CVPACK_CAPTURE_WATCH_SPAWN']='%x'%spawn['start']
+    if args.entry_progress_only:
+        for key in ('BUFFER','RESOLVER','RECURSIVE_ARENA','PACKED_ARENA','SYMBOL_BLOCKS','SYMBOL_REFERENCES','MODULE_ADDRESS','PDB_HEADER','WALKS','OUTPUTS','ARENAS','TRANSIENTS','STRINGS','ARRAYS'):
+            env.pop('CVPACK_CAPTURE_'+key,None)
+        env['CVPACK_CAPTURE_PROGRESS_ONLY']='1'
+    if args.reference_completion:env['CVPACK_CAPTURE_REFERENCE_COMPLETION']='1'
     from inputs import original as original_inputs
     ancillary_inputs=original_inputs(record)
     setup = time.perf_counter() - start
@@ -178,6 +189,7 @@ def main():
         discover_runtime=args.discover_runtime,canonical_argv0=env['CVPACK_CAPTURE_ARGV0'],
         candidates=args.candidate,
         guard_probe=args.guard_probe,
+        entry_progress_only=args.entry_progress_only,reference_completion=args.reference_completion,
         helper_status=result.returncode,
         conditional_runtime=seam_records,
         conditional_support_sha256=policy_hash,

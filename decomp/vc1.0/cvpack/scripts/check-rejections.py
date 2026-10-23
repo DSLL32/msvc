@@ -163,6 +163,10 @@ def main():
     if reference_pair.is_dir():
         from completed_symbols_checks import check_reference_frontier
         check_reference_frontier(reference_pair)
+    reference_slice_pair=BINARY/'cases/hello-debug-dll/evidence/0097-create_symbol_reference'
+    if reference_slice_pair.is_dir():
+        from reference_slice_checks import check as check_reference_slice
+        check_reference_slice(reference_slice_pair/'completion-original',reference_slice_pair/'completion-native',reference_slice_pair/'progression-original',reference_slice_pair/'progression-native')
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)
@@ -593,14 +597,20 @@ def main():
     latest=next(entry for entry in reversed(config['accepted_order'])if entry['case']=='hello-debug-dll')
     owner=next(record for record in config['functions']if record['name']==latest['function'])
     pair=(BINARY/owner['evidence']).parent
-    events=(pair/'original-events').read_text()
-    state=json.loads((pair/'native-gdb.json').read_text());native_reads=json.loads((pair/'native-read-returns.json').read_text())
+    if (pair/'completion-original').is_dir():
+        events=(pair/'completion-original/events').read_text();native_pair=pair/'completion-native'
+        state=json.loads((native_pair/'gdb.json').read_text());next_name=state['frames'][0]
+    else:
+        events=(pair/'original-events').read_text();native_pair=pair
+        state=json.loads((pair/'native-gdb.json').read_text());next_name=json.loads((pair/'proof.json').read_text())['native_frontier']
+    read_name='read-returns.json'if native_pair!=pair else 'native-read-returns.json'
+    progress_name='read-progress.json'if native_pair!=pair else 'native-read-progress.json'
+    native_reads=json.loads((native_pair/read_name).read_text())
     filtered='\n'.join(line for line in events.splitlines()if not(line.startswith(('read-entry 00017e69 ','read-return 00017e69 ','read-rearm 00017e69 ','read-rearm 00017e6e '))))
     from allocations import context as allocation_context
-    next_name=json.loads((pair/'proof.json').read_text())['native_frontier']
     frontier=next(r for r in config['functions']if r['native']==next_name)
     from read_progress import compare as compare_progress
-    progress=json.loads((pair/'native-read-progress.json').read_text())if (pair/'native-read-progress.json').exists()else []
+    progress=json.loads((native_pair/progress_name).read_text())if (native_pair/progress_name).exists()else []
     partial=compare_progress(config,original,events,progress,frontier,state)
     allocation_context(config,original,events,state,frontier,'hello-debug-dll',native_reads,partial)
     try:allocation_context(config,original,filtered,state,frontier,'hello-debug-dll',[r for r in native_reads if r['site']!=0x17e69],partial)

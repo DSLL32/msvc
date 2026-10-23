@@ -8,9 +8,9 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Fifty-five application functions are accepted. The second orchestrator review
+empty stderr. Ninety-seven application functions are accepted. The second orchestrator review
 passed at fifty; reconstruction continues autonomously. The independent DLL case
-currently stops at the named `advance_file_page` stub. CRT startup has a
+currently stops at the real `begin_symbol_block` stub in input module10. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
 roots, contextual initial data, library relocations, and targeted rejection checks, including ownership, snapshots, conditional ABI words and
@@ -129,9 +129,28 @@ use owned evidence, with no dependency on historical scratch directories.
 
 Gate fifty passed independent root review; its immutable approval is retained in
 `cases/reviews/0050/root-approval.json`. Checkpoint55 adds PDB-backed local type
-records and cache reset. The current public read crosses a buffered page and is
+records and cache reset. That checkpoint's public read crosses a buffered page and is
 still pending: a narrowly bound observer proves197of209 bytes were actually
 written, compares them, and checks each untouched tail against its own entry
 bytes. Full raw buffers remain evidence; no return or general partial-write rule
 is invented. The184 rejection controls include this boundary's ownership,
 caller, extent, defined bytes, tail, completion and freshness checks.
+
+
+Checkpoint97 proves three module3 `create_symbol_reference` completions at the
+actual accepted caller return1d943. It retains the earlier full module3 state
+contracts, actual36-byte reservations in the existing8100-byte symbol slab,
+publication and caller ABI. Defined node bytes are0..6 and8..32; reserved6..8
+and32..36 retain their own before bytes without equality credit. Native GDB
+Finish observers bind each real invocation, caller frame/thread and CALL target.
+
+The same case then independently reaches the genuine masked module10 block
+callback, comparing complete filtered entry traces, status, streams, unchanged
+inputs and the exact next consumed scalar state. The zero-suppression path has
+no heap read. Broader module4..8 heap equality is explicitly unclaimed. These
+separate packets and the root-approved exact97 exception are identified in
+`cases/hello-debug-dll/evidence/0097-create_symbol_reference/`; no observational
+checkpoint is counted as a function. `accept-reference-slice.py` permits only
+this reviewed97 acceptance. Ordinary fixtures remain native-only; explicit
+original capture modes `--reference-completion` and `--entry-progress-only`
+are separate from fixture execution and standard acceptance rejects them.

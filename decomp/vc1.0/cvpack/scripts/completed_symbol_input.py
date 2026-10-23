@@ -7,7 +7,7 @@ def validate(config,original,rebuilt=None,linked=None):
     assert hashlib.sha256(path.read_bytes()).hexdigest()==ref['evidence_sha256'],'stale completed cursor proof'
     p=json.loads(path.read_text())['completed_input']
     assert {k:v for k,v in p.items()if k not in('original_loop','scope','successors','successor_call','nested_reference_call')}==dict(global_name='symbol_input',owner='type_data',extent=4746,offset=4746,frontier=0x1bd60,caller_return=0x25238,identity_only=True),'unreviewed one-past cursor identity'
-    assert p['successors']==[dict(original=0x1d840,native='record_symbol_offsets',caller_return=0x25277),dict(original=0x1d790,native='create_symbol_reference',caller_return=0x1d943,end_slot=9,outer_return=0x25277)],'unreviewed one-past successor'
+    assert p['successors']==[dict(original=0x1d840,native='record_symbol_offsets',caller_return=0x25277),dict(original=0x1d790,native='create_symbol_reference',caller_return=0x1d943,end_slot=9,outer_return=0x25277),dict(original=0x1d943,native='record_symbol_offsets',caller_return=0x1d943,end_slot=8,outer_return=0x25277,outer_return_slot=9)],'unreviewed one-past successor'
     r=p['nested_reference_call'];assert r['start']==0x1d930 and r['end']==0x1d943 and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor nested reference frame changed'
     r=p['successor_call'];assert r['start']==0x25262 and r['end']==0x2527a and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor successor call changed'
     r=p['original_loop'];assert r['start']==0x2520a and r['end']==0x25238 and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor original loop changed'
@@ -31,7 +31,8 @@ def validate(config,original,rebuilt=None,linked=None):
 def compare(config,pe,name,old_pointer,new_pointer,old,new,state,definitions,events,symbol_proof):
     p=validate(config,pe)
     profiles=[dict(native='link_symbol_scopes',original=p['frontier']),*p['successors']]
-    profile=next((r for r in profiles if r['native']==state['frames'][0]),None)
+    observed=re.search(r'^exception 80000003 va ([0-9a-f]+) ',events,re.M)
+    profile=next((r for r in profiles if r['native']==state['frames'][0]and observed and r['original']==int(observed[1],16)),None)
     assert name==p['global_name']and profile,'one-past cursor outside exact global/frontier'
     assert re.search(r'^exception 80000003 va %08x '%profile['original'],events,re.M),'one-past original frontier differs'
     definition=definitions[p['owner']]
@@ -41,7 +42,7 @@ def compare(config,pe,name,old_pointer,new_pointer,old,new,state,definitions,eve
     fields=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(fields[::2],fields[1::2])}
     if 'end_slot'in profile:
         words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
-        assert words[profile['end_slot']]==old_pointer and words[10]==profile['outer_return'],'one-past original saved end/frame differs'
+        assert words[profile['end_slot']]==old_pointer and words[profile.get('outer_return_slot',10)]==profile['outer_return'],'one-past original saved end/frame differs'
     else:assert registers['ebx']==old_pointer,'one-past original end-register differs'
     for pointer,walks,row in((old_pointer,old,symbol_proof['original']),(new_pointer,new,symbol_proof['native'])):
         owners=walks[p['owner']];assert len(owners)==1,'one-past cursor owner missing/ambiguous'

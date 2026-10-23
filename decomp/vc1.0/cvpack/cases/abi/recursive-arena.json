@@ -32,7 +32,7 @@
   "counts": 225644,
   "allocation_return": 105654,
   "sources": {
-    "src/types.c": "7ffd068dd2fc43fc83d06adc9110c2591f783a7b2726668e4ca364c0a4897f15"
+    "src/types.c": "592bd7b2dc02dc4b95b8c99f9bad23e9ed9a266cd0d48b92d56b05a2a8c279d7"
   },
   "native_allocation_line": 1740,
   "instructions": [

@@ -43,8 +43,9 @@ def parse(events):
             else:assert f[1]=='frontier'and index not in frontier;frontier[index]=f[4]
     return dict(allocations=rows,frontier=frontier)
 
-def layout(blocks,groups):
+def layout(blocks,groups,references=None):
     """Each node belongs to one actual retained block and one bucket family."""
+    references=references or {};seen_references=set()
     seen={};intervals=[[]for r in blocks]
     for group in groups:
         heads=group['heads'];assert len(heads)==16384;count=0;total=0
@@ -55,17 +56,23 @@ def layout(blocks,groups):
                 matches=[(i,pointer-r['base'])for i,r in enumerate(blocks)if r['base']<=pointer<r['base']+r['used']];assert len(matches)==1,'symbol family node lacks live actual block'
                 index,at=matches[0];block=blocks[index];raw=bytes.fromhex(block['bytes']);assert at%4==0 and at+22<=block['used']
                 length=word(raw,at+18,2);size=length+22;name=word(raw,at+4,2);hash=word(raw,at+8)
-                assert size%4==0 and at+size<=block['used']and 4<=name<length+2 and name+1+raw[at+18+name]<=length+2,'symbol node exceeds exact used allocation'
+                assert size%4==0 and at+size<=block['used'],'symbol node exceeds exact used allocation'
+                kind=word(raw,at+20,2);reference=kind in(0x400,0x401)
+                if reference:
+                    assert pointer in references and kind==0x400 and name==37 and length==14 and size==36 and group['name']=='global','unproved reference node/type/family'
+                    seen_references.add(pointer)
+                else:assert 4<=name<length+2 and name+1+raw[at+18+name]<=length+2,'symbol name exceeds exact record'
                 assert hash%4096==bucket,'symbol node family/hash bucket differs'
-                seen[pointer]=dict(block=index,offset=at,size=size,bucket=bucket,family=group['name']);intervals[index].append((at,at+size));count+=1;total+=length+2;pointer=word(raw,at)
+                seen[pointer]=dict(block=index,offset=at,size=size,bucket=bucket,family=group['name'],reference=reference);intervals[index].append((at,at+size));count+=1;total+=length+2;pointer=word(raw,at)
         assert count==group['count']and total==group['total'],'symbol family count/size differs'
+    assert seen_references==set(references),'reference publication inventory missing from actual buckets'
     for block,spans in zip(blocks,intervals):
         cursor=0
         for lo,hi in sorted(spans):assert lo==cursor,'unowned/overlapping retained symbol block prefix';cursor=hi
         assert cursor==block['used'],'incomplete retained symbol block lifetime'
     return seen
 
-def context(config,pe,events,native,walks,state,arena):
+def context(config,pe,events,native,walks,state,arena,references=None):
     p=validate(config,pe)
     if not native:
         assert state['frames'][0]not in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets','create_symbol_reference'),'missing mandatory retained symbol block observations'
@@ -88,16 +95,17 @@ def context(config,pe,events,native,walks,state,arena):
         assert output[0]['base']+8100<=output[1]['base']or output[1]['base']+8100<=output[0]['base'],'retained symbol block allocations overlap'
     assert old_blocks[1]['base']==walks['public_symbol_cursor'][0]['address']and new_blocks[1]['base']==state['walks']['public_symbol_cursor'][0]['address'],'current symbol block identity differs'
     old_groups=[dict(name='public',heads=arena['original_heads'],count=arena['count'],total=arena['total']),*arena['original_families']];new_groups=[dict(name='public',heads=arena['native_heads'],count=arena['count'],total=arena['total']),*arena['native_families']]
-    left,right=layout(old_blocks,old_groups),layout(new_blocks,new_groups);assert sorted(left.values(),key=lambda r:(r['block'],r['offset']))==sorted(right.values(),key=lambda r:(r['block'],r['offset'])),'retained symbol block topology differs'
+    old_references={r['original_base']:r for r in references['records']}if references else None;new_references={r['native_base']:r for r in references['records']}if references else None
+    left,right=layout(old_blocks,old_groups,old_references),layout(new_blocks,new_groups,new_references);assert sorted(left.values(),key=lambda r:(r['block'],r['offset']))==sorted(right.values(),key=lambda r:(r['block'],r['offset'])),'retained symbol block topology differs'
     def logical(pointer,blocks):
         if not pointer:return None
         matches=[(i,pointer-r['base'])for i,r in enumerate(blocks)if r['base']<=pointer<r['base']+r['used']];assert len(matches)==1;return matches[0]
     defined=[[],[]];pointers=[[],[]]
     for node in left.values():
-        i=node['block'];lo=node['offset'];hi=lo+node['size'];defined[i].extend([[lo,lo+6],[lo+8,hi-2]]);pointers[i].append(lo)
+        i=node['block'];lo=node['offset'];hi=lo+node['size'];tail=lo+32 if node.get('reference')else hi-2;defined[i].extend([[lo,lo+6],[lo+8,tail]]);pointers[i].append(lo)
         for block in(old_blocks[i],new_blocks[i]):
             raw=bytes.fromhex(block['bytes']);birth=bytes.fromhex(block['before'])
-            assert raw[lo+6:lo+8]==birth[lo+6:lo+8]and raw[hi-2:hi]==birth[hi-2:hi],'symbol node reserved/tail bytes changed without definition'
+            assert raw[lo+6:lo+8]==birth[lo+6:lo+8]and raw[tail:hi]==birth[tail:hi],'symbol node reserved/tail bytes changed without definition'
     for i,(a,b)in enumerate(zip(old_blocks,new_blocks)):
         x=bytearray.fromhex(a['bytes']);y=bytearray.fromhex(b['bytes'])
         for lo in pointers[i]:assert logical(word(x,lo),old_blocks)==logical(word(y,lo),new_blocks),'retained symbol next pointer differs';x[lo:lo+4]=y[lo:lo+4]=b'\0'*4

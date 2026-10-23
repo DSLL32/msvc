@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "function": "create_symbol_reference",
+  "classification": "reviewed97-constructor-completion-plus-independent-entry-progression",
+  "size": 36,
+  "slab": 1,
+  "slab_extent": 8100,
+  "initial_used": 1500,
+  "defined": [
+    [
+      0,
+      6
+    ],
+    [
+      8,
+      32
+    ]
+  ],
+  "reserved": [
+    [
+      6,
+      8
+    ],
+    [
+      32,
+      36
+    ]
+  ],
+  "return_site": 121155,
+  "reservation_site": 120787,
+  "profiles": [
+    {
+      "module": 3,
+      "offset": 108,
+      "record_size": 56,
+      "source_address": 288,
+      "bucket": 3535,
+      "hash": 3409472975
+    },
+    {
+      "module": 3,
+      "offset": 296,
+      "record_size": 48,
+      "source_address": 0,
+      "bucket": 696,
+      "hash": 3629241016
+    },
+    {
+      "module": 3,
+      "offset": 496,
+      "record_size": 48,
+      "source_address": 432,
+      "bucket": 1348,
+      "hash": 2592965956
+    }
+  ],
+  "native_allocation_line": 1949,
+  "sources": {
+    "src/types.c": "592bd7b2dc02dc4b95b8c99f9bad23e9ed9a266cd0d48b92d56b05a2a8c279d7",
+    "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23",
+    "src/modules.c": "c8f766b6c7ca20f14f3304c53ccf16be74fa5c1c05a0ca7f73e2d11494dd56d6",
+    "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
+  },
+  "instructions": [
+    {
+      "start": 120720,
+      "end": 120887,
+      "sha256": "4813f27e9ad5b1640c20b58c30141ffcd86eec9aee968278f42a0599c1c14fa6"
+    },
+    {
+      "start": 121136,
+      "end": 121177,
+      "sha256": "940ec6e29d3db42ed100e58e64cbd9a03723e2c170f1454e74980066c58f71cd"
+    },
+    {
+      "start": 103728,
+      "end": 103795,
+      "sha256": "186ff090570ba596de968f99f140aa4c0555a9f38e6629ab1eafb1b27a2e5fb4"
+    }
+  ],
+  "pending_parent_counter": {
+    "count": 2,
+    "bytes": 32,
+    "published_nodes": 3,
+    "published_payload": 48
+  },
+  "progression": {
+    "original_frontier": 152656,
+    "native_frontier": "begin_symbol_block",
+    "module": 10,
+    "module_index": 9,
+    "directory_offset": 4754,
+    "input_size": 43,
+    "input_capacity": 4746,
+    "input_cursor": 4,
+    "callback_kind": 518,
+    "callback_length": 35,
+    "callback_index": 20,
+    "scope_depth": 0,
+    "suppressed_depth": 0,
+    "body": {
+      "start": 152656,
+      "end": 152689,
+      "sha256": "60d9e12d1ef20d927b0cb96cb09dadeaa064257cd3aa747ccec2bfd001e67c54"
+    },
+    "unobserved_later_heap": true
+  },
+  "scope": "Three module3 actual reservations and true constructor returns; retained full old module3 contracts. Separate exact filtered control-flow progression to genuine module10 stub; no equality claim for broader later-module heap. Next-body concrete zero suppression path consumes no heap. No fake app functions or checkpoint coverage."
+}

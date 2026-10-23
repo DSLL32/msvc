@@ -108,7 +108,7 @@
     }
   ],
   "sources": {
-    "src/types.c": "7ffd068dd2fc43fc83d06adc9110c2591f783a7b2726668e4ca364c0a4897f15",
+    "src/types.c": "592bd7b2dc02dc4b95b8c99f9bad23e9ed9a266cd0d48b92d56b05a2a8c279d7",
     "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23",
     "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
   },
@@ -655,6 +655,17 @@
       "allocation_esp_delta": 52,
       "buffer_slot": 18,
       "input_slot": 21
+    },
+    "reference_completion": {
+      "original": 121155,
+      "defined": 608,
+      "input_offset": 4746,
+      "return_address": 121155,
+      "allocation_esp_delta": 48,
+      "buffer_slot": 17,
+      "input_slot": 20,
+      "source_function": "record_symbol_offsets",
+      "boundary_kind": "accepted-caller-return"
     }
   },
   "completed_input": {
@@ -683,6 +694,14 @@
         "caller_return": 121155,
         "end_slot": 9,
         "outer_return": 152183
+      },
+      {
+        "original": 121155,
+        "native": "record_symbol_offsets",
+        "caller_return": 121155,
+        "end_slot": 8,
+        "outer_return": 152183,
+        "outer_return_slot": 9
       }
     ],
     "successor_call": {

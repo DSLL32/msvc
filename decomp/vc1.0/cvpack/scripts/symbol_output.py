@@ -43,11 +43,12 @@ def validate(config,pe):
            'end_symbol_block':(0x25480,292,4449,0x25172,0,5,8),
            'link_symbol_scopes':(0x1bd60,608,4746,0x25238,8,7,10),
            'record_symbol_offsets':(0x1d840,608,4746,0x25277,12,8,11),
-           'create_symbol_reference':(0x1d790,608,4746,0x1d943,52,18,21)}
+           'create_symbol_reference':(0x1d790,608,4746,0x1d943,52,18,21),
+           'reference_completion':(0x1d943,608,4746,0x1d943,48,17,20)}
     assert p.get('frontiers'),'missing packed symbol frontier contracts'
     for name,site in p['frontiers'].items():
         assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
-        if name not in('write_search_symbol','link_symbol_scopes','record_symbol_offsets','create_symbol_reference'):
+        if name not in('write_search_symbol','link_symbol_scopes','record_symbol_offsets','create_symbol_reference','reference_completion'):
             assert (site['kind'],site['record_length'],site['callback_index'])==((6,4,8)if name=='end_symbol_block'else(2,11,23)if name=='convert_register_symbol'else(0x200,17,1)if name=='convert_bp_relative32'else(0x205,53,7)if name in('convert_procedure32','address_in_module')else(4,24,27)if name in('add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type')else(4,29,27)if name=='get_type_record'else(0x202,43,12)if name=='convert_global_data32'else(4,21,27)if name in('find_named_type','find_global_type','find_local_type','record_derived_types')else((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(4,34,27)))),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
@@ -82,11 +83,15 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     matches=[(name,r)for name,r in proof['frontiers'].items()if r['original']==post['frontier']]
     assert len(matches)==1,'unreviewed packed symbol write frontier'
     name,site=matches[0];defined=site['defined']
-    assert b['frontier']==name and b['parent']=='pack_new_types'
+    assert b['frontier']==site.get('source_function',name)and b['parent']=='pack_new_types'
+    if name=='reference_completion':assert site['source_function']=='record_symbol_offsets'and site['boundary_kind']=='accepted-caller-return'and events.splitlines().count('observed-reference-completion 0001d943 calls 3')==1,'completion is not actual recorded return'
     words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
     esp=int(re.search(r'^registers .* esp ([0-9a-f]+) ',events,re.M)[1],16)
     assert a['esp']==esp+site['allocation_esp_delta'],'packed symbol allocation belongs to another parent frame'
-    assert words[0]==site['return_address']and post['cursor']==a['base']+defined,'wrong packed symbol output caller/cursor'
+    assert post['cursor']==a['base']+defined,'wrong packed symbol output cursor'
+    if name=='reference_completion':
+        assert words[9]==0x25277 and words[0]==a['base']+496 and words[2]&0xffff==3 and words[3]==496 and words[4]&0xffff==0x400,'wrong actual third constructor return frame'
+    else:assert words[0]==site['return_address'],'wrong packed symbol output caller'
     if 'argument_slot'in site:assert words[site['argument_slot']]==post['cursor']and words[2]&0xffff==1,'wrong packed symbol output argument'
     if name=='create_symbol_reference':
         assert words[10]==0x25277 and words[11]==a['base']and words[12]==608 and words[13]&0xffff==3,'reference outer scope frame differs'
@@ -291,7 +296,7 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
         assert len(before)==len(after)==r['size'],'packed symbol observed extent differs'
         assert after[defined:]==before[defined:],'packed symbol output changed undefined tail'
         assert after[:4]==bytes.fromhex(source['bytes'])[:4]==b'\x01\0\0\0','defined packed symbol header differs'
-        if name in('record_symbol_offsets','create_symbol_reference'):
+        if name in('record_symbol_offsets','create_symbol_reference','reference_completion'):
             from scope_links import compare as compare_scope_links
             compare_scope_links(proof,after)
         elif defined>=16:

@@ -1925,3 +1925,37 @@ void record_symbol_offsets(unsigned char *symbols, unsigned long size,
         record += *(unsigned short *)record+2;
     }
 }
+
+/* S_PROCREF/S_DATAREF point back into a module symbol stream rather than
+   carrying an inline name. The final alignment word is not initialized. */
+typedef struct SymbolReferenceRecord {
+    unsigned short length, kind;
+    unsigned long checksum, offset;
+    unsigned short module;
+} SymbolReferenceRecord;
+typedef char SymbolReferenceRecordSize[(sizeof(SymbolReferenceRecord)==16)?1:-1];
+
+void create_symbol_reference(unsigned char *record, void **buckets,
+                             unsigned short module, unsigned long offset,
+                             unsigned short kind)
+{
+    unsigned short segment = 0, name_offset, bucket;
+    unsigned long hash, address = 0;
+    PublicSymbol *node;
+    SymbolReferenceRecord *reference;
+
+    bucket = hash_public(record, &hash, &name_offset, &segment, &address, 0x1000);
+    node = allocate_symbol(36);
+    node->hash = hash;
+    node->name_offset = name_offset;
+    node->segment = segment;
+    node->offset = address;
+    reference = (SymbolReferenceRecord *)node->record;
+    reference->length = 14;
+    reference->kind = kind;
+    reference->checksum = hash;
+    reference->module = module;
+    reference->offset = offset;
+    node->next = buckets[bucket];
+    buckets[bucket] = node;
+}

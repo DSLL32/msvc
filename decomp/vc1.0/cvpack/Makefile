@@ -34,7 +34,7 @@ build build/native:
 build/%.obj: src/%.c $(HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
 
-build/debug-run.obj: scripts/debug-run.c scripts/buffer-observer.h scripts/resolver-observer.h scripts/recursive-arena-observer.h scripts/packed-arena-observer.h scripts/symbol-block-observer.h scripts/module-address-observer.h $(RECON)/include/recon.h | build
+build/debug-run.obj: scripts/debug-run.c scripts/buffer-observer.h scripts/resolver-observer.h scripts/recursive-arena-observer.h scripts/packed-arena-observer.h scripts/symbol-block-observer.h scripts/module-address-observer.h scripts/symbol-reference-observer.h scripts/progress-input-observer.h $(RECON)/include/recon.h | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
 
 build/files.obj build/stubs.obj build/native/files.o build/native/stubs.o: src/files.h

@@ -2,7 +2,8 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "create_symbol_reference"
+    "create_symbol_reference",
+    "record_symbol_offsets"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
@@ -18,8 +19,8 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "30f18c4ecb6a71f4be9608be3c05f7e5a5aaf128098dd175a823ad756351c783",
-    "src/types.c": "7ffd068dd2fc43fc83d06adc9110c2591f783a7b2726668e4ca364c0a4897f15",
+    "src/stubs.c": "b8fc7363e488b681e9d7fe107e3dcdc7eacc3c28853e6e99a543bd7622005ec6",
+    "src/types.c": "592bd7b2dc02dc4b95b8c99f9bad23e9ed9a266cd0d48b92d56b05a2a8c279d7",
     "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23"
   },
   "allocations": [
@@ -104,6 +105,11 @@
   "allowed_module_boundaries": [
     {
       "frontier": "create_symbol_reference",
+      "index": 2,
+      "module": 3
+    },
+    {
+      "frontier": "record_symbol_offsets",
       "index": 2,
       "module": 3
     }

@@ -289,6 +289,9 @@ def main():
     validate_type_hash(config,original)
     from symbol_output import validate as validate_symbol_output
     validate_symbol_output(config,original)
+    if config.get('symbol_reference_observations'):
+        from symbol_references import validate as validate_symbol_references
+        validate_symbol_references(config,original,rebuilt,linked)
     from completed_symbol_input import validate as validate_completed_cursor
     validate_completed_cursor(config,original,rebuilt,linked)
     from type_cache import validate as validate_type_cache

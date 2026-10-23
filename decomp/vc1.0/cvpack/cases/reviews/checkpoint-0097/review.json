@@ -1,0 +1,75 @@
+{
+  "application_functions": 97,
+  "application_bytes": 32051,
+  "next": "begin_symbol_block",
+  "source": "create_symbol_reference1d790..1d837 hashes the actual procedure, reserves36 bytes through existing allocate_symbol, writes typed header/PROCREF data, links previous buckethead and publishes new node. No new CRT bodies/shims. Whole original/compiler graph caught and rejected my provisional checked_alloc call; corrected real allocate_symbol call passes.",
+  "classification": "bounded97-constructor-completion-and-separate-genuine-entry-progression",
+  "completion": "Three actual module3 constructor invocations/returns offsets108/296/496. Fresh fiveformal/hash outputs and actual36-byte second-slab reservations at1500/1536/1572; cursor/available/oldhead/publication match. Defined0..6/8..32; own reserved6..8/32..36. Capture before/return bytes cross-bind to actual whole8100 slab observations; full retained module3 contracts compare all173globals/PDB/read/cache/pools/245nodes. Third return stops before parentcounterincrement: raw237/4536, owned238/4552, pending node explicit.",
+  "native_return_binding": "Each native Finish observer is created from that actual entry frame; verifies activeinvocation, thread, saved/observed caller PC+frame, actual CALL bytes targeting constructor and source callline. Original return probes rearm eachcall; third stop is an explicit observational accepted-caller return, zero extra application count/coverage.",
+  "progression": "Separate actual masked original/native96-entry projected trace to genuine begin_symbol_block25450, actual module10 (pack_module index9). Exactstreams/unchangedfullDLL and frozen43-byte input at41972+4754. Full nextoriginalbody proves scope/suppression0 path consumes zero heap; broader latermodule heap equality explicitlyfalse. Standardaccept rejects boundedcaptureflags; separate acceptor restricts exact97.",
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 0.012283002026379108
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.6382299587130547
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 33.690115256235
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.4807809740304947
+    }
+  },
+  "rejection_controls": 695,
+  "new_controls": 43,
+  "focused_controls_seconds": 2.205131597816944,
+  "native_completion_seconds": {
+    "setup": 0.23537472262978554,
+    "execution": 0,
+    "debugging": 2.5969921741634607,
+    "checks": 0.008527036756277084,
+    "total": 2.8451330978423357
+  },
+  "native_progression_seconds": {
+    "setup": 0.25363678205758333,
+    "execution": 0.016201681457459927,
+    "debugging": 0.2548878490924835,
+    "checks": 0.013953253626823425,
+    "total": 0.5386849073693156
+  },
+  "source_review_gates": "10 and50 previouslypassed; no extra perfunctionreview required after50.",
+  "failed_validations": [
+    "Graph mismatch rejected checked_alloc instead of actual allocate_symbol; source corrected beforeacceptance.",
+    "Firstmodule-only observer stopped nextmodule4 allocation; held97 and retainedraw.",
+    "Sliced constructor proof + separate genuineprogression designed/approved byroot; no laterheap assumed.",
+    "Trailing reserved span narrowed after recognizing record padding32..34 in addition to allocatorword34..36; no undefinedcreditaccepted.",
+    "Initial complete rejection run assumed latestflat evidence paths; updated to actual constructorpacket with fullrawstate, preserving failed log."
+  ],
+  "scope": "Exact97 exception, actual completed callerreturn plus independent truefrontier. Further functions require their own actual inputs/effects evidence; no generalized heap waiver."
+}

@@ -1,0 +1,44 @@
+rejected: all reference invocations absent on both sides
+rejected: third actual reference omitted on both sides
+rejected: reference invocation order changed on both sides
+rejected: both reference module wrong
+rejected: both reference source offset wrong
+rejected: both reference kind wrong
+rejected: both reference bucket owner wrong
+rejected: both reference source record owner wrong
+rejected: both reference hash output wrong
+rejected: both reference name field wrong
+rejected: both reference source segment wrong
+rejected: both reference source address wrong
+rejected: both reference old buckethead wrong
+rejected: both reference new buckethead wrong
+rejected: both reference slab available wrong
+rejected: both reference slab cursor wrong
+rejected: both reference contained node address wrong
+rejected: reference returns from stale native caller PC
+rejected: reference both saved and observed PC forged together
+rejected: reference saved return CALL targets another function
+rejected: reference both caller source lines wrong
+rejected: reference returns from stale native caller frame
+rejected: reference returns from unknown native thread
+rejected: reference original return ABI slot wrong
+rejected: reference post-return slab state changed
+rejected: reference OWN headerreserved mutated after reservation
+rejected: reference OWN payloadpadding mutated after reservation
+rejected: reference OWN allocationtail mutated after reservation
+rejected: reference reserved before/after packet disagrees with actual slab
+rejected: reference full source bytes absent on both sides
+rejected: reference bytes changed after observed original return
+rejected: genuine next stub scope changed
+rejected: genuine next stub suppression changed
+rejected: genuine next stub real signal changed
+rejected: genuine next stub actual module changed
+rejected: genuine next stub input extent changed
+rejected: genuine next stub allocation extent changed
+rejected: genuine next stub source owner/cursor changed
+rejected: genuine next stub output context changed
+rejected: progression falsely claims later heap equality
+rejected: progression missing constructor entry trace
+rejected: progression wrong actual masked entry
+rejected: progression source record disagrees with frozen DLL
+seconds 2.205131597816944

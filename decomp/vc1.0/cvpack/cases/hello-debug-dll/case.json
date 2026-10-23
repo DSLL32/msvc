@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "create_symbol_reference",
-    "native_function": "create_symbol_reference",
+    "logical": "begin_symbol_block",
+    "native_function": "begin_symbol_block",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -114,8 +114,11 @@
       "end_symbol_block",
       "link_symbol_scopes",
       "record_symbol_offsets",
-      "create_symbol_reference"
-    ]
+      "create_symbol_reference",
+      "begin_symbol_block"
+    ],
+    "proof_mode": "constructor-return-plus-entry-progress",
+    "heap_scope": "Constructor module3 completion fully observed separately; later-module heap equality not claimed. Actual next callback consumes zero suppression/scope globals and no heap on its concrete path."
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

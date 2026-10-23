@@ -45,6 +45,6 @@ static int rearm_packed_arena(HANDLE child,HANDLE log,HANDLE thread,DWORD addres
 static int dump_packed_arena(HANDLE child,HANDLE log,DWORD frontier)
 {
     if(!packed_arena_base)return 1;
-    if(packed_arena_step || (frontier!=0x257a0 && frontier!=0x25920 && frontier!=0x254f0 && frontier!=0x25530 && frontier!=0x25480 && frontier!=0x1bd60 && frontier!=0x1d840 && frontier!=0x1d790))return 0;
+    if(packed_arena_step || (frontier!=0x257a0 && frontier!=0x25920 && frontier!=0x254f0 && frontier!=0x25530 && frontier!=0x25480 && frontier!=0x1bd60 && frontier!=0x1d840 && frontier!=0x1d790 && frontier!=0x1d943))return 0;
     return packed_arena_bytes(child,log,"frontier");
 }
