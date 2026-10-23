@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Native i386 GDB capture. This module has no Wine/PE dependency runner."""
 import argparse
+from contextlib import nullcontext
+import shlex
 import hashlib
 import json
 import os
@@ -17,6 +19,7 @@ def sha(data): return hashlib.sha256(data).hexdigest()
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',choices=['help','hello-win32','hello-dll'],default='help')
     parser.add_argument('--config', type=Path, default=BINARY / 'functions.json')
     parser.add_argument('--environment-reference',type=Path,help='explicit cached original hardware sample; never invokes an original')
     args = parser.parse_args()
@@ -29,13 +32,17 @@ def main():
     from capture_sources import freeze
     source_content,content_paths=freeze(capture)
     configuration = json.loads(config)
+    from case_inputs import load,workspace,native_environment,windows_work
+    manifest=load(args.case,configuration)
+    arguments=manifest['arguments']
+    if args.case!='help':(capture/'case.json').write_text(json.dumps(manifest,indent=2)+'\n')
     targets = []
     for record in configuration['driver']:
         if record['name'] in configuration['accepted']:
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[]}
 def cpp_ownership():
     result=[];node=gdb.parse_and_eval('recon_cpp_allocations');seen=set()
     while int(node):
@@ -72,6 +79,61 @@ class MbsEntry(gdb.Breakpoint):
         MbsReturned(gdb.newest_frame(),gdb.Value(int(arguments[1])).cast(text).string(),gdb.Value(int(arguments[2])).cast(text).string(),int(arguments[3]))
         return False
 MbsEntry('*recon_mbsnbicmp',internal=True)
+class MbspbrkReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,text,accept):super().__init__(frame,internal=True);self.text=text;self.accept=accept
+    def stop(self):
+        state['mbspbrk_calls'].append(dict(text=self.text,accept=self.accept,result=int(self.return_value)))
+        return False
+class MbspbrkEntry(gdb.Breakpoint):
+    def stop(self):
+        arguments=gdb.parse_and_eval('(unsigned*)$esp');text=gdb.lookup_type('char').pointer()
+        MbspbrkReturned(gdb.newest_frame(),gdb.Value(int(arguments[1])).cast(text).string(),gdb.Value(int(arguments[2])).cast(text).string())
+        return False
+MbspbrkEntry('*recon_mbspbrk',internal=True)
+class CanonicalizeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,text,address):super().__init__(frame,internal=True);self.text=text;self.address=address
+    def stop(self):
+        result=int(self.return_value);text=self.return_value.string();data=gdb.selected_inferior().read_memory(result,len(text)+1).tobytes()
+        state['canonicalized_arguments'].append(dict(input=self.address,result=result,text=text,bytes=data.hex()))
+        return False
+class CanonicalizeEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();text=frame.read_var('text');CanonicalizeReturned(frame,text.string(),int(text));return False
+CanonicalizeEntry('canonicalize_argument',internal=True)
+
+def errors():
+    return dict(errno=int(gdb.parse_and_eval('(int)errno')),doserrno=int(gdb.parse_and_eval('recon_doserrno')),last_error=int(gdb.parse_and_eval('last_error')))
+def environment_value(name):
+    pointer=gdb.parse_and_eval('recon_crt_environment'if int(gdb.parse_and_eval('recon_crt_arguments_bound'))else '(char**)environ')
+    for index in range(4096):
+        if not int(pointer[index]):return None
+        text=pointer[index].string();key,separator,value=text.partition('=')
+        if separator and key.upper()==name.upper():return value
+    raise AssertionError('unterminated environment')
+class LibrarySearchReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(result=int(self.return_value),return_stack=int(gdb.parse_and_eval('$esp')),after=gdb.selected_inferior().read_memory(self.record['found'],260).tobytes().hex())
+        state['library_search_calls'].append(self.record);return False
+class LibrarySearchEntry(gdb.Breakpoint):
+    def stop(self):
+        args=gdb.parse_and_eval('(unsigned*)$esp');name=int(args[1]);found=int(args[2])
+        record=dict(name=name,found=found,text=gdb.Value(name).cast(gdb.lookup_type('char').pointer()).string(),entry_stack=int(gdb.parse_and_eval('$esp')),before=gdb.selected_inferior().read_memory(found,260).tobytes().hex())
+        LibrarySearchReturned(gdb.newest_frame(),record);return False
+LibrarySearchEntry('*search_library_paths',internal=True)
+class SearchenvReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(after=gdb.selected_inferior().read_memory(self.record['output'],260).tobytes().hex(),after_errors=errors())
+        state['searchenv_calls'].append(self.record);return False
+class SearchenvEntry(gdb.Breakpoint):
+    def stop(self):
+        args=gdb.parse_and_eval('(unsigned*)$esp');text=gdb.lookup_type('char').pointer();output=int(args[3])
+        variable=gdb.Value(int(args[2])).cast(text).string()
+        record=dict(filename_pointer=int(args[1]),variable_pointer=int(args[2]),output=output,filename=gdb.Value(int(args[1])).cast(text).string(),variable=variable,value=environment_value(variable),before=gdb.selected_inferior().read_memory(output,260).tobytes().hex(),before_errors=errors(),codepage=int(gdb.parse_and_eval('recon_mb_codepage')),lc_ctype_handle=int(gdb.parse_and_eval('recon_lc_handle[2]')),mb_cur_max=int(gdb.parse_and_eval('recon_mb_cur_max')))
+        SearchenvReturned(gdb.newest_frame(),record);return False
+SearchenvEntry('*recon_searchenv',internal=True)
+
 class AtExitReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,callback):
         super().__init__(frame,internal=True);self.callback=callback
@@ -240,7 +302,7 @@ def stopped(event):
     state['crt_stdout_bytes']=gdb.selected_inferior().read_memory(stdout_address,32).tobytes().hex()
     stdout_words=struct.unpack('<8I',bytes.fromhex(state['crt_stdout_bytes']))
     if stdout_words[2] and stdout_words[0]>=stdout_words[2] and stdout_words[0]-stdout_words[2]<=stdout_words[6]:
-        state['stdout_pending']=gdb.selected_inferior().read_memory(stdout_words[2],stdout_words[0]-stdout_words[2]).tobytes().hex()
+        state['stdout_pending']=gdb.selected_inferior().read_memory(stdout_words[2],stdout_words[0]-stdout_words[2]).tobytes().hex()if stdout_words[0]!=stdout_words[2]else ''
     state['logo_text']=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&logo_text')),12).tobytes().hex()
 
     state['initializers']=[gdb.execute('info symbol '+str(int(gdb.parse_and_eval('application_initializers[%%d]'%%i))),to_string=True).strip().split(' ')[0] if i else None for i in range(5)]
@@ -257,10 +319,9 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
-    if state['function'] in ('configure_link_options','parse_switch','duplicate_argument','linker_usage','print_logo','close_timing','free_buffer4','free_buffer8','free_buffer12'):
-        configuration=frame
-        while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
-        assert configuration
+    configuration=frame
+    while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
+    if configuration:
         receiver=configuration.read_var('context')
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
@@ -329,11 +390,18 @@ def stopped(event):
     if state['option_arguments'][0]:state['option_node']=gdb.selected_inferior().read_memory(state['option_arguments'][0],24).tobytes().hex()
     if state['function']=='has_switch':state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')))
     if state['function']=='parse_switch':state['argument_detail']=dict(file=int(frame.read_var('file')),text=frame.read_var('text').string(),address=int(frame.read_var('text')))
-    if state['function'] in ('duplicate_argument','linker_usage','print_logo','close_timing','free_buffer4','free_buffer8','free_buffer12'):
+    if configuration and state['function'] in ('duplicate_argument','release_memory','linker_usage','print_logo','close_timing','free_buffer4','free_buffer8','free_buffer12'):
         if state['function']=='duplicate_argument':state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))
         info=configuration.read_var('info')
         state['parsed_switch_address']=int(info)
         state['parsed_switch']=gdb.selected_inferior().read_memory(int(info),10).tobytes().hex()
+        if state['function']=='release_memory':
+            size=9+len(info.dereference()['name'].string())+8*int(info.dereference()['value_count'])
+            state['parsed_switch']=gdb.selected_inferior().read_memory(int(info),size).tobytes().hex()
+            address=int(frame.read_var('memory'));text=gdb.Value(address).cast(gdb.lookup_type('char').pointer()).string()
+            state['argument_detail']=dict(address=address,text=text)
+            state['release_bytes']=gdb.selected_inferior().read_memory(address,len(text)+1).tobytes().hex()
+            state['duplicate_result']=int(configuration.read_var('repro_option'))
         if state['function'] in ('linker_usage','print_logo','close_timing','free_buffer4','free_buffer8','free_buffer12'):
             copy=configuration.read_var('repro_option')
             state['duplicate_result']=int(copy)
@@ -344,6 +412,12 @@ def stopped(event):
     state['logo_pending']=int(gdb.parse_and_eval('logo_pending'))
     state['incremental_enabled']=int(gdb.parse_and_eval('incremental_enabled'))
     state['argument_tail']=int(gdb.parse_and_eval('argument_tail'))
+    if state['function']=='search_library_paths':
+        owner=frame.older();assert owner.name()=='canonicalize_argument'
+        state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')),found=int(frame.read_var('found')))
+        state['canonicalize_components']={name:owner.read_var(name).string()for name in ('drive','directory','filename','suffix')}
+        state['canonicalize_found_address']=int(owner.read_var('found').address)
+    if state['function']=='canonicalize_argument':state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')),extension=frame.read_var('extension').string(),extension_address=int(frame.read_var('extension')))
     if state['function'] in ('parse_argument','is_libpath','append_argument','append_argument_record'):
         state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))
         if state['function']=='parse_argument':state['argument_detail']['source']=int(frame.read_var('source'))
@@ -351,6 +425,16 @@ def stopped(event):
         if state['function']=='append_argument_record':state['argument_detail']['original_address']=int(frame.read_var('original_name'))
     state['input_prepass']=int(gdb.parse_and_eval('input_prepass'))
     state['input_files']=[int(gdb.parse_and_eval('input_files.'+name)) for name in ('first','last','count')]
+    state['argument_lists']={}
+    for name in ('input_files','option_arguments','link_files'):
+        value=gdb.parse_and_eval(name);nodes=[];node=value['first'];seen=set()
+        while int(node):
+            address=int(node);assert address not in seen and len(seen)<64;seen.add(address)
+            words=struct.unpack('<6I',gdb.selected_inferior().read_memory(address,24).tobytes())
+            nodes.append(dict(address=address,words=list(words),text=node.dereference()['name'].string(),original=node.dereference()['original_name'].string()))
+            node=node.dereference()['next']
+        state['argument_lists'][name]=dict(header=[int(value[key])for key in ('first','last','count')],nodes=nodes)
+
     state['repro_directory']=int(gdb.parse_and_eval('repro_directory'))
     state['repro_response']=int(gdb.parse_and_eval('repro_response'))
     if state['function'] in ('collect_file_arguments','parse_command_line'):
@@ -395,21 +479,23 @@ def stopped(event):
         state['crt_argv_address']=int(gdb.parse_and_eval('argv'))
         state['crt_first_argument_address']=int(gdb.parse_and_eval('argv[1]'))
         state['crt_argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(count)]
+        state['crt_argv_addresses']=[int(gdb.parse_and_eval('argv[%%d]'%%i))for i in range(count)]
         gdb.newest_frame().select()
     state['stack']=[int(gdb.parse_and_eval('((unsigned*)$esp)[%%d]'%%i)) for i in range(32)]
+    state['snapshot_complete']=True
 def exited(event):
     state['exit_status']=getattr(event,'exit_code',None)
 gdb.events.stop.connect(stopped)
 gdb.events.exited.connect(exited)
 gdb.execute('set pagination off')
 gdb.execute('set confirm off')
-gdb.execute('run /? > %s/stdout.bin 2> %s/stderr.bin')
+gdb.execute(%r)
 open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
-''' % (targets, capture, capture, str(capture / 'state.json'))
+''' % (targets, 'run '+shlex.join(arguments)+' > '+shlex.quote(str(capture/'stdout.bin'))+' 2> '+shlex.quote(str(capture/'stderr.bin')), str(capture / 'state.json'))
     (capture / 'capture.gdb.py').write_text(script)
     executable = BINARY / 'build/native/LINK.EXE'
     command = ['gdb', '-q', '-nx', '-batch', '-ex', 'source ' + str(capture / 'capture.gdb.py'),
-               '--args', str(executable), '/?']
+               '--args', str(executable)] + arguments
     start = time.perf_counter()
     environment = os.environ.copy()
     for name in ['CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','LINK32_DB','LINK_DB','LINK_REPRO','LINK_REPRO_NAME']:environment.pop(name,None)
@@ -420,12 +506,17 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
         profile,reference=prepare(args.environment_reference,capture)
         environment['RECON_SYSTEM_PROFILE']=str(profile)
         environment['RECON_SYSTEM_REFERENCE']=reference
-    result = subprocess.run(command, cwd=capture, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20)
+    environment.update(native_environment(args.case))
+    with (nullcontext(capture)if args.case=='help'else workspace(args.case,manifest))as work:
+        result = subprocess.run(command,cwd=work,env=environment,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20)
+        if args.case!='help':
+            from case_inputs import save_artifacts
+            save_artifacts(work,capture,manifest)
     elapsed = time.perf_counter() - start
     assert all(sha(path.read_bytes())==source_content[name] for path,name in content_paths), 'compiled sources changed during native capture'
     subprocess.run(['make','-q','native'],cwd=BINARY,check=True)
     (capture / 'gdb.stdout').write_bytes(result.stdout); (capture / 'gdb.stderr').write_bytes(result.stderr)
-    receipt = dict(kind='native-i386-gdb-frontier', configuration_sha256=sha(config),
+    receipt = dict(kind='native-i386-gdb-frontier',case=args.case,case_manifest=manifest,working_directory=(str(capture)if args.case=='help'else windows_work(args.case)),configuration_sha256=sha(config),
                    native_sha256=sha(executable.read_bytes()),
                    rebuilt_sha256=sha((BINARY / 'build/link.exe').read_bytes()),
                    source_files={str(p.relative_to(BINARY)):sha(p.read_bytes())
@@ -436,7 +527,8 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
                           for p in capture.rglob('*') if p.is_file() and 'source' not in p.relative_to(capture).parts})
     (capture / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(capture)
-    if result.returncode or not (capture / 'state.json').exists():
+    state=json.loads((capture/'state.json').read_text())if (capture/'state.json').exists()else {}
+    if result.returncode or not state or (state.get('signal_number')and not state.get('snapshot_complete')):
         raise SystemExit('native debugger capture failed')
 
 

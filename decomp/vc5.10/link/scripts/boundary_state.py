@@ -5,6 +5,9 @@ import struct
 # Which completed allocations and registrations may be consumed at each trap.
 # A pointer is compared by its observed allocation role, never host address.
 STAGES = {
+    '_release_memory@4':(None,3,4),
+    '_search_library_paths@8':(None,3,4),
+    '_canonicalize_argument@8':(None,3,4),
     '_initialize_buffer12': (1,0,0), '_allocate_buffer12': (1,0,0),
     '_register_buffer12_cleanup': (1,1,0),
     '_initialize_buffer8': (2,1,1), '_allocate_buffer8': (2,1,1),
@@ -14,7 +17,7 @@ STAGES = {
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
     '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4), '_initialize_hash_table@20':(None,3,4), '_hash_allocate@16':(None,3,4), '_reserve_memory@8':(None,3,4), '_create_memory_arena@4':(None,3,4), '_allocate_memory@4':(None,3,4), '_configure_link_options@12':(None,3,4), '_parse_switch@8':(None,3,4), '_duplicate_argument@4':(None,3,4), '_linker_usage':(None,3,4), '_print_logo':(None,3,4), '_close_timing':(None,3,4), '_free_buffer4':(None,3,4), '_free_buffer8':(None,3,4), '_free_buffer12':(None,3,4),
 }
-MEMORY_READY={ '_run_linker@8','_initialize_repro','_collect_file_arguments@16',
+MEMORY_READY={ '_release_memory@4','_search_library_paths@8','_canonicalize_argument@8','_run_linker@8','_initialize_repro','_collect_file_arguments@16',
                '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing','_free_buffer4','_free_buffer8','_free_buffer12' }
 OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing','_free_buffer4','_free_buffer8','_free_buffer12'}
 CACHE_READY=MEMORY_READY | {'_initialize_memory'}
@@ -35,6 +38,8 @@ def compare(name, original, native, original_state, native_state):
     assert name in STAGES, 'raw state contract not implemented for ' + name
     cursor, allocations, registrations = STAGES[name]
     config = json.loads((original / 'functions.json').read_text())
+    case=json.loads((original/'receipt.json').read_text()).get('case','help')
+    expected_argv=['R:\\toolchains\\5.10\\bin\\LINK.EXE']+config['cases'][case]['arguments']
     names = {record['start']:record['name'].lstrip('_') for record in config['driver']}
     values = list(struct.unpack('<5I',(original / 'initializers.bin').read_bytes()))
     logical = [None if value==0 else names[value] for value in values]
@@ -51,7 +56,7 @@ def compare(name, original, native, original_state, native_state):
     assert original_state['x87_control_word'] == native_state['x87_control_word'] == 0x027f
     for filename, native_name in [('crt-fmode.bin','crt_fmode'),('crt-commode.bin','crt_commode'),('crt-adjust-fdiv.bin','crt_adjust_fdiv')]:
         assert struct.unpack('<i',(original/filename).read_bytes())[0] == native_state[native_name] == 0
-    assert original_state['crt_argv'] == native_state['crt_argv'] == ['R:\\toolchains\\5.10\\bin\\LINK.EXE','/?']
+    assert original_state['crt_argv'] == native_state['crt_argv'] == expected_argv
     startup = struct.unpack('<9I',(original/'startup-globals.bin').read_bytes())
     assert startup == (0,0,0,0,0,0,0,0xffffffff,0xffffffff)
     observations = [event for event in events if event['event']=='operator_new_observation']
@@ -200,15 +205,15 @@ def compare(name, original, native, original_state, native_state):
         if name not in ('_run_linker@8','_initialize_repro'):
             assert (original/'repro-directory.bin').read_bytes()==bytes(4) and native_state['repro_directory']==0
             assert (original/'repro-response.bin').read_bytes()==bytes(4) and native_state['repro_response']==0
-        assert native_state['frontier_arguments']['argc']==2
+        assert native_state['frontier_arguments']['argc']==len(expected_argv)
         if name=='_run_linker@8':
-            assert original_state['stack'][1]==2
+            assert original_state['stack'][1]==len(expected_argv)
             assert original_state['stack'][2]==original_state['crt_argv_pointer']
         elif name=='_initialize_repro':
-            assert original_state['stack'][6]==2
+            assert original_state['stack'][6]==len(expected_argv)
             assert original_state['stack'][7]==original_state['crt_argv_pointer']
         elif name in ('_collect_file_arguments@16','_parse_command_line@16'):
-            assert original_state['stack'][1]==2
+            assert original_state['stack'][1]==len(expected_argv)
             assert original_state['stack'][2]==original_state['crt_argv_pointer']
             assert original_state['stack'][3:5]==[0x408508,0x408510]
             assert native_state['environment_arguments']==['LINK','_LINK_']
@@ -434,3 +439,68 @@ def compare(name, original, native, original_state, native_state):
             assert call['descriptor']==returned['descriptor']==[original_new['eax'],count,count]
             record=by_suffix[suffix]
             assert native_state['delete_calls'][index]==dict(argument=record['base'],normal_return=True,before=record,after=dict(record,live=0))
+
+
+    if name=='_release_memory@4':
+        assert case=='hello-win32'
+        from hello_boundary import compare_release
+        compare_release(original,native_state,original_state)
+
+    if name in ('_canonicalize_argument@8','_search_library_paths@8'):
+        assert case=='hello-win32'
+        first=name=='_canonicalize_argument@8'
+        filename='hello.obj'if first else 'kernel32.lib'
+        argv_index=4 if first else 5
+        assert original_state['argument_text']==native_state['argument_detail']['text']==filename
+        assert original_state['argument_pointer']==original_state['crt_argv_addresses'][argv_index]
+        assert native_state['argument_detail']['address']==native_state['crt_argv_addresses'][argv_index]
+        assert original_state['stack'][1]==original_state['argument_pointer']
+        if first:assert original_state['stack'][2]==0x409200 and native_state['argument_detail']['extension']=='.obj'
+        assert (original/'input-prepass.bin').read_bytes()==bytes([native_state['input_prepass']])==b'\0'
+        if first:assert (original/'argument-tail.bin').read_bytes()==bytes(4)and native_state['argument_tail']==0
+        observed=[e for e in events if e.get('name','').startswith('observe:mbspbrk_')]
+        assert [e['name']for e in observed]==['observe:mbspbrk_call','observe:mbspbrk_return']
+        assert [e['site']for e in observed]==[0x45c7ab,0x45c7b1]
+        for e in observed:
+            assert e['left']=='hello.obj'and e['right']=='?*'and len(e['arguments'])==2
+            assert e['arguments'][0]==original_state['crt_argv_addresses'][4]and e['arguments'][1]==0x409208
+            assert e['codepage']==e['lc_ctype_handle']==e['locale_codepage']==0 and e['mb_cur_max']==1
+        assert observed[-1]['eax']==0
+        assert native_state['mbspbrk_calls']==[dict(text=text,accept='?*',result=0)for text in (['hello.obj']if first else ['hello.obj','kernel32.lib'])]
+        lists={e['name']:e for e in events if e['event']=='argument_list'}
+        for key in (('input_files','link_files')if first else ('input_files',)):
+            assert lists[key]['header']==native_state['argument_lists'][key]['header']==[0,0,0]
+            assert lists[key]['nodes']==native_state['argument_lists'][key]['nodes']==[]
+        actual=lists['option_arguments'];other=native_state['argument_lists']['option_arguments']
+        assert actual['header'][2]==other['header'][2]==len(actual['nodes'])==len(other['nodes'])==3
+        for index,text in enumerate(['nologo','incremental:no','out:hello.exe']):
+            left=actual['nodes'][index];right=other['nodes'][index]
+            assert left['text']==left['original']==right['text']==right['original']==text
+            assert left['words'][:2]==[original_state['crt_argv_addresses'][index+1]+1]*2
+            assert right['words'][:2]==[native_state['crt_argv_addresses'][index+1]+1]*2
+            assert left['words'][2:5]==right['words'][2:5]==[0,0,0]
+            for record,owner in [(left,actual),(right,other)]:
+                assert record['words'][5]==(owner['nodes'][index+1]['address']if index<2 else 0)
+                assert owner['header'][0]==owner['nodes'][0]['address']and owner['header'][1]==owner['nodes'][-1]['address']
+
+        if not first:
+            components=dict(drive='',directory='',filename='kernel32',suffix='.lib')
+            assert original_state['canonicalize_components']==native_state['canonicalize_components']==components
+            assert original_state['result_buffer_pointer']==original_state['stack'][2]==original_state['esp']+20
+            assert native_state['argument_detail']['found']==native_state['canonicalize_found_address']
+            returned,=[e for e in events if e['event']=='canonicalize_return']
+            assert returned['site']==0x45c7db and returned['input']==original_state['crt_argv_addresses'][4]and returned['text']=='hello.obj'
+            assert len(native_state['canonicalized_arguments'])==1
+            copied=returned['result'];ncopied=native_state['canonicalized_arguments'][0]['result']
+            assert copied and ncopied and copied!=returned['input']and ncopied!=native_state['crt_argv_addresses'][4]
+            assert (original/'canonicalized-argument.bin').read_bytes()==b'hello.obj\0'
+            assert native_state['canonicalized_arguments']==[dict(input=native_state['crt_argv_addresses'][4],result=ncopied,text='hello.obj',bytes=b'hello.obj\0'.hex())]
+            assert native_state['duplicate_calls']==[dict(text='hello.obj',input=native_state['crt_argv_addresses'][4],result=ncopied)]
+            left=lists['link_files'];right=native_state['argument_lists']['link_files']
+            for record,address in [(left,copied),(right,ncopied)]:
+                assert record['header'][2]==len(record['nodes'])==1
+                node=record['nodes'][0];assert record['header'][:2]==[node['address']]*2
+                assert node['words']==[address,address,0,0,0,0]
+                assert node['text']==node['original']=='hello.obj'
+            assert struct.unpack('<I',(original/'argument-tail.bin').read_bytes())[0]==left['header'][0]
+            assert native_state['argument_tail']==right['header'][0]

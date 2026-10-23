@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <mbstring.h>
 #include <string.h>
+#include <io.h>
 #include "link.h"
 #include "files.h"
 #include "arguments.h"
@@ -158,7 +159,44 @@ int __stdcall is_libpath(const char *text)
                       strlen(prefix))==0;
 }
 void __stdcall expand_wildcards(const char *text) { __asm { int 3 } }
-char *__stdcall canonicalize_argument(const char *text,const char *extension) { __asm { int 3 } return NULL; }
+unsigned char __stdcall search_library_paths(const char *,char *);
+char *__stdcall canonicalize_argument(const char *text,const char *extension)
+{
+    char drive[_MAX_DRIVE],directory[_MAX_DIR];
+    char filename[_MAX_FNAME],suffix[_MAX_EXT];
+    char path[_MAX_PATH],found[_MAX_PATH];
+    _splitpath(text,drive,directory,filename,suffix);
+    if (extension && !suffix[0]) {
+        _makepath(path,drive,directory,filename,extension);
+        text=path;
+    }
+    if (_access(text,0) && !drive[0] && !directory[0]) {
+        if (search_library_paths(text,found)) return duplicate_argument(found);
+        _searchenv(text,"LIB",found);
+        if (found[0]) return duplicate_argument(found);
+    }
+    return duplicate_argument(text);
+}
+#pragma intrinsic(strlen,strcpy)
+unsigned char __stdcall search_library_paths(const char *name,char *found)
+{
+    InputArgument *argument=input_files.first;
+    unsigned index,length;
+    const char *directory;
+    for (index=0;index<input_files.count;++index,argument=argument->next) {
+        if (!argument->switch_info->value_count) continue;
+        directory=argument->switch_info->values[0].text;
+        length=strlen(directory);
+        if (length+strlen(name)>=_MAX_PATH) continue;
+        strcpy(found,directory);
+        if (length && *_mbsdec((unsigned char *)found,
+                               (unsigned char *)found+length)!='\\')
+            found[length++]='\\';
+        strcpy(found+length,name);
+        if (!_access(found,0)) return 1;
+    }
+    return 0;
+}
 int __stdcall open_argument_file(const char *name,int mode,int flags) { __asm { int 3 } return 0; }
 unsigned char __stdcall is_archive(const char *name,int file) { __asm { int 3 } return 0; }
 void __stdcall close_argument_file(int file,int flags) { __asm { int 3 } }

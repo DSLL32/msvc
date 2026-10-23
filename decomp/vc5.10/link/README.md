@@ -20,7 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is next after independent first-case review.
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 47 application
+functions (20,205 extent bytes) are accepted in the working prefix. Its filename
+canonicalization and library-path search have fresh masked/native evidence. The
+next frontier is `release_memory`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -142,8 +145,8 @@ C++ standard library.
 The `libpath` predicate uses the distinct canonical `_mbsnbicmp` import. Actual
 original call/return evidence proves CP0, C locale, one-byte characters and
 normalized `-1` for `"?"`/`"libpath"` at byte limit7. The shared implementation
-retains that reviewed ASCII scope; `_mbspbrk` remains typed and unsupported on
-the unvisited wildcard path. `cases/help/multibyte/` is explicitly original-only
+retains that reviewed ASCII scope; The shared `_mbspbrk` now handles the reached ASCII search; wildcard expansion
+remains an application trap. `cases/help/multibyte/` is explicitly original-only
 analysis, separate from masked acceptance.
 
 The three standalone output callbacks are genuine nonvirtual member pointers.
@@ -171,3 +174,14 @@ symbols (including genuine member names), and separately checks full DWORD 1100,
 POSIX 76, raw streams and first-seen entry order against a completed cached
 original. It requires the accepted help case and its complete cached reference. Setup,
 execution and checking times are reported separately.
+
+The hello-win32 search acceptance retains both actual ABI arguments, stdcall
+stack cleanup, and the full 260-byte caller buffer before/after. An empty libpath
+list returns false without writes. The subsequent `_searchenv` call binds the
+actual default-C/CP0 LIB directory, filename, output prefix and preserved own
+tail, plus errno/DOS/LastError 2 before and after. Its next cleanup frontier
+compares the owned `nologo` copy, parser storage, input/option queues and context
+heap. 67 semantic negatives and the strict 60-vertex graph pass. Fresh original
+and native GDB captures took 1.320 s and 0.258 s; graph checking 0.336 s. Cached help
+remains 56.3 ms total / 3.93 ms ELF. Full compiled ELF, PE and MAP bytes are now frozen
+with each new native capture, in addition to source snapshots.

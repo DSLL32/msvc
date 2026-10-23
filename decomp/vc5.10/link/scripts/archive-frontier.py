@@ -11,7 +11,9 @@ parser.add_argument('--native',type=Path,required=True)
 parser.add_argument('--name',required=True)
 args=parser.parse_args()
 validation=json.loads((args.native/'acceptance-validation.json').read_text())
-destination=Path(__file__).resolve().parents[1]/'cases/help/frontiers'/args.name
+case=json.loads((Path(validation['original'])/'receipt.json').read_text()).get('case','help')
+assert case in ('help','hello-win32','hello-dll')
+destination=Path(__file__).resolve().parents[1]/'cases'/case/'frontiers'/args.name
 destination.mkdir(parents=True,exist_ok=False)
 shutil.copytree(args.native,destination/'native')
 if validation.get('native_cleanup'):shutil.copytree(validation['native_cleanup'],destination/'native-cleanup')

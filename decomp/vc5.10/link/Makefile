@@ -79,3 +79,9 @@ build/delete-probe.obj: scripts/delete-probe.c | build
 
 build/delete-probe.exe: build/delete-probe.obj build/operator-new-alias.obj build/operator-delete-alias.obj
 	$(TOOL) LINK.EXE /nologo /incremental:no /out:$@ $^ kernel32.lib
+
+# Explicit original-only case input preparation, never a fixture prerequisite.
+build/hello-win32:
+	mkdir -p $@
+build/hello-win32/hello.obj: cases/hello-win32/source/hello.c | build/hello-win32
+	$(TOOL) CL.EXE /nologo /c /O2 /G5 /Fo$@ /Fdbuild/hello-win32/compiler.pdb $<

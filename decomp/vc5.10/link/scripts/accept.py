@@ -42,7 +42,13 @@ def bind_capture(directory, expected, kind):
     captured=json.loads(config)
     if kind=='original':
         assert captured['target']==expected['target'] and captured['accepted']==expected['accepted'], 'original capture is not the current trial prefix'
-        assert captured['cases']['help']['arguments']==expected['cases']['help']['arguments']==['/?']
+        case=receipt.get('case','help')
+        assert captured['cases'][case]['arguments']==expected['cases'][case]['arguments']
+        if case=='help':assert expected['cases'][case]['arguments']==['/?']
+        else:
+            from case_inputs import execution,load,windows_work
+            assert execution(receipt['case_manifest'])==execution(load(case,expected))
+            assert receipt['working_directory']==windows_work(case)
     else:
         assert captured == expected, 'captured configuration is not current trial'
         assert config == (json.dumps(expected, indent=2) + '\n').encode(), 'captured trial configuration bytes differ'
@@ -52,8 +58,17 @@ def bind_capture(directory, expected, kind):
         data = (directory / name).read_bytes()
         assert len(data) == record['bytes'] and sha(data) == record['sha256'], 'capture file changed: ' + name
     if kind!='original':
+        case=receipt.get('case','help')
+        if case!='help':
+            from case_inputs import execution,load,windows_work
+            assert execution(receipt['case_manifest'])==execution(load(case,expected))
+            assert receipt['working_directory']==windows_work(case)
         assert receipt['native_sha256'] == sha((BINARY / 'build/native/LINK.EXE').read_bytes()), 'stale native executable'
         assert receipt['rebuilt_sha256'] == sha((BINARY / 'build/link.exe').read_bytes()), 'stale rebuilt executable'
+        if (directory/'compiled').exists():
+            assert sha((directory/'compiled/native-LINK.EXE').read_bytes())==receipt['native_sha256'], 'frozen native executable differs'
+            assert sha((directory/'compiled/original-toolchain-link.exe').read_bytes())==receipt['rebuilt_sha256'], 'frozen rebuilt executable differs'
+            assert (directory/'compiled/original-toolchain-link.map').read_bytes()==(BINARY/'build/link.map').read_bytes(), 'frozen rebuilt map differs'
         sources = {str(p.relative_to(BINARY)):sha(p.read_bytes()) for p in sorted(p for p in (BINARY/'src').iterdir() if p.suffix in ('.c','.h','.cpp'))}
         assert receipt['source_files'] == sources, 'compiled sources changed after capture'
     for name,value in receipt.get('source_content',{}).items():
@@ -83,7 +98,7 @@ def bind_capture(directory, expected, kind):
                 expected_entries.append('%x %x 0 %s\n' % (rva, mutable[position], record['name']))
                 mutable[position] = 0xcc
         from observers import plan
-        for rva,name in plan(expected['accepted']):
+        for rva,name in plan(expected['accepted'],receipt.get('case','help')):
             position=8+rva-mask_rva
             expected_entries.append('%x %x 0 %s\n'%(rva,mutable[position],name));mutable[position]=0xcc
         mask = bytes(mutable)
@@ -96,6 +111,11 @@ def bind_capture(directory, expected, kind):
 
 def verify_frontier(original, native, expected_name, expected):
     assert expected_name, 'nonempty expected frontier is mandatory'
+    original_receipt=json.loads((original/'receipt.json').read_text());native_receipt=json.loads((native/'receipt.json').read_text())
+    assert original_receipt.get('case','help')==native_receipt.get('case','help')
+    if original_receipt.get('case','help')!='help':
+        def artifacts(directory):return {p.name:p.read_bytes()for p in (directory/'artifacts').iterdir()}
+        assert artifacts(original)==artifacts(native),'partial generated artifacts differ'
     events = [json.loads(line) for line in (original / 'events.jsonl').read_text().splitlines()]
     assert events[-1] == dict(event='summary', failed=0, status=999), 'original did not stop cleanly'
     traps = [event for event in events if event['event'] == 'trap']
@@ -111,6 +131,9 @@ def verify_frontier(original, native, expected_name, expected):
     assert state.get('signal_number') == 5 and state.get('previous_byte') == 204 and state['function'] == native_name, 'wrong native frontier'
     for name in ['stdout.bin', 'stderr.bin']:
         assert (original / name).read_bytes() == (native / name).read_bytes(), 'partial stream differs: ' + name
+    applications={record['name']for record in expected['driver']}
+    original_entries=[event['name']for event in events if event['event']=='entry'and event['name']in applications]
+    assert original_entries==state['entries'],'application entry prefix differs'
     # State comparison is frontier-specific and reads raw debugger dumps. Until
     # that contract exists, a matching address/stream alone cannot accept code.
     from boundary_state import compare
@@ -162,7 +185,7 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
@@ -328,7 +351,7 @@ def main():
     native_state = json.loads((args.native / 'state.json').read_text())
     assert args.candidate in native_state.get('entries', []), 'candidate not reached in native trial'
     audit = audit_trial(args.original / 'functions.json')
-    validation = dict(candidate=args.candidate, expected_next=args.expected_next,completion=completion_master,
+    validation = dict(candidate=args.candidate,case=json.loads((args.original/'receipt.json').read_text()).get('case','help'), expected_next=args.expected_next,completion=completion_master,
                       native_cleanup=str(args.native_cleanup)if args.complete else None,
                       cleanup=cleanup if args.complete else None,
                       trial_sha256=sha((args.original / 'functions.json').read_bytes()),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fresh original-only help reference / masked acceptance capture."""
+"""Explicit original-only reference / masked acceptance capture."""
 import argparse
 import hashlib
 import importlib.util
@@ -18,6 +18,7 @@ def sha(data): return hashlib.sha256(data).hexdigest()
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',choices=['help','hello-win32','hello-dll'],default='help')
     parser.add_argument('--mode', choices=['original', 'masked','observe-new'], required=True)
     parser.add_argument('--config', type=Path, default=BINARY / 'functions.json',
                         help='explicit trial config, including candidate in accepted prefix')
@@ -28,8 +29,15 @@ def main():
     config = json.loads(config_bytes)
     scratch = transport.SCRATCH / 'vc5.10/link'
     scratch.mkdir(exist_ok=True, parents=True)
-    capture = Path(tempfile.mkdtemp(prefix=args.mode + '-', dir=scratch))
-    work = capture / 'work'; work.mkdir()
+    from case_inputs import load,workspace
+    manifest=load(args.case,config)
+    capture = Path(tempfile.mkdtemp(prefix=(''if args.case=='help'else args.case+'-')+args.mode + '-', dir=scratch))
+    work_owner=None
+    if args.case=='help':
+        work=capture/'work';work.mkdir()
+    else:
+        work_owner=workspace(args.case,manifest);work=work_owner.__enter__()
+        (capture/'case.json').write_text(json.dumps(manifest,indent=2)+'\n')
     mask, ownership = construct(config)
     if args.mode=='observe-new':
         pe=PE(ROOT/config['target']['path'])
@@ -49,7 +57,7 @@ def main():
         entries.append('%x %x 0 %s\n' % (rva, byte, record['name']))
         mutable[position] = 0xcc
     from observers import plan
-    for rva,name in plan(config['accepted']):
+    for rva,name in plan(config['accepted'],args.case):
         position=8+rva-mask_rva
         entries.append('%x %x 0 %s\n'%(rva,mutable[position],name));mutable[position]=0xcc
     if args.mode=='observe-new':
@@ -108,6 +116,7 @@ def main():
     command = ['wine', transport.windows(helper), transport.windows(ROOT / config['target']['path']),
                transport.windows(capture), transport.windows(capture / 'mask.bin') if args.mode != 'original' else '-',
                transport.windows(capture / 'entries.txt'), transport.windows(work)]
+    if args.case!='help':command.append(subprocess.list2cmdline([transport.windows(ROOT/config['target']['path'])]+manifest['arguments']))
     env = transport.environment()
     env['TEMP'] = env['TMP'] = transport.windows(work)
     start = time.perf_counter()
@@ -118,8 +127,12 @@ def main():
         helper_status, helper_out, helper_err = 'timeout', error.stdout or b'', error.stderr or b''
     elapsed = time.perf_counter() - start
     (capture / 'helper.stdout').write_bytes(helper_out); (capture / 'helper.stderr').write_bytes(helper_err)
-    files = {p.name: dict(bytes=p.stat().st_size, sha256=sha(p.read_bytes()))
-             for p in capture.iterdir() if p.is_file()}
+    if work_owner:
+        from case_inputs import save_artifacts
+        save_artifacts(work,capture,manifest)
+        work_owner.__exit__(None,None,None)
+    files = {str(p.relative_to(capture)):dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes()))
+             for p in capture.rglob('*')if p.is_file()}
     canonical_crt = ROOT / 'toolchains/5.10/bin/MSVCRT.DLL'
     expected_crt = 'e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
     assert sha(canonical_crt.read_bytes()) == expected_crt and canonical_crt.stat().st_size == 277776
@@ -127,7 +140,7 @@ def main():
                   if name.startswith('module-') and value['sha256'] == expected_crt]
     loaded_target = files.get('module-000.bin', {}).get('sha256') == config['target']['sha256']
     receipt = dict(kind={'original':'fresh-unmodified-original-help','masked':'fresh-masked-original-help','observe-new':'explicit-unmasked-original-import-observation'}[args.mode],
-                   command=command, mode=args.mode, original_sha256=config['target']['sha256'],
+                   command=command, mode=args.mode,case=args.case,case_manifest=manifest,working_directory=transport.windows(work),original_sha256=config['target']['sha256'],
                    configuration_sha256=sha(config_bytes), mask_sha256=sha(mask),
                    helper_sha256=sha(helper.read_bytes()), helper_status=helper_status,
                    actual_loaded_crt_hfile_copies=loaded_crt,

@@ -62,7 +62,9 @@
     "_free_buffer4",
     "import:??3@YAXPAX@Z",
     "_free_buffer8",
-    "_free_buffer12"
+    "_free_buffer12",
+    "_canonicalize_argument@8",
+    "_search_library_paths@8"
   ],
   "driver": [
     {
@@ -654,10 +656,10 @@
     {
       "name": "_canonicalize_argument@8",
       "start": 4572752,
-      "end": 4572753,
-      "pending_extent": true,
+      "end": 4573007,
+      "pending_extent": false,
       "source": "src/arguments.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "canonicalize_argument"
     },
     {
@@ -1106,6 +1108,15 @@
       "source": "src/driver-stubs.c",
       "status": "stub",
       "native_symbol": "clear_buffer"
+    },
+    {
+      "name": "_search_library_paths@8",
+      "start": 4572464,
+      "end": 4572742,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "search_library_paths"
     }
   ],
   "text_data": [
@@ -2852,6 +2863,14 @@
       "reason": "inline close_timing fprintf format",
       "evidence": "src/initializers.c: close_timing; original PUSH4071f0 at444eeb",
       "sha256": "6a5d728cc41cd399070f898eb5915f68ccc1796788ef70623d9db4dd935373d2"
+    },
+    {
+      "start": 4231676,
+      "end": 4231680,
+      "accepted": true,
+      "reason": "canonicalize_argument contextual LIB search-environment literal",
+      "evidence": "Full45c650..45c74f source call _searchenv(text,\"LIB\",found) at45c706.",
+      "sha256": "28b87d5d1864d6f81087f09ec47da6d67d58e6facac30aba559534f3d43fd9b8"
     }
   ],
   "cases": {
@@ -2860,6 +2879,17 @@
         "/?"
       ],
       "complete": true
+    },
+    "hello-win32": {
+      "arguments": [
+        "/nologo",
+        "/incremental:no",
+        "/out:hello.exe",
+        "hello.obj",
+        "kernel32.lib"
+      ],
+      "complete": false,
+      "manifest": "cases/hello-win32/case.json"
     }
   },
   "review_gate": "approved"

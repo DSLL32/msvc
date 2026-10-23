@@ -16,4 +16,10 @@ def freeze(capture):
         data=source.read_bytes();destination=capture/'source'/name
         destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
         content[name]=hashlib.sha256(data).hexdigest();paths.append((source,name))
+    for name,source in [('native-LINK.EXE',BINARY/'build/native/LINK.EXE'),
+                        ('original-toolchain-link.exe',BINARY/'build/link.exe'),
+                        ('original-toolchain-link.map',BINARY/'build/link.map')]:
+        destination=capture/'compiled'/name
+        destination.parent.mkdir(parents=True,exist_ok=True)
+        destination.write_bytes(source.read_bytes())
     return content,paths

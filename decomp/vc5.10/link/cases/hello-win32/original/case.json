@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "case": "hello-win32",
+  "arguments": [
+    "/nologo",
+    "/incremental:no",
+    "/out:hello.exe",
+    "hello.obj",
+    "kernel32.lib"
+  ],
+  "inputs": [
+    {
+      "name": "hello.obj",
+      "path": "cases/hello-win32/inputs/hello.obj",
+      "bytes": 2262,
+      "sha256": "20701a5314397f51bbb5bfbecba73de8f8c7a1988ecca1a746f5656a0df19632"
+    }
+  ],
+  "source": "cases/hello-win32/source/hello.c",
+  "compile_receipt": "cases/hello-win32/compiler/compile.json",
+  "outputs": [
+    "hello.exe"
+  ],
+  "cwd_policy": "Identical stable S: case work directory because canonicalize_argument consumes full CWD; fixed repo drives, per-case lock, relative argv. Not a per-case drive mapping."
+}

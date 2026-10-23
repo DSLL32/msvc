@@ -1,6 +1,6 @@
 """Instruction-boundary observers for arguments/results, never function vertices."""
 
-def plan(accepted):
+def plan(accepted,case="help"):
     result=[]
     if '_mainCRTStartup' in accepted:
         result += [(0x65320,'observe:initerm_c'),(0x6535b,'observe:initerm_cpp')]
@@ -27,4 +27,11 @@ def plan(accepted):
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]
+    if case!="help" and "_parse_argument@8" in accepted:
+        result += [(0x5c7ab,"observe:mbspbrk_call"),(0x5c7b1,"observe:mbspbrk_return")]
+    if case!="help" and "_canonicalize_argument@8" in accepted:
+        result.append((0x5c7db,"observe:canonicalize_return"))
+    if case!="help" and "_search_library_paths@8" in accepted:
+        result += [(0x5c6f2,"observe:library_search_call"),(0x5c6f7,"observe:library_search_return"),
+                   (0x5c706,"observe:searchenv_call"),(0x5c70c,"observe:searchenv_return")]
     return result
