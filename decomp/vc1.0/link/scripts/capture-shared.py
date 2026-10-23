@@ -41,6 +41,10 @@ def capture(name, registry, repeat=False):
     if work.exists():
         shutil.rmtree(work)
     work.mkdir(parents=True)
+    for directory in phase.get('directories',[]):
+        relative=Path(directory)
+        assert not relative.is_absolute() and '..' not in relative.parts
+        (work/relative).mkdir(parents=True,exist_ok=True)
     capture_root = SCRATCH / 'vc1.0/link/captures' / name
     capture_root.mkdir(parents=True, exist_ok=True)
     capture_dir = Path(tempfile.mkdtemp(prefix='repeat-' if repeat else 'capture-', dir=capture_root))
@@ -80,13 +84,22 @@ def capture(name, registry, repeat=False):
     (capture_dir / 'text.bin').write_bytes(struct.pack('<II', sec['rva'], len(code)) + code)
     (capture_dir / 'entries.txt').write_text(''.join(lines))
     env = dict(os.environ, WINEPREFIX=str(PREFIX), WINEDEBUG='-all', LIB=LIBRARY, PATH=os.environ['PATH'], TZ='PST8PDT')
-    for key in ['CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS', 'LINK32_DB'] + phase.get('unset_environment', []):
+    for key in ['CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS', 'LINK32_DB','LINK_REPRO','COPYCMD'] + phase.get('unset_environment', []):
         env.pop(key, None)
     env.update({k: v.replace('{lib}', LIBRARY) for k, v in phase.get('environment', {}).items()})
     env['WINEPATH'] = 'R:\\toolchains\\1.0-nt\\bin'
     env['TMP'] = env['TEMP'] = windows(work)
     helper = SCRATCH / 'vc1.0/link/tooling/capture-original.exe'
     args = [windows(helper), PROGRAM, subprocess.list2cmdline(phase['arguments']), windows(capture_dir / 'stdout.bin'), windows(capture_dir / 'stderr.bin'), windows(capture_dir / 'events.jsonl'), canonical, windows(capture_dir / 'text.bin'), windows(capture_dir / 'entries.txt'), windows(capture_dir / 'before.dll'), windows(capture_dir / 'after.dll'), 'R:\\toolchains\\1.0-nt\\bin\\CVPACK.EXE' if name == 'hello-debug-dll' else '-']
+    if phase.get('external_copies'):
+        plan=[str(len(phase['external_copies']))]
+        for item in phase['external_copies']:
+            assert item['source'] in [Path(x['path']).name for x in phase['inputs']]
+            assert item['image'].lower()==r'c:\windows\system32\cmd.exe'
+            assert digest((PREFIX/'drive_c/windows/system32/cmd.exe').read_bytes())==item['image_sha256']
+            plan.extend([item['image'],item['command'],canonical,windows(work/item['source']),windows(work/item['destination'])])
+        (capture_dir/'copies.plan').write_text('\n'.join(plan)+'\n')
+        args.append(windows(capture_dir/'copies.plan'))
     launch = time.perf_counter()
     result = subprocess.run(['wine', *args], env=env, cwd=work, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120)
     elapsed = time.perf_counter() - launch
@@ -119,6 +132,7 @@ def capture(name, registry, repeat=False):
         (out / 'expected').mkdir()
         (out / 'capture').mkdir()
         for rec in outputs:
+            (out/rec['path']).parent.mkdir(parents=True,exist_ok=True)
             shutil.copyfile(work / rec['output_name'], out / rec['path'])
         for path in ['events.jsonl', 'stdout.bin', 'stderr.bin', 'entries.txt']:
             shutil.copyfile(capture_dir / path, out / 'capture' / path)

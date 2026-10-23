@@ -367,3 +367,28 @@ void pad_contribution(Contribution *contribution)
     debug_section->raw_size=debug_section->file_end-debug_section->file_offset;
     debug_section->virtual_size=debug_section->file_end-debug_section->file_offset;
 }
+
+/* Original [000222e0,000223d0). Only the early i386 return is exercised here. */
+extern SectionDefault pdata_section_defaults;
+#pragma intrinsic(strcmp)
+void adjust_rom_section_header(Section *section,IMAGE_SECTION_HEADER *header,Image *image)
+{
+    if (image->file.Machine!=0x162 && image->file.Machine!=0x166) return;
+    switch (section->characteristics&0xe0) {
+    case IMAGE_SCN_CNT_CODE:
+        header->Characteristics=0x20;
+        break;
+    case IMAGE_SCN_CNT_INITIALIZED_DATA:
+        if (!strcmp(pdata_section_defaults.name,section->name) ||
+            !strcmp(section->name,reloc_section_defaults.name))
+            header->Characteristics=0;
+        else header->Characteristics=(section->characteristics&IMAGE_SCN_MEM_WRITE)?0x40:0x100;
+        break;
+    case IMAGE_SCN_CNT_UNINITIALIZED_DATA:
+        header->Characteristics=0x400;
+        break;
+    default:
+        header->Characteristics=0;
+    }
+}
+#pragma function(strcmp)

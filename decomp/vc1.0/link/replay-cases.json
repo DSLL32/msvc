@@ -378,6 +378,15 @@
         "code": 0
       },
       "reason": "Nested ordinary LIDATA16/32 and COMENT EXESTR conversion, no internal-g"
+    },
+    {
+      "case": "rom-local-imports",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "ROM COFF plus local dllimport, duplicate warning, MAP and captured LINK_REPRO copies"
     }
   ]
 }

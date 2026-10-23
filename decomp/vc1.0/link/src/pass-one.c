@@ -354,3 +354,15 @@ void convert_omf(Argument *argument,unsigned short *machine,ImageOptions *option
     input_file=open_file(argument->original,0x8000,0);
     read_file(input_file,machine,2);
 }
+
+/* Original [0001ccea,0001cd50). The original omits enumerator cleanup. */
+void warn_unused_libraries(Library *library)
+{
+    LibraryEnumerator libraries;
+    initialize_library_enumerator(&libraries,library);
+    while (next_library(&libraries)) {
+        library=libraries.current;
+        if (library->name && !(library->search_flags&6))
+            warning_message(program_name,0x4c,library->name,"");
+    }
+}

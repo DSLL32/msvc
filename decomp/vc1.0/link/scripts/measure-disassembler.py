@@ -4,7 +4,7 @@ from pathlib import Path
 import json,argparse
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=Path)
-parser.add_argument('--family',choices=('disassembler','macintosh','definition','demangler','dump','fpo-absolute','omf-records','hash-wildcards','legacy-resources','omf-lidata'),default='disassembler')
+parser.add_argument('--family',choices=('disassembler','macintosh','definition','demangler','dump','fpo-absolute','omf-records','hash-wildcards','legacy-resources','omf-lidata','rom-repro'),default='disassembler')
 options=parser.parse_args()
 from indexes import indexes
 from binary import u32
@@ -12,13 +12,13 @@ from capstone import Cs,CS_ARCH_X86,CS_MODE_32,CS_GRP_JUMP,CS_GRP_RET
 from capstone.x86 import X86_OP_IMM,X86_OP_MEM
 original,_,cfg,records,_=indexes();cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
 accepted=set(cfg['accepted']);bodies={};total=set();unresolved=[];extent=set();data=set()
-sources={'omf-lidata':('src/omf.c',),'legacy-resources':('src/resource-legacy.c',),'hash-wildcards':('src/arguments.c','src/symbols.c'),'omf-records':('src/omf.c',),'fpo-absolute':('src/dump.c','src/link-pass.c','src/object.c','src/symbols.c'),
+sources={'rom-repro':('src/repro.c','src/object.c','src/pass-one.c','src/section-layout.c','src/base-relocations.c'),'omf-lidata':('src/omf.c',),'legacy-resources':('src/resource-legacy.c',),'hash-wildcards':('src/arguments.c','src/symbols.c'),'omf-records':('src/omf.c',),'fpo-absolute':('src/dump.c','src/link-pass.c','src/object.c','src/symbols.c'),
          'dump':('src/dump.c',),
          'demangler':('src/demangle.c',),
          'disassembler':('src/disassembler.c','src/disassembly-output.c'),
          'definition':('src/definition-file.c',),
          'macintosh':('src/mac-object.c','src/mac-sections.c','src/mac-fixups.c','src/m68k-relocations.c','src/mac-debug.c')}
-case_groups={'omf-lidata':('omf-lidata-exestr-library',),'legacy-resources':('legacy-win16-resources',),'hash-wildcards':('large-symbols-wildcards',),'fpo-absolute':('dump-fpo-map','absolute-weak'),'omf-records':('omf-records-library',)}
+case_groups={'rom-repro':('rom-local-imports',),'omf-lidata':('omf-lidata-exestr-library',),'legacy-resources':('legacy-win16-resources',),'hash-wildcards':('large-symbols-wildcards',),'fpo-absolute':('dump-fpo-map','absolute-weak'),'omf-records':('omf-records-library',)}
 family_entries={name for name,case in zip(cfg['accepted'],cfg['frontier_cases']) if case in case_groups.get(options.family,())}
 for r in cfg['driver']:
  if options.family in case_groups and r['name'] not in family_entries:continue

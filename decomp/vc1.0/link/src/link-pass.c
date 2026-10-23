@@ -8,6 +8,7 @@ SectionDefault readonly_section_defaults={".rdata",0x40000040UL};
 SectionDefault bss_section_defaults={".bss",0xc0000080UL};
 SectionDefault debug_section_defaults={".debug",0x42000048UL};
 SectionDefault idata_directory_defaults={".idata$2",0xc0000048UL};
+SectionDefault pdata_section_defaults={".pdata",0x40000040UL};
 SectionDefault reloc_section_defaults={".reloc",0x42000040UL};
 BaseFixup *base_fixup_next,*base_fixups;
 unsigned long codeview_start,codeview_end,undefined_symbols;

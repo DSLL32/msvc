@@ -800,7 +800,15 @@
     "_convert_legacy_accelerators",
     "_omf_record_iterated_data",
     "_omf_expand_iterated_block",
-    "_omf_write_comment_data"
+    "_omf_write_comment_data",
+    "_reproduce_input",
+    "_system",
+    "_format_input_reference",
+    "_warn_unused_libraries",
+    "_format_undefined_references",
+    "_adjust_rom_section_header",
+    "_emit_rom_relocations",
+    "_close_trace_file"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1021,10 +1029,11 @@
     {
       "name": "_close_trace_file",
       "start": 130560,
-      "end": 130561,
-      "implementation": "stub-C",
-      "source": "src/driver-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 130576,
+      "implementation": "C",
+      "source": "src/repro.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Whole1fe00..1fe10 decoded; fresh matching original/native first entry and partialstreams. Single fclose(repro_stream), return discarded."
     },
     {
       "name": "_link_usage",
@@ -1253,10 +1262,11 @@
     {
       "name": "_reproduce_input",
       "start": 130416,
-      "end": 130417,
-      "implementation": "stub-C",
-      "source": "src/pass-stubs.c",
-      "abi": "cdecl void(const char *name,unsigned char input)"
+      "end": 130560,
+      "implementation": "C",
+      "source": "src/repro.c",
+      "abi": "cdecl void(const char *name,unsigned char input)",
+      "evidence": "Whole1fd70..1fe00 decoded; fresh original/native GDB entry and partialstreams match rom-local-imports-reproduce_input-3fhm2rpt. Native external copy boundary is explicit captured system command response."
     },
     {
       "name": "_allocate_checked",
@@ -1576,10 +1586,11 @@
     {
       "name": "_emit_rom_relocations",
       "start": 127616,
-      "end": 127617,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 127872,
+      "implementation": "C",
+      "source": "src/base-relocations.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Whole1f280..1f380 decoded; fresh matching original/native entry, partialstreams and typed16-byte fixup records(type+0,rva+8,value+12); unknown+4 excluded as unconsumed. ROM DWORD pairs, HIGHADJ continuation and REFLO diagnostics recovered; latter branches static only."
     },
     {
       "name": "_resolve_entry_symbol",
@@ -2158,10 +2169,11 @@
     {
       "name": "_warn_unused_libraries",
       "start": 117994,
-      "end": 117995,
-      "implementation": "stub-C",
-      "source": "src/pass-stubs.c",
-      "abi": "cdecl void(Library *library)"
+      "end": 118096,
+      "implementation": "C",
+      "source": "src/pass-one.c",
+      "abi": "cdecl void(Library *library)",
+      "evidence": "Whole1ccea..1cd50 decoded, including unaligned entry after preceding RET. Fresh matching original/native first entry and partialstreams; library name/search_flags test and omitted enumerator cleanup preserved."
     },
     {
       "name": "_check_explicit_modules",
@@ -2840,10 +2852,11 @@
     {
       "name": "_format_input_reference",
       "start": 152320,
-      "end": 152321,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(char *display,const char *library,const char *file)"
+      "end": 152576,
+      "implementation": "C",
+      "source": "src/object.c",
+      "abi": "cdecl void(char *display,const char *library,const char *file)",
+      "evidence": "Whole25300..25400 decoded; fresh original/native entry and partialstreams match. Retains direct/library display and shared abort_file update with native copy intrinsics."
     },
     {
       "name": "_prepend_external",
@@ -3224,10 +3237,11 @@
     {
       "name": "_format_undefined_references",
       "start": 154320,
-      "end": 154321,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(TextBuffer *buffer,External *external)"
+      "end": 154528,
+      "implementation": "C",
+      "source": "src/object.c",
+      "abi": "cdecl void(TextBuffer *buffer,External *external)",
+      "evidence": "Whole25ad0..25ba0 decoded; fresh matching original/native entry and partialstreams. Reference enumeration, separator lengths, intrinsic strlen and included NUL recovered; no end callback in original."
     },
     {
       "name": "_get_externals_by_name",
@@ -3517,10 +3531,11 @@
     {
       "name": "_adjust_rom_section_header",
       "start": 140000,
-      "end": 140001,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(Section *section,IMAGE_SECTION_HEADER *header,Image *image)"
+      "end": 140240,
+      "implementation": "C",
+      "source": "src/section-layout.c",
+      "abi": "cdecl void(Section *section,IMAGE_SECTION_HEADER *header,Image *image)",
+      "evidence": "Whole222e0..223d0 decoded; fresh matching original/native entry and streams. i386 early return dynamically reached; MIPS section-name/flags branches statically recovered only."
     },
     {
       "name": "_set_section_directory_rva",
@@ -8758,6 +8773,14 @@
     "legacy-win16-resources",
     "omf-lidata-exestr-library",
     "omf-lidata-exestr-library",
-    "omf-lidata-exestr-library"
+    "omf-lidata-exestr-library",
+    "rom-local-imports",
+    "rom-local-imports",
+    "rom-local-imports",
+    "rom-local-imports",
+    "rom-local-imports",
+    "rom-local-imports",
+    "rom-local-imports",
+    "rom-local-imports"
   ]
 }

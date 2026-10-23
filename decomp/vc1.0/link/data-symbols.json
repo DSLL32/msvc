@@ -4131,5 +4131,14 @@
       104,
       148
     ]
+  },
+  {
+    "address": 495768,
+    "name": "pdata_section_defaults",
+    "size": 8,
+    "owner": "src/link-pass.c",
+    "string_pointers": [
+      0
+    ]
   }
 ]

@@ -106,6 +106,8 @@ if len(sys.argv)==1:
 for r in records:
     if r['name']=='__find':
         r['evidence']='byte-exact shipped _SETARGV.OBJ; Find* relocations verified; native CRT-boundary differential proof in lib/recon/find-validation.json'
+    if r['name']=='_system':
+        r['evidence']='byte-exact shipped SYSTEM.OBJ with relocation targets verified; fresh native/original system boundary, errno0 entry/return, exact pinned cmdcopy responses in cases/rom-local-imports'
 records.sort(key=lambda r:r['start'])
 Path(sys.argv[2] if len(sys.argv) > 2 else 'runtime.json').write_text(json.dumps(records, indent=2)+'\n')
 print('%d runtime functions identified, %d bytes' %

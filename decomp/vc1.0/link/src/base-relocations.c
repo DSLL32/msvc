@@ -69,3 +69,28 @@ int compare_base_fixups(const void *left,const void *right)
     return (int)(((const BaseFixup *)left)->rva-((const BaseFixup *)right)->rva);
 }
 
+
+/* Original [0001f280,0001f380). ROM uses pairs of DWORDs, not PE blocks. */
+void emit_rom_relocations(void)
+{
+    BaseFixup *record,*next;
+    unsigned long encoded[2];
+    seek_file(output_file,base_relocation_section->file_offset,SEEK_SET);
+    qsort(base_fixups,base_fixup_next-base_fixups,sizeof(*base_fixups),compare_base_fixups);
+    for (record=base_fixups;record!=base_fixup_next;++record) {
+        encoded[0]=record->rva;
+        encoded[1]=((unsigned long)record->type<<27)+record->value.symbol_index;
+        write_file(output_file,encoded,sizeof(encoded));
+        if (record->type==IMAGE_REL_BASED_HIGHADJ) {
+            next=record+1;
+            if (next->type!=0x55)
+                printf("COFF: Illegal Hi/Lo relocation pair, Type = %d, address = %08lx\n",
+                    next->type,record->rva);
+            encoded[0]=next->value.adjustment+record->rva;
+            encoded[1]=record->value.symbol_index+0x28000000UL;
+            write_file(output_file,encoded,sizeof(encoded));
+            record=next;
+        }
+        if (record->type==5) printf("Warning: Unmatched REFLO.\n");
+    }
+}

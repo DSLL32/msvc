@@ -1,0 +1,4 @@
+{
+  "status": "not a semantic failure or accepted case",
+  "reason": "Original-only helper rejected newly encountered CMD child before it executed; no target status available. Narrow pinned-copy capture was then authorized and separate full original runs succeed."
+}

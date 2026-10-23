@@ -274,12 +274,19 @@
       "manifest_path": "cases/shared-prefix/omf-lidata-exestr-library/manifest.json",
       "manifest_sha256": "7f54377c3102160adc0ad716e4421c9035200d21ab9c3f27c3418c06c81d4d98",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "rom-local-imports": {
+      "receipt_path": "cases/shared-prefix/rom-local-imports/capture/receipt.json",
+      "receipt_sha256": "4b11988c3741d4adc797df373b04ee95f5804861e9a49d6e8625a54c7287bb9d",
+      "manifest_path": "cases/shared-prefix/rom-local-imports/manifest.json",
+      "manifest_sha256": "b3a72e56245155ade649a61d024f4fe2459b003796ee4c47b69fd597fd61e500",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "0b5870f1623475754c6c477c2d3b3cf77f7f58cc8b4b490e5e460cc1b92b0c31",
-    "runtime.json": "0cd6b61b5dcee06e3ee5bc870634b94be341fdde6185b4816d577e0879b9685c",
-    "replay-cases.json": "edf779c680e3b944009307518ec661083dc347ebf1ead243b59d7b71a7e1dd3d"
+    "functions.json": "a7315db8b9f64c726fc2e6885fd803f2cdc04671fa6e36892ee3d3154e578952",
+    "runtime.json": "4cb6c3bdc9a1aad6009aebfbd20b2f4d3959406cc49ab2950b8d3305c0842470",
+    "replay-cases.json": "99e1b3806b9184c4dcb90e61a9bd459a0516fe5277fe9fcc7ca455325644f2c8"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -313,9 +320,9 @@
       "implementation": "C"
     },
     "adjust_rom_section_header": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/section-layout.c",
       "logical": "_adjust_rom_section_header",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "advance_file_page": {
       "source": "src/files.c",
@@ -523,9 +530,9 @@
       "implementation": "C"
     },
     "close_trace_file": {
-      "source": "src/driver-stubs.c",
+      "source": "src/repro.c",
       "logical": "_close_trace_file",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "coff_section_name": {
       "source": "src/coff-io.c",
@@ -1963,9 +1970,9 @@
       "implementation": "C"
     },
     "emit_rom_relocations": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/base-relocations.c",
       "logical": "_emit_rom_relocations",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "emit_string_table": {
       "source": "src/external-output.c",
@@ -2228,9 +2235,9 @@
       "implementation": "C"
     },
     "format_input_reference": {
-      "source": "src/object-stubs.c",
+      "source": "src/object.c",
       "logical": "_format_input_reference",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "format_instruction": {
       "source": "src/disassembly-output.c",
@@ -2258,9 +2265,9 @@
       "implementation": "C"
     },
     "format_undefined_references": {
-      "source": "src/object-stubs.c",
+      "source": "src/object.c",
       "logical": "_format_undefined_references",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "free_pointer": {
       "source": "src/arena.c",
@@ -3523,9 +3530,9 @@
       "implementation": "stub-C"
     },
     "reproduce_input": {
-      "source": "src/pass-stubs.c",
+      "source": "src/repro.c",
       "logical": "_reproduce_input",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "reserve_text": {
       "source": "src/text-buffer.c",
@@ -3938,9 +3945,9 @@
       "implementation": "C"
     },
     "warn_unused_libraries": {
-      "source": "src/pass-stubs.c",
+      "source": "src/pass-one.c",
       "logical": "_warn_unused_libraries",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "warning_message": {
       "source": "src/diagnostics.c",
@@ -4758,7 +4765,14 @@
     "convert_legacy_accelerators",
     "omf_record_iterated_data",
     "omf_expand_iterated_block",
-    "omf_write_comment_data"
+    "omf_write_comment_data",
+    "reproduce_input",
+    "format_input_reference",
+    "warn_unused_libraries",
+    "format_undefined_references",
+    "adjust_rom_section_header",
+    "emit_rom_relocations",
+    "close_trace_file"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4904,7 +4918,8 @@
       "_fwrite",
       "__heap_expand_block",
       "_memmove",
-      "__find"
+      "__find",
+      "_system"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -5985,6 +6000,24 @@
         "omf_record_iterated_data",
         "omf_expand_iterated_block",
         "omf_write_comment_data"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "rom-local-imports": {
+      "first": 801,
+      "last": 809,
+      "seen_count": 625,
+      "expected": [
+        "reproduce_input",
+        "format_input_reference",
+        "warn_unused_libraries",
+        "format_undefined_references",
+        "adjust_rom_section_header",
+        "emit_rom_relocations",
+        "close_trace_file"
       ],
       "terminal": {
         "kind": "exit",

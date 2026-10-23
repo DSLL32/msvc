@@ -5,7 +5,6 @@
 char * replace_extension(const char *name,const char *extension) { __asm { int 3 } return 0; }
 void resolve_entry_symbol(SymbolTable *table) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
-void emit_rom_relocations(void) { __asm { int 3 } }
 
 
 
@@ -27,7 +26,6 @@ void end_comdat_root_enumerator(ComdatRootEnumerator *scan) { __asm { int 3 }  }
 
 
 
-void adjust_rom_section_header(Section *section,IMAGE_SECTION_HEADER *header,Image *image) { __asm { int 3 } }
 
 
 

@@ -452,3 +452,40 @@ void process_weak_external(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBO
     }
     seek_file(input_file,position,SEEK_SET);
 }
+
+/* Original [00025300,00025400). The exception context shares the display name. */
+extern char abort_file[256];
+#pragma intrinsic(strcat,strcpy)
+void format_input_reference(char *output,const char *library,const char *file)
+{
+    *output=0;
+    if (library) {
+        strcat(output,library);
+        strcat(output," (");
+        strcat(output,file);
+        strcat(output,")");
+    } else strcat(output,file);
+    strcpy(abort_file,output);
+}
+#pragma function(strcat,strcpy)
+
+/* Original [00025ad0,00025ba0). The terminator belongs to the buffer length. */
+#pragma intrinsic(strlen)
+void format_undefined_references(TextBuffer *buffer,External *external)
+{
+    ReferenceEnumerator references;
+    char display[260];
+    unsigned char first=1;
+    buffer->data=NULL;
+    buffer->capacity=0;
+    buffer->length=0;
+    initialize_reference_enumerator(&references,external);
+    while (next_reference(&references)) {
+        append_text(buffer,first?" in ":", ",first?4:2);
+        format_module_name(references.current,display);
+        append_text(buffer,display,strlen(display));
+        first=0;
+    }
+    append_text(buffer,"",1);
+}
+#pragma function(strlen)

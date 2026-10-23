@@ -115,5 +115,8 @@
   },
   "omf-lidata-exestr-library": {
     "directory": "cases/shared-prefix/omf-lidata-exestr-library"
+  },
+  "rom-local-imports": {
+    "directory": "cases/shared-prefix/rom-local-imports"
   }
 }

@@ -114,6 +114,10 @@ def run_case(name, executable, directory, parser, state, tracing=None):
         target = work / Path(item['path']).name
         assert not target.exists(), 'duplicate input basename'
         target.write_bytes(data)
+    for directory in phase.get('directories',[]):
+        relative=Path(directory)
+        assert not relative.is_absolute() and '..' not in relative.parts
+        (work/relative).mkdir(parents=True,exist_ok=True)
     for item in metadata.get('toolchain_dependencies', [])+phase.get('toolchain_dependencies', []):
         captured(ROOT / item['path'], item)
     for item in phase.get('outputs', []):
@@ -148,6 +152,11 @@ def run_case(name, executable, directory, parser, state, tracing=None):
         spec.loader.exec_module(module)
         process_fixture = module.ProcessFixture(name,work,env)
         trace_options['pass_fds'] = trace_options.get('pass_fds',())+(process_fixture.fileno(),)
+    elif name=='rom-local-imports':
+        spec=importlib.util.spec_from_file_location('native_repro_fixture',Path(__file__).with_name('native-repro.py'))
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        process_fixture=module.ProcessFixture(work,env)
+        trace_options['pass_fds']=trace_options.get('pass_fds',())+(process_fixture.fileno(),)
     setup = time.perf_counter() - start
     state['setup_seconds'] = setup
     launch = time.perf_counter()
@@ -184,7 +193,7 @@ def run_case(name, executable, directory, parser, state, tracing=None):
             left = expected[i] if i<len(expected) else '<end>'
             right = actual[i] if i<len(actual) else '<end>'
             assert left==right, f'native trace divergence at entry {i}: expected {left}, actual {right}'
-        if process_fixture is not None:
+        if name in ('hello-dll','hello-debug-dll'):
             markers = ['library_main','build_import_library'] if name=='hello-dll' else ['read_definition_file']
             assert all(marker in actual for marker in markers), 'native child application entries missing'
             state['process_fixture']['child_application_entries'] = markers

@@ -4,15 +4,22 @@
 #include "options.h"
 #include "comdat.h"
 #include <time.h>
+#include <stddef.h>
 #include <recon.h>
 typedef struct SectionDefault { char *name; unsigned long flags; } SectionDefault;
 typedef struct Fixup { unsigned long type,offset,rva; } Fixup;
 typedef struct FixupBlock { struct FixupBlock *next; Fixup records[341]; } FixupBlock;
 typedef struct BaseFixup {
     unsigned short type;
+    /* Original +4 slot is unconsumed by the encountered writers/readers.
+     * Its meaning remains unknown; never initialize or serialize it explicitly. */
+    unsigned long unconsumed;
     unsigned long rva;
     union { unsigned long adjustment,symbol_index; } value;
 } BaseFixup;
+typedef char BaseFixupLayout[(sizeof(BaseFixup)==16 &&
+    offsetof(BaseFixup,type)==0 && offsetof(BaseFixup,unconsumed)==4 &&
+    offsetof(BaseFixup,rva)==8 && offsetof(BaseFixup,value)==12)?1:-1];
 extern BaseFixup *base_fixups,*base_fixup_next;
 /* Native CodeView bookkeeping uses five offset/size/flags descriptors.
  * The types descriptor uses flags to identify precompiled type records. */

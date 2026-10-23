@@ -1,0 +1,9 @@
+-ROM
+-warn:2
+-nodefaultlib
+-entry:main
+-subsystem:console
+-out:.\rom.exe
+-map:.\rom.map
+.\provider.obj
+.\client.obj

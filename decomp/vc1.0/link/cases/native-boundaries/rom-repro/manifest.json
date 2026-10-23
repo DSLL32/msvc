@@ -1,0 +1,76 @@
+{
+  "case": "rom-local-imports",
+  "boundary": "Original CRT system\u2192pinned command processor copy, external tool response only",
+  "canonical_working_directory": "S:\\vc1.0\\link\\rom-local-imports",
+  "raw_peb_cwd": "S:\\vc1.0\\link\\rom-local-imports\\",
+  "environment": {
+    "LINK_REPRO": "S:\\vc1.0\\link\\rom-local-imports\\repro",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "COMSPEC": "C:\\windows\\system32\\cmd.exe",
+    "TEMP": "C:\\users\\root\\AppData\\Local\\Temp",
+    "TMP": "C:\\users\\root\\AppData\\Local\\Temp"
+  },
+  "unset_environment": [
+    "COPYCMD",
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "LINK32_DB"
+  ],
+  "command_processor_sha256": "fbad04a8b0b34f2550c8b748a5aa2886e493a0b70491578c633e483f11e3146c",
+  "steps": [
+    {
+      "file": "C:\\windows\\system32\\cmd.exe",
+      "argv": [
+        "C:\\windows\\system32\\cmd.exe",
+        "/c",
+        "copy provider.obj S:\\vc1.0\\link\\rom-local-imports\\repro\\."
+      ],
+      "command_line": "C:\\windows\\system32\\cmd.exe /c copy provider.obj S:\\vc1.0\\link\\rom-local-imports\\repro\\.",
+      "input": {
+        "path": "../../rom-local-imports/inputs/provider.obj",
+        "name": "provider.obj",
+        "bytes": 549,
+        "sha256": "ec69a9c9dde677ae75b2498049327fe31f7eb99a653e59996d9bdfee529e1065"
+      },
+      "output": {
+        "path": "../../rom-local-imports/expected/repro/provider.obj",
+        "name": "repro/provider.obj",
+        "bytes": 549,
+        "sha256": "ec69a9c9dde677ae75b2498049327fe31f7eb99a653e59996d9bdfee529e1065"
+      },
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "C:\\windows\\system32\\cmd.exe",
+      "argv": [
+        "C:\\windows\\system32\\cmd.exe",
+        "/c",
+        "copy client.obj S:\\vc1.0\\link\\rom-local-imports\\repro\\."
+      ],
+      "command_line": "C:\\windows\\system32\\cmd.exe /c copy client.obj S:\\vc1.0\\link\\rom-local-imports\\repro\\.",
+      "input": {
+        "path": "../../rom-local-imports/inputs/client.obj",
+        "name": "client.obj",
+        "bytes": 563,
+        "sha256": "94e6f3e0be704095b16661fe124a5df30203c8537f349bd00e5679e6c17e54c7"
+      },
+      "output": {
+        "path": "../../rom-local-imports/expected/repro/client.obj",
+        "name": "repro/client.obj",
+        "bytes": 563,
+        "sha256": "94e6f3e0be704095b16661fe124a5df30203c8537f349bd00e5679e6c17e54c7"
+      },
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "provenance": "../../rom-local-imports/capture/original-validation.json",
+  "errno_observation": "Original parent CRT errno0 at each child CREATE/EXIT; no error path claimed",
+  "stream_policy": "Both child streams empty in repeatedoriginals; nonempty metadata must fail rather than be omitted"
+}

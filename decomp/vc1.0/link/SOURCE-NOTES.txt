@@ -973,3 +973,24 @@ pragma-scope leak that added memcpy to an older routine; corrected before final
 checks, failed23.630s attempt preserved separately from final6.979s build/audits.
 Both families complete. Root approved the next combined ROM/local-import/repro
 case for original validation under autonomous continuation; unknown code is not CRT.
+
+ROM/reproduction checkpoint809
+
+Two original successes freeze local import/duplicate warnings, full2MBROM COFF,
+MAP, exact125-byte response and two copied objects. Seven new application bodies
+close1186instructions+36alignment; byte/relocation-exact CRT _system176 is separate
+support, no application credit. Native system requests verify complete inputs,
+command/cwd/environment and captured effects; no shell/Wine/PE is run in fixtures.
+The first cmd rejection was helper transport, preserved separately.
+
+BaseFixup was incorrectly12bytes in prior source: original writer/comparator/ROM
+serializer prove16byte stride and rva+8/value+12. Compiler layout assertions and
+fresh original/native typed ROM state now match; unknown+4 is unconsumed and never
+serialized or explicitly initialized. Prior PE/Mac artifact agreement did not
+validate that old physical layout. Historical12byte samples are not correct. All39
+prior native cases still pass with the fix; final40cases/632appentries pass2.549s
+external. Whole original seven-entry trace, allfive outputs and streams match.
+660Rustgraphs/649callbacks/455data/41ECX and negative checks pass. Accepted union
+230971/281634=82.0110%,809frontiers. See cases/rom-local-imports/validation.json.
+Next root-approved single substantial public workflow: EDIT rebase/bind/release,
+with genuinely relocated EXE and pinned local DLL; original validation first.

@@ -5,15 +5,15 @@ period Win32 C preserving individual graph vertices and calling conventions.
 Pending functions are named INT3 stubs. There are no assembly ABI exceptions,
 lifted implementation blocks or copied original data sections.
 
-Current checkpoint: 801 accepted frontiers, 229573/281634 accepted .text bytes
-(81.5147%). This union includes contextual inline data and alignment; it is not
-branch coverage. The partial checked inventory distinguishes166234 accepted
-application instruction bytes,27047 CRT instructions,198 import-thunk bytes,
-1784 inline-data bytes,2670 alignment bytes and31640 accepted unclassified bytes.
-Unclassified bytes are not all padding. cases/omf-lidata-exestr/components.json
+Current checkpoint: 809 accepted frontiers, 230971/281634 accepted .text bytes
+(82.0110%). This union includes contextual inline data and alignment; it is not
+branch coverage. The partial checked inventory distinguishes167420 accepted
+application instruction bytes,27209 CRT instructions,198 import-thunk bytes,
+1784 inline-data bytes,2706 alignment bytes and31654 accepted unclassified bytes.
+Unclassified bytes are not all padding. cases/rom-local-imports/components.json
 records the partial accounting; it is not a full application-body denominator.
 
-The39 completed native cases cover help; minimal console/GUI/DLL linking;
+The40 completed native cases cover help; minimal console/GUI/DLL linking;
 archive creation/list/extract/remove; COFF/archive/PE/FPO/symbol-map dumps; PE
 editing; ordinary OMF conversion/linking; old C++ undecoration; x86 disassembly;
 Macintosh linking/relocations/debug/swapper/static/resource/pcode paths; DEF
@@ -22,8 +22,10 @@ immutable inputs, streams, outputs and clock rules are in cases/shared-prefix/.
 Only these fresh shared-prefix references are active. Earlier accepted-body,
 ABI/state, CFG and rejected semantic-defect evidence remains historical analysis.
 Both selected Win16-resource and ordinary OMF LIDATA/EXESTR families are complete.
-Root approved the next single combined ROM/local-import/duplicate-warning/MAP/
-LINK_REPRO case for original validation. No reachability is inferred from percentage.
+The combined ROM/local-import/duplicate-warning/MAP/LINK_REPRO case also passes;
+its seven application functions and corrected BaseFixup layout are documented in
+cases/rom-local-imports. Root approved the next public EDIT rebase/bind/release
+workflow for original validation. No reachability is inferred from percentage.
 
 Native build, fixtures and GDB
 
@@ -34,9 +36,10 @@ Run from this binary root:
     python3 scripts/check-native.py --trace --case m68k-debug-swapper
     python3 scripts/check-native-boundary.py
     python3 scripts/check-native-rejections.py
+    python3 scripts/check-native-repro.py
     gdb --args build/native/LINK.EXE /?
 
-check/replay execute the instrumented i386 ELF against all39 cached originals.
+check/replay execute the instrumented i386 ELF against all40 cached originals.
 They never invoke Wine, original executables, PE helpers or automatic capture.
 Clang flags are -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g.
 The same src/ reconstruction files build both ELF and Win32; shared lib/recon C
@@ -66,6 +69,8 @@ DLL children execute the actual native ELF. The external CVPACK response is a
 strict captured boundary: invocation/environment and the entire normalized
 prepack input must match before the frozen packed response is applied. Nonempty
 captured child streams are rejected. See cases/native-boundaries/README.txt.
+LINK_REPRO copy children use a separate pinned captured system response, verifying
+full current inputs before replay; fixtures never launch a command processor.
 GUI execution, DLL load/unload, SEH fault delivery and arbitrary process trees
 are outside this ELF fixture suite. Actual GUI/console behavior was checked in
 the original capture provenance; generated PE programs are never run by fixtures.
@@ -80,11 +85,11 @@ These commands use Wine outside fixture execution:
     python3 scripts/capture-shared.py --case help --output-root <new-reference-folder>
 
 The original compiler/linker build remains the default target. Static checks
-use the shared Rust CFG engine for652 source/runtime graphs, including10
+use the shared Rust CFG engine for660 source/runtime graphs, including11
 evidenced runtime vertices, with return-cleanup, function-reference, application-
-ownership and whole-extent checks. All807original/804rebuilt accepted extent
-records (unique802/801) receive boundary checks. Retained Python checks cover
-642callback sets,454contextual data definitions and41ECX-member return cleanups.
+ownership and whole-extent checks. All815original/812rebuilt accepted extent
+records (unique810/809) receive boundary checks. Retained Python checks cover
+649callback sets,455contextual data definitions and41ECX-member return cleanups.
 The quiet incremental Cargo helper builds once; audit invokes the executable
 directly, preserving its JSON output/errors. No cargo run or Wine is introduced
 by this host tool. See cases/graph-audit-validation.json and the explicit
@@ -136,7 +141,7 @@ The approved OMF and large-symbol/wildcard families are recorded in
 cases/omf-symbols-wildcards-queue.json. OMF is complete (ten functions/1936extent
 bytes,1864instructions and72alignment); its source/alias/provenance/validation
 are in cases/omf-records. The second family uses4096ordinary external definitions
-compiled by original CL and a relative unit?.obj operand. No further families
-are authorized. Known-body estimates are opportunities, not branch-coverage or
+compiled by original CL and a relative unit?.obj operand. Further cases proceed one substantial root-reviewed workflow at a time under
+autonomous continuation. Known-body estimates are opportunities, not branch-coverage or
 99% promises. SOURCE-NOTES.txt retains historical checkpoints; current metadata
 supersedes them.

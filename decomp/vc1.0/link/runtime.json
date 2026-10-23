@@ -319,7 +319,8 @@
     "start": 336512,
     "end": 336688,
     "object": "exec\\obj\\i386\\SYSTEM.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact shipped SYSTEM.OBJ with relocation targets verified; fresh native/original system boundary, errno0 entry/return, exact pinned cmdcopy responses in cases/rom-local-imports"
   },
   {
     "name": "___setargv",
