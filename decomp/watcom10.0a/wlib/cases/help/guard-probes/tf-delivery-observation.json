@@ -1,0 +1,18 @@
+{
+  "status": "observed authored Win32 debugger TF consumption; policy change pending review",
+  "events": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-probes-02-logger/guarded-positive/events.txt",
+  "events_sha256": "26113436a9c03cb3e67ab15ea9d14bc8ece39aa4b2afc8be65fc88dbeab96ca2",
+  "records": [
+    "guard-step-begin site=0040100d opcode=53 thread=1156 expected-next=0040100e requested-flags=00000393 expected-nondebug-flags=00000293",
+    "guard-step-armed-readback tid=1156 eip=0040100d esp=0031fe5c eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706c esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 eflags=00000393",
+    "guard-step-result=8 tid=1156 actual-pc=0040100e expected-pc=0040100e actual-esp=0031fe58 expected-esp=0031fe58 actual-push=3fff1000 expected-push=3fff1000 actual-flags=00000293 expected-nondebug-flags=00000293 actual-ds=002b expected-ds=002b actual-gs=0063 expected-gs=0063",
+    "failure-read-only-dword rva=00009bec value=00000000",
+    "owned-exit-confirmed status=141",
+    "failure-owned-child exited-event=1 signaled=1 status=141"
+  ],
+  "observed_requested_flags": 915,
+  "observed_readback_flags": 915,
+  "observed_single_step_flags": 659,
+  "difference": 256,
+  "original_Watcom_or_patched_target_executed": false
+}

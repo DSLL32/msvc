@@ -1,0 +1,36 @@
+{
+  "status": "Scratch full-context correction compiled and tested natively; production unchanged; no new Win32 or original execution",
+  "full_raw_event_context": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-probes-02-logger/guarded-positive/events.txt",
+  "event_context_sha256": "26113436a9c03cb3e67ab15ea9d14bc8ece39aa4b2afc8be65fc88dbeab96ca2",
+  "immutable_logged_helper": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-build-02-logger/diagnose-startup.exe",
+  "helper_sha256": "7b3a15b657bff1421ee0fe43eb97191a112766824820e0f29abfc070d7045fe8",
+  "immutable_logged_source": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-build-02-logger/diagnose-startup.c",
+  "logged_source_sha256": "90ff36eda302973d5647dbe9211b811ffdf48188d6d515315997bc3c17c630c4",
+  "immutable_logged_policy_header": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-build-02-logger/resource-guard.h",
+  "logged_policy_header_sha256": "6db29ad5709fc2c81725b1e3eb10ab9e2b49914c4c5cba15df99c5e5ef2fce5b",
+  "build_receipt": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-build-02-logger/receipt.json",
+  "build_receipt_sha256": "10af98a36a2499fe830bbc0db79b62f786965ee68d5ea50ba38f959383952c38",
+  "requested_and_actual_ARM_readback_flags_hex": "00000393",
+  "owned_single_step_flags_hex": "00000293",
+  "only_changed_bit_hex": "00000100",
+  "exact_packet": "Windows PID932/TID1156; owner site0040100d; requested/readback EIP0040100d/ESP0031fe5c, step code80000004/address=EIP0040100e/ESP0031fe58; actual pushed3fff1000 equals original EBX, DS002b and GS0063 unchanged; reader marker remained0 and owned process terminated141 with real exit event confirmed.",
+  "proposed_predicate": [
+    "Owned identified PUSH-reg before state requires TF0. Actual SetThreadContext/GetThreadContext ARM readback requires TF1 and exact PC, all eight GP registers, every other EFlags bit including RF, and meaningful WORDs of CS/SS/DS/ES/FS/GS. Explicit per-step arm state forbids missing or duplicate readback.",
+    "Finish requires same owned thread and actual first-chance EXCEPTION_SINGLE_STEP, successor PC, decremented SP, pushed original register value, TF0, all other flags exactly unchanged including RF, seven unrelated GP registers unchanged, and all six segment selectors unchanged.",
+    "Transport retains raw CONTEXT fields, checks actual event address equals context EIP, restores/rearms only owned byte, clears only owned TF, and terminates/drains only owned process on denial."
+  ],
+  "new_required_negative_probes": [
+    "Actual shared scratch policy executed for missing, duplicate, TF0 and wrong-thread ARM; wrong ARM PC, each of eight GP registers, each six segment selectors, and all 31 non-TF EFlags bits including RF.",
+    "Post-state rejects wrong code, second chance, wrong thread/PC/pushed value; each eight GP register change, all six segment selector changes, and every EFlags bit including TF1 and RF.",
+    "Pre-state rejects wrong thread/site, unsupported opcode, existing TF, duplicate pending step, SP underflow/site overflow. All eight PUSH opcodes have positive complete ARM/finish lifecycles and duplicate-finish rejection. Existing owner/reader/selector/capacity/RET12 tests retained."
+  ],
+  "proposed_file_hashes": {
+    "resource-guard.h": "a0c5d2d2c69308aa607dda424e69bb162be47f1d39ae897772f6d1bfc2a1f0d0",
+    "diagnose-startup.c": "4482951a4c5904ff913218f3e62a97acdd1429e060f6378666a01c23325f0759",
+    "probe-resource-guard.c": "990b7f64af59035c2c5100a15233cf5b4ff9801d1871d264918921c7b98d9585",
+    "predicate-and-transport.diff": "ae9de5956f4887408d353f4ac9779b75fb9ed85c627e1bae158ae17572eb4d74",
+    "native-probe-receipt.json": "102e707a21d4a52f1ab7d45425e7bade8b03aedd7a7e800279bc45043caa823b"
+  },
+  "native_probe_receipt": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/tf-consumed-proposal/native-probe-receipt.json",
+  "production_apply": false
+}

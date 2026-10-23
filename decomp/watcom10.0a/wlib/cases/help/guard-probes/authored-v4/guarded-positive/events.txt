@@ -1,0 +1,135 @@
+helper-start tick=2098150551 target=S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-positive\authored-child.exe arguments=positive "S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-positive\marker.bin" cwd=S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-positive\child
+actual-stdio-types stdin=3 stdout-pending stderr-pending
+actual-stdio-types stdout=1 stderr=1
+owned-child pid=908 tid=1576 command="S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-positive\authored-child.exe" positive "S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-positive\marker.bin"
+event code=3 pid=908 tid=1576 elapsed=0
+create base=00400000 entry=004017c0 teb=3ffe2000
+event code=6 pid=908 tid=1576 elapsed=1
+load-module base=7bcf0000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+module-export-name base=7bcf0000 name=ntdll.dll
+loader-module base=7bcf0000 size=002fe000
+event code=6 pid=908 tid=1576 elapsed=4
+load-module base=7bb70000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+module-export-name base=7bb70000 name=KERNEL32.dll
+event code=6 pid=908 tid=1576 elapsed=6
+load-module base=7b600000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+module-export-name base=7b600000 name=kernelbase.dll
+event code=6 pid=908 tid=1576 elapsed=15
+load-module base=10000000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+event code=7 pid=908 tid=1576 elapsed=15
+event code=6 pid=908 tid=1576 elapsed=16
+load-module base=10000000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+event code=7 pid=908 tid=1576 elapsed=16
+event code=1 pid=908 tid=1576 elapsed=17
+exception code=80000003 address=7bd50145 first=1
+exception-context tid=1576 eip=7bd50146 esp=0031fbec eax=0031fbf4 edx=ffffffff ebx=003421e0 ecx=0031fc04 esi=00000000 edi=00342368 ebp=0031fc4c cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 0031fc04 0031fbf4 ffffffff 7bd2b1a0 0034244c 7bb70000
+initial-loader-break classified-ntdll-rva=00060145
+event code=1 pid=908 tid=1576 elapsed=64
+exception code=80000003 address=004017c0 first=1
+exception-context tid=1576 eip=004017c1 esp=0031ff54 eax=3fff1000 edx=004017c0 ebx=3fff1000 ecx=00000000 esi=00000000 edi=00000000 ebp=0031ff68 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 7bb7ea40 3fff1000 7bcfce83 7bcfce83 3fff1000 0031ff80
+one-shot-site name=pe_entry rva=000017c0
+guard-initial-segments ds=002b gs=0063
+read-only-dword rva=00009bec value=00000000
+event code=1 pid=908 tid=1576 elapsed=65
+exception code=80000003 address=0040100d first=1
+exception-context tid=1576 eip=0040100e esp=0031fe5c eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000293
+raw-stack 00401055 003b0078 003b0000 00000000 0031fed4 7bd07c07
+persistent-site name=guard_owner_begin rva=0000100d
+guard-owner result=0 tid=1576 caller=00401055 esp=0031fe5c ebp=0031ff10 actual-pointer=0031fe60 expected=0031fe60 actual-object-capacity=128
+guard-owner-before address=0031fe60 size=128 bytes=78003b0000003b0000000000d4fe3100077cd07b78003b00bcfe310002100000fe13d00101ff3b0000003b00f8060100000034000210000000003b000210000000003b0078003b001c2bd17b00083d000808000000000000d100890010093b000a10000016000000000800000000000010704000d074d07b6c1140000f028900
+guard-step-begin site=0040100d opcode=53 thread=1576 expected-next=0040100e requested-flags=00000393 expected-nondebug-flags=00000293
+guard-step-armed-readback tid=1576 eip=0040100d esp=0031fe5c eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000393
+raw-stack 00401055 003b0078 003b0000 00000000 0031fed4 7bd07c07
+guard-arm-readback result=0 thread=1576 eip=0040100d esp=0031fe5c flags=00000393 cs=0023 ss=002b ds=002b es=002b fs=006b gs=0063
+event code=1 pid=908 tid=1576 elapsed=66
+exception code=80000004 address=0040100e first=1
+exception-context tid=1576 eip=0040100e esp=0031fe58 eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000293
+raw-stack 3fff1000 00401055 003b0078 003b0000 00000000 0031fed4
+guard-step-result=0 tid=1576 actual-pc=0040100e expected-pc=0040100e actual-esp=0031fe58 expected-esp=0031fe58 actual-push=3fff1000 expected-push=3fff1000 actual-flags=00000293 expected-nondebug-flags=00000293 actual-ds=002b expected-ds=002b actual-gs=0063 expected-gs=0063
+guard-step-rearmed site=0040100d thread=1576 pushed=3fff1000
+event code=1 pid=908 tid=1576 elapsed=67
+exception code=80000003 address=00401000 first=1
+exception-context tid=1576 eip=00401001 esp=0031fe48 eax=0000002b edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000293
+raw-stack 0040103a 0031fe60 0000002b 00000080 3fff1000 00401055
+persistent-site name=guard_reader_entry rva=00001000
+guard-reader result=0 call=1 tid=1576 esp=0031fe48 return=0040103a pointer=0031fe60 selector-word=002b raw-selector-slot=0000002b capacity=128 actual-ds=002b actual-gs=0063
+guard-step-begin site=00401000 opcode=51 thread=1576 expected-next=00401001 requested-flags=00000393 expected-nondebug-flags=00000293
+guard-step-armed-readback tid=1576 eip=00401000 esp=0031fe48 eax=0000002b edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000393
+raw-stack 0040103a 0031fe60 0000002b 00000080 3fff1000 00401055
+guard-arm-readback result=0 thread=1576 eip=00401000 esp=0031fe48 flags=00000393 cs=0023 ss=002b ds=002b es=002b fs=006b gs=0063
+event code=1 pid=908 tid=1576 elapsed=68
+exception code=80000004 address=00401001 first=1
+exception-context tid=1576 eip=00401001 esp=0031fe44 eax=0000002b edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000293
+raw-stack 0040706d 0040103a 0031fe60 0000002b 00000080 3fff1000
+guard-step-result=0 tid=1576 actual-pc=00401001 expected-pc=00401001 actual-esp=0031fe44 expected-esp=0031fe44 actual-push=0040706d expected-push=0040706d actual-flags=00000293 expected-nondebug-flags=00000293 actual-ds=002b expected-ds=002b actual-gs=0063 expected-gs=0063
+guard-step-rearmed site=00401000 thread=1576 pushed=0040706d
+event code=1 pid=908 tid=1576 elapsed=68
+exception code=80000003 address=0040103a first=1
+exception-context tid=1576 eip=0040103b esp=0031fe58 eax=00000000 edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 3fff1000 00401055 003b0078 003b0000 00000000 0031fed4
+guard-reader-return result=0 tid=1576 pc=0040103a esp=0031fe58 eax=00000000 ds=002b gs=0063
+guard-reader-after address=0031fe60 size=128 bytes=78003b0000003b0000000000d4fe3100077cd07b78003b00bcfe310002100000fe13d00101ff3b0000003b00f8060100000034000210000000003b000210000000003b0078003b001c2bd17b00083d000808000000000000d100890010093b000a10000016000000000800000000000010704000d074d07b6c1140000f028900
+event code=1 pid=908 tid=1576 elapsed=69
+exception code=80000003 address=00401055 first=1
+exception-context tid=1576 eip=00401056 esp=0031fe60 eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 003b0078 003b0000 00000000 0031fed4 7bd07c07 003b0078
+guard-owner-return result=0 tid=1576 pc=00401055 esp=0031fe60 eax=00000000 ds=002b gs=0063
+guard-owner-after address=0031fe60 size=128 bytes=78003b0000003b0000000000d4fe3100077cd07b78003b00bcfe310002100000fe13d00101ff3b0000003b00f8060100000034000210000000003b000210000000003b0078003b001c2bd17b00083d000808000000000000d100890010093b000a10000016000000000800000000000010704000d074d07b6c1140000f028900
+event code=1 pid=908 tid=1576 elapsed=70
+exception code=80000003 address=0040100d first=1
+exception-context tid=1576 eip=0040100e esp=0031fe5c eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 0040105c 003b0078 003b0000 00000000 0031fed4 7bd07c07
+persistent-site name=guard_owner_begin rva=0000100d
+guard-owner result=0 tid=1576 caller=0040105c esp=0031fe5c ebp=0031ff10 actual-pointer=0031fe60 expected=0031fe60 actual-object-capacity=128
+guard-owner-before address=0031fe60 size=128 bytes=78003b0000003b0000000000d4fe3100077cd07b78003b00bcfe310002100000fe13d00101ff3b0000003b00f8060100000034000210000000003b000210000000003b0078003b001c2bd17b00083d000808000000000000d100890010093b000a10000016000000000800000000000010704000d074d07b6c1140000f028900
+guard-step-begin site=0040100d opcode=53 thread=1576 expected-next=0040100e requested-flags=00000346 expected-nondebug-flags=00000246
+guard-step-armed-readback tid=1576 eip=0040100d esp=0031fe5c eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000346
+raw-stack 0040105c 003b0078 003b0000 00000000 0031fed4 7bd07c07
+guard-arm-readback result=0 thread=1576 eip=0040100d esp=0031fe5c flags=00000346 cs=0023 ss=002b ds=002b es=002b fs=006b gs=0063
+event code=1 pid=908 tid=1576 elapsed=71
+exception code=80000004 address=0040100e first=1
+exception-context tid=1576 eip=0040100e esp=0031fe58 eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 3fff1000 0040105c 003b0078 003b0000 00000000 0031fed4
+guard-step-result=0 tid=1576 actual-pc=0040100e expected-pc=0040100e actual-esp=0031fe58 expected-esp=0031fe58 actual-push=3fff1000 expected-push=3fff1000 actual-flags=00000246 expected-nondebug-flags=00000246 actual-ds=002b expected-ds=002b actual-gs=0063 expected-gs=0063
+guard-step-rearmed site=0040100d thread=1576 pushed=3fff1000
+event code=1 pid=908 tid=1576 elapsed=71
+exception code=80000003 address=00401000 first=1
+exception-context tid=1576 eip=00401001 esp=0031fe48 eax=0000002b edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000293
+raw-stack 0040103a 0031fe60 0000002b 00000080 3fff1000 0040105c
+persistent-site name=guard_reader_entry rva=00001000
+guard-reader result=0 call=2 tid=1576 esp=0031fe48 return=0040103a pointer=0031fe60 selector-word=002b raw-selector-slot=0000002b capacity=128 actual-ds=002b actual-gs=0063
+guard-step-begin site=00401000 opcode=51 thread=1576 expected-next=00401001 requested-flags=00000393 expected-nondebug-flags=00000293
+guard-step-armed-readback tid=1576 eip=00401000 esp=0031fe48 eax=0000002b edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000393
+raw-stack 0040103a 0031fe60 0000002b 00000080 3fff1000 0040105c
+guard-arm-readback result=0 thread=1576 eip=00401000 esp=0031fe48 flags=00000393 cs=0023 ss=002b ds=002b es=002b fs=006b gs=0063
+event code=1 pid=908 tid=1576 elapsed=72
+exception code=80000004 address=00401001 first=1
+exception-context tid=1576 eip=00401001 esp=0031fe44 eax=0000002b edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000293
+raw-stack 0040706d 0040103a 0031fe60 0000002b 00000080 3fff1000
+guard-step-result=0 tid=1576 actual-pc=00401001 expected-pc=00401001 actual-esp=0031fe44 expected-esp=0031fe44 actual-push=0040706d expected-push=0040706d actual-flags=00000293 expected-nondebug-flags=00000293 actual-ds=002b expected-ds=002b actual-gs=0063 expected-gs=0063
+guard-step-rearmed site=00401000 thread=1576 pushed=0040706d
+event code=1 pid=908 tid=1576 elapsed=73
+exception code=80000003 address=0040103a first=1
+exception-context tid=1576 eip=0040103b esp=0031fe58 eax=00000000 edx=0031fe60 ebx=00000080 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 3fff1000 0040105c 003b0078 003b0000 00000000 0031fed4
+guard-reader-return result=0 tid=1576 pc=0040103a esp=0031fe58 eax=00000000 ds=002b gs=0063
+guard-reader-after address=0031fe60 size=128 bytes=78003b0000003b0000000000d4fe3100077cd07b78003b00bcfe310002100000fe13d00101ff3b0000003b00f8060100000034000210000000003b000210000000003b0078003b001c2bd17b00083d000808000000000000d100890010093b000a10000016000000000800000000000010704000d074d07b6c1140000f028900
+event code=1 pid=908 tid=1576 elapsed=74
+exception code=80000003 address=0040105c first=1
+exception-context tid=1576 eip=0040105d esp=0031fe60 eax=00000000 edx=0031fe60 ebx=3fff1000 ecx=0040706d esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 003b0078 003b0000 00000000 0031fed4 7bd07c07 003b0078
+guard-owner-return result=0 tid=1576 pc=0040105c esp=0031fe60 eax=00000000 ds=002b gs=0063
+guard-owner-after address=0031fe60 size=128 bytes=78003b0000003b0000000000d4fe3100077cd07b78003b00bcfe310002100000fe13d00101ff3b0000003b00f8060100000034000210000000003b000210000000003b0078003b001c2bd17b00083d000808000000000000d100890010093b000a10000016000000000800000000000010704000d074d07b6c1140000f028900
+event code=1 pid=908 tid=1576 elapsed=75
+exception code=80000003 address=00401065 first=1
+exception-context tid=1576 eip=00401066 esp=0031fedc eax=00000000 edx=0000001b ebx=3fff1000 ecx=00890dd0 esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 00401263 00000000 00000000 00000000 3fff1000 0031ff50
+one-shot-site name=guard_final_exit rva=00001065
+guard-final-segments ds=002b gs=0063 calls=2
+actual-ExitProcess-status=0
+read-only-dword rva=00009bec value=00000002
+event code=5 pid=908 tid=1576 elapsed=76
+exit status=0
+diagnostic-end timeout=0 child-status=0 elapsed=76

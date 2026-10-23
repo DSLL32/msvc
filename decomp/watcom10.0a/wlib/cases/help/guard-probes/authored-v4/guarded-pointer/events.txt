@@ -1,0 +1,46 @@
+helper-start tick=2098151746 target=S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-pointer\authored-child.exe arguments=pointer "S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-pointer\marker.bin" cwd=S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-pointer\child
+actual-stdio-types stdin=1 stdout-pending stderr-pending
+actual-stdio-types stdout=1 stderr=1
+owned-child pid=588 tid=1976 command="S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-pointer\authored-child.exe" pointer "S:\watcom10.0a\wlib\resource-guard-probes-04-indirect-exit\guarded-pointer\marker.bin"
+event code=3 pid=588 tid=1976 elapsed=0
+create base=00400000 entry=004017c0 teb=3ffe2000
+event code=6 pid=588 tid=1976 elapsed=1
+load-module base=7bcf0000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+module-export-name base=7bcf0000 name=ntdll.dll
+loader-module base=7bcf0000 size=002fe000
+event code=6 pid=588 tid=1976 elapsed=4
+load-module base=7bb70000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+module-export-name base=7bb70000 name=KERNEL32.dll
+event code=6 pid=588 tid=1976 elapsed=6
+load-module base=7b600000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+module-export-name base=7b600000 name=kernelbase.dll
+event code=6 pid=588 tid=1976 elapsed=17
+load-module base=10000000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+event code=7 pid=588 tid=1976 elapsed=17
+event code=6 pid=588 tid=1976 elapsed=18
+load-module base=10000000 file=0000003c image-name-pointer=3ffe2014 unicode=1
+event code=7 pid=588 tid=1976 elapsed=18
+event code=1 pid=588 tid=1976 elapsed=19
+exception code=80000003 address=7bd50145 first=1
+exception-context tid=1976 eip=7bd50146 esp=0031fbec eax=0031fbf4 edx=ffffffff ebx=003421d0 ecx=0031fc04 esi=00000000 edi=00342358 ebp=0031fc4c cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 0031fc04 0031fbf4 ffffffff 7bd2b1a0 0034243c 7bb70000
+initial-loader-break classified-ntdll-rva=00060145
+event code=1 pid=588 tid=1976 elapsed=51
+exception code=80000003 address=004017c0 first=1
+exception-context tid=1976 eip=004017c1 esp=0031ff54 eax=3fff1000 edx=004017c0 ebx=3fff1000 ecx=00000000 esi=00000000 edi=00000000 ebp=0031ff68 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000246
+raw-stack 7bb7ea40 3fff1000 7bcfce83 7bcfce83 3fff1000 0031ff80
+one-shot-site name=pe_entry rva=000017c0
+guard-initial-segments ds=002b gs=0063
+read-only-dword rva=00009bec value=00000000
+event code=1 pid=588 tid=1976 elapsed=52
+exception code=80000003 address=0040100d first=1
+exception-context tid=1976 eip=0040100e esp=0031fe5c eax=00000000 edx=0031fe64 ebx=3fff1000 ecx=00407042 esi=00000000 edi=00000000 ebp=0031ff10 cs=0023 ds=002b es=002b fs=006b gs=0063 ss=002b eflags=00000202
+raw-stack 00401055 003b0078 003b0000 00000000 0031fed4 7bd07c07
+persistent-site name=guard_owner_begin rva=0000100d
+guard-owner result=3 tid=1976 caller=00401055 esp=0031fe5c ebp=0031ff10 actual-pointer=0031fe64 expected=0031fe60 actual-object-capacity=128
+failure-read-only-dword rva=00009bec value=00000000
+terminate-owned-child status=144 result=1
+release-pending-event pid=588 tid=1976 result=1
+cleanup-event code=5 pid=588 tid=1976
+owned-exit-confirmed status=144
+failure-owned-child exited-event=1 signaled=1 status=144

@@ -1,0 +1,21 @@
+{
+  "exports": {
+    "_fixture_final_exit@4": 4197,
+    "fixture_marker": 39916,
+    "fixture_mode": 39920,
+    "fixture_owner": 4109,
+    "fixture_reader": 4096,
+    "fixture_scope": 4156,
+    "fixture_unexpected": 4195
+  },
+  "ExitProcess_IAT_VA": 4218988,
+  "MAP_import_VA": 4218988,
+  "final_exit_bytes": "ff256c604000",
+  "entry_RVA": 6080,
+  "reader_return": 4154,
+  "owner_returns": [
+    4181,
+    4188
+  ],
+  "configurations_derived_from_actual_PE_and_MAP": true
+}

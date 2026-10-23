@@ -9,7 +9,7 @@ inject callbacks or apply the proposed GS patch.
 Arguments after the helper executable:
 
 ```
-TARGET RAW_ARGUMENTS CHILD_CWD STDOUT STDERR EVENTS SITES TIMEOUT_MS STDIN_MODE READS CF_CONFIG
+TARGET RAW_ARGUMENTS CHILD_CWD STDOUT STDERR EVENTS SITES TIMEOUT_MS STDIN_MODE READS CF_CONFIG [GUARD_CONFIG]
 ```
 
 `STDIN_MODE` is a decimal count of newline bytes (maximum 64) followed by pipe
@@ -34,10 +34,10 @@ output offset at EBP+0x14, selector WORD at +0x18, capacity at +0x1c and caller
 return at +0x10, plus raw bounded output bytes. Mapping metadata is descriptive
 and does not prove object size. Other names log raw context only.
 
-A site is one-shot, including a site after a store. Shared joins can execute
+Without `GUARD_CONFIG`, a site is one-shot, including a site after a store. Shared joins can execute
 before that store on another branch; inspect actual event order before making
-any paired-state claim. This helper does not implement persistent all-call
-selector guards or function-graph acceptance.
+any paired-state claim. Persistent guard mode is described below; neither mode establishes function-graph
+acceptance.
 
 The deadline is checked every debug loop iteration. Unidentified app INT3 traps
 fail closed; the one initial loader INT3 must be a real CC opcode within the
@@ -53,3 +53,33 @@ shared prefix; helper compilation does not replace WLIB's required Watcom build.
 The initial v1 compile recorded source hash but did not snapshot that source
 before later edits. Its old binary and events are retained; v2/v3 retain exact
 source snapshots. Only v3 is the corrected buffer/selector diagnostic evidence.
+
+
+The optional `GUARD_CONFIG` enables a reviewed all-reader-call selector and stack
+owner guard. Its header is `pe|cf ownerRva readerRva readerReturnRva returnByte
+maxCalls`, followed by an owner count and `callerReturnRva ebp|esp displacement
+actualObjectCapacity returnByte` rows. RVAs/bytes are hexadecimal; counts,
+displacements and capacities are decimal. Named `guard_owner_begin` and
+`guard_reader_entry` sites must be original one-byte PUSH-register prologues.
+Actual caller stack objects, argument tuples, selector equal to actual DS,
+initial PE DS/GS, thread identity and RET12 returns are checked on every call.
+Unknown owners, inadequate objects, new threads and unexpected traps hold.
+
+Persistent breakpoints restore one original PUSH, request TF, verify actual ARM
+readback (TF1), then require an owned first-chance single-step at the exact
+successor (TF0 in the observed Wine transport). Every other flags bit including
+RF, all six selector WORDs and unrelated registers remain exact; no flags mask
+waives a discrepancy. The original byte is checked before rearming. Raw contexts
+are logged; only the owned TF bit is cleared. Temporary return breakpoints
+expire actual owner/reader lifetimes.
+
+`probe-resource-guard.c` runs the same policy natively: 198 checks cover missing
+or duplicate ARM, wrong thread/context, every flags bit/register/selector and
+owner/return/capacity failures. `probe-resource-guard-win32.py` explicitly runs
+only frozen authored Windows probes, outside native fixtures. Its reviewed
+13-case set passed: repeated guarded calls with four real TF/rearm cycles,
+six pre-entry failures, and six unguarded marker controls. Authored assembly is
+a narrow debugger ABI probe, not reconstructed application implementation.
+Receipts and raw evidence are in `cases/help/guard-probes/authored-v4/`.
+Patched WLIB/WASM execution requires separate review; these probes grant no
+application-function acceptance.

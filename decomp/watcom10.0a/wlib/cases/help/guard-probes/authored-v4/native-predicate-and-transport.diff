@@ -1,0 +1,347 @@
+--- production/resource-guard.h
++++ scratch/resource-guard.h
+@@ -6,13 +6,22 @@
+ typedef unsigned long RgWord;
+ typedef char RgWordMustBe32Bits[(sizeof(RgWord) == 4) ? 1 : -1];
+ 
++typedef struct RgContext {
++    RgWord pc, flags;
++    /* Register opcode order: EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI. */
++    RgWord registers[8];
++    /* Meaningful selector WORDs: CS, SS, DS, ES, FS, GS. Raw CONTEXT is logged. */
++    RgWord segments[6];
++} RgContext;
++
+ typedef struct RgState {
+     RgWord thread, owner_stack, owner_return, pointer, capacity;
+     RgWord reader_stack, reader_return, calls, max_calls;
+     RgWord step_thread, step_site, step_pc, step_stack, step_value;
+     RgWord step_flags, step_ds, step_gs;
+     RgWord initial_ds, initial_gs;
+-    int owner, reader, step, initial;
++    RgContext step_before;
++    int owner, reader, step, initial, step_armed;
+ } RgState;
+ 
+ enum RgResult {
+@@ -90,29 +99,48 @@
+ }
+ 
+ static int rg_prepare_step(RgState *s, RgWord thread, RgWord site,
+-                           RgWord opcode, RgWord stack, RgWord value,
+-                           RgWord flags, RgWord ds, RgWord gs)
++                           RgWord opcode, const RgContext *before)
+ {
+     if (thread != s->thread) return RG_THREAD;
+-    if (s->step || (flags & 0x100)) return RG_STEP;
++    if (s->step || (before->flags & 0x100UL) || before->pc != site) return RG_STEP;
+     if (opcode < 0x50 || opcode > 0x57) return RG_STEP;
+-    if (site == 0xffffffffUL || stack < 4) return RG_OVERFLOW;
++    if (site == 0xffffffffUL || before->registers[4] < 4) return RG_OVERFLOW;
+     s->step = 1; s->step_thread = thread; s->step_site = site;
+-    s->step_pc = site + 1; s->step_stack = stack - 4; s->step_value = value;
+-    s->step_flags = flags & ~0x10100UL; s->step_ds = ds; s->step_gs = gs;
++    s->step_pc = site + 1; s->step_stack = before->registers[4] - 4;
++    s->step_value = before->registers[opcode & 7];
++    s->step_flags = before->flags; s->step_ds = before->segments[2]; s->step_gs = before->segments[5];
++    s->step_before = *before; s->step_armed = 0;
+     return RG_OK;
+ }
+ 
+-static int rg_finish_step(RgState *s, RgWord thread, RgWord pc,
+-                          RgWord stack, RgWord pushed_value,
+-                          RgWord flags, RgWord ds, RgWord gs)
++static int rg_confirm_arm(RgState *s, RgWord thread, const RgContext *armed)
+ {
++    unsigned i;
+     if (thread != s->thread || thread != s->step_thread) return RG_THREAD;
+-    if (!s->step || pc != s->step_pc || stack != s->step_stack ||
+-        pushed_value != s->step_value || !(flags & 0x100) ||
+-        (flags & ~0x10100UL) != s->step_flags || ds != s->step_ds || gs != s->step_gs)
++    if (!s->step || s->step_armed || armed->pc != s->step_before.pc ||
++        armed->flags != (s->step_before.flags | 0x100UL)) return RG_STEP;
++    for (i = 0; i < 8; ++i)
++        if (armed->registers[i] != s->step_before.registers[i]) return RG_STEP;
++    for (i = 0; i < 6; ++i)
++        if (armed->segments[i] != s->step_before.segments[i]) return RG_STEP;
++    s->step_armed = 1;
++    return RG_OK;
++}
++
++static int rg_finish_step(RgState *s, RgWord thread, RgWord exception_code,
++                          int first_chance, const RgContext *after, RgWord pushed_value)
++{
++    unsigned i;
++    if (thread != s->thread || thread != s->step_thread) return RG_THREAD;
++    if (!s->step || !s->step_armed || exception_code != 0x80000004UL || !first_chance ||
++        after->pc != s->step_pc || after->registers[4] != s->step_stack ||
++        pushed_value != s->step_value || after->flags != s->step_before.flags)
+         return RG_STEP;
+-    s->step = 0;
++    for (i = 0; i < 8; ++i)
++        if (i != 4 && after->registers[i] != s->step_before.registers[i]) return RG_STEP;
++    for (i = 0; i < 6; ++i)
++        if (after->segments[i] != s->step_before.segments[i]) return RG_STEP;
++    s->step = 0; s->step_armed = 0;
+     return RG_OK;
+ }
+ 
+--- production/diagnose-startup.c
++++ scratch/diagnose-startup.c
+@@ -133,25 +133,29 @@
+              stack[0], guard_reader_return_byte);
+ }
+ 
+-static DWORD register_value(const CONTEXT *context, unsigned index)
+-{
+-    switch (index) {
+-    case 0: return context->Eax; case 1: return context->Ecx;
+-    case 2: return context->Edx; case 3: return context->Ebx;
+-    case 4: return context->Esp; case 5: return context->Ebp;
+-    case 6: return context->Esi; default: return context->Edi;
+-    }
++static void guard_context(RgContext *packet, const CONTEXT *context)
++{
++    packet->pc = context->Eip; packet->flags = context->EFlags;
++    packet->registers[0] = context->Eax; packet->registers[1] = context->Ecx;
++    packet->registers[2] = context->Edx; packet->registers[3] = context->Ebx;
++    packet->registers[4] = context->Esp; packet->registers[5] = context->Ebp;
++    packet->registers[6] = context->Esi; packet->registers[7] = context->Edi;
++    packet->segments[0] = context->SegCs & 0xffffUL; packet->segments[1] = context->SegSs & 0xffffUL;
++    packet->segments[2] = context->SegDs & 0xffffUL; packet->segments[3] = context->SegEs & 0xffffUL;
++    packet->segments[4] = context->SegFs & 0xffffUL; packet->segments[5] = context->SegGs & 0xffffUL;
+ }
+ 
+ static int guard_step_begin(unsigned i, CONTEXT *context, DWORD tid)
+ {
+     BYTE actual;
+     int result;
++    RgContext before;
+     if (context->Eip != sites[i].address + 1 ||
+         !memory(sites[i].address, &actual, 1) || actual != 0xcc) return 0;
+-    result = rg_prepare_step(&guard_state, tid, sites[i].address, sites[i].saved,
+-                            context->Esp, register_value(context, sites[i].saved & 7),
+-                            context->EFlags, context->SegDs, context->SegGs);
++    guard_context(&before, context);
++    /* Rewind only an identified owned INT3, validated above against actual EIP. */
++    before.pc = sites[i].address;
++    result = rg_prepare_step(&guard_state, tid, sites[i].address, sites[i].saved, &before);
+     if (result != RG_OK || !patch(sites[i].address, sites[i].saved)) return 0;
+     guard_step_site = (int)i;
+     context->Eip = sites[i].address; context->EFlags |= 0x100;
+@@ -161,14 +165,30 @@
+     return 1;
+ }
+ 
+-static int guard_step_end(CONTEXT *context, DWORD tid)
++static int guard_arm_readback(HANDLE thread, DWORD tid)
++{
++    CONTEXT armed;
++    RgContext packet;
++    int result;
++    memset(&armed, 0, sizeof(armed)); armed.ContextFlags = CONTEXT_FULL;
++    if (!GetThreadContext(thread, &armed)) return 0;
++    guard_context(&packet, &armed);
++    result = rg_confirm_arm(&guard_state, tid, &packet);
++    fprintf(events, "guard-arm-readback result=%d thread=%lu eip=%08lx esp=%08lx flags=%08lx cs=%04lx ss=%04lx ds=%04lx es=%04lx fs=%04lx gs=%04lx\n",
++            result, tid, armed.Eip, armed.Esp, armed.EFlags,
++            armed.SegCs, armed.SegSs, armed.SegDs, armed.SegEs, armed.SegFs, armed.SegGs);
++    return result == RG_OK;
++}
++
++static int guard_step_end(CONTEXT *context, DWORD tid, DWORD code, int first_chance)
+ {
+     DWORD pushed;
+     BYTE actual;
+     int result;
++    RgContext after;
+     if (guard_step_site < 0 || !memory(context->Esp, &pushed, 4)) return 0;
+-    result = rg_finish_step(&guard_state, tid, context->Eip, context->Esp,
+-                           pushed, context->EFlags, context->SegDs, context->SegGs);
++    guard_context(&after, context);
++    result = rg_finish_step(&guard_state, tid, code, first_chance, &after, pushed);
+     fprintf(events, "guard-step-result=%d tid=%lu actual-pc=%08lx expected-pc=%08lx actual-esp=%08lx expected-esp=%08lx actual-push=%08lx expected-push=%08lx actual-flags=%08lx expected-nondebug-flags=%08lx actual-ds=%04lx expected-ds=%04lx actual-gs=%04lx expected-gs=%04lx\n",
+             result, tid, context->Eip, guard_state.step_pc, context->Esp, guard_state.step_stack,
+             pushed, guard_state.step_value, context->EFlags, guard_state.step_flags,
+@@ -373,10 +393,10 @@
+     memset(&context, 0, sizeof(context));
+     context.ContextFlags = CONTEXT_FULL;
+     if (GetThreadContext(handle, &context)) {
+-        fprintf(events, "%s tid=%lu eip=%08lx esp=%08lx eax=%08lx edx=%08lx ebx=%08lx ecx=%08lx esi=%08lx edi=%08lx ebp=%08lx cs=%04lx ds=%04lx es=%04lx fs=%04lx gs=%04lx eflags=%08lx\n",
++        fprintf(events, "%s tid=%lu eip=%08lx esp=%08lx eax=%08lx edx=%08lx ebx=%08lx ecx=%08lx esi=%08lx edi=%08lx ebp=%08lx cs=%04lx ds=%04lx es=%04lx fs=%04lx gs=%04lx ss=%04lx eflags=%08lx\n",
+                 why, tid, context.Eip, context.Esp, context.Eax, context.Edx,
+                 context.Ebx, context.Ecx, context.Esi, context.Edi, context.Ebp,
+-                context.SegCs, context.SegDs, context.SegEs, context.SegFs, context.SegGs, context.EFlags);
++                context.SegCs, context.SegDs, context.SegEs, context.SegFs, context.SegGs, context.SegSs, context.EFlags);
+         if (memory(context.Esp, stack, sizeof(stack))) {
+             fprintf(events, "raw-stack");
+             for (i = 0; i < 6; ++i) fprintf(events, " %08lx", stack[i]);
+@@ -599,7 +619,7 @@
+             if (!GetThreadContext(threads[t].handle, &context)) return fail_owned(130);
+             if (guard_mode && guard_state.step) {
+                 if (code != EXCEPTION_SINGLE_STEP || address != context.Eip ||
+-                    !guard_step_end(&context, event.dwThreadId) ||
++                    !guard_step_end(&context, event.dwThreadId, code, event.u.Exception.dwFirstChance) ||
+                     !SetThreadContext(threads[t].handle, &context)) return fail_owned(141);
+                 fflush(events);
+                 if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId, DBG_CONTINUE)) return fail_owned(131);
+@@ -648,6 +668,7 @@
+                         !guard_step_begin(i, &context, event.dwThreadId) ||
+                         !SetThreadContext(threads[t].handle, &context)) return fail_owned(144);
+                     registers(threads[t].handle, "guard-step-armed-readback", event.dwThreadId, 0);
++                    if (!guard_arm_readback(threads[t].handle, event.dwThreadId)) return fail_owned(149);
+                     fflush(events);
+                     if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId, DBG_CONTINUE)) return fail_owned(131);
+                     event_pending = 0;
+--- production/probe-resource-guard.c
++++ scratch/probe-resource-guard.c
+@@ -29,11 +29,109 @@
+     return s;
+ }
+ 
++static RgContext before_context(void)
++{
++    RgContext c;
++    unsigned i;
++    memset(&c, 0, sizeof(c)); c.pc = 0x400100; c.flags = 0x293;
++    for (i = 0; i < 8; ++i) c.registers[i] = 0x10000000UL + i;
++    c.registers[4] = 0x1000;
++    c.segments[0] = 0x23; c.segments[1] = 0x2b;
++    c.segments[2] = 0x2b; c.segments[3] = 0x2b;
++    c.segments[4] = 0x6b; c.segments[5] = 0x63;
++    return c;
++}
++
++static RgContext arm_context(void)
++{
++    RgContext c = before_context(); c.flags |= 0x100; return c;
++}
++
++static RgContext after_context(void)
++{
++    RgContext c = before_context(); ++c.pc; c.registers[4] -= 4; return c;
++}
++
+ static RgState stepping(void)
+ {
+     RgState s = fresh();
+-    rg_prepare_step(&s, 7, 0x400100, 0x53, 0x1000, 0x12345678, 0x202, 0x2b, 0x63);
++    RgContext c = before_context();
++    rg_prepare_step(&s, 7, 0x400100, 0x53, &c);
+     return s;
++}
++
++static RgState armed_state(void)
++{
++    RgState s = stepping();
++    RgContext c = arm_context();
++    rg_confirm_arm(&s, 7, &c);
++    return s;
++}
++
++static int step_probes(void)
++{
++    RgState s, saved;
++    RgContext c, before;
++    unsigned i;
++    /* Same pending state is rejected without any ARM readback evidence. */
++    s = stepping(); c = after_context(); saved = s;
++    CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,0x10000003UL) == RG_STEP);
++    CHECK(!memcmp(&s,&saved,sizeof(s)));
++    s = fresh(); c = arm_context(); CHECK(rg_confirm_arm(&s,7,&c) != RG_OK);
++    s = stepping(); c = arm_context(); CHECK(rg_confirm_arm(&s,8,&c) == RG_THREAD);
++    s = stepping(); c = before_context(); CHECK(rg_confirm_arm(&s,7,&c) == RG_STEP);
++    s = stepping(); c = arm_context(); ++c.pc; CHECK(rg_confirm_arm(&s,7,&c) == RG_STEP);
++    for (i = 0; i < 8; ++i) {
++        s = stepping(); c = arm_context(); c.registers[i] ^= 4;
++        CHECK(rg_confirm_arm(&s,7,&c) == RG_STEP);
++    }
++    for (i = 0; i < 6; ++i) {
++        s = stepping(); c = arm_context(); c.segments[i] ^= 8;
++        CHECK(rg_confirm_arm(&s,7,&c) == RG_STEP);
++    }
++    /* No non-TF EFlags bit is waived, including the CPU resume flag RF. */
++    for (i = 0; i < 32; ++i) if (i != 8) {
++        s = stepping(); c = arm_context(); c.flags ^= 1UL << i;
++        CHECK(rg_confirm_arm(&s,7,&c) == RG_STEP);
++    }
++    s = armed_state(); c = arm_context(); CHECK(rg_confirm_arm(&s,7,&c) == RG_STEP);
++    s = armed_state(); c = after_context(); CHECK(rg_finish_step(&s,8,0x80000004UL,1,&c,0x10000003UL) == RG_THREAD);
++    s = armed_state(); c = after_context(); CHECK(rg_finish_step(&s,7,0x80000003UL,1,&c,0x10000003UL) == RG_STEP);
++    s = armed_state(); c = after_context(); CHECK(rg_finish_step(&s,7,0x80000004UL,0,&c,0x10000003UL) == RG_STEP);
++    s = armed_state(); c = after_context(); ++c.pc; CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,0x10000003UL) == RG_STEP);
++    s = armed_state(); c = after_context(); CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,0x10000002UL) == RG_STEP);
++    for (i = 0; i < 8; ++i) {
++        s = armed_state(); c = after_context(); c.registers[i] ^= 4;
++        CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,0x10000003UL) == RG_STEP);
++    }
++    for (i = 0; i < 6; ++i) {
++        s = armed_state(); c = after_context(); c.segments[i] ^= 8;
++        CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,0x10000003UL) == RG_STEP);
++    }
++    for (i = 0; i < 32; ++i) {
++        s = armed_state(); c = after_context(); c.flags ^= 1UL << i;
++        CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,0x10000003UL) == RG_STEP);
++    }
++    s = fresh(); c = before_context(); CHECK(rg_prepare_step(&s,8,c.pc,0x53,&c) == RG_THREAD);
++    s = fresh(); c = before_context(); CHECK(rg_prepare_step(&s,7,c.pc,0xe8,&c) == RG_STEP);
++    s = fresh(); c = arm_context(); CHECK(rg_prepare_step(&s,7,c.pc,0x53,&c) == RG_STEP);
++    s = fresh(); c = before_context(); CHECK(rg_prepare_step(&s,7,c.pc+1,0x53,&c) == RG_STEP);
++    s = stepping(); c = before_context(); CHECK(rg_prepare_step(&s,7,c.pc,0x53,&c) == RG_STEP);
++    s = fresh(); c = before_context(); c.pc = 0xffffffffUL; CHECK(rg_prepare_step(&s,7,c.pc,0x53,&c) == RG_OVERFLOW);
++    s = fresh(); c = before_context(); c.registers[4] = 3; CHECK(rg_prepare_step(&s,7,c.pc,0x53,&c) == RG_OVERFLOW);
++    /* Exercise all eight real one-byte PUSH-reg opcodes and repeat lifecycles. */
++    s = fresh();
++    for (i = 0; i < 8; ++i) {
++        before = before_context(); c = arm_context();
++        CHECK(rg_prepare_step(&s,7,before.pc,0x50+i,&before) == RG_OK);
++        CHECK(rg_confirm_arm(&s,7,&c) == RG_OK);
++        c = after_context();
++        CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,before.registers[i]) == RG_OK);
++        CHECK(!s.step && !s.step_armed);
++        CHECK(rg_finish_step(&s,7,0x80000004UL,1,&c,before.registers[i]) == RG_STEP);
++    }
++    printf("full-context TF protocol: %u native policy checks passed\n", checks);
++    return 0;
+ }
+ 
+ int main(void)
+@@ -48,10 +146,6 @@
+         CHECK(rg_end_owner(&s, 7, 0x1004, 0x401000) == RG_OK);
+     }
+     CHECK(s.calls == 3 && !s.owner && !s.reader);
+-    s = stepping();
+-    CHECK(rg_finish_step(&s, 7, 0x400101, 0xffc, 0x12345678, 0x302, 0x2b, 0x63) == RG_OK);
+-    CHECK(!s.step);
+-
+     s = fresh(); CHECK(rg_begin_owner(&s, 8, 0x1000, 0x401000, 0x1004, 0x1004, 128) == RG_THREAD);
+     s = fresh(); CHECK(rg_begin_owner(&s, 7, 0x1000, 0x401000, 0x1004, 0x1084, 128) == RG_OWNER);
+     s = fresh(); CHECK(rg_begin_owner(&s, 7, 0x1000, 0x401000, 0xfff, 0xfff, 128) == RG_OWNER);
+@@ -82,26 +176,13 @@
+     s = owned(); CHECK(rg_end_owner(&s,8,0x1004,0x401000) == RG_THREAD);
+     s = owned(); CHECK(rg_end_owner(&s,7,0x1008,0x401000) == RG_RETURN);
+     s = owned(); CHECK(rg_end_owner(&s,7,0x1004,0x401001) == RG_RETURN);
+-    s = fresh(); CHECK(rg_finish_step(&s,7,0x400101,0xffc,0x12345678,0x302,0x2b,0x63) != RG_OK);
+-    s = fresh(); CHECK(rg_prepare_step(&s,8,0x400100,0x53,0x1000,0,0x202,0x2b,0x63) == RG_THREAD);
+-    s = fresh(); CHECK(rg_prepare_step(&s,7,0x400100,0xe8,0x1000,0,0x202,0x2b,0x63) == RG_STEP);
+-    s = fresh(); CHECK(rg_prepare_step(&s,7,0x400100,0x53,0x1000,0,0x302,0x2b,0x63) == RG_STEP);
+-    s = stepping(); CHECK(rg_prepare_step(&s,7,0x400100,0x53,0x1000,0,0x202,0x2b,0x63) == RG_STEP);
+-#define FINISH(thread,pc,stack,value,flags,ds,gs) rg_finish_step(&s,thread,pc,stack,value,flags,ds,gs)
+-    s = stepping(); CHECK(FINISH(8,0x400101,0xffc,0x12345678,0x302,0x2b,0x63) == RG_THREAD);
+-    s = stepping(); CHECK(FINISH(7,0x400102,0xffc,0x12345678,0x302,0x2b,0x63) == RG_STEP);
+-    s = stepping(); CHECK(FINISH(7,0x400101,0xff8,0x12345678,0x302,0x2b,0x63) == RG_STEP);
+-    s = stepping(); CHECK(FINISH(7,0x400101,0xffc,0x12345679,0x302,0x2b,0x63) == RG_STEP);
+-    s = stepping(); CHECK(FINISH(7,0x400101,0xffc,0x12345678,0x202,0x2b,0x63) == RG_STEP);
+-    s = stepping(); CHECK(FINISH(7,0x400101,0xffc,0x12345678,0x303,0x2b,0x63) == RG_STEP);
+-    s = stepping(); CHECK(FINISH(7,0x400101,0xffc,0x12345678,0x302,0x30,0x63) == RG_STEP);
+-    s = stepping(); CHECK(FINISH(7,0x400101,0xffc,0x12345678,0x302,0x2b,0x2b) == RG_STEP);
+     s = fresh(); CHECK(rg_initial_segments(&s,7,0x2b,0x63) == RG_ORDER);
+     s = fresh(); CHECK(rg_segments(&s,7,0x2b,0x63) == RG_OK);
+     s = fresh(); CHECK(rg_segments(&s,8,0x2b,0x63) == RG_THREAD);
+     s = fresh(); CHECK(rg_segments(&s,7,0x30,0x63) == RG_SEGMENTS);
+     s = fresh(); CHECK(rg_segments(&s,7,0x2b,0x2b) == RG_SEGMENTS);
+     s = owned(); CHECK(rg_enter_reader(&s,7,0xf00,0x402000,0x402000,0x1004,128,0x2b,0x2b,0x401000,0x2b) == RG_SEGMENTS);
++    CHECK(step_probes() == 0);
+     printf("resource guard: %u production-policy checks passed\n", checks);
+     return 0;
+ }

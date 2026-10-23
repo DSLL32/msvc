@@ -1,0 +1,39 @@
+{
+  "name": "positive",
+  "guarded": true,
+  "argv": [
+    "/usr/bin/wine",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-03-tf-consumed\\diagnose-startup.exe",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-03-tf-consumed\\guarded-positive\\authored-child.exe",
+    "positive \"S:\\watcom10.0a\\wlib\\resource-guard-probes-03-tf-consumed\\guarded-positive\\marker.bin\"",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-03-tf-consumed\\guarded-positive\\child",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-03-tf-consumed\\guarded-positive\\stdout.bin",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-03-tf-consumed\\guarded-positive\\stderr.bin",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-03-tf-consumed\\guarded-positive\\events.txt",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-03-tf-consumed\\probe-sites.txt",
+    "10000",
+    "64",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-03-tf-consumed\\probe-reads.txt",
+    "-",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-03-tf-consumed\\probe-guard.txt"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-probes-03-tf-consumed/guarded-positive/child",
+  "authored_child_sha256": "a02d8fcb6ea35de115725e368d44f6bee7af2e400093410279bb6988e2714a73",
+  "helper_sha256": "5fe3b9514ad458763e9212e65ad7765bc945b179d2687e520ad4b50ab63da6c0",
+  "target_Windows_environment": "not observed",
+  "host_environment_sha256": "cb08838f9e8c3db00398fa6664eb6a14e25a31ba62b12825756054bd1f386355",
+  "launcher_unix_pid": 1777989,
+  "elapsed_seconds": 0.5154496440663934,
+  "launcher_status": 146,
+  "events_sha256": "db085f2d1b90b4adcd278e0cf65fb55cacfe60f58c580d81f58c9b050c7d8481",
+  "marker_file": 2,
+  "guard_reader_entries": 2,
+  "guard_owner_entries": 2,
+  "rearms": 4,
+  "reader_returns": 2,
+  "owner_returns": 2,
+  "failure_marker_reads": [
+    "00000002"
+  ],
+  "passed": false
+}

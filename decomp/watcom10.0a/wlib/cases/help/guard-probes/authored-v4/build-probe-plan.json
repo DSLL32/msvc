@@ -1,0 +1,104 @@
+{
+  "status": "authored-only corrected fixture built and actual FF25/IAT byte-gate passed; runtime pending",
+  "build_receipt": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-build-04-indirect-exit/receipt.json",
+  "production_source": "/root/msvc2/decomp/watcom10.0a/wlib/scripts/diagnose-startup.c",
+  "fixture_source": "/root/msvc2/decomp/watcom10.0a/wlib/scripts/guard-fixture.c",
+  "helper_sha256": "5fe3b9514ad458763e9212e65ad7765bc945b179d2687e520ad4b50ab63da6c0",
+  "fixture_sha256": "69d6b2e3485336994c902f45cab5675f9778fe9b901837536fd4d8008b546721",
+  "exports": {
+    "_fixture_final_exit@4": 4197,
+    "fixture_marker": 39916,
+    "fixture_mode": 39920,
+    "fixture_owner": 4109,
+    "fixture_reader": 4096,
+    "fixture_scope": 4156,
+    "fixture_unexpected": 4195
+  },
+  "rva_abi": {
+    "owner_entry": 4109,
+    "reader_entry": 4096,
+    "reader_return": 4154,
+    "caller_return_sites": [
+      4181,
+      4188
+    ],
+    "object_capacity": 128,
+    "owner_pointer_formula": "actual owner entry ESP+4 == EDX; actual caller SUB ESP,128; temporary caller return expires lifetime"
+  },
+  "configuration_files": {
+    "probe-sites.txt": "c382261e2421026ff57c1bf63985209a5270edbb5dec0a16147fdf55624f2e2c",
+    "probe-guard.txt": "acdfb31245edb5e1e5233262bb988550af8c6990031fc255021ec7bad6bc0502",
+    "probe-guard-wrong-return.txt": "8e51c7403228a1f0c82c88d12fe97b1e7a740f56a11be5387b4576731cc0a74b",
+    "probe-reads.txt": "a54b857fc4f012577e86cbd2e7f17ebf64958ae9bf699272d3834a4855d3877c"
+  },
+  "runtime_plan": {
+    "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "deadline_each_seconds": 10,
+    "outer_helper_deadline_seconds": 15,
+    "guarded": [
+      "positive",
+      "selector",
+      "pointer",
+      "capacity",
+      "return-config-mismatch",
+      "thread",
+      "unexpected"
+    ],
+    "unguarded_disposable": [
+      "selector",
+      "pointer",
+      "capacity",
+      "positive-for-return-control",
+      "thread",
+      "unexpected"
+    ],
+    "positive_assertions": [
+      "actual reader marker2",
+      "2 owner entries and 2 reader entries",
+      "4 same-thread single-original-PUSH TF rearm events",
+      "2 actual RET12 returns and 2 owner expiry returns",
+      "initial actual PE DS/GS retained through final explicit ExitProcess",
+      "actual child normal exit0"
+    ],
+    "negative_assertions": [
+      "actual production guard rejects before reader marker changes",
+      "read marker0 before owned termination",
+      "real owned EXIT_PROCESS event/handle signaled; termination status is not normal child exit"
+    ],
+    "bypass_assertions": [
+      "same authored child/source/input mode with guard bypassed produces marker2",
+      "unexpected mode handles only its own exact named INT3 via explicit authored SEH filter"
+    ],
+    "no_original_tool_runtime": true,
+    "patched_WLIB_or_WASM_executed": false
+  },
+  "source_sha256": {
+    "resource-guard.h": "a0c5d2d2c69308aa607dda424e69bb162be47f1d39ae897772f6d1bfc2a1f0d0",
+    "diagnose-startup.c": "4482951a4c5904ff913218f3e62a97acdd1429e060f6378666a01c23325f0759",
+    "probe-resource-guard.c": "990b7f64af59035c2c5100a15233cf5b4ff9801d1871d264918921c7b98d9585",
+    "guard-fixture.c": "c7acad5e0e4e90ab2f3497ece6d7b56fbade6e147da41be6c7b54223cc003d06",
+    "probe-resource-guard-win32.py": "58f4a02cec5367f497e732457c7472394d4f493a60a1ed46386c470bb7be7e9f"
+  },
+  "transport_profile": "actual ARM TF1; owned first-chance DB TF0; other flags incl RF, all selectors and unrelated GP registers exact",
+  "layout_proof": {
+    "exports": {
+      "_fixture_final_exit@4": 4197,
+      "fixture_marker": 39916,
+      "fixture_mode": 39920,
+      "fixture_owner": 4109,
+      "fixture_reader": 4096,
+      "fixture_scope": 4156,
+      "fixture_unexpected": 4195
+    },
+    "ExitProcess_IAT_VA": 4218988,
+    "MAP_import_VA": 4218988,
+    "final_exit_bytes": "ff256c604000",
+    "entry_RVA": 6080,
+    "reader_return": 4154,
+    "owner_returns": [
+      4181,
+      4188
+    ],
+    "configurations_derived_from_actual_PE_and_MAP": true
+  }
+}

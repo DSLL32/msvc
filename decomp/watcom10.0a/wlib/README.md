@@ -78,8 +78,13 @@ far selector equal to DS, completed `option\0` writes and unchanged remaining
 the first actual character store; it is explicitly not an adjacent post-store
 observation. The proposed four-site Wine-only patch is documented in
 `cases/help/diagnostic/gs-patch-proposal.json`, including exact bytes, candidate
-hash, relocation nonoverlap and future-selector restrictions. No patched WLIB
-file has been created or executed. The attempted `-?` currently takes a
+hash, relocation nonoverlap and future-selector restrictions. A separate exact
+patched copy was subsequently approved and created, as recorded in
+`cases/help/diagnostic/gs-patched-copy.json`. It has not been executed; persistent
+all-invocation guard implementation passed 198 native policy checks and all 13
+authored Win32 controls; final source/result review and explicit patched-run
+approval remain prerequisites. See `cases/help/guard-probes/authored-v4/`.
+The attempted `-?` currently takes a
 diagnostic path; historical successful help syntax remains to be established.
 
 The reference resource reader in

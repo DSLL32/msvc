@@ -51,7 +51,9 @@ def main():
                WATCOM=r"R:\toolchains\watcom10.0a", LANG="C", LC_ALL="C", TZ="UTC0")
     removed = {name: env.pop(name) for name in ("WLIB", "WLIB_OPTIONS") if name in env}
     (output / "host-environment.json").write_text(json.dumps(env, indent=2, sort_keys=True) + "\n")
+    (output / "host-environment.json").chmod(0o600)
     (output / "removed-host-defaults.json").write_text(json.dumps(removed, indent=2) + "\n")
+    (output / "removed-host-defaults.json").chmod(0o600)
     argv = ["/usr/bin/wine", r"R:\toolchains\watcom10.0a\binnt\WLIB.EXE", "-?"]
     before = inventory(cwd)
     start = time.monotonic()

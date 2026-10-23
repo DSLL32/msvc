@@ -1,0 +1,38 @@
+{
+  "name": "thread",
+  "guarded": true,
+  "argv": [
+    "/usr/bin/wine",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-04-indirect-exit\\diagnose-startup.exe",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\authored-child.exe",
+    "thread \"S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\marker.bin\"",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\child",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\stdout.bin",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\stderr.bin",
+    "S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\events.txt",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-04-indirect-exit\\probe-sites.txt",
+    "10000",
+    "@S:\\watcom10.0a\\wlib\\resource-guard-probes-04-indirect-exit\\guarded-thread\\input.bin",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-04-indirect-exit\\probe-reads.txt",
+    "-",
+    "S:\\watcom10.0a\\wlib\\resource-guard-build-04-indirect-exit\\probe-guard.txt"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/resource-guard-probes-04-indirect-exit/guarded-thread/child",
+  "authored_child_sha256": "69d6b2e3485336994c902f45cab5675f9778fe9b901837536fd4d8008b546721",
+  "helper_sha256": "5fe3b9514ad458763e9212e65ad7765bc945b179d2687e520ad4b50ab63da6c0",
+  "target_Windows_environment": "not observed",
+  "host_environment_sha256": "cb08838f9e8c3db00398fa6664eb6a14e25a31ba62b12825756054bd1f386355",
+  "launcher_unix_pid": 1781665,
+  "elapsed_seconds": 0.615679519250989,
+  "launcher_status": 140,
+  "events_sha256": "f4bd00323c9c72320f7d040023142e7503a8f59613f1ed998790dc649803d6e2",
+  "guard_reader_entries": 0,
+  "guard_owner_entries": 0,
+  "rearms": 0,
+  "reader_returns": 0,
+  "owner_returns": 0,
+  "failure_marker_reads": [
+    "00000000"
+  ],
+  "passed": true
+}
