@@ -453,7 +453,6 @@ void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *const
 
 
 
-void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor, int model) { __asm { int 3 } }
 
 void __stdcall write_storage_specification(StorageSpec storage, FILE *file) { __asm { int 3 } }
 
@@ -466,7 +465,6 @@ void __stdcall declare_anonymous_aggregate_object(DeclarationType *type) { __asm
 CppSymbol *__stdcall lookup_tag_name(char *name) { __asm { int 3 } return 0; }
 
 void *__stdcall find_hash_value(HashTable *table, void *key) { __asm { int 3 } return 0; }
-HashEntry *__stdcall set_hash_value(HashTable *table, void *key, void *value) { __asm { int 3 } return 0; }
 
 int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden) { __asm { int 3 } return 0; }
 
@@ -658,3 +656,23 @@ char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { _
 char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
 unsigned __stdcall nonvirtual_base_end(CppSymbol *tag) { __asm { int 3 } return 0; }
+
+unsigned __cdecl hash_low_pointer_bits(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_symbol_index(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_first_word(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_four_word_key(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_tail_word_pair(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_declaration_index(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_word_triplet(void *key) { __asm { int 3 } return 0; }
+unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
+
+int __cdecl equal_pointer(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_symbol_indices(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_first_words(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_four_word_keys(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_tail_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }

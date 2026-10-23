@@ -3,6 +3,7 @@
 #include "class-members.h"
 #include "inline-capture.h"
 #include "class-type-sets.h"
+#include "class-lookup.h"
 #include <recon.h>
 
 /* Original 0x36790..0x36967. Classify bases, fields and declared functions,
@@ -535,4 +536,47 @@ void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states,
     }
     *accessible &= nonprivate;
     *available = 1;
+}
+
+void __stdcall record_method_alias(CppSymbol *symbol, CppSymbol *alias);
+
+/* Original 0x37350..0x37450. Scalar/vector deleting destructors inherit
+   access and virtual slot identity from the declared destructor. A nontrivial
+   virtual base also requires the separate virtual-base destructor wrapper. */
+void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor,
+    int model)
+{
+    TypeShape *shape = destructor->type->related;
+    unsigned short attributes;
+    CppSymbol *scalar, *vector;
+    VirtualBaseSearch bases;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    attributes = shape->attributes & 7;
+    scalar = create_implicit_special_member(tag, 5, model, attributes, 1);
+    vector = create_implicit_special_member(tag, 6, model, attributes, 1);
+    scalar->flags = (scalar->flags & ~3) | (destructor->flags & 3);
+    vector->flags = (vector->flags & ~3) | (destructor->flags & 3);
+    if (destructor->storage[1] & 2) {
+        scalar->storage[1] |= 2;
+        ((unsigned char *)scalar->name)[-1] |= 0x10;
+        scalar->auxiliary.virtual_function.table_class =
+            destructor->auxiliary.virtual_function.table_class;
+        scalar->detail.virtual_table_offset = destructor->detail.virtual_table_offset;
+        scalar->field28 = destructor->field28;
+        vector->storage[1] |= 2;
+        ((unsigned char *)vector->name)[-1] |= 0x10;
+        vector->auxiliary.virtual_function.table_class =
+            destructor->auxiliary.virtual_function.table_class;
+        vector->detail.virtual_table_offset = destructor->detail.virtual_table_offset;
+        vector->field28 = destructor->field28;
+        vector->cpp.parts.member_qualifiers |= 1;
+        record_method_alias(vector, scalar);
+    }
+    begin_virtual_base_search(&bases, tag);
+    while (next_virtual_base_search(&bases)) {
+        if (bases.tag->detail.class_info->trivial_special_members & 8) continue;
+        tag->detail.class_info->flags |= 0x20;
+        create_implicit_special_member(tag, 4, model, attributes, 1);
+        break;
+    }
 }

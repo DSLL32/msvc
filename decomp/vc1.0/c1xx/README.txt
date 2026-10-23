@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 677 accepted frontiers, including 585 frontend
+PARTIAL binary reconstruction: 683 accepted frontiers, including 591 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1475,3 +1475,29 @@ grammars, both cached cases and25negative checks pass. Measured combined wall:
 
 Accepted extent union205621/476418bytes is43.159788%, not branch coverage.
 The active virtual_diamond case remains incomplete at make_deleting_destructors.
+
+Deleting-destructor alias checkpoint:683 accepted frontiers,598 source functions.
+Six whole functions beyond76ce979 generate scalar/vector deleting destructors,
+record their method alias and insert it through the generic hash dispatcher.
+Access, virtual slot/table identity and this displacement are copied separately
+into both wrappers. The virtual-base walk requests the additional destructor
+wrapper for the first nontrivial base. Translation-wide method_aliases at
+original0x9f334 is distinct from the per-function alias tables and has an audited
+zero default.
+
+The hash and equality callback arrays are contextual named dispatch tables,
+including their original null sentinels. All ten hash and nine equality entries
+retain separate original cdecl functions; unvisited callbacks remain named traps.
+Their original/rebuilt pointer identity is now audited, alongside the existing
+data/default/alias checks. Hashing retains its full unsigned callback result;
+equality receives search key before stored key. The reached aligned-pointer
+callback hashes only aligned low-page bits.
+
+Every0677through0682 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state words, streams and visible files. Both cached native
+cases, full598-function graph/data/grammar audits and25negative checks pass.
+Combined measured wall: 4.750118seconds.
+
+Accepted extent union206186/476418bytes is43.278382%, not branch coverage.
+virtual_diamond has completed Base's class declaration and is incomplete at
+add_named_base while beginning Left's inheritance declaration.

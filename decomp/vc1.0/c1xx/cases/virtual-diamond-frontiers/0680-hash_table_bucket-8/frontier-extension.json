@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 680,
+  "accepted": "_hash_table_bucket@8",
+  "terminal": "_hash_aligned_pointer",
+  "original_capture": "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/original-receipt.json",
+  "original_capture_sha256": "582a520c9d936945eed419f22cf11ced7089eb2581c002209ccb9e3add53b4f5",
+  "original_events": "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/original-events.txt",
+  "original_events_sha256": "1f4c930202ac126e333820480906022e76e813b35baeb2641c319fc4e32e9b24",
+  "original_configuration": "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

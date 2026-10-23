@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_deleting_destructors@12",
+    "start": 226128,
+    "end": 226385
+  },
+  "distinct_direct_callees": [
+    "_begin_virtual_base_search@8",
+    "_create_implicit_special_member@20",
+    "_next_virtual_base_search@4",
+    "_record_method_alias@8"
+  ],
+  "next_frontier": "_record_method_alias@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3006323194131255,
+  "total_operation_seconds": 7.280585216358304,
+  "original_capture_seconds": 4.8777393428608775
+}

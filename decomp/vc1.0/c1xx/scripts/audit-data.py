@@ -2,7 +2,7 @@
 import struct
 from win32_indexes import indexes, publics
 
-original, rebuilt, cfg, _, _ = indexes()
+original, rebuilt, cfg, original_records, rebuilt_records = indexes()
 names = publics()
 state_addresses, state_reverse_addresses = {}, {}
 
@@ -117,6 +117,16 @@ for table in cfg.get('tables', []):
             assert forward.setdefault(a, b) == b and backward.setdefault(b, a) == a, \
                 'CRT string identity differs'
         print('%d CRT string defaults and identities match the original.' % table['count'])
+    elif kind == 'function_pointers':
+        records = {record['name']: record for record in original_records}
+        for index, function in enumerate(table['functions']):
+            a, b = word(original, old+index*4), word(rebuilt, new+index*4)
+            if function is None:
+                assert a == b == 0, 'callback table sentinel differs: '+table['name']
+            else:
+                assert a == records[function]['start'] and b == names[function], \
+                    'callback identity differs: '+table['name']+' '+function
+        print('%d contextual function pointers/sentinel match the original.' % len(table['functions']))
     elif kind == 'state':
         for field in table['fields']:
             for offset in range(field['bytes']):

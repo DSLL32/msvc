@@ -158,3 +158,13 @@ void __stdcall emit_function_symbols(CppSymbol *symbols)
         emit_symbol_declaration(function);
     }
 }
+
+HashTable *method_aliases; /* original 0x9f334, distinct from per-function aliases */
+
+/* Original 0x56180..0x561b2. Persist the vector-to-scalar deleting
+   destructor association in a lazily created pointer-keyed table. */
+void __stdcall record_method_alias(CppSymbol *symbol, CppSymbol *alias)
+{
+    if (!method_aliases) method_aliases = new_hash_table(31, 0, 0, 0);
+    set_hash_value(method_aliases, symbol, alias);
+}

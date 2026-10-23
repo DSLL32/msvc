@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "9e36f819cb2d2f761352e194b7fdb86bfdcf61db82746d522448413aa05533a9",
+    "functions.json": "0cd80ce874cc26e27fc0184039a15639145cb76da29e4cc240b0361cbfbad62e",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "8e03cbe2d73e6138c1a9cc7324e1cbfa6e849cc2577f973c20e8699cc868e0cf",
+    "cases/canonical-map.txt": "e75ddab6809f363722a5c1d61a02edd7a5f78150c81a3214bd5e2ee219142b4d",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -558,7 +558,31 @@
     "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-configuration.json": "319945b0055c689179ebb62f8e8031c22286ea30a674a5e70ce1a01324db1071",
     "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/frontier-extension.json": "34fdd01d0827c7d8a0d937513512f28c7a1b881877b1c6f13d7d909d265682fa",
     "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-receipt.json": "b1c0e4ab2431d6ffa685c6faae8eecc65a858e2be7dc62ae607e4c73f7cb3145",
-    "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-events.txt": "4b98c5117a4190634ae592388682f57e1bc2e6a8a5ea5982ee318512bdafd3bb"
+    "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-events.txt": "4b98c5117a4190634ae592388682f57e1bc2e6a8a5ea5982ee318512bdafd3bb",
+    "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/original-configuration.json": "1f75dc984a7c37270bd9726a90a4bab4c1cf5dd8a392967b355f3464f60b8a9a",
+    "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/frontier-extension.json": "509e54e26de9d816fa252a55adc7bdf196df193127612495f84b7b3bd64e1b7a",
+    "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/original-receipt.json": "43c15a3ec85558dd0935a0d7571b49dfed7aa167ecc9a8d8360a864e73017761",
+    "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/original-events.txt": "8433974007f3263a7c7e55e3ac3c6c0707db4f00381d63aeb6f291553d5aeaaa",
+    "cases/virtual-diamond-frontiers/0678-record_method_alias-8/original-configuration.json": "815fd75f1aa5a292a41b7b0f1707db93ebe628595f27b6a63f111147e9b6020e",
+    "cases/virtual-diamond-frontiers/0678-record_method_alias-8/frontier-extension.json": "6a54f2b3f924d30be6e2d28f5304ca159d50ed6ce830e591ae589271732641cc",
+    "cases/virtual-diamond-frontiers/0678-record_method_alias-8/original-receipt.json": "118c5c4122b728fa2a3dc393ea20e6079492b73a281332ba96b0666a64e6e5b5",
+    "cases/virtual-diamond-frontiers/0678-record_method_alias-8/original-events.txt": "99f438dd6863aa8c331c3d9a9b9cced5a3ac495e814ef0dfd401907fc73ef1fa",
+    "cases/virtual-diamond-frontiers/0679-set_hash_value-12/original-configuration.json": "c5fbee89d19e989b708f3b657a142be4e016a8c14fd5658fb4723b4f43970ae2",
+    "cases/virtual-diamond-frontiers/0679-set_hash_value-12/frontier-extension.json": "6fe42d6a76146d44be51138104ce85d3955a450f44344eb167494ab40bf4e0fc",
+    "cases/virtual-diamond-frontiers/0679-set_hash_value-12/original-receipt.json": "61fba5e205e3ba6917da4b7f62cfc5be6a7d114a2ef7d15b50e45c156101c4a2",
+    "cases/virtual-diamond-frontiers/0679-set_hash_value-12/original-events.txt": "f581e9af3c489f8ca8c4bd1d14fc0fb1e8189511c042ba2982bba55c7ad23dc0",
+    "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/original-configuration.json": "5a02a763c7592013c1a2d2e4578af058f4b5504b3cf41421fe9cacdb53b5457e",
+    "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/frontier-extension.json": "0700c9ef651302d2c7f1d1681fb32c67abfc7333bfd5dc10ae237212238b7ab7",
+    "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/original-receipt.json": "582a520c9d936945eed419f22cf11ced7089eb2581c002209ccb9e3add53b4f5",
+    "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/original-events.txt": "1f4c930202ac126e333820480906022e76e813b35baeb2641c319fc4e32e9b24",
+    "cases/virtual-diamond-frontiers/0681-hash_aligned_pointer/original-configuration.json": "d42f7491d63b056c3ce90d67f3dad9db8b6dec938d6ab647a49db9601519a9cd",
+    "cases/virtual-diamond-frontiers/0681-hash_aligned_pointer/frontier-extension.json": "3df84c8696725f91ca4b489e5a676425f6d85aa5cdcf8d963353d51be95aa299",
+    "cases/virtual-diamond-frontiers/0681-hash_aligned_pointer/original-receipt.json": "69c618f1cea9ddc5747832c4b039b326aab3bae82ea693f612bc208fa731f52a",
+    "cases/virtual-diamond-frontiers/0681-hash_aligned_pointer/original-events.txt": "4b26d3c96d49c09aff20f15cb7e960c205b6cf3e737e73092c6083c57db6889e",
+    "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/original-configuration.json": "41ba6931fae6c0c43fa61e45b232c9d8cb5dbf2cf19556d965548e84bcc03789",
+    "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/frontier-extension.json": "644f1a284c44b8ed7ac3ba8196b113ab9ba6fa55316abf17044bb6c6dce03ec6",
+    "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/original-receipt.json": "f07400192dcb4f108b23a5151cf245c38d1385c48eb320b22581ca93b1dde2b8",
+    "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/original-events.txt": "4a52d48262d192099d4f97949bbd05fe12307ad38164238d6a46769a3a1929ac"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2049,12 +2073,48 @@
       "logical": "_enumerator_expression@4",
       "source": "src/stubs.c"
     },
+    "equal_declaration_indices": {
+      "logical": "_equal_declaration_indices",
+      "source": "src/stubs.c"
+    },
+    "equal_first_words": {
+      "logical": "_equal_first_words",
+      "source": "src/stubs.c"
+    },
+    "equal_four_word_keys": {
+      "logical": "_equal_four_word_keys",
+      "source": "src/stubs.c"
+    },
     "equal_inline_vectors": {
       "logical": "_equal_inline_vectors",
       "source": "src/stubs.c"
     },
+    "equal_pointer": {
+      "logical": "_equal_pointer",
+      "source": "src/stubs.c"
+    },
+    "equal_resolved_declarations": {
+      "logical": "_equal_resolved_declarations",
+      "source": "src/stubs.c"
+    },
+    "equal_symbol_indices": {
+      "logical": "_equal_symbol_indices",
+      "source": "src/stubs.c"
+    },
+    "equal_tail_word_pairs": {
+      "logical": "_equal_tail_word_pairs",
+      "source": "src/stubs.c"
+    },
     "equal_vectors": {
       "logical": "_equal_vectors@8",
+      "source": "src/stubs.c"
+    },
+    "equal_word_pairs": {
+      "logical": "_equal_word_pairs",
+      "source": "src/stubs.c"
+    },
+    "equal_word_triplets": {
+      "logical": "_equal_word_triplets",
       "source": "src/stubs.c"
     },
     "equivalent_base_type_flags": {
@@ -2172,6 +2232,10 @@
     "find_frontend_record": {
       "logical": "_find_frontend_record@12",
       "source": "src/record-processing.c"
+    },
+    "find_hash_entry": {
+      "logical": "_find_hash_entry@12",
+      "source": "src/hash-table.c"
     },
     "find_hash_value": {
       "logical": "_find_hash_value@8",
@@ -2581,9 +2645,53 @@
       "logical": "_has_unresolved_labels",
       "source": "src/record-processing.c"
     },
+    "hash_aligned_pointer": {
+      "logical": "_hash_aligned_pointer",
+      "source": "src/hash-table.c"
+    },
+    "hash_declaration_index": {
+      "logical": "_hash_declaration_index",
+      "source": "src/stubs.c"
+    },
     "hash_declaration_parameters": {
       "logical": "_hash_declaration_parameters@4",
       "source": "src/parameters.c"
+    },
+    "hash_first_word": {
+      "logical": "_hash_first_word",
+      "source": "src/stubs.c"
+    },
+    "hash_four_word_key": {
+      "logical": "_hash_four_word_key",
+      "source": "src/stubs.c"
+    },
+    "hash_low_pointer_bits": {
+      "logical": "_hash_low_pointer_bits",
+      "source": "src/stubs.c"
+    },
+    "hash_resolved_declaration": {
+      "logical": "_hash_resolved_declaration",
+      "source": "src/stubs.c"
+    },
+    "hash_symbol_index": {
+      "logical": "_hash_symbol_index",
+      "source": "src/stubs.c"
+    },
+    "hash_table_bucket": {
+      "logical": "_hash_table_bucket@8",
+      "source": "src/hash-table.c"
+    },
+    "hash_tail_word_pair": {
+      "logical": "_hash_tail_word_pair",
+      "source": "src/stubs.c"
+    },
+    "hash_word_pair": {
+      "logical": "_hash_word_pair",
+      "source": "src/stubs.c"
+    },
+    "hash_word_triplet": {
+      "logical": "_hash_word_triplet",
+      "source": "src/stubs.c"
     },
     "identifier_expression": {
       "logical": "_identifier_expression@4",
@@ -3051,7 +3159,7 @@
     },
     "make_deleting_destructors": {
       "logical": "_make_deleting_destructors@12",
-      "source": "src/stubs.c"
+      "source": "src/special-members.c"
     },
     "make_ellipsis_parameter": {
       "logical": "_make_ellipsis_parameter",
@@ -3909,6 +4017,10 @@
       "logical": "_record_local_declaration@4",
       "source": "src/declaration-lookup.c"
     },
+    "record_method_alias": {
+      "logical": "_record_method_alias@8",
+      "source": "src/symbol-output.c"
+    },
     "record_parameter_cleanup": {
       "logical": "_record_parameter_cleanup@4",
       "source": "src/frontend-records.c"
@@ -4423,7 +4535,7 @@
     },
     "set_hash_value": {
       "logical": "_set_hash_value@12",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "set_inherited_member_access_failure": {
       "logical": "_set_inherited_member_access_failure@20",
@@ -5363,7 +5475,13 @@
     "intern_generated_symbol_name",
     "mangle_table_scope_path",
     "virtual_table_owners",
-    "finish_array_declarator"
+    "finish_array_declarator",
+    "make_deleting_destructors",
+    "record_method_alias",
+    "set_hash_value",
+    "hash_table_bucket",
+    "hash_aligned_pointer",
+    "find_hash_entry"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6031,7 +6149,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 677,
+      "last": 683,
       "seen": [
         "main",
         "message_text",
@@ -6620,12 +6738,18 @@
         "mangle_table_scope_path",
         "virtual_table_owners",
         "finish_array_declarator",
-        "make_deleting_destructors"
+        "make_deleting_destructors",
+        "record_method_alias",
+        "set_hash_value",
+        "hash_table_bucket",
+        "hash_aligned_pointer",
+        "find_hash_entry",
+        "add_named_base"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_make_deleting_destructors@12",
-        "native": "make_deleting_destructors",
+        "logical": "_add_named_base@12",
+        "native": "add_named_base",
         "signal": 5
       }
     }

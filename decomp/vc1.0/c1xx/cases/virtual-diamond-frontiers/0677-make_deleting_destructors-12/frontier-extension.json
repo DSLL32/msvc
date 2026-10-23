@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 677,
+  "accepted": "_make_deleting_destructors@12",
+  "terminal": "_record_method_alias@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/original-receipt.json",
+  "original_capture_sha256": "43c15a3ec85558dd0935a0d7571b49dfed7aa167ecc9a8d8360a864e73017761",
+  "original_events": "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/original-events.txt",
+  "original_events_sha256": "8433974007f3263a7c7e55e3ac3c6c0707db4f00381d63aeb6f291553d5aeaaa",
+  "original_configuration": "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

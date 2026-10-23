@@ -681,7 +681,13 @@
     "_intern_generated_symbol_name@8",
     "_mangle_table_scope_path@8",
     "_virtual_table_owners@4",
-    "_finish_array_declarator@20"
+    "_finish_array_declarator@20",
+    "_make_deleting_destructors@12",
+    "_record_method_alias@8",
+    "_set_hash_value@12",
+    "_hash_table_bucket@8",
+    "_hash_aligned_pointer",
+    "_find_hash_entry@12"
   ],
   "driver": [
     {
@@ -3944,7 +3950,7 @@
     {
       "name": "_make_deleting_destructors@12",
       "start": 226128,
-      "end": 226129
+      "end": 226385
     },
     {
       "name": "_class_member_hash_bits",
@@ -3989,7 +3995,7 @@
     {
       "name": "_set_hash_value@12",
       "start": 322784,
-      "end": 322785
+      "end": 322912
     },
     {
       "name": "_begin_virtual_base_search@8",
@@ -6037,6 +6043,116 @@
       "name": "_virtual_table_owners@4",
       "start": 507904,
       "end": 507914
+    },
+    {
+      "name": "_record_method_alias@8",
+      "start": 352640,
+      "end": 352691
+    },
+    {
+      "name": "_hash_table_bucket@8",
+      "start": 322976,
+      "end": 323015
+    },
+    {
+      "name": "_find_hash_entry@12",
+      "start": 323024,
+      "end": 323096
+    },
+    {
+      "name": "_hash_aligned_pointer",
+      "start": 323136,
+      "end": 323154
+    },
+    {
+      "name": "_hash_low_pointer_bits",
+      "start": 322560,
+      "end": 322561
+    },
+    {
+      "name": "_hash_symbol_index",
+      "start": 352608,
+      "end": 352609
+    },
+    {
+      "name": "_hash_first_word",
+      "start": 204528,
+      "end": 204529
+    },
+    {
+      "name": "_hash_four_word_key",
+      "start": 506608,
+      "end": 506609
+    },
+    {
+      "name": "_hash_tail_word_pair",
+      "start": 319392,
+      "end": 319393
+    },
+    {
+      "name": "_hash_declaration_index",
+      "start": 345312,
+      "end": 345313
+    },
+    {
+      "name": "_hash_resolved_declaration",
+      "start": 345664,
+      "end": 345665
+    },
+    {
+      "name": "_hash_word_triplet",
+      "start": 201248,
+      "end": 201249
+    },
+    {
+      "name": "_hash_word_pair",
+      "start": 317392,
+      "end": 317393
+    },
+    {
+      "name": "_equal_pointer",
+      "start": 323120,
+      "end": 323121
+    },
+    {
+      "name": "_equal_symbol_indices",
+      "start": 352576,
+      "end": 352577
+    },
+    {
+      "name": "_equal_first_words",
+      "start": 204496,
+      "end": 204497
+    },
+    {
+      "name": "_equal_four_word_keys",
+      "start": 506640,
+      "end": 506641
+    },
+    {
+      "name": "_equal_tail_word_pairs",
+      "start": 319408,
+      "end": 319409
+    },
+    {
+      "name": "_equal_declaration_indices",
+      "start": 345328,
+      "end": 345329
+    },
+    {
+      "name": "_equal_resolved_declarations",
+      "start": 345680,
+      "end": 345681
+    },
+    {
+      "name": "_equal_word_triplets",
+      "start": 201312,
+      "end": 201313
+    },
+    {
+      "name": "_equal_word_pairs",
+      "start": 317440,
+      "end": 317441
     }
   ],
   "cases": {
@@ -6162,7 +6278,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_make_deleting_destructors@12",
+      "terminal": "_add_named_base@12",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6197,9 +6313,15 @@
         "cases/virtual-diamond-frontiers/0673-intern_generated_symbol_name-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0674-mangle_table_scope_path-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0675-virtual_table_owners-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0677-make_deleting_destructors-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0678-record_method_alias-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0679-set_hash_value-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0681-hash_aligned_pointer/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },
@@ -8077,6 +8199,53 @@
           "original": 576636,
           "bytes": 4
         }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_method_aliases",
+      "original": 652084,
+      "fields": [
+        {
+          "name": "_method_aliases",
+          "original": 652084,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_hash_functions",
+      "original": 658672,
+      "functions": [
+        "_hash_aligned_pointer",
+        "_hash_low_pointer_bits",
+        "_hash_symbol_index",
+        "_hash_first_word",
+        "_hash_four_word_key",
+        "_hash_tail_word_pair",
+        "_hash_declaration_index",
+        "_hash_resolved_declaration",
+        "_hash_word_triplet",
+        "_hash_word_pair",
+        null
+      ]
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_equality_functions",
+      "original": 658632,
+      "functions": [
+        "_equal_pointer",
+        "_equal_symbol_indices",
+        "_equal_first_words",
+        "_equal_four_word_keys",
+        "_equal_tail_word_pairs",
+        "_equal_declaration_indices",
+        "_equal_resolved_declarations",
+        "_equal_word_triplets",
+        "_equal_word_pairs",
+        null
       ]
     }
   ],
