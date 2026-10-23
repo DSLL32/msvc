@@ -1,0 +1,1734 @@
+{
+  "checked_accepted_extents": null,
+  "checked_functions": 1,
+  "checked_unique_accepted_extents": null,
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "known_imports",
+    "register_imports",
+    "function_references",
+    "callback_tables",
+    "extent_ownership",
+    "whole_extent_boundaries"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "?FullLink@LinkContext@@QAEHPAE@Z": {
+      "edges": [
+        "LinkAuxiliaryData::FinishOutput",
+        "LinkAuxiliaryData::PrepareOutput",
+        "LinkContext::ApplyMerges",
+        "LinkContext::ApplySectionAttributes",
+        "LinkContext::BuildDosExtension",
+        "LinkContext::CanMergeReadOnlyData",
+        "LinkContext::CollectRelocationSymbols",
+        "LinkContext::CountOutputSections",
+        "LinkContext::CreateIncrementalContribution",
+        "LinkContext::EmitDebugDirectories",
+        "LinkContext::FinalizeOrder",
+        "LinkContext::FinishImage",
+        "LinkContext::FinishNativeSections",
+        "LinkContext::FoldIdenticalComdats",
+        "LinkContext::InitializeSections",
+        "LinkContext::LayoutSections",
+        "LinkContext::MergeExceptionSections",
+        "LinkContext::PassOne",
+        "LinkContext::PassTwo",
+        "LinkContext::PrepareAuxiliarySections",
+        "LinkContext::PrepareMacDebugSections",
+        "LinkContext::PrepareMacJumpTables",
+        "LinkContext::PrepareMacResources",
+        "LinkContext::PrepareMacRuntimeSections",
+        "LinkContext::PrepareMacSections",
+        "LinkContext::PrepareMacSymbols",
+        "LinkContext::PrepareNativeRelocations",
+        "LinkContext::PrepareSectionLayout",
+        "LinkContext::PrintFoldedComdats",
+        "LinkContext::RangeCodeBytes",
+        "LinkContext::ResolveEntryPoint",
+        "LinkContext::ResolveLocalImports",
+        "LinkContext::ResolveMacExports",
+        "LinkContext::ResolveMacImports",
+        "LinkContext::ResolveUndefined",
+        "LinkContext::UpdateChecksum",
+        "LinkContext::WriteLocalImports",
+        "LinkContext::WriteRelocationSymbols",
+        "LinkContext::WriteSections",
+        "LinkContext::WriteVxdModuleTable",
+        "LinkContext::WriteVxdNames",
+        "StringTable::FindSymbol",
+        "StringTable::LookupSymbol",
+        "StringTable::SortSymbols",
+        "_add_comdat_root@16",
+        "_add_special_comdat_roots@4",
+        "_adjust_incremental_symbols@4",
+        "_align_image_base@4",
+        "_allocate_link_memory@8",
+        "_allocate_mac_incremental_table@8",
+        "_allocate_memory@4",
+        "_allocate_pdb_module_table@4",
+        "_apply_section_merge@4",
+        "_attach_comdat@12",
+        "_buffered_read@12",
+        "_buffered_write@12",
+        "_clear_argument_list@4",
+        "_clear_buffer@4",
+        "_close_argument_file@8",
+        "_close_pdb",
+        "_commit_pdb",
+        "_count_debug_modules@4",
+        "_count_hash_symbols@4",
+        "_create_contribution@28",
+        "_derive_old_image_name@4",
+        "_derive_pdb_name@8",
+        "_eliminate_unused_comdats@8",
+        "_emit_symbol_class@8",
+        "_end_section_enumerator",
+        "_find_contribution_group@8",
+        "_find_output_section@8",
+        "_finish_alpha_branches",
+        "_finish_comdat_elimination",
+        "_finish_image_layout@8",
+        "_finish_mac_entry_point@8",
+        "_finish_mac_headers@4",
+        "_finish_ppc_branches",
+        "_finish_symbol_tables",
+        "_get_symbol_name@16",
+        "_initialize_comdats",
+        "_initialize_contribution_pools",
+        "_initialize_output_modules@4",
+        "_initialize_pdb@8",
+        "_initialize_pdb_image@4",
+        "_initialize_section_enumerator@8",
+        "_link_contribution_fatal",
+        "_link_fatal",
+        "_link_warning",
+        "_map_file_range@12",
+        "_mapped_read@12",
+        "_mapped_write@12",
+        "_merge_output_section@8",
+        "_merge_section_groups@8",
+        "_move_contribution_to_end@4",
+        "_move_group_to_end@4",
+        "_next_output_section@4",
+        "_open_argument_file@12",
+        "_pad_debug_contribution@4",
+        "_prepare_delay_imports",
+        "_prepare_import_sections",
+        "_prepare_mac_data_headers@4",
+        "_prepare_mac_debug_information@4",
+        "_prepare_mac_resource_map",
+        "_print_removed_comdats",
+        "_read_old_image@16",
+        "_record_file_access",
+        "_release_comdat_tables",
+        "_release_memory@4",
+        "_replace_extension@8",
+        "_section_data_size@4",
+        "_seek_file@16",
+        "_set_mac_entry_point@8",
+        "_set_mac_section_addresses@4",
+        "_set_mac_symbol_addresses",
+        "_set_symbol_defined@12",
+        "_update_gp_bounds",
+        "_write_coff_symbols@8",
+        "_write_mac_incremental_table@8",
+        "_zero_allocate@4",
+        "indirect"
+      ],
+      "imports": [
+        {
+          "dll": "kernel32.dll",
+          "name": "GetTickCount"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "_tzset"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "_unlink"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "fflush"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "fprintf"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "sprintf"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "strchr"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "strncpy"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "time"
+        }
+      ],
+      "register_imports": {
+        "original": {
+          "callback_preservation": {
+            "4474773": {
+              "evidence": {
+                "path": "cases/hello-win32/full-link-closed-slot.json",
+                "sha256": "63eccf832a3ac496718521cc22bf3928c8651576c670280ef42b21359166efa5"
+              },
+              "preserves": [
+                "edi"
+              ],
+              "slot": 4714192
+            }
+          },
+          "direct_import_calls": {
+            "4468990": {
+              "dll": "msvcrt.dll",
+              "name": "_unlink"
+            },
+            "4469058": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4469750": {
+              "dll": "msvcrt.dll",
+              "name": "strncpy"
+            },
+            "4470220": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            "4471312": {
+              "dll": "msvcrt.dll",
+              "name": "_tzset"
+            },
+            "4471340": {
+              "dll": "msvcrt.dll",
+              "name": "time"
+            },
+            "4474040": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4474157": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4475088": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4475169": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            }
+          },
+          "other_unresolved_calls": [
+            4471356,
+            4474773
+          ],
+          "resolved_register_calls": {
+            "4471088": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4474092": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4474145": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4474981": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4475022": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4475076": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4475097": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4475157": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            }
+          },
+          "roots": [
+            4468560
+          ],
+          "unresolved_register_calls": []
+        },
+        "rebuilt": {
+          "callback_preservation": {
+            "4238927": {
+              "evidence": {
+                "path": "cases/hello-win32/full-link-closed-slot.json",
+                "sha256": "63eccf832a3ac496718521cc22bf3928c8651576c670280ef42b21359166efa5"
+              },
+              "preserves": [
+                "edi"
+              ],
+              "slot": 4252440
+            }
+          },
+          "direct_import_calls": {
+            "4230236": {
+              "dll": "msvcrt.dll",
+              "name": "_unlink"
+            },
+            "4230316": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4231272": {
+              "dll": "msvcrt.dll",
+              "name": "strncpy"
+            },
+            "4231913": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            "4233478": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4233780": {
+              "dll": "msvcrt.dll",
+              "name": "_tzset"
+            },
+            "4233822": {
+              "dll": "msvcrt.dll",
+              "name": "time"
+            },
+            "4237788": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4237839": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4237905": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4237921": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4239208": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4239259": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4239327": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4239343": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4239362": {
+              "dll": "kernel32.dll",
+              "name": "GetTickCount"
+            },
+            "4239438": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4239453": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            }
+          },
+          "other_unresolved_calls": [
+            4233844,
+            4238927
+          ],
+          "resolved_register_calls": {},
+          "roots": [
+            4229600
+          ],
+          "unresolved_register_calls": []
+        },
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "import_catalogs": {
+    "original": {
+      "normalizable_thunks": 6,
+      "slots": {
+        "4198400": {
+          "dll": "imagehlp.dll",
+          "name": "MapFileAndCheckSumA"
+        },
+        "4198404": {
+          "dll": "imagehlp.dll",
+          "name": "CheckSumMappedFile"
+        },
+        "4198408": {
+          "dll": "imagehlp.dll",
+          "name": "BindImageEx"
+        },
+        "4198412": {
+          "dll": "imagehlp.dll",
+          "name": "ReBaseImage"
+        },
+        "4198420": {
+          "dll": "kernel32.dll",
+          "name": "VirtualAlloc"
+        },
+        "4198424": {
+          "dll": "kernel32.dll",
+          "name": "CopyFileA"
+        },
+        "4198428": {
+          "dll": "kernel32.dll",
+          "name": "SearchPathA"
+        },
+        "4198432": {
+          "dll": "kernel32.dll",
+          "name": "GetSystemInfo"
+        },
+        "4198436": {
+          "dll": "kernel32.dll",
+          "name": "GetDiskFreeSpaceA"
+        },
+        "4198440": {
+          "dll": "kernel32.dll",
+          "name": "GetProcAddress"
+        },
+        "4198444": {
+          "dll": "kernel32.dll",
+          "name": "GetModuleHandleA"
+        },
+        "4198448": {
+          "dll": "kernel32.dll",
+          "name": "FindClose"
+        },
+        "4198452": {
+          "dll": "kernel32.dll",
+          "name": "FindNextFileA"
+        },
+        "4198456": {
+          "dll": "kernel32.dll",
+          "name": "FindFirstFileA"
+        },
+        "4198460": {
+          "dll": "kernel32.dll",
+          "name": "GetTempFileNameA"
+        },
+        "4198464": {
+          "dll": "kernel32.dll",
+          "name": "LoadLibraryA"
+        },
+        "4198468": {
+          "dll": "kernel32.dll",
+          "name": "CreateFileA"
+        },
+        "4198472": {
+          "dll": "kernel32.dll",
+          "name": "CloseHandle"
+        },
+        "4198476": {
+          "dll": "kernel32.dll",
+          "name": "GetLastError"
+        },
+        "4198480": {
+          "dll": "kernel32.dll",
+          "name": "GlobalMemoryStatus"
+        },
+        "4198484": {
+          "dll": "kernel32.dll",
+          "name": "SetEnvironmentVariableA"
+        },
+        "4198488": {
+          "dll": "kernel32.dll",
+          "name": "GetCommandLineA"
+        },
+        "4198492": {
+          "dll": "kernel32.dll",
+          "name": "GetCurrentProcess"
+        },
+        "4198496": {
+          "dll": "kernel32.dll",
+          "name": "GetTickCount"
+        },
+        "4198500": {
+          "dll": "kernel32.dll",
+          "name": "GetVersion"
+        },
+        "4198504": {
+          "dll": "kernel32.dll",
+          "name": "GetFileSize"
+        },
+        "4198508": {
+          "dll": "kernel32.dll",
+          "name": "DeleteFileA"
+        },
+        "4198512": {
+          "dll": "kernel32.dll",
+          "name": "GetTempPathA"
+        },
+        "4198516": {
+          "dll": "kernel32.dll",
+          "name": "ExitProcess"
+        },
+        "4198520": {
+          "dll": "kernel32.dll",
+          "name": "VirtualFree"
+        },
+        "4198524": {
+          "dll": "kernel32.dll",
+          "name": "SetConsoleCtrlHandler"
+        },
+        "4198528": {
+          "dll": "kernel32.dll",
+          "name": "Sleep"
+        },
+        "4198532": {
+          "dll": "kernel32.dll",
+          "name": "SetFilePointer"
+        },
+        "4198536": {
+          "dll": "kernel32.dll",
+          "name": "SetEndOfFile"
+        },
+        "4198540": {
+          "dll": "kernel32.dll",
+          "name": "CreateFileMappingA"
+        },
+        "4198544": {
+          "dll": "kernel32.dll",
+          "name": "MapViewOfFileEx"
+        },
+        "4198548": {
+          "dll": "kernel32.dll",
+          "name": "UnmapViewOfFile"
+        },
+        "4198556": {
+          "dll": "msdis100.dll",
+          "name": "?CchFormatAddr@DIS@@QBEIKPADI@Z"
+        },
+        "4198560": {
+          "dll": "msdis100.dll",
+          "name": "?PfncchfixupSet@DIS@@QAEP6GIPBV1@KIPADIPAK@ZP6GI0KI1I2@Z@Z"
+        },
+        "4198564": {
+          "dll": "msdis100.dll",
+          "name": "??0DISARM@@QAE@W4DIST@DIS@@@Z"
+        },
+        "4198568": {
+          "dll": "msdis100.dll",
+          "name": "?PfncchaddrSet@DIS@@QAEP6GIPBV1@KPADIPAK@ZP6GI0K1I2@Z@Z"
+        },
+        "4198572": {
+          "dll": "msdis100.dll",
+          "name": "?PvClientSet@DIS@@QAEPAXPAX@Z"
+        },
+        "4198576": {
+          "dll": "msdis100.dll",
+          "name": "??0DISX86@@QAE@W4DIST@DIS@@@Z"
+        },
+        "4198580": {
+          "dll": "msdis100.dll",
+          "name": "??0DISMIPS@@QAE@W4DIST@DIS@@@Z"
+        },
+        "4198584": {
+          "dll": "msdis100.dll",
+          "name": "??0DISAXP@@QAE@W4DIST@DIS@@@Z"
+        },
+        "4198588": {
+          "dll": "msdis100.dll",
+          "name": "??0DISSH@@QAE@W4DIST@DIS@@@Z"
+        },
+        "4198592": {
+          "dll": "msdis100.dll",
+          "name": "?CchFormatInstr@DIS@@QBEIPADI@Z"
+        },
+        "4198596": {
+          "dll": "msdis100.dll",
+          "name": "??0DISPPC@@QAE@W4DIST@DIS@@@Z"
+        },
+        "4198604": {
+          "dll": "msvcrt.dll",
+          "name": "_itoa"
+        },
+        "4198608": {
+          "dll": "msvcrt.dll",
+          "name": "_tempnam"
+        },
+        "4198612": {
+          "dll": "msvcrt.dll",
+          "name": "_spawnvp"
+        },
+        "4198616": {
+          "dll": "msvcrt.dll",
+          "name": "_spawnv"
+        },
+        "4198620": {
+          "dll": "msvcrt.dll",
+          "name": "_makepath"
+        },
+        "4198624": {
+          "dll": "msvcrt.dll",
+          "name": "__p__pgmptr"
+        },
+        "4198628": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsicmp"
+        },
+        "4198632": {
+          "dll": "msvcrt.dll",
+          "name": "remove"
+        },
+        "4198636": {
+          "dll": "msvcrt.dll",
+          "name": "__unDName"
+        },
+        "4198640": {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        },
+        "4198644": {
+          "dll": "msvcrt.dll",
+          "name": "strncmp"
+        },
+        "4198648": {
+          "dll": "msvcrt.dll",
+          "name": "longjmp"
+        },
+        "4198652": {
+          "dll": "msvcrt.dll",
+          "name": "_fcloseall"
+        },
+        "4198656": {
+          "dll": "msvcrt.dll",
+          "name": "putc"
+        },
+        "4198660": {
+          "dll": "msvcrt.dll",
+          "name": "vprintf"
+        },
+        "4198664": {
+          "dll": "msvcrt.dll",
+          "name": "fread"
+        },
+        "4198668": {
+          "dll": "msvcrt.dll",
+          "name": "fseek"
+        },
+        "4198672": {
+          "dll": "msvcrt.dll",
+          "name": "ftell"
+        },
+        "4198676": {
+          "dll": "msvcrt.dll",
+          "name": "getc"
+        },
+        "4198680": {
+          "dll": "msvcrt.dll",
+          "name": "rewind"
+        },
+        "4198684": {
+          "dll": "msvcrt.dll",
+          "name": "fwrite"
+        },
+        "4198688": {
+          "dll": "msvcrt.dll",
+          "name": "time"
+        },
+        "4198692": {
+          "dll": "msvcrt.dll",
+          "name": "fclose"
+        },
+        "4198696": {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        },
+        "4198700": {
+          "dll": "msvcrt.dll",
+          "name": "_setjmp3"
+        },
+        "4198704": {
+          "dll": "msvcrt.dll",
+          "name": "_seh_longjmp_unwind"
+        },
+        "4198708": {
+          "dll": "msvcrt.dll",
+          "name": "getenv"
+        },
+        "4198712": {
+          "dll": "msvcrt.dll",
+          "name": "_fullpath"
+        },
+        "4198716": {
+          "dll": "msvcrt.dll",
+          "name": "_stricmp"
+        },
+        "4198720": {
+          "dll": "msvcrt.dll",
+          "name": "qsort"
+        },
+        "4198724": {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        },
+        "4198728": {
+          "dll": "msvcrt.dll",
+          "name": "_mbstok"
+        },
+        "4198732": {
+          "dll": "msvcrt.dll",
+          "name": "strcspn"
+        },
+        "4198736": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsrchr"
+        },
+        "4198740": {
+          "dll": "msvcrt.dll",
+          "name": "_tzset"
+        },
+        "4198744": {
+          "dll": "msvcrt.dll",
+          "name": "??2@YAPAXI@Z"
+        },
+        "4198748": {
+          "dll": "msvcrt.dll",
+          "name": "strrchr"
+        },
+        "4198752": {
+          "dll": "msvcrt.dll",
+          "name": "__CxxFrameHandler"
+        },
+        "4198756": {
+          "dll": "msvcrt.dll",
+          "name": "_mbclen"
+        },
+        "4198760": {
+          "dll": "msvcrt.dll",
+          "name": "toupper"
+        },
+        "4198764": {
+          "dll": "msvcrt.dll",
+          "name": "isalnum"
+        },
+        "4198768": {
+          "dll": "msvcrt.dll",
+          "name": "strncat"
+        },
+        "4198772": {
+          "dll": "msvcrt.dll",
+          "name": "bsearch"
+        },
+        "4198776": {
+          "dll": "msvcrt.dll",
+          "name": "fprintf"
+        },
+        "4198780": {
+          "dll": "msvcrt.dll",
+          "name": "isprint"
+        },
+        "4198784": {
+          "dll": "msvcrt.dll",
+          "name": "fputc"
+        },
+        "4198788": {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        },
+        "4198792": {
+          "dll": "msvcrt.dll",
+          "name": "puts"
+        },
+        "4198796": {
+          "dll": "msvcrt.dll",
+          "name": "_fsopen"
+        },
+        "4198800": {
+          "dll": "msvcrt.dll",
+          "name": "ctime"
+        },
+        "4198804": {
+          "dll": "msvcrt.dll",
+          "name": "fputs"
+        },
+        "4198808": {
+          "dll": "msvcrt.dll",
+          "name": "realloc"
+        },
+        "4198812": {
+          "dll": "msvcrt.dll",
+          "name": "strtok"
+        },
+        "4198816": {
+          "dll": "msvcrt.dll",
+          "name": "_strdup"
+        },
+        "4198820": {
+          "dll": "msvcrt.dll",
+          "name": "_mbschr"
+        },
+        "4198824": {
+          "dll": "msvcrt.dll",
+          "name": "_mbscmp"
+        },
+        "4198828": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsnbcmp"
+        },
+        "4198832": {
+          "dll": "msvcrt.dll",
+          "name": "atoi"
+        },
+        "4198836": {
+          "dll": "msvcrt.dll",
+          "name": "_mktemp"
+        },
+        "4198840": {
+          "dll": "msvcrt.dll",
+          "name": "rename"
+        },
+        "4198844": {
+          "dll": "msvcrt.dll",
+          "name": "strstr"
+        },
+        "4198848": {
+          "dll": "msvcrt.dll",
+          "name": "_filelength"
+        },
+        "4198852": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsnbcpy"
+        },
+        "4198856": {
+          "dll": "msvcrt.dll",
+          "name": "calloc"
+        },
+        "4198860": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsdec"
+        },
+        "4198864": {
+          "dll": "msvcrt.dll",
+          "name": "_searchenv"
+        },
+        "4198868": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsnbicmp"
+        },
+        "4198872": {
+          "dll": "msvcrt.dll",
+          "name": "_mbspbrk"
+        },
+        "4198876": {
+          "dll": "msvcrt.dll",
+          "name": "__dllonexit"
+        },
+        "4198880": {
+          "dll": "msvcrt.dll",
+          "name": "_onexit"
+        },
+        "4198884": {
+          "dll": "msvcrt.dll",
+          "name": "_exit"
+        },
+        "4198888": {
+          "dll": "msvcrt.dll",
+          "name": "_XcptFilter"
+        },
+        "4198892": {
+          "dll": "msvcrt.dll",
+          "name": "__p___initenv"
+        },
+        "4198896": {
+          "dll": "msvcrt.dll",
+          "name": "__getmainargs"
+        },
+        "4198900": {
+          "dll": "msvcrt.dll",
+          "name": "_initterm"
+        },
+        "4198904": {
+          "dll": "msvcrt.dll",
+          "name": "__setusermatherr"
+        },
+        "4198908": {
+          "dll": "msvcrt.dll",
+          "name": "_adjust_fdiv"
+        },
+        "4198912": {
+          "dll": "msvcrt.dll",
+          "name": "__p__commode"
+        },
+        "4198916": {
+          "dll": "msvcrt.dll",
+          "name": "__p__fmode"
+        },
+        "4198920": {
+          "dll": "msvcrt.dll",
+          "name": "__set_app_type"
+        },
+        "4198924": {
+          "dll": "msvcrt.dll",
+          "name": "_controlfp"
+        },
+        "4198928": {
+          "dll": "msvcrt.dll",
+          "name": "_purecall"
+        },
+        "4198932": {
+          "dll": "msvcrt.dll",
+          "name": "??3@YAXPAX@Z"
+        },
+        "4198936": {
+          "dll": "msvcrt.dll",
+          "name": "_except_handler3"
+        },
+        "4198940": {
+          "dll": "msvcrt.dll",
+          "name": "_iob"
+        },
+        "4198944": {
+          "dll": "msvcrt.dll",
+          "name": "isdigit"
+        },
+        "4198948": {
+          "dll": "msvcrt.dll",
+          "name": "memmove"
+        },
+        "4198952": {
+          "dll": "msvcrt.dll",
+          "name": "_splitpath"
+        },
+        "4198956": {
+          "dll": "msvcrt.dll",
+          "name": "_strupr"
+        },
+        "4198960": {
+          "dll": "msvcrt.dll",
+          "name": "_strnicmp"
+        },
+        "4198964": {
+          "dll": "msvcrt.dll",
+          "name": "setvbuf"
+        },
+        "4198968": {
+          "dll": "msvcrt.dll",
+          "name": "printf"
+        },
+        "4198972": {
+          "dll": "msvcrt.dll",
+          "name": "fflush"
+        },
+        "4198976": {
+          "dll": "msvcrt.dll",
+          "name": "sprintf"
+        },
+        "4198980": {
+          "dll": "msvcrt.dll",
+          "name": "sscanf"
+        },
+        "4198984": {
+          "dll": "msvcrt.dll",
+          "name": "strchr"
+        },
+        "4198988": {
+          "dll": "msvcrt.dll",
+          "name": "_write"
+        },
+        "4198992": {
+          "dll": "msvcrt.dll",
+          "name": "_lseek"
+        },
+        "4198996": {
+          "dll": "msvcrt.dll",
+          "name": "_read"
+        },
+        "4199000": {
+          "dll": "msvcrt.dll",
+          "name": "_tell"
+        },
+        "4199004": {
+          "dll": "msvcrt.dll",
+          "name": "_close"
+        },
+        "4199008": {
+          "dll": "msvcrt.dll",
+          "name": "_sopen"
+        },
+        "4199012": {
+          "dll": "msvcrt.dll",
+          "name": "__doserrno"
+        },
+        "4199016": {
+          "dll": "msvcrt.dll",
+          "name": "_stat"
+        },
+        "4199020": {
+          "dll": "msvcrt.dll",
+          "name": "_access"
+        },
+        "4199024": {
+          "dll": "msvcrt.dll",
+          "name": "_unlink"
+        },
+        "4199028": {
+          "dll": "msvcrt.dll",
+          "name": "_chsize"
+        },
+        "4199032": {
+          "dll": "msvcrt.dll",
+          "name": "strncpy"
+        },
+        "4199036": {
+          "dll": "msvcrt.dll",
+          "name": "_ismbcspace"
+        },
+        "4199040": {
+          "dll": "msvcrt.dll",
+          "name": "fgets"
+        },
+        "4199044": {
+          "dll": "msvcrt.dll",
+          "name": "_ultoa"
+        },
+        "4199052": {
+          "dll": "mspdb50.dll",
+          "name": "?OpenValidate@PDB@@SAHPAD00KKPAJQADPAPAU1@@Z"
+        },
+        "4199056": {
+          "dll": "mspdb50.dll",
+          "name": "TruncStFromSz"
+        },
+        "4199060": {
+          "dll": "mspdb50.dll",
+          "name": "SigForPbCb"
+        }
+      }
+    },
+    "rebuilt": {
+      "normalizable_thunks": 2,
+      "slots": {
+        "4243456": {
+          "dll": "kernel32.dll",
+          "name": "GetSystemInfo"
+        },
+        "4243460": {
+          "dll": "kernel32.dll",
+          "name": "VirtualAlloc"
+        },
+        "4243464": {
+          "dll": "kernel32.dll",
+          "name": "GetProcAddress"
+        },
+        "4243468": {
+          "dll": "kernel32.dll",
+          "name": "GetModuleHandleA"
+        },
+        "4243472": {
+          "dll": "kernel32.dll",
+          "name": "SetConsoleCtrlHandler"
+        },
+        "4243476": {
+          "dll": "kernel32.dll",
+          "name": "GetTickCount"
+        },
+        "4243480": {
+          "dll": "kernel32.dll",
+          "name": "GlobalMemoryStatus"
+        },
+        "4243488": {
+          "dll": "msvcrt.dll",
+          "name": "strchr"
+        },
+        "4243492": {
+          "dll": "msvcrt.dll",
+          "name": "getenv"
+        },
+        "4243496": {
+          "dll": "msvcrt.dll",
+          "name": "_strdup"
+        },
+        "4243500": {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        },
+        "4243504": {
+          "dll": "msvcrt.dll",
+          "name": "_mbspbrk"
+        },
+        "4243508": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsnbicmp"
+        },
+        "4243512": {
+          "dll": "msvcrt.dll",
+          "name": "_searchenv"
+        },
+        "4243516": {
+          "dll": "msvcrt.dll",
+          "name": "_access"
+        },
+        "4243520": {
+          "dll": "msvcrt.dll",
+          "name": "_makepath"
+        },
+        "4243524": {
+          "dll": "msvcrt.dll",
+          "name": "_splitpath"
+        },
+        "4243528": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsdec"
+        },
+        "4243532": {
+          "dll": "msvcrt.dll",
+          "name": "_stricmp"
+        },
+        "4243536": {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        },
+        "4243540": {
+          "dll": "msvcrt.dll",
+          "name": "_fullpath"
+        },
+        "4243544": {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        },
+        "4243548": {
+          "dll": "msvcrt.dll",
+          "name": "calloc"
+        },
+        "4243552": {
+          "dll": "msvcrt.dll",
+          "name": "sscanf"
+        },
+        "4243556": {
+          "dll": "msvcrt.dll",
+          "name": "isdigit"
+        },
+        "4243560": {
+          "dll": "msvcrt.dll",
+          "name": "fflush"
+        },
+        "4243564": {
+          "dll": "msvcrt.dll",
+          "name": "_iob"
+        },
+        "4243568": {
+          "dll": "msvcrt.dll",
+          "name": "printf"
+        },
+        "4243572": {
+          "dll": "msvcrt.dll",
+          "name": "setvbuf"
+        },
+        "4243576": {
+          "dll": "msvcrt.dll",
+          "name": "_strnicmp"
+        },
+        "4243580": {
+          "dll": "msvcrt.dll",
+          "name": "_strupr"
+        },
+        "4243584": {
+          "dll": "msvcrt.dll",
+          "name": "memmove"
+        },
+        "4243588": {
+          "dll": "msvcrt.dll",
+          "name": "_except_handler3"
+        },
+        "4243592": {
+          "dll": "msvcrt.dll",
+          "name": "fprintf"
+        },
+        "4243596": {
+          "dll": "msvcrt.dll",
+          "name": "fclose"
+        },
+        "4243600": {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        },
+        "4243604": {
+          "dll": "msvcrt.dll",
+          "name": "puts"
+        },
+        "4243608": {
+          "dll": "msvcrt.dll",
+          "name": "fread"
+        },
+        "4243612": {
+          "dll": "msvcrt.dll",
+          "name": "_filelength"
+        },
+        "4243616": {
+          "dll": "msvcrt.dll",
+          "name": "__p__pgmptr"
+        },
+        "4243620": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsnbcpy"
+        },
+        "4243624": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsicmp"
+        },
+        "4243628": {
+          "dll": "msvcrt.dll",
+          "name": "_mbschr"
+        },
+        "4243632": {
+          "dll": "msvcrt.dll",
+          "name": "atoi"
+        },
+        "4243636": {
+          "dll": "msvcrt.dll",
+          "name": "strtok"
+        },
+        "4243640": {
+          "dll": "msvcrt.dll",
+          "name": "fgets"
+        },
+        "4243644": {
+          "dll": "msvcrt.dll",
+          "name": "sprintf"
+        },
+        "4243648": {
+          "dll": "msvcrt.dll",
+          "name": "time"
+        },
+        "4243652": {
+          "dll": "msvcrt.dll",
+          "name": "_tzset"
+        },
+        "4243656": {
+          "dll": "msvcrt.dll",
+          "name": "strncpy"
+        },
+        "4243660": {
+          "dll": "msvcrt.dll",
+          "name": "_unlink"
+        },
+        "4243664": {
+          "dll": "msvcrt.dll",
+          "name": "??2@YAPAXI@Z"
+        },
+        "4243668": {
+          "dll": "msvcrt.dll",
+          "name": "??3@YAXPAX@Z"
+        },
+        "4243672": {
+          "dll": "msvcrt.dll",
+          "name": "__dllonexit"
+        },
+        "4243676": {
+          "dll": "msvcrt.dll",
+          "name": "_onexit"
+        },
+        "4243680": {
+          "dll": "msvcrt.dll",
+          "name": "_exit"
+        },
+        "4243684": {
+          "dll": "msvcrt.dll",
+          "name": "_XcptFilter"
+        },
+        "4243688": {
+          "dll": "msvcrt.dll",
+          "name": "__p___initenv"
+        },
+        "4243692": {
+          "dll": "msvcrt.dll",
+          "name": "__getmainargs"
+        },
+        "4243696": {
+          "dll": "msvcrt.dll",
+          "name": "_initterm"
+        },
+        "4243700": {
+          "dll": "msvcrt.dll",
+          "name": "__setusermatherr"
+        },
+        "4243704": {
+          "dll": "msvcrt.dll",
+          "name": "_adjust_fdiv"
+        },
+        "4243708": {
+          "dll": "msvcrt.dll",
+          "name": "__p__commode"
+        },
+        "4243712": {
+          "dll": "msvcrt.dll",
+          "name": "__p__fmode"
+        },
+        "4243716": {
+          "dll": "msvcrt.dll",
+          "name": "__set_app_type"
+        },
+        "4243720": {
+          "dll": "msvcrt.dll",
+          "name": "_controlfp"
+        }
+      }
+    }
+  },
+  "original_accepted_graphs": null,
+  "profile": "link",
+  "register_import_inputs": {
+    "callback_preservation_contracts": [
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-closed-slot.json",
+          "sha256": "63eccf832a3ac496718521cc22bf3928c8651576c670280ef42b21359166efa5"
+        },
+        "original": {
+          "site": 4474773,
+          "slot": 4714192
+        },
+        "owner": "?FullLink@LinkContext@@QAEHPAE@Z",
+        "preserves": [
+          "edi"
+        ],
+        "rebuilt": {
+          "site": 4238927,
+          "slot": 4252440
+        }
+      }
+    ],
+    "metadata_sha256": "be5a8c1d9bf9bed5a1151d5bb260d00699122640b12694fad9a083e3ca84b72d",
+    "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+    "preservation_contracts": [
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "sprintf"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "ebx",
+          "edi"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fprintf"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "ebx",
+          "edi"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fflush"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "ebx",
+          "edi"
+        ],
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "GetTickCount"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_finish_alpha_branches"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_close_argument_file@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_seek_file@16"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "function": "_create_contribution@28"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_close_pdb"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_commit_pdb"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_link_fatal"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_count_hash_symbols@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_adjust_incremental_symbols@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_write_mac_incremental_table@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_finish_image_layout@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::FinishNativeSections"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_emit_symbol_class@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::WriteRelocationSymbols"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::WriteLocalImports"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_write_coff_symbols@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::EmitDebugDirectories"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::FinishImage"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::PassTwo"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_release_memory@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_finish_mac_entry_point@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_finish_mac_headers@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkAuxiliaryData::FinishOutput"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_finish_ppc_branches"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_clear_argument_list@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "LinkContext::UpdateChecksum"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_finish_symbol_tables"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "function": "_attach_comdat@12"
+        }
+      }
+    ],
+    "rebuilt_sha256": "8cbf687e05ff9232174e841f800219af5e0a3408a64d3ee312d97c680149606f"
+  }
+}

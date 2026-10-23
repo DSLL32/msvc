@@ -145,6 +145,18 @@ def check_closed_slot(original,rebuilt,map_text,extra_objects=()):
 def check_resolution(report,rebuilt):
     packet=json.loads(PACKET.read_text());function=report['functions'][OWNER]
     sites=function['register_imports']
+    template=json.loads((BINARY/'cases/hello-win32/full-link-audit-trial/metadata.json').read_text())
+    expected=template['register_imports'];bound=report['register_import_inputs']
+    assert bound['original_sha256']==packet['original_sha256']
+    assert bound['rebuilt_sha256']==sha(rebuilt.data)
+    assert bound['preservation_contracts']==expected['preservation_contracts']
+    assert bound['callback_preservation_contracts']==expected['callback_preservation_contracts']
+    assert sites['require_all_register_calls_resolved']is True
+    callback,=expected['callback_preservation_contracts']
+    for side in ['original','rebuilt']:
+        point=callback[side]
+        assert sites[side]['callback_preservation']=={str(point['site']):dict(slot=point['slot'],preserves=['edi'],evidence=callback['evidence'])}
+
     def identities(items):return {str(site):dict(zip(['dll','name'],identity.split('!',1)))for site,identity in items.items()}
     assert sites['original']['resolved_register_calls']==identities(REGISTER_SITES),'cached-import site identity lost or changed'
     assert sites['original']['direct_import_calls']==identities(DIRECT_SITES)
@@ -152,10 +164,24 @@ def check_resolution(report,rebuilt):
     assert set(sites['original']['other_unresolved_calls'])==CALLBACK_SITES
     assert sites['rebuilt']['resolved_register_calls']=={}and sites['rebuilt']['unresolved_register_calls']==[]
     assert len(sites['rebuilt']['other_unresolved_calls'])==2
+    from member_pointers import CONTRACTS
+    addresses=publics((BINARY/'build/link.map').read_text())
+    known_slots={addresses[CONTRACTS[name]['symbol']]:name for name in ['image_header_size','image_write_headers']}
+    observed_callbacks={}
+    for site in sites['rebuilt']['other_unresolved_calls']:
+        encoded=rebuilt.read(site,6)
+        assert encoded[:2]==b'\xff\x15','unknown genuine callback call form'
+        slot,=struct.unpack('<I',encoded[2:])
+        assert slot in known_slots,'unreviewed opaque callback slot'
+        role=known_slots[slot];assert role not in observed_callbacks
+        observed_callbacks[role]=dict(site=site,slot=slot)
+    assert set(observed_callbacks)=={'image_header_size','image_write_headers'}
+
     assert len(sites['rebuilt']['direct_import_calls'])==18
     expected=set(REGISTER_SITES.values())|set(DIRECT_SITES.values())
     assert {i['dll']+'!'+i['name']for i in function['imports']}==expected
     assert {i['dll']+'!'+i['name']for i in sites['rebuilt']['direct_import_calls'].values()}==expected
     return dict(original_direct_sites=10,original_cached_sites=8,genuine_callbacks=2,
         rebuilt_direct_sites=18,qualified_imports=len(expected),unresolved_cached_sites=0,
+        rebuilt_member_callbacks=observed_callbacks,callback_preservation_contracts=1,ordinary_preservation_contracts=32,
         qualification='Both callback edges remain genuinely indirect; aggregate indirect equality alone is insufficient. Every known original cached site has its exact expected import identity.')

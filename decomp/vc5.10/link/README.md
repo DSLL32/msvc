@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 49 application
-functions (20,657 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 50 application
+functions (27,546 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `LinkContext::FullLink`; hello-win32 has not completed.
+next frontier is `initialize_output_modules`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -210,17 +210,26 @@ context layout. The original-toolchain object retains all 3,799 code bytes and
 166 effective relocation targets; compiler-local label numbering differs. A
 fresh native capture matches the unchanged original FullLink boundary, with
 70 semantic negatives and the strict audit passing. Unknown record tails stay
-unmodeled; no FullLink implementation or additional acceptance credit is claimed.
+unmodeled; this preparatory layout work did not itself receive acceptance credit.
 
-FullLink now has a readable whole-function implementation, including its cold
-section-merge continuation, with named trapping callees. Both compiler builds
-pass. The candidate-inclusive fresh pair reaches initialize_output_modules
-with its actual output-slot argument, initial NULL, full context/heap and caller
-out-byte ownership captured; 73 semantic negatives pass. Original capture took
-1.162 s and native GDB 0.322 s. This is pending work, not accepted code credit:
-the qualified-import gate still requires the common tool to preserve the cached
-fprintf identity across a proven header callback and concrete ordinary callees.
-Its exact 20 indirect sites comprise 10 direct imports, eight cached register
-calls and two genuine member callbacks. Four cached sites currently remain
-unresolved. Immutable candidate/raw/source/build evidence is under
-cases/hello-win32/full-link-pending; the canonical acceptance count stays 49.
+FullLink's entire 6,889-byte extent is accepted, including its cold section-merge
+continuation. Its callees remain named traps. Both compiler builds pass, and the
+candidate-inclusive pair reaches initialize_output_modules with its actual
+output-slot argument, initial NULL, full context/heap and caller out-byte ownership.
+The common audit checks 63 vertices and 56 real return ABIs. Its strict per-site
+import check resolves all eight cached imports and ten direct imports; both
+member callbacks remain genuinely indirect. The 32 ordinary preservation
+contracts and one narrowly scoped header-callback contract are necessary under
+independent removal/bit tests. A new data initializer taking the callback slot's
+address is rejected before that contract can be enabled.
+
+The original capture took 1.162 s. An unrelated shared-header update required a
+native-only retry (0.287 s), bound to the exact unchanged original inputs/mask and
+its retained raw receipt. Its typed-positive/build/ABI checks are fresh; the 73
+unchanged semantic negatives and controller/slot/import controls are explicitly
+hash-bound reused, not rerun. Final audit cost is 0.849 s total, including 0.302 s
+binding/setup and 0.491 s command/check phase. Cached help takes 64.9 ms total,
+including 57.4 ms setup, 3.95 ms ELF execution and 0.43 ms checking. The durable
+acceptance and both independent reviews are in
+cases/hello-win32/frontiers/50-full-link. Earlier pending evidence remains
+unchanged; no downstream pass or hello output completion is claimed.

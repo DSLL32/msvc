@@ -1,0 +1,30 @@
+{
+  "kind": "final strengthened exact-site checker and actual unchanged fresh-pair validation",
+  "tool_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+  "checker_sha256": "120aeca79d08ed28362b276edbc0f06b52612c6d07e96b952f3005f7b19f7684",
+  "report_sha256": "8cd1907977e62f2589aa4d76a7b3ebf11a9aaff3a71284d604b83e0fd009593c",
+  "result": {
+    "original_direct_sites": 10,
+    "original_cached_sites": 8,
+    "genuine_callbacks": 2,
+    "rebuilt_direct_sites": 18,
+    "qualified_imports": 10,
+    "unresolved_cached_sites": 0,
+    "rebuilt_member_callbacks": {
+      "image_header_size": {
+        "site": 4233844,
+        "slot": 4252452
+      },
+      "image_write_headers": {
+        "site": 4238927,
+        "slot": 4252440
+      }
+    },
+    "callback_preservation_contracts": 1,
+    "ordinary_preservation_contracts": 32,
+    "qualification": "Both callback edges remain genuinely indirect; aggregate indirect equality alone is insufficient. Every known original cached site has its exact expected import identity."
+  },
+  "original_receipt_sha256": "3d6ec68edd63f6464e81f373d8204bf98d30f39689e6108ba214b145fdce65ea",
+  "native_receipt_sha256": "b1d99ee809170080460c4b78d95ff918e5ee902acf4dce252300194d9d890f6b",
+  "scope": "FullLink candidate-only real first initialize_output_modules frontier; no downstream execution coverage claim."
+}

@@ -66,7 +66,8 @@
     "_canonicalize_argument@8",
     "_search_library_paths@8",
     "_release_memory@4",
-    "_validate_debug_options@4"
+    "_validate_debug_options@4",
+    "?FullLink@LinkContext@@QAEHPAE@Z"
   ],
   "driver": [
     {

@@ -1,0 +1,8 @@
+{
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-qqori5v9",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-ow8teayh",
+  "original_receipt_sha256": "3d6ec68edd63f6464e81f373d8204bf98d30f39689e6108ba214b145fdce65ea",
+  "native_receipt_sha256": "b1d99ee809170080460c4b78d95ff918e5ee902acf4dce252300194d9d890f6b",
+  "original_execution": "Exact original target, entire mask/trace plan, accepted prefix, fixedcaseCWD, argv and complete inputs revalidated unchanged. Coherent common-tool/audit-only update does not change original execution.",
+  "native_execution": "Frozen source/ELF/PE/MAP and raw receipt files revalidated against current unchanged compiled target; no native target retry required."
+}

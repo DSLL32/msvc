@@ -1,0 +1,25 @@
+{
+  "positive": {
+    "packet_sha256": "63eccf832a3ac496718521cc22bf3928c8651576c670280ef42b21359166efa5",
+    "original_slot_references": 5,
+    "rebuilt_slot_references": 3,
+    "discarded_debug_metadata_references": 4,
+    "allowed_targets": [
+      "LinkContext::PeWriteHeaders",
+      "LinkContext::VxdWriteHeaders"
+    ],
+    "unknown_assignment_policy": "reject before registering preservation"
+  },
+  "negative": {
+    "case": "captured original-compiler .data initializer taking image_write_headers address",
+    "input_sha256": "a3a48b2a2de670f7cda5f80e9c4d83a1d080a8fb435208f40b6f3764fc8a4501",
+    "rejected": true,
+    "reason": "loaded-data/address-taking slot alias is outside closed contract"
+  },
+  "elapsed_seconds": {
+    "setup": 0.04099813848733902,
+    "checks": 0.03798835352063179,
+    "total": 0.07898649200797081
+  },
+  "execution": "Native Python static checker only; reads cached PE/COFF evidence. No Wine, compiler or original execution."
+}

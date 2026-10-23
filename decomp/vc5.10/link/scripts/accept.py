@@ -168,6 +168,7 @@ def verify_completion(original,native,expected,native_state=None):
 
 
 def audit_trial(path):
+    audit_started=time.perf_counter()
     tool = Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT / 'tooling/graph-audit/target/release/graph-audit'))).resolve()
     command = [str(tool), '--profile', 'link', '--discovery', 'cfg', '--repo', str(ROOT), '--project', str(BINARY),
                '--original', str(ROOT / 'toolchains/5.10/bin/LINK.EXE'), '--rebuilt', str(BINARY / 'build/link.exe'),
@@ -190,7 +191,8 @@ def audit_trial(path):
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
     register_candidate=bool(register_candidates)
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates]
+    full_link_candidate='?FullLink@LinkContext@@QAEHPAE@Z' in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -246,6 +248,38 @@ def audit_trial(path):
         inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
         inputs += [BINARY/item['path'] for item in provider['owned_hfile_copies']]
         inputs += [ROOT/d['path'] for api in packet['imports'] for d in api['declarations']]
+    full_link_command=None
+    full_link_witness=None
+    if full_link_candidate:
+        import importlib
+        from binary import PE
+        full_link_checker=importlib.import_module('full-link-preservation')
+        full_link_witness=full_link_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),
+            PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text(),trial)
+        full_link_template=BINARY/'cases/hello-win32/full-link-audit-trial/metadata.json'
+        full_link_metadata=json.loads(full_link_template.read_text())
+        full_link_metadata_path=path.parent/'full-link-register-import-metadata.json'
+        full_link_metadata_path.write_text(json.dumps(full_link_metadata,indent=2)+'\n')
+        full_link_config=copy.deepcopy(trial)
+        full_link_config['accepted']=['?FullLink@LinkContext@@QAEHPAE@Z']
+        full_link_config_path=path.parent/'full-link-register-import-config.json'
+        full_link_config_path.write_text(json.dumps(full_link_config,indent=2)+'\n')
+        full_link_command=command.copy()
+        full_link_command[full_link_command.index('--config')+1]=str(full_link_config_path)
+        full_link_command[full_link_command.index('--metadata')+1]=str(full_link_metadata_path)
+        full_link_command+=['--check-imports','--resolve-register-imports']
+        inputs += [full_link_config_path,full_link_metadata_path,full_link_template,
+            full_link_checker.PACKET,BINARY/'scripts/full-link-preservation.py',
+            BINARY/'cases/hello-win32/full-link-closed-slot.json',
+            BINARY/'cases/hello-win32/full-link-guard-controls/validation.json',
+            BINARY/'cases/hello-win32/full-link-guard-controls/compile.json',
+            BINARY/'cases/hello-win32/full-link-guard-controls/data-alias.obj']
+        full_link_packet=json.loads(full_link_checker.PACKET.read_text())
+        inputs += [BINARY/item['path']for item in full_link_packet['canonical_provider']['owned_hfile_copies']]
+        inputs += [ROOT/item['path']for api in full_link_packet['imports']for item in api['declarations']]
+        tick=full_link_packet['get_tick_count_contract']
+        inputs += [BINARY/tick['hfile']['path'],BINARY/tick['hfile']['receipt'],ROOT/tick['declaration']['path']]
+        inputs += sorted((BINARY/'build').glob('*.obj'))
     delete_support=None
     if 'import:??3@YAXPAX@Z' in trial['accepted']:
         import importlib
@@ -289,6 +323,14 @@ def audit_trial(path):
         register_audit=dict(command=register_command,packet_binding=register_packet_check,
             inventory=witness.check_resolution(register_report,PE(BINARY/'build/link.exe')),
             report=register_report,stderr=resolved.stderr.decode())
+    full_link_audit=None
+    if full_link_command:
+        resolved=subprocess.run(full_link_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        full_link_report=json.loads(resolved.stdout)
+        assert set(full_link_report['functions'])=={'?FullLink@LinkContext@@QAEHPAE@Z'}
+        full_link_audit=dict(command=full_link_command,witness_binding=full_link_witness,
+            inventory=full_link_checker.check_resolution(full_link_report,PE(BINARY/'build/link.exe')),
+            report=full_link_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -305,7 +347,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,delete_support=delete_support,register_import_audit=register_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

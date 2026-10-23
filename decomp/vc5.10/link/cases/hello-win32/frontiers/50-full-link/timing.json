@@ -1,0 +1,12 @@
+{
+  "original_capture_seconds": 1.1624972857534885,
+  "native_gdb_retry_seconds": 0.2872154237702489,
+  "audit_total_seconds": 0.8491453798487782,
+  "audit_binding_setup_seconds": 0.3015858568251133,
+  "audit_commands_checks_seconds": 0.49067042116075754,
+  "fresh_typed_positive": true,
+  "reused_semantic_negative_count": 73,
+  "fresh_semantic_negative_count": 0,
+  "qualified_import_contract_controls": "32 ordinary removals +6 provider-bit removals +1 callback removal +12 actual-site controls performed independently by shared-tool owner and hash-bound reused; unchanged on native-only retry.",
+  "build": "Both original and native targets compiled. Shared native-only rebuild elapsed time was not separately measured; raw build log remains in scratch. Cached help make prerequisite was already current."
+}
