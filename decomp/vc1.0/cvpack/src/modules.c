@@ -544,3 +544,18 @@ unsigned int hash_source_name(const unsigned char *name)
     for (i = 0; i < length; ++i) sum += (signed char)name[i];
     return sum%50;
 }
+
+SourceName *add_source_name(const unsigned char *name, SourceName *tail,
+                            unsigned long offset)
+{
+    SourceName *item = checked_alloc(sizeof(*item));
+    unsigned int bucket = hash_source_name(name);
+
+    item->bucket_next = source_name_hash[bucket];
+    item->name = name;
+    item->offset = offset;
+    item->next = NULL;
+    tail->next = item;
+    /* The original never publishes item into source_name_hash[bucket]. */
+    return item;
+}

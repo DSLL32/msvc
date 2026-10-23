@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "add_source_name",
-    "native_function": "add_source_name",
+    "logical": "free_type_tables",
+    "native_function": "free_type_tables",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -143,7 +143,8 @@
       "build_source_file_index",
       "find_source_name",
       "hash_source_name",
-      "add_source_name"
+      "add_source_name",
+      "free_type_tables"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -154,7 +155,8 @@
       "strip_file_header",
       "type_recursion_error",
       "derived_type_count",
-      "source_name_hash"
+      "source_name_hash",
+      "source_file_index_size"
     ],
     "observed_walks": []
   },
