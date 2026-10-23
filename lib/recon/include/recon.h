@@ -212,6 +212,7 @@ void recon_load_module_resources(HMODULE,const char *);
  X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
  X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
  X(BOOL,SetConsoleCtrlHandler,(BOOL (WINAPI *)(DWORD),BOOL)) \
+ X(DWORD,GetTickCount,(void)) \
  X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
  X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) \
  X(LPVOID,VirtualAlloc,(LPVOID,DWORD,DWORD,DWORD)) X(BOOL,VirtualFree,(LPVOID,DWORD,DWORD)) \
@@ -425,6 +426,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define MapViewOfFile recon_MapViewOfFile
 #define UnmapViewOfFile recon_UnmapViewOfFile
 #define SetConsoleCtrlHandler recon_SetConsoleCtrlHandler
+#define GetTickCount recon_GetTickCount
 #define GetModuleFileNameA recon_GetModuleFileNameA
 #define GetVersion recon_GetVersion
 #define GetSystemTime recon_GetSystemTime

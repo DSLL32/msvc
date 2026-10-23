@@ -710,3 +710,16 @@ LRESULT WINAPI recon_SendMessageA(HWND window,UINT message,WPARAM wparam,LPARAM 
     (void)window; (void)message; (void)wparam; (void)lparam;
     recon_unsupported("unreviewed SendMessageA"); return 0;
 }
+
+DWORD WINAPI recon_GetTickCount(void)
+{
+    struct timespec now; int saved_errno=errno; uint64_t milliseconds;
+#ifdef CLOCK_BOOTTIME
+    if (clock_gettime(CLOCK_BOOTTIME,&now)) recon_unsupported("GetTickCount boot clock");
+#else
+    if (clock_gettime(CLOCK_MONOTONIC,&now)) recon_unsupported("GetTickCount monotonic clock");
+#endif
+    milliseconds=(uint64_t)now.tv_sec*1000+(unsigned long)now.tv_nsec/1000000;
+    errno=saved_errno;
+    return (DWORD)(uint32_t)milliseconds;
+}

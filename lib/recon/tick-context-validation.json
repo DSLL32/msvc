@@ -1,0 +1,21 @@
+{
+  "scope": "encountered GetTickCount and classici386 SDK context layout",
+  "evidence": [
+    "toolchains/5.10/include/WINNT.H classicCONTEXT/FLOATING_SAVE_AREA",
+    "decomp/vc5.10/link timing constructor444e70/GetTickCount444e89"
+  ],
+  "tests": [
+    "bootclock milliseconds low32bit agrees with hostclock",
+    "nondecreasing modular tick values",
+    "errno/LastError preserve",
+    "CONTEXT204/FLOATING_SAVE_AREA112 andEaxB0/EipB8/EspC4 offsets"
+  ],
+  "native_build_checks_seconds": {
+    "gcc": 0.9519641762599349,
+    "clang": 1.2206869525834918
+  },
+  "limits": [
+    "only identified case tickfields normalized",
+    "no Win32exception emulation enabled"
+  ]
+}

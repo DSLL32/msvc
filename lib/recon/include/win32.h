@@ -52,7 +52,20 @@ typedef struct _CONSOLE_SCREEN_BUFFER_INFO {
 } CONSOLE_SCREEN_BUFFER_INFO, *PCONSOLE_SCREEN_BUFFER_INFO;
 /* No reconstructed exception filter currently reads the CPU context. Keep
  * its genuine tag opaque until a consumer encounters the i386 context ABI. */
-typedef struct _CONTEXT CONTEXT;
+/* Classic i386 SDK context; declaring layout does not emulate Win32 SEH. */
+#define SIZE_OF_80387_REGISTERS 80
+typedef struct _FLOATING_SAVE_AREA {
+ DWORD ControlWord,StatusWord,TagWord,ErrorOffset,ErrorSelector,DataOffset,DataSelector;
+ BYTE RegisterArea[SIZE_OF_80387_REGISTERS];
+ DWORD Cr0NpxState;
+} FLOATING_SAVE_AREA,*PFLOATING_SAVE_AREA;
+typedef struct _CONTEXT {
+ DWORD ContextFlags,Dr0,Dr1,Dr2,Dr3,Dr6,Dr7;
+ FLOATING_SAVE_AREA FloatSave;
+ DWORD SegGs,SegFs,SegEs,SegDs;
+ DWORD Edi,Esi,Ebx,Edx,Ecx,Eax;
+ DWORD Ebp,Eip,SegCs,EFlags,Esp,SegSs;
+} CONTEXT,*PCONTEXT;
 typedef struct _EXCEPTION_RECORD {
  DWORD ExceptionCode,ExceptionFlags;
  struct _EXCEPTION_RECORD *ExceptionRecord;

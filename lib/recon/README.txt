@@ -391,3 +391,9 @@ allocator metadata/page padding are outside application byte ownership. Original
 errno and LastError are preserved on the observed successful paths. Other
 owners/options/sizes/failure/free/destroy modes fail explicitly pending evidence.
 The unvisited SendMessageA branch has the SDK ABI and an unsupported body.
+
+GetTickCount returns boot-clock milliseconds modulo32bits and preserves
+errno/LastError. Fixtures normalize only identified clock fields, retaining
+relations such as equal initial/start values. Classic i386 CONTEXT (204bytes)
+and FLOATING_SAVE_AREA (112bytes) follow the original SDK field layout for
+readable target code; declaring them adds no native Win32 exception emulation.
