@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/original",
-  "reference_receipt_sha256": "55b2eb2f36610842f326c8c2312d2ad1252d928d64f7f6e2af7ecf02eddfa10e",
+  "reference": "cases/hello-debug-dll/evidence/0070-rewrite-bp-relative-symbol-typed-forward/original",
+  "reference_receipt_sha256": "eeb4cb36eb5123b1e4eabaea50bfe08b4993a9482e3428525f668dd7eefd7a90",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -75,6 +75,7 @@
     "hash_type_record",
     "allocate_global_type",
     "copy_type_arena",
-    "rewrite_bp_relative_symbol"
+    "rewrite_bp_relative_symbol",
+    "match_forward_type"
   ]
 }

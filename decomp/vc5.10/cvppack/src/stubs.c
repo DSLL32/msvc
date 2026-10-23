@@ -33,7 +33,6 @@ void record_symbol_references(unsigned char *buffer, unsigned size, unsigned sho
 void enter_symbol_scope(void) { __asm { int 3 } }
 void leave_symbol_scope(void) { __asm { int 3 } }
 void rewrite_symbol_type4(void) { __asm { int 3 } }
-void rewrite_bp_relative_symbol(void) { __asm { int 3 } }
 void rewrite_global_data_symbol(void) { __asm { int 3 } }
 void rewrite_register16_symbol(void) { __asm { int 3 } }
 void rewrite_data16_symbol(void) { __asm { int 3 } }

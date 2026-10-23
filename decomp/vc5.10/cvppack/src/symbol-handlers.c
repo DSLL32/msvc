@@ -44,3 +44,11 @@ int module_contains_address(ModuleInfo *info, unsigned short segment, unsigned o
             return 1;
     return 0;
 }
+
+/* Remap the type in a BP-relative symbol [0040ac70,0040aca5). */
+void rewrite_bp_relative_symbol(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth)
+        *(unsigned *)(symbol_input + 8) = map_type_index(*(unsigned *)(symbol_input + 8));
+}

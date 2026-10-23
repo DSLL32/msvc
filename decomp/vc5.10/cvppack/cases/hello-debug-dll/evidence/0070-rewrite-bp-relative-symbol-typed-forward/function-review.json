@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "candidate": "rewrite_bp_relative_symbol",
+  "accepted_functions": 70,
+  "application_extent_bytes": 22981,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 36.67453959337397,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4238448,
+    4238501
+  ],
+  "associated_text_data": [],
+  "source_review": [
+    "Preserve discard-kind8 branch and remap DWORD type at BP-relative record offset8.",
+    "First run correctly rejected incomplete forward matcher schema before acceptance; corrected actual ECX TypeRecord32/EDX caller local pointer/stack insert0 contract.",
+    "Caller output slot ESP+24 and return40344c independently agree with original LEA/CALL; actual native three-formal inventory checked."
+  ],
+  "executed_scope": "Callback reaches map_type_index and forward matcher for local record6; type write waits for new matcher.",
+  "fresh_pair": true,
+  "next_frontier": "match_forward_type",
+  "fresh_negative_count": 9,
+  "affected_controls": {
+    "forward-type-state-checks.json": {
+      "path": "forward-type-state-checks.json",
+      "sha256": "fd4dbded8fc6fe9247d509fab01b0c5ceafa4fbbbcccc4345c18fbd8f18f1469"
+    }
+  },
+  "reused_controls": {
+    "read-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/read-state-checks.json",
+      "sha256": "b9afefbb0c727f2de3ba0abd9492633ffd86b3983c5d22e8449e495896496aec"
+    },
+    "initialized-storage-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/initialized-storage-checks.json",
+      "sha256": "1b0d1a91767e5090e9c6b91d6b5f7b97486e79dbfd6cb730f250c5ec5013ce3f"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/type-record-state-checks.json",
+      "sha256": "f68e84250f529025ed62aeed885aceadc3497ab43410a02f49ddd38589039060"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/abi-state-checks.json",
+      "sha256": "56f603b9899c1db1384c1bd39f78470626bed3e4ad170da264ac6e2753766f61"
+    },
+    "type-arena-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/type-arena-state-checks.json",
+      "sha256": "88aeff931bfc28cb2c6f2552daa8faa4aece83e9a000ffb40eac9d0fb6b352ba"
+    },
+    "help-protocol-report.json": {
+      "path": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/help-protocol-report.json",
+      "sha256": "f8a606668a07f7343df44036a50d5d27c381c63d61f6e46cc5e37a613d689c2b"
+    }
+  },
+  "reuse_reason": "Observer/decoder/audit/controller unchanged; candidate-inclusive raw/state/graph and new actual-formal/output-slot controls are fresh.",
+  "seconds": {
+    "trial": {
+      "original_build": 0.026158086024224758,
+      "native_build": 0.027359134517610073,
+      "graph_tool_build": 0.025979836471378803,
+      "original_capture": 7.021787589415908,
+      "native_capture": 0.6868250612169504,
+      "pair_check": 0.6750135729089379
+    },
+    "controls": 2.6275543244555593,
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.002525310032069683,
+        "execution": 0.664612234570086,
+        "checks": 0.004518322646617889,
+        "total": 0.9735181191936135
+      },
+      "help": {
+        "preparation": 0.0026523303240537643,
+        "execution": 0.004131327383220196,
+        "checks": 0.0027211103588342667,
+        "total": 0.014586417004466057
+      }
+    }
+  }
+}

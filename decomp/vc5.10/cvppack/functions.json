@@ -75,7 +75,8 @@
     "intern_type",
     "hash_type_record",
     "allocate_global_type",
-    "copy_type_arena"
+    "copy_type_arena",
+    "rewrite_bp_relative_symbol"
   ],
   "functions": [
     {
@@ -1997,7 +1998,31 @@
       "status": "stub",
       "extent": null,
       "ret": 4,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "type-record-pointer",
+          "root": "type_records",
+          "count": "type_record_count",
+          "native_pointee_width": 32
+        },
+        {
+          "name": "match",
+          "register": "edx",
+          "kind": "caller-local-pointer",
+          "owner": "compact_type_index",
+          "local": "target",
+          "width": 4,
+          "original_delta": 24,
+          "owner_return": 4207692
+        },
+        {
+          "name": "insert",
+          "kind": "integer",
+          "slot": 1
+        }
+      ]
     },
     {
       "name": "associate_forward_type",
@@ -2326,10 +2351,14 @@
       "symbol": "_rewrite_bp_relative_symbol",
       "native_symbol": "rewrite_bp_relative_symbol",
       "original": 4238448,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4238448,
+        4238501
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0070-rewrite-bp-relative-symbol-typed-forward/promotion.json"
     },
     {
       "name": "enter_symbol_scope",

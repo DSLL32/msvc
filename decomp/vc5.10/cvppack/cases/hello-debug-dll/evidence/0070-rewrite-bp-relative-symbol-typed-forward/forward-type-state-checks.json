@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 9,
+  "rejected": [
+    {
+      "name": "wrong-record-index",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 0}, {'record': {'root': 'type_records', 'index': 7}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 0})"
+    },
+    {
+      "name": "wrong-output-owner",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 0}, {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'other', 'local': 'target', 'width': 4}, 'insert': 0})"
+    },
+    {
+      "name": "wrong-output-local",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 0}, {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'other', 'width': 4}, 'insert': 0})"
+    },
+    {
+      "name": "wrong-output-width",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 0}, {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 8}, 'insert': 0})"
+    },
+    {
+      "name": "wrong-insert-mode",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 0}, {'record': {'root': 'type_records', 'index': 6}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'insert': 1})"
+    },
+    {
+      "name": "wrong-real-record-extent",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "wrong-original-output-slot",
+      "diagnostic": "original output argument caller-local identity differs"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "missing-ABI-schema",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5656e604 in match_forward_type (record=0xf7aa70d0, match=0xfffd715c, insert=0) at src/stubs.c:59\n59\tint __fastcall match_forward_type(TypeRecord *record, TypeRecord **match, int insert) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: ('incomplete frontier ABI contract', ['record', 'match', 'insert'], [])\n/root/.ai-tmp/cvpack-forward-abi-iglu5iyi/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('incomplete frontier ABI contract', ['record', 'match', 'insert'], [])\n",
+      "bad_config_sha256": "258cc1800926af3e421c6b4e96bae78e44fe4ea4fd4ac75ddb174bd590e3f749",
+      "observer_sha256": "d1c3429982eb96fc040879bd52219057694ac54fa0f2e47ebb20c4280d3960f4"
+    },
+    {
+      "name": "wrong-output-pointee-extent",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x56560604 in match_forward_type (record=0xf7a630d0, match=0xfff0997c, insert=0) at src/stubs.c:59\n59\tint __fastcall match_forward_type(TypeRecord *record, TypeRecord **match, int insert) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-forward-abi-5b8xhohj/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "bad_config_sha256": "7436ebcbd5499f7bf275808b46f33e11ef85e3b921cf3bfc9e66fcfe6db7f90a",
+      "observer_sha256": "d1c3429982eb96fc040879bd52219057694ac54fa0f2e47ebb20c4280d3960f4"
+    }
+  ],
+  "parameters": {
+    "record": {
+      "root": "type_records",
+      "index": 6
+    },
+    "match": {
+      "owner": "compact_type_index",
+      "local": "target",
+      "width": 4
+    },
+    "insert": 0
+  },
+  "original_receipt_sha256": "eeb4cb36eb5123b1e4eabaea50bfe08b4993a9482e3428525f668dd7eefd7a90",
+  "native_receipt_sha256": "1b24d3f008d0d1a60aa9eb98ef52538f6fb8072fbe15f4a467a8e1395e7b51d9",
+  "checker_sha256": "823d7d192c46dc2a714756723e17c9bce43875a593af117d5ab9a58c7e6b80ac",
+  "decoder_sha256": "c4775e42f972cadb9e6d026153a92b1a5f18a391fd27a34af495dca2a9028e2d",
+  "seconds": 2.6275543244555593
+}
