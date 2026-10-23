@@ -259,3 +259,8 @@ build/line-format-probe: tests/line-format-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
 line-format-check: build/line-format-probe
 	$(PYTHON) tests/check-line-format.py build/line-format-probe
+
+build/vprintf-probe: tests/vprintf-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+vprintf-check: build/vprintf-probe
+	$(PYTHON) tests/check-vprintf.py build/vprintf-probe

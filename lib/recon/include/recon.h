@@ -156,6 +156,7 @@ char *recon_fgets(char *,int,ShimFILE *);
 int recon_fputs(const char *,ShimFILE *),recon_puts(const char *);
 int recon_fprintf(ShimFILE *,const char *,...),recon_printf(const char *,...);
 int recon_vfprintf(ShimFILE *,const char *,va_list);
+int recon_vprintf(const char *,va_list);
 int recon_snprintf(char *,size_t,const char *,...);
 int recon_mbtowc(WCHAR *,const char *,size_t);
 int recon_sscanf(const char *,const char *,...);
@@ -373,6 +374,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define fprintf recon_fprintf
 #define printf recon_printf
 #define vfprintf recon_vfprintf
+#define vprintf recon_vprintf
 #define _snprintf recon_snprintf
 #define mbtowc recon_mbtowc
 #define sscanf recon_sscanf

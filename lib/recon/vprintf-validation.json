@@ -1,0 +1,20 @@
+{
+  "scope": "vprintf delegates to shared vfprintf(stdout,format,va_list); no host glibc stdout bypass",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_body": "vprintf29b35..29b8c uses canonical stdout3f590 and existing output formatting engine",
+  "original_observation": {
+    "owner": "decomp/vc5.10/cvtres",
+    "capture": "warning-original",
+    "events_sha256": "6a9d2a5f8407bb8f63d54ebc46252583a0b32594394d78d4b6e2f338c69883a5",
+    "receipt_sha256": "f36e98b32aec93f195534715cd9aeb119b9967696d5eefa7d0ea31d5dac4fcae",
+    "call_va": "01001c27",
+    "return_va": "01001c2d",
+    "return": 40,
+    "format": "machine type not specified; assumed %s",
+    "argument": "IX86",
+    "pending_before_hex": "435654524553203a207761726e696e6720435654343030313a20",
+    "pending_after_hex": "435654524553203a207761726e696e6720435654343030313a206d616368696e652074797065206e6f74207370656369666965643b20617373756d65642049583836"
+  },
+  "native_checks": "GCC/Clang mixed printf/vprintf pending-buffer identity/counts/physical-file-unflushed/order/CRLF and changed actual arguments; finished VC1 CL/RC/RCPP source has no vprintf uses",
+  "checks_seconds": 0.104492
+}

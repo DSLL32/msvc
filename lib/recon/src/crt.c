@@ -841,6 +841,10 @@ int recon_vfprintf(ShimFILE *s,const char *format,va_list args)
     if (count<0) return -1;
     result=recon_fwrite(text,1,count,s)==(unsigned)count?count:-1; free(text); return result;
 }
+int recon_vprintf(const char *format,va_list args)
+{
+    return recon_vfprintf(&recon_iob[1],format,args);
+}
 int recon_fprintf(ShimFILE *s,const char *format,...)
 {
     va_list args; int n; va_start(args,format); n=recon_vfprintf(s,format,args); va_end(args); return n;
