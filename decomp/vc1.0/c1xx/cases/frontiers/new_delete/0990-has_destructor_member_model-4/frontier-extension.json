@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 990,
+  "accepted": "_has_destructor_member_model@4",
+  "terminal": "_lookup_destructor_member@4",
+  "original_capture": "cases/frontiers/new_delete/0990-has_destructor_member_model-4/original-receipt.json",
+  "original_capture_sha256": "e80b87d31d97194d6dcf14e6b01be13d9d9ac17257128237856bb84cf828a1e1",
+  "original_events": "cases/frontiers/new_delete/0990-has_destructor_member_model-4/original-events.txt",
+  "original_events_sha256": "f54e700d8cda2e1cc77a26e83d7b3cb78bbff7c1dc1a94030bca4383ad6e0fc7",
+  "original_configuration": "cases/frontiers/new_delete/0990-has_destructor_member_model-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

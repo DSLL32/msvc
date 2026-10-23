@@ -649,3 +649,10 @@ int __stdcall generated_member_model(CppSymbol *function)
     return special_member_model((unsigned short)
         (shape->data.parameters->associated_type->related->attributes & 7));
 }
+
+/* Original 0x37b50..0x37b5f. Destruction is model three of the
+   common class special-member availability query. */
+int __stdcall has_destructor_member_model(CType *type)
+{
+    return has_special_member_model(type, 3);
+}
