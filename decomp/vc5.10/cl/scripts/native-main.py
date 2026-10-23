@@ -10,7 +10,7 @@ import shutil
 import time
 from state import vector,environment,project
 from build_inputs import verify_native_build
-from case_inputs import load as load_case,copy_inputs,verify_dependencies,copy_dependencies
+from case_inputs import load as load_case,copy_inputs,verify_dependencies,copy_dependencies,prepare_c_drive
 
 PROJECT=Path(__file__).resolve().parents[1]
 ROOT=PROJECT.parents[2]
@@ -65,6 +65,8 @@ def capture(original,directory):
         mirror=directory/'drive-s'/original.relative_to(scratch)
         mirror.parent.mkdir(parents=True,exist_ok=True);mirror.symlink_to(directory,target_is_directory=True)
         env['RECON_DRIVE_S']=str(directory/'drive-s');env['RECON_DRIVE_R']=str(ROOT)
+        c_drive=prepare_c_drive(original,directory)
+        if c_drive is not None:env['RECON_DRIVE_C']=str(c_drive)
     temporary=None
     if (original/'mktemp-before.bin').exists():
         from mktemp_state import original as temporary_state
@@ -133,7 +135,8 @@ def capture(original,directory):
         'controller_sha256':sha(Path(__file__)),'gdb_status':result.returncode,'seconds':elapsed,'controller_error':error,
         'files':{p.name:{'sha256':sha(p),'bytes':p.stat().st_size}for p in directory.iterdir()if p.is_file()}},indent=2)+'\n')
     assert error is None,'native capture failed; raw receipt preserved: '+str(error)
-    print(json.dumps({'directory':str(directory),'seconds':elapsed,'state':projection['fields']}))
+    print(json.dumps({'directory':str(directory),'seconds':elapsed,
+        'frontier':projection['fields'].get('frontier'),'status':projection['fields'].get('status')}))
 
 
 if __name__=='__main__':

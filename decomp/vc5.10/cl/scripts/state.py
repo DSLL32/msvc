@@ -119,6 +119,8 @@ def project(platform,directory):
             names+=['capture.json','loaded-msvcrt.bin','main-entry-context.bin','mktemp-events.txt']
             names+=['mktemp-entry-'+kind+'.bin'for kind in ('teb','ptd','tls-index')]
         else:names+=['native-entry-errors.json','gdb_entry.py','gdb-entry.py','native-process.json','entry-profile.json']
+        if platform=='native' and (directory/'native-filesystem.json').exists():
+            names+=['native-filesystem.json']
         result['raw_inputs'].update({name:sha(directory/name)for name in names})
         if (directory/'streams-entry.json').exists():
             import streams_state
