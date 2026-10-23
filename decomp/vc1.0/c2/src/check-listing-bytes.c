@@ -26,10 +26,14 @@ int main(int argc, char **argv)
     if (argc != 5) return 2;
     for (i = 0; i < sizeof(bytes); ++i) bytes[i] = i * 13 + 7;
     listing_column = strtoul(argv[2], NULL, 0);
+#ifdef CHECK_COMMENT_PREFIX
+    if (write_listing_comment(atoi(argv[3])) != 0) abort();
+#else
     if (atoi(argv[1]))
         write_listing_bytes(strtoul(argv[4], NULL, 0), atoi(argv[3]), bytes);
     else
         write_listing_spaces(atoi(argv[3]));
+#endif
     printf("%u\n", listing_column);
     for (i = 0; i < used; ++i) printf("%02x", (unsigned char)output[i]);
     printf("\n");

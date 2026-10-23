@@ -16,7 +16,11 @@ int main(int argc, char **argv)
 {
     char *result;
     if (argc != 2) return 2;
+#ifdef CHECK_LISTING_TYPE
+    result = listing_data_type(strtol(argv[1], NULL, 10));
+#else
     result = listing_data_directive(strtol(argv[1], NULL, 10));
+#endif
     printf("%u %s\n", diagnostics, result ? result : "NULL");
     return 0;
 }

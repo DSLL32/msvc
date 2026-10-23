@@ -1,0 +1,8 @@
+python3 scripts/dependencies.py
+python3 scripts/extract-listing-driver.py build/native/listing-comment-prefix-body.c comment_prefix
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/extract-listing-driver.py", line 14, in <module>
+    assert len(matches)==1,(name,len(matches));bodies.append(matches[0])
+           ^^^^^^^^^^^^^^^
+AssertionError: ('pad_listing_column', 2)
+make: *** [Makefile:252: build/native/listing-comment-prefix-body.c] Error 1

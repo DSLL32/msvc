@@ -254,6 +254,77 @@ MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *ins
     printf("\n");
     return last->next;
 }
+/* Original29920..2995c, ten-way size table2995c..29984. Unsupported
+   widths return NULL, unlike listing_data_directive's diagnostic path. */
+char *__fastcall listing_data_type(long bytes)
+{
+    switch (bytes) {
+    case 1: return "BYTE";
+    case 2: return "WORD";
+    case 4: return "DWORD";
+    case 6: return "FWORD";
+    case 8: return "QWORD";
+    case 10: return "TBYTE";
+    default: return NULL;
+    }
+}
+
+/* Original28280..282ce. The caller carries the zero return as its
+   subsequent-comment flag; a first comment starts at column56. */
+int __fastcall write_listing_comment(int first)
+{
+    if (first) {
+        pad_listing_column(56);
+        listing_column += printf("; ");
+    } else listing_column += printf(", ");
+    return 0;
+}
+
+/* Original29bb0..29cdb, kind dispatch data29cdc..29cf8. Large integer
+   literals get hexadecimal comments; address hints and decorated external
+   names add their own comments after the instruction text. */
+void __fastcall write_instruction_comment(MachineInstruction *instruction)
+{
+    int index, first = 1;
+    unsigned hint;
+    long value;
+    MachineOperand *operand;
+    SymbolHeader *symbol;
+    for (index = 0;
+         index < machine_operand_counts[(unsigned char)(instruction->opcode >> 8)];
+         ++index) {
+        operand = &instruction->operands[index ? 1 : 0];
+        switch (operand->flags & 15) {
+        case OPERAND_IMMEDIATE:
+            value = (long)operand->value.constant;
+            if (value > 9 || value < -1) {
+                first = write_listing_comment(first);
+                listing_column += printf("%.8lxH", (unsigned long)value);
+            }
+            break;
+        case OPERAND_ABSOLUTE: case OPERAND_LABEL_ADDRESS:
+            symbol = operand->value.address->symbol;
+            if (symbol && (symbol->kind == 4 || symbol->kind == 1) &&
+                !symbol->field0d && *symbol->name == '?')
+                first = write_demangled_listing(symbol, first);
+            break;
+        case OPERAND_BASED: case OPERAND_INDEXED:
+            hint = instruction->record.source_location & 0xe000;
+            if (hint) {
+                first = write_listing_comment(first);
+                listing_column += printf("pad=%d", hint >> 13);
+            }
+            break;
+        case OPERAND_SYMBOL:
+            symbol = operand->value.symbol;
+            if (symbol && (symbol->kind == 4 || symbol->kind == 1) &&
+                !symbol->field0d && *symbol->name == '?')
+                first = write_demangled_listing(symbol, first);
+            break;
+        }
+    }
+}
+
 /* Register spellings consumed by35870. The segment entries deliberately
    share storage between the16/32-bit views, as in the original tables. */
 static char register_es[] = "es", register_cs[] = "cs";

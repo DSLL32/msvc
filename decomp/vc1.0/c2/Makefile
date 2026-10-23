@@ -46,7 +46,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-numeric-support.py
 	$(PYTHON) scripts/check-input-support.py
 	$(PYTHON) scripts/check-listing-entry-abi.py
-audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes build/native/check-listing-special build/native/check-listing-mnemonic build/native/check-listing-operand build/native/check-listing-prefix build/native/check-register-names
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes build/native/check-listing-special build/native/check-listing-mnemonic build/native/check-listing-operand build/native/check-listing-prefix build/native/check-register-names build/native/check-instruction-comment build/native/check-listing-comment-prefix build/native/check-listing-type
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -79,6 +79,9 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-listing-operand.py
 	$(PYTHON) scripts/check-listing-operand.py --prefix
 	$(PYTHON) scripts/check-register-names.py
+	$(PYTHON) scripts/check-instruction-comment.py
+	$(PYTHON) scripts/check-listing-bytes.py --comment-prefix
+	$(PYTHON) scripts/check-listing-directive.py --type
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -241,3 +244,18 @@ build/native/check-listing-prefix: src/check-listing-operand.c build/native/list
 
 build/native/check-register-names: src/check-register-names.c src/listing.c $(NATIVE_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-register-names.c src/listing.c -Wl,--gc-sections -o $@
+
+build/native/listing-comment-body.c: src/listing.c scripts/extract-listing-driver.py | build/native
+	$(PYTHON) scripts/extract-listing-driver.py $@ comment
+
+build/native/check-instruction-comment: src/check-instruction-comment.c build/native/listing-comment-body.c src/machine-symbols.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-instruction-comment.c build/native/listing-comment-body.c src/machine-symbols.c -Wl,--gc-sections -o $@
+
+build/native/listing-comment-prefix-body.c: src/listing.c scripts/extract-listing-driver.py | build/native
+	$(PYTHON) scripts/extract-listing-driver.py $@ comment_prefix
+
+build/native/check-listing-comment-prefix: src/check-listing-bytes.c build/native/listing-comment-prefix-body.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -DCHECK_COMMENT_PREFIX src/check-listing-bytes.c build/native/listing-comment-prefix-body.c -o $@
+
+build/native/check-listing-type: src/check-listing-directive.c src/listing.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -DCHECK_LISTING_TYPE -ffunction-sections -fdata-sections src/check-listing-directive.c src/listing.c -Wl,--gc-sections -o $@

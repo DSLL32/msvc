@@ -293,3 +293,10 @@ entries include originalNULL slots and6 explicitly shared segment identities.
 All16 known listing-family entry formals and next comment state are observed.
 Original/W3, graph/ABI/negatives and14native cases pass; debug artifacts pending.
 See cases/dbglist-operand-checkpoint.json for limits and all measured timings.
+
+Checkpoint1228 adds whole instruction comments, comment separators and size names.
+95 parent shapes,30 actual-padding/zero-return shapes and15 type/default shapes
+pass, plus all10 original size dispatch destinations. All14 native cases pass.
+20 actual listing-family/next-boundary formals are observed. Next displacement
+input0/hint0 leaves nonzero formatting unexercised; debug artifacts still pending.
+See cases/dbglist-comment-checkpoint.json for scope, failures and split timings.

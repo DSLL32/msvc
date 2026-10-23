@@ -1229,7 +1229,10 @@
     "@write_instruction_mnemonic@4",
     "@write_instruction_operand@12",
     "@write_operand_prefix@12",
-    "@machine_register_name@8"
+    "@machine_register_name@8",
+    "@write_instruction_comment@4",
+    "@write_listing_comment@4",
+    "@listing_data_type@4"
   ],
   "driver": [
     {
@@ -4045,8 +4048,20 @@
     {
       "name": "@write_listing_comment@4",
       "start": 164480,
-      "end": 164481,
-      "provisional": true
+      "end": 164558,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "first",
+            "location": "ECX",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-comment-prefix-abi/validation.json"
+      }
     },
     {
       "name": "@write_listing_line@4",
@@ -7665,8 +7680,26 @@
     {
       "name": "@listing_data_type@4",
       "start": 170272,
-      "end": 170273,
-      "provisional": true
+      "end": 170332,
+      "shared": [
+        [
+          170332,
+          170372
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "bytes",
+            "location": "ECX",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-data-type-abi/validation.json"
+      }
     },
     {
       "name": "@listing_data_directive@4",
@@ -7800,8 +7833,26 @@
     {
       "name": "@write_instruction_comment@4",
       "start": 170928,
-      "end": 170929,
-      "provisional": true
+      "end": 171227,
+      "shared": [
+        [
+          171228,
+          171256
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-comment-abi/validation.json"
+      }
     },
     {
       "name": "@write_listing_spaces@4",

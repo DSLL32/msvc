@@ -116,7 +116,6 @@ void __fastcall coff_write_comment(char *text) { __asm int 3 }
 #include "machine.h"
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
 #include "symbol-output.h"
-char *__fastcall listing_data_type(long bytes) { __asm int 3 }
 #include "frame.h"
 
 
@@ -150,11 +149,9 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
-int __fastcall write_listing_comment(int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 char *__fastcall listing_size_suffix(unsigned bytes) { __asm int 3 }
 void __fastcall write_listing_displacement(long displacement, int hint) { __asm int 3 }
-void __fastcall write_instruction_comment(MachineInstruction *instruction) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset) { __asm int 3 }

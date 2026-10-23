@@ -5,10 +5,12 @@ source=Path('src/listing.c').read_text();bodies=[]
 groups = dict(bytes=['write_listing_bytes', 'write_listing_spaces', 'pad_listing_column'],
               special=['write_special_instruction'], text=['write_instruction_text'],
               mnemonic=['write_instruction_mnemonic', 'write_listing_spaces'],
-              operand=['write_instruction_operand'], prefix=['write_operand_prefix'])
+              operand=['write_instruction_operand'], prefix=['write_operand_prefix'],
+              comment=['write_instruction_comment'],
+              comment_prefix=['write_listing_comment', 'pad_listing_column'])
 names = groups[sys.argv[2]] if len(sys.argv) > 2 else ['write_instruction_listing', 'pad_listing_column']
 for name in names:
-    matches=re.findall(r'^[^\n]*\b'+name+r'\([^;{}]*\)\n\{.*?^\}',source,re.M|re.S)
+    matches=re.findall(r'^[A-Za-z_][^\n]*\b'+name+r'\([^();{}]*\)\n\{.*?^\}',source,re.M|re.S)
     assert len(matches)==1,(name,len(matches));bodies.append(matches[0])
 if len(sys.argv) > 2 and sys.argv[2] == 'mnemonic':
     for name in ['listing_mnemonics', 'listing_condition_names']:

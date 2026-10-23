@@ -107,5 +107,57 @@ for label,change in [('missing register formal',lambda r:r['formals'].pop()),('c
     try:validate_register(bad)
     except(AssertionError,KeyError):rejected.append(label)
     else:raise AssertionError('Accepted bad register ABI: '+label)
-Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function'],prefix['function'],register['function']],observed_formals=12+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native listing family formals, known state and static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection plus register5/width4 only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
-print(12+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')
+comment_prefix=json.loads(Path('cases/dbglist-comment-prefix-abi/validation.json').read_text())
+def validate_comment_prefix(r):
+    assert r['matched']and r['function']=='@write_listing_comment@4'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+    assert r['formals']==[dict(name='first',location='ECX',type='signed32',value=1)]and r['original_values']==r['native']['values']==[1]
+    assert r['original_state']==dict(column=39,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=39,cw=0x27f,sw=0)
+    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+validate_comment_prefix(comment_prefix)
+abi=next(r for r in config['driver']if r['name']==comment_prefix['function'])['abi']
+assert abi['convention']=='fastcall'and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==0
+assert abi['parameters']==[{k:v for k,v in formal.items()if k in ['name','location','type']}for formal in comment_prefix['formals']]
+assert abi['entry_observation']=='cases/dbglist-comment-prefix-abi/validation.json'
+for label,change in [('missing first-comment formal',lambda r:r.update(formals=[])),('changed actual first-comment input',lambda r:r['native']['values'].__setitem__(0,0))]:
+    bad=copy.deepcopy(comment_prefix);change(bad)
+    try:validate_comment_prefix(bad)
+    except(AssertionError,KeyError):rejected.append(label)
+    else:raise AssertionError('Accepted bad comment-prefix ABI: '+label)
+data_type=json.loads(Path('cases/dbglist-data-type-abi/validation.json').read_text())
+def validate_data_type(r):
+    assert r['matched']and r['function']=='@listing_data_type@4'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+    assert r['formals']==[dict(name='bytes',location='ECX',type='signed32',value=4)]and r['original_values']==r['native']['values']==[4]
+    assert r['original_state']==dict(column=37,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=37,cw=0x27f,sw=0)
+    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+validate_data_type(data_type)
+abi=next(r for r in config['driver']if r['name']==data_type['function'])['abi']
+assert abi['convention']=='fastcall'and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==0
+assert abi['parameters']==[{k:v for k,v in formal.items()if k in ['name','location','type']}for formal in data_type['formals']]
+assert abi['entry_observation']=='cases/dbglist-data-type-abi/validation.json'
+for label,change in [('missing data-type formal',lambda r:r.update(formals=[])),('changed actual data-type width',lambda r:r['native']['values'].__setitem__(0,2))]:
+    bad=copy.deepcopy(data_type);change(bad)
+    try:validate_data_type(bad)
+    except(AssertionError,KeyError):rejected.append(label)
+    else:raise AssertionError('Accepted bad data-type ABI: '+label)
+displacement=json.loads(Path('cases/dbglist-displacement-abi/validation.json').read_text())
+def validate_displacement(r):
+    assert r['matched']and r['function']=='@write_listing_displacement@8'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+    assert r['formals']==[dict(name='displacement',location='ECX',type='signed32',value=0),dict(name='hint',location='EDX',type='signed32',value=0)]and r['original_values']==r['native']['values']==[0,0]
+    assert r['original_state']==dict(column=57,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=57,cw=0x27f,sw=0)
+    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+validate_displacement(displacement)
+if displacement['function']in config['accepted']:
+    abi=next(r for r in config['driver']if r['name']==displacement['function'])['abi']
+    assert abi['convention']=='fastcall'and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==0
+    assert abi['parameters']==[{k:v for k,v in formal.items()if k in ['name','location','type']}for formal in displacement['formals']]
+    assert abi['entry_observation']=='cases/dbglist-displacement-abi/validation.json'
+for label,change in [('missing displacement hint formal',lambda r:r['formals'].pop()),('changed actual displacement hint',lambda r:r['native']['values'].__setitem__(1,1))]:
+    bad=copy.deepcopy(displacement);change(bad)
+    try:validate_displacement(bad)
+    except(AssertionError,KeyError):rejected.append(label)
+    else:raise AssertionError('Accepted bad displacement ABI: '+label)
+Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function'],prefix['function'],register['function'],comment_prefix['function'],data_type['function'],displacement['function']],observed_formals=16+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native listing-family formals, known state and static no-hidden-input/RET evidence. First encountered inputs only, including next displacement0/hint0; no arbitrary deep pointer or branch equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
+print(16+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')
