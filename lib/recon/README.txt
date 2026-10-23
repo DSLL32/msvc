@@ -346,3 +346,14 @@ Only captured successful responses are supported. The fixture must verify the
 whole invocation, cwd, relevant environment and complete inputs before replaying
 streams/file effects. Missing broker, allow-native replies, NULL commands and
 unreviewed failure/fallback outcomes fail explicitly. No host shell is launched.
+
+`crt_operator_new` maps to the distinct weak `recon_cpp_new` native provider.
+The original C-friendly identifier may use reviewed COFF SEARCH_ALIAS metadata
+to bind the actual MSVCRT `??2@YAPAXI@Z` import without adding a function. Cases
+must retain that decorated import/ABI and prove the provider's NULL new-handler
+state; mutable malloc-newmode is separate and does not control this import.
+The supported path adjusts zero to1, returnsNULL above0xffffffe0, rounds the
+provider allocation to16bytes and preserves observed errno/LastError on normal
+success. Requested size and initialized bytes remain the application's ownership
+bounds, irrespective of allocator capacity. Host allocation failure is explicitly
+unsupported until handler/failure state is characterized.

@@ -105,6 +105,20 @@ WEAK void recon_setusermatherr(int (__cdecl *callback)(struct _exception *))
     recon_crt_matherr=callback;
 }
 
+/* Canonical MSVCRT's C++ new forces _nh_malloc's handler mode to1.
+ * Current consumers prove the provider handler remains NULL. Preserve this
+ * distinct import boundary; unobserved heap-failure/handler paths fail closed. */
+WEAK void *recon_cpp_new(size_t size)
+{
+    void *result; int saved_errno=errno;
+    if (size>0xffffffe0UL) return NULL;
+    if (!size) size=1;
+    result=malloc((size+15)&~(size_t)15);
+    if (!result) recon_unsupported("operator new allocation failure/new-handler path");
+    errno=saved_errno;
+    return result;
+}
+
 /* CVTRES's first help case does not execute this imported sharing-mode API.
  * Retain its correct compile-time ABI and fail until a real call is captured. */
 WEAK ShimFILE *recon_fsopen(const char *path,const char *mode,int sharing)

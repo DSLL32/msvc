@@ -1,0 +1,26 @@
+{
+  "build_seconds": 0.8401426915079355,
+  "execution_seconds": 0.18572828639298677,
+  "status": 0,
+  "adjacent_native_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "original_actual_provider_binding_evidence": "decomp/vc5.10/link/cases/help/operator-new/provider-proof.json",
+  "scope": "Distinct canonical MSVCRT operator-new import, observed NULL handler; normal successes/zero/oversize",
+  "tests": [
+    "three encountered sizes12288/4000/4096",
+    "zero->1 success and>ffffffe0 NULL",
+    "native byte comparison with original probe errno123/LastError456",
+    "RLIMIT_AS allocation failure unsupported125"
+  ],
+  "native_build_checks_seconds": {
+    "gcc": 0.9912354722619057,
+    "clang": 1.2415186949074268
+  },
+  "evidence": [
+    "decomp/vc5.10/link/cases/help/operator-new/provider-proof.json"
+  ],
+  "limits": [
+    "unknown allocation failure/new-handler retry remains unsupported",
+    "no claim of host OOM equivalence",
+    "requested application extent differs from16byte-rounded provider allocation; only written/requested bytes owned"
+  ]
+}
