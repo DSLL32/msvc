@@ -9,6 +9,19 @@ void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
 #define CLASS_CONTEXT (class_contexts[current_class_context])
 #define CLASS_TAG (CLASS_CONTEXT.symbol)
 
+/* Original 0x31f40..0x31f77. Preserve insertion order within one owner's
+   list, keeping the first record as the hash-table value. */
+void __stdcall append_friend_record(FriendRecord *record)
+{
+    FriendRecord *last = find_friend_record(&record->owner_index);
+    if (!last) {
+        set_hash_value(declaration_table, record, record);
+        return;
+    }
+    while (last->next) last = last->next;
+    last->next = record;
+}
+
 /* Original 0x31f80..0x31fea. Friendship records share their owner's symbol
    index as the hash key and retain either a class or a function symbol. */
 void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function)

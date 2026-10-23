@@ -48,7 +48,7 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
 /* Compare selected semantic state while the child is stopped. Pointer
    fields report nullness, so addresses need not match between linked images. */
 static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
-    DWORD base, char *specifications, unsigned argument_words)
+    DWORD base, char *specifications, unsigned argument_words, unsigned observe_esi)
 {
     DWORD address, value, got, written, index = 0;
     unsigned actual = 0, context_read;
@@ -69,7 +69,7 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         WriteFile(log, line, strlen(line), &written, 0);
         specifications = *next == ',' ? next + 1 : next;
     }
-    context.ContextFlags = CONTEXT_CONTROL;
+    context.ContextFlags = CONTEXT_CONTROL | (observe_esi ? CONTEXT_INTEGER : 0);
     value = got = 0;
     context_read = GetThreadContext(thread, &context);
     if (!context_read ||
@@ -93,6 +93,11 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     sprintf(line, "argument-words requested %u actual %u context %u\n",
         argument_words, actual, context_read != 0);
     WriteFile(log, line, strlen(line), &written, 0);
+    if (observe_esi) {
+        if (context_read) sprintf(line, "ownership-anchor esi %08lx\n", context.Esi);
+        else strcpy(line, "ownership-anchor esi unreadable\n");
+        WriteFile(log, line, strlen(line), &written, 0);
+    }
 }
 
 typedef struct EntryPlan {
@@ -120,12 +125,15 @@ int main(int argc, char **argv)
     unsigned char instruction;
     unsigned argument_words = 4;
     char *argument_option = getenv("C1XX_CAPTURE_ARGUMENT_WORDS");
+    char *ownership_option = getenv("C1XX_CAPTURE_OWNERSHIP_REGISTER");
+    unsigned observe_esi = ownership_option != 0;
 
     /* This is observer configuration, not a debugged-program argument. */
     if (argument_option) {
         if (!strcmp(argument_option, "6")) argument_words = 6;
         else if (strcmp(argument_option, "4")) return 2;
     }
+    if (ownership_option && strcmp(ownership_option, "esi")) return 2;
 
     if (argc == 12) {
         plan = fopen(argv[11], "r");
@@ -229,7 +237,7 @@ int main(int argc, char **argv)
                 if (argc >= 10)
                     dump_stream_buffers(pi.hProcess, log, base, argv[9]);
                 if (argc >= 11)
-                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10], argument_words);
+                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10], argument_words, observe_esi);
                 TerminateProcess(pi.hProcess, 99);
 #endif
             }

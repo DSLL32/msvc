@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x69319: file src/class-members.c, line 16.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, append_friend_record (record=0x5662036c) at src/class-members.c:16
+16	    FriendRecord *last = find_friend_record(&record->owner_index);
+#0  append_friend_record (record=0x5662036c) at src/class-members.c:16
+#1  0x565be44d in record_friend (owner=0x5661fc84, type=0x566069e8 <declaration_spec_storage+8>, function=0x566202c4) at src/class-members.c:41
+#2  0x565be6fb in declare_friend_member (context=0x566069e8 <declaration_spec_storage+8>, member=0x566202c4, qualified=0x0, owner=0x5661fc84, storage=..., pure=0) at src/class-members.c:88
+#3  0x565bebe3 in declare_class_member (context=0x566069e8 <declaration_spec_storage+8>, member=0x566202c4) at src/class-members.c:168
+#4  0x565af779 in parse_translation_unit () at src/parser-declaration-actions.inc:274
+#5  0x5655e0bf in compile_translation_unit () at src/frontend.c:73
+#6  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558874 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

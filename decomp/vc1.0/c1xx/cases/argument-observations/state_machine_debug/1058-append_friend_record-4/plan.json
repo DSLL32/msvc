@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_append_friend_record@4",
+  "native_entry": "append_friend_record",
+  "argument_words": 4,
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    204672,
+    204778
+  ],
+  "native_caller_locals": {
+    "caller_record": {
+      "frame": 1,
+      "function": "record_friend",
+      "local": "record"
+    }
+  },
+  "native_expressions": {
+    "raw_record": "(unsigned)record"
+  },
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 139237,
+        "original_owner_function": "_record_friend@12",
+        "native_owner_field": "caller_record",
+        "native_owner_function": "record_friend",
+        "native_owner_local": "record",
+        "identity": "fresh12B FriendRecord allocated by current record_friend invocation; original allocate_permanent call0x31f8f returnsEAX, moved ESI at0x31f94, ESI pushed0x31fdf/call0x31fe0, return0x31fe5; earlier capture_inline_member_declaration call preserves ESI; caller native local record is the same allocated object"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204608,
+      204663
+    ],
+    "argument_bytes": 4,
+    "proof": "PUSH ESI then MOV ESI,[ESP+8], stack formal forwarded to find_friend_record and set_hash_value; saved incoming ESI is never a semantic callee input. RET4 at0x31f5d and0x31f74. EAX is callee result, ECX defined XOR before use, no incoming volatile register dataflow. The separately observed ESI is only the accepted caller allocation ownership anchor, not a callee argument."
+  }
+}

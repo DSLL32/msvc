@@ -40,13 +40,15 @@ def main():
     command = [sys.executable, str(BINARY/'scripts/capture-original.py'), '--case', args.case, '--argument-words', str(requested_words)]
     for item in plan.get('original_observations', []):
         command += ['--observe-state', item['name']+'='+hex(item['original'])]
+    if plan.get('ownership_register'):
+        command += ['--ownership-register', plan['ownership_register'], '--entry-plan']
     original = Path(subprocess.check_output(command, cwd=BINARY, text=True).strip().splitlines()[-1]).parent
     out = BINARY/'cases/argument-observations'/args.case/('%04d-' % len(config['accepted']) + re.sub(r'[^A-Za-z_0-9-]', '-', name.lstrip('_@')))
     out.mkdir(parents=True, exist_ok=False)
     spec = importlib.util.spec_from_file_location('frontier_argument_native', BINARY/'scripts/capture-native.py')
     native = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(native)
-    checkpoint = native.capture(out/'native-raw', breakpoint=plan['native_entry'], expressions=plan['native_expressions'], case_name=args.case)
+    checkpoint = native.capture(out/'native-raw', breakpoint=plan['native_entry'], expressions=plan['native_expressions'], case_name=args.case, caller_locals=plan.get('native_caller_locals'))
     receipt = json.loads((original/'receipt.json').read_text())
     events = (original/'events.txt').read_text()
     assert receipt['terminal'] == name and receipt['configuration_sha256'] == sha(BINARY/'functions.json')
@@ -79,6 +81,18 @@ def main():
             binding['native_anchor_value'] = checkpoint[binding['native_anchor_field']]
             assert item['original_raw'] == binding['original_anchor_value']
             assert item['native_raw'] == binding['native_anchor_value']
+        elif binding['kind'] == 'caller-owned-pointer':
+            registers = [row for row in receipt['ownership_register_observations'] if row['register'] == binding['original_register']]
+            assert len(registers) == 1 and registers[0]['read_succeeded']
+            assert re.findall(r'^caller ([0-9a-f]+)$', events, re.M) == ['%08x' % binding['original_caller_rva']]
+            assert binding['original_owner_function'] in receipt['first_entry_projection']['observed']
+            assert binding['original_owner_function'] in config['accepted']
+            owner = checkpoint['caller_locals'][binding['native_owner_field']]
+            assert owner['function'] == binding['native_owner_function'] and owner['local'] == binding['native_owner_local']
+            binding['original_owner_value'] = registers[0]['value']
+            binding['native_owner_value'] = owner['value']
+            assert item['original_raw'] == binding['original_owner_value']
+            assert item['native_raw'] == binding['native_owner_value']
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
         item['result'] = 'match'
@@ -92,6 +106,9 @@ def main():
     shutil.rmtree(out/'native-raw')
     start, end = plan['abi_analysis']['original_extent']
     (out/'original-disassembly.txt').write_bytes(subprocess.check_output(['objdump', '-d', '-Mintel', '--start-address='+hex(start), '--stop-address='+hex(end), '../../../toolchains/1.0-nt/bin/C1XX3232.EXE'], cwd=BINARY))
+    if plan.get('ownership_caller_extent'):
+        start,end = plan['ownership_caller_extent']
+        (out/'original-ownership-caller-disassembly.txt').write_bytes(subprocess.check_output(['objdump', '-d', '-Mintel', '--start-address='+hex(start), '--stop-address='+hex(end), '../../../toolchains/1.0-nt/bin/C1XX3232.EXE'], cwd=BINARY))
     shutil.copyfile(args.plan, out/'plan.json')
     plan['abi_analysis']['original_target_sha256'] = receipt['original_sha256']
     proof = dict(schema=1, status='match', function=name, case=args.case, accepted_before=len(config['accepted']), configuration_sha256=sha(BINARY/'functions.json'), native_entry=plan['native_entry'], declared_formal_count=len(plan['formals']), formals=plan['formals'], register_inputs=[], hidden_inputs=[], unknown_inputs=[], abi_analysis=plan['abi_analysis'], native_executable_sha256=sha(BINARY/'build/native/C1XX3232.EXE'), capture_timing=dict(original_capture_seconds=receipt['capture_seconds'], native_capture_seconds=json.loads((out/'native-timing.json').read_text())['total_seconds'], total_operation_seconds=time.perf_counter()-started), evidence_sha256={p.name:sha(p) for p in sorted(out.iterdir()) if p.is_file()})

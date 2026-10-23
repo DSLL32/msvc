@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "eb1defe295112d9007ccb0a792d1ce170ff85bd2fe45b36bfbea36bea0aa2d77",
+    "functions.json": "fa09cb28aaea99fa6046f1b8e685b439627973c1df8ed3397a0749b680d2cfeb",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "af4d2ade76a622fa9ed378db6d6bb6ceb4562ba7f3ee92c0835fe49d2c9ec454",
-    "cases/canonical-map.txt": "1cf1092e2066badf1148fc710d6ddb75157f1a0fed866a17f599f127a89a8c94",
+    "cases/original-entry-references.json": "f226f173c5a29278d5c6de7808ca333717591c0028d35892597829f5364871f7",
+    "cases/canonical-map.txt": "03289d683a25d336eb0e5f664256fbae5ce415ecb8d5904f44a397322ccd3242",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1057-record_friend-12/entry-reference/original-receipt.json": "bb991cc1db35676b67cf4cd29786482668961e4f85931cf3fdaad22c4990eebb",
-    "cases/frontiers/state_machine_debug/1057-record_friend-12/entry-reference/original-events.txt": "82c68c1cd1928b73c839edb9eaa6f4eeb37048f8c9098891bc93793b17259016",
-    "cases/frontiers/state_machine_debug/1057-record_friend-12/entry-reference/original-entries.plan": "24ab6971956075d46b0e3fd9ac3a5cd1e37970b0336c80fca4d3544398301c73"
+    "cases/frontiers/state_machine_debug/1058-append_friend_record-4/entry-reference/original-receipt.json": "5b5e9b921da4e7ec1825ec3f8df0755e1c007d2c3196a20a1d9641c6f83d434d",
+    "cases/frontiers/state_machine_debug/1058-append_friend_record-4/entry-reference/original-events.txt": "9c667bf13dfadd8835e318077df5f1771a79af5f099d0318368d59bced5673f7",
+    "cases/frontiers/state_machine_debug/1058-append_friend_record-4/entry-reference/original-entries.plan": "5a2fb3b03c9924475983196a06e20af62f9c81d0d1e6fe9f6d9da07e3b8c686d"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -185,7 +185,7 @@
     },
     "append_friend_record": {
       "logical": "_append_friend_record@4",
-      "source": "src/stubs.c"
+      "source": "src/class-members.c"
     },
     "append_frontend_record": {
       "logical": "_append_frontend_record@8",
@@ -2001,6 +2001,10 @@
     },
     "find_friend_access": {
       "logical": "_find_friend_access@8",
+      "source": "src/stubs.c"
+    },
+    "find_friend_record": {
+      "logical": "_find_friend_record@4",
       "source": "src/stubs.c"
     },
     "find_frontend_record": {
@@ -6348,7 +6352,8 @@
     "format_storage_spec",
     "format_storage_extensions",
     "declare_friend_member",
-    "record_friend"
+    "record_friend",
+    "append_friend_record"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10460,7 +10465,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1058,
+      "last": 1059,
       "seen": [
         "main",
         "message_text",
@@ -11428,12 +11433,13 @@
         "format_storage_extensions",
         "declare_friend_member",
         "record_friend",
-        "append_friend_record"
+        "append_friend_record",
+        "find_friend_record"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_append_friend_record@4",
-        "native": "append_friend_record",
+        "logical": "_find_friend_record@4",
+        "native": "find_friend_record",
         "signal": 5
       }
     }

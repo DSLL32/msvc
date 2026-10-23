@@ -31,6 +31,8 @@ def main():
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
     parser.add_argument('--argument-words', type=int, choices=(4, 6), default=4,
         help='explicit raw stack-word count for a proved current ABI; default remains four')
+    parser.add_argument('--ownership-register', choices=('esi',),
+        help='explicit caller-owned allocation anchor; not an extra callee ABI input')
     parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
         help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')
     args = parser.parse_args()
@@ -108,6 +110,9 @@ def main():
     started = time.perf_counter()
     environment = tool.environment()
     environment['C1XX_CAPTURE_ARGUMENT_WORDS'] = str(args.argument_words)
+    environment.pop('C1XX_CAPTURE_OWNERSHIP_REGISTER', None)
+    if args.ownership_register:
+        environment['C1XX_CAPTURE_OWNERSHIP_REGISTER'] = args.ownership_register
     subprocess.run(command, env=environment, check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     capture_seconds=time.perf_counter()-started
@@ -123,6 +128,10 @@ def main():
     if re.search(r'^argument ', events, re.M):
         receipt['argument_observation'] = argument_observation(events, args.argument_words)
     receipt['observer_sha256'] = hashlib.sha256((BINARY/'build/debug-run.exe').read_bytes()).hexdigest()
+    if args.ownership_register:
+        anchors = re.findall(r'^ownership-anchor esi ([0-9a-f]{8})$', events, re.M)
+        assert len(anchors) == 1, 'missing/unreadable requested ownership register'
+        receipt['ownership_register_observations'] = [dict(register='esi', value=int(anchors[0],16), read_succeeded=True)]
     if observations:
         states=re.findall(r'^state \d+ ([0-9a-f]+)$',(directory/'events.txt').read_text(),re.M)
         assert len(states)==len(config['checkpoint_state'])+len(observations)

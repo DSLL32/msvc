@@ -97,6 +97,18 @@ def main():
             assert anchor['original']==binding['original_anchor_address']
             assert formal['original_raw']==binding['original_anchor_value']==anchor['value']
             assert formal['native_raw']==binding['native_anchor_value']==entry_native[binding['native_anchor_field']]
+        elif binding['kind']=='caller-owned-pointer':
+            registers=[row for row in entry_original['ownership_register_observations'] if row['register']==binding['original_register']]
+            assert len(registers)==1 and registers[0]['read_succeeded'], 'missing actual owner register anchor'
+            raw_anchors=re.findall(r'^ownership-anchor '+binding['original_register']+r' ([0-9a-f]{8})$',(argument_directory/'original-events.txt').read_text(),re.M)
+            assert raw_anchors==['%08x'%registers[0]['value']], 'owner register evidence differs'
+            assert re.findall(r'^caller ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M)==['%08x'%binding['original_caller_rva']]
+            assert binding['original_owner_function'] in entry_original['first_entry_projection']['observed']
+            assert binding['original_owner_function'] in config['accepted']
+            owner=entry_native['caller_locals'][binding['native_owner_field']]
+            assert owner['function']==binding['native_owner_function'] and owner['local']==binding['native_owner_local'], 'actual native owner differs'
+            assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']
+            assert formal['native_raw']==binding['native_owner_value']==owner['value']
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     if args.original is None:

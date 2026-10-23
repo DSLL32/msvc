@@ -15,7 +15,7 @@ from case_paths import paths, native_work, windows, ROOT, CAPTURE_ROOT
 BINARY = Path(__file__).resolve().parents[1]
 
 
-def capture(directory, executable=None, breakpoint=None, expressions=None, case_name='cpp_basic'):
+def capture(directory, executable=None, breakpoint=None, expressions=None, case_name='cpp_basic', caller_locals=None):
     started = time.perf_counter()
     config = json.loads((BINARY/'functions.json').read_text())
     _,fixture,_,_=paths(config,case_name)
@@ -43,6 +43,13 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
                      '    result["declared_arguments"] = sorted(arguments)']
     for key, expression in (expressions or {}).items():
         commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
+    if caller_locals:
+        commands += ['    result["caller_locals"] = {}']
+        for key, owner in caller_locals.items():
+            assert owner['frame'] == 1, 'only the immediate actual owner frame is supported'
+            commands += ['    owner = gdb.newest_frame().older()',
+                         '    assert owner is not None and owner.name() == '+repr(owner['function']),
+                         '    result["caller_locals"]['+repr(key)+'] = {"function": owner.name(), "local": '+repr(owner['local'])+', "value": int(owner.read_var('+repr(owner['local'])+'))}']
     for field in config['cases'][case_name].get('buffered_streams', config['buffered_streams']):
         name = field['name'][1:]
         commands += ['    stream = gdb.parse_and_eval("'+name+'")',

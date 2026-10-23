@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1058,
+  "accepted": "_append_friend_record@4",
+  "terminal": "_find_friend_record@4",
+  "original_capture": "cases/frontiers/state_machine_debug/1058-append_friend_record-4/original-receipt.json",
+  "original_capture_sha256": "5b5e9b921da4e7ec1825ec3f8df0755e1c007d2c3196a20a1d9641c6f83d434d",
+  "original_events": "cases/frontiers/state_machine_debug/1058-append_friend_record-4/original-events.txt",
+  "original_events_sha256": "9c667bf13dfadd8835e318077df5f1771a79af5f099d0318368d59bced5673f7",
+  "original_configuration": "cases/frontiers/state_machine_debug/1058-append_friend_record-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

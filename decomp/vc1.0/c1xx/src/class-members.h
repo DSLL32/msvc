@@ -21,6 +21,7 @@ typedef char FriendRecordSizeMustBe12[(sizeof(FriendRecord) == 12) ? 1 : -1];
 typedef char FriendRecordSymbolOffsetMustBe4[(offsetof(FriendRecord, symbol) == 4) ? 1 : -1];
 typedef char FriendRecordNextOffsetMustBe8[(offsetof(FriendRecord, next) == 8) ? 1 : -1];
 void __stdcall append_friend_record(FriendRecord *record);
+FriendRecord *__stdcall find_friend_record(unsigned *owner_index);
 void __stdcall browser_friend_reference(CppSymbol *symbol);
 void __stdcall validate_anonymous_aggregate(DeclarationType *type);
 void __stdcall declare_anonymous_aggregate(CType *type);
