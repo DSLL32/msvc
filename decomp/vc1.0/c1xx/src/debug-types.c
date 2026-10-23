@@ -12,6 +12,73 @@ unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 
+/* Original 0x6dd80..0x6df7f. Register emitted method signatures and
+   accumulate the class properties contributed by their overload set. */
+unsigned __stdcall count_debug_methods(OverloadSet *overloads,
+    unsigned short *field_properties)
+{
+    CppSymbol *function, *next, *owner;
+    CType *type, description, *base;
+    TypeShape *shape;
+    unsigned count = 0, record;
+    unsigned char argument_count;
+#ifdef RECON_NATIVE_TEST
+    /* NULL skips the original cursor's initialization, then reads that
+       unwritten entryESP-20 slot. Its public reachability is unknown. */
+    if (!overloads) { __asm { int 3 } }
+#endif
+    if (overloads) {
+        function = overloads->functions;
+        owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+        if ((overloads->name == name_ctor &&
+             (owner->detail.class_info->trivial_special_members & 3) == 3) ||
+            (overloads->name == name_assignment &&
+             (owner->detail.class_info->trivial_special_members & 4)) ||
+            (overloads->name == name_dtor &&
+             (owner->detail.class_info->trivial_special_members & 8))) next = 0;
+        else next = function;
+    }
+    /* The Win32 NULL-overloads branch deliberately retains its original
+       uninitialized cursor; the native guard above stops before this read. */
+    while (next) {
+        function = next;
+        next = function->next;
+        if (function->name == name_ctor) {
+            if (function->cpp.parts.member_flags & 0x20) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 2) continue;
+            }
+            if (function->cpp.parts.member_flags & 0x10) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 1) continue;
+            }
+        }
+        type = intern_type((TypeDescription *)strip_based_shape(function->type));
+        if (overloads->functions->cpp.parts.token != 1) *field_properties |= 4;
+        if (overloads->name == name_ctor || overloads->name == name_dtor)
+            *field_properties |= 2;
+        if (!type->debug_index) {
+            shape = type->related;
+            description = *type;
+            description.related = shape->related;
+            base = intern_type((TypeDescription *)&description);
+            reference_debug_type(base);
+            if (function->cpp.parts.member_flags & 1)
+                reference_debug_type(shape->data.parameters->associated_type);
+            argument_count = reference_parameter_debug_types(shape->data.parameters);
+            type->debug_index = next_debug_type_index;
+            record = reserve_debug_type(0);
+            debug_types[record].subject.type = type;
+            debug_types[record].attributes = argument_count;
+            owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+            debug_types[record].related_type = owner->type->debug_index;
+            debug_types[record].detail.displacement = function->this_displacement;
+        }
+        ++count;
+    }
+    return count;
+}
+
 /* Original 0x6df80..0x6e019. Allocate queue space without initializing
    fields owned by each producer; only the kind byte is common to all slots. */
 unsigned __stdcall reserve_debug_type(unsigned char kind)

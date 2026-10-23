@@ -79,6 +79,11 @@ def main():
     diagnostics=entry_original.get('diagnostic_observations', [])
     assert len(original_states)==len(config['checkpoint_state'])+len(diagnostics), 'missing/unreadable exact-word observation'
     assert original_states[len(config['checkpoint_state']):]==[row['value'] for row in diagnostics], 'diagnostic word receipt differs from raw read'
+    for index,field in enumerate(diagnostics):
+        if field.get('bytes',4)==2:
+            assert field['read_bytes']==2 and field['read_succeeded'], 'exact initialized WORD observation required'
+            pattern=r'^observation %d address %08x requested 2 actual 2 success 1$'%(len(config['checkpoint_state'])+index,field['original'])
+            assert re.search(pattern,(argument_directory/'original-events.txt').read_text(),re.M), 'missing/short/unreadable exact WORD read'
     for requirement in argument_proof.get('state_requirements', []):
         assert original_states[requirement['index']] == entry_native[requirement['native_field']] == requirement['equals']
     words=dict((int(index),int(value,16)) for index,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M))
@@ -125,6 +130,16 @@ def main():
             assert binding['original_word']==anchor['value']==binding['native_word']==entry_native[binding['native_pointee_field']], 'observed actual input word differs'
             if binding.get('native_semantic_owner_field'):
                 assert binding['native_word']==entry_native[binding['native_semantic_owner_field']], 'semantic input owner differs'
+        elif binding['kind']=='debug-queue-word':
+            queue=anchors[binding['original_queue_anchor']]
+            word=anchors[binding['original_word_anchor']]
+            assert word['bytes']==word['read_bytes']==2 and word['read_succeeded'], 'exact initialized WORD observation required'
+            owner=entry_native['caller_locals'][binding['native_record_field']]
+            assert owner['function']=='debug_tag_type' and owner['local']=='record' and owner['value']==binding['slot'], 'actual debug queue owner slot differs'
+            offset=16*binding['slot']+12
+            assert formal['original_raw']==queue['value']+offset==word['original'], 'actual original debug queue WORD owner differs'
+            assert formal['native_raw']==entry_native[binding['native_queue_field']]+offset, 'actual native debug queue WORD owner differs'
+            assert binding['original_word']==word['value']==binding['native_word']==entry_native[binding['native_word_field']]
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     if args.original is None:

@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "2a634b545ed113ce6e645faf8d980efdf11c90c052d554b60f01de061ec2d165",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/manifest.json": "64ad1ef1efc1ac2aed43efd018b125723647699424f2adb48372e439043b84ee",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "d7c247ef12c57b632cde54302b2862e9eb610c862d57712acb00c78563f74c84",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "0b0457966af647a45421f6aa502e56e434121db7592ce47564af647ba79099d1",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/c1/state-machine.cpp": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+  },
+  "observation": {
+    "status": "NULL overload cursor rejected before entryESP-20 read; public reachability unknown",
+    "function": "count_debug_methods",
+    "signal": 5,
+    "pc_offset": 64
+  },
+  "setup_seconds": 0.02342561725527048,
+  "debugger_seconds": 0.1954738385975361,
+  "check_seconds": 0.024437791667878628,
+  "total_seconds": 0.2433383371680975
+}

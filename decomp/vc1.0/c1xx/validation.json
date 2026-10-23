@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1078,
-  "driver_functions": 984,
+  "accepted_frontiers": 1079,
+  "driver_functions": 985,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 991,
-  "current_frontier": "_count_debug_methods@8",
-  "original_frontier_va": "0x6dd80",
+  "reconstructed_source_functions": 992,
+  "current_frontier": "_reference_parameter_debug_types@4",
+  "original_frontier_va": "0x6dab0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_count_debug_methods@8",
-    "original_va": "0x6dd80"
+    "current_frontier": "_reference_parameter_debug_types@4",
+    "original_va": "0x6dab0"
   },
-  "current_native_application_entries": 82,
+  "current_native_application_entries": 83,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 274777,
+    "accepted_code_bytes": 275288,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 57.675612592303395,
-    "accepted_frontiers": 1078,
-    "source_functions": 991,
-    "accepted_source_text_and_switch_bytes": 262894,
+    "accepted_code_percent": 57.7828713440718,
+    "accepted_frontiers": 1079,
+    "source_functions": 992,
+    "accepted_source_text_and_switch_bytes": 263405,
     "section_ranges": [
       [
         94208,
@@ -97,16 +97,29 @@
         "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
         "evidence": "evidence/primitive-debug-width/receipt.json",
         "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
+      },
+      {
+        "function": "_count_debug_methods@8",
+        "original": [
+          449920,
+          450431
+        ],
+        "condition": "overloads == NULL",
+        "behavior": "explicit native-only INT3 before the original unwritten next-method cursor read",
+        "win32": "original-style uninitialized cursor retained on NULL-overloads branch",
+        "authorization": "Established root-approved exact uninitialized-cursor guard policy after independent raw def-use/offset check",
+        "evidence": "evidence/debug-methods-null/analysis.json",
+        "coverage_note": "Original cursor at entryESP-20 is unwritten on NULL branch. Public NULL reachability unknown; no caller-stack equivalence or malformed-only/CRT classification."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 274777,
+    "accepted_code_bytes": 275288,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 57.675612592303395,
-    "accepted_frontiers": 1078,
-    "source_functions": 991,
-    "accepted_source_text_and_switch_bytes": 262894,
+    "accepted_code_percent": 57.7828713440718,
+    "accepted_frontiers": 1079,
+    "source_functions": 992,
+    "accepted_source_text_and_switch_bytes": 263405,
     "section_ranges": [
       [
         94208,
@@ -178,13 +191,26 @@
         "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
         "evidence": "evidence/primitive-debug-width/receipt.json",
         "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
+      },
+      {
+        "function": "_count_debug_methods@8",
+        "original": [
+          449920,
+          450431
+        ],
+        "condition": "overloads == NULL",
+        "behavior": "explicit native-only INT3 before the original unwritten next-method cursor read",
+        "win32": "original-style uninitialized cursor retained on NULL-overloads branch",
+        "authorization": "Established root-approved exact uninitialized-cursor guard policy after independent raw def-use/offset check",
+        "evidence": "evidence/debug-methods-null/analysis.json",
+        "coverage_note": "Original cursor at entryESP-20 is unwritten on NULL branch. Public NULL reachability unknown; no caller-stack equivalence or malformed-only/CRT classification."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "state_machine_debug",
   "status": "state_machine_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/validation.json",
+  "latest_verification": "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -212,11 +238,11 @@
     },
     "state_machine_debug": {
       "status": "partial",
-      "frontier": "_count_debug_methods@8",
-      "latest_verification": "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/validation.json"
+      "frontier": "_reference_parameter_debug_types@4",
+      "latest_verification": "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/validation.json"
     }
   },
-  "next_operation": "Continue _count_debug_methods@8 reconstruction",
+  "next_operation": "Continue _reference_parameter_debug_types@4 reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

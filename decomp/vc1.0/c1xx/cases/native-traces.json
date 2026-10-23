@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4699664c04af2d8531113c21f12b84fd88c567ff1ad45a75142206b53ad21f2b",
+    "functions.json": "ee75e2ca7ee1454fd78285ca36110211e5317841dd6a712603538d65363e3c42",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f6876f11ebbc162e11f9a6508f6fc84b4c3ed1f4d3ceafd3feaafec38a7401ff",
-    "cases/canonical-map.txt": "aab4b20e31c15ca820f6da01f807d65eeb9633754bfc749ec040cbc7b8e0c7af",
+    "cases/original-entry-references.json": "e758f439fe7e5677b270ef1f0fe1827b8b8bce55508acf1eaa85a027f7905dae",
+    "cases/canonical-map.txt": "c69f1dc8d841adff5bb509b9bb1dc7ac806f1970119b07e3da2b39921e0bff2e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/entry-reference/original-receipt.json": "e65c078bba5b9a40c11b2e730e981a906c153ade734ad33dcb6a20925104ff21",
-    "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/entry-reference/original-events.txt": "daacafc4484e66e91004e5ffcb788fc6e68274a002ce7ff6e22c9f2b97f52edc",
-    "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/entry-reference/original-entries.plan": "ef765ea74cfd601d9291b6cf9360275bf5a5c0ba6fd4d588495551c809d4425b"
+    "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/entry-reference/original-receipt.json": "6f53c4056a935746d4d8bc096bdddfa10632854ff71dac86e027892fc7cf4ba6",
+    "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/entry-reference/original-events.txt": "3ef3a474f721e783441cfb7608326a6fbc23bee79aa42308f06d3d537bdd9cfb",
+    "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/entry-reference/original-entries.plan": "15c1484dabd9ee49835f6d6647436e5dbcd34e75ed9e5ca038d38f38bbedae24"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1261,7 +1261,7 @@
     },
     "count_debug_methods": {
       "logical": "_count_debug_methods@8",
-      "source": "src/stubs.c"
+      "source": "src/debug-types.c"
     },
     "count_overload_functions": {
       "logical": "_count_overload_functions@4",
@@ -4403,6 +4403,10 @@
       "logical": "_reference_lvalue_needs_extension@4",
       "source": "src/reference-initializers.c"
     },
+    "reference_parameter_debug_types": {
+      "logical": "_reference_parameter_debug_types@4",
+      "source": "src/stubs.c"
+    },
     "reference_requires_temporary": {
       "logical": "_reference_requires_temporary@12",
       "source": "src/reference-initializers.c"
@@ -6472,7 +6476,8 @@
     "primitive_pointer_debug_type",
     "debug_tag_type",
     "reserve_debug_type",
-    "class_virtual_table_group_count"
+    "class_virtual_table_group_count",
+    "count_debug_methods"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10584,7 +10589,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1078,
+      "last": 1079,
       "seen": [
         "main",
         "message_text",
@@ -11572,12 +11577,13 @@
         "debug_tag_type",
         "reserve_debug_type",
         "class_virtual_table_group_count",
-        "count_debug_methods"
+        "count_debug_methods",
+        "reference_parameter_debug_types"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_count_debug_methods@8",
-        "native": "count_debug_methods",
+        "logical": "_reference_parameter_debug_types@4",
+        "native": "reference_parameter_debug_types",
         "signal": 5
       }
     }

@@ -1,0 +1,1 @@
+The canonical graph rejected the first candidate before promotion: raw callee 0x62320 is strip_based_shape, not copy_type_description (0x628b0). Corrected using existing recovered definition and raw direct-callee metadata; fresh affected build/argument pair follows. Earlier failed proof is preserved as analysis evidence only.

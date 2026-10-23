@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "function": "_count_debug_methods@8",
+  "native_entry": "count_debug_methods",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    449312,
+    449918
+  ],
+  "original_observations": [
+    {
+      "name": "debug_queue",
+      "original": 576688
+    },
+    {
+      "name": "properties_word",
+      "original": 8472528,
+      "bytes": 2
+    }
+  ],
+  "native_caller_locals": {
+    "caller_member": {
+      "frame": 1,
+      "function": "debug_tag_type",
+      "local": "member"
+    },
+    "caller_record": {
+      "frame": 1,
+      "function": "debug_tag_type",
+      "local": "record"
+    }
+  },
+  "native_expressions": {
+    "raw_overloads": "(unsigned)overloads",
+    "raw_properties": "(unsigned)field_properties",
+    "debug_queue": "(unsigned)debug_types",
+    "properties_word": "(unsigned short)*field_properties"
+  },
+  "formals": [
+    {
+      "name": "overloads",
+      "stack_index": 0,
+      "native_field": "raw_overloads",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 384270,
+        "original_owner_function": "_debug_tag_type@4",
+        "native_owner_field": "caller_member",
+        "native_owner_function": "debug_tag_type",
+        "native_owner_local": "member",
+        "identity": "current accepted caller member selected in EDI from class member chain; original PUSH EDI0x6dd08/CALL0x6dd09 return0x6dd0e. Native current caller member selects that same overload set."
+      }
+    },
+    {
+      "name": "field_properties",
+      "stack_index": 1,
+      "native_field": "raw_properties",
+      "binding": {
+        "kind": "debug-queue-word",
+        "original_queue_anchor": "debug_queue",
+        "original_word_anchor": "properties_word",
+        "native_record_field": "caller_record",
+        "native_queue_field": "debug_queue",
+        "native_word_field": "properties_word",
+        "slot": 0,
+        "defined_prestate": "WORD initialized at caller0x6dba7 from independently audited zero debug_field_properties, after initial reserve returned slot0. Out-pointer is queue+16*actualslot+12; adjacent reserved bytes are not read."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      449920,
+      450431
+    ],
+    "argument_bytes": 8,
+    "proof": "SUB ESP,28/saveEBX,ESI,EDI,EBP; overloads at adjustedESP+48, output WORD pointer at+52. RET8 at0x6df7c. No semantic incoming register/hidden input. Read/update only WORD [EDI] at0x6de87/0x6de8a/0x6dea4. Original next cursor local[ESP+24]=entryESP-20 is unwritten if overloads NULL (JZ0x6ddf7 then read0x6de00); native exact trap under established policy, no NULL equivalence/public-reachability claim. Current actual nonnull overload plus current initialized queue WORD observed freshly."
+  }
+}

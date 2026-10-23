@@ -39,7 +39,8 @@ def main():
     assert all(0 <= item['stack_index'] < requested_words for item in plan['formals']), 'formal exceeds requested original stack words'
     command = [sys.executable, str(BINARY/'scripts/capture-original.py'), '--case', args.case, '--argument-words', str(requested_words)]
     for item in plan.get('original_observations', []):
-        command += ['--observe-state', item['name']+'='+hex(item['original'])]
+        assert item.get('bytes',4) in (2,4)
+        command += ['--observe-short' if item.get('bytes',4)==2 else '--observe-state', item['name']+'='+hex(item['original'])]
     if plan.get('ownership_register'):
         owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind']=='caller-owned-pointer'}
         assert len(owners)==1, 'one explicit actual ownership caller per observation'
@@ -108,6 +109,18 @@ def main():
             assert binding['original_word'] == binding['native_word']
             if binding.get('native_semantic_owner_field'):
                 assert binding['native_word'] == checkpoint[binding['native_semantic_owner_field']]
+        elif binding['kind'] == 'debug-queue-word':
+            queue=anchors[binding['original_queue_anchor']]
+            word=anchors[binding['original_word_anchor']]
+            assert word['bytes']==word['read_bytes']==2 and word['read_succeeded'], 'exact initialized WORD observation required'
+            owner=checkpoint['caller_locals'][binding['native_record_field']]
+            assert owner['function']=='debug_tag_type' and owner['local']=='record' and owner['value']==binding['slot']
+            offset=16*binding['slot']+12
+            assert item['original_raw']==queue['value']+offset==word['original']
+            assert item['native_raw']==checkpoint[binding['native_queue_field']]+offset
+            binding['original_word']=word['value']
+            binding['native_word']=checkpoint[binding['native_word_field']]
+            assert binding['original_word']==binding['native_word']
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
         item['result'] = 'match'

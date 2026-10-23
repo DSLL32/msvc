@@ -50,4 +50,5 @@ struct HashTable;
 unsigned __stdcall hash_table_count(struct HashTable *table);
 unsigned __stdcall count_debug_methods(struct OverloadSet *overloads,
     unsigned short *field_properties);
+unsigned char __stdcall reference_parameter_debug_types(FunctionParameters *parameters);
 #endif

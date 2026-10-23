@@ -50,7 +50,8 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
 static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     DWORD base, char *specifications, unsigned argument_words, unsigned ownership_register)
 {
-    DWORD address, value, got, written, index = 0;
+    DWORD address, value, got, written, bytes, index = 0;
+    unsigned read_succeeded;
     unsigned actual = 0, context_read;
     CONTEXT context;
     char *next, mode, line[128];
@@ -60,13 +61,20 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         mode = next[1];
         next += 2;
         value = got = 0;
-        if (!ReadProcessMemory(process, (void *)address, &value, 4, &got) || got != 4)
+        bytes = mode == 'w' ? 2 : 4;
+        read_succeeded = ReadProcessMemory(process, (void *)address, &value, bytes, &got) && got == bytes;
+        if (!read_succeeded)
             sprintf(line, "state %lu unreadable\n", index++);
         else {
             if (mode == 'p') value = value != 0;
             sprintf(line, "state %lu %08lx\n", index++, value);
         }
         WriteFile(log, line, strlen(line), &written, 0);
+        if (mode == 'w') {
+            sprintf(line, "observation %lu address %08lx requested 2 actual %lu success %u\n",
+                index - 1, address, got, read_succeeded != 0);
+            WriteFile(log, line, strlen(line), &written, 0);
+        }
         specifications = *next == ',' ? next + 1 : next;
     }
     context.ContextFlags = CONTEXT_CONTROL | (ownership_register ? CONTEXT_INTEGER : 0);

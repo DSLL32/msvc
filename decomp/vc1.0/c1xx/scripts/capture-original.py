@@ -36,6 +36,8 @@ def main():
         help='explicit caller-owned allocation anchor; not an extra callee ABI input')
     parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
         help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')
+    parser.add_argument('--observe-short', action='append', default=[], metavar='NAME=VA',
+        help='explicit exact two-byte diagnostic read; zero-extension encodes only that WORD')
     args = parser.parse_args()
     spec = importlib.util.spec_from_file_location('c1xx_original_tool', BINARY / 'scripts/wine-tool.py')
     tool = importlib.util.module_from_spec(spec)
@@ -45,7 +47,10 @@ def main():
     observations=[]
     for observation in args.observe_state:
         name,address=observation.split('=',1)
-        observations.append(dict(name=name,original=int(address,0)))
+        observations.append(dict(name=name,original=int(address,0),bytes=4))
+    for observation in args.observe_short:
+        name,address=observation.split('=',1)
+        observations.append(dict(name=name,original=int(address,0),bytes=2))
     count = len(config['accepted']) if args.accepted_count is None else args.accepted_count
     assert 0 <= count <= len(config['accepted'])
     image = PE(tool.TC / 'bin/C1XX3232.EXE')
@@ -110,7 +115,7 @@ def main():
                tool.windows(directory / 'events.txt'), canonical, 'MSC_CMD_FLAGS=' + flags,
                phase['command_line_template'].format(bin=tool.windows(tool.TC / 'bin')),
                ','.join('%x' % (s['original'] - image.base) for s in config['cases'][args.case].get('buffered_streams', config['buffered_streams'])),
-               ','.join('%x:%s' % (s['original'] - image.base, 'p' if s.get('pointer') else 'v') for s in config['checkpoint_state']+observations)]
+               ','.join('%x:%s' % (s['original'] - image.base, 'w' if s.get('bytes')==2 else ('p' if s.get('pointer') else 'v')) for s in config['checkpoint_state']+observations)]
     if args.entry_plan: command.append(tool.windows(directory/'entries.plan'))
     started = time.perf_counter()
     environment = tool.environment()
@@ -141,6 +146,12 @@ def main():
         states=re.findall(r'^state \d+ ([0-9a-f]+)$',(directory/'events.txt').read_text(),re.M)
         assert len(states)==len(config['checkpoint_state'])+len(observations)
         receipt['diagnostic_observations']=[dict(field,value=int(value,16)) for field,value in zip(observations,states[len(config['checkpoint_state']):])]
+        for index,field in enumerate(receipt['diagnostic_observations']):
+            field.update(read_bytes=field['bytes'],read_succeeded=True)
+            if field['bytes']==2:
+                pattern=r'^observation %d address %08x requested 2 actual 2 success 1$' % (len(config['checkpoint_state'])+index,field['original'])
+                assert re.search(pattern,events,re.M), 'missing/short/unreadable exact WORD read'
+                field['encoding']='zero-extended unsigned WORD; adjacent bytes not read'
     if args.entry_plan:
         observed=re.findall(r'^entry (\S+) rva [0-9a-f]+ byte [0-9a-f]+$',(directory/'events.txt').read_text(),re.M)
         assert observed==plan_names,(observed,plan_names)

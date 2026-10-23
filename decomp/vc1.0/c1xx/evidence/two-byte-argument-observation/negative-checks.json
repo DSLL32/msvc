@@ -1,0 +1,26 @@
+[
+  {
+    "test": "wrong-word-width",
+    "status": "rejected before fresh original invocation",
+    "seconds": 0.1459422381594777,
+    "message": "AssertionError: exact initialized WORD observation required"
+  },
+  {
+    "test": "short-word-read",
+    "status": "rejected before fresh original invocation",
+    "seconds": 0.10190057661384344,
+    "message": "AssertionError: missing/short/unreadable exact WORD read"
+  },
+  {
+    "test": "unreadable-word",
+    "status": "rejected before fresh original invocation",
+    "seconds": 0.0957929054275155,
+    "message": "AssertionError: missing/unreadable exact-word observation"
+  },
+  {
+    "test": "wrong-slot-owner",
+    "status": "rejected before fresh original invocation",
+    "seconds": 0.09736214950680733,
+    "message": "AssertionError: actual debug queue owner slot differs"
+  }
+]

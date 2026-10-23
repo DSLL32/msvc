@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_count_debug_methods@8",
+    "start": 449920,
+    "end": 450431
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_intern_type@4",
+    "_reference_debug_type@4",
+    "_reference_parameter_debug_types@4",
+    "_reserve_debug_type@4",
+    "_strip_based_shape@4"
+  ],
+  "next_frontier": "_reference_parameter_debug_types@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.42189660016447306,
+  "total_operation_seconds": 3.246517731808126,
+  "original_capture_seconds": 0.766445598565042
+}

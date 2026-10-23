@@ -1082,7 +1082,8 @@
     "_primitive_pointer_debug_type@4",
     "_debug_tag_type@4",
     "_reserve_debug_type@4",
-    "_class_virtual_table_group_count@4"
+    "_class_virtual_table_group_count@4",
+    "_count_debug_methods@8"
   ],
   "driver": [
     {
@@ -8020,6 +8021,11 @@
       "name": "_count_debug_methods@8",
       "start": 449920,
       "end": 450431
+    },
+    {
+      "name": "_reference_parameter_debug_types@4",
+      "start": 449200,
+      "end": 449309
     }
   ],
   "cases": {
@@ -8220,7 +8226,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_count_debug_methods@8",
+      "terminal": "_reference_parameter_debug_types@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8243,7 +8249,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8326,7 +8332,8 @@
         "cases/frontiers/state_machine_debug/1074-primitive_pointer_debug_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1075-debug_tag_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1076-reserve_debug_type-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/frontier-extension.json"
       ]
     }
   },
@@ -10898,6 +10905,19 @@
       "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
       "evidence": "evidence/primitive-debug-width/receipt.json",
       "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
+    },
+    {
+      "function": "_count_debug_methods@8",
+      "original": [
+        449920,
+        450431
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "explicit native-only INT3 before the original unwritten next-method cursor read",
+      "win32": "original-style uninitialized cursor retained on NULL-overloads branch",
+      "authorization": "Established root-approved exact uninitialized-cursor guard policy after independent raw def-use/offset check",
+      "evidence": "evidence/debug-methods-null/analysis.json",
+      "coverage_note": "Original cursor at entryESP-20 is unwritten on NULL branch. Public NULL reachability unknown; no caller-stack equivalence or malformed-only/CRT classification."
     }
   ]
 }
