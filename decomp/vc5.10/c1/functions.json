@@ -20,7 +20,8 @@
     "_initialize_state_123a7",
     "_initialize_output_buffer_123ae",
     "_register_compiler_cleanup",
-    "_initialize_state_1241c"
+    "_initialize_state_1241c",
+    "_initialize_output_buffer_12423"
   ],
   "driver": [
     {
@@ -167,6 +168,12 @@
           274801771
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_output_buffer_12423",
+      "start": 274801699,
+      "end": 274801757,
       "role": "application"
     }
   ],

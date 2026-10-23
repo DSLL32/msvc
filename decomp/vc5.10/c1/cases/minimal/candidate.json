@@ -126,6 +126,11 @@
       "start_rva": 74845,
       "end_rva": 74859,
       "entry": 0
+    },
+    {
+      "start_rva": 74787,
+      "end_rva": 74845,
+      "entry": 1
     }
   ],
   "functions": [
@@ -367,6 +372,19 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_12423",
+      "native_symbol": "initialize_output_buffer_12423",
+      "role": "application",
+      "chunks": [
+        [
+          74787,
+          74845
+        ]
+      ],
+      "source": "src/buffers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -382,15 +400,11 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74787,
-    "native_symbol": "initialize_output_buffer_12423",
-    "kind": "initialization-helper",
+    "rva": 74859,
+    "native_symbol": "initialize_state_1246b",
+    "kind": "initialization-callback",
     "native_args": [],
-    "abi": "cdecl no arguments, cleanup0",
-    "caller": {
-      "native_symbol": "initialize_state_1241c",
-      "return_rva": 74785
-    }
+    "abi": "cdecl void callback, cleanup0"
   },
   "imports": [
     {
@@ -510,21 +524,24 @@
       "count": 6,
       "normal_case": false
     },
-    "output_buffer": {
-      "pointer_roles": "owned snapshot allocation; callback is initialize_state_12365 (never invoked)",
-      "capacity": 47,
+    "output_buffers": {
+      "pointer_roles": "own snapshot interior pointers; sentinel callback initialize_state_12365 is never invoked",
+      "capacity_base": 47,
       "good": 9,
-      "mode": 165,
-      "file_descriptor": 57,
-      "callback_entry_rva": 74670,
+      "mode_base": 165,
+      "descriptor_base": 57,
       "normal_case": false
     }
   },
-  "staging_role": "Second split buffer wrapper is sole new candidate; second constructor remains trap",
+  "staging_role": "Second output-buffer constructor is sole new candidate",
   "registered_cleanup": [
     {
       "original_rva": 145728,
       "native_symbol": "destroy_output_buffer_23940"
+    },
+    {
+      "original_rva": 145721,
+      "native_symbol": "destroy_output_buffer_23939"
     }
   ]
 }

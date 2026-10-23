@@ -36,7 +36,7 @@ typedef struct CompilerBss {
     CompilerContextState context;
     CompilerContextState current_context;
     CompilerContextState contexts[6];
-    CompilerOutputBuffer output_buffer;
+    CompilerOutputBuffer output_buffers[2];
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;

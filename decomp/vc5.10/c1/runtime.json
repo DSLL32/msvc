@@ -210,13 +210,6 @@
     "evidence": "separate variadic diagnostic call in cleanup-table overflow branch, identity only; no body accepted"
   },
   {
-    "name": "_initialize_output_buffer_12423",
-    "start": 274801699,
-    "end": 274801700,
-    "pending_extent": true,
-    "evidence": "separate named pending body, entry identity only"
-  },
-  {
     "name": "_destroy_output_buffer_23939",
     "start": 274872633,
     "end": 274872634,

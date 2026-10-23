@@ -22,13 +22,14 @@ def check(original, native, audit_directory=None):
     candidate = json.loads((original / "candidate.json").read_text())
     config = json.loads((original / "functions.json").read_text())
     assert candidate["functions"] and config["driver"], "trial itself is absent"
-    tool_path = "tooling/graph-audit/target/release/graph-audit"
+    default_tool_path = "tooling/graph-audit/target/release/graph-audit"
     native_path = "decomp/vc5.10/c1/build/native/c1-host"
     captured_inputs = []
     for directory, receipt in ((original, o), (native, n)):
         assert receipt["audit_binding_sha256"] == pair.sha(directory / "audit-binding.json")
         captured_binding = json.loads((directory / "audit-binding.json").read_text())
-        ignored = {tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
+        captured_tool_path = captured_binding.get("auditor_path", default_tool_path)
+        ignored = {captured_tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
         execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path not in ignored}
         assert all(pair.sha(pair.ROOT / path) == value for path, value in execution_inputs.items())
         assert pair.sha(directory / "audit.json") == captured_binding["report_sha256"]
@@ -38,6 +39,7 @@ def check(original, native, audit_directory=None):
     assert o["helper_sha256"] == pair.sha(PROJECT / "build/dll-capture.exe")
     audit_directory = audit_directory or PROJECT / "build"
     binding = json.loads((audit_directory / "trial-audit-binding.json").read_text())
+    tool_path = binding.get("auditor_path", default_tool_path)
     assert all(pair.sha(pair.ROOT / path) == value for path, value in binding["inputs"].items())
     assert {path: value for path, value in binding["inputs"].items() if path != tool_path} == execution_inputs
     assert pair.sha(audit_directory / "trial-audit.json") == binding["report_sha256"]

@@ -34,6 +34,8 @@ def main():
     binary_sha = sha(binary)
     candidate_path = PROJECT / ("cases/" + args.case + "/candidate.json")
     candidate = json.loads(candidate_path.read_text())
+    field_map = json.loads((PROJECT / candidate["field_map"]).read_text()) if candidate.get("field_map") else {}
+    buffer_models = field_map.get("output_buffers", [])
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
     breakpoint_command = "break recon_initterm\n" if import_boundary else ""
     pass_boundary = candidate.get("expected_frontier", {}).get("kind") == "compiler-pass-entry"
@@ -82,7 +84,7 @@ value['compiler_state']={
         'context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.context.'+key)) for key in ('object','value','saved_frame')},
         'current_context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.current_context.'+key)) for key in ('object','value','saved_frame')},
         'contexts':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.contexts[%%d].'%%i+key)) for key in ('object','value','saved_frame')} for i in range(6)],
-        'output_buffer':{key:int(gdb.parse_and_eval(('(int)' if key=='file_descriptor' else '(unsigned int)')+'c1_bss.output_buffer.'+key)) for key in ('data','cursor','capacity','relocated','relocation_context','stream','good','mode','file_descriptor')}},
+        'output_buffers':[{key:int(gdb.parse_and_eval(('(int)' if key=='file_descriptor' else '(unsigned int)')+'c1_bss.output_buffers[%%d].'%%i+key)) for key in ('data','cursor','capacity','relocated','relocation_context','stream','good','mode','file_descriptor')} for i in range(BUFFER_COUNT)]},
  'snapshot':({'first_call':int(gdb.parse_and_eval('c1_bss.saved_data->first_call'))} if int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')) else None),
  'reuse_state':int(gdb.parse_and_eval('c1_reuse_state')),
  'pass_mode':int(gdb.parse_and_eval('c1_pass_mode')),
@@ -96,9 +98,10 @@ value['compiler_state']={
  'current_context':int(gdb.parse_and_eval('(char*)&c1_bss.current_context-(char*)&c1_bss')),
  'contexts':int(gdb.parse_and_eval('(char*)&c1_bss.contexts-(char*)&c1_bss')),
  'contexts_stride':int(gdb.parse_and_eval('sizeof(c1_bss.contexts[0])')),
- 'output_buffer':int(gdb.parse_and_eval('(char*)&c1_bss.output_buffer-(char*)&c1_bss')),
- 'output_buffer_size':int(gdb.parse_and_eval('sizeof(c1_bss.output_buffer)')),
- 'buffer_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.output_buffer.'+key+'-(char*)&c1_bss.output_buffer')) for key in ('data','cursor','capacity','relocated','relocation_context','stream','good','mode','file_descriptor')},
+ 'output_buffers':int(gdb.parse_and_eval('(char*)&c1_bss.output_buffers-(char*)&c1_bss')),
+ 'output_buffer_count':int(gdb.parse_and_eval('sizeof(c1_bss.output_buffers)/sizeof(c1_bss.output_buffers[0])')),
+ 'output_buffer_size':int(gdb.parse_and_eval('sizeof(c1_bss.output_buffers[0])')),
+ 'buffer_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.output_buffers[0].'+key+'-(char*)&c1_bss.output_buffers[0]')) for key in ('data','cursor','capacity','relocated','relocation_context','stream','good','mode','file_descriptor')},
  'context_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.context.'+key+'-(char*)&c1_bss.context')) for key in ('object','value','saved_frame')}}}
 value['pass_mode']=int(gdb.parse_and_eval('c1_pass_mode'))
 value['crt_attached']=int(gdb.parse_and_eval('c1_crt_attached'))
@@ -142,17 +145,19 @@ python
 import gdb,json
 def capture_modeled():
     return %s
-def seed_output_buffer():
-    gdb.execute('set var c1_bss.output_buffer.data = (unsigned char *)c1_bss.saved_data')
-    gdb.execute('set var c1_bss.output_buffer.cursor = (unsigned char *)c1_bss.saved_data + 4')
-    gdb.execute('set var c1_bss.output_buffer.capacity = 47')
-    gdb.execute('set var c1_bss.output_buffer.relocated = (C1BufferRelocator)initialize_state_12365')
-    gdb.execute('set var c1_bss.output_buffer.relocation_context = (void *)c1_bss.saved_data')
-    gdb.execute('set var c1_bss.output_buffer.stream = (void *)((unsigned char *)c1_bss.saved_data + 8)')
-    gdb.execute('set var c1_bss.output_buffer.good = 9')
-    gdb.execute('set var c1_bss.output_buffer.mode = 165')
-    gdb.execute('set var c1_bss.output_buffer.file_descriptor = 57')
-restore_observations={'pre_seed':capture_modeled()}
+def seed_output_buffer(index):
+    prefix='c1_bss.output_buffers['+str(index)+'].'
+    start='((unsigned char *)c1_bss.saved_data + '+str(index*16)+')'
+    gdb.execute('set var '+prefix+'data = '+start)
+    gdb.execute('set var '+prefix+'cursor = '+start+' + 4')
+    gdb.execute('set var '+prefix+'capacity = '+str(47+index))
+    gdb.execute('set var '+prefix+'relocated = (C1BufferRelocator)initialize_state_12365')
+    gdb.execute('set var '+prefix+'relocation_context = (void *)'+start)
+    gdb.execute('set var '+prefix+'stream = (void *)('+start+' + 8)')
+    gdb.execute('set var '+prefix+'good = 9')
+    gdb.execute('set var '+prefix+'mode = '+str(165+index))
+    gdb.execute('set var '+prefix+'file_descriptor = '+str(57+index))
+restore_observations={'pre_seed':capture_modeled(),'buffer_constructors':{}}
 gdb.execute('set var c1_bss.saved_data = (CompilerInitializedState *)malloc(6548)')
 gdb.execute('set var c1_bss.saved_data->first_call = 0x13579bdf')
 gdb.execute('set var c1_data.first_call = 0')
@@ -169,7 +174,7 @@ for i in range(6):
     gdb.execute('set var c1_bss.contexts[%%d].object = &c1_data.first_call'%%i)
     gdb.execute('set var c1_bss.contexts[%%d].value = %%d'%%(i,31+i))
     gdb.execute('set var c1_bss.contexts[%%d].saved_frame = (void *)c1_bss.saved_data'%%i)
-seed_output_buffer()
+for i in range(BUFFER_COUNT): seed_output_buffer(i)
 gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
 restore_observations['before']=capture_modeled()
@@ -209,16 +214,19 @@ for i in range(6):
 restore_observations['before_contexts_callback']=capture_modeled()
 restore_observations['contexts_callback_pc']=int(gdb.parse_and_eval('$pc'))
 end
-break initialize_output_buffer_123ae
-continue
+BUFFER_CONSTRUCTOR_PROBES
 python
-seed_output_buffer()
-restore_observations['before_buffer_constructor']=capture_modeled()
-restore_observations['buffer_constructor_pc']=int(gdb.parse_and_eval('$pc'))
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
 end
 continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output / 'restore-observations.json'))
+        buffer_probes = []
+        for model in buffer_models:
+            index, rva = model["index"], model["constructor_rva"]
+            buffer_probes.append("break %s\ncontinue\npython\nseed_output_buffer(%d)\nrestore_observations['buffer_constructors'][%r]={'before':capture_modeled(),'pc':int(gdb.parse_and_eval('$pc'))}\nend" %
+                                 (model["constructor_native_symbol"], index, str(rva)))
+        setup = setup.replace("BUFFER_CONSTRUCTOR_PROBES", "\n".join(buffer_probes))
         commands = commands.replace("run\nbt\npython", setup + "\nbt\npython", 1)
+    commands = commands.replace("BUFFER_COUNT", str(len(buffer_models)))
     (output / "commands.gdb").write_text(commands)
     started = time.perf_counter()
     if args.case == "minimal":

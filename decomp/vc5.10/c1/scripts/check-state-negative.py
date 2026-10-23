@@ -11,17 +11,19 @@ def main():
  frontier=json.loads((a.original/'candidate.json').read_text())['expected_frontier']
  frontier_kind=frontier['kind']
  allocation=frontier_kind=='compiler-allocation'
- tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset','context-object','context-value','context-frame','original-context','current-context-object','current-context-value','current-context-frame','original-current-context','contexts-live-0','contexts-live-2','contexts-live-5','original-contexts','buffer-data','buffer-mode','buffer-descriptor','original-buffer-mode']
+ tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset','context-object','context-value','context-frame','original-context','current-context-object','current-context-value','current-context-frame','original-current-context','contexts-live-0','contexts-live-2','contexts-live-5','original-contexts','buffer-data','buffer-mode','buffer-descriptor','original-buffer-mode','buffer2-data','buffer2-mode','buffer2-descriptor','missing-buffer-native','buffer-count','field-map-buffer-base','field-map-buffer-constructor','field-map-buffer-index','missing-buffer-probe','wrong-auditor-path']
  if allocation:
   tests.remove('snapshot-first');tests.remove('original-snapshot-field');tests.append('premature-snapshot')
- tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed','restore-current-zero-input','restore-current-object','restore-current-value','restore-current-frame','current-seed-object','current-seed-value','current-seed-frame','current-seed-pc','restore-contexts-seed-0','restore-contexts-seed-2','restore-contexts-seed-5','restore-contexts-post-0','restore-contexts-post-2','restore-contexts-post-5','restore-contexts-callback-0','restore-contexts-callback-2','restore-contexts-callback-5','restore-contexts-pc','restore-buffer-seed-data','restore-buffer-seed-mode','restore-buffer-seed-descriptor','restore-buffer-post-data','restore-buffer-post-mode','restore-buffer-post-descriptor','restore-buffer-constructor-data','restore-buffer-constructor-mode','restore-buffer-constructor-descriptor','restore-buffer-constructor-pc'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
+ tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed','restore-current-zero-input','restore-current-object','restore-current-value','restore-current-frame','current-seed-object','current-seed-value','current-seed-frame','current-seed-pc','restore-contexts-seed-0','restore-contexts-seed-2','restore-contexts-seed-5','restore-contexts-post-0','restore-contexts-post-2','restore-contexts-post-5','restore-contexts-callback-0','restore-contexts-callback-2','restore-contexts-callback-5','restore-contexts-pc','restore-buffer-seed-data','restore-buffer-seed-mode','restore-buffer-seed-descriptor','restore-buffer-post-data','restore-buffer-post-mode','restore-buffer-post-descriptor','restore-buffer-constructor-data','restore-buffer-constructor-mode','restore-buffer-constructor-descriptor','restore-buffer-constructor-pc','restore-buffer2-seed-data','restore-buffer2-post-mode','restore-buffer2-constructor-descriptor','restore-buffer2-constructor-pc'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
  if frontier_kind=='initialization-helper':tests+=['wrong-helper-caller','wrong-original-helper-return']
  if frontier['rva']==0x123f6:tests+=['wrong-registration-callback','wrong-original-registration-callback']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='state-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as temporary:
    d=Path(temporary);o=d/'original';n=d/'native';b=d/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
    for f in ('trial-audit.json','trial-audit-binding.json'):shutil.copy2(m.PROJECT/'build'/f,b/f)
-   if test=='candidate-only-prefix':
+   if test=='wrong-auditor-path':
+    f=b/'trial-audit-binding.json';r=json.loads(f.read_text());r['auditor_path']='decomp/vc5.10/c1/build/c1.dll';f.write_text(json.dumps(r))
+   elif test=='candidate-only-prefix':
     f=b/'trial-audit.json';r=json.loads(f.read_text());r['checked_functions']-=1;f.write_text(json.dumps(r));f=b/'trial-audit-binding.json';r=json.loads(f.read_text());r['report_sha256']=m.pair.sha(b/'trial-audit.json');f.write_text(json.dumps(r))
    elif test.startswith('field-map-'):
     import compiler_state
@@ -30,6 +32,9 @@ def main():
     candidate=json.loads((o/'candidate.json').read_text());field=json.loads((m.PROJECT/candidate['field_map']).read_text())
     if test=='field-map-overlap':field['modeled_bss'][1]['original_rva']=field['modeled_bss'][0]['original_rva']
     elif test=='field-map-alias':field['modeled_bss'][1]['native_offset']=0
+    elif test=='field-map-buffer-base':field['output_buffers'][1]['original_object_rva']=field['output_buffers'][0]['original_object_rva']
+    elif test=='field-map-buffer-constructor':field['output_buffers'][1]['constructor_rva']=field['output_buffers'][0]['constructor_rva']
+    elif test=='field-map-buffer-index':field['output_buffers'][1]['index']=0
     else:field['modeled_initialized'][0]['snapshot_native_offset']=4
     (fake/candidate['field_map']).write_text(json.dumps(field));previous=compiler_state.PROJECT;compiler_state.PROJECT=fake
     raw=(o/'events.txt').read_text();seq=int(re.findall(r'^trap seq=(\d+)',raw,re.M)[-1]);base=int(re.search(r'module name=c1n32_l.dll actual=([0-9a-f]+)',raw)[1],16)
@@ -47,6 +52,8 @@ def main():
     else:
      r=re.sub(r'(^trap seq=\d+ rva=0000e799 .*stack=[0-9a-f]+,)00001994',r'\g<1>00000004',r,flags=re.M)
     f.write_text(r);rehash(o,f.name)
+   elif test=='missing-buffer-probe':
+    f=o/'output-buffers.txt';f.write_text(f.read_text().splitlines()[0]+'\n');rehash(o,f.name)
    elif test.startswith('original-'):
     raw=(o/'events.txt').read_text();last=int(re.findall(r'^trap seq=(\d+)',raw,re.M)[-1])
     if test=='original-default':f=o/'compiler-data-000.bin';offset=0x1530
@@ -71,11 +78,16 @@ def main():
     elif test=='restore-pre-seed-context':r['pre_seed']['bss']['context']['value']=1
     elif test=='callback-seed-pc':r['callback_pc']=1
     elif test.startswith('callback-seed-'):r['before_callback']['bss']['context'][{'callback-seed-object':'object','callback-seed-value':'value','callback-seed-frame':'saved_frame'}[test]]=0
-    elif test=='restore-buffer-constructor-pc':r['buffer_constructor_pc']=1
+    elif test=='restore-buffer2-constructor-pc':r['buffer_constructors'][str(0x12423)]['pc']=1
+    elif test.startswith('restore-buffer2-'):
+     key={'data':'data','mode':'mode','descriptor':'file_descriptor'}[test.rsplit('-',1)[1]]
+     target=r['before'] if '-seed-' in test else r['buffer_constructors'][str(0x12423)]['before'] if '-constructor-' in test else post
+     target['bss']['output_buffers'][1][key]=0 if '-seed-' in test or '-constructor-' in test else 1
+    elif test=='restore-buffer-constructor-pc':r['buffer_constructors'][str(0x123ae)]['pc']=1
     elif test.startswith('restore-buffer-'):
      key={'data':'data','mode':'mode','descriptor':'file_descriptor'}[test.rsplit('-',1)[1]]
-     target=r['before'] if '-seed-' in test else r['before_buffer_constructor'] if '-constructor-' in test else post
-     target['bss']['output_buffer'][key]=0 if '-seed-' in test or '-constructor-' in test else 1
+     target=r['before'] if '-seed-' in test else r['buffer_constructors'][str(0x123ae)]['before'] if '-constructor-' in test else post
+     target['bss']['output_buffers'][0][key]=0 if '-seed-' in test or '-constructor-' in test else 1
     elif test=='restore-contexts-pc':r['contexts_callback_pc']=1
     elif test.startswith('restore-contexts-'):
      index=int(test.rsplit('-',1)[1]);key={0:'object',2:'value',5:'saved_frame'}[index]
@@ -102,7 +114,10 @@ def main():
     elif test=='swapped-callback':c['initialization_callbacks'][1],c['initialization_callbacks'][2]=c['initialization_callbacks'][2],c['initialization_callbacks'][1]
     elif test=='snapshot-live-alias':c['bss']['saved_data']=c['live_addresses']['initialized']
     elif test=='native-layout':c['native_layout']['cleanup_callbacks']=4
-    elif test.startswith('buffer-'):c['bss']['output_buffer'][{'buffer-data':'data','buffer-mode':'mode','buffer-descriptor':'file_descriptor'}[test]]=1
+    elif test=='missing-buffer-native':c['bss']['output_buffers'].pop()
+    elif test=='buffer-count':c['native_layout']['output_buffer_count']=1
+    elif test.startswith('buffer2-'):c['bss']['output_buffers'][1][{'buffer2-data':'data','buffer2-mode':'mode','buffer2-descriptor':'file_descriptor'}[test]]=1
+    elif test.startswith('buffer-'):c['bss']['output_buffers'][0][{'buffer-data':'data','buffer-mode':'mode','buffer-descriptor':'file_descriptor'}[test]]=1
     elif test.startswith('contexts-live-'):
      index=int(test.rsplit('-',1)[1]);c['bss']['contexts'][index][{0:'object',2:'value',5:'saved_frame'}[index]]=1
     elif test.startswith('current-context-'):c['bss']['current_context'][{'current-context-object':'object','current-context-value':'value','current-context-frame':'saved_frame'}[test]]=1

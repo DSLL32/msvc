@@ -26,16 +26,22 @@ def inputs():
              ROOT / "toolchains/5.10/bin/C1.DLL", TOOL]
     if candidate.get("field_map"):
         paths.append(PROJECT / candidate["field_map"])
-    return {str(path.relative_to(ROOT)): sha(path) for path in paths}
+    return {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in paths}
 
 
 def main():
-    global CASE
+    global CASE, TOOL
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
-    CASE=parser.parse_args().case
-    subprocess.run(["make", "graph-audit-tool"], cwd=PROJECT, check=True,
-                   stdout=subprocess.DEVNULL)
+    parser.add_argument("--auditor", type=Path, help="explicit approved auditor binary; default builds the shared tool")
+    args = parser.parse_args()
+    CASE = args.case
+    if args.auditor:
+        TOOL = args.auditor.resolve()
+        assert TOOL.is_file()
+    else:
+        subprocess.run(["make", "graph-audit-tool"], cwd=PROJECT, check=True,
+                       stdout=subprocess.DEVNULL)
     before = inputs()
     candidate = json.loads((PROJECT / ("cases/" + CASE + "/candidate.json")).read_text())
     command = [str(TOOL), "--profile", "cl", "--discovery", "cfg", "--repo", str(ROOT),
@@ -65,7 +71,7 @@ def main():
     assert set(report["checks"]) >= {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"}
     output = PROJECT / "build/trial-audit.json"
     output.write_text(result.stdout)
-    binding = {"schema": 1, "inputs": before, "report_sha256": sha(output),
+    binding = {"schema": 1, "auditor_path": str(TOOL.relative_to(ROOT)) if TOOL.is_relative_to(ROOT) else str(TOOL), "inputs": before, "report_sha256": sha(output),
                "command": command, "seconds": seconds}
     (PROJECT / "build/trial-audit-binding.json").write_text(json.dumps(binding, indent=2) + "\n")
     print(json.dumps({"checked_functions": report["checked_functions"],

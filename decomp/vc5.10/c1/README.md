@@ -179,7 +179,7 @@ Initializer/allocator staging completed after the reviewed two-body trial:
 allocator INT3 frontier, followed by `evidence/allocator-staged-promotion/` with
 the real allocator as the only new candidate and genuine first-copy state.
 The older two-body normal/restore captures remain explicitly auxiliary evidence;
-their historical roles were not relabeled. Only four initialized bytes and 265
+their historical roles were not relabeled. Only four initialized bytes and 298
 BSS bytes are currently modeled; other compiler state remains UNMODELED. All 34
 initializer slots are represented, and execution stops at the first unreconstructed
 callback. See `cases/minimal/INITIALIZER-REVIEW.md` for the original review packet.
@@ -225,3 +225,15 @@ Cleanup registration (RVA123f6 plus cold30407, 63 bytes) is accepted, with
 matching count1, destructor identity in slot0 and 31 remaining zero slots. The
 overflow diagnostic call remains a separate variadic named trap; its source
 literal is kept at the call. Next frontier is callback1241c.
+
+The second output-buffer constructor (RVA12423, 58 bytes) is accepted, reaching
+callback1246b with two registered destructors. `output_buffers[]` contains only
+the encountered typed instances. The paired auxiliary probe independently seeds
+and observes every encountered constructor, with distinct interior allocation
+identities and field values; the original-only debugger accepts its exact typed
+object/constructor/destructor table as a hashed case input. The original gaps
+remain absent. Normal/auxiliary controls reject44/93 corruptions.
+
+The local audit wrapper accepts an explicit `--auditor` path for approved
+immutable tool binaries. Audit receipts bind the actual path/hash; checker-only
+refreshes issue fresh validation without rerunning unchanged execution evidence.

@@ -210,16 +210,9 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_output_buffer_12423",
-    "start": 268441386,
-    "end": 268441387,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_destroy_output_buffer_23939",
-    "start": 268441400,
-    "end": 268441401,
+    "start": 268441480,
+    "end": 268441481,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

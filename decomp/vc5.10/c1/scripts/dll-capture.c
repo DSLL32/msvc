@@ -23,6 +23,9 @@ static int restore_probe, restore_seeded, context_seeded;
 static DWORD restore_observer;
 static BYTE restore_observer_saved;
 static char target_path[MAX_PATH], crt_path[MAX_PATH];
+typedef struct BufferProbe { DWORD object, constructor, destructor; int seeded; } BufferProbe;
+static BufferProbe buffer_probes[16];
+static unsigned buffer_probe_count;
 
 static void fail(const char *message)
 {
@@ -264,20 +267,44 @@ static DWORD exported(DWORD module, const char *wanted)
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
-static void seed_output_buffer(DWORD rva)
+static void read_buffer_probes(void)
 {
-    DWORD saved, values[7], descriptor = 57;
-    BYTE mode = 165;
+    FILE *file;
+    DWORD object, constructor, destructor;
+    file = fopen("output-buffers.txt", "r");
+    if (!file) fail("missing typed buffer-probe metadata");
+    while (fscanf(file, "%lx %lx %lx", &object, &constructor, &destructor) == 3) {
+        if (buffer_probe_count == 16 || object < 0x50000 || object + 0x124 > 0x5a06c ||
+                constructor < 0x1000 || constructor >= 0x4faf0 ||
+                destructor < 0x1000 || destructor >= 0x4faf0)
+            fail("invalid typed buffer-probe metadata");
+        buffer_probes[buffer_probe_count].object = object;
+        buffer_probes[buffer_probe_count].constructor = constructor;
+        buffer_probes[buffer_probe_count].destructor = destructor;
+        ++buffer_probe_count;
+    }
+    if (!feof(file) || !buffer_probe_count) fail("incomplete typed buffer-probe metadata");
+    fclose(file);
+}
+
+static void seed_output_buffer(unsigned index, DWORD rva)
+{
+    DWORD saved, start, object, values[7], descriptor;
+    BYTE mode;
+    if (index >= buffer_probe_count) fail("unknown typed buffer probe");
+    object = buffer_probes[index].object;
     readmem(base + 0x57818, &saved, 4);
     if (!saved) fail("buffer probe missing snapshot allocation");
-    values[0] = saved; values[1] = saved + 4; values[2] = 47;
-    values[3] = base + 0x12365; values[4] = saved;
-    values[5] = saved + 8; values[6] = 9;
-    write_mem(base + 0x54038, values, sizeof(values));
-    write_mem(base + 0x54054, &mode, 1);
-    write_mem(base + 0x54158, &descriptor, 4);
-    fprintf(events, "output-buffer-seed rva=%08lx allocation=%08lx callback=%08lx\n",
-            rva, saved, values[3]);
+    start = saved + index * 16;
+    values[0] = start; values[1] = start + 4; values[2] = 47 + index;
+    values[3] = base + 0x12365; values[4] = start;
+    values[5] = start + 8; values[6] = 9;
+    mode = (BYTE)(165 + index); descriptor = 57 + index;
+    write_mem(base + object, values, sizeof(values));
+    write_mem(base + object + 28, &mode, 1);
+    write_mem(base + object + 0x120, &descriptor, 4);
+    fprintf(events, "output-buffer-seed index=%u rva=%08lx allocation=%08lx callback=%08lx\n",
+            index, rva, saved, values[3]);
 }
 
 /* Explicit code-probe input: unknown original bytes stay on the ORIGINAL
@@ -313,7 +340,7 @@ static void seed_restore_state(void)
         context[1] = 31 + index;
         write_mem(base + 0x51858 + index * 12, context, sizeof(context));
     }
-    seed_output_buffer(0x122a5);
+    for (index = 0; index < buffer_probe_count; ++index) seed_output_buffer(index, 0x122a5);
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -440,6 +467,7 @@ int main(int argc, char **argv)
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
     if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
     restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
+    if (restore_probe) read_buffer_probes();
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;
@@ -503,8 +531,13 @@ int main(int argc, char **argv)
                 if (restore_probe && !(context_seeded & 1) && address == base + 0x12365) seed_context_callback(0x12365);
                 if (restore_probe && !(context_seeded & 2) && address == base + 0x12377) seed_context_callback(0x12377);
                 if (restore_probe && !(context_seeded & 4) && address == base + 0x12389) seed_contexts_callback();
-                if (restore_probe && !(context_seeded & 8) && address == base + 0x123ae) {
-                    seed_output_buffer(0x123ae); context_seeded |= 8;
+                if (restore_probe) {
+                    for (i = 0; i < buffer_probe_count; ++i) {
+                        if (!buffer_probes[i].seeded && address == base + buffer_probes[i].constructor) {
+                            seed_output_buffer(i, buffer_probes[i].constructor);
+                            buffer_probes[i].seeded = 1;
+                        }
+                    }
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

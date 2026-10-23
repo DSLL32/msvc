@@ -78,6 +78,11 @@ def main():
     output = SCRATCH / "vc5.10/c1" / args.name
     output.mkdir(parents=True, exist_ok=False)
     candidate = json.loads((PROJECT / ("cases/" + args.case + "/candidate.json")).read_text())
+    if candidate.get("field_map"):
+        field_map = json.loads((PROJECT / candidate["field_map"]).read_text())
+        probes = field_map.get("output_buffers", [])
+        (output / "output-buffers.txt").write_text("".join("%x %x %x\n" %
+            (row["original_object_rva"], row["constructor_rva"], row["destructor_rva"]) for row in probes))
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

@@ -1,0 +1,18 @@
+{
+  "accepted_function": "_initialize_output_buffer_12423",
+  "bytes": 58,
+  "role": "separate auxiliary nonzero constructor/BSS-reset proofs for BOTH encountered instances",
+  "application_functions_after": 15,
+  "application_bytes_after": 856,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1313,
+  "modeled_initialized_bytes": 4,
+  "modeled_original_bss_bytes": 298,
+  "native_compact_bss_size": 304,
+  "native_padding_bytes": 6,
+  "unknown_original_state": "UNMODELED; no original object gaps represented",
+  "build_timing": "original/native parallel builds passed; build elapsed not separately measured at this checkpoint",
+  "approved_auditor_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "audit_refresh": "Approved static re-audit plus fresh validation; original execution raw and its captured auditor history unchanged; no Wine rerun"
+}
