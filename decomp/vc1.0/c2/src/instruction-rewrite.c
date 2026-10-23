@@ -1402,3 +1402,180 @@ int __fastcall constant_multiply_budget(unsigned magnitude)
     if (bits < 3) bits = 3;
     return bits + 6;
 }
+/* Encountered small factors from original803e8..804a8. L followed by a
+   factor byte denotes an address-form multiply; byte and cycle costs belong
+   to that recipe. Original slots0,1,7,11,13,14 have no direct recipe. */
+static MultiplyRecipe multiply_by_two = { "L\002", 2, 3 };
+static MultiplyRecipe multiply_by_three = { "L\003", 2, 3 };
+static MultiplyRecipe multiply_by_four = { "L\004", 2, 3 };
+static MultiplyRecipe multiply_by_five = { "L\005", 2, 3 };
+static MultiplyRecipe multiply_by_six = { "L\003L\002", 4, 6 };
+static MultiplyRecipe multiply_by_eight = { "L\010", 2, 3 };
+static MultiplyRecipe multiply_by_nine = { "L\011", 2, 3 };
+static MultiplyRecipe multiply_by_ten = { "L\005L\002", 4, 6 };
+static MultiplyRecipe multiply_by_twelve = { "L\003L\004", 4, 6 };
+static MultiplyRecipe multiply_by_fifteen = { "L\003L\005", 4, 6 };
+#define SMALL_MULTIPLY_RECIPE(n) \
+    ((n) == 2 ? &multiply_by_two : (n) == 3 ? &multiply_by_three : \
+     (n) == 4 ? &multiply_by_four : (n) == 5 ? &multiply_by_five : \
+     (n) == 6 ? &multiply_by_six : (n) == 8 ? &multiply_by_eight : \
+     (n) == 9 ? &multiply_by_nine : (n) == 10 ? &multiply_by_ten : \
+     (n) == 12 ? &multiply_by_twelve : (n) == 15 ? &multiply_by_fifteen : (MultiplyRecipe *)0)
+/* Original803b8..803e4: descending direct factors and terminating zero. */
+static const int multiply_factors[] = { 15, 12, 10, 9, 8, 6, 5, 4, 3, 2, 0 };
+typedef struct MultiplyCorrection {
+    int delta;
+    char *instructions;
+    int bytes, cycles;
+} MultiplyCorrection;
+/* Original five aligned entries of804a8,804c0,804d8,804f0. Trying zero
+   first preserves an equally priced exact recipe ahead of adjusted ones. */
+static const MultiplyCorrection multiply_corrections[5] = {
+    {0, "", 0, 0}, {-1, "+", 2, 2}, {1, "-", 2, 2},
+    {-2, "++", 4, 4}, {2, "--", 4, 4}
+};
+/* Native compiler inlines these string operations; keep their original graph. */
+#define COPY_MULTIPLY_RECIPE(d,s) do { \
+    char *copy_to = (d); const char *copy_from = (s); \
+    while ((*copy_to++ = *copy_from++) != 0) {} \
+} while (0)
+#define APPEND_MULTIPLY_RECIPE(d,s) do { \
+    char *copy_to = (d); const char *copy_from = (s); \
+    while (*copy_to) ++copy_to; \
+    while ((*copy_to++ = *copy_from++) != 0) {} \
+} while (0)
+
+/* Original [00025000,00025494). Search factorization and nearby constants
+   for the shortest recipe; cycle cost breaks ties. Four recursive levels
+   bound composite factors. Adjustments may require retaining the input. */
+int __fastcall choose_multiply_recipe(unsigned magnitude, unsigned depth,
+    int *budget, int *cost, int *temporary, char *recipe)
+{
+    MultiplyRecipe factor_scratch, quotient_scratch, *part, *quotient_part;
+    const MultiplyCorrection *correction;
+    char part_buffer[20], candidate[20], *end;
+    int adjustment, value, factor, power, state, factor_index = 0;
+    int quotient, remaining, quotient_cost, quotient_temporary;
+    int bytes, cycles, adjustment_temporary, difference, improved = 0;
+    for (adjustment = 0; adjustment < 5; ++adjustment) {
+        correction = &multiply_corrections[adjustment];
+        value = (int)(magnitude + correction->delta);
+        if (value < 2) continue;
+        if (!(value & (value - 1)) || SMALL_MULTIPLY_RECIPE(value)) {
+            factor = value;
+            part = lookup_multiply_recipe(value, &factor_scratch, part_buffer);
+            state = 4;
+        } else {
+            if (depth == 4 || correction->delta < -1 || correction->delta > 1) continue;
+            state = 0;
+        }
+        for (;;) {
+            if (!state) {
+                factor = 0;
+                for (power = 1; power < (value >> 2); power += power) factor = power;
+                state = 1;
+            } else if (state == 1) factor >>= 1;
+            if (state == 1) {
+                while (factor > multiply_factors[0] && value % factor) factor >>= 1;
+                if (factor > multiply_factors[0])
+                    part = lookup_multiply_recipe(factor, &factor_scratch, part_buffer);
+                else state = 2;
+            }
+            if (state == 2) {
+                factor_index = 0;
+                while (value < multiply_factors[factor_index]) ++factor_index;
+                state = 3;
+            } else if (state == 3) ++factor_index;
+            if (state == 3) {
+                while ((factor = multiply_factors[factor_index]) != 0 && value % factor)
+                    ++factor_index;
+                if (!factor) break;
+                part = SMALL_MULTIPLY_RECIPE(factor);
+            }
+            remaining = *budget - part->bytes;
+            if (remaining < 0) goto next_factor;
+            if (value == factor) {
+                quotient_temporary = quotient_cost = remaining = 0;
+                COPY_MULTIPLY_RECIPE(candidate, part->instructions);
+            } else {
+                quotient = value / factor;
+                if (!(quotient & (quotient - 1)) || SMALL_MULTIPLY_RECIPE(quotient)) {
+                    quotient_part = lookup_multiply_recipe(quotient, &quotient_scratch, candidate);
+                    quotient_temporary = 0;
+                    quotient_cost = quotient_part->cycles;
+                    remaining = quotient_part->bytes;
+                    COPY_MULTIPLY_RECIPE(candidate, quotient_part->instructions);
+                } else {
+                    quotient_cost = *cost - part->cycles;
+                    if (!choose_multiply_recipe(quotient, depth + 1, &remaining,
+                        &quotient_cost, &quotient_temporary, candidate)) goto next_factor;
+                }
+                APPEND_MULTIPLY_RECIPE(candidate, part->instructions);
+            }
+            adjustment_temporary = 0;
+            cycles = part->cycles;
+            bytes = part->bytes;
+            end = candidate;
+            while (*end) ++end;
+            if (value < (int)magnitude && end[-2] == 'L' && !(end[-1] & 1)) {
+                adjustment_temporary = 1;
+                end[-2] = 'l';
+                difference = (int)(magnitude - (unsigned)value) - 1;
+                while (difference-- > 0) {
+                    *end++ = '+';
+                    bytes += 2;
+                    cycles += 2;
+                }
+                *end = 0;
+            } else if (value != (int)magnitude) {
+                adjustment_temporary = 1;
+                cycles += correction->cycles;
+                bytes += correction->bytes;
+                APPEND_MULTIPLY_RECIPE(candidate, correction->instructions);
+            }
+            cycles += quotient_cost;
+            bytes += remaining;
+            if (adjustment_temporary && !quotient_temporary) {
+                bytes += 2;
+                cycles += 2;
+            }
+            if (bytes < *budget || (bytes == *budget && cycles < *cost)) {
+                improved = 1;
+                *temporary = adjustment_temporary || quotient_temporary;
+                *cost = cycles;
+                *budget = bytes;
+                COPY_MULTIPLY_RECIPE(recipe, candidate);
+            }
+next_factor:
+            if (state >= 4) break;
+        }
+    }
+    return improved;
+}
+
+/* Original empty descriptors803e8/803f4 can receive the caller's buffer
+   when the lookup is explicitly made for0 or1. Preserve those identities. */
+static MultiplyRecipe multiply_by_zero, multiply_by_one;
+/* Original [000254c0,00025518). Direct factors share their descriptor;
+   other powers of two use an S/shift-count recipe in caller-owned storage. */
+MultiplyRecipe *__fastcall lookup_multiply_recipe(unsigned magnitude,
+    MultiplyRecipe *scratch, char *buffer)
+{
+    MultiplyRecipe *small;
+    if (magnitude < 16) {
+        small = magnitude == 0 ? &multiply_by_zero :
+            magnitude == 1 ? &multiply_by_one : SMALL_MULTIPLY_RECIPE(magnitude);
+        if (small) {
+            if (small->instructions) return small;
+            scratch = small;
+        }
+    }
+    if (magnitude & (magnitude - 1)) return 0;
+    buffer[0] = 'S';
+    buffer[1] = (char)integer_log2(magnitude);
+    buffer[2] = 0;
+    scratch->instructions = buffer;
+    scratch->cycles = 2;
+    scratch->bytes = 3;
+    return scratch;
+}

@@ -413,5 +413,4 @@ void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned sh
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
 void __fastcall update_pentium_gap_history(MachineInstruction *last, MachineInstruction *first, MachineInstruction *second) { __asm int 3 }
-int __fastcall choose_multiply_recipe(unsigned magnitude, unsigned depth, int *budget, int *cost, int *temporary, char *recipe) { __asm int 3 }
 void __fastcall emit_multiply_recipe(MachineInstruction *instruction, int temporary, char *recipe) { __asm int 3 }

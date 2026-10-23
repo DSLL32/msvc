@@ -924,7 +924,9 @@
     "@move_instruction_into_pentium_gap@16",
     "@simple_constant_operation_sign@4",
     "@expand_constant_multiply@4",
-    "@constant_multiply_budget@4"
+    "@constant_multiply_budget@4",
+    "@choose_multiply_recipe@24",
+    "@lookup_multiply_recipe@12"
   ],
   "driver": [
     {
@@ -6712,14 +6714,18 @@
     {
       "name": "@choose_multiply_recipe@24",
       "start": 151552,
-      "end": 151553,
-      "provisional": true
+      "end": 152724
     },
     {
       "name": "@emit_multiply_recipe@12",
       "start": 150768,
       "end": 150769,
       "provisional": true
+    },
+    {
+      "name": "@lookup_multiply_recipe@12",
+      "start": 152768,
+      "end": 152856
     }
   ],
   "cases": {

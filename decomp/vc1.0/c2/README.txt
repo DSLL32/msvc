@@ -2310,3 +2310,11 @@ Constant-operation costs and multiply expansion entry: checkpoint920
 native fixtures pass. See cases/pressure-multiply-entry.json for extent union, limits
 and measured timing splits. Minimal/hello/loops objects remain exact after timestamp;
 pressure879-byte final object is incomplete.
+
+Constant multiplication recipe search: checkpoint922
+-------------------------------------
+2 whole functions pass fresh original/native matching; current frontier
+@emit_multiply_recipe@12. 844 graph checks, canonical/native/W3 and all four
+native fixtures pass. See cases/pressure-multiply-recipes.json for extent union, limits
+and measured timing splits. Minimal/hello/loops objects remain exact after timestamp;
+pressure879-byte final object is incomplete.
