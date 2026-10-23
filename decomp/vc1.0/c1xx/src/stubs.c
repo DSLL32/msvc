@@ -177,7 +177,7 @@ void emit_seh_leave(void) { __asm { int 3 } }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
-CType * end_enum_specifier(void) { __asm { int 3 } return 0; }
+
 void end_for_statement(void) { __asm { int 3 } }
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 void end_nested_initializer(void) { __asm { int 3 } }

@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "parameters.h"
 #include "binary-expressions.h"
+#include "cpp-context.h"
 #include <recon.h>
 
 /* Original 0x2edc0..0x2ef8e. The 28-byte enumeration record can be
@@ -60,4 +61,14 @@ unsigned __stdcall next_enumerator_value(unsigned value, char *name)
     if (value == (unsigned)maximum_signed_int_constant)
         compiler_warning(1, 340, name);
     return value + 1;
+}
+
+/* Original 0x2ddb0..0x2ddef. Close browser tag state for a visible
+   enumeration, then return its already interned declaration context. */
+CType *end_enum_specifier(void)
+{
+    CppSymbol *tag = cpp_context_stack->items[enumerator_context->field08];
+    if (!(tag->flags & 0x80) && browser_filename &&
+        (!declaration_mode || options.option_FR)) browser_end_tag();
+    return enumerator_context;
 }

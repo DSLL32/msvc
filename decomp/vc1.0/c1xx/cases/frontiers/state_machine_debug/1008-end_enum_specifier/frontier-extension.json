@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1008,
+  "accepted": "_end_enum_specifier",
+  "terminal": "_layout_bit_field@16",
+  "original_capture": "cases/frontiers/state_machine_debug/1008-end_enum_specifier/original-receipt.json",
+  "original_capture_sha256": "3d678dfb7ffce6fdd5891d67122df44596747080d4ae42698eef019674e0fcd1",
+  "original_events": "cases/frontiers/state_machine_debug/1008-end_enum_specifier/original-events.txt",
+  "original_events_sha256": "e73ae308df279e261ce4a181429c8b8189b2740b0ad5c2625fd5bd8f50483318",
+  "original_configuration": "cases/frontiers/state_machine_debug/1008-end_enum_specifier/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}
