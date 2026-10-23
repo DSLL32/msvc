@@ -524,7 +524,7 @@
     }
   ],
   "storage_symbol": "_listing_storage",
-  "canonical_base": "0x8b700",
+  "canonical_base": "0x8c700",
   "alias_offsets": [
     320,
     324,
@@ -539,8 +539,8 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b848",
-        "0x8b84c"
+        "0x8c848",
+        "0x8c84c"
       ]
     },
     {
@@ -550,8 +550,8 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b848",
-        "0x8b84c"
+        "0x8c848",
+        "0x8c84c"
       ]
     },
     {
@@ -561,8 +561,8 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b848",
-        "0x8b84c"
+        "0x8c848",
+        "0x8c84c"
       ]
     },
     {
@@ -571,7 +571,7 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b84c"
+        "0x8c84c"
       ]
     },
     {
@@ -580,7 +580,7 @@
         "0x7ca9c"
       ],
       "canonical": [
-        "0x8b848"
+        "0x8c848"
       ]
     },
     {
@@ -589,7 +589,7 @@
         "0x7ca9c"
       ],
       "canonical": [
-        "0x8b848"
+        "0x8c848"
       ]
     },
     {
@@ -598,7 +598,7 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b84c"
+        "0x8c84c"
       ]
     },
     {
@@ -607,7 +607,7 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b84c"
+        "0x8c84c"
       ]
     },
     {
@@ -616,7 +616,7 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b84c"
+        "0x8c84c"
       ]
     },
     {
@@ -625,7 +625,7 @@
         "0x7ca9c"
       ],
       "canonical": [
-        "0x8b848"
+        "0x8c848"
       ]
     },
     {
@@ -635,8 +635,8 @@
         "0x7ca98"
       ],
       "canonical": [
-        "0x8b840",
-        "0x8b844"
+        "0x8c840",
+        "0x8c844"
       ]
     },
     {
@@ -646,8 +646,8 @@
         "0x7ca98"
       ],
       "canonical": [
-        "0x8b840",
-        "0x8b844"
+        "0x8c840",
+        "0x8c844"
       ]
     },
     {
@@ -656,7 +656,7 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b84c"
+        "0x8c84c"
       ]
     },
     {
@@ -665,7 +665,7 @@
         "0x7caa0"
       ],
       "canonical": [
-        "0x8b84c"
+        "0x8c84c"
       ]
     },
     {
@@ -675,8 +675,8 @@
         "0x7ca98"
       ],
       "canonical": [
-        "0x8b840",
-        "0x8b844"
+        "0x8c840",
+        "0x8c844"
       ]
     },
     {
@@ -686,12 +686,12 @@
         "0x7ca98"
       ],
       "canonical": [
-        "0x8b840",
-        "0x8b844"
+        "0x8c840",
+        "0x8c844"
       ]
     }
   ],
   "negative": "Rebinding cursor/head to separate zero storage outside the typed union fails actual prepass operands",
-  "seconds": 3.466947111301124,
+  "seconds": 3.249526663683355,
   "scope": "Whole original/cache C control and typed storage identity with mocked successful/failed fopen and returning diagnostic capture. Includes row20 writes before overflow diagnostic; no real file/error-runtime behavior or general post-fatal continuation claim."
 }

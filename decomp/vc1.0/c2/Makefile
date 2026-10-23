@@ -32,6 +32,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-frontier-abi.py
 	$(PYTHON) scripts/check-codeview-abi.py
 	$(PYTHON) scripts/check-listing-output-abi.py
+	$(PYTHON) scripts/check-listing-entry-abi.py
 
 # Explicit Python compatibility/focused proofs remain available; fixtures do not
 # invoke a compiler, Cargo or Wine. Data checks retain their individual scope.
@@ -43,7 +44,9 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-rust-audit.py --binary $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-stdio-support.py
 	$(PYTHON) scripts/check-numeric-support.py
-audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol
+	$(PYTHON) scripts/check-input-support.py
+	$(PYTHON) scripts/check-listing-entry-abi.py
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -69,6 +72,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-listing-float.py
 	$(PYTHON) scripts/check-listing-storage.py
 	$(PYTHON) scripts/check-listing-symbol.py
+	$(PYTHON) scripts/check-instruction-listing.py
+	$(PYTHON) scripts/check-listing-bytes.py
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -192,3 +197,15 @@ build/native/check-listing-storage: src/check-listing-storage.c src/listing.c $(
 
 build/native/check-listing-symbol: src/check-listing-symbol.c src/listing.c $(NATIVE_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-symbol.c src/listing.c -Wl,--gc-sections -o $@
+
+build/native/listing-driver-body.c: src/listing.c scripts/extract-listing-driver.py | build/native
+	$(PYTHON) scripts/extract-listing-driver.py $@
+
+build/native/check-instruction-listing: src/check-instruction-listing.c build/native/listing-driver-body.c src/register-use.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-instruction-listing.c build/native/listing-driver-body.c src/register-use.c -Wl,--gc-sections -o $@
+
+build/native/listing-bytes-body.c: src/listing.c scripts/extract-listing-driver.py | build/native
+	$(PYTHON) scripts/extract-listing-driver.py $@ bytes
+
+build/native/check-listing-bytes: src/check-listing-bytes.c build/native/listing-bytes-body.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) src/check-listing-bytes.c build/native/listing-bytes-body.c -o $@

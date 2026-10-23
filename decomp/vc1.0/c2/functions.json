@@ -1217,7 +1217,13 @@
     "@write_local_listing@4",
     "@write_listing_symbol@4",
     "@write_listing_source@4",
-    "@previous_listing_source_line@4"
+    "@previous_listing_source_line@4",
+    "@read_listing_source@8",
+    "_fgets",
+    "_strchr",
+    "@write_instruction_listing@8",
+    "@write_listing_bytes@12",
+    "@write_listing_spaces@4"
   ],
   "driver": [
     {
@@ -4050,8 +4056,7 @@
     {
       "name": "@write_instruction_listing@8",
       "start": 164720,
-      "end": 164721,
-      "provisional": true
+      "end": 164916
     },
     {
       "name": "@write_local_listing@4",
@@ -7738,8 +7743,65 @@
     {
       "name": "@read_listing_source@8",
       "start": 174432,
-      "end": 174433,
+      "end": 174709
+    },
+    {
+      "name": "@write_listing_bytes@12",
+      "start": 170592,
+      "end": 170795,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "offset",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "count",
+            "location": "EDX",
+            "type": "signed32"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "input byte pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/dbglist-bytes-abi/validation.json"
+      }
+    },
+    {
+      "name": "@write_instruction_text@4",
+      "start": 170800,
+      "end": 170801,
       "provisional": true
+    },
+    {
+      "name": "@write_instruction_comment@4",
+      "start": 170928,
+      "end": 170929,
+      "provisional": true
+    },
+    {
+      "name": "@write_listing_spaces@4",
+      "start": 170384,
+      "end": 170581,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "count",
+            "location": "ECX",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-bytes-abi/validation.json"
+      }
     }
   ],
   "cases": {

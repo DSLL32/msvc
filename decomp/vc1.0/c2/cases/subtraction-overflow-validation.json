@@ -18,8 +18,8 @@
     1
   ],
   "limit": "Boundary cross-products, not exhaustive32-bit values; explicitly verifies original unsigned path ignores borrow.",
-  "build_seconds": 0.09324898943305016,
-  "native_seconds": 0.006346934475004673,
-  "original_emulation_seconds": 0.1086929589509964,
-  "seconds": 0.21368133183568716
+  "build_seconds": 0.09718162380158901,
+  "native_seconds": 0.006351955235004425,
+  "original_emulation_seconds": 0.10624272748827934,
+  "seconds": 0.21511151269078255
 }

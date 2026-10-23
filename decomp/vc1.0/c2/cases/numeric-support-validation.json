@@ -59,6 +59,6 @@
     "changed linked archive identity",
     "fabricated native internal ABI match"
   ],
-  "seconds": 0.12573742307722569,
+  "seconds": 0.17255072761327028,
   "scope": "Actual finite1.25 plain%g public seam, original internal arguments/results/defined buffers; no native internal ABI match or application credit, no launch/compiler"
 }

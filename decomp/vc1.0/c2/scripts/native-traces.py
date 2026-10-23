@@ -156,6 +156,10 @@ def check_runtime_evidence(path, name, before, record):
         assert evidence['abi']=='BOOL WINAPI SetStdHandle(DWORD,HANDLE); stdcall8; original import is a tail thunk'
         assert evidence['caller_result_use']=='API return ignored by original free-os-handle path; StdOutput transition independently checked'
         return dict(path=str(path),sha256=sha(path),evidence=evidence)
+    from crt_input import CONTRACTS as INPUT_CONTRACTS,validate as validate_input
+    if name in INPUT_CONTRACTS:
+        validate_input(evidence,record,before)
+        return dict(path=str(path),sha256=sha(path),evidence=evidence)
     from crt_numeric import CONTRACTS as NUMERIC_CONTRACTS,validate as validate_numeric
     if name in NUMERIC_CONTRACTS:
         validate_numeric(evidence,record,before)

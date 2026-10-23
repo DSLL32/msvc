@@ -11,13 +11,16 @@ typedef struct ObservedCall {
     unsigned char first, return_byte;
     int entered, returned;
     unsigned entry_order;
+    int fastcall;
     char name[80];
 } ObservedCall;
 static ObservedCall observed_calls[32];
 static unsigned observed_count, entered_count;
 static HANDLE observation_log;
 static DWORD image_base;
-static char printf_format[64],stop_entry[80];
+static char printf_format[64],stop_entry[80],stop_return[80];
+static int observe_input;
+static int observe_entry;
 static DWORD rearm_address;
 static DWORD read_word(HANDLE process,DWORD address)
 {
@@ -38,7 +41,7 @@ static void log_line(char *line)
 }
 static void dump_bytes(HANDLE process,char *name,DWORD address,unsigned length)
 {
-    unsigned char bytes[1024];char line[2200];DWORD got,i;
+    unsigned char bytes[4096];char line[8300];DWORD got,i;
     if(length>sizeof(bytes))exit(258);
     if(length&&(!ReadProcessMemory(process,(void*)address,bytes,length,&got)||got!=length))exit(259);
     sprintf(line,"%s ",name);log_line(line);
@@ -50,6 +53,41 @@ static unsigned string_bytes(HANDLE process,DWORD address)
     DWORD got;unsigned i;unsigned char byte;
     for(i=0;i<512;++i){if(!ReadProcessMemory(process,(void*)(address+i),&byte,1,&got)||got!=1)exit(260);if(!byte)return i+1;}
     exit(261);return 0;
+}
+/* Listing-input observation only. The caller owns256 destination bytes;
+   buffered input bytes are limited to the FILE's actually initialized span. */
+static void input_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
+{
+    DWORD stream,fields[8],got,used,valid,handle,position,high=0,flags;
+    HANDLE copy;
+    char line[512];
+    stream=read_word(process,image_base+0x6e1d8);
+    if(!ReadProcessMemory(process,(void*)stream,fields,sizeof(fields),&got)||got!=sizeof(fields))exit(264);
+    used=fields[0]&&fields[2]?fields[0]-fields[2]:0;
+    valid=used+((long)fields[1]>0?fields[1]:0);
+    if(valid>4096||fields[4]>=64)exit(265);
+    flags=read_word(process,image_base+0x76778+fields[4])&255;
+    handle=read_word(process,image_base+0x767b8+4*fields[4]);
+    if(!DuplicateHandle(process,(HANDLE)handle,GetCurrentProcess(),&copy,0,FALSE,DUPLICATE_SAME_ACCESS))exit(266);
+    position=SetFilePointer(copy,0,(LONG*)&high,FILE_CURRENT);CloseHandle(copy);
+    if(high||position==0xffffffff)exit(267);
+    sprintf(line,"input stream %lu cw %lu sw %lu flags %lu count %ld fd %lu size %lu null %lu used %lu valid %lu position %lu osfile %lu\n",
+        stream,context->FloatSave.ControlWord&65535,context->FloatSave.StatusWord&65535,fields[3],(long)fields[1],fields[4],fields[6],!fields[0]&&!fields[2],used,valid,position,flags);log_line(line);
+    dump_bytes(process,"file_buffer_hex",fields[2],valid);
+    dump_bytes(process,"destination_hex",call->args[0],256);
+    log_line("input_end\n");
+}
+static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
+{
+    char line[256];
+    sprintf(line,"entry_inputs column %lu cw %lu sw %lu fastcall %d\n",read_word(process,image_base+0x70d40),context->FloatSave.ControlWord&65535,context->FloatSave.StatusWord&65535,call->fastcall);log_line(line);
+    if(!strcmp(call->name,"@write_listing_bytes@12")) {
+        if((long)call->args[1]<0||call->args[1]>20)exit(268);
+        dump_bytes(process,"bytes_hex",call->args[2],call->args[1]);
+    }
+    if(!strcmp(call->name,"@write_instruction_text@4"))
+        dump_bytes(process,"instruction_hex",call->args[0],32);
+    log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)
 {
@@ -120,14 +158,17 @@ static void install_plan(HANDLE process,DWORD base)
     image_base=base;
     GetEnvironmentVariableA("C2_PRINTF_FORMAT",printf_format,sizeof(printf_format));
     GetEnvironmentVariableA("C2_STOP_ENTRY",stop_entry,sizeof(stop_entry));
+    GetEnvironmentVariableA("C2_STOP_RETURN",stop_return,sizeof(stop_return));
+    observe_input=GetEnvironmentVariableA("C2_STREAM_INPUT",path,sizeof(path))!=0;
+    observe_entry=GetEnvironmentVariableA("C2_ENTRY_INPUT",path,sizeof(path))!=0;
     if(!GetEnvironmentVariableA("C2_CRT_CAPTURE",path,sizeof(path)))exit(249);
     observation_log=CreateFileA(path,GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
     if(!GetEnvironmentVariableA("C2_CRT_PLAN",path,sizeof(path)))exit(250);
     plan=fopen(path,"r");if(!plan)exit(251);
     while(observed_count<32&&fscanf(plan,"%lx %lx %lu %79s",&rva,&first,&nargs,observed_calls[observed_count].name)==4){
         ObservedCall *call=&observed_calls[observed_count++];
-        call->rva=rva;call->first=(unsigned char)first;call->nargs=nargs;
-        if(nargs>8||(read_word(process,base+rva)&255)!=first)exit(252);
+        call->rva=rva;call->first=(unsigned char)first;call->fastcall=(nargs&0x100)!=0;call->nargs=nargs&255;
+        if(call->nargs>8||(read_word(process,base+rva)&255)!=first)exit(252);
         write_byte(process,base+rva,0xcc);
     }
     fclose(plan);if(!observed_count)exit(253);
@@ -146,9 +187,10 @@ static void capture_crt(HANDLE process,HANDLE thread,DWORD base,DWORD address)
             call=0;
             for(i=0;i<observed_count;++i)if(observed_calls[i].entered&&!observed_calls[i].returned&&observed_calls[i].return_address==address&&(!call||observed_calls[i].entry_order>call->entry_order))call=&observed_calls[i];
             if(!call)break;
-            snapshot(process,call,"return",c.Eax);if(printf_format[0])numeric_snapshot(process,call,"return",&c);call->returned=1;
+            snapshot(process,call,"return",c.Eax);if(printf_format[0])numeric_snapshot(process,call,"return",&c);if(observe_input)input_snapshot(process,call,&c);call->returned=1;
             if(call->return_byte!=0xcc)restored=call->return_byte;
             if(!strcmp(call->name,"_printf"))finish=1;
+            if(stop_return[0]&&!strcmp(call->name,stop_return))finish=1;
         }
         if(finish){CloseHandle(observation_log);TerminateProcess(process,99);return;}
         write_byte(process,address,restored);
@@ -164,9 +206,15 @@ static void capture_crt(HANDLE process,HANDLE thread,DWORD base,DWORD address)
             }
         }
         call->entered=1;call->entry_order=++entered_count;call->return_address=read_word(process,c.Esp);
-        if(!ReadProcessMemory(process,(void*)(c.Esp+4),call->args,call->nargs*4,&got)||got!=call->nargs*4)exit(256);
+        if(call->fastcall) {
+            if(call->nargs)call->args[0]=c.Ecx;
+            if(call->nargs>1)call->args[1]=c.Edx;
+            if(call->nargs>2&&(!ReadProcessMemory(process,(void*)(c.Esp+4),call->args+2,(call->nargs-2)*4,&got)||got!=(call->nargs-2)*4))exit(256);
+        } else if(!ReadProcessMemory(process,(void*)(c.Esp+4),call->args,call->nargs*4,&got)||got!=call->nargs*4)exit(256);
         call->return_byte=(unsigned char)read_word(process,call->return_address);
         snapshot(process,call,"enter",c.Eax);if(printf_format[0])numeric_snapshot(process,call,"enter",&c);
+        if(observe_input)input_snapshot(process,call,&c);
+        if(observe_entry)entry_snapshot(process,call,&c);
         if(stop_entry[0]&&!strcmp(stop_entry,call->name)){CloseHandle(observation_log);TerminateProcess(process,99);return;}
         write_byte(process,address,call->first);write_byte(process,call->return_address,0xcc);
     }

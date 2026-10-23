@@ -20,7 +20,13 @@ def identity(record):
     sym=next(s for s in obj.symbols.values()if s['name']==record['name']);text=next(s for s in obj.sections if s['index']==sym['section'])
     lo=sym['value'];size=record['end']-record['start'];body=text['data'][lo:lo+size];assert len(body)==size
     pe=PE('../../../toolchains/1.0-nt/bin/C23232.EXE');linked=pe.read(record['start'],size);compared=bytearray(linked);relocations=[];bindings={}
-    known={r['name']:r['start']for r in json.loads(Path('runtime.json').read_text())};sectionbase=record['start']-lo
+    known={r['name']:r['start']for r in json.loads(Path('runtime.json').read_text())}
+    # C2's earlier CRT variants (__filbuf, fseek, ftell, ...) have individually
+    # reconstructed original records rather than falsely matching this archive.
+    # Library callers still bind their named relocations to those exact entries.
+    for r in json.loads(Path('functions.json').read_text())['driver']:
+        assert known.setdefault(r['name'],r['start'])==r['start'],r['name']
+    sectionbase=record['start']-lo
     for offset,symbol,kind in text['relocs']:
         if not lo<=offset<lo+size:continue
         local=offset-lo;addend=u32(body,local);actual=u32(linked,local);name=symbol['name']

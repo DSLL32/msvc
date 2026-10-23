@@ -66,5 +66,9 @@ int __fastcall write_listing_comment(int first);
 unsigned __fastcall write_listing_line(unsigned line);
 void __fastcall write_listing_source(unsigned line);
 MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *instruction, unsigned *offset);
+void __fastcall write_listing_bytes(unsigned offset, int count, unsigned char *bytes);
+void __fastcall write_listing_spaces(int count);
+void __fastcall write_instruction_text(MachineInstruction *instruction);
+void __fastcall write_instruction_comment(MachineInstruction *instruction);
 void __fastcall write_local_listing(SymbolHeader *symbol);
 #endif

@@ -267,3 +267,14 @@ cleanup ABIs, selected original /W3 modules and graph/data/negative checks pass.
 All14 native cases pass (13complete+debug at named read_listing_source stub).
 Coverage329007/399693=82.314927% is code-extent union, not branch
 coverage. See cases/dbglist-source-checkpoint.json for failures and split timings.
+
+Checkpoint1219: source line reading, encoded-byte rows and relative tab spacing
+are reconstructed (four whole app bodies873B plus150B exact CRT support).
+All14 cached native cases pass; debug output is still pending instruction text.
+Actual entry observations now cover all byte-writer/spacing formals and the
+next PUSH EBP instruction pointer/defined record, stdout, column and x87 state.
+Default audit rejects missing formal/hidden-input metadata; isolated actual-C
+control probes cover462 driver opcode/mode states and154 byte/spacing shapes.
+These mocked child/printf probes do not claim unvisited real-case coverage.
+See cases/dbglist-reader-checkpoint.json for raw failures, scope and all measured
+build/reference/debug/fixture/check times, including repeats.

@@ -1,10 +1,14 @@
 /* Assembly listing output. */
 #include <ctype.h>
+#include <string.h>
 #include "listing.h"
 #include "options.h"
 #include "output.h"
 #include "function-input.h"
 #include "records.h"
+#include "instruction-encoding.h"
+#include "machine-layout.h"
+#include <recon.h>
 extern int dos_object;
 extern Segment *segment_list;
 ListingStorage listing_storage; /* 0007c954..0007caa4; see typed cache alias view */
@@ -179,6 +183,125 @@ long __fastcall previous_listing_source_line(long line)
     while (cursor->next->line < line) cursor = cursor->next;
     source_line_cursor = cursor;
     return cursor->line;
+}
+/* Original2a960..2aa75. A checkpoint supports backwards line requests.
+   A255-byte piece without newline returns1 only for the requested line;
+   pieces of skipped long lines do not advance the logical line counter. */
+int __fastcall read_listing_source(char *buffer, long line)
+{
+    unsigned length;
+    char *carriage;
+    if (source_checkpoint_line >= line) {
+        source_checkpoint_line = 0;
+        source_checkpoint_position = 0;
+    }
+    if (source_current_line >= line) {
+        fseek(listing_source_file, source_checkpoint_position, SEEK_SET);
+        source_current_line = source_checkpoint_line;
+    }
+    while (source_current_line != line) {
+        if (!fgets(buffer, 256, listing_source_file)) {
+            *buffer = 0;
+            return 0;
+        }
+        if (!strchr(buffer, '\n')) {
+            for (length = 0; buffer[length]; ++length) {}
+            if (length != 255) {
+                buffer[length] = '\n';
+                buffer[length + 1] = 0;
+                return 0;
+            }
+            if (line - source_current_line == 1) return 1;
+        } else {
+            ++source_current_line;
+        }
+    }
+    if (!source_checkpoint_line) {
+        source_checkpoint_position = ftell(listing_source_file);
+        source_checkpoint_line = line;
+    }
+    carriage = strchr(buffer, '\r');
+    if (carriage) {
+        *carriage = '\n';
+        carriage[1] = 0;
+    }
+    return 0;
+}
+/* Original28370..28434. A REP-family prefix and its following operation share
+   one listing row, encoded consecutively into the same twenty-byte scratch. */
+MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *instruction, unsigned *offset)
+{
+    unsigned char bytes[20];
+    unsigned count;
+    MachineInstruction *last = instruction;
+    if (machine_selection_properties[(instruction->opcode >> 8) & 255] & MC_REPEAT_PREFIX)
+        last = next_machine_operation(instruction);
+    if (assembly_code) {
+        count = encode_machine_instruction(instruction, bytes, *offset, 0);
+        if (last != instruction)
+            count += encode_machine_instruction(last, bytes + count, *offset + count, 0);
+        write_listing_bytes(*offset, count, bytes);
+        pad_listing_column(24);
+        *offset += count;
+    } else {
+        pad_listing_column(8);
+    }
+    write_instruction_text(instruction);
+    write_instruction_comment(instruction);
+    if (last != instruction) write_instruction_text(last);
+    listing_column = 0;
+    printf("\n");
+    return last->next;
+}
+/* Original29990..29a55. Unlike pad_listing_column, count is relative to
+   the current column. A nonpositive count still emits one separator. */
+void __fastcall write_listing_spaces(int count)
+{
+    int current, first_tab, tabs;
+    if (count <= 0) {
+        listing_column += printf(" ");
+        return;
+    }
+    current = (int)listing_column;
+    first_tab = 8 - (current > 8 ? current % 8 : current);
+    if (first_tab <= count) {
+        count -= first_tab;
+        printf("\t");
+        listing_column += first_tab;
+        if (count >= 8) {
+            tabs = (unsigned)count >> 3;
+            count -= tabs * 8;
+            do {
+                printf("\t");
+                listing_column += 8;
+            } while (--tabs);
+        }
+    }
+    while (count-- > 0) listing_column += printf(" ");
+}
+
+/* Original29a60..29b2b. The offset prefix is followed by five bytes per
+   physical row; continuation rows retain the prefix's final column. */
+void __fastcall write_listing_bytes(unsigned offset, int count, unsigned char *bytes)
+{
+    unsigned indent;
+    int i;
+    pad_listing_column(2);
+    listing_column += printf("%05lx", (unsigned long)offset);
+    write_listing_spaces(1);
+    indent = listing_column;
+    for (i = 1; i <= count; ++i) {
+        listing_column += printf("%02x", (unsigned)bytes[i - 1]);
+        if (i != count) {
+            if (i % 5) {
+                listing_column += printf(" ");
+            } else {
+                listing_column = 0;
+                printf("\n");
+                write_listing_spaces(indent);
+            }
+        }
+    }
 }
 /* Original [00028930,000289b0). Successful completion keeps the assembly
    output and closes any cached source files used by interleaved listings. */

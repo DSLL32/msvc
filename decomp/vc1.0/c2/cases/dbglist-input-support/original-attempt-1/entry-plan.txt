@@ -1,0 +1,2 @@
+61e90 53 3 _fgets
+61d20 c8 2 _strchr

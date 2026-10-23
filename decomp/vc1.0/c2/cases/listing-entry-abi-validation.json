@@ -1,0 +1,26 @@
+{
+  "checked": [
+    "@write_listing_bytes@12",
+    "@write_listing_spaces@4",
+    "@write_instruction_text@4"
+  ],
+  "observed_formals": 5,
+  "rejected": [
+    "empty formal metadata",
+    "omitted stack byte pointer",
+    "wrong fastcall register",
+    "unobserved hidden input",
+    "wrong callee stack cleanup",
+    "changed actual count",
+    "changed pointed input byte",
+    "omitted next formal",
+    "wrong actual column",
+    "empty driver formal metadata",
+    "missing instruction formal",
+    "unobserved instruction register",
+    "changed instruction operand",
+    "broken instruction link identity"
+  ],
+  "seconds": 0.010359061881899834,
+  "scope": "Actual original/native byte formatter, padding and next instruction-text entry. Complete known formal observations plus static no-hidden-input/RET evidence. First instruction PUSH EBP scalar/adjacent-link projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch."
+}
