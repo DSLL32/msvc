@@ -12,6 +12,65 @@ from graph import graph,names
 from runtime import identify
 from state import BINARY,ROOT,load
 
+def validate_ownership(config,pe,runtime,context):
+    """Every restored byte has one declared owner in file-backed original code."""
+    def code_range(start,end):
+        assert isinstance(start,int) and isinstance(end,int) and start<end,('invalid code range',start,end)
+        owners=[s for s in pe.sections if s['flags']&0x20
+                and pe.base+s['rva']<=start<end<=pe.base+s['rva']+min(s['size'],s['virtual_size'])
+                and s['off']+end-pe.base-s['rva']<=len(pe.data)]
+        assert len(owners)==1,('range is not original file-backed code',hex(start),hex(end))
+    def overlaps(a,b):return a[0]<b[1] and b[0]<a[1]
+    application=[]
+    functions=config['functions']
+    for record in functions:
+        code_range(record['original'],record['original']+1)
+        if record['status']=='stub':
+            assert record['extent'] is None and not record.get('text_data'),('stub owns restored bytes',record['name'])
+            continue
+        start,end=record['extent']
+        assert start==record['original'],('extent does not start at entry',record['name'])
+        for kind,(a,b) in [('code',(start,end)),*[('text-data',interval)for interval in record.get('text_data',[])]]:
+            code_range(a,b)
+            interval=(a,b,record['name'],kind)
+            for prior in application:
+                assert not overlaps(interval,prior),('overlapping application ownership',interval,prior)
+            for other in functions:
+                if other['name']==record['name'] and kind=='code':continue
+                assert not a<=other['original']<b,('application range contains another entry',interval,other['name'])
+            application.append(interval)
+    known={(r['name'],r['start'],r['end'])for r in runtime['functions']+runtime['imports']}
+    aliases=[]
+    for alias in config.get('runtime_aliases',[]):
+        assert len(set(alias['names']))>=2 and alias.get('evidence') and (BINARY/alias['evidence']).is_file()
+        assert all((name,alias['start'],alias['end'])in known for name in alias['names']),('unidentified runtime alias',alias)
+        aliases.append(alias)
+    support=[]
+    for record in config.get('support_unmasked',[]):
+        a,b=record['start'],record['end']
+        code_range(a,b)
+        assert (record['name'],a,b)in known,('unidentified runtime range',record)
+        interval=(a,b,record['name'],'runtime')
+        for prior in application:
+            assert not overlaps(interval,prior),('runtime overlaps application ownership',interval,prior)
+        for function in functions:
+            assert not a<=function['original']<b,('runtime overlaps application entry',interval,function['name'])
+        for item in context:
+            assert not overlaps(interval,(item['original'],item['original']+item['size'])),('runtime overlaps contextual data',interval,item['name'])
+        for prior in support:
+            if not overlaps(interval,prior):continue
+            assert any(a==prior[0]==alias['start'] and b==prior[1]==alias['end']
+                       and record['name']!=prior[2] and {record['name'],prior[2]}<=set(alias['names'])
+                       for alias in aliases),('overlapping runtime ownership without explicit aliases',interval,prior)
+        support.append(interval)
+    # Contextual data may live in .text; it must then be explicitly owned as
+    # text-data, never implicitly exposed by an application code envelope.
+    for item in context:
+        interval=(item['original'],item['original']+item['size'])
+        owners=[r for r in application if overlaps(interval,r)]
+        if owners:
+            assert len(owners)==1 and owners[0][3]=='text-data' and owners[0][0]<=interval[0]<interval[1]<=owners[0][1],('contextual data overlaps code or ambiguous ownership',item['name'],owners)
+
 def publics():
     result={}
     for line in (BINARY/'build/cvpack.map').read_text().splitlines():
@@ -151,6 +210,7 @@ def main():
     runtime=identify(ROOT/config['target']['path'],{'_main':config['target']['application_main']})
     cached=json.loads((BINARY/'runtime.json').read_text())
     assert runtime==cached,'strict runtime identities changed'
+    validate_ownership(config,original,runtime,json.loads((BINARY/'data.json').read_text()))
     rebuilt_runtime=identify(args.rebuilt,{'_main':linked['_main']})
     oi=identity_table(runtime,functions)
     ri=identity_table(rebuilt_runtime,functions,linked)

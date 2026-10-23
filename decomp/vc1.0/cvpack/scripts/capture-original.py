@@ -28,7 +28,9 @@ def main():
     record = case(args.case)
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
-    (output/'configuration.json').write_text(json.dumps(config,indent=2)+'\n')
+    snapshot=output/'configuration.json'
+    snapshot.write_bytes((BINARY/'functions.json').read_bytes())
+    assert json.loads(snapshot.read_text())==config,'configuration changed during capture setup'
     work = output / 'work'
     prepare(record, work)
     masked = output / 'CVPACK.EXE'
@@ -93,9 +95,10 @@ def main():
     (output/'host-stdout').write_bytes(result.stdout)
     (output/'host-stderr').write_bytes(result.stderr)
     assert result.returncode == 0, repr(result.stderr)
+    assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during original run'
     receipt = dict(case=args.case, unmasked=args.unmasked, command=argv,
         original_sha256=config['target']['sha256'], executable_sha256=sha(masked),
-        debugger_sha256=sha(debugger), configuration_sha256=sha(BINARY/'functions.json'),
+        debugger_sha256=sha(debugger), configuration_sha256=sha(snapshot),
         discover_runtime=args.discover_runtime,canonical_argv0=env['CVPACK_CAPTURE_ARGV0'],
         candidates=args.candidate,
         stop_at=args.stop_at,

@@ -6,13 +6,17 @@ from state import mask
 from state import ROOT
 from state import BINARY
 from binary import PE
-from audit import publics
+from audit import publics,validate_ownership
+from accept import validate_snapshot
 from capstone import Cs,CS_ARCH_X86,CS_MODE_32
 from pathlib import Path
 from objects import compare_walks,original_walks
 import struct
 import subprocess
 import tempfile
+import copy
+import json
+from state import load,sha
 
 class Bytes:
     def __init__(self,data):self.data=data
@@ -44,6 +48,83 @@ def main():
     assert any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in good['functions'])
     assert not any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in bad['functions'])
     print('rejected: CRT startup with incorrect relocated application target')
+    config,original=load()
+    context=json.loads((BINARY/'data.json').read_text())
+    validate_ownership(config,original,good,context)
+    ownership_mutations={}
+    changed=copy.deepcopy(config)
+    next(r for r in changed['functions']if r['name']=='parse_options')['text_data'].append([0x1765c,0x176bc])
+    ownership_mutations['duplicate text-data ownership']=changed
+    changed=copy.deepcopy(config)
+    next(r for r in changed['functions']if r['name']=='parse_options')['text_data'].append([0x17000,0x17001])
+    ownership_mutations['text-data overlaps another application body']=changed
+    changed=copy.deepcopy(config)
+    next(r for r in changed['functions']if r['name']=='cvpack_main')['extent'][1]=0x174c1
+    ownership_mutations['application code includes another function entry']=changed
+    changed=copy.deepcopy(config)
+    stub=next(r for r in changed['functions']if r['status']=='stub')
+    next(r for r in changed['functions']if r['name']=='parse_options')['text_data'].append([stub['original'],stub['original']+1])
+    ownership_mutations['text-data masks an unreconstructed function entry']=changed
+    changed=copy.deepcopy(config)
+    next(r for r in changed['functions']if r['name']=='parse_options')['text_data'].append([0x38cf8,0x38cfc])
+    ownership_mutations['unmask outside original file-backed code']=changed
+    changed=copy.deepcopy(config)
+    changed['support_unmasked'].append(copy.deepcopy(changed['support_unmasked'][0]))
+    ownership_mutations['duplicate runtime acceptance ownership']=changed
+    for label,changed in ownership_mutations.items():
+        reject(label,lambda changed=changed:validate_ownership(changed,original,good,context))
+    # A runtime identity must never become an application owner, even when the
+    # runtime catalogue itself also identifies those bytes.
+    changed=copy.deepcopy(config)
+    accepted=next(r for r in changed['functions']if r['status']=='accepted')
+    runtime_record=dict(name='test-runtime',start=accepted['extent'][0],end=accepted['extent'][1])
+    changed['support_unmasked'].append(runtime_record)
+    synthetic=copy.deepcopy(good)
+    synthetic['functions'].append(runtime_record)
+    reject('runtime overlaps accepted application code',lambda:validate_ownership(changed,original,synthetic,context))
+    changed_context=[*context,dict(name='unidentified-text-data',original=config['support_unmasked'][0]['start'],size=1)]
+    reject('runtime unmask overlaps unrelated contextual data',lambda:validate_ownership(config,original,good,changed_context))
+    # Exact same-range runtime aliases require explicit identity and evidence;
+    # different extents and duplicate names never qualify as aliases.
+    changed=copy.deepcopy(config)
+    alias=copy.deepcopy(changed['support_unmasked'][0]);alias['name']='test-alias'
+    changed['support_unmasked'].append(alias)
+    synthetic=copy.deepcopy(good);synthetic['functions'].append(alias)
+    reject('runtime alias without explicit declaration',lambda:validate_ownership(changed,original,synthetic,context))
+    changed['runtime_aliases']=[dict(start=alias['start'],end=alias['end'],names=[config['support_unmasked'][0]['name'],alias['name']],evidence='cases/startup/proof.json')]
+    validate_ownership(changed,original,synthetic,context)
+    scratch=Path.home()/'.ai-tmp/vc1.0-cvpack'
+    scratch.mkdir(exist_ok=True,parents=True)
+    with tempfile.TemporaryDirectory(prefix='snapshot-rejections-',dir=scratch) as temporary:
+        directory=Path(temporary)
+        old=directory/'original';new=directory/'native';old.mkdir();new.mkdir()
+        current=directory/'functions.json';current.write_bytes((BINARY/'functions.json').read_bytes())
+        for destination in (old,new):(destination/'configuration.json').write_bytes(current.read_bytes())
+        masked=old/'CVPACK.EXE';masked.write_bytes(b'captured masked image')
+        executable=directory/'native.exe';executable.write_bytes(b'native executable')
+        captured=dict(configuration_sha256=sha(current),original_sha256=sha(target),executable_sha256=sha(masked))
+        native=dict(configuration_sha256=sha(current),original_sha256=sha(target),executable_sha256=sha(executable))
+        def snapshot(a=captured,b=native):validate_snapshot(config,current,old,new,a,b,target,executable)
+        snapshot()
+        stale=copy.deepcopy(config);stale['review']['snapshot-negative-test']=True
+        for destination,receipt in ((old,captured),(new,native)):
+            (destination/'configuration.json').write_text(json.dumps(stale))
+            receipt['configuration_sha256']=sha(destination/'configuration.json')
+        reject('two mutually matching stale configurations',snapshot)
+        for destination,receipt in ((old,captured),(new,native)):
+            (destination/'configuration.json').write_bytes(current.read_bytes())
+            receipt['configuration_sha256']=sha(current)
+        changed=dict(native,configuration_sha256='0'*64)
+        reject('native/original configuration receipt mismatch',lambda:snapshot(b=changed))
+        changed=dict(captured,original_sha256='0'*64)
+        reject('captured original target hash mismatch',lambda:snapshot(a=changed))
+        changed=dict(native,original_sha256='0'*64)
+        reject('native original-target identity mismatch',lambda:snapshot(b=changed))
+        masked.write_bytes(b'changed masked image')
+        reject('captured masked image changed after execution',snapshot)
+        masked.write_bytes(b'captured masked image')
+        executable.write_bytes(b'changed native executable')
+        reject('native executable changed after execution',snapshot)
     specifications=[dict(name='pool',original=0x4000,pointer_fields=[4])]
     left={'pool':[dict(address=0x1000,bytes=struct.pack('<III',7,0x1010,11).hex()),dict(address=0x1010,bytes=struct.pack('<III',9,0,13).hex())]}
     right={'pool':[dict(address=0x9000,bytes=struct.pack('<III',7,0x9010,11).hex()),dict(address=0x9010,bytes=struct.pack('<III',9,0,13).hex())]}

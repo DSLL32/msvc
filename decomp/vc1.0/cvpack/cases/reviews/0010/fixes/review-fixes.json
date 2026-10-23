@@ -1,0 +1,21 @@
+{
+  "gate": 10,
+  "status": "source review passed; tooling fixes awaiting final release; reconstruction paused at ten",
+  "parent_review": "Readable Win32 C, named INT3 stubs only, contextual diagnostic table, faithful callback and varargs, full pool-state evidence passed parent source review.",
+  "fixes": [
+    "Corrected files_initialize ABI prose to five int parameters, one unsigned char and one callback (seven stack slots); implementation and sampled ABI unchanged. Corrected current functions.json and review summary; historical acceptance proof snapshots unchanged.",
+    "Added audit ownership validation: all declared code/text-data ranges are exclusive and original code-section file-backed; every registered entry remains outside other owners; runtime support cannot overlap application code/text-data/entries or contextual data. Runtime support must have an exact identified identity; only explicitly declared, evidence-backed same-range runtime aliases may overlap.",
+    "Acceptance now verifies byte-exact original/native saved configuration snapshots and both receipt hashes against the current candidate metadata, verifies both original-target identities against the actual original file, and binds receipts to the masked-original and current native images. Native and original capture reject metadata changes during a run; native run also rejects executable changes. Future acceptances retain both snapshots."
+  ],
+  "rejection_checks": 32,
+  "added_rejection_checks": 15,
+  "historical_proof_files_modified": false,
+  "original_reference_recaptured": false,
+  "application_functions_reconstructed_during_fixes": 0,
+  "source_warning": "Intentional unsigned-short == -1 comparison in main remains unchanged.",
+  "future_union_evidence": "FileSlot union pointer normalization must track active mapped/buffered mode; current NULL-only fields impose no union ambiguity.",
+  "native_fixture_sum_seconds": 0.04781694430857897,
+  "configuration_sha256": "850fee8dc424fe36a7e203dbdd1130d2818f4de142f3a808762db42c68b4b2c8",
+  "next_function": "move_file_slot (0x2a990), still a named INT3 stub",
+  "timing": "timing.json"
+}

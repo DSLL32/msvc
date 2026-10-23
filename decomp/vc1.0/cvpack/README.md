@@ -13,7 +13,7 @@ orchestrator review. The independent DLL case stops at the named
 `move_file_slot` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and seventeen negative probes.
+roots, contextual initial data, library relocations, and 32 negative probes (including gate-review ownership and snapshot checks).
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
 original-only operation after `make build/debug-run.exe`. It creates an entirely
@@ -56,3 +56,9 @@ The ten-function review and measured build/fixture/audit receipts are in
 audits 0.53 s, rejection checks 1.55 s. Native case totals sum to 0.043 s
 (0.116 s including Python runner startup). Function-ten acceptance with fresh
 GDB state took 0.240 s natively; explicit masked-original capture took 5.72 s.
+
+The first source review passed; fixes requested before release are recorded in
+`cases/reviews/0010/fixes/review-fixes.json`. Acceptance now requires matching
+current candidate snapshots and target/image hashes. The audit rejects overlapping
+application code/text data/runtime ownership; same-range runtime aliases need
+explicit identities and evidence. Historical proof snapshots remain unchanged.

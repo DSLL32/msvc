@@ -1,0 +1,32 @@
+rejected: truncated RET cleanup
+rejected: truncated immediate
+rejected: missing terminal
+rejected: branch into operand
+rejected: undeclared indirect jump
+rejected: conditional outside function
+rejected: branch into text data
+rejected: unresolved application call
+rejected: CRT startup with incorrect relocated application target
+rejected: duplicate text-data ownership
+rejected: text-data overlaps another application body
+rejected: application code includes another function entry
+rejected: text-data masks an unreconstructed function entry
+rejected: unmask outside original file-backed code
+rejected: duplicate runtime acceptance ownership
+rejected: runtime overlaps accepted application code
+rejected: runtime unmask overlaps unrelated contextual data
+rejected: runtime alias without explicit declaration
+rejected: two mutually matching stale configurations
+rejected: native/original configuration receipt mismatch
+rejected: captured original target hash mismatch
+rejected: native original-target identity mismatch
+rejected: captured masked image changed after execution
+rejected: native executable changed after execution
+rejected: changed observed object byte
+rejected: wrong observed object pointer identity
+rejected: unresolved observed object pointer
+rejected: unterminated original object list
+rejected: reviewed variant unmask through exact runtime closure
+rejected: redirected application callee
+rejected: changed callee stack cleanup
+rejected: changed contextual global initializer

@@ -14,6 +14,9 @@ from processes import Processes
 def run_case(name, directory, debug=False):
     start = time.perf_counter()
     config, original = load()
+    snapshot=directory/'configuration.json'
+    snapshot.write_bytes((BINARY/'functions.json').read_bytes())
+    assert json.loads(snapshot.read_text())==config,'configuration changed during native setup'
     record = case(name)
     work = directory / 'work'
     prepare(record, work)
@@ -21,6 +24,7 @@ def run_case(name, directory, debug=False):
     report = directory/'gdb.json'
     script = directory/'commands.gdb'
     executable = BINARY / 'build/native/CVPACK.EXE'
+    executable_hash=sha(executable)
     expected = record['current']
     debug=debug and expected['terminal']=='trap'
     data=json.loads((BINARY/'data.json').read_text())
@@ -132,8 +136,10 @@ def run_case(name, directory, debug=False):
     for item in record.get('inputs',[]):
         artifact=outputs.get(item['name'],item)
         assert sha(work/item['name'])==artifact['sha256'], 'artifact mismatch: '+item['name']
+    assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during native run'
+    assert sha(executable)==executable_hash,'native executable changed during run'
     return dict(case=name,terminal=expected['terminal'],status=child.returncode,function=expected.get('native_function'),
-        executable_sha256=sha(executable),configuration_sha256=sha(BINARY/'functions.json'),
+        executable_sha256=executable_hash,configuration_sha256=sha(snapshot),original_sha256=config['target']['sha256'],
         process_boundary=processes.receipt(),
         seconds=dict(setup=setup,execution=execution,debugging=debugging,
                      checks=time.perf_counter()-check,total=time.perf_counter()-start))

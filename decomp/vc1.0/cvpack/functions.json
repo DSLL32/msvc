@@ -197,7 +197,7 @@
         170144,
         170505
       ],
-      "abi": "void files_initialize(int,int,int,int,int,int,unsigned char,void (*)(int,const char *,const char *))",
+      "abi": "void files_initialize(int,int,int,int,int,unsigned char,void (*)(int,const char *,const char *))",
       "stack_cleanup": 0,
       "evidence": "cases/hello-debug-dll/evidence/0005-files_initialize/proof.json",
       "roots": [],

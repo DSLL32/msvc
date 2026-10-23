@@ -6,8 +6,20 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
-from state import BINARY,load,sha
+from state import BINARY,ROOT,load,sha
 from objects import original_walks,compare_walks,pointer_identity
+
+def validate_snapshot(config,current,original,native,captured,native_receipt,target,executable):
+    """Bind both fresh runs to the same current candidate and original image."""
+    expected=sha(current)
+    for directory,receipt in ((original,captured),(native,native_receipt)):
+        snapshot=directory/'configuration.json'
+        assert receipt['configuration_sha256']==sha(snapshot)==expected,'stale or mismatched configuration snapshot'
+        assert json.loads(snapshot.read_text())==config,'configuration contents differ'
+    assert captured['configuration_sha256']==native_receipt['configuration_sha256']
+    assert captured['original_sha256']==native_receipt['original_sha256']==config['target']['sha256']==sha(target),'captured original target differs'
+    assert captured['executable_sha256']==sha(original/'CVPACK.EXE'),'captured masked image differs'
+    assert native_receipt['executable_sha256']==sha(executable),'native executable changed since run'
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -23,6 +35,8 @@ def main():
     native=args.native.resolve()
     captured=json.loads((original/'receipt.json').read_text())
     native_receipt=json.loads((native/'receipt.json').read_text())[0]
+    validate_snapshot(config,BINARY/'functions.json',original,native/args.case,captured,native_receipt,
+                      ROOT/config['target']['path'],BINARY/'build/native/CVPACK.EXE')
     assert captured['case']==native_receipt['case']==args.case
     assert captured['candidates']==[args.function]
     assert native_receipt['executable_sha256']==sha(BINARY/'build/native/CVPACK.EXE')
@@ -130,6 +144,7 @@ def main():
         shutil.copyfile(original/name,directory/('original-'+name))
     for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
+    shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json')
     proof_path=str(directory.relative_to(BINARY)/'proof.json')
     prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
