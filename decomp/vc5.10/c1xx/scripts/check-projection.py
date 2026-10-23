@@ -39,7 +39,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -86,6 +86,7 @@ def field_map(model,observed):
         for number,base in enumerate(pool_bases[:pool_count]):
             for i,field in enumerate(('cursor','remaining','minimum_pages','arena')):known['pool_%02d.'%(number+1)+field]=(base+i*4,4,'bss','frontend_bss.pools[%d].'%number+field)
         s.require(observed['pool_native_layout']=={'size':16,'fields':{name:[i*4,4] for i,name in enumerate(('cursor','remaining','minimum_pages','arena'))}},'pool has unmodeled storage or wrong field types')
+    if model['schema']>=21:known['type_ranks_initialized']=(0x104c4c78,4,'bss','frontend_bss.type_ranks_initialized')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -116,8 +117,9 @@ def field_map(model,observed):
     if model['schema']>=15:fields += ['token_value','sentinel_token']
     if model['schema']>=16:fields.append('source_signature')
     if model['schema']>=19:fields.append('pools')
+    if model['schema']>=21:fields.append('type_ranks_initialized')
     s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
-              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count}[model['schema']]},
+              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else 0
@@ -131,7 +133,7 @@ def field_map(model,observed):
         ranges.sort()
         s.require(ranges[0][0]==observed['bss_address'] and
                   all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
-                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0),'unaccounted native padding/storage gap')
+                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0),'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):

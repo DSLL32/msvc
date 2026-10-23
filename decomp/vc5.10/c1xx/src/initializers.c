@@ -146,7 +146,7 @@ void initialize_frontend_23(void)
 
 void initialize_frontend_34(void)
 {
-    __asm { int 3 }
+    frontend_bss.type_ranks_initialized = initialize_type_ranks();
 }
 
 void initialize_frontend_35(void)

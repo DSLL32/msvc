@@ -122,6 +122,9 @@ if any(f.name=='pools' for f in gdb.lookup_type('FrontendBss').fields()):
     for i in range(count):
         for name in fields:value['frontend']['storage']['pool_%02d.'%(i+1)+name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.pools[%d].'%i+name)),4]
     value['frontend']['pool_native_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerPool)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerPool').fields()}}
+if any(f.name=='type_ranks_initialized' for f in gdb.lookup_type('FrontendBss').fields()):
+    value['frontend']['type_ranks_initialized']=int(gdb.parse_and_eval('frontend_bss.type_ranks_initialized'))
+    value['frontend']['storage']['type_ranks_initialized']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.type_ranks_initialized')),4]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None

@@ -1,5 +1,5 @@
 {
-  "schema": 20,
+  "schema": 21,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1306,6 +1306,15 @@
       "native_expression": "frontend_bss.pools[9].arena",
       "original_default": 0,
       "evidence": "Actual callback38a53 ECX receiver; shared four-field class and fresh per-instance ABI/state proof"
+    },
+    {
+      "name": "type_ranks_initialized",
+      "class": "bss",
+      "original_address": 273435768,
+      "bytes": 4,
+      "native_expression": "frontend_bss.type_ranks_initialized",
+      "original_default": 0,
+      "evidence": "Callback38a60 stores return value from38a6b; helper remains genuine named trap"
     }
   ],
   "initializers": [

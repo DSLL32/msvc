@@ -57,6 +57,7 @@ int initialize_compiler_pass(void)
             frontend_bss.pools[i].minimum_pages = 0;
             frontend_bss.pools[i].arena = NULL;
         }
+        frontend_bss.type_ranks_initialized = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

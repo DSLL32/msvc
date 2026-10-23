@@ -293,6 +293,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "pool-10-%s.bin", suffix); save_blob(name, data, 16);
     readmem(base + 0xc0ac8, data, 16);
     sprintf(name, "pool-01-%s.bin", suffix); save_blob(name, data, 16);
+    readmem(base + 0xc4c78, data, 4);
+    sprintf(name, "type-ranks-ready-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xc0834, data, 4);
     sprintf(name, "source-signature-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xcc000, data, sizeof(data));
@@ -401,6 +403,7 @@ static void seed_frontend_restore(void)
         write_mem(base + 0xc0b88, numeric, 8);
         value = 165; write_mem(base + 0xc0b80, &value, 1);
     }
+    value = 37; write_mem(base + 0xc4c78, &value, 4);
     value = 37; write_mem(base + 0xc0834, &value, 4);
     value = allocated + 4; write_mem(base + 0xc0ac8, &value, 4);
     value = 23; write_mem(base + 0xc0acc, &value, 4);
