@@ -2,8 +2,8 @@
 
 Only the first case is released: `/?`, an unsupported-option diagnostic (status
 1, empty stdout, 51 stderr bytes). The minimal intermediate-input case remains
-queued and unauthorized. The complete 345-byte CRT startup is accepted; no
-application function has been accepted yet.
+queued and unauthorized. The complete main function (455 application bytes) and four CRT helpers
+(386 bytes) are accepted; three identified import thunks are tracked separately.
 
 `make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.

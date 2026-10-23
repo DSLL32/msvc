@@ -32,6 +32,11 @@ def compare(original,native,validation=None):
     assert win_provenance['binary_sha256']==audit['rebuilt_sha256']
     for name,digest in win_provenance['inputs'].items():
         assert sha((report_file.parent/'win32-inputs'/name).read_bytes())==digest,'immutable Win32 compiler input changed'
+    graph=json.loads(report_file.read_text())
+    for support in config['support']:
+        if support['kind']=='import'and support['name']in config['accepted']:
+            identity=graph['import_catalogs']['original']['slots'][str(support['iat'])]
+            assert identity=={'dll':support['dll'].lower(),'name':support['symbol']},'import-support slot identity differs'
     assert audit['configuration_sha256']==receipts[0]['configuration_sha256'],'trial audit configuration differs'
     assert audit['rebuilt_sha256']==sha((BINARY/'build/c2.exe').read_bytes()),'current trial reconstruction differs'
     assert audit['rebuilt_map_sha256']==audit_input_hashes()['build/c2.map'],'audit MAP differs'
@@ -68,8 +73,9 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')=='pre-main-no-arguments' and expected.get('state'),'new frontier needs explicit state decoder'
-        assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags')and expected.get('state'),'new frontier needs explicit state decoder'
+        if expected['state_policy']=='pre-main-no-arguments':
+            assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     for group in ('gdb_inputs','gdb_outputs'):
         for name,digest in receipts[1][group].items():
             assert sha((native/name).read_bytes())==digest,'GDB input/output provenance changed'
@@ -99,6 +105,33 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
+    if expected.get('state_policy')in ('command-line-state','environment-flags'):
+        segment=text.rsplit('observe %08x '%address,1)[1]
+        values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
+        assert len(values)==1
+        expected_argv=(BINARY/'cases/unsupported-help-diagnostic/argv.bin').read_bytes()
+        assert (original/'command-argv.bin').read_bytes()==expected_argv
+        assert state['command_state']=={'argc':int(values[0][0]),'argv':[v.decode()for v in expected_argv[:-2].split(b'\0')]}
+        if expected['state_policy']=='environment-flags':
+            assert int(values[0][2],16)==0 and state['flags']is None,'absent MSC_CMD_FLAGS input is not NULL'
+    if expected.get('state_policy')=='exit-callback':
+        callback=next(r for r in config['stubs']if r['name']=='_c2_cleanup')
+        assert re.findall(r'^exit-callback ([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)==['%08x'%callback['start']]
+        callback_native=proof.symbols(BINARY/'build/native/c2')[callback['native']][0]+int(native_proof['load_bias'],16)
+        assert state['callback']==callback_native,'exit callback address is not the named native function'
+        assert re.findall(r'^C2-CALLBACK (0x[0-9a-f]+)$',(native/'gdb.stdout').read_text(),re.M)==[hex(callback_native)]
+    if expected.get('state_policy')=='main-arguments-and-initial-state':
+        raw_main=re.findall(r'^main-input argc=(\d+) argv=([0-9a-f]+) environment=([0-9a-f]+)$',text,re.M)
+        assert len(raw_main)==1 and int(raw_main[0][0])==2
+        def vector_bytes(name):
+            data=(original/name).read_bytes();assert data.endswith(b'\0\0')
+            return [v.decode()for v in data[:-2].split(b'\0')]
+        expected_main={'argc':2,'argv':vector_bytes('main-argv.bin'),'environment':vector_bytes('main-environment.bin'),
+                       'initenv_alias':1,'x87_control':int(re.findall(r'^x87-control ([0-9a-f]+)$',text,re.M)[-1],16)&0xffff}
+        assert re.findall(r'^main-initenv-alias (\d+)$',text,re.M)==['1']
+        assert (original/'main-argv.bin').read_bytes()==(BINARY/'cases/unsupported-help-diagnostic/argv.bin').read_bytes()
+        assert (original/'main-environment.bin').read_bytes()==(BINARY/'cases/unsupported-help-diagnostic/environment.bin').read_bytes()
+        assert state['main']==expected_main,'main argument vectors/alias/x87 differ'
     assert all((original/(s+'.bin')).read_bytes()==(native/(s+'.bin')).read_bytes()for s in ('stdout','stderr')),'partial stream mismatch'
     return {'validation':str(audit_file),'graph_report':str(report_file),'matched':expected['name'],'original':hex(address),'native':state['function'],'argument_state':expected.get('state_policy','no arguments at initial entry'),'native_elf_proof':native_proof,'source_trace':state['trace'],'candidates':config['trial'],'acceptance':False}
 

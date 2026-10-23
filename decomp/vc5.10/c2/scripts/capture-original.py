@@ -42,7 +42,7 @@ def main():
         image=bytes(image)
     if args.observe_startup:
         assert args.unmasked and not args.candidate,'startup observations are unmasked analysis only'
-        for point in (0x4527c6,0x4527cc,0x4527e3,0x4527e9,0x4527f1,0x4527f7,0x45280c,0x45281e,0x452855,0x45285b,0x452870,0x452876):
+        for point in (0x452a18,0x452a1e,0x4527c6,0x4527cc,0x4527e3,0x4527e9,0x4527f1,0x4527f7,0x45280c,0x45281e,0x452855,0x45285b,0x452870,0x452876):
             p=offset(inventory,point);entries.append((point,image[p]))
         image=bytearray(image)
         for point,_ in entries:image[offset(inventory,point)]=0xcc

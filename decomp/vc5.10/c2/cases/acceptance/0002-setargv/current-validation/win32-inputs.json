@@ -1,0 +1,16 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "1bb571d5cea0982b9490307b7e7095d65677faf00baf8ebacafc745000947c76",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "01fa8a7ab1721d7f0d84cd5357a7e6170febb1a6f76f0e5480770476305e968c",
+    "decomp/vc5.10/c2/src/startup.c": "24d60daf2ee528bc5374c233ad6dd9b25f23761b227cd74465ff8f2561da221d",
+    "decomp/vc5.10/c2/src/stubs.c": "18c1e32ee4b2b43572257d2d23083dbde7be96bbee92af9cadf461e44a929b2d",
+    "lib/recon/include/recon.h": "bdd8e69ab3746310839c6e632ad8053e8836fb5e03ab22ae936d9aa0ee39306d",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "f2c1c60d086549035cd75b6ae10ee5db29ecbda3f3f38df6b63f7a3cf7088743"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/986b9e264200ab8458afc3bd8f91c0d70ddac6e6e45a1344a03c1f1b2b6a5bc2",
+  "input_set_sha256": "986b9e264200ab8458afc3bd8f91c0d70ddac6e6e45a1344a03c1f1b2b6a5bc2",
+  "binary_sha256": "4f3ac82e007b6bf113f88d750c02fd061b91c999190e006baa435dce5cb3029f"
+}

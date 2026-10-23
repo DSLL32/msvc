@@ -1,0 +1,18 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "9d55ffbc449a18fc1cef63d12529ff616c1c09adacc00d35f41499663a0d637e",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "0622fd0de875e18a330f23843c83386beee47d0f3629994170c5eb925c41c15b",
+    "decomp/vc5.10/c2/src/main.c": "29259d2b3aff8144aa41bf930be324b68d1bfbcceea130ce9c6bc70e483372f4",
+    "decomp/vc5.10/c2/src/precision.c": "c3f4cd1069e31c3e1d290fd242543e2ccd8a8c31d0408d03f040a44d576b0e6f",
+    "decomp/vc5.10/c2/src/startup.c": "c8ee152c9cc1f74d9c87c78641aa41200644da73c9f57baa86f696b00abc2019",
+    "decomp/vc5.10/c2/src/stubs.c": "32cd4d0e569a2b8d3320dfcf8bd09fc2a830642a3d38372acebda7c04c7b7e91",
+    "lib/recon/include/recon.h": "b2226d0f911377b6a5c5da762594be14748750220b7df998979fc7a5596302e3",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "051f115bacc7fabb314471c505e9caf148fd428d35a5691c47f6a6c191e8eac7"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/2acb7cf14e90cc264a54cd67317a42520fc3f399565a96dbdf5a692b973898cc",
+  "input_set_sha256": "2acb7cf14e90cc264a54cd67317a42520fc3f399565a96dbdf5a692b973898cc",
+  "binary_sha256": "8df5d8e71f45d97ba4f7cd38ebd9415b5dfe0b648b44fba690b85ac5dd737ef3"
+}

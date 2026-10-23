@@ -1,0 +1,30 @@
+{
+  "function": "c2_set_default_precision",
+  "pc": 1448441711,
+  "signal": "Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1092824)).\n\tUsing the running image of child process 1092824.\nProgram stopped at 0x5655776e.\nIt stopped with signal SIGTRAP, Trace/breakpoint trap.\n",
+  "backtrace": "#0  c2_set_default_precision () at src/stubs.c:8\n#1  0x5655790f in c2_crt_startup () at src/startup.c:32\n#2  0x56557b34 in main (argc=2, argv=0xffffd9b4) at scripts/native-host.c:52\n",
+  "trace": [
+    "_c2_crt_startup",
+    "_c2_set_argv"
+  ],
+  "globals": {
+    "0x499708": 4294967295,
+    "0x4996d4": 4294967295,
+    "0x49975c": 32768,
+    "0x4980d4": 0,
+    "0x499718": 0,
+    "0x499694": 1,
+    "0x4980d0": 0,
+    "0x4980cc": 0,
+    "0x7803fa88": 32768,
+    "0x7803fa94": 0,
+    "0x7803f928": 0,
+    "0x7803fa90": 1,
+    "0x7803f198": 0,
+    "0x7803fde8": 0
+  },
+  "arguments": [
+    "/?"
+  ],
+  "MSC_CMD_FLAGS": null
+}

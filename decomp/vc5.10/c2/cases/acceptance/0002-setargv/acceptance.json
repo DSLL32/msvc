@@ -1,0 +1,38 @@
+{
+  "function": "_c2_set_argv",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/setargv-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/setargv-original/graph-audit.json",
+    "matched": "_c2_set_default_precision",
+    "original": "0x452891",
+    "native": "c2_set_default_precision",
+    "argument_state": "pre-main-no-arguments",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_set_default_precision",
+      "symbol_start": "0x2740",
+      "symbol_size": 73,
+      "static_pc": "0x276f",
+      "int3_sites": [
+        "0x276e"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv"
+    ],
+    "candidates": [
+      "_c2_set_argv"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/setargv-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/setargv-native",
+  "base_configuration_sha256": "b33a006d35e8629a51e35f26decc4cbbe798e86575f00d7ccc7d651dcc1c40a4",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

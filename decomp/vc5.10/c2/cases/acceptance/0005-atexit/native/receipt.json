@@ -1,0 +1,70 @@
+{
+  "kind": "native-linux-gdb",
+  "command": [
+    "/usr/bin/gdb",
+    "-nx",
+    "-batch",
+    "-ex",
+    "set pagination off",
+    "-ex",
+    "set confirm off",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-native-2/gdb-prefix.py",
+    "-ex",
+    "run /? > /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-native-2/stdout.bin 2> /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-native-2/stderr.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-native-2/gdb-state.py",
+    "/root/msvc2/decomp/vc5.10/c2/build/native/c2"
+  ],
+  "candidates": [
+    "_c2_register_exit"
+  ],
+  "base_configuration_sha256": "3ab8aa87b0e38e7c7f2115fd300eb6d5ee7fd285ac467f50f1d1912b9b8abed6",
+  "configuration_sha256": "d06aee2216a80dd6cd6ae6cb7204bf0e24a63fa5294e46d8f6f4daff0bc91293",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "native_sha256": "685f589f604c77f1b700424fdf4e8a97882c6026f210193bb4124f9936fc2996",
+  "rebuilt_sha256": "8df5d8e71f45d97ba4f7cd38ebd9415b5dfe0b648b44fba690b85ac5dd737ef3",
+  "audit_inputs": {
+    "runtime.json": "1162d40f42e22d7c70d0823f6ce8b43a775221b56857c7561e5ad8081a21fc94",
+    "build/runtime.json": "bc8a4342deba9dd960d7e96deef9aa784b61ce6fa4f9ab5eff31e4ef8e89d281",
+    "build/c2.map": "b410c4d3eeebf5c69fd1a3a68e634d7e10bc6dee7077a3f9c6ba308824ad830a",
+    "build/graph-metadata.json": "826fcbb01168c1d35e86261aff6928c6cc4ebe19838ac14e54f27849d8bacc94",
+    "graph-audit": "30fc576ce5e055a36e806f4079862d08bcaa7a734eae4f93e28a30b2c0c4d269"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "6d181cab89a4c48ba246f0f284559cc64d9a711a785e934a5471b511aea8ab32",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "0622fd0de875e18a330f23843c83386beee47d0f3629994170c5eb925c41c15b",
+    "src/main.c": "29259d2b3aff8144aa41bf930be324b68d1bfbcceea130ce9c6bc70e483372f4",
+    "src/precision.c": "c3f4cd1069e31c3e1d290fd242543e2ccd8a8c31d0408d03f040a44d576b0e6f",
+    "src/startup.c": "c8ee152c9cc1f74d9c87c78641aa41200644da73c9f57baa86f696b00abc2019",
+    "src/stubs.c": "32cd4d0e569a2b8d3320dfcf8bd09fc2a830642a3d38372acebda7c04c7b7e91"
+  },
+  "state_sha256": "53de3b31c61133336ec42d25fe2a16fc5c4a30e631184c084c52284956b5655f",
+  "provenance_sha256": "158bcd42aa18c74365e965b3a3526e6668e3a81542dbdb59fed8d9707a0a60bb",
+  "gdb_inputs": {
+    "gdb-prefix.py": "e99ae224ebaf9387aaa82708c1de85caa7e3bdaa072b703ba6582454d32e3741",
+    "gdb-state.py": "311b2db422ef885dacc418b880225a31db4d87054b5e2968b9d8a4e747d01258"
+  },
+  "gdb_outputs": {
+    "gdb.stdout": "9345af5e4b9d8f3db9861a30475720224cd15639d368482553998695ce776458",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-maps.txt": "84cd50c85c3a3a30fc18746a456acefcd1ce533d78d99aa62996cab4687cd998"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "helper_status": 0,
+  "seconds": {
+    "execution": 0.1497862534597516,
+    "total": 0.21874423511326313
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

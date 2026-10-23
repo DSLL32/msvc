@@ -1,0 +1,39 @@
+{
+  "function": "_c2_set_default_precision",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/precision-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/precision-original/graph-audit.json",
+    "matched": "_c2_main",
+    "original": "0x4528b0",
+    "native": "c2_main",
+    "argument_state": "main-arguments-and-initial-state",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_main",
+      "symbol_start": "0x27b0",
+      "symbol_size": 96,
+      "static_pc": "0x27e8",
+      "int3_sites": [
+        "0x27e7"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision"
+    ],
+    "candidates": [
+      "_c2_set_default_precision"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/precision-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/precision-native",
+  "base_configuration_sha256": "136efde8b418d59360fa5dd81d3339b83f83314ada66b64b2988fcfce6a85b27",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

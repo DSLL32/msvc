@@ -1,0 +1,41 @@
+{
+  "function": "_c2_register_exit",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-original-2/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-original-2/graph-audit.json",
+    "matched": "_c2_register_onexit",
+    "original": "0x452a06",
+    "native": "c2_register_onexit",
+    "argument_state": "exit-callback",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_register_onexit",
+      "symbol_start": "0x2ea0",
+      "symbol_size": 111,
+      "static_pc": "0x2ed2",
+      "int3_sites": [
+        "0x2ed1"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit"
+    ],
+    "candidates": [
+      "_c2_register_exit"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-original-2",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/atexit-native-2",
+  "base_configuration_sha256": "3ab8aa87b0e38e7c7f2115fd300eb6d5ee7fd285ac467f50f1d1912b9b8abed6",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

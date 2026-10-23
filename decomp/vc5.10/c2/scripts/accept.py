@@ -39,6 +39,8 @@ def main():
     native_files=['base_configuration.json','configuration.json','receipt.json','state.json','stdout.bin','stderr.bin','gdb.stdout','gdb.stderr','gdb-prefix.py','gdb-state.py','native-maps.txt','compiled-inputs.json']
     for side,source,files in [('original',a.original,original_files),('native',a.native,native_files)]:
         destination=a.proof/side;destination.mkdir()
+        if side=='original':
+            files += [name for name in ('main-argv.bin','main-environment.bin','command-argv.bin')if(source/name).exists()]
         for name in files:shutil.copyfile(source/name,destination/name)
     def archive_inputs(directory,manifest,destination):
         with destination.open('wb')as raw,gzip.GzipFile(filename='',fileobj=raw,mode='wb',mtime=0)as compressed,tarfile.open(fileobj=compressed,mode='w')as archive:

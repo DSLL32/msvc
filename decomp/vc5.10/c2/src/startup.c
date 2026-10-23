@@ -42,3 +42,13 @@ void c2_crt_startup(void)
         _exit(fault_code);
     }
 }
+
+/* The static argument hook is a one-byte RET in this target. */
+void c2_set_argv(void)
+{
+}
+
+int c2_register_exit(C2Initializer callback)
+{
+    return c2_register_onexit(callback) ? 0 : -1;
+}

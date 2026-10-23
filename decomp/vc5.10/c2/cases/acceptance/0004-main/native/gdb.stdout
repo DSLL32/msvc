@@ -1,0 +1,18 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-SOURCE-ENTRY _c2_crt_startup 0x56557ef9
+C2-SOURCE-ENTRY _c2_set_argv 0x56558087
+C2-SOURCE-ENTRY _c2_set_default_precision 0x565580d7
+C2-SOURCE-ENTRY _c2_main 0x56558150
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565577e2 in c2_register_exit (callback=0x56557d90 <c2_cleanup>) at src/stubs.c:13
+13	    __asm { int 3 }
+eip            0x565577e2          0x565577e2 <c2_register_exit+50>
+c2_register_exit + 50 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x565577e1 <c2_register_exit+49>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1103218)).
+	Using the running image of child process 1103218.
+Program stopped at 0x565577e1.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.
+C2-CALLBACK 0x56557d90

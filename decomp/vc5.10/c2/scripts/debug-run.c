@@ -91,6 +91,31 @@ static void observe(CONTEXT *context, DWORD address)
     if (read_memory(context->Eax,&value,4)) fprintf(events,"eax-word %08lx %08lx\n",context->Eax,value);
     for (i=0;i<sizeof(globals)/sizeof(globals[0]);++i)
         if (read_memory(globals[i],&value,4)) fprintf(events,"global %08lx %08lx\n",globals[i],value);
+    fprintf(events,"x87-control %08lx\n", context->FloatSave.ControlWord);
+    if (address == 0x452a22 || address == 0x452acb) {
+        DWORD argc, argv;
+        if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
+        fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);
+        save_vector(argv,"command-argv.bin");
+    }
+    if (address == 0x452a18) {
+        if (!read_memory(context->Esp,&value,4)) ExitProcess(150);
+        fprintf(events,"onexit-input callback=%08lx\n",value);
+    }
+    if (address == 0x452a1e)
+        fprintf(events,"onexit-output result=%08lx\n",context->Eax);
+    if ((address == 0x4529f1 || address == 0x452a06)) {
+        if (!read_memory(context->Esp+4,&value,4)) ExitProcess(149);
+        fprintf(events,"exit-callback %08lx\n",value);
+    }
+    if (address == 0x4528b0) {
+        if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(147);
+        fprintf(events,"main-input argc=%lu argv=%08lx environment=%08lx\n",stack[1],stack[2],stack[3]);
+        save_vector(stack[2],"main-argv.bin");
+        save_vector(stack[3],"main-environment.bin");
+        if (!read_memory(0x7803fde8,&value,4)) ExitProcess(148);
+        fprintf(events,"main-initenv-alias %lu\n",value==stack[3]);
+    }
     if (address == 0x48b79f) {
         DWORD wrote;
         BYTE trap = 0xcc;
@@ -191,7 +216,7 @@ int main(int argc, char **argv)
             } else {
                 for (i=0; i<count && ids[i]!=event.dwThreadId; ++i) {}
                 if (i == count) return 130;
-                memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+                memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
                 if (!GetThreadContext(handles[i], &context)) return 131;
                 for (i=0; i<entries && entry[i]!=address; ++i) {}
                 if (code == EXCEPTION_BREAKPOINT && i < entries) {

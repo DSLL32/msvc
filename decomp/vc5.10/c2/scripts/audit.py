@@ -14,7 +14,7 @@ def run(config, report):
           '--original',str(TARGET),'--rebuilt',str(BINARY/'build/c2.exe'),
           '--map',str(BINARY/'build/c2.map'),'--config',str(config),
           '--runtime',str(BINARY/'runtime.json'),'--rebuilt-runtime',str(BINARY/'build/runtime.json'),
-          '--metadata',str(BINARY/'build/graph-metadata.json'),'--discovery','cfg','--check-ret','--check-ownership','--check-extents','--report',str(report)]
+          '--metadata',str(BINARY/'build/graph-metadata.json'),'--discovery','cfg','--check-ret','--check-imports','--check-ownership','--check-extents','--report',str(report)]
     begin=time.monotonic();result=subprocess.run(args,capture_output=True,timeout=30)
     assert result.returncode==0,result.stderr.decode(errors='replace')
     provenance=json.loads((BINARY/'build/original/input-provenance.json').read_text())

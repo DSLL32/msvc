@@ -52,6 +52,27 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
+    if records[0].get('state_policy')in ('command-line-state','environment-flags'):
+        ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
+        while int(ptr[i]):
+            values.append(ptr[i].string());i+=1
+            assert i<4096
+        info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
+        if records[0]['state_policy']=='environment-flags':
+            info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
+    if records[0].get('state_policy')=='exit-callback':
+        info['callback']=int(gdb.parse_and_eval('callback'))
+        gdb.write('C2-CALLBACK 0x%%x\\n'%%info['callback'])
+    if records[0].get('state_policy')=='main-arguments-and-initial-state':
+        def vector(expression):
+            pointer=gdb.parse_and_eval(expression);result=[];i=0
+            while int(pointer[i]):
+                result.append(pointer[i].string());i+=1
+                assert i<4096
+            return result
+        info['main']={'argc':int(gdb.parse_and_eval('argc')),'argv':vector('argv'),'environment':vector('environment'),
+                      'initenv_alias':int(gdb.parse_and_eval('recon_crt_initenv == environment')),
+                      'x87_control':int(gdb.parse_and_eval('$fctrl'))}
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
     (output/'gdb-state.py').write_text(program)

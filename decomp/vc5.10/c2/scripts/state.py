@@ -2,6 +2,7 @@
 import hashlib
 import importlib.util
 import json
+import struct
 from pathlib import Path
 
 BINARY = Path(__file__).resolve().parents[1]
@@ -37,6 +38,11 @@ def validate(config, original, inventory):
     assert config['case']['environment'] == {'MSC_CMD_FLAGS':None}
     seen=[]
     for record in config['driver']+config['support']+config['text_data']:
+        if record.get('kind')=='import':
+            assert record['end']-record['start']==6
+            p=offset(inventory,record['start'],6)
+            assert original[p:p+6]==b'\xff\x25'+struct.pack('<I',record['iat']),'import support is not the declared exact IAT jump'
+            assert record.get('abi')and record.get('dll')and record.get('symbol')
         assert record.get('evidence'), 'range lacks explicit evidence: '+record['name']
         assert ranges(record), 'empty range ownership'
         for start,end in ranges(record):
