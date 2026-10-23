@@ -609,6 +609,26 @@ static int observe_support(HANDLE process,HANDLE log,DWORD base,const char *boun
         shape&65535,shape>>16,global,debug,errors);
     return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
 }
+static int observe_support_result(HANDLE process,HANDLE log,DWORD result)
+{
+    DWORD type, symbol, first[2], second[2], third[2], got, written;
+    unsigned short head;
+    char line[512];
+    if(support_unit==4) {
+        if(!result || !ReadProcessMemory(process,(void *)result,&head,2,&got)||got!=2||
+           !ReadProcessMemory(process,(void *)(result+4),&type,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)(result+12),&symbol,4,&got)||got!=4)return 0;
+        sprintf(line,"support-result leaf %08lx %u %u %08lx %08lx\n",result,head&255,head>>8,type,symbol);
+    } else if(support_unit==5||support_unit==6) {
+        if(!result||!ReadProcessMemory(process,(void *)result,first,8,&got)||got!=8)return 0;
+        second[0]=second[1]=third[0]=third[1]=0;
+        if(first[1]&&(!ReadProcessMemory(process,(void *)first[1],second,8,&got)||got!=8))return 0;
+        if(second[1]&&(!ReadProcessMemory(process,(void *)second[1],third,8,&got)||got!=8))return 0;
+        sprintf(line,"support-result type %08lx %04x %04x %08lx %04x %04x %08lx %04x %04x %08lx\n",result,
+            first[0]&65535,first[0]>>16,first[1],second[0]&65535,second[0]>>16,second[1],third[0]&65535,third[0]>>16,third[1]);
+    } else return 1;
+    return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
+}
 static DWORD direct_marker_rva, direct_target_rva, direct_arguments[2];
 static unsigned direct_count;
 static int direct_active;
@@ -668,10 +688,22 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         }
         if(support_unit>=0) {
             DWORD name;
-            support_symbol=parsed_global_symbol(process,base,support_unit==1?"object_base":"base_pointer");
+            DWORD type,depth;
+            const char *owner=support_unit==5?"support_callback":
+                (support_unit==1||support_unit==3||support_unit==4||support_unit==6)?"object_base":"base_pointer";
+            support_symbol=parsed_global_symbol(process,base,owner);
             if(!support_symbol || !ReadProcessMemory(process,(void *)(support_symbol+8),&name,4,&got)||got!=4 ||
+               !ReadProcessMemory(process,(void *)(support_symbol+12),&type,4,&got)||got!=4 ||
                !observe_support(process,log,base,"before"))return -1;
             if(support_unit<2)direct_arguments[1]=name;
+            else if(support_unit==3)direct_arguments[0]=support_symbol;
+            else if(support_unit==4)direct_arguments[1]=support_symbol;
+            else if(support_unit==5||support_unit==6)direct_arguments[0]=type;
+            else if(support_unit==7){direct_arguments[0]=name;direct_arguments[1]=name+5;}
+            if(support_unit>=3) {
+                if(!ReadProcessMemory(process,(void *)(base+0x4ff18),&depth,4,&got)||got!=4)return -1;
+                sprintf(line,"support-type-depth before %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
+            }
         }
         for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
         words[0]=site;
@@ -708,6 +740,12 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         if(template_observer.failed)return -1;
     }
     if(support_unit>=0 && !observe_support(process,log,base,"after"))return -1;
+    if(support_unit>=3) {
+        DWORD depth;
+        if(!observe_support_result(process,log,current.Eax)||
+           !ReadProcessMemory(process,(void *)(base+0x4ff18),&depth,4,&got)||got!=4)return -1;
+        sprintf(line,"support-type-depth after %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
+    }
     dump_asm_operand(process,log,base,"direct-return");
     if (buffers) dump_stream_buffers(process,log,base,buffers);
     TerminateProcess(process,99);
@@ -760,9 +798,14 @@ int main(int argc, char **argv)
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
         support_unit=atoi(flag_option);
-        if(support_unit<0||support_unit>2||direct_marker_rva!=0x262c0||
-           direct_target_rva!=(support_unit==0?0x15ed0:support_unit==1?0x15f90:0x16030)||
-           direct_count!=(support_unit<2?2:1)||direct_arguments[0]!=0x800)return 2;
+        {
+            static const DWORD targets[8]={0x15ed0,0x15f90,0x16030,0x2b2f0,0x2f3b0,0x302b0,0x236f0,0x25a30};
+            static const unsigned counts[8]={2,2,1,1,2,1,2,2};
+            if(support_unit<0||support_unit>7||direct_marker_rva!=0x262c0||
+               direct_target_rva!=targets[support_unit]||direct_count!=counts[support_unit]||
+               direct_arguments[0]!=(support_unit<3?0x800:support_unit==4?2:0)||
+               (support_unit==6&&direct_arguments[1]!=7))return 2;
+        }
     }
     flag_option=getenv("C1_TEMPLATE_UNIT");
     if(flag_option) {

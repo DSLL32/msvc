@@ -1,0 +1,13 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, finish_declarations () at src/declarations.c:674
+674	{
+
+Breakpoint -6, make_symbol_ir_leaf (kind=2 '\002', symbol=0x57660630) at src/parser.c:1991
+1991	{
+
+Breakpoint -1, finish_declarations () at src/declarations.c:674
+674	{
+[Inferior 1 (process 1960885) killed]

@@ -11,16 +11,16 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 913 accepted source functions and 1046 accepted original entries.
-Of these,902 are application functions; ten historical runtime.c bodies and
+There are 918 accepted source functions and 1051 accepted original entries.
+Of these,907 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 246332/277234 code-section bytes (88.853460%):
-223594 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 246705/277234 code-section bytes (88.988003%):
+223967 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Of this union,244870bytes have public-case evidence and
-1462 bytes have separate direct-test evidence for assembler support, expression
-templates, database object methods and legacy segment declarations; no public
-trigger is established for those nine functions. Unvisited
+1835 bytes have separate direct-test evidence for assembler support, expression
+templates, database object methods and legacy segment/type helpers; no public
+trigger is established for those fourteen functions. Unvisited
 functions retain named trapping stubs.
 
 Native build and checks
@@ -46,8 +46,8 @@ shared-prefix original first-entry captures. All 893 publicly reached accepted a
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current56 public plus30 direct regression receipts are in
-cases/legacy-type-support/validation.json.
+current56 public plus35 direct regression receipts are in
+cases/legacy-type-support/type-validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -541,3 +541,12 @@ The shipped keyword table still provides no identified producer for these
 legacy segment grammar actions. Direct support is not public reachability.
 See cases/legacy-type-support/manifest.json and validation.json. No CRT code
 was reconstructed or changed.
+
+The same direct workflow also covers initializer address sizing, a typed
+symbol-leaf constructor, function-designator decay, type-attribute removal and
+strict suffix matching (five functions/373 bytes). Method inputs are actual
+parsed object/function types, symbol pointers and interned name/substrings.
+Only initialized returned-node fields and their actual owner links are read;
+the temporary description depth returns to its real prior value. Eight direct
+support functions total739 bytes. Segment-stage validation.json remains pinned;
+the later checkpoint is type-validation.json. Public reachability is not claimed.

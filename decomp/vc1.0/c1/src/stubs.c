@@ -630,7 +630,6 @@ unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 
 
 /* Original 0x402b0. */
-CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 0; }
 /* Original 0x2bb90. */
 /* Original 0x2b8f0. */
 
@@ -655,7 +654,6 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 
 
 
-unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
@@ -688,7 +686,6 @@ FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation) { __
 /* Original 0x40c70. */
 
 /* Original 0x336f0. */
-CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes) { __asm { int 3 } }
 /* Original 0x414e0. */
 
 /* Original 0x413d0. */
@@ -859,12 +856,10 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 /* Original0x44e40. */
 
 /* Original0x35a30: unvisited _TEXT suffix classification. */
-int __stdcall name_has_text_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
 
 /* Original 0x26340. Compare normalized base expressions. */
 
 /* Original 0x3f3b0. Symbol-typed value-bearing leaf wrapper. */
-IrToken *__stdcall make_symbol_ir_leaf(unsigned char kind, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Original 0x26180. Self-based conversion source validation. */
 void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }

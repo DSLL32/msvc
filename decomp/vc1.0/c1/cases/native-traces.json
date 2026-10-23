@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "1b8dcc9d36221c841ba59dc3b27ade89b0b67bf03b37ddf8beb11c391f5e23af",
+    "functions.json": "7bee0ca60ab47268878f9d3302c1283b5ab66ac38df868ad81b57e25950a5a9a",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "6e8a3231d0ead7d0b298e228dc3b1843294de7d876b05f4f4071888a139f79b7"
+    "sha256": "60e5c857b784ae4a41bd9877d346f0784fea8f705f5d56df0a16824dd66103c8"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -619,7 +619,7 @@
     },
     "clear_type_attributes": {
       "logical": "_clear_type_attributes@8",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "close_intermediate": {
       "logical": "_close_intermediate",
@@ -1555,7 +1555,7 @@
     },
     "function_designator_type": {
       "logical": "_function_designator_type@4",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "function_result_type": {
       "logical": "_function_result_type@4",
@@ -1723,7 +1723,7 @@
     },
     "initializer_address_size": {
       "logical": "_initializer_address_size@4",
-      "source": "src/stubs.c"
+      "source": "src/initializer-records.c"
     },
     "initializer_array_count": {
       "logical": "_initializer_array_count",
@@ -2027,7 +2027,7 @@
     },
     "make_symbol_ir_leaf": {
       "logical": "_make_symbol_ir_leaf@8",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "make_symbol_reference": {
       "logical": "_make_symbol_reference@4",
@@ -2263,7 +2263,7 @@
     },
     "name_has_text_suffix": {
       "logical": "_name_has_text_suffix@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "new_bitset": {
       "logical": "_new_bitset@4",
@@ -4616,7 +4616,12 @@
     "warn_ignored_storage_model",
     "based_string_modifier",
     "based_symbol_modifier",
-    "based_type_modifier"
+    "based_type_modifier",
+    "initializer_address_size",
+    "make_symbol_ir_leaf",
+    "function_designator_type",
+    "clear_type_attributes",
+    "name_has_text_suffix"
   ],
   "excluded_accepted": {
     "CRT": [

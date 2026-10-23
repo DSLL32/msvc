@@ -13,7 +13,7 @@ ROOT=BINARY.parents[2]
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',choices=['report_asm_expected_token','asm_recovery_value'])
-    parser.add_argument('--support-unit',type=int,choices=range(3))
+    parser.add_argument('--support-unit',type=int,choices=range(8))
     parser.add_argument('--seen-count',type=int,help='Explicit accepted-prefix seed for support entry tracing')
     parser.add_argument('--arguments',nargs='+',type=lambda v:int(v,0))
     parser.add_argument('--directory',required=True,type=Path)
@@ -27,7 +27,7 @@ def main():
     if support:
         plan=manifest['direct_plan'][options.support_unit]
         options.function=plan['function'][1:].split('@')[0]
-        options.arguments=[plan['kind'],0]if options.support_unit<2 else[plan['kind']]
+        options.arguments=plan['request_arguments']if'request_arguments'in plan else([plan['kind'],0]if options.support_unit<2 else[plan['kind']])
     work,paths=native_work(directory,phase['canonical_working_directory'])
     for item in phase['inputs']:
         data=(case/item['path']).read_bytes();assert hashlib.sha256(data).hexdigest()==item['sha256'];(work/Path(item['path']).name).write_bytes(data)
@@ -36,7 +36,7 @@ def main():
     env=dict(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=windows(ROOT/phase['target']),MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(bin=windows(ROOT/'toolchains/1.0-nt/bin'),include=windows(ROOT/'toolchains/1.0-nt/include')));env.update(paths)
     assert phase.get('stdio',{}).get('stderr_to_stdout'), 'This direct workflow requires the captured CL stream alias'
     (directory/'stderr').write_bytes(b'')
-    config=json.loads((BINARY/'functions.json').read_text());formals=(['kind','name']if options.support_unit<2 else['kind'])if support else(['actual','expected']if options.function=='report_asm_expected_token'else['token'])
+    config=json.loads((BINARY/'functions.json').read_text());formals=plan.get('formals',(['kind','name']if options.support_unit<2 else['kind']))if support else(['actual','expected']if options.function=='report_asm_expected_token'else['token'])
     assert len(formals)==len(options.arguments) and all(0<=v<=0xffffffff for v in options.arguments)
     settings=dict(directory=str(directory),function=options.function,arguments=options.arguments,formals=formals,body=options.body,buffered_streams=[r['name'][1:]for r in config['buffered_streams']])
     trace=None;run_options={}

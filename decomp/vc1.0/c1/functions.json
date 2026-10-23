@@ -1050,7 +1050,12 @@
     "_warn_ignored_storage_model@4",
     "_based_string_modifier@8",
     "_based_symbol_modifier@8",
-    "_based_type_modifier@4"
+    "_based_type_modifier@4",
+    "_initializer_address_size@4",
+    "_make_symbol_ir_leaf@8",
+    "_function_designator_type@4",
+    "_clear_type_attributes@8",
+    "_name_has_text_suffix@8"
   ],
   "driver": [
     {
@@ -4140,7 +4145,8 @@
     {
       "name": "_function_designator_type@4",
       "start": 262832,
-      "end": 262833
+      "end": 262871,
+      "abi_contract": "Accepted direct external support only: actual parsed symbol/name/type owner, whole body and stdcallRET4 verified; defined result and constructors bound in legacy-type-support. No public reachability claim."
     },
     {
       "name": "_push_call_context@4",
@@ -4308,7 +4314,8 @@
     {
       "name": "_initializer_address_size@4",
       "start": 242416,
-      "end": 242417
+      "end": 242584,
+      "abi_contract": "Accepted direct external support only: actual parsed symbol/name/type owner, whole body and stdcallRET4 verified; defined result and constructors bound in legacy-type-support. No public reachability claim."
     },
     {
       "name": "_extended_to_double",
@@ -4503,7 +4510,8 @@
     {
       "name": "_clear_type_attributes@8",
       "start": 210672,
-      "end": 210673
+      "end": 210709,
+      "abi_contract": "Accepted direct external support only: actual parsed symbol/name/type owner, whole body and stdcallRET8 verified; defined result and constructors bound in legacy-type-support. No public reachability claim."
     },
     {
       "name": "_convert_cast_expression@8",
@@ -6061,7 +6069,8 @@
     {
       "name": "_name_has_text_suffix@8",
       "start": 219696,
-      "end": 219697
+      "end": 219803,
+      "abi_contract": "Accepted direct external support only: actual parsed symbol/name/type owner, whole body and stdcallRET8 verified; defined result and constructors bound in legacy-type-support. No public reachability claim."
     },
     {
       "name": "_format_local_static_name@8",
@@ -6086,7 +6095,8 @@
     {
       "name": "_make_symbol_ir_leaf@8",
       "start": 258992,
-      "end": 258993
+      "end": 259014,
+      "abi_contract": "Accepted direct external support only: actual parsed symbol/name/type owner, whole body and stdcallRET8 verified; defined result and constructors bound in legacy-type-support. No public reachability claim."
     },
     {
       "name": "_validate_self_based_source@4",
@@ -6603,9 +6613,9 @@
     },
     "legacy-type-support": {
       "accepted_from": 1043,
-      "accepted_count": 1046,
+      "accepted_count": 1051,
       "public_reachability": false,
-      "units": 3,
+      "units": 8,
       "manifest": "cases/legacy-type-support/manifest.json"
     }
   }

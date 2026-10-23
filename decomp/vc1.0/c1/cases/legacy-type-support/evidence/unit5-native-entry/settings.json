@@ -1,0 +1,24 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-support-unit5-native-entry",
+  "function": "function_designator_type",
+  "arguments": [
+    0
+  ],
+  "formals": [
+    "type"
+  ],
+  "body": false,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ],
+  "kind": "legacy-support",
+  "marker": "finish_declarations",
+  "owner_name": "support_callback",
+  "unit": 5
+}

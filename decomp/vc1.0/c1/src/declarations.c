@@ -2542,3 +2542,21 @@ void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol)
 {
     compiler_warning(1, 40, symbol->name);
 }
+
+/* Original 0x35a30..0x35a9b. Segment-name suffix recognition requires
+   a strict suffix; a string equal to the entire name is not a match.
+   The original compiler inlined both length scans and the comparison. */
+int __stdcall name_has_text_suffix(char *name, char *suffix)
+{
+    int name_length = 0, suffix_length = 0;
+    char *end;
+    while (name[name_length]) ++name_length;
+    while (suffix[suffix_length]) ++suffix_length;
+    if (suffix_length >= name_length) return 0;
+    end = name + name_length - suffix_length;
+    while (*end && *end == *suffix) {
+        ++end;
+        ++suffix;
+    }
+    return *end == *suffix;
+}

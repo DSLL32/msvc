@@ -1985,3 +1985,9 @@ unsigned short __stdcall based_type_modifier(unsigned short kind)
     }
     return 8;
 }
+
+/* Original 0x3f3b0..0x3f3c6. */
+IrToken *__stdcall make_symbol_ir_leaf(unsigned char kind, FrontendSymbol *symbol)
+{
+    return make_ir_leaf(kind,symbol,symbol->type);
+}

@@ -1,4 +1,4 @@
-"""Three direct legacy segment handlers in real parsed declaration context."""
+"""Direct legacy type and segment helpers in real parsed declaration context."""
 import json
 from pathlib import Path
 import re
@@ -12,6 +12,42 @@ def original_state(text,boundary,names):
     result={name:int(word,10 if name in DECIMAL else 16)for name,word in zip(FIELDS,words)}
     result['buffers']={names[int(i)]:None if n=='unopened'else h for i,n,h in re.findall(r'^buffer (\d+) (unopened|\d+)(?: ([0-9a-f]*))?$',text,re.M)}
     return result
+
+def arguments(plan,state):
+    unit=plan['unit']
+    if unit<3:return [plan['kind'],state['name_address']]if unit<2 else[plan['kind']]
+    return {3:[state['owner']],4:[2,state['owner']],5:[state['type']],6:[state['type'],7],7:[state['name_address'],state['name_address']+5]}[unit]
+
+def result_contract(text,state,before,plan,eax):
+    unit=plan['unit'];native_eax=state['after']['registers']['eax']
+    if unit<3:
+        expected=(7,6,8)[unit];assert eax&0xffff==native_eax&0xffff==expected
+        return dict(eax_mask=65535,value=expected)
+    depth=[int(v)for v in re.findall(r'^support-type-depth (?:before|after) (\d+)$',text,re.M)]
+    assert len(depth)==2 and depth[0]==depth[1]==state['before']['type_description_depth']==state['after']['type_description_depth'],'temporary type-description depth differs'
+    if unit in(3,7):
+        expected=4 if unit==3 else 1;assert eax==native_eax==expected
+        return dict(eax_mask=0xffffffff,value=expected)
+    result=state['result'];assert result['address']==native_eax and eax
+    if unit==4:
+        m=re.search(r'^support-result leaf (\w+) (\d+) (\d+) (\w+) (\w+)$',text,re.M);assert m
+        assert int(m[1],16)==eax and int(m[2])==result['kind']==2 and int(m[3])==result['flags']==4
+        assert int(m[4],16)==before['type'] and int(m[5],16)==before['owner']
+        assert result['type']==state['before']['type']and result['symbol']==state['before']['owner']
+        return dict(eax_mask=0xffffffff,owner='constructed leaf',kind=2,flags=4,type='parsed owner type',value='parsed symbol')
+    m=re.search(r'^support-result type (.+)$',text,re.M);assert m;words=[int(v,16)for v in m[1].split()];assert len(words)==10 and words[0]==eax
+    assert words[1:3]==[result['flags'],result['attributes']]
+    if unit==5:
+        assert eax!=before['type']and native_eax!=state['before']['type']and words[3]
+        assert len(result['shapes'])==2 and result['related']==result['shapes'][0]['address']
+        assert [words[4],words[5],words[7],words[8]]==[result['shapes'][0]['flags'],result['shapes'][0]['attributes'],result['shapes'][1]['flags'],result['shapes'][1]['attributes']]
+        assert words[6]==before['related']and words[9]==0
+        assert result['shapes'][0]['related']==result['shapes'][1]['address']==state['before']['related']and result['shapes'][1]['related']==0
+        return dict(eax_mask=0xffffffff,owner='constructed function pointer type',flags=words[1],attributes=words[2],shape_flags=words[4],shape_attributes=words[5],inner_shape='parsed function shape')
+    assert unit==6 and eax==before['type']and native_eax==state['before']['type']
+    assert words[1:3]==[before['type_flags'],before['type_attributes']]and words[3:]==[0]*7
+    assert not result['related']and not result['shapes']
+    return dict(eax_mask=0xffffffff,owner='existing interned parsed type',cleared_mask=7)
 
 def validate(original,native,plan,config):
     original=Path(original);native=Path(native)
@@ -30,9 +66,9 @@ def validate(original,native,plan,config):
     target=next(r for r in config['driver']if r['name']==plan['function'])
     start=re.search(r'^direct-start target ([0-9a-f]+) marker ([0-9a-f]+) stack ([0-9a-f]+) count (\d+) args ([0-9a-f]+) ([0-9a-f]+)$',text,re.M)
     assert start and int(start[1],16)==target['start'] and int(start[4])==plan['arguments']
-    args=[plan['kind'],before['name_address']]if plan['unit']<2 else[plan['kind']]
+    args=arguments(plan,before)
     assert [int(x,16)for x in start.groups()[4:4+len(args)]]==args
-    native_args=[plan['kind'],state['before']['name_address']]if plan['unit']<2 else[plan['kind']]
+    native_args=arguments(plan,state['before'])
     assert state['arguments']==state['formals']==native_args
     if not returned:
         exception=re.search(r'^exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+)',text[split:],re.M)
@@ -57,11 +93,10 @@ def validate(original,native,plan,config):
     assert state['canary']=='a5'*16
     for r in ('ebx','esi','edi','ebp','fctrl'):
         assert state['after']['registers'][r]==state['before']['registers'][r],('native nonvolatile differs',r)
-    expected=(7,6,8)[plan['unit']]
-    assert int(ret[1],16)&0xffff==state['after']['registers']['eax']&0xffff==expected
+    defined=result_contract(text,state,before,plan,int(ret[1],16))
     for name in ('stdout','stderr'):
         assert (original/name).read_bytes()==(native/name).read_bytes()
     receipt=json.loads((native/'receipt.json').read_text())
     work=Path(receipt['environment']['RECON_DRIVE_S'])/'vc1.0/c1/legacy-type-support'
     assert {p.name:p.read_bytes()for p in (original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete owned files differ'
-    return dict(status='pass',kind='direct body/ABI/state',public_reachability=False,defined_result=dict(eax_mask=65535,value=expected),original_before=before,original_after=after)
+    return dict(status='pass',kind='direct body/ABI/state',public_reachability=False,defined_result=defined,original_before=before,original_after=after)

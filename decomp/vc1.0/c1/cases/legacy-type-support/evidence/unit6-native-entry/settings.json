@@ -1,0 +1,26 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-support-unit6-native-entry",
+  "function": "clear_type_attributes",
+  "arguments": [
+    0,
+    7
+  ],
+  "formals": [
+    "type",
+    "attributes"
+  ],
+  "body": false,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ],
+  "kind": "legacy-support",
+  "marker": "finish_declarations",
+  "owner_name": "object_base",
+  "unit": 6
+}

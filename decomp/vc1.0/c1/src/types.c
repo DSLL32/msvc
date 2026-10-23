@@ -814,3 +814,23 @@ TypeShape *__stdcall merge_type_shape_modifiers(TypeShape *head, TypeShape *tail
     head->attributes = merge_type_attributes(head->attributes, tail->attributes);
     return head;
 }
+
+/* Original 0x402b0..0x402d7. Decay a function designator to a pointer
+   with the function's normalized calling/address attributes. */
+CType *__stdcall function_designator_type(CType *type)
+{
+    return prepend_expression_type_shape(type,11,
+        normalize_type_attributes(11,type->related->attributes & 0x0f77),0);
+}
+
+/* Original 0x336f0..0x33715. Intern a modified description without
+   changing the caller's type or retaining the temporary description frame. */
+CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes)
+{
+    TypeDescription *description = copy_type_description(type);
+    CType *result;
+    description->attributes &= ~attributes;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}

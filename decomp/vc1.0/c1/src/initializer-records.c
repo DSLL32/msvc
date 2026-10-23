@@ -370,3 +370,24 @@ void __stdcall finish_initializer_buffer(InitializerBuffer *buffer)
 {
     ((InitializerBlock *)buffer->read)->used_bytes = buffer->count;
 }
+
+/* Original 0x3b2f0..0x3b398. Initializer relocations distinguish segment,
+   code and data addresses using the symbol's declared address model. */
+unsigned __stdcall initializer_address_size(FrontendSymbol *symbol)
+{
+    unsigned kind, model;
+    if (!symbol) return 0;
+    kind = symbol->kind & 31;
+    if (kind == 6 || kind == 7) {
+        model = symbol->type->attributes & 7;
+        if (model == 1 || model == 2) return 4;
+        return code_pointer_bytes;
+    }
+    if (kind == 13) return 2;
+    model = symbol->type->attributes;
+    if (model & 4) return 4;
+    model &= 7;
+    if (model == 1) return 4;
+    if (model == 2 || model == 3) return 8;
+    return data_pointer_bytes;
+}

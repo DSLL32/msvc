@@ -60,7 +60,7 @@ def support_snapshot():
         pointer,count,base=struct.unpack('<III',memory(stream,12))
         assert 0<=pointer-base<=65536
         buffers[name]=memory(base,pointer-base).hex() if pointer>base else ''
-    return dict(registers={r:number('$'+r)for r in registers},
+    return dict(type_description_depth=number('type_description_depth'),registers={r:number('$'+r)for r in registers},
         owner=int(support_owner),name_address=int(symbol['name']),type=int(symbol['type']),
         related=int(shape),kind=int(symbol['kind']),attributes=int(symbol['attributes']),
         references=int(symbol['references']),type_flags=int(type['flags']),type_attributes=int(type['attributes']),
@@ -78,7 +78,8 @@ gdb.execute('run >'+str(output/'stdout')+' 2>&1')
 assert number('$eip')==number('(unsigned)'+marker_name)
 if settings.get('kind')=='legacy-support':
     support_owner=find_support_owner(settings['owner_name'])
-    settings['arguments']=[0x800,int(support_owner.dereference()['name'])]if settings['unit']<2 else[0x800]
+    owner=support_owner.dereference();unit=settings['unit']
+    settings['arguments']=([0x800,int(owner['name'])]if unit<2 else[0x800])if unit<3 else({3:[int(support_owner)],4:[2,int(support_owner)],5:[int(owner['type'])],6:[int(owner['type']),7],7:[int(owner['name']),int(owner['name'])+5]}[unit])
 before=snapshot()
 # GDB's ordinary inferior call allocates a separately owned scratch stack and
 # restores the stopped caller context. It never changes compiler-owned globals.
@@ -111,5 +112,16 @@ if settings['body']:
     canary=memory(stack+4+4*len(slots),16)
     assert canary==b'\xa5'*16,'direct stack canary overwritten'
     report.update(after=after,canary=canary.hex(),status='returned')
+    if settings.get('kind')=='legacy-support' and settings['unit']in(4,5,6):
+        address=after['registers']['eax'];assert address
+        if settings['unit']==4:
+            token=gdb.parse_and_eval('(IrToken *)'+str(address)).dereference()
+            report['result']=dict(address=address,kind=int(token['kind']),flags=int(token['flags']),type=int(token['type']),symbol=int(token['value']['pointer']))
+        else:
+            type=gdb.parse_and_eval('(CType *)'+str(address)).dereference();shapes=[];shape=type['related']
+            for depth in range(2):
+                if not int(shape):break
+                item=shape.dereference();shapes.append(dict(address=int(shape),flags=int(item['flags']),attributes=int(item['attributes']),related=int(item['related'])));shape=item['related']
+            report['result']=dict(address=address,flags=int(type['flags']),attributes=int(type['attributes']),related=int(type['related']),shapes=shapes)
 (output/'state.json').write_text(json.dumps(report,indent=2)+'\n')
 gdb.execute('kill')

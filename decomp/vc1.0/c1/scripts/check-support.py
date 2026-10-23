@@ -20,7 +20,8 @@ def main():
     for unit,row in enumerate(manifest['direct_oracles']):
         original=case/row['directory'];assert {str(p.relative_to(original)):hashlib.sha256(p.read_bytes()).hexdigest()for p in original.rglob('*')if p.is_file()}==row['files'],'cached support oracle changed'
         plan=manifest['direct_plan'][unit];assert plan==row['input'] and config['accepted'][row['accepted_from']:row['accepted_count']]==[plan['function']]
-        receipt=json.loads((original/'receipt.json').read_text());trace=receipt['first_entry_projection'];assert trace['observed']==trace['expected']==[plan['function']]
+        receipt=json.loads((original/'receipt.json').read_text());assert receipt['original_sha256']==config['target']['sha256']and receipt['terminal_exit']==99 and receipt['support_unit']==unit and receipt['direct_call']['function']==plan['function'];trace=receipt['first_entry_projection'];assert trace['observed']==trace['expected']==[plan['function']]
+        assert(trace['accepted_from'],trace['accepted_count'])==(row['accepted_from'],row['accepted_count'])
         assert trace['seeded_prefix_sha256']==hashlib.sha256(json.dumps(config['accepted'][:row['accepted_from']]).encode()).hexdigest()
         target=directory/str(unit);result=subprocess.run([sys.executable,str(BINARY/'scripts/direct-native.py'),'--support-unit',str(unit),'--directory',str(target),'--exe',str(args.exe.resolve()),'--body','--seen-count',str(row['accepted_from'])],cwd=BINARY,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=35)
         (directory/f'{unit}.host.log').write_bytes(result.stdout);assert result.returncode==0,result.stdout.decode('latin1')
