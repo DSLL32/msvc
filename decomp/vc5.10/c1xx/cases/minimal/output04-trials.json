@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "trial": "_initialize_output_buffer_04",
+  "trials": [
+    {
+      "seed": null,
+      "auxiliary_constructor_seed": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output04-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output04-native-1",
+      "original_receipt_sha256": "9bfbb046acd1afc4235aef40607db0771e707b984a1960199e5ac0848a48e821",
+      "native_receipt_sha256": "b9083e42d61ae2551209c4d9d44c2d832412e3554e32e244cc1eaba0dc203a80",
+      "audit": "build/audits/1868f35b2b4e99a711ae7106b1691139f0cdd71e3b555d64250a2891d422f80e.json",
+      "comparison": {
+        "trial": "_initialize_output_buffer_04",
+        "frontier": "_initialize_frontend_12",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 408,
+        "native_bss_size": 420,
+        "native_c_padding_bytes": 12,
+        "output_constructor_fields_checked": 36,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.0663439985364676,
+        "native_seconds": 0.7451113648712635
+      }
+    },
+    {
+      "seed": "restore-nonzero",
+      "auxiliary_constructor_seed": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output04-restore-nonzero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output04-restore-nonzero-aux-native-1",
+      "original_receipt_sha256": "4790ca79721c5175ec813e336d75735caf48a4a4952b3a02929e9975f608283f",
+      "native_receipt_sha256": "5629e3b58ad29b00151f730c2b88dbfb445ef747df59a9303b2190754365e75b",
+      "audit": "build/audits/b75818a55a2ae4820a4f538c9c19678e8ac6ebbb1ced96869082d732f82c3fd5.json",
+      "comparison": {
+        "trial": "_initialize_output_buffer_04",
+        "frontier": "_initialize_frontend_12",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 408,
+        "native_bss_size": 420,
+        "native_c_padding_bytes": 12,
+        "output_constructor_fields_checked": 36,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": true,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.216758326627314,
+        "native_seconds": 0.7365310564637184
+      }
+    },
+    {
+      "seed": "restore-zero",
+      "auxiliary_constructor_seed": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output04-restore-zero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output04-restore-zero-aux-native-1",
+      "original_receipt_sha256": "2dbd7d39e84c5603d910ec75faaa7f7a4927bc5fa1278256d4b13d86fc54717d",
+      "native_receipt_sha256": "94aed25b99967ca7e763c211d8d300a46df489b4849635fbfcdf4a7af688fb44",
+      "audit": "build/audits/d934f28aa20c7e0af5b7fedb96c48d37c5b13a48de733c7341347a12bc30c444.json",
+      "comparison": {
+        "trial": "_initialize_output_buffer_04",
+        "frontier": "_initialize_frontend_12",
+        "seed": "restore-zero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 408,
+        "native_bss_size": 420,
+        "native_c_padding_bytes": 12,
+        "output_constructor_fields_checked": 36,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": true,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.0661970498040318,
+        "native_seconds": 0.7206307779997587
+      }
+    }
+  ],
+  "build_timing": {
+    "combined_parallel_original_native_and_controller_seconds": 2.592760290019214,
+    "exit": 0
+  }
+}

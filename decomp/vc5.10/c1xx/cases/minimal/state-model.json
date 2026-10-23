@@ -1,5 +1,5 @@
 {
-  "schema": 8,
+  "schema": 9,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -382,6 +382,87 @@
       "native_expression": "frontend_bss.output_buffers[2].mode",
       "original_default": 0,
       "evidence": "constructor3872a same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.data",
+      "class": "bss",
+      "original_address": 273417056,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].data",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.cursor",
+      "class": "bss",
+      "original_address": 273417060,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].cursor",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.capacity",
+      "class": "bss",
+      "original_address": 273417064,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].capacity",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.relocation",
+      "class": "bss",
+      "original_address": 273417068,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].relocation",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.relocation_context",
+      "class": "bss",
+      "original_address": 273417072,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].relocation_context",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.file",
+      "class": "bss",
+      "original_address": 273417076,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].file",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.ok",
+      "class": "bss",
+      "original_address": 273417080,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].ok",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.descriptor",
+      "class": "bss",
+      "original_address": 273417344,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[3].descriptor",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_04.mode",
+      "class": "bss",
+      "original_address": 273417084,
+      "bytes": 1,
+      "native_expression": "frontend_bss.output_buffers[3].mode",
+      "original_default": 0,
+      "evidence": "constructor38779 same-class object;9encountered fields only, intervening259bytes UNMODELED"
     }
   ],
   "initializers": [
@@ -603,10 +684,10 @@
   ],
   "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use",
   "native_padding": {
-    "bytes": 9,
+    "bytes": 12,
     "kind": "natural trailing C object padding; no original semantic counterpart",
     "output_buffer_size": 36,
     "output_mapped_bytes": 33,
-    "output_count": 3
+    "output_count": 4
   }
 }

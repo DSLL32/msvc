@@ -100,29 +100,17 @@ Historical schema2–4 pointer-seeded captures establish zeroing/reset only, and
 are not evidence of numeric equivalence before clearing. Raw historical captures
 remain unchanged.
 
-The first output constructor has nine encountered fields (33semantic bytes).
-Its compact native C object is36bytes including3bytes of natural compiler padding;
-the original259-byte intervening gap is unmodeled. Ordinary and clearly marked
-nonzero constructor/BSS-reset captures agree, with unused sentinel callback and
-owned-pointer roles stated explicitly in `cases/minimal/output01-trials.json`.
+Four output objects now have nine encountered fields each:132semantic bytes,
+with12bytes of natural native C padding. The original259-byte gap per object
+is unmodeled. Schema9 accounts for408semantic BSS bytes and420native sizeof;
+8516original initialized snapshot bytes remain unmodeled.
 
-Cleanup registration now preserves the full 63-byte hot/cold function and its
-variadic diagnostic boundary. The natural case registers the first destructor
-in slot0, increments the count to1 and reaches initializer09. Eight altered
-count/slot/input/state/frontier controls are rejected by
-`scripts/check-registration-negative.py`; the raw pair and audit are recorded
-in `cases/minimal/registration-trials.json`.
-
-The second independently addressed output object is modeled in schema7. Both
-objects total66semantic bytes and6bytes of natural C padding; no original gap
-is represented. `cases/minimal/output02-trials.json` retains a natural pair
-and two explicitly auxiliary nonzero constructor/reset pairs. All18encountered
-output fields, two destructor registrations and both mode-dependent reset paths
-agree. Ten output and ten context divergence controls reject altered evidence.
-
-Schema8 adds the third output object at its independently observed storage.
-All27known output fields and three ordered cleanup registrations agree in the
-natural pair and both auxiliary nonzero reset modes. The packet is
-`cases/minimal/output03-trials.json`;375semantic BSS bytes and9native padding
-bytes are accounted separately. The common decoder still validates frozen
-first/second-object packets without changing or rerunning their raw evidence.
+`cases/minimal/output01-trials.json` through `output04-trials.json` retain each
+natural pair and both explicitly auxiliary nonzero constructor/reset modes.
+Unused callback and owned-pointer roles are stated in each trial. The decoder
+checks every actual constructor entry, field assignment, destructor argument and
+ordered cleanup slot; output/context controls reject altered evidence. Split
+initializer wrappers retain their own disjoint chunks, with separate constructor
+vertices. Cleanup registration preserves its cold variadic diagnostic boundary.
+Current reconstruction has reached initializer12; minimal compilation remains
+unfinished. The completed lifecycle fixture remains native-only (about12ms warm).
