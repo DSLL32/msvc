@@ -1,4 +1,4 @@
-#include "c2.h"
+#include "functions.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
@@ -44,10 +44,6 @@ unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol)
 }
 
 
-void c2_initialize_optimizer(void)
-{
-    __asm { int 3 }
-}
 
 void c2_compile_unit(void)
 {
@@ -119,3 +115,328 @@ void __fastcall read_initializer_values(C2InitRecord *record) { __asm { int 3 } 
 C2InitRecord *__fastcall queue_initializer(C2InitRecord *record) { __asm { int 3 } return NULL; }
 void __fastcall emit_initializer(C2InitRecord *record) { __asm { int 3 } }
 void __fastcall free_initializer(C2InitRecord *record) { __asm { int 3 } }
+
+void initialize_backend(void)
+{
+    __asm { int 3 }
+}
+
+int check_extended_backend(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+unsigned short __fastcall listing_source_index(unsigned serial, unsigned source)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int prepare_deferred_function(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void finish_deferred_function(void)
+{
+    __asm { int 3 }
+}
+
+void begin_function_input(void)
+{
+    __asm { int 3 }
+}
+
+C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+void __fastcall activate_scope(C2ScopeHash *scope)
+{
+    __asm { int 3 }
+}
+
+void __fastcall canonicalize_function(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+int __fastcall skip_global_optimization(C2Function *function)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall function_pass_409dac(C2Function *function, int mode)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_40d9be(C2Function *function, int mode)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_456857(C2Function *function, int mode)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4570e0(C2Function *function, int mode)
+{
+    __asm { int 3 }
+}
+
+void finish_function(void)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_463ff1(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_456b13(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_45729f(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_458c9f(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_46481c(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_483f46(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4088c7(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_427d89(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4828f8(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_421bdf(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_421e34(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_409c5c(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42127d(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4180e8(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_413245(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4132fa(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_413369(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_412292(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_412412(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_464b8a(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_412457(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4120d4(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_412d5c(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4144ef(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_414862(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_40d254(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_414a64(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_41759e(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_416e6a(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42a8aa(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42b3e2(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42b750(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42e689(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_483b6f(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42e6a6(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_402cb6(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_402b6e(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42d635(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42d65a(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42f060(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_402c2c(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42f3e4(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_42f446(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4330f7(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_433546(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4338ab(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_465486(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_47d1d3(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_433906(C2Function *function)
+{
+    __asm { int 3 }
+}

@@ -106,7 +106,7 @@ def main():
                  execution_inputs={name:sha((output/name).read_bytes())if(output/name).exists()else None for name in (('child-environment-input.bin','child-command-input.bin','data-plan.txt')if data_model else('child-environment-input.bin','child-command-input.bin'))},
                  helper_status=result.returncode,seconds={'setup':setup,'execution':elapsed,'total':time.monotonic()-begin})
     if any(r.get('state_policy')=='globals-complete'for r in config['stubs']):
-        receipt['globals_complete_hashes']={name:sha((output/name).read_bytes())for name in ('unmodeled-original-data.bin','pool-block.bin','header-streams.bin')+ (('initializer-buffer.bin',)if any(r.get('frontier_contract')=='initializers-complete' for r in config['stubs'])else())}
+        receipt['globals_complete_hashes']={name:sha((output/name).read_bytes())for name in ('unmodeled-original-data.bin','pool-block.bin','header-streams.bin')+ (('initializer-buffer.bin',)if any(r.get('frontier_contract')in ('initializers-complete','backend-inputs-open') for r in config['stubs'])else())+ (('backend-streams.bin',)if any(r.get('frontier_contract')=='backend-inputs-open' for r in config['stubs'])else())}
     if(output/'unmodeled-original-data.bin').exists():receipt['unmodeled_original_data']={'classification':'UNMODELED; preservation only, no payload/extent/data credit','bytes':(output/'unmodeled-original-data.bin').stat().st_size,'sha256':sha((output/'unmodeled-original-data.bin').read_bytes())}
     for stream in ('stdout','stderr'):
         path=output/(stream+'.bin')

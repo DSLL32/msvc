@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **environment)
         initialize_sections();
         read_global_symbols();
         read_initializers();
-        c2_initialize_optimizer();
+        compile_functions();
         c2_set_argv();
         c2_compile_unit();
         c2_finalize_output();

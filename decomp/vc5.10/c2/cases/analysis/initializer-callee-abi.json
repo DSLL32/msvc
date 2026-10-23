@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "e3f690d4205a1c059d84c30bcca8d4ceef289a2963368a1ddd0d65b7c23e8d9d",
+  "rebuilt_sha256": "f4248fdb5091657709a4f84e92f0785c5de23b57d84e635a99c74ee5bfc815cc",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
@@ -20,7 +20,7 @@
       "review": "Complete primary: no EBP write or saved-slot access, bothRET0 paths preserve it. Typed call to accepted pool allocator preserves nonvolatile EBP.",
       "original_body_accepted": false,
       "source_symbol": "new_initializer",
-      "rebuilt_entry": 4198889
+      "rebuilt_entry": 4198877
     },
     {
       "function": "_input_varuint",
@@ -43,7 +43,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_varuint",
-      "rebuilt_entry": 4203759
+      "rebuilt_entry": 4204895
     },
     {
       "function": "_input_compact_signed",
@@ -61,7 +61,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_compact_signed",
-      "rebuilt_entry": 4204758
+      "rebuilt_entry": 4205894
     },
     {
       "function": "@read_initializer_values@4",
@@ -84,7 +84,7 @@
       "review": "PUSHEBP4524ac before XOR/MOV use. Dispatch/cold cases rejoin452567/452548 and common POPEBP45263d,ADDESP28,RET452641. Root writes/stacktemporaries stay below saved incoming EBP.",
       "original_body_accepted": false,
       "source_symbol": "read_initializer_values",
-      "rebuilt_entry": 4198909
+      "rebuilt_entry": 4198897
     },
     {
       "function": "@queue_initializer@4",
@@ -107,7 +107,7 @@
       "review": "PUSHEBP45406c; EBP=root. Complete cold list operations rejoin hot continuation and common POPEBP4540c3/RET4540c6. No saved caller slot write.",
       "original_body_accepted": false,
       "source_symbol": "queue_initializer",
-      "rebuilt_entry": 4198927
+      "rebuilt_entry": 4198915
     },
     {
       "function": "@emit_initializer@4",
@@ -130,7 +130,7 @@
       "review": "PUSHEBP44a6e6; EBP=root. Both returns restore original EBP at44a749 or471ab7 before RET; ordinary calls/callback remain opaque application behavior, not accepted body credit.",
       "original_body_accepted": false,
       "source_symbol": "emit_initializer",
-      "rebuilt_entry": 4198947
+      "rebuilt_entry": 4198935
     },
     {
       "function": "@free_initializer@4",
@@ -148,7 +148,7 @@
       "review": "Complete leaf list traversal neither reads/writes EBP nor caller saved slot, RET0.",
       "original_body_accepted": false,
       "source_symbol": "free_initializer",
-      "rebuilt_entry": 4198965
+      "rebuilt_entry": 4198953
     },
     {
       "function": "_c2_read_il_byte",
@@ -166,7 +166,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "c2_read_il_byte",
-      "rebuilt_entry": 4203088
+      "rebuilt_entry": 4204224
     },
     {
       "function": "@input_string@8",
@@ -189,7 +189,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_string",
-      "rebuilt_entry": 4204586
+      "rebuilt_entry": 4205722
     },
     {
       "function": "@lookup_source_file@8",
@@ -207,7 +207,7 @@
       "review": "Complete primary has no EBP write. Bounded local stack temporaries and ordinary declared cdecl imported/diagnostic calls; RET0.",
       "original_body_accepted": false,
       "source_symbol": "lookup_source_file",
-      "rebuilt_entry": 4198781
+      "rebuilt_entry": 4198769
     },
     {
       "function": "@c2_report_internal@8",
@@ -225,7 +225,7 @@
       "review": "Complete wrapper no EBP write; cdecl diagnostic call with12Bcleanup andRET0. Terminating diagnostics need no returning transfer.",
       "original_body_accepted": false,
       "source_symbol": "c2_report_internal",
-      "rebuilt_entry": 4198603
+      "rebuilt_entry": 4198591
     },
     {
       "function": "@read_initializer_records@4",
@@ -248,7 +248,7 @@
       "review": "Recursive callee saves incoming EBP at4523dc before loading its own free intoEBP; all returning switch cases rejoin common POPEBP45246f/RET452474. Independent rebuilt standard frame restores viaLEAVE-equivalent/POPEBP/RET.",
       "original_body_accepted": false,
       "source_symbol": "read_initializer_records",
-      "rebuilt_entry": 4205688
+      "rebuilt_entry": 4206824
     }
   ],
   "free_site": {
@@ -285,20 +285,20 @@
       "review": "Unique verified IATseed before all dispatches. No EBP rewrite until POP45246f; complete coldchunk included. Each named callee has an explicit incoming-EBP preservation witness. One pushESI/CALLEBP/ADDESP4 at47421f, no alias escape, branch-entry bypass or unknown other indirect call."
     },
     "rebuilt": {
-      "slot": 4219012,
+      "slot": 4223108,
       "holder": "direct IAT",
       "lifetime": [
         306,
         319
       ],
-      "lifetime_sha256": "ff8dd8222b9ecb90dbd824d4ca0845f66d8f27c4eb0ea3719b0434afc789f944",
+      "lifetime_sha256": "0b4a29c688cdfb2cf0f1c40cb86dc1a68435bd7bbd0e5c1aba638f9e32a58a8b",
       "instructions": [
         {
           "offset": 306,
-          "bytes": "8b55f852ff158460400083c404"
+          "bytes": "8b55f852ff158470400083c404"
         }
       ],
-      "review": "Ordinary Win32 free(source): complete pointer argument load/push, actual qualified IATfree call, ADDESP4. Exact13B fixed interval."
+      "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
     }
   },
   "scope": "Only incoming EBP on these specifically named standard C ABI transfers. Pending application bodies remain masked/stubbed/unaccepted with zero coverage. No other register, pointee behavior or indirect-callback target assertion."

@@ -190,6 +190,22 @@ def main():
                 ('initializer complete original main FILE count differs',lambda r:complete_raw(r,'header-streams.bin',4)),
                 ('initializer complete original active stream differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x490b80-0x48e000)),
             ]
+        if 'backend_inputs' in current_state['globals_complete']['streams']:
+            def backend_row(root,index,key,value):
+                complete_changed(root,lambda state:state['streams']['backend_inputs'][index].__setitem__(key,value))
+            def backend_original_pointer(root):
+                path=root/'o/events.txt';raw=path.read_text();raw=re.sub(r'^(backend-inputs-open expression=)[0-9a-f]+',lambda m:m[1]+'00000000',raw,flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')
+            mutations += [
+                ('backend expression FILE index differs',lambda r:backend_row(r,0,'index',5)),
+                ('backend symbols FILE index differs',lambda r:backend_row(r,1,'index',4)),
+                ('backend expression FILE state differs',lambda r:backend_row(r,0,'bytes','00'*32)),
+                ('backend symbols FILE state differs',lambda r:backend_row(r,1,'bytes','00'*32)),
+                ('backend original expression global identity differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x4973dc-0x48e000)),
+                ('backend original symbols global identity differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x4973b4-0x48e000)),
+                ('backend original expression FILE flags differ',lambda r:complete_raw(r,'backend-streams.bin',12)),
+                ('backend original symbol FILE descriptor differs',lambda r:complete_raw(r,'backend-streams.bin',48)),
+                ('backend original actual expression pointer differs',backend_original_pointer),
+            ]
         mutations += [('complete globals invent actual formal',lambda r:complete_field(r,'formals',[{'name':'unused','type':'int'}])),
                       ('complete globals opaque context anchor loses identity',lambda r:complete_field(r,'opaque_context_anchor_alias',False)),
                       ('complete globals arena cursor differs',lambda r:complete_field(r,'pool_cursor',1888)),

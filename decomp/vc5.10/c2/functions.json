@@ -75,7 +75,8 @@
     "_next_symbol_serial",
     "@put_symbol@8",
     "_c2_initialize_registers",
-    "@read_initializer_records@4"
+    "@read_initializer_records@4",
+    "_c2_initialize_optimizer"
   ],
   "driver": [
     {
@@ -218,17 +219,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4218972,
+            "slot": 4223068,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "e526b1d2a95dc908831e06025911df4fd71bc651f839def657037f3bb7f5e9fa",
+            "lifetime_sha256": "bce78ecafd47e9fe8146c5f048e9ba0fafd9d9620ba7be01fcb0c17f56e49b86",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d5c604000894df4"
+                "bytes": "8b0d5c704000894df4"
               },
               {
                 "offset": 243,
@@ -243,7 +244,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           }
         }
       ]
@@ -390,24 +391,24 @@
             "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
           },
           "rebuilt": {
-            "slot": 4218976,
+            "slot": 4223072,
             "holder": "[EBP-0x4]",
             "lifetime": [
               42,
               191
             ],
-            "lifetime_sha256": "e64f0d42d18ae5cf67cd918dc58c926bd25f33fe22c45074ea15b0c11279e169",
+            "lifetime_sha256": "678e6c7f9fe6358f7968ee47756ff31a2f5df266c15db643a03bbd8a94818d3b",
             "instructions": [
               {
                 "offset": 42,
-                "bytes": "a1606040008945fc"
+                "bytes": "a1607040008945fc"
               },
               {
                 "offset": 104,
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           }
         }
       ]
@@ -472,17 +473,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4219000,
+            "slot": 4223096,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "9f6c18ddbc2aae968a05681aa9f4c7508cc14c13972a978bd84c6d73f1ab8b87",
+            "lifetime_sha256": "8b10dc70a8ee13a7f6d6f62ad4723dd53c2b02cb5054340b04b67bbf3a2b35ed",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d78604000894df8"
+                "bytes": "8b0d78704000894df8"
               },
               {
                 "offset": 509,
@@ -493,7 +494,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           }
         }
       ]
@@ -621,17 +622,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4219004,
+            "slot": 4223100,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "0d88f36127bea2849455f84a3e34b676823f1078f099a8a4aff39eb5ddf84535",
+            "lifetime_sha256": "2e2719030076520c19af6c029d40eab99e00e5ef1c05ba1a395a9f5a2235187b",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a17c6040008945f8"
+                "bytes": "a17c7040008945f8"
               },
               {
                 "offset": 110,
@@ -642,7 +643,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           }
         },
         {
@@ -682,17 +683,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4219008,
+            "slot": 4223104,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "504ef3adf690a839cd6080a4b534c276bb869f03f0517e0b9a9c0efc744a2bc5",
+            "lifetime_sha256": "cb74c5cbd8175f55921eccc3d5150866a1ab3d1c970cc1fc742c07972db6fa92",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d80604000894dfc"
+                "bytes": "8b0d80704000894dfc"
               },
               {
                 "offset": 89,
@@ -703,7 +704,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           }
         }
       ]
@@ -902,33 +903,33 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218996,
+            "slot": 4223092,
             "holder": "[EBP-0x14]",
             "instructions": [
               {
                 "offset": 15,
-                "bytes": "8b0d74604000894dec"
+                "bytes": "8b0d74704000894dec"
               },
               {
                 "offset": 44,
                 "bytes": "ff55ec83c408"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged.",
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver.",
             "lifetime": [
               15,
               98
             ],
-            "lifetime_sha256": "58d349fd4e60f4d6441aa6cc2579457bdd7c0d1a9e34b22bd8ba62c94a5fe07e",
+            "lifetime_sha256": "953f0bc305f2e5058f8dbe660a98703474b253f140bac041b1d134bacef9c9ec",
             "accessed_data": [
               {
-                "slot": 4218992,
+                "slot": 4223088,
                 "dll": "MSVCRT.dll",
                 "symbol": "__mb_cur_max",
                 "abi": "imported 32-bit int variable"
               },
               {
-                "slot": 4218988,
+                "slot": 4223084,
                 "dll": "MSVCRT.dll",
                 "symbol": "_pctype",
                 "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
@@ -965,12 +966,12 @@
             "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
           },
           "rebuilt": {
-            "slot": 4218984,
+            "slot": 4223080,
             "holder": "[EBP-0x10]",
             "instructions": [
               {
                 "offset": 98,
-                "bytes": "a1686040008945f0"
+                "bytes": "a1687040008945f0"
               },
               {
                 "offset": 106,
@@ -981,12 +982,12 @@
                 "bytes": "ff55f0"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged.",
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver.",
             "lifetime": [
               98,
               140
             ],
-            "lifetime_sha256": "6351159d11a0b855af12d06e68d8ad14fa8a6d5d55a9e029978da7d295b4c9fb"
+            "lifetime_sha256": "e5a956ad405db09a1dd48049269c25b3951a8a84d0bc5c609bd8cebdf39b6cc5"
           }
         }
       ]
@@ -1445,12 +1446,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218968,
+            "slot": 4223064,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1586040008945f8"
+                "bytes": "a1587040008945f8"
               },
               {
                 "offset": 89,
@@ -1461,12 +1462,12 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged.",
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver.",
             "lifetime": [
               6,
               198
             ],
-            "lifetime_sha256": "3d52b27ec6a8b6bac9639b6c63c50c93e562d3cef373e9028c56acc51f9d631a"
+            "lifetime_sha256": "fa729b41331b038137e3fdc3f852782f6de266701c16a8ecd4e839b083cd3a4d"
           }
         }
       ]
@@ -1627,12 +1628,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218968,
+            "slot": 4223064,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1586040008945f8"
+                "bytes": "a1587040008945f8"
               },
               {
                 "offset": 89,
@@ -1651,12 +1652,12 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged.",
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver.",
             "lifetime": [
               6,
               377
             ],
-            "lifetime_sha256": "ec6e9ef8b19ac8df1ceb668df80e766fbb29e2ad40d758c9b28ba8182c7fa92a"
+            "lifetime_sha256": "9c9702e4c59e021c1782bd92af5fe4c15df913de01762ccc7ccb94568d4fcf53"
           }
         }
       ]
@@ -4088,16 +4089,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218968,
+            "slot": 4223064,
             "lifetime": [
               6,
               827
             ],
-            "lifetime_sha256": "5b8bcc2a3373a0bc66b8c64719fe98bd5aae272778b0570b63b46e1c21516158",
+            "lifetime_sha256": "82243601e4193c61cc48322269e1f2990d52b1f9a5718f59987d6baa00267531",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158604000"
+                "bytes": "a158704000"
               },
               {
                 "offset": 11,
@@ -4132,7 +4133,7 @@
                 "bytes": "ff55ec83c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           },
           "evidence": "cases/analysis/unsigned-input-disassembly.txt; manual whole bounded lifetime review: each original branch seeds its own preserved register from named MSVCRT IAT; no intervening definition of that register, only cdeclfilbuf calls. Rebuilt dominating seed spills once to EBP-14 and no other stores alias it. Seven sites pushactiveFILE/cleanup4; all branch/bypass entries begin before correspondingseed. Unknown changes fail exactbytes. No source shaping or localCFG discovery."
         }
@@ -4348,16 +4349,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218968,
+            "slot": 4223064,
             "lifetime": [
               27,
               145
             ],
-            "lifetime_sha256": "77ab376e5de93a110a995784b9d160a58e9c11063e222c9e424845ad2d338b1b",
+            "lifetime_sha256": "b797b6435fe1147abf88d08b7ab7c66884a7253b0dd2664c567a876961937ff7",
             "instructions": [
               {
                 "offset": 27,
-                "bytes": "8b1558604000"
+                "bytes": "8b1558704000"
               },
               {
                 "offset": 33,
@@ -4368,7 +4369,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           },
           "evidence": "cases/analysis/string-input-disassembly.txt: original5-byteprefix precedes dominatingEDI seed48d10c, onecallsite420eae withFILE/cleanup4, noEDIclobber and loop backedge reaches call onlyafterseed. Rebuilt1b seed405058->EBP-8, no later slotstore or stackalias; exactlyonecallsite6d, FILEpush/cleanup4, loopbackedge to24 preservescache; errorcall occurs afterloopterminates. Fixed complete intervals guard changed bytes; commonRust owns all CFG/RET/import/extent checks."
         }
@@ -5542,16 +5543,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218968,
+            "slot": 4223064,
             "lifetime": [
               6,
               489
             ],
-            "lifetime_sha256": "17ac84a80c610b7ef442e050578c9cacc8b65722fa039d1b022b37f5ee484962",
+            "lifetime_sha256": "676ed8231e9a0240016c14ec335fc479616922e695eff432d81d8259eecec17f",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158604000"
+                "bytes": "a158704000"
               },
               {
                 "offset": 11,
@@ -5578,7 +5579,7 @@
                 "bytes": "ff55f483c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           },
           "evidence": "cases/analysis/compact-signed-disassembly.txt: dominating original MOV ESI,[48d10c] at4200fd; five calls through ESI, each activeFILE pushed and cleanup4. ESI never overwritten until epilogue; MSVCRT cdecl preserves it; both return arms covered. Rebuilt MOV from verified __imp___filbuf into EAX then EBP-12 at offsets6/11; no later holder store/address escape, five calls93/cb/123/17b/1d3 with activeFILE and cleanup4. Both initial branch and escape reads dominated by seed, complete intervals pin every instruction. Shared Rust owns CFG/RET/extent; this bounded residual only proves cached import identity/ABI."
         }
@@ -5797,16 +5798,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4218968,
+            "slot": 4223064,
             "lifetime": [
               6,
               315
             ],
-            "lifetime_sha256": "bf062888c53f848441be0236c2429a252c1790c2a619551c21e3cff3be6081cb",
+            "lifetime_sha256": "034b715d0f184aa7270d4d6ed23eb58ab39240b0642174dab4368b610d371d0f",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158604000"
+                "bytes": "a158704000"
               },
               {
                 "offset": 11,
@@ -5825,7 +5826,7 @@
                 "bytes": "ff55f483c404"
               }
             ],
-            "review": "cases/analysis/initializer-records-import-review.json proves exact entire prior64/current65 interval modulo listed same-MAP/IAT/equal-literal operands; all remaining instruction/control/holder/call/cleanup bytes unchanged."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           },
           "evidence": "cases/analysis/compact-short-{disassembly,rebuilt-disassembly}.txt: original dominatingESI seed4201cd, calls4201ef/420231/42023f, activeFILE argument and cleanup4, noESI store across branch arms, cdecl callee preservesESI. Rebuilt offsets6/11 seed verified IAT through EAX intoEBP-12; immutable holder/no address escape, exactly three calls59/cc/124, each FILE/cleanup4. Complete fixed live intervals cover all paths/RET; commonRust owns graph/RET/extent. Existing12 residuals changed only explicit sameMAP/IAT/equal-literal relocations, reviewed in compact-short-import-review.json."
         }
@@ -7055,20 +7056,20 @@
             "review": "Unique verified IATseed before all dispatches. No EBP rewrite until POP45246f; complete coldchunk included. Each named callee has an explicit incoming-EBP preservation witness. One pushESI/CALLEBP/ADDESP4 at47421f, no alias escape, branch-entry bypass or unknown other indirect call."
           },
           "rebuilt": {
-            "slot": 4219012,
+            "slot": 4223108,
             "holder": "direct IAT",
             "lifetime": [
               306,
               319
             ],
-            "lifetime_sha256": "ff8dd8222b9ecb90dbd824d4ca0845f66d8f27c4eb0ea3719b0434afc789f944",
+            "lifetime_sha256": "0b4a29c688cdfb2cf0f1c40cb86dc1a68435bd7bbd0e5c1aba638f9e32a58a8b",
             "instructions": [
               {
                 "offset": 306,
-                "bytes": "8b55f852ff158460400083c404"
+                "bytes": "8b55f852ff158470400083c404"
               }
             ],
-            "review": "Ordinary Win32 free(source): complete pointer argument load/push, actual qualified IATfree call, ADDESP4. Exact13B fixed interval."
+            "review": "cases/analysis/compile-functions-import-review.json: all fixed lifetime instruction bytes unchanged except listed actual same-MAP/IAT/equal-literal operands. No new discovery/CFG/ABI waiver."
           }
         }
       ],
@@ -7083,34 +7084,15 @@
       },
       "provider_abi_evidence": "cases/analysis/canonical-free-abi.json",
       "provider_abi_evidence_sha256": "52048a2dbed85c53a2f4bb496ae21344087c58d44bed47bf93ececceb906a77c"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_optimizer",
-      "native": "c2_initialize_optimizer",
+      "native": "compile_functions",
       "start": 4535045,
-      "end": 4535046,
-      "pending_extent": true,
+      "end": 4536542,
+      "pending_extent": false,
       "kind": "application",
-      "abi": "cdecl, no parameters",
+      "abi": "cdecl no parameters; void RET0",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -7288,7 +7270,34 @@
       "expected_argv": [
         "-G5"
       ],
-      "frontier_contract": "initializers-complete"
+      "frontier_contract": "initializers-complete",
+      "symbol": "_compile_functions",
+      "code_chunks": [
+        [
+          4671900,
+          4672297
+        ]
+      ],
+      "evidence": "cases/analysis/compile-functions-disassembly.txt:1497Bprimary+397Bcompletecold; actual controller opens ex/sy then initializes backend and iterates pending function passes. Historical logical scaffoldID retained explicitly; actualsource/MAP compile_functions, no wrapper."
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_compile_unit",
@@ -7543,6 +7552,824 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall C2InitRecord*recordECX, voidRET0"
+    },
+    {
+      "name": "_initialize_backend",
+      "native": "initialize_backend",
+      "start": 4536542,
+      "end": 4536543,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl void; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "backend-inputs-open"
+    },
+    {
+      "name": "_check_extended_backend",
+      "native": "check_extended_backend",
+      "start": 4766011,
+      "end": 4766012,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl void; int result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@listing_source_index@8",
+      "native": "listing_source_index",
+      "start": 4766723,
+      "end": 4766724,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsigned serial, unsigned source; unsigned short result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "_prepare_deferred_function",
+      "native": "prepare_deferred_function",
+      "start": 4747387,
+      "end": 4747388,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl void; int result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "_finish_deferred_function",
+      "native": "finish_deferred_function",
+      "start": 4747580,
+      "end": 4747581,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl void; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "_begin_function_input",
+      "native": "begin_function_input",
+      "start": 4359680,
+      "end": 4359681,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl void; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@read_function@4",
+      "native": "read_function",
+      "start": 4358376,
+      "end": 4358377,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2FunctionSymbol *symbol; C2Function * result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@activate_scope@4",
+      "native": "activate_scope",
+      "start": 4344071,
+      "end": 4344072,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2ScopeHash *scope; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@canonicalize_function@4",
+      "native": "canonicalize_function",
+      "start": 4344094,
+      "end": 4344095,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@skip_global_optimization@4",
+      "native": "skip_global_optimization",
+      "start": 4738805,
+      "end": 4738806,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; int result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_409dac@8",
+      "native": "function_pass_409dac",
+      "start": 4234668,
+      "end": 4234669,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function, int mode; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_40d9be@8",
+      "native": "function_pass_40d9be",
+      "start": 4250046,
+      "end": 4250047,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function, int mode; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_456857@8",
+      "native": "function_pass_456857",
+      "start": 4548695,
+      "end": 4548696,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function, int mode; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4570e0@8",
+      "native": "function_pass_4570e0",
+      "start": 4550880,
+      "end": 4550881,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function, int mode; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "_finish_function",
+      "native": "finish_function",
+      "start": 4413445,
+      "end": 4413446,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl void; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_463ff1@4",
+      "native": "function_pass_463ff1",
+      "start": 4603889,
+      "end": 4603890,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_456b13@4",
+      "native": "function_pass_456b13",
+      "start": 4549395,
+      "end": 4549396,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_45729f@4",
+      "native": "function_pass_45729f",
+      "start": 4551327,
+      "end": 4551328,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_458c9f@4",
+      "native": "function_pass_458c9f",
+      "start": 4557983,
+      "end": 4557984,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_46481c@4",
+      "native": "function_pass_46481c",
+      "start": 4605980,
+      "end": 4605981,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_483f46@4",
+      "native": "function_pass_483f46",
+      "start": 4734790,
+      "end": 4734791,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4088c7@4",
+      "native": "function_pass_4088c7",
+      "start": 4229319,
+      "end": 4229320,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_427d89@4",
+      "native": "function_pass_427d89",
+      "start": 4357513,
+      "end": 4357514,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4828f8@4",
+      "native": "function_pass_4828f8",
+      "start": 4729080,
+      "end": 4729081,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_421bdf@4",
+      "native": "function_pass_421bdf",
+      "start": 4332511,
+      "end": 4332512,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_421e34@4",
+      "native": "function_pass_421e34",
+      "start": 4333108,
+      "end": 4333109,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_409c5c@4",
+      "native": "function_pass_409c5c",
+      "start": 4234332,
+      "end": 4234333,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42127d@4",
+      "native": "function_pass_42127d",
+      "start": 4330109,
+      "end": 4330110,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4180e8@4",
+      "native": "function_pass_4180e8",
+      "start": 4292840,
+      "end": 4292841,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_413245@4",
+      "native": "function_pass_413245",
+      "start": 4272709,
+      "end": 4272710,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4132fa@4",
+      "native": "function_pass_4132fa",
+      "start": 4272890,
+      "end": 4272891,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_413369@4",
+      "native": "function_pass_413369",
+      "start": 4273001,
+      "end": 4273002,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_412292@4",
+      "native": "function_pass_412292",
+      "start": 4268690,
+      "end": 4268691,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_412412@4",
+      "native": "function_pass_412412",
+      "start": 4269074,
+      "end": 4269075,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_464b8a@4",
+      "native": "function_pass_464b8a",
+      "start": 4606858,
+      "end": 4606859,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_412457@4",
+      "native": "function_pass_412457",
+      "start": 4269143,
+      "end": 4269144,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4120d4@4",
+      "native": "function_pass_4120d4",
+      "start": 4268244,
+      "end": 4268245,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_412d5c@4",
+      "native": "function_pass_412d5c",
+      "start": 4271452,
+      "end": 4271453,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4144ef@4",
+      "native": "function_pass_4144ef",
+      "start": 4277487,
+      "end": 4277488,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_414862@4",
+      "native": "function_pass_414862",
+      "start": 4278370,
+      "end": 4278371,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_40d254@4",
+      "native": "function_pass_40d254",
+      "start": 4248148,
+      "end": 4248149,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_414a64@4",
+      "native": "function_pass_414a64",
+      "start": 4278884,
+      "end": 4278885,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_41759e@4",
+      "native": "function_pass_41759e",
+      "start": 4289950,
+      "end": 4289951,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_416e6a@4",
+      "native": "function_pass_416e6a",
+      "start": 4288106,
+      "end": 4288107,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42a8aa@4",
+      "native": "function_pass_42a8aa",
+      "start": 4368554,
+      "end": 4368555,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42b3e2@4",
+      "native": "function_pass_42b3e2",
+      "start": 4371426,
+      "end": 4371427,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42b750@4",
+      "native": "function_pass_42b750",
+      "start": 4372304,
+      "end": 4372305,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42e689@4",
+      "native": "function_pass_42e689",
+      "start": 4384393,
+      "end": 4384394,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_483b6f@4",
+      "native": "function_pass_483b6f",
+      "start": 4733807,
+      "end": 4733808,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42e6a6@4",
+      "native": "function_pass_42e6a6",
+      "start": 4384422,
+      "end": 4384423,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_402cb6@4",
+      "native": "function_pass_402cb6",
+      "start": 4205750,
+      "end": 4205751,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_402b6e@4",
+      "native": "function_pass_402b6e",
+      "start": 4205422,
+      "end": 4205423,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42d635@4",
+      "native": "function_pass_42d635",
+      "start": 4380213,
+      "end": 4380214,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42d65a@4",
+      "native": "function_pass_42d65a",
+      "start": 4380250,
+      "end": 4380251,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42f060@4",
+      "native": "function_pass_42f060",
+      "start": 4386912,
+      "end": 4386913,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_402c2c@4",
+      "native": "function_pass_402c2c",
+      "start": 4205612,
+      "end": 4205613,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42f3e4@4",
+      "native": "function_pass_42f3e4",
+      "start": 4387812,
+      "end": 4387813,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_42f446@4",
+      "native": "function_pass_42f446",
+      "start": 4387910,
+      "end": 4387911,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4330f7@4",
+      "native": "function_pass_4330f7",
+      "start": 4403447,
+      "end": 4403448,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_433546@4",
+      "native": "function_pass_433546",
+      "start": 4404550,
+      "end": 4404551,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_4338ab@4",
+      "native": "function_pass_4338ab",
+      "start": 4405419,
+      "end": 4405420,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_465486@4",
+      "native": "function_pass_465486",
+      "start": 4609158,
+      "end": 4609159,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_47d1d3@4",
+      "native": "function_pass_47d1d3",
+      "start": 4706771,
+      "end": 4706772,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "@function_pass_433906@4",
+      "native": "function_pass_433906",
+      "start": 4405510,
+      "end": 4405511,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Function *function; void result; RET0",
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
     }
   ],
   "text_data": [
@@ -7799,7 +8626,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7811,7 +8638,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7823,7 +8650,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7835,7 +8662,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7847,7 +8674,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7859,7 +8686,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7871,7 +8698,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7883,7 +8710,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7895,7 +8722,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7907,7 +8734,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7919,7 +8746,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7931,7 +8758,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       },
       {
@@ -7946,7 +8773,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "266812f94077aab59b921a1bcf0486143951f345e42c0f4fcb9195cc5f313c08"
+          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
         }
       }
     ]

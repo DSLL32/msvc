@@ -85,6 +85,15 @@ def verify(config):
             assert list(targets)==expected,'symbol storage seven-way target table differs'
         for at,name in [(0x490b78,'_c2_internal_listing'),(0x4973f8,'_default_storage_section')]:
             assert reader(TARGET)(at,4)==bytes(4)and reader(BINARY/'build/c2.exe')(maps[name],4)==bytes(4),'storage initial listing flag or section pointer differs'
+    if '_c2_initialize_optimizer'in config['accepted']:
+        # Only controller-owned, encountered fields; no raw data image copy.
+        for address,name,size in [(0x4973dc,'expression_input',4),(0x4973b4,'function_symbol_input',4),
+                (0x49e498,'listed_functions',4),(0x48fb48,'current_function',4),(0x4973d8,'compiled_function',4),
+                (0x497da8,'deferred_compilation',4),(0x495f20,'extra_function_passes',4),
+                (0x4973f4,'special_function_passes',4),(0x499734,'volatile_pass_limit',4),
+                (0x48e008,'function_pass_state',2),(0x48e0dc,'function_pass_result',4),
+                (0x491064,'code_generation_state',4),(0x49106c,'generate_prologue',4),(0x491068,'generate_frame',4)]:
+            assert reader(TARGET)(address,size)==reader(BINARY/'build/c2.exe')(maps['_'+name],size),'controller initial typed field differs'
     if '@lookup_global_symbol@4'in config['accepted']:
         assert reader(TARGET)(0x490b70,4)==bytes(4)and reader(BINARY/'build/c2.exe')(maps['_local_symbol_table'],4)==bytes(4),'global lookup optional existing local table initial pointer differs'
     if '@record_filename@4'in config['accepted']:

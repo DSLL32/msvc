@@ -1,0 +1,460 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00453305 <.text+0x52305>:
+  453305:	a1 7c 0b 49 00       	mov    eax,ds:0x490b7c
+  45330a:	53                   	push   ebx
+  45330b:	55                   	push   ebp
+  45330c:	56                   	push   esi
+  45330d:	57                   	push   edi
+  45330e:	33 ff                	xor    edi,edi
+  453310:	3b c7                	cmp    eax,edi
+  453312:	0f 85 84 16 02 00    	jne    0x47499c
+  453318:	8b 0d 64 7f 49 00    	mov    ecx,DWORD PTR ds:0x497f64
+  45331e:	68 d8 96 49 00       	push   0x4996d8
+  453323:	68 00 73 49 00       	push   0x497300
+  453328:	ba e0 96 49 00       	mov    edx,0x4996e0
+  45332d:	e8 03 f0 ff ff       	call   0x452335
+  453332:	8b 0d 64 7f 49 00    	mov    ecx,DWORD PTR ds:0x497f64
+  453338:	ba e4 96 49 00       	mov    edx,0x4996e4
+  45333d:	68 e8 96 49 00       	push   0x4996e8
+  453342:	68 00 73 49 00       	push   0x497300
+  453347:	a3 dc 73 49 00       	mov    ds:0x4973dc,eax
+  45334c:	e8 e4 ef ff ff       	call   0x452335
+  453351:	a3 b4 73 49 00       	mov    ds:0x4973b4,eax
+  453356:	e8 83 05 00 00       	call   0x4538de
+  45335b:	8b 0d dc 80 49 00    	mov    ecx,DWORD PTR ds:0x4980dc
+  453361:	83 f9 06             	cmp    ecx,0x6
+  453364:	0f 8f 91 16 02 00    	jg     0x4749fb
+  45336a:	b8 10 00 00 00       	mov    eax,0x10
+  45336f:	d3 e0                	shl    eax,cl
+  453371:	a3 34 97 49 00       	mov    ds:0x499734,eax
+  453376:	bb 01 00 00 00       	mov    ebx,0x1
+  45337b:	bd 00 10 00 00       	mov    ebp,0x1000
+  453380:	e9 1d 04 00 00       	jmp    0x4537a2
+  453385:	f6 c2 02             	test   dl,0x2
+  453388:	0f 85 3b 04 00 00    	jne    0x4537c9
+  45338e:	8b 51 6a             	mov    edx,DWORD PTR [ecx+0x6a]
+  453391:	89 0d 1c 5f 49 00    	mov    DWORD PTR ds:0x495f1c,ecx
+  453397:	83 ca 02             	or     edx,0x2
+  45339a:	89 51 6a             	mov    DWORD PTR [ecx+0x6a],edx
+  45339d:	8b 51 66             	mov    edx,DWORD PTR [ecx+0x66]
+  4533a0:	89 10                	mov    DWORD PTR [eax],edx
+  4533a2:	a1 78 0b 49 00       	mov    eax,ds:0x490b78
+  4533a7:	3b c7                	cmp    eax,edi
+  4533a9:	0f 85 5b 16 02 00    	jne    0x474a0a
+  4533af:	3b cf                	cmp    ecx,edi
+  4533b1:	0f 84 22 05 00 00    	je     0x4538d9
+  4533b7:	3b f7                	cmp    esi,edi
+  4533b9:	0f 85 a1 16 02 00    	jne    0x474a60
+  4533bf:	e8 3c 52 fd ff       	call   0x428600
+  4533c4:	8b 0d 1c 5f 49 00    	mov    ecx,DWORD PTR ds:0x495f1c
+  4533ca:	e8 19 4d fd ff       	call   0x4280e8
+  4533cf:	8b f0                	mov    esi,eax
+  4533d1:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4533d8:	89 35 48 fb 48 00    	mov    DWORD PTR ds:0x48fb48,esi
+  4533de:	8b 4e 10             	mov    ecx,DWORD PTR [esi+0x10]
+  4533e1:	e8 21 15 fd ff       	call   0x424907
+  4533e6:	8b 46 34             	mov    eax,DWORD PTR [esi+0x34]
+  4533e9:	f6 c4 08             	test   ah,0x8
+  4533ec:	0f 85 ec 03 00 00    	jne    0x4537de
+  4533f2:	8b 06                	mov    eax,DWORD PTR [esi]
+  4533f4:	85 68 14             	test   DWORD PTR [eax+0x14],ebp
+  4533f7:	0f 85 ec 03 00 00    	jne    0x4537e9
+  4533fd:	8b 0e                	mov    ecx,DWORD PTR [esi]
+  4533ff:	8b 41 6a             	mov    eax,DWORD PTR [ecx+0x6a]
+  453402:	f6 c4 06             	test   ah,0x6
+  453405:	0f 85 f1 03 00 00    	jne    0x4537fc
+  45340b:	39 3d 4c fb 48 00    	cmp    DWORD PTR ds:0x48fb4c,edi
+  453411:	74 09                	je     0x45341c
+  453413:	84 5e 34             	test   BYTE PTR [esi+0x34],bl
+  453416:	0f 85 4e 16 02 00    	jne    0x474a6a
+  45341c:	8b ce                	mov    ecx,esi
+  45341e:	e8 fb 14 fd ff       	call   0x42491e
+  453423:	8b 46 34             	mov    eax,DWORD PTR [esi+0x34]
+  453426:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45342d:	f6 c4 80             	test   ah,0x80
+  453430:	89 35 d8 73 49 00    	mov    DWORD PTR ds:0x4973d8,esi
+  453436:	0f 85 02 04 00 00    	jne    0x45383e
+  45343c:	8b 06                	mov    eax,DWORD PTR [esi]
+  45343e:	8b 48 6a             	mov    ecx,DWORD PTR [eax+0x6a]
+  453441:	f6 c5 02             	test   ch,0x2
+  453444:	0f 85 f4 03 00 00    	jne    0x45383e
+  45344a:	85 68 14             	test   DWORD PTR [eax+0x14],ebp
+  45344d:	0f 85 ce 03 00 00    	jne    0x453821
+  453453:	39 3d 20 5f 49 00    	cmp    DWORD PTR ds:0x495f20,edi
+  453459:	0f 85 2c 16 02 00    	jne    0x474a8b
+  45345f:	39 3d 4c fb 48 00    	cmp    DWORD PTR ds:0x48fb4c,edi
+  453465:	0f 84 d8 00 00 00    	je     0x453543
+  45346b:	8b ce                	mov    ecx,esi
+  45346d:	e8 55 54 fb ff       	call   0x4088c7
+  453472:	8b ce                	mov    ecx,esi
+  453474:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45347b:	e8 09 49 fd ff       	call   0x427d89
+  453480:	a1 d4 e0 48 00       	mov    eax,ds:0x48e0d4
+  453485:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45348c:	3b c7                	cmp    eax,edi
+  45348e:	0f 85 0a 16 02 00    	jne    0x474a9e
+  453494:	8b ce                	mov    ecx,esi
+  453496:	e8 44 e7 fc ff       	call   0x421bdf
+  45349b:	8b ce                	mov    ecx,esi
+  45349d:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4534a4:	e8 8b e9 fc ff       	call   0x421e34
+  4534a9:	8b d3                	mov    edx,ebx
+  4534ab:	8b ce                	mov    ecx,esi
+  4534ad:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4534b4:	e8 f3 68 fb ff       	call   0x409dac
+  4534b9:	8b ce                	mov    ecx,esi
+  4534bb:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4534c2:	e8 95 67 fb ff       	call   0x409c5c
+  4534c7:	8b ce                	mov    ecx,esi
+  4534c9:	e8 af dd fc ff       	call   0x42127d
+  4534ce:	8b ce                	mov    ecx,esi
+  4534d0:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4534d7:	e8 80 67 fb ff       	call   0x409c5c
+  4534dc:	ba 02 00 00 00       	mov    edx,0x2
+  4534e1:	8b ce                	mov    ecx,esi
+  4534e3:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4534ea:	e8 bd 68 fb ff       	call   0x409dac
+  4534ef:	8b ce                	mov    ecx,esi
+  4534f1:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4534f8:	e8 eb 4b fc ff       	call   0x4180e8
+  4534fd:	8b ce                	mov    ecx,esi
+  4534ff:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453506:	e8 3a fd fb ff       	call   0x413245
+  45350b:	8b ce                	mov    ecx,esi
+  45350d:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453514:	e8 e1 fd fb ff       	call   0x4132fa
+  453519:	8b ce                	mov    ecx,esi
+  45351b:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453522:	e8 42 fe fb ff       	call   0x413369
+  453527:	8b ce                	mov    ecx,esi
+  453529:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453530:	e8 5d ed fb ff       	call   0x412292
+  453535:	8b ce                	mov    ecx,esi
+  453537:	e8 d6 ee fb ff       	call   0x412412
+  45353c:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453543:	8b 0e                	mov    ecx,DWORD PTR [esi]
+  453545:	85 69 14             	test   DWORD PTR [ecx+0x14],ebp
+  453548:	0f 85 26 03 00 00    	jne    0x453874
+  45354e:	39 3d 4c fb 48 00    	cmp    DWORD PTR ds:0x48fb4c,edi
+  453554:	74 0e                	je     0x453564
+  453556:	8b ce                	mov    ecx,esi
+  453558:	e8 fa ee fb ff       	call   0x412457
+  45355d:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453564:	8b ce                	mov    ecx,esi
+  453566:	e8 69 eb fb ff       	call   0x4120d4
+  45356b:	8b ce                	mov    ecx,esi
+  45356d:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453574:	e8 e3 f7 fb ff       	call   0x412d5c
+  453579:	8b ce                	mov    ecx,esi
+  45357b:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453582:	e8 68 0f fc ff       	call   0x4144ef
+  453587:	a1 4c fb 48 00       	mov    eax,ds:0x48fb4c
+  45358c:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453593:	3b c7                	cmp    eax,edi
+  453595:	74 74                	je     0x45360b
+  453597:	8b ce                	mov    ecx,esi
+  453599:	e8 c4 12 fc ff       	call   0x414862
+  45359e:	8b ce                	mov    ecx,esi
+  4535a0:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4535a7:	e8 1b 53 fb ff       	call   0x4088c7
+  4535ac:	8b ce                	mov    ecx,esi
+  4535ae:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4535b5:	e8 9a 9c fb ff       	call   0x40d254
+  4535ba:	8b 06                	mov    eax,DWORD PTR [esi]
+  4535bc:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4535c3:	85 68 14             	test   DWORD PTR [eax+0x14],ebp
+  4535c6:	0f 85 bb 02 00 00    	jne    0x453887
+  4535cc:	8b 48 6a             	mov    ecx,DWORD PTR [eax+0x6a]
+  4535cf:	f6 c5 02             	test   ch,0x2
+  4535d2:	0f 85 e4 14 02 00    	jne    0x474abc
+  4535d8:	8b d3                	mov    edx,ebx
+  4535da:	8b ce                	mov    ecx,esi
+  4535dc:	e8 dd a3 fb ff       	call   0x40d9be
+  4535e1:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4535e8:	8b ce                	mov    ecx,esi
+  4535ea:	e8 75 14 fc ff       	call   0x414a64
+  4535ef:	8b ce                	mov    ecx,esi
+  4535f1:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4535f8:	e8 a1 3f fc ff       	call   0x41759e
+  4535fd:	8b ce                	mov    ecx,esi
+  4535ff:	e8 66 38 fc ff       	call   0x416e6a
+  453604:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45360b:	8b ce                	mov    ecx,esi
+  45360d:	e8 98 72 fd ff       	call   0x42a8aa
+  453612:	a1 4c fb 48 00       	mov    eax,ds:0x48fb4c
+  453617:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45361e:	3b c7                	cmp    eax,edi
+  453620:	74 16                	je     0x453638
+  453622:	39 3d 60 fb 48 00    	cmp    DWORD PTR ds:0x48fb60,edi
+  453628:	74 0e                	je     0x453638
+  45362a:	8b ce                	mov    ecx,esi
+  45362c:	e8 b1 7d fd ff       	call   0x42b3e2
+  453631:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453638:	8b ce                	mov    ecx,esi
+  45363a:	e8 11 81 fd ff       	call   0x42b750
+  45363f:	8b ce                	mov    ecx,esi
+  453641:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453648:	e8 3c b0 fd ff       	call   0x42e689
+  45364d:	a1 d4 e0 48 00       	mov    eax,ds:0x48e0d4
+  453652:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453659:	3b c7                	cmp    eax,edi
+  45365b:	0f 85 6c 14 02 00    	jne    0x474acd
+  453661:	8b ce                	mov    ecx,esi
+  453663:	e8 3e b0 fd ff       	call   0x42e6a6
+  453668:	a1 4c fb 48 00       	mov    eax,ds:0x48fb4c
+  45366d:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453674:	3b c7                	cmp    eax,edi
+  453676:	89 3d dc e0 48 00    	mov    DWORD PTR ds:0x48e0dc,edi
+  45367c:	74 15                	je     0x453693
+  45367e:	8b ce                	mov    ecx,esi
+  453680:	e8 31 f6 fa ff       	call   0x402cb6
+  453685:	8b ce                	mov    ecx,esi
+  453687:	e8 e2 f4 fa ff       	call   0x402b6e
+  45368c:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453693:	8b 46 34             	mov    eax,DWORD PTR [esi+0x34]
+  453696:	f6 c4 08             	test   ah,0x8
+  453699:	75 0e                	jne    0x4536a9
+  45369b:	8b ce                	mov    ecx,esi
+  45369d:	e8 93 9f fd ff       	call   0x42d635
+  4536a2:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4536a9:	8b ce                	mov    ecx,esi
+  4536ab:	e8 aa 9f fd ff       	call   0x42d65a
+  4536b0:	a1 4c fb 48 00       	mov    eax,ds:0x48fb4c
+  4536b5:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4536bc:	3b c7                	cmp    eax,edi
+  4536be:	89 3d 64 10 49 00    	mov    DWORD PTR ds:0x491064,edi
+  4536c4:	0f 84 93 00 00 00    	je     0x45375d
+  4536ca:	8b ce                	mov    ecx,esi
+  4536cc:	e8 64 9f fd ff       	call   0x42d635
+  4536d1:	8b ce                	mov    ecx,esi
+  4536d3:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4536da:	e8 81 b9 fd ff       	call   0x42f060
+  4536df:	8b ce                	mov    ecx,esi
+  4536e1:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4536e8:	e8 81 f4 fa ff       	call   0x402b6e
+  4536ed:	8b ce                	mov    ecx,esi
+  4536ef:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4536f6:	e8 31 f5 fa ff       	call   0x402c2c
+  4536fb:	8b ce                	mov    ecx,esi
+  4536fd:	e8 e2 bc fd ff       	call   0x42f3e4
+  453702:	a1 4c fb 48 00       	mov    eax,ds:0x48fb4c
+  453707:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45370e:	3b c7                	cmp    eax,edi
+  453710:	74 4b                	je     0x45375d
+  453712:	8b ce                	mov    ecx,esi
+  453714:	e8 2d bd fd ff       	call   0x42f446
+  453719:	8b 06                	mov    eax,DWORD PTR [esi]
+  45371b:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453722:	85 68 14             	test   DWORD PTR [eax+0x14],ebp
+  453725:	0f 85 6d 01 00 00    	jne    0x453898
+  45372b:	8b 48 6a             	mov    ecx,DWORD PTR [eax+0x6a]
+  45372e:	f6 c5 02             	test   ch,0x2
+  453731:	0f 85 b5 13 02 00    	jne    0x474aec
+  453737:	33 d2                	xor    edx,edx
+  453739:	8b ce                	mov    ecx,esi
+  45373b:	e8 7e a2 fb ff       	call   0x40d9be
+  453740:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453747:	39 3d 60 fb 48 00    	cmp    DWORD PTR ds:0x48fb60,edi
+  45374d:	74 0e                	je     0x45375d
+  45374f:	8b ce                	mov    ecx,esi
+  453751:	e8 a1 f9 fd ff       	call   0x4330f7
+  453756:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45375d:	8b 46 34             	mov    eax,DWORD PTR [esi+0x34]
+  453760:	a8 10                	test   al,0x10
+  453762:	0f 84 41 01 00 00    	je     0x4538a9
+  453768:	8b ce                	mov    ecx,esi
+  45376a:	89 1d 6c 10 49 00    	mov    DWORD PTR ds:0x49106c,ebx
+  453770:	89 1d 68 10 49 00    	mov    DWORD PTR ds:0x491068,ebx
+  453776:	e8 cb fd fd ff       	call   0x433546
+  45377b:	8b ce                	mov    ecx,esi
+  45377d:	e8 29 01 fe ff       	call   0x4338ab
+  453782:	a1 90 7f 49 00       	mov    eax,ds:0x497f90
+  453787:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45378e:	3b c7                	cmp    eax,edi
+  453790:	0f 85 80 13 02 00    	jne    0x474b16
+  453796:	8b ce                	mov    ecx,esi
+  453798:	e8 69 01 fe ff       	call   0x433906
+  45379d:	e8 63 20 fe ff       	call   0x435805
+  4537a2:	8b 0d d4 73 49 00    	mov    ecx,DWORD PTR ds:0x4973d4
+  4537a8:	33 f6                	xor    esi,esi
+  4537aa:	3b cf                	cmp    ecx,edi
+  4537ac:	b8 d4 73 49 00       	mov    eax,0x4973d4
+  4537b1:	89 0d 1c 5f 49 00    	mov    DWORD PTR ds:0x495f1c,ecx
+  4537b7:	0f 84 1c 01 00 00    	je     0x4538d9
+  4537bd:	8b 51 6a             	mov    edx,DWORD PTR [ecx+0x6a]
+  4537c0:	f6 c2 20             	test   dl,0x20
+  4537c3:	0f 85 bc fb ff ff    	jne    0x453385
+  4537c9:	8d 41 66             	lea    eax,[ecx+0x66]
+  4537cc:	8b 49 66             	mov    ecx,DWORD PTR [ecx+0x66]
+  4537cf:	3b cf                	cmp    ecx,edi
+  4537d1:	75 ea                	jne    0x4537bd
+  4537d3:	89 0d 1c 5f 49 00    	mov    DWORD PTR ds:0x495f1c,ecx
+  4537d9:	e9 d1 fb ff ff       	jmp    0x4533af
+  4537de:	89 3d 4c fb 48 00    	mov    DWORD PTR ds:0x48fb4c,edi
+  4537e4:	e9 09 fc ff ff       	jmp    0x4533f2
+  4537e9:	8b ce                	mov    ecx,esi
+  4537eb:	e8 01 08 01 00       	call   0x463ff1
+  4537f0:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  4537f7:	e9 01 fc ff ff       	jmp    0x4533fd
+  4537fc:	33 d2                	xor    edx,edx
+  4537fe:	8b ce                	mov    ecx,esi
+  453800:	e8 52 30 00 00       	call   0x456857
+  453805:	8b ce                	mov    ecx,esi
+  453807:	e8 07 33 00 00       	call   0x456b13
+  45380c:	33 d2                	xor    edx,edx
+  45380e:	8b ce                	mov    ecx,esi
+  453810:	e8 cb 38 00 00       	call   0x4570e0
+  453815:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  45381c:	e9 ea fb ff ff       	jmp    0x45340b
+  453821:	39 3d 4c fb 48 00    	cmp    DWORD PTR ds:0x48fb4c,edi
+  453827:	0f 84 26 fc ff ff    	je     0x453453
+  45382d:	39 3d d4 e0 48 00    	cmp    DWORD PTR ds:0x48e0d4,edi
+  453833:	75 27                	jne    0x45385c
+  453835:	8b ce                	mov    ecx,esi
+  453837:	e8 e0 0f 01 00       	call   0x46481c
+  45383c:	eb 1e                	jmp    0x45385c
+  45383e:	39 3d d8 e0 48 00    	cmp    DWORD PTR ds:0x48e0d8,edi
+  453844:	74 07                	je     0x45384d
+  453846:	8b ce                	mov    ecx,esi
+  453848:	e8 52 3a 00 00       	call   0x45729f
+  45384d:	8b 46 34             	mov    eax,DWORD PTR [esi+0x34]
+  453850:	f6 c4 80             	test   ah,0x80
+  453853:	74 13                	je     0x453868
+  453855:	8b ce                	mov    ecx,esi
+  453857:	e8 43 54 00 00       	call   0x458c9f
+  45385c:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453863:	e9 eb fb ff ff       	jmp    0x453453
+  453868:	8b 16                	mov    edx,DWORD PTR [esi]
+  45386a:	8b 42 6a             	mov    eax,DWORD PTR [edx+0x6a]
+  45386d:	f6 c4 02             	test   ah,0x2
+  453870:	75 e3                	jne    0x453855
+  453872:	eb e8                	jmp    0x45385c
+  453874:	8b ce                	mov    ecx,esi
+  453876:	e8 0f 13 01 00       	call   0x464b8a
+  45387b:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  453882:	e9 c7 fc ff ff       	jmp    0x45354e
+  453887:	39 3d f4 73 49 00    	cmp    DWORD PTR ds:0x4973f4,edi
+  45388d:	0f 84 55 fd ff ff    	je     0x4535e8
+  453893:	e9 40 fd ff ff       	jmp    0x4535d8
+  453898:	39 3d f4 73 49 00    	cmp    DWORD PTR ds:0x4973f4,edi
+  45389e:	0f 85 93 fe ff ff    	jne    0x453737
+  4538a4:	e9 9e fe ff ff       	jmp    0x453747
+  4538a9:	a9 00 00 30 00       	test   eax,0x300000
+  4538ae:	89 3d 6c 10 49 00    	mov    DWORD PTR ds:0x49106c,edi
+  4538b4:	0f 85 43 12 02 00    	jne    0x474afd
+  4538ba:	a1 4c fb 48 00       	mov    eax,ds:0x48fb4c
+  4538bf:	89 3d 68 10 49 00    	mov    DWORD PTR ds:0x491068,edi
+  4538c5:	3b c7                	cmp    eax,edi
+  4538c7:	0f 84 ae fe ff ff    	je     0x45377b
+  4538cd:	8b ce                	mov    ecx,esi
+  4538cf:	e8 b2 1b 01 00       	call   0x465486
+  4538d4:	e9 a2 fe ff ff       	jmp    0x45377b
+  4538d9:	5f                   	pop    edi
+  4538da:	5e                   	pop    esi
+  4538db:	5d                   	pop    ebp
+  4538dc:	5b                   	pop    ebx
+  4538dd:	c3                   	ret
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0047499c <.text+0x7399c>:
+  47499c:	e8 9a 6f 01 00       	call   0x48b93b
+  4749a1:	85 c0                	test   eax,eax
+  4749a3:	75 0f                	jne    0x4749b4
+  4749a5:	ba a4 01 00 00       	mov    edx,0x1a4
+  4749aa:	b9 b4 d4 49 00       	mov    ecx,0x49d4b4
+  4749af:	e8 88 21 01 00       	call   0x486b3c
+  4749b4:	39 3d 78 0b 49 00    	cmp    DWORD PTR ds:0x490b78,edi
+  4749ba:	0f 84 96 e9 fd ff    	je     0x453356
+  4749c0:	8b 35 d4 73 49 00    	mov    esi,DWORD PTR ds:0x4973d4
+  4749c6:	3b f7                	cmp    esi,edi
+  4749c8:	0f 84 88 e9 fd ff    	je     0x453356
+  4749ce:	ba 10 00 00 00       	mov    edx,0x10
+  4749d3:	33 c9                	xor    ecx,ecx
+  4749d5:	e8 26 c6 f8 ff       	call   0x401000
+  4749da:	8b 56 5a             	mov    edx,DWORD PTR [esi+0x5a]
+  4749dd:	8b 4e 28             	mov    ecx,DWORD PTR [esi+0x28]
+  4749e0:	8b d8                	mov    ebx,eax
+  4749e2:	89 5e 5e             	mov    DWORD PTR [esi+0x5e],ebx
+  4749e5:	e8 19 72 01 00       	call   0x48bc03
+  4749ea:	8b 76 66             	mov    esi,DWORD PTR [esi+0x66]
+  4749ed:	66 89 43 0c          	mov    WORD PTR [ebx+0xc],ax
+  4749f1:	3b f7                	cmp    esi,edi
+  4749f3:	0f 84 5d e9 fd ff    	je     0x453356
+  4749f9:	eb d3                	jmp    0x4749ce
+  4749fb:	c7 05 34 97 49 00 e8 	mov    DWORD PTR ds:0x499734,0x3e8
+  474a02:	03 00 00 
+  474a05:	e9 6c e9 fd ff       	jmp    0x453376
+  474a0a:	a1 98 e4 49 00       	mov    eax,ds:0x49e498
+  474a0f:	89 0d 98 e4 49 00    	mov    DWORD PTR ds:0x49e498,ecx
+  474a15:	89 41 66             	mov    DWORD PTR [ecx+0x66],eax
+  474a18:	a1 a8 7d 49 00       	mov    eax,ds:0x497da8
+  474a1d:	3b c7                	cmp    eax,edi
+  474a1f:	0f 84 8a e9 fd ff    	je     0x4533af
+  474a25:	8b 41 6a             	mov    eax,DWORD PTR [ecx+0x6a]
+  474a28:	f6 c4 08             	test   ah,0x8
+  474a2b:	75 08                	jne    0x474a35
+  474a2d:	8b 51 5e             	mov    edx,DWORD PTR [ecx+0x5e]
+  474a30:	39 7a 08             	cmp    DWORD PTR [edx+0x8],edi
+  474a33:	75 0d                	jne    0x474a42
+  474a35:	8b 41 5e             	mov    eax,DWORD PTR [ecx+0x5e]
+  474a38:	89 38                	mov    DWORD PTR [eax],edi
+  474a3a:	89 78 04             	mov    DWORD PTR [eax+0x4],edi
+  474a3d:	e9 6d e9 fd ff       	jmp    0x4533af
+  474a42:	e8 34 26 01 00       	call   0x48707b
+  474a47:	85 c0                	test   eax,eax
+  474a49:	75 0d                	jne    0x474a58
+  474a4b:	8b 0d 1c 5f 49 00    	mov    ecx,DWORD PTR ds:0x495f1c
+  474a51:	8b f3                	mov    esi,ebx
+  474a53:	e9 57 e9 fd ff       	jmp    0x4533af
+  474a58:	8b 0d 1c 5f 49 00    	mov    ecx,DWORD PTR ds:0x495f1c
+  474a5e:	eb d5                	jmp    0x474a35
+  474a60:	e8 d7 26 01 00       	call   0x48713c
+  474a65:	e9 38 ed fd ff       	jmp    0x4537a2
+  474a6a:	8b ce                	mov    ecx,esi
+  474a6c:	e8 84 04 01 00       	call   0x484ef5
+  474a71:	85 c0                	test   eax,eax
+  474a73:	0f 84 a3 e9 fd ff    	je     0x45341c
+  474a79:	89 3d 4c fb 48 00    	mov    DWORD PTR ds:0x48fb4c,edi
+  474a7f:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  474a86:	e9 91 e9 fd ff       	jmp    0x45341c
+  474a8b:	8b ce                	mov    ecx,esi
+  474a8d:	e8 b4 f4 00 00       	call   0x483f46
+  474a92:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  474a99:	e9 c1 e9 fd ff       	jmp    0x45345f
+  474a9e:	8b 06                	mov    eax,DWORD PTR [esi]
+  474aa0:	85 68 14             	test   DWORD PTR [eax+0x14],ebp
+  474aa3:	0f 84 eb e9 fd ff    	je     0x453494
+  474aa9:	8b ce                	mov    ecx,esi
+  474aab:	e8 48 de 00 00       	call   0x4828f8
+  474ab0:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  474ab7:	e9 d8 e9 fd ff       	jmp    0x453494
+  474abc:	39 3d d8 e0 48 00    	cmp    DWORD PTR ds:0x48e0d8,edi
+  474ac2:	0f 85 10 eb fd ff    	jne    0x4535d8
+  474ac8:	e9 ba ed fd ff       	jmp    0x453887
+  474acd:	39 3d 4c fb 48 00    	cmp    DWORD PTR ds:0x48fb4c,edi
+  474ad3:	0f 84 88 eb fd ff    	je     0x453661
+  474ad9:	8b ce                	mov    ecx,esi
+  474adb:	e8 8f f0 00 00       	call   0x483b6f
+  474ae0:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  474ae7:	e9 75 eb fd ff       	jmp    0x453661
+  474aec:	39 3d d8 e0 48 00    	cmp    DWORD PTR ds:0x48e0d8,edi
+  474af2:	0f 85 3f ec fd ff    	jne    0x453737
+  474af8:	e9 9b ed fd ff       	jmp    0x453898
+  474afd:	8b ce                	mov    ecx,esi
+  474aff:	89 1d 68 10 49 00    	mov    DWORD PTR ds:0x491068,ebx
+  474b05:	e8 3c ea fb ff       	call   0x433546
+  474b0a:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  474b11:	e9 65 ec fd ff       	jmp    0x45377b
+  474b16:	8b ce                	mov    ecx,esi
+  474b18:	e8 b6 86 00 00       	call   0x47d1d3
+  474b1d:	66 89 3d 08 e0 48 00 	mov    WORD PTR ds:0x48e008,di
+  474b24:	e9 6d ec fd ff       	jmp    0x453796

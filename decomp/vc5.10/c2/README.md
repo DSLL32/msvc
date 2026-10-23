@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 60 application functions (11953 bytes) and five CRT
+Current reconstruction has 61 application functions (13847 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
 has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and has consumed the initializer stream and stops at the function-IR pipeline. Four import thunks (24 bytes) and contextual
-text tables (616 bytes) remain separate. The 12391 source bytes are 2.162% of
+text tables (616 bytes) remain separate. The 14285 source bytes are 2.492% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -148,3 +148,21 @@ uses a signed DWORD offset at12, not a WORD. The post-reader proof compares all
 aliases, and the15 actually initialized buffer bytes; unused buffer tails
 receive no state credit. Proof0065 records37 fresh/85 reused protocol controls,
 ten provider-evidence controls and the separately timed static ABI controls.
+
+The1894-byte `compile_functions` controller is accepted as source66, with
+1497 hot bytes and397 cold bytes. Its historical logical scaffold name is an
+explicit alias; source and Win32 MAP use `compile_functions`. Its64 unreconstructed
+pass bodies remain typed INT3 stubs and receive no coverage. The fresh frontier
+is `initialize_backend`, after the expression/symbol IL files open: exact FILE
+slots4/5, reuse of the closed globals slot, full32-byte states, and existing
+globals/arena/hash/queue match. Proof0066 records41 fresh rejection controls
+(16.163s) and90 explicitly reused controls. Original capture is2.341s total,
+native GDB capture0.494s; the separate cached native help fixture remains~2ms.
+
+Correction0001 removes an invented duplicate pointer for the actual490b78
+listing integer, and restores the cold section selector's actual495f1c
+`current_symbol` argument. Historical zero-path evidence remains unchanged.
+A separate actual-C condition check exercises flags0/1/-1 and rejects split
+storage and wrong-owner variants; exact PE/MAP/selector/fastcall identities and
+a fresh current-case pair received independent orchestrator review. No extra
+function or byte credit was assigned.

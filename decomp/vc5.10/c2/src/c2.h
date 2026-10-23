@@ -192,6 +192,7 @@ typedef struct C2Section {
     unsigned short pending54;
 } C2Section;
 struct C2SectionGroup { unsigned pending00, count, pending08; };
+typedef struct C2FunctionListing C2FunctionListing;
 typedef struct C2FunctionSymbol {
     C2Symbol symbol;
     unsigned char pending32[4];
@@ -201,9 +202,10 @@ typedef struct C2FunctionSymbol {
     unsigned char pending40[22];
     long input_order;
     unsigned source_file;
-    unsigned char pending5e[8];
+    C2FunctionListing *listing;
+    unsigned pending62;
     struct C2FunctionSymbol *pending_next;
-    unsigned pending6a;
+    unsigned additional_flags;
 } C2FunctionSymbol;
 /* The decoder's common variable/function record. Its kind selects overlapping
  * fields: local lifetime at3c, an alias target at3e, or flags/scope at3e/3f. */
@@ -263,6 +265,20 @@ struct C2SymbolScope {
     C2DebugScope *debug_scope;
 };
 #pragma pack()
+struct C2FunctionListing {
+    unsigned begin, end, available;
+    unsigned short source_index, pending0e;
+};
+typedef struct C2Function {
+    C2FunctionSymbol *symbol;
+    unsigned char pending04[12];
+    C2ScopeHash *symbols;
+    unsigned char pending14[32];
+    unsigned flags;
+} C2Function;
+typedef char C2FunctionFlagsCheck[offsetof(C2Function, flags) == 52 ? 1 : -1];
+typedef char C2FunctionListingSizeCheck[sizeof(C2FunctionListing) == 16 ? 1 : -1];
+typedef char C2FunctionListingFieldCheck[offsetof(C2FunctionSymbol, listing) == 94 ? 1 : -1];
 typedef char C2FunctionSymbolSizeCheck[sizeof(C2FunctionSymbol) == 110 ? 1 : -1];
 typedef char C2InputSymbolSizeCheck[sizeof(C2InputSymbol) == 110 ? 1 : -1];
 typedef char C2InputSymbolDetailCheck[offsetof(C2InputSymbol, detail) == 0x3e ? 1 : -1];
@@ -348,7 +364,7 @@ void __fastcall emit_initializer(C2InitRecord *record);
 void __fastcall free_initializer(C2InitRecord *record);
 extern char symbol_name[2058];
 void __fastcall read_initializer_records(FILE *input);
-void c2_initialize_optimizer(void);
+void compile_functions(void);
 void c2_compile_unit(void);
 void c2_finalize_output(void);
 void c2_flush_debug(void);
