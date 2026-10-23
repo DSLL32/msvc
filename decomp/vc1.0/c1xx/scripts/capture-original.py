@@ -35,13 +35,14 @@ def main():
     parser.add_argument('--ownership-register', choices=('esi', 'ebx', 'edi', 'eax', 'ebp', 'esp', 'eax,esp', 'edx', 'edi,esi', 'esi,ebx,ebp', 'esi,eax', 'edi,esi,eax', 'eax,ebx', 'esi,ebp'),
         help='explicit caller-owned allocation anchor; not an extra callee ABI input')
     parser.add_argument('--x87-control', action='store_true', help='observe startup control/status/tags only, without reading x87 operands')
+    parser.add_argument('--x87-single', action='store_true', help='observe only the reached store tail actual ST0 operand')
     parser.add_argument('--x87-inputs', action='store_true', help='observe only the two proved private x87 inputs in logical FSAVE slots')
     parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
         help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')
     parser.add_argument('--observe-short', action='append', default=[], metavar='NAME=VA',
         help='explicit exact two-byte diagnostic read; zero-extension encodes only that WORD')
     args = parser.parse_args()
-    assert not (args.x87_control and args.x87_inputs)
+    assert sum([args.x87_control,args.x87_inputs,args.x87_single])<=1
     spec = importlib.util.spec_from_file_location('c1xx_original_tool', BINARY / 'scripts/wine-tool.py')
     tool = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(tool)
@@ -125,6 +126,7 @@ def main():
     environment['C1XX_CAPTURE_ARGUMENT_WORDS'] = str(args.argument_words)
     environment.pop('C1XX_CAPTURE_X87_INPUTS',None)
     if args.x87_inputs: environment['C1XX_CAPTURE_X87_INPUTS']='2'
+    if args.x87_single: environment['C1XX_CAPTURE_X87_INPUTS']='single'
     if args.x87_control: environment['C1XX_CAPTURE_X87_INPUTS']='control'
     environment.pop('C1XX_CAPTURE_OWNERSHIP_REGISTER', None)
     if args.ownership_register:
@@ -147,9 +149,9 @@ def main():
     if args.x87_control:
         from x87_inputs import control_observation
         receipt['x87_control']=control_observation(events)
-    if args.x87_inputs:
+    if args.x87_inputs or args.x87_single:
         from x87_inputs import original_observation
-        receipt['x87_inputs']=original_observation(events)
+        receipt['x87_inputs']=original_observation(events,1 if args.x87_single else 2)
     if args.ownership_register:
         receipt['ownership_register_observations'] = []
         for register in args.ownership_register.split(','):

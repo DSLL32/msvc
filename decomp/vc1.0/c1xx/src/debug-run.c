@@ -103,15 +103,16 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         argument_words, actual, context_read != 0);
     WriteFile(log, line, strlen(line), &written, 0);
     if (x87_inputs) {
-        unsigned top, physical, tag, i, j;
+        unsigned top, physical, tag, i, j, slots;
+        slots = x87_inputs == 2 ? 2 : (x87_inputs == 3 ? 1 : 0);
         top = context_read ? ((context.FloatSave.StatusWord >> 11) & 7) : 0;
         sprintf(line, "x87-context requested %u actual %u success %u control %04lx status %04lx tag %04lx top %u\n",
-            x87_inputs == 2 ? 2 : 0, context_read && x87_inputs == 2 ? 2 : 0, context_read != 0,
+            slots, context_read ? slots : 0, context_read != 0,
             context_read ? context.FloatSave.ControlWord & 0xffff : 0,
             context_read ? context.FloatSave.StatusWord & 0xffff : 0,
             context_read ? context.FloatSave.TagWord & 0xffff : 0, top);
         WriteFile(log, line, strlen(line), &written, 0);
-        for (i = 0; i < (x87_inputs == 2 ? 2U : 0U); ++i) {
+        for (i = 0; i < slots; ++i) {
             physical = (top + i) & 7;
             tag = context_read ? ((context.FloatSave.TagWord >> (2 * physical)) & 3) : 3;
             sprintf(line, "x87-input st%u physical %u tag %u requested 10 actual %u success %u ",
@@ -191,6 +192,7 @@ int main(int argc, char **argv)
     }
     if (x87_option) {
         if (!strcmp(x87_option, "2")) x87_inputs = 2;
+        else if (!strcmp(x87_option, "single")) x87_inputs = 3;
         else if (!strcmp(x87_option, "control")) x87_inputs = 1;
         else return 2;
     }

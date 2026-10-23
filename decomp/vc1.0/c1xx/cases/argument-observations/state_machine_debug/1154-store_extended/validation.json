@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_store_extended",
+  "case": "state_machine_debug",
+  "accepted_before": 1154,
+  "configuration_sha256": "b6a677656b6dd29d12c32c92b8cadc6a8345acd491558a79e55be568f28acf15",
+  "native_entry": "store_extended",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [
+    {
+      "name": "esi",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 621480,
+        "offset": 0,
+        "native_anchor_field": "result_owner"
+      },
+      "original_raw": 621480,
+      "native_raw": 1449197736,
+      "result": "match"
+    },
+    {
+      "name": "st0",
+      "binding": {
+        "kind": "x87-caller-load",
+        "original_instruction": 478833,
+        "bytes": 8,
+        "native_function": "double_to_extended",
+        "native_local": "value"
+      },
+      "original_raw": "00000000000000c0ff3f",
+      "native_raw": "00000000000000c0ff3f",
+      "result": "match"
+    }
+  ],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      479393,
+      479397
+    ],
+    "argument_bytes": 0,
+    "convention": "private ESI destination/ST0 value, plainRET",
+    "proof": "Whole4B FSTPTBYTE[ESI]/FWAIT/RET, noCframe/formal/GPRsaves/hiddenflags, writesonlyfirst10B and popsoneactualx87value; resultformatwordignored/unmodified. ExactincomingESI/static12Bscannedvalue boundto nativeactualregister and immediatecaller resultformal; fullrawST0/CW/status/tags/TOP compared atgenuineentry. Actualacceptedcaller MOVEDI,[EBP+8]74e6e/FLDQWORD[EDI]74e71 thenMOVESI,[EBP+12]74e73 andformat8 write74e76, CALL74e7c ret74e81, nointerveningx87operation. No additionalpointeeoracle or universalcontexttransport. Minimaldocumentednakedstore requiredbecauseperiodCcannotexpress10B/privateABI; shared nakedtracepreservesincomingstate, noapphelpervertex.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "69ad8b9f5305554ecbab9f67849cbe3b74d7080e2c28cdf98bb564b5e3faad3d",
+  "capture_timing": {
+    "original_capture_seconds": 1.7188004218041897,
+    "native_capture_seconds": 0.18689056672155857,
+    "total_operation_seconds": 2.1912687961012125
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "0f5256c12a77aef029da582cb7f5f3dc5d6eb496c72716911e44650beaf9dbf4",
+    "native-commands.gdb": "38932c4bb031fb79aecb32697b4d1b629dcd4183861fd079189c41076ba4e5eb",
+    "native-gdb.log": "fca430fb166c1f2649b1e9c74ee339842c0d69229dfa47b5efe01dc96982a12b",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "ef3c8b8cebd31ac5b51065121f6b08ef9ba3ca8ca59b8e80aabe72c958947af3",
+    "original-configuration.json": "b6a677656b6dd29d12c32c92b8cadc6a8345acd491558a79e55be568f28acf15",
+    "original-disassembly.txt": "60ed34e7e79e20500cc2f8c5234cac37d3edbdd0f29cb694c508359250d0ba2e",
+    "original-entries.plan": "34ff65268578a1b98525fbea223f302b25a06f0aadc8ec0b10bc6cc44ccadad5",
+    "original-events.txt": "427495981d14403f9078cf3475a9143cb9ebe32120106ad0f9ff1f750fd45d54",
+    "original-ownership-caller-disassembly.txt": "3835f8d9f8ea80f60679eeb7c3df8eb3c54be545d14c0e63a64f1bc7ef9b873f",
+    "original-receipt.json": "cd42981939435a9adcc151878e1177699550a778e732ef56227833251ed5c43e",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "0969cbd4e467a14cff92e18a499f4ec83252792d4ee6aeea85a56e5f19157222"
+  },
+  "x87_inputs": false,
+  "x87_single": true,
+  "x87_owner": {
+    "original_function": "_double_to_extended",
+    "native_function": "double_to_extended",
+    "native_local": "result",
+    "native_field": "caller_result",
+    "original_register": "esi",
+    "return_rva": 413313,
+    "destination_address": 621480
+  },
+  "x87_environment": {
+    "original": {
+      "control": 639,
+      "status": 14336,
+      "tag": 16383,
+      "top": 7
+    },
+    "native": {
+      "control": 639,
+      "status": 14336,
+      "tag": 16383,
+      "top": 7
+    }
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "result_format",
+      "equals": 8
+    }
+  ]
+}

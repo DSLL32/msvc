@@ -132,6 +132,7 @@ endif
 # Native fixture builds preserve the Win32 C bodies and individual ABIs.
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
+NATIVE_TRACE_FLAGS = -DRECON_NATIVE_TRACE -finstrument-functions
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc
 NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h) build/native-inputs.stamp
 NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
@@ -141,7 +142,7 @@ NATIVE_TRACE_OBJECTS = $(patsubst build/native/%,build/native-trace/%,$(NATIVE_O
 .PHONY: native native-trace native-check native-trace-check native-inputs-force
 native-inputs-force:
 build/native-inputs.stamp: native-inputs-force scripts/native-build-signature.py scripts/shared_build_inputs.py | build
-	$(PYTHON) scripts/native-build-signature.py "$(RECON)" "$@" "$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS)"
+	$(PYTHON) scripts/native-build-signature.py "$(RECON)" "$@" "$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_FLAGS)"
 native: build/native/C1XX3232.EXE
 native-trace: build/native-trace/C1XX3232.EXE
 build/native build/native-trace:
@@ -149,7 +150,7 @@ build/native build/native-trace:
 build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 build/native-trace/%.o: src/%.c $(NATIVE_HEADERS) | build/native-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_FLAGS) -c $< -o $@
 build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-trace
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 build/native/parser-grammar.o: build/parser-grammar.c $(NATIVE_HEADERS) | build/native
@@ -157,9 +158,9 @@ build/native/parser-grammar.o: build/parser-grammar.c $(NATIVE_HEADERS) | build/
 build/native/lookahead-grammar.o: build/lookahead-grammar.c $(NATIVE_HEADERS) | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 build/native-trace/parser-grammar.o: build/parser-grammar.c $(NATIVE_HEADERS) | build/native-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_FLAGS) -c $< -o $@
 build/native-trace/lookahead-grammar.o: build/lookahead-grammar.c $(NATIVE_HEADERS) | build/native-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_FLAGS) -c $< -o $@
 build/native/C1XX3232.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
 build/native-trace/C1XX3232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile

@@ -1,4 +1,4 @@
-"""Only the two actual x87 operands of check_extended_range.
+"""Only reached x87 inputs of check_extended_range and store_extended.
 
 Original FSAVE logical slots are bound to independently read FLD operands;
 TOP and full physical tags establish that the two slots are populated.
@@ -13,10 +13,11 @@ def control_observation(events,expected=0):
     assert requested==actual==expected and success==1 and top==((status>>11)&7),'unreadable x87 context'
     return dict(requested=requested,actual=actual,context_read=True,control=control,status=status,tag=tag,top=top)
 
-def original_observation(events):
-    context=control_observation(events,2);top,tag=context['top'],context['tag']
+def original_observation(events,count=2):
+    assert count in (1,2), 'only reached one/two operand ABIs are supported'
+    context=control_observation(events,count);top,tag=context['top'],context['tag']
     rows=re.findall(r'^x87-input (st[01]) physical (\d+) tag (\d+) requested (\d+) actual (\d+) success (\d+) ([0-9a-f]{20})$',events,re.M)
-    assert len(rows)==2 and [row[0] for row in rows]==['st0','st1'],'missing x87 operand'
+    assert len(rows)==count and [row[0] for row in rows]==['st'+str(i) for i in range(count)],'missing x87 operand'
     inputs=[]
     for i,(register,physical,kind,requested_bytes,read_bytes,read_succeeded,raw) in enumerate(rows):
         physical,kind,requested_bytes,read_bytes,read_succeeded=map(int,(physical,kind,requested_bytes,read_bytes,read_succeeded))
@@ -70,3 +71,39 @@ def validate_range_inputs(name,description,receipt,events,native,anchors,config)
         assert left['raw']==right['raw']==encoded, 'x87 operand slot/memory mapping differs'
         result=copy.deepcopy(row);result.update(original_raw=left['raw'],native_raw=right['raw'],result='match');bound.append(result)
     return dict(registers=bound,environment=dict(original={k:old[k] for k in ['control','status','tag','top']},native={k:new[k] for k in ['control','status','tag','top']}))
+
+
+def validate_store_inputs(name,description,receipt,events,native,anchors,config):
+    """Actual ESI/ST0 inputs of the four-byte store reached from double wrapper."""
+    import copy,hashlib,json
+    assert name=='_store_extended' and description.get('x87_single') and not description.get('x87_inputs')
+    assert not description['formals'] and not description['hidden_inputs'] and not description['unknown_inputs']
+    rows=description['register_inputs'];assert [row['name'] for row in rows]==['esi','st0']
+    owner=description['x87_owner']
+    assert owner==dict(original_function='_double_to_extended',native_function='double_to_extended',native_local='result',native_field='caller_result',original_register='esi',return_rva=0x64e81,destination_address=0x97ba8), 'wrong store input owner binding'
+    assert receipt['terminal']==name and receipt['candidate'] is None
+    assert re.findall(r'^caller ([0-9a-f]+)$',events,re.M)==['00064e81'], 'wrong actual store caller'
+    projection=receipt['ownership_entry_projection'];assert projection['observed']==projection['expected']==['_double_to_extended']
+    assert projection['events_sha256']==hashlib.sha256(events.encode()).hexdigest()
+    assert projection['accepted_prefix_sha256']==hashlib.sha256(json.dumps(config['accepted'],separators=(',',':')).encode()).hexdigest()
+    caller=next(row for row in config['driver'] if row['name']=='_double_to_extended');assert caller['name'] in config['accepted']
+    assert re.search(r'^entry _double_to_extended rva %08x byte 55$'%(caller['start']-config['target']['base']),events,re.M)
+    registers=receipt['ownership_register_observations'];assert len(registers)==1 and registers[0]['register']=='esi' and registers[0]['read_succeeded']
+    assert registers[0]['value']==0x97ba8, 'actual original store destination differs'
+    actual_owner=native['caller_locals']['caller_result'];assert actual_owner==dict(function='double_to_extended',local='result',fields=[],value=native['result_owner']), 'wrong actual native store result owner'
+    assert native['raw_esi']==native['result_owner'], 'actual native ESI differs from caller result'
+    assert rows[0]['binding']==dict(kind='object-offset',original_object=0x97ba8,offset=0,native_anchor_field='result_owner')
+    assert rows[1]['binding']==dict(kind='x87-caller-load',original_instruction=0x74e71,bytes=8,native_function='double_to_extended',native_local='value'), 'wrong actual caller FLDQWORD def-use'
+    state=anchors['result_format'];assert state['original']==0x97bb2 and state['bytes']==state['read_bytes']==2 and state['read_succeeded'] and state['value']==native['result_format']==8, 'store owner format word differs'
+    old=original_observation(events,1);assert old==receipt['x87_inputs'], 'raw original ST0 differs from receipt'
+    new=native['x87_inputs'];assert new['requested']==new['actual']==1 and new['context_read']
+    for key in ['control','status','tag','top']:assert old[key]==new[key], 'store x87 entry environment differs: '+key
+    assert len(new['inputs'])==1
+    raw=re.findall(r'^st0\s+.*\(raw 0x([0-9a-f]{20})\)\s*$',new['raw_gdb'],re.M);assert len(raw)==1
+    left,right=old['inputs'][0],new['inputs'][0]
+    assert right['register']=='st0' and right['physical_index']==new['top'] and right['tag']==((new['tag']>>(2*new['top']))&3)!=3
+    assert right['requested_bytes']==right['read_bytes']==10 and right['read_succeeded']
+    assert left['raw']==right['raw']==bytes.fromhex(raw[0])[::-1].hex(), 'actual store ST0 values differ'
+    pointer=copy.deepcopy(rows[0]);pointer.update(original_raw=registers[0]['value'],native_raw=native['raw_esi'],result='match')
+    value=copy.deepcopy(rows[1]);value.update(original_raw=left['raw'],native_raw=right['raw'],result='match')
+    return dict(registers=[pointer,value],environment=dict(original={k:old[k] for k in ['control','status','tag','top']},native={k:new[k] for k in ['control','status','tag','top']}))

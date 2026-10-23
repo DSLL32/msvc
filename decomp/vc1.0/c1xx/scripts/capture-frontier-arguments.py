@@ -39,7 +39,7 @@ def main():
     name = config['cases'][args.case]['terminal']
     assert plan['function'] == name
     assert not plan['hidden_inputs'] and not plan['unknown_inputs'], 'unsupported ABI transport holds acceptance'
-    assert not plan['register_inputs'] or (name=='_check_extended_range' and plan.get('x87_inputs')), 'unsupported register ABI transport holds acceptance'
+    assert not plan['register_inputs'] or ((name=='_check_extended_range' and plan.get('x87_inputs')) or (name=='_store_extended' and plan.get('x87_single'))), 'unsupported register ABI transport holds acceptance'
     for formal in plan['formals']:
         if formal['binding']['kind']=='parser-context-slot':
             from parser_context_owner import STACK_BASE, STACK_ELEMENTS
@@ -50,12 +50,13 @@ def main():
     assert all(0 <= item['stack_index'] < requested_words for item in plan['formals']), 'formal exceeds requested original stack words'
     command = [sys.executable, str(BINARY/'scripts/capture-original.py'), '--case', args.case, '--argument-words', str(requested_words)]
     if plan.get('x87_inputs'):command += ['--x87-inputs']
+    if plan.get('x87_single'):command += ['--x87-single']
     for item in plan.get('original_observations', []):
         assert item.get('bytes',4) in (2,4)
         command += ['--observe-short' if item.get('bytes',4)==2 else '--observe-state', item['name']+'='+hex(item['original'])]
     if plan.get('ownership_register'):
         owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind'] in ('caller-owned-pointer','parser-context-slot','member-function-parameter-owner')}
-        if plan.get('x87_inputs'):owners.add(plan['x87_owner']['original_function'])
+        if plan.get('x87_inputs') or plan.get('x87_single'):owners.add(plan['x87_owner']['original_function'])
         assert len(owners)==1, 'one explicit actual ownership caller per observation'
         command += ['--ownership-register', plan['ownership_register'], '--entry-plan', '--entry-owner', owners.pop()]
     original = Path(subprocess.check_output(command, cwd=BINARY, text=True).strip().splitlines()[-1]).parent
@@ -64,7 +65,7 @@ def main():
     spec = importlib.util.spec_from_file_location('frontier_argument_native', BINARY/'scripts/capture-native.py')
     native = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(native)
-    checkpoint = native.capture(out/'native-raw', breakpoint=plan['native_entry'], expressions=plan['native_expressions'], case_name=args.case, caller_locals=plan.get('native_caller_locals'), x87_inputs=plan.get('x87_inputs',False))
+    checkpoint = native.capture(out/'native-raw', breakpoint=plan['native_entry'], expressions=plan['native_expressions'], case_name=args.case, caller_locals=plan.get('native_caller_locals'), x87_inputs='single' if plan.get('x87_single') else plan.get('x87_inputs',False))
     receipt = json.loads((original/'receipt.json').read_text())
     events = (original/'events.txt').read_text()
     assert receipt['terminal'] == name and receipt['configuration_sha256'] == sha(BINARY/'functions.json')
@@ -78,9 +79,10 @@ def main():
     for requirement in plan.get('state_requirements', []):
         assert states[requirement['index']] == checkpoint[requirement['native_field']] == requirement['equals']
     x87_result=None
-    if plan.get('x87_inputs'):
-        from x87_inputs import validate_range_inputs
-        x87_result=validate_range_inputs(name,plan,receipt,events,checkpoint,anchors,config)
+    if plan.get('x87_inputs') or plan.get('x87_single'):
+        from x87_inputs import validate_range_inputs,validate_store_inputs
+        validator=validate_store_inputs if plan.get('x87_single') else validate_range_inputs
+        x87_result=validator(name,plan,receipt,events,checkpoint,anchors,config)
     for item in plan['formals']:
         item['original_raw'] = words[item['stack_index']]
         item['native_raw'] = checkpoint[item['native_field']]
@@ -202,7 +204,7 @@ def main():
     shutil.copyfile(args.plan, out/'plan.json')
     plan['abi_analysis']['original_target_sha256'] = receipt['original_sha256']
     proof = dict(schema=1, status='match', function=name, case=args.case, accepted_before=len(config['accepted']), configuration_sha256=sha(BINARY/'functions.json'), native_entry=plan['native_entry'], declared_formal_count=len(plan['formals']), formals=plan['formals'], register_inputs=x87_result['registers'] if x87_result else [], hidden_inputs=[], unknown_inputs=[], abi_analysis=plan['abi_analysis'], native_executable_sha256=sha(BINARY/'build/native/C1XX3232.EXE'), capture_timing=dict(original_capture_seconds=receipt['capture_seconds'], native_capture_seconds=json.loads((out/'native-timing.json').read_text())['total_seconds'], total_operation_seconds=time.perf_counter()-started), evidence_sha256={p.name:sha(p) for p in sorted(out.iterdir()) if p.is_file()})
-    if x87_result:proof.update(x87_inputs=True,x87_owner=plan['x87_owner'],x87_environment=x87_result['environment'])
+    if x87_result:proof.update(x87_inputs=bool(plan.get('x87_inputs')),x87_single=bool(plan.get('x87_single')),x87_owner=plan['x87_owner'],x87_environment=x87_result['environment'])
     proof['uncredited_unused_inputs'] = [item['name'] for item in plan['formals'] if item['result']=='uncredited-unused']
     proof['argument_observation'] = observed_words
     proof['state_requirements'] = plan.get('state_requirements', [])

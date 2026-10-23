@@ -44,16 +44,18 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
     for key, expression in (expressions or {}).items():
         commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
     if x87_inputs:
-        assert breakpoint=='check_extended_range', 'only the actual two-operand range helper is supported'
+        assert (breakpoint=='check_extended_range' and x87_inputs is True) or (breakpoint=='store_extended' and x87_inputs=='single'), 'only the reached private x87 ABIs are supported'
+        x87_count=1 if x87_inputs=='single' else 2
+        x87_names='st0' if x87_count==1 else 'st0 st1'
         commands += ['    import re',
-                     '    raw_x87=gdb.execute("info registers st0 st1",to_string=True)',
+                     '    raw_x87=gdb.execute('+repr('info registers '+x87_names)+',to_string=True)',
                      '    x87_values=re.findall(r"^st([01])\\s+.*\\(raw 0x([0-9a-f]{20})\\)\\s*$",raw_x87,re.M)',
-                     '    assert len(x87_values)==2 and [n for n,value in x87_values]==["0","1"], "missing raw x87 input"',
+                     '    assert len(x87_values)=='+str(x87_count)+' and [n for n,value in x87_values]=='+repr([str(i) for i in range(x87_count)])+', "missing raw x87 input"',
                      '    x87_status=int(gdb.parse_and_eval("$fstat")) & 0xffff',
                      '    x87_control=int(gdb.parse_and_eval("$fctrl")) & 0xffff',
                      '    x87_tag=int(gdb.parse_and_eval("$ftag")) & 0xffff',
                      '    x87_top=(x87_status>>11)&7',
-                     '    result["x87_inputs"]=dict(requested=2,actual=2,context_read=True,status=x87_status,control=x87_control,tag=x87_tag,top=x87_top,inputs=[dict(register="st"+n,physical_index=(x87_top+int(n))&7,tag=(x87_tag>>(2*((x87_top+int(n))&7)))&3,requested_bytes=10,read_bytes=10,read_succeeded=True,raw=bytes.fromhex(value)[::-1].hex()) for n,value in x87_values],raw_gdb=raw_x87)']
+                     '    result["x87_inputs"]=dict(requested='+str(x87_count)+',actual='+str(x87_count)+',context_read=True,status=x87_status,control=x87_control,tag=x87_tag,top=x87_top,inputs=[dict(register="st"+n,physical_index=(x87_top+int(n))&7,tag=(x87_tag>>(2*((x87_top+int(n))&7)))&3,requested_bytes=10,read_bytes=10,read_succeeded=True,raw=bytes.fromhex(value)[::-1].hex()) for n,value in x87_values],raw_gdb=raw_x87)']
     if caller_locals:
         commands += ['    result["caller_locals"] = {}']
         for key, owner in caller_locals.items():

@@ -3,6 +3,7 @@
 #include "initialization.h"
 #include "floating.h"
 #include "numeric-conversion.h"
+#include <trace-abi.h>
 #include <recon.h>
 
 /* Original 0x74b30..0x74b3d. */
@@ -128,4 +129,17 @@ int double_to_extended(const double *value, Extended *result)
         call store_extended
     }
     return 0;
+}
+
+/* Original 0x750a1..0x750a4. This shared ten-byte store tail takes
+   ESI/ST(0), has no C frame, and pops the x87 value. Period C cannot
+   express that value width or calling convention. */
+__declspec(naked) void store_extended(void)
+{
+    RECON_TRACE_NAKED_ENTRY(store_extended)
+    __asm {
+        fstp tbyte ptr [esi]
+        fwait
+        ret
+    }
 }

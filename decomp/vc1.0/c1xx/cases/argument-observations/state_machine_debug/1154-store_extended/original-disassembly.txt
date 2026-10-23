@@ -1,0 +1,10 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000750a1 <.text+0x5e0a1>:
+   750a1:	db 3e                	fstp   TBYTE PTR [esi]
+   750a3:	9b                   	fwait
+   750a4:	c3                   	ret
