@@ -1,0 +1,55 @@
+{
+  "source_sha256": "0361afe2e4e0e2db661a95674fcdd72ab3e2ba0fd912c8965951ffc5299f499c",
+  "build_seconds": 2.134821267798543,
+  "runs": [
+    {
+      "mode": "exit",
+      "wine_transport_status": 76,
+      "logical_source_status": 1100,
+      "seconds": 0.5204321909695864,
+      "stdout": "",
+      "stderr": "432070656e64696e673d362073697a653d300d0a422070656e64696e673d31322073697a653d300d0a412070656e64696e673d31382073697a653d300d0a",
+      "artifact": "6265666f7265616674657243616674657242616674657241"
+    },
+    {
+      "mode": "return",
+      "wine_transport_status": 37,
+      "logical_source_status": 37,
+      "seconds": 0.6012427238747478,
+      "stdout": "",
+      "stderr": "432070656e64696e673d362073697a653d300d0a422070656e64696e673d31322073697a653d300d0a412070656e64696e673d31382073697a653d300d0a",
+      "artifact": "6265666f7265616674657243616674657242616674657241"
+    },
+    {
+      "mode": "process",
+      "wine_transport_status": 76,
+      "logical_source_status": 1100,
+      "seconds": 0.48743214551359415,
+      "stdout": "",
+      "stderr": "",
+      "artifact": ""
+    }
+  ],
+  "canonical_provider": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_binding": "adjacent native-override canonical DLL; independently hFile-verified in C2 onexit observer",
+  "scope": "typed _onexit samecallback return, genuine LIFO dispatch interleaved with ordinaryatexit, callbacks beforefinalstdioflush",
+  "native_build_checks_seconds": {
+    "gcc": 1.0379550503566861,
+    "clang": 1.2991600753739476
+  },
+  "canonical_body_review": [
+    "MSVCRT exitRVA509a calls exit_common5220: callbackreversewalk52a0 precedes terminationinitializer tables528c/5256",
+    "MSVCRT _onexit983c registerscallback andreturnssamepointer"
+  ],
+  "limits": [
+    "NULL/registrationfailure/__dllonexit/nestedregistration/nestedexit unsupported",
+    "terminalstatus publishesexitrequest; callbackmustreturnnormally andPOSIXstatus mustagree",
+    "ExitProcess skipsCRTcallbacks/flushing"
+  ],
+  "native_finished_regressions": {
+    "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/onexit-regression/receipt.json",
+    "cases": 95,
+    "status": "passed",
+    "wine": false
+  }
+}

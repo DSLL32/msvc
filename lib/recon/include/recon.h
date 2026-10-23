@@ -24,6 +24,13 @@
 #include <sys/timeb.h>
 #include <win32.h>
 
+#ifndef _ONEXIT_T_DEFINED
+typedef int (__cdecl *_onexit_t)(void);
+#define _ONEXIT_T_DEFINED
+#endif
+_onexit_t recon_onexit(_onexit_t);
+_onexit_t recon_dllonexit(_onexit_t,_onexit_t **,_onexit_t **);
+
 #define _MAX_PATH 260
 #define _MAX_DRIVE 3
 #define _MAX_DIR 256
@@ -315,6 +322,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define remove recon_remove
 #define rename recon_rename
 #define time(...) recon_time(__VA_ARGS__)
+#define _onexit recon_onexit
+#define __dllonexit recon_dllonexit
 #define _assert recon_assert
 #define exit recon_exit
 #define _open recon_open

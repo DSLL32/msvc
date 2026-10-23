@@ -397,3 +397,13 @@ errno/LastError. Fixtures normalize only identified clock fields, retaining
 relations such as equal initial/start values. Classic i386 CONTEXT (204bytes)
 and FLOATING_SAVE_AREA (112bytes) follow the original SDK field layout for
 readable target code; declaring them adds no native Win32 exception emulation.
+
+`_onexit` keeps its cdecl int-callback ABI, returns the registered callback and
+runs genuine callbacks in reverse registration order. One host atexit entry per
+callback preserves interleaving with ordinary atexit. Callback return values are
+ignored. Normal return/exit runs callbacks before final shared stdio flushing;
+ExitProcess bypasses both. NULL/failure, __dllonexit and registration/exit nested
+inside callbacks are explicitly unsupported until characterized. The optional
+terminal receipt records the exit request before dispatch; acceptance also
+requires matching normal POSIX completion, so a callback trap cannot pass as a
+completed exit. Callback-driven exit replacement remains unsupported.

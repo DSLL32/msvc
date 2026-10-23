@@ -787,9 +787,46 @@ int recon_feof(ShimFILE *s) { return !!(s->_flag&0x10); }
 void recon_clearerr(ShimFILE *s) { s->_flag&=~0x30; }
 void recon_rewind(ShimFILE *s) { recon_fseek(s,0,SEEK_SET); recon_clearerr(s); }
 int recon_fileno(ShimFILE *s) { return s->_file; }
+/* One host registration per callback retains ordering with ordinary atexit. */
+typedef struct OnexitCallback {
+    struct OnexitCallback *next;
+    _onexit_t callback;
+} OnexitCallback;
+static OnexitCallback *onexit_callbacks;
+static int onexit_running;
+static void run_onexit_callback(void)
+{
+    OnexitCallback *entry=onexit_callbacks; _onexit_t callback;
+    if (!entry || onexit_running) recon_unsupported("unreviewed nested _onexit dispatch");
+    onexit_callbacks=entry->next; callback=entry->callback;
+    munmap(entry,sizeof(*entry));
+    onexit_running=1; (void)callback(); onexit_running=0;
+}
+WEAK _onexit_t recon_onexit(_onexit_t callback)
+{
+    OnexitCallback *entry; int saved_errno=errno;
+    if (!callback || onexit_running) recon_unsupported("unreviewed _onexit NULL/nested registration");
+    entry=mmap(NULL,sizeof(*entry),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+    if (entry==MAP_FAILED) recon_unsupported("_onexit registration allocation failure");
+    entry->callback=callback; entry->next=onexit_callbacks;
+    if (atexit(run_onexit_callback)) recon_unsupported("_onexit host registration failure");
+    onexit_callbacks=entry; errno=saved_errno;
+    return callback;
+}
+WEAK _onexit_t recon_dllonexit(_onexit_t callback,_onexit_t **begin,_onexit_t **end)
+{
+    (void)callback; (void)begin; (void)end;
+    recon_unsupported("unreviewed __dllonexit"); return NULL;
+}
+
 void recon_endstdio(void) { recon_fflush(NULL); }
 void recon_rmtmp(void) { }
-void recon_exit(int code) { recon_fflush(NULL); recon_record_terminal_status((uint32_t)code); exit(code); }
+void recon_exit(int code)
+{
+    if (onexit_running) recon_unsupported("unreviewed exit from _onexit callback");
+    recon_record_terminal_status((uint32_t)code);
+    exit(code);
+}
 
 void recon_splitpath(const char *path,char *drive,char *directory,char *name,char *extension)
 {
