@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_emit_member_pointer_virtual_thunk@4",
+  "native_entry": "emit_member_pointer_virtual_thunk",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    318491,
+    318517
+  ],
+  "native_caller_locals": {
+    "caller_key": {
+      "frame": 1,
+      "function": "member_pointer_virtual_function",
+      "local": "key"
+    }
+  },
+  "native_expressions": {
+    "raw_key": "(unsigned)key"
+  },
+  "formals": [
+    {
+      "name": "key",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 252979,
+        "original_owner_function": "_member_pointer_virtual_function@4",
+        "native_owner_function": "member_pointer_virtual_function",
+        "native_owner_field": "caller_key",
+        "native_owner_local": "key",
+        "identity": "Actual caller keeps newly initialized12BkeyEDI, hashesfind4dc22 thenmissingbranchPUSHEDI4dc2d/CALL4dc2e return4dc33. Native actual caller keylocal; no rawheapidentity/staticowner invention."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      318608,
+      318802
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole194B/four savedregisters16:keyESP+20,RET4/EAXsymbol. allocate_permanent6ad50/RET4 actual52B CppSymbol then REP13DWORD cloneactualkey.function. Clearflag0400, nextindex/fatal55/browserrollover graph, nextNULL, qualifierbits6 and(kind<<3)&38, this_displacementkey+8, definedstoragekind+declaration_storage3bytes preservinglow3and40bit. Onlycallee allocate_permanent/fatal_error/browser_symbol_rollover, no hidden/registersemanticinputs/uninitializedfield invented. Original keyfullyinitialized12B byacceptedconstructor."
+  }
+}

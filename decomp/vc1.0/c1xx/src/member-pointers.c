@@ -9,6 +9,7 @@
 #include "member-pointers.h"
 #include "hash-table.h"
 #include "function-finalization.h"
+#include "global-ir.h"
 #include <recon.h>
 
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
@@ -33,6 +34,34 @@ IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset
 int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
+
+/* Original 0x4dc90..0x4dd52. Clone a virtual member's symbol with
+   the generated-function identity; finish_declarations emits it later. */
+CppSymbol *__stdcall emit_member_pointer_virtual_thunk(MemberPointerThunkKey *key)
+{
+    CppSymbol *thunk = allocate_permanent(sizeof(CppSymbol));
+    unsigned char storage_kind;
+    *thunk = *key->function;
+    thunk->declaration_flags &= ~0x400;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    thunk->index = next_symbol_index++;
+    thunk->next = 0;
+    thunk->cpp.parts.member_qualifiers |= 6;
+    thunk->this_displacement = key->displacement;
+    thunk->cpp.parts.member_qualifiers =
+        (thunk->cpp.parts.member_qualifiers & ~0x38) | ((key->kind << 3) & 0x38);
+    thunk->flags |= 4;
+    thunk->storage[0] = (thunk->storage[0] & 0xf9) | 1;
+    storage_kind = thunk->storage[0] & 7;
+    thunk->storage[0] = declaration_storage[0];
+    thunk->storage[1] = declaration_storage[1];
+    thunk->storage[2] = declaration_storage[2];
+    thunk->storage[0] = (thunk->storage[0] & 0xf8) | storage_kind;
+    thunk->storage[0] |= 0x40;
+    return thunk;
+}
 
 /* Original 0x4dfa0..0x4dfab, cdecl contextual hash callback.
    Member identity is deliberately absent from this cache's hash. */

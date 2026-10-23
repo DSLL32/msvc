@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_emit_member_pointer_virtual_thunk@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1124,
+  "configuration_sha256": "67fa8cb12203f29d1296afd4589a145ddbc53e0649efc5746b8c7cfa5388a28c",
+  "native_entry": "emit_member_pointer_virtual_thunk",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "key",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 252979,
+        "original_owner_function": "_member_pointer_virtual_function@4",
+        "native_owner_function": "member_pointer_virtual_function",
+        "native_owner_field": "caller_key",
+        "native_owner_local": "key",
+        "identity": "Actual caller keeps newly initialized12BkeyEDI, hashesfind4dc22 thenmissingbranchPUSHEDI4dc2d/CALL4dc2e return4dc33. Native actual caller keylocal; no rawheapidentity/staticowner invention.",
+        "original_owner_value": 8363768,
+        "native_owner_value": 1449354464
+      },
+      "original_raw": 8363768,
+      "native_raw": 1449354464,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      318608,
+      318802
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole194B/four savedregisters16:keyESP+20,RET4/EAXsymbol. allocate_permanent6ad50/RET4 actual52B CppSymbol then REP13DWORD cloneactualkey.function. Clearflag0400, nextindex/fatal55/browserrollover graph, nextNULL, qualifierbits6 and(kind<<3)&38, this_displacementkey+8, definedstoragekind+declaration_storage3bytes preservinglow3and40bit. Onlycallee allocate_permanent/fatal_error/browser_symbol_rollover, no hidden/registersemanticinputs/uninitializedfield invented. Original keyfullyinitialized12B byacceptedconstructor.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "041f9e03fff97bd86a33755bcb3d991cce92d3895316be0b60883fa7a3e8d351",
+  "capture_timing": {
+    "original_capture_seconds": 0.9668289748951793,
+    "native_capture_seconds": 0.17612435389310122,
+    "total_operation_seconds": 1.4056171458214521
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "c659483d0aa5448a532a5e5d35cbc55e1c1ee48e5bc5e1f122f3dfb7625eaeb0",
+    "native-commands.gdb": "dd372a50c5b3bb2ba6c0cf5cf5ba370129041f13802146a2375a2a036318a4ca",
+    "native-gdb.log": "aeec1e04507e50c2e9ea8b0b82a42b630ab9c1dace3ee9e885baf8ea714ff7c0",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "e73272efb384f287d64558e94151108ca1be4e9512e5cdcadf7530eb41f97a2c",
+    "original-configuration.json": "67fa8cb12203f29d1296afd4589a145ddbc53e0649efc5746b8c7cfa5388a28c",
+    "original-disassembly.txt": "044650cebcac5a56dfcca83208d6fc0ba4b2cc44cfb007c8daa890a5efbccdb0",
+    "original-entries.plan": "da3fd19161fd62c275dd45e75fb5e4636792e978f446821623e52f6d2977db96",
+    "original-events.txt": "4da77539f7b1f04f1a6e55fb5454020f3af8367716544b1becb570d785ee6af9",
+    "original-ownership-caller-disassembly.txt": "f31ba13a4c779596f8adbaf876d5fe8c92d2c4b5a08f30dc218f3b28e6486a81",
+    "original-receipt.json": "7efb508222ea343b774968f655bbfdd9a34c84e315d077c187c9d4a13ed42686",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "72e2e82ea16b6472d780b97408d3c20e8e4a90a73167cd43937be146ea166059"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
