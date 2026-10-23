@@ -20,7 +20,7 @@ unsigned short write_output(const void *buffer,unsigned short size) { __asm { in
 unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
 
-void build_symbol_name_hash(SymbolHash hash,unsigned short *kind,unsigned long *size,GrowingBuffer *buffer,unsigned long count,void **buckets) { __asm { int 3 } }
+void *append_fill(GrowingBuffer *buffer,unsigned char value,unsigned long size) { __asm { int 3 } return NULL; }
 void build_symbol_address_hash(unsigned short *kind,unsigned long *size,GrowingBuffer *buffer,unsigned long count,void **buckets) { __asm { int 3 } }
 BufferBlock *first_buffer_block(const GrowingBuffer *buffer) { __asm { int 3 } return NULL; }
 BufferBlock *next_buffer_block(const BufferBlock *block) { __asm { int 3 } return NULL; }

@@ -63,7 +63,21 @@ def compare(item,descriptions,words,parameters,events,pe):
     defined=None
     if proof.get('mode')=='input':
         old=bytes.fromhex(match[1]);new=bytes.fromhex(actual['prebytes'])
-        if proof.get('children')=='coff-function':
+        if proof.get('growing_buffer'):
+            assert proof['size']==24 and proof['owner']=='write_global_publics'and proof['local']=='names','unreviewed growing-buffer local'
+            matches=re.findall(r'^transient-child %08x 20 ([0-9a-f]+) ([0-9a-f]+)$'%value,events,re.M)
+            assert len(matches)==1,'missing original growing-buffer block'
+            address,raw=matches[0];block=actual['block'];headers=[(int(address,16),bytes.fromhex(raw)),(block['address'],bytes.fromhex(block['bytes']))]
+            def state(parent,header):
+                words=[int.from_bytes(parent[i:i+4],'little')for i in range(0,24,4)];address,raw=header
+                assert len(raw)==12,'wrong growing-buffer block extent'
+                used,data,next=[int.from_bytes(raw[i:i+4],'little')for i in range(0,12,4)]
+                assert address==words[8//4]==words[20//4]!=0 and words[4//4]==1 and next==0,'growing-buffer first/last/lifetime topology differs'
+                assert data!=0 and 0<=used<=words[0]and words[16//4]+used==words[0]and words[12//4]==data+used,'growing-buffer cursor/extent differs'
+                return words[0],words[1],words[4],used
+            assert state(old,headers[0])==state(new,headers[1]),'growing-buffer defined scalar state differs'
+            defined=actual_length=12
+        elif proof.get('children')=='coff-function':
             left,right=bytearray(old),bytearray(new);children=actual.get('children',{});assert set(children)=={'0','16'},'missing COFF child observations'
             for field in (0,16):
                 pointer=int.from_bytes(old[field:field+4],'little');native_pointer=int.from_bytes(new[field:field+4],'little')
@@ -90,5 +104,5 @@ def compare(item,descriptions,words,parameters,events,pe):
             r=proof['defined_length'];defined=int.from_bytes(old[r['offset']:r['offset']+r['width']],'little')+r['bias']
             actual_length=int.from_bytes(new[r['offset']:r['offset']+r['width']],'little')+r['bias']
         assert defined==actual_length and 1<=defined<=proof['size'],'invalid defined stack input length'
-        if 'consumed_ranges'not in proof and not proof.get('children'):assert old[:defined]==new[:defined],'defined stack input bytes differ'
+        if 'consumed_ranges'not in proof and not proof.get('children')and not proof.get('growing_buffer'):assert old[:defined]==new[:defined],'defined stack input bytes differ'
     return dict(defined_input_bytes=defined,original_address=value,native_address=actual['address'],typed_local=actual['local'],original_undefined_bytes=match[1],native_undefined_bytes=actual['prebytes'])

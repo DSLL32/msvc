@@ -343,4 +343,112 @@ unsigned long pad_symbols(void **buckets, unsigned long alignment)
     }
     return total;
 }
+
+typedef struct SymbolHashPair {
+    unsigned long offset, hash;
+} SymbolHashPair;
+typedef struct NameHashOverflow {
+    struct NameHashOverflow *next;
+    SymbolHashPair pairs[5];
+} NameHashOverflow;
+typedef struct NameHashBucket {
+    unsigned short count, reserved;
+    NameHashOverflow *overflow;
+    SymbolHashPair pairs[12];
+} NameHashBucket;
+typedef char NameHashBucketSize[(sizeof(NameHashBucket)==104)?1:-1];
+typedef char NameHashOverflowSize[(sizeof(NameHashOverflow)==44)?1:-1];
+
+void build_symbol_name_hash(SymbolHash hash, unsigned short *kind,
+                            unsigned long *size, GrowingBuffer *buffer,
+                            unsigned long count, void **buckets)
+{
+    NameHashOverflow *overflow_pages[10], **link, *block;
+    NameHashBucket **pages, *bucket;
+    PublicSymbol *symbol;
+    unsigned short bucket_count, page_count, overflow_count = 0;
+    unsigned short i, j, part, remainder, remaining, take;
+    unsigned long quotient, bytes, offset = 0, position = 0;
+
+    for (i = 0; i < 10; ++i) overflow_pages[i] = NULL;
+    if (!count) return;
+    quotient = count/10;
+    if (quotient >= 65535) quotient = 65535;
+    bucket_count = (unsigned short)quotient;
+    if (bucket_count <= 6) bucket_count = 6;
+    bucket_count = (unsigned short)(bucket_count+1)&0xfffe;
+#ifdef RECON_NATIVE_TEST
+    if (!bucket_count) __asm { int 3 }
+#endif
+    page_count = (unsigned short)(bucket_count/629+1);
+    pages = checked_alloc(page_count*4);
+    for (i = 0; i < page_count; ++i) {
+        bytes = page_count-i == 1 ? (bucket_count*104)%0xff88 : 0xff88;
+        pages[i] = checked_zero(bytes);
+    }
+    for (i = 0; i < 4096; ++i) {
+        for (symbol = buckets[i]; symbol; symbol = symbol->next) {
+            if (*(unsigned short *)(symbol->record+2) != 0x402) {
+                j = (unsigned short)(symbol->hash%bucket_count);
+                bucket = &pages[j/629][j%629];
+                if (bucket->count < 12) {
+                    bucket->pairs[bucket->count].offset = position;
+                    bucket->pairs[bucket->count].hash = symbol->hash;
+                } else {
+                    link = &bucket->overflow;
+                    remainder = (unsigned short)((bucket->count-12)%5);
+                    while (*link) {
+                        if (remainder && !(*link)->next) break;
+                        link = &(*link)->next;
+                    }
+                    if (!remainder) {
+                        part = (unsigned short)(overflow_count/1488);
+#ifdef RECON_NATIVE_TEST
+                        if (part >= 10) __asm { int 3 }
+#endif
+                        if (!overflow_pages[part]) overflow_pages[part] = checked_zero(0xffe0);
+                        *link = &overflow_pages[part][overflow_count%1488];
+                        ++overflow_count;
+                    }
+                    (*link)->pairs[remainder].offset = position;
+                    (*link)->pairs[remainder].hash = symbol->hash;
+                }
+                ++bucket->count;
+            }
+            position += *(unsigned short *)symbol->record+2;
+        }
+    }
+    initialize_buffer(buffer, 4096);
+    append_buffer(buffer, &bucket_count, 2);
+    append_fill(buffer, 0, 2);
+    for (i = 0; i < bucket_count; ++i) {
+        bucket = &pages[i/629][i%629];
+        append_buffer(buffer, &offset, 4);
+        offset += bucket->count*8;
+    }
+    for (i = 0; i < bucket_count; ++i) {
+        bucket = &pages[i/629][i%629];
+        append_buffer(buffer, &bucket->count, 2);
+        append_fill(buffer, 0, 2);
+    }
+    for (i = 0; i < bucket_count; ++i) {
+        bucket = &pages[i/629][i%629];
+        block = bucket->overflow;
+        remaining = bucket->count;
+        take = remaining < 12 ? remaining : 12;
+        append_buffer(buffer, bucket->pairs, take*8);
+        remaining -= take;
+        while (remaining) {
+            take = remaining < 5 ? remaining : 5;
+            append_buffer(buffer, block->pairs, take*8);
+            remaining -= take;
+            block = block->next;
+        }
+    }
+    *kind = 10;
+    *size = (bucket_count+count)*8+4;
+    for (i = 0; i < page_count; ++i) free(pages[i]);
+    free(pages);
+    for (i = 0; i < 10; ++i) free(overflow_pages[i]);
+}
 #undef OUTPUT_BYTES

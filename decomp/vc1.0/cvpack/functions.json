@@ -7036,13 +7036,16 @@
       "native": "build_symbol_name_hash",
       "symbol": "_build_symbol_name_hash",
       "original": 117648,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        117648,
+        118852
+      ],
       "abi": "void build_symbol_name_hash(SymbolHash,unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0133-build_symbol_name_hash/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7088,7 +7091,21 @@
           "original_root": 225660,
           "requested_size": 16384
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "build_symbol_address_hash",
@@ -7134,6 +7151,42 @@
       "evidence": null,
       "roots": [],
       "text_data": []
+    },
+    {
+      "name": "append_fill",
+      "native": "append_fill",
+      "symbol": "_append_fill",
+      "original": 143440,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void *append_fill(GrowingBuffer *,unsigned char,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/append-fill-name-buffer.json",
+          "evidence_sha256": "33e87d4060f52750022d580249c05c03f5b2a009e3d1618326295e5bfa997ed5"
+        },
+        {
+          "name": "value",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 8
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -7952,6 +8005,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 132
+    },
+    {
+      "function": "build_symbol_name_hash",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 133
     }
   ],
   "support_unmasked": [
@@ -8562,7 +8621,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "d4630fafb0831247c5719097cb80ba9e058c690f6f8b18e431ab22c497039768"
+    "evidence_sha256": "84eec6deedc3ede2c990885824c10d7ed312e297c9c28f93d817cd366434a40c"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8638,6 +8697,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "80e8e3a1728f1c76ff3ffe8098f6a48d9c2726a4008c48bf09d6930b2711cbb9"
+    "sha256": "b5e4e634fa61453ab2ef18260c4c4b8e4a55063cbe2179b5ed33fc6a4be94a96"
   }
 }

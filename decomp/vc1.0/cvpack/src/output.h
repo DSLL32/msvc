@@ -24,6 +24,7 @@ void write_subsection(unsigned long);
 unsigned long pad_symbols(void **,unsigned long);
 void build_symbol_name_hash(SymbolHash,unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **);
 void build_symbol_address_hash(unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **);
+void *append_fill(GrowingBuffer *,unsigned char,unsigned long);
 BufferBlock *first_buffer_block(const GrowingBuffer *);
 BufferBlock *next_buffer_block(const BufferBlock *);
 void write_global_publics(CvDirectoryEntry *,unsigned long);
