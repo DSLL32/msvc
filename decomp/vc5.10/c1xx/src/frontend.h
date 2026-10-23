@@ -62,7 +62,7 @@ typedef struct FrontendBss {
     TokenValue token_value;
     SentinelToken sentinel_token;
     unsigned long source_signature;
-    CompilerPool pools[2];
+    CompilerPool pools[3];
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -80,6 +80,7 @@ void initialize_deferred_work(void);
 void destroy_deferred_work(void);
 void initialize_frontend_24(void);
 void initialize_frontend_25(void);
+void initialize_frontend_26(void);
 #ifdef __cplusplus
 }
 #endif

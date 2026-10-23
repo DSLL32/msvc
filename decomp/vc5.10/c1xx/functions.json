@@ -50,7 +50,8 @@
     "_initialize_pdb_context_02",
     "_initialize_frontend_24",
     "CompilerPool::Initialize",
-    "_initialize_frontend_25"
+    "_initialize_frontend_25",
+    "_initialize_frontend_26"
   ],
   "driver": [
     {
@@ -381,9 +382,8 @@
     {
       "name": "_initialize_frontend_26",
       "start": 272861688,
-      "end": 272861689,
-      "pending_extent": true,
-      "source": "src/initializers.c",
+      "end": 272861701,
+      "source": "src/pools.cpp",
       "abi": "cdecl0"
     },
     {
@@ -2675,6 +2675,53 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 1.717822733335197,
         "native_seconds": 2.5965613685548306
+      }
+    },
+    {
+      "name": "_initialize_frontend_26",
+      "classification": "application source",
+      "source": "src/pools.cpp",
+      "source_sha256": "0a1935f8a7369502df2e39f3912b33c16788fe4733873f325f3be75c6f322ea8",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool03-wrapper-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool03-wrapper-native-1",
+      "original_receipt_sha256": "00d50e1f077699f634a4e0df3b75033937044588e55bd7f0a162e8b78caf820d",
+      "native_receipt_sha256": "4a2492fb0de545b2409d79452eff57c5b2ca0b361b359311ba4d0e5d1ee665db",
+      "trial_sha256": "74746cf98ef5c45540ff930226beb12a69eac6a096d7fae484c1129fe41f521e",
+      "audit_sha256": "9e7b1f50540f8b985c3a82982389d0760b92b69a12dd9a774c504c3dd16bfe82",
+      "code_chunks": [
+        [
+          231928,
+          231941
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_26",
+        "frontier": "_initialize_frontend_27",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 613,
+        "native_bss_size": 640,
+        "native_c_padding_bytes": 27,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 2.2685616118833423,
+        "native_seconds": 2.720504293218255
       }
     }
   ],

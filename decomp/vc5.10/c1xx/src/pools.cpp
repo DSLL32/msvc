@@ -22,3 +22,8 @@ extern "C" void initialize_frontend_25(void)
 {
     frontend_bss.pools[1].Initialize(1);
 }
+
+extern "C" void initialize_frontend_26(void)
+{
+    frontend_bss.pools[2].Initialize(1);
+}
