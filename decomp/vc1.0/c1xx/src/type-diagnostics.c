@@ -575,3 +575,18 @@ void __stdcall release_type_diagnostic(short text)
 {
     find_type_diagnostic_slot(text)->handle = 0;
 }
+
+/* Original 0x68c50..0x68cd1. Method qualifiers follow the implicit
+   object's pointer model, then its const and volatile type attributes. */
+short __stdcall format_this_qualifiers(short text, CType *type)
+{
+    unsigned kind;
+    if (type) {
+        kind = type->related->attributes & 7;
+        if (kind == 2) append_type_diagnostic(text, "__far ");
+        else if (kind == 3) append_type_diagnostic(text, "__huge ");
+        if (type->attributes & 0x1000) append_type_diagnostic(text, "const ");
+        if (type->attributes & 0x2000) append_type_diagnostic(text, "volatile ");
+    }
+    return text;
+}

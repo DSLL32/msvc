@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1051,
+  "accepted": "_format_this_qualifiers@8",
+  "terminal": "_read_number_text@4",
+  "original_capture": "cases/frontiers/state_machine_debug/1051-format_this_qualifiers-8/original-receipt.json",
+  "original_capture_sha256": "b53bd018482fa2996d3f547690ca1bbea1e79ee9021ea9e1db66d80ecb2c2bae",
+  "original_events": "cases/frontiers/state_machine_debug/1051-format_this_qualifiers-8/original-events.txt",
+  "original_events_sha256": "8718324e80eaf8dcd8f5743b5119d1be3f625b4c72fbf972dd8e30f1c27c8e31",
+  "original_configuration": "cases/frontiers/state_machine_debug/1051-format_this_qualifiers-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

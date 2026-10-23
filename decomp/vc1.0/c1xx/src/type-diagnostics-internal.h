@@ -13,7 +13,7 @@ short __stdcall format_shape_attributes(short text, TypeDiagnosticWriter writer,
     unsigned short attributes, void *base, TypeShape *shape);
 int __stdcall format_enclosing_declarator_scope(short text, int mode);
 void __stdcall append_type_diagnostic_char(short text, int character);
-void __stdcall format_this_qualifiers(short text, CType *type);
+short __stdcall format_this_qualifiers(short text, CType *type);
 short __stdcall format_declarator_shapes(short text, TypeShape *shape);
 short __stdcall format_based_declaration(unsigned short attributes, void *base);
 short __stdcall format_pointer_declarator(short text, TypeShape *shape);

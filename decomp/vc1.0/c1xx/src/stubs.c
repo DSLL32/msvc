@@ -619,7 +619,6 @@ void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups) { __asm { int 3 } return 0; }
-void __stdcall format_this_qualifiers(short text, CType *type) { __asm { int 3 } }
 short __stdcall format_based_declaration(unsigned short attributes, void *base) { __asm { int 3 } return 0; }
 short __stdcall format_pointer_declarator(short text, TypeShape *shape) { __asm { int 3 } return 0; }
 void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm { int 3 } }
