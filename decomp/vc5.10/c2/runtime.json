@@ -144,14 +144,6 @@
     "evidence": null
   },
   {
-    "name": "@c2_validate_alignment@4",
-    "start": 4533915,
-    "end": 4533924,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@c2_system_fatal@12",
     "start": 4765320,
     "end": 4765358,

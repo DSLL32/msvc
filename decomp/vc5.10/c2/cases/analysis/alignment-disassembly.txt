@@ -1,0 +1,29 @@
+c2_validate_alignment: fastcall ECX char*, no stack parameters, void.
+Hot 0x452e9b..0x452ea4 (9 bytes), cold0x47482e..0x474845 (23 bytes).
+NULL and empty strings return; otherwise walk to NUL. No writes/calls.
+The reached case passes NULL; retain the full dormant string loop and ABI.
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00452e9b <.text+0x51e9b>:
+  452e9b:	85 c9                	test   ecx,ecx
+  452e9d:	0f 85 8b 19 02 00    	jne    0x47482e
+  452ea3:	c3                   	ret
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0047482e <.text+0x7382e>:
+  47482e:	80 39 00             	cmp    BYTE PTR [ecx],0x0
+  474831:	0f 84 6c e6 fd ff    	je     0x452ea3
+  474837:	8a 41 01             	mov    al,BYTE PTR [ecx+0x1]
+  47483a:	41                   	inc    ecx
+  47483b:	84 c0                	test   al,al
+  47483d:	0f 84 60 e6 fd ff    	je     0x452ea3
+  474843:	eb f2                	jmp    0x474837

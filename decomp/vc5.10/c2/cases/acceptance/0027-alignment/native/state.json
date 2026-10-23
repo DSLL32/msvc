@@ -1,0 +1,664 @@
+{
+  "function": "c2_open_intermediate",
+  "pc": 1448442023,
+  "signal": "Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1267193)).\n\tUsing the running image of child process 1267193.\nProgram stopped at 0x565578a6.\nIt stopped with signal SIGTRAP, Trace/breakpoint trap.\n",
+  "backtrace": "#0  0x565578a7 in c2_open_intermediate (base=0x5657ccc6 \".\\\\a01068\", suffix=0x5656e008 \"in\", mode=0x5656e50b \"r\", description=0x5656e00b \"init il\") at src/stubs.c:18\n#1  0x56558219 in c2_main (argc=1, argv=0xffffd934, environment=0x5657ce60) at src/main.c:24\n#2  0x56557fd8 in mainCRTStartup () at src/startup.c:38\n#3  0x5655a07f in main (argc=1, argv=0xffffd934, host_environment=0xffffd93c) at scripts/native-host.c:63\n",
+  "trace": [
+    "_c2_crt_startup",
+    "_c2_set_argv",
+    "_c2_set_default_precision",
+    "_c2_main",
+    "_c2_register_exit",
+    "_c2_register_onexit",
+    "@c2_read_environment@4",
+    "_c2_copy_arguments",
+    "_c2_initialize_options",
+    "_c2_next_argument",
+    "@c2_match_option@16",
+    "@c2_apply_option@12",
+    "@parse_option_integer@4",
+    "@c2_validate_alignment@4"
+  ],
+  "globals": {
+    "0x499708": 4294967295,
+    "0x4996d4": 4294967295,
+    "0x49975c": 32768,
+    "0x4980d4": 0,
+    "0x499718": 0,
+    "0x499694": 1,
+    "0x4980d0": 0,
+    "0x4980cc": 0,
+    "0x7803fa88": 32768,
+    "0x7803fa94": 0,
+    "0x7803f928": 0,
+    "0x7803fa90": 1,
+    "0x7803f198": 0
+  },
+  "arguments": [],
+  "MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ",
+  "command_state": {
+    "argc": 0,
+    "argv": [
+      "-G5"
+    ]
+  },
+  "alignment_option": {
+    "alignment": null,
+    "current": "-G5",
+    "current_offset": 109,
+    "operand": "1",
+    "operand_offset": 42,
+    "argv_offset": 56,
+    "argv_value_alias": true
+  },
+  "intermediate_open": {
+    "base": ".\\a01068",
+    "suffix": "in",
+    "mode": "r",
+    "description": "init il",
+    "base_alias": true,
+    "x87_control": 639
+  },
+  "data_state": {
+    "options": [
+      {
+        "pattern": "-cbstring",
+        "value": 1448564744,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Gs#",
+        "value": 1448563108,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Gt#",
+        "value": 1448563112,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-G#",
+        "value": 1448563148,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-A#",
+        "value": 1448564636,
+        "result": 1,
+        "kind": 39,
+        "reserved": 0
+      },
+      {
+        "pattern": "-O#",
+        "value": 1448563316,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-W#",
+        "value": 1448563412,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-db#",
+        "value": 1448564628,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-off#",
+        "value": 1448564624,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ef#",
+        "value": 1448564748,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-f#",
+        "value": 1448564752,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fd#",
+        "value": 1448564756,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QIf",
+        "value": 1448564760,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ide",
+        "value": 1448564396,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-isize#",
+        "value": 1448563116,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-il#",
+        "value": 1448563100,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-vol#",
+        "value": 1448563120,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Inl#",
+        "value": 1448564764,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-EHs",
+        "value": 1448564716,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-EHa",
+        "value": 1448564716,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Loop#",
+        "value": 1448563124,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-loopopt",
+        "value": 1448564768,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MLd",
+        "value": 1448564772,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MDd",
+        "value": 1448564776,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MTd",
+        "value": 1448564780,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ML",
+        "value": 1448564784,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MD",
+        "value": 1448564788,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MT",
+        "value": 1448564792,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-nogen",
+        "value": 1448564796,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-basic",
+        "value": 1448564800,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-bzalign",
+        "value": 1448564804,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ehopt",
+        "value": 1448564808,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-noehopt",
+        "value": 1448564808,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-nolock",
+        "value": 1448564812,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-noblend",
+        "value": 1448563128,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-p6gj",
+        "value": 1448564816,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QIfdiv",
+        "value": 1448564820,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QI0f",
+        "value": 1448564824,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-pr",
+        "value": 1448564828,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-FA#",
+        "value": 1448564648,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fa#",
+        "value": 1448564676,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fs#",
+        "value": 1448564668,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Bd",
+        "value": 1448564420,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Brepro",
+        "value": 1448564832,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zi",
+        "value": 1448564836,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zd",
+        "value": 1448564840,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Za",
+        "value": 1448564844,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zl",
+        "value": 1448563132,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-H#",
+        "value": 1448563104,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fo#",
+        "value": 1448564640,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-dos",
+        "value": 1448564848,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-S",
+        "value": 1448564652,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "*",
+        "value": 1448564632,
+        "result": 6,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": null,
+        "value": 0,
+        "result": 0,
+        "kind": 0,
+        "reserved": 0
+      }
+    ],
+    "selectors": {
+      "c2_machine_selectors": [
+        {
+          "selector": 119,
+          "kind": 1,
+          "value": 1448564688
+        },
+        {
+          "selector": 104,
+          "kind": 1,
+          "value": 1448564692
+        },
+        {
+          "selector": 105,
+          "kind": 1,
+          "value": 1448564684
+        },
+        {
+          "selector": 102,
+          "kind": 1,
+          "value": 1448564696
+        },
+        {
+          "selector": 51,
+          "kind": 36,
+          "value": 1448563136
+        },
+        {
+          "selector": 52,
+          "kind": 36,
+          "value": 1448563136
+        },
+        {
+          "selector": 53,
+          "kind": 36,
+          "value": 1448563136
+        },
+        {
+          "selector": 54,
+          "kind": 36,
+          "value": 1448563136
+        },
+        {
+          "selector": 121,
+          "kind": 1,
+          "value": 1448564700
+        },
+        {
+          "selector": 65,
+          "kind": 1,
+          "value": 1448564704
+        },
+        {
+          "selector": 68,
+          "kind": 1,
+          "value": 1448564708
+        },
+        {
+          "selector": 84,
+          "kind": 1,
+          "value": 1448564712
+        },
+        {
+          "selector": 88,
+          "kind": 1,
+          "value": 1448564716
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ],
+      "c2_optimizer_selectors": [
+        {
+          "selector": 97,
+          "kind": 1,
+          "value": 1448564720
+        },
+        {
+          "selector": 119,
+          "kind": 1,
+          "value": 1448564724
+        },
+        {
+          "selector": 115,
+          "kind": 5,
+          "value": 1448563140
+        },
+        {
+          "selector": 116,
+          "kind": 1,
+          "value": 1448563140
+        },
+        {
+          "selector": 103,
+          "kind": 1,
+          "value": 1448564728
+        },
+        {
+          "selector": 112,
+          "kind": 1,
+          "value": 1448564732
+        },
+        {
+          "selector": 121,
+          "kind": 1,
+          "value": 1448564736
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ],
+      "c2_warning_selectors": [
+        {
+          "selector": 48,
+          "kind": 36,
+          "value": 1448563144
+        },
+        {
+          "selector": 49,
+          "kind": 36,
+          "value": 1448563144
+        },
+        {
+          "selector": 50,
+          "kind": 36,
+          "value": 1448563144
+        },
+        {
+          "selector": 51,
+          "kind": 36,
+          "value": 1448563144
+        },
+        {
+          "selector": 52,
+          "kind": 36,
+          "value": 1448563144
+        },
+        {
+          "selector": 88,
+          "kind": 1,
+          "value": 1448564740
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ]
+    },
+    "objects": {
+      "c2_constant_strings": 0,
+      "c2_stack_probe_limit": 4096,
+      "c2_data_threshold": 32767,
+      "c2_alignment_options": null,
+      "c2_debug_file": null,
+      "c2_offset_file": null,
+      "c2_error_file": null,
+      "c2_source_name": "numeric-control-flow.c",
+      "c2_pdb_name": "vc50.idb",
+      "c2_force_inline_float": 0,
+      "c2_trace_enabled": 0,
+      "c2_integer_size": 4,
+      "c2_intermediate_base": ".\\a01068",
+      "c2_volatile_mode": 3,
+      "c2_inline_limit": 0,
+      "c2_exception_mode": 0,
+      "c2_loop_limit": 100,
+      "c2_loop_optimization": 0,
+      "c2_runtime_ml_debug": 0,
+      "c2_runtime_md_debug": 0,
+      "c2_runtime_mt_debug": 0,
+      "c2_runtime_ml": 1,
+      "c2_runtime_md": 0,
+      "c2_runtime_mt": 0,
+      "c2_no_codegen": 0,
+      "c2_basic_mode": 0,
+      "c2_zero_alignment": 0,
+      "c2_exception_optimization": 0,
+      "c2_no_lock": 0,
+      "c2_blend": 1,
+      "c2_p6_mode": 0,
+      "c2_fdiv_fix": 0,
+      "c2_no_float_inline": 0,
+      "c2_profile": 0,
+      "c2_assembly_flags": null,
+      "c2_assembly_file": null,
+      "c2_listing_file": null,
+      "c2_internal_error_active": 1,
+      "c2_reproducible": 0,
+      "c2_codeview_types": 0,
+      "c2_line_numbers": 0,
+      "c2_strict_ansi": 0,
+      "c2_default_library": 1,
+      "c2_identifier_limit": 2058,
+      "c2_output_name": "numeric-control-flow.obj",
+      "c2_dos_messages": 1,
+      "c2_assembly_enabled": 0,
+      "c2_unexpected_argument": null,
+      "c2_windows_calling": 0,
+      "c2_entry_hooks": 0,
+      "c2_internal_listing": 0,
+      "c2_float_calls": 0,
+      "c2_cpu_generation": 5,
+      "c2_omit_frame_pointer": 1,
+      "c2_calling_cdecl": 0,
+      "c2_calling_stdcall": 0,
+      "c2_calling_fastcall": 0,
+      "c2_alias_optimization": 0,
+      "c2_global_optimization": 0,
+      "c2_favor_speed": 1,
+      "c2_global_optimize": 0,
+      "c2_float_precision": 0,
+      "c2_frame_optimization": 0,
+      "c2_warning_level": 1,
+      "c2_warnings_as_errors": 0
+    }
+  }
+}

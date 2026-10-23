@@ -59,3 +59,10 @@ char *c2_next_argument(void)
         return *++c2_argv;
     return NULL;
 }
+
+void __fastcall c2_validate_alignment(char *alignment)
+{
+    if (alignment)
+        while (*alignment)
+            ++alignment;
+}

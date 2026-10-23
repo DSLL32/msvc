@@ -36,7 +36,8 @@
     "@format_integer@12",
     "_c2_cleanup",
     "_c2_copy_arguments",
-    "@parse_option_integer@4"
+    "@parse_option_integer@4",
+    "@c2_validate_alignment@4"
   ],
   "driver": [
     {
@@ -923,6 +924,80 @@
           }
         }
       ]
+    },
+    {
+      "name": "@c2_validate_alignment@4",
+      "native": "c2_validate_alignment",
+      "start": 4533915,
+      "end": 4533924,
+      "kind": "application",
+      "abi": "fastcall, ECX alignment",
+      "state_policy": "alignment-option",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0,
+      "code_chunks": [
+        [
+          4671534,
+          4671557
+        ]
+      ],
+      "evidence": "cases/analysis/alignment-disassembly.txt: whole hot/cold NULL/empty/string walk, no external calls, RET0"
     }
   ],
   "stubs": [
@@ -950,7 +1025,66 @@
       "end": 4530998,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall, ECX base EDX suffix; stack mode and description, RET8"
+      "abi": "fastcall, ECX base EDX suffix; stack mode and description, RET8",
+      "state_policy": "intermediate-open",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0
     },
     {
       "name": "_c2_read_header",
@@ -1086,74 +1220,6 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall, ECX source path EDX line"
-    },
-    {
-      "name": "@c2_validate_alignment@4",
-      "native": "c2_validate_alignment",
-      "start": 4533915,
-      "end": 4533924,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX alignment",
-      "state_policy": "alignment-option",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        }
-      ],
-      "expected_argv": [
-        "-G5"
-      ],
-      "expected_argc": 0
     },
     {
       "name": "@c2_system_fatal@12",

@@ -101,11 +101,6 @@ void __fastcall c2_report_internal(char *source, int line)
 
 
 
-void __fastcall c2_validate_alignment(char *alignment)
-{
-    __asm { int 3 }
-}
-
 
 
 void __fastcall c2_system_fatal(int message, char *prefix, char *filename)

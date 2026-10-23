@@ -107,6 +107,13 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'intermediate_open'in current_state:
+        def changed_open(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['intermediate_open'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('wrong intermediate suffix argument',lambda r:changed_open(r,'suffix','sy')),
+                      ('wrong intermediate stream mode',lambda r:changed_open(r,'mode','w')),
+                      ('intermediate base loses environment-pointer alias',lambda r:changed_open(r,'base_alias',False)),
+                      ('intermediate opener x87 state differs',lambda r:changed_open(r,'x87_control',0))]
     if 'alignment_option'in current_state:
         def changed_alignment(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['alignment_option'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

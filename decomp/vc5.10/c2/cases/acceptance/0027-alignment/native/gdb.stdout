@@ -1,0 +1,28 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-PROCESS-INPUT {"MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ", "arguments": []}
+C2-SOURCE-ENTRY _c2_crt_startup 0x56557e89
+C2-SOURCE-ENTRY _c2_set_argv 0x56558017
+C2-SOURCE-ENTRY _c2_set_default_precision 0x565580d7
+C2-SOURCE-ENTRY _c2_main 0x56558150
+C2-SOURCE-ENTRY _c2_register_exit 0x56558079
+C2-SOURCE-ENTRY _c2_register_onexit 0x56558329
+C2-SOURCE-ENTRY @c2_read_environment@4 0x56558469
+C2-SOURCE-ENTRY _c2_copy_arguments 0x565583b7
+C2-SOURCE-ENTRY _c2_initialize_options 0x56558608
+C2-SOURCE-ENTRY _c2_next_argument 0x565588e7
+C2-SOURCE-ENTRY @c2_match_option@16 0x56558a12
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56558c51
+C2-SOURCE-ENTRY @parse_option_integer@4 0x56559059
+C2-SOURCE-ENTRY @c2_validate_alignment@4 0x56558999
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565578a7 in c2_open_intermediate (base=0x5657ccc6 ".\\a01068", suffix=0x5656e008 "in", mode=0x5656e50b "r", description=0x5656e00b "init il") at src/stubs.c:18
+18	    __asm { int 3 }
+eip            0x565578a7          0x565578a7 <c2_open_intermediate+71>
+c2_open_intermediate + 71 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x565578a6 <c2_open_intermediate+70>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1267193)).
+	Using the running image of child process 1267193.
+Program stopped at 0x565578a6.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

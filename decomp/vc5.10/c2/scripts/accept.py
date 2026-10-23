@@ -43,6 +43,7 @@ def main():
             files += [name for name in ('main-argv.bin','main-environment.bin','command-argv.bin','matcher-input.bin','data-plan.txt','data-model.json','data-state.bin','wildcard-input.bin','wildcard-pattern.bin','option-value.bin','fatal-argument.bin','fatal-phase.bin','current-option.bin','message-cache.bin','format-pattern.bin','format-prefix.bin','integer-prefix.bin','copy-flags.bin','integer-input.bin','option-operand.bin')if(source/name).exists()]
         if side=='original':files += [p.name for p in source.glob('cache-message-*.bin')]+[p.name for p in source.glob('diagnostic-format.bin')]
         files += [p.name for p in source.glob('artifact-*.bin')]
+        if side=='original':files += [p.name for p in source.glob('intermediate-*.bin')]
         for name in files:shutil.copyfile(source/name,destination/name)
     def archive_inputs(directory,manifest,destination):
         with destination.open('wb')as raw,gzip.GzipFile(filename='',fileobj=raw,mode='wb',mtime=0)as compressed,tarfile.open(fileobj=compressed,mode='w')as archive:
