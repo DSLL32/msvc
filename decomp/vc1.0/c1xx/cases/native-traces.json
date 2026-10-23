@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "360da0a0ce37079892a9bdf4f35472561404324376d0e3b858a3ceb1b2f0b4dc",
+    "functions.json": "367bc34ffb6a84b3a69a12ef591b5250a6f3223e5b6efdda9f34c41427d7eacc",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "a777b1a3d7824dc65f6424c0791baf78544d6886555ec1831dd70eef161cacf6",
-    "cases/canonical-map.txt": "587d7d8cbd50186724c70918126e63312c5617aaa4296cb0c6927dba832c0a46",
+    "cases/original-entry-references.json": "5ff0980af41b162e8483722e2a91f08de998ee867c3bff530b865c21736acf34",
+    "cases/canonical-map.txt": "fcdd0eb1179637b82de0f3aa4eff32a87d0321540070b2325967af5bc286cbcb",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/entry-reference/original-receipt.json": "fd821501ee4b464becfbcddd46f05c557fca96ea4f3ca15c4433901de2a0ec0e",
-    "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/entry-reference/original-events.txt": "ce20874d32f9637e3d5bb28795b0688d865d4857b9508f14eb300c89ccfa1254",
-    "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/entry-reference/original-entries.plan": "df5ed348d51413e997d080d59238b01ee48f65f37febf673b6f5b31d04c665f9"
+    "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/entry-reference/original-receipt.json": "a7127b8aedc13069ca0c119f568716f49fd877b90a82d3433030c0ebd7de5de8",
+    "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/entry-reference/original-events.txt": "2d62bb68fc1a7bd7ffa897ef76e226f7e56510949981e97fa5e0a0c29442a2c4",
+    "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/entry-reference/original-entries.plan": "9243970185f288234d3a9864347864259263097a8c510110931e497b235640f4"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1389,7 +1389,7 @@
     },
     "default_constructor_closure_table": {
       "logical": "_default_constructor_closure_table",
-      "source": "src/stubs.c"
+      "source": "src/special-members.c"
     },
     "defer_generated_member": {
       "logical": "_defer_generated_member@4",
@@ -6360,7 +6360,8 @@
     "append_friend_record",
     "find_friend_record",
     "hash_first_word",
-    "make_default_constructor_closure"
+    "make_default_constructor_closure",
+    "default_constructor_closure_table"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10472,7 +10473,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1062,
+      "last": 1063,
       "seen": [
         "main",
         "message_text",
@@ -11444,12 +11445,13 @@
         "find_friend_record",
         "hash_first_word",
         "make_default_constructor_closure",
-        "default_constructor_closure_table"
+        "default_constructor_closure_table",
+        "emit_deferred_class_terminator"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_default_constructor_closure_table",
-        "native": "default_constructor_closure_table",
+        "logical": "_emit_deferred_class_terminator",
+        "native": "emit_deferred_class_terminator",
         "signal": 5
       }
     }

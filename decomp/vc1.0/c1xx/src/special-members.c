@@ -6,6 +6,16 @@
 #include "class-lookup.h"
 #include <recon.h>
 
+HashTable *constructor_closures; /* original 0x9f3f8, created on first use */
+
+/* Original 0x37180..0x371a1. Constructors use pointer identity as keys. */
+HashTable *default_constructor_closure_table(void)
+{
+    if (!constructor_closures)
+        constructor_closures = new_hash_table(31, 0, 0, 0);
+    return constructor_closures;
+}
+
 /* Original 0x36790..0x36967. Classify bases, fields and declared functions,
    then decide each implicit member independently with its original diagnostics. */
 void __stdcall declare_implicit_special_members(CppSymbol *tag)

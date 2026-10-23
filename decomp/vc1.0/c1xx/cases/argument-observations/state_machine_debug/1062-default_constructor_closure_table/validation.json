@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_default_constructor_closure_table",
+  "case": "state_machine_debug",
+  "accepted_before": 1062,
+  "configuration_sha256": "8e26cdbd0f7796dcbe876d0958665ee1fc46cf7585b0b69e63f9ad45b2ea2450",
+  "native_entry": "default_constructor_closure_table",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      225664,
+      225697
+    ],
+    "argument_bytes": 0,
+    "proof": "Compare global constructor_closures pointer; if null push four immediate new_hash_table arguments; return global in EAX, RET0. No formal, incoming register or hidden argument. No caller word is semantically consumed. Native GDB declares zero actual formals. Global initial null state independently compared to original BSS.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "dc5efd0bcef0a42ce559fbdbd7af1d5f877a960448dda810198e02cef960da1d",
+  "capture_timing": {
+    "original_capture_seconds": 1.6689467644318938,
+    "native_capture_seconds": 0.17783089727163315,
+    "total_operation_seconds": 2.08388031180948
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "c9f90774d95b669e3aa962a0e22b5ccc0e8c216662d11780dca26fb024bf8f67",
+    "native-commands.gdb": "960ff2d0d826803839c0b7c3947a77cf0f909c793cc26b73989681422e907cee",
+    "native-gdb.log": "4fbdc444ff0d3a82ce207bde9ccc3d75bcfe11ef4cfc6dde5ab79ef2df025f8c",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "9a63714ae86dbea58993cba98bf3087301d11d7cc3cd59dd9194453943b64716",
+    "original-configuration.json": "8e26cdbd0f7796dcbe876d0958665ee1fc46cf7585b0b69e63f9ad45b2ea2450",
+    "original-disassembly.txt": "7933d725323cf05c1b1bf1c6deea9646557260715463cf93c0d28cea7e1c2f84",
+    "original-events.txt": "fbe0818b95e06ddfc2df55d9aea583ca923089145e45bfe88eda7293aa61c221",
+    "original-receipt.json": "df49f5ae4b08c89a1f785adc70af70a177c64bba733dff9e041838a6eb3b9342",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "73460a76cb209725b51ecbd5103f42a88a5818bf527c27c9df93a1f1aacb1fad"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_default_constructor_closure_table",
+    "start": 225664,
+    "end": 225697
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_new_hash_table@16"
+  ],
+  "next_frontier": "_emit_deferred_class_terminator",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.40453077387064695,
+  "total_operation_seconds": 4.2540820594877005,
+  "original_capture_seconds": 1.9197454089298844
+}

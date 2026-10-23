@@ -377,7 +377,6 @@ CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int
 
 
 
-HashTable *default_constructor_closure_table(void) { __asm { int 3 } return 0; }
 
 
 

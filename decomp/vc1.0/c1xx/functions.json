@@ -1066,7 +1066,8 @@
     "_append_friend_record@4",
     "_find_friend_record@4",
     "_hash_first_word",
-    "_make_default_constructor_closure@12"
+    "_make_default_constructor_closure@12",
+    "_default_constructor_closure_table"
   ],
   "driver": [
     {
@@ -7877,7 +7878,7 @@
     {
       "name": "_default_constructor_closure_table",
       "start": 225664,
-      "end": 225665
+      "end": 225697
     }
   ],
   "cases": {
@@ -8078,7 +8079,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_default_constructor_closure_table",
+      "terminal": "_emit_deferred_class_terminator",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8101,7 +8102,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8168,7 +8169,8 @@
         "cases/frontiers/state_machine_debug/1058-append_friend_record-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1059-find_friend_record-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1060-hash_first_word/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/frontier-extension.json"
       ]
     }
   },
@@ -10488,6 +10490,18 @@
       "name": "_declaration_pointer_models",
       "original": 663288,
       "count": 4
+    },
+    {
+      "kind": "state",
+      "name": "_constructor_closures",
+      "original": 652280,
+      "fields": [
+        {
+          "name": "_constructor_closures",
+          "original": 652280,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [

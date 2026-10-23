@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559bb4 in emit_deferred_class_terminator () at src/stubs.c:343
+343	void emit_deferred_class_terminator(void) { __asm { int 3 } }
+#0  0x56559bb4 in emit_deferred_class_terminator () at src/stubs.c:343
+#1  0x565c6702 in end_class_specifier () at src/class-finalization.c:36
+#2  0x565aef66 in parse_translation_unit () at src/parser-declaration-actions.inc:166
+#3  0x5655e05f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
