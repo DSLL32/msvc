@@ -1211,5 +1211,19 @@
     "original": 230184,
     "size": 4,
     "source": "src/strip.c"
+  },
+  {
+    "name": "strip_section_rvas",
+    "symbol": "_strip_section_rvas",
+    "original": 230192,
+    "size": 4,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_file_names",
+    "symbol": "_strip_file_names",
+    "original": 230188,
+    "size": 4,
+    "source": "src/strip.c"
   }
 ]

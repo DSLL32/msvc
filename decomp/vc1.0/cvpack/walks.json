@@ -577,5 +577,17 @@
       96
     ],
     "pdb_graph": true
+  },
+  {
+    "name": "strip_section_rvas",
+    "original": 230192,
+    "size": 4,
+    "next": 4294967295,
+    "limit": 1,
+    "count_original": 210346,
+    "count_size": 2,
+    "count_native": "strip_file_header.NumberOfSections",
+    "count_limit": 1024,
+    "scope": "Actual requested NumberOfSections*4 allocation; all scalar VirtualAddress entries written by initialize_strip_sections before read_coff_symbol. Count bound is transport limit, not expected case identity."
   }
 ]

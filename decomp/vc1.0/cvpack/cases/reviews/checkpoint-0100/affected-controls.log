@@ -1,0 +1,3 @@
+rejected: output-pointer native raw output address differs from local base
+rejected: section-rva observed object bytes differ
+elapsed 0.4134553223848343

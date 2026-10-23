@@ -2,6 +2,7 @@
 #include "types.h"
 #include "image.h"
 #include "pdb.h"
+#include "strip.h"
 #include <recon.h>
 
 void warning(int code, const char *first, const char *second) { __asm { int 3 } }
@@ -116,7 +117,13 @@ void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 
 
 int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, unsigned char *record, unsigned short index) { __asm { int 3 } return 0; }
 
-unsigned short initialize_strip_sections(void) { __asm { int 3 } return 0; }
+
 unsigned short collect_strip_records(void) { __asm { int 3 } return 0; }
 void write_strip_records(void) { __asm { int 3 } }
 void free_strip_records(void) { __asm { int 3 } }
+
+unsigned short read_coff_symbol(CoffSymbol *symbol,unsigned long index)
+{ __asm { int 3 } return 0; }
+unsigned short next_coff_symbol(CoffSymbol *symbol,unsigned long *index)
+{ __asm { int 3 } return 0; }
+int classify_coff_symbol(const CoffSymbol *symbol) { __asm { int 3 } return 0; }

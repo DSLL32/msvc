@@ -5482,16 +5482,33 @@
       "native": "initialize_strip_sections",
       "symbol": "_initialize_strip_sections",
       "original": 169296,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        169296,
+        170056
+      ],
       "abi": "unsigned short initialize_strip_sections(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0100-initialize_strip_sections/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "collect_strip_records",
@@ -5540,6 +5557,85 @@
       "roots": [],
       "text_data": [],
       "parameters": []
+    },
+    {
+      "name": "read_coff_symbol",
+      "native": "read_coff_symbol",
+      "symbol": "_read_coff_symbol",
+      "original": 165776,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short read_coff_symbol(CoffSymbol *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "slot": 1,
+          "kind": "stack-output",
+          "evidence": "cases/abi/read-coff-symbol-output.json",
+          "evidence_sha256": "5233c6f8ebb5414e68e104d74adadeb56f71851ba937da71baed03c645b76c5a"
+        },
+        {
+          "name": "index",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "next_coff_symbol",
+      "native": "next_coff_symbol",
+      "symbol": "_next_coff_symbol",
+      "original": 165888,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short next_coff_symbol(CoffSymbol *,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "slot": 1,
+          "kind": "pointer"
+        },
+        {
+          "name": "index",
+          "slot": 2,
+          "kind": "pointer"
+        }
+      ]
+    },
+    {
+      "name": "classify_coff_symbol",
+      "native": "classify_coff_symbol",
+      "symbol": "_classify_coff_symbol",
+      "original": 167312,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int classify_coff_symbol(const CoffSymbol *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ]
     }
   ],
   "review": {
@@ -6160,6 +6256,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 99
+    },
+    {
+      "function": "initialize_strip_sections",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 100
     }
   ],
   "support_unmasked": [
@@ -6758,7 +6860,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "40c60d7492ef3aa9ae97c2c38143cc07adb58e0ed4e87749e50fd1d28cb43a9b"
+    "evidence_sha256": "15bab065231d55340cd5bd0b75146db252a37c5fd849ec73f7d0c21ff42ea844"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6802,7 +6904,7 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "4de503ebc2c784834cd50db86473604dfce4edf7af4324ea2d7e11fd761f9c6c"
+    "evidence_sha256": "574529733cbc3f2880258e58f15f671aab3d0d2302e22a3079e83036e355560f"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
@@ -6814,15 +6916,15 @@
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "eaaca9b61b4efeed5c78c2f8a8ae506b67e4e29de33c39543b5d6c6783475243"
+    "evidence_sha256": "c544256f8c9c1a76bb109bb92475acf2614485f45a5b685dbaa6936a80061667"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "e23fb381826d6b1c753ebca677a3a3479d231c0efe383a538fbd47ae7428740c"
+    "evidence_sha256": "26be8d1307d780e4cbbf94c7fb83793ecae55e3ea71624ef6b341f3e0c34e7fe"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "b539ef615ed8e74d4c5659d582e46c4332f39476e27e6db4847bfc89d4971f05"
+    "evidence_sha256": "9a6d1a36b68d7cfed04965c367a03ea8b308c85f97e153c69c3e283898bd8942"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
@@ -6834,6 +6936,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "200265aeee30f5c1c9f0590f9fb0a6c98f836834ecebac724080ee4819c0f7ac"
+    "sha256": "1a1a7c9246faad6f85f8c5150e6f3018e523719099b5da0fc278ecf192c3c1eb"
   }
 }

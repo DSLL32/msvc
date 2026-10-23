@@ -58,8 +58,11 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     words={int(a):int(b,16)for a,b in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)};parameters={}
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
-        assert item['kind']=='integer','concrete typed pointer proof required before consumption'
-        parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']in('stack-output','stack-input'):
+            from stack_output import compare as compare_output
+            parameters[item['name']]=compare_output(item,frontier['parameters'],words,state['parameters'],events,pe)
+        else:raise AssertionError('concrete typed pointer proof required before consumption')
     entries=[];support=[];runtime=json.loads((BINARY/'runtime.json').read_text());identities={(r['start'],r['end']):r for r in runtime['functions']+runtime['imports']}
     for a,b in re.findall(r'^runtime ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):
         a,b=int(a,16),int(b,16)
@@ -87,6 +90,10 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     definitions={r['name']:r for r in json.loads((BINARY/'data.json').read_text())};matched={};assert set(state['globals'])==set(current.get('observed_globals',[])),'consumed global observation inventory differs'
     for name in current.get('observed_globals',[]):
         d=definitions[name];raw=bytes(memory[d['original']+i]for i in range(d['size']));assert raw.hex()==state['globals'][name],('concrete application global differs',name);matched[name]=raw.hex()
+    specs=[r for r in json.loads((BINARY/'walks.json').read_text())if r['name']in current.get('observed_walks',[])]
+    assert len(specs)==len(current.get('observed_walks',[])),'unknown typed observed owner'
+    old_walks=original_walks(events,specs);new_walks=state.get('walks',{});assert set(new_walks)=={r['name']for r in specs},'typed consumed owner inventory differs'
+    owners=compare_walks(specs,old_walks,new_walks)if specs else {}
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
     if args.check_only:print('Fresh whole-function entry-flow proof passes:',args.function);return
     sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(exist_ok=False)
@@ -96,7 +103,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json');path=str((directory/'proof.json').relative_to(BINARY));prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
     for r in support:
         if(r['start'],r['end'])not in prior:config.setdefault('support_unmasked',[]).append(dict(r,evidence=path))
-    proof=dict(function=function['name'],sequence=sequence,case=args.case,extent=function['extent'],original_frontier=frontier['original'],native_frontier=frontier['native'],application_entries=entries,matched_frontier_parameters=state['parameters'],matched_application_globals=matched,conditional_CRT_support=crt,runtime_unmasked=support,seconds=receipt['seconds'],classification='routine-whole-function-and-genuine-next-entry',later_module_heap_equality=False,prior_module3='cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json',scope='Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches')
+    proof=dict(function=function['name'],sequence=sequence,case=args.case,extent=function['extent'],original_frontier=frontier['original'],native_frontier=frontier['native'],application_entries=entries,matched_frontier_parameters=state['parameters'],typed_frontier_parameters=parameters,matched_application_globals=matched,observed_objects=owners,conditional_CRT_support=crt,runtime_unmasked=support,seconds=receipt['seconds'],classification='routine-whole-function-and-genuine-next-entry',later_module_heap_equality=False,prior_module3='cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json',scope='Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches')
     (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n');function.update(status='accepted',evidence=path);config['accepted_order'].append(dict(function=function['name'],case=args.case,kind='application',sequence=sequence));(BINARY/'functions.json').write_text(json.dumps(config,indent=2)+'\n');print('Accepted',sequence,function['name'],'next',frontier['native'])
 
 def main():

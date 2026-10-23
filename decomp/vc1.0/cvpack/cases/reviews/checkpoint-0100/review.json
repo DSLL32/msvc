@@ -1,0 +1,28 @@
+{
+  "application_functions": 100,
+  "application_bytes": 33307,
+  "next": "read_coff_symbol",
+  "source": "initialize_strip_sections29550..29848 reads section RVAs, scans COFF file symbols and collects distinct file-name nodes. Preserves ushort return including saved seek-position low16 on successful final path. Reached path stops at first genuine read_coff_symbol(&symbol,0).",
+  "actual_gap": "First fresh pair rejected my wrong PointerToRawData field. Original stack-relative load is section+12 VirtualAddress. Source/name corrected to strip_section_rvas; second actual pair matches32 initialized scalar bytes for actual NumberOfSections8. Preserved failed pair/log as meaningful rejection, no historical replay.",
+  "typed_parameters": "Reused stack_output.py for caller-owned CoffSymbol18-byte output pointer, exact originalESP+44/return29644 and native &initialize_strip_sections::symbol/sizeof18. Undefined prebytes retained without equality or defined credit. Reused existing bounded walk dumper/comparator for only newly reached section-RVA array, sized by actual NumberOfSections*4; no malloc usable-size inference and no earlier heap replay.",
+  "checks": {
+    "build": 1.4087739810347557,
+    "fixtures": 0.45620130840688944
+  },
+  "affected_controls": 2,
+  "affected_controls_scope": "Changed native raw output pointer and changed RVA-array bytes both reject via existing comparators.",
+  "original_seconds": {
+    "setup": 0.2822636514902115,
+    "execution": 1.8425896326079965,
+    "total": 2.149527763016522
+  },
+  "native_seconds": {
+    "setup": 0.23528646491467953,
+    "execution": 0.015593625605106354,
+    "debugging": 1.5061922734603286,
+    "checks": 0.01704855915158987,
+    "total": 1.774126609787345
+  },
+  "historical_pipeline": "Explicitly disabled by user; not run or scheduled.",
+  "limitations": "File-name/COFF scanning tail unexercised at this frontier; malformed unterminated auxiliary names fail closed natively before out-of-bounds read. Prior module3 contracts/evidence preserved; later symbol heap equality unclaimed."
+}

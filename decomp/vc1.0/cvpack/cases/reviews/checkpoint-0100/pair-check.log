@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/accept.py", line 369, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/accept.py", line 135, in main
+    return accept_entry_flow(args,config,pe,function,original,native,captured,native_receipt)
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/accept.py", line 96, in accept_entry_flow
+    owners=compare_walks(specs,old_walks,new_walks)if specs else {}
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/objects.py", line 185, in compare_walks
+    assert left==right,('observed object bytes differ',name,index)
+           ^^^^^^^^^^^
+AssertionError: ('observed object bytes differ', 'strip_section_offsets', 0)

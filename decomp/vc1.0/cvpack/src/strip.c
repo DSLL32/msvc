@@ -1,5 +1,5 @@
 /* PE headers used while rewriting the original file's auxiliary records. */
-#include "image.h"
+#include "strip.h"
 #include <recon.h>
 
 int strip_handle;
@@ -62,4 +62,79 @@ unsigned short strip_debug(int handle)
     }
     seek_file(strip_handle, position, 0);
     return 1;
+}
+
+/* Raw section offsets and the COFF .file chain are shared by the strip passes. */
+unsigned long *strip_section_rvas;
+CoffFileName *strip_file_names;
+
+unsigned short initialize_strip_sections(void)
+{
+    long position, result;
+    unsigned long index, previous, i, length;
+    unsigned short done = 0, bytes;
+    CoffSymbol symbol;
+    IMAGE_SECTION_HEADER section;
+    CoffFileName *last = NULL, *node;
+    char *auxiliary;
+    int different;
+
+    position = tell_file(strip_handle);
+    strip_section_rvas = malloc(strip_file_header.NumberOfSections*4);
+    if (!strip_section_rvas) fatal_error(13, NULL, NULL);
+    seek_file(strip_handle, strip_section_header_offset, 0);
+    for (i = 0; i < strip_file_header.NumberOfSections; ++i) {
+        read_file(strip_handle, &section, sizeof(section));
+        strip_section_rvas[i] = section.VirtualAddress;
+    }
+    if (!strip_symbol_offset) {
+        seek_file(strip_handle, position, 0);
+        strip_read_offset = position;
+        return 0;
+    }
+    index = 0;
+    if (!read_coff_symbol(&symbol, 0)) fatal_error(37, NULL, NULL);
+    while (classify_coff_symbol(&symbol) != 3 && !done)
+        done = (unsigned short)(next_coff_symbol(&symbol, &index) < 1);
+    if (done) return 0;
+    previous = index;
+    do {
+        bytes = (unsigned short)(symbol.auxiliary_count*18);
+        auxiliary = malloc(bytes);
+        if (!auxiliary) fatal_error(13, NULL, NULL);
+        read_file(strip_handle, auxiliary, bytes);
+#ifdef RECON_NATIVE_TEST
+        /* Unknown malformed names must stop before an unbounded native read. */
+        for (length = 0; length < bytes && auxiliary[length]; ++length) {}
+        if (length == bytes) __asm { int 3 }
+#endif
+        different = 1;
+        if (last) {
+            for (i = 0; auxiliary[i] == last->name[i] && auxiliary[i]; ++i) {}
+            different = auxiliary[i] != last->name[i];
+        }
+        if (different) {
+            node = malloc(sizeof(*node));
+            if (!node) fatal_error(13, NULL, NULL);
+            for (length = 0; auxiliary[length]; ++length) {}
+            ++length;
+            node->name = malloc(length);
+            if (!node->name) fatal_error(13, NULL, NULL);
+            for (i = 0; i < length; ++i) node->name[i] = auxiliary[i];
+            node->symbol = index;
+            node->next = NULL;
+            if (last) last->next = node;
+            else strip_file_names = node;
+            last = node;
+        }
+        done = (unsigned short)(symbol.value == previous);
+        if (!done) {
+            index = symbol.value;
+            if (!read_coff_symbol(&symbol, index)) fatal_error(37, NULL, NULL);
+        }
+        free(auxiliary);
+    } while (!done);
+    result = seek_file(strip_handle, position, 0);
+    strip_read_offset = position;
+    return (unsigned short)result;
 }

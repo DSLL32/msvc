@@ -231,13 +231,20 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']=='integer'for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input')for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'
-        prefix+='parameters={r["name"]:int(f.read_var(r["name"]))for r in '+repr(frontier['parameters'])+'}\n'
+        # Reuse the ordinary debugger's formal/typed caller-local extraction.
+        begin=text.index('for symbol in current.block():\n');end=text.index('for description in frontier.get("parameters",[]):\n if description["kind"]!="transient-pointer": continue\n',begin)
+        prefix+='current=f;parameters={}\n'+text[begin:end]
+
         prefix+='globals={r["name"]:bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval("&"+r["name"])),r["size"])).hex()for r in '+repr(observed)+'}\n'
-        prefix+='json.dump(dict(signal=int(gdb.parse_and_eval("$_siginfo.si_signo")),frames=frames,parameters=parameters,globals=globals,later_heap_equality=False),open('+repr(str(report))+',"w"))\nend\nquit\n';script.write_text(prefix)
+        selected=[r for r in walks if r['name']in expected.get('observed_walks',[])]
+        assert len(selected)==len(expected.get('observed_walks',[])),'unknown typed owner walk'
+        begin=text.index('walks={}\n');end=text.index('json.dump(dict(signal=int(signal)',begin)
+        prefix+=text[begin:end].replace('for item in '+repr(walks)+':\n','for item in '+repr(selected)+':\n',1)
+        prefix+='json.dump(dict(signal=int(gdb.parse_and_eval("$_siginfo.si_signo")),frames=frames,parameters=parameters,globals=globals,walks=walks,later_heap_equality=False),open('+repr(str(report))+',"w"))\nend\nquit\n';script.write_text(prefix)
     if scalar_completion:
         import runpy
         runpy.run_path(str(BINARY/"scripts/scalar-block-debug.py"))["write"](script,directory,policies)
