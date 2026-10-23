@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559eaa in print_declaration (symbol=0x5661cf54, stream=0x0) at src/stubs.c:440
+440	void __stdcall print_declaration(CppSymbol *symbol, FILE *stream) { __asm { int 3 } }
+#0  0x56559eaa in print_declaration (symbol=0x5661cf54, stream=0x0) at src/stubs.c:440
+#1  0x565c1b38 in print_inline_declaration (symbol=0x5661cf54, stream=0x0) at src/inline-capture.c:334
+#2  0x565c1470 in capture_inline_member_declaration (symbol=0x5661cf54, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:144
+#3  0x565be024 in configure_member_function (storage=..., member=0x5661cf54, pure=0) at src/class-members.c:538
+#4  0x565bcee3 in declare_class_member (context=0x56603998 <declaration_spec_storage+8>, member=0x5661cf54) at src/class-members.c:176
+#5  0x565bf37c in declare_constructor (type=0x56603998 <declaration_spec_storage+8>, class_symbol=0x5661cc84, parameters=0x56642b4c) at src/class-members.c:464
+#6  0x565ad9fe in parse_translation_unit () at src/parser-declaration-actions.inc:299
+#7  0x5655e13f in compile_translation_unit () at src/frontend.c:73
+#8  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

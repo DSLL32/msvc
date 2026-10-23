@@ -14,5 +14,6 @@ void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigne
 char *__stdcall pointer_kind_spelling(unsigned short kind);
 void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol);
 char *__stdcall generated_member_name(int kind);
-void __stdcall print_inline_declaration(CppSymbol *symbol, unsigned *flags);
+void __stdcall print_inline_declaration(CppSymbol *symbol, FILE *stream);
+extern int printing_inline_declaration;
 #endif

@@ -5,6 +5,7 @@
 #include "parameters.h"
 #include "parser.h"
 #include "text-format.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 int pending_class_name_index; /* original 0x9ecd8 */
@@ -321,4 +322,15 @@ void __cdecl format_work_text(WorkingStack *stack, char *format, ...)
     while (buffer[length]) ++length;
     if (length >= 1024) fatal_error(1, pch_diagnostic_name, 315);
     write_work_bytes(buffer, length, 1, stack);
+}
+
+int printing_inline_declaration; /* original 0xa1e64 */
+
+/* Original 0x67a10..0x67a36. Inline-body capture asks the ordinary
+   declaration printer to retain its inline member spelling rules. */
+void __stdcall print_inline_declaration(CppSymbol *symbol, FILE *stream)
+{
+    printing_inline_declaration = 1;
+    print_declaration(symbol, stream);
+    printing_inline_declaration = 0;
 }
