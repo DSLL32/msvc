@@ -487,3 +487,30 @@ class LogicalCharacterEntered(gdb.Breakpoint):
         entry=dict(formals=[],cursor_before=cursor,word=int.from_bytes(bytes(gdb.selected_inferior().read_memory(cursor,2)),'little'),depth=int(gdb.parse_and_eval('rc_source_depth')),alternate_mode=int(gdb.parse_and_eval('rc_number_buffer_active')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
         logical_reads.append(entry);save_logical_reads();LogicalCharacterReturned(frame,entry);return False
 LogicalCharacterEntered('rc_get_logical_character',internal=True);save_logical_reads()
+
+
+integer_conversions=[];digit_values=[]
+def save_integer_conversions():(path.parent/'integer-conversions.json').write_text(json.dumps(integer_conversions,indent=2)+'\n')
+def save_digit_values():(path.parent/'digit-values.json').write_text(json.dumps(digit_values,indent=2)+'\n')
+class IntegerConversionReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
+        save_integer_conversions();return False
+class IntegerConversionEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();text=frame.read_var('text');radix=frame.read_var('radix')
+        entry=dict(text=int(text),text_bytes=listing_wide(int(text)),radix=int(radix),formal_bytes=dict(text=text.type.sizeof,radix=radix.type.sizeof),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+        integer_conversions.append(entry);save_integer_conversions();IntegerConversionReturned(frame,entry);return False
+class DigitValueReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
+        save_digit_values();return False
+class DigitValueEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();parent=frame.older();character=frame.read_var('character')
+        entry=dict(character=int(character),formal_bytes=character.type.sizeof,parent_cursor=int(parent.read_var('cursor')),accumulator=int(parent.read_var('value')),previous=int(parent.read_var('previous')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+        digit_values.append(entry);save_digit_values();DigitValueReturned(frame,entry);return False
+IntegerConversionEntered('rc_parse_integer_value',internal=True);save_integer_conversions()
+DigitValueEntered('rc_digit_value',internal=True);save_digit_values()

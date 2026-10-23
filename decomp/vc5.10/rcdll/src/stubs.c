@@ -266,8 +266,3 @@ void * __stdcall rc_store_integer(unsigned short token,const unsigned *value)
     return 0;
 }
 
-int __stdcall rc_digit_value(int character)
-{
-    __asm int 3
-    return 0;
-}

@@ -424,3 +424,11 @@ previous value. [Verification](cases/resources-rich-trailing-space/integer-value
 records seven fresh controls, including rejection of an argument whose low16
 bits still match. The complete source retains signed decimal overflow checks,
 octal/hex bounds and diagnostic paths. No integer result has returned yet.
+
+Digit conversion is accepted (54 bytes): full32-bit character49 returns1 with
+ret4, and integer conversion then returns1 with ret8. The next decimal-kind
+helper receives that exact four-byte value. The caller's other four local bytes
+remain uninitialized and unclaimed.
+[Verification](cases/resources-rich-trailing-space/digit-value-verification.json)
+records nine fresh return/cleanup/formal/storage controls and separate timings.
+The full digit body preserves the alphabetic UTF16/towupper path.
