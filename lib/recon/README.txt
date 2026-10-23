@@ -439,3 +439,9 @@ one memory query; unbound, repeated or unsupported inventories fail. SDK layouts
 and all observed writes/errors are preserved. No Linux RAM query is substituted.
 Only page size/total physical RAM are currently consumed; other volatile fields
 are a captured sample, not invariants. New field consumption requires fresh proof.
+
+GetFileSize supports the encountered regular-file success with NULL high word.
+FlushViewOfFile supports an exact registered mapping base and zero-byte request,
+flushing the registry's complete mapped length. Both preserve observed errno and
+LastError on success; unknown handles/ranges/failures remain unsupported. A real
+2MB original/native mapping-write probe checks streams, bytes and persistence.

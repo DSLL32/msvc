@@ -1,0 +1,7 @@
+{
+  "scope": "GetFileSize valid regular file with NULL high word; FlushViewOfFile exact registered view and zero length; unknown/error modes unsupported",
+  "native_build_checks_seconds": {
+    "gcc": 1.053906106390059,
+    "clang": 1.266846782527864
+  }
+}

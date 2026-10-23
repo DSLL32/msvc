@@ -306,6 +306,15 @@ BOOL WINAPI recon_CloseHandle(HANDLE handle)
     if (close(fd)<0) { last_error=error_code(errno); return FALSE; }
     last_error=0; return TRUE;
 }
+DWORD WINAPI recon_GetFileSize(HANDLE handle,LPDWORD high)
+{
+    int saved_errno=errno,fd; DWORD saved_error=last_error; struct stat st;
+    if (high) recon_unsupported("GetFileSize high word");
+    fd=handle_fd(handle);
+    if (fd<0 || fstat(fd,&st) || !S_ISREG(st.st_mode) || st.st_size<0 ||
+        (uint64_t)st.st_size>=0xffffffffULL) recon_unsupported("GetFileSize regular success");
+    errno=saved_errno; last_error=saved_error; return (DWORD)st.st_size;
+}
 DWORD WINAPI recon_GetFileType(HANDLE handle)
 {
     struct stat st; int fd=handle_fd(handle);
@@ -508,6 +517,15 @@ LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD lo
     if (address==MAP_FAILED) { last_error=error_code(errno); return NULL; }
     v=malloc(sizeof(*v)); if (!v) { munmap(address,length); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
     v->address=address; v->length=length; v->next=views; views=v; last_error=0; return address;
+}
+BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
+{
+    View *view; int saved_errno=errno; DWORD saved_error=last_error;
+    if (bytes) recon_unsupported("FlushViewOfFile whole view only");
+    for (view=views;view && view->address!=address;view=view->next) ;
+    if (!view || msync(view->address,view->length,MS_SYNC))
+        recon_unsupported("FlushViewOfFile registered success");
+    errno=saved_errno; last_error=saved_error; return TRUE;
 }
 BOOL WINAPI recon_UnmapViewOfFile(LPCVOID address)
 {
