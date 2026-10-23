@@ -29,7 +29,9 @@ without invoking Wine. See `cases/help/gs-diagnostic/`.
 
 `cases/help/gs-patch-proposal.json` proposes four fixed-size substitutions in a
 new `.patched/binb/WASM.EXE`, with an unchanged `.patched/binnt/WASM.EXE` loader
-copy. No such copies have been created or run. A new reference capture must
+copy. The approved copies have been created with their exact proposed hashes;
+`cases/help/gs-copy-creation.json` records their provenance. They have not run.
+A new reference capture must
 guard **every** resource-reader invocation's far selector against actual DS;
 the first observed reader call does not prove future callers. The changed
 `.patched` module/payload/program-name paths are new explicit case inputs,

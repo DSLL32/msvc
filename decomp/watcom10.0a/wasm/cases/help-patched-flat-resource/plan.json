@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "case": "help-patched-flat-resource",
+  "status": "new explicit path case; patched copies created, execution HOLD until shared persistent guard review",
+  "original_capture": {
+    "argv": [
+      "/usr/bin/wine",
+      "R:\\toolchains\\watcom10.0a\\.patched\\binnt\\WASM.EXE",
+      "/?"
+    ],
+    "payload": "R:\\toolchains\\watcom10.0a\\.patched\\binb\\WASM.EXE",
+    "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help-patched-flat-resource/reference",
+    "stdin": "empty regular file",
+    "stdout": "separate raw regular file",
+    "stderr": "separate raw regular file",
+    "host_environment": "same strict allowlist as cases/help/baseline-plan.json; WATCOM remains absent",
+    "identities": {
+      "loader_sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+      "payload_sha256": "f7189b9de3de853139d381816ab5ed9aefdd6a4fd988e29a023f1f5fbd640de9",
+      "raw_payload_sha256": "a79e0dc11a26b098728aa988cfc974113e7ac5d28c81baded1f077ed27be0513"
+    }
+  },
+  "mandatory_observations": [
+    "Actual PE module filename after GetModuleFileNameA at stub RVA1070a, using its returned length and actual current ESP buffer",
+    "Actual CF startup structure and program-name/command-line strings at observed CF launch; expected .patched/binb derivation is not itself an observation",
+    "Actual CreateFileA filename, access/share/disposition/flags and handle lifetime for opening .patched/binb/WASM.EXE resource contents",
+    "Actual CF base/entry/ESI and all 2915 relocation additions before CF breakpoints; base may be non-page-aligned",
+    "Every GetString invocation: selector equals actual DS, actual pointer and capacity match active caller-owned object, expected thread and return path, all guard rearm steps complete",
+    "Raw output/status/artifacts, no identified or guessed path normalization; retain resource tail hash e80d7dcf783fa2b76b83700ca59c303f05878017b45891e2a004eeef4849b933",
+    "Actual owned child exit, helper source/build/binary hashes, complete events and timing"
+  ],
+  "guard": {
+    "shared_owner": "/root/watcom10_orchestrator/wlib",
+    "configuration": "persistent-guard.txt",
+    "owner_entry_rva": "0x16710",
+    "owner_first_instruction": "53: push ebx",
+    "reader_entry_rva": "0x1e520",
+    "reader_first_instruction": "51: push ecx",
+    "owner_proof": "At MsgGet entry, real caller return is base+1681f and EDX equals entry ESP+4. That caller buffer is the fixed 128-byte stack object allocated by PrintfUsage SUB ESP128 at167e4; unknown caller return holds",
+    "reader_proof": "Entry ESP+4 points into that active owned buffer, entry ESP+8 low WORD is selector, entry ESP+12 capacity must be128; selector must equal actual DS on every invocation. Reader returns base+1e6fe with RET12; owner lifetime ends at1681f",
+    "max_calls": 4096,
+    "unknown_state": "Non-DS, unexpected owner/pointer/capacity/thread/exception/rearm or a new helper scope fails closed before continuing target"
+  },
+  "scope": {
+    "application_acceptance": "none",
+    "regression_rule": "Future fixtures native only, using frozen inputs/outputs from this separate new case; no Wine or implicit reference capture",
+    "path_rule": "Native argv0/program-name/GetModuleFileName and resource-open logical input must match the actual new capture; never relabel old failed baseline or normalize .patched away"
+  }
+}
