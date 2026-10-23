@@ -1,0 +1,44 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 1.886383674107492,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.7895723106339574,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 2.2576780607923865,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.8585804486647248,
+    "execution": 2.655955540947616,
+    "total": 3.562457075342536
+  },
+  "native_capture": {
+    "execution": 0.4690388599410653,
+    "total": 0.5727896047756076
+  },
+  "audit_seconds": 0.769690228626132,
+  "protocol_controls": {
+    "fresh": 7,
+    "reused": 146,
+    "seconds": 7.956654145382345
+  },
+  "allocation_state_controls": {
+    "fresh": 15,
+    "seconds": 15.764920637011528
+  },
+  "fixture": {
+    "setup": 0.01161548588424921,
+    "execution": 0.002276696264743805,
+    "checks": 0.00023176055401563644,
+    "total": 0.014674308709800243
+  }
+}

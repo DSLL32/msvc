@@ -142,3 +142,8 @@ C2OutputTable *__fastcall new_output_table(unsigned short capacity)
     table->iterator_page = NULL;
     return table;
 }
+
+void *__fastcall allocate_output_bytes(unsigned bytes)
+{
+    return c2_pool_allocate(7, bytes);
+}

@@ -596,11 +596,6 @@ void prepare_output_486e67(void) { __asm { int 3 } }
 void prepare_output_486a23(void) { __asm { int 3 } }
 void prepare_output_48710f(void) { __asm { int 3 } }
 void write_output_directives(void) { __asm { int 3 } }
-void *__fastcall allocate_output_bytes(unsigned bytes)
-{
-    __asm { int 3 }
-    return NULL;
-}
 void writer_callback_48511c() { __asm { int 3 } }
 void writer_callback_45477a() { __asm { int 3 } }
 

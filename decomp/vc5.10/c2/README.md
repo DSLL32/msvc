@@ -7,12 +7,12 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 68 application functions (15638 bytes) and five CRT
+Current reconstruction has 69 application functions (15650 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
-entered the COFF output pipeline. Its paged pointer-table constructor now stops at the typed allocator
-request for its32-byte record. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16076 source bytes are 2.805% of 573183 `.text`
+entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
+currently stops at COFF list initialization. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16088 source bytes are 2.807% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -251,3 +251,15 @@ formal inventories, writer aliases and original return address453d8b. The
 allocator itself still traps. Ten new controls passed in11.474s; the protocol
 refresh passed4 controls/reused149 in4.862s, with39 unchanged prior focused
 controls retained by exact hashes. Timing and all source snapshots are in0073.
+
+Source74 reconstructs the12-byte allocator adapter as ordinary typed fastcall
+C calling pool7. Its original tail and rebuilt call pass strict wholefunction
+RET/graph audits. The fresh pair stops at COFF list initialization after building
+the32-byte table,1208-byte page and16-byte opaque storage allocation at exact
+arena offsets64/96/1304, cursor1320 and remaining2776. Full4096 arena bytes
+retain allocator header/zero-writer provenance, including padding/unused tails;
+no opaque-storage layout is claimed. The separate malloc4096 result is checked
+by identity/role and original return-global lineage, with its payload unread and
+unmodeled. Fifteen affected controls passed in15.765s;7 refreshed/146 reused
+generic controls took7.957s. Native help remains19 entries/51 stderr/status1
+(2.277ms execution,14.674ms including setup/checks). Full timing is in0074.

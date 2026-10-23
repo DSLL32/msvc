@@ -1032,14 +1032,6 @@
     "evidence": null
   },
   {
-    "name": "_writer_callback_41eb8a",
-    "start": 4320138,
-    "end": 4320139,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_writer_callback_48511c",
     "start": 4739356,
     "end": 4739357,

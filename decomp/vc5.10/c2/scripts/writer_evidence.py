@@ -17,14 +17,18 @@ def model(config):
 def verify(config,graph):
     value=model(config)
     if value is None:return None
-    definitions={r['name']:r for r in config['stubs']}
+    definitions={r['name']:r for r in config['driver']+config['stubs']}
     allocator=value['targets'][0]
     typed='abi_evidence' in allocator
+    allocator_body=typed and allocator['logical']in config['accepted']
     for target in value['targets']:
         row=definitions[target['logical']]
-        assert row['native']==target['native'] and row['start']==target['original'] and row['end']==row['start']+1
-        assert row['pending_extent'] and row['kind']=='application'
-        assert row['name'] not in config['accepted']+config['trial']
+        assert row['native']==target['native']and row['start']==target['original']and row['kind']=='application'
+        if allocator_body and target==allocator:
+            assert row['end']==0x41eb96 and not row['pending_extent']
+        else:
+            assert row['end']==row['start']+1 and row['pending_extent']
+            assert row['name']not in config['accepted']+config['trial']
         assert row['pending_signature'] is (not typed or target!=allocator)
     assert graph['original_accepted_graphs'][value['owner']]==value['original_graph']
     maps={m[1]:int(m[2],16)for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',(BINARY/'build/c2.map').read_text(),re.M)}
@@ -51,8 +55,10 @@ def verify(config,graph):
         assert abi['tail_target']['function'] in config['accepted']
         assert abi['type']=='void *(__fastcall *C2OutputAllocator)(unsigned bytes)'
         assert abi['field']=={'writer_offset':16,'global':0x497d88,'source_copy_site':0x453c96,'global_store_site':0x453ca1}
-    if typed:
+    if typed and not allocator_body:
         assert re.search(r'void \*__fastcall allocate_output_bytes\(unsigned bytes\)\s*\{\s*__asm \{ int 3 \}\s*return NULL;\s*\}',(BINARY/'src/stubs.c').read_text()),'allocator must remain an exact named trap'
+    if allocator_body:
+        assert re.search(r'void \*__fastcall allocate_output_bytes\(unsigned bytes\)\s*\{\s*return c2_pool_allocate\(7, bytes\);\s*\}',(BINARY/'src/coff-output.c').read_text()),'allocator body must retain its exact ordinary typed call'
     pending={name:row for name,row in fields.items()if not typed or name!='output_allocator'}
     target_names=[r['native']for r in value['targets']if not typed or r!=allocator]
     # Exact finite line forms: a new use fails rather than interpreting an
@@ -76,8 +82,8 @@ def verify(config,graph):
                 if not re.search(r'\b'+name+r'\b',line):continue
                 assert (path.name=='coff-output.c'and re.fullmatch(r'writer->output_\w+\.target = '+name+r';',stripped))or(path.name=='coff-output.h'and stripped=='void '+name+'();')or(path.name=='stubs.c'and stripped=='void '+name+'() { __asm { int 3 } }'),'pending writer target may only be declared, stored, or trap'
             if typed and re.search(r'\ballocate_output_bytes\b',line):
-                assert (path.name=='coff-output.c'and stripped=='writer->output_allocator = allocate_output_bytes;')or(path.name=='coff-output.h'and stripped=='void *__fastcall allocate_output_bytes(unsigned bytes);')or(path.name=='stubs.c'and stripped=='void *__fastcall allocate_output_bytes(unsigned bytes)'),'allocator body remains a genuine pending trap'
-    return {'scope':'Typed allocator ABI only; error/clock stores and copied identities only; all target bodies pending',
+                assert (path.name=='coff-output.c'and(stripped=='writer->output_allocator = allocate_output_bytes;'or allocator_body and stripped=='void *__fastcall allocate_output_bytes(unsigned bytes)'))or(path.name=='coff-output.h'and stripped=='void *__fastcall allocate_output_bytes(unsigned bytes);')or(path.name=='stubs.c'and stripped=='void *__fastcall allocate_output_bytes(unsigned bytes)'),'allocator source must match its pending/independently accepted role'
+    return {'scope':'Typed allocator; body credit only in independently audited accepted set. Error/clock stores and copied identities only; their bodies pending',
         'boundary_sha256':config['writer_callback_boundary_sha256'],'allocator_abi_sha256':allocator.get('abi_evidence_sha256'),
         'fields':list(fields.values()),'targets':[{'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol','_'+r['native'])],'native':r['native']}for r in value['targets']],
         'original_graph':value['original_graph']}

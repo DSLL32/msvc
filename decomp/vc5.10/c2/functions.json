@@ -83,7 +83,8 @@
     "@add_output_directive@8",
     "_initialize_object_output",
     "@initialize_coff_output@4",
-    "@new_output_table@4"
+    "@new_output_table@4",
+    "_writer_callback_41eb8a"
   ],
   "driver": [
     {
@@ -8706,6 +8707,196 @@
       ],
       "frontier_contract": "coff-table-input",
       "state_model_sha256": "a6c5f0eb00507298f82bbaf31aed9a6a874a931c88ab18a6be7a5d02fe3c6265"
+    },
+    {
+      "name": "_writer_callback_41eb8a",
+      "native": "allocate_output_bytes",
+      "start": 4320138,
+      "end": 4320150,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall unsignedbytesECX; void*EAX inheritedRET0",
+      "evidence": "Complete12B application allocator adapter; unsignedbytesECX->void*EAX, original tail to accepted c2_pool_allocate(7,bytes), inheritedRET0. Source is normal periodC fastcall; no new CRT source. cases/analysis/output-allocator-abi.json",
+      "pending_signature": false,
+      "symbol": "@allocate_output_bytes@4",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-allocate-input",
+      "state_model_sha256": "a6c5f0eb00507298f82bbaf31aed9a6a874a931c88ab18a6be7a5d02fe3c6265"
     }
   ],
   "stubs": [
@@ -9986,16 +10177,36 @@
       "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
     },
     {
-      "name": "_writer_callback_41eb8a",
-      "native": "allocate_output_bytes",
-      "start": 4320138,
-      "end": 4320139,
+      "name": "_writer_callback_48511c",
+      "native": "writer_callback_48511c",
+      "start": 4739356,
+      "end": 4739357,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall unsignedbytesECX; void*EAX inheritedRET0",
-      "evidence": "cases/analysis/output-allocator-abi.json: full12B original adapter tail to acceptedpoolallocator; ABI only, body stays namedINT3/masked and zero application credit.",
-      "pending_signature": false,
-      "symbol": "@allocate_output_bytes@4",
+      "abi": "UNRESOLVED: stored functionaddress only; no callable ABI/body credit",
+      "evidence": "Stores-only32Bwriter field, exact originaltarget address. Before invocation recover full actual callableABI; namedINT3 remains masked/unaccepted.",
+      "pending_signature": true
+    },
+    {
+      "name": "_writer_callback_45477a",
+      "native": "writer_callback_45477a",
+      "start": 4540282,
+      "end": 4540283,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "UNRESOLVED: stored functionaddress only; no callable ABI/body credit",
+      "evidence": "Stores-only32Bwriter field, exact originaltarget address. Before invocation recover full actual callableABI; namedINT3 remains masked/unaccepted.",
+      "pending_signature": true
+    },
+    {
+      "name": "_initialize_coff_lists",
+      "native": "initialize_coff_lists",
+      "start": 4537798,
+      "end": 4537799,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs voidRET0",
+      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit.",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -10172,40 +10383,8 @@
       "expected_argv": [
         "-G5"
       ],
-      "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "a6c5f0eb00507298f82bbaf31aed9a6a874a931c88ab18a6be7a5d02fe3c6265"
-    },
-    {
-      "name": "_writer_callback_48511c",
-      "native": "writer_callback_48511c",
-      "start": 4739356,
-      "end": 4739357,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "UNRESOLVED: stored functionaddress only; no callable ABI/body credit",
-      "evidence": "Stores-only32Bwriter field, exact originaltarget address. Before invocation recover full actual callableABI; namedINT3 remains masked/unaccepted.",
-      "pending_signature": true
-    },
-    {
-      "name": "_writer_callback_45477a",
-      "native": "writer_callback_45477a",
-      "start": 4540282,
-      "end": 4540283,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "UNRESOLVED: stored functionaddress only; no callable ABI/body credit",
-      "evidence": "Stores-only32Bwriter field, exact originaltarget address. Before invocation recover full actual callableABI; namedINT3 remains masked/unaccepted.",
-      "pending_signature": true
-    },
-    {
-      "name": "_initialize_coff_lists",
-      "native": "initialize_coff_lists",
-      "start": 4537798,
-      "end": 4537799,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs voidRET0",
-      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
+      "frontier_contract": "coff-lists-input",
+      "state_model_sha256": "f84923ed20ee451de226b40d3007409d174bf9d507d2aca9f6c89eba7114074d"
     },
     {
       "name": "@new_output_list@8",
@@ -10502,7 +10681,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10514,7 +10693,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10526,7 +10705,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10538,7 +10717,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10550,7 +10729,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10562,7 +10741,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10574,7 +10753,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10586,7 +10765,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10598,7 +10777,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10610,7 +10789,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10624,7 +10803,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10636,7 +10815,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10651,7 +10830,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10663,7 +10842,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10675,7 +10854,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10687,7 +10866,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10699,7 +10878,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10711,7 +10890,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10726,7 +10905,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10741,7 +10920,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10753,7 +10932,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10765,7 +10944,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10777,7 +10956,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       },
       {
@@ -10792,7 +10971,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "1475411478d5365da989c2245782bb28a62ae3de597a7e7443637ccf9de7e5ed"
+          "sha256": "7977dbe8b4607526f94e1eecdca7e0d25350250a8cdf72a80491379a889b8e8e"
         }
       }
     ]
@@ -10800,5 +10979,5 @@
   "output_callback_boundary": "cases/analysis/output-callback-boundary.json",
   "output_callback_boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
   "writer_callback_boundary": "cases/analysis/object-output-initialization.json",
-  "writer_callback_boundary_sha256": "aa6fd614fd97a9acf7633eef4db2dfb7b76f7cffd95dec8d95dfe9e469d93e67"
+  "writer_callback_boundary_sha256": "cc18112226656971a1d3a1896281c0a2bc55e68e6f326e2099742cadea21690b"
 }

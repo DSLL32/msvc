@@ -1,0 +1,49 @@
+{
+  "function": "_writer_callback_41eb8a",
+  "actual_symbol": "@allocate_output_bytes@4",
+  "source": "src/coff-output.c",
+  "source_sha256": "2df5cfc29597e70c7b48616f2a967319f1af863ae039d7084e5f0c48e7c8259c",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "original_body": [
+    4320138,
+    4320150
+  ],
+  "graph": "Original JMP to accepted c2_pool_allocate and rebuilt ordinary fastcall call preserve the same function edge and RET0; common full74 strict audit includes both. No inline assembly or new CRT implementation.",
+  "next_frontier": {
+    "function": "_initialize_coff_lists",
+    "original": 4537798,
+    "formals": []
+  },
+  "pool7": {
+    "writer_offset": 8,
+    "source_offset": 40,
+    "table_offset": 64,
+    "table_bytes": 32,
+    "page_offset": 96,
+    "page_bytes": 1208,
+    "storage_offset": 1304,
+    "storage_bytes": 16,
+    "cursor_offset": 1320,
+    "remaining": 2776,
+    "raw4096_sha256": "834e14f25c767877ab48c133e56e78a61cf1f9f9b1deafbfc00e1914a5b0cc89",
+    "defined_byte_provenance": "Accepted pool allocator wrote header8 and memset payload4088; constructor writes typed32B fields and first page element. Opaque storage16 untouched zero bytes observed only under that allocator writer; no object layout/field claims."
+  },
+  "table": {
+    "count": 0,
+    "capacity": 300,
+    "used": 0,
+    "iterator_index": 0,
+    "iterator_used": 0,
+    "iterator_page": null,
+    "first_alias": "pool7+96",
+    "last_alias": "same page"
+  },
+  "separate_malloc": {
+    "request": 4096,
+    "symbol_capacity": 1023,
+    "original_return_global_alias": "At actual next trap EAX equals stored coff_symbol_buffer; full raw context retained. Native actual private allocation is nonzero and does not alias the three pool4096B allocations.",
+    "payload": "UNMODELED; never read or asserted zero; no data/layout/default credit"
+  },
+  "ordinary_API_scope": "Public canonical CRT allocation, no dependency/private-library reconstruction",
+  "original_receipt_sha256": "c357ad5d5181373ee8778771730f56faff77d3a1bf9e7fa0f5d65aab9698845b"
+}
