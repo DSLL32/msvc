@@ -1298,3 +1298,49 @@ found_argument:
     *reference = temporary;
     return 1;
 }
+
+/* Original 0x64160..0x642da. Select operator new's result-pointer
+   model from an overload vector, then diagnose an incompatible allocation
+   model. A compiler-synthesized declaration skips these result checks. */
+CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol *functions)
+{
+    CppSymbol *selected = 0, *candidate;
+    Vector *overloads;
+    ArenaPool *pool;
+    CType *base, *target;
+    TypeShape *result;
+    unsigned rank, best_rank = 0x2000;
+    unsigned short attributes;
+    short index;
+    unsigned char kind = functions->kind & 31;
+
+    if (kind != 16 && kind != 17) selected = functions;
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+        base = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+        base->flags = 0x80;
+        if (flags & 15) attributes = flags;
+        else attributes = (normalize_type_attributes(1, flags) & 7) == 1 ? 1 : 2;
+        target = make_qualified_type(base, 1, attributes, 0);
+        overloads = (Vector *)((OverloadSet *)functions)->functions;
+        for (index = 0; index < overloads->count; ++index) {
+            candidate = overloads->items[index];
+            rank = classify_type_conversion(target, function_return_type(candidate), 1, 0);
+            if ((int)best_rank < (int)rank) continue;
+            if (best_rank == 1) report_syntax_error(535, format_symbol_name(selected));
+            best_rank = rank;
+            selected = candidate;
+        }
+    }
+    if (selected->declaration_flags & 2) return selected;
+    result = function_return_type(selected)->related;
+    if (!flags) {
+        if ((result->attributes & 4) && (cpp_parser_flags & 0x40))
+            compiler_warning(1, 151, token_spellings[151], token_spellings[51]);
+    } else if (result->attributes != flags)
+        report_syntax_error(559, token_spellings[151]);
+    return selected;
+}

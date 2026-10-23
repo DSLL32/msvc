@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "121f7f33603bbb585b5077973c96be4b2d8cefe1d8756169937f32d2133f59a3",
+    "functions.json": "8307a48a9831afaf83baf3ec7cce1e495991fe1d578b4d5890287a98f20de6da",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "418f295b1a36b0a9e178facf36a685bc7df041903dbd021a78d8ac01c44c4f40",
-    "cases/canonical-map.txt": "705b218ee1cb799164f04a7b5111eb71b1c5bc739fdb699ec9a771525c4599e2",
+    "cases/original-entry-references.json": "e92e62973797a21a188d3d62433c202e53a94c050c86169c210f366b1abaa0fb",
+    "cases/canonical-map.txt": "7b683a7cdf07ab75b358e3b3287afe00e4fd786c0b96e515cd917288dccd404a",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -31,9 +31,9 @@
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d",
-    "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/entry-reference/original-receipt.json": "a5f881ff9bb323ab25440589ef8973584217e1b2917416477dd279bd132fbc06",
-    "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/entry-reference/original-events.txt": "fd0b9369bb260c9aacec7b8a0bd2fac45edda109132c9f474400b9f369771f00",
-    "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/entry-reference/original-entries.plan": "71cddc20d29e7df7f6bf21447f84163b1c09f2296ef1b2f496194026acadad69"
+    "cases/frontiers/new_delete/0982-select_allocation_function-8/entry-reference/original-receipt.json": "0abf44563585539ebae2c7c97c1a658585ec8a7864fa92141b07eb039e4825b9",
+    "cases/frontiers/new_delete/0982-select_allocation_function-8/entry-reference/original-events.txt": "3a6ff468accfc50edb8597a407c641c2f51bd903648d97ce62ce02e813beb42e",
+    "cases/frontiers/new_delete/0982-select_allocation_function-8/entry-reference/original-entries.plan": "2347e4de2cdb888c9d67ac424ad262d95d994177ad40ce00b969ca0d8c1e3ee2"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -4710,7 +4710,7 @@
     },
     "select_allocation_function": {
       "logical": "_select_allocation_function@8",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "select_destructor_type": {
       "logical": "_select_destructor_type@16",
@@ -6113,7 +6113,8 @@
     "expand_macro",
     "transform_function_parameters",
     "mark_static_parameters",
-    "diagnose_parameter_list_difference"
+    "diagnose_parameter_list_difference",
+    "select_allocation_function"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -9309,7 +9310,7 @@
     },
     "new_delete": {
       "first": 963,
-      "last": 982,
+      "last": 983,
       "seen": [
         "main",
         "message_text",
@@ -10201,12 +10202,13 @@
         "transform_function_parameters",
         "mark_static_parameters",
         "diagnose_parameter_list_difference",
-        "select_allocation_function"
+        "select_allocation_function",
+        "detach_new_array_bound"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_select_allocation_function@8",
-        "native": "select_allocation_function",
+        "logical": "_detach_new_array_bound@4",
+        "native": "detach_new_array_bound",
         "signal": 5
       }
     }

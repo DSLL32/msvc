@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559237 in detach_new_array_bound (type=0x566251b8) at src/stubs.c:170
+170	void __stdcall detach_new_array_bound(CppSymbol *type) { __asm { int 3 } }
+#0  0x56559237 in detach_new_array_bound (type=0x566251b8) at src/stubs.c:170
+#1  0x565adb99 in parse_translation_unit () at src/parser-allocation-actions.inc:62
+#2  0x5655e29f in compile_translation_unit () at src/frontend.c:73
+#3  0x56558886 in guarded_compile () at src/c1xx.c:28
+#4  0x56558854 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20
