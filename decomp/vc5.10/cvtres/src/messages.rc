@@ -1,0 +1,8 @@
+#include <windows.h>
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STRINGTABLE DISCARDABLE
+BEGIN
+    8003 "Microsoft (R) Windows Resource To Object Converter Version %s\n"
+    8004 "Copyright (C) Microsoft Corp. 1992-1997. All rights reserved.\n"
+END

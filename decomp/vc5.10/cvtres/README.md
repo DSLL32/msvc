@@ -1,59 +1,52 @@
-# CVTRES groundwork
+# CVTRES 5.00.1668.1
 
-Target: `toolchains/5.10/bin/CVTRES.EXE`, version 5.00.1668.1. No functions
-have been reconstructed or accepted. Work is held pending the orchestrator's DLL
-workflow review and Rust graph-audit readiness.
+First case `/help` is complete; reconstruction is paused before resource
+conversion. It returns 1, writes exactly 360 stdout bytes and no stderr, matching
+the untouched canonical original. Three application functions are accepted:
+`main` (1,447 bytes), `usage` (69), and `load_message` (107).
 
-`make inspect` inventories the PE without running it. Build, audit and fixture
-targets deliberately fail until reconstruction is released. The future builds
-must support `make -j4`, original Win32 compilation and native i386 testing.
+Use `make -j4 native` and `make -j4 fixtures` for native i386 Linux builds/tests.
+Fixtures compare status, complete streams and filtered first-entry traces with
+cached originals. They prepare two verified cached resource strings through
+`lib/recon/resources.py`; they never launch Wine or parse/run a PE helper.
+`make -j4 original` explicitly compiles Win32 C/resources using the shipped 5.10
+toolchain and shared repository prefix. `make -j4 audit` includes that explicit
+original build and the common Rust graph audit; it is outside fixture execution.
 
-The image is a fixed-base i386 console EXE, base `0x01000000`, entry
-`0x01003180`, with no exports or TLS. Its `.text` virtual size is 9,694 bytes;
-that includes loader metadata and data, not just instructions. The IAT starts at
-RVA `0x1000`; imports and names also occupy `.text`. Masking must distinguish
-these proven loader-owned ranges from executable instructions. See
-[cases/pe-inventory.json](cases/pe-inventory.json).
+Fresh acceptance uses `scripts/capture.py --candidate NAME --output NEW_DIR`
+(original-only), `scripts/capture-native.py --original ORIGINAL_DIR --output
+NEW_DIR` (GDB/Linux), and `scripts/audit.py --output NEW_DIR`. `accept.py` accepts
+only an exact candidate entered in both raw traces, matching a real INT3 frontier
+or canonical completion, typed state and a bound exact-trial audit. The native
+observer binds an INT3 PC to the actual ELF symbol and byte. Immutable build
+snapshots preserve compiled source contents. For unchanged original evidence,
+`capture-native.py --configuration ORIGINAL_DIR/configuration.json` and
+`audit.py --trial ORIGINAL_DIR/configuration.json` support explicit native-only
+refresh after shared shim changes; the accepted ledger stays untouched.
 
-The only static dependencies are MSVCRT.dll and KERNEL32.dll. The latter supplies
-LoadLibraryA/GetProcAddress. A full-body analysis of the routine at `0x0100310a`
-identifies a cached USER32.DLL!LoadStringA lookup and a 1,024-byte destination
-buffer for this executable's own resource strings. This is a future shared shim
-question, already raised with `/root/recon_lib_maintenance`; no compatibility
-implementation has been added. VC1's CRT FILE layout is not assumed valid here.
-The shipped compiler is being verified by the CL worker; PE linker version 6.0
-alone does not establish the exact compiler that produced this target.
+The full three-function Rust audit checks CFG calls, RET cleanup, references and
+extent ownership/boundaries. Its strict-import subset checks `load_message`'s
+KERNEL32 imports. Main and usage cache CRT function pointers in callee-saved
+registers, beyond that import check's resolver; `import-residual.py` verifies
+five explicit live regions, all writes/bypass branches/callsites and the rebuilt
+COFF relocations against qualified IAT slots. It performs no CFG discovery.
 
-Initial cases are `/help` and resource conversion. Fresh original-only help
-probes found `/help` and `/?` both return 1 with the same 360-byte stdout and
-empty stderr. No arguments print identical help but return 0. Raw bytes and
-receipts are in `cases/help/probe/`; these are observations, not acceptance
-oracles or traces. Options advertised are `/MACHINE`, `/NOLOGO`, `/OUT`,
-`/READONLY`, `/VERBOSE` and `/WINDOWSCE`. The RC worker owns fresh resource
-compilation; its menus/dialogs/strings/icon/raw-data source is the seed for the
-conversion case. No VC1 reference output is reused.
+Target `toolchains/5.10/bin/CVTRES.EXE` is a fixed-base i386 EXE at `0x01000000`,
+entry `0x01003180`, without TLS or exports. The 9,694-byte virtual `.text`
+contains loader metadata and literals, so it is not an application-code coverage
+denominator. Accepted application extents total 1,623 bytes; the seven currently
+declared application extents total 4,446 bytes, an incomplete inventory.
+Separately, eight precisely library-identified CRT support extents total 424
+bytes. Imports and verified data are excluded from application acceptance.
+Masking preserves only parsed loader data and explicitly proven code/data ranges.
 
-Explicit original-only probes can be captured using
-`python3 scripts/capture-probe.py help --output NEW_DIRECTORY`, or
-`python3 scripts/capture-probe.py convert --res ORIGINAL_RC_OUTPUT.res --output NEW_DIRECTORY`.
-These commands use the shared Wine prefix and isolated scratch under
-`S:\vc5.10\cvtres`; they are never part of fixture execution. Future native
-fixtures consume complete captured `.res` input and compare complete COFF output,
-streams, status and application-entry traces. Any timestamp normalization must
-first be identified in repeated original outputs. LINK's resource invocation is
-being investigated by its worker; native LINK fixtures must replay a captured
-CVTRES child or use the native reconstructed child, never invoke Wine.
+Original captures require the actually loaded provided MSVCRT.DLL, size 277,776,
+SHA256 `e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210`.
+Both resource calls and returns are observed: IDs 8003/8004, NULL module,
+1,024-byte buffer, dynamic USER32 binding, complete buffer state and pending CRT
+output. `src/messages.rc`, its cached `.res` and original encountered UTF16
+entries are cross-checked before the shared native provider is encoded.
 
-Current probe blocker: resource compilation and conversion are paused under the
-root shared-Wine health hold. RC's resource probes and a separate CVTRES loader
-diagnostic stalled before producing output. The successful help observations
-predate that incident. No timeout is represented as a successful resource case;
-no further Wine launch is allowed until the hold is released. Resource source
-and assets are copied locally under `cases/resources-rich/source` with hashes
-in `cases/plan.json`.
-
-LINK's worker identified static child invocation at `0x0041031b`: `_spawnv`
-with a sibling CVTRES path, falling back at `0x00410339` to `_spawnvp` searching
-`cvtres.exe`. Arguments include a machine buffer, `/nologo`, `/readonly`,
-conditional Windows CE switches and a quoted resource filename. This is
-call-site evidence only; an actual executed child capture remains pending.
+See `cases/help/` for canonical outputs, acceptance proofs, negative checks and
+timings. PE/ELF/build artifacts and full capture snapshots remain in build/shared
+scratch. The source-only `cases/resources-rich/` seed is not an executed case.

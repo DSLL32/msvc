@@ -1,0 +1,4 @@
+# Preserve original captured bytes, including CRLF, without text diff checks.
+cases/help/reference/*.bin binary
+cases/help/reference/*events.txt binary
+cases/help/resources/*.res binary

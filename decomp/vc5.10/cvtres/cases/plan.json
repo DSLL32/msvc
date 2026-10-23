@@ -1,13 +1,11 @@
 {
   "schema": 1,
-  "state": "groundwork-held",
+  "state": "first-case-complete-paused",
   "target": "toolchains/5.10/bin/CVTRES.EXE",
   "release_conditions": [
-    "DLL workflow approved by orchestrator",
-    "Rust graph-audit ready",
-    "explicit reconstruction release"
+    "First /help explicitly released and completed; further cases require orchestrator release"
   ],
-  "accepted_functions": 0,
+  "accepted_functions": 3,
   "coverage": null,
   "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
   "scratch_namespace": "S:\\vc5.10\\cvtres",
@@ -20,7 +18,14 @@
       "purpose": "startup, option and help-resource handling",
       "source_seed": null,
       "original_groundwork": "help/probe/help/receipt.json",
-      "acceptance_reference": "not captured"
+      "acceptance_reference": "help/reference/fixture.json",
+      "state": "complete",
+      "proofs": [
+        "help/main-proof.json",
+        "help/usage-proof.json",
+        "help/messages-proof.json",
+        "help/current-native-proof.json"
+      ]
     },
     {
       "id": "resources-rich",
@@ -33,7 +38,7 @@
       "purpose": "resource .res to COFF conversion including ordinal/string resource identifiers, languages, menus, dialogs, strings, icons and raw data",
       "source_seed": "resources-rich/source",
       "input_generation": "Explicit original RC capture owned by RC worker; consume result read-only and record source/hash",
-      "original_groundwork": "blocked: root shared Wine health hold; RC .res probe unavailable",
+      "original_groundwork": "Source-only seed; no conversion reference captured",
       "acceptance_reference": "not captured",
       "source_provenance": "Source/assets only copied from sibling rc/cases/resources-rich/source, seeded there from vc1.0 RC inputs; no outputs/traces copied",
       "source_sha256": {
@@ -46,7 +51,8 @@
         "include/nested/values.h": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51",
         "resource.h": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8",
         "resources.rc": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
-      }
+      },
+      "state": "not-authorized"
     }
   ],
   "proposed_followups": [
@@ -66,7 +72,7 @@
     "output_checks": "complete COFF bytes, streams, status and filtered application trace",
     "normalization": "only explicitly identified clocks"
   },
-  "shared_wine_health_hold": true,
+  "shared_wine_health_hold": false,
   "link_child_static_evidence": {
     "source_worker": "/root/vc510_orchestrator/link",
     "spawnv_va": "0x0041031b",
@@ -80,7 +86,7 @@
       "<optional WINDOWSCE variants>",
       "<quoted resource-file>"
     ],
-    "status": "static full call-site evidence, no executed child capture under health hold",
+    "status": "Static full call-site evidence; resource conversion/child capture not authorized in this first-case trial",
     "followup": "Match actual machine buffer, optional switches, quoting and generated COFF naming in explicit original LINK capture after release"
   }
 }

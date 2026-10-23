@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "usage",
+  "comparison": {
+    "kind": "trap",
+    "frontier": "load_message",
+    "original": 16789770,
+    "native_function": "load_message",
+    "candidate_entry": {
+      "function": "usage",
+      "original_entry": 16782432,
+      "native_entry": "usage",
+      "contextual_ranges": 9,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/usage-candidate-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/usage-candidate-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/usage-candidate-audit-2"
+}

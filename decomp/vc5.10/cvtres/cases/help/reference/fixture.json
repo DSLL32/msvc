@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "case": "help",
+  "arguments": [
+    "/help"
+  ],
+  "argv0": "R:\\toolchains\\5.10\\bin\\CVTRES.EXE",
+  "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "reference": {
+    "status": 1,
+    "stdout_size": 360,
+    "stderr_size": 0,
+    "stdout_sha256": "4eb5be93146b1109671b4ca94f07803b216ffdd16ea9633efce6f9a91564e8ff",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "c9a333c04554b54bb8faac7768784d7f6605e82d26191a337bfe7ae644466485"
+  },
+  "trace_sha256": "5aa8912e7b48c895526616b580e32dd95d2fea2cf4ec2b9c275f128b2c64b926",
+  "trace_source_events_sha256": "00f123b6bc45dce866940f0b35a7126af0414faa759eeb1201f4afe55ccc1308",
+  "trace_source_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/messages-candidate-original",
+  "required_accepted": [
+    "main",
+    "usage",
+    "load_message"
+  ]
+}

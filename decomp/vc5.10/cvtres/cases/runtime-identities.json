@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+  "functions": [
+    {
+      "name": "mainCRTStartup",
+      "start": 16789888,
+      "end": 16790224,
+      "member": "build\\intel\\dll_obj\\crtexe.obj",
+      "member_sha256": "0433c241187a6b9c46a485f18d9c59d7a1ce8ee822817ecb05ce94fd65ac3cdb",
+      "relocations": [
+        {
+          "offset": 6,
+          "symbol": "$T7942",
+          "kind": 6,
+          "binding": 16782416
+        },
+        {
+          "offset": 11,
+          "symbol": "__except_handler3",
+          "kind": 6,
+          "binding": 16790304
+        },
+        {
+          "offset": 17,
+          "symbol": "__except_list",
+          "kind": 6,
+          "binding": 0
+        },
+        {
+          "offset": 25,
+          "symbol": "__except_list",
+          "kind": 6,
+          "binding": 0
+        },
+        {
+          "offset": 49,
+          "symbol": "__imp____set_app_type",
+          "kind": 6,
+          "binding": 16781440
+        },
+        {
+          "offset": 58,
+          "symbol": "___onexitend",
+          "kind": 6,
+          "binding": 16796088
+        },
+        {
+          "offset": 68,
+          "symbol": "___onexitbegin",
+          "kind": 6,
+          "binding": 16796092
+        },
+        {
+          "offset": 78,
+          "symbol": "__imp____p__fmode",
+          "kind": 6,
+          "binding": 16781436
+        },
+        {
+          "offset": 84,
+          "symbol": "__fmode",
+          "kind": 6,
+          "binding": 16796052
+        },
+        {
+          "offset": 92,
+          "symbol": "__imp____p__commode",
+          "kind": 6,
+          "binding": 16781432
+        },
+        {
+          "offset": 98,
+          "symbol": "__commode",
+          "kind": 6,
+          "binding": 16796048
+        },
+        {
+          "offset": 105,
+          "symbol": "__imp___adjust_fdiv",
+          "kind": 6,
+          "binding": 16781428
+        },
+        {
+          "offset": 113,
+          "symbol": "__adjust_fdiv",
+          "kind": 6,
+          "binding": 16796096
+        },
+        {
+          "offset": 118,
+          "symbol": "__setargv",
+          "kind": 20,
+          "binding": 16790288
+        },
+        {
+          "offset": 123,
+          "symbol": "___defaultmatherr",
+          "kind": 6,
+          "binding": 16793904
+        },
+        {
+          "offset": 132,
+          "symbol": "__matherr",
+          "kind": 6,
+          "binding": 16790272
+        },
+        {
+          "offset": 138,
+          "symbol": "__imp____setusermatherr",
+          "kind": 6,
+          "binding": 16781424
+        },
+        {
+          "offset": 146,
+          "symbol": "__setdefaultprecision",
+          "kind": 20,
+          "binding": 16790240
+        },
+        {
+          "offset": 151,
+          "symbol": "___xi_z",
+          "kind": 6,
+          "binding": 16793612
+        },
+        {
+          "offset": 156,
+          "symbol": "___xi_a",
+          "kind": 6,
+          "binding": 16793608
+        },
+        {
+          "offset": 161,
+          "symbol": "__initterm",
+          "kind": 20,
+          "binding": 16790230
+        },
+        {
+          "offset": 170,
+          "symbol": "__newmode",
+          "kind": 6,
+          "binding": 16796044
+        },
+        {
+          "offset": 183,
+          "symbol": "__dowildcard",
+          "kind": 6,
+          "binding": 16796040
+        },
+        {
+          "offset": 202,
+          "symbol": "__imp____getmainargs",
+          "kind": 6,
+          "binding": 16781416
+        },
+        {
+          "offset": 210,
+          "symbol": "___xc_z",
+          "kind": 6,
+          "binding": 16793604
+        },
+        {
+          "offset": 215,
+          "symbol": "___xc_a",
+          "kind": 6,
+          "binding": 16793600
+        },
+        {
+          "offset": 220,
+          "symbol": "__initterm",
+          "kind": 20,
+          "binding": 16790230
+        },
+        {
+          "offset": 229,
+          "symbol": "__imp____p___initenv",
+          "kind": 6,
+          "binding": 16781412
+        },
+        {
+          "offset": 251,
+          "symbol": "_main",
+          "kind": 20,
+          "binding": 16782501
+        },
+        {
+          "offset": 264,
+          "symbol": "__imp__exit",
+          "kind": 6,
+          "binding": 16781456
+        },
+        {
+          "offset": 283,
+          "symbol": "__XcptFilter",
+          "kind": 20,
+          "binding": 16790224
+        },
+        {
+          "offset": 300,
+          "symbol": "__imp___exit",
+          "kind": 6,
+          "binding": 16781404
+        },
+        {
+          "offset": 320,
+          "symbol": "__except_list",
+          "kind": 6,
+          "binding": 0
+        }
+      ]
+    },
+    {
+      "name": "setdefaultprecision",
+      "start": 16790240,
+      "end": 16790272,
+      "member": "build\\intel\\dll_obj\\fp8.obj",
+      "member_sha256": "2121abdca03f2b269946d003463dae2526bfccdd8011d50479759eeb3f07a716",
+      "relocations": [
+        {
+          "offset": 11,
+          "symbol": "__controlfp",
+          "kind": 20,
+          "binding": 16790310
+        }
+      ]
+    },
+    {
+      "name": "matherr",
+      "start": 16790272,
+      "end": 16790288,
+      "member": "build\\intel\\dll_obj\\merr.obj",
+      "member_sha256": "9155a1ccc009f2764164035c65b78e9594cfc9d0c8792ea23dbfd607c779b92e",
+      "relocations": []
+    },
+    {
+      "name": "setargv",
+      "start": 16790288,
+      "end": 16790304,
+      "member": "build\\intel\\dll_obj\\dllargv.obj",
+      "member_sha256": "85b71d35a5699f6885c23df0e947905c3494aa02fbce93632c44428e86d8fe67",
+      "relocations": []
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 16790304,
+      "end": 16790310,
+      "iat": 16781444
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 16790224,
+      "end": 16790230,
+      "iat": 16781408
+    },
+    {
+      "name": "import:_initterm",
+      "start": 16790230,
+      "end": 16790236,
+      "iat": 16781420
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 16790310,
+      "end": 16790316,
+      "iat": 16781448
+    }
+  ],
+  "data": [
+    {
+      "start": 16782416,
+      "end": 16782428,
+      "kind": "verified-crtexe-scope-table"
+    }
+  ],
+  "bindings": {
+    "$T7942": 16782416,
+    "__except_handler3": 16790304,
+    "__except_list": 0,
+    "__imp____set_app_type": 16781440,
+    "___onexitend": 16796088,
+    "___onexitbegin": 16796092,
+    "__imp____p__fmode": 16781436,
+    "__fmode": 16796052,
+    "__imp____p__commode": 16781432,
+    "__commode": 16796048,
+    "__imp___adjust_fdiv": 16781428,
+    "__adjust_fdiv": 16796096,
+    "__setargv": 16790288,
+    "___defaultmatherr": 16793904,
+    "__matherr": 16790272,
+    "__imp____setusermatherr": 16781424,
+    "__setdefaultprecision": 16790240,
+    "___xi_z": 16793612,
+    "___xi_a": 16793608,
+    "__initterm": 16790230,
+    "__newmode": 16796044,
+    "__dowildcard": 16796040,
+    "__imp____getmainargs": 16781416,
+    "___xc_z": 16793604,
+    "___xc_a": 16793600,
+    "__imp____p___initenv": 16781412,
+    "_main": 16782501,
+    "__imp__exit": 16781456,
+    "__XcptFilter": 16790224,
+    "__imp___exit": 16781404,
+    "__controlfp": 16790310
+  },
+  "policy": "Runtime identities only; no application acceptance or coverage credit."
+}

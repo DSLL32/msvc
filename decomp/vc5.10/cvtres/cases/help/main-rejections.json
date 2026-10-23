@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/main-candidate-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/main-candidate-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/main-candidate-audit-final",
+  "cases": [
+    {
+      "name": "candidate-not-entered-original",
+      "rejected": true,
+      "reason": "candidate was not entered in original raw trace"
+    },
+    {
+      "name": "candidate-not-entered-native",
+      "rejected": true,
+      "reason": "candidate was not entered in native raw trace"
+    },
+    {
+      "name": "missing-frontier",
+      "rejected": true,
+      "reason": "missing/ambiguous raw original frontier or exit"
+    },
+    {
+      "name": "forged-native-function",
+      "rejected": true,
+      "reason": "GDB PC outside declared native function"
+    },
+    {
+      "name": "both-stale-trial",
+      "rejected": true,
+      "reason": "stale/different candidate snapshot"
+    },
+    {
+      "name": "raw-capture-swap",
+      "rejected": true,
+      "reason": "raw observation changed: events.txt"
+    },
+    {
+      "name": "copied-audit-wrong-object",
+      "rejected": true,
+      "reason": "audit tool/PE/index/metadata/trial input changed"
+    },
+    {
+      "name": "modified-residual",
+      "rejected": true,
+      "reason": "audit tool/PE/index/metadata/trial input changed"
+    }
+  ]
+}

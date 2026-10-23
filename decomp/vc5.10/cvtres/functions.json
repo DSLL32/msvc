@@ -1,0 +1,375 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/CVTRES.EXE",
+    "sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "entry": 16789888,
+    "application_main": 16782501
+  },
+  "accepted": [
+    "_main",
+    "_usage@4",
+    "_load_message@4"
+  ],
+  "functions": [
+    {
+      "name": "main",
+      "symbol": "_main",
+      "native": "main",
+      "start": 16782501,
+      "end": 16783948,
+      "source": "src/main.c",
+      "status": "accepted",
+      "abi": "int __cdecl main(int,char **,char **)",
+      "cleanup": 0,
+      "text_data": [
+        [
+          16781796,
+          16781808
+        ],
+        [
+          16781808,
+          16781811
+        ],
+        [
+          16781812,
+          16781817
+        ],
+        [
+          16781820,
+          16781823
+        ],
+        [
+          16781824,
+          16781829
+        ],
+        [
+          16781832,
+          16781843
+        ],
+        [
+          16781844,
+          16781849
+        ],
+        [
+          16781852,
+          16781859
+        ],
+        [
+          16781860,
+          16781880
+        ],
+        [
+          16781880,
+          16781900
+        ],
+        [
+          16781900,
+          16781910
+        ],
+        [
+          16781912,
+          16781914
+        ],
+        [
+          16781916,
+          16781924
+        ],
+        [
+          16781924,
+          16781926
+        ],
+        [
+          16781928,
+          16781937
+        ],
+        [
+          16781940,
+          16781945
+        ],
+        [
+          16781948,
+          16781950
+        ],
+        [
+          16781952,
+          16781959
+        ],
+        [
+          16781960,
+          16781965
+        ],
+        [
+          16781968,
+          16781972
+        ],
+        [
+          16781972,
+          16781976
+        ],
+        [
+          16781976,
+          16781980
+        ],
+        [
+          16781980,
+          16781990
+        ],
+        [
+          16781992,
+          16781997
+        ],
+        [
+          16782000,
+          16782004
+        ],
+        [
+          16782004,
+          16782010
+        ],
+        [
+          16782012,
+          16782016
+        ],
+        [
+          16782016,
+          16782021
+        ],
+        [
+          16782024,
+          16782033
+        ]
+      ],
+      "evidence": "cases/help/main-proof.json"
+    },
+    {
+      "name": "usage",
+      "symbol": "_usage@4",
+      "native": "usage",
+      "start": 16782432,
+      "end": 16782501,
+      "source": "src/usage.c",
+      "status": "accepted",
+      "abi": "void __stdcall usage(int)",
+      "cleanup": 4,
+      "text_data": [
+        [
+          16781584,
+          16781796
+        ]
+      ],
+      "evidence": "cases/help/usage-proof.json"
+    },
+    {
+      "name": "load_message",
+      "symbol": "_load_message@4",
+      "native": "load_message",
+      "start": 16789770,
+      "end": 16789877,
+      "source": "src/messages.c",
+      "status": "accepted",
+      "abi": "char *__stdcall load_message(unsigned)",
+      "cleanup": 4,
+      "text_data": [
+        [
+          16782392,
+          16782404
+        ],
+        [
+          16782404,
+          16782415
+        ]
+      ],
+      "evidence": "cases/help/messages-proof.json"
+    },
+    {
+      "name": "error",
+      "symbol": "_error",
+      "native": "error",
+      "start": 16784309,
+      "end": 16784375,
+      "cleanup": 0,
+      "abi": "void __cdecl error(unsigned short,...)",
+      "status": "stub",
+      "source": "src/stubs.c"
+    },
+    {
+      "name": "warning",
+      "symbol": "_warning",
+      "native": "warning",
+      "start": 16784375,
+      "end": 16784441,
+      "cleanup": 0,
+      "abi": "void __cdecl warning(unsigned short,...)",
+      "status": "stub",
+      "source": "src/stubs.c"
+    },
+    {
+      "name": "seek_file",
+      "symbol": "_seek_file@12",
+      "native": "seek_file",
+      "start": 16784118,
+      "end": 16784176,
+      "cleanup": 12,
+      "abi": "long __stdcall seek_file(FILE*,long,int)",
+      "status": "stub",
+      "source": "src/stubs.c"
+    },
+    {
+      "name": "convert_resources",
+      "symbol": "_convert_resources@20",
+      "native": "convert_resources",
+      "start": 16787051,
+      "end": 16789684,
+      "cleanup": 20,
+      "abi": "int __stdcall convert_resources(FILE*,FILE*,unsigned long,int,unsigned long)",
+      "status": "stub",
+      "source": "src/stubs.c",
+      "ret_sites": [
+        16789320
+      ]
+    }
+  ],
+  "data": [
+    {
+      "name": "resource_object_header",
+      "original": 16794944,
+      "size": 20,
+      "kind": "bytes"
+    },
+    {
+      "name": "resource_machine_kind",
+      "original": 16796064,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "input_name",
+      "original": 16796068,
+      "size": 4,
+      "kind": "nullable-pointer"
+    },
+    {
+      "name": "output_name",
+      "original": 16796076,
+      "size": 4,
+      "kind": "nullable-pointer"
+    },
+    {
+      "name": "verbose",
+      "original": 16796080,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "windows_ce",
+      "original": 16796060,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "windows_ce_emulation",
+      "original": 16796084,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "windows_ce_noconvert",
+      "original": 16796072,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "rewrite_input",
+      "original": 16793616,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "message_library",
+      "original": 16796028,
+      "size": 4,
+      "kind": "nullable-pointer"
+    },
+    {
+      "name": "message_loader",
+      "original": 16796032,
+      "size": 4,
+      "kind": "nullable-pointer"
+    },
+    {
+      "name": "resource_instance",
+      "original": 16796036,
+      "size": 4,
+      "kind": "nullable-pointer"
+    },
+    {
+      "name": "message_buffer",
+      "original": 16795004,
+      "size": 1024,
+      "kind": "bytes"
+    }
+  ],
+  "case": {
+    "id": "help",
+    "arguments": [
+      "/help"
+    ],
+    "canonical_reference": {
+      "status": 1,
+      "stdout_size": 360,
+      "stderr_size": 0,
+      "stdout_sha256": "4eb5be93146b1109671b4ca94f07803b216ffdd16ea9633efce6f9a91564e8ff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+      "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "capture_receipt_sha256": "c9a333c04554b54bb8faac7768784d7f6605e82d26191a337bfe7ae644466485"
+    }
+  },
+  "crt_data": [
+    {
+      "name": "recon_fmode",
+      "export": "_fmode",
+      "rva": 260744,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "recon_commode",
+      "export": "_commode",
+      "rva": 260756,
+      "size": 4,
+      "kind": "bytes"
+    },
+    {
+      "name": "recon_pgmptr",
+      "export": "_pgmptr",
+      "rva": 260736,
+      "size": 4,
+      "kind": "cstring"
+    },
+    {
+      "name": "recon_iob[1]",
+      "export": "_iob",
+      "rva": 259472,
+      "size": 32,
+      "kind": "file"
+    }
+  ],
+  "observations": [
+    {
+      "address": 16782448,
+      "kind": "message-return",
+      "id": 8003
+    },
+    {
+      "address": 16782467,
+      "kind": "message-return",
+      "id": 8004
+    },
+    {
+      "address": 16789859,
+      "kind": "resource-call"
+    }
+  ]
+}

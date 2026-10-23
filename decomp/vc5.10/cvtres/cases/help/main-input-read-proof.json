@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "function_start": 16782501,
+  "function_end": 16783948,
+  "body_sha256": "4b753de264410a16851ed659c9bd5640363c90a84d51a2133cc9d33fd3fab085",
+  "scope": "Whole-body input analysis; native comparison now canonicalizes and compares all argv bytes, so argv[0] is not excluded.",
+  "argument_reads": [
+    {
+      "address": 16782518,
+      "instruction": "cmp [esp+530],ebx",
+      "argument": "argc"
+    },
+    {
+      "address": 16782541,
+      "instruction": "cmp [esp+530],ebx",
+      "argument": "argc"
+    },
+    {
+      "address": 16782558,
+      "instruction": "mov eax,[esp+534]",
+      "argument": "argv"
+    },
+    {
+      "address": 16783364,
+      "instruction": "cmp eax,[esp+530]",
+      "argument": "argc"
+    }
+  ],
+  "argv_flow": [
+    "Only argv base load is 010014de.",
+    "010014eb advances by one pointer before storing loop cursor at [esp+10].",
+    "010014f6 dereferences that cursor at index>=1.",
+    "Only updates are +4 at010017fb and additional +4 for /o at0100167b.",
+    "No argv[0] read or envp read in the entire body."
+  ],
+  "envp_policy": "Retain third cdecl slot and compare nullness; target never reads envp or its contents. Both actual pointer words remain in raw evidence.",
+  "pgmptr_policy": "Observe canonical MSVCRT _pgmptr export and mirror actual image-path string via shared RECON_PROGRAM_PATH; no exclusion.",
+  "crt_startup": {
+    "fmode_global": 16796052,
+    "fmode_initial": 0,
+    "commode_global": 16796048,
+    "commode_initial": 0,
+    "precision_control": [
+      65536,
+      196608
+    ]
+  },
+  "first_case_path": "argc2; /help is an unrecognized option; usage(1) before resource-file operations or _tzset. All other original branches remain implemented with named trapping callees."
+}

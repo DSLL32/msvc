@@ -1,3 +1,3 @@
-No reconstructed functions yet. Reconstruction remains on hold pending explicit
-orchestrator release. Future Win32 C sources include <recon.h> last and must
-compile with the original compiler as well as native i386 GCC.
+Win32 C reconstruction: main.c handles arguments, usage.c prints help, and
+messages.c loads this module's strings through USER32. stubs.c holds the named
+unimplemented function boundaries. messages.rc contains only encountered IDs.

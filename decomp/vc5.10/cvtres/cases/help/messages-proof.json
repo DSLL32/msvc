@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "function": "load_message",
+  "comparison": {
+    "kind": "exit",
+    "status": 1,
+    "candidate_entry": {
+      "function": "load_message",
+      "original_entry": 16789770,
+      "native_entry": "load_message",
+      "contextual_ranges": 13,
+      "crt_ranges": 4
+    },
+    "message_observations": {
+      "ids": [
+        8003,
+        8004
+      ],
+      "buffer_bytes": 1024,
+      "callback_abi": "LoadStringA(NULL,id,message_buffer,1024)",
+      "module": "USER32.DLL",
+      "lookup": "LoadLibraryA/GetProcAddress exact audited dataflow",
+      "observed_calls": 2,
+      "observed_returns": 2
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/messages-candidate-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/messages-candidate-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/messages-candidate-audit-final"
+}
