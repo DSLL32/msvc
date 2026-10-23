@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.961950888857245,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-mangle-pointer-target-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 2.2270316313952208,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-mangle-pointer-target-canonical.log"
+  }
+]

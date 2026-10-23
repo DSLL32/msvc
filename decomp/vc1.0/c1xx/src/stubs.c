@@ -564,7 +564,6 @@ unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } 
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
 
 char *__stdcall mangle_referenced_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
-char *__stdcall mangle_pointer_target(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
@@ -580,7 +579,6 @@ unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
 int __cdecl equal_symbol_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_first_words(void *left, void *right) { __asm { int 3 } return 0; }
-int __cdecl equal_virtual_thunk_keys(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_tail_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
@@ -628,7 +626,6 @@ unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __
 IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrToken *object, CppSymbol *tag) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
-int __stdcall virtual_base_table_entry_offset(VirtualBaseEntry *entry, CppSymbol *tag, VirtualTable *table) { __asm { int 3 } return 0; }
 
 
 void write_ir_integer(int *value) { __asm { int 3 } }
@@ -638,5 +635,6 @@ void write_ir_short(short *value) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
-VirtualThunkKey *__stdcall copy_virtual_thunk_key(VirtualThunkKey *key, int arena) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall emit_virtual_adjustment_thunk(VirtualThunkKey *key) { __asm { int 3 } return 0; }
+char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_pointee_type(char *cursor, CType *type) { __asm { int 3 } return 0; }

@@ -70,10 +70,8 @@ def main():
     actual={p.name:p.read_bytes() for p in (args.native/'case').iterdir() if p.is_file()}
     assert expected==actual,'visible input/output files differ'
     audit=module('c1xx_candidate_graph','audit-graph.py')
-    rebuilt=next(r for r in audit.ri if r['name']==args.candidate)
-    left=audit.edges(audit.orig,audit.oi,candidate)
-    right=audit.edges(audit.rec,audit.ri,rebuilt)
-    assert left==right,(left-right,right-left)
+    graph=audit.verify_candidate(args.candidate)
+    left=set(graph['report']['functions'][args.candidate]['edges'])
     number=len(config['accepted'])
     name=re.sub(r'[^A-Za-z_0-9-]','-',args.candidate.lstrip('_@'))
     record=frontier_root/('%04d-'%number+name)
@@ -83,6 +81,9 @@ def main():
         for filename in names:
             path=directory/filename
             if path.exists():shutil.copyfile(path,record/(label+'-'+filename))
+    import gzip
+    (record/'graph-audit.json.gz').write_bytes(gzip.compress(graph['raw'],mtime=0))
+    (record/'graph-policy.json').write_text(json.dumps(dict(tool_sha256=graph['tool_sha256'],flags=graph['flags'],scope='Shared Rust CFG, ABI, references, callbacks, ownership and extent audit'),indent=2)+'\n')
     if args.build_timing:
         shutil.copyfile(args.build_timing,record/'build-timing.json')
     (record/'outputs').mkdir()

@@ -21,7 +21,7 @@ def main():
     records=[]
     receipt=directory/('queue-'+args.label+'-build.json')
     for label,command in [('native',['make','-j4','native','native-trace']),
-                          ('canonical',['make','-j4','build/c1xx.exe','build/runtime.json'])]:
+                          ('canonical',['make','-j4','build/c1xx.exe','build/runtime.json','graph-audit-tool','build/graph-metadata.json'])]:
         started=time.perf_counter()
         path=directory/('queue-'+args.label+'-'+label+'.log')
         with path.open('w') as log:

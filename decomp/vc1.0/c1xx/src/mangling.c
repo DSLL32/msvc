@@ -622,3 +622,17 @@ char *__stdcall mangle_table_scope_path(char *cursor, CppSymbol *symbol)
     }
     return cursor;
 }
+
+/* Original 0x43ef0..0x43f51, stdcall8. Data pointers carry their
+   qualifier prefix; function/member pointers carry a function prefix and
+   the stripped function descriptor's full signature. */
+char *__stdcall mangle_pointer_target(char *cursor, CType *type)
+{
+    unsigned short kind = type->related->flags & 0x77;
+    if (kind == 1 || kind == 2 || kind == 0x10) {
+        cursor = mangle_type_qualifiers(cursor, type, 0);
+        return mangle_pointee_type(cursor, drop_first_type_shape(type));
+    }
+    cursor = mangle_function_pointer_prefix(cursor, type);
+    return mangle_function_pointer_signature(cursor, drop_first_type_shape(type));
+}

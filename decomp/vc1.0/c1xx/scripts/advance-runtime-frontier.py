@@ -79,9 +79,8 @@ def main():
     actual={p.name:p.read_bytes() for p in (native_directory/'case').iterdir() if p.is_file()}
     assert expected==actual,'downstream visible files differ'
     audit=module('c1xx_graph','audit-graph.py')
-    rebuilt=next(r for r in audit.ri if r['name']==candidate)
-    left=audit.edges(audit.orig,audit.oi,records[0])
-    assert left==audit.edges(audit.rec,audit.ri,rebuilt),'application call graph differs'
+    graph=audit.verify_candidate(candidate)
+    left=set(graph['report']['functions'][candidate]['edges'])
     relative=lambda p:str(p.relative_to(BINARY))
     base_record=None
     for index,(name,capture,receipt) in enumerate(zip(names,captures,originals)):
@@ -110,6 +109,9 @@ def main():
                 next_frontier=receipt['terminal'],boundary_evidence=relative(evidence_path),downstream_comparison=relative(base_record/'validation.json')),indent=2)+'\n')
     for filename in ('checkpoint.json','gdb.log','timing.json','stdout.bin','stderr.bin'):
         shutil.copyfile(native_directory/filename,base_record/('downstream-native-'+filename))
+    import gzip
+    (base_record/'graph-audit.json.gz').write_bytes(gzip.compress(graph['raw'],mtime=0))
+    (base_record/'graph-policy.json').write_text(json.dumps(dict(tool_sha256=graph['tool_sha256'],flags=graph['flags'],scope='Shared Rust CFG, ABI, references, callbacks, ownership and extent audit'),indent=2)+'\n')
     shutil.copyfile(args.build_timing,base_record/'build-timing.json')
     case['terminal']=terminal;case['terminal_evidence']=relative(record/'original-events.txt')
     path.write_text(json.dumps(config,indent=2)+'\n')

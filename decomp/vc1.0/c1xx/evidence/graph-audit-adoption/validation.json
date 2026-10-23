@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "status": "verified",
+  "accepted_frontiers": 868,
+  "source_functions": 782,
+  "coverage": {
+    "accepted_code_bytes": 235258,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 49.38058595603021,
+    "accepted_frontiers": 868,
+    "source_functions": 782,
+    "accepted_source_text_and_switch_bytes": 223413,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "current_frontier": "_mangle_pointee_type@8",
+  "original_reference_capture_seconds": 0,
+  "reference_policy": "No original recapture was needed for host-only audit adoption. Existing raw references remain frozen.",
+  "flags": [
+    "--profile",
+    "c1xx",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-callbacks",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "shared_build": "make graph-audit-tool was up-to-date; no measured Cargo compilation in this adoption",
+  "initial_timings": [
+    {
+      "label": "canonical-build",
+      "command": [
+        "make",
+        "-j4",
+        "build/c1xx.exe",
+        "build/runtime.json"
+      ],
+      "status": 0,
+      "seconds": 1.7282685786485672
+    },
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "status": 0,
+      "seconds": 1.225319765508175
+    },
+    {
+      "label": "static-audits",
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "status": 0,
+      "seconds": 25.178275294601917
+    },
+    {
+      "label": "native-fixtures-and-rejections",
+      "command": [
+        "make",
+        "-j4",
+        "check",
+        "native-rejections"
+      ],
+      "status": 0,
+      "seconds": 3.2859139190986753
+    }
+  ],
+  "final_timings": [
+    {
+      "label": "canonical-build",
+      "command": [
+        "make",
+        "-j4",
+        "build/c1xx.exe",
+        "build/runtime.json"
+      ],
+      "status": 0,
+      "seconds": 1.3679766533896327
+    },
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "status": 0,
+      "seconds": 1.2119960309937596
+    },
+    {
+      "label": "static-audits-and-mutations",
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "graph-negative-check"
+      ],
+      "status": 0,
+      "seconds": 4.438153676688671
+    },
+    {
+      "label": "native-fixtures-and-rejections",
+      "command": [
+        "make",
+        "-j4",
+        "check",
+        "native-rejections"
+      ],
+      "status": 0,
+      "seconds": 3.284279645420611
+    }
+  ],
+  "initial_mutation_seconds": 4.376405,
+  "initial_mutation_harness_failure": "A rejection diagnostic said truncated instruction rather than the test expectation extent; expectation corrected without changing tool or policy.",
+  "retained_policies": [
+    "exact callback slots/null sentinel",
+    "encountered data/defaults/address aliases",
+    "parser grammar/lexer timing",
+    "lookahead grammar/semantic rules",
+    "reached CRT identity and explicit behavior boundaries",
+    "native cached trace/status/streams/artifacts"
+  ],
+  "canonical_report": {
+    "profile": "c1xx",
+    "discovery": "cfg",
+    "checked_functions": 782,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "callback_tables",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ]
+  },
+  "canonical_inputs": {
+    "build/c1xx.exe": "86c0106cfc17e473e446cadc51d06abbad8af6e7a33553cb0ef775c9e9f88b23",
+    "build/c1xx.map": "a5576c3840045a40e305d9314c29035987fc18cce8597420edf67cae15e90585",
+    "functions.json": "de807711841bc22263aeb6fca7ad40e6216320f527d89c4b417f145157dee300",
+    "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
+    "build/runtime.json": "dfa8a5e624a9d7d3619a69af230a9ecddc4462159358fbed6d24572016cff9b3"
+  },
+  "gap": "none found; private Python instruction decoder removed, no legacy fallback",
+  "fixtures": "cpp_basic exit0 and virtual_diamond current named trap; 32 native rejection checks passed"
+}

@@ -138,9 +138,12 @@ typedef char ClassInfoVirtualGroupsOffsetMustBe16[(offsetof(ClassInfo, virtual_t
 
 typedef char ClassInfoSpecialTraitsOffsetMustBe56[(offsetof(ClassInfo, special_members) == 56) ? 1 : -1];
 
+typedef struct CppSymbolStateParts {
+    unsigned char low_flags, token, member_flags, member_qualifiers;
+} CppSymbolStateParts;
 typedef union CppSymbolState {
     unsigned flags;
-    struct { unsigned char low_flags, token, member_flags, member_qualifiers; } parts;
+    CppSymbolStateParts parts;
 } CppSymbolState;
 
 /* Tags own the common forty-byte record; full declarations additionally own
@@ -170,6 +173,7 @@ typedef char SymbolReferenceDepthOffsetMustBe1[(offsetof(SymbolReferenceState, s
     union { \
         struct { unsigned short operation, flags; } intrinsic; \
         unsigned value, virtual_table_offset; \
+        int thunk_virtual_displacement; \
         unsigned short scope_number; \
         char *text; \
         ClassInfo *class_info; \
@@ -181,10 +185,17 @@ typedef struct TagSymbol {
 } TagSymbol;
 struct CppSymbol {
     COMMON_SYMBOL_FIELDS
-    unsigned field28, field2c;
+    union { unsigned field28; int this_displacement; };
+    unsigned field2c;
     CppSymbolState cpp;
 };
 #undef COMMON_SYMBOL_FIELDS
+/* VC1.0 accepts direct-member offsetof constants; compose nested offsets. */
+typedef char CppSymbolThunkDetailOffsetMustBe32[(offsetof(CppSymbol, detail) == 32) ? 1 : -1];
+typedef char CppSymbolThunkVirtualDisplacementSizeMustBe4[(sizeof(((CppSymbol *)0)->detail.thunk_virtual_displacement) == 4) ? 1 : -1];
+typedef char CppSymbolThisDisplacementOffsetMustBe40[(offsetof(CppSymbol, this_displacement) == 40) ? 1 : -1];
+typedef char CppSymbolThunkQualifierOffsetMustBe51[(offsetof(CppSymbol, cpp) + offsetof(CppSymbolState, parts) + offsetof(CppSymbolStateParts, member_qualifiers) == 51) ? 1 : -1];
+typedef char CppSymbolStorageOffsetMustBe26[(offsetof(CppSymbol, storage) == 26) ? 1 : -1];
 typedef char CppSymbolTypeOffsetMustBe12[(offsetof(CppSymbol, type) == 12) ? 1 : -1];
 typedef char CppSymbolIndexOffsetMustBe16[(offsetof(CppSymbol, index) == 16) ? 1 : -1];
 typedef char CppSymbolAuxiliaryOffsetMustBe36[(offsetof(CppSymbol, auxiliary) == 36) ? 1 : -1];

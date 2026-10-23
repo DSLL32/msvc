@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_virtual_thunk_keys",
+    "start": 506640,
+    "end": 506687
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_virtual_base_table_entry_offset@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.25635284651070833,
+  "total_operation_seconds": 2.659928527660668,
+  "original_capture_seconds": 1.6187630947679281
+}

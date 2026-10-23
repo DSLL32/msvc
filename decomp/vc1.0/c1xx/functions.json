@@ -866,7 +866,13 @@
     "_seek_work_stack@12",
     "_get_virtual_adjustment_thunk@16",
     "_new_virtual_thunk_key@20",
-    "_hash_virtual_thunk_key"
+    "_hash_virtual_thunk_key",
+    "_emit_virtual_adjustment_thunk@4",
+    "_virtual_thunk_reserved_offset@4",
+    "_copy_virtual_thunk_key@8",
+    "_equal_virtual_thunk_keys",
+    "_virtual_base_table_entry_offset@12",
+    "_mangle_pointer_target@8"
   ],
   "driver": [
     {
@@ -6127,7 +6133,7 @@
     {
       "name": "_mangle_pointer_target@8",
       "start": 278256,
-      "end": 278257
+      "end": 278354
     },
     {
       "name": "_mangle_enum_representation@8",
@@ -6312,7 +6318,7 @@
     {
       "name": "_equal_virtual_thunk_keys",
       "start": 506640,
-      "end": 506641
+      "end": 506687
     },
     {
       "name": "_equal_tail_word_pairs",
@@ -6917,7 +6923,7 @@
     {
       "name": "_virtual_base_table_entry_offset@12",
       "start": 494992,
-      "end": 494993
+      "end": 495036
     },
     {
       "name": "_write_initializer_value@12",
@@ -6988,12 +6994,32 @@
     {
       "name": "_copy_virtual_thunk_key@8",
       "start": 506512,
-      "end": 506513
+      "end": 506605
     },
     {
       "name": "_emit_virtual_adjustment_thunk@4",
       "start": 506864,
-      "end": 506865
+      "end": 507352
+    },
+    {
+      "name": "_virtual_thunk_reserved_offset@4",
+      "start": 506848,
+      "end": 506853
+    },
+    {
+      "name": "_mangle_function_pointer_prefix@8",
+      "start": 276912,
+      "end": 276913
+    },
+    {
+      "name": "_mangle_function_pointer_signature@8",
+      "start": 277136,
+      "end": 277137
+    },
+    {
+      "name": "_mangle_pointee_type@8",
+      "start": 278368,
+      "end": 278369
     }
   ],
   "cases": {
@@ -7009,8 +7035,8 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/frontiers/virtual_diamond",
       "accepted_from": 643,
-      "terminal": "_emit_virtual_adjustment_thunk@4",
-      "terminal_evidence": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/original-events.txt",
+      "terminal": "_mangle_pointee_type@8",
+      "terminal_evidence": "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/original-events.txt",
       "frontier_extensions": [
         "cases/frontiers/virtual_diamond/0855-normalize_initializer_expression-4/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0856-method_alias-4/frontier-extension.json",
@@ -7018,7 +7044,13 @@
         "cases/frontiers/virtual_diamond/0858-seek_work_stack-12/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0859-get_virtual_adjustment_thunk-16/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0860-new_virtual_thunk_key-20/frontier-extension.json",
-        "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/frontier-extension.json"
+        "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0862-emit_virtual_adjustment_thunk-4/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0863-virtual_thunk_reserved_offset-4/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0864-copy_virtual_thunk_key-8/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0865-equal_virtual_thunk_keys/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0866-virtual_base_table_entry_offset-12/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/frontier-extension.json"
       ]
     }
   },

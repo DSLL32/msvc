@@ -1,14 +1,14 @@
 {
   "case": "virtual_diamond",
-  "scope": "862 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/original-receipt.json",
-  "reference_receipt_sha256": "8a734a764af34fd2ad0f453382aa15d4ce307066655bc55a9e583121046747c8",
+  "scope": "868 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/original-receipt.json",
+  "reference_receipt_sha256": "53470fe1ae40944732dcfba30874e84cbb736ee47a7fa674276598f69c907dd4",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "348ad47ea2c678aef7dfeb9c2de89bcae8b1448e4a4e1df5edce75abd16f948c",
+  "canonical_map_sha256": "8b8de9c750cdefa17fedae9cc55f997fb84d285c01a7ef3ece06c3ff95ee651d",
   "terminal": {
     "kind": "frontier",
-    "logical": "_emit_virtual_adjustment_thunk@4",
+    "logical": "_mangle_pointee_type@8",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -37,7 +37,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 1.7691771546378732,
+  "capture_seconds": 1.5183187266811728,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

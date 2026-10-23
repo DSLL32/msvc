@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.095965468324721,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-virtual-thunk-reserved-offset-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 2.0955574018880725,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-virtual-thunk-reserved-offset-canonical.log"
+  }
+]

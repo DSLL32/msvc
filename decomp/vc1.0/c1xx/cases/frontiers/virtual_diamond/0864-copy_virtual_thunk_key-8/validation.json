@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_copy_virtual_thunk_key@8",
+    "start": 506512,
+    "end": 506605
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_equal_virtual_thunk_keys",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24760923348367214,
+  "total_operation_seconds": 2.360137725248933,
+  "original_capture_seconds": 1.3180547822266817
+}

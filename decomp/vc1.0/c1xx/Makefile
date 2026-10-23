@@ -2,8 +2,10 @@ PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
-.PHONY: all win32 prefix check replay audit reference-capture native-rejections clean
+.PHONY: all win32 prefix check replay audit graph-negative-check reference-capture native-rejections clean
 all: native-trace
+include ../../../tooling/graph-audit/graph-audit.mk
+GRAPH_AUDIT_FLAGS = --profile c1xx --project . --repo ../../.. --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents --metadata build/graph-metadata.json
 win32: build/c1xx.exe build/debug-run.exe
 prefix:
 	$(TOOL) --init
@@ -65,8 +67,12 @@ reference-capture: build/debug-run.exe
 	$(PYTHON) scripts/capture-original.py
 native-rejections: native-trace
 	$(PYTHON) scripts/check-native-boundary.py
-audit: build/runtime.json runtime.json src/grammar.bnf scripts/grammar.py scripts/audit-parser-grammar.py src/lookahead.bnf scripts/audit-lookahead-grammar.py
-	$(PYTHON) scripts/audit-graph.py
+build/graph-metadata.json: functions.json scripts/graph_metadata.py | build
+	$(PYTHON) scripts/graph_metadata.py $@
+graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json
+	$(PYTHON) scripts/check-graph-audit.py
+audit: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json src/grammar.bnf scripts/grammar.py scripts/audit-parser-grammar.py src/lookahead.bnf scripts/audit-lookahead-grammar.py
+	"$(GRAPH_AUDIT_BIN)" $(GRAPH_AUDIT_FLAGS) --report build/graph-audit.json
 	$(PYTHON) scripts/audit-data.py
 	$(PYTHON) scripts/audit-parser-grammar.py
 	$(PYTHON) scripts/audit-lookahead-grammar.py

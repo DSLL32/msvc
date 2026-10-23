@@ -24,6 +24,7 @@ VirtualThunkKey *__stdcall new_virtual_thunk_key(unsigned kind, CppSymbol *funct
     int displacement, int virtual_displacement, int arena);
 VirtualThunkKey *__stdcall copy_virtual_thunk_key(VirtualThunkKey *key, int arena);
 CppSymbol *__stdcall emit_virtual_adjustment_thunk(VirtualThunkKey *key);
+int __stdcall virtual_thunk_reserved_offset(VirtualThunkKey *key);
 CppSymbol *__stdcall get_virtual_adjustment_thunk(unsigned kind, CppSymbol *function, int displacement, int virtual_displacement);
 unsigned __stdcall virtual_adjustment_offset(VirtualAdjustment *adjustment, CppSymbol *tag);
 unsigned __stdcall virtual_base_subobject_offset(CppSymbol *base, CppSymbol *derived);

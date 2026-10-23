@@ -4,6 +4,9 @@
 #include "parameters.h"
 #include "constructor-initializers.h"
 #include "cpp-context.h"
+#include "function-finalization.h"
+#include "source-input.h"
+#include "parameter-scopes.h"
 #include <recon.h>
 
 /* Original 0x7b5a0..0x7b6de, stdcall8. Reserve the initializer's
@@ -174,4 +177,118 @@ unsigned __cdecl hash_virtual_thunk_key(void *value)
     VirtualThunkKey *key = value;
     return (((unsigned)key->function & 0xffc) >> 2) +
         (unsigned)key->displacement + (unsigned)key->virtual_displacement + key->kind;
+}
+
+/* Original 0x7bbf0..0x7bdd7, stdcall4. Clone the function declaration
+   into a generated this/vtordisp thunk, emit its dedicated IR operation,
+   and register its completed function directory entry. */
+CppSymbol *__stdcall emit_virtual_adjustment_thunk(VirtualThunkKey *key)
+{
+    CppSymbol *thunk;
+    ArenaPool *pool;
+    IrToken *arguments;
+    int arena = declaration_mode != 0, final_offset;
+    unsigned char storage_kind;
+    if (!arena)
+        thunk = allocate_permanent(sizeof(CppSymbol));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(CppSymbol))
+            refill_arena(&compiler_arena, pool);
+        thunk = (CppSymbol *)pool->next;
+        pool->remaining -= sizeof(CppSymbol);
+        pool->next += sizeof(CppSymbol);
+    }
+    *thunk = *key->function;
+    thunk->next = 0;
+    thunk->this_displacement = key->displacement;
+    thunk->detail.thunk_virtual_displacement = key->virtual_displacement;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    thunk->index = next_symbol_index++;
+    thunk->cpp.parts.member_qualifiers =
+        (thunk->cpp.parts.member_qualifiers & 0xf9) | (key->kind == 1 ? 2 : 4);
+    thunk->flags |= 4;
+    thunk->cpp.parts.member_qualifiers &= 0xfe;
+    thunk->storage[0] = (thunk->storage[0] & 0xf9) | 1;
+    storage_kind = thunk->storage[0] & 7;
+    thunk->storage[0] = declaration_storage[0];
+    thunk->storage[1] = declaration_storage[1];
+    thunk->storage[2] = declaration_storage[2];
+    thunk->storage[0] = (thunk->storage[0] & 0xf8) | storage_kind;
+    thunk->storage[0] |= 0x40;
+    thunk->storage[1] |= 2;
+    begin_function_output(1);
+    active_parameter_symbols = 0;
+    write_ir_record(0x53, 0);
+    emit_expression_tree(new_left_typed_expression(0x76,
+        symbol_reference(thunk), 0));
+    if (key->kind == 4) {
+        arguments = append_expression(0,
+            make_integer_constant(key->virtual_displacement), 2);
+        arguments = append_expression(arguments,
+            make_integer_constant(key->displacement), 2);
+        arguments = append_expression(arguments, symbol_reference(key->function), 2);
+        final_offset = virtual_thunk_reserved_offset(key);
+    } else {
+        arguments = append_expression(0, symbol_reference(key->function), 2);
+        final_offset = key->displacement;
+    }
+    arguments = append_expression(arguments, make_integer_constant(final_offset), 2);
+    emit_expression_tree(new_left_typed_expression(0xa8,
+        make_integer_constant(key->kind), arguments));
+    write_ir_record(0x47, 0);
+    write_ir_record(0x54, make_integer_constant(0));
+    record_function_definition(thunk);
+    return thunk;
+}
+
+/* Original 0x7bbe0..0x7bbe4, stdcall4. This target retains a separate
+   reserved-offset query entry even though every descriptor returns zero. */
+int __stdcall virtual_thunk_reserved_offset(VirtualThunkKey *key)
+{
+    return 0;
+}
+
+/* Original 0x7ba90..0x7baec, stdcall8. Preserve a descriptor in the
+   selected arena without retaining its temporary lookup allocation. */
+VirtualThunkKey *__stdcall copy_virtual_thunk_key(VirtualThunkKey *key, int arena)
+{
+    VirtualThunkKey *copy;
+    ArenaPool *pool;
+    if (!arena)
+        copy = allocate_permanent(sizeof(VirtualThunkKey));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(VirtualThunkKey))
+            refill_arena(&compiler_arena, pool);
+        copy = (VirtualThunkKey *)pool->next;
+        pool->remaining -= sizeof(VirtualThunkKey);
+        pool->next += sizeof(VirtualThunkKey);
+    }
+    *copy = *key;
+    return copy;
+}
+
+/* Original 0x7bb10..0x7bb3e, cdecl callback. The function pointer and
+   both signed adjustment words participate independently of the thunk kind. */
+int __cdecl equal_virtual_thunk_keys(void *first, void *second)
+{
+    VirtualThunkKey *left = first, *right = second;
+    return left->kind == right->kind && left->function == right->function &&
+        left->displacement == right->displacement &&
+        left->virtual_displacement == right->virtual_displacement;
+}
+
+/* Original 0x78d90..0x78dbb, stdcall12. Virtual-base slots are
+   relative to the vbptr; the leading null-base entry negates its offset. */
+int __stdcall virtual_base_table_entry_offset(VirtualBaseEntry *entry,
+    CppSymbol *tag, VirtualTable *table)
+{
+    if (!entry->base) return (int)(0U - entry->pointer_offset);
+    return (int)(virtual_base_subobject_offset(entry->base, tag) -
+        table->virtual_base_offset - entry->pointer_offset);
 }

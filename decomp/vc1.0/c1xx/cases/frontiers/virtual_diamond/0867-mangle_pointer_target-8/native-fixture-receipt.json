@@ -1,0 +1,108 @@
+{
+  "measured_partial_phases": {
+    "cpp_basic": {
+      "setup_seconds": 0.005941006354987621,
+      "execution_seconds": 0.009942254982888699
+    },
+    "virtual_diamond": {
+      "setup_seconds": 0.0050762007012963295,
+      "execution_seconds": 0.010625994764268398
+    }
+  },
+  "mode": "native cached references only",
+  "executable": "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE",
+  "executable_sha256": "d15a90b83367267219938926d79900a6a65bcc36b908beaaebbc292245154483",
+  "trace_prepare_seconds": 0.13465101830661297,
+  "build_seconds": "separate target; unmeasured here",
+  "capture_seconds": "none; immutable prior evidence",
+  "cases": [
+    {
+      "case": "cpp_basic",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "native_status": 0,
+      "complete_frontend_case": true,
+      "setup_seconds": 0.005941006354987621,
+      "execution_seconds": 0.009942254982888699,
+      "oracle_seconds": 0.0010716915130615234,
+      "trace_check_seconds": 0.00031700264662504196,
+      "total_seconds": 0.017618751153349876,
+      "application_trace_entries": 553,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 1136,
+          "sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10"
+        },
+        {
+          "name": "irsy",
+          "bytes": 123,
+          "sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01"
+        },
+        {
+          "name": "irin",
+          "bytes": 9,
+          "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f"
+        },
+        {
+          "name": "irgl",
+          "bytes": 137,
+          "sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c"
+        }
+      ],
+      "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+      "reference_manifest_sha256": "3a1a945d1b28a35b37e481da478f8b9896a65776b4da8ba828506c973df4e38f"
+    },
+    {
+      "case": "virtual_diamond",
+      "status": "pass",
+      "terminal": {
+        "kind": "frontier",
+        "logical": "_mangle_pointee_type@8",
+        "native_signal": 5,
+        "original_exception": "80000003"
+      },
+      "native_status": -5,
+      "complete_frontend_case": false,
+      "setup_seconds": 0.0050762007012963295,
+      "execution_seconds": 0.010625994764268398,
+      "oracle_seconds": 0.0009575029835104942,
+      "trace_check_seconds": 0.0001703677698969841,
+      "total_seconds": 0.01716314721852541,
+      "application_trace_entries": 223,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reference_manifest": "decomp/vc1.0/c1xx/cases/native-virtual-diamond/manifest.json",
+      "reference_manifest_sha256": "f14bb2f8b8bc4249c64dcdd9dff4e5a382e715807b39f69f6430f8941920e2f1"
+    }
+  ],
+  "status": "pass"
+}

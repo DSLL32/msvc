@@ -1,0 +1,21 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b25b in mangle_pointee_type (cursor=0x565f09eb <decorated_name_workspace+15> "@XZ", type=0x56623dd4) at src/stubs.c:640
+640	char *__stdcall mangle_pointee_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
+#0  0x5655b25b in mangle_pointee_type (cursor=0x565f09eb <decorated_name_workspace+15> "@XZ", type=0x56623dd4) at src/stubs.c:640
+#1  0x56595355 in mangle_pointer_target (cursor=0x565f09eb <decorated_name_workspace+15> "@XZ", type=0x56623dc8) at src/mangling.c:634
+#2  0x565950ac in mangle_type_shape (cursor=0x565f09ea <decorated_name_workspace+14> "A@XZ", type=0x56623dc8) at src/mangling.c:524
+#3  0x56594f95 in mangle_parameter_type (cursor=0x565f09e9 <decorated_name_workspace+13> "PA@XZ", type=0x56623dc8) at src/mangling.c:507
+#4  0x56594af2 in mangle_type (cursor=0x565f09e9 <decorated_name_workspace+13> "PA@XZ", type=0x56623dc8, parameter=0) at src/mangling.c:592
+#5  0x565948dd in mangle_function_type (cursor=0x565f09e9 <decorated_name_workspace+13> "PA@XZ", function=0x565fe590) at src/mangling.c:422
+#6  0x56594337 in mangle_symbol_encoding (cursor=0x565f09e8 <decorated_name_workspace+12> "EPA@XZ", symbol=0x565fe590, context=0x0, encoding=50964) at src/mangling.c:359
+#7  0x56593601 in mangle_symbol_name (cursor=0x565f09e6 <decorated_name_workspace+10> "UAEPA@XZ", symbol=0x565fe590, context=0x565fe590) at src/mangling.c:76
+#8  0x56593342 in write_decorated_name (stream=0x565f2e08 <recon_iob+128>, symbol=0x565fe590, context=0x0, flags=0) at src/mangling.c:35
+#9  0x565755f5 in write_global_record (tag=14, symbol=0x565fe590) at src/global-ir.c:248
+#10 0x56597152 in write_function_directory () at src/function-finalization.c:397
+#11 0x56596c75 in finish_expression_output () at src/function-finalization.c:322
+#12 0x5655e2b7 in compile_translation_unit () at src/frontend.c:79
+#13 0x56558816 in guarded_compile () at src/c1xx.c:28
+#14 0x565587e4 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

@@ -1,82 +1,62 @@
-"""Compare direct callees and indirect-call presence, excluding switch data."""
-from win32_indexes import indexes
-from binary import u32
-from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-import re
+"""Use the shared Rust CFG auditor for C1XX canonical and candidate audits.
 
-orig, rec, cfg, oi, ri = indexes()
-cs = Cs(CS_ARCH_X86, CS_MODE_32)
+Data defaults/aliases, exact callback slot/sentinel policy, grammars and reached
+CRT identity/behavior remain separate Python checks. This module contains no
+instruction decoder and never invokes Wine or Cargo.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+from case_paths import BINARY,ROOT,CAPTURE_ROOT
+from graph_metadata import metadata
 
-def at(address, records):
-    exact = [r for r in records if r['start'] == address]
-    return exact[0]['name'] if exact else hex(address)
+FLAGS=['--discovery','cfg','--check-ret','--check-references','--check-callbacks',
+       '--check-ownership','--check-extents']
+TOOL=Path(os.environ.get('GRAPH_AUDIT_BIN',ROOT/'tooling/graph-audit/target/release/graph-audit'))
 
-def instructions(pe, function):
-    start, end = function['start'], function['end']
-    tables = {}
-    while True:
-        result = []
-        cursor = start
-        for a, b in sorted(tables.items()) + [(end, end)]:
-            result.extend(cs.disasm(pe.read(cursor, a-cursor), cursor))
-            cursor = b
-        discovered = dict(tables)
-        for ins in result:
-            if ins.mnemonic != 'jmp' or '[' not in ins.op_str:
-                continue
-            literals = re.findall(r'0x[0-9a-f]+', ins.op_str)
-            if not literals:
-                continue
-            table = int(literals[-1], 16)
-            if not start <= table < end:
-                continue
-            count = 0
-            while table + count*4 < end:
-                target = u32(pe.read(table+count*4, 4), 0)
-                if not start <= target < end:
-                    break
-                count += 1
-            if count:
-                discovered[table] = table + count*4
-        if discovered == tables:
-            # Decode past the accepted endpoint for analysis only. A split
-            # RET n operand otherwise becomes INT3 bytes when masking, while
-            # a bounded decoder can silently omit that final instruction.
-            tail_start = max([start] + list(tables.values()))
-            for instruction in cs.disasm(pe.read(tail_start, end-tail_start+15), tail_start):
-                assert not instruction.address < end < instruction.address + instruction.size, \
-                    'extent truncates instruction: %s at %x (end %x)' % (function['name'], instruction.address, end)
-                if instruction.address >= end:
-                    break
-            return result
-        tables = discovered
 
-def edges(pe, records, function):
-    calls = set()
-    for ins in instructions(pe, function):
-        if ins.mnemonic == 'call' or (ins.mnemonic == 'jmp' and
-            re.fullmatch(r'0x[0-9a-f]+', ins.op_str) and
-            not function['start'] <= int(ins.op_str, 16) < function['end']):
-            if re.fullmatch(r'0x[0-9a-f]+', ins.op_str):
-                calls.add(at(int(ins.op_str, 16), records))
-            else:
-                calls.add('indirect')
-    return calls
+def command(config=None, graph_metadata=None):
+    assert TOOL.is_file(),'Build the shared host auditor explicitly with make graph-audit-tool'
+    result=[str(TOOL),'--repo',str(ROOT),'--project',str(BINARY),'--profile','c1xx',*FLAGS,
+            '--metadata',str(graph_metadata or BINARY/'build/graph-metadata.json')]
+    if config is not None:result+=['--config',str(config)]
+    return result
+
+
+def verify_candidate(name, config_path=None):
+    """Check the complete current graph plus an already reconstructed candidate."""
+    config=json.loads(Path(config_path or BINARY/'functions.json').read_text())
+    assert name not in config['accepted'],'candidate already accepted'
+    record=next(r for r in config['driver'] if r['name']==name)
+    assert record['end']>record['start']+1,'candidate needs a complete original extent'
+    config['accepted'].append(name)
+    CAPTURE_ROOT.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='graph-candidate-',dir=CAPTURE_ROOT) as scratch:
+        directory=Path(scratch)
+        config_path=directory/'functions.json';config_path.write_text(json.dumps(config)+'\n')
+        metadata_path=directory/'metadata.json';metadata_path.write_text(json.dumps(metadata(config))+'\n')
+        invocation=command(config_path,metadata_path)
+        # Keep the tool's actual diagnostics on stderr. JSON is consumed as a
+        # verification result; graph failures never fall back to another engine.
+        result=subprocess.run(invocation,cwd=BINARY,stdout=subprocess.PIPE,check=True)
+        report=json.loads(result.stdout)
+    assert report['discovery']=='cfg' and name in report['functions']
+    return dict(report=report,raw=result.stdout,tool_sha256=hashlib.sha256(TOOL.read_bytes()).hexdigest(),flags=FLAGS)
+
 
 def main():
-    failures = checked = 0
-    for function in cfg['driver']:
-        if function['name'] not in cfg['accepted']:
-            continue
-        rebuilt = next(r for r in ri if r['name'] == function['name'])
-        a, b = edges(orig, oi, function), edges(rec, ri, rebuilt)
-        checked += 1
-        if a != b:
-            print(function['name'], 'original only', a-b, 'reconstruction only', b-a)
-            failures += 1
-    if failures:
-        raise SystemExit(1)
-    print('%d reconstructed functions have matching call targets (including indirect calls).' % checked)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--candidate')
+    args=parser.parse_args()
+    if args.candidate:
+        import sys
+        sys.stdout.buffer.write(verify_candidate(args.candidate)['raw'])
+    else:
+        os.execv(str(TOOL),command())
 
-if __name__ == "__main__":
-    main()
+
+if __name__=='__main__':main()

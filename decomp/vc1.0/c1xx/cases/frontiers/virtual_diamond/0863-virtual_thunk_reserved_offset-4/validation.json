@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_virtual_thunk_reserved_offset@4",
+    "start": 506848,
+    "end": 506853
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_copy_virtual_thunk_key@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23161229491233826,
+  "total_operation_seconds": 2.3116843393072486,
+  "original_capture_seconds": 1.3169625950977206
+}

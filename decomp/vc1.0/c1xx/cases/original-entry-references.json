@@ -8,11 +8,11 @@
     "plan_sha256": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07"
   },
   "virtual_diamond": {
-    "receipt": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-receipt.json",
-    "receipt_sha256": "8a734a764af34fd2ad0f453382aa15d4ce307066655bc55a9e583121046747c8",
-    "events": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-events.txt",
-    "events_sha256": "2d2a4f017c2e0449f633c4e4f740b67f4ceaff6f124d6fe30f905fbd2bd0fbb5",
-    "plan": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-entries.plan",
-    "plan_sha256": "04b8e6dcd8d335c14e744bc2ec12d3e8dbf8a5da4d86d479a99d55faff8ec09d"
+    "receipt": "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/entry-reference/original-receipt.json",
+    "receipt_sha256": "53470fe1ae40944732dcfba30874e84cbb736ee47a7fa674276598f69c907dd4",
+    "events": "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/entry-reference/original-events.txt",
+    "events_sha256": "a7b0f6b17fc428ed9640f419c6096a4820987860c69a020b52db1cb2e926634d",
+    "plan": "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/entry-reference/original-entries.plan",
+    "plan_sha256": "7623dba5c83d5fd1e2688a9310c1eb7559d1a5743f44973bca4a3b1591053f18"
   }
 }

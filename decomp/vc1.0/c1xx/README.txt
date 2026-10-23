@@ -1,14 +1,14 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 862 accepted frontiers, including 769 frontend
+PARTIAL binary reconstruction: 868 accepted frontiers, including 775 frontend
 functions and seven older CRT functions reconstructed as source. cpp_basic is
-complete. virtual_diamond currently stops at _emit_virtual_adjustment_thunk@4,
-original VA 0x7bbf0. All unimplemented callees remain meaningful named INT3 stubs.
+complete. virtual_diamond currently stops at _mangle_pointee_type@8,
+original VA 0x43f60. All unimplemented callees remain meaningful named INT3 stubs.
 The approved copy/assignment, stack-lifetime/destruction and new/delete/operator
 cases follow virtual_diamond; cases/reconstruction-queue.json records the queue.
 
-Accepted original extents cover 234483 / 476418 code-section bytes (49.217914%).
+Accepted original extents cover 235258 / 476418 code-section bytes (49.380586%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -32,13 +32,13 @@ terminal status, raw stdout/stderr, complete file sets and all four frontend
 intermediates. Unknown definitions, modified references and external processes
 fail. No fixture invokes Wine or refreshes an oracle. cpp_basic expects 553
 application first entries and exit 0. virtual_diamond seeds that accepted prefix,
-then expects 216 new application entries plus its named terminal trap.
+then expects 222 new application entries plus its named terminal trap.
 
 cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 855-entry acceptance provenance and full original extents; the cache
+the ordered 868-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 
@@ -76,6 +76,36 @@ advance-frontier.py requires a fresh original entry-plan capture and persists it
 new reference only after the matching full oracle. The runtime-chain counterpart
 also requires exact library relocation/callee/global identity and explicit
 original/native argument/return evidence for newly encountered CRT semantics.
+
+Shared host graph audit
+-----------------------
+make audit builds the shared tooling/graph-audit host binary once through its
+quiet Make include, then invokes it directly. Cargo build errors and the tool's
+own diagnostics remain visible. Ordinary native fixtures never build or invoke
+the auditor, Cargo or Wine. The audit command uses the c1xx profile with CFG
+discovery plus --check-ret, --check-references, --check-callbacks,
+--check-ownership and --check-extents. build/graph-audit.json records the full
+canonical result. There is no private instruction decoder or legacy fallback.
+
+The two contextual hash/equality callback tables are described by
+scripts/graph_metadata.py. Unreconstructed callbacks may remain named traps;
+the auditor compares their ordered non-null logical identities. audit-data.py
+additionally verifies every exact callback slot and null sentinel, option/state
+aliases/defaults, encountered data, parser and lookahead policies. The separate
+parser/lookahead audits and reached-CRT identity/behavior proofs are retained.
+Candidate acceptance proposes only its complete recovered original extent to
+the same shared engine before changing accepted metadata, and saves its full
+JSON result, flags and tool hash with the frontier evidence.
+
+    make -j4 graph-audit-tool
+    make -j4 audit graph-negative-check
+
+graph-negative-check uses disposable host-side PE/config copies to reject a
+changed call edge, RET cleanup, truncated instruction extent, reordered callback
+and moved callback sentinel. It also checks the candidate adapter and freezes
+the canonical inputs throughout. build/graph-negative-validation.json records
+the commands, original diagnostics and elapsed checks. These tests never launch
+either Windows executable or modify a canonical file.
 
 Shared-prefix migration and retained analysis
 --------------------------------------------
