@@ -4,7 +4,7 @@ from provenance import captured_native_binary
 import main_fields
 
 def boundary(original,native,state,sequence,module,candidate,probe):
- assert candidate['expected_frontier']['rva']==0x12830 and candidate['expected_frontier']['kind']=='main-helper'
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('main-helper',0x12830),('work-buffer-allocation',0x12873)]
  events=(original/'events.txt').read_text()
  rows=re.findall(r'^trap seq=(\d+) rva=000127a7 esp=([0-9a-f]+).*stack=([0-9a-f,]+)\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
  assert len(rows)==1;entry_sequence=int(rows[0][0]);assert entry_sequence<sequence
@@ -57,6 +57,6 @@ def validate_writes(original,native,fields,entry,state,entry_sequence,sequence,m
  assert bytes(wanted)==(original/('compiler-data-%03d.bin'%sequence)).read_bytes()
  for region in ('compiler-bss','compiler-snapshot','state'):
   assert (original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
- for key,value in entry['crt_state'].items():assert state[key]==value
+ for key,value in entry['crt_state'].items():assert (state['crt_state'] if 'crt_state' in state else state)[key]==value
  expected=copy.deepcopy(entry['compiler_state']);expected['initialized']['compiler_phase']=1
  assert expected==state['compiler_state']

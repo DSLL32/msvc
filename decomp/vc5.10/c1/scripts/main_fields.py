@@ -28,7 +28,7 @@ def expected_fields(fields):
   row=rows[name];assert row['native_field']=='c1_data.'+name and row['snapshot_original_offset']==rva-0x5e000 and row['snapshot_native_offset']==native
   assert row['default']==DEFAULT[name]
  model=fields['main_fields'];assert model['system_info_members']==SYSTEM_MEMBERS and model['initialized_known_bytes']==52 and model['initialized_unknown_bytes']==6496
- assert (model['system_info_original_rva'],model['system_info_native_offset'],model['native_initialized_size'],model['native_bss_size'])==(0x5f508,16,52,788)
+ assert (model['system_info_original_rva'],model['system_info_native_offset'],model['native_initialized_size'],model['native_bss_size'])==(0x5f508,16,52,804)
  for name,(rva,size,native) in COMMAND.items():
   row=next(r for r in fields['modeled_bss'] if r['name']==name)
   assert (row['original_rva'],row['bytes'],row['native_offset'],row['default'],row['native_field'])==(rva,size,native,0,'c1_bss.'+name)

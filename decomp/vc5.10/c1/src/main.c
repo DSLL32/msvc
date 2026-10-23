@@ -24,11 +24,6 @@ int __cdecl main(int argc, char **argv)
     return compile_translation_unit();
 }
 
-void __cdecl initialize_work_buffers(void)
-{
-    __asm { int 3 }
-}
-
 void __cdecl release_work_buffers_238da(void)
 {
     __asm { int 3 }

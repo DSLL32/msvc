@@ -69,6 +69,11 @@ typedef struct CompilerPchState {
 #endif
 } CompilerPchState;
 
+typedef struct CompilerWorkBuffer {
+    BYTE *data;
+    BYTE *limit;
+} CompilerWorkBuffer;
+
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -89,6 +94,7 @@ typedef struct CompilerBss {
     int debug_break;
     int command_argc;
     char **command_argv;
+    CompilerWorkBuffer work_buffers[2];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -168,6 +174,7 @@ void __cdecl initialize_state_1277b(void);
 void __cdecl initialize_state_1279c(void);
 void __cdecl initialize_state_127a6(void);
 void __cdecl initialize_work_buffers(void);
+void *__cdecl reserve_work_buffer(unsigned, unsigned);
 void __cdecl release_work_buffers_238da(void);
 void __cdecl scan_internal_switches(char **);
 void __cdecl initialize_state_12998(void);

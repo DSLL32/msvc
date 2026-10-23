@@ -91,13 +91,6 @@
     "evidence": "actual separate callee/registration callback; named INT3 only"
   },
   {
-    "name": "_initialize_work_buffers",
-    "start": 274802736,
-    "end": 274802737,
-    "pending_extent": true,
-    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
-  },
-  {
     "name": "_release_work_buffers_238da",
     "start": 274872538,
     "end": 274872539,
@@ -138,5 +131,12 @@
     "end": 274806005,
     "pending_extent": true,
     "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_reserve_work_buffer",
+    "start": 274802803,
+    "end": 274802804,
+    "pending_extent": true,
+    "evidence": "actual two-argument cdecl allocation helper; named INT3 entry only, no body credit"
   }
 ]

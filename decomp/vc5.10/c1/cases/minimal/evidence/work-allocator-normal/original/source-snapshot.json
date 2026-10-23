@@ -1,0 +1,14 @@
+{
+  "decomp/vc5.10/c1/scripts/capture-original.py": {
+    "sha256": "c9cb2679a433993427dea1bb29067a775883a0dd526cd036ce97e774b1d98978",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/c9cb2679a433993427dea1bb29067a775883a0dd526cd036ce97e774b1d98978"
+  },
+  "decomp/vc5.10/c1/scripts/dll-capture.c": {
+    "sha256": "e7df0c5be34ed12a3054bbf757324916654990a4ab7be6d9df68820cd0bbf63b",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/e7df0c5be34ed12a3054bbf757324916654990a4ab7be6d9df68820cd0bbf63b"
+  },
+  "decomp/vc5.10/c1/scripts/wine_tool_support.py": {
+    "sha256": "9fcb647a065a3cd0b377e2d8d47facfd40eedf1ea648e7f6e71ae2637da670ee",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/9fcb647a065a3cd0b377e2d8d47facfd40eedf1ea648e7f6e71ae2637da670ee"
+  }
+}

@@ -3,15 +3,15 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks are complete and main reaches work-buffer helper12830. The native i386
+all initialization callbacks and main are complete; work-buffer initialization reaches allocator12873. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is51 application functions /1866 original bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2323 of the `.text` virtual
-extent's322288 bytes (0.721%). That denominator includes CRT and unclassified
+Accepted ownership is52 application functions /1933 original bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2390 of the `.text` virtual
+extent's322288 bytes (0.742%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -413,3 +413,16 @@ boundary controls50/65 and core47/100 pass; see `cases/minimal/MAIN.md` and
 1.067/0.517s normal and1.619/1.364s restore, audit0.018s, cached lifecycle5.11ms.
 Core controls22.42/73.71s and new controls19.33/37.94s are separate from fixtures.
 A tool-only update retained an identical audit report and reused execution raw.
+
+The67-byte work-buffer initializer12830 is accepted, reaching the genuine
+reserve_work_buffer12873 trap with cdecl reserve0x500000/commit0x4000. Four
+contextual BSS pointer fields (two data/limit pairs) gain exact zero defaults and
+nonzero owned-pointer reset proofs. Actual main entry, actual work entry and
+allocator frontier are independently observed; main's phase write is validated
+before work begins, and no state stores occur before the first allocation call.
+All54 source functions pass strict graph/import/RET/ownership/extents auditing;
+new work41/46 and main50/65 controls pass, with unchanged generic results reused
+explicitly. Original/native builds3.156/1.918s, original/native captures1.068/0.552s
+normal and1.720/1.232s restore, audit0.021s, cached native lifecycle3.90ms.
+Control runtimes22.29/37.95s (work) and18.98/38.72s (main) remain separate from
+fixtures. See `cases/minimal/WORK-BUFFERS.md` and `evidence/work-allocator-*`.

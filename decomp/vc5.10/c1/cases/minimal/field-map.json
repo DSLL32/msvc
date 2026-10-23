@@ -1384,6 +1384,42 @@
       "default": 0,
       "type": "argv identity",
       "default_proof": "canonical initial loaded BSS; own main stores argc/argv, debugBreak% option-table target"
+    },
+    {
+      "name": "work_buffers[0].data",
+      "original_rva": 333904,
+      "bytes": 4,
+      "native_offset": 788,
+      "native_field": "c1_bss.work_buffers[0].data",
+      "default": 0,
+      "evidence": "12830..12873 allocator return and +0x3ffb limit; pointer consumers15342/15373; exact zero original BSS default"
+    },
+    {
+      "name": "work_buffers[0].limit",
+      "original_rva": 327708,
+      "bytes": 4,
+      "native_offset": 792,
+      "native_field": "c1_bss.work_buffers[0].limit",
+      "default": 0,
+      "evidence": "12830..12873 allocator return and +0x3ffb limit; pointer consumers15342/15373; exact zero original BSS default"
+    },
+    {
+      "name": "work_buffers[1].data",
+      "original_rva": 333908,
+      "bytes": 4,
+      "native_offset": 796,
+      "native_field": "c1_bss.work_buffers[1].data",
+      "default": 0,
+      "evidence": "12830..12873 allocator return and +0x3ffb limit; pointer consumers15342/15373; exact zero original BSS default"
+    },
+    {
+      "name": "work_buffers[1].limit",
+      "original_rva": 327716,
+      "bytes": 4,
+      "native_offset": 800,
+      "native_field": "c1_bss.work_buffers[1].limit",
+      "default": 0,
+      "evidence": "12830..12873 allocator return and +0x3ffb limit; pointer consumers15342/15373; exact zero original BSS default"
     }
   ],
   "outside_bss": [
@@ -1785,7 +1821,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 788,
+    "native_bss_size": 804,
     "source_writer_rvas": [
       [
         12576,
@@ -1796,7 +1832,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75824,
+    "hard_frontier_rva": 75891,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -2131,7 +2167,7 @@
       "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
     }
   ],
-  "native_bss_size": 776,
+  "native_bss_size": 804,
   "empty_record_prototype": {
     "original_rva": 364368,
     "native_offset": 688,
@@ -2211,7 +2247,7 @@
     "system_info_original_rva": 390408,
     "system_info_native_offset": 16,
     "native_initialized_size": 52,
-    "native_bss_size": 788,
+    "native_bss_size": 804,
     "field_evidence": {
       "compiler_phase": "main127a9 sets1;13585 sets3;13833 and438d6/43950 consumers prove compiler-stage state",
       "c9_il": "optionrecord62f20 string -C9IL points62f24 to5f2e0; main1280e controls compiler_flags0x2000",
@@ -2220,5 +2256,29 @@
       "debug_break": "record62e6c string -debugBreak% targets5c34; main condition calls KERNEL32.DebugBreak",
       "command_argc_argv": "main127cd/127d3 stores actualmain argc/argv;12f9d/12fac advance this commandline cursor"
     }
+  },
+  "work_buffers": {
+    "count": 2,
+    "native_offset": 788,
+    "native_stride": 8,
+    "native_members": {
+      "data": 0,
+      "limit": 4
+    },
+    "original_fields": [
+      [
+        333904,
+        327708
+      ],
+      [
+        333908,
+        327716
+      ]
+    ],
+    "reserve_bytes": 5242880,
+    "commit_bytes": 16384,
+    "limit_offset": 16379,
+    "first_call": 75834,
+    "second_call": 75867
   }
 }

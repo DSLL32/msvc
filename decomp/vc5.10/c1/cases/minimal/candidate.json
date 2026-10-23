@@ -356,6 +356,11 @@
       "start_rva": 197664,
       "end_rva": 197691,
       "entry": 0
+    },
+    {
+      "start_rva": 75824,
+      "end_rva": 75891,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1115,6 +1120,19 @@
         ]
       ],
       "source": "src/main.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_work_buffers",
+      "native_symbol": "initialize_work_buffers",
+      "role": "application",
+      "chunks": [
+        [
+          75824,
+          75891
+        ]
+      ],
+      "source": "src/work-buffers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1130,13 +1148,16 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75824,
-    "native_symbol": "initialize_work_buffers",
-    "kind": "main-helper",
-    "native_args": [],
+    "rva": 75891,
+    "native_symbol": "reserve_work_buffer",
+    "kind": "work-buffer-allocation",
+    "native_args": [
+      "reserve_bytes",
+      "commit_bytes"
+    ],
     "caller": {
-      "native_symbol": "c1_main",
-      "return_rva": 75704
+      "native_symbol": "initialize_work_buffers",
+      "return_rva": 75839
     }
   },
   "imports": [
@@ -1376,9 +1397,19 @@
         "wProcessorRevision": 17185
       },
       "pointer_roles": "owned snapshot interior sentinels; preserved without API use or dereference before work-buffer helper"
+    },
+    "work_buffers": {
+      "pointer_offsets": [
+        4200,
+        4300,
+        4400,
+        4500
+      ],
+      "pointer_roles": "owned snapshot interiors; cleared before allocator frontier, never dereferenced",
+      "normal_case": false
     }
   },
-  "staging_role": "full main hot/cold candidate, actual main-entry prefix anchor then phase write to first genuine work-buffer helper",
+  "staging_role": "work-buffer initializer candidate; independent main and work-buffer entries followed by first real allocator frontier",
   "registered_cleanup": [
     {
       "original_rva": 145728,

@@ -132,7 +132,8 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
     initialization_callback = expected.get("kind") in ("initialization-callback", "initialization-helper")
     compiler_main = expected.get("kind") == "compiler-main"
     main_helper = expected.get("kind") == "main-helper"
-    compiler_flow = pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
+    work_allocation = expected.get('kind') == 'work-buffer-allocation'
+    compiler_flow = work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
         pass_state = state if pass_boundary else state["caller"] if pass_initializer else state["invocation"]
@@ -159,6 +160,12 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             assert snapshot[0x127b3-0x1000]==0xe8 and 0x127b8+struct.unpack_from('<i',snapshot,0x127b4-0x1000)[0]==expected['rva']
             assert state['pass_mode']==case['BOOL']
             args=invoke_words[1:4]
+        if work_allocation:
+            assert state['caller']['symbol']=='initialize_work_buffers'
+            assert state['args']=={'reserve_bytes':0x500000,'commit_bytes':0x4000}
+            assert expected['native_args']==['reserve_bytes','commit_bytes']
+            invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
+            args=[int(value,16) for value in invocations[0][2].split(',')][1:4]
         if pass_initializer:
             assert state["args"] == {} and pass_state["symbol"] == "InvokeCompilerPass"
             invocations = [row for row in traps if int(row[1], 16) == 0x12229]

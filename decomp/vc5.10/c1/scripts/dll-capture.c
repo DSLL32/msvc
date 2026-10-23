@@ -518,6 +518,14 @@ static void seed_restore_state(void)
         command[0] = 17; command[1] = 23; command[2] = saved + 4000;
         write_mem(base + 0x55c34, command, sizeof(command));
     }
+    if (main_fields_probe) {
+        DWORD pointer;
+        pointer = saved + 4200; write_mem(base + 0x51850, &pointer, 4);
+        pointer = saved + 4300; write_mem(base + 0x5001c, &pointer, 4);
+        pointer = saved + 4400; write_mem(base + 0x51854, &pointer, 4);
+        pointer = saved + 4500; write_mem(base + 0x50024, &pointer, 4);
+        fprintf(events, "work-buffers-seed pointers=owned offsets=4200,4300,4400,4500\n");
+    }
     write_mem(base + 0x5781c, &count, 4);
     callbacks[0] = base + 0x12365; callbacks[1] = base + 0x12377;
     write_mem(base + 0x57820, callbacks, 8);

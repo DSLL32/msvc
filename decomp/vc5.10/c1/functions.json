@@ -57,7 +57,8 @@
     "_initialize_state_1279c",
     "CompilerPchState::Initialize",
     "_initialize_state_127a6",
-    "_main"
+    "_main",
+    "_initialize_work_buffers"
   ],
   "driver": [
     {
@@ -482,6 +483,12 @@
           274924603
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_work_buffers",
+      "start": 274802736,
+      "end": 274802803,
       "role": "application"
     }
   ],
