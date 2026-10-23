@@ -504,3 +504,16 @@ CoffFunction *publish_coff_function(CoffFunction *record)
     }
     return record;
 }
+
+unsigned short find_next_coff_function(CoffSymbol *symbol,
+                                     CoffAuxiliary *auxiliary,
+                                     unsigned long *index)
+{
+    *index = auxiliary->next_symbol;
+    if (!*index) return 0;
+    if (!read_coff_symbol(symbol, *index)) fatal_error(37, NULL, NULL);
+    if ((symbol->type & 0x30) != 0x20) fatal_error(37, NULL, NULL);
+    if (!symbol->auxiliary_count) fatal_error(37, NULL, NULL);
+    if (!read_coff_auxiliary(auxiliary)) fatal_error(37, NULL, NULL);
+    return 1;
+}
