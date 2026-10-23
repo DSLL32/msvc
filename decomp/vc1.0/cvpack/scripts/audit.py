@@ -318,7 +318,7 @@ def main():
     for record in functions:
         from stack_output import validate as validate_output
         for parameter in record.get('parameters',[]):
-            if parameter['kind']in ('stack-output','stack-input'):validate_output(parameter,original)
+            if parameter['kind']in ('stack-output','stack-input','allocation-output'):validate_output(parameter,original)
             if parameter['kind']=='transient-pointer':
                 from transient import validate as validate_transient
                 validate_transient(parameter,original)

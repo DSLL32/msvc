@@ -10,8 +10,17 @@ def validate(item,pe):
     assert 0<proof['size']<=1024 and proof['offset']==0
     for part in ('callsite','frame',*(['wrapper']if 'wrapper'in proof else [])):
         r=proof[part];assert hashlib.sha256(pe.read(r['start'],r['end']-r['start'])).hexdigest()==r['sha256'],'changed stack-output instruction evidence'
-    local_offset=proof['esp_offset']-proof['frame'].get('entry_bias',0)
-    assert 0<=local_offset and proof['size']+local_offset<=proof['frame']['allocation'],'buffer exceeds reviewed stack frame'
+    if proof.get('location')=='allocation':
+        a=proof['allocation']
+        assert (proof['owner'],proof['local'],proof['size'],proof['base_register'])==('collect_strip_records','record',28,'ebx'),'unreviewed constructor allocation output'
+        assert a==dict(size=28,callee=0x2cfb0,call=0x2844d,returned=0x28452,argument=0x2844b,carrier=0x28455),'unreviewed allocation birth/lifetime'
+        assert pe.read(a['argument'],2)==b'\x6a\x1c'and pe.read(a['carrier'],2)==b'\x8b\xd8','allocation size/carrier def-use changed'
+        assert pe.read(a['call'],1)==b'\xe8'and a['returned']+int.from_bytes(pe.read(a['call']+1,4),'little',signed=True)==a['callee'],'allocation callee changed'
+        assert proof['return_slots']==[dict(slot=0,address=0x2848c)],'unreviewed allocation constructor caller'
+    else:
+        assert proof.get('location','stack')=='stack','unknown typed output location'
+        local_offset=proof['esp_offset']-proof['frame'].get('entry_bias',0)
+        assert 0<=local_offset and proof['size']+local_offset<=proof['frame']['allocation'],'buffer exceeds reviewed stack frame'
     return proof
 
 def compare(item,descriptions,words,parameters,events,pe):
@@ -19,7 +28,8 @@ def compare(item,descriptions,words,parameters,events,pe):
     for r in proof['return_slots']:assert words[r['slot']]==r['address'],'unknown stack-output caller'
     esp=int(re.search(r'^registers .* esp ([0-9a-f]+) ',events,re.M)[1],16)
     value=words[item['register']]if item.get('register')else words[item['slot']];actual=parameters[item['name']]
-    assert value==esp+proof['esp_offset'],'output pointer differs from original caller local'
+    if proof.get('location')=='allocation':assert value==words[proof['base_register']],'output pointer differs from original live allocation carrier'
+    else:assert value==esp+proof['esp_offset'],'output pointer differs from original caller local'
     if 'size_argument'in item:
         count=next(r for r in descriptions if r['name']==item['size_argument'])
         assert words[count['slot']]==parameters[count['name']]==proof['size'],'output count differs from declared local'

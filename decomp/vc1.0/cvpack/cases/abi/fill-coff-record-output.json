@@ -1,0 +1,39 @@
+{
+  "size": 28,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "record",
+  "location": "allocation",
+  "base_register": "ebx",
+  "allocation": {
+    "size": 28,
+    "callee": 184240,
+    "call": 164941,
+    "returned": 164946,
+    "argument": 164939,
+    "carrier": 164949
+  },
+  "callsite": {
+    "start": 164983,
+    "end": 165004,
+    "sha256": "8a8d61cf3f1b939e7d5bb6e5bcba164d30e7264f685d0b78b12fe9077f6a3fb6"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 164939,
+    "end": 165004,
+    "sha256": "78d28df68723bbf371ecacbbfacac3f7a2ba9c810e0b202bbcd431d43e68f80a"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 165004
+    }
+  ],
+  "scope": "First actual constructor output: malloc28 returned toEBX and remains live/unfreed through first constructor call. Native exact collect_strip_records::record pointer and CoffFunction sizeof28. Output initially undefined: all raw28 bytes retained, no equality/defined credit; no usable-size/nearby-heap inference. Constructor whole body starts zeroing7DWORD before any record read."
+}

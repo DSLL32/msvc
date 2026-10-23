@@ -133,5 +133,3 @@ void read_coff_function_lines(CoffFunction *record,CoffFunction *previous,unsign
 { __asm { int 3 } }
 void set_coff_function_end(CoffFunction *record,unsigned long end) { __asm { int 3 } }
 CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } return NULL; }
-
-unsigned short read_coff_auxiliary(CoffAuxiliary *auxiliary) { __asm { int 3 } return 0; }

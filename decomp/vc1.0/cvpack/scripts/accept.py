@@ -56,10 +56,12 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     apps={r['original']:r for r in config['functions']};frontier=apps[int(traps[0][1],16)];assert frontier['status']=='stub'and frontier['native']==current['native_function'],'original next entry is not cached next stub'
     state=json.loads((work/'gdb.json').read_text());assert state['signal']==5 and state['frames'][0]==frontier['native']and state['later_heap_equality']is False,'native next named trap differs'
     words={int(a):int(b,16)for a,b in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)};parameters={}
+    registers=re.search(r'^registers (.*)$',events,re.M);assert registers,'missing original ABI register state'
+    words.update({k:int(v,16)for k,v in zip(registers[1].split()[::2],registers[1].split()[1::2])})
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
-        elif item['kind']in('stack-output','stack-input'):
+        elif item['kind']in('stack-output','stack-input','allocation-output'):
             from stack_output import compare as compare_output
             parameters[item['name']]=compare_output(item,frontier['parameters'],words,state['parameters'],events,pe)
         else:raise AssertionError('concrete typed pointer proof required before consumption')
@@ -266,7 +268,7 @@ def main():
         if kind=='integer':
             proof=compare_integer(item,descriptions,words,state['parameters'])
             if proof:inactive[item['name']]=proof
-        elif kind in ('stack-output','stack-input'):
+        elif kind in ('stack-output','stack-input','allocation-output'):
             from stack_output import compare as compare_output
             inactive[item['name']]=compare_output(item,descriptions,words,state['parameters'],events,pe)
         elif kind in ('pointer','cstring'):

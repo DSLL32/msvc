@@ -247,3 +247,12 @@ unsigned short find_first_coff_function(CoffSymbol *symbol,
     }
     return 0;
 }
+
+unsigned short read_coff_auxiliary(CoffAuxiliary *auxiliary)
+{
+    unsigned long end = strip_symbol_offset+strip_file_header.NumberOfSymbols*18;
+    if (end <= (unsigned long)strip_read_offset) return 0;
+    read_file(strip_handle, auxiliary, sizeof(*auxiliary));
+    strip_read_offset += sizeof(*auxiliary);
+    return 1;
+}
