@@ -64,4 +64,28 @@ assert all(start<=target<table for target in targets)
 assert list(rebuilt_pe.read(indices,22))==[{ord('c'):0,ord('d'):1,ord('s'):2,ord('x'):3}.get(c,4)for c in range(ord('c'),ord('x')+1)]
 functions['_format_message']={'original':{'roots':[],'text_data':[],'switches':{}},
     'rebuilt':{'roots':[],'text_data':[[table,indices+22]],'switches':{str(jump):list(targets)}}}
+# expand_word's delimiter/substitution switch: pointer table plus92 byte tags.
+start=public['_expand_word'];jump=start+0x5e;table=start+0x15c;indices=table+44
+assert rebuilt_pe.read(jump,3)==bytes.fromhex('ff2485')
+assert struct.unpack('<I',rebuilt_pe.read(jump+3,4))[0]==table
+assert rebuilt_pe.read(jump-6,2)==bytes.fromhex('8a81')
+assert struct.unpack('<I',rebuilt_pe.read(jump-4,4))[0]==indices
+assert rebuilt_pe.read(start+0x43,3)==bytes.fromhex('83ea21')
+assert rebuilt_pe.read(start+0x49,4)==bytes.fromhex('837df05b')
+targets=struct.unpack('<11I',rebuilt_pe.read(table,44))
+assert all(start<=target<table for target in targets)
+expected={ord(c):n for n,c in enumerate('!()*,:<@\\|')}
+assert list(rebuilt_pe.read(indices,92))==[expected.get(c,10)for c in range(ord('!'),ord('|')+1)]
+functions['_expand_word']={'original':{'roots':[],'text_data':[],'switches':{}},
+    'rebuilt':{'roots':[],'text_data':[[table,indices+92]],'switches':{str(jump):list(targets)}}}
+# Four tagged driver-setting actions have a direct bounded pointer table.
+start=public['_prepare_inputs'];jump=start+0xd5;table=start+0x17c
+assert rebuilt_pe.read(jump,3)==bytes.fromhex('ff2495')
+assert struct.unpack('<I',rebuilt_pe.read(jump+3,4))[0]==table
+assert rebuilt_pe.read(start+0xc2,7)==bytes.fromhex('83bdf0fdffff03')
+assert rebuilt_pe.read(table-1,1)==bytes.fromhex('c3')
+targets=struct.unpack('<4I',rebuilt_pe.read(table,16))
+assert all(start<=target<table for target in targets)
+functions['_prepare_inputs']={'original':{'roots':[],'text_data':[],'switches':{}},
+    'rebuilt':{'roots':[],'text_data':[[table,table+16]],'switches':{str(jump):list(targets)}}}
 (project/'graph-metadata.json').write_text(json.dumps({'schema':1,'functions':functions,'callback_tables':[]},indent=2)+'\n')

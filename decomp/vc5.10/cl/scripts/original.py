@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import time
 from mask import construct
-from build_inputs import inventory as build_inputs
+from build_inputs import inventory as build_inputs,store_blob
 
 HERE=Path(__file__).resolve().parent
 PROJECT=HERE.parent
@@ -48,11 +48,21 @@ def capture(label,config_path,baseline=False):
         shutil.copyfile(source,directory/name)
     assert sha((directory/'MSVCRT.DLL').read_bytes())==CRT_SHA
     shutil.copyfile(PROJECT/'build/reference-debugger.exe',directory/'reference-debugger.exe')
+    shutil.copyfile(HERE/'reference-debugger.c',directory/'reference-debugger.c')
+    controller_source=store_blob(Path(__file__).read_bytes())
+    helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
     env=wt.environment();env.update(TMP='.',TEMP='.')
     command=['/usr/bin/wine',wt.windows(directory/'reference-debugger.exe'),
         wt.windows(directory/'CL.EXE'),'/?',wt.windows(directory),'0' if baseline else '1',
         '1' if '_load_string' in config['accepted'] else '0']
     setup=time.perf_counter()-start;run_start=time.perf_counter()
+    # The fresh directory contains only these controlled files before the child
+    # starts; _mktemp's collision checks must not depend on hidden fixtures.
+    initial=[]
+    for path in sorted(directory.iterdir()):
+        assert path.is_file(),'unexpected original input-directory entry'
+        initial.append({'name':path.name,'bytes':path.stat().st_size,'sha256':sha(path.read_bytes())})
+    (directory/'input-directory.json').write_text(json.dumps({'entries':initial},indent=2)+'\n')
     process=subprocess.Popen(command,cwd=directory,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     # Read-only inspection of the stopped original. A failed decoder releases
     # this helper/child pair and preserves partial raw files before reporting.
@@ -90,6 +100,7 @@ def capture(label,config_path,baseline=False):
         'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
+        'controller_source':controller_source,'helper_source':helper_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},
         'files':{p.name:{'sha256':sha(p.read_bytes()),'bytes':p.stat().st_size} for p in directory.iterdir() if p.is_file()}}

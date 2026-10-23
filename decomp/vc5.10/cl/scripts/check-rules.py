@@ -3,7 +3,7 @@
 import copy
 import json
 import struct
-from rules import PROJECT,ROOT,ELF,decode,verify
+from rules import PROJECT,ROOT,ELF,decode,decode_settings,verify
 from binary import PE
 
 proof=json.loads((PROJECT/'cases/help/rule-grammar.json').read_text())
@@ -26,4 +26,13 @@ for name,address,payload in [('wrong handler',start+78*20+16,struct.pack('<I',0x
     try:decode(patch(address,payload),start,callbacks)
     except AssertionError:pass
     else:raise AssertionError('accepted '+name)
-print('174-rule three-image verification and spelling/handler/terminator negative controls pass')
+settings=proof['driver_settings'];setting_start=native.symbols['driver_options']
+targets={native.symbols[r['target']]:r['target']for r in settings['records']}
+expected_settings=decode_settings(native,setting_start,targets)
+assert decode_settings(patch(setting_start+4,struct.pack('<I',4)),setting_start,targets)!=expected_settings,'changed action tag was ignored'
+for name,address in [('unknown setting target',setting_start+8),
+                     ('nonzero setting terminator',setting_start+31*12+4)]:
+    try:decode_settings(patch(address,struct.pack('<I',0x1234)),setting_start,targets)
+    except AssertionError:pass
+    else:raise AssertionError('accepted '+name)
+print('174 option rules and31 driver settings match three images; six semantic negative controls pass')

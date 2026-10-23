@@ -322,3 +322,39 @@ void validate_value(char *name, char *value, char *constraints)
     warning(4014, result, name, low);
     format_number(low, value, 10);
 }
+
+/* 00402c2c..00402d0a: /D accepts attached or separate definitions and '#' '='. */
+Option *define_macro(char **args, int *index)
+{
+    char *value = args[(*index)++] + 2, *position, *name;
+    unsigned length;
+    Option *option;
+    if (!*value)
+        value = args[(*index)++];
+    if (!value || !*value) {
+        fatal(2004, "D");
+        return NULL;
+    }
+    position = (char *)_mbschr((unsigned char *)value, '#');
+    if (position)
+        *position = '=';
+    position = (char *)_mbschr((unsigned char *)value, '=');
+    length = position ? position - value : strlen(value);
+    name = allocate(length + 1);
+    strncpy(name, value, length);
+    name[length] = '\0';
+    option = new_option("D", name, NULL, 0);
+    undefine_macro(option);
+    delete_option(option);
+    release(name);
+    append_option(&driver->options, new_option("D", value, "1PM", 4));
+    return NULL;
+}
+
+/* 0040250a..0040253e */
+void undefine_macro(Option *option)
+{
+    Option *patterns = expand_options("=D:*,=D:*=?", option);
+    delete_options(detach_options(&driver->options, patterns, NULL));
+    delete_options(patterns);
+}

@@ -49,7 +49,18 @@
     "_release",
     "_apply_special",
     "_expand_alternative",
-    "_apply_extension"
+    "_apply_extension",
+    "_find_last_separator",
+    "_define_macro",
+    "_undefine_macro",
+    "_finish_options",
+    "_has_any_option",
+    "_prepare_inputs",
+    "_option_for_pass",
+    "_expand_filename",
+    "_file_basename",
+    "_set_output_option",
+    "_prepare_environment"
   ],
   "driver": [
     {
@@ -186,26 +197,37 @@
     {
       "name": "_finish_options",
       "start": 4204851,
-      "end": 4204852,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "finish_options"
+      "end": 4205237,
+      "state": "reconstructed",
+      "native_symbol": "finish_options",
+      "evidence": {
+        "kind": "complete requirement alternatives, default suppression and option pruning body disassembly",
+        "range": "00402933..00402ab5"
+      }
     },
     {
       "name": "_prepare_inputs",
       "start": 4204617,
-      "end": 4204618,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "prepare_inputs"
+      "end": 4204851,
+      "state": "reconstructed",
+      "native_symbol": "prepare_inputs",
+      "evidence": {
+        "kind": "complete tagged driver-setting dispatch body and 31 semantic records",
+        "range": "00402849..00402933",
+        "data": "src/settings.c driver_options, original00406000..00406180"
+      }
     },
     {
       "name": "_prepare_environment",
       "start": 4203289,
-      "end": 4203290,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "prepare_environment"
+      "end": 4203451,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "prepare_environment",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/settings.c"
+      }
     },
     {
       "name": "_show_help",
@@ -542,10 +564,13 @@
     {
       "name": "_define_macro",
       "start": 4205612,
-      "end": 4205613,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "define_macro"
+      "end": 4205834,
+      "state": "reconstructed",
+      "native_symbol": "define_macro",
+      "evidence": {
+        "kind": "complete macro definition/previous-definition deletion body disassembly",
+        "range": "00402c2c..00402d0a"
+      }
     },
     {
       "name": "_link_arguments",
@@ -686,10 +711,174 @@
     {
       "name": "_find_last_separator",
       "start": 4213908,
-      "end": 4213909,
+      "end": 4213969,
+      "state": "reconstructed",
+      "native_symbol": "find_last_separator",
+      "evidence": {
+        "kind": "complete multibyte last-separator selection body disassembly",
+        "range": "00404c94..00404cd1"
+      }
+    },
+    {
+      "name": "_undefine_macro",
+      "start": 4203786,
+      "end": 4203838,
+      "state": "reconstructed",
+      "native_symbol": "undefine_macro",
+      "evidence": {
+        "kind": "complete macro-removal expansion/deletion body disassembly",
+        "range": "0040250a..0040253e"
+      }
+    },
+    {
+      "name": "_has_any_option",
+      "start": 4205237,
+      "end": 4205300,
+      "state": "reconstructed",
+      "native_symbol": "has_any_option",
+      "evidence": {
+        "kind": "complete existential non-superseded option matching body disassembly",
+        "range": "00402ab5..00402af4"
+      }
+    },
+    {
+      "name": "_option_for_pass",
+      "start": 4198616,
+      "end": 4198647,
+      "state": "reconstructed",
+      "native_symbol": "option_for_pass",
+      "evidence": {
+        "kind": "complete compiler-pass marker membership body disassembly",
+        "range": "004010d8..004010f7"
+      }
+    },
+    {
+      "name": "_expand_filename",
+      "start": 4212103,
+      "end": 4212557,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "expand_filename",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/filenames.c"
+      }
+    },
+    {
+      "name": "_configure_assembly",
+      "start": 4204083,
+      "end": 4204084,
       "pending_extent": true,
       "state": "named INT3 frontier",
-      "native_symbol": "find_last_separator"
+      "native_symbol": "configure_assembly"
+    },
+    {
+      "name": "_enable_pass",
+      "start": 4203570,
+      "end": 4203571,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "enable_pass"
+    },
+    {
+      "name": "_toggle_pass",
+      "start": 4203673,
+      "end": 4203674,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "toggle_pass"
+    },
+    {
+      "name": "_disable_pass",
+      "start": 4203608,
+      "end": 4203609,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "disable_pass"
+    },
+    {
+      "name": "_set_output_option",
+      "start": 4203924,
+      "end": 4204083,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "set_output_option",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/settings.c"
+      }
+    },
+    {
+      "name": "_set_pass_suffix",
+      "start": 4203515,
+      "end": 4203516,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "set_pass_suffix"
+    },
+    {
+      "name": "_set_pass_name",
+      "start": 4203460,
+      "end": 4203461,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "set_pass_name"
+    },
+    {
+      "name": "_undefine_defaults",
+      "start": 4203838,
+      "end": 4203839,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "undefine_defaults"
+    },
+    {
+      "name": "_enable_dll",
+      "start": 4204495,
+      "end": 4204496,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "enable_dll"
+    },
+    {
+      "name": "_file_basename",
+      "native_symbol": "file_basename",
+      "start": 4213005,
+      "end": 4213032,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/filenames.c"
+      }
+    },
+    {
+      "name": "_file_directory",
+      "native_symbol": "file_directory",
+      "start": 4213109,
+      "end": 4213110,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_make_map_name",
+      "native_symbol": "make_map_name",
+      "start": 4212557,
+      "end": 4212558,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_join_text",
+      "native_symbol": "join_text",
+      "start": 4213412,
+      "end": 4213476,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/filenames.c"
+      }
     }
   ],
   "runtime": [

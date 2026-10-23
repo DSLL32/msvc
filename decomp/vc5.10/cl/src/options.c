@@ -186,3 +186,61 @@ char *expand_alternative(char *pattern, char *out, char *replacement, char **alt
     *alternative = fallback;
     return pattern + 1;
 }
+
+/* 00402933..00402ab5: disable options whose required alternatives are absent. */
+void finish_options(void)
+{
+    Option *option, *wanted, *node, *emitted;
+    OptionRule *rule;
+    char *copy, *part, *next, *spelling, *requirements;
+    for (option = driver->other_options; option; option = option->next) {
+        rule = (OptionRule *)option->origin;
+        if ((option->flags & 16) || !rule->extra || !rule->add)
+            continue;
+        copy = duplicate((char *)rule->extra);
+        part = copy;
+        do {
+            next = (char *)_mbschr((unsigned char *)part, ';');
+            if (next)
+                *next++ = '\0';
+            wanted = expand_options(part, option);
+            if (!has_any_option(driver->other_options, wanted)) {
+                if (!(option->flags & 1)) {
+                    spelling = allocate(80);
+                    requirements = allocate(80);
+                    spelling[0] = '/';
+                    strcpy(spelling + 1, option->name);
+                    requirements[0] = '\0';
+                    for (node = wanted; node; node = node->next) {
+                        if (node != wanted)
+                            strcat(requirements, load_string(node->next ? 320 : 321));
+                        strcat(requirements, "/");
+                        strcat(requirements, node->name);
+                    }
+                    warning(4007, spelling, requirements);
+                    release(requirements);
+                    release(spelling);
+                }
+                emitted = expand_options(rule->add, option);
+                delete_options(detach_options(&driver->options, emitted, NULL));
+                delete_options(emitted);
+                next = NULL;
+            }
+            delete_options(wanted);
+            part = next;
+        } while (part);
+        release(copy);
+    }
+}
+
+/* 00402ab5..00402af4: any non-superseded original option may satisfy a rule. */
+int has_any_option(Option *options, Option *patterns)
+{
+    Option *pattern;
+    for (; options; options = options->next)
+        for (pattern = patterns; pattern; pattern = pattern->next)
+            if (options_match(options, pattern) && !(options->flags & 16) &&
+                !(pattern->flags & 16))
+                return 1;
+    return 0;
+}

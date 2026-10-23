@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "first-help-reconstruction-authorized",
+  "state": "help-in-progress-next-compile-authorized",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -39,9 +39,13 @@
     "First CL-only regressions must replay captured C1/C1XX export invocation effects and C2/LINK process boundaries without Wine. DLL calls are synchronous in-process boundaries, not child-process aliases.",
     "No native build, target entry stub, mask or acceptance pipeline created in groundwork.",
     "Minimal-C exact C1 argv/BOOL, DLL attach/detach entry observations and C2 MSC_CMD_FLAGS+IR were explicitly captured from original5.10; no reconstruction authorized.",
-    "Orchestrator released exactly help and approved first CRT closure promotion; all later themes remain paused."
+    "Root released autonomous continuation beyond help; minimal-C follows the completed, frozen help review window and an explicit dependency-boundary plan."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
   "authorized_case": "help",
-  "stop_after": "help"
+  "authorized_queue": [
+    "help",
+    "minimal-c"
+  ],
+  "next_case_gate": "Finish and freeze help for independent review; propose actual frontend DLL and backend child boundary before implementing new dependency replay."
 }

@@ -338,3 +338,16 @@ char *apply_extension(char *pattern, char *filename, char *alternative)
     *position = '\0';
     return pattern;
 }
+
+/* 00404c94..00404cd1: last occurrence of any selected multibyte character. */
+char *find_last_separator(char *text, char *separators)
+{
+    char *last = NULL, *position;
+    while (*separators) {
+        position = (char *)_mbsrchr((unsigned char *)text, (unsigned char)*separators);
+        if (position && (!last || position > last))
+            last = position;
+        separators = (char *)_mbsinc((unsigned char *)separators);
+    }
+    return last;
+}

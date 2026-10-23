@@ -23,6 +23,9 @@ static EntryGuard entry_guards[1024];
 static unsigned entry_count;
 static int root_inputs_captured;
 static FILE *trace;
+static int observe_mktemp;
+static FILE *mktemp_events;
+static DWORD mktemp_argument,mktemp_calls;
 
 static void patch_byte(DWORD address, BYTE value)
 {
@@ -91,6 +94,36 @@ static DWORD exported(DWORD base,const char *wanted)
         }
     }
     fprintf(events,"missing-export %s\n",wanted);fflush(events);ExitProcess(26);return 0;
+}
+/* Original CRT state inspection only: no code executes in the stopped child.
+ * The actual loaded canonical provider proves _errno -> getptd + 8 and its
+ * TlsGetValue index at RVA3d004. Capture the complete addressed TEB/PTD bytes. */
+static void error_state(DWORD teb,DWORD tid,const char *phase)
+{
+    BYTE raw_teb[4096],ptd[116],body[9];
+    DWORD index,pointer,self,actual_tid,slot_address;
+    char path[MAX_PATH];
+    FILE *file;
+    if (!teb || !crt_base || exported(crt_base,"_errno")!=crt_base+0x6436) ExitProcess(49);
+    memory(crt_base+0x6436,body,sizeof(body));
+    if (memcmp(body,"\xe8\x88\xb1\xff\xff\x83\xc0\x08\xc3",9)) ExitProcess(50);
+    memory(crt_base+0x15ce,&slot_address,4);
+    if (slot_address!=crt_base+0x3d004) ExitProcess(51);
+    memory(slot_address,&index,4);
+    if (index>=64) ExitProcess(52);
+    memory(teb,raw_teb,sizeof(raw_teb));
+    memcpy(&self,raw_teb+0x18,4);memcpy(&actual_tid,raw_teb+0x24,4);
+    if (self!=teb || actual_tid!=tid) ExitProcess(53);
+    memcpy(&pointer,raw_teb+0xe10+4*index,4);
+    if (!pointer) ExitProcess(54);
+    memory(pointer,ptd,sizeof(ptd));
+    sprintf(path,"%s\\mktemp-%s-teb.bin",directory,phase);
+    file=fopen(path,"wb");fwrite(raw_teb,1,sizeof(raw_teb),file);fclose(file);
+    sprintf(path,"%s\\mktemp-%s-tls-index.bin",directory,phase);
+    file=fopen(path,"wb");fwrite(&index,4,1,file);fclose(file);
+    sprintf(path,"%s\\mktemp-%s-ptd.bin",directory,phase);
+    file=fopen(path,"wb");fwrite(ptd,1,sizeof(ptd),file);fclose(file);
+    fprintf(mktemp_events,"state phase=%s teb=%08lx tid=%lu tls_index=%lu ptd=%08lx\n",phase,teb,tid,index,pointer);
 }
 static void raw_vector(const char *name,DWORD vector,int expected_count)
 {
@@ -191,7 +224,7 @@ int main(int argc,char **argv)
     DEBUG_EVENT event;
     CONTEXT context;
     DWORD status,threads_count=0,i,stack[16];
-    DWORD thread_ids[64];
+    DWORD thread_ids[64],thread_tebs[64],teb;
     HANDLE threads[64],thread;
     HANDLE out,err,input;
     char command[4096],path[MAX_PATH];
@@ -210,12 +243,18 @@ int main(int argc,char **argv)
         if (!feof(snapshot)) return 42;
         fclose(snapshot);
     }
+    for (i=0;i<entry_count;++i)
+        if (!strcmp(entry_guards[i].name,"prepare_environment")) observe_mktemp=1;
     output_path(path,"trace.txt");trace=fopen(path,"wb");if (!trace) return 43;
     output_path(path,"events.txt");events=fopen(path,"wb");
     if (!events) return 3;
     if (observe_resources) {
         output_path(path,"resource-events.txt");resource_events=fopen(path,"wb");
         if (!resource_events) return 36;
+    }
+    if (observe_mktemp) {
+        output_path(path,"mktemp-events.txt");mktemp_events=fopen(path,"wb");
+        if (!mktemp_events) return 48;
     }
     memset(&security,0,sizeof(security));security.nLength=sizeof(security);
     security.bInheritHandle=TRUE;
@@ -228,6 +267,11 @@ int main(int argc,char **argv)
     memset(&startup,0,sizeof(startup));startup.cb=sizeof(startup);
     startup.dwFlags=STARTF_USESTDHANDLES;
     startup.hStdOutput=out;startup.hStdError=err;startup.hStdInput=input;
+    /* Wine initializes its own TMP before this helper starts. Set the actual
+     * child input explicitly, rather than trusting the Unix launcher value. */
+    if (!SetEnvironmentVariableA("TMP",".") || !SetEnvironmentVariableA("TEMP","."))
+        return 59;
+    fprintf(events,"child-environment TMP=. TEMP=.\n");fflush(events);
     sprintf(command,"\"%s\" %s",argv[1],argv[2]);
     if (!CreateProcessA(argv[1],command,NULL,NULL,TRUE,DEBUG_ONLY_THIS_PROCESS,
         NULL,NULL,&startup,&process)) return 5;
@@ -239,6 +283,7 @@ int main(int argc,char **argv)
             target_base=(DWORD)event.u.CreateProcessInfo.lpBaseOfImage;
             target_size=0x4c00;
             threads[threads_count]=event.u.CreateProcessInfo.hThread;
+            thread_tebs[threads_count]=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
             thread_ids[threads_count++]=event.dwThreadId;
             fprintf(events,"create event=%lu base=%08lx entry=%08lx\n",event_number,
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
@@ -250,6 +295,12 @@ int main(int argc,char **argv)
                 if (before!=0xff || after!=0x85) return 37;
                 patch_byte(target_base+0x534d,0xcc);
             }
+            if (observe_mktemp) {
+                BYTE before,after;
+                memory(target_base+0x23a5,&before,1);memory(target_base+0x23ab,&after,1);
+                if (before!=0xff || after!=0x59) return 55;
+                patch_byte(target_base+0x23a5,0xcc);
+            }
             for (i=0;i<entry_count;++i) {
                 BYTE byte;
                 memory(target_base+entry_guards[i].rva,&byte,1);
@@ -259,6 +310,7 @@ int main(int argc,char **argv)
         } else if (event.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT) {
             if (threads_count==64) return 7;
             threads[threads_count]=event.u.CreateThread.hThread;
+            thread_tebs[threads_count]=(DWORD)event.u.CreateThread.lpThreadLocalBase;
             thread_ids[threads_count++]=event.dwThreadId;
         } else if (event.dwDebugEventCode==LOAD_DLL_DEBUG_EVENT) {
             module((DWORD)event.u.LoadDll.lpBaseOfDll,event.u.LoadDll.hFile);
@@ -270,14 +322,17 @@ int main(int argc,char **argv)
             for (i=0;i<entry_count;++i)
                 if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;
             if (code==EXCEPTION_BREAKPOINT && guard) {
-                thread=NULL;
+                thread=NULL;teb=0;
                 for (i=0;i<threads_count;++i)
-                    if (thread_ids[i]==event.dwThreadId) thread=threads[i];
+                    if (thread_ids[i]==event.dwThreadId) {
+                        thread=threads[i];teb=thread_tebs[i];
+                    }
                 if (!thread) return 45;
                 memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
                 if (!GetThreadContext(thread,&context)) return 46;
                 if (guard->rva==0x1743) {
                     memory(context.Esp,stack,sizeof(stack));crt_state(stack);root_inputs_captured=1;
+                    if (observe_mktemp) error_state(teb,event.dwThreadId,"entry");
                     output_path(path,"main-entry-context.bin");snapshot=fopen(path,"wb");
                     fwrite(&context,1,sizeof(context),snapshot);fwrite(stack,1,sizeof(stack),snapshot);fclose(snapshot);
                 }
@@ -313,6 +368,34 @@ int main(int argc,char **argv)
                 }
                 fflush(resource_events);context.Eip=address;
                 if (!SetThreadContext(thread,&context)) return 41;
+            } else if (code==EXCEPTION_BREAKPOINT && observe_mktemp &&
+                (address==target_base+0x23a5 || address==target_base+0x23ab)) {
+                char text[1024];
+                thread=NULL;teb=0;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
+                if (!thread) return 56;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                if (!GetThreadContext(thread,&context)) return 57;
+                if (address==target_base+0x23a5) {
+                    if (++mktemp_calls!=1) return 58;
+                    memory(context.Esp,&mktemp_argument,4);
+                    remote_string(mktemp_argument,text,sizeof(text));
+                    output_path(path,"mktemp-before.bin");snapshot=fopen(path,"wb");
+                    fwrite(text,1,strlen(text)+1,snapshot);fclose(snapshot);
+                    fprintf(mktemp_events,"call sequence=%lu argument=%08lx\n",mktemp_calls,mktemp_argument);
+                    error_state(teb,event.dwThreadId,"before");
+                    patch_byte(address,0xff);patch_byte(target_base+0x23ab,0xcc);
+                } else {
+                    remote_string(mktemp_argument,text,sizeof(text));
+                    output_path(path,"mktemp-after.bin");snapshot=fopen(path,"wb");
+                    fwrite(text,1,strlen(text)+1,snapshot);fclose(snapshot);
+                    fprintf(mktemp_events,"return sequence=%lu result=%08lx argument=%08lx\n",mktemp_calls,context.Eax,mktemp_argument);
+                    error_state(teb,event.dwThreadId,"after");
+                    patch_byte(address,0x59);patch_byte(target_base+0x23a5,0xcc);
+                }
+                fflush(mktemp_events);context.Eip=address;
+                if (!SetThreadContext(thread,&context)) return 59;
             } else if (code==EXCEPTION_BREAKPOINT && address>=target_base+0x1000 &&
                 address<target_base+0x1000+target_size && stop_at_trap) {
                 thread=NULL;
@@ -349,7 +432,7 @@ int main(int argc,char **argv)
             }
         } else if (event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
             fprintf(events,"exit event=%lu status=%lu\n",event_number,event.u.ExitProcess.dwExitCode);
-            fclose(events);fclose(trace);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
+            fclose(events);fclose(trace);if (mktemp_events) fclose(mktemp_events);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
             ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
             return event.u.ExitProcess.dwExitCode==0x7001 ? 0:event.u.ExitProcess.dwExitCode;
         }

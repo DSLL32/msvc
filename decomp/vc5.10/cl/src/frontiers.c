@@ -6,18 +6,6 @@ void show_usage(void) {
     __asm int 3
 
 } /* 00402b8a */
-void finish_options(void) {
-    __asm int 3
-
-} /* 00402933 */
-void prepare_inputs(Driver *state) {
-    __asm int 3
-
-} /* 00402849 */
-void prepare_environment(Driver *state) {
-    __asm int 3
-
-} /* 00402319 */
 void show_help(void) {
     __asm int 3
 
@@ -69,9 +57,6 @@ void add_input(char *name, int kind, int explicit_kind) { __asm int 3 }
 void option_conflict(unsigned id, Option *old, Option *replacement) { __asm int 3 }
 
 
-Option *define_macro(char **args, int *index) { __asm int 3
-    return NULL;
-}
 
 Option *link_arguments(char **args, int *index) { __asm int 3
     return NULL;
@@ -106,6 +91,30 @@ Option *unlink_option(Option **head, Option *option) { __asm int 3
 }
 
 
-char *find_last_separator(char *text, char *separators) { __asm int 3
+
+
+
+
+char *file_directory(char *out, char *name) { __asm int 3
     return NULL;
 }
+char *make_map_name(char *out, char *name) { __asm int 3
+    return NULL;
+}
+
+void configure_assembly(Option *option) { __asm int 3 }
+
+void enable_pass(Option *option) { __asm int 3 }
+
+void toggle_pass(Option *option) { __asm int 3 }
+
+void disable_pass(Option *option) { __asm int 3 }
+
+
+void set_pass_suffix(Option *option) { __asm int 3 }
+
+void set_pass_name(Option *option) { __asm int 3 }
+
+void undefine_defaults(Option *option) { __asm int 3 }
+
+void enable_dll(Option *option) { __asm int 3 }

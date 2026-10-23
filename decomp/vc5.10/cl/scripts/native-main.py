@@ -28,27 +28,41 @@ def capture(original,directory):
     verify_native_build(build,binary_before,PROJECT)
     (directory/'native-build.json').write_bytes(build_bytes)
     argv=vector(original/'argv.bin')[1]
+    profile_path=PROJECT/'cases/help/entry-profile.json'
+    profile=json.loads(profile_path.read_text())
+    assert profile['arguments']==argv[1:] and profile['id']=='help-canonical-msvcrt-v1'
+    assert sha(Path(profile['evidence']['path']))==profile['evidence']['sha256']
+    if (original/'mktemp-entry-teb.bin').exists():
+        from mktemp_state import original as temporary_state
+        assert temporary_state(original)['entry']==profile['state'],'unknown original entry profile'
+    shutil.copyfile(profile_path,directory/'entry-profile.json')
     variables=environment(vector(original/'environment.bin')[1])
+    assert variables==profile['environment'],'unknown consumed entry-profile inputs'
     env=os.environ.copy()
     for key,value in variables.items():
         if value is None:env.pop(key,None)
         else:env[key]=value
     env['RECON_PROGRAM_PATH']=(original/'pgmptr.bin').read_bytes()[:-1].decode('latin1')
+    env['CL_ENTRY_PROFILE']=profile['id']
     resource_before=None
     if (PROJECT/'build/resources.bin').exists():
         shutil.copyfile(PROJECT/'build/resources.bin',directory/'resources.bin')
         env['RECON_RESOURCE_PROVIDER']=str(directory/'resources.bin')
         resource_before=sha(directory/'resources.bin')
     # Freeze the actual GDB controller/schema bytes used for this execution.
-    for name in ('gdb_capture.py','frontier_state.py'):
+    for name in ('gdb_capture.py','gdb_entry.py','frontier_state.py'):
         shutil.copyfile(PROJECT/'scripts'/name,directory/name)
     script='import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_capture import capture\ncapture('+repr(str(directory))+')\n'
     (directory/'gdb-capture.py').write_text(script)
+    (directory/'gdb-entry.py').write_text('import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_entry import capture\ncapture('+repr(str(directory))+')\n')
     # argv[0] is supplied as captured Win32 data while the executable is ELF.
     commands=['/usr/bin/gdb','-q','-nx','-batch','-ex','set pagination off',
         '-ex','set exec-wrapper /usr/bin/env',
         '-ex',f'set args /?',
+        '-ex','tbreak *main',
         '-ex',f'run > {directory}/stdout.bin 2> {directory}/stderr.bin',
+        '-ex','source '+str(directory/'gdb-entry.py'),
+        '-ex','continue',
         '-ex','source '+str(directory/'gdb-capture.py'),'--args',str(PROJECT/'build/native-trace/CL.EXE')]
     # GDB normally chooses ELF path as argv[0]. Use its native exec wrapper to
     # exec the same ELF with exactly the captured Win32 program-name argument.
@@ -67,6 +81,7 @@ def capture(original,directory):
     (directory/'debugger.txt').write_bytes(result.stdout+result.stderr)
     error=None;projection=None
     try:
+        assert (directory/'native-entry-errors.json').is_file(),'native entry state capture failed'
         assert binary_before==sha(PROJECT/'build/native-trace/CL.EXE') and rebuilt_before==sha(PROJECT/'build/cl.exe'),'paired executable changed during native capture'
         assert build_bytes==build_path.read_bytes(),'native build receipt changed during capture'
         verify_native_build(build,binary_before,PROJECT)

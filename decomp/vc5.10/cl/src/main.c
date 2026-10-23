@@ -120,7 +120,7 @@ int main(int argc, char **argv, char **envp)
         }
         prepare_execution();
         run_driver(driver);
-        driver->current_output = NULL;
+        driver->current_input = NULL;
         if (!output_produced)
             warning(4021);
     } __except (!debug_exceptions && GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION) {

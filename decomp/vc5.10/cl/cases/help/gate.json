@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "state": "first help case reconstruction in progress",
-  "accepted_application_functions": 37,
+  "accepted_application_functions": 48,
   "accepted_support_records": 15,
-  "trial_candidate": "_apply_extension",
+  "trial_candidate": "_join_text",
   "verified_support_closure": {
     "records": 9,
     "extent_bytes": 440,
@@ -21,9 +21,10 @@
     "typed_raw_state_decoder": "scripts/state.py",
     "acceptance_protocol": "scripts/accept.py",
     "negative_protocol_controls": 27,
-    "review_only_validation": "passed; acceptance remains gated",
-    "immutable_native_build_provenance": "scripts/native-build.py; content-addressed compiled bytes and object receipts; shared commit d56d6c2d",
-    "grammar": "174 typed records across original/rebuilt/native, plus spelling/handler/terminator controls"
+    "review_only_validation": "First CRT closure independently approved and promoted; subsequent functions use fresh candidate-inclusive proof.",
+    "immutable_native_build_provenance": "scripts/native-build.py content-addressed compiled bytes/object receipts; shared revision c4fd2ba4",
+    "grammar": "174 option rules plus31 driver settings across original/rebuilt/native; six semantic negative controls.",
+    "native_entry_profile": "cases/help/entry-profile.json; actual GDB errno0/doserrno0/LastError2/CW639 verified"
   },
   "native_entry_flags": [
     "RECON_NATIVE_ENTRY_CONTROLFP_53",
@@ -32,7 +33,7 @@
   "raw_original_reference_seconds": 2.0459201419726014,
   "native_gdb_seconds": 0.15808856301009655,
   "audit_seconds": 0.007358340546488762,
-  "case_limit": "Only /?; no minimal-C reconstruction.",
+  "case_limit": "Help first, freeze for independent review; genuine minimal-C compile follows approved dependency contract.",
   "previous_raw_pair": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-final-2/pair-current-audit.json",
     "sha256": "e584382ac35189176cf8e887b22d25bf2cb9933ecefa84d0985f827a48acf612"
@@ -41,11 +42,16 @@
   "reached_support_records": 1,
   "closure_support_records": 8,
   "approval": "Parent independently validated frozen-d56 pair and 25 protocol negatives; authorized promotion of exact 440-byte CRT closure, no application source credit.",
-  "accepted_application_extent_bytes": 6117,
+  "accepted_application_extent_bytes": 7968,
   "text_extent_bytes": 19062,
   "current_frontier": "_find_last_separator",
   "main_trial": "/root/.ai-tmp/msvc2/vc5.10/cl/main-trial-2/pair-seh.json",
   "main_state_correction": "show_commands initialized to 1; initial mismatching raw capture preserved",
   "accepted_support_extent_bytes": 476,
-  "current_pair": "/root/.ai-tmp/msvc2/vc5.10/cl/apply-extension-1/pair.json"
+  "current_pair": "/root/.ai-tmp/msvc2/vc5.10/cl/apply-extension-1/pair.json",
+  "current_hold": "Native temporary-name strict template/suffix, one-call inventory, collision/error contract pending shared maintainer; original candidate reaches show_help.",
+  "last_accepted_pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-environment-1/pair.json",
+    "sha256": "453b43cb9ad64c8bd3c6cc292f1c663185492126ec4e7a74757201b7db32d2d0"
+  }
 }

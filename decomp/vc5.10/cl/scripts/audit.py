@@ -31,7 +31,7 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
 # These two bodies cache qualified IAT values in callee-saved registers. The
 # optional direct-import engine cannot resolve those calls; retain exact narrow
 # evidence instead of reshaping target source or silently accepting unknowns.
-CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number'}
+CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option'}
 
 
 def import_leaves(config):

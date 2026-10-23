@@ -282,6 +282,107 @@
         "sha256": "1185dca15be49ad715e886223a8062a71005b0fd17df5c27cca0f14f619ab0ee"
       },
       "lifetime_evidence": "Qualified IAT slot loaded once into callee-saved edi; complete formatter loop inspection shows no subsequent assignment before all listed calls. All external cdecl calls preserve the register; caller value restored by epilogue. Explicit direct-import resolver residual."
+    },
+    {
+      "function": "_define_macro",
+      "iat": 4235820,
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbschr"
+      },
+      "register": "edi",
+      "instruction_sites": [
+        {
+          "address": 4205662,
+          "bytes": "8b3d2ca24000"
+        },
+        {
+          "address": 4205671,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4205685,
+          "bytes": "ffd7"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4205662,
+        "end": 4205704,
+        "sha256": "40d5762120c4e234f82417d5bf1e94ad97fc7bde591f9b6eb96e4484a9cbba33"
+      },
+      "lifetime_evidence": "EDI receives canonical qualified _mbschr IAT value at402c5e and is unchanged through calls402c67/402c75. It is repurposed to the resulting name length only after402c88. Complete intervening branch inspection; calls preserve EDI under cdecl."
+    },
+    {
+      "function": "_set_output_option",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbschr"
+      },
+      "iat": 4235820,
+      "register": "edi",
+      "load": 4203954,
+      "calls": [
+        4203963,
+        4203973,
+        4204044
+      ],
+      "instruction_sites": [
+        {
+          "address": 4203954,
+          "bytes": "8b3d2ca24000"
+        },
+        {
+          "address": 4203963,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4203973,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4204044,
+          "bytes": "ffd7"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4203954,
+        "end": 4204046,
+        "sha256": "78d880e6154a4817f8f4074034555ea8d0ed2a73babe93a61e20d3a596d933e7"
+      },
+      "lifetime_evidence": "EDI is loaded once from the qualified _mbschr IAT slot, survives all cdecl calls and is unchanged until the epilogue restores it.",
+      "reconstructed_source": "src/settings.c typed multibyte calls; /Od emits direct IAT calls.",
+      "tool_limitation": "Cached register import identity remains an explicit byte-bound manual residual; generic indirect graph edges are not qualification proof."
+    },
+    {
+      "function": "_set_output_option",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsinc"
+      },
+      "iat": 4235848,
+      "register": "ebp",
+      "load": 4203975,
+      "calls": [
+        4203994
+      ],
+      "instruction_sites": [
+        {
+          "address": 4203975,
+          "bytes": "8b2d48a24000"
+        },
+        {
+          "address": 4203994,
+          "bytes": "ffd5"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4203975,
+        "end": 4203996,
+        "sha256": "0dd06b67a97d2b30f286808009b704665ec4f0be308f82cc16131e190fe7fb31"
+      },
+      "lifetime_evidence": "This frame-pointer-free body loads EBP from the qualified _mbsinc IAT slot and preserves it through the last-character loop and its backedge until the epilogue restores it.",
+      "reconstructed_source": "src/settings.c typed multibyte calls; /Od emits direct IAT calls.",
+      "tool_limitation": "Cached register import identity remains an explicit byte-bound manual residual; generic indirect graph edges are not qualification proof."
     }
   ]
 }

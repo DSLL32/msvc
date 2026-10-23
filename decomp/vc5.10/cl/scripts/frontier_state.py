@@ -11,9 +11,9 @@ import struct
 PROJECT=Path(__file__).resolve().parents[1]
 PROJECTION='cl-application-frontier-v1: typed parameters and reconstructed driver state'
 SCALARS={'no_logo':0x409660,'echo_response':0x40963c,'help_requested':0x40965c,
- 'source_count':0x409630,'options_after_link':0x409678,'link_warning':0x40967c,'show_commands':0x409014,'message_capacity':0x4091a8,'debug_exceptions':0x4095c8,'error_count':0x409650,
+ 'cleanup_temporaries':0x40901c,'is_dll':0x409658,'first_option_pass':0x409030,'map_requested':0x40960c,'bk_requested':0x409668,'reproducible':0x409604,'timing_requested':0x40964c,'bz_requested':0x4095c4,'minimal_rebuild':0x40966c,'allow_pch':0x409670,'keep_preprocessor_output':0x409024,'use_standard_include':0x409010,'source_count':0x409630,'options_after_link':0x409678,'link_warning':0x40967c,'show_commands':0x409014,'message_capacity':0x4091a8,'debug_exceptions':0x4095c8,'error_count':0x409650,
  'output_produced':0x4095cc,'default_c_language':0x4095d0}
-POINTERS={'free_options':0x409674,'driver':0x409020,'unrecognized_options':0x409634,'source_language':0x4095b8,'format_buffer':0x4097a4}
+POINTERS={'object_name':0x4095c0,'image_name':0x409644,'ir_prefix':0x4095f8,'map_name':0x409638,'pdb_name':0x4095bc,'browser_name':0x409648,'free_options':0x409674,'driver':0x409020,'unrecognized_options':0x409634,'source_language':0x4095b8,'format_buffer':0x4097a4}
 PARAMETERS={
  'install_control_handler':[], 'skip_space':[('text','string')],
  'split_arguments':[('text','string'),('mode','signed')],
@@ -48,8 +48,32 @@ PARAMETERS={
  'expand_alternative':[('pattern','string'),('out','output_buffer'),('replacement','string'),('alternative','output_buffer')],
  'apply_extension':[('pattern','string'),('filename','string'),('alternative','string')],
  'find_last_separator':[('text','string'),('separators','string')],
+ 'unlink_option':[('head','option_head'),('option','option')],
+ 'copy_option':[('option','option')],
+ 'define_macro':[('args','vector'),('index','index_pointer')],
+ 'link_arguments':[('args','vector'),('index','index_pointer')],
+ 'c_input':[('args','vector'),('index','index_pointer')],
+ 'cpp_input':[('args','vector'),('index','index_pointer')],
+ 'object_input':[('args','vector'),('index','index_pointer')],
+ 'undefine_macro':[('option','option')],
+ 'configure_assembly':[('option','option')],
+ 'enable_pass':[('option','option')],
+ 'toggle_pass':[('option','option')],
+ 'disable_pass':[('option','option')],
+ 'set_output_option':[('option','option')],
+ 'set_pass_suffix':[('option','option')],
+ 'set_pass_name':[('option','option')],
+ 'undefine_defaults':[('option','option')],
+ 'enable_dll':[('option','option')],
+ 'has_any_option':[('options','options'),('patterns','options')],
+ 'option_for_pass':[('option','option'),('pass','pass')],
+ 'expand_filename':[('out','output_buffer'),('text','string'),('state','driver')],
+ 'file_basename':[('out','output_buffer'),('name','string')],
+ 'file_directory':[('out','output_buffer'),('name','string')],
+ 'make_map_name':[('out','output_buffer'),('name','string')],
  'show_help':[], 'allocate':[('bytes','unsigned')],
  'append_text':[('out','string'),('text','string')],
+ 'join_text':[('left','string'),('right','string')],
  'release':[('memory','owned_string')], 'prepare_execution':[],
  'run_driver':[('state','driver')], 'driver_exit':[('status','signed')]
 }
@@ -139,6 +163,9 @@ class Memory:
             self.words(value,1) # Validate addressed storage, not uninitialized output contents.
             return {'nonnull':True}
         if kind=='index_pointer':return self.words(value,1)[0]
+        if kind=='pass':
+            values=self.words(value,9)
+            return {'name':self.string(values[0]),'path':self.string(values[1]),'environment':self.string(values[2]),'prefix':struct.pack('<I',values[3]).split(b'\0')[0].decode('latin1'),'flags':values[4]}
         if kind=='rule':return self.rule(value)
         if kind=='option':return self.option(value)
         if kind=='options':return self.options(value)
@@ -168,7 +195,7 @@ def snapshot(read,context):
     fields['globals']={name:memory.words(context['globals'][name],1)[0] for name in SCALARS}
     for name in POINTERS:
         pointer=memory.words(context['globals'][name],1)[0]
-        fields['globals'][name]={'free_options':memory.freelist,'driver':memory.driver,'unrecognized_options':memory.options,
+        fields['globals'][name]={'object_name':memory.string,'image_name':memory.string,'ir_prefix':memory.string,'map_name':memory.string,'pdb_name':memory.string,'browser_name':memory.string,'free_options':memory.freelist,'driver':memory.driver,'unrecognized_options':memory.options,
             'source_language':memory.string,'format_buffer':memory.string}[name](pointer)
     return fields
 

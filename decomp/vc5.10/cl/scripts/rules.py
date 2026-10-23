@@ -54,6 +54,18 @@ def decode(image,start,callback_symbols):
     raise AssertionError('missing grammar terminator')
 
 
+def decode_settings(image,start,targets):
+    rows=[]
+    for i in range(32):
+        name,action,target=struct.unpack('<3I',image.read(start+12*i,12))
+        if not name:
+            assert i==31 and not action and not target,'wrong driver-setting terminator'
+            return rows
+        assert target in targets,'unknown driver-setting target identity'
+        rows.append({'name':image.string(name),'action':action,'target':targets[target]})
+    raise AssertionError('driver settings have no terminator')
+
+
 def verify(project=PROJECT,root=ROOT):
     proof=json.loads((project/'cases/help/rule-grammar.json').read_text())
     original_path=root/'toolchains/5.10/bin/CL.EXE';original=PE(original_path)
@@ -69,7 +81,14 @@ def verify(project=PROJECT,root=ROOT):
     native=ELF(project/'build/native-trace/CL.EXE')
     actual=decode(native,native.symbols['option_rules'],{native.symbols[r['name']]:r['name']for r in proof['callbacks']})
     assert actual==expected,'native grammar fields/handler identities differ'
-    return {'records':174,'record_size':20,'terminator':'five zero words',
+    settings=proof['driver_settings'];rows=settings['records']
+    assert hashlib.sha256(original.read(settings['start'],32*12)).hexdigest()==settings['record_bytes_sha256']
+    expected_settings=[{key:row[key]for key in ('name','action','target')}for row in rows]
+    assert decode_settings(original,settings['start'],{r['original_target']:r['target']for r in rows})==expected_settings
+    assert decode_settings(rebuilt,public['_driver_options'],{public['_'+r['target']]:r['target']for r in rows})==expected_settings,'rebuilt driver-setting tags/storage/callback identities differ'
+    assert decode_settings(native,native.symbols['driver_options'],{native.symbols[r['target']]:r['target']for r in rows})==expected_settings,'native driver-setting tags/storage/callback identities differ'
+    for row in rows:assert row['target_kind']=={1:'int storage',2:'int storage',3:'char * storage',4:'cdecl void(Option *) callback'}[row['action']&7]
+    return {'driver_settings':{'records':31,'decoded_sha256':hashlib.sha256(json.dumps(expected_settings,sort_keys=True).encode()).hexdigest()},'records':174,'record_size':20,'terminator':'five zero words',
         'decoded_sha256':hashlib.sha256(json.dumps(expected,sort_keys=True).encode()).hexdigest(),
         'callbacks':proof['callbacks'],'verified_images':{str(path):sha(path)for path in
             (original_path,project/'build/cl.exe',project/'build/native-trace/CL.EXE')}}

@@ -1,6 +1,8 @@
 /* Native host configuration only; outside CL's reconstructed function graph. */
 #define RECON_SHIM_IMPL
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #include <unistd.h>
 #include <recon.h>
 
@@ -28,6 +30,15 @@ extern int __real_main(int, char **, char **);
 int __wrap_main(int argc, char **argv, char **envp)
 {
     int result;
+    const char *profile = getenv("CL_ENTRY_PROFILE");
+    /* Captured canonical CRT/loader boundary, outside the application graph.
+     * New cases must provide their own evidenced entry profile. */
+    if (!profile || strcmp(profile,"help-canonical-msvcrt-v1") ||
+        argc != 2 || strcmp(argv[1],"/?"))
+        recon_unsupported("unknown CL native entry profile");
+    errno = 0;
+    recon_doserrno = 0;
+    recon_SetLastError(2);
     recon_controlfp(0x10000, 0x30000);
     result = __real_main(argc, argv, envp);
     recon_record_terminal_status((uint32_t)result);

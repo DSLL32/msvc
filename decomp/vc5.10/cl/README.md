@@ -1,11 +1,15 @@
 # CL.EXE 5.10 reconstruction
 
-Only the first `/?` case is authorized; finish it, then pause. The current
-checkpoint has 37 accepted application functions (6,117 original bytes) and
-476 separately counted CRT/import support bytes. The whole `.text` denominator
-is 19,062 bytes; a complete non-CRT denominator is not yet classified. Current
-frontier: `find_last_separator`. `cases/help/acceptance-order.json` records each
-promotion and immutable paired receipt; `gate.json` records the current state.
+The current `/?` case is in progress, with 48 accepted application functions
+(7,968 original bytes) and 476 separately counted CRT/import support bytes.
+The whole `.text` denominator is 19,062 bytes; a complete non-CRT denominator is
+not yet classified. Current trial: `join_text`; its native acceptance waits for the shared strict
+`_mktemp` response contract. The latest original reaches `show_help`.
+`cases/help/acceptance-order.json` records promotion order and paired receipts.
+After help is verified and its binaries/proofs frozen for independent review,
+the authorized queue continues to genuine minimal-C compilation. Its in-process
+frontend and child-process boundaries require fresh captures and strict native
+response replay before implementation; unknown dependencies remain failures.
 
 Fresh trials compare candidate-inclusive masked originals against native i386
 `-O0 -g` builds: named frontier, decoded parameters/driver state, streams and
@@ -15,6 +19,9 @@ All 174 structured option rules, their terminator and five real callbacks are
 also compared across original, rebuilt Win32 and native images. Compiler-generated
 text tables have explicit bounded metadata. Native source builds use immutable
 content-addressed provenance and a pinned shared-library revision.
+The captured help entry profile restores errno0/doserrno0/LastError2 in the
+uninstrumented native host; GDB verifies these at actual `main`. Unknown profiles
+and argument cases fail. `cases/help/entry-profile.json` binds the raw evidence.
 
 Source retains the known `main` name. An uninstrumented Linux host unit uses
 `--wrap=main` to call it with the verified CRT setup; old `cl_main` captures are
