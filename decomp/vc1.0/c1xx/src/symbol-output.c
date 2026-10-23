@@ -175,3 +175,17 @@ CppSymbol *__stdcall method_alias(CppSymbol *symbol)
 {
     return find_hash_value(method_aliases, symbol);
 }
+
+HashTable *static_member_aliases; /* original 0x9f3d4 */
+HashTable *static_member_name_bindings; /* original 0x9f260 */
+
+/* Original 0x55f20..0x55f82. Keep both class-member to external-symbol
+   and interned external-name to class-member associations. */
+void __stdcall register_static_member_alias(CppSymbol *member, CppSymbol *alias)
+{
+    if (!static_member_aliases) static_member_aliases = new_hash_table(31, 0, 2, 1);
+    set_hash_value(static_member_aliases, member, alias);
+    if (!static_member_name_bindings)
+        static_member_name_bindings = new_hash_table(31, 0, 1, 0);
+    set_hash_value(static_member_name_bindings, alias->name, member);
+}

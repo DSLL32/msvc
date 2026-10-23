@@ -629,4 +629,3 @@ IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } 
 void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
 void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
-void __stdcall register_static_member_alias(CppSymbol *member, CppSymbol *alias) { __asm { int 3 } }

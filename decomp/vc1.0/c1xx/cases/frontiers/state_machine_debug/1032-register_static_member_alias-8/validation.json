@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_register_static_member_alias@8",
+    "start": 352032,
+    "end": 352130
+  },
+  "distinct_direct_callees": [
+    "_new_hash_table@16",
+    "_set_hash_value@12"
+  ],
+  "next_frontier": "_hash_symbol_index",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3922905260697007,
+  "total_operation_seconds": 3.0902629774063826,
+  "original_capture_seconds": 0.865911197848618
+}

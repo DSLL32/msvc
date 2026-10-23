@@ -6,4 +6,5 @@ unsigned short __stdcall debug_tag_type(CppSymbol *tag);
 void __stdcall reference_debug_type(CType *type);
 void flush_debug_types(void);
 void __stdcall prepare_symbol_debug_type(CppSymbol *symbol);
+extern HashTable *static_member_aliases, *static_member_name_bindings;
 #endif
