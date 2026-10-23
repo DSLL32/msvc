@@ -287,3 +287,39 @@ def detect_trial(original,native):
     assert proof['application_trace'][-1]=='rc_detect_encoding'
     proof.update(trial='rc_detect_encoding',sample=dict(bytes=250,terminator_bytes=2,flags=0xffff,original_position=0,contents=arguments['sample']),file=dict(buffered_bytes=len(source),consumed=250,remaining=len(source)-250,buffer_bytes=4096))
     return proof
+
+
+def unicode_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_is_text_unicode'and len(config['accepted'])==15
+    a,b,proof=checkpoint(original,native,'rc_read_wide_line',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28702 and a['words'][2:4]==[0x1051,0]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_prepare_input\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();arguments=b['arguments']
+    assert arguments['capacity']==0x1051 and arguments['wide']==0
+    assert re.findall(r'^line-input-args capacity=(\d+) wide=(\d+)$',text,re.M)==[('4177','0')]
+    assert re.findall(r'^text-test-result (\d+) flags=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert arguments['unicode_results']==json.loads((native/'unicode-results.json').read_text())==[dict(result=0,flags=0)]
+    assert re.findall(r'^cpinfo-call page=(\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert re.findall(r'^cpinfo-result (\d+) last-error=([0-9a-f]+)$',text,re.M)==[('1','00000000')]
+    before=raw_bytes(text,'cpinfo-before');after=raw_bytes(text,'cpinfo-after');assert len(before)==len(after)==20
+    expected=b'\x01\0\0\0?\0'+b'\0'*12
+    assert after[:18]==expected and after[18:]==before[18:]
+    assert arguments['cpinfo']==json.loads((native/'cpinfo.json').read_text())and len(arguments['cpinfo'])==1
+    call=arguments['cpinfo'][0]
+    assert call['page']==0 and call['result']==1 and call['last_error_before']==call['last_error_after']==0
+    new_before=bytes.fromhex(call['before']);new_after=bytes.fromhex(call['after']);assert len(new_before)==len(new_after)==20
+    assert new_after[:18]==expected and new_after[18:]==new_before[18:]
+    old=struct.unpack('<8I',raw_bytes(text,'line-input-state'));new=struct.unpack('<8I',bytes.fromhex(arguments['file_state']))
+    for state in [old,new]:
+        assert state[0]==state[2]>0
+        assert (state[1],state[3],state[5],state[6],state[7])==(0,9,0,512,0)and state[4]>=3
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
+        pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
+        block=next(block for block in blocks if block['payload']+8==pointer)
+        assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    assert proof['application_trace'][-1]=='rc_is_text_unicode'
+    proof.update(trial='rc_is_text_unicode',classification=dict(result=0,flags=0,encoding=1,next_wide=0),codepage=dict(page_argument=0,max_char_size=1,defined_fields=expected.hex(),padding='each caller retains its own2bytes',errors='preserved'),input_file=dict(remaining=0,buffer_bytes=512,profile='MSVCRT510 fseek resets buffer capacity'))
+    return proof

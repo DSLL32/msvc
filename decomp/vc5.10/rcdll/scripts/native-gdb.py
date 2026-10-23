@@ -82,6 +82,9 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_read_wide_line':
+            file=frame.read_var('file')
+            arguments.update(capacity=int(frame.read_var('capacity')),wide=int(frame.read_var('wide')),file_state=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex(),cpinfo=json.loads((output.parent/'cpinfo.json').read_text()),unicode_results=json.loads((output.parent/'unicode-results.json').read_text()))
         if name=='rc_is_text_unicode':
             sample=frame.read_var('sample');size=int(frame.read_var('bytes'));flags=frame.read_var('flags')
             parent=frame.older();assert parent.name()=='rc_detect_encoding'

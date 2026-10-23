@@ -90,3 +90,31 @@ class WriteEntered(gdb.Breakpoint):
         if not writes:WriteReturned(gdb.newest_frame(),internal=True)
         return False
 WriteEntered();write_path.write_text('[]\n')
+
+cpinfo_path=path.parent/'cpinfo.json'
+cpinfo=[]
+class CPInfoReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry,pointer):self.entry=entry;self.pointer=pointer;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax')),after=bytes(gdb.selected_inferior().read_memory(self.pointer,20)).hex(),last_error_after=int(gdb.parse_and_eval('last_error')))
+        cpinfo_path.write_text(json.dumps(cpinfo)+'\n');return False
+class CPInfoEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('recon_GetCPInfo',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_is_text_unicode':return False
+        pointer=int(frame.read_var('info'));entry=dict(page=int(frame.read_var('page')),before=bytes(gdb.selected_inferior().read_memory(pointer,20)).hex(),last_error_before=int(gdb.parse_and_eval('last_error')))
+        cpinfo.append(entry);CPInfoReturned(frame,entry,pointer);return False
+CPInfoEntered();cpinfo_path.write_text('[]\n')
+unicode_path=path.parent/'unicode-results.json'
+unicode_results=[]
+class UnicodeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,pointer):self.pointer=pointer;super().__init__(frame,internal=True)
+    def stop(self):
+        unicode_results.append(dict(result=int(gdb.parse_and_eval('$eax')),flags=int.from_bytes(bytes(gdb.selected_inferior().read_memory(self.pointer,4)),'little')))
+        unicode_path.write_text(json.dumps(unicode_results)+'\n');return False
+class UnicodeEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('rc_is_text_unicode',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();UnicodeReturned(frame,int(frame.read_var('flags')));return False
+UnicodeEntered();unicode_path.write_text('[]\n')

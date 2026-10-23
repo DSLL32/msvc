@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Thirteen application functions (5,995 original code bytes), two embedded CRT functions
+Fourteen application functions (6,926 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_is_text_unicode`.
+currently matches at the next named trap, `rc_read_wide_line`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 9.04% (13 functions). This denominator
+bytes. Current accepted application extent coverage is 10.45% (14 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -152,3 +152,10 @@ detection. [Verification](cases/resources-rich/write-verification.json) includes
 The 250-byte sample and its terminator, initial flags, source-file position and
 all meaningful buffered input bytes match; [verification](cases/resources-rich/detect-verification.json)
 records 23 rejection controls and separate timings.
+
+The internal Unicode test is accepted (931 bytes), matching classification flags
+and result before `rc_read_wide_line`. [Verification](cases/resources-rich/unicode-verification.json)
+retains the 24 rejection controls and exact `GetCPInfo(0)` field/padding effects.
+The native build now selects the shared MSVCRT 5.10 profile, matching its observed
+512-byte input-buffer capacity after `fseek`. The original pair was reused for
+the native-only profile rebuild.

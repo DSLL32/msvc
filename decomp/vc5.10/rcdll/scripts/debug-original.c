@@ -26,7 +26,7 @@ static DWORD export_storage[256],export_lengths[256];
 static DWORD heap_allocation_size;
 static DWORD character_pointer;
 static CONTEXT probe_context;
-static DWORD probe_return;
+static DWORD probe_return,cpinfo_pointer,cpinfo_error;
 static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
@@ -197,6 +197,7 @@ static void snapshot_and_mask(void)
         }
         for(n=0;n<range_count;++n)if(ranges[n].kind)point(base+ranges[n].start,2);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12df0&&ranges[n].end==0x12e1f&&!ranges[n].kind)point(base+0x12df0,28);
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x8c9e&&ranges[n].kind){point(base+0x8ea2,30);point(base+0x108e7,32);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7466,13);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7b77,22);
@@ -291,6 +292,13 @@ static int trap(HANDLE thread,DWORD address)
             readmem(c.Esp,&probe_return,4);probe_context=c;
             fprintf(events,"compiler-probe-entry eax=%08lx esp=%08lx return=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,probe_return,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
             if(c.Eax!=0x42c4||probe_return!=base+0x8576)fail("compiler-probe-scope");point(probe_return,29);
+        }else if(p->kind==30){
+            readmem(c.Esp,words,8);if(words[0]!=0)fail("cpinfo-page");cpinfo_pointer=words[1];readmem(initial_teb+0x34,&cpinfo_error,4);
+            fprintf(events,"cpinfo-call page=0 last-error=%08lx\n",cpinfo_error);hexbytes("cpinfo-before",cpinfo_pointer,20);point(base+0x8ea8,31);
+        }else if(p->kind==31){
+            DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"cpinfo-result %lu last-error=%08lx\n",c.Eax,error);hexbytes("cpinfo-after",cpinfo_pointer,20);
+        }else if(p->kind==32){
+            DWORD flags;readmem(c.Ebp-4,&flags,4);fprintf(events,"text-test-result %lu flags=%08lx\n",c.Eax,flags);
         }else if(p->kind==29){
             fprintf(events,"compiler-probe-return eax=%08lx esp=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
             if(c.Esp!=probe_context.Esp+4-probe_context.Eax||c.Eax!=probe_return||c.Ecx!=probe_context.Ecx||c.Ebx!=probe_context.Ebx||c.Esi!=probe_context.Esi||c.Edi!=probe_context.Edi||c.Ebp!=probe_context.Ebp)fail("compiler-probe-return");
@@ -316,6 +324,10 @@ static int trap(HANDLE thread,DWORD address)
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
         if(export_vector)vector_state("frontier");
+        if(address==base+0x9041){
+            hexbytes("line-input-state",words[4],32);
+            fprintf(events,"line-input-args capacity=%lu wide=%lu\n",words[2],words[3]);
+        }
         if(address==base+0x8c9e){
             DWORD state[8],position;
             if(words[2]!=250)fail("text-sample-size");

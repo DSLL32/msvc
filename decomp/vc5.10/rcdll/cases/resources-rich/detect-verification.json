@@ -54,6 +54,6 @@
   "notes": [
     "Exact250-byte source sample plus WCHAR terminator and0xffff flags.",
     "Full3440 meaningful source-buffer bytes, consumed250/remaining3190,FILE flags/capacity and original offset0 match.",
-    "The unread252-byte stack sample has no compiler helper; array bounds follow actual WCHAR126 type."
+    "The252-byte local sample uses WCHAR126 storage; no compiler stack-probe helper is emitted for this frame."
   ]
 }

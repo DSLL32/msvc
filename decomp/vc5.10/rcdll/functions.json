@@ -18,7 +18,8 @@
     "rc_release",
     "rc_prepare_input",
     "rc_write_bytes",
-    "rc_detect_encoding"
+    "rc_detect_encoding",
+    "rc_is_text_unicode"
   ],
   "functions": [
     {
@@ -472,7 +473,7 @@
       "kind": "application",
       "abi": "stdcall",
       "stack_bytes": 12,
-      "stub": true
+      "stub": false
     }
   ],
   "loader_text_metadata": [

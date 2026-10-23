@@ -4,7 +4,7 @@ RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -fshort-wchar -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 -I$(RECON)/include -I$(RECON)/native -Isrc
 SOURCES = $(wildcard src/*.c)
 HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
@@ -68,4 +68,9 @@ build/resources-api-probe.exe: build/resources-api-probe.obj
 build/wide-api-probe.obj: scripts/wide-api-probe.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/wide-api-probe.exe: build/wide-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/cpinfo-api-probe.obj: scripts/cpinfo-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/cpinfo-api-probe.exe: build/cpinfo-api-probe.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib

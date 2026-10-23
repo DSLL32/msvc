@@ -83,9 +83,3 @@ void __stdcall rc_input_warning(unsigned code)
 {
     __asm int 3
 }
-
-int __stdcall rc_is_text_unicode(const void *sample,unsigned bytes,unsigned *flags)
-{
-    __asm int 3
-    return 0;
-}

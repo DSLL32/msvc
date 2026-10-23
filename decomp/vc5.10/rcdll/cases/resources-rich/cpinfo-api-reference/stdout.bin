@@ -1,0 +1,4 @@
+cpinfo page=0 bytes=20 before-error=0 before-errno=0 result=1 after-error=0 after-errno=0 raw=010000003f000000000000000000000000005a5a
+cpinfo page=0 bytes=20 before-error=0 before-errno=111 result=1 after-error=0 after-errno=111 raw=010000003f000000000000000000000000005a5a
+cpinfo page=0 bytes=20 before-error=305419896 before-errno=0 result=1 after-error=305419896 after-errno=0 raw=010000003f000000000000000000000000005a5a
+cpinfo page=0 bytes=20 before-error=305419896 before-errno=111 result=1 after-error=305419896 after-errno=111 raw=010000003f000000000000000000000000005a5a
