@@ -421,3 +421,11 @@ short __stdcall format_declarator_shapes(short text, TypeShape *shape)
     }
     return text;
 }
+
+/* Original 0x67880..0x67898. Reserve one byte at the string's
+   append boundary; the centered buffer retains its existing NUL terminator. */
+void __stdcall append_type_diagnostic_char(short text, int character)
+{
+    char *cursor = reserve_type_diagnostic_bytes(text, 1, 1);
+    *cursor = (char)character;
+}
