@@ -138,3 +138,14 @@ unsigned short initialize_strip_sections(void)
     strip_read_offset = position;
     return (unsigned short)result;
 }
+
+unsigned short read_coff_symbol(CoffSymbol *symbol, unsigned long index)
+{
+    unsigned long position = strip_symbol_offset+index*18;
+    if (strip_file_header.NumberOfSymbols <= index) return 0;
+    if ((unsigned long)strip_read_offset != position)
+        seek_file(strip_handle, position, 0);
+    read_file(strip_handle, symbol, sizeof(*symbol));
+    strip_read_offset = position+sizeof(*symbol);
+    return 1;
+}

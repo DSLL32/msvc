@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "read_coff_symbol",
-    "native_function": "read_coff_symbol",
+    "logical": "classify_coff_symbol",
+    "native_function": "classify_coff_symbol",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -118,25 +118,18 @@
       "begin_symbol_block",
       "strip_debug",
       "initialize_strip_sections",
-      "read_coff_symbol"
+      "read_coff_symbol",
+      "classify_coff_symbol"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
     "observed_globals": [
       "strip_handle",
-      "strip_file_header_offset",
-      "strip_section_header_offset",
-      "strip_read_offset",
       "strip_symbol_offset",
-      "strip_file_header",
-      "strip_optional_header",
-      "strip_records",
-      "statistics_enabled",
-      "strip_file_names"
+      "strip_read_offset",
+      "strip_file_header"
     ],
-    "observed_walks": [
-      "strip_section_rvas"
-    ]
+    "observed_walks": []
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

@@ -33,9 +33,12 @@ def compare(item,descriptions,words,parameters,events,pe):
         assert match[1]==actual['prebytes']==proof['initial_bytes'],'initialized stack output local differs'
     defined=None
     if proof.get('mode')=='input':
-        r=proof['defined_length'];old=bytes.fromhex(match[1]);new=bytes.fromhex(actual['prebytes'])
-        defined=int.from_bytes(old[r['offset']:r['offset']+r['width']],'little')+r['bias']
-        actual_length=int.from_bytes(new[r['offset']:r['offset']+r['width']],'little')+r['bias']
+        old=bytes.fromhex(match[1]);new=bytes.fromhex(actual['prebytes'])
+        if 'defined_bytes'in proof:
+            defined=actual_length=proof['defined_bytes'];assert defined==proof['size'],'fixed input definition exceeds typed local'
+        else:
+            r=proof['defined_length'];defined=int.from_bytes(old[r['offset']:r['offset']+r['width']],'little')+r['bias']
+            actual_length=int.from_bytes(new[r['offset']:r['offset']+r['width']],'little')+r['bias']
         assert defined==actual_length and 4<=defined<=proof['size'],'invalid defined stack input length'
         assert old[:defined]==new[:defined],'defined stack input bytes differ'
     return dict(defined_input_bytes=defined,original_address=value,native_address=actual['address'],typed_local=actual['local'],original_undefined_bytes=match[1],native_undefined_bytes=actual['prebytes'])
