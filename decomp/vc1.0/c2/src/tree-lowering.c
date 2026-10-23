@@ -407,3 +407,35 @@ void __fastcall lower_bitfield_reference(Node *node)
             typed_integer_node(node, shift - offset), 9, field, value, 0xa, node);
     }
 }
+
+/* Original [00059190,000592be). Replace a field update by a masked
+   storage merge. The flagged form retains the two compound updates and
+   their sequencing node; the ordinary form combines one read and write.
+   Preserve builder allocation order and the original field/range reuse. */
+void __fastcall lower_bitfield_assignment(Node *node)
+{
+    Node *field = node->left.node;
+    Node *range = field->second.node;
+    Node *width = range->second.node;
+    Node *clear, *value, *mask_node, *converted;
+    unsigned mask = ~0U >> ((32 - width->left.value) & 31);
+    unsigned offset;
+    release_node(width);
+    offset = range->left.node->left.value & 31;
+    mask_node = typed_integer_node(node, ~(mask << offset));
+    if (node->attributes.words.flags & 0x800) {
+        clear = build_tree("PPOLY", field->left.node, mask_node, 0x17, field);
+        mask_node = typed_integer_node(node, mask);
+        converted = convert_node_type(node->second.node, node->attributes.words.type);
+        value = build_tree("DPPNYPOLYNY", field->left.node, converted,
+            mask_node, 0xb, range->left.node, 9, range, 0x19);
+        build_tree("PfPfOLY", clear, node, value, node, 0x44, node);
+    } else {
+        clear = build_tree("DNfPNY", field->left.node, 0x30, node, mask_node, 0xb);
+        mask_node = typed_integer_node(node, mask);
+        converted = convert_node_type(node->second.node, node->attributes.words.type);
+        value = build_tree("PPNYPOLY", converted, mask_node, 0xb,
+            range->left.node, 9, range);
+        build_tree("PPPOLYL", field->left.node, clear, value, 0xc, field, node);
+    }
+}

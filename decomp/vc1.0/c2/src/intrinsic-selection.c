@@ -561,3 +561,22 @@ MachineOperand *__fastcall compare_intrinsic_string_part(MachineOperand *left,
     if (different) emit_machine_operation(MC_JCC, 0x104, different, 5);
     return value;
 }
+
+/* Original [0001da90,0001db38). Emit one explicit unrolled block unit.
+   Fills store their existing value; copies load through a fresh temporary
+   so both memory references retain their original order and displacement. */
+void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
+    MachineOperand *destination, unsigned short type, unsigned offset)
+{
+    MachineOperand *temporary, *memory;
+    if (fill) {
+        memory = new_operand(OPERAND_BASED, destination->value.reg.words.number, offset, 0);
+        emit_machine_operation(MC_MOV, (unsigned)type, memory, source);
+    } else {
+        temporary = operand_for_register(new_value_register(0x100));
+        memory = new_operand(OPERAND_BASED, source->value.reg.words.number, offset, 0);
+        emit_machine_operation(MC_MOV, (unsigned)type, temporary, memory);
+        memory = new_operand(OPERAND_BASED, destination->value.reg.words.number, offset, 0);
+        emit_machine_operation(MC_MOV, (unsigned)type, memory, temporary);
+    }
+}

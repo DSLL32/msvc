@@ -1,0 +1,571 @@
+{
+  "checkpoint": 1143,
+  "source_graphs": 1064,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1143,
+    "accepted_code_bytes": 312540,
+    "original_code_bytes": 399693,
+    "percentage": 78.19501467376212,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 538
+  },
+  "base_commit": "88a55a8a",
+  "functions": [
+    {
+      "name": "@lower_bitfield_assignment@4",
+      "start": 364944,
+      "end": 365246
+    },
+    {
+      "name": "@is_subword_mask_pattern@8",
+      "start": 159056,
+      "end": 159209
+    },
+    {
+      "name": "@adjust_factor_constant@12",
+      "start": 352592,
+      "end": 352814
+    },
+    {
+      "name": "_subtraction_overflows",
+      "start": 465466,
+      "end": 465526
+    },
+    {
+      "name": "@emit_switch_table@16",
+      "start": 425296,
+      "end": 425679
+    },
+    {
+      "name": "@switch_range_at@8",
+      "start": 424416,
+      "end": 424436
+    },
+    {
+      "name": "@emit_explicit_block_transfer@20",
+      "start": 121488,
+      "end": 121656
+    },
+    {
+      "name": "@process_special_machine_region_reference@8",
+      "start": 296848,
+      "end": 296945
+    }
+  ],
+  "frontier": "@pair_pentium_fallthrough_jump@8",
+  "evidence": {
+    "before": "cases/inlrec-original-1135.json",
+    "after": "cases/inlrec-original-1143.json",
+    "abi": "cases/inlrec-bitfield-switch-abi-validation.json",
+    "overflow": "cases/subtraction-overflow-validation.json",
+    "native": "cases/native-all-validation.json"
+  },
+  "limits": [
+    "Original bitfield builder recipes retain order, flag0x800 sequencing and field/range-node reuse; no claim every width/flag branch executes here.",
+    "Subword and factoring helpers preserve signed count comparisons and masked shifts, with existing width-normalization callees.",
+    "Unsigned subtraction checker deliberately ignores borrow, exactly matching original71a6e->71a72;2700 boundary cross-products independently execute isolated original60-byte body against actual C.",
+    "Jump table generator full extent67d50..67ecf is383 bytes. Initial typed end67dcf was a transcription error; unchanged Rust auditor rejected it before terminal at67dc9. Full source was already present. Corrected complete mask used by1141 original/native capture and all subsequent audits.1140 only establishes entry to its first child, not full generator validation.",
+    "Target table-bounds flag8324c initializes1, matched to named contextual scalar; original only exact absolute reference is67dae. No bulk data copied.",
+    "Explicit aggregate block unit loads through a new temporary then stores, or directly stores fills; type remainsword and stack cleanup12.",
+    "All12 completed objects plus13th matching trap pass; active case full object pending. Original /W3 sixchanged modules and8machine RET proofs pass."
+  ],
+  "timing": {
+    "frontier1136-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 11.368208589032292,
+      "returncode": 0,
+      "log_sha256": "354b630cb66a9b937d4d494af22ecbd5aba01f50b0a6c165bb12b64b7e081518"
+    },
+    "frontier1136-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.404929555952549,
+      "returncode": 0,
+      "log_sha256": "0c33e9b0e48d1178c238323044a535a31ba17514770aa640f50cf7adafaf33ae"
+    },
+    "frontier1136-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5628232285380363,
+      "returncode": 0,
+      "log_sha256": "83d78f01d18731e45d7647a85c5defd51b40d88197fe5e9ae9867a4622277ecf"
+    },
+    "frontier1136-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1136.json"
+      ],
+      "seconds": 0.2047831816598773,
+      "returncode": 0,
+      "log_sha256": "2f7126f724ffb173d01c838e49fb6e48b2cfa34ad550c748bf15df868dad61fb"
+    },
+    "frontier1136-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1136.json"
+      ],
+      "seconds": 1.1121898842975497,
+      "returncode": 0,
+      "log_sha256": "549c255c564ab887d9176de614675ee70bebecbefa0ba07cde442624e97a0481"
+    },
+    "frontier1137-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.394896083511412,
+      "returncode": 0,
+      "log_sha256": "2c77c00b2e1ffc8847dc3bc22e7277d9223c6f5f69b0930d521101e754c79a03"
+    },
+    "frontier1137-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.7028060238808393,
+      "returncode": 0,
+      "log_sha256": "c9e7107211b91ea764e69c9bb17d444b8b57f6c637f363d9a0e6777ad4cc5ebd"
+    },
+    "frontier1137-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6583526581525803,
+      "returncode": 0,
+      "log_sha256": "25cc31bac7b84ed8237770e829d5c13e3b10f78541dd56f66e4dc49df7608929"
+    },
+    "frontier1137-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1137.json"
+      ],
+      "seconds": 0.236994668841362,
+      "returncode": 0,
+      "log_sha256": "c66c8ca658bbbd53a93d71f808711c17d10bae3eb8d76d9ed47d2d684f518031"
+    },
+    "frontier1137-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1137.json"
+      ],
+      "seconds": 1.845721773803234,
+      "returncode": 0,
+      "log_sha256": "c98df89b2c27ed8cdb9eada5c416af69a09fe753f4ede742cc77283be84c6e58"
+    },
+    "frontier1138-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.4083099737763405,
+      "returncode": 0,
+      "log_sha256": "00ada2a4fe014e9309f8c282ae7bc70b18af050e92086226855a757dd626f097"
+    },
+    "frontier1138-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.3236694829538465,
+      "returncode": 0,
+      "log_sha256": "c9e7107211b91ea764e69c9bb17d444b8b57f6c637f363d9a0e6777ad4cc5ebd"
+    },
+    "frontier1138-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5700880046933889,
+      "returncode": 0,
+      "log_sha256": "dd0daf50d3f7574bdec2ae3d6926cca5614eb78ae4a12985317b24a19d0aa5e8"
+    },
+    "frontier1138-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1138.json"
+      ],
+      "seconds": 0.21158046182245016,
+      "returncode": 0,
+      "log_sha256": "b91b13be5aa27ef7de8950521f965e267e033c87a23e7f9346d086ad61915b2d"
+    },
+    "frontier1138-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1138.json"
+      ],
+      "seconds": 1.9842107156291604,
+      "returncode": 0,
+      "log_sha256": "bde6384c250fb04c7c0e8cd06d8c88186272f604e8f65fca51dc21c595dd9e95"
+    },
+    "frontier1139-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3524886602535844,
+      "returncode": 0,
+      "log_sha256": "7a9f2fe3e1d2dbec1d00348a006869a6c37b5f483abede78372fbef7a9929b35"
+    },
+    "frontier1139-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.358841202221811,
+      "returncode": 0,
+      "log_sha256": "1bf22435eb09b47ee48ecaafc1eb4182dc9066a4b0eac5f458ccd7e16b517cfc"
+    },
+    "frontier1139-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6531051890924573,
+      "returncode": 0,
+      "log_sha256": "0178f4ef7173e837c974bfe7c5ec7c85fd8fa329197ea572026b15b584403c0b"
+    },
+    "frontier1139-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1139.json"
+      ],
+      "seconds": 0.24299624375998974,
+      "returncode": 0,
+      "log_sha256": "5b4fc1cfea1756c1559d7dda708f548381f3de05826107bb8e83a4ce6c8fe976"
+    },
+    "frontier1139-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1139.json"
+      ],
+      "seconds": 2.0520107289776206,
+      "returncode": 0,
+      "log_sha256": "4e76db19c7ed58e526cff7b288a991ceaaa35138b2759a3e56b58b8a530a14a1"
+    },
+    "frontier1140-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.1147439377382398,
+      "returncode": 0,
+      "log_sha256": "62fa6fdb899002248d7acb5aa86be08236ae309266e2a553280521c13a51da30"
+    },
+    "frontier1140-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1140.json"
+      ],
+      "seconds": 0.2256723353639245,
+      "returncode": 0,
+      "log_sha256": "2d63ee4f8be6b07d064a7626fd93f13d557f6989299f2af9108cf13bfd9092eb"
+    },
+    "frontier1140-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1140.json"
+      ],
+      "seconds": 1.7375587355345488,
+      "returncode": 0,
+      "log_sha256": "ee2a1b7d4144e420192a4f3956108cfc0b949e57ddba0b0a1e3f0451b801b014"
+    },
+    "frontier1140-short-extent-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 0.9170990521088243,
+      "returncode": 2,
+      "log_sha256": "f1fe3d974f737dcc0b4a8675b35683eaec8f5bc9e25c15bbb0467c0a8e2d72b1"
+    },
+    "frontier1141-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3981825038790703,
+      "returncode": 0,
+      "log_sha256": "818da86372a94fa6b52448239073f9b115f83f46f06c66245d0db803eb43357a"
+    },
+    "frontier1141-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.605367539450526,
+      "returncode": 0,
+      "log_sha256": "33c71c298ffe39f5979f3c25add109bcaba0d7ba81b5e54040d9cb11efd96659"
+    },
+    "frontier1141-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6425042701885104,
+      "returncode": 0,
+      "log_sha256": "647f6a6bcc5eebe819ede83d6e13ac221ddb668cc315bebefbb06ef5a38001b9"
+    },
+    "frontier1141-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1141.json"
+      ],
+      "seconds": 0.2367441849783063,
+      "returncode": 0,
+      "log_sha256": "33c3b6ec0841a3c8153853cce83f3db944cd1ca0b01a7e78b9422c341fd6612b"
+    },
+    "frontier1141-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1141.json"
+      ],
+      "seconds": 1.4580659763887525,
+      "returncode": 0,
+      "log_sha256": "da4b1a0e55a370060834891dc3e307727e84179331d606786f2afe51844fb9d2"
+    },
+    "frontier1142-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3510513473302126,
+      "returncode": 0,
+      "log_sha256": "28363287e18da6877fc076e8523fc766a481361c0d350f8cccdd36f1a5150fa1"
+    },
+    "frontier1142-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.2029866985976696,
+      "returncode": 0,
+      "log_sha256": "2fda71a67d8390ab9effe1a2da3c6d635535923295349b5c08731fd24dbdc359"
+    },
+    "frontier1142-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5965724308043718,
+      "returncode": 0,
+      "log_sha256": "3d54b56362e0af1d69075760d0bf95f80cb6bf25ada707d3bb7917620b6fa182"
+    },
+    "frontier1142-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1142.json"
+      ],
+      "seconds": 0.23541666194796562,
+      "returncode": 0,
+      "log_sha256": "84b50d6debf497fb1b33d9b421bcea5fc3ec8b24a590f2f4e7e3417a482b691b"
+    },
+    "frontier1142-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1142.json"
+      ],
+      "seconds": 1.0463078925386071,
+      "returncode": 0,
+      "log_sha256": "f6104160774e5b19834c3352f361992528ef0bb094551fa2fe5cff919c1f7829"
+    },
+    "frontier1143-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.404513887129724,
+      "returncode": 0,
+      "log_sha256": "1fbe248247d90da78551c95b4ab08c988e804c4a1ea610c39ee0ed5e1a2b3144"
+    },
+    "frontier1143-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 38.738058417104185,
+      "returncode": 0,
+      "log_sha256": "de18210473653a222dc3665db03b0066488da37c68fc1f2ed500114c7bcab200"
+    },
+    "frontier1143-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5944600906223059,
+      "returncode": 0,
+      "log_sha256": "83517eabab3ba0fab4ece8ee4fafe9a5f47f2e34b9e48ac991c60e228f479ed8"
+    },
+    "frontier1143-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1143.json"
+      ],
+      "seconds": 0.24867228511720896,
+      "returncode": 0,
+      "log_sha256": "bd2fd8252fd6a0dc5bffaac13c8d43d6c1eafc46a0dd7fbbe27c91a89ee4ba23"
+    },
+    "frontier1143-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1143.json"
+      ],
+      "seconds": 1.8092297436669469,
+      "returncode": 0,
+      "log_sha256": "5ed90c434e70f93c640dcd93588d8ecbadfc165b5952b407599e8394cd5c452f"
+    },
+    "inline-bitfield-switch-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "tree-lowering",
+        "algebra",
+        "integer-fold",
+        "work-prepare",
+        "intrinsic-selection",
+        "machine-analysis"
+      ],
+      "seconds": 5.916543195024133,
+      "returncode": 0,
+      "log_sha256": "a6ae33748faea8ae9616ccb4b61e2ad17ea66cca3c1b7872263168b751eae0a2"
+    },
+    "subtraction-overflow-proof-timing": {
+      "command": [
+        "python3",
+        "scripts/check-subtraction-overflow.py"
+      ],
+      "seconds": 0.3083428405225277,
+      "returncode": 0,
+      "log_sha256": "f7b4078a246985edce3fba47dbcbb99d79050bc69f591f9ef1045a4f80bf848c"
+    }
+  },
+  "timing_limits": [
+    "Analysis/edit time unmeasured. Combined build/canonical/native/trace timings remain unsplit;37\u201339sbuilds include dependency rebuilds. Reference receipts split setup/run/check; no Wine in fixture checks. Failed short-extent audit retained."
+  ]
+}

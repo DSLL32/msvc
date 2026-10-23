@@ -1,0 +1,12 @@
+{
+  "logical": "@pair_pentium_fallthrough_jump@8",
+  "matched": true,
+  "executable_sha256": "15233003c151c9eaf271b00d13d8e33f59c3dd996614faa21edea3b140385da6",
+  "config_sha256": "8f61e59bff165da9e71850950faf242425d118ebe92b3c9e0358cd2a51e6af38",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+  "setup_seconds": 0.006199812516570091,
+  "execution_seconds": 0.15784061886370182,
+  "seconds": 0.17792600579559803,
+  "log_sha256": "1bf4d79acdf5c08402a5db4568cd7f2ef4c8b0e4db917229377584095119bb3a",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/inlrec-gdb-dm3lvp3d"
+}

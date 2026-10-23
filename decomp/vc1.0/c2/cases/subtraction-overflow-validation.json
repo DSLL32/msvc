@@ -1,0 +1,25 @@
+{
+  "cases": 2700,
+  "original_extent": [
+    "0x71a3a",
+    "0x71a76"
+  ],
+  "source_body_sha256": "8c4c4f37fa5975cccae1a7a4b1d42ee7469791524501fdf5bda5994ca67b3480",
+  "widths": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    "0xffffffff"
+  ],
+  "signedness": [
+    0,
+    1
+  ],
+  "limit": "Boundary cross-products, not exhaustive32-bit values; explicitly verifies original unsigned path ignores borrow.",
+  "build_seconds": 0.09283834416419268,
+  "native_seconds": 0.006123701110482216,
+  "original_emulation_seconds": 0.10598397627472878,
+  "seconds": 0.2226054985076189
+}

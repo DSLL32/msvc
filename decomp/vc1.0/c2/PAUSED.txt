@@ -1,3 +1,6 @@
+C2 active: inlrec1143 accepted /1064 source graphs; matching pair_pentium_fallthrough_jump47d80.
+See cases/inlrec-bitfield-switch-checkpoint.json for full extents, ABI/overflow proofs and mask correction.
+
 C2 active: inlrec at1135 accepted /1056 whole source graphs;311135/399693 bytes (77.8434949%), not branch coverage.
 Current matching frontier lower_bitfield_assignment59190.
 See cases/inlrec-node-checkpoint.json for alias flag correction/failure/negative proofs and timings.

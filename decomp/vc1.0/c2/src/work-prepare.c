@@ -489,3 +489,54 @@ int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol)
     FunctionFloatStackInfo *information = (FunctionFloatStackInfo *)symbol->field2c;
     return information ? information->cleanup_count : 0;
 }
+
+/* Original8324c: this target enables the unsigned table-bound test. */
+static int switch_table_bounds_check = 1;
+/* Original [00067d50,00067ecf). Normalize the selector to a zero-based,
+   four-byte table offset, retain a default-bound branch, and detach the
+   selected range chain into a new dispatch record. The two stack options
+   belong to the original ABI but are not read by this target's body. */
+void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2)
+{
+    Node *__fastcall switch_range_at(Node *range, unsigned index);
+    Node *last, *constant, *tree, *table;
+    unsigned low = ranges->left.value;
+    unsigned span;
+    (void)option1;
+    (void)option2;
+    last = switch_range_at(ranges, (unsigned)(count - 1));
+    span = last->detail.value - low;
+    constant = intern_leaf(0x33, 0, (unsigned)switch_selector_type, low);
+    tree = build_tree("PPNt", switch_selector->left.node, constant, 0x10,
+        (unsigned)switch_selector_type);
+    insert_tree_expression(switch_dispatch_expression, switch_dispatch_node, tree);
+    if (switch_table_bounds_check) {
+        constant = intern_leaf(0x33, 0, (unsigned)switch_selector_type, span);
+        tree = build_tree("DPNtN", switch_selector, constant, 0x21,
+            (unsigned)((switch_selector_type & 255) | 0x200), 0x38);
+        tree->right.symbol = switch_dispatch_node->right.symbol;
+        insert_tree_expression(switch_dispatch_expression, switch_dispatch_node, tree);
+    }
+    constant = intern_leaf(0x33, 0, (unsigned)switch_selector_type, integer_log2(4));
+    tree = build_tree("PPNt", switch_selector->left.node, constant, 0x15,
+        (unsigned)switch_selector_type);
+    insert_tree_expression(switch_dispatch_expression, switch_dispatch_node, tree);
+    table = new_node(0x3c);
+    table->right.symbol = switch_dispatch_node->right.symbol;
+    table->attributes.words.type = switch_selector_type;
+    table->left.node = copy_tree(switch_selector);
+    table->second.node = clone_node(ranges);
+    ranges->opcode = 0x4c;
+    ranges->second.node = 0;
+    last = switch_range_at(table->second.node, (unsigned)(count - 1));
+    last->second.node = intern_leaf(0x4c);
+    insert_tree_expression(switch_dispatch_expression, switch_dispatch_node, table);
+}
+
+/* Original [000679e0,000679f4). Advance the sorted range chain by
+   the caller's nonnegative index, including the zero-index identity. */
+Node *__fastcall switch_range_at(Node *range, unsigned index)
+{
+    while (index--) range = range->second.node;
+    return range;
+}

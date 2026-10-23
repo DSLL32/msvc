@@ -506,3 +506,23 @@ int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction
     }
     return ((MachineBlockHeader *)previous)->flags & 0x200;
 }
+
+/* Original [00048790,000487f1). A singly referenced table label owns
+   consecutive DATA records. Account for each destination as an ordinary
+   region reference, then stop at the first different record or empty target. */
+MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label)
+{
+    MachineInstruction *instruction;
+    SymbolHeader *target;
+    if (((LabelSymbol *)label)->references != 1)
+        compiler_internal_error("@(#)range.c:1.0", 0x240);
+    instruction = label_machine_instruction((LabelSymbol *)label)->next;
+    while (!(instruction->opcode & 15) &&
+           (unsigned char)(instruction->opcode >> 8) == MC_DATA) {
+        target = machine_operand_label(instruction);
+        if (!target) break;
+        region = process_machine_region_reference(instruction, region, target);
+        instruction = instruction->next;
+    }
+    return region;
+}

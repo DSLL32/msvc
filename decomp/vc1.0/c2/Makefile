@@ -52,6 +52,7 @@ audit-data: build/c2.exe native
 	$(PYTHON) scripts/check-scheduler-stack-aliases.py
 	$(PYTHON) scripts/check-i386-costs.py
 	$(PYTHON) scripts/check-inline-shapes.py
+	$(PYTHON) scripts/check-subtraction-overflow.py
 
 
 hello-frontier hello-check hello-replay: native-trace

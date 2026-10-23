@@ -930,3 +930,51 @@ Node *__fastcall lift_both_unary(Node *node)
     build_tree("PPLYLY", left->left.node, node->second.node, node, left);
     return left;
 }
+
+/* Original [00026d50,00026de9). Recognize shifts crossing a native
+   halfword boundary and masks selecting its low or high portion. The
+   shift comparison is signed, exactly as in the original caller contract. */
+int __fastcall is_subword_mask_pattern(Node *node, unsigned mask)
+{
+    unsigned half;
+    if (node->opcode == 9 || node->opcode == 10) {
+        half = (node->attributes.words.type & 255) == 4 ? 16 : 8;
+        return mask == 0 || (int)mask >= (int)half;
+    }
+    if (node->opcode == 0xb) {
+        half = (node->attributes.words.type & 255) == 4 ? 0xffff : 0xff;
+        if (normalize_integer_width(node, half) == mask) return 1;
+        if (normalize_integer_width(node, ~half) == mask) return 1;
+    }
+    return 0;
+}
+
+/* Original [00056150,0005622e). Derive the residual constant when a
+   shift or arithmetic factor is moved across the outer operation. Preserve
+   the original signed count tests, masked shifts and width normalization. */
+int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value)
+{
+    unsigned __fastcall combine_factor_constants(Node *operation, unsigned first, unsigned second);
+    unsigned first = node->second.node->left.value;
+    unsigned count = factor->second.node->left.value;
+    unsigned result, restored;
+    switch (factor->opcode) {
+    case 9:
+        result = (unsigned)((int)first >> (count & 31));
+        *value = result;
+        if (node->opcode == 0xb) return 1;
+        restored = (int)count >= 32 ? 0 : result << (count & 31);
+        return restored == first;
+    case 10:
+        result = (int)count >= 32 ? 0 : first << (count & 31);
+        result = normalize_integer_width(node, result);
+        *value = result;
+        if (node->attributes.words.type & 0x100)
+            return (unsigned)((int)result >> (count & 31)) == first;
+        if (node->opcode == 0xb) return 1;
+        return (result >> (count & 31)) == first;
+    default:
+        *value = combine_factor_constants(factor, first, count);
+        return can_combine_constants(factor, first, count);
+    }
+}

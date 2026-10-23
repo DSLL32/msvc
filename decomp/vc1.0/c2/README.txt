@@ -163,3 +163,11 @@ proof rejects both mistaken original/normalized bit substitutions. Failed
 native crash and repeat timings remain in cases/inlrec-node-checkpoint.json.
 All13 native regressions, full graphs/extents, six cleanup ABIs and original
 /W3 pass; current frontier is bitfield assignment lowering, not object completion.
+
+Inline-records checkpoint1143 adds bitfield updates, constant factoring, the
+original signed-overflow checker, dense-switch table generation/range lookup,
+explicit block copies and special table-label region references. All13 native
+regressions and1064 graphs pass. Eight cleanup ABIs and2700 arithmetic
+boundary comparisons pass; short-mask rejection and corrected383-byte
+switch generator proof remain in cases/inlrec-bitfield-switch-checkpoint.json.
+Current frontier is the Pentium fallthrough-jump pairing helper.

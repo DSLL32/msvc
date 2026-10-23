@@ -1,15 +1,35 @@
 {
   "modules": [
     {
-      "module": "inline-calls",
-      "seconds": 2.12845975253731,
+      "module": "tree-lowering",
+      "seconds": 0.9190003555268049,
       "returncode": 0
     },
     {
-      "module": "tree-equality",
-      "seconds": 2.445940872654319,
+      "module": "algebra",
+      "seconds": 0.9958777641877532,
+      "returncode": 0
+    },
+    {
+      "module": "integer-fold",
+      "seconds": 0.9945138487964869,
+      "returncode": 0
+    },
+    {
+      "module": "work-prepare",
+      "seconds": 0.9735031435266137,
+      "returncode": 0
+    },
+    {
+      "module": "intrinsic-selection",
+      "seconds": 1.006034274585545,
+      "returncode": 0
+    },
+    {
+      "module": "machine-analysis",
+      "seconds": 0.9784787157550454,
       "returncode": 0
     }
   ],
-  "seconds": 4.574787906371057
+  "seconds": 5.86798959504813
 }

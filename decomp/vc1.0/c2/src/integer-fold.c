@@ -156,3 +156,19 @@ Node *__fastcall fold_integer_comparison(Node *node)
     release_tree(node);
     return constant;
 }
+
+/* Original [00071a3a,00071a76). Signed subtraction tests the byte,
+   word or paired-word overflow flag. The original unsigned path ignores
+   borrow and always returns zero; retain that behavior deliberately. */
+int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes)
+{
+    unsigned mask, sign, difference;
+    if (bytes == 2) { mask = 0xffff; sign = 0x8000; }
+    else if ((int)bytes < 2) { mask = 0xff; sign = 0x80; }
+    else { mask = ~0U; sign = 0x80000000U; }
+    left &= mask;
+    right &= mask;
+    difference = left - right;
+    if (is_unsigned) return 0;
+    return ((left ^ right) & (left ^ difference) & sign) != 0;
+}

@@ -1139,7 +1139,15 @@
     "@scan_inline_argument_uses@8",
     "@find_matching_parent@8",
     "@walk_matching_parent@4",
-    "@recycle_inline_site@4"
+    "@recycle_inline_site@4",
+    "@lower_bitfield_assignment@4",
+    "@is_subword_mask_pattern@8",
+    "@adjust_factor_constant@12",
+    "_subtraction_overflows",
+    "@emit_switch_table@16",
+    "@switch_range_at@8",
+    "@emit_explicit_block_transfer@20",
+    "@process_special_machine_region_reference@8"
   ],
   "driver": [
     {
@@ -2674,8 +2682,7 @@
     {
       "name": "@lower_bitfield_assignment@4",
       "start": 364944,
-      "end": 364945,
-      "provisional": true
+      "end": 365246
     },
     {
       "name": "@canonicalize_before_children@12",
@@ -4981,8 +4988,7 @@
     {
       "name": "@emit_switch_table@16",
       "start": 425296,
-      "end": 425297,
-      "provisional": true
+      "end": 425679
     },
     {
       "name": "@operator_identity_node@8",
@@ -5313,8 +5319,7 @@
     {
       "name": "@process_special_machine_region_reference@8",
       "start": 296848,
-      "end": 296849,
-      "provisional": true
+      "end": 296945
     },
     {
       "name": "@prepare_float_machine_data@4",
@@ -6242,8 +6247,7 @@
     {
       "name": "@adjust_factor_constant@12",
       "start": 352592,
-      "end": 352593,
-      "provisional": true
+      "end": 352814
     },
     {
       "name": "@push_unary_into_left@4",
@@ -6269,14 +6273,12 @@
     {
       "name": "_subtraction_overflows",
       "start": 465466,
-      "end": 465467,
-      "provisional": true
+      "end": 465526
     },
     {
       "name": "@is_subword_mask_pattern@8",
       "start": 159056,
-      "end": 159057,
-      "provisional": true
+      "end": 159209
     },
     {
       "name": "@simple_constant_operation_sign@4",
@@ -6573,8 +6575,7 @@
     {
       "name": "@emit_explicit_block_transfer@20",
       "start": 121488,
-      "end": 121489,
-      "provisional": true
+      "end": 121656
     },
     {
       "name": "@transfer_machine_region_references@8",
@@ -7579,6 +7580,11 @@
       "name": "@walk_matching_parent@4",
       "start": 361296,
       "end": 361405
+    },
+    {
+      "name": "@switch_range_at@8",
+      "start": 424416,
+      "end": 424436
     }
   ],
   "cases": {

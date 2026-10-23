@@ -61,7 +61,6 @@ Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
-void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 #include "inline-calls.h"
 int __fastcall inline_argument_has_global_load(Node *node) { __asm int 3 }
@@ -257,7 +256,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 Node *__fastcall make_switch_pivot(Node *range) { __asm int 3 }
 void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count) { __asm int 3 }
-void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
 
 
 
@@ -277,7 +275,6 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
-MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
 void __fastcall prepare_machine_region_transform(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
@@ -306,10 +303,7 @@ void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *rel
 
 #include "intrinsics.h"
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
-int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
-int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
-int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
@@ -319,8 +313,6 @@ void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, 
 unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
-void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
-    MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
