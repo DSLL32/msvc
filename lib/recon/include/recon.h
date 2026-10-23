@@ -191,6 +191,7 @@ void recon_record_terminal_status(uint32_t);
 int recon_host_path(const char *,char *,size_t);
 void recon_unsupported(const char *);
 
+int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);
 void recon_load_module_resources(HMODULE,const char *);
 
 #define RECON_WIN32_FUNCTIONS(X) \
@@ -214,6 +215,7 @@ void recon_load_module_resources(HMODULE,const char *);
  X(int,MultiByteToWideChar,(UINT,DWORD,LPCSTR,int,LPWSTR,int)) \
  X(int,WideCharToMultiByte,(UINT,DWORD,LPCWSTR,int,LPSTR,int,LPCSTR,BOOL *)) \
  X(int,LCMapStringW,(DWORD,DWORD,LPCWSTR,int,LPWSTR,int)) \
+ X(BOOL,HeapDestroy,(HANDLE)) \
  X(BOOL,IsValidCodePage,(UINT)) X(UINT,GetACP,(void)) X(LPSTR,CharNextA,(LPCSTR)) \
  X(UINT,GetConsoleCP,(void)) X(BOOL,GetCPInfo,(UINT,CPINFO *)) \
  X(UINT,SetHandleCount,(UINT)) \
@@ -424,6 +426,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define MultiByteToWideChar recon_MultiByteToWideChar
 #define WideCharToMultiByte recon_WideCharToMultiByte
 #define LCMapStringW recon_LCMapStringW
+#define wsprintfA recon_wsprintfA
+#define HeapDestroy recon_HeapDestroy
 #define IsValidCodePage recon_IsValidCodePage
 #define GetACP recon_GetACP
 #define CharNextA recon_CharNextA

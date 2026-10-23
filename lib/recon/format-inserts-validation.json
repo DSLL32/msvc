@@ -1,0 +1,32 @@
+{
+  "scope": "registered encountered FROM_STRING400 template, one default string and one signed32 decimal insert",
+  "original_evidence": "/root/.ai-tmp/msvc2/vc5.10/rcdll/crt-format-original",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "actual_original": {
+    "version": "5.00.1472.1",
+    "build": 1472,
+    "template_length": 70,
+    "capacity": 2048,
+    "returned": 78,
+    "last_error_before_after": [
+      0,
+      0
+    ],
+    "full_prepost_buffer": "events.txt format-before/format-after"
+  },
+  "tests": [
+    "full actual original2048byte postbuffer including unchanged tail",
+    "dynamic alternate string and INT_MIN/INT_MAX values",
+    "va_list copy,errno/LastError preserve",
+    "9 unknown/grammar/capacity/ABI-stub rejection controls"
+  ],
+  "native_build_checks_seconds": {
+    "gcc": 0.887312206,
+    "clang": 1.2137093301862478
+  },
+  "limits": [
+    "source must match registered encountered ANSI message content",
+    "no argument-array mode, other insert grammar/encoding/insufficientcapacity",
+    "HeapDestroy/wsprintfA typed surfaces remain explicitly unsupported"
+  ]
+}

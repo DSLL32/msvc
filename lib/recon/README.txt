@@ -368,3 +368,11 @@ and longjmp from these contexts fail explicitly until characterized. Ordinary
 VC1 setjmp/longjmp is unchanged. RC's unvisited IsValidCodePage/GetACP/CharNextA
 imports have SDK call ABIs and explicitly unsupported bodies, not guessed locale
 behavior.
+
+FormatMessageA also supports the observed FROM_STRING0x400 path when source
+content matches a registered encountered ANSI message: exactly one `%1` string
+and one `%2!d!` signed32 insert, passed through the actual va_list-pointer ABI.
+It formats the supplied arguments, preserving NUL, return count, untouched tail,
+errno and LastError. Other templates/grammars/capacity modes fail explicitly.
+The separate wsprintfA/HeapDestroy imports currently retain SDK ABIs with
+unsupported bodies for unvisited source branches.

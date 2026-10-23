@@ -157,10 +157,48 @@ int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
     return entry->length;
 }
 
+static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
+                                       LPSTR output,DWORD capacity,va_list *arguments)
+{
+    const char *text=(const char *)source,*cursor,*insert; NativeResource *entry=NULL,*candidate;
+    size_t n,length,insert_length,number_length; unsigned module,saw_string=0,saw_number=0;
+    int value,saved_errno=errno; char number[12],*destination; va_list copied;
+    if (!source || !arguments || id || language) recon_unsupported("unreviewed FormatMessageA inserts mode");
+    length=strlen(text);
+    for (module=0;module<module_count;++module)
+        for (candidate=native_modules[module].resources;candidate;candidate=candidate->next)
+            if (candidate->kind==2 && candidate->length==length && !memcmp(text,candidate->text,length)) entry=candidate;
+    if (!entry) recon_unsupported("unregistered FormatMessageA template");
+    for (cursor=text;*cursor;++cursor) if (*cursor=='%') {
+        if (cursor[1]=='1' && cursor[2]!='!' && !isdigit((unsigned char)cursor[2])) { ++saw_string; ++cursor; }
+        else if (!strncmp(cursor,"%2!d!",5)) { ++saw_number; cursor+=4; }
+        else recon_unsupported("unreviewed FormatMessageA insert grammar");
+    }
+    if (saw_string!=1 || saw_number!=1) recon_unsupported("unreviewed FormatMessageA insert arity");
+    va_copy(copied,*arguments); insert=va_arg(copied,const char *); value=va_arg(copied,int); va_end(copied);
+    if (!insert) recon_unsupported("null FormatMessageA string insert");
+    insert_length=strlen(insert);
+    if (insert_length>65535) recon_unsupported("FormatMessageA string insert length");
+    for (n=0;n<insert_length;++n) if ((unsigned char)insert[n]>127)
+        recon_unsupported("unreviewed FormatMessageA insert encoding");
+    snprintf(number,sizeof(number),"%d",value); number_length=strlen(number);
+    length=length-7+insert_length+number_length;
+    if (!output || capacity<=length) recon_unsupported("unreviewed FormatMessageA insert capacity");
+    destination=output;
+    for (cursor=text;*cursor;++cursor) {
+        if (*cursor!='%') *destination++=*cursor;
+        else if (cursor[1]=='1') { memcpy(destination,insert,insert_length); destination+=insert_length; ++cursor; }
+        else { memcpy(destination,number,number_length); destination+=number_length; cursor+=4; }
+    }
+    *destination=0; errno=saved_errno;
+    return (DWORD)length;
+}
+
 DWORD WINAPI recon_FormatMessageA(DWORD flags,LPCVOID source,DWORD id,DWORD language,
                                   LPSTR output,DWORD capacity,va_list *arguments)
 {
     NativeResource *entry;
+    if (flags==0x400) return format_registered_inserts(source,id,language,output,capacity,arguments);
     if (flags!=0xa00 || (language && language!=0x409) || arguments)
         recon_unsupported("unreviewed FormatMessageA mode");
     entry=resource_entry((HMODULE)source,2,id,0x409);
@@ -610,3 +648,8 @@ UINT WINAPI recon_GetACP(void)
 { recon_unsupported("unreviewed GetACP"); return 0; }
 LPSTR WINAPI recon_CharNextA(LPCSTR text)
 { (void)text; recon_unsupported("unreviewed CharNextA"); return NULL; }
+
+int __cdecl recon_wsprintfA(LPSTR output,LPCSTR format,...)
+{ (void)output; (void)format; recon_unsupported("unreviewed wsprintfA"); return 0; }
+BOOL WINAPI recon_HeapDestroy(HANDLE heap)
+{ (void)heap; recon_unsupported("unreviewed HeapDestroy"); return FALSE; }
