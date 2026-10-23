@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mangle_static_member_name@8",
+    "start": 352208,
+    "end": 352236
+  },
+  "distinct_direct_callees": [
+    "_intern_identifier@4",
+    "_write_decorated_name@16"
+  ],
+  "next_frontier": "_register_static_member_alias@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4298233464360237,
+  "total_operation_seconds": 4.218303377740085,
+  "original_capture_seconds": 1.9198495373129845
+}

@@ -771,3 +771,10 @@ char *__stdcall mangle_type_identifier(char *cursor, CType *type)
     *cursor++ = '\0';
     return cursor;
 }
+
+/* Original 0x55fd0..0x55fec. Intern the decorated name of a static
+   class member using its class as the explicitly supplied owner context. */
+char *__stdcall mangle_static_member_name(CppSymbol *owner, CppSymbol *member)
+{
+    return intern_identifier(write_decorated_name(0, member, owner, 0));
+}
