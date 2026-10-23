@@ -1,0 +1,20 @@
+Breakpoint 1 at 0x3a9dc: file src/debug-fields.c, line 20.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, pad_debug_field (destination=0x5664e674 "\n\004\037\020 \020\v", length=0) at src/debug-fields.c:20
+20	    unsigned pad = (-length) & 3, left;
+#0  pad_debug_field (destination=0x5664e674 "\n\004\037\020 \020\v", length=0) at src/debug-fields.c:20
+#1  0x56590084 in emit_debug_base_fields (tag=0x56625fb8, member_index=0xffffd418, first_member=0) at src/debug-fields.c:145
+#2  0x5659067a in emit_debug_field_list (tag=0x56625fb8, first_member=0, vshape_index=4142) at src/debug-fields.c:257
+#3  0x5658f71e in flush_debug_types () at src/debug-types.c:666
+#4  0x565a6bc2 in prepare_symbol_debug_type (symbol=0x5663441c) at src/symbol-output.c:15
+#5  0x565a7303 in emit_symbol_declaration (symbol=0x5663441c) at src/symbol-output.c:148
+#6  0x565a7c29 in serialize_scope (scope=0x56634498) at src/function-finalization.c:137
+#7  0x565a7a0d in finish_function_output () at src/function-finalization.c:92
+#8  0x565a7802 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#9  0x565a7604 in end_function_definition () at src/function-finalization.c:22
+#10 0x565b2e04 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#11 0x5655e0af in compile_translation_unit () at src/frontend.c:73
+#12 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558884 in main (argc=1, argv=0xffffd7c4, environment=0xffffd7cc) at src/c1xx.c:20

@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_pad_debug_field",
+    "start": 460624,
+    "end": 460662
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1104-pad_debug_field/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_format_pointer_declarator@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5426154527813196,
+  "total_operation_seconds": 4.606737868860364,
+  "original_capture_seconds": 1.91996113024652
+}

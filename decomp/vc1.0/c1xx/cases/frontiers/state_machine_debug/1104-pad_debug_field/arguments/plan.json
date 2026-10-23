@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "function": "_pad_debug_field",
+  "native_entry": "pad_debug_field",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "debug_buffer",
+      "original": 576692
+    }
+  ],
+  "native_expressions": {
+    "raw_destination": "(unsigned)destination",
+    "raw_length": "length",
+    "debug_buffer": "(unsigned)debug_record_buffer"
+  },
+  "formals": [
+    {
+      "name": "destination",
+      "stack_index": 0,
+      "native_field": "raw_destination",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "debug_buffer",
+        "original_anchor_address": 576692,
+        "native_anchor_field": "debug_buffer",
+        "offset": 4,
+        "owner_bytes": 4096,
+        "identity": "Actual first base-field padding destination is current4096B debug buffer+4 with length0; fresh global owner plus checked offset on both sides, no frozen heap identity. Output bytes never consumed as prestate."
+      }
+    },
+    {
+      "name": "length",
+      "stack_index": 1,
+      "native_field": "raw_length",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      460624,
+      460662
+    ],
+    "argument_bytes": 0,
+    "proof": "Cdecl2formals, saveEBX/ESI8B: destinationESP+12,lengthESP+16; RET0. Unsigned(-length)&3 returnedEAX; writeexact padbytes f0+pad descending tof1, no prestate read or helpercallee. Exact actualfirstcall length0/destinationglobaldebugbuffer+4; no incominghidden/registerinput."
+  }
+}

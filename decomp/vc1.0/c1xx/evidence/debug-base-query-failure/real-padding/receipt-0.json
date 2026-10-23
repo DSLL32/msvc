@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "b287288233b6e496165a28e45868c8b5499f3ac4383d9542f568e1905d30a094",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/manifest.json": "64ad1ef1efc1ac2aed43efd018b125723647699424f2adb48372e439043b84ee",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "48ee900f0883d69864ee4f3aae1667f27e3b3001b960d2a8f6d2d8f2e123394f",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "d0151c40635014f12778ac29d38b095db80e57f04e66cbc99fc9cc7bdbd616b6",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/c1/state-machine.cpp": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+  },
+  "observation": {
+    "status": "pass",
+    "mode": "missing group rejected before output reads",
+    "synthetic_native_only": true,
+    "padding": "actual accepted padding helper",
+    "public_reachability": "UNKNOWN"
+  },
+  "setup_seconds": 0.01688481867313385,
+  "debugger_seconds": 0.16019635647535324,
+  "total_seconds": 0.19645531475543976
+}

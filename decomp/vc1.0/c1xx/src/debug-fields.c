@@ -13,6 +13,16 @@
 
 unsigned debug_field_bytes; /* original0x8ccac */
 
+/* Original 0x70750..0x70776. Padding bytes descend from f0+pad
+   through f1, bringing the field stream to a four-byte boundary. */
+unsigned pad_debug_field(unsigned char *destination, unsigned length)
+{
+    unsigned pad = (-length) & 3, left;
+    for (left = pad; left; --left)
+        *destination++ = (unsigned char)(0xf0 + left);
+    return pad;
+}
+
 /* Original0x6ea40..0x6ebda. Measure the debug spelling of a member,
    optionally qualifying its owner. Only conversions write the text handle. */
 unsigned __stdcall debug_member_name_length(CppSymbol *symbol,
