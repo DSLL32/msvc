@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 from provenance import captured_native_binary
+from audit_roles import expected_code, text_bytes, validate_config
 import re
 import struct
 import subprocess
@@ -43,6 +44,7 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             captured_tool_path = captured_binding.get("auditor_path", default_tool_path)
             ignored = {captured_tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
             execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path not in ignored}
+            execution_inputs = validate_config(directory,candidate,execution_inputs)
             assert all(pair.sha(pair.ROOT / path) == value for path, value in execution_inputs.items())
             assert pair.sha(directory / "audit.json") == captured_binding["report_sha256"]
             captured_inputs.append(execution_inputs)
@@ -63,16 +65,13 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
         assert chunks == sorted((r["start_rva"], r["end_rva"]) for r in candidate["ranges"])
         assert all(start < end for start, end in chunks)
         assert all(left[1] <= right[0] for left, right in zip(chunks, chunks[1:]))
-        expected_owned = {f["name"]: [[0x10600000 + a, 0x10600000 + b] for a, b in f["chunks"]]
-                          for f in candidate["functions"]}
-        expected_owned.update({item["name"]: [[0x10600000 + item["start_rva"], 0x10600000 + item["end_rva"]]]
-                               for item in candidate.get("imports", [])})
+        expected_owned = expected_code(candidate)
         owned = report["owned_code_chunks"]["original"]
         assert owned["functions"] == expected_owned
         assert owned["logical_function_count"] == len(expected_owned)
         assert report["checked_functions"] == len(candidate["functions"])
-        assert owned["interval_count"] == len(chunks)
-        assert owned["declared_code_bytes"] == sum(b - a for a, b in chunks)
+        assert owned["interval_count"] == sum(len(v) for v in expected_owned.values())
+        assert owned["declared_code_bytes"] == sum(b - a for v in expected_owned.values() for a,b in v)
         assert {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"} <= set(report["checks"])
     assert pair.sha(original / "loaded-target.bin") == o["target_sha256"] == config["target"]["sha256"] == pair.sha(pair.ROOT / config["target"]["path"])
     assert pair.sha(original / "loaded-msvcrt.bin") == o["canonical_crt_sha256"] == pair.sha(pair.ROOT / "toolchains/5.10/bin/MSVCRT.DLL")
@@ -84,7 +83,9 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
         from completion_state import validate
         result = validate(original, native, o, n)
         result.update({"rust_checked_functions": report["checked_functions"],
-                       "rust_owned_original_bytes": owned["declared_code_bytes"],
+                       "rust_owned_original_bytes": owned["declared_code_bytes"] + text_bytes(candidate),
+            "rust_owned_code_bytes": owned["declared_code_bytes"],
+            "rust_owned_text_data_bytes": text_bytes(candidate),
                        "current_auditor_sha256": binding["inputs"][tool_path],
                        "current_audit_report_sha256": binding["report_sha256"],
                        "execution_receipts": {"original": pair.sha(original / "receipt.json"),
@@ -318,7 +319,9 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             "state": labels,
             "captured_native_elf": ({"path": str(captured_native_binary(native)), "sha256": n["native_sha256"]} if candidate.get("field_map") else None),
             "rust_checked_functions": report["checked_functions"],
-            "rust_owned_original_bytes": owned["declared_code_bytes"],
+            "rust_owned_original_bytes": owned["declared_code_bytes"] + text_bytes(candidate),
+            "rust_owned_code_bytes": owned["declared_code_bytes"],
+            "rust_owned_text_data_bytes": text_bytes(candidate),
             "current_auditor_sha256": binding["inputs"][tool_path],
             "current_audit_report_sha256": binding["report_sha256"],
             "execution_receipts": {"original": pair.sha(original / "receipt.json"),

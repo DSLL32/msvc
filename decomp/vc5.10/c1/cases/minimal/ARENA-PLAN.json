@@ -1,0 +1,137 @@
+{
+  "kind": "read-only encountered arena representation analysis; not acceptance",
+  "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "wrapper": {
+    "code_chunks": [
+      [
+        76185,
+        76251
+      ],
+      [
+        197889,
+        197904
+      ]
+    ],
+    "first_call": {
+      "call_rva": 76188,
+      "target_rva": 76251,
+      "return_rva": 76193,
+      "native_name": "initialize_primary_arenas"
+    },
+    "loop_count": 6,
+    "original_arena_stride": 32,
+    "descriptor_stride": 20
+  },
+  "descriptor": {
+    "rva": 415616,
+    "bytes": 120,
+    "fields": [
+      "kind",
+      "reserve_bytes",
+      "commit_unit",
+      "flags",
+      "alignment"
+    ],
+    "records": [
+      {
+        "kind": 0,
+        "reserve_bytes": 52428800,
+        "commit_unit": 65536,
+        "flags": 33,
+        "alignment": 1
+      },
+      {
+        "kind": 1,
+        "reserve_bytes": 10485760,
+        "commit_unit": 32768,
+        "flags": 16,
+        "alignment": 4
+      },
+      {
+        "kind": 2,
+        "reserve_bytes": 10485760,
+        "commit_unit": 32768,
+        "flags": 24,
+        "alignment": 4
+      },
+      {
+        "kind": 3,
+        "reserve_bytes": 5242880,
+        "commit_unit": 16384,
+        "flags": 24,
+        "alignment": 4
+      },
+      {
+        "kind": 4,
+        "reserve_bytes": 5242880,
+        "commit_unit": 32768,
+        "flags": 24,
+        "alignment": 4
+      },
+      {
+        "kind": 5,
+        "reserve_bytes": 5242880,
+        "commit_unit": 32768,
+        "flags": 24,
+        "alignment": 4
+      }
+    ],
+    "evidence": {
+      "reserve_bytes": "12a7f signed FILD +4 followed by memory percentage",
+      "commit_unit": "12a82/+8 rounding and9883 commit rounding",
+      "flags": "129ad/129e7 bit0 early/deferred group and12a2c TOP_DOWN allocation flag;228df bits1/2 serialization mode",
+      "alignment": "2293b..22945 reads descriptor+16 and stores serializer alignment"
+    }
+  },
+  "arena": {
+    "original_rva": 364464,
+    "count": 6,
+    "bytes": 192,
+    "source_type": "CompilerArena",
+    "fields": [
+      {
+        "name": "cursor",
+        "offset": 0,
+        "evidence": "451e..4535 allocator advances and returns prior cursor"
+      },
+      {
+        "name": "committed_limit",
+        "offset": 4,
+        "evidence": "451c compares cursor against +4;9883 increments committed end after VirtualAlloc"
+      },
+      {
+        "name": "base",
+        "offset": 8,
+        "evidence": "12a59 VirtualAlloc return;237cf cleanup allocation identity"
+      },
+      {
+        "name": "committed_bytes",
+        "offset": 12,
+        "evidence": "12ab7 resets0;9883 adds committed count;237d6 VirtualFree DECOMMIT bytes"
+      },
+      {
+        "name": "descriptor",
+        "offset": 16,
+        "evidence": "12a21 receives descriptor;9883 reads commit unit"
+      },
+      {
+        "name": "reserve_bytes",
+        "offset": 20,
+        "evidence": "12a29 scaled reserve size;988c reservation exhaustion compares actual cursor-base"
+      },
+      {
+        "name": "reset_value",
+        "offset": 24,
+        "evidence": "12abf zero store only; broader semantics unrecovered, future consumer must be modeled before execution"
+      },
+      {
+        "name": "mapped_view",
+        "offset": 28,
+        "evidence": "12a64 zero initializes;237fc/3ae44 chooses UnmapViewOfFile instead of release"
+      }
+    ],
+    "default": "all192 original BSS bytes zero; field-map proof must independently bind loaded before attach plus final state",
+    "snapshot": "BSS only, outside6548 initialized snapshot",
+    "future_consumer_hold": "No inferred semantic role beyond proved writes/uses; next129db stub precedes any descriptor or object consumer"
+  }
+}

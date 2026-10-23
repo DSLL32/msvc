@@ -30,9 +30,14 @@ def checked_receipt(directory):
     if receipt["kind"] != "explicit-original-capture":
         bindings.append(("native_sha256", "build/native/c1-host"))
     for key, file in bindings:
-        assert receipt[key] == sha(PROJECT / file), "stale or wrong trial: " + key
+        if key == 'functions_sha256':
+            from audit_roles import current_config
+            assert receipt[key] == sha(directory/'functions.json'), 'captured config identity changed'
+            assert current_config(json.loads((directory/'functions.json').read_text())) == json.loads((PROJECT/file).read_text()), 'stale or wrong trial: accepted data roles'
+        else:
+            assert receipt[key] == sha(PROJECT / file), "stale or wrong trial: " + key
     assert (directory / "candidate.json").read_bytes() == (PROJECT / candidate_path).read_bytes()
-    assert (directory / "functions.json").read_bytes() == (PROJECT / candidate.get("audit_config", "functions.json")).read_bytes()
+
     for item in candidate.get("input_files", []):
         assert sha(directory / item["name"]) == item["sha256"] == sha(PROJECT / item["source"])
     check_source_snapshot(directory)

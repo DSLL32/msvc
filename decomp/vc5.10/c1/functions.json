@@ -527,13 +527,15 @@
         [
           274924717,
           274924801
-        ],
+        ]
+      ],
+      "role": "application",
+      "shared": [
         [
           274803080,
           274803096
         ]
-      ],
-      "role": "application"
+      ]
     },
     {
       "name": "_initialize_state_12998",

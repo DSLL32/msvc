@@ -65,11 +65,8 @@ def main():
     seconds = time.perf_counter() - start
     assert inputs() == before, "audit inputs changed during execution"
     report = json.loads(result.stdout)
-    expected = {function["name"]: [[0x10600000 + a, 0x10600000 + b]
-                                   for a, b in function["chunks"]]
-                for function in candidate["functions"]}
-    for item in candidate.get("imports", []):
-        expected[item["name"]] = [[0x10600000 + item["start_rva"], 0x10600000 + item["end_rva"]]]
+    from audit_roles import expected_code, text_bytes
+    expected = expected_code(candidate)
     owned = report["owned_code_chunks"]["original"]
     assert owned["functions"] == expected
     assert owned["logical_function_count"] == len(expected)
@@ -87,7 +84,7 @@ def main():
                "command": command, "seconds": seconds}
     (PROJECT / "build/trial-audit-binding.json").write_text(json.dumps(binding, indent=2) + "\n")
     print(json.dumps({"checked_functions": report["checked_functions"],
-                      "owned_original_bytes": owned["declared_code_bytes"], "seconds": seconds}))
+                      "owned_original_bytes": owned["declared_code_bytes"] + text_bytes(candidate), "owned_code_bytes": owned["declared_code_bytes"], "owned_text_data_bytes": text_bytes(candidate), "seconds": seconds}))
 
 
 if __name__ == "__main__":
