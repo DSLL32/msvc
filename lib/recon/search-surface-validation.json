@@ -1,0 +1,7 @@
+{
+  "scope": "SDK-typed unvisited SearchPathA surface, explicit unsupported125; no lookup behavior claimed",
+  "native_build_denial_seconds": {
+    "gcc": 0.8722666911780834,
+    "clang": 1.1805657921358943
+  }
+}

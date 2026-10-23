@@ -847,3 +847,9 @@ DWORD WINAPI recon_GetFullPathNameA(LPCSTR name,DWORD capacity,LPSTR output,LPST
     errno=saved_errno;
     return (DWORD)length;
 }
+
+DWORD WINAPI recon_SearchPathA(LPCSTR path,LPCSTR file,LPCSTR extension,DWORD capacity,LPSTR buffer,LPSTR *part)
+{
+    (void)path; (void)file; (void)extension; (void)capacity; (void)buffer; (void)part;
+    recon_unsupported("unreviewed SearchPathA fallback"); return 0;
+}

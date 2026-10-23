@@ -233,6 +233,7 @@ void recon_load_system_profile(const char *,const char *);
  X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
  X(BOOL,SetConsoleCtrlHandler,(BOOL (WINAPI *)(DWORD),BOOL)) \
  X(USHORT *,LdrProcessRelocationBlock,(LPVOID,DWORD,USHORT *,LONG)) \
+ X(DWORD,SearchPathA,(LPCSTR,LPCSTR,LPCSTR,DWORD,LPSTR,LPSTR *)) \
  X(DWORD,GetFullPathNameA,(LPCSTR,DWORD,LPSTR,LPSTR *)) \
  X(void,GetSystemInfo,(LPSYSTEM_INFO)) X(void,GlobalMemoryStatus,(LPMEMORYSTATUS)) \
  X(DWORD,GetTickCount,(void)) \
@@ -461,6 +462,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define UnmapViewOfFile recon_UnmapViewOfFile
 #define SetConsoleCtrlHandler recon_SetConsoleCtrlHandler
 #define LdrProcessRelocationBlock recon_LdrProcessRelocationBlock
+#define SearchPathA recon_SearchPathA
 #define GetFullPathNameA recon_GetFullPathNameA
 #define GetSystemInfo recon_GetSystemInfo
 #define GlobalMemoryStatus recon_GlobalMemoryStatus
