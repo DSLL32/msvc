@@ -16,6 +16,7 @@
 #include "macros.h"
 #include "type-sizes.h"
 #include "special-member-lookup.h"
+#include "expression-records.h"
 #include <recon.h>
 
 CType *__stdcall runtime_callback_type(unsigned short pointer_attributes,
@@ -1542,4 +1543,33 @@ CppSymbol *__stdcall single_qualified_function(QualifiedDeclarator *declaration)
     functions = (CppSymbol *)resolution->binding->target;
     if (!has_single_function(functions)) return 0;
     return ((OverloadSet *)functions)->functions;
+}
+
+/* Original 0x38480..0x38563. Bit one selects array destruction using
+   the preceding count cookie; the scalar branch uses ordinary deleting
+   cleanup. Both forms return the original object pointer. */
+void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag)
+{
+    IrToken *object = adjusted_this_expression(0);
+    IrToken *flags = identifier_expression(name_flags);
+    IrToken *scalar_label = new_branch_label(0x1d);
+    IrToken *end_label = new_branch_label(0x1e);
+    IrToken *constant, *cookie, *allocation, *count, *call;
+    emit_condition_to_label(builtin_binary_expression(OP_BIT_AND, flags,
+        make_integer_constant(2)), scalar_label, 0);
+    constant = make_integer_constant(complete_type_size(type_0064));
+    constant->type = type_0064;
+    cookie = new_left_typed_expression(OP_SUBTRACT, object, constant);
+    allocation = clone_expression(cookie, 0);
+    count = new_typed_unary_expression(OP_DEREFERENCE, type_0064, cookie);
+    call = make_vector_destructor_call(object, tag->detail.class_info->size,
+        count, object->type);
+    emit_expression_statement(call);
+    emit_expression_statement(make_global_delete_call(allocation));
+    write_ir_record(0x3a, end_label);
+    emit_label(scalar_label);
+    emit_scalar_deleting_cleanup(tag);
+    emit_label(end_label);
+    begin_return_expression();
+    emit_return_statement(object, 2);
 }

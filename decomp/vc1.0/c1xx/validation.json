@@ -1,16 +1,16 @@
 {
-  "accepted_frontiers": 996,
-  "driver_functions": 902,
+  "accepted_frontiers": 997,
+  "driver_functions": 903,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 909,
-  "current_frontier": "_emit_vector_deleting_destructor_body@4",
-  "original_frontier_va": "0x38480",
+  "reconstructed_source_functions": 910,
+  "current_frontier": "exit:0",
+  "original_frontier_va": null,
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_emit_vector_deleting_destructor_body@4",
-    "original_va": "0x38480"
+    "current_frontier": "exit:0",
+    "original_va": null
   },
   "current_native_application_entries": 33,
   "active_queue": [
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 257592,
+    "accepted_code_bytes": 257819,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 54.06848607735224,
-    "accepted_frontiers": 996,
-    "source_functions": 909,
-    "accepted_source_text_and_switch_bytes": 245709,
+    "accepted_code_percent": 54.116133311503766,
+    "accepted_frontiers": 997,
+    "source_functions": 910,
+    "accepted_source_text_and_switch_bytes": 245936,
     "section_ranges": [
       [
         94208,
@@ -88,12 +88,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 257592,
+    "accepted_code_bytes": 257819,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 54.06848607735224,
-    "accepted_frontiers": 996,
-    "source_functions": 909,
-    "accepted_source_text_and_switch_bytes": 245709,
+    "accepted_code_percent": 54.116133311503766,
+    "accepted_frontiers": 997,
+    "source_functions": 910,
+    "accepted_source_text_and_switch_bytes": 245936,
     "section_ranges": [
       [
         94208,
@@ -155,10 +155,10 @@
       }
     ]
   },
-  "complete_frontend_case": false,
+  "complete_frontend_case": true,
   "active_case": "new_delete",
-  "status": "new_delete reconstruction in progress",
-  "latest_verification": "cases/frontiers/new_delete/0995-has_single_function-4/validation.json",
+  "status": "new_delete reconstruction complete",
+  "latest_verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -180,12 +180,12 @@
       "latest_verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json"
     },
     "new_delete": {
-      "status": "partial",
-      "frontier": "_emit_vector_deleting_destructor_body@4",
-      "latest_verification": "cases/frontiers/new_delete/0995-has_single_function-4/validation.json"
+      "status": "complete",
+      "frontier": "exit:0",
+      "latest_verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json"
     }
   },
-  "next_operation": "Continue _emit_vector_deleting_destructor_body@4 reconstruction",
+  "next_operation": "Seed the next approved C++ queue case",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

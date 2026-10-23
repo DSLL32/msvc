@@ -480,7 +480,7 @@ int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } retur
 
 
 unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }
-void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
+
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }

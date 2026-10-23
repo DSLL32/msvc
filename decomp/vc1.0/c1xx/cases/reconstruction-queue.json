@@ -7,7 +7,7 @@
   "current": {
     "case": "new_delete",
     "fixture": "../fixtures/c1xx-new-delete",
-    "status": "active; exact original/native seed",
+    "status": "complete: original/native exit0, complete frontend oracle exact",
     "runtime_contract": {
       "exit": 0,
       "alive": 0,
@@ -17,17 +17,7 @@
     },
     "seed": "cases/new_delete-seed/validation.json"
   },
-  "pending": [
-    {
-      "family": "new/delete and overloaded operators",
-      "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads",
-      "fixture": "../fixtures/c1xx-new-delete",
-      "status": "active original/native seeded reconstruction",
-      "manifest": "../fixtures/c1xx-new-delete/manifest.json",
-      "validation": "../fixtures/c1xx-new-delete/validation.json",
-      "case": "new_delete"
-    }
-  ],
+  "pending": [],
   "requirements": [
     "Verify each exact source/options with the original toolchain before registration",
     "Persist complete phase inputs/environment/dependencies and raw original streams/artifacts",
@@ -35,8 +25,8 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "cpp_basic, virtual_diamond, copy_assignment and stack_lifetime complete; reviewed new/delete case next",
-  "next_case": "new_delete",
+  "completion": "All five selected cases complete; substantial next-case proposal under root review",
+  "next_case": null,
   "completed": [
     {
       "case": "cpp_basic",
@@ -79,12 +69,22 @@
         40,
         6
       ]
+    },
+    {
+      "family": "new/delete and overloaded operators",
+      "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads",
+      "fixture": "../fixtures/c1xx-new-delete",
+      "status": "complete: exit0, all four frontend intermediates and raw streams/files exact",
+      "manifest": "../fixtures/c1xx-new-delete/manifest.json",
+      "validation": "../fixtures/c1xx-new-delete/validation.json",
+      "case": "new_delete",
+      "verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json"
     }
   ],
   "after_selected_queue": {
     "intent": "Propose one substantial combined case targeting the largest remaining non-CRT application families, obtain root review before original execution, then repeat while application families remain",
     "authorization": "User authorized autonomous additional VC1.0 cases while away; root review requires concrete routines/known extents, public reachability, combined features and original validation plan",
-    "status": "deferred until copy_assignment, stack_lifetime and new_delete complete"
+    "status": "Current selected queue complete; examining remaining native families for substantial root-reviewed case"
   },
   "shared_fix_review_pending": {
     "commit": "499e1fe8",

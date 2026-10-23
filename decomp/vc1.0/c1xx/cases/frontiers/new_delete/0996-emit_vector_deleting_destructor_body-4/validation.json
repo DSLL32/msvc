@@ -1,0 +1,34 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_vector_deleting_destructor_body@4",
+    "start": 230528,
+    "end": 230755
+  },
+  "distinct_direct_callees": [
+    "_adjusted_this_expression@4",
+    "_begin_return_expression",
+    "_builtin_binary_expression@12",
+    "_clone_expression@8",
+    "_complete_type_size@4",
+    "_emit_condition_to_label@12",
+    "_emit_expression_statement@4",
+    "_emit_label@4",
+    "_emit_return_statement@8",
+    "_emit_scalar_deleting_cleanup@4",
+    "_identifier_expression@4",
+    "_make_global_delete_call@4",
+    "_make_integer_constant@4",
+    "_make_vector_destructor_call@16",
+    "_new_branch_label@4",
+    "_new_left_typed_expression@12",
+    "_new_typed_unary_expression@12",
+    "_write_ir_record@8"
+  ],
+  "next_frontier": "exit:0",
+  "pending_buffers": 0,
+  "checkpoint_fields": 0,
+  "fixture_seconds": 0.4139396008104086,
+  "total_operation_seconds": 2.991063917055726,
+  "original_capture_seconds": 0.8162932358682156
+}
