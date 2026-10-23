@@ -131,6 +131,7 @@ void recon_splitpath(const char *,char *,char *,char *,char *);
 void recon_makepath(char *,const char *,const char *,const char *,const char *);
 char *recon_fullpath(char *,const char *,size_t),*recon_strupr(char *),*recon_strlwr(char *);
 char *recon_getcwd(char *,int);
+char *recon_find(const char *);
 char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
 char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
 char *recon_strcpy(char *,const char *);
@@ -272,6 +273,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _open recon_open
 #define _sopen recon_sopen
 #define _setmode recon_setmode
+#define _find recon_find
 #define strcpy recon_strcpy
 #define _openfile recon_openfile
 #define _read recon_read

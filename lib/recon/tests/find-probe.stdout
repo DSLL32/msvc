@@ -1,0 +1,30 @@
+before 0 <NULL> errno=123 error=6 same=-1
+missing 0 <NULL> errno=123 error=2 same=-1
+one 0 unit1.obj errno=123 error=6 same=1
+one 1 <NULL> errno=123 error=18 same=-1
+wild 0 unit.obj errno=123 error=4386 same=1
+wild 1 unit0.obj errno=123 error=4386 same=1
+wild 2 unit1.obj errno=123 error=4386 same=1
+wild 3 UnitZ.OBJ errno=123 error=4386 same=1
+wild 4 <NULL> errno=123 error=18 same=-1
+case 0 unit.obj errno=123 error=4386 same=1
+case 1 unit0.obj errno=123 error=4386 same=1
+case 2 unit1.obj errno=123 error=4386 same=1
+case 3 UnitZ.OBJ errno=123 error=4386 same=1
+case 4 <NULL> errno=123 error=18 same=-1
+star 0 unit.obj errno=123 error=4386 same=1
+star 1 unit0.obj errno=123 error=4386 same=1
+star 2 unit1.obj errno=123 error=4386 same=1
+star 3 UnitZ.OBJ errno=123 error=4386 same=1
+star 4 <NULL> errno=123 error=18 same=-1
+short 0 unit.obj errno=123 error=4386 same=1
+short 1 <NULL> errno=123 error=18 same=-1
+dotstar 0 plain errno=123 error=4386 same=1
+dotstar 1 <NULL> errno=123 error=18 same=-1
+subdir 0 unit0.obj errno=123 error=4386 same=1
+subdir 1 unit1.obj errno=123 error=4386 same=1
+subdir 2 <NULL> errno=123 error=18 same=-1
+badpath 0 <NULL> errno=123 error=3 same=-1
+restart unit.obj
+replace unit1.obj
+after-replace 0 <NULL> errno=123 error=18 same=-1

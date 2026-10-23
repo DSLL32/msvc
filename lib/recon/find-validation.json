@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "scope": "VC1 _find filename contract reached by LINK unit?.obj; no public Find* API expansion",
+  "original": {
+    "target": "toolchains/1.0-nt/bin/LINK.EXE",
+    "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+    "code_extent": [
+      "0x52640",
+      "0x526d0"
+    ],
+    "library": "LIBC.LIB: startup\\obj\\i386\\_SETARGV.OBJ",
+    "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+    "complete_body_review": "144 bytes including final NOP; independently matched all nonrelocation bytes, malloc and FindFirst/Next/Close callees, persistent state words0x78304/0x78308",
+    "probe_source": "lib/recon/tests/find-probe.c",
+    "probe_source_sha256": "c3fd887ed533d5d68a43db1deb3cfca893eed83ace469b39fb8f1249e742d60e",
+    "probe_executable_sha256": "2d67d6577275fa8a10e4789a0ef608b249e5aa02ba3ab6af46d86a854e5b1c92",
+    "capture": {
+      "build_seconds": 1.6538370549678802,
+      "execution_seconds": 0.9920196793973446,
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/Od",
+        "/G3",
+        "/IR:\\lib\\recon\\include",
+        "/FeS:\\recon-maintenance\\find-probe\\original.exe",
+        "/FoS:\\recon-maintenance\\find-probe\\original.obj",
+        "R:\\lib\\recon\\tests\\find-probe.c"
+      ],
+      "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+      "cwd": "S:\\recon-maintenance\\find-probe\\work",
+      "status": 0
+    },
+    "repeat": {
+      "status": "passed",
+      "execution_seconds": 0.9033306278288364,
+      "raw_repeat_equal": true
+    },
+    "stdout": "lib/recon/tests/find-probe.stdout",
+    "stdout_bytes": 1296,
+    "stdout_sha256": "3776709eb79868c4fa0fdd810e89e57d7f6673761abcaf062bc1e595d0cdfa6f",
+    "rows": 30,
+    "relocated_bindings": [
+      {
+        "name": "_malloc",
+        "address": "0x51160",
+        "identity": "LIBC.LIB: heap\\obj\\i386\\MALLOC.OBJ, existing LINK runtime identity"
+      },
+      {
+        "name": "FindClose",
+        "address": "0x5b212",
+        "iat": "0x87180",
+        "module": "KERNEL32.dll"
+      },
+      {
+        "name": "FindNextFileA",
+        "address": "0x5b218",
+        "iat": "0x87184",
+        "module": "KERNEL32.dll"
+      },
+      {
+        "name": "FindFirstFileA",
+        "address": "0x5b21e",
+        "iat": "0x87114",
+        "module": "KERNEL32.dll"
+      }
+    ],
+    "globals": [
+      {
+        "address": "0x78304",
+        "meaning": "persistent search handle",
+        "references": 6
+      },
+      {
+        "address": "0x78308",
+        "meaning": "persistent580-byte result buffer",
+        "references": 5
+      }
+    ]
+  },
+  "behavior": {
+    "result": "One persistent580-byte buffer, returned filename pointer+44 reused across calls; one active search; replacing closes prior search",
+    "matching": "ASCII case-insensitive DOS ?/* matching; question marks consume zero at dot/end; dot-star includes extensionless filename; returned spelling preserved",
+    "ordering": "Captured Wine name order, case-insensitive name sort; reversed creation order independently probed",
+    "errors": "CRT errno preserved; no current search6, missing match2, missing directory3, exhausted18; invalid previous handle close can leave6 on next successful start",
+    "paths": "Existing shared drive/path adapter; directory wildcard and generated 8.3 alias behavior not implemented; drive-relative patterns explicitly unsupported"
+  },
+  "native": [
+    {
+      "compiler": "gcc",
+      "build_and_checks_seconds": 0.9249228751286864,
+      "native_probe": {
+        "status": "passed",
+        "setup_seconds": 0.0016449661925435066,
+        "execution_seconds": 0.002596580423414707,
+        "checks_seconds": 0.00011370610445737839,
+        "total_seconds": 0.004359177313745022
+      }
+    },
+    {
+      "compiler": "clang",
+      "build_and_checks_seconds": 1.1487038172781467,
+      "native_probe": {
+        "status": "passed",
+        "setup_seconds": 0.001728743314743042,
+        "execution_seconds": 0.0019312426447868347,
+        "checks_seconds": 0.00011400878429412842,
+        "total_seconds": 0.003778303973376751
+      }
+    }
+  ],
+  "regressions": "Shared GCC/Clang native checks and frozen original wildcard probe pass; normal checks invoke no Wine/original process",
+  "coverage": "Shared compatibility support only; no application reconstruction acceptance or code-extent credit"
+}

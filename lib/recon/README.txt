@@ -87,6 +87,14 @@ equal-key ordering affects LINK's serialized import tables.
 `mbtowc` writes 16-bit wide characters and preserves the original C-locale byte
 mapping and zero-length/no-source behavior. Nondefault LC_CTYPE conversion
 explicitly fails pending codepage-specific support.
+The VC1 `_find` filename boundary retains its persistent result pointer and one
+active search, including replacement/exhaustion errors and unchanged CRT errno.
+ASCII wildcard matching is case-insensitive and preserves the captured Wine
+name order; DOS question marks can match no character at a dot/end, and `.*`
+also matches an extensionless name. This implements the encountered CRT filename
+contract, not public FindFirstFile/FindNextFile APIs or generated 8.3 aliases.
+Run make -j4 find-check for native-only comparison with the frozen original
+probe, including reverse file creation order, case, paths and search replacement.
 
 Native builds do not implement Windows SEH: ordinary __try bodies execute, but
 faults/traps fail the process rather than entering the reconstructed __except

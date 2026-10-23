@@ -169,6 +169,117 @@ static int valid_descriptor(int fd)
     if ((unsigned)fd<recon_nhandle && (recon_osfile[fd]&1)) return 1;
     errno=EBADF; return 0;
 }
+/* __find in VC1 _SETARGV.OBJ keeps one search and one 580-byte result buffer.
+ * Its callers observe only the filename at byte44. Windows '?' can consume no
+ * character at a dot/end; a final pattern dot also matches an extensionless name.
+ * Keep this boundary here rather than reproducing CRT-internal Win32 calls. */
+static char *find_buffer;
+static char **find_names;
+static size_t find_count,find_index;
+static int find_handle;
+
+static int find_match(const char *pattern,const char *name)
+{
+    while (*pattern) {
+        if (*pattern=='*') {
+            const char *end=name+strlen(name),*dot;
+            ++pattern;
+            if (!*pattern) return 1;
+            if (*pattern=='.' && (dot=strrchr(name,'.'))!=NULL) end=dot;
+            for (;;) {
+                if (find_match(pattern,end)) return 1;
+                if (end==name) break;
+                --end;
+            }
+            return 0;
+        }
+        if (*pattern=='?') {
+            if (*name && *name!='.') ++name;
+        } else if (*pattern=='.' && !*name) {
+            /* A DOS dot can be absent at the end of a filename. */
+        } else {
+            if (!*name || toupper((unsigned char)*pattern)!=toupper((unsigned char)*name)) return 0;
+            ++name;
+        }
+        ++pattern;
+    }
+    return !*name;
+}
+
+static int find_compare(const void *left,const void *right)
+{
+    const char *a=*(const char *const *)left,*b=*(const char *const *)right;
+    int result=strcasecmp(a,b);
+    return result?result:strcmp(a,b);
+}
+
+static void find_close(void)
+{
+    size_t n;
+    for (n=0;n<find_count;++n) free(find_names[n]);
+    free(find_names); find_names=NULL; find_count=find_index=0;
+    if (find_handle!=1) recon_SetLastError(ERROR_INVALID_HANDLE);
+    find_handle=0;
+}
+
+WEAK char *recon_find(const char *pattern)
+{
+    int saved_errno=errno;
+    if (pattern) {
+        char directory[PATH_MAX],host[PATH_MAX],*slash,*backslash;
+        const char *mask;
+        DIR *stream;
+        struct dirent *entry;
+        if (pattern[0] && pattern[1]==':' && pattern[2]!='/' && pattern[2]!='\\')
+            recon_unsupported("_find drive-relative path");
+        if (!find_buffer) {
+            find_buffer=malloc(580);
+            if (!find_buffer) { recon_SetLastError(ERROR_NOT_ENOUGH_MEMORY); return NULL; }
+        }
+        if (find_handle) find_close();
+        if (strlen(pattern)>=sizeof(directory)) {
+            recon_SetLastError(ERROR_PATH_NOT_FOUND); find_handle=-1; errno=saved_errno; return NULL;
+        }
+        strcpy(directory,pattern);
+        slash=strrchr(directory,'/'); backslash=strrchr(directory,'\\');
+        if (backslash && (!slash || backslash>slash)) slash=backslash;
+        if (slash) {
+            mask=pattern+(slash-directory)+1;
+            if (slash==directory) slash[1]=0;
+            else *slash=0;
+        } else { strcpy(directory,"."); mask=pattern; }
+        if (recon_host_path(directory,host,sizeof(host))<0 || !(stream=opendir(host))) {
+            recon_SetLastError(errno==EACCES?ERROR_ACCESS_DENIED:ERROR_PATH_NOT_FOUND);
+            find_handle=-1; errno=saved_errno; return NULL;
+        }
+        while ((entry=readdir(stream))!=NULL) if (find_match(mask,entry->d_name)) {
+            char **grown;
+            if (strlen(entry->d_name)>=260) recon_unsupported("_find filename exceeds MAX_PATH");
+            grown=realloc(find_names,(find_count+1)*sizeof(*find_names));
+            if (!grown) recon_unsupported("_find enumeration allocation");
+            find_names=grown;
+            find_names[find_count]=strdup(entry->d_name);
+            if (!find_names[find_count]) recon_unsupported("_find filename allocation");
+            ++find_count;
+        }
+        closedir(stream);
+        if (!find_count) {
+            free(find_names); find_names=NULL;
+            recon_SetLastError(ERROR_FILE_NOT_FOUND); find_handle=-1; errno=saved_errno; return NULL;
+        }
+        qsort(find_names,find_count,sizeof(*find_names),find_compare);
+        find_handle=1;
+    } else if (find_handle!=1) {
+        find_close(); errno=saved_errno; return NULL;
+    }
+    if (find_index==find_count) {
+        recon_SetLastError(ERROR_NO_MORE_FILES); /* FindClose preserves it. */
+        find_close(); errno=saved_errno; return NULL;
+    }
+    strcpy(find_buffer+44,find_names[find_index++]);
+    errno=saved_errno;
+    return find_buffer+44;
+}
 /* VC1 __setmode changes only the descriptor's text bit, without flushing
  * a FILE or resetting its input state. Descriptor errors precede mode errors. */
 WEAK int recon_setmode(int fd,int mode)
