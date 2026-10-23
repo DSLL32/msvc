@@ -1,0 +1,24 @@
+{
+  "scope": "SDK DECLSPEC_IMPORT spelling is empty in native-only Win32 declarations. Static native import resolution; original SDK unchanged.",
+  "original_definition": "toolchains/5.10/include/WINNT.H42/44",
+  "checks": [
+    [
+      "gcc",
+      "c"
+    ],
+    [
+      "gcc",
+      "c++"
+    ],
+    [
+      "clang",
+      "c"
+    ],
+    [
+      "clang",
+      "c++"
+    ]
+  ],
+  "seconds": 0.36529,
+  "cpp_environment": "-nostdinc++ as native shared C++ build: no host C++ standard library dependency"
+}

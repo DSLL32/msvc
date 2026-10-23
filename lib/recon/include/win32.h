@@ -12,6 +12,8 @@
 #define __stdcall __attribute__((stdcall))
 #define __fastcall __attribute__((fastcall))
 #define __thiscall __attribute__((thiscall))
+/* Native imports resolve at static link; retain SDK declaration spelling. */
+#define DECLSPEC_IMPORT
 #define TRUE 1
 #define FALSE 0
 #define MAX_PATH 260
