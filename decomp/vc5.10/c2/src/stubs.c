@@ -567,10 +567,6 @@ void output_callback_4850f5()
     __asm { int 3 }
 }
 
-void __fastcall add_output_directive(int kind, char *value)
-{
-    __asm { int 3 }
-}
 void initialize_object_output(void)
 {
     __asm { int 3 }

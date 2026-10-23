@@ -79,7 +79,8 @@
     "_c2_initialize_optimizer",
     "_initialize_backend",
     "_initialize_pass_functions",
-    "_default_runtime_library"
+    "_default_runtime_library",
+    "@add_output_directive@8"
   ],
   "driver": [
     {
@@ -247,7 +248,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           }
         }
       ]
@@ -411,7 +412,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           }
         }
       ]
@@ -497,7 +498,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           }
         }
       ]
@@ -646,7 +647,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           }
         },
         {
@@ -707,7 +708,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           }
         }
       ]
@@ -918,7 +919,7 @@
                 "bytes": "ff55ec83c408"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes.",
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes.",
             "lifetime": [
               15,
               98
@@ -985,7 +986,7 @@
                 "bytes": "ff55f0"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes.",
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes.",
             "lifetime": [
               98,
               140
@@ -1465,7 +1466,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes.",
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes.",
             "lifetime": [
               6,
               198
@@ -1655,7 +1656,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes.",
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes.",
             "lifetime": [
               6,
               377
@@ -4136,7 +4137,7 @@
                 "bytes": "ff55ec83c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           },
           "evidence": "cases/analysis/unsigned-input-disassembly.txt; manual whole bounded lifetime review: each original branch seeds its own preserved register from named MSVCRT IAT; no intervening definition of that register, only cdeclfilbuf calls. Rebuilt dominating seed spills once to EBP-14 and no other stores alias it. Seven sites pushactiveFILE/cleanup4; all branch/bypass entries begin before correspondingseed. Unknown changes fail exactbytes. No source shaping or localCFG discovery."
         }
@@ -4372,7 +4373,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           },
           "evidence": "cases/analysis/string-input-disassembly.txt: original5-byteprefix precedes dominatingEDI seed48d10c, onecallsite420eae withFILE/cleanup4, noEDIclobber and loop backedge reaches call onlyafterseed. Rebuilt1b seed405058->EBP-8, no later slotstore or stackalias; exactlyonecallsite6d, FILEpush/cleanup4, loopbackedge to24 preservescache; errorcall occurs afterloopterminates. Fixed complete intervals guard changed bytes; commonRust owns all CFG/RET/import/extent checks."
         }
@@ -5582,7 +5583,7 @@
                 "bytes": "ff55f483c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           },
           "evidence": "cases/analysis/compact-signed-disassembly.txt: dominating original MOV ESI,[48d10c] at4200fd; five calls through ESI, each activeFILE pushed and cleanup4. ESI never overwritten until epilogue; MSVCRT cdecl preserves it; both return arms covered. Rebuilt MOV from verified __imp___filbuf into EAX then EBP-12 at offsets6/11; no later holder store/address escape, five calls93/cb/123/17b/1d3 with activeFILE and cleanup4. Both initial branch and escape reads dominated by seed, complete intervals pin every instruction. Shared Rust owns CFG/RET/extent; this bounded residual only proves cached import identity/ABI."
         }
@@ -5829,7 +5830,7 @@
                 "bytes": "ff55f483c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           },
           "evidence": "cases/analysis/compact-short-{disassembly,rebuilt-disassembly}.txt: original dominatingESI seed4201cd, calls4201ef/420231/42023f, activeFILE argument and cleanup4, noESI store across branch arms, cdecl callee preservesESI. Rebuilt offsets6/11 seed verified IAT through EAX intoEBP-12; immutable holder/no address escape, exactly three calls59/cc/124, each FILE/cleanup4. Complete fixed live intervals cover all paths/RET; commonRust owns graph/RET/extent. Existing12 residuals changed only explicit sameMAP/IAT/equal-literal relocations, reviewed in compact-short-import-review.json."
         }
@@ -7072,7 +7073,7 @@
                 "bytes": "8b55f852ff158470400083c404"
               }
             ],
-            "review": "cases/analysis/default-library-import-review.json: entire fixed lifetimes exact except listed same-MAP data address relocations; no instruction/holder/call/cleanup changes."
+            "review": "cases/analysis/output-directive-import-review.json: entire reviewed fixed byte intervals unchanged; no instruction/holder/call/cleanup changes."
           }
         }
       ],
@@ -7859,6 +7860,194 @@
           4672502
         ]
       ]
+    },
+    {
+      "name": "@add_output_directive@8",
+      "native": "add_output_directive",
+      "start": 4537044,
+      "end": 4537100,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall intkind ECX char*value EDX; C2OutputDirective*EAX RET0",
+      "evidence": "cases/analysis/output-directive-append-analysis.json: complete56B, original12B node fields0/4/8, pool1 zeroed allocator; returns exactnewnodeEAX, all4direct callers and real tailcaller return lineage. Oldpendingvoid result unobserved, historical proofs unchanged.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "output-directive-input"
     }
   ],
   "stubs": [
@@ -9049,13 +9238,13 @@
       "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
     },
     {
-      "name": "@add_output_directive@8",
-      "native": "add_output_directive",
-      "start": 4537044,
-      "end": 4537045,
+      "name": "_initialize_object_output",
+      "native": "initialize_object_output",
+      "start": 4537100,
+      "end": 4537101,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall kindECX valuechar*EDX; void RET0",
+      "abi": "cdecl no parameters; void RET0",
       "evidence": "Direct argument/return/cleanup in cases/analysis/output-initialization-disassembly.txt; pending genuine INT3, no target body credit.",
       "state_policy": "globals-complete",
       "state": [
@@ -9229,22 +9418,12 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ],
-      "frontier_contract": "output-directive-input"
-    },
-    {
-      "name": "_initialize_object_output",
-      "native": "initialize_object_output",
-      "start": 4537100,
-      "end": 4537101,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl no parameters; void RET0",
-      "evidence": "Direct argument/return/cleanup in cases/analysis/output-initialization-disassembly.txt; pending genuine INT3, no target body credit."
+      "state_model_sha256": "439bd6dbbfb8bbf0c02cb1b1af9836f17845c6faad8a0c13a8175a37e2c32fa8",
+      "frontier_contract": "output-directives-complete"
     },
     {
       "name": "_initialize_codeview_output",
@@ -9511,7 +9690,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9523,7 +9702,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9535,7 +9714,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9547,7 +9726,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9559,7 +9738,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9571,7 +9750,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9583,7 +9762,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9595,7 +9774,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9607,7 +9786,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9619,7 +9798,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9631,7 +9810,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9643,7 +9822,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       },
       {
@@ -9658,7 +9837,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+          "sha256": "b886c5371255dc57f0fa23599ae5674ccf193874f3da4432a963eedfc8221584"
         }
       }
     ]

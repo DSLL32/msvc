@@ -543,7 +543,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     complete_program="""if records and records[0].get('state_policy')=='globals-complete':
     exec(MODEL_SOURCE)
     addresses={key:int(gdb.parse_and_eval('&('+item[1]+')'))for key,item in ROOTS.items()}
-    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses)
+    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')=='output-directives-complete')
     info['globals_complete']['formals']=[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument]
     info['globals_complete']['opaque_context_anchor_alias']=int(gdb.parse_and_eval('section_context'))==int(gdb.parse_and_eval('&section_context_identity'))
     if records[0].get('frontier_contract')=='initializer-input':
@@ -554,16 +554,16 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),
         'input_bytes':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
         'closed_globals_bytes':gdb.selected_inferior().read_memory(second,32).tobytes().hex()}
-    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input'):
+    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
         info['globals_complete']['streams']['active_input_alias']=int(gdb.parse_and_eval('c2_current_il'))==int(first)
         info['globals_complete']['streams']['valid_input_bytes']=gdb.selected_inferior().read_memory(first.dereference()['_base'],15).tobytes().hex()
-    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input'):
+    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
         opened=[]
         for name in ('expression_input','function_symbol_input'):
             file=gdb.parse_and_eval(name)
             opened.append({'index':(int(file)-iob)//32,'bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()})
         info['globals_complete']['streams']['backend_inputs']=opened
-    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input'):
+    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete'):
         info['output_setup']={'group_name':gdb.parse_and_eval('output_group_name').string(),
             'enabled':int(gdb.parse_and_eval('output_enabled')),
             'slots':[{'address':int(gdb.parse_and_eval('&'+name)),

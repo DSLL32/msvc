@@ -109,3 +109,19 @@ char *default_runtime_library(void)
     if (c2_runtime_mt_debug) return "LIBCMTD";
     return c2_runtime_ml_debug ? "LIBCD" : NULL;
 }
+
+C2OutputDirective *output_directives;
+
+C2OutputDirective *__fastcall add_output_directive(int kind, char *value)
+{
+    C2OutputDirective **link = &output_directives;
+    C2OutputDirective *node;
+
+    while (*link)
+        link = &(*link)->next;
+    node = c2_pool_allocate(1, sizeof(*node));
+    node->kind = kind;
+    node->value = value;
+    *link = node;
+    return node;
+}

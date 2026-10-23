@@ -1,0 +1,78 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "function": "@add_output_directive@8",
+  "range": [
+    4537044,
+    4537100
+  ],
+  "bytes": 56,
+  "range_sha256": "5f2ac43f2ea8bffd8a480fee91a9c8e654ef5287a6983a0b4d9842e4841c579d",
+  "abi": "fastcall intkindECX char*borrowedvalueEDX; newC2OutputDirective*EAX RET0; preservedEBXESIEDI",
+  "return_refinement": "Prior pendingvoid caller ignoredEAX; complete original leaves allocatornewnodeEAX, two module-directive callers immediatelyreturnit. Historical evidence unchanged.",
+  "type": {
+    "name": "C2OutputDirective",
+    "size": 12,
+    "fields": {
+      "next": [
+        0,
+        4
+      ],
+      "kind": [
+        4,
+        4
+      ],
+      "value": [
+        8,
+        4
+      ]
+    }
+  },
+  "list_head": {
+    "original": 4817088,
+    "native": "output_directives",
+    "initial": 0,
+    "visible_direct_absolute_consumers": [
+      "453ad4 appendheadload/address",
+      "453de8 iteratorheadload"
+    ],
+    "limit": "No claim of complete computed-alias discovery; future consumers require typed evidence."
+  },
+  "direct_callers": [
+    4536883,
+    4536916,
+    4562157,
+    4682545
+  ],
+  "allocator": {
+    "function": "@c2_pool_allocate@8",
+    "pool": 1,
+    "bytes": 12,
+    "initialized_block_bytes": 4096,
+    "writer": "accepted0037 poolallocator writes both headerDWORDs then memset4088; append writes kind/value and priorlink only; finalnext and remaining4064 retainzero",
+    "existing_proof": "cases/acceptance/0037-pool-allocator"
+  },
+  "numeric_expected": {
+    "pool_head_next": 0,
+    "capacity": 4088,
+    "cursor_offset": 32,
+    "remaining": 4064,
+    "head_offset": 8,
+    "nodes": [
+      {
+        "offset": 8,
+        "next_offset": 20,
+        "kind": 4,
+        "value_original": 4826712,
+        "value": "LIBC"
+      },
+      {
+        "offset": 20,
+        "next_offset": 0,
+        "kind": 4,
+        "value_original": 4816860,
+        "value": "OLDNAMES"
+      }
+    ]
+  },
+  "source_style": "ordinaryC linkedlist, no rawdata source; borrowedstrings; no invented nextfield write"
+}

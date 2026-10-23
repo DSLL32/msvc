@@ -960,14 +960,6 @@
     "evidence": null
   },
   {
-    "name": "@add_output_directive@8",
-    "start": 4537044,
-    "end": 4537045,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_initialize_object_output",
     "start": 4537100,
     "end": 4537101,

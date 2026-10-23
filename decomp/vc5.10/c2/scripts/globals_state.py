@@ -14,15 +14,17 @@ ROOTS = {
     'insertion': (0x4973f0, 'pending_insertion'), 'context': (0x497f58, 'section_context'),
     'template': (0x497308, 'symbol_template'), 'input_name': (0x496a00, 'symbol_name'),
     'decorated_name': (0x497460, 'decorated_name'), 'source_pool': (0x48e050, 'c2_pools[4]'),
+    'output_directives': (0x4980c0, 'output_directives'),
 }
 
 
-def complete_globals(read, addresses):
+def complete_globals(read, addresses, directives=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
     assert head and cursor - head == 1892 and remaining == 2204
-    assert pool_words[3:] == (0,) * 9 and read(addresses['source_pool'], 12) == bytes(12)
+    assert pool_words[6:] == (0,) * 6 and read(addresses['source_pool'], 12) == bytes(12)
+    if not directives: assert pool_words[3:6] == (0,) * 3
     assert u32(addresses['free_blocks']) == 0 and u32(addresses['types']) == head + 8
     block = bytearray(read(head, 4096))
     assert block[:8] == struct.pack('<II', 0, 4088)
@@ -123,8 +125,31 @@ def complete_globals(read, addresses):
     struct.pack_into('<I',template,24,string(pointer)[0])
     # All unaddressed padding, reserved fields, string bytes and unused arena
     # tail remain in this normalized4096-byte view and must match exactly.
-    return dict(pool_cursor=1892,pool_remaining=2204,pool_bytes=block.hex(),scope_bytes=scope.hex(),
+    result = dict(pool_cursor=1892,pool_remaining=2204,pool_bytes=block.hex(),scope_bytes=scope.hex(),
         objects=inventory,external_strings=strings,sections=sections,pending=pending,
         insertion_offset=1330,filename_offset=536,template_bytes=template.hex(),
         input_bytes=read(addresses['input_name'],2058).hex(),
         decorated_bytes=read(addresses['decorated_name'],2059).hex())
+
+    if directives:
+        directive_head, directive_cursor, directive_remaining = pool_words[3:6]
+        assert directive_head and directive_head != head
+        assert directive_cursor == directive_head + 32 and directive_remaining == 4064
+        assert u32(addresses['output_directives']) == directive_head + 8
+        data = bytearray(read(directive_head, 4096))
+        assert data[:8] == struct.pack('<II', 0, 4088)
+        nodes = []
+        for offset, next_offset, expected_text in ((8, 20, 'LIBC'), (20, 0, 'OLDNAMES')):
+            next_pointer, kind, value = struct.unpack_from('<III', data, offset)
+            assert next_pointer == (directive_head + next_offset if next_offset else 0)
+            assert kind == 4
+            normalized, text = string(value)
+            assert text == expected_text
+            struct.pack_into('<III', data, offset, 0x30000000 + next_offset if next_offset else 0, kind, normalized)
+            nodes.append(dict(offset=offset, next_offset=next_offset, kind=kind, value=text))
+        # The accepted allocator writes both header DWORDs and zeroes all4088
+        # payload bytes; append writes only kind/value and the prior link.
+        # The unwritten second link and remaining4064 bytes retain that zeroing.
+        result['directives'] = dict(head_offset=8, cursor_offset=32, remaining=4064,
+            nodes=nodes, pool_bytes=data.hex())
+    return result

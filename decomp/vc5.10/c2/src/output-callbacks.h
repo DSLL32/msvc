@@ -61,7 +61,16 @@ void output_callback_4850f5();
 extern char *output_group_name;
 extern int output_enabled;
 char *default_runtime_library(void);
-void __fastcall add_output_directive(int kind, char *value);
+typedef struct C2OutputDirective {
+    struct C2OutputDirective *next;
+    int kind;
+    char *value;
+} C2OutputDirective;
+typedef char C2OutputDirectiveSizeCheck[sizeof(C2OutputDirective) == 12 ? 1 : -1];
+typedef char C2OutputDirectiveKindCheck[offsetof(C2OutputDirective, kind) == 4 ? 1 : -1];
+typedef char C2OutputDirectiveValueCheck[offsetof(C2OutputDirective, value) == 8 ? 1 : -1];
+extern C2OutputDirective *output_directives;
+C2OutputDirective *__fastcall add_output_directive(int kind, char *value);
 void initialize_object_output(void);
 void initialize_codeview_output(void);
 #endif

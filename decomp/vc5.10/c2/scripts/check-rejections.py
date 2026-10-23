@@ -185,6 +185,33 @@ def main():
             path=root/'o/receipt.json';receipt=json_at(path);receipt['globals_complete_hashes'][name]=sha((root/'o'/name).read_bytes())
             if name=='unmodeled-original-data.bin':receipt['unmodeled_original_data']['sha256']=sha((root/'o'/name).read_bytes())
             write_json(path,receipt)
+        if 'directives'in current_state['globals_complete']:
+            def list_changed(root,change):complete_changed(root,lambda v:change(v['directives']))
+            def list_byte(root,index):
+                def change(value):
+                    data=bytearray.fromhex(value['pool_bytes']);data[index]^=1;value['pool_bytes']=data.hex()
+                list_changed(root,change)
+            mutations += [
+                ('directive list head alias differs',lambda r:list_changed(r,lambda v:v.__setitem__('head_offset',20))),
+                ('directive list allocator cursor differs',lambda r:list_changed(r,lambda v:v.__setitem__('cursor_offset',28))),
+                ('directive list allocator remaining differs',lambda r:list_changed(r,lambda v:v.__setitem__('remaining',4068))),
+                ('directive list node omitted',lambda r:list_changed(r,lambda v:v['nodes'].pop())),
+                ('directive list input order differs',lambda r:list_changed(r,lambda v:v['nodes'].reverse())),
+                ('directive list actual kind differs',lambda r:list_changed(r,lambda v:v['nodes'][1].__setitem__('kind',5))),
+                ('directive list actual borrowed value differs',lambda r:list_changed(r,lambda v:v['nodes'][0].__setitem__('value','LIBCD'))),
+                ('directive list header capacity differs',lambda r:list_byte(r,4)),
+                ('directive list first link differs',lambda r:list_byte(r,8)),
+                ('directive list retained final null link differs',lambda r:list_byte(r,20)),
+                ('directive list full initialized tail differs',lambda r:list_byte(r,4095)),
+                ('directive list original allocator descriptor differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x48e034-0x48e000)),
+                ('directive list original global head differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x4980c0-0x48e000)),
+                ('directive list original header differs',lambda r:complete_raw(r,'directive-pool.bin',4)),
+                ('directive list original link differs',lambda r:complete_raw(r,'directive-pool.bin',8)),
+                ('directive list original kind differs',lambda r:complete_raw(r,'directive-pool.bin',12)),
+                ('directive list original borrowed value alias differs',lambda r:complete_raw(r,'directive-pool.bin',16)),
+                ('directive list original retained final link differs',lambda r:complete_raw(r,'directive-pool.bin',20)),
+                ('directive list original initialized tail differs',lambda r:complete_raw(r,'directive-pool.bin',4095)),
+            ]
         if 'input_file'in current_state['globals_complete']:
             def wrong_initializer_original(root,key,value):
                 path=root/'o/events.txt';raw=path.read_text();raw=re.sub(r'^(globals-complete initializer-input .*?'+key+'=)[0-9a-f]+',lambda m:m[1]+value,raw,flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')

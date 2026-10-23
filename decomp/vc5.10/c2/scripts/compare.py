@@ -4,7 +4,7 @@ import argparse
 import json
 import re
 from pathlib import Path
-from state import BINARY, CANONICAL_CRT, load, receipt_bound, sha, masked, offset, trial_configuration, audit_input_hashes
+from state import BINARY, TARGET, CANONICAL_CRT, load, receipt_bound, sha, masked, offset, trial_configuration, audit_input_hashes
 
 def compare(original,native,validation=None):
     base,original_bytes,inventory=load()
@@ -406,14 +406,29 @@ def compare(original,native,validation=None):
         image=(original/'unmodeled-original-data.bin').read_bytes();block=(original/'pool-block.bin').read_bytes()
         preserved=receipts[0]['unmodeled_original_data'];assert len(image)==preserved['bytes']==67328 and sha(image)==preserved['sha256']
         snapshots=receipts[0]['globals_complete_hashes']
-        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'initializer-buffer.bin'} if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input')else set()) | ({'backend-streams.bin'}if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input')else set()) | ({'output-directive-value.bin'}if expected.get('frontier_contract')=='output-directive-input'else set()))
+        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'directive-pool.bin'}if expected.get('frontier_contract')=='output-directives-complete'else set()) | ({'initializer-buffer.bin'} if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete')else set()) | ({'backend-streams.bin'}if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete')else set()) | ({'output-directive-value.bin'}if expected.get('frontier_contract')=='output-directive-input'else set()))
         for name,digest in snapshots.items():assert sha((original/name).read_bytes())==digest,'complete raw snapshot changed'
         head=struct.unpack_from('<I',image,0x48e020-0x48e000)[0]
+        directives=expected.get('frontier_contract')=='output-directives-complete'
+        directive_head=struct.unpack_from('<I',image,0x48e02c-0x48e000)[0] if directives else 0
+        directive_block=(original/'directive-pool.bin').read_bytes()if directives else b''
+        if directives:assert len(directive_block)==4096
+        if directives:
+            from data_evidence import reader
+            assert struct.unpack_from('<I',directive_block,16)[0]==0x49a658
+            assert struct.unpack_from('<I',directive_block,28)[0]==0x497fdc
+            assert reader(TARGET)(0x4980c0,4)==bytes(4)
+            import re as _re
+            found=_re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+_output_directives\s+([0-9a-f]{8})',(BINARY/'build/c2.map').read_text(),_re.M)
+            assert len(found)==1 and reader(BINARY/'build/c2.exe')(int(found[0],16),4)==bytes(4)
+            assert proof.symbols(BINARY/'build/native/c2',data=True)['output_directives'][1]==4
+
         def read(address,size):
             if head<=address and address+size<=head+4096:return block[address-head:address-head+size]
+            if directive_head<=address and address+size<=directive_head+4096:return directive_block[address-directive_head:address-directive_head+size]
             assert 0x48e000<=address and address+size<=0x49e700,'unmodeled external data access'
             return image[address-0x48e000:address-0x48e000+size]
-        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()})))
+        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives)))
         native_complete=dict(state['globals_complete']);streams=native_complete.pop('streams');wanted['formals']=[];wanted['opaque_context_anchor_alias']=True
         if expected.get('frontier_contract')=='initializer-input':
             wanted['formals']=[{'name':'input','type':'ShimFILE *'}];wanted['input_file']={'index':3,'main_alias':True}
@@ -434,11 +449,11 @@ def compare(original,native,validation=None):
         source_streams=(original/'header-streams.bin').read_bytes();assert len(source_streams)==64
         input_words=struct.unpack('<8I',source_streams[:32]);closed_words=struct.unpack('<8I',source_streams[32:])
         native_input=bytes.fromhex(streams['input_bytes']);native_closed=struct.unpack('<8I',bytes.fromhex(streams['closed_globals_bytes']))
-        if expected.get('frontier_contract')not in ('backend-inputs-open','output-callbacks-selected','output-directive-input'):
+        if expected.get('frontier_contract')not in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
             assert closed_words==(0,0,0,0,4,0,4096,0)and native_closed==closed_words,'canonical closed global FILE layout differs'
         assert streams['input_index']==3 and streams['globals_index']==4
         active=struct.unpack('<I',read(0x490b80,4))[0]
-        if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input'):
+        if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
             opened=(original/'backend-streams.bin').read_bytes();assert len(opened)==64
             actual=re.findall(r'^backend-inputs-open expression=([0-9a-f]+) symbols=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M);assert len(actual)==1
             expression,symbols,iob=[int(value,16)for value in actual[0]]
@@ -449,7 +464,7 @@ def compare(original,native,validation=None):
             assert source_streams[32:]==opened[:32]and native_closed==struct.unpack('<8I',opened[:32])
             assert struct.unpack('<8I',opened[:32])==(0,0,0,1,4,0,4096,0)
             assert struct.unpack('<8I',opened[32:])==(0,0,0,1,5,0,0,0)
-        if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input'):
+        if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete'):
             native_words=struct.unpack('<8I',native_input)
             for words in (input_words,native_words):
                 assert words[2] and words[0]==words[2] and words[1]==0 and words[3:]==(25,3,0,4096,0),'postEOF canonical FILE layout differs'
@@ -462,7 +477,7 @@ def compare(original,native,validation=None):
             assert input_words==(0,0,0,1,3,0,0,0)and native_input==source_streams[:32],'main IL stream was unexpectedly consumed'
             assert streams['active_globals_alias'] is True
             assert active==struct.unpack('<I',read(0x497fd4,4))[0],'target active stream no longer aliases closed globals FILE'
-    if expected.get('frontier_contract')in ('output-callbacks-selected','output-directive-input'):
+    if expected.get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete'):
         from callback_evidence import model as callback_model
         import struct
         boundary=callback_model(config)
