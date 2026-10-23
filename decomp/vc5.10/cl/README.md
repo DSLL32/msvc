@@ -13,8 +13,9 @@ original capture. See `cases/help/{completed,coverage,timings}.json` and the
 acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
-unknown-option diagnostic are complete. There are now 87 accepted application
-functions /15,793 original extent bytes (82.85% of whole `.text`); the non-CRT
+unknown-option diagnostic and public preprocessor/pass controls are complete.
+There are now 93 accepted application functions /16,056 original extent bytes
+(84.23% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -40,6 +41,16 @@ take 1.75 seconds. New evidence is ordinary files under
 hash references to existing repository originals and pinned auditor sources.
 The previous evidence archives remain unchanged. Fifteen separately selected
 CRT/import-support records cover 476 bytes and receive no application credit.
+
+The public `/E /Bp1.pre /?` case enables the two frontends and changes C1's
+optional leading argument file to `.pre`. A read-only snapshot at the real
+help entry compares all five pass records and their bounded strings/aliases;
+38 mutation controls pass. The native fixture takes about 30 ms, and all six
+cached cases take 1.84 seconds. Explicit C/C++/object input wrappers and their
+shared filename helper are also reconstructed. Their separate forwarding case
+is held at the shared `_mbsstr` implementation; its original already exits via
+help before executing a compiler or linker. No completion credit is claimed
+for that held case or its pending linker-argument handler.
 
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,

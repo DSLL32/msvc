@@ -99,7 +99,13 @@
     "_show_usage",
     "_warning",
     "_vwrite_message",
-    "_fatal"
+    "_fatal",
+    "_c_input",
+    "_typed_input",
+    "_cpp_input",
+    "_object_input",
+    "_enable_pass",
+    "_set_pass_suffix"
   ],
   "driver": [
     {
@@ -780,34 +786,158 @@
     {
       "name": "_link_arguments",
       "start": 4205489,
-      "end": 4205490,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "link_arguments"
+      "end": 4205612,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "link_arguments",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete123B body reads2stackargs, actualargv/index, preservedEBX/ESI/EDI; returnsNULL."
+      },
+      "evidence": {
+        "kind": "complete123B linker argument forwarding helper",
+        "range": [
+          "0x402bb1",
+          "0x402c2c"
+        ],
+        "behavior": "Nonemptyattachedtextafter5byte/link plusallremainingargv become options(name,NULL,C,8); advancesindexpastallremainingwords; returnsNULL. Next402c2c isexistingdefine_macro, excluded."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/object-input-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/object-input-1-native",
+        "scope": "Actual10wordargv/index8 andthreeexplicitinputnodes;8freshformal/memorycontrols."
+      }
     },
     {
       "name": "_c_input",
       "start": 4205860,
-      "end": 4205861,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "c_input"
+      "end": 4205886,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "c_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete26B wrapper pushes originalargs/index plus literalTc andkind0; returnsEAX0."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/explicit-inputs-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/explicit-inputs-initial-native",
+        "scope": "Actual10wordargv andindex1; exactmainentry0/0/LastError2/CW639."
+      },
+      "evidence": {
+        "kind": "complete26B explicit C input wrapper",
+        "range": [
+          "0x402d24",
+          "0x402d3e"
+        ],
+        "behavior": "Calls typed_input with literalTc,args,index,kind0 andreturnsNULL; preserves graphvertex402d58."
+      }
     },
     {
       "name": "_cpp_input",
       "start": 4205886,
-      "end": 4205887,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "cpp_input"
+      "end": 4205912,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "cpp_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete26B wrapper reads2stackargs, pushesprefixTp andkind1, returnsNULL."
+      },
+      "evidence": {
+        "kind": "complete26B C++ input wrapper",
+        "range": [
+          "0x402d3e",
+          "0x402d58"
+        ],
+        "behavior": "Preserve sharedtyped_input call withTp,argvector/index,kind1; returnNULL."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/typed-input-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/typed-input-1-native",
+        "scope": "Actual10wordargv/index2 plus firstCinputpretend.c kind0/explicit1;8freshformal/memorycontrols."
+      }
     },
     {
       "name": "_object_input",
       "start": 4205834,
-      "end": 4205835,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "object_input"
+      "end": 4205860,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "object_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete26B wrapper reads2stackargs, pushesprefixTo andkind3, returnsNULL."
+      },
+      "evidence": {
+        "kind": "complete26B object input wrapper",
+        "range": [
+          "0x402d0a",
+          "0x402d24"
+        ],
+        "behavior": "Preserve sharedtyped_input call withTo,argvector/index,kind3; returnNULL."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/cpp-input-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/cpp-input-1-native",
+        "scope": "Actual10wordargv/index3 andexistingC/C++inputs;8freshformal/memorycontrols."
+      }
     },
     {
       "name": "_validate_value",
@@ -1014,10 +1144,37 @@
     {
       "name": "_enable_pass",
       "start": 4203570,
-      "end": 4203571,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "enable_pass"
+      "end": 4203608,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "enable_pass",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; EAXnotsemanticallyconsumed",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete38B leaf readsargument->value[0],5passselectors/flags; nohiddenincomingregisteruses."
+      },
+      "evidence": {
+        "kind": "complete38B pass-enable callback",
+        "range": [
+          "0x402432",
+          "0x402458"
+        ],
+        "behavior": "Selector.or.dot scans5records andORsflagsbit1 preservingallotherfields. 402458 beginsseparatedisable_passbody."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/preprocessor-pass-options-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/preprocessor-pass-options-initial-native",
+        "scope": "Actualpublic/E-emittedoptionba:value1,originE rule81,all5flags0afterbd:. ;26freshoption/passmemorycontrols."
+      }
     },
     {
       "name": "_toggle_pass",
@@ -1053,10 +1210,37 @@
     {
       "name": "_set_pass_suffix",
       "start": 4203515,
-      "end": 4203516,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "set_pass_suffix"
+      "end": 4203570,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "set_pass_suffix",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; no semantic EAXreturnconsumed",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Full55B readsoption->value selector then5passselectors; onlycallee duplicate call, nohiddenincomingregisters."
+      },
+      "evidence": {
+        "kind": "complete55B optional pass argument filename callback",
+        "range": [
+          "0x4023fb",
+          "0x402432"
+        ],
+        "behavior": "For selected/dot records duplicate(value+1) into lastDWORDoptions, not fileextension; preservesoriginal lackoffree/operandconsumption. Sourceidentifierhistoricallysuffix, actualfield documented."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-pass-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-pass-1-native",
+        "scope": "ActualpublicBp1.pre->bx:value1.pre, flagsD0/1=1/P=1/2=0/C=0, completeOptionorigin and26memorycontrols."
+      }
     },
     {
       "name": "_set_pass_name",
@@ -1653,6 +1837,53 @@
         "original": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-1-original",
         "native": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-3-native",
         "scope": "fd2, actual id4002format, originalfirstvariadicslot alias andoneconsumedchar*; no opaque unobserved inputs."
+      }
+    },
+    {
+      "name": "_typed_input",
+      "start": 4205912,
+      "end": 4206004,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "typed_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; caller ignoresEAX, no semantic return claim",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "const char *"
+          },
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          },
+          {
+            "name": "kind",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete92B body reads4stackargs, consumesindexpointer andargv; allincomingregistervalues overwrittenbeforeuse."
+      },
+      "evidence": {
+        "kind": "complete92B typed input helper",
+        "range": [
+          "0x402d58",
+          "0x402db4"
+        ],
+        "behavior": "Advancesindex, skips slash+explicitprefix; attachedfilename ornextword; add_input withactualkind andexplicit1; missingnamefatal2004withoriginalprefix."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2-native",
+        "scope": "ActualprefixTc,10argvwords,index1,kind0;14freshformal/memorycontrols."
       }
     }
   ],

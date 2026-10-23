@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "driver-option-queue-approved",
+  "state": "public-pass-completed;explicit-input-shim-held",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -57,6 +57,34 @@
       "source": null,
       "expected_status": 2,
       "from_vc1": "authored intentional warning4002 then fatal2003; no reused oracle. Expected2 follows actual fatal body push2\u2192driver_exit."
+    },
+    {
+      "id": "explicit-inputs",
+      "arguments": [
+        "/nologo",
+        "/Tcpretend.c",
+        "/Tppretend.cpp",
+        "/Topretend.obj",
+        "/ba1",
+        "/bc12",
+        "/bx1.pre",
+        "/?",
+        "/link",
+        "/DEBUG"
+      ],
+      "source": null,
+      "from_vc1": "Authored genuine5.10 explicitC/C++/object/passforwarding inputs; help completion must be observed before claiming no file/dependencyconsumption."
+    },
+    {
+      "id": "preprocessor-pass-options",
+      "arguments": [
+        "/nologo",
+        "/E",
+        "/Bp1.pre",
+        "/?"
+      ],
+      "source": null,
+      "from_vc1": "Authored actual5.10 public grammar: /E generates internalbd/ba, /Bp1 generatesbx; no sourcefile/dependency needed before verifiedhelp."
     }
   ],
   "notes": [
@@ -64,16 +92,19 @@
     "First CL-only regressions must replay captured C1/C1XX export invocation effects and C2/LINK process boundaries without Wine. DLL calls are synchronous in-process boundaries, not child-process aliases.",
     "No native build, target entry stub, mask or acceptance pipeline created in groundwork.",
     "Minimal-C exact C1 argv/BOOL, DLL attach/detach entry observations and C2 MSC_CMD_FLAGS+IR were explicitly captured from original5.10; no reconstruction authorized.",
-    "Root released autonomous continuation beyond help; minimal-C follows the completed, frozen help review window and an explicit dependency-boundary plan."
+    "Root released autonomous continuation beyond help; minimal-C follows the completed, frozen help review window and an explicit dependency-boundary plan.",
+    "explicit-inputs originalcompletedhelp0, butlowercaseba/bc/bx wereunknown; retain unchanged as input/linkcase, publicpassoptions are separate."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "unknown-option",
+  "authorized_case": "preprocessor-pass-options",
   "authorized_queue": [
     "help",
     "minimal-c",
     "response-options",
     "usage",
-    "unknown-option"
+    "unknown-option",
+    "explicit-inputs",
+    "preprocessor-pass-options"
   ],
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [
@@ -81,6 +112,7 @@
     "minimal-c",
     "response-options",
     "usage",
-    "unknown-option"
+    "unknown-option",
+    "preprocessor-pass-options"
   ]
 }

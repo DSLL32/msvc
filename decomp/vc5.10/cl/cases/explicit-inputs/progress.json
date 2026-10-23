@@ -1,0 +1,67 @@
+{
+  "state": "held-native-shared-API-gap",
+  "accepted": [
+    {
+      "order": 1,
+      "candidate": "_c_input",
+      "class": "application",
+      "extent_bytes": 26,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2/pair.json",
+        "sha256": "64c2cf71bf6ced1392ec056b8bf805dd5cfff168900a7b6f92ae640ca1b056e7"
+      }
+    },
+    {
+      "order": 2,
+      "candidate": "_typed_input",
+      "class": "application",
+      "extent_bytes": 92,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/typed-input-1/pair.json",
+        "sha256": "cce39ad3999ad0ece857275b0d007944fe4a52df518621679e2572bd1381cf2f"
+      }
+    },
+    {
+      "order": 3,
+      "candidate": "_cpp_input",
+      "class": "application",
+      "extent_bytes": 26,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/cpp-input-1/pair.json",
+        "sha256": "fa09a25c88fc2934766881f547e50409744acf81038dfde3d770472ace5fa71b"
+      }
+    },
+    {
+      "order": 4,
+      "candidate": "_object_input",
+      "class": "application",
+      "extent_bytes": 26,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/object-input-1/pair.json",
+        "sha256": "af45fcea54fc310556b0f1767c452009f104a1b4e2c91befbb2333b5f955a5f3"
+      }
+    }
+  ],
+  "accepted_application_functions": 4,
+  "accepted_extent_bytes": 170,
+  "pending_candidate": "_link_arguments",
+  "pending_candidate_extent_bytes": 123,
+  "old_original": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-1-original",
+  "original_outcome": "Normal help exit 0 before dependency execution.",
+  "native_denial": "recon: unsupported native operation: unreviewed _mbsstr",
+  "actual_native_input": {
+    "text": "%b.obj",
+    "needle": "%b",
+    "CP": 0,
+    "MB_CUR_MAX": 1,
+    "LC_CTYPE": 0,
+    "errors": [
+      0,
+      0,
+      2
+    ]
+  },
+  "owner": "/root/recon_lib_maintenance",
+  "capture_reuse": "Later public-pass promotions changed the accepted mask; a fresh linker-argument candidate original is required. Old raw evidence remains unchanged.",
+  "grammar_correction": "Lowercase ba/bc/bx are unrecognized public words, suppressed by help. This case proves explicit input and linker forwarding only; public pass options have a separate case."
+}

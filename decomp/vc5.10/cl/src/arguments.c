@@ -2,6 +2,60 @@
 #include "cl.h"
 #include <recon.h>
 
+/* 00402d24..00402d3e: explicit C source option. */
+Option *c_input(char **args, int *index)
+{
+    typed_input("Tc", args, index, 0);
+    return NULL;
+}
+
+/* 00402d3e..00402d58: explicit C++ source option. */
+Option *cpp_input(char **args, int *index)
+{
+    typed_input("Tp", args, index, 1);
+    return NULL;
+}
+
+/* 00402d0a..00402d24: explicit object-file input option. */
+Option *object_input(char **args, int *index)
+{
+    typed_input("To", args, index, 3);
+    return NULL;
+}
+
+/* 00402bb1..00402c2c: remaining words belong verbatim to the linker pass. */
+Option *link_arguments(char **args, int *index)
+{
+    char *text = args[*index] + 5;
+    int next;
+    if (*text)
+        append_option(&driver->options, new_option(text, NULL, "C", 8));
+    next = *index + 1;
+    while (args[next]) {
+        append_option(&driver->options, new_option(args[next], NULL, "C", 8));
+        ++next;
+    }
+    *index = next;
+    return NULL;
+}
+
+/* 00402d58..00402db4: attached or following filename, with explicit language. */
+void typed_input(const char *option, char **args, int *index, int kind)
+{
+    const char *prefix = option;
+    char *name = args[(*index)++] + 1;
+    while (*prefix) {
+        ++prefix;
+        ++name;
+    }
+    if (!*name)
+        name = args[(*index)++];
+    if (name && *name)
+        add_input(name, kind, 1);
+    else
+        fatal(2004, option);
+}
+
 char **split_arguments(char *text, int remove_quotes)
 {
     unsigned char *source, *out, *buffer;

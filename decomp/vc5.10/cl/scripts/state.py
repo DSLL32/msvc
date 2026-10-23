@@ -107,6 +107,14 @@ def basic_project(platform,directory):
 def project(platform,directory):
     directory=Path(directory);result=basic_project(platform,directory)
     result['wrapper_decoder_sha256']=sha(Path(__file__))
+    if(directory/'pass-state-observer.txt').exists():
+        import pass_state
+        assert 'status'in result['fields'],'pass observer requires real completed help outcome'
+        result['fields']['pass_state']=pass_state.decode(directory,platform)
+        pass_state.expected(result['fields']['pass_state'])
+        names=['pass-state-observer.txt','pass-state.bin','events.txt']if platform=='original'else['pass-state-observer.txt','pass-state.bin','pass-state-gdb.json','gdb_pass.py']
+        result['raw_inputs'].update({name:sha(directory/name)for name in names})
+        result['pass_decoder_sha256']=sha(Path(pass_state.__file__))
     response_mode=((directory/'dependency-native.json').exists() if platform=='native' else
         ((directory/'capture.json').exists() and json.loads((directory/'capture.json').read_text()).get('dependency_response',False))or
         ((directory/'dependency-observer.txt').exists() and (directory/'dependency-observer.txt').read_bytes()==b'CL_DEPENDENCY_RESPONSE_V1\n'))

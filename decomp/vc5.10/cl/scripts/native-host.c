@@ -52,6 +52,17 @@ int __wrap_main(int argc, char **argv, char **envp)
         argc == 3 && !strcmp(argv[1],"/nologo") &&
         !strcmp(argv[2],"/unknown-reconstruction-option"))
         entry_error = 0;
+    else if (profile && !strcmp(profile,"explicit-inputs-canonical-msvcrt-v1") &&
+        argc == 11 && !strcmp(argv[1],"/nologo") &&
+        !strcmp(argv[2],"/Tcpretend.c") && !strcmp(argv[3],"/Tppretend.cpp") &&
+        !strcmp(argv[4],"/Topretend.obj") && !strcmp(argv[5],"/ba1") &&
+        !strcmp(argv[6],"/bc12") && !strcmp(argv[7],"/bx1.pre") &&
+        !strcmp(argv[8],"/?") && !strcmp(argv[9],"/link") && !strcmp(argv[10],"/DEBUG"))
+        entry_error = 2;
+    else if (profile && !strcmp(profile,"preprocessor-pass-options-canonical-msvcrt-v1") &&
+        argc == 5 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/E") &&
+        !strcmp(argv[3],"/Bp1.pre") && !strcmp(argv[4],"/?"))
+        entry_error = 2;
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);

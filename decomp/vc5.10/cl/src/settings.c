@@ -202,6 +202,28 @@ void set_pass_name(Option *option)
     }
 }
 
+/* 00402432..00402458: enable a named pass, or all passes for '.'. */
+void enable_pass(Option *option)
+{
+    int index;
+    char pass = option->value[0];
+    for (index = 0; index < 5; ++index) {
+        if (pass == '.' || pass == compiler_passes[index].option_prefix[0])
+            compiler_passes[index].flags |= 1;
+    }
+}
+
+/* 004023fb..00402432: replace the optional leading pass argument filename. */
+void set_pass_suffix(Option *option)
+{
+    int index;
+    char pass = option->value[0];
+    for (index = 0; index < 5; ++index) {
+        if (pass == '.' || pass == compiler_passes[index].option_prefix[0])
+            compiler_passes[index].options = duplicate(option->value + 1);
+    }
+}
+
 /* 0040253e..00402594: remove only protected default macro definitions once.
  * The encountered guardDWORD00409028 is1 both on disk and at this frontier. */
 int default_macros = 1;

@@ -49,6 +49,10 @@ def capture(original,directory):
         from mktemp_state import original_entry
         assert original_entry(original)==profile['state'],'unknown original entry profile'
     shutil.copyfile(profile_path,directory/'entry-profile.json')
+    if(original/'pass-state-observer.txt').exists():
+        from pass_state import CONTROL
+        assert case['case']=='preprocessor-pass-options'and(original/'pass-state-observer.txt').read_bytes()==CONTROL
+        (directory/'pass-state-observer.txt').write_bytes(CONTROL)
     variables=environment(vector(original/'environment.bin')[1])
     assert variables==profile['environment'],'unknown consumed entry-profile inputs'
     env=os.environ.copy()
@@ -101,11 +105,13 @@ def capture(original,directory):
         env['RECON_RESOURCE_PROVIDER']=str(directory/'resources.bin')
         resource_before=sha(directory/'resources.bin')
     # Freeze the actual GDB controller/schema bytes used for this execution.
-    for name in ('gdb_capture.py','gdb_entry.py','gdb_mktemp.py','gdb_streams.py','gdb_unlink.py','gdb_exit.py','completion_state.py','native_status.py','frontier_state.py'):
+    for name in ('gdb_capture.py','gdb_entry.py','gdb_mktemp.py','gdb_streams.py','gdb_unlink.py','gdb_exit.py','gdb_pass.py','completion_state.py','native_status.py','frontier_state.py'):
         shutil.copyfile(PROJECT/'scripts'/name,directory/name)
     script='import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_capture import capture\ncapture('+repr(str(directory))+')\n'
     (directory/'gdb-capture.py').write_text(script)
     (directory/'gdb-entry.py').write_text('import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_entry import capture\ncapture('+repr(str(directory))+')\nfrom gdb_mktemp import install\ninstall('+repr(str(directory))+')\nfrom gdb_unlink import install\ninstall('+repr(str(directory))+')\nfrom gdb_exit import install\ninstall('+repr(str(directory))+')\n')
+    if(directory/'pass-state-observer.txt').exists():
+        with(directory/'gdb-entry.py').open('a')as script:script.write('from gdb_pass import install\ninstall('+repr(str(directory))+')\n')
     # argv[0] is supplied as captured Win32 data while the executable is ELF.
     commands=['/usr/bin/gdb','-q','-nx','-batch','-ex','set pagination off',
         '-ex','set exec-wrapper /usr/bin/env',

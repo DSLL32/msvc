@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "case": "preprocessor-pass-options",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_enable_pass",
+      "class": "application",
+      "extent_bytes": 38,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-pass-1/pair.json",
+        "sha256": "844ddd85b1431c4e65d08a12a94f67c6cb1133c2eb1f9bc381594705c97ddc39"
+      }
+    },
+    {
+      "order": 2,
+      "candidate": "_set_pass_suffix",
+      "class": "application",
+      "extent_bytes": 55,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1/pair.json",
+        "sha256": "ac7192fd5be9397e15df8ae4bccd6925b7a57aa8a440dbda88dc5f553f993029"
+      }
+    }
+  ]
+}

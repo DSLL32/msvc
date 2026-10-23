@@ -1,0 +1,146 @@
+{
+  "candidate": "_set_pass_suffix",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+  "rebuilt_sha256": "6602bc8f408ac4007df59826530bab5600f938d0fb8e359c4d46f175269bb851",
+  "trial_mask_sha256": "359abbe94a43c3046c42e4f945f58094dbe440e46e5a225a8a03242b0859e36f",
+  "platform": "native",
+  "trial_identity": "4ca4095078b2bd14c98d0b933aa3847aa479bf416c20184d1950d4724b68ac0f",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/config.json",
+    "sha256": "669d9f40f04e11d333cf01f15b4c0a9aef21f6cdf9f32a68df8b74bf28b42fcc"
+  },
+  "case": "preprocessor-pass-options",
+  "arguments": [
+    "/nologo",
+    "/E",
+    "/Bp1.pre",
+    "/?"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/stdout.bin",
+      "sha256": "5b8a5b4f29a78454f1a650cb40dc7000b467474006846a241f117352ffb55950"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/state.json",
+      "sha256": "d7d75364583f3d251b5a4dc5139acd439d6e1edd64be0cd8e0fffc4954a31dcb"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/trace.txt",
+      "sha256": "d5cd1ddb0614d029b9d392861a142bf76f2b76b7a72a6335b8c223308e086219"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/debugger.txt",
+      "sha256": "9fb38ecc109ac3d4b969a80df1bf8b65986eb5bfa57ebc65423ff761039b67eb"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/trace-filter.txt",
+      "sha256": "1b707291a9a84382a2bd0e19f3a5d26cf7b855423c05ca405e7b53053421a33f"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/exec-wrapper.py",
+      "sha256": "9cb4e1b5cf81c9e1b1838eb8005acf1f8146f1b415ce21b9444e9645e2bbfe91"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/resources.bin",
+      "sha256": "77cb3323180d6cf309d20cfa0c5cb10d76874dfc42d36178e2933521879c4eee"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/debugger.txt",
+      "sha256": "9fb38ecc109ac3d4b969a80df1bf8b65986eb5bfa57ebc65423ff761039b67eb"
+    },
+    "raw:terminal-status.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/terminal-status.bin",
+      "sha256": "c54789bf5935103ca0e387c345cd3a39158ae75dfa7c1e5d3f38e4dd653cd11d"
+    },
+    "raw:status_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/status_reader.py",
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/native-process.json",
+      "sha256": "14f66040911e03e1416716a3f9d500ccd677afd0948c3231299d371d573d9e17"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/native-build.json",
+      "sha256": "528f898f6531afecbe676dd2c4829734a84cd42ab83aced38ea7f16ce351d369"
+    },
+    "raw:native_status.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+    },
+    "raw:gdb_capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/gdb_capture.py",
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97"
+    },
+    "raw:gdb-capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/gdb-capture.py",
+      "sha256": "17dc77dd1fc5e743fce8a6eb760d2e229721db9e98583cafdd03a3100028d186"
+    },
+    "raw:entry-profile.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/entry-profile.json",
+      "sha256": "bb7a505c1cff93f881f6886b543906283f97980edc3dafb6cfd49eaf3d946502"
+    },
+    "raw:pass-state-observer.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/pass-state-observer.txt",
+      "sha256": "232bd1ff5bcfeafba117cd26fecf6165e35451ae6b0859c13f0e461ce6035c5e"
+    },
+    "raw:pass-state.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/pass-state.bin",
+      "sha256": "15de9fa0a6ff4d8010646ecce6ffd909cc79af70c5b8a0fa75625b71408c8bf6"
+    },
+    "raw:pass-state-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/pass-state-gdb.json",
+      "sha256": "9313373b564a03c67c046b3cc3dd49f9780b06ac8f8ef27917d39681f31836d7"
+    },
+    "raw:gdb_pass.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/gdb_pass.py",
+      "sha256": "bb46f60c6733fcf288d72cc48fceaf6a482db4e952419452a5577d8634b84b93"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/mktemp-expected.json",
+      "sha256": "c7fa6437dbd0a89d618bfe96fb2280cdeb4df7399eca30af53546bcecb99cee3"
+    },
+    "raw:mktemp-receipt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/mktemp-receipt.bin",
+      "sha256": "e100c9971d1685f93712929472f343e8dc5d8dd03012a71dcaad50a9d262fde7"
+    },
+    "raw:mktemp_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/mktemp_reader.py",
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/native-mktemp-gdb.json",
+      "sha256": "e8c694b66da68d6eb097f199be0433f660d7bfa931787b88cf5cdea425aac597"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/native-entry-errors.json",
+      "sha256": "8637302e2e8c63263020e019a2cc09122e542516c1dcd5a41ea051b7c9d7f60d"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/gdb-entry.py",
+      "sha256": "596979c242a72673cbe97d80eabea06e1e3c808569eb1902a72fa45c0c05e579"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-suffix-1-native/native-build.json",
+    "sha256": "528f898f6531afecbe676dd2c4829734a84cd42ab83aced38ea7f16ce351d369"
+  }
+}

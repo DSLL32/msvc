@@ -1,0 +1,139 @@
+{
+  "fresh_original_seconds": 1.203347529284656,
+  "native_GDB_seconds": 0.21840696595609188,
+  "audit_seconds": 0.6074612662196159,
+  "original_build": "make-j4 actualoriginalcompile+debugger helperpassed; time notseparatelymeasured",
+  "fixture": {
+    "schema": 1,
+    "case": "preprocessor-pass-options",
+    "passed": true,
+    "full_dword_status": 0,
+    "application_entries": 53,
+    "stdout_bytes": 3976,
+    "stderr_bytes": 0,
+    "mktemp_calls": 1,
+    "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+    "seconds": {
+      "build": 0.006141570396721363,
+      "setup": 0.0020636534318327904,
+      "execution": 0.008221529424190521,
+      "checks": 0.0007241284474730492,
+      "total": 0.03151598758995533
+    }
+  },
+  "all_cached_fixtures": {
+    "passed": true,
+    "cases": [
+      {
+        "schema": 1,
+        "case": "help",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 50,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 141,
+        "mktemp_calls": 1,
+        "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+        "seconds": {
+          "build": 0.006269840523600578,
+          "setup": 0.0016513485461473465,
+          "execution": 0.00821136124432087,
+          "checks": 0.0006234068423509598,
+          "total": 0.030167996883392334
+        }
+      },
+      {
+        "case": "minimal-c",
+        "passed": true,
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 75,
+        "status": 0,
+        "object_bytes": 275,
+        "C1_calls": 1,
+        "C2_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+        "held_trial": false,
+        "seconds": {
+          "setup": 0.7982003567740321,
+          "execution": 0.0645565316081047,
+          "checks": 0.36017047986388206,
+          "total": 1.2229608660563827
+        }
+      },
+      {
+        "schema": 1,
+        "case": "response-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 56,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+        "seconds": {
+          "build": 0.006275597028434277,
+          "setup": 0.0019528456032276154,
+          "execution": 0.007885212078690529,
+          "checks": 0.001080215908586979,
+          "total": 0.030176452361047268
+        }
+      },
+      {
+        "schema": 1,
+        "case": "usage",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 14,
+        "stdout_bytes": 61,
+        "stderr_bytes": 141,
+        "mktemp_calls": 0,
+        "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+        "seconds": {
+          "build": 0.006083928979933262,
+          "setup": 0.001944027841091156,
+          "execution": 0.0039264364168047905,
+          "checks": 0.000582423061132431,
+          "total": 0.025186062790453434
+        }
+      },
+      {
+        "schema": 1,
+        "case": "unknown-option",
+        "passed": true,
+        "full_dword_status": 2,
+        "application_entries": 56,
+        "stdout_bytes": 0,
+        "stderr_bytes": 139,
+        "mktemp_calls": 1,
+        "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+        "seconds": {
+          "build": 0.005948600359261036,
+          "setup": 0.0017766868695616722,
+          "execution": 0.003783276304602623,
+          "checks": 0.0006456887349486351,
+          "total": 0.024642801843583584
+        }
+      },
+      {
+        "schema": 1,
+        "case": "preprocessor-pass-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 53,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "a7002f13bf5d94c014df06f9cb43e6b85edce2f8b5a7c6190f1593bb6ef57a3b",
+        "seconds": {
+          "build": 0.006141570396721363,
+          "setup": 0.0020636534318327904,
+          "execution": 0.008221529424190521,
+          "checks": 0.0007241284474730492,
+          "total": 0.03151598758995533
+        }
+      }
+    ],
+    "total_seconds": 1.8363360231742263
+  }
+}

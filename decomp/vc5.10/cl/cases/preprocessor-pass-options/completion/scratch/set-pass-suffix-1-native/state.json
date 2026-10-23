@@ -1,0 +1,152 @@
+{
+  "projection": "cl-case-completion-v1; temporary-name-boundary-v1",
+  "fields": {
+    "status": 0,
+    "pass_state": {
+      "phase": "actual show_help entry",
+      "record_count": 5,
+      "record_width": 36,
+      "pointer_and_int_width": 4,
+      "structure_padding": "none; finaltwochar-array bytes are initializedzero",
+      "records": [
+        {
+          "name": null,
+          "path": null,
+          "environment": null,
+          "options": null,
+          "prefix": "D-",
+          "flags": 0,
+          "module": null,
+          "invoke": null,
+          "abort": null,
+          "string_aliases": {
+            "name": null,
+            "path": null,
+            "environment": null,
+            "options": null
+          }
+        },
+        {
+          "name": "c1",
+          "path": null,
+          "environment": "MSC_CMD_FLAGS=",
+          "options": ".pre",
+          "prefix": "1-",
+          "flags": 1,
+          "module": null,
+          "invoke": null,
+          "abort": null,
+          "string_aliases": {
+            "name": 1,
+            "path": null,
+            "environment": 2,
+            "options": 3
+          }
+        },
+        {
+          "name": "c1xx",
+          "path": null,
+          "environment": "MSC_CMD_FLAGS=",
+          "options": null,
+          "prefix": "P-",
+          "flags": 1,
+          "module": null,
+          "invoke": null,
+          "abort": null,
+          "string_aliases": {
+            "name": 4,
+            "path": null,
+            "environment": 2,
+            "options": null
+          }
+        },
+        {
+          "name": "c2",
+          "path": null,
+          "environment": "MSC_CMD_FLAGS=",
+          "options": null,
+          "prefix": "2-",
+          "flags": 0,
+          "module": null,
+          "invoke": null,
+          "abort": null,
+          "string_aliases": {
+            "name": 5,
+            "path": null,
+            "environment": 2,
+            "options": null
+          }
+        },
+        {
+          "name": "link.exe",
+          "path": null,
+          "environment": null,
+          "options": null,
+          "prefix": "C/",
+          "flags": 0,
+          "module": null,
+          "invoke": null,
+          "abort": null,
+          "string_aliases": {
+            "name": 6,
+            "path": null,
+            "environment": null,
+            "options": null
+          }
+        }
+      ]
+    },
+    "temporary_name_boundary": {
+      "entry": {
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 2,
+        "x87_control_word": 639
+      },
+      "calls": [
+        {
+          "template": ".\\XXXXXX",
+          "result": ".\\a01144",
+          "result_alias": true,
+          "before": {
+            "errno": 0,
+            "doserrno": 0,
+            "last_error": 2
+          },
+          "after": {
+            "errno": 0,
+            "doserrno": 2,
+            "last_error": 2
+          }
+        }
+      ]
+    }
+  },
+  "decoder_sha256": "5570867a003caee55c99df55c751a4d1d3d985dcf8aba423c5ca00142e30b663",
+  "raw_inputs": {
+    "debugger.txt": "9fb38ecc109ac3d4b969a80df1bf8b65986eb5bfa57ebc65423ff761039b67eb",
+    "terminal-status.bin": "c54789bf5935103ca0e387c345cd3a39158ae75dfa7c1e5d3f38e4dd653cd11d",
+    "status_reader.py": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65",
+    "native-process.json": "14f66040911e03e1416716a3f9d500ccd677afd0948c3231299d371d573d9e17",
+    "native-build.json": "528f898f6531afecbe676dd2c4829734a84cd42ab83aced38ea7f16ce351d369",
+    "native_status.py": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d",
+    "gdb_capture.py": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97",
+    "gdb-capture.py": "17dc77dd1fc5e743fce8a6eb760d2e229721db9e98583cafdd03a3100028d186",
+    "entry-profile.json": "bb7a505c1cff93f881f6886b543906283f97980edc3dafb6cfd49eaf3d946502",
+    "pass-state-observer.txt": "232bd1ff5bcfeafba117cd26fecf6165e35451ae6b0859c13f0e461ce6035c5e",
+    "pass-state.bin": "15de9fa0a6ff4d8010646ecce6ffd909cc79af70c5b8a0fa75625b71408c8bf6",
+    "pass-state-gdb.json": "9313373b564a03c67c046b3cc3dd49f9780b06ac8f8ef27917d39681f31836d7",
+    "gdb_pass.py": "bb46f60c6733fcf288d72cc48fceaf6a482db4e952419452a5577d8634b84b93",
+    "mktemp-expected.json": "c7fa6437dbd0a89d618bfe96fb2280cdeb4df7399eca30af53546bcecb99cee3",
+    "mktemp-receipt.bin": "e100c9971d1685f93712929472f343e8dc5d8dd03012a71dcaad50a9d262fde7",
+    "mktemp_reader.py": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570",
+    "native-mktemp-gdb.json": "e8c694b66da68d6eb097f199be0433f660d7bfa931787b88cf5cdea425aac597",
+    "native-entry-errors.json": "8637302e2e8c63263020e019a2cc09122e542516c1dcd5a41ea051b7c9d7f60d",
+    "gdb_entry.py": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+    "gdb-entry.py": "596979c242a72673cbe97d80eabea06e1e3c808569eb1902a72fa45c0c05e579",
+    "gdb_mktemp.py": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+  },
+  "wrapper_decoder_sha256": "5570867a003caee55c99df55c751a4d1d3d985dcf8aba423c5ca00142e30b663",
+  "pass_decoder_sha256": "7aeeba272b570c270f09b5c3498f05f184dd27fb5dee9dd169e2d9a9a3ee7a23",
+  "boundary_decoder_sha256": "ee1821b83ae313a3812ce1cd6b4a61339cbac1502ddfe6abb6a79de4f509a73e"
+}

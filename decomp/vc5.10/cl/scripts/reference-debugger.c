@@ -24,6 +24,8 @@ static unsigned entry_count;
 static int root_inputs_captured;
 static FILE *trace;
 static int observe_mktemp;
+static int observe_pass_state;
+static DWORD pass_state_count;
 static FILE *mktemp_events;
 static DWORD mktemp_argument,mktemp_calls;
 static int observe_mre;
@@ -285,6 +287,32 @@ static void module(DWORD base,HANDLE file)
     dependency_loaded(base,file,&nt);
     fflush(events);
 }
+static void pass_state(void)
+{
+    DWORD table[45], header[3], descriptor[2], i, j;
+    static const unsigned fields[4] = { 0, 1, 2, 8 };
+    char path[MAX_PATH], text[1024];
+    FILE *file;
+    if (++pass_state_count != 1) ExitProcess(130);
+    memory(target_base+0x90a8,table,sizeof(table));
+    output_path(path,"pass-state.bin");file=fopen(path,"wb");
+    if (!file) ExitProcess(131);
+    header[0]=0x31535043;header[1]=target_base+0x90a8;header[2]=180;
+    fwrite(header,1,sizeof(header),file);fwrite(table,1,sizeof(table),file);
+    for (i=0;i<5;++i) for (j=0;j<4;++j) {
+        descriptor[0]=table[9*i+fields[j]];descriptor[1]=0;
+        if (descriptor[0]) {
+            remote_string(descriptor[0],text,sizeof(text));
+            descriptor[1]=strlen(text)+1;
+        }
+        fwrite(descriptor,1,sizeof(descriptor),file);
+        if (descriptor[1]) fwrite(text,1,descriptor[1],file);
+    }
+    if (ferror(file) || fclose(file)) ExitProcess(132);
+    fprintf(events,"pass-state event=%lu site=%08lx count=%lu\n",event_number,target_base+0x52a5,pass_state_count);
+    fflush(events);
+}
+
 int main(int argc,char **argv)
 {
     STARTUPINFOA startup;
@@ -303,6 +331,13 @@ int main(int argc,char **argv)
     if (argc!=6) return 2;
     observe_resources=atoi(argv[5]);
     strcpy(directory,argv[3]);
+    output_path(path,"pass-state-observer.txt");snapshot=fopen(path,"rb");
+    if (snapshot) {
+        char control[128];unsigned bytes=fread(control,1,sizeof(control),snapshot);fclose(snapshot);
+        if (bytes!=sizeof("CL_PASS_STATE_V1:preprocessor-pass-options\n")-1 ||
+            memcmp(control,"CL_PASS_STATE_V1:preprocessor-pass-options\n",bytes)) return 133;
+        observe_pass_state=1;
+    }
     stop_at_trap=atoi(argv[4]);
     output_path(path,"entries.txt");snapshot=fopen(path,"r");
     if (snapshot) {
@@ -463,6 +498,10 @@ int main(int argc,char **argv)
                 }
                 fprintf(events,"entry event=%lu address=%08lx name=%s\n",event_number,address,guard->name);fflush(events);
                 fprintf(trace,"%s\n",guard->name);fflush(trace);guard->seen=1;
+                if (observe_pass_state && !strcmp(guard->name,"show_help")) {
+                    if (address!=target_base+0x52a5) return 134;
+                    pass_state();
+                }
                 patch_byte(address,(BYTE)guard->byte);context.Eip=address;
                 if (!SetThreadContext(thread,&context)) return 47;
             } else if (code==EXCEPTION_BREAKPOINT && dependency_point(address)>=0) {

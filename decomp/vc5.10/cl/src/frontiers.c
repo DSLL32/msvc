@@ -39,21 +39,9 @@ void option_conflict(unsigned id, Option *old, Option *replacement) { __asm int 
 
 
 
-Option *link_arguments(char **args, int *index) { __asm int 3
-    return NULL;
-}
 
-Option *c_input(char **args, int *index) { __asm int 3
-    return NULL;
-}
 
-Option *cpp_input(char **args, int *index) { __asm int 3
-    return NULL;
-}
 
-Option *object_input(char **args, int *index) { __asm int 3
-    return NULL;
-}
 
 
 
@@ -77,13 +65,11 @@ char *make_map_name(char *out, char *name) { __asm int 3
 
 
 
-void enable_pass(Option *option) { __asm int 3 }
 
 void toggle_pass(Option *option) { __asm int 3 }
 
 
 
-void set_pass_suffix(Option *option) { __asm int 3 }
 
 
 

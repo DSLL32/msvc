@@ -140,6 +140,7 @@ Option *link_arguments(char **, int *);
 Option *c_input(char **, int *);
 Option *cpp_input(char **, int *);
 Option *object_input(char **, int *);
+void typed_input(const char *, char **, int *, int);
 Option *read_option(OptionRule *, char **, int *);
 void validate_value(char *, char *, char *);
 Option *new_option(char *, char *, char *, unsigned);

@@ -67,6 +67,7 @@ PARAMETERS={
  'c_input':[('args','vector'),('index','index_pointer')],
  'cpp_input':[('args','vector'),('index','index_pointer')],
  'object_input':[('args','vector'),('index','index_pointer')],
+ 'typed_input':[('option','string'),('args','vector'),('index','index_pointer'),('kind','signed')],
  'undefine_macro':[('option','option')],
  'configure_assembly':[('option','option')],
  'enable_pass':[('option','option')],

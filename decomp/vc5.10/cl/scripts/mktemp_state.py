@@ -72,6 +72,11 @@ def original(directory):
         names.add(item['name']);raw=(directory/item['name']).read_bytes()
         assert len(raw)==item['bytes'] and sha(raw)==item['sha256'],'original input-directory bytes changed'
     controls={'CL.EXE','MSPDB50.DLL','MSVCRT.DLL','config.json','entries.txt','reference-debugger.c','reference-debugger.exe'}
+    if 'pass-state-observer.txt'in names:
+        from pass_state import CONTROL
+        assert capture['case']=='preprocessor-pass-options'and(directory/'pass-state-observer.txt').read_bytes()==CONTROL
+        assert '_set_pass_suffix'in json.loads((directory/'config.json').read_text())['accepted']
+        controls.add('pass-state-observer.txt')
     if capture.get('inputs'):
         case=json.loads((directory/'case-inputs.json').read_text())
         assert case=={key:capture[key]for key in ('case','arguments','inputs')}

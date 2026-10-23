@@ -59,6 +59,9 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     image=target.read_bytes() if baseline else construct(config)
     (directory/'CL.EXE').write_bytes(image)
     (directory/'config.json').write_bytes(config_path.read_bytes())
+    if case_name=='preprocessor-pass-options'and '_set_pass_suffix'in config['accepted']:
+        from pass_state import CONTROL
+        (directory/'pass-state-observer.txt').write_bytes(CONTROL)
     if mode:
         (directory/'dependency-observer.txt').write_text(mode)
     if not baseline or dependency_analysis:
