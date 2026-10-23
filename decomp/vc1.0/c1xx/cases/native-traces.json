@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "7fcbbee4c9b9c121801de376b067e5031d965ce315094beb5edebcb6aab6c6aa",
+    "functions.json": "83e518d9b1d7a7b61af4f7dff5b587887de05737ea55a9f8315ccecb0bc577e8",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "fed3b458102e6d4b4d6beb6bfa9edb65d249a5f37721c577e94f69c4deb528d1",
-    "cases/canonical-map.txt": "64d49543f03dff96cbe68c01d0fd068be1312415aea8d9f2635c5ff1369d309c",
+    "cases/original-entry-references.json": "cad4fdb4f4a98253560ad0f652d8033e0e08c7b13dbc2f02e062285d86bbf060",
+    "cases/canonical-map.txt": "d8488c7018dafdc53d63c1d2f47c48dfd56365eb020486415f148b4c14c15cbc",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1046-append_type_diagnostic_char-8/entry-reference/original-receipt.json": "d2e54eccc06b7e52548d54f75e54ab730bbab96e7d3ac877ff05e017512e63e7",
-    "cases/frontiers/state_machine_debug/1046-append_type_diagnostic_char-8/entry-reference/original-events.txt": "6754aacab11e2c08fafdcc87b7d51c82ec91c24cdce9e721d05506f53c413559",
-    "cases/frontiers/state_machine_debug/1046-append_type_diagnostic_char-8/entry-reference/original-entries.plan": "34b4fad8d54a93cc4d4a8e5ea4d38a53b5d74cff9ec46a185d33bb6e8b27a9b9"
+    "cases/frontiers/state_machine_debug/1047-format_function_parameters-12/entry-reference/original-receipt.json": "73be29746ef3450a6050708b298d0bddf3ab0e92229d54dd87e61e03d4f5b693",
+    "cases/frontiers/state_machine_debug/1047-format_function_parameters-12/entry-reference/original-events.txt": "8b7006f2e88275ec57bcd09d8dbe475f5d93c9c759db26f69779cf267355de68",
+    "cases/frontiers/state_machine_debug/1047-format_function_parameters-12/entry-reference/original-entries.plan": "28a930faca79425538528392d85f221879577254903ab845086ddd8bf0a50e97"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2341,7 +2341,7 @@
     },
     "format_function_parameters": {
       "logical": "_format_function_parameters@12",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "format_integer": {
       "logical": "_format_integer",
@@ -6325,7 +6325,8 @@
     "format_shape_attributes",
     "format_enclosing_declarator_scope",
     "format_declarator_shapes",
-    "append_type_diagnostic_char"
+    "append_type_diagnostic_char",
+    "format_function_parameters"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10437,7 +10438,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1047,
+      "last": 1048,
       "seen": [
         "main",
         "message_text",
@@ -11394,12 +11395,13 @@
         "format_enclosing_declarator_scope",
         "format_declarator_shapes",
         "append_type_diagnostic_char",
-        "format_function_parameters"
+        "format_function_parameters",
+        "format_declaration_base_type"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_format_function_parameters@12",
-        "native": "format_function_parameters",
+        "logical": "_format_declaration_base_type@8",
+        "native": "format_declaration_base_type",
         "signal": 5
       }
     }

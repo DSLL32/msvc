@@ -1,0 +1,22 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ac4b in format_declaration_base_type (text=103, type=0x5661df0c) at src/stubs.c:623
+623	void __stdcall format_declaration_base_type(short text, CType *type) { __asm { int 3 } }
+#0  0x5655ac4b in format_declaration_base_type (text=103, type=0x5661df0c) at src/stubs.c:623
+#1  0x5658f3c5 in format_declarator (symbol=0x56644b4c, type=0x5661df0c) at src/type-diagnostics.c:221
+#2  0x565902ba in format_function_parameters (text=102, parameters=0x5661ef9c, flags=8196) at src/type-diagnostics.c:484
+#3  0x5658ff88 in format_declarator_shapes (text=102, shape=0x5661efb0) at src/type-diagnostics.c:408
+#4  0x5658f8f9 in format_declarator_shape (symbol=0x5661ef54, type=0x5661efc0) at src/type-diagnostics.c:292
+#5  0x5658f3dd in format_declarator (symbol=0x5661ef54, type=0x5661efc0) at src/type-diagnostics.c:222
+#6  0x5658f074 in print_declaration (symbol=0x5661ef54, stream=0x0) at src/type-diagnostics.c:185
+#7  0x565c2fe8 in print_inline_declaration (symbol=0x5661ef54, stream=0x0) at src/inline-capture.c:334
+#8  0x565c2920 in capture_inline_member_declaration (symbol=0x5661ef54, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:144
+#9  0x565bf4d4 in configure_member_function (storage=..., member=0x5661ef54, pure=0) at src/class-members.c:538
+#10 0x565be393 in declare_class_member (context=0x566059e8 <declaration_spec_storage+8>, member=0x5661ef54) at src/class-members.c:176
+#11 0x565c082c in declare_constructor (type=0x566059e8 <declaration_spec_storage+8>, class_symbol=0x5661ec84, parameters=0x56644b4c) at src/class-members.c:464
+#12 0x565aeeae in parse_translation_unit () at src/parser-declaration-actions.inc:299
+#13 0x5655e16f in compile_translation_unit () at src/frontend.c:73
+#14 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#15 0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

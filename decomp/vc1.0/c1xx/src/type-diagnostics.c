@@ -429,3 +429,82 @@ void __stdcall append_type_diagnostic_char(short text, int character)
     char *cursor = reserve_type_diagnostic_bytes(text, 1, 1);
     *cursor = (char)character;
 }
+
+/* Original 0x68610..0x6889f. Print explicit parameter declarations
+   when available, otherwise their types; omit compiler-generated leading
+   parameters and append textual defaults and prototype ellipses in order. */
+short __stdcall format_function_parameters(short text, FunctionParameters *parameters,
+    unsigned flags)
+{
+    CppSymbol *source = printing_function_declaration ? parsed_parameter_symbols : 0;
+    CppSymbol *first, *current;
+    CType **types;
+    DefaultArgument *defaults;
+    IrToken *expression;
+    int remaining, default_count;
+    short parameter_text;
+    printing_function_declaration = 0;
+    remaining = parameters->declarations->count;
+    types = parameters->declarations->types;
+    if (options.prototypes_only) {
+        if (flags & 0x4000) {
+            append_type_diagnostic(text, "void");
+            return text;
+        }
+        if ((flags & 0x8000) && !--remaining) {
+            append_type_diagnostic(text, "...");
+            return text;
+        }
+    }
+    default_count = options.prototypes_only ? 0 : parameters->default_count;
+    if (default_count && (flags & 0x8000)) ++default_count;
+    defaults = options.prototypes_only ? 0 : parameters->defaults;
+    if (defaults) defaults = defaults->following;
+    while (source && (source->kind & 31) != 10 && (source->kind & 31) != 11)
+        source = source->next;
+    if (source) {
+        first = current = source->detail.parameter_next;
+        while (current->flags & 0x80) {
+            --remaining;
+            ++types;
+            if (!current) break;
+            current = current->detail.parameter_next;
+            if (current == first) {
+                current = 0;
+                break;
+            }
+        }
+    } else first = current = 0;
+    for (;;) {
+        if (!options.prototypes_only && !*types) {
+            append_type_diagnostic(text, remaining ? "..." : "void");
+            return text;
+        }
+        if (current) {
+            parameter_text = format_declarator(current, 0);
+            append_type_diagnostic(text, type_diagnostic_text(parameter_text));
+            release_type_diagnostic(parameter_text);
+            if (current) {
+                current = current->detail.parameter_next;
+                if (current == first) current = 0;
+            }
+        } else {
+            parameter_text = format_declarator(0, *types);
+            append_type_diagnostic(text, type_diagnostic_text(parameter_text));
+            release_type_diagnostic(parameter_text);
+        }
+        if (default_count >= remaining && defaults) {
+            expression = defaults->expression;
+            if (expression && expression->kind == 0xc3) {
+                append_type_diagnostic(text, " =");
+                append_type_diagnostic(text, expression->value.text);
+            }
+            defaults = defaults->following;
+        }
+        ++types;
+        if (--remaining <= 0) break;
+        append_type_diagnostic_char(text, ',');
+    }
+    if (options.prototypes_only && (flags & 0x8000)) append_type_diagnostic(text, ",...");
+    return text;
+}

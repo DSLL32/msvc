@@ -354,8 +354,6 @@ CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int
 
 
 
-short __stdcall format_function_parameters(short text, FunctionParameters *parameters,
-    unsigned flags) { __asm { int 3 } return 0; }
 
 
 
