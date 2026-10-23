@@ -1,0 +1,25 @@
+{
+  "rejected": [
+    "reuse-wrong-extent",
+    "reuse-wrong-reference",
+    "reuse-wrong-argv",
+    "reuse-wrong-mask-prefix",
+    "stale-config",
+    "changed-raw-original",
+    "resealed-missing-frontier",
+    "resealed-missing-native-state",
+    "resealed-wrong-native-trap",
+    "resealed-wrong-native-exit",
+    "resealed-missing-completion",
+    "resealed-missing-GDB-exit",
+    "wrong-immutable-source",
+    "resealed-wrong-native-compiled-content",
+    "wrong-runtime-projection",
+    "wrong-audit-MAP-pin",
+    "resealed-wrong-loaded-target",
+    "resealed-stream-mismatch",
+    "unknown-owner",
+    "overlap",
+    "accepted-trap-stub"
+  ]
+}

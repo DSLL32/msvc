@@ -1,0 +1,11 @@
+{
+  "id": "missing-percent-source",
+  "arguments": [
+    "/r",
+    "missing%source.rc"
+  ],
+  "expected_status": 1,
+  "reference_manifest_sha256": "0010abce1fe8d4ca40cc06cea6de11b9da6b1d98c411eac3d1df5c99f2a0efbf",
+  "driver_functions_added": 0,
+  "DLL_coverage_claimed": false
+}

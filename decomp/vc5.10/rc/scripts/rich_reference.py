@@ -12,11 +12,11 @@ CASE=HERE/'cases/resources-rich'
 REFERENCE=CASE/'reference'
 ARGUMENTS=['/r','/dCASE_FROM_COMMAND=7','/iinclude','/foresources.res','resources.rc']
 
-def vector(text,phase):
+def vector(text,phase,count=6):
     counts=re.findall(r'^export-'+phase+r'-argc ([0-9]+)$',text,re.M)
-    assert counts==['6'],'Incomplete original argv count'
+    assert counts==[str(count)],'Incomplete original argv count'
     rows=[]
-    for index in range(6):
+    for index in range(count):
         pointers=re.findall(r'^export-'+phase+r'-pointer '+str(index)+r' ([0-9a-f]{8})$',text,re.M)
         strings=re.findall(r'^export-'+phase+r'-argv-'+str(index)+r' ([0-9]+) ([0-9a-f]+)$',text,re.M)
         assert len(pointers)==len(strings)==1,'Missing original argv element'

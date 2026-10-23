@@ -1,5 +1,5 @@
 {
-  "status": "resources-rich-complete-next-error-case-authorized",
+  "status": "application-complete-three-native-cases",
   "gates": [],
   "reconstructed_functions": 5,
   "cases": [
@@ -19,7 +19,7 @@
       ],
       "source": "minimal/source",
       "initial": true,
-      "status": "queued-not-released"
+      "status": "optional-source-seed-no-new-driver-body-needed"
     },
     {
       "id": "resources-rich",
@@ -45,8 +45,10 @@
         "/r",
         "missing%source.rc"
       ],
-      "status": "authorized-next",
-      "purpose": "actual DLL error exercises driver percent escaping; preserve callback mutations, status and absent/artifact effects"
+      "status": "accepted-expected-error-native-regression",
+      "purpose": "actual DLL error exercises driver percent escaping; preserve callback mutations, status and absent/artifact effects",
+      "reference": "missing-percent-source/reference/manifest.json",
+      "evidence": "missing-percent-source/evidence/summary.json"
     }
   ],
   "dependency_boundary": {
@@ -105,5 +107,6 @@
       "functions": 3,
       "bytes": 18
     }
-  }
+  },
+  "remaining_application_functions": 0
 }

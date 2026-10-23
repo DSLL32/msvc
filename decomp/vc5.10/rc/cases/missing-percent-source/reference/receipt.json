@@ -1,0 +1,96 @@
+{
+  "case": "missing-percent-source",
+  "mode": "unmodified original driver and DLL; observed boundary",
+  "arguments": [
+    "/r",
+    "missing%source.rc"
+  ],
+  "status": 1,
+  "elapsed_seconds": 1.6403899108991027,
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "command": [
+    "wine",
+    "/root/.ai-tmp/msvc2/vc5.10/rc/missing-percent-source-reference-01/debug-original.exe",
+    "baseline",
+    "S:\\vc5.10\\rc\\missing-percent-source-reference-01\\RC.EXE",
+    "ranges.txt",
+    "case-args.txt",
+    "S:\\vc5.10\\rc\\missing-percent-source-reference-01\\source"
+  ],
+  "parent_environment_policy": "minimal explicit transport environment; actual target UTF16 environment captured separately",
+  "original_helper_provider": "/root/.ai-tmp/msvc2/vc5.10/rcdll/resources-rich-baseline-02",
+  "original_helper_sha256": "be18a9b947e92821b98de3aa3f9f99d5d94ec6d479bc976225a0240118e031a8",
+  "original_helper_compiled_snapshot_sha256": "79ef5ac7325543f635ee2470087b23b38e0dc4159b3952774fd9848164c2baf4",
+  "source_inputs": {},
+  "absent_before": [
+    "missing%source.rc",
+    "missing%source.res"
+  ],
+  "final_case_files": {},
+  "files": {
+    "loaded-crt.bin": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "MSVCRT.DLL": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "RC.EXE": {
+      "bytes": 7952,
+      "sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399"
+    },
+    "helper-compiled-source.json": {
+      "bytes": 43239,
+      "sha256": "79ef5ac7325543f635ee2470087b23b38e0dc4159b3952774fd9848164c2baf4"
+    },
+    "case-args.txt": {
+      "bytes": 20,
+      "sha256": "c300d79fde9c4b71625a91dafb4d63587b1efe3b0f75df7fc6b93175989acc27"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "events.txt": {
+      "bytes": 13462,
+      "sha256": "b0b54a5b2319fe6d712aa1c679c9f56e56d656938ff26ea239c991b24e321d7d"
+    },
+    "completion-globals.bin": {
+      "bytes": 87148,
+      "sha256": "46de4551ab09037083f318d217aa5b73e0f22c0da1d4798c0768f64814f3627c"
+    },
+    "loaded-driver.bin": {
+      "bytes": 7952,
+      "sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399"
+    },
+    "ranges.txt": {
+      "bytes": 216,
+      "sha256": "63bb8cc3d981441b150998b16b4b5d5b2bceea53c3e75250b66ec92c8a633d19"
+    },
+    "stdout.bin": {
+      "bytes": 68,
+      "sha256": "c7857831dfab17635b46b3b488947ed8c0fe78b002de8a8d3d95402074e9c4e9"
+    },
+    "relocated-text.bin": {
+      "bytes": 74609,
+      "sha256": "5276b0f5c878a3648053617914ba01bfb62f7ad7508a8d37e8366184824a81b3"
+    },
+    "environment-utf16.bin": {
+      "bytes": 2746,
+      "sha256": "19c09b48fb3f0d7fb90b6e2005f825d38ec58f7cee40bc09a272a9ff81b4657f"
+    },
+    "loaded-target.bin": {
+      "bytes": 108304,
+      "sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0"
+    },
+    "RCDLL.DLL": {
+      "bytes": 108304,
+      "sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0"
+    },
+    "debug-original.exe": {
+      "bytes": 16384,
+      "sha256": "be18a9b947e92821b98de3aa3f9f99d5d94ec6d479bc976225a0240118e031a8"
+    }
+  }
+}

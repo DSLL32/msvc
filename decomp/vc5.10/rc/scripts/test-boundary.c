@@ -11,7 +11,7 @@ int WINAPI rc_diagnostic(HWND window, unsigned code, char *message)
 }
 int main(int argc, char **argv, char **environment)
 {
-    const char *mode = getenv("RC_REJECTION");
+    const char *mode = recon_host_getenv("RC_REJECTION");
     HWND window = NULL;
     unsigned flags = 0;
     ResourceCallback resource = NULL;

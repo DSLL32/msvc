@@ -15,7 +15,8 @@ typedef struct FileResponse {
 static char *response, *cursor, *limit, *logical_cwd;
 static CallbackResponse callbacks[16];
 static FileResponse inputs[64], artifacts[16];
-static unsigned callback_count, input_count, artifact_count, used, version;
+static unsigned callback_count, input_count, artifact_count, absent_count, used, version;
+static char *absent[16];
 static unsigned environment_count, argument_count;
 static unsigned post_allocation[64], post_offset[64];
 static char **expected_argv, **argument_storage, **expected_environment;
@@ -123,7 +124,7 @@ void rc_fixture_prepare(int argc, char **argv)
     FILE *input;
     long bytes;
     unsigned n;
-    path=getenv("RC_DEPENDENCY_RESPONSE");
+    path=recon_host_getenv("RC_DEPENDENCY_RESPONSE");
     if (!path) reject("response not configured");
     input=fopen(path,"rb");
     if (!input || fseek(input,0,SEEK_END)) reject("response open");
@@ -134,10 +135,11 @@ void rc_fixture_prepare(int argc, char **argv)
     fclose(input);cursor=response;limit=response+bytes;
     if (memcmp(block(4),"RCRP",4)) reject("response magic");
     version=word();
-    if (version!=1 && version!=2) reject("response version");
-    if (version==2){
+    if (version!=1 && version!=2 && version!=3) reject("response version");
+    if (version>=2){
         case_name=string();
-        if (strcmp(case_name,"resources-rich")) reject("unknown response case");
+        if ((version==2 && strcmp(case_name,"resources-rich")) ||
+            (version==3 && strcmp(case_name,"missing-percent-source"))) reject("unknown response case");
     }
     expected_argv=vector(&argument_count);
     expected_environment=vector(&environment_count);
@@ -146,16 +148,26 @@ void rc_fixture_prepare(int argc, char **argv)
         if (argument_count!=2 || strcmp(expected_argv[0],"S:\\vc5.10\\rc\\original\\RC.EXE") ||
             strcmp(expected_argv[1],"/help")) reject("response argv");
     } else {
-        if (argument_count!=6 || strcmp(expected_argv[1],"/r") ||
+        if (version==2 && (argument_count!=6 || strcmp(expected_argv[1],"/r") ||
             strcmp(expected_argv[2],"/dCASE_FROM_COMMAND=7") ||
             strcmp(expected_argv[3],"/iinclude") ||
             strcmp(expected_argv[4],"/foresources.res") ||
-            strcmp(expected_argv[5],"resources.rc")) reject("response argv");
+            strcmp(expected_argv[5],"resources.rc"))) reject("response argv");
+        if (version==3 && (argument_count!=3 || strcmp(expected_argv[1],"/r") ||
+            strcmp(expected_argv[2],"missing%source.rc"))) reject("response argv");
         logical_cwd=string();
-        path=getenv("RC_DEPENDENCY_CWD");
+        path=recon_host_getenv("RC_DEPENDENCY_CWD");
         if (!path || strcmp(path,logical_cwd)) reject("logical dependency cwd");
         file_records(inputs,&input_count,64);
-        if (!input_count) reject("missing case inputs");
+        if (version==2 && !input_count) reject("missing case inputs");
+        if (version==3){
+            if (input_count) reject("unexpected error-case inputs");
+            absent_count=word();
+            if (absent_count!=2) reject("missing absence contract");
+            for(n=0;n<absent_count;++n) absent[n]=string();
+            if (strcmp(absent[0],"missing%source.rc") || strcmp(absent[1],"missing%source.res"))
+                reject("unknown absence contract");
+        }
         for(n=0;n<argument_count;++n){
             post_allocation[n]=word();post_offset[n]=word();
             if (post_allocation[n]>=argument_count ||
@@ -166,7 +178,7 @@ void rc_fixture_prepare(int argc, char **argv)
     for(n=1;n<argument_count;++n)
         if (strcmp(argv[n],expected_argv[n])) reject("unknown host case");
     callback_count=word();
-    if ((version==1 && callback_count!=4) || (version==2 && callback_count)) reject("callback count");
+    if ((version==1 && callback_count!=4) || (version==2 && callback_count) || (version==3 && callback_count!=3)) reject("callback count");
     for(n=0;n<callback_count;++n){
         CallbackResponse *c=callbacks+n;
         c->window=word();c->code=word();c->bytes=word();c->result=(int)word();
@@ -174,13 +186,14 @@ void rc_fixture_prepare(int argc, char **argv)
         c->before=block(c->bytes);c->after=block(c->bytes);
         if (c->before[c->bytes-1] || strlen(c->before)+1!=c->bytes) reject("callback input terminator");
     }
-    if (version==2){
+    if (version>=2){
         file_records(artifacts,&artifact_count,16);
-        if (artifact_count!=1 || strcmp(artifacts[0].path,"resources.res") ||
-            artifacts[0].bytes!=3672) reject("rich artifact contract");
+        if (version==2 && (artifact_count!=1 || strcmp(artifacts[0].path,"resources.res") ||
+            artifacts[0].bytes!=3672)) reject("rich artifact contract");
+        if (version==3 && artifact_count) reject("unexpected error artifact");
     }
     export_result=(int)word();
-    if (export_result || cursor!=limit) reject("response trailing bytes/result");
+    if (export_result!=(version==3 ? 1 : 0) || cursor!=limit) reject("response trailing bytes/result");
     /* Mutable target vectors do not expose the frozen expected strings. */
     argument_storage=copy_vector(expected_argv,argument_count);
     rc_fixture_argv=(char **)malloc((argument_count+1)*sizeof(char *));
@@ -199,16 +212,22 @@ int WINAPI RC(HWND window, unsigned flags, DiagnosticCallback diagnostic,
     check_vector(argv,expected_argv,argument_count);
     check_vector(rc_fixture_environment,expected_environment,environment_count);
     for(n=0;n<input_count;++n) check_input(inputs+n);
+    for(n=0;n<absent_count;++n){
+        output=fopen(absent[n],"rb");
+        if (output) { fclose(output);reject("absence contract differs"); }
+    }
     for(n=0;n<artifact_count;++n){
         output=fopen(artifacts[n].path,"rb");
         if (output) { fclose(output);reject("unexpected existing artifact"); }
     }
-    log=getenv("RC_DEPENDENCY_LOG");
+    log=recon_host_getenv("RC_DEPENDENCY_LOG");
     file=log?fopen(log,"wb"):NULL;
     if (log&&!file) reject("log open");
     if (file) fprintf(file,"RC %u %u %u\n",(unsigned)window,flags,(unsigned)argc);
     for(n=0;n<input_count;++n)
         if (file) fprintf(file,"input %s %u\n",inputs[n].path,inputs[n].bytes);
+    for(n=0;n<absent_count;++n)
+        if (file) fprintf(file,"absent %s\n",absent[n]);
     for(n=0;n<callback_count;++n){
         CallbackResponse *c=callbacks+n;
         char *message=(char *)malloc(c->bytes);
@@ -220,7 +239,7 @@ int WINAPI RC(HWND window, unsigned flags, DiagnosticCallback diagnostic,
         if (file) fprintf(file,"callback %u %u %u %d\n",n,c->window,c->code,result);
         free(message);
     }
-    if (version==2){
+    if (version>=2){
         for(n=0;n<argument_count;++n){
             argv[n]=argument_storage[post_allocation[n]]+post_offset[n];
             if (file) fprintf(file,"argv-after %u %u %u\n",n,post_allocation[n],post_offset[n]);

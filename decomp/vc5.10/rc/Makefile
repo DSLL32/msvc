@@ -40,6 +40,8 @@ fixtures check: native build/native/check-boundary
 	$(PYTHON) scripts/check-boundary.py
 	$(PYTHON) scripts/check-rich.py
 	$(PYTHON) scripts/check-rich-boundary.py
+	$(PYTHON) scripts/check-error.py
+	$(PYTHON) scripts/check-error-boundary.py
 probe-help: build/debug-original.exe
 	@test -n "$(REFERENCE_DIR)" || (echo 'Set REFERENCE_DIR for an explicit new original capture.' >&2; exit 2)
 	$(PYTHON) scripts/capture-original.py --baseline "$(REFERENCE_DIR)"

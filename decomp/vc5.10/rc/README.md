@@ -97,5 +97,18 @@ pointer identities. Eighteen controls reject wrong inputs, arguments, environmen
 CWD and preexisting artifacts before replay effects. The driver produces the same
 resource bytes and RC-only trace; this adds no function or DLL coverage.
 `cases/resources-rich/evidence/summary.json` records timings and immutable proof.
-The next authorized case is a missing filename containing `%`, to exercise the
-already-reconstructed diagnostic escaping branch through a real DLL error.
+The missing-percent-source case is also complete: `/r missing%source.rc` returns
+RC1110/status1 with exact 68 stdout bytes, three mutable callbacks and no artifact.
+A one-time native GDB capture observes the diagnostic's successful 60-byte malloc
+and its escaped `missing%%source.rc` printf argument. Eighteen controls cover bad
+ABI/input/absence requests, including an altered expected byte after the inserted
+NUL. These checks run natively; only the explicit initial reference used Wine.
+`cases/missing-percent-source/evidence/summary.json` records the current fixture
+and the separate immutable GDB ELF/source context. Host-only dependency controls
+use `recon_host_getenv`; ordinary target getenv stays bound to the captured vector.
+
+The RC application is fully reconstructed: both identified non-CRT functions,
+277 bytes. No additional driver body remains identified. The unvisited 3-byte CRT
+math helper and unreached exception/Handler import frontiers remain unaccepted;
+console-handler logic belongs to RCDLL. Further artificial driver cases are not
+needed for reconstruction progress.

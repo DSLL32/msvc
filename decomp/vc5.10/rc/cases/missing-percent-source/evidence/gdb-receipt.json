@@ -1,0 +1,75 @@
+{
+  "status": "pass",
+  "case": "missing-percent-source",
+  "status_code": 1,
+  "stdout_bytes": 68,
+  "stderr_bytes": 0,
+  "callbacks": 3,
+  "artifacts": 0,
+  "native_trace": [
+    "rc_main",
+    "rc_diagnostic"
+  ],
+  "setup_seconds": 0.02215343341231346,
+  "execution_seconds": 0.18664362095296383,
+  "verification_seconds": 0.004208778962492943,
+  "native_sha256": "7f99fb1f95258d8229fd527fa63d18ad44e0e13bf54f10e27971a7f862df5ad5",
+  "native_compiled_receipt_sha256": "f105cd97628fae9c942d9fe5aec2d9e78915b6c05d0483de7d6510ab9896b14e",
+  "case_manifest_sha256": "0010abce1fe8d4ca40cc06cea6de11b9da6b1d98c411eac3d1df5c99f2a0efbf",
+  "target_functions_added": 0,
+  "DLL_coverage_claimed": false,
+  "wine_invocations": 0,
+  "actual_native_allocation_and_printf_evidence": {
+    "allocations": [
+      {
+        "bytes": 60,
+        "caller": "rc_diagnostic",
+        "returned_nonnull": true
+      }
+    ],
+    "escaped": [
+      {
+        "bytes": "5243203a20666174616c206572726f7220524331313130203a20636f756c64206e6f74206f70656e206d697373696e672525736f757263652e7263",
+        "percent_count": 2
+      }
+    ]
+  },
+  "files": {
+    "compiled-sources.json": {
+      "bytes": 224325,
+      "sha256": "f105cd97628fae9c942d9fe5aec2d9e78915b6c05d0483de7d6510ab9896b14e"
+    },
+    "gdb.stdout": {
+      "bytes": 656,
+      "sha256": "d4e60134f75dc13fa15a5a290d481c333d336c170ce8a0865cb882d4f9abc264"
+    },
+    "trace": {
+      "bytes": 22,
+      "sha256": "78bab89d28dd8863f0b645b1acf9629c6630841b32bab910f47c31a895859254"
+    },
+    "boundary.log": {
+      "bytes": 171,
+      "sha256": "8f83693971278aa2af9f6aa17959ed2a7054f5c9f03a1fe20d2fcf5d9633d21e"
+    },
+    "native.elf": {
+      "bytes": 266380,
+      "sha256": "7f99fb1f95258d8229fd527fa63d18ad44e0e13bf54f10e27971a7f862df5ad5"
+    },
+    "gdb.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture.gdb": {
+      "bytes": 1290,
+      "sha256": "4b17af6ebc3bd518b9683bbde6cd50e5ceb01acae2b1805d9f82cfff80954ff8"
+    },
+    "stdout.bin": {
+      "bytes": 68,
+      "sha256": "c7857831dfab17635b46b3b488947ed8c0fe78b002de8a8d3d95402074e9c4e9"
+    }
+  }
+}
