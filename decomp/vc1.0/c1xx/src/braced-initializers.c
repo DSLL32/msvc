@@ -170,3 +170,87 @@ void flush_initializer_constructors(void)
     initializer_constructor_count = 0;
     if (error_count > saved_errors) initializer_value_error_reported = 1;
 }
+
+/* An anonymous aggregate can expose its following declarations directly.
+   Keep this local predicate inline rather than inventing an application call. */
+#define INITIALIZER_ANONYMOUS_CHAIN(symbol_) \
+    (((symbol_)->kind & 31) >= 1 && ((symbol_)->kind & 31) <= 13 && \
+     ((symbol_)->kind & 31) != 5 && (symbol_)->name == name_unnamed && \
+     ((symbol_)->attributes & 0x800))
+
+/* Original 0x46c40..0x46f43. Descend into array elements and completed
+   aggregate members while keeping each level's writable symbol/type copies.
+   A character string or scalar can initialize a complete current element. */
+int __stdcall advance_braced_initializer(IrToken *value)
+{
+    CppSymbol *symbol, *tag, *member, *first;
+    CType *type;
+    TypeShape *shape;
+    unsigned kind;
+    int unbounded;
+    char *name;
+    if (braced_initializer_depth < 0 || (current_braced_initializer->flags & 0x20))
+        return 0;
+    symbol = current_braced_initializer->symbol;
+    if (is_scalar_initializer_symbol(symbol))
+        return !(current_braced_initializer->flags & 8);
+    if (is_character_array_initializer(symbol, value)) return 1;
+    if (current_braced_initializer->flags & 2) return 0;
+    if (symbol->attributes & 0x400) {
+        shape = current_braced_initializer->type->related;
+        unbounded = (symbol->attributes & 0x100) &&
+            (shape->flags & 0x77) == 2 && !shape->data.array_bound;
+        push_braced_initializer(symbol);
+        symbol = current_braced_initializer->symbol;
+        type = drop_first_type_shape(symbol->type);
+        *current_braced_initializer->type = *type;
+        symbol->type = current_braced_initializer->type;
+        initializer_selected_type = unbounded ? current_braced_initializer->type : 0;
+        shape = symbol->type->related;
+        if (shape && (shape->flags & 0x77) == 2) symbol->attributes |= 0x400;
+        else symbol->attributes &= ~0x400U;
+        return 1;
+    }
+    kind = symbol->type->flags & 0x2fdf;
+    if (kind != 0x402 && kind != 0x408) {
+        if (kind != 0x412 && kind != 0x414 && kind != 0x418) {
+            current_braced_initializer->flags |= 0x20;
+            return 0;
+        }
+        tag = cpp_context_stack->items[symbol->type->field08];
+        if (!(tag->flags & 4)) {
+            name = symbol->name;
+            if (braced_initializer_depth >= 0) {
+                --braced_initializer_depth;
+                current_braced_initializer = &braced_initializers[braced_initializer_depth];
+                if (braced_initializer_depth >= 0)
+                    report_syntax_error(79, current_braced_initializer->symbol->name, name);
+            }
+            braced_initializer_depth = -1;
+            return 0;
+        }
+        tag = cpp_context_stack->items[symbol->type->field08];
+        if (!(tag->detail.class_info->trivial_special_members & 1)) {
+            current_braced_initializer->flags |= 0x10;
+            return 1;
+        }
+        tag = cpp_context_stack->items[symbol->type->field08];
+        push_braced_initializer(tag);
+        if (!INITIALIZER_ANONYMOUS_CHAIN(symbol))
+            symbol = current_braced_initializer->symbol;
+    }
+    first = INITIALIZER_ANONYMOUS_CHAIN(symbol) ? symbol->next : symbol->auxiliary.scope_members;
+    member = find_next_initializer_member(0, first);
+    if (!member) {
+        current_braced_initializer->symbol->auxiliary.scope_members = 0;
+        return finish_braced_initializer_element();
+    }
+    current_braced_initializer->symbol->auxiliary.scope_members = member;
+    push_braced_initializer(member);
+    symbol = current_braced_initializer->symbol;
+    if (is_character_array_initializer(symbol, value) && (symbol->attributes & 0x100))
+        initializer_selected_type = drop_first_type_shape(symbol->type);
+    return 1;
+}
+
+#undef INITIALIZER_ANONYMOUS_CHAIN

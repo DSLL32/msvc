@@ -1019,7 +1019,8 @@
     "_push_braced_initializer@4",
     "_copy_initializer_symbol@12",
     "_begin_nested_initializer",
-    "_flush_initializer_constructors"
+    "_flush_initializer_constructors",
+    "_advance_braced_initializer@4"
   ],
   "driver": [
     {
@@ -7659,12 +7660,22 @@
     {
       "name": "_advance_braced_initializer@4",
       "start": 289856,
-      "end": 289857
+      "end": 290627
     },
     {
       "name": "_apply_symbol_based_type@8",
       "start": 403472,
       "end": 403473
+    },
+    {
+      "name": "_find_next_initializer_member@8",
+      "start": 290640,
+      "end": 290641
+    },
+    {
+      "name": "_finish_braced_initializer_element",
+      "start": 290816,
+      "end": 290817
     }
   ],
   "cases": {
@@ -7865,7 +7876,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_advance_braced_initializer@4",
+      "terminal": "_enumerator_expression@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7888,7 +7899,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1015-advance_braced_initializer-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7908,7 +7919,8 @@
         "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1014-flush_initializer_constructors/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1015-advance_braced_initializer-4/frontier-extension.json"
       ]
     }
   },
