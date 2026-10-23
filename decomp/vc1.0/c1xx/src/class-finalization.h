@@ -17,6 +17,7 @@ void __stdcall declare_implicit_special_members(CppSymbol *tag);
 void __stdcall finalize_class_virtual_tables(CppSymbol *tag);
 void __stdcall complete_class_virtual_layout(CppSymbol *tag);
 void __stdcall declare_class_virtual_tables(CppSymbol *tag);
+short __stdcall class_virtual_table_group_count(CppSymbol *tag);
 void __stdcall declare_default_constructor_closures(CppSymbol *tag);
 void __stdcall declare_deleting_destructors(CppSymbol *tag);
 void emit_deferred_class_terminator(void);

@@ -48,7 +48,6 @@ void __cdecl prepare_line_record_tag(CppSymbol *tag);
 unsigned short __cdecl line_record_tag_type(CppSymbol *tag);
 struct HashTable;
 unsigned __stdcall hash_table_count(struct HashTable *table);
-short __stdcall class_virtual_table_group_count(CppSymbol *tag);
 unsigned __stdcall count_debug_methods(struct OverloadSet *overloads,
     unsigned short *field_properties);
 #endif

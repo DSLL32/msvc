@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "function": "_class_virtual_table_group_count@4",
+  "native_entry": "class_virtual_table_group_count",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "retained_class",
+      "original": 573948
+    }
+  ],
+  "native_expressions": {
+    "raw_tag": "(unsigned)tag",
+    "retained_class": "(unsigned)class_contexts[0].symbol"
+  },
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "retained_class",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "retained_class",
+        "identity": "Counter tag retained in original/native former class slot0; same fresh fixed-address owner alias, not a newly invented static object."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      508128,
+      508147
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4], classinfo=[tag+32], vector=[classinfo+16]; push/call vector_count, RET4 at0x7c0f0. Original debug_tag_type caller sign-extends AX, matching existing signed-short vector_count ABI. No incoming register/hidden input."
+  }
+}

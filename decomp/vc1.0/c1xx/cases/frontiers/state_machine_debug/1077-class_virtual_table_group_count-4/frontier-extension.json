@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1077,
+  "accepted": "_class_virtual_table_group_count@4",
+  "terminal": "_count_debug_methods@8",
+  "original_capture": "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/original-receipt.json",
+  "original_capture_sha256": "e65c078bba5b9a40c11b2e730e981a906c153ade734ad33dcb6a20925104ff21",
+  "original_events": "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/original-events.txt",
+  "original_events_sha256": "daacafc4484e66e91004e5ffcb788fc6e68274a002ce7ff6e22c9f2b97f52edc",
+  "original_configuration": "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

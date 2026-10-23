@@ -3,6 +3,7 @@
 #include "debug-types.h"
 #include "symbol-output.h"
 #include "cpp-context.h"
+#include "class-finalization.h"
 #include <recon.h>
 
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */

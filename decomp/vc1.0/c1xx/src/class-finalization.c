@@ -9,6 +9,12 @@
 #include "constructor-initializers.h"
 #include <recon.h>
 
+/* Original 0x7c0e0..0x7c0f3. Keep the original signed-short vector count. */
+short __stdcall class_virtual_table_group_count(CppSymbol *tag)
+{
+    return vector_count(tag->detail.class_info->virtual_table_groups);
+}
+
 /* Original 0x2dfc0..0x2e0e7. Retain the temporary class type while running
    completion passes, then leave the wrapper scope and build its name index. */
 CType *end_class_specifier(void)
