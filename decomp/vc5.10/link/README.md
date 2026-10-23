@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 54 application
-functions (27,841 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 55 application
+functions (27,852 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_comdats`; hello-win32 has not completed.
+next frontier is `LinkContext::InitializeSections`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -269,3 +269,9 @@ zero-filled, distinct from the other live allocations, with capacity500 and read
 All eight original/native VirtualAlloc calls are checked in order.102 fresh
 semantic negatives and the strict67-vertex/60-return audit pass; timing is under
 frontiers/54-virtual-memory. No new shared shim was needed.
+
+The 11-byte COMDAT initializer is accepted as an arena-head reset. The next
+section initializer has its actual hidden ECX receiver bound to the same complete
+664-byte linker context and no explicit or additional hidden inputs. Both builds,
+106 semantic negatives and the strict68-vertex/61-return audit pass; timing and
+raw evidence are under frontiers/55-comdat-init.

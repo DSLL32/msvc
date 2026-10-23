@@ -71,7 +71,8 @@
     "_initialize_output_modules@4",
     "_duplicate_link_string@4",
     "_initialize_contribution_pools",
-    "_allocate_virtual_memory@16"
+    "_allocate_virtual_memory@16",
+    "_initialize_comdats"
   ],
   "driver": [
     {
@@ -2180,11 +2181,11 @@
     {
       "name": "_initialize_comdats",
       "start": 4599472,
-      "end": 4599473,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
+      "end": 4599483,
+      "source": "src/comdat.c",
+      "status": "implemented",
       "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "pending_extent": false,
       "native_symbol": "initialize_comdats"
     },
     {

@@ -99,7 +99,6 @@ extern "C" const char * __stdcall get_symbol_name(StringNode *symbol,const void 
 StringNode * RECON_THISCALL StringTable::LookupSymbol(WORD kind,const char *name,BYTE *created) { __asm { int 3 } return 0; }
 StringNode * RECON_THISCALL StringTable::FindSymbol(const char *name) { __asm { int 3 } return 0; }
 extern "C" void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *symbols) { __asm { int 3 } }
-extern "C" void __cdecl initialize_comdats(void) { __asm { int 3 } }
 extern "C" void __cdecl release_comdat_tables(void) { __asm { int 3 } }
 extern "C" void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE linker_defined) { __asm { int 3 } }
 extern "C" void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,OutputModule *module,ComdatRoot **roots) { __asm { int 3 } }
