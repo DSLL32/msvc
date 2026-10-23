@@ -106,6 +106,5 @@ void convert_procedure32(void) { __asm { int 3 } }
 
 void convert_udt_symbol(void) { __asm { int 3 } }
 
-unsigned short write_search_symbol(unsigned char *buffer, unsigned short segment) { __asm { int 3 } return 0; }
 int link_symbol_scopes(unsigned char *symbols, unsigned long size) { __asm { int 3 } return 0; }
 void record_symbol_offsets(unsigned char *symbols, unsigned long size, unsigned short module) { __asm { int 3 } }

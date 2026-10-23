@@ -248,10 +248,13 @@ def capture_symbol_output():
     if not rows:return []
     assert len(rows)==1 and not rows[0].get('error'),'invalid actual symbol allocation'
     entry=rows[0].copy();f=gdb.newest_frame();caller=f.older()
-    assert f.name()=='write_search_symbol'and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    assert f.name()in('write_search_symbol','convert_object_name')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
     assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size
-    assert cursor==base+4==int(f.read_var('buffer'))
+    if f.name()=='write_search_symbol':assert cursor==base+4==int(f.read_var('buffer'))
+    else:
+        assert cursor==base+16 and int(caller.read_var('kind'))==9 and int(caller.read_var('length'))==24 and int(caller.read_var('index'))==31
+        entry['record_kind']=int(caller.read_var('kind'));entry['record_length']=int(caller.read_var('length'));entry['callback_index']=int(caller.read_var('index'))
     entry.update(cursor=cursor,frontier=f.name(),parent='pack_new_types',postbytes=bytes(gdb.selected_inferior().read_memory(base,size)).hex())
     return [entry]

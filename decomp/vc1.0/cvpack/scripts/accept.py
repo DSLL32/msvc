@@ -143,7 +143,7 @@ def main():
     native_objects=dict(state['walks'])if not completed else {}
     from symbol_output import compare as compare_symbol_output
     symbol_path=native/args.case/'symbol-output.json'
-    symbol_proof=compare_symbol_output(config,pe,events,json.loads(symbol_path.read_text())if symbol_path.exists()else [],original_objects,native_objects,args.case=='hello-debug-dll'and function.get('required_symbol_output_observation',False))if args.case=='hello-debug-dll'else None
+    symbol_proof=compare_symbol_output(config,pe,events,json.loads(symbol_path.read_text())if symbol_path.exists()else [],original_objects,native_objects,args.case=='hello-debug-dll'and function.get('required_symbol_output_observation',False),state)if args.case=='hello-debug-dll'else None
     if symbol_proof:
         original_objects['packed_symbol_allocation']=[symbol_proof['original_namespace']]
         native_objects['packed_symbol_allocation']=[symbol_proof['native_namespace']]

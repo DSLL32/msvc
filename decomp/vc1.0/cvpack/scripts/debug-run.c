@@ -719,10 +719,14 @@ static int rearm_symbol_allocation(HANDLE child,HANDLE log,HANDLE thread,DWORD a
 
 static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
 {
-    DWORD cursor,bytes,written,i;int used;
+    DWORD cursor,input,defined,offset,bytes,written,i;int used;
     if(!symbol_base)return 1;
-    if(frontier!=0x1bee0 || symbol_step || symbol_size!=5113 ||
-       !ReadProcessMemory(child,(void *)0x335f0,&cursor,4,&bytes) || bytes!=4 || cursor!=symbol_base+4 ||
+    if(frontier==0x1bee0) { defined=4;offset=4; }
+    else if(frontier==0x255c0) { defined=16;offset=4; }
+    else return 0;
+    if(symbol_step || symbol_size!=5113 ||
+       !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
+       !ReadProcessMemory(child,(void *)0x335f0,&cursor,4,&bytes) || bytes!=4 || cursor!=symbol_base+defined ||
        !ReadProcessMemory(child,(void *)symbol_base,array_bytes,symbol_size,&bytes) || bytes!=symbol_size) return 0;
     used=sprintf(object_line,"symbol-output base %08lx size %lu cursor %08lx frontier %08lx bytes ",symbol_base,symbol_size,cursor,frontier);
     for(i=0;i<symbol_size;++i)used+=sprintf(object_line+used,"%02x",array_bytes[i]);

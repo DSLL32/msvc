@@ -1,0 +1,26 @@
+{
+  "application_functions": 65,
+  "next": "convert_object_name",
+  "native_guard": "Unknown symbol kind stops natively at index32 before reading callback beyond32entries; original Win32 loop unchanged. Direct8-byte control confirms owning frame/index/kind/INT3. No malformed input equivalence/coverage credit; no new original probe.",
+  "guard_control_timing": {
+    "prepare": 0.026156089268624783,
+    "compile": 1.3566953130066395,
+    "execution_and_checks": 0.11965794954448938
+  },
+  "ordinary_output": {
+    "allocation5113": 5113,
+    "defined": 16,
+    "own_unchanged_tail": 5097,
+    "source": "Actual12-byte S_SSEARCH write follows4-byte signature; first callback is S_OBJNAME, kind9/length24, index31."
+  },
+  "new_negative_controls": 7,
+  "original_failed_attempt": "Incorrect observer anticipated later UDT callback. Failed closed on actual S_OBJNAME; raw preserved, no acceptance credit. Corrected matching original/native pair subsequently passes.",
+  "audit_seconds": 0.4745077472180128,
+  "native_acceptance_seconds": {
+    "setup": 0.15560356248170137,
+    "execution": 0.01550228800624609,
+    "debugging": 1.781877533532679,
+    "checks": 0.018343361094594002,
+    "total": 1.9713349295780063
+  }
+}

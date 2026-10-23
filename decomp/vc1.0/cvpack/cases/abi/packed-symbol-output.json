@@ -15,12 +15,40 @@
       "start": 151735,
       "end": 151765,
       "bytes": "8bc625ffff0000668b0445b432030050a1f035030050e80e6effff83c408"
+    },
+    {
+      "start": 114400,
+      "end": 114446,
+      "bytes": "8b442404668b4c240866c7000a0066c74002050066894808c740040000000083c00ac6000040c6000066b80c00c3"
     }
   ],
   "sources": {
-    "src/types.c": "f80064e9f343623516f8276dbf98cd3630d89e6ab756467ec6c231712880f845",
+    "src/types.c": "d1ad0bc5cfbf554186795e10e4b0d2a786b9a2a7e0d782bfa11eef4bb4bd19db",
     "src/types.h": "1550f8ff69cdb7cb329781def2b6437459649f5e91a3dbde420998ed3cb4cd78",
     "src/image.h": "9a767c762ea436712276e0c55a4d80a069c89c97fbce719b22fe2f7ba899248d"
   },
-  "scope": "Actual malloc25049\u21922504ereturn, module3/directory7/sstAlignSym. Full5113pre/post retained; actual4-byte signature write defined, own5109-byte suffix unchanged. Future writes/owners/frontiers require extension."
+  "scope": "Actual module3 malloc5113, same parent/lifetime. write_search_symbol boundary defined4; first S_OBJNAME callback after actual12-byte search write defined16. Fullraw and own untouchedsuffix retained. No later copy or frontier inferred.",
+  "frontiers": {
+    "write_search_symbol": {
+      "original": 114400,
+      "defined": 4,
+      "input_offset": 4,
+      "return_address": 151762,
+      "allocation_esp_delta": 8,
+      "buffer_slot": 7,
+      "input_slot": 10,
+      "argument_slot": 1
+    },
+    "convert_object_name": {
+      "original": 153024,
+      "defined": 16,
+      "input_offset": 4,
+      "return_address": 151922,
+      "allocation_esp_delta": 0,
+      "buffer_slot": 5,
+      "input_slot": 8,
+      "record_length": 24,
+      "callback_index": 31
+    }
+  }
 }

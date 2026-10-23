@@ -29,7 +29,7 @@ def parse(events):
             outputs.append({k:(v if k=='bytes'else int(v,10 if k=='size'else 16))for k,v in zip(words[::2],words[1::2])})
     return allocations,outputs
 
-def compare(config,pe,events,native,old_walks,new_walks,required):
+def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     proof=validate(config,pe);old,outputs=parse(events)
     if not(old or outputs or native):
         assert not required,'missing mandatory packed symbol allocation observations'
@@ -38,15 +38,29 @@ def compare(config,pe,events,native,old_walks,new_walks,required):
     assert events.splitlines().count('symbol-allocation-rearm 0002504e 00025052')==1,'missing allocation return-site rearm'
     a,b=old[0],native[0];post=outputs[0];assert not b.get('error'),'native symbol allocation observer failed'
     assert post['base']==a['base']and post['size']==a['size']==b['size']==5113
-    assert post['frontier']==0x1bee0 and b['frontier']=='write_search_symbol'and b['parent']=='pack_new_types'
+    matches=[(name,r)for name,r in proof['frontiers'].items()if r['original']==post['frontier']]
+    assert len(matches)==1,'unreviewed packed symbol write frontier'
+    name,site=matches[0];defined=site['defined']
+    assert b['frontier']==name and b['parent']=='pack_new_types'
     words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
     esp=int(re.search(r'^registers .* esp ([0-9a-f]+) ',events,re.M)[1],16)
-    assert a['esp']==esp+8,'packed symbol allocation belongs to another parent frame'
-    assert words[0]==0x250d2 and words[1]==post['cursor']==a['base']+4 and words[2]&0xffff==1,'wrong packed symbol output caller/argument'
-    assert words[7]==words[8]==a['base']and words[10]==a['input']and words[11]==a['entry']and words[12]==a['module'],'wrong packed symbol parent saved ownership'
+    assert a['esp']==esp+site['allocation_esp_delta'],'packed symbol allocation belongs to another parent frame'
+    assert words[0]==site['return_address']and post['cursor']==a['base']+defined,'wrong packed symbol output caller/cursor'
+    if 'argument_slot'in site:assert words[site['argument_slot']]==post['cursor']and words[2]&0xffff==1,'wrong packed symbol output argument'
+    slot=site['buffer_slot'];source_slot=site['input_slot']
+    assert words[slot]==words[slot+1]==a['base']and words[source_slot]==a['input']and words[source_slot+1]==a['entry']and words[source_slot+2]==a['module'],'wrong packed symbol parent saved ownership'
+    memory={}
+    for match in re.finditer(r'^memory ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):
+        address=int(match[1],16);memory.update((address+i,v)for i,v in enumerate(bytes.fromhex(match[2])))
+    old_input=int.from_bytes(bytes(memory[0x335e4+i]for i in range(4)),'little')
+    assert old_input==a['input']+site['input_offset']and native_state['globals']['symbol_input']['address']==b['input']+site['input_offset'],'wrong actual packed symbol source cursor'
+    if name=='convert_object_name':
+        registers=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(registers[::2],registers[1::2])}
+        assert registers['ebp']&0xffff==24 and registers['edx']&0xffff==9 and registers['ecx']==0x38110+31*8 and registers['eax']==site['original'],'wrong original object-name callback context'
+        assert (b['record_kind'],b['record_length'],b['callback_index'])==(9,24,31),'wrong native object-name callback context'
     for r,walks,after,cursor in ((a,old_walks,post['bytes'],post['cursor']),(b,new_walks,b['postbytes'],b['cursor'])):
         assert r['number']==3 and r['padding']==367 and r['skipped']==0 and r['size']==4746+r['padding']-r['skipped']
-        assert r['base']and cursor==r['base']+4
+        assert r['base']and cursor==r['base']+defined
         assert len(walks['type_data'])==len(walks['directory_entries'])==1
         source=walks['type_data'][0];assert r['input']==source['address']and len(bytes.fromhex(source['bytes']))==4746
         entries=walks['directory_entries'][0];assert r['entry']==entries['address']+7*12
@@ -58,6 +72,9 @@ def compare(config,pe,events,native,old_walks,new_walks,required):
             assert not(r['base']<address+size and address<r['base']+r['size']),'packed symbol allocation overlaps another owner'
         before,after=bytes.fromhex(r['before']),bytes.fromhex(after)
         assert len(before)==len(after)==r['size'],'packed symbol observed extent differs'
-        assert after[4:]==before[4:],'packed symbol output changed undefined tail'
+        assert after[defined:]==before[defined:],'packed symbol output changed undefined tail'
         assert after[:4]==bytes.fromhex(source['bytes'])[:4]==b'\x01\0\0\0','defined packed symbol header differs'
-    return dict(original=a,native=b,original_output=post,defined=4,logical_owner='pack_new_types/module3/malloc25049',original_namespace=dict(address=a['base'],bytes=post['bytes']),native_namespace=dict(address=b['base'],bytes=b['postbytes']))
+        if defined==16:
+            assert after[4:16]==bytes.fromhex('0a0005000000000001000000'),'packed symbol initialized search record differs'
+    assert bytes.fromhex(post['bytes'])[:defined]==bytes.fromhex(b['postbytes'])[:defined],'packed symbol defined prefix differs'
+    return dict(original=a,native=b,original_output=post,defined=defined,logical_owner='pack_new_types/module3/malloc25049',original_namespace=dict(address=a['base'],bytes=post['bytes']),native_namespace=dict(address=b['base'],bytes=b['postbytes']))

@@ -3658,13 +3658,16 @@
       "native": "write_search_symbol",
       "symbol": "_write_search_symbol",
       "original": 114400,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        114400,
+        114446
+      ],
       "abi": "unsigned short write_search_symbol(unsigned char *,unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0065-write_search_symbol/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -3681,7 +3684,23 @@
           "bits": 16
         }
       ],
-      "return_bits": 16
+      "return_bits": 16,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "link_symbol_scopes",
@@ -4157,6 +4176,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 64
+    },
+    {
+      "function": "write_search_symbol",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 65
     }
   ],
   "support_unmasked": [
@@ -4751,11 +4776,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "6991a012c66211ec6453dfe783f1282554c21b07cbc8dbbca4cefd383b06e090"
+    "evidence_sha256": "6f03d6abd28f0f2a5f32d5377f500507534a5844b1994e82b79c92da8eb73a1a"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "aa99ca5544a5c26c65da9cda60631c9c1bc81e4811da5aceffb91373495fd2a9"
+    "evidence_sha256": "6727600a864858626a28e17831780e4430128d17f4937639cc0cf12ae1d8d778"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -4787,10 +4812,10 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "2ebef437891f48226810e39de7c2c2b89b5951769c9ef337ee8f4903ce898de5"
+    "evidence_sha256": "21c4f342e1c81cade85a9edc30a800c199a70012f7f5b88290dcdeb964a033ba"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "bfb73438815b037e3fb8ba27b55a5830f954f1052da0a07551fe2a5bca828e53"
+    "evidence_sha256": "aa5d22974cddd4891cadbfa9bef0482360620568a1383eb489d916679fd85366"
   }
 }

@@ -8,7 +8,7 @@ from symbol_output import compare,parse
 def check(pair):
     pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());native=json.loads((pair/'native-symbol-output.json').read_text())
     spec=json.loads((pair/'walks.json').read_text());walks=original_walks(events,spec)
-    def run(e=events,n=native,a=walks,b=state['walks']):return compare(config,pe,e,n,a,b,True)
+    def run(e=events,n=native,a=walks,b=state['walks']):return compare(config,pe,e,n,a,b,True,state)
     run()
     def deny(label,action):
         try:action()
@@ -36,4 +36,32 @@ def check(pair):
     changed=copy.deepcopy(native)
     for field in('before','postbytes'):
         raw=bytearray.fromhex(changed[0][field]);raw[4]^=1;changed[0][field]=raw.hex()
+    run(n=changed)
+
+
+def check_search_write(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(e=events,n=rows,s=state):return compare(config,pe,e,n,old,s['walks'],True,s)
+    proof=run();assert proof['defined']==16
+    def deny(label,action):
+        try:action()
+        except AssertionError:print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    for key,value in [('record_kind',4),('record_length',25),('callback_index',30)]:
+        changed=copy.deepcopy(rows);changed[0][key]=value
+        deny('search-write wrong callback '+key,lambda:run(n=changed))
+    changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[16]^=1;changed[0]['postbytes']=raw.hex()
+    deny('search-write changed own unwritten suffix',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[12]^=1;changed[0]['postbytes']=raw.hex()
+    deny('search-write wrong initialized segment',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);changed[0]['cursor']=changed[0]['base']+40
+    deny('search-write invented later copied prefix',lambda:run(n=changed))
+    changed=copy.deepcopy(state);changed['globals']['symbol_input']['address']+=24
+    deny('search-write wrong actual parent source cursor',lambda:run(s=changed))
+    # Native undefined contents can differ from the original only if their own
+    # before/after bytes stay equal beyond the proven16-byte prefix.
+    changed=copy.deepcopy(rows)
+    for field in('before','postbytes'):
+        raw=bytearray.fromhex(changed[0][field]);raw[16]^=1;changed[0][field]=raw.hex()
     run(n=changed)

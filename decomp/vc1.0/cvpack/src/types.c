@@ -418,6 +418,11 @@ void pack_new_types(void *types, CvDirectoryEntry *entry, ModuleInfo *module,
             conversion = symbol_conversions;
             for (index = 0; index < 32; ++index, ++conversion)
                 if (conversion->kind == kind) break;
+#ifdef RECON_NATIVE_TEST
+            /* The original falls into adjacent globals for an unknown kind.
+               Native execution has no verified adjacency for that path. */
+            if (index == 32) __asm { int 3 }
+#endif
             if (conversion->convert) conversion->convert();
             if (*(unsigned short *)(symbol_input+2) != 8) {
                 for (i = 0; i < length; ++i) symbol_output[i] = symbol_input[i];
@@ -439,4 +444,15 @@ void pack_new_types(void *types, CvDirectoryEntry *entry, ModuleInfo *module,
     total_packed_symbol_bytes += output_size;
     module->symbol_size = output_size;
     module->symbols = buffer;
+}
+
+unsigned short write_search_symbol(unsigned char *buffer, unsigned short segment)
+{
+    *(unsigned short *)buffer = 10;
+    *(unsigned short *)(buffer+2) = 5;
+    *(unsigned short *)(buffer+8) = segment;
+    *(unsigned long *)(buffer+4) = 0;
+    buffer[10] = 0;
+    buffer[11] = 0;
+    return 12;
 }

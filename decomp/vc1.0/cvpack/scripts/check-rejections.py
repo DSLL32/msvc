@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_search_write
+    search=BINARY/'cases/hello-debug-dll/evidence/0065-write_search_symbol'
+    if search.is_dir():check_search_write(search)
     from symbol_output_checks import check as check_symbol_output
     packed=BINARY/'cases/hello-debug-dll/evidence/0064-pack_new_types'
     if packed.is_dir():check_symbol_output(packed)
