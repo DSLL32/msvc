@@ -105,6 +105,7 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         char *register_name;
         DWORD value;
         switch (ownership_register) {
+        case 6: register_name = "esp"; value = context_read ? context.Esp : 0; break;
         case 5: register_name = "ebp"; value = context_read ? context.Ebp : 0; break;
         case 4: register_name = "eax"; value = context_read ? context.Eax : 0; break;
         case 3: register_name = "edi"; value = context_read ? context.Edi : 0; break;
@@ -151,7 +152,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "ebp")) ownership_register = 5;
+        if (!strcmp(ownership_option, "esp")) ownership_register = 6;
+        else if (!strcmp(ownership_option, "ebp")) ownership_register = 5;
         else if (!strcmp(ownership_option, "eax")) ownership_register = 4;
         else if (!strcmp(ownership_option, "edi")) ownership_register = 3;
         else if (!strcmp(ownership_option, "ebx")) ownership_register = 2;

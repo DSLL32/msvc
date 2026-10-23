@@ -26,6 +26,7 @@ typedef struct DebugTypeFixup {
 typedef char DebugTypeFixupSizeMustBe16[(sizeof(DebugTypeFixup) == 16) ? 1 : -1];
 extern DebugTypeFixup *debug_type_fixups;
 extern unsigned debug_field_bytes;
+unsigned pad_debug_field(unsigned char *destination, unsigned length);
 int __stdcall emit_debug_base_fields(CppSymbol *tag, unsigned *member_index, unsigned first_member);
 void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail);
 struct OverloadSet;

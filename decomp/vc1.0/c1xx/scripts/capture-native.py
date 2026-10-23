@@ -55,6 +55,9 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
             for field in fields:
                 commands += ['    owner_value = owner_value['+repr(field)+']']
             commands += ['    result["caller_locals"]['+repr(key)+'] = {"function": owner.name(), "local": '+repr(owner['local'])+', "fields": '+repr(fields)+', "value": int(owner_value)}']
+            if owner.get('address_of'):
+                assert not fields, 'address observation is bounded to an actual immediate caller local'
+                commands += ['    result["caller_locals"]['+repr(key)+']["address"] = int(owner_value.address)']
     for field in config['cases'][case_name].get('buffered_streams', config['buffered_streams']):
         name = field['name'][1:]
         commands += ['    stream = gdb.parse_and_eval("'+name+'")',

@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "8ee1424e2a2e5137e149bad64dd7627d748347f6ca92cc4182ede53c49bfa95a",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/manifest.json": "64ad1ef1efc1ac2aed43efd018b125723647699424f2adb48372e439043b84ee",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "5249821e62734c8730bbcd54747f1731c3a66a6575cf85b8da51ceac73299162",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "d746d597e09f68c4db6afc129c1aefd34994d45e5751d592d1bbc31e43945254",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/c1/state-machine.cpp": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+  },
+  "observation": {
+    "status": "pass",
+    "mode": "successful actual owner control",
+    "synthetic_native_only": true,
+    "unaccepted_padding": "forced zero return only for focused control",
+    "public_reachability": "UNKNOWN"
+  },
+  "setup_seconds": 0.012774600647389889,
+  "debugger_seconds": 0.17502100579440594,
+  "total_seconds": 0.19893706496804953
+}

@@ -103,10 +103,18 @@ def main():
             owner = checkpoint['caller_locals'][binding['native_owner_field']]
             assert owner['function'] == binding['native_owner_function'] and owner['local'] == binding['native_owner_local']
             assert owner.get('fields', []) == binding.get('native_owner_fields', []), 'actual caller field differs'
-            binding['original_owner_value'] = registers[0]['value']
-            binding['native_owner_value'] = owner['value']
-            assert item['original_raw'] == binding['original_owner_value']
-            assert item['native_raw'] == binding['native_owner_value']
+            offset = binding.get('original_stack_offset', 0)
+            binding['original_owner_value'] = registers[0]['value'] + offset
+            binding['native_owner_value'] = owner['address'] if binding.get('native_owner_address') else owner['value']
+            assert item['original_raw'] == binding['original_owner_value'], 'original caller owner plus offset differs'
+            assert item['native_raw'] == binding['native_owner_value'], 'native actual caller local owner differs'
+            if 'original_stack_offset' in binding:
+                assert offset==36 and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
+                assert owner['function']=='emit_debug_field_list' and owner['local']=='member_index'
+                word=anchors[binding['original_prestate_word_anchor']]
+                assert word['bytes']==word['read_bytes']==4 and word['read_succeeded'], 'missing readable caller counter prestate'
+                assert word['original']==item['original_raw'], 'caller counter observation address differs'
+                assert word['value']==owner['value']==checkpoint[binding['native_pointee_field']]==0, 'defined caller counter prestate differs'
         elif binding['kind'] == 'pointee-word':
             anchor = anchors[binding['original_observation_name']]
             assert item['original_raw'] + binding.get('word_offset', 0) == anchor['original'] == binding['original_pointee_address'], 'actual argument no longer names observed word'

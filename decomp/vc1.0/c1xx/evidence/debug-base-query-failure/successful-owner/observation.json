@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "mode": "successful actual owner control",
+  "synthetic_native_only": true,
+  "unaccepted_padding": "forced zero return only for focused control",
+  "public_reachability": "UNKNOWN"
+}

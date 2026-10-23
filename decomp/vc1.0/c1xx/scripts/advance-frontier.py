@@ -130,8 +130,17 @@ def main():
             owner=entry_native['caller_locals'][binding['native_owner_field']]
             assert owner['function']==binding['native_owner_function'] and owner['local']==binding['native_owner_local'], 'actual native owner differs'
             assert owner.get('fields',[])==binding.get('native_owner_fields',[]), 'actual caller field differs'
-            assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']
-            assert formal['native_raw']==binding['native_owner_value']==owner['value']
+            offset=binding.get('original_stack_offset',0)
+            assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']+offset, 'original caller owner plus offset differs'
+            actual_native_owner=owner['address'] if binding.get('native_owner_address') else owner['value']
+            assert formal['native_raw']==binding['native_owner_value']==actual_native_owner, 'native actual caller local owner differs'
+            if 'original_stack_offset' in binding:
+                assert offset==36 and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
+                assert owner['function']=='emit_debug_field_list' and owner['local']=='member_index'
+                word=anchors[binding['original_prestate_word_anchor']]
+                assert word['bytes']==word['read_bytes']==4 and word['read_succeeded'], 'missing readable caller counter prestate'
+                assert word['original']==formal['original_raw'], 'caller counter observation address differs'
+                assert word['value']==owner['value']==entry_native[binding['native_pointee_field']]==0, 'defined caller counter prestate differs'
         elif binding['kind']=='pointee-word':
             anchor=anchors[binding['original_observation_name']]
             assert formal['original_raw']+binding.get('word_offset',0)==anchor['original']==binding['original_pointee_address'], 'actual argument no longer names observed word'

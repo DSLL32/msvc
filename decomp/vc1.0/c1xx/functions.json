@@ -1094,7 +1094,8 @@
     "_emit_debug_argument_list@4",
     "_emit_debug_member_function_type@20",
     "_debug_calling_convention",
-    "_emit_debug_field_list@12"
+    "_emit_debug_field_list@12",
+    "_emit_debug_base_fields@12"
   ],
   "driver": [
     {
@@ -8081,7 +8082,7 @@
     {
       "name": "_emit_debug_base_fields@12",
       "start": 455808,
-      "end": 455809
+      "end": 456940
     },
     {
       "name": "_split_debug_field_record",
@@ -8107,6 +8108,11 @@
       "name": "_encode_debug_signed@8",
       "start": 459456,
       "end": 459457
+    },
+    {
+      "name": "_pad_debug_field",
+      "start": 460624,
+      "end": 460625
     }
   ],
   "cases": {
@@ -8307,7 +8313,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_emit_debug_base_fields@12",
+      "terminal": "_count_emitted_overloads@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8330,7 +8336,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8425,7 +8431,8 @@
         "cases/frontiers/state_machine_debug/1086-emit_debug_argument_list-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1087-emit_debug_member_function_type-20/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1088-debug_calling_convention/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/frontier-extension.json"
       ]
     }
   },
@@ -11053,6 +11060,19 @@
       "authorization": "Established root-approved original-uninitialized-local guard policy after independent raw condition/offset/writer review",
       "evidence": "evidence/debug-class-domain/analysis.json",
       "coverage_note": "Fallback loads entryESP-24, with no local writer. Public reachability unknown; no malformed-only, CRT or stale-stack equivalence claim."
+    },
+    {
+      "function": "_emit_debug_base_fields@12",
+      "original": [
+        455808,
+        456940
+      ],
+      "condition": "query_virtual_base_pointer returns false on direct/inherited virtual-base emission",
+      "behavior": "exact native-only INT3 before reading uninitialized output locals",
+      "win32": "original ignored query return and uninitialized output reads retained",
+      "authorization": "Root approved after full call/output-writer proof; no blanket guard",
+      "evidence": "evidence/debug-base-query-failure/analysis.json",
+      "coverage_note": "Missing-group public reachability UNKNOWN; no malformed-only or stale-stack equivalence claim. pointer_offset/table_offset/pointer_type at entryESP-68/-72/-76 independently checked."
     }
   ]
 }

@@ -3,9 +3,106 @@
 #include "debug-info.h"
 #include "class-finalization.h"
 #include "cpp-context.h"
+#include "class-lookup.h"
+#include "member-expressions.h"
+#include "member-access.h"
 #include <recon.h>
 
 unsigned debug_field_bytes; /* original0x8ccac */
+
+/* Original0x6f480..0x6f8ec. Direct nonvirtual bases precede direct
+   virtual bases, followed by inherited virtual bases not already emitted. */
+int __stdcall emit_debug_base_fields(CppSymbol *tag, unsigned *member_index,
+    unsigned first_member)
+{
+    BaseClassLink *link;
+    CppSymbol *base;
+    VirtualBaseSearch search;
+    unsigned char *field;
+    unsigned length, second_length, pointer_offset, table_offset;
+    CType *pointer_type;
+    int offset;
+    for (link = (BaseClassLink *)tag->auxiliary.scope_members; link;
+         link = (BaseClassLink *)link->next) {
+        if ((link->kind & 31) != 15 || (link->flags & 0x80)) continue;
+        base = cpp_context_stack->items[link->context_index];
+        if (link->state & 1) continue;
+        if (*member_index < first_member) { ++*member_index; continue; }
+        debug_field_bytes += pad_debug_field(debug_record_buffer + debug_field_bytes + 4,
+            debug_field_bytes);
+        if (debug_field_bytes + 14 >= 0x109) return 0;
+        ++*member_index;
+        field = debug_record_buffer + debug_field_bytes + 4;
+        *(unsigned short *)field = 0x400;
+        *(unsigned short *)(field + 2) = base->type->debug_index;
+        *(unsigned short *)(field + 4) = (debug_field_properties & ~3) | (link->flags & 3);
+        offset = (int)link->displacement;
+        if (offset >= 0) length = encode_debug_unsigned(field + 6, (unsigned)offset);
+        else length = encode_debug_signed(field + 6, offset);
+        debug_field_bytes += length + 6;
+    }
+    for (link = (BaseClassLink *)tag->auxiliary.scope_members; link;
+         link = (BaseClassLink *)link->next) {
+        if ((link->kind & 31) != 15 || (link->flags & 0x80)) continue;
+        base = cpp_context_stack->items[link->context_index];
+        if (!(link->state & 1)) continue;
+        if (*member_index < first_member) { ++*member_index; continue; }
+        debug_field_bytes += pad_debug_field(debug_record_buffer + debug_field_bytes + 4,
+            debug_field_bytes);
+        if (debug_field_bytes + 20 >= 0x109) return 0;
+        ++*member_index;
+        field = debug_record_buffer + debug_field_bytes + 4;
+        *(unsigned short *)field = 0x401;
+        *(unsigned short *)(field + 2) = base->type->debug_index;
+        *(unsigned short *)(field + 6) = (debug_field_properties & ~3) | (link->flags & 3);
+#ifdef RECON_NATIVE_TEST
+        /* Failure leaves all three original output locals unwritten. */
+        if (!query_virtual_base_pointer(base, tag, &pointer_offset, &table_offset,
+            &pointer_type)) { __asm { int 3 } }
+#else
+        query_virtual_base_pointer(base, tag, &pointer_offset, &table_offset, &pointer_type);
+#endif
+        if ((int)pointer_offset >= 0) length = encode_debug_unsigned(field + 8, pointer_offset);
+        else length = encode_debug_signed(field + 8, (int)pointer_offset);
+        *(unsigned short *)(field + 4) = pointer_type->debug_index;
+        second_length = encode_debug_unsigned(field + 8 + length,
+            (int)table_offset / (pointer_type->flags & 15));
+        debug_field_bytes += length + second_length + 8;
+    }
+    begin_virtual_base_search(&search, tag);
+    while (next_virtual_base_search(&search)) {
+        base = search.tag;
+        for (link = (BaseClassLink *)tag->auxiliary.scope_members; link;
+             link = (BaseClassLink *)link->next) {
+            if ((link->kind & 31) == 15 && !(link->flags & 0x80) &&
+                cpp_context_stack->items[link->context_index] == base) break;
+        }
+        if (link) continue;
+        if (*member_index < first_member) { ++*member_index; continue; }
+        debug_field_bytes += pad_debug_field(debug_record_buffer + debug_field_bytes + 4,
+            debug_field_bytes);
+        if (debug_field_bytes + 20 >= 0x109) return 0;
+        ++*member_index;
+        field = debug_record_buffer + debug_field_bytes + 4;
+        *(unsigned short *)field = 0x402;
+        *(unsigned short *)(field + 6) =
+            (debug_field_properties & ~3) | (virtual_base_access_level(base, tag) & 3);
+        *(unsigned short *)(field + 2) = base->type->debug_index;
+#ifdef RECON_NATIVE_TEST
+        if (!query_virtual_base_pointer(base, tag, &pointer_offset, &table_offset,
+            &pointer_type)) { __asm { int 3 } }
+#else
+        query_virtual_base_pointer(base, tag, &pointer_offset, &table_offset, &pointer_type);
+#endif
+        if ((int)pointer_offset >= 0) length = encode_debug_unsigned(field + 8, pointer_offset);
+        else length = encode_debug_signed(field + 8, (int)pointer_offset);
+        *(unsigned short *)(field + 4) = pointer_type->debug_index;
+        second_length = encode_debug_unsigned(field + 8 + length,
+            (int)table_offset / (pointer_type->flags & 15));
+        debug_field_bytes += length + second_length + 8;
+    }
+    return 1;
+}
 
 /* These operations were expanded inline in the original emitter. Keep
    padding and room checks at each field, without adding helper vertices. */

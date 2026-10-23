@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "95a30227adf7ec754b8540705cd9debd5d3911c8f86863aeadce349731be61f7",
+    "functions.json": "df505b47584b1272e69e1daaee884742240c5a278c95df973c1e3aec2b60eef7",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "37bf3ae1a950e87c2090c8bda6264b5692efe1e5f149502f77fe4f52fae1e75c",
-    "cases/canonical-map.txt": "b1a2f0ee1909edb5975ddd7c5b43646e27957fed47244f58930fdf1d6a73a9f4",
+    "cases/original-entry-references.json": "edf98ff4e25c8ef66c035fae5dcdad785d54885023a8511f9359b723e8236878",
+    "cases/canonical-map.txt": "4ac5a60c8cacabaf92fee2486b513a689ab37a1149f38a3e24a368fe0b16f1c0",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/entry-reference/original-receipt.json": "3f518e0b4afde5b0595bfd44b90ba03ceceaa4ca56fb82461a2570702e539f99",
-    "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/entry-reference/original-events.txt": "a2fde90fb7339ac365f5435668887315bc161e06625153b14bd7bd69f2d18207",
-    "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/entry-reference/original-entries.plan": "bad1250e5170af92d11706308c34e97ab0494753f7ebe2273224f8bebc045565"
+    "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/entry-reference/original-receipt.json": "b302d5ef876e51afbb9b35d356e588e0edd6c6b3fff6631a9f6af8ed35862a1f",
+    "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/entry-reference/original-events.txt": "412d8feadb35abbd4b131776804e3d540666e88d1a0e5340ea0ccc8fc40cb063",
+    "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/entry-reference/original-entries.plan": "0d896a4c41b5855ff879a64ad009f91b9aa62fb9a4e1648d9524168dd00678e3"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1565,7 +1565,7 @@
     },
     "emit_debug_base_fields": {
       "logical": "_emit_debug_base_fields@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-fields.c"
     },
     "emit_debug_bit_field": {
       "logical": "_emit_debug_bit_field@4",
@@ -3910,6 +3910,10 @@
     "pack_option_flags": {
       "logical": "_pack_option_flags",
       "source": "src/option-state.c"
+    },
+    "pad_debug_field": {
+      "logical": "_pad_debug_field",
+      "source": "src/stubs.c"
     },
     "parameter_reference_type": {
       "logical": "_parameter_reference_type@4",
@@ -6544,7 +6548,8 @@
     "emit_debug_argument_list",
     "emit_debug_member_function_type",
     "debug_calling_convention",
-    "emit_debug_field_list"
+    "emit_debug_field_list",
+    "emit_debug_base_fields"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10656,7 +10661,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1090,
+      "last": 1091,
       "seen": [
         "main",
         "message_text",
@@ -11656,12 +11661,13 @@
         "emit_debug_member_function_type",
         "debug_calling_convention",
         "emit_debug_field_list",
-        "emit_debug_base_fields"
+        "emit_debug_base_fields",
+        "count_emitted_overloads"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_emit_debug_base_fields@12",
-        "native": "emit_debug_base_fields",
+        "logical": "_count_emitted_overloads@4",
+        "native": "count_emitted_overloads",
         "signal": 5
       }
     }

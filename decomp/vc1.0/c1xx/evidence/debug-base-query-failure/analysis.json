@@ -1,0 +1,19 @@
+{
+  "frame_delta": -100,
+  "locals": {
+    "pointer_offset": -68,
+    "table_offset": -72,
+    "pointer_type": -76
+  },
+  "raw_calls": [
+    "0x6f6cc",
+    "0x6f850"
+  ],
+  "call_proof": "Output push sequence at0x6f6b7: LEA[ESP+0x18] pointertype, PUSH; LEA[ESP+0x20] after4Bpush=baseline0x1c tableoffset, PUSH; LEA[ESP+0x28] after8Bpush=baseline0x20 pointeroffset, PUSH; then derived/base. Repeated exact baseline slots at0x6f83b. SUB ESP0x54 plus4savedregisters=100B, verified decimal offsets -76,-72,-68.",
+  "callee_failure_proof": "0x7be10 forwards all5args to0x7be40. find helper CALL find_virtual_base_group0x7be50; if resultNULL, XOR EAX,EAX/RET20 at0x7be59/5b before every output store(0x7be6b/78/88). No failed-path store to any output local.",
+  "caller_reads": "First reads pointer_offset[ESP+0x20] at0x6f6d1/6f855; then pointer_type[ESP+0x18] at6f6ec/6f870 and table_offset[ESP+0x1c] at6f702/6f886. No intervening writes on either failed-return branch.",
+  "public_reachability": "UNKNOWN",
+  "native_policy": "Exact false-query trap before first output read; no initialized replacement values",
+  "win32_policy": "Original ignored return/unwritten reads retained",
+  "iteration_note": "First failed virtual query leaves unwritten locals; a later failure can retain prior iteration values. Native false-query path is unsupported in both cases, without a universal uninitialized-prestate claim."
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "test": "missing-esp-anchor",
+    "status": "rejected before original invocation",
+    "seconds": 0.10012095142155886,
+    "message": "AssertionError: missing actual owner register anchor"
+  },
+  {
+    "test": "wrong-stack-offset",
+    "status": "rejected before original invocation",
+    "seconds": 0.1044083684682846,
+    "message": "AssertionError: original caller owner plus offset differs"
+  },
+  {
+    "test": "wrong-native-local-address",
+    "status": "rejected before original invocation",
+    "seconds": 0.10509144607931376,
+    "message": "AssertionError: native actual caller local owner differs"
+  },
+  {
+    "test": "wrong-counter-prestate",
+    "status": "rejected before original invocation",
+    "seconds": 0.10483651980757713,
+    "message": "AssertionError: defined caller counter prestate differs"
+  },
+  {
+    "test": "unreadable-counter",
+    "status": "rejected before original invocation",
+    "seconds": 0.10280117578804493,
+    "message": "AssertionError: missing readable caller counter prestate"
+  }
+]

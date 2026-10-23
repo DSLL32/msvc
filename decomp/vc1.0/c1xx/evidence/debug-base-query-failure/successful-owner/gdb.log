@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x45db1: file src/debug-fields.c, line 17.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, emit_debug_base_fields (tag=0x56639c84, member_index=0xffffd448, first_member=0) at src/debug-fields.c:17
+17	{
+Breakpoint 2 at 0x56560ebc: file src/stubs.c, line 631.
+
+Breakpoint 2, pad_debug_field (destination=0x56663624 "\n\004", length=0) at src/stubs.c:631
+631	unsigned pad_debug_field(unsigned char *destination, unsigned length) { __asm { int 3 } return 0; }
+0x5659b492 in emit_debug_field_list (tag=0x56639c84, first_member=0, vshape_index=4116) at src/debug-fields.c:143
+143	    if (!emit_debug_base_fields(tag, &member_index, first_member)) {
+Value returned is $1 = 1

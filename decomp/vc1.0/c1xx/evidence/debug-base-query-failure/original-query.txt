@@ -1,0 +1,52 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0007be10 <.text+0x64e10>:
+   7be10:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   7be14:	50                   	push   eax
+   7be15:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   7be19:	50                   	push   eax
+   7be1a:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   7be1e:	50                   	push   eax
+   7be1f:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   7be23:	50                   	push   eax
+   7be24:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   7be28:	50                   	push   eax
+   7be29:	e8 12 00 00 00       	call   0x7be40
+   7be2e:	c2 14 00             	ret    0x14
+   7be31:	8d 64 24 00          	lea    esp,[esp+0x0]
+   7be35:	8d 64 24 00          	lea    esp,[esp+0x0]
+   7be39:	8d a4 24 00 00 00 00 	lea    esp,[esp+0x0]
+   7be40:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   7be44:	8b 40 20             	mov    eax,DWORD PTR [eax+0x20]
+   7be47:	8b 40 10             	mov    eax,DWORD PTR [eax+0x10]
+   7be4a:	50                   	push   eax
+   7be4b:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   7be4f:	50                   	push   eax
+   7be50:	e8 cb e3 ff ff       	call   0x7a220
+   7be55:	0b c0                	or     eax,eax
+   7be57:	75 07                	jne    0x7be60
+   7be59:	2b c0                	sub    eax,eax
+   7be5b:	c2 14 00             	ret    0x14
+   7be5e:	8b ff                	mov    edi,edi
+   7be60:	8b 4c 24 0c          	mov    ecx,DWORD PTR [esp+0xc]
+   7be64:	0b c9                	or     ecx,ecx
+   7be66:	74 05                	je     0x7be6d
+   7be68:	8b 50 08             	mov    edx,DWORD PTR [eax+0x8]
+   7be6b:	89 11                	mov    DWORD PTR [ecx],edx
+   7be6d:	8b 4c 24 10          	mov    ecx,DWORD PTR [esp+0x10]
+   7be71:	0b c9                	or     ecx,ecx
+   7be73:	74 05                	je     0x7be7a
+   7be75:	8b 50 0c             	mov    edx,DWORD PTR [eax+0xc]
+   7be78:	89 11                	mov    DWORD PTR [ecx],edx
+   7be7a:	8b 4c 24 14          	mov    ecx,DWORD PTR [esp+0x14]
+   7be7e:	0b c9                	or     ecx,ecx
+   7be80:	74 08                	je     0x7be8a
+   7be82:	8b 40 10             	mov    eax,DWORD PTR [eax+0x10]
+   7be85:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   7be88:	89 01                	mov    DWORD PTR [ecx],eax
+   7be8a:	b8 01 00 00 00       	mov    eax,0x1
+   7be8f:	c2 14 00             	ret    0x14

@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 1090 accepted frontiers, including 996 frontend
+PARTIAL binary reconstruction: 1091 accepted frontiers, including 997 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete.
-Active case state_machine_debug stops at _emit_debug_base_fields@12, original VA 0x6f480.
+Active case state_machine_debug stops at _count_emitted_overloads@4, original VA 0x30bb0.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -16,7 +16,7 @@ threshold for signed opposite-positive-status operands with unsupported widths.
 That exact native path traps; malformed/internal widths are not claimed equivalent.
 Normal integer widths1/2/4 and the actual lifetime invocation have exact original/
 native return evidence under evidence/multiply-boundary. native-rejections checks
-all seven documented guards without running Wine.
+all eight documented guards without running Wine.
 Include-directory search preserves the original Win32 unwritten last-character
 pointer when a nonnull directory is empty. Valid public -I "" can succeed in the
 original using a stale caller strchr argument; native execution explicitly traps
@@ -41,10 +41,15 @@ Class/enum emission retains the original unwritten length on its unsupported
 descriptor fallback. Native execution traps before the entryESP-24 read. This
 seventh domain limitation has unknown public reachability and no stale-stack
 equivalence claim; evidence/debug-class-domain holds raw and focused checks.
+Virtual-base debug emission preserves ignored failed-query output reads in Win32.
+Native execution traps on that exact false query before reading entryESP-68/-72/
+-76 outputs: first failure leaves them unwritten, later failure may leave stale
+values. Public reachability remains unknown. evidence/debug-base-query-failure
+contains raw writer/reader proof, focused missing-group and successful controls.
 All five selected C++ cases are complete, including new/delete/operators.
 cases/reconstruction-queue.json records completion and subsequent case review.
 
-Accepted original extents cover 279539 / 476418 code-section bytes (58.675155%).
+Accepted original extents cover 280671 / 476418 code-section bytes (58.912761%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -75,7 +80,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 1090-entry acceptance provenance and full original extents; the cache
+the ordered 1091-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 

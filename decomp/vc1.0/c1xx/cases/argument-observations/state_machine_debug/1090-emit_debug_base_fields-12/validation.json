@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_emit_debug_base_fields@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1090,
+  "configuration_sha256": "5249821e62734c8730bbcd54747f1731c3a66a6575cf85b8da51ceac73299162",
+  "native_entry": "emit_debug_base_fields",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "retained_class",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "retained_class",
+        "identity": "Counter tag retained in original/native former class slot0; same fresh fixed-address owner alias, not a newly invented static object.",
+        "original_anchor_value": 8301700,
+        "native_anchor_value": 1449278596
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449278596,
+      "result": "match"
+    },
+    {
+      "name": "member_index",
+      "stack_index": 1,
+      "native_field": "raw_counter",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_stack_offset": 36,
+        "native_owner_address": true,
+        "original_caller_rva": 388778,
+        "original_owner_function": "_emit_debug_field_list@12",
+        "native_owner_field": "caller_counter",
+        "native_owner_function": "emit_debug_field_list",
+        "native_owner_local": "member_index",
+        "original_prestate_word_anchor": "counter_prestate",
+        "native_pointee_field": "counter_value",
+        "identity": "Actual caller local initializedDWORD0 at0x6ee64. Caller baselineESP=entryESP-44. LEA EAX,[ESP+0x18]0x6ee9b after prior4Bpush names baseline+20=callerentryESP-24; PUSH EAX0x6ee9f. After12Barguments+CALL4 calleeentryESP=callerentryESP-60, so actualcounter=calleeESP+36. Fresh raw ESP owner, DWORD at actual arg1 and actual native caller local.address; native frame equality never assumed.",
+        "original_owner_value": 2948504,
+        "native_owner_value": 4294956024
+      },
+      "original_raw": 2948504,
+      "native_raw": 4294956024,
+      "result": "match"
+    },
+    {
+      "name": "first_member",
+      "stack_index": 2,
+      "native_field": "raw_first",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      455808,
+      456940
+    ],
+    "argument_bytes": 12,
+    "proof": "SUB ESP0x54/save4registers; tag atadjustedESP+0x68, unsigned*member_index+0x6c, unsignedfirst_member+0x70; RET12 at0x6f8c4/d0/dc/e9. Three complete base passes: directnonvirtual,directvirtual,inheritedvirtual absentdirectchain. Counter read/write definedcallerDWORDprestate0. Original EBP/other saved values never semantic callee inputs; ESP ownership anchor observes only actual caller-local location. On false query_virtual_base_pointer, first virtual query output locals are unwritten; later failed iteration can retain stale previous outputs. Win32 ignored return preserved, native exactfalsequery guard, public reachabilityUNKNOWN.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "4726c886effa5d47d7d677875e7a54d596cdca06081c094e7be003adea8b8cba",
+  "capture_timing": {
+    "original_capture_seconds": 1.719058247283101,
+    "native_capture_seconds": 0.18000840209424496,
+    "total_operation_seconds": 2.213467831723392
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "fdd390c38646f8944ada159f999f3cda1c197954477171939a4ca1d6ceda3fce",
+    "native-commands.gdb": "10bd77355867feebd08803e4ea8d7e281703404ae824cd61b98e718cdc53a06d",
+    "native-gdb.log": "1e1ddd96accba8477f2022bcf909f2bbd9f107ec73d7ea26edddada165ab0a0d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "d618e97c2d8461688589f964c9c7f55daf3d53ea9dea6d5035fd9061ffa93e34",
+    "original-configuration.json": "5249821e62734c8730bbcd54747f1731c3a66a6575cf85b8da51ceac73299162",
+    "original-disassembly.txt": "b93fdb3eadedb48f88784b6bf737aac82a362752b3582252f7b42942dd01d151",
+    "original-entries.plan": "cac13f2686daa7f51c9020f334abbd4923368c2ea07a5f4ec3f05be2b9b79ac0",
+    "original-events.txt": "418cb775e9ff4ce80466b99d1a9d56a509b3bcd2af4ea11bcbb6ffb86f01a3fc",
+    "original-ownership-caller-disassembly.txt": "d8aeee9757f6459bd5aaf721b2f96f76a6aa574487062b5c3bc26ee56de6327e",
+    "original-receipt.json": "58a1b2c3cf27177e7e837c9ece7365c235f838016c1edd03f7736e2f5930df81",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "1a1d03b315be85481e1897cd04b576ac8f0a55a1e01f3dde967359be10bce965"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
