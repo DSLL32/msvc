@@ -33,7 +33,8 @@
     "rc_set_character_token",
     "rc_set_character_class",
     "rc_hash_macro_name",
-    "rc_define_macro"
+    "rc_define_macro",
+    "rc_find_macro"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

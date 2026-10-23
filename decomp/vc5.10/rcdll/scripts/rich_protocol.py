@@ -491,14 +491,14 @@ def preprocess_trial(original,native):
     return proof
 
 
-def wide_argument_state(original,native,a,b,filename=None):
+def wide_argument_state(original,native,a,b,filename=None,extra_blocks=0):
     text=(original/'events.txt').read_text();arguments=b['arguments']
     # The previously accepted forwarding boundary records this exact case's
     # ANSI vector. Only its two actual temporary paths vary between captures.
     expected=json.loads((HERE/'cases/resources-rich/acceptance-0020.json').read_text())['proof']['forwarded']['argv'][:]
     expected[4]=raw_bytes(text,'input-temporary')[:-1].decode('ascii');expected[6]=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
     assert len(expected)==20 and all(value.isascii()for value in expected)
-    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1,filename=filename)
+    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1+extra_blocks,filename=filename)
     original_pointer=int(re.findall(r'^wide-args 20 ([0-9a-f]+)$',text,re.M)[0],16);native_pointer=arguments['vector_pointer'];assert native_pointer>0
     vector=arguments['wide_vector'];assert len(vector)==20 and arguments['wide_terminator']==0
     assert re.findall(r'^wide-terminator ([0-9a-f]+)$',text,re.M)==['00000000']
@@ -523,13 +523,13 @@ def wide_argument_state(original,native,a,b,filename=None):
     requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
     results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
     payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
-    assert len(requests)==len(results)==len(payloads)==5
-    assert int(requests[-1][2])==size and requests[-1][1]=='9'and requests[-1][3]=='00000000'
-    assert int(results[-1][0],16)+8==original_pointer and results[-1][1]=='00000000'
-    assert int(payloads[-1][0])==size and bytes.fromhex(payloads[-1][1])==b'\0'*size
-    raw=(original/'globals.bin').read_bytes();assert int(requests[-1][0],16)==struct.unpack_from('<I',raw,0x25f54-0x14000)[0]
-    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==5
-    last=allocations[-1];assert last['heap']==identity['handle']and last['flags']==9 and last['bytes']==size and last['result']+8==native_pointer
+    assert len(requests)==len(results)==len(payloads)==5+extra_blocks
+    assert int(requests[4][2])==size and requests[4][1]=='9'and requests[4][3]=='00000000'
+    assert int(results[4][0],16)+8==original_pointer and results[4][1]=='00000000'
+    assert int(payloads[4][0])==size and bytes.fromhex(payloads[4][1])==b'\0'*size
+    raw=(original/'globals.bin').read_bytes();assert int(requests[4][0],16)==struct.unpack_from('<I',raw,0x25f54-0x14000)[0]
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==5+extra_blocks
+    last=allocations[4];assert last['heap']==identity['handle']and last['flags']==9 and last['bytes']==size and last['result']+8==native_pointer
     assert bytes.fromhex(last['payload'])==b'\0'*size and last['last_error_before']==last['last_error_after']==0
     return dict(prepared=prepared,widened=dict(count=20,argv=expected,allocation_bytes=size,header_bytes=8,pointer_array_bytes=84,original_base=original_pointer,native_base=native_pointer,terminator=0,normalization='only pointers into the one owned packed allocation; UTF16 bytes exact'),ansi_reference=dict(path='cases/resources-rich/acceptance-0020.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0020.json'),transport_slots=[4,6]))
 
@@ -711,9 +711,9 @@ def entry_file_state(original,native):
         result[phase]=dict(errno=0,lowio=old_lowio,files=old_files,original_capacity=int(capacities[0]),native_capacity=new['lowio_capacity'],capacity_scope='unused allocation capacity is recorded separately; only live descriptor/FILE inventory equivalence is claimed')
     return dict(boundaries=result,original_events_sha256=sha(original/'events.txt'),native_history_sha256=sha(native/'errno-history.json'))
 
-def parsed_option_state(original,native,b,original_arguments):
+def parsed_option_state(original,native,b,original_arguments,extra_blocks=0):
     text=(original/'events.txt').read_text();input_name=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
-    state=wide_argument_state(original,native,None,b,filename=input_name)
+    state=wide_argument_state(original,native,None,b,filename=input_name,extra_blocks=extra_blocks)
     parser=preprocessor_state(original,native,b,state,0,19)
     opened=b['arguments']['open'];globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
     old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
@@ -865,4 +865,46 @@ def define_macro_trial(original,native):
     assert b['crt_errors']==dict(errno=0,last_error=0)
     assert proof['application_trace'][-1]=='rc_define_macro'
     proof.update(trial='rc_define_macro',preprocessor=parser,macro_hash=dict(name='CASE_FROM_COMMAND',hash=hash_value,name_length=18),definition=dict(value='7',length=3,parameters=-2,byte_cleanup=12),definition_cursor=dict(index=97,original_parameter_reused=True,native_local_index=97),hash_reference=dict(path='cases/resources-rich/acceptance-0030.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0030.json')))
+    return proof
+
+
+def find_macro_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_find_macro'and len(config['accepted'])==31
+    a,b,proof=checkpoint(original,native,'rc_copy_macro_text',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][:3]==[0x71c24d2f,0x71c38128,18]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_define_macro\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
+    assert forwarded[2]==0x71c344f8+4+97*4 and b['arguments']['setup_iteration']==97
+    forwarded[2]=0x71c344f8 # The original reuses its parameter slot for the live list cursor.
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=1);proof.update(state)
+    globals=b['arguments']['preprocessor']['globals']
+    assert bytes.fromhex(globals['rc_character_tokens']['bytes'])==struct.pack('<5H',3,36,37,38,39)
+    assert globals['rc_character_tokens[36]']['bytes']=='2800'and globals['rc_character_classes[36]']['bytes']=='1000'
+    expected=('CASE_FROM_COMMAND'+'\0').encode('utf-16le')
+    assert bytes.fromhex(globals['rc_macro_name']['bytes'])==expected+b'\0'*(1024-len(expected))
+    hash_value=sum(ord(c)&0x5f for c in 'CASE_FROM_COMMAND')&255
+    assert globals['rc_macro_hash']['bytes']==bytes([hash_value]).hex()and globals['rc_macro_name_length']['bytes']=='12000000'
+    assert globals['rc_macro_buckets']['bytes']=='00'*1024 and globals['rc_macro_listing_enabled']['bytes']=='00000000'
+    value=b['arguments']['definition'];old_wide=[int(x,16)for x in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
+    forwarded_definition=list(struct.unpack('<3I',raw_bytes(text,'definition-forwarded')))
+    assert forwarded_definition==[old_wide[19]+36,3,0xfffffffe]
+    assert value==dict(value=b['arguments']['wide_vector'][19]['pointer']+36,length=3,parameters=-2,value_bytes='37000000',formal_bytes=dict(value=4,length=4,parameters=4))
+    assert raw_bytes(text,'macro-definition-value')==bytes.fromhex(value['value_bytes'])
+    assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    copy=b['arguments']['copy'];assert copy==dict(value=globals['rc_macro_name']['address'],length=18,value_bytes=expected.hex(),formal_bytes=dict(value=4,length=4))
+    assert raw_bytes(text,'macro-copy-value')==expected
+    record=b['arguments']['pending_macro'];assert record['record_bytes']==16 and bytes.fromhex(record['bytes'])==raw_bytes(text,'pending-macro-block')==b'\0'*24
+    original_macro=int(re.findall(r'^macro-record ([0-9a-f]+)$',text,re.M)[0],16)
+    requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M);results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M);payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
+    assert len(requests)==len(results)==len(payloads)==6 and requests[5][1:]==('9','24','00000000')and int(results[5][0],16)+8==original_macro
+    assert results[5][1]=='00000000'and payloads[5]==('24','00'*24)
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];last=allocations[5]
+    assert last['heap']==b['heap_identity']['handle']and last['flags']==9 and last['bytes']==24 and last['result']+8==record['pointer']and last['payload']=='00'*24
+    assert last['last_error_before']==last['last_error_after']==0
+    block=next(row for row in b['heap_identity']['blocks']if row['payload']+8==record['pointer'])
+    assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==24 and block['contents']=='00'*24
+    assert proof['application_trace'][-1]=='rc_find_macro'
+    proof.update(trial='rc_find_macro',preprocessor=parser,macro_hash=dict(name='CASE_FROM_COMMAND',hash=hash_value,name_length=18),definition=dict(value='7',length=3,parameters=-2,byte_cleanup=12),definition_cursor=dict(index=97,original_parameter_reused=True,native_local_index=97),definition_reference=dict(path='cases/resources-rich/acceptance-0031.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0031.json')),pending_record=dict(bytes=16,allocation_bytes=24,header_bytes=8,zeroed=True),copy=dict(value='CASE_FROM_COMMAND',length=18,cleanup=8))
     return proof

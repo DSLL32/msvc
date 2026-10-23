@@ -89,11 +89,6 @@ void __cdecl rc_close_preprocessor(void)
     __asm int 3
 }
 
-RcMacro *__cdecl rc_find_macro(void)
-{
-    __asm int 3
-    return NULL;
-}
 int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsigned length)
 {
     __asm int 3

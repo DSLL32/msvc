@@ -346,3 +346,23 @@ protected_name:
     rc_format(rc_error_text,2048,rc_error_template,rc_macro_name,"#define");
     rc_input_warning(4117);
 }
+
+RcMacro *__cdecl rc_find_macro(void)
+{
+    RcMacro *macro;
+    const unsigned char *name,*saved;
+    unsigned bytes;
+
+    for(macro=rc_macro_buckets[rc_macro_hash];macro;macro=macro->next){
+        name=(const unsigned char *)rc_macro_name;
+        saved=(const unsigned char *)macro->name;
+        bytes=rc_macro_name_length*sizeof(WCHAR);
+        while(bytes && *name==*saved){
+            ++name;
+            ++saved;
+            --bytes;
+        }
+        if(!bytes) return macro;
+    }
+    return NULL;
+}

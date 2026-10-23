@@ -258,3 +258,8 @@ with all implicit name/hash/bucket inputs checked. The full body covers record
 insertion, protected names and replacement storage behind named callees.
 [Verification](cases/resources-rich/define-macro-verification.json) records 32 fresh
 controls; the newly encountered SEH copy helper remains unaccepted.
+
+Macro lookup is accepted (58 bytes), reaching the first copy with an initialized,
+bounded 18-WCHAR name and a verified zeroed 16-byte pending record.
+[Verification](cases/resources-rich/find-macro-verification.json) records allocation
+ownership, 36 fresh rejection controls and timings. The SEH copy remains gated.
