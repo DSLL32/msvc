@@ -4520,5 +4520,57 @@
       0,
       4
     ]
+  },
+  {
+    "address": 504736,
+    "name": "linker_tool_name",
+    "size": 7,
+    "owner": "src/link.c",
+    "evidence": "Actual driver_usage270ac in-place NUL at Tool.length; full shared names/tails sampled before/after"
+  },
+  {
+    "address": 504744,
+    "name": "library_tool_name",
+    "size": 16,
+    "owner": "src/link.c",
+    "evidence": "Actual driver_usage270ac in-place NUL at Tool.length; full shared names/tails sampled before/after"
+  },
+  {
+    "address": 504760,
+    "name": "dumper_tool_name",
+    "size": 7,
+    "owner": "src/link.c",
+    "evidence": "Actual driver_usage270ac in-place NUL at Tool.length; full shared names/tails sampled before/after"
+  },
+  {
+    "address": 504768,
+    "name": "editor_tool_name",
+    "size": 7,
+    "owner": "src/link.c",
+    "evidence": "Actual driver_usage270ac in-place NUL at Tool.length; full shared names/tails sampled before/after"
+  },
+  {
+    "address": 504776,
+    "name": "helper_tool_name",
+    "size": 7,
+    "owner": "src/link.c",
+    "evidence": "Actual driver_usage270ac in-place NUL at Tool.length; full shared names/tails sampled before/after"
+  },
+  {
+    "address": 504792,
+    "name": "tools",
+    "size": 96,
+    "owner": "src/link.c",
+    "function_pointers": [
+      12,
+      28,
+      44,
+      60,
+      76
+    ],
+    "string_pointers": [
+      80
+    ],
+    "evidence": "Six original16-byte Tool entries; named mutable strings, typed cdecl callbacks and zero sentinel"
   }
 ]

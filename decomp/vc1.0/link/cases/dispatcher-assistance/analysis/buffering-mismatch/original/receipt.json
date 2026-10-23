@@ -1,0 +1,58 @@
+{
+  "mode": "masked",
+  "trial": "driver_usage",
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-dispatcher.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "direct",
+    "S:\\vc1.0\\link\\new-captures\\dispatcher-assistance\\direct-masked-qnqoan45\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\dispatcher-assistance\\direct-masked-qnqoan45\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\dispatcher-assistance\\direct-masked-qnqoan45\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\dispatcher-assistance\\direct-masked-qnqoan45\\events.jsonl",
+    "S:\\vc1.0\\link\\dispatcher-assistance-direct"
+  ],
+  "seconds": 1.342292008921504,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 1,
+    "exit": 3,
+    "stdout_bytes": 71,
+    "stderr_bytes": 0
+  },
+  "files": [],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "584701ac7878d153e970df7da171393aa8a78358339c2b7b97b8f42d8ab7f478",
+  "helper_source_sha256": "9004e5bead7744ad31ed04620b58d22e4e5ac581b6a2bbadfaeb0783e13c9ec4",
+  "proof_sha256": "60097e57900698bd6dda4d105642ce2503c437150dfebcaf980b5f8e80dd8b7d",
+  "phase": "direct",
+  "accepted_count": 964,
+  "accepted_sha256": "479a4963deea07a9702660a8fa5faa1206b471331317d1c9db308901f8a3ff2c",
+  "boundary": "Public helper or explicit argumentless external usage caller, separately labeled; no private-global mode seed or output normalization",
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "796d098c74c94f52d9bd88b9c5a5db8ca27f700f56336436e0b7c0770da62a6c"
+  },
+  "events.jsonl": {
+    "bytes": 3878,
+    "sha256": "cd1514aac688f1e2ab203434013c3140d419d71756642f298b9fdf9ac930f8af"
+  },
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout.bin": {
+    "bytes": 71,
+    "sha256": "48e76f7370dbbb9707654825555ed96bad5e246580bb9971f201075ffdc5975a"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "seconds": 0.15439102705568075,
+  "status": 0,
+  "method": "Native-only GDB allocation-call/result and provider usable-size introspection; no original run",
+  "elf_sha256": "58610e32d3e1bb3f15600b01862e4d5c43be74ff742b95477c37ae7d1026a69f",
+  "full_stdout_matches_reference": true,
+  "no_original_execution": true,
+  "limitation": "malloc_usable_size provider extent is not generic C malloc(0) payload permission; pointer matches actual observed stdio-owned allocation, no arbitraryforeignbuffer claim"
+}

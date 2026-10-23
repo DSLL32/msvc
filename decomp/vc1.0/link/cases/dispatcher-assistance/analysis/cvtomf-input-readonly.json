@@ -1,0 +1,871 @@
+{
+  "status": "Read-only actual immutableinput structural proof; no converter execution or compatibility claim",
+  "origin": "Derived standalone originalVC1C2-omf; notCL-emitted",
+  "object_sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9",
+  "record_count": 39,
+  "all_checksums_valid": true,
+  "names": [
+    "",
+    "",
+    "FLAT",
+    "_TEXT",
+    "CODE",
+    "_DATA",
+    "DATA",
+    "CONST",
+    "_BSS",
+    "BSS",
+    "$$SYMBOLS",
+    "DEBSYM",
+    "$$TYPES",
+    "DEBTYP",
+    "_TLS",
+    "TLS"
+  ],
+  "segments": [
+    {
+      "index": 1,
+      "attributes": "0xa9",
+      "bytes": 366,
+      "name": "_TEXT",
+      "class_name": "CODE",
+      "overlay": ""
+    },
+    {
+      "index": 2,
+      "attributes": "0xa9",
+      "bytes": 140,
+      "name": "_DATA",
+      "class_name": "DATA",
+      "overlay": ""
+    },
+    {
+      "index": 3,
+      "attributes": "0xa9",
+      "bytes": 0,
+      "name": "CONST",
+      "class_name": "CONST",
+      "overlay": ""
+    },
+    {
+      "index": 4,
+      "attributes": "0xa9",
+      "bytes": 0,
+      "name": "_BSS",
+      "class_name": "BSS",
+      "overlay": ""
+    },
+    {
+      "index": 5,
+      "attributes": "0x21",
+      "bytes": 768,
+      "name": "$$SYMBOLS",
+      "class_name": "DEBSYM",
+      "overlay": ""
+    },
+    {
+      "index": 6,
+      "attributes": "0x21",
+      "bytes": 400,
+      "name": "$$TYPES",
+      "class_name": "DEBTYP",
+      "overlay": ""
+    },
+    {
+      "index": 7,
+      "attributes": "0xa9",
+      "bytes": 0,
+      "name": "_TLS",
+      "class_name": "TLS",
+      "overlay": ""
+    }
+  ],
+  "records": [
+    {
+      "offset": 0,
+      "type": "0x80",
+      "record_length": 12,
+      "payload_bytes": 11
+    },
+    {
+      "offset": 15,
+      "type": "0x88",
+      "record_length": 23,
+      "payload_bytes": 22
+    },
+    {
+      "offset": 41,
+      "type": "0x88",
+      "record_length": 18,
+      "payload_bytes": 17
+    },
+    {
+      "offset": 62,
+      "type": "0x88",
+      "record_length": 7,
+      "payload_bytes": 6
+    },
+    {
+      "offset": 72,
+      "type": "0x88",
+      "record_length": 11,
+      "payload_bytes": 10
+    },
+    {
+      "offset": 86,
+      "type": "0x88",
+      "record_length": 7,
+      "payload_bytes": 6
+    },
+    {
+      "offset": 96,
+      "type": "0x88",
+      "record_length": 6,
+      "payload_bytes": 5
+    },
+    {
+      "offset": 105,
+      "type": "0x88",
+      "record_length": 6,
+      "payload_bytes": 5
+    },
+    {
+      "offset": 114,
+      "type": "0x96",
+      "record_length": 85,
+      "payload_bytes": 84
+    },
+    {
+      "offset": 202,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 1,
+        "attributes": "0xa9",
+        "bytes": 366,
+        "name": "_TEXT",
+        "class_name": "CODE",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 214,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 2,
+        "attributes": "0xa9",
+        "bytes": 140,
+        "name": "_DATA",
+        "class_name": "DATA",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 226,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 3,
+        "attributes": "0xa9",
+        "bytes": 0,
+        "name": "CONST",
+        "class_name": "CONST",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 238,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 4,
+        "attributes": "0xa9",
+        "bytes": 0,
+        "name": "_BSS",
+        "class_name": "BSS",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 250,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 5,
+        "attributes": "0x21",
+        "bytes": 768,
+        "name": "$$SYMBOLS",
+        "class_name": "DEBSYM",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 262,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 6,
+        "attributes": "0x21",
+        "bytes": 400,
+        "name": "$$TYPES",
+        "class_name": "DEBTYP",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 274,
+      "type": "0x99",
+      "record_length": 9,
+      "payload_bytes": 8,
+      "segment": {
+        "index": 7,
+        "attributes": "0xa9",
+        "bytes": 0,
+        "name": "_TLS",
+        "class_name": "TLS",
+        "overlay": ""
+      }
+    },
+    {
+      "offset": 286,
+      "type": "0x9a",
+      "record_length": 2,
+      "payload_bytes": 1
+    },
+    {
+      "offset": 291,
+      "type": "0x9d",
+      "record_length": 11,
+      "payload_bytes": 10
+    },
+    {
+      "offset": 305,
+      "type": "0x91",
+      "record_length": 23,
+      "payload_bytes": 22
+    },
+    {
+      "offset": 331,
+      "type": "0x8c",
+      "record_length": 16,
+      "payload_bytes": 15
+    },
+    {
+      "offset": 350,
+      "type": "0x91",
+      "record_length": 42,
+      "payload_bytes": 41
+    },
+    {
+      "offset": 395,
+      "type": "0xa1",
+      "record_length": 31,
+      "payload_bytes": 30,
+      "data": {
+        "segment": 5,
+        "name": "$$SYMBOLS",
+        "offset": 0,
+        "bytes": 25,
+        "sha256": "717ac71e69fa89117c5a96148ccecfa182576725ada8c287c5e47e33d29442e9"
+      }
+    },
+    {
+      "offset": 429,
+      "type": "0x80",
+      "record_length": 12,
+      "payload_bytes": 11
+    },
+    {
+      "offset": 444,
+      "type": "0xb4",
+      "record_length": 14,
+      "payload_bytes": 13
+    },
+    {
+      "offset": 461,
+      "type": "0xa1",
+      "record_length": 146,
+      "payload_bytes": 145,
+      "data": {
+        "segment": 2,
+        "name": "_DATA",
+        "offset": 0,
+        "bytes": 140,
+        "sha256": "77bd4f7827160050a4a1de179e0443775168088299475b2650c008e47033e147"
+      }
+    },
+    {
+      "offset": 610,
+      "type": "0x9d",
+      "record_length": 22,
+      "payload_bytes": 21
+    },
+    {
+      "offset": 635,
+      "type": "0xb7",
+      "record_length": 21,
+      "payload_bytes": 20
+    },
+    {
+      "offset": 659,
+      "type": "0xa1",
+      "record_length": 104,
+      "payload_bytes": 103,
+      "data": {
+        "segment": 1,
+        "name": "_TEXT",
+        "offset": 0,
+        "bytes": 98,
+        "sha256": "9728dae4697703321f050453d3eb28ff73e6ca94dc971db0caaa4491af6bf068"
+      }
+    },
+    {
+      "offset": 766,
+      "type": "0x8c",
+      "record_length": 35,
+      "payload_bytes": 34
+    },
+    {
+      "offset": 804,
+      "type": "0xa1",
+      "record_length": 194,
+      "payload_bytes": 193,
+      "data": {
+        "segment": 5,
+        "name": "$$SYMBOLS",
+        "offset": 25,
+        "bytes": 188,
+        "sha256": "f38a1e17fe2d46a19c567d655a2214ae6a4df2b1d5a563a6cdacc23b5d7a59d4"
+      }
+    },
+    {
+      "offset": 1001,
+      "type": "0x9d",
+      "record_length": 13,
+      "payload_bytes": 12
+    },
+    {
+      "offset": 1017,
+      "type": "0x91",
+      "record_length": 28,
+      "payload_bytes": 27
+    },
+    {
+      "offset": 1048,
+      "type": "0xa1",
+      "record_length": 274,
+      "payload_bytes": 273,
+      "data": {
+        "segment": 1,
+        "name": "_TEXT",
+        "offset": 98,
+        "bytes": 268,
+        "sha256": "3adcea6fae97e5fffcf7d2b8bd6b8ef869db49faa74ee7278fe624c1fabc5314"
+      }
+    },
+    {
+      "offset": 1325,
+      "type": "0x9d",
+      "record_length": 37,
+      "payload_bytes": 36
+    },
+    {
+      "offset": 1365,
+      "type": "0xa1",
+      "record_length": 561,
+      "payload_bytes": 560,
+      "data": {
+        "segment": 5,
+        "name": "$$SYMBOLS",
+        "offset": 213,
+        "bytes": 555,
+        "sha256": "fbe53a71f7045cee5f67f864bf9ce1768454fc7ea7a0e01e1996256026691cad"
+      }
+    },
+    {
+      "offset": 1929,
+      "type": "0x9d",
+      "record_length": 62,
+      "payload_bytes": 61
+    },
+    {
+      "offset": 1994,
+      "type": "0xa1",
+      "record_length": 406,
+      "payload_bytes": 405,
+      "data": {
+        "segment": 6,
+        "name": "$$TYPES",
+        "offset": 0,
+        "bytes": 400,
+        "sha256": "c77973a36107be4c29147100e1366ac39f6b53da0d03a719d08ef57643b3861c"
+      }
+    },
+    {
+      "offset": 2403,
+      "type": "0x95",
+      "record_length": 183,
+      "payload_bytes": 182
+    },
+    {
+      "offset": 2589,
+      "type": "0x8a",
+      "record_length": 2,
+      "payload_bytes": 1
+    }
+  ],
+  "debug_segments": [
+    {
+      "segment": {
+        "index": 5,
+        "attributes": "0x21",
+        "bytes": 768,
+        "name": "$$SYMBOLS",
+        "class_name": "DEBSYM",
+        "overlay": ""
+      },
+      "signature": 1,
+      "sha256": "95abd361bb601b785ef49da97c9b6e60121235cfb5c480674b37ab04faab2186",
+      "records": [
+        {
+          "offset": 4,
+          "length": 19,
+          "type": "0x9",
+          "payload": "000000000c6f6d6674797065732e6f626a"
+        },
+        {
+          "offset": 25,
+          "length": 46,
+          "type": "0x204",
+          "payload": "00000000000000000000000062000000090000005d0000000000000000000e10000a6f6d665f61646a757374"
+        },
+        {
+          "offset": 73,
+          "length": 13,
+          "type": "0x200",
+          "payload": "080000000510046974656d"
+        },
+        {
+          "offset": 88,
+          "length": 15,
+          "type": "0x200",
+          "payload": "0c000000740006616d6f756e74"
+        },
+        {
+          "offset": 105,
+          "length": 15,
+          "type": "0x200",
+          "payload": "fcffffff740006726573756c74"
+        },
+        {
+          "offset": 122,
+          "length": 21,
+          "type": "0x207",
+          "payload": "00000000000000004100000014000000000000"
+        },
+        {
+          "offset": 145,
+          "length": 15,
+          "type": "0x200",
+          "payload": "f8ffffff7400066f6666736574"
+        },
+        {
+          "offset": 162,
+          "length": 21,
+          "type": "0x207",
+          "payload": "00000000000000003000000025000000000000"
+        },
+        {
+          "offset": 185,
+          "length": 14,
+          "type": "0x200",
+          "payload": "f4ffffff7400056d69786564"
+        },
+        {
+          "offset": 201,
+          "length": 2,
+          "type": "0x6",
+          "payload": ""
+        },
+        {
+          "offset": 205,
+          "length": 2,
+          "type": "0x6",
+          "payload": ""
+        },
+        {
+          "offset": 209,
+          "length": 2,
+          "type": "0x6",
+          "payload": ""
+        },
+        {
+          "offset": 213,
+          "length": 53,
+          "type": "0x205",
+          "payload": "0000000000000000000000000c0100000900000007010000000000000000101000116f6d665f74797065645f7265636f726473"
+        },
+        {
+          "offset": 268,
+          "length": 18,
+          "type": "0x209",
+          "payload": "00000000000000086f6d665f6576656e"
+        },
+        {
+          "offset": 288,
+          "length": 18,
+          "type": "0x209",
+          "payload": "00000000000000086f6d665f6a6f696e"
+        },
+        {
+          "offset": 308,
+          "length": 14,
+          "type": "0x200",
+          "payload": "080000000b10057461626c65"
+        },
+        {
+          "offset": 324,
+          "length": 14,
+          "type": "0x200",
+          "payload": "0c0000007400056c696d6974"
+        },
+        {
+          "offset": 340,
+          "length": 14,
+          "type": "0x200",
+          "payload": "e0ffffff740005746f74616c"
+        },
+        {
+          "offset": 356,
+          "length": 13,
+          "type": "0x200",
+          "payload": "e4ffffff001004636f7079"
+        },
+        {
+          "offset": 371,
+          "length": 10,
+          "type": "0x200",
+          "payload": "fcffffff74000169"
+        },
+        {
+          "offset": 383,
+          "length": 21,
+          "type": "0x207",
+          "payload": "00000000000000002f0000007a000000000000"
+        },
+        {
+          "offset": 406,
+          "length": 13,
+          "type": "0x200",
+          "payload": "dcffffff7400046d6f6465"
+        },
+        {
+          "offset": 421,
+          "length": 21,
+          "type": "0x207",
+          "payload": "00000000000000002600000083000000000000"
+        },
+        {
+          "offset": 444,
+          "length": 13,
+          "type": "0x200",
+          "payload": "d8ffffff74000462696173"
+        },
+        {
+          "offset": 459,
+          "length": 2,
+          "type": "0x6",
+          "payload": ""
+        },
+        {
+          "offset": 463,
+          "length": 2,
+          "type": "0x6",
+          "payload": ""
+        },
+        {
+          "offset": 467,
+          "length": 2,
+          "type": "0x6",
+          "payload": ""
+        },
+        {
+          "offset": 471,
+          "length": 13,
+          "type": "0x4",
+          "payload": "0110084f6d6656616c7565"
+        },
+        {
+          "offset": 486,
+          "length": 13,
+          "type": "0x4",
+          "payload": "0110084f6d6656616c7565"
+        },
+        {
+          "offset": 501,
+          "length": 12,
+          "type": "0x4",
+          "payload": "0010074f6d664974656d"
+        },
+        {
+          "offset": 515,
+          "length": 12,
+          "type": "0x4",
+          "payload": "0010074f6d664974656d"
+        },
+        {
+          "offset": 529,
+          "length": 13,
+          "type": "0x4",
+          "payload": "0810084f6d665461626c65"
+        },
+        {
+          "offset": 544,
+          "length": 13,
+          "type": "0x4",
+          "payload": "0810084f6d665461626c65"
+        },
+        {
+          "offset": 559,
+          "length": 22,
+          "type": "0x202",
+          "payload": "00000000000075000b6f6d665f756e6b6e6f776e"
+        },
+        {
+          "offset": 583,
+          "length": 19,
+          "type": "0x201",
+          "payload": "0000000000001110086f6d665f74657874"
+        },
+        {
+          "offset": 604,
+          "length": 20,
+          "type": "0x201",
+          "payload": "0000000000000810096f6d665f7461626c65"
+        },
+        {
+          "offset": 626,
+          "length": 23,
+          "type": "0x202",
+          "payload": "00000000000005100c6f6d665f73656c6563746564"
+        },
+        {
+          "offset": 651,
+          "length": 22,
+          "type": "0x202",
+          "payload": "00000000000070040b6f6d665f6d657373616765"
+        },
+        {
+          "offset": 675,
+          "length": 23,
+          "type": "0x202",
+          "payload": "00000000000014100c6f6d665f63616c6c6261636b"
+        },
+        {
+          "offset": 700,
+          "length": 66,
+          "type": "0x1",
+          "payload": "030000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        }
+      ]
+    },
+    {
+      "segment": {
+        "index": 6,
+        "attributes": "0x21",
+        "bytes": 400,
+        "name": "$$TYPES",
+        "class_name": "DEBTYP",
+        "overlay": ""
+      },
+      "signature": 1,
+      "sha256": "c77973a36107be4c29147100e1366ac39f6b53da0d03a719d08ef57643b3861c",
+      "records": [
+        {
+          "offset": 4,
+          "length": 22,
+          "type": "0x5",
+          "payload": "030006100000000000001800074f6d664974656d"
+        },
+        {
+          "offset": 28,
+          "length": 22,
+          "type": "0x6",
+          "payload": "0300071000000800084f6d6656616c7565f3f2f1"
+        },
+        {
+          "offset": 52,
+          "length": 10,
+          "type": "0x3",
+          "payload": "20001100080000f1"
+        },
+        {
+          "offset": 64,
+          "length": 10,
+          "type": "0x3",
+          "payload": "11001100060000f1"
+        },
+        {
+          "offset": 76,
+          "length": 10,
+          "type": "0x3",
+          "payload": "700011000a0000f1"
+        },
+        {
+          "offset": 88,
+          "length": 6,
+          "type": "0x2",
+          "payload": "0a000010"
+        },
+        {
+          "offset": 96,
+          "length": 50,
+          "type": "0x204",
+          "payload": "06040110030000000576616c7565f2f106040310030008000564656c7461f2f10604041003000e00056c6162656cf2f1"
+        },
+        {
+          "offset": 148,
+          "length": 50,
+          "type": "0x204",
+          "payload": "060412000300000007696e74656765720604410003000000047265616cf3f2f10604021003000000056279746573f2f1"
+        },
+        {
+          "offset": 200,
+          "length": 26,
+          "type": "0x5",
+          "payload": "03000c100000000000005800084f6d665461626c65f3f2f1"
+        },
+        {
+          "offset": 228,
+          "length": 10,
+          "type": "0x3",
+          "payload": "00101100480000f1"
+        },
+        {
+          "offset": 240,
+          "length": 6,
+          "type": "0x2",
+          "payload": "0a000810"
+        },
+        {
+          "offset": 248,
+          "length": 6,
+          "type": "0x2",
+          "payload": "0a000810"
+        },
+        {
+          "offset": 256,
+          "length": 50,
+          "type": "0x204",
+          "payload": "060475000300000005636f756e74f2f10604091003000800046974656df3f2f106040b1003005000046e657874f3f2f1"
+        },
+        {
+          "offset": 308,
+          "length": 10,
+          "type": "0x201",
+          "payload": "020005107400f2f1"
+        },
+        {
+          "offset": 320,
+          "length": 10,
+          "type": "0x8",
+          "payload": "7400000002000d10"
+        },
+        {
+          "offset": 332,
+          "length": 10,
+          "type": "0x201",
+          "payload": "02000b107400f2f1"
+        },
+        {
+          "offset": 344,
+          "length": 10,
+          "type": "0x8",
+          "payload": "7400000002000f10"
+        },
+        {
+          "offset": 356,
+          "length": 10,
+          "type": "0x3",
+          "payload": "70001100260000f1"
+        },
+        {
+          "offset": 368,
+          "length": 10,
+          "type": "0x201",
+          "payload": "0300051074007004"
+        },
+        {
+          "offset": 380,
+          "length": 10,
+          "type": "0x8",
+          "payload": "7400000003001210"
+        },
+        {
+          "offset": 392,
+          "length": 6,
+          "type": "0x2",
+          "payload": "0a001310"
+        }
+      ]
+    }
+  ],
+  "fixup_records": [
+    {
+      "record_at": 291,
+      "bytes": "00030102020103044401",
+      "preceding_data": null
+    },
+    {
+      "record_at": 610,
+      "bytes": "e4788928000000e4808928000000e4848de4888601",
+      "preceding_data": {
+        "segment": 2,
+        "name": "_DATA",
+        "offset": 0,
+        "bytes": 140,
+        "sha256": "77bd4f7827160050a4a1de179e0443775168088299475b2650c008e47033e147"
+      }
+    },
+    {
+      "record_at": 1001,
+      "bytes": "ec1c8602ec718602ec998602",
+      "preceding_data": {
+        "segment": 5,
+        "name": "$$SYMBOLS",
+        "offset": 25,
+        "bytes": 188,
+        "sha256": "f38a1e17fe2d46a19c567d655a2214ae6a4df2b1d5a563a6cdacc23b5d7a59d4"
+      }
+    },
+    {
+      "record_at": 1325,
+      "bytes": "e40a8603a4578602e4638984000000e4708988000000e4ea8de4f38980000000a4f88601",
+      "preceding_data": {
+        "segment": 1,
+        "name": "_TEXT",
+        "offset": 98,
+        "bytes": 268,
+        "sha256": "3adcea6fae97e5fffcf7d2b8bd6b8ef869db49faa74ee7278fe624c1fabc5314"
+      }
+    },
+    {
+      "record_at": 1929,
+      "bytes": "ec1c8604ec3b8a21010000ec4f8a24010000ecba8604ece08604ed5e8603ed768ded8b8928000000eda18980000000edba8984000000edd28988000000",
+      "preceding_data": {
+        "segment": 5,
+        "name": "$$SYMBOLS",
+        "offset": 213,
+        "bytes": 555,
+        "sha256": "fbe53a71f7045cee5f67f864bf9ce1768454fc7ea7a0e01e1996256026691cad"
+      }
+    }
+  ]
+}

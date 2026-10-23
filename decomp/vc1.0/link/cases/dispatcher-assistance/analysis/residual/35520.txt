@@ -1,0 +1,38 @@
+00035520 56                             push esi
+00035521 57                             push edi
+00035522 2bff                           sub edi, edi
+00035524 393d98b70700                   cmp dword ptr [0x7b798], edi
+0003552a 7655                           jbe 0x35581
+0003552c 2bf6                           sub esi, esi
+0003552e 8bff                           mov edi, edi
+00035530 a194b70700                     mov eax, dword ptr [0x7b794]
+00035535 8b440604                       mov eax, dword ptr [esi + eax + 4]
+00035539 50                             push eax
+0003553a 6830eb0700                     push 0x7eb30
+0003553f e81cba0100                     call 0x50f60
+00035544 83c408                         add esp, 8
+00035547 a194b70700                     mov eax, dword ptr [0x7b794]
+0003554c 8b44060c                       mov eax, dword ptr [esi + eax + 0xc]
+00035550 50                             push eax
+00035551 683ceb0700                     push 0x7eb3c
+00035556 e805ba0100                     call 0x50f60
+0003555b 83c408                         add esp, 8
+0003555e a194b70700                     mov eax, dword ptr [0x7b794]
+00035563 8b440608                       mov eax, dword ptr [esi + eax + 8]
+00035567 50                             push eax
+00035568 6848eb0700                     push 0x7eb48
+0003556d e8eeb90100                     call 0x50f60
+00035572 83c408                         add esp, 8
+00035575 83c64c                         add esi, 0x4c
+00035578 47                             inc edi
+00035579 393d98b70700                   cmp dword ptr [0x7b798], edi
+0003557f 77af                           ja 0x35530
+00035581 5f                             pop edi
+00035582 5e                             pop esi
+00035583 c3                             ret 
+00035584 0500000000                     add eax, 0
+00035589 8da42400000000                 lea esp, [esp]
+00035590 2bc0                           sub eax, eax
+00035592 c3                             ret 
+00035593 8d9b00000000                   lea ebx, [ebx]
+00035599 8da42400000000                 lea esp, [esp]

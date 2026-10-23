@@ -9,10 +9,16 @@ unsigned char debug_requested;
 unsigned char banner_pending = 1;
 char abort_file[256];
 char *abort_phase = "SetupPhase";
+/* driver_usage shortens these shared names in place; keep their full tails. */
+char linker_tool_name[] = "Linker";
+char library_tool_name[] = "Library Manager";
+char dumper_tool_name[] = "Dumper";
+char editor_tool_name[] = "Editor";
+char helper_tool_name[] = "Helper";
 Tool tools[] = {
- {"Linker",4,0,1,linker_main}, {"Library Manager",3,0,2,library_main},
- {"Dumper",4,0,3,dumper_main}, {"Editor",4,0,4,editor_main},
- {"Helper",4,0,0,helper_main}, {"",0,0,0,0}
+ {linker_tool_name,4,0,1,linker_main}, {library_tool_name,3,0,2,library_main},
+ {dumper_tool_name,4,0,3,dumper_main}, {editor_tool_name,4,0,4,editor_main},
+ {helper_tool_name,4,0,0,helper_main}, {"",0,0,0,0}
 };
 int main(int argc, char **argv)
 {
@@ -77,4 +83,29 @@ int main(int argc, char **argv)
         fprintf(stdout," *****\n\n");
         return -1;
     }
+}
+
+/* Actual uniform Tool.run callback [00026fe0,00027044). */
+int helper_main(int argc,char **argv)
+{
+    unsigned short index;
+    for (index=0;tools[index].length;++index)
+        printf("%s -%.*s for help on %s\n",program_name,
+            tools[index].length,tools[index].name,tools[index].name);
+    return 3;
+}
+
+/* Argumentless assistance [00027050,000270ed). */
+int driver_usage(void)
+{
+    unsigned short index;
+    setvbuf(stdout,NULL,0,1);
+    printf("Version 1.00\n\n");
+    printf("Usage: %s ",program_name);
+    for (index=0;tools[index].length;++index) {
+        tools[index].name[tools[index].length]=0;
+        printf("[-%s] ",tools[index].name);
+    }
+    printf("\n");
+    return 3;
 }

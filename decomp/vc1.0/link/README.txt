@@ -371,3 +371,17 @@ negative controls pass. App-only extent220258/281634=78.2072%; support-inclusive
 250701/281634=89.0166% is separate. Full nonCRT denominator is unavailable;14273
 unaccepted unclassified bytes and6996 known gated OMF bytes remain pending. See
 cases/comdat-graph-diagnostics/README.txt/timings.json for scope and measurements.
+
+Dispatcher assistance checkpoint (965 frontiers)
+
+Public -helper and the separately proved direct driver_usage now preserve actual
+cdecl inputs/returns, Tool callbacks and all mutable name tails. Two originals per
+phase freeze exact163/71-byte stdout, exit3 and empty file inventory. A live zero-
+capacity FILE mismatch held promotion until shared correction525d34e37; unchanged
+original packets now match pending bytes/errors and full native output. Failed
+state is retained without normalization or new handwritten CRT. All81 native
+cases/771appentries,804CFG/788callbacks/500data/41ECX and26 ABI negatives pass.
+App-only extent220515/281634=78.2984%; support-inclusive250958/281634=89.1078% is
+separate. Full nonCRT denominator is unavailable, and14173 unclassified bytes
+remain pending. See cases/dispatcher-assistance for direct/public scope, ordinary
+raw evidence, timing and the approved standalone converter format investigation.

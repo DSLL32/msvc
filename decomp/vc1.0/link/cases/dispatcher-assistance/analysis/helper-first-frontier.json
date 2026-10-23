@@ -1,0 +1,22 @@
+[
+  {
+    "command": [
+      "python3",
+      "scripts/capture-dispatcher.py",
+      "--phase",
+      "helper",
+      "--mode",
+      "masked"
+    ],
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/dispatcher-assistance/helper-masked-0nnal_5a"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/observe-dispatcher.py",
+      "--phase",
+      "helper"
+    ],
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-gdb-9phmfkti"
+  }
+]

@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "a877a3ffe8e42b3cca3608b087b6ed2d6d697053356f1cf8d2a4a678bddf06be",
+    "functions.json": "ce3d725878cb8fd684d96f78a750e1e823d53b0f45277a83d9a0f5757e4a8d1c",
     "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -2108,9 +2108,9 @@
       "implementation": "C"
     },
     "driver_usage": {
-      "source": "src/stubs.c",
+      "source": "src/link.c",
       "logical": "_driver_usage",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "dump_archive_header": {
       "source": "src/dump.c",
@@ -2613,9 +2613,9 @@
       "implementation": "C"
     },
     "helper_main": {
-      "source": "src/stubs.c",
+      "source": "src/link.c",
       "logical": "_helper_main",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "infer_subsystem": {
       "source": "src/pass-one.c",
@@ -5277,7 +5277,9 @@
     "debug_printf",
     "print_comdat_node",
     "comdat_usage_label",
-    "print_comdat_edge"
+    "print_comdat_edge",
+    "helper_main",
+    "driver_usage"
   ],
   "excluded_accepted": {
     "CRT": [

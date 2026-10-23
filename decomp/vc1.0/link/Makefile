@@ -116,11 +116,12 @@ build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-check: native build/native/legacy-diagnostics build/native/ide-protocol build/native/comdat-diagnostics
+native-check: native build/native/legacy-diagnostics build/native/ide-protocol build/native/comdat-diagnostics build/native/dispatcher
 	$(PYTHON) scripts/check-native.py
 	$(PYTHON) scripts/check-legacy-diagnostics.py
 	$(PYTHON) scripts/check-ide-protocol.py
 	$(PYTHON) scripts/check-comdat-diagnostics.py
+	$(PYTHON) scripts/check-dispatcher.py
 
 # Application entry tracing is separate from the uninstrumented A/B target.
 # The reconstructed CRT override and shared shims remain uninstrumented.
@@ -141,11 +142,12 @@ build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-tra
 build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol build/native-trace/comdat-diagnostics
+native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol build/native-trace/comdat-diagnostics build/native-trace/dispatcher
 	$(PYTHON) scripts/check-native.py --trace
 	$(PYTHON) scripts/check-legacy-diagnostics.py --trace
 	$(PYTHON) scripts/check-ide-protocol.py --trace
 	$(PYTHON) scripts/check-comdat-diagnostics.py --trace
+	$(PYTHON) scripts/check-dispatcher.py --trace
 
 # Explicit original-only analysis helper. Never a native fixture dependency.
 .PHONY: capture-helper
@@ -200,3 +202,15 @@ build/native/comdat-diagnostics: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_COMDAT_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
 build/native-trace/comdat-diagnostics: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_COMDAT_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_COMDAT_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+
+# Explicit original capture only; never a fixture dependency.
+.PHONY: capture-dispatcher
+capture-dispatcher: prefix
+	mkdir -p $(HOME)/.ai-tmp/msvc2/vc1.0/link/tooling
+	$(TOOL) CL.EXE /nologo /Od /G3 /I$(RECON)/include '/FeS:\vc1.0\link\tooling\capture-dispatcher.exe' '/FoS:\vc1.0\link\tooling\capture-dispatcher.obj' src/capture-dispatcher.c
+
+NATIVE_DISPATCHER_HOST = scripts/native-dispatcher.c
+build/native/dispatcher: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_DISPATCHER_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_DISPATCHER_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+build/native-trace/dispatcher: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_DISPATCHER_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_DISPATCHER_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@

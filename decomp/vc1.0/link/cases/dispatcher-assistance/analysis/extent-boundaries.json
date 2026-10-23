@@ -1,0 +1,92 @@
+{
+  "status": "pass",
+  "functions": [
+    {
+      "name": "helper_main",
+      "start": 159712,
+      "end": 159812,
+      "extent_bytes": 100,
+      "decoded_instruction_bytes": 100,
+      "last_instruction": {
+        "address": 159811,
+        "bytes": "c3",
+        "mnemonic": "ret"
+      },
+      "sha256": "bdc3a56829145d3129b626cf9566ba894f7067da251cd75d1b21632fd7c6fd16",
+      "control_flow": "All internal direct branch targets within whole body; no table/inline data or external jump tail; calls named public printf/setvbuf support",
+      "abi": "cdecl int(int,char**)",
+      "direct_branches": [
+        {
+          "site": 159724,
+          "target": 159804
+        },
+        {
+          "site": 159802,
+          "target": 159734
+        }
+      ],
+      "direct_calls": [
+        {
+          "site": 159769,
+          "target": 331616,
+          "name": "_printf"
+        }
+      ]
+    },
+    {
+      "name": "driver_usage",
+      "start": 159824,
+      "end": 159981,
+      "extent_bytes": 157,
+      "decoded_instruction_bytes": 157,
+      "last_instruction": {
+        "address": 159980,
+        "bytes": "c3",
+        "mnemonic": "ret"
+      },
+      "sha256": "210295a11c62a0d20fea13d72e0512929f28a502b2c47694db1027a60936ac9f",
+      "control_flow": "All internal direct branch targets within whole body; no table/inline data or external jump tail; calls named public printf/setvbuf support",
+      "abi": "cdecl int(void)",
+      "direct_branches": [
+        {
+          "site": 159887,
+          "target": 159960
+        },
+        {
+          "site": 159958,
+          "target": 159891
+        }
+      ],
+      "direct_calls": [
+        {
+          "site": 159837,
+          "target": 336688,
+          "name": "_setvbuf"
+        },
+        {
+          "site": 159850,
+          "target": 331616,
+          "name": "_printf"
+        },
+        {
+          "site": 159869,
+          "target": 331616,
+          "name": "_printf"
+        },
+        {
+          "site": 159933,
+          "target": 331616,
+          "name": "_printf"
+        },
+        {
+          "site": 159965,
+          "target": 331616,
+          "name": "_printf"
+        }
+      ]
+    }
+  ],
+  "total_instruction_bytes": 257,
+  "alignment_bytes": 0,
+  "inline_data_bytes": 0
+}

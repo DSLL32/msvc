@@ -1,0 +1,136 @@
+{
+  "status": "Whole caller/xref/layout/mutation proof before original execution",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "functions": [
+    {
+      "name": "helper_main",
+      "start": 159712,
+      "end": 159812,
+      "extent_bytes": 100,
+      "sha256": "bdc3a56829145d3129b626cf9566ba894f7067da251cd75d1b21632fd7c6fd16",
+      "allbyte_rel32_candidates": []
+    },
+    {
+      "name": "driver_usage",
+      "start": 159824,
+      "end": 159981,
+      "extent_bytes": 157,
+      "sha256": "210295a11c62a0d20fea13d72e0512929f28a502b2c47694db1027a60936ac9f",
+      "allbyte_rel32_candidates": [
+        "0x26e74"
+      ]
+    },
+    {
+      "name": "main",
+      "start": 158528,
+      "end": 159712,
+      "extent_bytes": 1184,
+      "sha256": "1da5cc812b6fc73ee02b8cacf7330711bebc476ec71522157e938a954d24f30f",
+      "allbyte_rel32_candidates": [
+        "0x50a80"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "slot": 0,
+      "entry": "0x7b3d8",
+      "name_pointer": "0x7b3a0",
+      "name": "Linker",
+      "length": 4,
+      "unknown": 0,
+      "kind": 1,
+      "function": "0x17ea0",
+      "full_name_bytes": "4c696e6b657200",
+      "name_section": ".data",
+      "name_writable": true
+    },
+    {
+      "slot": 1,
+      "entry": "0x7b3e8",
+      "name_pointer": "0x7b3a8",
+      "name": "Library Manager",
+      "length": 3,
+      "unknown": 0,
+      "kind": 2,
+      "function": "0x2e030",
+      "full_name_bytes": "4c696272617279204d616e6167657200",
+      "name_section": ".data",
+      "name_writable": true
+    },
+    {
+      "slot": 2,
+      "entry": "0x7b3f8",
+      "name_pointer": "0x7b3b8",
+      "name": "Dumper",
+      "length": 4,
+      "unknown": 0,
+      "kind": 3,
+      "function": "0x2fee0",
+      "full_name_bytes": "44756d70657200",
+      "name_section": ".data",
+      "name_writable": true
+    },
+    {
+      "slot": 3,
+      "entry": "0x7b408",
+      "name_pointer": "0x7b3c0",
+      "name": "Editor",
+      "length": 4,
+      "unknown": 0,
+      "kind": 4,
+      "function": "0x278a0",
+      "full_name_bytes": "456469746f7200",
+      "name_section": ".data",
+      "name_writable": true
+    },
+    {
+      "slot": 4,
+      "entry": "0x7b418",
+      "name_pointer": "0x7b3c8",
+      "name": "Helper",
+      "length": 4,
+      "unknown": 0,
+      "kind": 0,
+      "function": "0x26fe0",
+      "full_name_bytes": "48656c70657200",
+      "name_section": ".data",
+      "name_writable": true
+    },
+    {
+      "slot": 5,
+      "entry": "0x7b428",
+      "name_pointer": "0x7b3d0",
+      "name": "",
+      "length": 0,
+      "unknown": 0,
+      "kind": 0,
+      "function": "0x0",
+      "full_name_bytes": "00",
+      "name_section": ".data",
+      "name_writable": true
+    }
+  ],
+  "tool_layout": {
+    "size": 16,
+    "fields": {
+      "name": 0,
+      "length": 4,
+      "unknown": 6,
+      "kind": 8,
+      "run": 12
+    }
+  },
+  "abi": {
+    "helper_main": "cdecl int(int argc,char **argv), actual two-word Tool.run caller contract, body ignores these formals; capture both actual words/table/string ownership",
+    "driver_usage": "cdecl int(void), main caller26e74 supplies zero words; return3; mutable Tool/global/FILE inputs still mandatory"
+  },
+  "initial_program_name": {
+    "global_va": "0x7f8c0",
+    "pointer": "0x7f8b8",
+    "text": "CVTRES"
+  },
+  "driver_usage_dormancy": "For ordinary argc>=1/immutable argv and original initialized Tool table: initial matching scan inserts -link unless flag argument already matches a valid entry; replacement puts literal -link at argv1, otherwise the second identical scan sees same matched argv1/table. No table/name mutation occurs before selection; allocation failure returns1. Thus sentinel index branch26e74 cannot occur through normal CLI, absent corruption/concurrent external mutation. Do not contrive malformed argv to claim public reach.",
+  "mutation": "270ac writes NUL at Tool.name[Tool.length]. Named writable char arrays justified only for these actually mutated shared Tool names; full original tails must persist.",
+  "scope": "Public -helper separately from explicit external direct driver_usage. No private globals set, new CRT body or cancellation run. Read-only unknown/gated OMF classification prioritized alongside routine case work."
+}

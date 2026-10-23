@@ -1,0 +1,65 @@
+00020a10 56                             push esi
+00020a11 6a10                           push 0x10
+00020a13 e848070300                     call 0x51160
+00020a18 83c404                         add esp, 4
+00020a1b 8bf0                           mov esi, eax
+00020a1d 0bf6                           or esi, esi
+00020a1f 7505                           jne 0x20a26
+00020a21 e86a0f0000                     call 0x21990
+00020a26 8b442408                       mov eax, dword ptr [esp + 8]
+00020a2a 8906                           mov dword ptr [esi], eax
+00020a2c 8b44240c                       mov eax, dword ptr [esp + 0xc]
+00020a30 894604                         mov dword ptr [esi + 4], eax
+00020a33 c7460c00000000                 mov dword ptr [esi + 0xc], 0
+00020a3a 66833de8b7070000               cmp word ptr [0x7b7e8], 0
+00020a42 7535                           jne 0x20a79
+00020a44 8935e0b70700                   mov dword ptr [0x7b7e0], esi
+00020a4a 8935e4b70700                   mov dword ptr [0x7b7e4], esi
+00020a50 807c241000                     cmp byte ptr [esp + 0x10], 0
+00020a55 7411                           je 0x20a68
+00020a57 893530c40500                   mov dword ptr [0x5c430], esi
+00020a5d 66ff05e8b70700                 inc word ptr [0x7b7e8]
+00020a64 8bc6                           mov eax, esi
+00020a66 5e                             pop esi
+00020a67 c3                             ret 
+00020a68 89352cc40500                   mov dword ptr [0x5c42c], esi
+00020a6e 66ff05e8b70700                 inc word ptr [0x7b7e8]
+00020a75 8bc6                           mov eax, esi
+00020a77 5e                             pop esi
+00020a78 c3                             ret 
+00020a79 807c241000                     cmp byte ptr [esp + 0x10], 0
+00020a7e 7450                           je 0x20ad0
+00020a80 833d30c4050000                 cmp dword ptr [0x5c430], 0
+00020a87 7427                           je 0x20ab0
+00020a89 a130c40500                     mov eax, dword ptr [0x5c430]
+00020a8e 8b400c                         mov eax, dword ptr [eax + 0xc]
+00020a91 89460c                         mov dword ptr [esi + 0xc], eax
+00020a94 a130c40500                     mov eax, dword ptr [0x5c430]
+00020a99 89700c                         mov dword ptr [eax + 0xc], esi
+00020a9c 8bc6                           mov eax, esi
+00020a9e 893530c40500                   mov dword ptr [0x5c430], esi
+00020aa4 66ff05e8b70700                 inc word ptr [0x7b7e8]
+00020aab 5e                             pop esi
+00020aac c3                             ret 
+00020aad 8d4900                         lea ecx, [ecx]
+00020ab0 a1e0b70700                     mov eax, dword ptr [0x7b7e0]
+00020ab5 89460c                         mov dword ptr [esi + 0xc], eax
+00020ab8 8935e0b70700                   mov dword ptr [0x7b7e0], esi
+00020abe 893530c40500                   mov dword ptr [0x5c430], esi
+00020ac4 8bc6                           mov eax, esi
+00020ac6 66ff05e8b70700                 inc word ptr [0x7b7e8]
+00020acd 5e                             pop esi
+00020ace c3                             ret 
+00020acf 90                             nop 
+00020ad0 a1e4b70700                     mov eax, dword ptr [0x7b7e4]
+00020ad5 89700c                         mov dword ptr [eax + 0xc], esi
+00020ad8 8935e4b70700                   mov dword ptr [0x7b7e4], esi
+00020ade 833d2cc4050000                 cmp dword ptr [0x5c42c], 0
+00020ae5 7506                           jne 0x20aed
+00020ae7 89352cc40500                   mov dword ptr [0x5c42c], esi
+00020aed 66ff05e8b70700                 inc word ptr [0x7b7e8]
+00020af4 8bc6                           mov eax, esi
+00020af6 5e                             pop esi
+00020af7 c3                             ret 
+00020af8 8d642400                       lea esp, [esp]
+00020afc 8d642400                       lea esp, [esp]

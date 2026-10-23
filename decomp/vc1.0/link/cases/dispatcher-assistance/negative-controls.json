@@ -1,0 +1,136 @@
+{
+  "status": "pass",
+  "controls": [
+    {
+      "phase": "helper",
+      "control": "missing-actual-entry",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "wrong-callback-owner",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "wrong-tool-length",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "changed-full-name-tail",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "missing-pending-byte",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "live-error-change",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "changed-ctype",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "wrong-return-value",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "bad-cdecl-cleanup",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "clobbered-nonvolatile",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "wrong-actual-caller",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "missing-formal",
+      "status": "rejected"
+    },
+    {
+      "phase": "helper",
+      "control": "both-sides-empty",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "missing-actual-entry",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "wrong-callback-owner",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "wrong-tool-length",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "changed-full-name-tail",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "missing-pending-byte",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "live-error-change",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "changed-ctype",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "wrong-return-value",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "bad-cdecl-cleanup",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "clobbered-nonvolatile",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "wrong-actual-caller",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "invented-formal",
+      "status": "rejected"
+    },
+    {
+      "phase": "direct",
+      "control": "both-sides-empty",
+      "status": "rejected"
+    }
+  ],
+  "timing": "Host ABI controls elapsed not measured; no new executable or original run"
+}

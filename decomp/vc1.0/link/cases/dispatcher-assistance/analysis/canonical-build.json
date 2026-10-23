@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "all"
+  ],
+  "seconds": 22.205759989097714,
+  "status": 0,
+  "log": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-canonical-build.log"
+}

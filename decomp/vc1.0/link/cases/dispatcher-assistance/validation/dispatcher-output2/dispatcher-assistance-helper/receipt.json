@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "case": "dispatcher-assistance-helper",
+  "trace": false,
+  "reach": "Public -helper CLI Tool.run",
+  "entries": null,
+  "stdout_bytes": 163,
+  "stderr_bytes": 0,
+  "exit": 3,
+  "elf_sha256": "2dd35b61eeadfac198c8b4771b17a9197a43720dc144d65709c237cf7b2cefae",
+  "manifest_sha256": "318a5c2eafcde1c63f824208bc2204c833775c2c9ee79d91539720e8b04d3535",
+  "timing": {
+    "setup_seconds": 0.0019035954028367996,
+    "trace_prepare_seconds": 0,
+    "execution_seconds": 0.0019650794565677643,
+    "oracle_seconds": 0.00019099190831184387,
+    "trace_seconds": 7.543712854385376e-07,
+    "total_seconds": 0.010584401898086071
+  },
+  "scope": "ELF and captured references only; public helper vs explicit direct usage caller distinguished"
+}

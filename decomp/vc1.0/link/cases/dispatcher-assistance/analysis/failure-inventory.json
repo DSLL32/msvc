@@ -1,0 +1,12 @@
+{
+  "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/dispatcher-assistance/direct-masked-qnqoan45",
+  "native": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-gdb-r0yumqin",
+  "native_elf_sha256": "58610e32d3e1bb3f15600b01862e4d5c43be74ff742b95477c37ae7d1026a69f",
+  "difference": "setvbuf(stdout,NULL,_IOFBF,1) setszero buffer_size; original pendingLF/count-1 versusnativeempty/count0 at actualreturn. Final71B/exit3exact but no acceptance pending sharedreview",
+  "preliminary_observer_issues": [
+    "Initial native helper externaldriver basename was DISPATCHER instead of captured argv0LINK.EXE. Corrected external caller-owned argv0 to actual canonicalrecon_pgmptr before targetmain; no targetglobal changes. Raw earlier observation retained and failed identity assertion not accepted.",
+    "Initial observer omitted typed nativecallbackownership booleans; added and reused unchanged originalfirstfrontier."
+  ],
+  "status_at_failure": "driver_usage acceptance held; helper964 accepted",
+  "resolved": "525d34e37 exact candidatecrtSHA published after independentreview; unchanged originalpacket reused and finalELF matches completecorrectednativeABIproof. Failedraw state remains separate."
+}

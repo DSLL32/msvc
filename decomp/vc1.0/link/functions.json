@@ -962,7 +962,9 @@
     "_debug_printf",
     "_print_comdat_node",
     "_comdat_usage_label",
-    "_print_comdat_edge"
+    "_print_comdat_edge",
+    "_helper_main",
+    "_driver_usage"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1016,18 +1018,20 @@
     {
       "name": "_helper_main",
       "start": 159712,
-      "end": 159824,
-      "implementation": "stub-C",
-      "source": "src/stubs.c",
-      "abi": "cdecl int(int argc,char **argv)"
+      "end": 159812,
+      "implementation": "C",
+      "source": "src/link.c",
+      "abi": "cdecl int(int argc,char **argv)",
+      "evidence": "cases/dispatcher-assistance: actual public Tool.run cdecl(argc,argv), complete advertised table/name inputs; fresh masked/native ABI and full output required before promotion"
     },
     {
       "name": "_driver_usage",
       "start": 159824,
-      "end": 159984,
-      "implementation": "stub-C",
-      "source": "src/stubs.c",
-      "abi": "cdecl int(void)"
+      "end": 159981,
+      "implementation": "C",
+      "source": "src/link.c",
+      "abi": "cdecl int(void)",
+      "evidence": "cases/dispatcher-assistance: explicit external zero-formal caller after actual CRT startup; main CLI invariant proved dormant; actual in-place Tool.name truncation/full tails and cdecl return"
     },
     {
       "name": "_control_handler@4",
@@ -9393,6 +9397,8 @@
     "comdat-graph-diagnostics",
     "comdat-graph-diagnostics",
     "comdat-graph-diagnostics",
-    "comdat-graph-diagnostics"
+    "comdat-graph-diagnostics",
+    "dispatcher-assistance-helper",
+    "dispatcher-assistance-direct"
   ]
 }

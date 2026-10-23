@@ -1,0 +1,64 @@
+{
+  "status": "pass",
+  "runs": [
+    {
+      "label": "canonical-audit",
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "status": 0,
+      "seconds": 26.406891842372715,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-final-canonical-audit.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-final-canonical-audit.stderr"
+    },
+    {
+      "label": "audit-controls",
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "status": 0,
+      "seconds": 18.504275491461158,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-final-audit-controls.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-final-audit-controls.stderr"
+    }
+  ],
+  "graph_summary": {
+    "checked_functions": 804,
+    "checked_accepted_extents": {
+      "original": 971,
+      "rebuilt": 968
+    },
+    "checked_unique_accepted_extents": {
+      "original": 966,
+      "rebuilt": 965
+    },
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries",
+      "evidenced_runtime_graphs",
+      "accepted_index_extents"
+    ],
+    "discovery": "cfg"
+  },
+  "callbacks": 788,
+  "contextual_data": 500,
+  "ECX_ABIs": 41,
+  "graph_report": {
+    "path": "/root/msvc2/decomp/vc1.0/link/build/graph-audit.json",
+    "bytes": 367997,
+    "sha256": "ee7174ac73f3eb7c02f9a792a4733c2f0af7732ad5bb553aecf050beb1582e12"
+  },
+  "normal_check_dryrun": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-final-dryrun.txt",
+    "bytes": 273,
+    "sha256": "906fabba5fe1f87c9bfd0af7211b7bc3ada9c7d8072386037beefb37659de140"
+  },
+  "dryrun": "make -n -j4 check replay contains only five cached native Python checkers; no Wine/build/audit/original/helper autoexecution. This is not a new fixture timing."
+}

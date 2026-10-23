@@ -1,0 +1,5 @@
+LINK -Link for help on Linker
+LINK -Lib for help on Library Manager
+LINK -Dump for help on Dumper
+LINK -Edit for help on Editor
+LINK -Help for help on Helper

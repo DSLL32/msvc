@@ -1,0 +1,301 @@
+{
+  "method": "All-byte E8/E9rel32, short/nearconditional branches and literalDWORD scans over PE raw sections; candidate only. No hits establishes no literal direct/address table reference, not absence of computed/rebased/relative arithmetic reach.",
+  "entries": [
+    {
+      "entry": "0x3a2c0",
+      "direct_call_candidates": [
+        {
+          "site": "0x3a56c",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a330",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a360",
+      "direct_call_candidates": [
+        {
+          "site": "0x3a34a",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a470",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a490",
+      "direct_call_candidates": [
+        {
+          "site": "0x3a548",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a4b0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a500",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3a540",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x43db0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x45050",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x450a0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x450c0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x45100",
+      "direct_call_candidates": [
+        {
+          "site": "0x45078",
+          "owner": []
+        },
+        {
+          "site": "0x450d8",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x45220",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x45390",
+      "direct_call_candidates": [
+        {
+          "site": "0x45239",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x35520",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x35590",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x35760",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x20a10",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3c340",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3c380",
+      "direct_call_candidates": [
+        {
+          "site": "0x3c361",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x3c3f0",
+      "direct_call_candidates": [
+        {
+          "site": "0x3c370",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x26510",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x2dcf0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x4faf0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x4ec70",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x40630",
+      "direct_call_candidates": [
+        {
+          "site": "0x40420",
+          "owner": []
+        }
+      ],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x448b0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x36290",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x443d0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x35ae0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x22f70",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x42c40",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x403f0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x217e0",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    },
+    {
+      "entry": "0x1ee20",
+      "direct_call_candidates": [],
+      "absolute_pointer_candidates": [],
+      "direct_tail_jump_candidates": [],
+      "conditional_short_control_flow_candidates": []
+    }
+  ]
+}
