@@ -28,3 +28,28 @@ def copy_inputs(case,directory):
         path=Path(directory)/item['name']
         assert not path.exists(),'case input collides with capture control file'
         path.write_bytes(raw)
+
+
+def dependencies(name):
+    path=PROJECT/'cases'/name/'dependencies.json'
+    return json.loads(path.read_text())if path.exists()else None
+
+
+def copy_dependencies(proof,directory):
+    root=PROJECT.parents[2]
+    for item in proof['files']:
+        assert Path(item['name']).name==item['name']
+        raw=(root/item['source']).read_bytes()
+        assert len(raw)==item['bytes'] and hashlib.sha256(raw).hexdigest()==item['sha256']
+        path=Path(directory)/item['name'];assert not path.exists()
+        path.write_bytes(raw)
+    (Path(directory)/'dependency-inputs.json').write_text(json.dumps(proof,indent=2)+'\n')
+
+
+def verify_dependencies(directory):
+    directory=Path(directory);proof=json.loads((directory/'dependency-inputs.json').read_text())
+    assert proof==dependencies(proof['case']),'unknown compiler dependency input set'
+    for item in proof['files']:
+        path=directory/item['name']
+        assert path.stat().st_size==item['bytes'] and hashlib.sha256(path.read_bytes()).hexdigest()==item['sha256']
+    return proof

@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
   "state": "driver-prefix-in-progress",
-  "checkpoint": "53671402 plus ordered proof journal",
-  "next_frontier": "find_file",
-  "accepted_application_functions": 65,
-  "accepted_application_extent_bytes": 10698,
+  "checkpoint": "1d4b3001 plus ordered proof journal",
+  "next_frontier": "final_pass",
+  "accepted_application_functions": 67,
+  "accepted_application_extent_bytes": 11145,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -189,14 +189,38 @@
         "original_execution": 3.1961450837552547,
         "native_gdb": 0.20709744654595852
       }
+    },
+    {
+      "candidate": "_find_file",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/find-file-3/pair.json",
+        "sha256": "dce8dd946f2692f6d6f48488f5029b0b619ed0da9d2ad3067c76e15cf0f475e4"
+      },
+      "seconds": {
+        "audit": 0.4362744530662894,
+        "original_execution": 3.695811029523611,
+        "native_gdb": 0.21434601955115795
+      }
+    },
+    {
+      "candidate": "_search_path",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/search-path-1/pair.json",
+        "sha256": "fed8d2351fab452a6a5e8f416ee8df81c1e620bd0170fe0f4bbc285b988e698e"
+      },
+      "seconds": {
+        "audit": 0.4472371796146035,
+        "original_execution": 4.164842019788921,
+        "native_gdb": 0.21125880535691977
+      }
     }
   ],
-  "checks": "Original/native builds, fresh pairs, three Rust audit passes, 30 protocol negatives, grammar controls and seven input/pass table mutation controls pass; native help regression remains unchanged.",
+  "checks": "Fresh candidate pairs, complete three-pass Rust audits,30 refreshed protocol negatives,4 new job-state controls,5 dependency controls and5 located-pass controls pass. Native-only completed help regression remains unchanged.",
   "dependency_boundaries": "C1 DLL and C2 child remain closed pending complete observable response contracts; no native Wine/helper execution.",
   "observed_gap": "No difference in current prefix. MRE imports are declaration-only/fail-closed; C1/C2 response boundaries remain closed.",
   "current_review": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-pass-1/pair.json",
-    "sha256": "4f6b7e92fe82e19a840ca481e8bce72683c0889999643aa275acabb27b15d7ad",
-    "scope": "All65 accepted application functions audited; actual configure_pass reaches find_file; original/native driver aliases, file streams/errors and zero MRE calls match."
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/search-path-1/pair.json",
+    "sha256": "fed8d2351fab452a6a5e8f416ee8df81c1e620bd0170fe0f4bbc285b988e698e",
+    "scope": "All67 accepted application functions audited; located owned original C1.DLL, DLL classification/last-input flags and complete typed frontier agree. Inert dependency inputs explicitly added; old input sets retained historically."
   }
 }

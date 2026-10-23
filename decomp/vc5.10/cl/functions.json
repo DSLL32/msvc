@@ -77,7 +77,9 @@
     "_run_jobs",
     "_file_name",
     "_run_passes",
-    "_configure_pass"
+    "_configure_pass",
+    "_find_file",
+    "_search_path"
   ],
   "driver": [
     {
@@ -1087,10 +1089,24 @@
     {
       "name": "_find_file",
       "start": 4206545,
-      "end": 4206546,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "find_file"
+      "end": 4206808,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "find_file",
+      "evidence": {
+        "kind": "complete absolute/compiler/current/PATH search and found flag body disassembly",
+        "range": "00402fd1..004030d8"
+      }
+    },
+    {
+      "name": "_search_path",
+      "start": 4206808,
+      "end": 4206992,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "search_path",
+      "evidence": {
+        "kind": "complete PATH token/separator scan, capacity diagnostic and access test body disassembly",
+        "range": "004030d8..00403190"
+      }
     }
   ],
   "runtime": [

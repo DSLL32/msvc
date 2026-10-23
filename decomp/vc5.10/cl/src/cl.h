@@ -193,6 +193,7 @@ int run_jobs(Driver *, Job *);
 Job *advance_jobs(Job *);
 void configure_pass(Driver *);
 char *find_file(char *, char *, int *);
+int search_path(char *, char *, int);
 void cleanup_files(int);
 int run_passes(int *, Driver *, int (*)(Driver *));
 int link_pass(Driver *);

@@ -30,6 +30,13 @@ static int observe_mre;
 static DWORD mre_calls;
 static DWORD mre_sites[] = { 0x3597,0x35c1,0x35ca,0x3686,0x36b9,0x36e2 };
 static DWORD mre_slots[] = { 0x40a300,0x40a314,0x40a304,0x40a308,0x40a30c,0x40a310 };
+static int observe_access;
+static FILE *access_events;
+static DWORD access_calls,access_argument,access_mode;
+static DWORD access_sites[] = { 0x3023,0x3066,0x309c,0x3173 };
+static unsigned access_site_count;
+static int access_pending = -1;
+
 
 static void patch_byte(DWORD address, BYTE value)
 {
@@ -102,7 +109,7 @@ static DWORD exported(DWORD base,const char *wanted)
 /* Original CRT state inspection only: no code executes in the stopped child.
  * The actual loaded canonical provider proves _errno -> getptd + 8 and its
  * TlsGetValue index at RVA3d004. Capture the complete addressed TEB/PTD bytes. */
-static void error_state(DWORD teb,DWORD tid,const char *phase)
+static void error_state_to(DWORD teb,DWORD tid,const char *phase,FILE *sink)
 {
     BYTE raw_teb[4096],ptd[116],body[9];
     DWORD index,pointer,self,actual_tid,slot_address;
@@ -127,7 +134,11 @@ static void error_state(DWORD teb,DWORD tid,const char *phase)
     file=fopen(path,"wb");fwrite(&index,4,1,file);fclose(file);
     sprintf(path,"%s\\mktemp-%s-ptd.bin",directory,phase);
     file=fopen(path,"wb");fwrite(ptd,1,sizeof(ptd),file);fclose(file);
-    fprintf(mktemp_events,"state phase=%s teb=%08lx tid=%lu tls_index=%lu ptd=%08lx\n",phase,teb,tid,index,pointer);
+    fprintf(sink,"state phase=%s teb=%08lx tid=%lu tls_index=%lu ptd=%08lx\n",phase,teb,tid,index,pointer);
+}
+static void error_state(DWORD teb,DWORD tid,const char *phase)
+{
+    error_state_to(teb,tid,phase,mktemp_events);
 }
 /* Observe the stopped child's slots. Queries execute only in this debugger;
  * duplicates are closed here without changing the child's file positions. */
@@ -302,6 +313,9 @@ int main(int argc,char **argv)
     for (i=0;i<entry_count;++i)
         if (!strcmp(entry_guards[i].name,"prepare_environment")) observe_mktemp=1;
         else if (!strcmp(entry_guards[i].name,"prepare_jobs")) observe_mre=1;
+        else if (!strcmp(entry_guards[i].name,"find_file")) { observe_access=1;access_site_count=3; }
+    for (i=0;i<entry_count;++i)
+        if (!strcmp(entry_guards[i].name,"search_path") && observe_access) access_site_count=4;
     output_path(path,"trace.txt");trace=fopen(path,"wb");if (!trace) return 43;
     output_path(path,"events.txt");events=fopen(path,"wb");
     if (!events) return 3;
@@ -312,6 +326,9 @@ int main(int argc,char **argv)
     if (observe_mktemp) {
         output_path(path,"mktemp-events.txt");mktemp_events=fopen(path,"wb");
         if (!mktemp_events) return 48;
+    }
+    if (observe_access) {
+        output_path(path,"access-events.txt");access_events=fopen(path,"wb");if (!access_events) return 68;
     }
     memset(&security,0,sizeof(security));security.nLength=sizeof(security);
     security.bInheritHandle=TRUE;
@@ -367,6 +384,17 @@ int main(int argc,char **argv)
                 if (before!=0xff || after!=0x59) return 55;
                 patch_byte(target_base+0x23a5,0xcc);
             }
+            if (observe_access) {
+                BYTE call[6],after;DWORD slot;
+                for (i=0;i<access_site_count;++i) {
+                    memory(target_base+access_sites[i],call,6);memcpy(&slot,call+2,4);
+                    memory(target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6),&after,1);
+                    if (call[0]!=0xff || after!=0x59) return 69;
+                    if (i==1 || i==2) { if (call[1]!=0xd6) return 69; }
+                    else if (call[1]!=0x15 || slot!=target_base+0xa25c) return 69;
+                    patch_byte(target_base+access_sites[i],0xcc);
+                }
+            }
             for (i=0;i<entry_count;++i) {
                 BYTE byte;
                 memory(target_base+entry_guards[i].rva,&byte,1);
@@ -385,7 +413,11 @@ int main(int argc,char **argv)
             DWORD code=event.u.Exception.ExceptionRecord.ExceptionCode;
             DWORD address=(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
             EntryGuard *guard=NULL;
-            int mre_site=0;
+            int mre_site=0,access_site=-1,access_return=0;
+            if (observe_access) for (i=0;i<access_site_count;++i) {
+                if (address==target_base+access_sites[i]) access_site=i;
+                if (access_pending==(int)i && address==target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6)) { access_site=i;access_return=1; }
+            }
             if (observe_mre) for (i=0;i<6;++i)
                 if (address==target_base+mre_sites[i]) mre_site=1;
             for (i=0;i<entry_count;++i)
@@ -414,6 +446,33 @@ int main(int argc,char **argv)
                 ++mre_calls;
                 fprintf(events,"mre-unexpected-call address=%08lx\n",address);fflush(events);
                 TerminateProcess(child,0x7002);
+            } else if (code==EXCEPTION_BREAKPOINT && access_site>=0) {
+                char text[1024],phase[64],name[80];DWORD actual;
+                thread=NULL;teb=0;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
+                if (!thread) return 70;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                if (!GetThreadContext(thread,&context)) return 71;
+                if (!access_return) {
+                    if (access_pending!=-1 || ++access_calls>64) return 72;
+                    memory(context.Esp,&access_argument,4);memory(context.Esp+4,&access_mode,4);
+                    remote_string(access_argument,text,sizeof(text));
+                    actual=access_site==1 || access_site==2 ? context.Esi : 0;
+                    if (!actual) memory(target_base+0xa25c,&actual,4);
+                    if (actual!=crt_base+0x63f8) return 73;
+                    sprintf(name,"access-%lu-path.bin",access_calls);output_path(path,name);
+                    snapshot=fopen(path,"wb");fwrite(text,1,strlen(text)+1,snapshot);fclose(snapshot);
+                    fprintf(access_events,"call sequence=%lu site=%08lx function=%08lx argument=%08lx mode=%lu\n",access_calls,address,actual,access_argument,access_mode);
+                    sprintf(phase,"access-%lu-before",access_calls);error_state_to(teb,event.dwThreadId,phase,access_events);
+                    access_pending=access_site;patch_byte(address,0xff);
+                    patch_byte(target_base+access_sites[access_site]+(access_site==1 || access_site==2 ? 2 : 6),0xcc);
+                } else {
+                    fprintf(access_events,"return sequence=%lu result=%08lx\n",access_calls,context.Eax);
+                    sprintf(phase,"access-%lu-after",access_calls);error_state_to(teb,event.dwThreadId,phase,access_events);
+                    patch_byte(address,0x59);patch_byte(target_base+access_sites[access_site],0xcc);access_pending=-1;
+                }
+                fflush(access_events);context.Eip=address;if (!SetThreadContext(thread,&context)) return 74;
             } else if (code==EXCEPTION_BREAKPOINT && observe_resources &&
                 (address==target_base+0x534d || address==target_base+0x5353)) {
                 BYTE output[256];

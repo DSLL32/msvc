@@ -491,6 +491,42 @@
       "lifetime_evidence": "Complete loop and percent branch inspected: callee-saved register loads this qualified IAT once and is not overwritten before any listed call; canonical cdecl callees preserve it. Restored only after loop exit.",
       "reconstructed_source": "src/arguments.c retains original multibyte API calls; /Od emits direct IAT calls.",
       "tool_limitation": "Shared direct-import resolution does not resolve these cached-register calls; explicit identity/lifetime residual retained."
+    },
+    {
+      "function": "_find_file",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_access"
+      },
+      "iat": 4235868,
+      "register": "esi",
+      "load": 4206677,
+      "calls": [
+        4206694,
+        4206748
+      ],
+      "instruction_sites": [
+        {
+          "address": 4206677,
+          "bytes": "8b355ca24000"
+        },
+        {
+          "address": 4206694,
+          "bytes": "ffd6"
+        },
+        {
+          "address": 4206748,
+          "bytes": "ffd6"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4206677,
+        "end": 4206805,
+        "sha256": "1cab6f166b213afd5079a3a91cefb54bcf0fbfd97d601e3d2f7b28712492698a"
+      },
+      "lifetime_evidence": "Complete branch span inspected: ESI loads qualified MSVCRT!_access once at403055; neither branch writes ESI before either listed call. Direct strcpy/strcat/duplicate and search_path preserve this callee-saved register; ESI is restored only at4030d4 after all calls. Mode4 and caller cleanup8 at each call.",
+      "reconstructed_source": "src/filenames.c retains _access API calls; /Od emits direct IAT calls.",
+      "tool_limitation": "Direct-import audit does not resolve cached-register calls; full graph/strict ABI retained with this qualified lifetime residual."
     }
   ]
 }

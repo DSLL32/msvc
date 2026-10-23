@@ -31,7 +31,7 @@ def verify(config,project,root):
     record=json.loads((project/'cases/help/import-residuals.json').read_text())
     pe=PE(root/config['target']['path']);slots=qualified_slots(pe)
     assert record['target_sha256']==hashlib.sha256(pe.data).hexdigest(),'cached-import evidence targets different PE'
-    expected=set(config['accepted']) & {'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped'}
+    expected=set(config['accepted']) & {'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped','_find_file'}
     selected=[r for r in record['residuals'] if r['function'] in expected]
     assert {r['function'] for r in selected}==expected,'missing cached-import body evidence'
     for entry in selected:

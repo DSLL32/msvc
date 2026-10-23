@@ -91,3 +91,60 @@ char *file_name(char *out, char *name)
     _makepath(out, "", "", basename, extension);
     return out;
 }
+
+/* 00402fd1..004030d8: compiler directory, current directory, then PATH. */
+char *find_file(char *directory, char *name, int *found)
+{
+    char path[1024], component[256];
+    *found = 1;
+    _splitpath(name, NULL, component, NULL, NULL);
+    if (*component && strchr("\\/", *component)) {
+        if (_access(name, 4))
+            *found = 0;
+        return duplicate(name);
+    }
+    strcpy(path, directory);
+    strcat(path, name);
+    if (!_access(path, 4))
+        return duplicate(path);
+    strcpy(path, ".\\");
+    strcat(path, name);
+    if (!_access(path, 4) || search_path(name, path, sizeof(path)))
+        return duplicate(path);
+    *found = 0;
+    return duplicate(name);
+}
+
+/* 004030d8..00403190: scan semicolon-delimited PATH entries. */
+int search_path(char *name, char *out, int capacity)
+{
+    char *path = getenv("PATH"), *cursor;
+    int length;
+    if (path) {
+        while (*path) {
+            while (*path == ' ' || *path == ';')
+                ++path;
+            if (!*path)
+                break;
+            cursor = out;
+            while (*path && *path != ';')
+                *cursor++ = *path++;
+            *cursor = 0;
+            if (!*out)
+                continue;
+            length = strlen(out);
+            if (out[length - 1] != '\\' && out[length - 1] != ':' && out[length - 1] != '/') {
+                out[length] = '\\';
+                out[length + 1] = 0;
+            }
+            strcat(out, name);
+            length = strlen(out);
+            if (length >= capacity)
+                fatal(0);
+            if (!_access(out, 4))
+                return length;
+        }
+    }
+    *out = 0;
+    return 0;
+}

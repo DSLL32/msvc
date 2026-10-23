@@ -101,6 +101,10 @@ def basic_project(platform,directory):
 def project(platform,directory):
     directory=Path(directory);result=basic_project(platform,directory)
     result['wrapper_decoder_sha256']=sha(Path(__file__))
+    if (directory/'dependency-inputs.json').exists():
+        from case_inputs import verify_dependencies
+        proof=verify_dependencies(directory);result['fields']['compiler_inputs']=proof
+        result['raw_inputs'].update({name:sha(directory/name)for name in ['dependency-inputs.json']+[item['name']for item in proof['files']]})
     if (directory/'case-inputs.json').exists():
         from case_inputs import load
         case=json.loads((directory/'case-inputs.json').read_text())

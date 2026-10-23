@@ -9,7 +9,7 @@ CRT_SHA='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 sha=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def original_states(directory,phases):
+def original_states(directory,phases,event_file='mktemp-events.txt'):
     directory=Path(directory)
     capture=json.loads((directory/'capture.json').read_text())
     assert capture['loaded_msvcrt_sha256']==CRT_SHA
@@ -21,7 +21,7 @@ def original_states(directory,phases):
     pe=PE(directory/'loaded-msvcrt.bin')
     assert pe.read(pe.base+0x6436,9)==bytes.fromhex('e888b1ffff83c008c3')
     assert pe.read(pe.base+0x642d,9)==bytes.fromhex('e891b1ffff83c00cc3')
-    lines=(directory/'mktemp-events.txt').read_text().splitlines()
+    lines=(directory/event_file).read_text().splitlines()
     states={};identities=[]
     for phase in phases:
         matches=[line for line in lines if line.startswith('state phase='+phase+' ')]
@@ -78,6 +78,10 @@ def original(directory):
         from case_inputs import load
         assert case==load(case['case']),'case inputs differ from declared source bytes'
         controls|={'case-inputs.json'}|{item['name']for item in case['inputs']}
+    if (directory/'dependency-inputs.json').exists():
+        from case_inputs import verify_dependencies
+        proof=verify_dependencies(directory)
+        controls|={'dependency-inputs.json'}|{item['name']for item in proof['files']}
     assert names==controls
     assert after[2:-1].decode('ascii') not in names|set(capture['files']),'temporary-name collision'
     entry=original_entry(directory)

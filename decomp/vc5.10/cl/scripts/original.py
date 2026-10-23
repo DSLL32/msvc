@@ -10,7 +10,7 @@ import subprocess
 import time
 from mask import construct
 from build_inputs import inventory as build_inputs,store_blob
-from case_inputs import load as load_case,copy_inputs
+from case_inputs import load as load_case,copy_inputs,dependencies,copy_dependencies
 
 HERE=Path(__file__).resolve().parent
 PROJECT=HERE.parent
@@ -35,6 +35,8 @@ def capture(label,config_path,baseline=False,case_name='help'):
     directory.mkdir(parents=True)
     case=load_case(case_name)
     copy_inputs(case,directory)
+    compiler_inputs=dependencies(case_name)
+    if compiler_inputs:copy_dependencies(compiler_inputs,directory)
     if case['inputs']:
         (directory/'case-inputs.json').write_text(json.dumps(case,indent=2)+'\n')
     image=target.read_bytes() if baseline else construct(config)

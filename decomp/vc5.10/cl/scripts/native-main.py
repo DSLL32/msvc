@@ -10,7 +10,7 @@ import shutil
 import time
 from state import vector,environment,project
 from build_inputs import verify_native_build
-from case_inputs import load as load_case,copy_inputs
+from case_inputs import load as load_case,copy_inputs,verify_dependencies,copy_dependencies
 
 PROJECT=Path(__file__).resolve().parents[1]
 ROOT=PROJECT.parents[2]
@@ -57,6 +57,14 @@ def capture(original,directory):
         else:env[key]=value
     env['RECON_PROGRAM_PATH']=(original/'pgmptr.bin').read_bytes()[:-1].decode('latin1')
     env['CL_ENTRY_PROFILE']=profile['id']
+    if (original/'dependency-inputs.json').exists():
+        compiler_inputs=verify_dependencies(original);copy_dependencies(compiler_inputs,directory)
+        # Inert owned inputs use the captured DOS directory without sharing
+        # mutable original output storage or invoking a Windows dependency.
+        scratch=ROOT.parent/'.ai-tmp/msvc2'
+        mirror=directory/'drive-s'/original.relative_to(scratch)
+        mirror.parent.mkdir(parents=True,exist_ok=True);mirror.symlink_to(directory,target_is_directory=True)
+        env['RECON_DRIVE_S']=str(directory/'drive-s');env['RECON_DRIVE_R']=str(ROOT)
     temporary=None
     if (original/'mktemp-before.bin').exists():
         from mktemp_state import original as temporary_state

@@ -151,6 +151,26 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-pass-1/pair.json",
         "sha256": "4f6b7e92fe82e19a840ca481e8bce72683c0889999643aa275acabb27b15d7ad"
       }
+    },
+    {
+      "order": 16,
+      "candidate": "_find_file",
+      "class": "application",
+      "extent_bytes": 263,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/find-file-3/pair.json",
+        "sha256": "dce8dd946f2692f6d6f48488f5029b0b619ed0da9d2ad3067c76e15cf0f475e4"
+      }
+    },
+    {
+      "order": 17,
+      "candidate": "_search_path",
+      "class": "application",
+      "extent_bytes": 184,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/search-path-1/pair.json",
+        "sha256": "fed8d2351fab452a6a5e8f416ee8df81c1e620bd0170fe0f4bbc285b988e698e"
+      }
     }
   ]
 }

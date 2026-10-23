@@ -31,13 +31,15 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
     if '_prepare_jobs' in json.loads((config or project/'functions.json').read_text())['accepted']:
         result.update(mre_proof=project/'cases/minimal-c/mre-imports.json',mre_verifier=project/'scripts/mre_imports.py',
             mre_host=project/'scripts/mre-host.c',mre_definition=project/'scripts/mspdb50.def',mre_provider=root/'toolchains/5.10/bin/MSPDB50.DLL',mre_library=project/'build/mspdb50.lib')
+    if '_find_file' in json.loads((config or project/'functions.json').read_text())['accepted']:
+        result.update(compiler_dependency_proof=project/'cases/minimal-c/dependencies.json',compiler_input_verifier=project/'scripts/case_inputs.py')
     return result
 
 
 # These two bodies cache qualified IAT values in callee-saved registers. The
 # optional direct-import engine cannot resolve those calls; retain exact narrow
 # evidence instead of reshaping target source or silently accepting unknowns.
-CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped'}
+CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped','_find_file'}
 
 
 def import_leaves(config):
