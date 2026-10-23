@@ -356,3 +356,24 @@ class RefillEntered(gdb.Breakpoint):
         entry=dict(depth=depth,cursor=int(gdb.parse_and_eval('rc_source_cursor')),encoding=int(gdb.parse_and_eval('rc_source_encoding')),frame=bytes(gdb.selected_inferior().read_memory(int(source.address),36)).hex(),buffer=bytes(gdb.selected_inferior().read_memory(buffer-8,8206)).hex(),file=bytes(gdb.selected_inferior().read_memory(file,32)).hex(),file_buffer=bytes(gdb.selected_inferior().read_memory(base,size)).hex(),formals=[])
         refill_records.append(entry);save_refills();RefillReturned(frame,entry);return False
 RefillEntered('rc_refill_source',internal=True);save_refills()
+
+name_copies=[]
+def save_name_copies():
+    (path.parent/'source-name-copies.json').write_text(json.dumps(name_copies,indent=2)+'\n')
+class SourceNameReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):
+        self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        result=int(gdb.parse_and_eval('$eax'))&0xffffffff;size=len(bytes.fromhex(self.entry['bytes']))+8
+        self.entry.update(result=result,result_block=bytes(gdb.selected_inferior().read_memory(result-8,size)).hex())
+        save_name_copies();return False
+class SourceNameEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();pointer=int(frame.read_var('path'));value=bytearray()
+        for offset in range(257):
+            word=bytes(gdb.selected_inferior().read_memory(pointer+2*offset,2));value.extend(word)
+            if word==b'\0\0':break
+        else:raise AssertionError('source-name input has no bounded terminator')
+        assert not name_copies;self.enabled=False
+        entry=dict(path=pointer,bytes=bytes(value).hex(),formal_bytes=4);name_copies.append(entry);save_name_copies();SourceNameReturned(frame,entry);return False
+SourceNameEntered('rc_duplicate_source_name',internal=True);save_name_copies()

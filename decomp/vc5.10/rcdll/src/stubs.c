@@ -94,11 +94,6 @@ void __stdcall rc_list_macro(RcMacro *macro)
     __asm int 3
 }
 
-WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *path)
-{
-    __asm int 3
-    return NULL;
-}
 void __cdecl rc_emit_source_line(void)
 {
     __asm int 3

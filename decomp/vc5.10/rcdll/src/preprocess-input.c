@@ -146,3 +146,11 @@ int __cdecl rc_refill_source(void)
     *buffer=0;
     return 1;
 }
+
+WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *path)
+{
+    WCHAR *copy;
+    size_t length=wcslen(path);
+    copy=rc_allocate(length*2+2);
+    return wcscpy(copy,path);
+}

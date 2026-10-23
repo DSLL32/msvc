@@ -286,3 +286,9 @@ records 45 fresh rejection controls and the shared VC5 fread correction: large
 reads use the caller buffer directly, retaining the existing 512-byte stream
 buffer. The correction reused the unchanged original capture with a fresh native
 observation; no original recapture was needed.
+
+Filename duplication is accepted (37 bytes), retaining the actual pointer
+returned by wcscpy and binding the copied allocation to the source frame.
+[Verification](cases/resources-rich-trailing-space/duplicate-source-name-verification.json)
+records exact UTF-16 input/output ownership, 45 fresh rejection controls and
+timings. Execution now reaches source-line emission.
