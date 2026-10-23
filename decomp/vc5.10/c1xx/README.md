@@ -159,3 +159,8 @@ Callback41 clears deferred-action head/tail pointers and a signed nesting depth;
 node layout remains opaque. Four pairs and18 new negative controls are recorded
 in `cases/minimal/action-trials.json`, with GDB observation timing separate from
 fixture execution. Schema27 has1057 semantic BSS bytes and31 padding bytes.
+
+All42 initializer callbacks are accepted; the real `main` remains a named trap.
+The current frontier verifies argc26, original/native argv identities and the
+Invoke mode assignment after initialization. Nine new entry/ABI controls are in
+`cases/minimal/empty42-trials.json`. Minimal compilation is still unfinished.

@@ -66,7 +66,8 @@
     "_initialize_frontend_39",
     "_initialize_generated_comment",
     "_initialize_frontend_40",
-    "_initialize_frontend_41"
+    "_initialize_frontend_41",
+    "_initialize_frontend_42"
   ],
   "trial": null,
   "ranges": [
@@ -561,7 +562,13 @@
       "start_rva": 232426,
       "end_rva": 232444,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_42",
+      "start_rva": 232444,
+      "end_rva": 232445,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_41 accepted; next frontier _initialize_frontend_42"
+  "stage": "_initialize_frontend_42 accepted; next frontier _main"
 }

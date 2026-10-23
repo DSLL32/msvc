@@ -32,7 +32,7 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=41,
+    s.require(comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
               'no reviewed callback decoder for this function')
     index=39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -92,7 +92,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if index>=34:
         path.append(('initialize_type_ranks',0x38a6b))
         if '_initialize_type_ranks' in trial['accepted']:
-            for slot in range(35,index+2):
+            for slot in range(35,min(index+2,43)):
                 path.append(callback(slot))
                 if slot==39 and index>=39:
                     path.append(('initialize_generated_comment',0x38af9))
@@ -101,6 +101,7 @@ def check(original,native,require_audit=True,audit_path=None):
                 if slot==37 and index>=37:
                     path.append(('PchContext::Initialize',0x3bd41))
                     if 'PchContext::Initialize' not in trial['accepted']:break
+    if index>=42:path.append(('c1xx_main',0x38bfd))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -113,8 +114,11 @@ def check(original,native,require_audit=True,audit_path=None):
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize','c1xx_main') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
+    if frontier=='c1xx_main':
+        s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')
+        s.require(state['args']=={'argc':26,'argv':native_pointer} and [int(v,16) for v in traps[-1][2].split(',')][1:3]==[26,pointer],'actual main argc/argv ABI differs at frontier')
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)
     native_frontier=records[frontier]['native_symbol'] if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else frontier
     match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+native_frontier+'$',symbols,re.M)
@@ -167,7 +171,7 @@ def check(original,native,require_audit=True,audit_path=None):
         'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else [])+([{'owner':'_initialize_compiler_pass','original_rva':0x385f3,'original_byte':0xeb,'purpose':'actual PCH member return to inherited caller, RET0 and EDI preservation','activation':'armed only at actual member entry'}] if 'PchContext::Initialize' in trial['accepted'] else []),'undeclared phase observer')
     for snapshot in (pre,phase,state):
         s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
-                  snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(0 if not seed or seed=='restore-zero' else 3),
+                  snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(1 if snapshot is state and frontier=='c1xx_main' else 0 if not seed or seed=='restore-zero' else 3),
                   'caller/lifecycle state changed')
     if model['schema']>=6:
         check_outputs(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps,model)
@@ -206,7 +210,7 @@ def check(original,native,require_audit=True,audit_path=None):
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
     if require_audit:s.audit(trial,audit_path)
-    return {'trial':trial['trial'],'frontier':frontier if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else '_'+frontier,'seed':seed,
+    return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
             'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(model['native_padding']['bytes'] if model['schema']>=6 else 0),
             'native_bss_size':state['frontend']['known_sizes']['bss'],

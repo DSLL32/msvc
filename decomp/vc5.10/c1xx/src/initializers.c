@@ -208,7 +208,6 @@ void initialize_frontend_41(void)
 
 void initialize_frontend_42(void)
 {
-    __asm { int 3 }
 }
 
 Initializer frontend_initializers[FRONTEND_INITIALIZERS] = {

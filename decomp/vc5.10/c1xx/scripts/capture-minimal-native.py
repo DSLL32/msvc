@@ -1,6 +1,7 @@
 """Linux-only real DLL-pass frontier capture, called by capture-native.py."""
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import time
@@ -349,10 +350,14 @@ end
         auxiliary_collector=output/'collect-aux-call.gdb'
         auxiliary_collector.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'aux-call.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'aux-call-argv.bin'))))
         auxiliary='bt\nsource '+str(auxiliary_collector)+'\nreturn (void *)c1xx_aux_new_payload\npython\nimport gdb,json\nopen('+repr(str(output/'aux-return.json'))+',"w").write(json.dumps({"eax":int(gdb.parse_and_eval("$eax")),"pc":int(gdb.parse_and_eval("$pc")),"role":"mock-return","helper_accepted":False})+"\\n")\nend\ncontinue\n'
-    timing_start='python\nimport time,json\nrecon_collect_timings=[]\nrecon_first_command=time.perf_counter()\nend\n'
+    def timed_source(match):
+        line=match.group(0)
+        return 'python\nrecon_source_started=time.perf_counter()\nend\n'+line+'\npython\nrecon_source_timings.append({"command":'+repr(line)+',"seconds":time.perf_counter()-recon_source_started})\nend'
+    observer=re.sub(r'^source [^\n]+$',timed_source,observer,flags=re.M)
+    timing_start='python\nimport time,json\nrecon_collect_timings=[]\nrecon_source_timings=[]\nrecon_first_command=time.perf_counter()\nend\n'
     timing_before_run='python\nrecon_before_run=time.perf_counter()\nend\n'
     timing_after_run='python\nrecon_after_run=time.perf_counter()\nend\n'
-    timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings},indent=2)+"\\n")\nend\n'
+    timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings,"source_commands":recon_source_timings},indent=2)+"\\n")\nend\n'
     commands.write_text(timing_start+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
@@ -361,7 +366,7 @@ end
     (output/'gdb.txt').write_bytes(result.stdout)
     if (output/'gdb-timing.json').exists():
         timing=json.loads((output/'gdb-timing.json').read_text());collect=sum(row['collection_seconds'] for row in timing['collectors']);serialize=sum(row['serialization_io_seconds'] for row in timing['collectors'])
-        timing['summary']={'gdb_total_seconds':elapsed,'startup_seconds':timing['first_command']-started,'breakpoint_setup_seconds':timing['before_run']-timing['first_command'],'collection_seconds':collect,'serialization_io_seconds':serialize,'residual_inferior_debugger_seconds':elapsed-(timing['before_run']-started)-collect-serialize,'collector_count':len(timing['collectors']),'scope':'residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution'}
+        timing['summary']={'source_command_seconds':sum(row['seconds'] for row in timing['source_commands']),'source_command_count':len(timing['source_commands']),'gdb_total_seconds':elapsed,'startup_seconds':timing['first_command']-started,'breakpoint_setup_seconds':timing['before_run']-timing['first_command'],'collection_seconds':collect,'serialization_io_seconds':serialize,'residual_inferior_debugger_seconds':elapsed-(timing['before_run']-started)-collect-serialize,'collector_count':len(timing['collectors']),'scope':'residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution'}
         (output/'gdb-timing.json').write_text(json.dumps(timing,indent=2)+'\n')
     if result.returncode or b'Program received signal SIGTRAP' not in result.stdout:
         raise ValueError('native pass has no actual INT3 frontier; '+result.stdout.decode(errors='replace'))
