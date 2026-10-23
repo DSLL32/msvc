@@ -801,7 +801,12 @@
     "_collect_basic_region_inductions",
     "@work_is_outside_child_regions@4",
     "@can_hoist_region_store@4",
-    "@is_region_invariant_value@4"
+    "@is_region_invariant_value@4",
+    "_prepare_region_exit_motion",
+    "_collect_derived_region_inductions",
+    "@collect_derived_induction_tree@8",
+    "@integer_node@8",
+    "@find_basic_induction@4"
   ],
   "driver": [
     {
@@ -2449,8 +2454,7 @@
     {
       "name": "@integer_node@8",
       "start": 361520,
-      "end": 361521,
-      "provisional": true
+      "end": 361535
     },
     {
       "name": "@aligned_value_size@4",
@@ -4645,14 +4649,12 @@
     {
       "name": "_prepare_region_exit_motion",
       "start": 387760,
-      "end": 387761,
-      "provisional": true
+      "end": 389220
     },
     {
       "name": "_collect_derived_region_inductions",
       "start": 386960,
-      "end": 386961,
-      "provisional": true
+      "end": 387758
     },
     {
       "name": "_combine_region_inductions",
@@ -6185,6 +6187,76 @@
       "name": "@new_basic_induction@24",
       "start": 392304,
       "end": 392305,
+      "provisional": true
+    },
+    {
+      "name": "@induction_is_dead_on_exit@4",
+      "start": 390896,
+      "end": 390897,
+      "provisional": true
+    },
+    {
+      "name": "_remove_region_blocks",
+      "start": 390784,
+      "end": 390785,
+      "provisional": true
+    },
+    {
+      "name": "@remove_region_block@4",
+      "start": 390656,
+      "end": 390657,
+      "provisional": true
+    },
+    {
+      "name": "@find_basic_induction_load@4",
+      "start": 390592,
+      "end": 390593,
+      "provisional": true
+    },
+    {
+      "name": "@find_induction_initial_value@4",
+      "start": 390416,
+      "end": 390417,
+      "provisional": true
+    },
+    {
+      "name": "@basic_induction_increment@4",
+      "start": 390352,
+      "end": 390353,
+      "provisional": true
+    },
+    {
+      "name": "@collect_derived_induction_tree@8",
+      "start": 394576,
+      "end": 395220
+    },
+    {
+      "name": "@choose_derived_induction_representative@16",
+      "start": 394272,
+      "end": 394273,
+      "provisional": true
+    },
+    {
+      "name": "@derived_induction_is_profitable@4",
+      "start": 394112,
+      "end": 394113,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_derived_induction_group@8",
+      "start": 392880,
+      "end": 392881,
+      "provisional": true
+    },
+    {
+      "name": "@find_basic_induction@4",
+      "start": 392816,
+      "end": 392869
+    },
+    {
+      "name": "@add_derived_induction@24",
+      "start": 392544,
+      "end": 392545,
       "provisional": true
     }
   ],

@@ -2005,3 +2005,14 @@ Native/original agree at prepare_region_exit_motion5eab0;719 graph/extent checks
 canonical/W3 and native fixtures pass. The induction-record allocator is still a
 named RET16 fastcall trap, unvisited by hello so far. Full hello object remains
 incomplete; see cases/hello-basic-inductions.json for references and timings.
+
+Affine induction collection: checkpoint802
+------------------------------------------
+Whole exit preparation, derived-value grouping and affine-expression traversal
+are reconstructed, with typed induction/use/group records and contextual count
+trees. The integer-leaf adapter and basic-induction address lookup retain their
+distinct functions. Native/original agree at combine_region_inductions5e680;
+724 graph/extent checks, canonical/two modules-W3 and native fixtures pass. Hello
+currently has no basic induction records: grouping, trip-count synthesis and
+rewrite bodies are not claimed exercised. Full hello output remains incomplete.
+See cases/hello-affine-inductions.json for layouts, references, limits and timing.

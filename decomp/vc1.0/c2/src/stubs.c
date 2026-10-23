@@ -59,7 +59,6 @@ Node *__fastcall new_storage_reference(unsigned bytes) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
-Node *__fastcall integer_node(unsigned value, unsigned type) { __asm int 3 }
 unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
@@ -328,8 +327,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
 int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }
 
-int prepare_region_exit_motion(void) { __asm int 3 }
-void collect_derived_region_inductions(void) { __asm int 3 }
 void combine_region_inductions(void) { __asm int 3 }
 void reduce_region_induction_strength(void) { __asm int 3 }
 void rewrite_region_inductions(void) { __asm int 3 }
@@ -446,3 +443,15 @@ short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void __fastcall remove_region_candidate(Node *node, int ancestors) { __asm int 3 }
 struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *step,
     WorkItem *work, struct BasicInduction *parent, Node *left, Node *right) { __asm int 3 }
+int __fastcall induction_is_dead_on_exit(Node *assignment) { __asm int 3 }
+void remove_region_blocks(void) { __asm int 3 }
+void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
+BasicInduction *__fastcall find_basic_induction_load(Node *node) { __asm int 3 }
+Node *__fastcall find_induction_initial_value(Node *assignment) { __asm int 3 }
+int __fastcall basic_induction_increment(BasicInduction *induction) { __asm int 3 }
+int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
+    Node *right, Node **representative) { __asm int 3 }
+int __fastcall derived_induction_is_profitable(Node *node) { __asm int 3 }
+void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative) { __asm int 3 }
+void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *basic,
+    Node *factor, int negative, int blocked) { __asm int 3 }

@@ -554,3 +554,9 @@ Node *__fastcall remove_right_wrapper(Node *node)
     release_node(right);
     return node;
 }
+
+/* Original [00058430,0005843f). Distinct typed integral-leaf adapter. */
+Node *__fastcall integer_node(unsigned value, unsigned type)
+{
+    return intern_leaf(0x33, 0, type, value);
+}
