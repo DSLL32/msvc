@@ -76,6 +76,10 @@ Record elapsed fixture times, splitting build/setup/execution/checks where measu
 
 ## Reconstruction source
 
+Preserve known original symbol names. Where names are unknown, prefer
+conventional names such as `main`, `DllMain`, and `_DllMainCRTStartup`.
+Adapt test harnesses around those names rather than renaming reconstructed functions.
+
 Reconstruct program logic as readable, idiomatic (for the time period and platform) C, recovering meaningful function signatures, types, structures, and control flow. Do not use mechanically copied or generated assembly as the reconstructed implementation. Use inline assembly only where required to preserve behavior or an ABI that the original C toolchain cannot express, and document the reason. Disassemblers, decompilers, and generated assembly listings are permitted for analysis and verification; this restriction applies to reconstruction source.
 
 Do not bulk copy data sections into the reconstruction in any format. Define data as it is encountered during reconstruction, placing it somewhere that makes sense in the current context.
