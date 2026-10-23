@@ -1,0 +1,63 @@
+{
+  "status": "proposal only; requires orchestrator review before any Wine execution",
+  "purpose": "observe the actual startup-to-main seam and pagination/input behavior of the already captured unmasked patched '?' case; no application acceptance or CRT exemption",
+  "helper_owner": "/root/watcom10_orchestrator/wlib",
+  "transport": "reuse the reviewed common Win32 debug helper; do not create a second debugger",
+  "case": {
+    "image": "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+    "sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+    "argv": ["?"],
+    "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/help-reference/baseline-hqf5iigb/work",
+    "host_environment": "reuse the exact baseline host-environment.json after matching its SHA256",
+    "stdin": "DEVNULL, matching baseline",
+    "stdout_stderr": "separate raw files compared byte-for-byte with baseline",
+    "deadline_seconds": 30,
+    "cleanup": "only the helper-owned debuggee/process group; never shared wineserver"
+  },
+  "entry_observations": [
+    {
+      "rva": "0x34656",
+      "role": "PE entry",
+      "capture": "loaded module identity/base, full i386 registers, original entry bytes and bounded stack; verify actual entry is base+RVA"
+    },
+    {
+      "rva": "0x242e0",
+      "role": "application main candidate",
+      "capture": "actual EAX argc, EDX argv pointer, bounded argc-owned vector/string contents, return address and raw register/stack state; known caller continuation is VA0x43819e only if load base is0x400000",
+      "comparison": "native main's actual GCC argc/argv semantic values and ownership; no raw-register equality requirement"
+    }
+  ],
+  "boundary_observations": {
+    "selection": "only reached calls to the listed original imports; preserve original call/return execution and actual outputs",
+    "command_environment": [
+      "GetCommandLineA: record returned actual command string",
+      "GetEnvironmentStrings: record returned actual double-NUL environment block privately, hash it in durable evidence; do not substitute host environment"
+    ],
+    "console_input": [
+      "GetStdHandle: signed standard-handle selector and actual result; correlate handle identity across subsequent calls",
+      "GetFileType: actual handle and result",
+      "GetConsoleMode: handle, output pointer ownership, BOOL result and defined output mode",
+      "SetConsoleMode: handle, requested mode and BOOL result",
+      "ReadFile: handle identity, buffer/length/output-count/overlapped formals, BOOL result, defined returned count and exactly returned bytes; distinguish stdin reads from resource-file reads"
+    ],
+    "file_and_output": [
+      "CreateFileA: actual path/access/sharing/creation/flags/template arguments and returned handle",
+      "SetFilePointer: owned handle, signed distance/high-word pointer/method and actual result",
+      "WriteFile: handle, actual requested bytes/count/out-count/overlapped arguments and defined result/count",
+      "CloseHandle: actual owned handle and BOOL result",
+      "GetLastError: actual return only when the original invokes it; no injected target call",
+      "ExitProcess: actual status"
+    ],
+    "definedness": "capture raw pre/post output memory but credit only API-defined writes; no zero-filling failed-call outputs, pointer seeding or unknown-register normalization",
+    "bounds": "main argc at most4096 and string/block reads at most1MiB per object; at most4096 selected import events; exceeding limits or unreadable ownership is HOLD, not truncation acceptance",
+    "unknowns": "any new console/input dependency, untracked thread ownership, unknown callback or unsupported debugger event is held for review; no guessed getch/EOF response"
+  },
+  "breakpoint_protocol": "authenticate exact image; save each software-breakpoint byte, account for exception EIP, restore and single-step the displaced instruction, preserve per-thread temporary return ownership and original register/flag state; unsupported forwarding, recursion or concurrent return-site ambiguity must HOLD",
+  "artifacts": "raw helper/debuggee streams, actual event log, private raw environment, complete case-directory before/after inventory, actual observed file dependency identities, all input/helper hashes and elapsed setup/execution/check times",
+  "excluded_claims": [
+    "unobserved file reads are not a complete dependency trace",
+    "known CRT source similarity does not authorize restoring an unidentified code interval",
+    "this unmasked observer run does not prove masked replay or accept a reconstructed application function",
+    "the existing four-site GS patch does not establish arbitrary far-pointer equivalence"
+  ]
+}

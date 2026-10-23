@@ -9,9 +9,12 @@ The help contains one pagination prompt even with DEVNULL stdin; its actual
 console/read behavior remains an observer obligation despite successful exit.
 
 `make inspect` verifies the pristine binary and the separately supplied Wine GS
-patch, then reports PE metadata without running either file. `native`, `original`
-and `fixtures` deliberately stop until source/boundary review; use `make -j4` once
-their actual compilation rules are established.
+patch, then reports PE metadata without running either file. `make -j4 native`
+builds the real i386 INT3 main scaffold and directly compiles the shared C at final
+link. GDB confirms SIGTRAP in main; this is not an accepted implementation.
+`original` has explicit Watcom compiler/patched-linker rules based on the common
+successful Win32 probe, but this target has not yet been invoked for WLINK.
+`fixtures` remains blocked until an actual reconstruction and trace exist.
 
 Source reference: `/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, commit
 `6b9cb4438959d845a2b4dd4bf19f7908ecd608e9` (2002). Likely reference units are
@@ -52,8 +55,9 @@ MSCRT `ShimFILE` is not layout-equivalent. Preserve original field accesses and
 prove reached buffer/position/error semantics before requesting a shared Watcom
 CRT profile; the original build's register-call ABI is a separate proof obligation.
 
-`cases/help/architecture.json` records the proposed capture, masking, startup and
-build procedure. Static analysis identifies a main candidate at VA `0x4242e0`
+`cases/help/architecture.json` records the proposed masking/startup procedure;
+`observer-plan.json` proposes a bounded common-debugger observation of main and
+actual console/input APIs. Static analysis identifies main at VA `0x4242e0`
 called with EAX=argc and EDX=argv by CRT code at `0x438199`. Its Spawn callback
 and cleanup tail differ from the later source; names/extents and any shared
 entry tails must be proved against this binary before acceptance.
