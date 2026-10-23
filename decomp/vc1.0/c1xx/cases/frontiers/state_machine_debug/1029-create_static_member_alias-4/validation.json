@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_create_static_member_alias@4",
+    "start": 195248,
+    "end": 195484
+  },
+  "distinct_direct_callees": [
+    "_apply_declaration_type@8",
+    "_make_anonymous_identifier",
+    "_mangle_static_member_name@8",
+    "_new_declarator@4",
+    "_register_static_member_alias@8"
+  ],
+  "next_frontier": "_make_anonymous_identifier",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4360343897715211,
+  "total_operation_seconds": 3.0425171554088593,
+  "original_capture_seconds": 0.7662263484671712
+}

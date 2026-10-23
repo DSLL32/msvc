@@ -52,4 +52,6 @@ void __stdcall append_class_members(CppSymbol *first, CppSymbol *last);
 CppSymbol *__stdcall make_overload_symbol(CppSymbol *symbol);
 CppSymbol *__stdcall reconcile_declaration(CppSymbol *existing, CppSymbol *declaration);
 void __stdcall prepend_class_member(CppSymbol *member);
+char *__stdcall mangle_static_member_name(CppSymbol *owner, CppSymbol *member);
+void __stdcall register_static_member_alias(CppSymbol *member, CppSymbol *alias);
 #endif

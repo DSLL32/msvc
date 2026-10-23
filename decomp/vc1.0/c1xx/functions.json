@@ -1033,7 +1033,8 @@
     "_end_braced_initializer@4",
     "_finish_braced_initializer@4",
     "_inferred_initializer_count",
-    "_validate_union_member@8"
+    "_validate_union_member@8",
+    "_create_static_member_alias@4"
   ],
   "driver": [
     {
@@ -3653,7 +3654,7 @@
     {
       "name": "_create_static_member_alias@4",
       "start": 195248,
-      "end": 195249
+      "end": 195484
     },
     {
       "name": "_begin_pending_class_names",
@@ -7739,6 +7740,16 @@
       "name": "_inferred_initializer_count",
       "start": 293552,
       "end": 293582
+    },
+    {
+      "name": "_mangle_static_member_name@8",
+      "start": 352208,
+      "end": 352209
+    },
+    {
+      "name": "_register_static_member_alias@8",
+      "start": 352032,
+      "end": 352033
     }
   ],
   "cases": {
@@ -7939,7 +7950,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_create_static_member_alias@4",
+      "terminal": "_make_anonymous_identifier",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7962,7 +7973,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1028-validate_union_member-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7996,7 +8007,8 @@
         "cases/frontiers/state_machine_debug/1025-end_braced_initializer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1026-finish_braced_initializer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1027-inferred_initializer_count/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1028-validate_union_member-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1028-validate_union_member-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/frontier-extension.json"
       ]
     }
   },

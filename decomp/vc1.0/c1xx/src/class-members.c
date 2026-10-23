@@ -1102,3 +1102,38 @@ int __stdcall validate_union_member(CppSymbol *owner, CppSymbol *member)
     }
     return 1;
 }
+
+/* Original 0x2fab0..0x2fb9c. A static class member gets a global
+   external declaration with its decorated name. Bind that declaration under
+   C linkage, then associate the class declaration with its emitted symbol. */
+void __stdcall create_static_member_alias(CppSymbol *member)
+{
+    CppSymbol *alias;
+    DeclarationType context;
+    SymbolScope *saved_scope;
+    LanguageLinkage saved_linkage;
+    if (options.prototypes_only) return;
+    alias = new_declarator(make_anonymous_identifier());
+    alias->declaration_flags &= ~0x300;
+    alias->name = mangle_static_member_name(CLASS_TAG, member);
+    alias->declaration_flags = (alias->declaration_flags & ~0x100) | 0x200;
+    context.storage[0] = (member->storage[0] & ~7) | 1;
+    context.storage[1] = member->storage[1];
+    context.storage[2] = member->storage[2];
+    if (member->type->attributes & 0x1000) context.storage[1] |= 0x10;
+    context.type = member->type;
+    saved_scope = current_scope;
+    current_scope = global_scope;
+    alias->attributes |= 0x40;
+    saved_linkage = linkage_stack[linkage_depth];
+    linkage_stack[linkage_depth] = LINKAGE_C;
+    alias->flags |= 0x80;
+    alias = apply_declaration_type(&context, alias);
+    alias->flags &= ~0x80;
+    linkage_stack[linkage_depth] = saved_linkage;
+    alias->attributes &= ~0x40U;
+    member->attributes |= 0x40;
+    current_scope = saved_scope;
+    member->index = alias->index;
+    register_static_member_alias(member, alias);
+}

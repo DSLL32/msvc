@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "93d8fa4d9913043f5995f5fb05049f4c7207c8ca3ac365f4afb10e4abb2c78a8",
+    "functions.json": "d1a1dd84fea7113c14fa2878824803a0d6f71dadcd5931d1da04fc1903827d5e",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "a92cba592bff8a74ed8d49ed4060cd3f16f0ec367c25ef7abfb9d28398e8c487",
-    "cases/canonical-map.txt": "89d66398daeef78bd52257136e5c3979b9b76f4baa5c153b972bbe408a803a9b",
+    "cases/original-entry-references.json": "25637d1c9b60422b8b412c0959df8bff0f660dba283d4b4cec3d57a3b1473450",
+    "cases/canonical-map.txt": "b7d8b59f0d83149bf3655fb55cb55daf2d7594c4423143be313f1ef15cd7bae3",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1028-validate_union_member-8/entry-reference/original-receipt.json": "b059421e23389667ce6c73bf1fee0cdbbf1c9c72a085b45b8f0f1ad721435d92",
-    "cases/frontiers/state_machine_debug/1028-validate_union_member-8/entry-reference/original-events.txt": "84ee4f532f956e78cbf13369262e261ecc8ef39ccf94099a7d8c290a3a334b2b",
-    "cases/frontiers/state_machine_debug/1028-validate_union_member-8/entry-reference/original-entries.plan": "a98621e945366a032e562e26a9a402fc3fd38bade8532ca73965c80104d04ae5"
+    "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/entry-reference/original-receipt.json": "2e5eef3eb46cefe65ee210dfc897dc1c05f877ed04675c1f2b8211826aa6b089",
+    "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/entry-reference/original-events.txt": "d53120cb922ddaecdb77eecb879db65edff948fa0da44057394c41b17d30eb28",
+    "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/entry-reference/original-entries.plan": "ff4be735632f174d9478fd0a45ebfa88ad32140a7b3b1cc4b700691613ae9bfe"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1261,7 +1261,7 @@
     },
     "create_static_member_alias": {
       "logical": "_create_static_member_alias@4",
-      "source": "src/stubs.c"
+      "source": "src/class-members.c"
     },
     "create_virtual_base_group_offsets": {
       "logical": "_create_virtual_base_group_offsets@8",
@@ -3287,6 +3287,10 @@
       "logical": "_mangle_referenced_type@8",
       "source": "src/mangling.c"
     },
+    "mangle_static_member_name": {
+      "logical": "_mangle_static_member_name@8",
+      "source": "src/stubs.c"
+    },
     "mangle_symbol_encoding": {
       "logical": "_mangle_symbol_encoding@16",
       "source": "src/mangling.c"
@@ -4286,6 +4290,10 @@
     "register_label": {
       "logical": "_register_label@4",
       "source": "src/ir.c"
+    },
+    "register_static_member_alias": {
+      "logical": "_register_static_member_alias@8",
+      "source": "src/stubs.c"
     },
     "register_tag_context": {
       "logical": "_register_tag_context@4",
@@ -6247,7 +6255,8 @@
     "end_braced_initializer",
     "finish_braced_initializer",
     "inferred_initializer_count",
-    "validate_union_member"
+    "validate_union_member",
+    "create_static_member_alias"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10359,7 +10368,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1029,
+      "last": 1030,
       "seen": [
         "main",
         "message_text",
@@ -11298,12 +11307,13 @@
         "finish_braced_initializer",
         "inferred_initializer_count",
         "validate_union_member",
-        "create_static_member_alias"
+        "create_static_member_alias",
+        "make_anonymous_identifier"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_create_static_member_alias@4",
-        "native": "create_static_member_alias",
+        "logical": "_make_anonymous_identifier",
+        "native": "make_anonymous_identifier",
         "signal": 5
       }
     }
