@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_canonical_conversion_type@4",
+    "start": 199248,
+    "end": 199282
+  },
+  "distinct_direct_callees": [
+    "_drop_first_type_shape@4",
+    "_intern_type@4",
+    "_strip_based_shape@4"
+  ],
+  "next_frontier": "_remove_type_set",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2585625434294343,
+  "total_operation_seconds": 2.897287679836154,
+  "original_capture_seconds": 1.1177802458405495
+}

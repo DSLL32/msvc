@@ -86,7 +86,13 @@ def compare_grammar(old_address, new_address):
 
 for table in cfg.get('tables', []):
     old, new, kind = table['original'], names[table['name']], table['kind']
-    if kind == 'option':
+    if kind == 'token_membership':
+        values = list(read(rebuilt, new, table['count']))
+        assert values[-1] == 0 and all(values[:-1]) and len(set(values[:-1])) == len(values)-1, 'token membership sentinel/duplicates differ'
+        expected = {index for index,value in enumerate(read(original, old, table['domain'])) if value & table['mask']}
+        assert set(values[:-1]) == expected, 'encountered lexical property membership differs: '+table['name']
+        print('%d contextual operator-name token memberships and sentinel match the original.' % len(expected))
+    elif kind == 'option':
         count = compare_grammar(old, new)
         print('%d option rules and their aliases/defaults match the original.' % count)
     elif kind == 'identifiers':

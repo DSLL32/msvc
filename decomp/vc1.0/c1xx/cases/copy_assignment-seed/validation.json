@@ -1,0 +1,10 @@
+{
+  "status": "matched case seed; no new function accepted",
+  "case": "copy_assignment",
+  "frontier": "_read_operator_function_id",
+  "accepted_prefix": 871,
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "original_capture_seconds": 1.4186627976596355,
+  "total_registration_seconds": 0.47017391957342625
+}

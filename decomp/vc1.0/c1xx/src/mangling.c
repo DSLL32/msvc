@@ -678,3 +678,24 @@ char *__stdcall mangle_number(char *cursor, unsigned value)
     *cursor++ = '@';
     return cursor;
 }
+
+/* Original 0x1e370..0x1e39a, stdcall4. Conversion names are interned
+   from a separate 1024-byte automatic encoding buffer. */
+char *__stdcall encode_type_name(CType *type)
+{
+    char name[1024];
+    mangle_type_identifier(name, type);
+    return intern_identifier(name);
+}
+
+/* Original 0x43b30..0x43b5f, stdcall8. Type-only identifiers begin with
+   a period and use fresh name/type backreference caches. */
+char *__stdcall mangle_type_identifier(char *cursor, CType *type)
+{
+    decorated_type_count = 0;
+    decorated_name_count = 0;
+    *cursor++ = '.';
+    cursor = mangle_type(cursor, type, 1);
+    *cursor++ = '\0';
+    return cursor;
+}

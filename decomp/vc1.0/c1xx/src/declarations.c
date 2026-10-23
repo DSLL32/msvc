@@ -64,6 +64,36 @@ CppSymbol *__stdcall new_declarator(char *name)
     return declaration;
 }
 
+/* Original 0x3c090..0x3c140, stdcall8. A conversion-type suffix is
+   normalized through a temporary declarator in the expression arena. */
+void __stdcall apply_conversion_declarator(DeclarationType *context, TypeShape *shape)
+{
+    CppSymbol *declaration;
+    ArenaPool *pool;
+    if (!shape) return;
+    pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(CppSymbol))
+        refill_arena(&compiler_arena, pool);
+    declaration = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    if (token_allocation_flags & 0x20)
+        declaration->type = allocate_permanent(sizeof(CType));
+    else {
+        if (pool->remaining < (int)sizeof(CType))
+            refill_arena(&compiler_arena, pool);
+        declaration->type = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    }
+    declaration->type->related = shape;
+    declaration->kind = 3;
+    declaration->name = encode_type_name(context->type);
+    declaration->declaration_flags |= 0x4000;
+    normalize_symbol_type(context->type, declaration);
+    context->type = declaration->type;
+}
+
 /* Original 0x34000..0x340f3. Add a compiler-created parameter declarator. */
 CppSymbol *__stdcall add_declaration_parameter(int prepend, CppSymbol **list,
                                                char *name, CType *type)

@@ -42,6 +42,8 @@ char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type);
 char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type);
 char *__stdcall mangle_pointee_type(char *cursor, CType *type);
 char *__stdcall mangle_pointee_shape(char *cursor, CType *type);
+char *__stdcall mangle_type_identifier(char *cursor, CType *type);
+char *__stdcall encode_type_name(CType *type);
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type);
 char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag);
 #endif

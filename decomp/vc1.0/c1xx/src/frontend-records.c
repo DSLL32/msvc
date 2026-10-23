@@ -16,6 +16,38 @@ FrontendRecord *function_ir_tail; /* original 0xa0a5c */
 int ir_function_error_count; /* original 0xa0a60 */
 int ir_records_suppressed; /* original 0xa0a64 */
 
+/* Original 0x3f0e0..0x3f154, cdecl. Open an if's conditional cleanup
+   context before opening its expression-evaluation region. */
+void begin_if_condition(void)
+{
+    ConditionalFrontendRecord record;
+    record.header.kind = 17;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.then_record = 0;
+    record.else_record = 0;
+    if (ir_records_suppressed) return;
+    append_frontend_record(&record.header, sizeof(record));
+    begin_if_condition_region();
+}
+
+/* Original 0x3f160..0x3f199, cdecl. The condition evaluation has its
+   own linked-record boundary, even when it creates no temporary objects. */
+void begin_if_condition_region(void)
+{
+    FrontendRecord record;
+    record.kind = 18;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
 /* Original 0x3d6a0..0x3d823. Begin function records and parameter cleanup
    scope, preserving a prior record prefix by rotating the new suffix to
    the front of the doubly linked list. */

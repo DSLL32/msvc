@@ -22,6 +22,14 @@ typedef struct DeclarationFrontendRecord {
     CppSymbol *symbol;
     unsigned field14;
 } DeclarationFrontendRecord;
+/* Conditional records retain links to their two statement regions. */
+typedef struct ConditionalFrontendRecord {
+    FrontendRecord header;
+    FrontendRecord *then_record, *else_record;
+} ConditionalFrontendRecord;
+typedef char ConditionalFrontendRecordSizeMustBe24[(sizeof(ConditionalFrontendRecord) == 24) ? 1 : -1];
+typedef char ConditionalThenRecordOffsetMustBe16[(offsetof(ConditionalFrontendRecord, then_record) == 16) ? 1 : -1];
+typedef char ConditionalElseRecordOffsetMustBe20[(offsetof(ConditionalFrontendRecord, else_record) == 20) ? 1 : -1];
 typedef char DeclarationFrontendRecordSizeMustBe24[(sizeof(DeclarationFrontendRecord) == 24) ? 1 : -1];
 typedef char DeclarationFrontendRecordSymbolOffsetMustBe16[(offsetof(DeclarationFrontendRecord, symbol) == 16) ? 1 : -1];
 typedef char DeclarationFrontendRecordPayloadOffsetMustBe20[(offsetof(DeclarationFrontendRecord, field14) == 20) ? 1 : -1];
@@ -59,6 +67,7 @@ void __stdcall begin_function_ir(CppSymbol *function, CppSymbol *parameters);
 void reset_frontend_records(void);
 void __stdcall append_frontend_record(FrontendRecord *record, unsigned bytes);
 void begin_frontend_scope(void);
+void begin_if_condition_region(void);
 void end_frontend_scope(void);
 void remove_last_frontend_record(void);
 void __stdcall record_parameter_cleanup(CppSymbol *parameter);

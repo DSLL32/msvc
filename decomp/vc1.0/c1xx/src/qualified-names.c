@@ -5,6 +5,86 @@
 
 SymbolScope *last_lookup_scope; /* original 0x914bc */
 
+/* The operator-name bit (0x40) of original lexical properties at 0xa1d47.
+   Keep the encountered category as token membership, rather than copying the
+   unrelated property bits. Recovery also accepts several internal token forms. */
+unsigned char operator_name_tokens[] = {
+    OP_BIT_AND, OP_LOGICAL_AND, OP_AND_ASSIGN, OP_ASSIGN, 63, 64,
+    OP_POST_DECREMENT, OP_DIVIDE, OP_DIVIDE_ASSIGN, OP_EQUAL, OP_NOT,
+    OP_DEREFERENCE, OP_GREATER, OP_GREATER_EQUAL, OP_POST_INCREMENT,
+    OP_SUBSCRIPT, OP_SHIFT_LEFT_ASSIGN, OP_SHIFT_LEFT, OP_LESS, OP_LESS_EQUAL,
+    OP_SUBTRACT, OP_SUBTRACT_ASSIGN, OP_REMAINDER, OP_REMAINDER_ASSIGN,
+    OP_MULTIPLY, OP_MULTIPLY_ASSIGN, OP_NOT_EQUAL, OP_BIT_OR, OP_OR_ASSIGN,
+    OP_LOGICAL_OR, 89, OP_ADD, OP_ADD_ASSIGN, OP_ARROW, OP_PRE_DECREMENT,
+    OP_PRE_INCREMENT, 95, OP_SHIFT_RIGHT_ASSIGN, OP_SHIFT_RIGHT,
+    OP_COMPLEMENT, OP_NEGATE, OP_BIT_XOR, OP_XOR_ASSIGN,
+    104, 107, 114, 120, 125, 134, 139, TOK_SIZEOF, 142, OP_UNARY_PLUS,
+    TOK_NEW, TOK_DELETE, 157, OP_MEMBER_POINTER, 159, 160, 171, 172, 177, 0
+};
+
+/* Original 0x1ad30..0x1af0c, cdecl, byte result. The semantic value
+   keeps the raw operator byte and interned spelling in separate words. */
+unsigned char read_operator_function_id(void)
+{
+    unsigned char code, token;
+    unsigned index;
+    char *name;
+    token_allocation_flags &= ~1;
+    cpp_parser_flags |= 0x21;
+    token_allocation_flags |= 0x10;
+    read_parser_token();
+    token_allocation_flags &= ~0x10;
+    cpp_parser_flags &= ~0x21;
+    code = current_token_code;
+    switch (code) {
+    case 3: return 3;
+    case 35:
+        token_allocation_flags |= 4;
+        return 154;
+    case OP_ASSIGN:
+        name = name_assignment;
+        goto operator_name;
+    case OP_SUBSCRIPT:
+        token = scan_token();
+        if (current_token_code != 132) {
+            report_syntax_error(543);
+            unget_token(token);
+        }
+        name = intern_identifier("[]");
+        goto operator_name;
+    case OP_CALL:
+        token = scan_token();
+        if (current_token_code != 136) {
+            report_syntax_error(544);
+            unget_token(token);
+        }
+        name = intern_identifier("()");
+        if (declaration_depth > 0) --declaration_depth;
+        goto operator_name;
+    case OP_COMPLEMENT:
+        token_allocation_flags &= ~1;
+        break;
+    case TOK_NEW:
+        name = name_new;
+        goto operator_name;
+    case TOK_DELETE:
+        name = name_delete;
+        goto operator_name;
+    }
+    for (index = 0; operator_name_tokens[index]; ++index) {
+        if (operator_name_tokens[index] == code) {
+            name = intern_identifier(token_spellings[code]);
+            goto operator_name;
+        }
+    }
+    report_syntax_error(833, code == 2 ? current_token_value.name : token_spellings[code]);
+    return 1;
+operator_name:
+    current_token_value.words.high = (unsigned)name;
+    current_token_value.bytes[0] = code;
+    return 153;
+}
+
 /* Original 0x1cc50..0x1d480. The interned spelling is retained separately
    from constructor/destructor internal names throughout recovery. */
 unsigned char __stdcall resolve_identifier_token(char *name)

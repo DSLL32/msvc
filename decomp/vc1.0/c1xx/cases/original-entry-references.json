@@ -14,5 +14,13 @@
     "events_sha256": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "plan": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan",
     "plan_sha256": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f"
+  },
+  "copy_assignment": {
+    "receipt": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/entry-reference/original-receipt.json",
+    "receipt_sha256": "70d1659f217b4066961a98e3d8924e26f1a7c7cc0cbdaf0424156d744bc8bcfa",
+    "events": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/entry-reference/original-events.txt",
+    "events_sha256": "04d3aaab6ec9d2a2b758e97da376dc32ac143fbe495452d68a1b49cb39992704",
+    "plan": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/entry-reference/original-entries.plan",
+    "plan_sha256": "ec416f4ddc1b07283b7e2133dc318ddda3d254a41ce6f24a04a570c3cc098bc9"
   }
 }

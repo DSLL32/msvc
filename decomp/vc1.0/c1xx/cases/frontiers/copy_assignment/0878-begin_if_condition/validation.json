@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_if_condition",
+    "start": 258272,
+    "end": 258389
+  },
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_begin_if_condition_region"
+  ],
+  "next_frontier": "_begin_if_condition_region",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2615711819380522,
+  "total_operation_seconds": 3.0382141955196857,
+  "original_capture_seconds": 1.2681515961885452
+}

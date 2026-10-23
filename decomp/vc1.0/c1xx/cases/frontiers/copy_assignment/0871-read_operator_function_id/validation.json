@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_read_operator_function_id",
+    "start": 109872,
+    "end": 110349
+  },
+  "distinct_direct_callees": [
+    "_intern_identifier@4",
+    "_read_parser_token",
+    "_report_syntax_error",
+    "_scan_token",
+    "_unget_token@4"
+  ],
+  "next_frontier": "_apply_conversion_declarator@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.269628643989563,
+  "total_operation_seconds": 3.17549348436296,
+  "original_capture_seconds": 1.4183761775493622
+}

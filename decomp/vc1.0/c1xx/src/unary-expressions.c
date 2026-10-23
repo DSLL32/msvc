@@ -3,6 +3,35 @@
 #include "unary-expressions.h"
 #include <recon.h>
 
+/* Original 0x5f070..0x5f0e5, stdcall4. Walk the value-producing side
+   of an lvalue expression until its pointer-model source can be inspected. */
+IrToken *__stdcall find_expression_type_base(IrToken *expression)
+{
+    IrToken *right;
+    for (;;) {
+        switch (expression->kind) {
+        case 2: case 0x6e:
+            return expression;
+        case OP_ARROW:
+            return expression->value.pointer;
+        case 0x3f:
+            right = expression->tail.right;
+            expression = expression->type == right->type ? right : expression->value.pointer;
+            break;
+        case OP_SUBSCRIPT: case 0x59: case OP_CALL:
+            expression = expression->value.pointer;
+            break;
+        case 0x67:
+            expression = expression->value.pointer;
+            if (expression->kind == OP_DEREFERENCE)
+                expression = expression->value.pointer;
+            break;
+        default:
+            return 0;
+        }
+    }
+}
+
 /* Original [0x5d8b0,0x5d91e). Taking the address of an adjusted this
    subtraction needs a temporary in the special member-displacement mode. */
 int __stdcall requires_address_temporary(IrToken *expression)

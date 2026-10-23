@@ -1,6 +1,30 @@
 /* Canonical type sets in the compiler's permanent inline vectors. */
+#include <string.h>
 #include "class-type-sets.h"
+#include "global-ir.h"
 #include <recon.h>
+
+/* Original 0x30a50..0x30a71, stdcall4. Conversion targets omit the
+   function shape and linkage/distance bits before canonical interning. */
+CType *__stdcall canonical_conversion_type(CppSymbol *function)
+{
+    CType *type = drop_first_type_shape(strip_based_shape(function->type));
+    type->attributes &= 0xf088;
+    return intern_type((TypeDescription *)type);
+}
+
+/* Original 0x4e4d0..0x4e52e, cdecl. Removal keeps the vector allocation
+   and slides the occupied suffix through the shared memcpy/memmove entry. */
+TypeSet *remove_type_set(TypeSet *set, CType *type)
+{
+    int position;
+    if (!locate_inline_pointer(set, type, &position)) return set;
+    if (position + 1 < set->count)
+        memmove(&set->items[position], &set->items[position + 1],
+            (set->count - position - 1) * sizeof(void *));
+    --set->count;
+    return set;
+}
 
 /* Original 0x4e370..0x4e37a. Keep the empty-set factory as a separate call. */
 TypeSet *new_type_set(void)

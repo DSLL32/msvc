@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 871,
-  "driver_functions": 778,
+  "accepted_frontiers": 880,
+  "driver_functions": 787,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 785,
-  "current_frontier": "exit:0",
-  "original_frontier_va": null,
+  "reconstructed_source_functions": 794,
+  "current_frontier": "_validate_based_self",
+  "original_frontier_va": "0x3b0d0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "exit:0",
-    "original_va": null
+    "current_frontier": "_validate_based_self",
+    "original_va": "0x3b0d0"
   },
-  "current_native_application_entries": 225,
+  "current_native_application_entries": 10,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 235506,
+    "accepted_code_bytes": 236673,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 49.43264108409002,
-    "accepted_frontiers": 871,
-    "source_functions": 785,
-    "accepted_source_text_and_switch_bytes": 223661,
+    "accepted_code_percent": 49.67759404556503,
+    "accepted_frontiers": 880,
+    "source_functions": 794,
+    "accepted_source_text_and_switch_bytes": 224828,
     "section_ranges": [
       [
         94208,
@@ -34,12 +34,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 235506,
+    "accepted_code_bytes": 236673,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 49.43264108409002,
-    "accepted_frontiers": 871,
-    "source_functions": 785,
-    "accepted_source_text_and_switch_bytes": 223661,
+    "accepted_code_percent": 49.67759404556503,
+    "accepted_frontiers": 880,
+    "source_functions": 794,
+    "accepted_source_text_and_switch_bytes": 224828,
     "section_ranges": [
       [
         94208,
@@ -47,10 +47,10 @@
       ]
     ]
   },
-  "complete_frontend_case": true,
-  "active_case": "virtual_diamond",
-  "status": "virtual_diamond reconstruction complete",
-  "latest_verification": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json",
+  "complete_frontend_case": false,
+  "active_case": "copy_assignment",
+  "status": "copy_assignment reconstruction in progress",
+  "latest_verification": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -60,8 +60,13 @@
       "status": "complete",
       "frontier": "exit:0",
       "latest_verification": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json"
+    },
+    "copy_assignment": {
+      "status": "partial",
+      "frontier": "_validate_based_self",
+      "latest_verification": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/validation.json"
     }
   },
-  "next_operation": "Seed the next approved C++ queue case",
+  "next_operation": "Continue _validate_based_self reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json"
 }

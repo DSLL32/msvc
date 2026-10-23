@@ -120,7 +120,6 @@ void __stdcall add_case_label(IrToken *expression) { __asm { int 3 } }
 void __stdcall browser_base_class(BaseClassLink *base) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
-void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape) { __asm { int 3 } }
 void __stdcall begin_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
 void begin_do_condition(void) { __asm { int 3 } }
 void begin_do_statement(void) { __asm { int 3 } }
@@ -129,7 +128,6 @@ void begin_for_body(void) { __asm { int 3 } }
 void begin_for_condition(void) { __asm { int 3 } }
 void begin_for_increment(void) { __asm { int 3 } }
 void begin_if_body(void) { __asm { int 3 } }
-void begin_if_condition(void) { __asm { int 3 } }
 unsigned __stdcall begin_implicit_statement_scope(IrToken *label) { __asm { int 3 } return 0; }
 void begin_nested_initializer(void) { __asm { int 3 } }
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
@@ -174,7 +172,6 @@ void emit_inline_assembly(void) { __asm { int 3 } }
 void emit_pending_function_cleanup(void) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
-char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
@@ -259,7 +256,6 @@ unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
 void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
 void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
-unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
 
 
 
@@ -360,8 +356,6 @@ void browser_end_tag(void) { __asm { int 3 } }
 void emit_deferred_class_terminator(void) { __asm { int 3 } }
 
 int type_set_contains(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
-TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
-CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
@@ -477,7 +471,6 @@ int __stdcall check_conversion_qualifiers(unsigned char operation, unsigned shor
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
 void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
 IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection) { __asm { int 3 } return 0; }
-IrToken *__stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }

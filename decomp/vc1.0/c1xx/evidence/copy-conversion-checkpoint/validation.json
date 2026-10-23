@@ -1,0 +1,23 @@
+{
+  "status": "verified",
+  "seconds": 8.445494573563337,
+  "coverage": {
+    "accepted_code_bytes": 236673,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 49.67759404556503,
+    "accepted_frontiers": 880,
+    "source_functions": 794,
+    "accepted_source_text_and_switch_bytes": 224828,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "frontier": "_validate_based_self",
+  "functions": "nine complete new source functions through conversion-name and conditional-region setup; fresh original/native buffers/state/files/streams exact per acceptance",
+  "graph": "shared CFG with RET/reference/callback/ownership/extent checks",
+  "residual_data": "62 operator-name lexical memberships plus zero sentinel checked against encountered original 0x40 property bit; changed membership rejected",
+  "native": "three cached original-backed cases; full boundary negative suite"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 871,
+  "accepted": "_read_operator_function_id",
+  "terminal": "_apply_conversion_declarator@8",
+  "original_capture": "cases/frontiers/copy_assignment/0871-read_operator_function_id/original-receipt.json",
+  "original_capture_sha256": "08b672be7c2078cf27e9a1933cc6ff698f48165099dfd16a2fa8d7c46ecc5da9",
+  "original_events": "cases/frontiers/copy_assignment/0871-read_operator_function_id/original-events.txt",
+  "original_events_sha256": "b74a32994837936861b55522716aa87a4ceb3f84e9f35d7470dc1640c5485a12",
+  "original_configuration": "cases/frontiers/copy_assignment/0871-read_operator_function_id/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

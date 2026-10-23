@@ -875,7 +875,16 @@
     "_mangle_pointer_target@8",
     "_mangle_pointee_type@8",
     "_mangle_number@8",
-    "_symbol_element_size@4"
+    "_symbol_element_size@4",
+    "_read_operator_function_id",
+    "_apply_conversion_declarator@8",
+    "_encode_type_name@4",
+    "_mangle_type_identifier@8",
+    "_canonical_conversion_type@4",
+    "_remove_type_set",
+    "_find_expression_type_base@4",
+    "_begin_if_condition",
+    "_begin_if_condition_region"
   ],
   "driver": [
     {
@@ -2238,7 +2247,7 @@
     {
       "name": "_apply_conversion_declarator@8",
       "start": 245904,
-      "end": 245905
+      "end": 246081
     },
     {
       "name": "_apply_declarator_modifier@8",
@@ -2303,7 +2312,7 @@
     {
       "name": "_begin_if_condition",
       "start": 258272,
-      "end": 258273
+      "end": 258389
     },
     {
       "name": "_begin_implicit_statement_scope@4",
@@ -2538,7 +2547,7 @@
     {
       "name": "_encode_type_name@4",
       "start": 123760,
-      "end": 123761
+      "end": 123803
     },
     {
       "name": "_end_braced_initializer@4",
@@ -3018,7 +3027,7 @@
     {
       "name": "_read_operator_function_id",
       "start": 109872,
-      "end": 109873
+      "end": 110349
     },
     {
       "name": "_resolve_identifier_token@4",
@@ -3809,7 +3818,7 @@
     {
       "name": "_remove_type_set",
       "start": 320720,
-      "end": 320721
+      "end": 320815
     },
     {
       "name": "_begin_conversion_functions@8",
@@ -3829,7 +3838,7 @@
     {
       "name": "_canonical_conversion_type@4",
       "start": 199248,
-      "end": 199249
+      "end": 199282
     },
     {
       "name": "_inline_vector_count",
@@ -4555,7 +4564,7 @@
     {
       "name": "_find_expression_type_base@4",
       "start": 389232,
-      "end": 389233
+      "end": 389350
     },
     {
       "name": "_reject_special_indirection@8",
@@ -7028,6 +7037,16 @@
       "name": "_mangle_pointee_shape@8",
       "start": 277744,
       "end": 277745
+    },
+    {
+      "name": "_mangle_type_identifier@8",
+      "start": 277296,
+      "end": 277344
+    },
+    {
+      "name": "_begin_if_condition_region",
+      "start": 258400,
+      "end": 258458
     }
   ],
   "cases": {
@@ -7062,6 +7081,26 @@
         "cases/frontiers/virtual_diamond/0868-mangle_pointee_type-8/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0869-mangle_number-8/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/frontier-extension.json"
+      ]
+    },
+    "copy_assignment": {
+      "fixture": "../fixtures/c1xx-copy-assignment",
+      "native_reference": "cases/native-copy-assignment",
+      "frontiers": "cases/frontiers/copy_assignment",
+      "accepted_from": 871,
+      "terminal": "_validate_based_self",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0879-begin_if_condition_region/original-events.txt",
+      "original_seed": "cases/copy_assignment-seed",
+      "frontier_extensions": [
+        "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0872-apply_conversion_declarator-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0873-encode_type_name-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0874-mangle_type_identifier-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0875-canonical_conversion_type-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0876-remove_type_set/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0877-find_expression_type_base-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0878-begin_if_condition/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0879-begin_if_condition_region/frontier-extension.json"
       ]
     }
   },
@@ -9086,6 +9125,14 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "token_membership",
+      "name": "_operator_name_tokens",
+      "original": 662855,
+      "count": 63,
+      "domain": 213,
+      "mask": 64
     }
   ],
   "buffered_streams": [

@@ -1,0 +1,28 @@
+entry _read_operator_function_id rva 0000ad30 byte 53
+entry _apply_conversion_declarator@8 rva 0002c090 byte 53
+entry _encode_type_name@4 rva 0000e370 byte 81
+exception 80000003 rva 00033b30 base 00010000 first 1
+buffer 0 1 00
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016400000000
+state 0 00000000
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 00000000
+state 5 00000001
+state 6 80000004
+state 7 00000000
+state 8 00000087
+state 9 00000000
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+caller 0000e388
+argument 0 002cfa68
+argument 1 007e92d8
+argument 2 002f0b44
+argument 3 00000208
+exit 99

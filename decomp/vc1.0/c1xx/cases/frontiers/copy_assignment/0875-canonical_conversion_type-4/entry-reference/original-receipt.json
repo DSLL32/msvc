@@ -1,0 +1,55 @@
+{
+  "case": "copy_assignment",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 875,
+  "terminal": "_remove_type_set",
+  "candidate": "_canonical_conversion_type@4",
+  "pending_accepted": [],
+  "configuration_sha256": "a70a9f65c86208a0ae51df3dbdd010a3cf9eee99487edf13267c165eb68b26b6",
+  "capture_seconds": 1.1177802458405495,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "copy.cpp": {
+      "bytes": 959,
+      "sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment",
+  "first_entry_projection": {
+    "accepted_first": 871,
+    "accepted_last": 876,
+    "accepted_prefix_sha256": "0032b799165a40f4842b04b8434aab8df4344a8586bdabc9c311ab2c2b2f470a",
+    "expected": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4"
+    ],
+    "observed": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4"
+    ],
+    "events_sha256": "15e90c5719d112f4bf9577ebf13ea8f57f9a124d1273430218fe8343db8be3f2",
+    "plan_sha256": "7735bed6a838c6c448a92efed2a1536bfd1be3c9be6234665b45b76078447fe6"
+  }
+}

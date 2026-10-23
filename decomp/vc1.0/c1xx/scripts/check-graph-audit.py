@@ -100,6 +100,16 @@ def main():
         (snapshot/'build/c1xx.exe').symlink_to(path)
         run('reject-moved-callback-sentinel',success=False,contains='callback identity',
             invocation=[sys.executable,str(BINARY/'scripts/audit-data.py')],cwd=snapshot)
+        # The encountered lexical property is a logical membership table,
+        # independently checked against the original property's 0x40 bit.
+        table=next(t for t in cfg['tables'] if t['kind']=='token_membership')
+        changed=bytearray(image.data);offset=image.offset(names[table['name']])
+        assert changed[offset]==0x3a
+        changed[offset]=2
+        path=mutated('operator-membership',changed)
+        (snapshot/'build/c1xx.exe').unlink();(snapshot/'build/c1xx.exe').symlink_to(path)
+        run('reject-changed-operator-membership',success=False,contains='lexical property membership differs',
+            invocation=[sys.executable,str(BINARY/'scripts/audit-data.py')],cwd=snapshot)
     assert {str(path):sha(path) for path in frozen}==hashes,'audit inputs changed during checks'
     receipt=dict(schema=1,policy='shared Rust CFG plus exact contextual Python data policy',
         frozen=hashes,flags=audit.FLAGS,checks=records,seconds=time.monotonic()-started)

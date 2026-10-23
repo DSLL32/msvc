@@ -1,0 +1,43 @@
+{
+  "case": "copy_assignment",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 871,
+  "terminal": "_read_operator_function_id",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "1cb199d5f0e1cb1304f3bef58a8850879b8d6d9cffab9311ca17988e8dff7723",
+  "capture_seconds": 1.4186627976596355,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "copy.cpp": {
+      "bytes": 959,
+      "sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment",
+  "first_entry_projection": {
+    "accepted_first": 871,
+    "accepted_last": 871,
+    "accepted_prefix_sha256": "3db75977543bea91d359f591bdd62c4436579cdf19e451d5280d13213c4d6406",
+    "expected": [],
+    "observed": [],
+    "events_sha256": "853314369dbf7d613a5a9a57d13da563132604a3ac2b70f9a6c52762e935ee1d",
+    "plan_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
