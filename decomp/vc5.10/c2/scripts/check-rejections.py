@@ -138,6 +138,14 @@ def main():
             path=root/'o/receipt.json';receipt=json_at(path);receipt['globals_complete_hashes'][name]=sha((root/'o'/name).read_bytes())
             if name=='unmodeled-original-data.bin':receipt['unmodeled_original_data']['sha256']=sha((root/'o'/name).read_bytes())
             write_json(path,receipt)
+        if 'input_file'in current_state['globals_complete']:
+            def wrong_initializer_original(root,key,value):
+                path=root/'o/events.txt';raw=path.read_text();raw=re.sub(r'^(globals-complete initializer-input .*?'+key+'=)[0-9a-f]+',lambda m:m[1]+value,raw,flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')
+            mutations += [('initializer reader omits actual FILE formal',lambda r:complete_field(r,'formals',[])),
+                          ('initializer reader actual formal type differs',lambda r:complete_field(r,'formals',[{'name':'input','type':'int *'}])),
+                          ('initializer reader FILE points to closed globals slot',lambda r:complete_changed(r,lambda v:v['input_file'].__setitem__('index',4))),
+                          ('initializer reader FILE loses main input alias',lambda r:complete_changed(r,lambda v:v['input_file'].__setitem__('main_alias',False))),
+                          ('initializer reader original FILE argument differs',lambda r:wrong_initializer_original(r,'file','7803f5f0'))]
         mutations += [('complete globals invent actual formal',lambda r:complete_field(r,'formals',[{'name':'unused','type':'int'}])),
                       ('complete globals opaque context anchor loses identity',lambda r:complete_field(r,'opaque_context_anchor_alias',False)),
                       ('complete globals arena cursor differs',lambda r:complete_field(r,'pool_cursor',1888)),
@@ -842,7 +850,13 @@ def main():
             if a.validation:shutil.copytree(a.validation.parent,root/'v')
             change(root)
             if a.validation:
-                path=root/'v/receipt.json';validation=json_at(path);validation['original_execution_receipt_sha256']=sha((root/'o/receipt.json').read_bytes());write_json(path,validation)
+                path=root/'v/receipt.json';validation=json_at(path);validation['original_execution_receipt_sha256']=sha((root/'o/receipt.json').read_bytes())
+                if 'pending_metadata_correction' in validation:
+                    # Mutation controls deliberately rebind copied receipt hashes
+                    # to test the underlying semantic checks, not only certificate staleness.
+                    validation['pending_metadata_correction']['original_execution_receipt_sha256']=sha((root/'o/receipt.json').read_bytes())
+                    validation['pending_metadata_correction']['native_execution_receipt_sha256']=sha((root/'n/receipt.json').read_bytes())
+                write_json(path,validation)
             try:preflight(a.function,root/'o',root/'n',root/'v/receipt.json'if a.validation else None)
             except (AssertionError,KeyError,ValueError):passed.append(name)
             else:raise AssertionError('negative accepted: '+name)

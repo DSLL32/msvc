@@ -39,6 +39,8 @@ def main():
                         classification='application',accepted=False,
                         extent_evidence=record['extent_evidence'],
                         provenance='Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit')
+            for key in ('code_chunks','shared'):
+                if record.get(key):item[key]=record[key]
         pending.append(item)
     (BINARY/'runtime.json').write_text(json.dumps(pending,indent=2)+'\n')
     rebuilt=[]

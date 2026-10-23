@@ -11,11 +11,22 @@ def compare(original,native,validation=None):
     config,_=trial_configuration((BINARY/'functions.json').read_bytes())
     from case_inputs import manifest,normalized
     case_directory,case_value,target_environment=manifest(config)
+    historical_base=None
+    if validation:
+        supplied=json.loads(Path(validation).read_text())
+        if 'pending_metadata_correction' in supplied:
+            from pending_metadata import certificate
+            claim=supplied['pending_metadata_correction']
+            correction_path=BINARY/claim['correction_path']
+            assert (Path(validation).parent/'pending-correction.json').read_bytes()==correction_path.read_bytes(), 'static correction snapshot differs'
+            assert claim==certificate(original,native,(BINARY/'functions.json').read_bytes(),correction_path,original_bytes,inventory), 'derived physical/static certificate differs'
+            assert (Path(validation).parent/'configuration.json').read_bytes()==trial_configuration((BINARY/'functions.json').read_bytes())[1], 'derived audit configuration differs'
+            historical_base=(original/'base_configuration.json').read_bytes()
     receipts=[]
     for path,is_native in ((original,False),(native,True)):
         receipt=json.loads((path/'receipt.json').read_text())
-        assert (path/'base_configuration.json').read_bytes()==(BINARY/'functions.json').read_bytes(),'base configuration changed'
-        receipt_bound(receipt,(path/'configuration.json').read_bytes(),is_native)
+        assert (path/'base_configuration.json').read_bytes()==(historical_base if historical_base is not None else (BINARY/'functions.json').read_bytes()),'base configuration changed'
+        receipt_bound(receipt,(path/'configuration.json').read_bytes(),is_native,historical_base)
         for stream in ('stdout','stderr'):
             data=(path/(stream+'.bin')).read_bytes()
             assert receipt[stream]=={'bytes':len(data),'sha256':sha(data)},'stream evidence changed'
@@ -55,7 +66,7 @@ def compare(original,native,validation=None):
         if support['kind']=='import'and support['name']in config['accepted']:
             identity=graph['import_catalogs']['original']['slots'][str(support['iat'])]
             assert identity=={'dll':support['dll'].lower(),'name':support['symbol']},'import-support slot identity differs'
-    assert audit['configuration_sha256']==receipts[0]['configuration_sha256'],'trial audit configuration differs'
+    assert audit['configuration_sha256']==sha(trial_configuration((BINARY/'functions.json').read_bytes())[1]),'trial audit configuration differs'
     assert audit['rebuilt_sha256']==sha((BINARY/'build/c2.exe').read_bytes()),'current trial reconstruction differs'
     if config.get('retain_capture_binaries'):
         historical_audit=(original/'audit-receipt.json').read_bytes()
@@ -399,10 +410,16 @@ def compare(original,native,validation=None):
             return image[address-0x48e000:address-0x48e000+size]
         wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()})))
         native_complete=dict(state['globals_complete']);streams=native_complete.pop('streams');wanted['formals']=[];wanted['opaque_context_anchor_alias']=True
+        if expected.get('frontier_contract')=='initializer-input':
+            wanted['formals']=[{'name':'input','type':'ShimFILE *'}];wanted['input_file']={'index':3,'main_alias':True}
         assert struct.unpack('<I',read(0x497f58,4))[0]==0x49e300,'original opaque context identity changed'
         assert native_complete==wanted,'completed global symbols/sections/queue/arena or actualformals differ'
         segment=text.rsplit('observe %08x '%address,1)[1]
-        assert re.findall(r'^globals-complete no-formals$',segment,re.M)==['globals-complete no-formals']
+        if expected.get('frontier_contract')=='initializer-input':
+            actual=re.findall(r'^globals-complete initializer-input file=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M);assert len(actual)==1
+            file,iob=[int(v,16)for v in actual[0]]
+            assert file==iob+96==struct.unpack('<I',read(0x499698,4))[0],'initializer reader actualfastcall FILE does not alias main stream slot3'
+        else:assert re.findall(r'^globals-complete no-formals$',segment,re.M)==['globals-complete no-formals']
         actual=re.findall(r'^C2-GLOBALS-COMPLETE (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(actual)==1 and json.loads(actual[0])==state['globals_complete'],'missing actual complete-data GDB observation'
         assert state['globals']['0x491050']==151 and state['globals']['0x491040']==1759,'completed symbol counter/accounting differs'
@@ -783,7 +800,7 @@ def compare(original,native,validation=None):
         assert (original/'option-value.bin').read_bytes()==b'/?\0'
         table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
         assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
-    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy','filename-record','symbol-type-input','type-code-input','compact-value-input','compact-short-input','symbol-storage-input','section-lookup-input','section-serial-input','symbol-put-input'):
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy','filename-record','symbol-type-input','type-code-input','compact-value-input','compact-short-input','symbol-storage-input','section-lookup-input','section-serial-input','symbol-put-input','globals-complete'):
         from data_evidence import model,plan,verify_original_state,verify_native_state
         data_model=model(config)
         assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))

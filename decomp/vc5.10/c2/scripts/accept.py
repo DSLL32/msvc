@@ -66,6 +66,9 @@ def main():
     shutil.copyfile(Path(result['graph_report']).parent/'data-evidence.json',validation_folder/'data-evidence.json')
     shutil.copyfile(Path(result['graph_report']).parent/'win32-inputs.json',validation_folder/'win32-inputs.json')
     archive_inputs(Path(result['graph_report']).parent/'win32-inputs',json.loads((Path(result['graph_report']).parent/'win32-inputs.json').read_text()),validation_folder/'win32-inputs.tar.gz')
+    for name in ('configuration.json','pending-correction.json'):
+        source=Path(result['validation']).parent/name
+        if source.exists(): shutil.copyfile(source,validation_folder/name)
     record={'function':a.function,'match':result,'original_capture':str(a.original.resolve()),'native_capture':str(a.native.resolve()),'base_configuration_sha256':sha(before),'review':gate}
     (a.proof/'acceptance.json').write_text(json.dumps(record,indent=2)+'\n')
     assert (BINARY/'functions.json').read_bytes()==before,'configuration changed before acceptance write'

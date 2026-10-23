@@ -127,3 +127,8 @@ void read_global_symbols(void)
     read_symbols(NULL);
     fclose(c2_globals_input);
 }
+
+void read_initializers(void)
+{
+    read_initializer_records(c2_input);
+}

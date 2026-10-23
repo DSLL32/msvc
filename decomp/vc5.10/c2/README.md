@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 58 application functions (11653 bytes) and five CRT
+Current reconstruction has 59 application functions (11664 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and stops at register initialization. Four import thunks (24 bytes) and contextual
-text tables (567 bytes) remain separate. The 12091 source bytes are 2.109% of
+has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and stops at the typed initializer-record reader. Four import thunks (24 bytes) and contextual
+text tables (567 bytes) remain separate. The 12102 source bytes are 2.111% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -129,3 +129,11 @@ arena with only typed pointer fields normalized, plus all1024 hashslots,
 ten sections, seven correctly sized function records, pending links and both
 FILE records. Proof0063 binds the accepted pool allocator's explicit header
 writes and4088-byte zero writer; no malloc slack defaults are assumed.
+
+The11-byte `read_initializers` tail wrapper is accepted with its original FILE*
+fastcall child boundary. Proof0064 preserves the original partial pending index
+and derives a separately reviewed complete ownership index without changing
+mask, controller, source or executable inputs. The child remains INT3 and has
+no reconstruction credit. Its cold chunk is126 bytes, primary163 bytes and
+external dispatch data49 bytes. All104 current protocol rejection controls and
+26 focused forbidden-delta controls pass; timings are recorded separately.

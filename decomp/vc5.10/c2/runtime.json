@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_initialize_registers",
-    "start": 4535034,
-    "end": 4535035,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_initialize_optimizer",
     "start": 4535045,
     "end": 4535046,
@@ -218,5 +210,29 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
+  },
+  {
+    "name": "@read_initializer_records@4",
+    "start": 4531154,
+    "end": 4531317,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/read-initializers-disassembly.txt:163B primary4523d2..452475 RET0; complete126B cold4741c6..474244 reached by dispatch-target5 and primaryJA, with recursivecall and jumps back452443; separate32B targets+17B classes452478..4524a9. Static ownership/tailABI only, stillINT3/no unmask/sourcecredit.",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit",
+    "code_chunks": [
+      [
+        4669894,
+        4670020
+      ]
+    ],
+    "shared": [
+      [
+        4531320,
+        4531369
+      ]
+    ]
   }
 ]

@@ -105,8 +105,8 @@ def audit_input_hashes():
     out['graph-audit']=sha(graph_audit_binary().read_bytes())
     return out
 
-def receipt_bound(receipt, snapshot, native=False):
-    base_bytes=(BINARY/'functions.json').read_bytes()
+def receipt_bound(receipt, snapshot, native=False, base_bytes=None):
+    if base_bytes is None: base_bytes=(BINARY/'functions.json').read_bytes()
     trial,trial_bytes=trial_configuration(base_bytes)
     assert snapshot==trial_bytes,'stale/different immutable trial configuration'
     assert receipt['base_configuration_sha256']==sha(base_bytes)

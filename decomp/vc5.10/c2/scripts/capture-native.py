@@ -542,6 +542,9 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses)
     info['globals_complete']['formals']=[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument]
     info['globals_complete']['opaque_context_anchor_alias']=int(gdb.parse_and_eval('section_context'))==int(gdb.parse_and_eval('&section_context_identity'))
+    if records[0].get('frontier_contract')=='initializer-input':
+        argument=frame.read_var('input');iob=int(gdb.parse_and_eval('&recon_iob[0]'))
+        info['globals_complete']['input_file']={'index':(int(argument)-iob)//32,'main_alias':int(argument)==int(gdb.parse_and_eval('c2_input'))}
     first=gdb.parse_and_eval('c2_input');second=gdb.parse_and_eval('c2_globals_input');iob=int(gdb.parse_and_eval('&recon_iob[0]'))
     info['globals_complete']['streams']={'input_index':(int(first)-iob)//32,'globals_index':(int(second)-iob)//32,
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),

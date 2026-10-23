@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "historical_base_sha256": "b9518543169942cdd4b0ff7ab2de1de3366116fbd336f919ddd8b7f40c76e61e",
+  "current_base_sha256": "c703de8366f4f26be98e2e10292f5ae7191aa5f4e33f11f14d355202f6b27565",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "changes": [
+    {
+      "name": "@read_initializer_records@4",
+      "old": {
+        "code_chunks": [
+          [
+            4670000,
+            4670020
+          ]
+        ],
+        "extent_evidence": "cases/analysis/read-initializers-disassembly.txt:163Bprimary4523d2..452475 includingRET0 plus20B errorcold474230..474244; separate32B targets+17B classes452478..4524a9. Index only for wrapper tailRET inheritance; stillINT3/no unmask/sourcecredit."
+      },
+      "new": {
+        "code_chunks": [
+          [
+            4669894,
+            4670020
+          ]
+        ],
+        "extent_evidence": "cases/analysis/read-initializers-disassembly.txt:163B primary4523d2..452475 RET0; complete126B cold4741c6..474244 reached by dispatch-target5 and primaryJA, with recursivecall and jumps back452443; separate32B targets+17B classes452478..4524a9. Static ownership/tailABI only, stillINT3/no unmask/sourcecredit."
+      }
+    }
+  ],
+  "owned_intervals": [
+    {
+      "owner": "@read_initializer_records@4",
+      "kind": "code",
+      "start": 4531154,
+      "end": 4531317,
+      "sha256": "eaf94b27fd67f4840cc10adc1699087235548145d78352a9c0511326e6c06808"
+    },
+    {
+      "owner": "@read_initializer_records@4",
+      "kind": "code",
+      "start": 4669894,
+      "end": 4670020,
+      "sha256": "1718ada6ec24222ba9ff12e970054c26cafeb43e053feb599cfff6a5a26e7eb6"
+    },
+    {
+      "owner": "@read_initializer_records@4",
+      "kind": "data",
+      "start": 4531320,
+      "end": 4531369,
+      "sha256": "7a7335efc4cc7a24adaf71fa9b12a22ace15e65a5ecf9a087fb2ffe867ccaac4"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "cases/analysis/read-initializers-disassembly.txt",
+      "sha256": "4fd64020b293d6beda8306a1320b10166ca24ac99c46cf47073e257e01d532aa"
+    }
+  ],
+  "scope": "Only complete pending original ownership; no source, extent, payload, accepted-function credit or physical execution changes."
+}
