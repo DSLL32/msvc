@@ -1017,7 +1017,8 @@
     "_layout_bit_field@16",
     "_begin_braced_initializer@4",
     "_push_braced_initializer@4",
-    "_copy_initializer_symbol@12"
+    "_copy_initializer_symbol@12",
+    "_begin_nested_initializer"
   ],
   "driver": [
     {
@@ -2460,7 +2461,7 @@
     {
       "name": "_begin_nested_initializer",
       "start": 292272,
-      "end": 292273
+      "end": 292389
     },
     {
       "name": "_begin_object_initializer@4",
@@ -7648,6 +7649,16 @@
       "name": "_copy_initializer_symbol@12",
       "start": 291856,
       "end": 291966
+    },
+    {
+      "name": "_flush_initializer_constructors",
+      "start": 295152,
+      "end": 295153
+    },
+    {
+      "name": "_advance_braced_initializer@4",
+      "start": 289856,
+      "end": 289857
     }
   ],
   "cases": {
@@ -7848,7 +7859,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_begin_nested_initializer",
+      "terminal": "_flush_initializer_constructors",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7871,7 +7882,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7889,7 +7900,8 @@
         "cases/frontiers/state_machine_debug/1009-layout_bit_field-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1010-begin_braced_initializer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1013-begin_nested_initializer/frontier-extension.json"
       ]
     }
   },

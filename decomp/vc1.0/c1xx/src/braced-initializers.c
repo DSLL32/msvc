@@ -107,3 +107,23 @@ void __stdcall copy_initializer_symbol(CppSymbol *destination, ClassInfo *class_
         *class_info = *source->detail.class_info;
     }
 }
+
+/* Original 0x475b0..0x47625. Enter another explicit brace level,
+   preserving constructor batching and one excess-initializer diagnostic. */
+void begin_nested_initializer(void)
+{
+    flush_initializer_constructors();
+    if (braced_initializer_depth < 0) return;
+    if (is_scalar_initializer_symbol(current_braced_initializer->symbol))
+        push_braced_initializer(current_braced_initializer->symbol);
+    else if (!advance_braced_initializer(0)) {
+        if (!initializer_excess_reported) {
+            ++initializer_excess_reported;
+            report_syntax_error(78);
+        }
+        return;
+    }
+    current_braced_initializer->flags = 1;
+    if (is_scalar_initializer_symbol(current_braced_initializer->symbol))
+        current_braced_initializer->flags |= 4;
+}

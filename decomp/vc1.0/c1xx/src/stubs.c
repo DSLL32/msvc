@@ -137,7 +137,7 @@ void begin_else_body(void) { __asm { int 3 } }
 void begin_for_body(void) { __asm { int 3 } }
 void begin_for_condition(void) { __asm { int 3 } }
 void begin_for_increment(void) { __asm { int 3 } }
-void begin_nested_initializer(void) { __asm { int 3 } }
+
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
 void begin_seh_filter(void) { __asm { int 3 } }
 void begin_seh_finally(void) { __asm { int 3 } }
@@ -623,3 +623,6 @@ IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __as
 
 
 void begin_line_record_debug_info(void) { __asm { int 3 } }
+
+void flush_initializer_constructors(void) { __asm { int 3 } }
+int __stdcall advance_braced_initializer(int mode) { __asm { int 3 } return 0; }
