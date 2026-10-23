@@ -1,0 +1,7 @@
+{
+  "scope": "SDK _mbsupr declaration/remap and explicit unsupported body for unvisited CL branch; refresh surface checks for now-implemented ASCII calls",
+  "native_build_checks_seconds": {
+    "gcc": 1.0345547553151846,
+    "clang": 1.2942006718367338
+  }
+}

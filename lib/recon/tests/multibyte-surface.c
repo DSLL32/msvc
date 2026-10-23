@@ -7,9 +7,11 @@ int main(int argc,char **argv)
     memset(target,0xa5,sizeof(target));
     if(argc<2) return 0;
     if(!strcmp(argv[1],"compare")) return _mbsncmp((const unsigned char *)"a",(const unsigned char *)"b",1)!=-1;
-    if(!strcmp(argv[1],"find")) return _mbschr((const unsigned char *)"a",'a')!=NULL;
+    if(!strcmp(argv[1],"find")) return _mbschr(text,'a')!=text;
     if(!strcmp(argv[1],"advance")) return _mbsinc(text)!=text+1;
     if(!strcmp(argv[1],"copy")) { _mbccpy(target,text); return target[0]!='a' || target[1]!=0xa5; }
-    if(!strcmp(argv[1],"space")) return _ismbcspace(' ');
+    if(!strcmp(argv[1],"space")) return _ismbcspace(' ')!=8;
+    if(!strcmp(argv[1],"upper")) return _mbsupr(target)==NULL;
+    if(!strcmp(argv[1],"pbrk")) return _mbspbrk(text,text)==NULL;
     return 1;
 }

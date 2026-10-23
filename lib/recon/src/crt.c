@@ -1384,6 +1384,8 @@ WEAK int recon_mbsnbicmp(const unsigned char *left,const unsigned char *right,si
     }
     return 0;
 }
+WEAK unsigned char *recon_mbsupr(unsigned char *text)
+{ (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)
 { (void)text; (void)accept; recon_unsupported("unreviewed _mbspbrk"); return NULL; }
 WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
