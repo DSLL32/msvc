@@ -23,7 +23,7 @@ InlineBinding *__fastcall bind_inline_arguments(Function *function, Node *entry,
 void __fastcall check_inline_argument_aliases(InlineBinding *bindings);
 int __fastcall analyze_inline_returns(Expression *entry, InlineBinding *bindings);
 void __fastcall merge_inline_scope(ScopeHash *outer, ScopeHash *inner);
-Node *__fastcall new_inline_storage(signed char kind, unsigned bytes);
+Node *__fastcall new_inline_storage(unsigned short kind, unsigned bytes);
 InlineBinding *__fastcall find_inline_binding(InlineBinding *bindings, SymbolHeader *symbol);
 Node *__fastcall inline_argument_prefix(InlineBinding *bindings);
 void __fastcall materialize_inline_arguments(Function *function, InlineSite *site, InlineBinding *bindings);

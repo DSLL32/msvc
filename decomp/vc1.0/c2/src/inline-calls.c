@@ -3,6 +3,8 @@
 #include "tree-rewrite.h"
 #include "function-input.h"
 #include "expression-fields.h"
+#include "work-optimizer.h"
+#include "flow-edges.h"
 #include <recon.h>
 InlineSite *free_inline_sites; /* 0007b9ac */
 InlineBinding *free_inline_bindings; /* 0007b9b0 */
@@ -92,7 +94,7 @@ int __fastcall inline_function_calls(Function *function, int depth, int budget)
                 can_repeat_tree(site->parent->left.node)) result = site->parent->left.node;
             else if (returns > 2 || other_call || (body->field28 & 1) ||
                      tree_contains_opcode(site->expression->tree, 0x3b))
-                result = new_inline_storage((signed char)(symbol->field24 & 15), symbol->field28);
+                result = new_inline_storage((unsigned short)(symbol->field24 & 15), symbol->field28);
         }
         if (hidden && !result) {
             binding = find_inline_binding(bindings, body->return_temp);
@@ -238,4 +240,95 @@ InlineBinding *__fastcall new_inline_binding(Node *parameter, Node *argument)
     binding->storage = 0;
     binding->flags &= ~1U;
     return binding;
+}
+
+/* Original [00064ea0,00064f08). Pairwise argument effects can revoke
+   direct substitution. Constants and an explicitly independent later
+   argument do not conflict; stop after the first invalidating pair. */
+void __fastcall check_inline_argument_aliases(InlineBinding *bindings)
+{
+    InlineBinding *first, *second;
+    Node *argument, *other;
+    unsigned direct;
+    for (first = bindings; first; first = first->next) {
+        argument = first->argument;
+        direct = first->flags & 1;
+        for (second = first->next; second; second = second->next) {
+            if (!direct && !(second->flags & 1)) continue;
+            other = second->argument;
+            if (argument->left.node->opcode == 0x33 || other->left.node->opcode == 0x33 ||
+                (other->attributes.words.flags & 0x40)) continue;
+            if (work_effect_invalidates_value(argument, other)) {
+                second->flags &= ~1U;
+                first->flags &= ~1U;
+                break;
+            }
+        }
+    }
+}
+
+/* Original [00064e10,00064e97). Count value-return statements and revoke
+   unsafe direct bindings while walking the body after its entry record.
+   Embedded assembly uses the original symbol visitor/callback boundary. */
+int __fastcall analyze_inline_returns(Expression *entry, InlineBinding *bindings)
+{
+    void __fastcall scan_inline_argument_uses(InlineBinding *bindings, Node *node);
+    unsigned __fastcall mark_inline_assembly_parameter(SymbolHeader *symbol, void *context);
+    InlineBinding *binding;
+    Expression *expression;
+    Node *node;
+    int direct = 0, returns = 0;
+    for (binding = bindings; binding; binding = binding->next)
+        if (binding->flags & 1) { direct = 1; break; }
+    for (expression = entry->next; expression; expression = expression->next) {
+        node = expression->tree;
+        switch (node->opcode) {
+        case 0x41:
+            ++returns;
+            break;
+        case 1: case 0x29: case 0x3a: case 0x56:
+            continue;
+        case 0x4f:
+            if (node->detail.control.code == 0x16)
+                visit_machine_symbols(node->left.pointer, mark_inline_assembly_parameter, bindings);
+            continue;
+        }
+        if (direct) scan_inline_argument_uses(bindings, node);
+    }
+    return returns;
+}
+
+/* Original [00064de0,00064e02). Create a generated automatic object for
+   an inline result and intern its pointer reference. Callers supply the
+   low-four-bit scalar kind; preserve the outer leaf's five cdecl arguments. */
+Node *__fastcall new_inline_storage(unsigned short kind, unsigned bytes)
+{
+    BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes,
+        unsigned short storage, int local, unsigned char alignment, unsigned short flags);
+    BackendSymbol *storage = new_generated_storage(kind, bytes, 1, 1, 4, 0);
+    return intern_leaf(0x26, 0, (SymbolHeader *)storage, 0, 0x404);
+}
+
+/* Original [00064d40,00064dd3). Retain nonconstant argument evaluation
+   in a reversed copied chain. The internal F0 node carries that chain in
+   its right field; constants need no evaluation prefix. */
+Node *__fastcall inline_argument_prefix(InlineBinding *bindings)
+{
+    InlineBinding *binding;
+    Node *head = 0, *node, *tail;
+    for (binding = bindings; binding; binding = binding->next) {
+        node = binding->argument;
+        if (node->left.node->opcode != 0x33) {
+            node = build_tree("DNt", node->left.node, 0x55,
+                (unsigned)node->attributes.words.type);
+            node->second.node = head;
+            head = node;
+        }
+    }
+    if (!head) return 0;
+    for (tail = head; tail->second.node; tail = tail->second.node) ;
+    tail->second.node = intern_leaf(0x4c, 0);
+    node = build_tree("NPNt", 0x4c, integer_node(0xf0, 0x102), 0x40, 0x102);
+    node->right.node = head;
+    return node;
 }

@@ -1,0 +1,325 @@
+{
+  "checkpoint": 1122,
+  "source_graphs": 1043,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1122,
+    "accepted_code_bytes": 308156,
+    "original_code_bytes": 399693,
+    "percentage": 77.09817284766058,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 524
+  },
+  "base_commit": "c738bbb1",
+  "accepted_functions": [
+    {
+      "name": "@check_inline_argument_aliases@4",
+      "start": 413344,
+      "end": 413448
+    },
+    {
+      "name": "@analyze_inline_returns@8",
+      "start": 413200,
+      "end": 413335
+    },
+    {
+      "name": "@new_inline_storage@8",
+      "start": 413152,
+      "end": 413186
+    },
+    {
+      "name": "@inline_argument_prefix@4",
+      "start": 412992,
+      "end": 413139
+    }
+  ],
+  "frontier": "@materialize_inline_arguments@12",
+  "evidence": {
+    "original": "cases/inlrec-original-1122.json",
+    "native": "cases/native-all-validation.json",
+    "abi": "cases/inlrec-evaluation-abi-validation.json"
+  },
+  "limits": [
+    "Whole pairwise alias checker104B, return analyzer135B, inline result-storage wrapper34B and argument-evaluation prefix147B are reconstructed.",
+    "Return analyzer keeps original recursive use scanner and assembly symbol visitor/callback as named unaccepted traps. Current case has no assembly and did not enter the direct-binding scanner; do not describe those bodies as exercised.",
+    "MachineSymbolVisitor returns an unsigned replacement identifier, as proved by visitor27979..27986 forwarding nonzero EAX to symbol lookup. Provisional callback declaration corrected from pointer return to the existing identifier ABI before acceptance. Callback remains unaccepted.",
+    "new_inline_storage provisional8-bit kind corrected to16-bit unsigned kind before acceptance; original64c1b masks ECXffff, downstream4e402 consumes CX, other calls6427d/64896 mask kind0xf. Current known caller input values are unchanged. No new guard or narrower value assumption added to body.",
+    "Argument prefix uses original DNt/NPNt recipes, reversed copied chain, two-argument sentinel interning and F0 right-field link; no synthetic extra function edges.",
+    "All13 native cases pass with12 full object oracles and current named materializer trap; no inlrec completion yet."
+  ],
+  "timing": {
+    "frontier1119-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2248657885938883,
+      "returncode": 0,
+      "log_sha256": "a0a4d2b24820d81f8cd144335f108635640e4c10a964a77fd56a126e719893cf"
+    },
+    "frontier1119-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.9945603916421533,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    "frontier1119-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6445582946762443,
+      "returncode": 0,
+      "log_sha256": "c1b94ba0aff1b17035e6453b74111eec592f0103fd6c8409aeff3aec003bd4de"
+    },
+    "frontier1119-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1119.json"
+      ],
+      "seconds": 0.22028573136776686,
+      "returncode": 0,
+      "log_sha256": "e7f410b656d454a1d92fadb87b6fc199308e3e517ff74272debb1c44ad6d5cf4"
+    },
+    "frontier1119-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1119.json"
+      ],
+      "seconds": 1.6264547798782587,
+      "returncode": 0,
+      "log_sha256": "8d8e02fc0ff8d81d6b137e0031f4b51694447f7104b1fbb97c16fba3cdb355a3"
+    },
+    "frontier1120-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.24337097723037,
+      "returncode": 0,
+      "log_sha256": "03a4ade28bfa4fd51989dbcde3db0c5fba3f9f5cb1f3f8fd927ebcb0c59d4a08"
+    },
+    "frontier1120-build-corrected-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.36361123342067,
+      "returncode": 0,
+      "log_sha256": "0d7628c7441016ac5b08029aa7459ad107b51d6c28bc8e014eb9156c893fa67d"
+    },
+    "frontier1120-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.2887428225949407,
+      "returncode": 2,
+      "log_sha256": "1782afab7c585df9d79a7d30f52fae7d4a4fbbf78c0daffe78569cdf655c2e10"
+    },
+    "frontier1120-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6118641495704651,
+      "returncode": 0,
+      "log_sha256": "e6448bfbbe5e328885748f77a6e16129fc42c18f97cf325a2b8332fce06695c6"
+    },
+    "frontier1120-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1120.json"
+      ],
+      "seconds": 0.23581276927143335,
+      "returncode": 0,
+      "log_sha256": "7404c33b4875957c2ab4c49b3b7cca1b7f7d80d839ffc1075bfe867d514a3d53"
+    },
+    "frontier1120-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1120.json"
+      ],
+      "seconds": 2.2673833994194865,
+      "returncode": 0,
+      "log_sha256": "d40255a85ee94a3c0ab72155738558837f3dd2950445c90a53fc6f21e96dccab"
+    },
+    "frontier1121-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2435019901022315,
+      "returncode": 0,
+      "log_sha256": "6e91f7badfd4f70e87d45485c1c88874155df78a20a5f0fe591601fdc00c4b04"
+    },
+    "frontier1121-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.37862860225141,
+      "returncode": 0,
+      "log_sha256": "2416652b5e4be989b08fe7edda719feb27d6280ea840a1e20faa5520c873a5be"
+    },
+    "frontier1121-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6177972108125687,
+      "returncode": 0,
+      "log_sha256": "e65e7b0e530300f6d6dae2b244534088eeecbc0de663b27d74123cf1e7a90359"
+    },
+    "frontier1121-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1121.json"
+      ],
+      "seconds": 0.23166122194379568,
+      "returncode": 0,
+      "log_sha256": "8531b7f7abe55235d69d001994e255c446c78e497408062b3e93d8121182e175"
+    },
+    "frontier1121-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1121.json"
+      ],
+      "seconds": 1.323332971893251,
+      "returncode": 0,
+      "log_sha256": "b929c555877fdd9c6391a5922ad69661d77118226c5c4bd3a4de8482882f768a"
+    },
+    "frontier1121-word-abi-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 10.564174639992416,
+      "returncode": 0,
+      "log_sha256": "f1b91203580c15136a77d0fae523345d9a712a87b51b6f4adcfec2bf2f7d6afe"
+    },
+    "frontier1122-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.256760796532035,
+      "returncode": 0,
+      "log_sha256": "936ba6ae4c125a3d9bb87810db44ad278c3809f7676ccd3ca3a2394242a2a682"
+    },
+    "frontier1122-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 36.47208265401423,
+      "returncode": 0,
+      "log_sha256": "e41f0e6fc21d0380dafefab2998bae39adad724e7774d2b61c91b6de5881dc4b"
+    },
+    "frontier1122-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6439183140173554,
+      "returncode": 0,
+      "log_sha256": "24c381c218c30b3d560d4d6f8b7e20b51ca082e511ed3cd38ec234de70e8523d"
+    },
+    "frontier1122-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1122.json"
+      ],
+      "seconds": 0.23886074777692556,
+      "returncode": 0,
+      "log_sha256": "a0d5a2c70d05ee3e33b1f06e26f6e48bdf768cc8ec21c701a47b02b31cafafd9"
+    },
+    "frontier1122-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1122.json"
+      ],
+      "seconds": 1.5502968663349748,
+      "returncode": 0,
+      "log_sha256": "5fc8f2a238c516c096feb2cb83e561b12c70e5ceab2db028ac1559af92c75a3e"
+    }
+  },
+  "analysis_seconds": null,
+  "timing_limits": [
+    "Initial1120 build failed on callback function-pointer return type before reference capture; corrected identifier declaration and retained1.289s failed/37.364s corrected build timings.",
+    "1121 initial candidate build37.379s and word-ABI rebuild10.564s both retained. Shared-header rebuilds remain unsplit; no analysis time inferred."
+  ]
+}

@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1118 accepted frontiers and1039 reconstructed source functions.
-Accepted original code extents cover307736/399693 bytes (76.993092%). This is
+Current checkpoint:1122 accepted frontiers and1043 reconstructed source functions.
+Accepted original code extents cover308156/399693 bytes (77.098173%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -139,3 +139,8 @@ lookup, scope merge and ordered argument binding/factory. Their6 CFG cleanup
 proofs, full-body limits and split timing provenance are recorded in
 cases/inlrec-binding-checkpoint.json. Visible warning output, C++ undecoration
 and additional override state paths remain explicitly trapping when unreached.
+
+Inline evaluation checkpoint1122 preserves pairwise alias checks, return
+counting and the argument prefix. The provisional inline-storage kind is now
+16 bits, matching original caller/consumer evidence; see
+cases/inlrec-evaluation-checkpoint.json for ABI and unvisited child limits.

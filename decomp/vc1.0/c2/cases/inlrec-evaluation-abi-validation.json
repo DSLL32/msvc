@@ -1,0 +1,80 @@
+{
+  "method": "CFG traversal of original/canonical machine RET operands; jump-table data not decoded as instructions",
+  "checkpoint": 1122,
+  "accepted_slice": [
+    1118,
+    1122
+  ],
+  "checked": [
+    {
+      "name": "@check_inline_argument_aliases@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x64f07",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1d966",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@analyze_inline_returns@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x64e70",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1daa0",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@new_inline_storage@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x64e01",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1dae7",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@inline_argument_prefix@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x64d82",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x64dd2",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1dbeb",
+          "stack_bytes": 0
+        }
+      ]
+    }
+  ],
+  "seconds": 0.25458462070673704,
+  "return_width_evidence": "All four additions use RET0; scalar/pointer EAX results and original argument registers retained. new_inline_storage kind is now unsigned short, supported by the16-bit caller adaptation at64c1b and downstream4e402 MOV DI,CX; allthree original callers mask kind to low4 bits."
+}

@@ -64,11 +64,9 @@ Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 #include "inline-calls.h"
-void __fastcall check_inline_argument_aliases(InlineBinding *bindings) { __asm int 3 }
-int __fastcall analyze_inline_returns(Expression *entry, InlineBinding *bindings) { __asm int 3 }
-Node *__fastcall new_inline_storage(signed char kind, unsigned bytes) { __asm int 3 }
+void __fastcall scan_inline_argument_uses(InlineBinding *bindings, Node *node) { __asm int 3 }
+unsigned __fastcall mark_inline_assembly_parameter(SymbolHeader *symbol, void *context) { __asm int 3 }
 InlineBinding *__fastcall find_inline_binding(InlineBinding *bindings, SymbolHeader *symbol) { __asm int 3 }
-Node *__fastcall inline_argument_prefix(InlineBinding *bindings) { __asm int 3 }
 void __fastcall materialize_inline_arguments(Function *function, InlineSite *site, InlineBinding *bindings) { __asm int 3 }
 Expression *__fastcall substitute_inline_body(Function *function, InlineBinding *bindings, Node *result,
     unsigned source_location, InlineSite *site, int hidden_result) { __asm int 3 }

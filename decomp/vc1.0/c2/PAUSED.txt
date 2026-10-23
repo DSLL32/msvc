@@ -1,4 +1,5 @@
-C2 active: approved inline-records case at1118 accepted /1039 source graphs.
-Current matching frontier check_inline_argument_aliases64ea0.
-Full warning filter, inline-scope merge, argument binder/factory now recovered.
-See cases/inlrec-binding-checkpoint.json and queue.json; continue current case.
+C2 active: inline-records case at1122 accepted /1043 source graphs.
+Current matching frontier materialize_inline_arguments64ba0.
+Argument alias/return analysis,16-bit-kind inline storage and evaluation prefix recovered.
+Unreached assembly visitor and direct-binding scanner remain named traps.
+See cases/inlrec-evaluation-checkpoint.json and queue.json.

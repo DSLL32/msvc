@@ -1122,7 +1122,11 @@
     "@warning_override_level@4",
     "@merge_inline_scope@8",
     "@bind_inline_arguments@12",
-    "@new_inline_binding@8"
+    "@new_inline_binding@8",
+    "@check_inline_argument_aliases@4",
+    "@analyze_inline_returns@8",
+    "@new_inline_storage@8",
+    "@inline_argument_prefix@4"
   ],
   "driver": [
     {
@@ -2833,14 +2837,12 @@
     {
       "name": "@check_inline_argument_aliases@4",
       "start": 413344,
-      "end": 413345,
-      "provisional": true
+      "end": 413448
     },
     {
       "name": "@analyze_inline_returns@8",
       "start": 413200,
-      "end": 413201,
-      "provisional": true
+      "end": 413335
     },
     {
       "name": "@merge_inline_scope@8",
@@ -2850,8 +2852,7 @@
     {
       "name": "@new_inline_storage@8",
       "start": 413152,
-      "end": 413153,
-      "provisional": true
+      "end": 413186
     },
     {
       "name": "@find_inline_binding@8",
@@ -2862,8 +2863,7 @@
     {
       "name": "@inline_argument_prefix@4",
       "start": 412992,
-      "end": 412993,
-      "provisional": true
+      "end": 413139
     },
     {
       "name": "@materialize_inline_arguments@12",
@@ -7519,6 +7519,18 @@
       "name": "@new_inline_binding@8",
       "start": 414768,
       "end": 414841
+    },
+    {
+      "name": "@scan_inline_argument_uses@8",
+      "start": 414368,
+      "end": 414369,
+      "provisional": true
+    },
+    {
+      "name": "@mark_inline_assembly_parameter@8",
+      "start": 414320,
+      "end": 414321,
+      "provisional": true
     }
   ],
   "cases": {
