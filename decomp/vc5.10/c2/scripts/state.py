@@ -34,8 +34,9 @@ def ranges(record):
 
 def validate(config, original, inventory):
     assert sha(original) == config['target']['sha256']
-    assert config['case']['arguments'] == ['/?']
-    assert config['case']['environment'] == {'MSC_CMD_FLAGS':None}
+    from case_inputs import manifest
+    manifest(config)
+    assert config['case']['id']in ('unsupported-help-diagnostic','numeric-control-flow')
     seen=[]
     for record in config['driver']+config['support']+config['text_data']:
         if record.get('kind')=='import':
@@ -108,7 +109,7 @@ def receipt_bound(receipt, snapshot, native=False):
     assert receipt['configuration_sha256']==sha(trial_bytes)
     assert receipt['candidates']==trial['trial']==trial['trial_provenance']['candidates']
     assert receipt['target_sha256']==sha(TARGET.read_bytes())
-    assert receipt['environment']=={'MSC_CMD_FLAGS':None}
+    assert receipt['environment']==trial['case']['environment']
     if native:
         assert receipt['source_hashes']==source_hashes(),'reconstructed source changed since native capture'
         assert receipt['native_sha256']==sha((BINARY/'build/native/c2').read_bytes())

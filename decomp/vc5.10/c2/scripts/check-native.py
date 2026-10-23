@@ -55,7 +55,7 @@ def main():
         filter_file=temporary/'filter';filter_file.write_text(''.join(name+'\n'for name in sorted(mapping)))
         seen=temporary/'seen';seen.write_bytes(b'') # This case began with no accepted application prefix.
         env={k:v for k,v in os.environ.items()if not k.startswith('RECON_TRACE_')and k!='MSC_CMD_FLAGS'}
-        env.update(C2_ENVIRONMENT_FILE=str(environment),C2_RESOURCE_FILE=str(BINARY/'build/messages.rmr'),RECON_TRACE_FILTER=str(filter_file),RECON_TRACE_SEEN=str(seen))
+        env.update(C2_CASE=manifest['id'],C2_ENVIRONMENT_FILE=str(environment),C2_RESOURCE_FILE=str(BINARY/'build/messages.rmr'),RECON_TRACE_FILTER=str(filter_file),RECON_TRACE_SEEN=str(seen))
         with (temporary/'trace').open('w+b')as trace,tempfile.TemporaryFile()as shared:
             shared.truncate(32+len(mapping))
             env['RECON_TRACE_FD']=str(trace.fileno());env['RECON_TRACE_STATE_FD']=str(shared.fileno())

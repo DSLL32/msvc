@@ -1,6 +1,6 @@
 {
   "approved": true,
-  "scope": "First unsupported /? diagnostic only; no second case",
-  "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
-  "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  "scope": "Completed unsupported /? diagnostic retained; root-authorized numeric-control-flow compilation case",
+  "status": "First case independently passed including32 completion negatives; root/orchestrator released next optimized compilation case autonomously",
+  "review_id": "orchestrator-c2-numeric-release-2026-10-23"
 }

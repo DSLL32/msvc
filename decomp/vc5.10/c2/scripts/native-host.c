@@ -38,8 +38,16 @@ int main(int argc, char **argv, char **host_environment)
     ReconModuleSpec module;
     HMODULE instance;
     char **environment;
-    if (argc != 2 || strcmp(argv[1], "/?"))
-        recon_unsupported("C2 host is released for the first /? case only");
+    const char *case_id;
+    case_id = getenv("C2_CASE");
+    if (!case_id) case_id = "unsupported-help-diagnostic";
+    if (!strcmp(case_id, "unsupported-help-diagnostic")) {
+        if (argc != 2 || strcmp(argv[1], "/?"))
+            recon_unsupported("C2 diagnostic fixture arguments");
+    } else if (!strcmp(case_id, "numeric-control-flow")) {
+        if (argc != 1) recon_unsupported("C2 compilation options belong in MSC_CMD_FLAGS");
+    } else
+        recon_unsupported("unknown C2 fixture case");
     environment = read_environment(getenv("C2_ENVIRONMENT_FILE"));
     argv[0] = "R:\\toolchains\\5.10\\bin\\C2.EXE";
     recon_crt_bind_arguments(argc, argv, environment);

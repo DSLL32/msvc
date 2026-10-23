@@ -25,6 +25,12 @@ def main():
     base_snapshot=(BINARY/'functions.json').read_bytes()
     config,snapshot=trial_configuration(base_snapshot)
     validate(config,original,inventory)
+    from case_inputs import manifest,materialize,artifacts
+    case_directory,case_value,target_environment=manifest(config)
+    child_cwd=config['case'].get('child_cwd','S:\\vc5.10\\c2\\original')
+    assert child_cwd.startswith('S:\\')
+    work=transport.SCRATCH/child_cwd[3:].replace('\\','/')
+    input_names=materialize(case_directory,case_value,work)
     assert args.candidate==config['trial'],'candidate must be explicit in immutable trial configuration'
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot)
@@ -63,25 +69,27 @@ def main():
         shutil.copyfile(ROOT/'toolchains/5.10/bin'/name,output/name)
     assert sha((output/'MSVCRT.DLL').read_bytes())==CANONICAL_CRT
     (output/'plan.txt').write_text(''.join('%x %x\n'%r for r in entries))
-    (transport.SCRATCH/'vc5.10/c2/original').mkdir(parents=True,exist_ok=True)
+    child_environment=b'\0'.join(v.encode()for v in config['case']['child_environment_input'])+b'\0\0'
+    (output/'requested-environment.bin').write_bytes(child_environment)
     helper_inputs=json.loads((BINARY/'build/helper/input-provenance.json').read_text())
     assert helper_inputs['binary_sha256']==sha((BINARY/'build/debug-run.exe').read_bytes())
     shutil.copyfile(BINARY/'build/debug-run.exe',output/'capture-helper.exe')
     shutil.copyfile(BINARY/'build/helper/input-provenance.json',output/'helper-inputs.json')
     shutil.copytree(helper_inputs['snapshot'],output/'helper-inputs')
+    arguments=config['case']['arguments'];assert arguments in ([],['/?'])
     command=['/usr/bin/wine',transport.windows(output/'capture-helper.exe'),
-             transport.windows(output/'C2.EXE'),transport.windows(TARGET),'/?',transport.windows(output/'plan.txt')]
+             transport.windows(output/'C2.EXE'),case_value['canonical_argv'][0],' '.join(arguments),transport.windows(output/'plan.txt'),transport.windows(output/'requested-environment.bin'),child_cwd]
     setup=time.monotonic()-begin;run=time.monotonic()
     result=subprocess.run(command,cwd=output,env=transport.environment(),capture_output=True,timeout=45)
     elapsed=time.monotonic()-run
     (output/'host.stdout').write_bytes(result.stdout);(output/'host.stderr').write_bytes(result.stderr)
     provider=output/'loaded-msvcrt.bin'
-    receipt=dict(helper_inputs_sha256=sha((output/'helper-inputs.json').read_bytes()),data_model_sha256=sha((output/'data-model.json').read_bytes())if data_model else None,data_state_sha256=sha((output/'data-state.bin').read_bytes())if(output/'data-state.bin').exists()else None,explicit_child_environment=True,child_cwd='S:\\vc5.10\\c2\\original',kind='explicit-original-only',observe_messages=args.observe_messages,observe_startup=args.observe_startup,unmasked=args.unmasked,candidates=args.candidate,
+    receipt=dict(case_id=config['case']['id'],case_inputs={name:sha((work/name).read_bytes())for name in input_names},artifacts=artifacts(work,case_value,output),helper_inputs_sha256=sha((output/'helper-inputs.json').read_bytes()),data_model_sha256=sha((output/'data-model.json').read_bytes())if data_model else None,data_state_sha256=sha((output/'data-state.bin').read_bytes())if(output/'data-state.bin').exists()else None,explicit_child_environment=True,child_cwd=child_cwd,kind='explicit-original-only',observe_messages=args.observe_messages,observe_startup=args.observe_startup,unmasked=args.unmasked,candidates=args.candidate,
                  command=command,base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),target_sha256=sha(original),
                  executable_sha256=sha(image),debugger_sha256=sha((BINARY/'build/debug-run.exe').read_bytes()),
                  audit_receipt_sha256=sha((output/'audit-receipt.json').read_bytes()),rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                  audit_inputs=audit_input_hashes(),source_hashes=source_hashes(),events_sha256=sha((output/'events.txt').read_bytes())if(output/'events.txt').exists()else None,
-                 environment={'MSC_CMD_FLAGS':None},provider_sha256=sha(provider.read_bytes())if provider.exists()else None,
+                 environment=config['case']['environment'],provider_sha256=sha(provider.read_bytes())if provider.exists()else None,
                  execution_inputs={name:sha((output/name).read_bytes())if(output/name).exists()else None for name in (('child-environment-input.bin','child-command-input.bin','data-plan.txt')if data_model else('child-environment-input.bin','child-command-input.bin'))},
                  helper_status=result.returncode,seconds={'setup':setup,'execution':elapsed,'total':time.monotonic()-begin})
     for stream in ('stdout','stderr'):

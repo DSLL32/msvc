@@ -4,7 +4,7 @@
     "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
     "image_base": "0x400000",
     "entry": "0x452797",
-    "case": "/?"
+    "case": "numeric-control-flow"
   },
   "accepted": [
     "_c2_crt_startup",
@@ -837,7 +837,63 @@
       "end": 4532939,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters; returns pointer to terminal argument slot"
+      "abi": "cdecl, no parameters; returns pointer to terminal argument slot",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        }
+      ],
+      "state_policy": "environment-copy",
+      "argv_consumed": 0
     },
     {
       "name": "@c2_validate_alignment@4",
@@ -973,25 +1029,38 @@
     }
   ],
   "case": {
-    "id": "unsupported-help-diagnostic",
-    "arguments": [
-      "/?"
-    ],
+    "id": "numeric-control-flow",
+    "directory": "cases/numeric-control-flow",
+    "manifest_sha256": "4a3eac8b7cf385b6aaa8de319400c8007b2ca6147983add9696528d0832df49b",
+    "arguments": [],
     "environment": {
-      "MSC_CMD_FLAGS": null
+      "MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 "
     },
-    "status": 1,
+    "status": 0,
     "stdout_bytes": 0,
-    "stderr_bytes": 51,
+    "stderr_bytes": 0,
     "child_environment_input": [
       "PATH=R:\\toolchains\\5.10\\bin",
-      "SystemRoot=C:\\windows",
       "TEMP=.",
       "TMP=.",
-      "WINEDLLOVERRIDES=msvcrt=n",
       "WINEPATH=R:\\toolchains\\5.10\\bin",
-      "windir=C:\\windows"
-    ]
+      "windir=C:\\windows",
+      "INCLUDE=R:\\toolchains\\5.10\\include",
+      "LIB=R:\\toolchains\\5.10\\lib",
+      "PROCESSOR_ARCHITECTURE=x86",
+      "MSC_CMD_FLAGS=-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ",
+      "WINEDATADIR=\\??\\Z:\\usr\\share\\wine",
+      "WINEHOMEDIR=\\??\\Z:\\root",
+      "WINECONFIGDIR=\\??\\Z:\\root\\.ai-tmp\\vc1.0-capture\\wine",
+      "WINEDLLDIR0=\\??\\Z:\\usr\\lib\\i386-linux-gnu\\wine",
+      "WINELOADER=/usr/lib/wine/wine",
+      "WINEUSERNAME=root",
+      "WINEDLLOVERRIDES=msvcrt=n",
+      "WINEUSERLOCALE=C",
+      "SystemDrive=C:",
+      "SystemRoot=C:\\windows"
+    ],
+    "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work"
   },
   "trial": [],
   "pending_data": [],

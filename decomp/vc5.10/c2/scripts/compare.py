@@ -9,6 +9,8 @@ from state import BINARY, CANONICAL_CRT, load, receipt_bound, sha, masked, offse
 def compare(original,native,validation=None):
     base,original_bytes,inventory=load()
     config,_=trial_configuration((BINARY/'functions.json').read_bytes())
+    from case_inputs import manifest,normalized
+    case_directory,case_value,target_environment=manifest(config)
     receipts=[]
     for path,is_native in ((original,False),(native,True)):
         receipt=json.loads((path/'receipt.json').read_text())
@@ -79,8 +81,10 @@ def compare(original,native,validation=None):
         assert sha((original/name).read_bytes())==digest,'raw execution input changed'
     child_env=b'\0'.join(v.encode()for v in config['case']['child_environment_input'])+b'\0\0'
     assert (original/'child-environment-input.bin').read_bytes()==child_env,'original actual child environment changed'
-    assert not any(v.startswith(b'MSC_CMD_FLAGS=')for v in child_env.split(b'\0'))
-    assert (original/'child-command-input.bin').read_bytes()==b'"R:\\toolchains\\5.10\\bin\\C2.EXE" /?\0','original actual command changed'
+    flags=[v[14:].decode()for v in child_env.split(b'\0')if v.startswith(b'MSC_CMD_FLAGS=')]
+    assert (flags[0]if flags else None)==config['case']['environment']['MSC_CMD_FLAGS']
+    command='"'+case_value['canonical_argv'][0]+'"'+(' '+' '.join(config['case']['arguments'])if config['case']['arguments']else'')
+    assert (original/'child-command-input.bin').read_bytes()==command.encode()+b'\0','original actual command changed'
     assert all(r['helper_status']==0 for r in receipts),'capture helper failed'
     text=(original/'events.txt').read_text()
     assert re.findall(r'^image-base ([0-9a-f]+)$',text,re.M)==['00400000'],'unexpected original image base'
@@ -100,21 +104,34 @@ def compare(original,native,validation=None):
     import importlib.util
     module_spec=importlib.util.spec_from_file_location('c2_native_elf_proof',BINARY/'scripts/native-proof.py')
     proof=importlib.util.module_from_spec(module_spec);module_spec.loader.exec_module(proof)
-    assert state['arguments']==config['case']['arguments']and state['MSC_CMD_FLAGS']is None,'native actual execution input differs'
+    assert state['arguments']==config['case']['arguments']and state['MSC_CMD_FLAGS']==config['case']['environment']['MSC_CMD_FLAGS'],'native actual execution input differs'
+    if 'target_environment_sha256'in receipts[1]:
+        assert receipts[1]['target_environment_sha256']==sha((native/'target-environment.bin').read_bytes())==sha(target_environment),'bound target environment differs'
+    for path,receipt in ((original,receipts[0]),(native,receipts[1])):
+        if 'case_inputs'in receipt:
+            expected_inputs={item['working_name']:item['sha256']for item in case_value.get('inputs',[])}
+            if 'source'in case_value:expected_inputs[Path(case_value['source']['path']).name]=case_value['source']['sha256']
+            assert receipt['case_inputs']==expected_inputs,'case intermediate/source input differs'
     traps=re.findall(r'^trap ([0-9a-f]+) ([0-9a-f]+) ',text,re.M)
     if not traps:
-        assert re.findall(r'^exit ([0-9a-f]+)$',text,re.M)==['00000001'],'original has no real successful diagnostic exit'
+        assert re.findall(r'^exit ([0-9a-f]+)$',text,re.M)==['%08x'%config['case']['status']],'original has no real expected process exit'
         assert 'trap 'not in text and 'exception 'not in text,'exception cannot be completion'
-        native_proof=proof.verify_completion(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
+        native_proof=proof.verify_completion(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config,config['case']['status'])
         names={r['start']:r['name']for r in config['driver']if r['name']in config['accepted']}
         trace=[names[int(n,16)]for n in re.findall(r'^entry ([0-9a-f]+)$',text,re.M)if int(n,16)in names]
         assert trace and trace==state['trace'],'terminal source-entry progression differs'
         assert set(config['trial'])<=set(trace),'terminal candidate was not entered'
         for stream in ('stdout','stderr'):
-            master=(BINARY/'cases/unsupported-help-diagnostic'/(stream+'.bin')).read_bytes()
+            master=(case_directory/('reference/'+stream+'.bin'if config['case']['id']!='unsupported-help-diagnostic'else stream+'.bin')).read_bytes()
             assert (original/(stream+'.bin')).read_bytes()==(native/(stream+'.bin')).read_bytes()==master,'terminal output differs'
-        assert receipts[0]['stdout']['bytes']==0 and receipts[0]['stderr']['bytes']==51
-        return {'validation':str(audit_file),'graph_report':str(report_file),'matched':'completion','original_exit_status':1,'native_exit_status':1,'source_trace':trace,'native_elf_proof':native_proof,'candidates':config['trial'],'acceptance':False}
+        assert receipts[0]['stdout']['bytes']==case_value['expected']['stdout']['bytes']and receipts[0]['stderr']['bytes']==case_value['expected']['stderr']['bytes']
+        for index,item in enumerate(case_value['expected'].get('artifacts',[])):
+            master=normalized((case_directory/item['path']).read_bytes(),item)
+            for path,receipt in ((original,receipts[0]),(native,receipts[1])):
+                actual=receipt['artifacts'][index];assert actual['output_name']==item['output_name']and actual['present']
+                data=(path/actual['path']).read_bytes();assert sha(data)==actual['sha256']and len(data)==actual['bytes']
+                assert normalized(data,item)==master,'terminal object differs beyond identified clock field'
+        return {'validation':str(audit_file),'graph_report':str(report_file),'matched':'completion','original_exit_status':config['case']['status'],'native_exit_status':config['case']['status'],'source_trace':trace,'native_elf_proof':native_proof,'candidates':config['trial'],'acceptance':False}
 
     assert len(traps)==1 and int(traps[0][0],16)==0x80000003,'original did not stop at one INT3 frontier'
     address=int(traps[0][1],16)
@@ -122,12 +139,12 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     native_proof=proof.verify(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
     assert state['arguments']==config['case']['arguments'],'native actual arguments changed'
-    assert state['MSC_CMD_FLAGS']is None,'native actual environment inherited backend flags'
+    assert state['MSC_CMD_FLAGS']==config['case']['environment']['MSC_CMD_FLAGS'],'native target environment differs'
     assert state['function']==expected['native'],'logical frontier mismatch'
     assert 'SIGTRAP' in state['signal'],'native not stopped at INT3'
     declared=[r['name']for r in config['driver']+config['support']if r['name']in config['accepted']and r.get('kind')!='import']
@@ -140,16 +157,16 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
-        expected_argv=(BINARY/'cases/unsupported-help-diagnostic/argv.bin').read_bytes()
+        expected_argv=b'\0'.join(value.encode()for value in case_value['canonical_argv'])+b'\0\0'
         consumed=expected.get('argv_consumed',0)
         strings=expected_argv[:-2].split(b'\0')[consumed:]
         assert (original/'command-argv.bin').read_bytes()==b'\0'.join(strings)+b'\0\0'
-        assert int(values[0][0])==2-consumed
-        assert state['command_state']=={'argc':2-consumed,'argv':[v.decode()for v in strings]}
+        assert int(values[0][0])==len(case_value['canonical_argv'])-consumed
+        assert state['command_state']=={'argc':len(case_value['canonical_argv'])-consumed,'argv':[v.decode()for v in strings]}
         if expected['state_policy']=='environment-flags':
             assert int(values[0][2],16)==0 and state['flags']is None,'absent MSC_CMD_FLAGS input is not NULL'
     if expected.get('state_policy')in ('message-load','message-unescape'):
@@ -200,6 +217,14 @@ def compare(original,native,validation=None):
         assert len(raw)==1 and raw[0][0]=='1007'and raw[0][2]=='10','integer formatter original ABI differs'
         assert (original/'integer-prefix.bin').read_bytes()==b'fatal error C'
         assert state['integer_format']=={'value':1007,'base':10,'output_offset':2,'prefix':b'fatal error C'.hex()},'integer formatter native ABI/output differs'
+    if expected.get('state_policy')=='environment-copy':
+        initial=re.findall(r'^flags-environment entry=([0-9a-f]+) returned=([0-9a-f]+) alias=(\d+)$',text,re.M)
+        copied=re.findall(r'^environment-copy flags=([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
+        assert len(initial)==1 and initial[0][2]=='1'and int(initial[0][1],16)==int(initial[0][0],16)+14
+        assert copied==[initial[0][1]],'copy caller flags lost canonical environment alias'
+        flags=config['case']['environment']['MSC_CMD_FLAGS']
+        assert (original/'copy-flags.bin').read_bytes()==flags.encode()+b'\0'
+        assert state['environment_copy']=={'flags':flags,'environment_alias':True},'native flags must borrow actual bound target environment'
     original_overrides=native_overrides=None
     if expected.get('state_policy')=='message-initialize':
         raw=re.findall(r'^message-initialize current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
@@ -232,7 +257,7 @@ def compare(original,native,validation=None):
         assert (original/'option-value.bin').read_bytes()==b'/?\0'
         table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
         assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
-    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy'):
         from data_evidence import model,plan,verify_original_state,verify_native_state
         data_model=model(config)
         assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))
