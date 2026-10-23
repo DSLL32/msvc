@@ -40,11 +40,11 @@
     "plan_sha256": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e"
   },
   "state_machine_debug": {
-    "receipt": "cases/frontiers/state_machine_debug/1008-end_enum_specifier/entry-reference/original-receipt.json",
-    "receipt_sha256": "3d678dfb7ffce6fdd5891d67122df44596747080d4ae42698eef019674e0fcd1",
-    "events": "cases/frontiers/state_machine_debug/1008-end_enum_specifier/entry-reference/original-events.txt",
-    "events_sha256": "e73ae308df279e261ce4a181429c8b8189b2740b0ad5c2625fd5bd8f50483318",
-    "plan": "cases/frontiers/state_machine_debug/1008-end_enum_specifier/entry-reference/original-entries.plan",
-    "plan_sha256": "ace952003f53fefda6ecb1ddbca2dfa296117e3e582cccb1d0feaaa4c6a73095"
+    "receipt": "cases/frontiers/state_machine_debug/1009-layout_bit_field-16/entry-reference/original-receipt.json",
+    "receipt_sha256": "1e213dc65848af0ff6e070dbca5bf9751e815bcffc51f6be36247f4125c511a0",
+    "events": "cases/frontiers/state_machine_debug/1009-layout_bit_field-16/entry-reference/original-events.txt",
+    "events_sha256": "448ed2ff353566ed1f9dd35ac602050b4d7239c6d858b39b2d091c5148fab5e5",
+    "plan": "cases/frontiers/state_machine_debug/1009-layout_bit_field-16/entry-reference/original-entries.plan",
+    "plan_sha256": "eed534301069479a8d80ddcb280a4881e967c5c77f62f6bc8d1fb1a2ad447301"
   }
 }

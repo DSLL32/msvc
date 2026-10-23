@@ -1007,3 +1007,67 @@ int __stdcall class_derives_from(CppSymbol *derived, CppSymbol *base)
     }
     return 0;
 }
+
+/* Original 0x2e680..0x2e911. Share a storage unit only for matching
+   scalar widths and enough unused bits. Unnamed leading fields retain the
+   separate copied declaration used by the original class layout list. */
+void __stdcall layout_bit_field(CppSymbol *member, char *name,
+    unsigned short flags, int new_member)
+{
+    CppSymbol *copy, *tag;
+    unsigned width, bytes, bits;
+    char *tag_name, *kind;
+    if ((CLASS_CONTEXT.flags & 0x10) && (CLASS_TAG->attributes & 0x100)) {
+        tag = CLASS_TAG;
+        tag_name = tag->name;
+        kind = type_kind_name(tag->type->flags);
+        report_syntax_error(229, kind, tag_name);
+        CLASS_TAG->attributes &= ~0x100U;
+    }
+    if (!(flags & 0x240)) {
+        report_syntax_error(150, name);
+        member->type = type_4064_first;
+        flags = 0x4064;
+    }
+    if (member->type->related) report_syntax_error(33, name);
+    width = member->auxiliary.bit_field.width;
+    if (!width) {
+        if (member->name != name_unnamed) report_syntax_error(149, name);
+        if (!CLASS_CONTEXT.bit_field_type) return;
+    }
+    bytes = flags & 15;
+    bits = bytes * 8;
+    if (width > bits) {
+        report_syntax_error(34, name);
+        width = bits;
+    }
+    if (CLASS_CONTEXT.flags & 0x10) {
+        if (((flags ^ CLASS_CONTEXT.bit_field_type) & 15) || !width ||
+            CLASS_CONTEXT.bit_field_bits + width > bits) {
+            if (CLASS_CONTEXT.bit_field_type)
+                CLASS_CONTEXT.size += CLASS_CONTEXT.bit_field_type & 15;
+            CLASS_CONTEXT.bit_field_bits = 0;
+            align_class_member(bytes);
+        }
+    } else if ((int)CLASS_CONTEXT.size < (CLASS_CONTEXT.bit_field_type & 15))
+        CLASS_CONTEXT.size = CLASS_CONTEXT.bit_field_type & 15;
+    CLASS_CONTEXT.bit_field_type = width ? flags : 0;
+    if (member->name == name_unnamed) {
+        if ((CLASS_CONTEXT.flags & 0x10) && !CLASS_TAG->auxiliary.scope_members) {
+            copy = allocate_permanent(sizeof(CppSymbol));
+            *copy = *member;
+            if (new_member) insert_class_member(copy);
+            copy->detail.value = CLASS_CONTEXT.size;
+            copy->auxiliary.bit_field.width = (unsigned char)width;
+            copy->auxiliary.bit_field.offset = CLASS_CONTEXT.bit_field_bits;
+        }
+    } else {
+        if (new_member) insert_class_member(member);
+        member->auxiliary.bit_field.width = (unsigned char)width;
+        member->auxiliary.bit_field.offset = CLASS_CONTEXT.bit_field_bits;
+    }
+    if (CLASS_CONTEXT.flags & 0x10) {
+        CLASS_CONTEXT.bit_field_bits += (unsigned char)width;
+        member->detail.value = CLASS_CONTEXT.size;
+    } else member->detail.value = 0;
+}
