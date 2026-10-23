@@ -142,4 +142,6 @@ int __fastcall scheduled_address_registers_stable(MachineInstruction *first, Mac
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative);
 int __fastcall scheduled_instruction_changes_register(MachineInstruction *instruction, unsigned short reg);
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction);
+void fill_previous_pentium_gap(void);
+int __fastcall move_instruction_into_pentium_gap(MachineInstruction *first, MachineInstruction *last, int mode, int probe);
 #endif

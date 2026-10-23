@@ -631,3 +631,12 @@ int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_
     int b = (int)right->value.address->first.displacement;
     return (int)((unsigned)a + left_bytes) > b && (int)((unsigned)b + right_bytes) > a;
 }
+
+/* Original [00035840,00035869). EAX..EBX have byte names, ESP..EDI do
+   not. Virtual/special numbers above7 retain their original nonzero value. */
+unsigned __fastcall byte_register_available(unsigned short reg)
+{
+    if (reg <= 3) return 1;
+    if (reg <= 7) return 0;
+    return reg;
+}

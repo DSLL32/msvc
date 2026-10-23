@@ -2,8 +2,9 @@
 #include "jump-threading.h"
 #include "machine-layout.h"
 #include "instruction-rewrite.h"
+#include "register-use.h"
 #include <recon.h>
-extern int optimize_speed;
+extern int optimize_speed, optimization_jumps;
 
 /* Original [00033550,00033870). Remove fall-through jumps, move isolated
    destination blocks, duplicate short tails and simplify branch diamonds. */
@@ -356,3 +357,119 @@ void __fastcall remove_unreachable_machine_code(MachineContext *context)
         terminator = find_block_terminator(next);
     }
 }
+/* A LEA, non-memory MOV or register XOR-self can move without a memory
+   side effect. Keep this expression inline: it is part of each diamond arm. */
+#define SIMPLE_DIAMOND_OPERATION(i) \
+    ((((i)->opcode >> 8) & 255) == MC_LEA || \
+     ((((i)->opcode >> 8) & 255) == MC_MOV && \
+      ((i)->operands[1].flags & 15) != OPERAND_BASED && \
+      ((i)->operands[1].flags & 15) != OPERAND_INDEXED && \
+      ((i)->operands[1].flags & 15) != OPERAND_ABSOLUTE) || \
+     ((((i)->opcode >> 8) & 255) == MC_XOR && \
+      ((i)->operands[0].flags & 15) == OPERAND_REGISTER && \
+      operands_equal(&(i)->operands[0], &(i)->operands[1])))
+
+/* Original [00033870,00033ce8). Hoist one compatible arm operation into
+   a conditional diamond and redirect its branch to the shared destination. */
+int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction *label,
+    MachineInstruction *before_target)
+{
+    MachineInstruction *fallthrough, *scan, *source, *condition, *move;
+    unsigned kind, operation;
+    int count, target_complex, source_complex = 0;
+    if (!optimization_jumps || !before_target) return 0;
+    target_complex = !SIMPLE_DIAMOND_OPERATION(before_target);
+    fallthrough = branch->next;
+    while ((fallthrough->opcode & 15) == 4 || (fallthrough->opcode & 15) == 7)
+        fallthrough = fallthrough->next;
+    if ((fallthrough->opcode & 15) != 1 || machine_block_protected(fallthrough)) return 0;
+    count = 0;
+    scan = fallthrough->next;
+    while ((scan->opcode & 15) != 1) {
+        kind = scan->opcode & 15;
+        if (kind == 3) break;
+        if (!kind) {
+            operation = (scan->opcode >> 8) & 255;
+            if (operation == MC_JCC || operation == MC_JMP) return 0;
+            ++count;
+            if (scan == before_target) break;
+        }
+        scan = scan->next;
+    }
+    if (scan != before_target) return 0;
+    if (count != 1) target_complex = 1;
+    source = previous_machine_operation(branch);
+    if (!source) return 0;
+    if (!SIMPLE_DIAMOND_OPERATION(source)) {
+        if (target_complex) return 0;
+        source_complex = 1;
+    }
+    condition = source->previous;
+    count = 1;
+    while ((condition->opcode & 15) != 1) {
+        kind = condition->opcode & 15;
+        if (kind == 2) break;
+        if (!kind) {
+            operation = (condition->opcode >> 8) & 255;
+            if (operation == MC_JCC || operation == MC_JMP) break;
+            ++count;
+        }
+        condition = condition->previous;
+    }
+    if (count != 1) {
+        if (target_complex) return 0;
+        source_complex = 1;
+    }
+    if ((condition->opcode & 15) ||
+        (condition->operands[0].flags & 15) != OPERAND_SYMBOL ||
+        condition->operands[0].value.symbol != fallthrough->record.symbol ||
+        (((LabelSymbol *)fallthrough->record.symbol)->references != 1 && source_complex) ||
+        machine_block_protected(condition)) return 0;
+    if (!source_complex) {
+        if ((source->operands[0].flags & 15) == OPERAND_REGISTER) {
+            if (diamond_register_constraint(source->operands[0].value.reg.words.number,
+                fallthrough, before_target, (source->opcode >> 4) & 15)) {
+                if (target_complex) return 0;
+                source_complex = 1;
+            }
+        } else if (target_complex) return 0;
+    }
+    if (source_complex) {
+        if ((before_target->operands[0].flags & 15) != OPERAND_REGISTER ||
+            diamond_register_constraint(before_target->operands[0].value.reg.words.number,
+                condition, source, (before_target->opcode >> 4) & 15)) return 0;
+    }
+    if (!target_complex && !source_complex) {
+        if ((source->operands[0].flags & 0x8000) ||
+            (source->operands[1].flags & 0x8000) ||
+            ((source->opcode ^ before_target->opcode) & 0xf0) ||
+            !operands_equal(&before_target->operands[0], &source->operands[0])) return 0;
+    } else {
+        if (target_complex && ((source->operands[0].flags & 0x8000) ||
+            (source->operands[1].flags & 0x8000) ||
+            !operand_changed_between(fallthrough, before_target->next,
+                &source->operands[0], (source->opcode >> 4) & 15))) return 0;
+        if (source_complex && ((before_target->operands[0].flags & 0x8000) ||
+            (before_target->operands[1].flags & 0x8000) ||
+            !operand_changed_between(condition, source->next,
+                &before_target->operands[0], (before_target->opcode >> 4) & 15))) return 0;
+    }
+    if (source_complex) move = before_target;
+    else {
+        condition->operands[1].flags ^= 1;
+        move = source;
+    }
+    if (((move->opcode >> 8) & 255) == MC_XOR) {
+        move->opcode = (move->opcode & 0xffff01ffU) | (MC_MOV << 8);
+        move->operands[1].flags = (move->operands[1].flags & 0xfffffff2U) | OPERAND_IMMEDIATE;
+        move->operands[1].value.constant = 0;
+    }
+    move->previous->next = move->next;
+    move->next->previous = move->previous;
+    insert_machine_after(condition->previous, move);
+    adjust_machine_symbol_references(condition, -1);
+    condition->operands[0].value.symbol = label->record.symbol;
+    remove_machine_instruction(branch);
+    return 1;
+}
+#undef SIMPLE_DIAMOND_OPERATION

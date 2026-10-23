@@ -2273,3 +2273,11 @@ Spill operands and memory split selection: checkpoint912
 native fixtures pass. See cases/loops-memory-split.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Diamond analysis and Pentium stall insertion: checkpoint916
+--------------------------------------------
+4 whole functions pass fresh original/native matching; current frontier
+@move_instruction_into_pentium_gap@16. 838 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-pentium-gap.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

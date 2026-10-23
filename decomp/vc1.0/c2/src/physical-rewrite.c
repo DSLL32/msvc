@@ -952,3 +952,40 @@ cache_value:
     }
     return 1;
 }
+
+/* Original7e1dc/7e1e0: state shared by successive calls in the color walk. */
+static int split_color_cursor, split_color_phase;
+/* Original [00031900,000319e7). Enumerate colors with no cached operands
+   first, then cached colors, leaving the latest color for the final slot. */
+unsigned __fastcall next_split_register_color(unsigned index)
+{
+    int color, phase;
+    unsigned short latest = latest_rewrite_register;
+    if (latest == 26) return index;
+    if (index == 7) return latest;
+    color = index ? split_color_cursor : -1;
+    phase = index ? split_color_phase : 0;
+    split_color_phase = phase;
+    if (!phase) {
+        split_color_cursor = color;
+        for (++color; color < 8; ++color) {
+            if (color != latest && !register_value_cache[color].reference[0] &&
+                !register_value_cache[color].reference[1]) {
+                split_color_cursor = color;
+                return color;
+            }
+        }
+        split_color_phase = 1;
+        color = -1;
+    }
+    split_color_cursor = color;
+    for (++color; color < 8; ++color) {
+        if (color != latest && (register_value_cache[color].reference[0] ||
+            register_value_cache[color].reference[1])) {
+            split_color_cursor = color;
+            return color;
+        }
+    }
+    compiler_internal_error("@(#)color.c:1.101", 0x1768);
+    return 0;
+}

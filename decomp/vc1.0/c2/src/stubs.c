@@ -171,7 +171,6 @@ int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
-unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"
@@ -355,11 +354,9 @@ int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned 
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction *label, MachineInstruction *before_target) { __asm int 3 }
 void __fastcall prepare_float_schedule(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
-void __fastcall insert_pentium_stall(int reason) { __asm int 3 }
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
@@ -410,9 +407,11 @@ unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineI
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall record_rematerialized_work_registers(WorkItem *work, MachineInstruction *definition, unsigned short number) { __asm int 3 }
-unsigned __fastcall next_split_register_color(unsigned index) { __asm int 3 }
 MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
+int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
+void fill_previous_pentium_gap(void) { __asm int 3 }
+int __fastcall move_instruction_into_pentium_gap(MachineInstruction *first, MachineInstruction *last, int mode, int probe) { __asm int 3 }

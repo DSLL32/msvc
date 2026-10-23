@@ -12,4 +12,5 @@ MachineInstruction *__fastcall find_block_terminator(MachineInstruction *instruc
 void __fastcall register_machine_label(MachineInstruction *instruction);
 int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction *label,
     MachineInstruction *before_target);
+int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes);
 #endif

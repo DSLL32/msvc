@@ -1921,3 +1921,40 @@ void __fastcall remove_pentium_ready_candidate(MachineInstruction *instruction)
             return;
         }
 }
+
+/* Original [000432e0,0004347c). Try moving an earlier independent
+   instruction into the Pentium gap; float stalls stop at an x87 operation. */
+void __fastcall insert_pentium_stall(int reason)
+{
+    MachineInstruction *newer, *older, *scan;
+    unsigned flags;
+    if (reason == 3) {
+        fill_previous_pentium_gap();
+        return;
+    }
+    if (reason) {
+        newer = scheduler_pairs.previous[0].second ?
+            scheduler_pairs.previous[0].second : scheduler_pairs.previous[0].first;
+        older = scheduler_pairs.previous[1].second ?
+            scheduler_pairs.previous[1].second : scheduler_pairs.previous[1].first;
+        if (move_instruction_into_pentium_gap(older, newer, 0, 1)) {
+            flags = older->record.scheduling->flags;
+            older->record.scheduling->flags =
+                (flags & ~0x600U) | ((flags - 0x200U) & 0x600U);
+            return;
+        }
+        older = scheduler_pairs.previous[1].second ?
+            scheduler_pairs.previous[1].second : scheduler_pairs.previous[1].first;
+        if (scheduler_pairs.previous[1].first)
+            move_instruction_into_pentium_gap(scheduler_pairs.previous[1].first->previous,
+                older, 0, 0);
+        return;
+    }
+    scan = scheduler_pairs.previous[1].first;
+    for (; scan; scan = scan->previous) {
+        if (SCHEDULER_BARRIER(scan) || (SCHEDULABLE_KIND(scan->opcode & 15) &&
+            SCHEDULER_FLOAT_OPERATION((scan->opcode >> 8) & 255))) break;
+    }
+    if (scan && !SCHEDULER_BARRIER(scan))
+        move_instruction_into_pentium_gap(scan->previous, scan, 0, 0);
+}

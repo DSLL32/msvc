@@ -916,7 +916,11 @@
     "@spill_variable_in_work@8",
     "@spill_instruction_variable@20",
     "@remove_spilled_work_registers@8",
-    "@choose_memory_split_register@8"
+    "@choose_memory_split_register@8",
+    "@next_split_register_color@4",
+    "@byte_register_available@4",
+    "@merge_jump_diamond@12",
+    "@insert_pentium_stall@4"
   ],
   "driver": [
     {
@@ -3430,8 +3434,7 @@
     {
       "name": "@byte_register_available@4",
       "start": 219200,
-      "end": 219201,
-      "provisional": true
+      "end": 219241
     },
     {
       "name": "@adjust_machine_symbol_references@8",
@@ -5694,8 +5697,7 @@
     {
       "name": "@merge_jump_diamond@12",
       "start": 211056,
-      "end": 211057,
-      "provisional": true
+      "end": 212200
     },
     {
       "name": "@find_function_end@4",
@@ -5812,8 +5814,7 @@
     {
       "name": "@insert_pentium_stall@4",
       "start": 275168,
-      "end": 275169,
-      "provisional": true
+      "end": 275580
     },
     {
       "name": "@remove_pentium_ready_candidate@4",
@@ -6646,8 +6647,7 @@
     {
       "name": "@next_split_register_color@4",
       "start": 203008,
-      "end": 203009,
-      "provisional": true
+      "end": 203239
     },
     {
       "name": "@find_evictable_machine_region@8",
@@ -6677,6 +6677,24 @@
       "name": "@mark_machine_region_split@20",
       "start": 307952,
       "end": 307953,
+      "provisional": true
+    },
+    {
+      "name": "@diamond_register_constraint@16",
+      "start": 212480,
+      "end": 212481,
+      "provisional": true
+    },
+    {
+      "name": "_fill_previous_pentium_gap",
+      "start": 290864,
+      "end": 290865,
+      "provisional": true
+    },
+    {
+      "name": "@move_instruction_into_pentium_gap@16",
+      "start": 289680,
+      "end": 289681,
       "provisional": true
     }
   ],
