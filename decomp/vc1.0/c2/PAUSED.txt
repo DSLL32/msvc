@@ -1,6 +1,7 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified748 acceptances/670 source graphs. Matching canonicalize_conditional
-0x513c0 in WinMain; full hello object incomplete. Extent union207473/399693=51.9080894587%,
-not branch coverage. Canonical/W3, graph/extent/mask and native fixtures pass.
-See cases/hello-expression-values.json for ordered references/limits/timings.
-Continue conditional canonicalization; no shared shim requests.
+Verified756 acceptances/678 source graphs. WinMain canonicalization passed;
+matching conversion_loses_value0x55410 in global tree optimization.
+Extent union208323/399693=52.1207526777%, not branch coverage.
+Canonical/W3, graph/extent/mask and native fixtures pass. Full hello incomplete.
+See cases/hello-conditional-ordering.json for refs/limits/timings.
+Continue conversion predicate; no shared shim requests.

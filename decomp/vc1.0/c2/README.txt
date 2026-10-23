@@ -1911,3 +1911,16 @@ calls its named trapping helper when reached. Native/original now agree at
 canonicalize_conditional513c0.670 graph/extent checks, native fixtures, canonical
 build and two modules/W3 pass. Full hello object remains incomplete. See
 cases/hello-expression-values.json for unvisited branches and separate timings.
+
+Conditional/ordering checkpoint756
+----------------------------------
+Conditional max/min/abs recognition and retained-form eligibility are recovered.
+The fallback expands conditionals into ordered branch/label expressions; label
+constructors preserve scope registration and reference counts. WinMain now
+passes canonicalization and reaches global tree optimization. Right-chain
+reassociation, guarded left-chain rotation and commutative operand ordering
+preserve comparison direction. Original/native agree at conversion_loses_value
+55410.678 graphs/extent checks, native fixtures, canonical and three modules/W3
+pass. Transformation branches are not claimed covered merely by function entry.
+Full hello object remains incomplete. See cases/hello-conditional-ordering.json
+for ordered references, build/declaration fixes, data provenance and timing.

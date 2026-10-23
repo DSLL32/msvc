@@ -3,6 +3,7 @@
 #include "expression-fields.h"
 #include "records.h"
 #include "algebra.h"
+#include "flow-edges.h"
 #include <recon.h>
 extern int optimize_global;
 /* Original [00051e20,000520d0). Expand statement-level forms before their
@@ -281,4 +282,64 @@ Node *__fastcall constant_assignment_value(Node *node)
         if (value->opcode == 0x33) return fold_constant_node(value);
     }
     return node;
+}
+
+/* Original [000513c0,000514cf). Recognize comparison/conditional trees
+   which select their compared operands (max/min), or a signed absolute value. */
+Node *__fastcall canonicalize_conditional(Node *node)
+{
+    Node *condition = node->left.node, *choices = node->second.node;
+    unsigned opcode = condition->opcode;
+    if (opcode < 0x21 || opcode > 0x24) return node;
+    if (opcode <= 0x22) {
+        build_tree("PPL", choices->second.node, choices->left.node, choices);
+        condition->opcode = map_comparison_opcode(condition->opcode, 1);
+    }
+    if (trees_equal(condition->left.node, choices->left.node, 1) &&
+        trees_equal(condition->second.node, choices->second.node, 1))
+        condition->opcode = 0xae;
+    else if (trees_equal(condition->left.node, choices->second.node, 1) &&
+             trees_equal(condition->second.node, choices->left.node, 1))
+        condition->opcode = 0xaf;
+    else if (is_constant_value(condition->second.node, 0) &&
+             choices->second.node->opcode == 8 &&
+             trees_equal(condition->left.node, choices->left.node, 1) &&
+             trees_equal(condition->left.node, choices->second.node->left.node, 1)) {
+        release_node(condition->second.node);
+        condition->opcode = 0x84;
+    } else return node;
+    release_tree(choices);
+    release_node(node);
+    return condition;
+}
+
+/* Original [000521f0,00052233). Only comparisons with two leaf choices
+   fit the retained conditional form. Original shape bit0010 is set exactly
+   for the six relation operators1f..24 (all182 entries checked). */
+int __fastcall can_keep_conditional(Node *node)
+{
+    Node *choices = node->second.node;
+    if ((node_shapes[choices->left.node->opcode] & NODE_ARITY) != NODE_LEAF) return 0;
+    if ((node_shapes[choices->second.node->opcode] & NODE_ARITY) != NODE_LEAF) return 0;
+    return node->left.node->opcode >= 0x1f && node->left.node->opcode <= 0x24;
+}
+
+/* Original [00052240,000522e2). Expand a conditional into five ordered
+   expressions, with a false-branch label and a shared completion label. */
+Node *__fastcall lower_conditional(Node *node, Node *container)
+{
+    Node *choices = node->second.node;
+    Node *condition, *false_label, *done_label, *jump, *when_true, *when_false;
+    condition = build_tree("DN", node->left.node, 0x38);
+    false_label = new_flow_label_node();
+    condition->right.symbol = false_label->right.symbol;
+    jump = new_node(0x3a);
+    done_label = new_flow_label_node();
+    jump->right.symbol = done_label->right.symbol;
+    when_true = copy_value_into_container(choices->left.node, container);
+    when_false = copy_value_into_container(choices->second.node, container);
+    splice_expressions("IIIII", condition, when_true, jump, false_label, when_false);
+    if (!container) container = node;
+    release_tree(container);
+    return done_label;
 }

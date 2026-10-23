@@ -1,6 +1,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "expression-fields.h"
+#include "algebra.h"
 #include <recon.h>
 int tree_changed; /* 00083154 */
 extern int default_integer_bytes;
@@ -164,4 +165,56 @@ unsigned __fastcall tree_order_key(Node *node, unsigned left_key, unsigned right
         return (((opcode >> 4) - opcode + right_key + left_key) & 15) |
                ((right_key + left_key + 0x70) & 0xfff0);
     compiler_internal_error("@(#)sortnode.c:1.32", 0xa8);
+}
+
+/* Original [00057f60,00057fb8). Rotate a same-operator right chain
+   leftward, keeping the pointer/integer representation guard intact. */
+void __fastcall reassociate_right_chain(Node *node)
+{
+    Node *right = node->second.node;
+    while (right->opcode == node->opcode) {
+        if ((node->attributes.words.type & 0xc00) &&
+            (right->attributes.words.type & 0x300) &&
+            (right->left.node->attributes.words.type & 0xc00)) break;
+        build_tree("PPLYPLY", node->left.node, right->left.node, right,
+                   right->second.node, node);
+        right = node->second.node;
+    }
+}
+
+/* Original [00057d30,00057db2). Move a cheaper left-chain operand past
+   the right subtree, except where selector/offset arithmetic prevents it. */
+int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load)
+{
+    Node *left = node->left.node;
+    unsigned short type;
+    if (left->opcode != node->opcode) return 0;
+    if (node->attributes.words.type & 0xc00) {
+        type = left->attributes.words.type;
+        if ((type & 0x300) && (left->left.node->attributes.words.type & 0xc00)) return 0;
+        if (under_load && type == 0x408 &&
+            (node->second.node->attributes.words.type & 0x300) &&
+            left->left.node->attributes.words.type == 0x408) return 0;
+    }
+    if (prior_key >= right_key) return 0;
+    build_tree("PPLYPLY", left->left.node, node->second.node, left,
+               left->second.node, node);
+    return 1;
+}
+
+/* Original [00057cf0,00057d26). Put the more expensive operand first;
+   reverse relational direction when exchanging comparison operands. Return
+   the key of the operand which now occupies the right side. */
+unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, unsigned right_key)
+{
+    Node *left;
+    if (right_key > left_key) {
+        left = node->left.node;
+        node->left.node = node->second.node;
+        node->second.node = left;
+        if (node->opcode >= 0x1f && node->opcode <= 0x24)
+            node->opcode = map_comparison_opcode(node->opcode, 0);
+        return left_key;
+    }
+    return right_key;
 }

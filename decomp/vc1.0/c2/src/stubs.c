@@ -59,15 +59,12 @@ Node *__fastcall new_storage_reference(unsigned bytes) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
-Node *__fastcall canonicalize_conditional(Node *node) { __asm int 3 }
 Node *__fastcall integer_node(unsigned value, unsigned type) { __asm int 3 }
 unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
-int __fastcall can_keep_conditional(Node *node) { __asm int 3 }
-Node *__fastcall lower_conditional(Node *node, Node *container) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
 unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
@@ -93,9 +90,6 @@ int __fastcall tree_contains_opcode(Node *node, unsigned opcode) { __asm int 3 }
 unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
 void __fastcall release_node_children(Node *node) { __asm int 3 }
-void __fastcall reassociate_right_chain(Node *node) { __asm int 3 }
-int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load) { __asm int 3 }
-unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, unsigned right_key) { __asm int 3 }
 Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
@@ -192,7 +186,6 @@ MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm i
 int __fastcall try_select_assignment(Node *node) { __asm int 3 }
 void emit_float_return(void) { __asm int 3 }
 void __fastcall select_assembly_record(Node *node) { __asm int 3 }
-LabelSymbol *new_internal_label(void) { __asm int 3 }
 
 #include "register-use.h"
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
@@ -335,7 +328,6 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 
 
-Node *new_flow_label_node(void) { __asm int 3 }
 
 void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement) { __asm int 3 }
 

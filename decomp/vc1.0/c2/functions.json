@@ -752,7 +752,15 @@
     "@materialize_boolean@8",
     "@is_constant_value@8",
     "@assignment_value@4",
-    "@constant_assignment_value@4"
+    "@constant_assignment_value@4",
+    "@canonicalize_conditional@4",
+    "@can_keep_conditional@4",
+    "@lower_conditional@8",
+    "_new_flow_label_node",
+    "_new_internal_label",
+    "@reassociate_right_chain@4",
+    "@rotate_left_chain@16",
+    "@sort_commutative_operands@12"
   ],
   "driver": [
     {
@@ -2220,14 +2228,12 @@
     {
       "name": "@can_keep_conditional@4",
       "start": 336368,
-      "end": 336369,
-      "provisional": true
+      "end": 336435
     },
     {
       "name": "@lower_conditional@8",
       "start": 336448,
-      "end": 336449,
-      "provisional": true
+      "end": 336610
     },
     {
       "name": "@lower_comma@8",
@@ -2397,8 +2403,7 @@
     {
       "name": "@canonicalize_conditional@4",
       "start": 332736,
-      "end": 332737,
-      "provisional": true
+      "end": 333007
     },
     {
       "name": "@integer_node@8",
@@ -2604,8 +2609,7 @@
     {
       "name": "@reassociate_right_chain@4",
       "start": 360288,
-      "end": 360289,
-      "provisional": true
+      "end": 360376
     },
     {
       "name": "@tree_order_key@12",
@@ -2615,14 +2619,12 @@
     {
       "name": "@rotate_left_chain@16",
       "start": 359728,
-      "end": 359729,
-      "provisional": true
+      "end": 359858
     },
     {
       "name": "@sort_commutative_operands@12",
       "start": 359664,
-      "end": 359665,
-      "provisional": true
+      "end": 359718
     },
     {
       "name": "@fold_constant_node@4",
@@ -3063,8 +3065,7 @@
     {
       "name": "_new_internal_label",
       "start": 320464,
-      "end": 320465,
-      "provisional": true
+      "end": 320510
     },
     {
       "name": "@next_machine_block@4",
@@ -4291,8 +4292,7 @@
     {
       "name": "_new_flow_label_node",
       "start": 363360,
-      "end": 363361,
-      "provisional": true
+      "end": 363392
     },
     {
       "name": "@replace_flow_region_last@8",

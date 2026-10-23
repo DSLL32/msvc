@@ -2,6 +2,8 @@
 #include "global-work.h"
 #include "machine.h"
 #include "tree-rewrite.h"
+#include "instruction-selection.h"
+#include "expression-fields.h"
 #include <recon.h>
 static FlowLabel *flow_label_buckets[32]; /* 0007bed0: label hash heads */
 static FlowLabel *pending_flow_labels; /* 00083774: current alias group */
@@ -186,4 +188,27 @@ FlowLabel *__fastcall canonical_flow_label(FlowLabel *record)
     }
     record->references = 0;
     return canonical;
+}
+
+/* Original [00058b60,00058b80). A newly inserted flow label starts
+   with one reference for the branch which caused its creation. */
+Node *new_flow_label_node(void)
+{
+    Node *node = new_node(0x29);
+    LabelSymbol *label = new_internal_label();
+    node->right.symbol = &label->symbol;
+    label->references = 1;
+    return node;
+}
+
+unsigned next_symbol_identifier(void);
+/* Original [0004e3d0,0004e3fe). Allocate an internal local label and give
+   it the same unique identifier/scope registration as other local symbols. */
+LabelSymbol *new_internal_label(void)
+{
+    LabelSymbol *label = allocate_descriptor(3, 1);
+    label->symbol.field0d = 0x20;
+    label->symbol.identifier = next_symbol_identifier();
+    insert_symbol(&label->symbol, 1);
+    return label;
 }
