@@ -381,7 +381,7 @@
       }
     }
   },
-  "status": "active reconstruction; original-backed producer reaches file-mtime helper at813accepted entries",
+  "status": "active; graceful checkpoint824atfinish_pch_capture before shared-prefix migration",
   "capture": {
     "provenance": "Untouched CL child _spawnvpe transport captured in C1 private scratch/prefix; helper source read-only from CL. C2/LINK references are not queued.",
     "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
@@ -389,7 +389,7 @@
   "input_metadata_provenance": "Automatic PCH records header mtime as a32-bit Unix-second value: original capture0x6adafe16 equals case.h mtime. Recreating inputs at a later mtime changed only that byte range in state.pch. Preserve captured input mtimes; no output normalization.",
   "reconstruction": {
     "accepted_from": 802,
-    "accepted_count": 813,
+    "accepted_count": 824,
     "acceptance_order": [
       "_begin_automatic_pch",
       "_begin_pch_rebuild",
@@ -401,7 +401,18 @@
       "_write_pch_event_stack@12",
       "_replay_pch_directive",
       "_pch_resolve_condition@4",
-      "_pch_record_include@4"
+      "_pch_record_include@4",
+      "_pch_file_mtime@4",
+      "__stat",
+      "_strpbrk",
+      "__getdrive",
+      "import:FindFirstFileA",
+      "import:FileTimeToSystemTime",
+      "import:FindClose",
+      "__dtoxmode",
+      "_strrchr",
+      "__stricmp",
+      "__strcmpi"
     ],
     "frontier_observations": [
       {
@@ -478,11 +489,13 @@
       }
     ],
     "current_frontier": {
-      "logical": "_pch_file_mtime@4",
-      "original_va": 283472
+      "logical": "_finish_pch_capture",
+      "original_va": 284672
     },
     "logical_renames": {
       "_pch_macro_defined@4": "_pch_file_mtime@4"
-    }
+    },
+    "stat_boundary": "evidence/stat-boundary.receipt.json",
+    "stat_original_chain": "evidence/stat-original-chain.json"
   }
 }

@@ -22,6 +22,30 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'preprocessor-P':('preprocessor','c1-P'), 'comments':('comments','c1'), 'prototypes':('prototypes','c1')}
 
 
+CASE_DEPENDENCIES = {
+    'pch-use':('pch-create','state.pch'),
+    'automatic-pch-reuse':('automatic-pch-create','state.pch'),
+    'automatic-pch-changed':('automatic-pch-reuse','state.pch'),
+}
+
+
+def ordered_cases(requested):
+    ordered = []
+    visiting = set()
+    def append(name):
+        assert name not in visiting, 'cyclic case dependency'
+        if name in ordered:
+            return
+        visiting.add(name)
+        if name in CASE_DEPENDENCIES:
+            append(CASE_DEPENDENCIES[name][0])
+        visiting.remove(name)
+        ordered.append(name)
+    for name in requested:
+        append(name)
+    return ordered
+
+
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -81,7 +105,9 @@ def validate_artifacts(work, fixture, phase):
 def run_case(name, executable, directory, traces=None, dependency=None):
     start = time.perf_counter()
     fixture_name, phase_name = CASES[name]
-    fixture = (BINARY/'cases'/fixture_name if name in ('do-while','seh','inline-asm','browser','preprocessor-E','preprocessor-EP','preprocessor-P','comments','prototypes') else FIXTURES/fixture_name)
+    fixture = BINARY/'cases'/fixture_name
+    if not (fixture/'manifest.json').is_file():
+        fixture = FIXTURES/fixture_name
     manifest = fixture/'manifest.json'
     metadata = json.loads(manifest.read_text())
     phase = metadata['phases'][phase_name]
@@ -106,6 +132,8 @@ def run_case(name, executable, directory, traces=None, dependency=None):
         data = captured(fixture/item['path'], item)
         basename = Path(item['path']).name
         generated_input = phase.get('generated_input_dependency')
+        if generated_input:
+            assert CASE_DEPENDENCIES[name] == (generated_input['case'],generated_input['output_name'])
         if (name == 'pch-use' and basename == 'state.pch') or (generated_input and basename == generated_input['input_name']):
             assert dependency is not None, 'PCH consumer requires actual producer output'
             generated = dependency.read_bytes()
@@ -210,15 +238,16 @@ def main():
         filter_path.write_text(''.join(n+'\n' for n in cache['application_definitions']))
         tracing = (cache,filter_path)
     trace_prepare = time.perf_counter()-trace_prepare_start
-    names = options.case or list(CASES)
-    if 'pch-use' in names and 'pch-create' not in names:
-        names.insert(names.index('pch-use'),'pch-create')
-    reports, dependency = [], None
+    names = ordered_cases(options.case or list(CASES))
+    reports, completed = [], {}
     for name in names:
+        dependency = None
+        if name in CASE_DEPENDENCIES:
+            producer, output = CASE_DEPENDENCIES[name]
+            dependency = completed[producer]/output
         report,work = run_case(name,executable,directory,tracing,dependency)
         reports.append(report)
-        if name == 'pch-create':
-            dependency = work/'state.pch'
+        completed[name] = work
     report = dict(status='passed', executable=str(executable), executable_sha256=sha(executable.read_bytes()),
                   trace=options.trace, trace_prepare_seconds=trace_prepare, cases=reports,
                   fixture_total_seconds=sum(r['total_seconds'] for r in reports),

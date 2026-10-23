@@ -1,5 +1,6 @@
 /* Automatic precompiled-header candidate validation and event replay. */
 #include <stdlib.h>
+#include <sys/stat.h>
 #include "pch-relocate.h"
 #include "source-input.h"
 #include "browser.h"
@@ -279,4 +280,13 @@ int __stdcall pch_resolve_condition(int condition)
 void __stdcall pch_record_include(char *name)
 {
     pch_record_string(5,pch_file_mtime(name),name);
+}
+
+/* Original0x45350..0x4537a. File dependencies store the legacy CRT's
+   modification time, or zero when the pathname has no status record. */
+int __stdcall pch_file_mtime(char *name)
+{
+    struct _stat status;
+    if (_stat(name,&status)) return 0;
+    return status.st_mtime;
 }

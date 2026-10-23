@@ -1,0 +1,16 @@
+minimal: native pass 0.011445s
+hello-win32: native pass 0.085706s
+hello-dll: native pass 0.083221s
+numeric-varargs: native pass 0.014466s
+pch-create: native pass 0.013854s
+pch-use: native pass 0.012498s
+do-while: native pass 0.010325s
+seh: native pass 0.011072s
+inline-asm: native pass 0.010615s
+browser: native pass 0.011996s
+preprocessor-E: native pass 0.008743s
+preprocessor-EP: native pass 0.008768s
+preprocessor-P: native pass 0.009311s
+comments: native pass 0.008324s
+prototypes: native pass 0.009175s
+Evidence: /root/.ai-tmp/vc1.0-c1/automatic-pch-fifteen-traces-824/receipt.json

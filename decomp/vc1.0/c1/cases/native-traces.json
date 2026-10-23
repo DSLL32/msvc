@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "5e73a4d1cf93def445659084394df9ad933b2f9c82eadde28a6b02499100cc79",
+    "functions.json": "714cea066b6e42e4cdb08287d1f7d6277d26b501d6bce6552621785fef4fcc4e",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "c18740bbd5f4a0135a912b6eb32e006fcf32eeb61fe6376518a837e83e30930c"
+    "sha256": "fe4b4951b42d26bc700f7168e802840f447109eaa81d45ba10dc27ae7435928a"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -2351,7 +2351,7 @@
     },
     "pch_file_mtime": {
       "logical": "_pch_file_mtime@4",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "pch_find_conditional": {
       "logical": "_pch_find_conditional",
@@ -4177,7 +4177,8 @@
     "write_pch_event_stack",
     "replay_pch_directive",
     "pch_resolve_condition",
-    "pch_record_include"
+    "pch_record_include",
+    "pch_file_mtime"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4277,7 +4278,14 @@
       "__unlink",
       "_remove",
       "__dup",
-      "_freopen"
+      "_freopen",
+      "__stat",
+      "_strpbrk",
+      "__getdrive",
+      "__dtoxmode",
+      "_strrchr",
+      "__stricmp",
+      "__strcmpi"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4304,7 +4312,10 @@
       "import:DeleteFileA",
       "import:GetCurrentProcess",
       "import:DuplicateHandle",
-      "import:SetStdHandle"
+      "import:SetStdHandle",
+      "import:FindFirstFileA",
+      "import:FileTimeToSystemTime",
+      "import:FindClose"
     ]
   },
   "cases": {

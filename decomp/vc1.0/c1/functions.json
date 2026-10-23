@@ -817,7 +817,18 @@
     "_write_pch_event_stack@12",
     "_replay_pch_directive",
     "_pch_resolve_condition@4",
-    "_pch_record_include@4"
+    "_pch_record_include@4",
+    "_pch_file_mtime@4",
+    "__stat",
+    "_strpbrk",
+    "__getdrive",
+    "import:FindFirstFileA",
+    "import:FileTimeToSystemTime",
+    "import:FindClose",
+    "__dtoxmode",
+    "_strrchr",
+    "__stricmp",
+    "__strcmpi"
   ],
   "driver": [
     {
@@ -2889,7 +2900,7 @@
     {
       "name": "_pch_file_mtime@4",
       "start": 283472,
-      "end": 283473
+      "end": 283515
     },
     {
       "name": "_pch_replay_mismatch",

@@ -1,27 +1,27 @@
 {
   "status": "verified intermediate checkpoint; automatic-PCH family remains active",
   "accepted_from": 802,
-  "accepted_count": 813,
-  "new_frontend_functions": 11,
-  "source_functions": 702,
+  "accepted_count": 824,
+  "new_frontend_functions": 12,
+  "source_functions": 703,
   "state_defaults_alias_ranges": 279,
   "current_frontier": {
-    "logical": "_pch_file_mtime@4",
-    "original_va": 283472
+    "logical": "_finish_pch_capture",
+    "original_va": 284672
   },
   "coverage": {
-    "accepted_union_bytes": 213331,
+    "accepted_union_bytes": 214617,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 195395,
-      "CRT": 17786,
-      "import_thunks": 150
+      "frontend_source": 195438,
+      "CRT": 19011,
+      "import_thunks": 168
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 76.9497969224554,
+    "percent": 77.41366499058557,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
-  "extent_delta": 2203,
+  "extent_delta": 3489,
   "original_frontier_captures": {
     "count": 12,
     "preparation_seconds": 0.644399419426918,
@@ -36,13 +36,23 @@
   },
   "checkpoint_operations": [
     {
+      "name": "static-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 44.14042246993631,
+      "exit": 0
+    },
+    {
       "name": "trace-build",
       "command": [
         "make",
         "-j4",
         "native-trace"
       ],
-      "seconds": 3.8397702164947987,
+      "seconds": 3.902716032229364,
       "exit": 0
     },
     {
@@ -52,7 +62,7 @@
         "scripts/native-traces.py",
         "--write"
       ],
-      "seconds": 0.19543448463082314,
+      "seconds": 0.21283515077084303,
       "exit": 0
     },
     {
@@ -62,9 +72,9 @@
         "scripts/check-native.py",
         "--trace",
         "--directory",
-        "/root/.ai-tmp/vc1.0-c1/automatic-pch-fifteen-traces-813"
+        "/root/.ai-tmp/vc1.0-c1/automatic-pch-fifteen-traces-824"
       ],
-      "seconds": 0.44572447799146175,
+      "seconds": 0.49941484723240137,
       "exit": 0
     },
     {
@@ -73,13 +83,13 @@
         "python3",
         "scripts/coverage.py"
       ],
-      "seconds": 0.16950914543122053,
+      "seconds": 0.17541709542274475,
       "exit": 0
     }
   ],
   "old_native_regressions": {
     "case_count": 15,
-    "receipt": "evidence/native-fifteen-cases-813.json"
+    "receipt": "evidence/native-fifteen-cases-824.json"
   },
   "normalization": "none",
   "corrected_application_state": {
@@ -90,7 +100,77 @@
     "_pch_macro_defined@4": "_pch_file_mtime@4"
   },
   "limitations": [
-    "Shared36-byte legacy stat layout/mtime support is pending root; no PCH-output completion claim.",
-    "Analysis/decompiler/original-build wall times were not measured; reported durations are measured operations only."
-  ]
+    "Automatic-PCH reconstruction remains active; migration to shared prefix starts at this graceful checkpoint.",
+    "CRT/import internal entries are separately catalog-verified original identities; native application CRT argument/return/post-state and downstream exact application stop prove the seam.",
+    "No PCH-output completion claim yet."
+  ],
+  "checkpoint813": {
+    "accepted_count": 813,
+    "current_frontier": {
+      "logical": "_pch_file_mtime@4",
+      "original_va": 283472
+    },
+    "coverage": {
+      "accepted_union_bytes": 213331,
+      "original_code_bytes": 277234,
+      "accepted_by_origin_bytes": {
+        "frontend_source": 195395,
+        "CRT": 17786,
+        "import_thunks": 150
+      },
+      "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+      "percent": 76.9497969224554,
+      "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+    },
+    "checkpoint_operations": [
+      {
+        "name": "trace-build",
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 3.8397702164947987,
+        "exit": 0
+      },
+      {
+        "name": "projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.19543448463082314,
+        "exit": 0
+      },
+      {
+        "name": "fifteen-traces",
+        "command": [
+          "python3",
+          "scripts/check-native.py",
+          "--trace",
+          "--directory",
+          "/root/.ai-tmp/vc1.0-c1/automatic-pch-fifteen-traces-813"
+        ],
+        "seconds": 0.44572447799146175,
+        "exit": 0
+      },
+      {
+        "name": "coverage",
+        "command": [
+          "python3",
+          "scripts/coverage.py"
+        ],
+        "seconds": 0.16950914543122053,
+        "exit": 0
+      }
+    ]
+  },
+  "new_CRT_public_entries": 7,
+  "new_import_thunks": 3,
+  "stat_boundary": "evidence/stat-boundary.receipt.json",
+  "stat_original_chain": "evidence/stat-original-chain.json",
+  "runtime_alias": {
+    "__stricmp": "zero-length public alias of__strcmpi at578c0; latter extent supplies body"
+  }
 }

@@ -65,7 +65,7 @@ def main():
                 # boundary breakpoint, rather than inventing an application stub.
                 runtime = json.loads((BINARY/'runtime.json').read_text())
                 expected_record = next(r for r in runtime if r['start']==address)
-                native_boundaries = {'_tolower':'recon_tolower','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen'}
+                native_boundaries = {'_tolower':'recon_tolower','__stat':'recon_stat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen'}
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 

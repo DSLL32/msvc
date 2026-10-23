@@ -461,7 +461,7 @@ void warn_ignored_token(void) { __asm { int 3 } }
 
 
 
-int __stdcall pch_file_mtime(char *name) { __asm { int 3 } return 0; }
+
 int pch_replay_mismatch(void) { __asm { int 3 } return 0; }
 
 

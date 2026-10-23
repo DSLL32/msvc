@@ -41,3 +41,10 @@ state aliases/defaults pass, together with all fifteen completed native cases.
 The original status consumer establishes that this helper reads st_mtime at
 +28 in the36-byte CRT _stat record. Shared native support is being extended;
 this checkpoint does not yet claim completion of any automatic-PCH phase.
+
+Graceful migration checkpoint:824 accepted entries /703 source functions.
+The file-mtime function and observed original CRT/import chain are verified;
+native _stat('case.h') returns0 and mtime1792736790 at+28, exactly the pinned
+header timestamp. Original/native now match at finish_pch_capture0x45800.
+The old private-prefix evidence is retained before the requested shared-prefix
+migration. All fifteen completed native cases and canonical audits pass.

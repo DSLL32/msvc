@@ -1,0 +1,42 @@
+exception 80000003 rva 000476a0 base 00010000 first 1
+registers eax 00000000 ecx 00000000 edx 00000000 ebx 00000000 esi 0005d5c3 edi 0005d5c3 ebp 00000000 esp 0029fba8
+stack 0 00053d26
+stack 1 00000000
+stack 2 0005d5c3
+stack 3 0005d5bc
+stack 4 00000000
+stack 5 00000008
+stack 6 0029fbdc
+stack 7 7bd20362
+stack 8 7b6bec60
+stack 9 00000000
+stack 10 00000000
+stack 11 3ffe2c00
+stack 12 00008000
+stack 13 0029fbf4
+stack 14 7b630759
+stack 15 7b6bec60
+stack 16 7b67bb90
+stack 17 00000000
+stack 18 3ffe2c00
+stack 19 0029fd28
+stack 20 7b62ceeb
+stack 21 0029fc20
+stack 22 7b6bec94
+stack 23 00000000
+stack 24 00000000
+stack 25 0000011c
+stack 26 00000006
+stack 27 00000002
+stack 28 000023f0
+stack 29 00000002
+stack 30 00000000
+stack 31 7b6bec60
+buffer 0 4 004f0107
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016900000000
+buffer 4 unopened
+buffer 5 unopened
+buffer 6 unopened
+exit 99
