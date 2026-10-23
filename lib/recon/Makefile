@@ -430,3 +430,12 @@ build/top-down-reserve-probe: tests/top-down-reserve-probe.c $(SOURCES) $(HEADER
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/top-down-reserve-probe.c $(SOURCES) -o $@
 top-down-reserve-check: build/top-down-reserve-probe
 	$(PYTHON) tests/check-top-down-reserve.py build/top-down-reserve-probe
+
+.PHONY: pointer-printf-check
+build/pointer-printf-probe: tests/pointer-printf-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/pointer-printf-probe.c $(SOURCES) -o $@
+build/pointer-printf-510: tests/pointer-printf-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 tests/pointer-printf-probe.c $(SOURCES) -o $@
+pointer-printf-check: build/pointer-printf-probe build/pointer-printf-510
+	$(PYTHON) tests/check-pointer-printf.py build/pointer-printf-probe
+	$(PYTHON) tests/check-pointer-printf.py build/pointer-printf-510

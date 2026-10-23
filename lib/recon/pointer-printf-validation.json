@@ -1,0 +1,85 @@
+{
+  "scope": "Reached legacy default-C ASCII literal+oneplain%p/%% through recon_vfprintf family; actualDWORD8uppercase/zero/no-prefix; unsupportedgrammars deny",
+  "source_sha256": "6369375a148a2743656676005537f95a9ca14d2105c39334709f0d55131236ac",
+  "reference": "tests/pointer-printf-original.json",
+  "original": {
+    "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf-original-02/receipt.json",
+    "sha256": "4d8fef381cf35a974f1822ce98e1e2af5172f485d567e0df6b8eb641754d10a2",
+    "rows": 192,
+    "implemented_rows": 72,
+    "unimplemented_controls": "width/precision/modifier rows retained as provenance, not implemented",
+    "provider": "VC1 shipped static LIBC OUTPUT.OBJ; compiler/library/member and actual loadedprobe hFile frozen",
+    "initial_raw": "pointer-printf-original retained; user-setvbuf FILE400 difference outside this correction; final probe uses owned4096B buffer"
+  },
+  "native": {
+    "gcc-default-reviewed": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf/gcc-default-reviewed",
+      "sha256": "fa50bb4d7ecfeabbbc4d2e0ce465512ab06ae0b42a598ad4821757536836d864",
+      "rows": 72,
+      "denials": 17,
+      "positive_control": "%%p is literal; no pointer conversion"
+    },
+    "gcc-510-reviewed": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf/gcc-510-reviewed",
+      "sha256": "8681e36b1773a58a678f59289e2192acc227dbbf4f0e7fb038a18d751745ffbb",
+      "rows": 72,
+      "denials": 17,
+      "positive_control": "%%p is literal; no pointer conversion"
+    },
+    "clang-default-reviewed": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf/clang-default-reviewed",
+      "sha256": "f72abf4575299a34ebe43357258622e3291462589d54f3370ccbbe42b8213ac4",
+      "rows": 72,
+      "denials": 17,
+      "positive_control": "%%p is literal; no pointer conversion"
+    },
+    "clang-510-reviewed": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf/clang-510-reviewed",
+      "sha256": "a7c445b558c3abbcdd8e685f5c3d96baa3ce1efa0af3b6448ff3a4c621c57e68",
+      "rows": 72,
+      "denials": 17,
+      "positive_control": "%%p is literal; no pointer conversion"
+    }
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf/orchestrator-review.json",
+    "sha256": "c3f66583a7df3d7698bfb4d1117e672f3f3c199612dfbe6f589ca4ba5bf399a8"
+  },
+  "affected_checks": [
+    "shared default",
+    "vprintf ordering/counts",
+    "WCHAR16 mixed formatting",
+    "28 plain%g x87 cases",
+    "28 double-promoted%Lg x87 cases"
+  ],
+  "cached_native_regression": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/pointer-printf-regression/receipt.json",
+    "sha256": "0cdcc9fa4e6cb912213019bf2995fec3628f72e0f9d7bf606a33ad52d82e3970",
+    "cases": 95,
+    "sources_stable": true,
+    "scope": "Complete renderer before malformed-prefix classification hardening; final four added denials+escapedliteral control checked by allfour final probes; no repeated broad suite",
+    "runs": [
+      {
+        "binary": "cl",
+        "build_seconds": 1.7342757415026426,
+        "fixture_wrapper_seconds": 3.266791787929833
+      },
+      {
+        "binary": "rc",
+        "build_seconds": 2.8032999467104673,
+        "fixture_wrapper_seconds": 2.719930600374937
+      },
+      {
+        "binary": "rcpp",
+        "build_seconds": 2.3877990329638124,
+        "fixture_wrapper_seconds": 0.3916782047599554
+      }
+    ]
+  },
+  "integration": "LINK must native-only reobserve unchanged actual COMDAT original; no actual pair acceptance claimed here",
+  "limitations": [
+    "No sprintf path change",
+    "Only plain%p grammar/defaultC scope; unsupported width/precision/modifier/mixed/locale inputs fail125",
+    "Formats withoutpointer conversion retain existing paths; no printed pointer normalization/cached target outputs"
+  ]
+}

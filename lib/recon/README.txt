@@ -841,3 +841,13 @@ This bounded success contract preserves the actual opaque identity/size and
 protection; it does not guarantee Windows' global highest-address ordering.
 No reserved-byte contents or future address-order/low-bit consumers are claimed.
 Ordinary VirtualAlloc paths are unchanged.
+
+The reached default-C vfprintf pointer path accepts ASCII literals, one plain
+%p and literal%% escapes. It consumes the actual32-bit void* and computes eight
+uppercase zero-padded hexadecimal digits, including00000000 forNULL, with no
+prefix. Existing ShimFILE buffering and byte/count/error routing are retained.
+Pointer widths/precision/length modifiers, mixed/multiple conversions, malformed
+prefixes and unproved locale/multibyte states are unsupported. Validation checks
+the entire grammar before consuming the pointer. Formats without a pointer
+conversion retain their existing formatter paths. This does not add %p handling
+to the separate sprintf implementation or claim general pointer formatting.

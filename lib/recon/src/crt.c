@@ -1186,11 +1186,63 @@ static int format_wide_ascii(char **output,const char *format,va_list args)
     *output=buffer;return (int)used;
 }
 #endif
+static int format_has_pointer(const char *format)
+{
+    const char *p=format;
+    while (*p) {
+        if (*p++!='%') continue;
+        if (*p=='%') { ++p;continue; }
+        /* A new percent starts a separate conversion even after malformed
+         * input. Do not let an invalid prefix hide a later pointer from the
+         * strict whole-format validator. */
+        while (*p && *p!='%') {
+            if (*p=='p') return 1;
+            if (strchr("diouxXfFeEgGaAcsnCS",*p)) { ++p;break; }
+            ++p;
+        }
+    }
+    return 0;
+}
+static int format_pointer_ascii(char **output,const char *format,va_list args)
+{
+    const char *p;char number[8],*text,*out;uint32_t value;
+    unsigned conversions=0,n;size_t length=strlen(format);
+    int saved_errno=errno,shift;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=recon_GetLastError();
+    if (recon_mb_codepage || recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("pointer printf outside default-C locale");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])
+        recon_unsupported("pointer printf locale handle");
+    /* Validate the entire grammar before consuming the single DWORD pointer. */
+    for(p=format;*p;++p){
+        if((unsigned char)*p>=128)recon_unsupported("nonASCII pointer printf format");
+        if(*p!='%')continue;
+        ++p;
+        if(*p=='%')continue;
+        if(*p!='p' || ++conversions!=1)
+            recon_unsupported("unreviewed pointer printf grammar");
+    }
+    if(conversions!=1 || length>(size_t)INT_MAX-9)
+        recon_unsupported("pointer printf conversion/count scope");
+    value=(uint32_t)(uintptr_t)va_arg(args,void *);
+    for(n=0,shift=28;shift>=0;++n,shift-=4)number[n]="0123456789ABCDEF"[(value>>shift)&15];
+    text=malloc(length+9);
+    if(!text)recon_unsupported("pointer printf allocation failure");
+    for(out=text,p=format;*p;++p){
+        if(*p!='%')*out++=*p;
+        else if(*++p=='%')*out++='%';
+        else{memcpy(out,number,8);out+=8;}
+    }
+    *out=0;*output=text;
+    errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);
+    return (int)(out-text);
+}
 int recon_vfprintf(ShimFILE *s,const char *format,va_list args)
 {
     char *text,*copy=NULL; size_t length=strlen(format),percent=0;
     int count,result;
     if (format_is_plain_g(format)) count=format_plain_g(&text,format,args);
+    else if (format_has_pointer(format)) count=format_pointer_ascii(&text,format,args);
     else
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     if (format_has_wide_string(format)) count=format_wide_ascii(&text,format,args);
