@@ -2,9 +2,9 @@
 
 Instrumentation plumbing only. No original Watcom application is reconstructed,
 run, selected or accepted here. The two tiny Win32 programs have been compiled
-with MSVC 5.10, and Rust has exported their actual decoded rows. **Neither
-authored program has been executed.** Runtime requires the separate combined
-broker/controller plan review.
+with MSVC 5.10, and Rust has exported their actual decoded rows. Build preparation
+never executes either authored program. Runtime belongs to the separately
+reviewed combined broker/controller plan and its independently bound evidence.
 
 `arena-loader.c` is a no-CRT PE with a custom entry. Its only normal input is one
 raw command-line CF filename. It loads a bounded fixture, allocates RWX private
@@ -12,7 +12,9 @@ memory, applies checked grouped DWORD fixups, publishes three globals and calls
 `probe_ready`. Ready only indirect-calls the published arena entry, then loops.
 No arena byte executes before the Ready boundary. The explicit optional suffix
 `thread-negative` creates one authored thread after publication and before Ready;
-its callback would set `probe_thread_marker` to `0x11223344`. That mode is only
+its callback would set `probe_thread_marker` to `0x11223344`. The primary thread
+waits for that created thread before Ready, forcing its debug event to precede
+Ready instead of relying on event delivery order. That mode is only
 for proving the unchanged broker denies CREATE_THREAD before callback execution.
 
 `arena-payload.c` is a real separately linked no-CRT PE. `payload.cf` contains its

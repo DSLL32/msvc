@@ -1,8 +1,8 @@
 {
   "scope": "build/static audit only; authored fixture, no child/original runtime or application acceptance",
-  "work": "/root/.ai-tmp/msvc2/watcom-capture/cf-arena-build-7ly6q60t",
+  "work": "/root/.ai-tmp/msvc2/watcom-capture/cf-arena-build-imaxr2xx",
   "sources": {
-    "arena-loader.c": "a5ae77915a8a4bb03dabca9ce2727a73c93139ffe2efba42f2295fbb5c470846",
+    "arena-loader.c": "323a64aa3a364732ef2cb47cae9f0020fcc4b5ce4a6230db6bc09cc668e44eab",
     "arena-payload.c": "defb22a43e4b0e3d243a1c8cad4c3b229ca5b803ff795f18a6040e5633140025",
     "prepare.py": "7e1b115e55b3d7e441083a269ed08827513ab0f0af12986b563c2e5de767b940"
   },
@@ -17,8 +17,8 @@
   "operations": [
     {
       "operation": "payload-build-reused",
-      "receipt": "/root/.ai-tmp/msvc2/watcom-capture/cf-arena-build-8g9_c3ia/receipt.json",
-      "receipt_sha256": "8a28e08b80b6f1193424543f8e42b03e0fde07e4abb75ad6a587db293be25dce",
+      "receipt": "/root/.ai-tmp/msvc2/watcom-capture/cf-arena-build-7ly6q60t/receipt.json",
+      "receipt_sha256": "286eff517c97a7d7fb8391d743d9bd0f3866b91c56896acc941714b9f564cfd5",
       "source_sha256": "defb22a43e4b0e3d243a1c8cad4c3b229ca5b803ff795f18a6040e5633140025",
       "pe_sha256": "fe4b295d8679d23f5754c40c61ebea304155bc381347ec2a29f2d5562b2c3cfb",
       "map_sha256": "4acbda4cf86f486035dba5e2e6e6300ad7795def1a38ae13c02cdea31c0640d4",
@@ -36,11 +36,11 @@
         "/Ob0",
         "/Gd",
         "/IR:\\toolchains\\5.10\\include",
-        "/FoS:\\watcom-capture\\cf-arena-build-7ly6q60t\\loader.obj",
+        "/FoS:\\watcom-capture\\cf-arena-build-imaxr2xx\\loader.obj",
         "R:\\tooling\\watcom-capture\\tests\\cf-arena\\arena-loader.c"
       ],
       "status": 0,
-      "seconds": 0.7870489526540041
+      "seconds": 0.9520785855129361
     },
     {
       "operation": "loader-link",
@@ -55,13 +55,13 @@
         "/base:0x400000",
         "/fixed:no",
         "/opt:noref",
-        "/out:S:\\watcom-capture\\cf-arena-build-7ly6q60t\\loader.exe",
-        "/map:S:\\watcom-capture\\cf-arena-build-7ly6q60t\\loader.map",
-        "S:\\watcom-capture\\cf-arena-build-7ly6q60t\\loader.obj",
+        "/out:S:\\watcom-capture\\cf-arena-build-imaxr2xx\\loader.exe",
+        "/map:S:\\watcom-capture\\cf-arena-build-imaxr2xx\\loader.map",
+        "S:\\watcom-capture\\cf-arena-build-imaxr2xx\\loader.obj",
         "R:\\toolchains\\5.10\\lib\\KERNEL32.LIB"
       ],
       "status": 0,
-      "seconds": 0.21972056943923235
+      "seconds": 0.44124816451221704
     },
     {
       "operation": "static-audit",
@@ -94,7 +94,7 @@
         "/root/msvc2/tooling/watcom-capture/tests/cf-arena/payload-export.json"
       ],
       "status": 0,
-      "seconds": 0.007658334448933601
+      "seconds": 0.007274860516190529
     },
     {
       "operation": "static-audit",
@@ -128,7 +128,7 @@
         "--check-ret"
       ],
       "status": 0,
-      "seconds": 0.005174304358661175
+      "seconds": 0.006784272380173206
     },
     {
       "operation": "static-audit",
@@ -162,30 +162,31 @@
         "--check-ret"
       ],
       "status": 0,
-      "seconds": 0.004037376493215561
+      "seconds": 0.005225192755460739
     }
   ],
   "child_launches": 0,
   "outputs": {
-    "loader.exe": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b",
+    "loader.exe": "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6",
+    "static-validation.json": "f1a6987a7cec4f13068714dee55b4ea948a3b79e529c94619a2635b03ae8e14e",
     "payload.map": "4acbda4cf86f486035dba5e2e6e6300ad7795def1a38ae13c02cdea31c0640d4",
-    "payload-export.json": "3dc0b48221c10233487989def61200c8a00b78b91e067e67d9766cde7764367f",
+    "payload-export.json": "e02363b947a30c2b98d7d9a2eaccc55a2cd5aa7ed8fc356d0a408180cf06aad5",
     "fixture-layout.json": "8fc5107e38ccd33a3464d974b93cf41c7e68c8b53ae67dd79b6ae260e87008cd",
-    "ready-export.json": "8996e833ca7f3c300b36b0999668c5e902bcceb17ff9ed7136e1b1abb9ee5a8d",
+    "ready-export.json": "1e2fcc3bf2f839e024eca323ae71e0d8769d953ab1a82115503c4f8fc2094f72",
     "command.json": "f3d56e748ce69b065045d5b7cb5c3874b1ea55f6c6ddbc12fd390740e7f1d87f",
-    "functions.json": "8e6e471b6001cef154504cfdb927fed170432911536f5f8f2ca416ddb3c9f49b",
-    "profile.json": "a7cf87d384ebb22d6b427cb0561d4a1c1d2b67d47b3292b1af1482d95ab8779b",
+    "functions.json": "e2b989f754ae3f4c4c94bed948c0268250f95d1308b3956583ca3dae3093fa9a",
+    "profile.json": "3d7197d8334ba0e83d9e2d783498223adec283e90255e2a506ca7930959e2a2e",
     "payload.exe": "fe4b295d8679d23f5754c40c61ebea304155bc381347ec2a29f2d5562b2c3cfb",
     "metadata.json": "3aab17bedb7d9c00694ccd74a73f973e766443eb9c7adc96f78e468f10e8a433",
-    "loader.map": "d74da69ce09d4a236a539d2cc4ea11dd077c5f37f8c7f1533af5ee2f6b081387",
-    "payload-ret-export.json": "b5df6bf23307a7691d73dba0250b72d40c299fa990ec971d528af8ebee104e32",
+    "loader.map": "77a67cbea2e1f920b9557978e4b584637c1acdcca9e811594eb1887ff60f5b1a",
+    "payload-ret-export.json": "71b412886ba22df63bf0bb951aa0b79123184f81d5051454e82cdd52d5705eef",
     "runtime.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
     "payload.cf": "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc",
     "ready-audit/runtime.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
     "ready-audit/metadata.json": "3aab17bedb7d9c00694ccd74a73f973e766443eb9c7adc96f78e468f10e8a433",
     "ready-audit/command.json": "81ff0489caffeab2ea83416a7b883d8e50e2bf361b377ac23cab38e952dac60b",
-    "ready-audit/functions.json": "64e526c041dae688ee95576c5b2f5c1f88252b1bea3abbbbb901beabfdf9411a",
-    "ret-audit/functions.json": "b7c42a01fa675611426b4f1a48e2fbc63b06392ba066f2762173e2976ace797e",
+    "ready-audit/functions.json": "93c44aa39b77dad9d1bbf7eac84e6a8af95c4ee0f01f62eef6994b094052e141",
+    "ret-audit/functions.json": "ac308fbf7add4a38a7278ef7f7bf40105cacb22fe9dde7882c2fccf5c06ee6a5",
     "ret-audit/runtime.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
     "ret-audit/metadata.json": "3aab17bedb7d9c00694ccd74a73f973e766443eb9c7adc96f78e468f10e8a433",
     "ret-audit/command.json": "4d28937171ed5cd1fa58fc95ef6c82d1f15a3ef6650c2b33d65ca49b8eae6c2c",

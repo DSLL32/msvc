@@ -1,0 +1,42 @@
+{
+  "scope": "one authored thread-negative ordering correction; build/static export only, no runtime by this task",
+  "reason_reported_by_parent": "runtime2 first eight controls passed with prior fixture; ninth reached Ready before CREATE_THREAD event, which appeared only during owned teardown",
+  "change": "WaitForSingleObject(created,INFINITE) checked for WAIT_OBJECT_0 before CloseHandle and Ready, exclusively inside thread-negative branch",
+  "prior_fixture": {
+    "prior_commit": "26c1d87258a355195231126d1aaa1361712e3c22",
+    "files": {
+      "arena-loader.c": "a5ae77915a8a4bb03dabca9ce2727a73c93139ffe2efba42f2295fbb5c470846",
+      "loader.exe": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b",
+      "loader.map": "d74da69ce09d4a236a539d2cc4ea11dd077c5f37f8c7f1533af5ee2f6b081387",
+      "profile.json": "a7cf87d384ebb22d6b427cb0561d4a1c1d2b67d47b3292b1af1482d95ab8779b",
+      "ready-export.json": "8996e833ca7f3c300b36b0999668c5e902bcceb17ff9ed7136e1b1abb9ee5a8d",
+      "build-receipt.json": "286eff517c97a7d7fb8391d743d9bd0f3866b91c56896acc941714b9f564cfd5",
+      "payload.exe": "fe4b295d8679d23f5754c40c61ebea304155bc381347ec2a29f2d5562b2c3cfb",
+      "payload.cf": "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc"
+    }
+  },
+  "new_fixture": {
+    "files": {
+      "arena-loader.c": "323a64aa3a364732ef2cb47cae9f0020fcc4b5ce4a6230db6bc09cc668e44eab",
+      "loader.exe": "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6",
+      "loader.map": "77a67cbea2e1f920b9557978e4b584637c1acdcca9e811594eb1887ff60f5b1a",
+      "profile.json": "3d7197d8334ba0e83d9e2d783498223adec283e90255e2a506ca7930959e2a2e",
+      "ready-export.json": "1e2fcc3bf2f839e024eca323ae71e0d8769d953ab1a82115503c4f8fc2094f72",
+      "build-receipt.json": "094f940fcc8c9a2b9ef36716c086bb1201ea086f13d592eb5abf4eee8c72935d",
+      "payload-export.json": "e02363b947a30c2b98d7d9a2eaccc55a2cd5aa7ed8fc356d0a408180cf06aad5",
+      "payload-ret-export.json": "71b412886ba22df63bf0bb951aa0b79123184f81d5051454e82cdd52d5705eef"
+    },
+    "child_launches_by_this_task": 0
+  },
+  "unchanged_payload": {
+    "payload.exe": "fe4b295d8679d23f5754c40c61ebea304155bc381347ec2a29f2d5562b2c3cfb",
+    "payload.cf": "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc"
+  },
+  "runtime_evidence_policy": "Prior eight controls retain their exact old source/PE/profile/Ready bindings; they are not rerun or relabelled as new-child validation. Only affected thread control may be rerun separately under parent approval.",
+  "normal_mode_runtime_for_new_child": "not performed or claimed",
+  "build_times_seconds": {
+    "loader-compile": 0.9520785855129361,
+    "loader-link": 0.44124816451221704
+  },
+  "source_diff": "diff --git a/tooling/watcom-capture/tests/cf-arena/arena-loader.c b/tooling/watcom-capture/tests/cf-arena/arena-loader.c\nindex cb635b3a9..7718bd8ec 100644\n--- a/tooling/watcom-capture/tests/cf-arena/arena-loader.c\n+++ b/tooling/watcom-capture/tests/cf-arena/arena-loader.c\n@@ -135,6 +135,7 @@ void __cdecl probe_loader_entry(void)\n     if(unexpected_thread) {\n         HANDLE created=CreateThread(0,0,probe_unexpected_thread,0,0,0);\n         if(!created) fail(121);\n+        if(WaitForSingleObject(created,INFINITE)!=WAIT_OBJECT_0) fail(123);\n         if(!CloseHandle(created)) fail(122);\n     }\n     probe_ready();\n"
+}

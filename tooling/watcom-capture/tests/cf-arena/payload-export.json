@@ -727,7 +727,7 @@
     },
     "inputs": {
       "accepted_names_sha256": "b12479db61f24f6da7c3af0f9efc658c5f1d63b7fcaaa79c73f61c8b17c7cd51",
-      "config_sha256": "10cba77f78321067e6c39611bcf5d9c560859f701e1766c61433ba8688aca63d",
+      "config_sha256": "a1b9ca3661982628f5a07251ffd343725f5f4269606858d666cf9f8aac93a329",
       "images": {
         "original": {
           "allocation_tail_contents": "not inferred",
@@ -787,7 +787,7 @@
           },
           "loader": {
             "path": "tooling/watcom-capture/tests/cf-arena/loader.exe",
-            "sha256": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b"
+            "sha256": "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6"
           },
           "original_file_sha256": "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc",
           "ownership_basis": "explicit index records only; no CF section table or whole-image executable claim",
@@ -923,7 +923,7 @@
       },
       "loader": {
         "path": "tooling/watcom-capture/tests/cf-arena/loader.exe",
-        "sha256": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b"
+        "sha256": "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6"
       },
       "original_file_sha256": "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc",
       "ownership_basis": "explicit index records only; no CF section table or whole-image executable claim",

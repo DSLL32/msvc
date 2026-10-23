@@ -12,7 +12,7 @@
       "relocation_sha256": "4f23ed9fcf6c4bc47126699d728fe2fb636b4a05223b364d66987cb05fcb0c58",
       "loader": {
         "path": "tooling/watcom-capture/tests/cf-arena/loader.exe",
-        "sha256": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b"
+        "sha256": "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6"
       },
       "layout_evidence": {
         "path": "fixture-layout.json",

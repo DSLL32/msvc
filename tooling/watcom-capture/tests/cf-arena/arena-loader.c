@@ -135,6 +135,7 @@ void __cdecl probe_loader_entry(void)
     if(unexpected_thread) {
         HANDLE created=CreateThread(0,0,probe_unexpected_thread,0,0,0);
         if(!created) fail(121);
+        if(WaitForSingleObject(created,INFINITE)!=WAIT_OBJECT_0) fail(123);
         if(!CloseHandle(created)) fail(122);
     }
     probe_ready();

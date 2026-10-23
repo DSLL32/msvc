@@ -2,7 +2,7 @@
   "scope": "authored CF-arena controller probe preparation only; no runtime or application acceptance",
   "child": {
     "path": "loader.exe",
-    "sha256": "065520ead9ef18a2f25aabd03ef9a6908b92583379593ef9e06e3ac64751e48b",
+    "sha256": "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6",
     "preferred_base": 4194304,
     "entry_rva": 4126,
     "ready_rva": 4115,
