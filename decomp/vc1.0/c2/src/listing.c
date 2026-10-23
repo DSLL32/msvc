@@ -1,4 +1,5 @@
 /* Assembly listing output. */
+#include <ctype.h>
 #include "listing.h"
 #include "options.h"
 #include "output.h"
@@ -357,4 +358,241 @@ void __fastcall mark_listing_symbols(SymbolHeader *symbol)
 {
     BackendSymbol *entry = (BackendSymbol *)symbol;
     if (entry->output_flags & 4) entry->output_flags |= 2;
+}
+
+SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol);
+void __fastcall begin_initializer_listing(SymbolHeader *symbol, long offset, Segment *segment);
+void __fastcall write_listing_origin(long offset);
+unsigned __fastcall write_initializer_listing_item(Initializer *initializer);
+/* Original29810..298e3. Block markers describe gaps relative to the
+   symbol's start; other items return the number of bytes they printed. */
+void __fastcall write_initializer_assembly(Initializer *initializer)
+{
+    SymbolHeader *symbol;
+    Segment *segment;
+    Initializer *item;
+    unsigned bytes;
+    if (!listing_enabled) return;
+    symbol = lookup_global_symbol(initializer->content.reference.symbol_id);
+    if ((symbol->kind == 1 || symbol->kind == 4) &&
+        (((BackendSymbol *)symbol)->attributes & 0x1000))
+        symbol = lookup_alias_target(symbol);
+    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+    begin_initializer_listing(symbol, initializer->content.reference.value, segment);
+    for (item = initializer->next; item; item = item->next) {
+        if (!item->kind) {
+            bytes = (unsigned)item->content.reference.value -
+                (segment->field2c - symbol->field04);
+            if (!bytes) continue;
+            write_listing_origin((long)bytes);
+        } else {
+            bytes = write_initializer_listing_item(item);
+            if (initializer->next == item && symbol->name && *symbol->name == '?')
+                write_demangled_listing(symbol, 1);
+        }
+        listing_column = 0;
+        printf("\n");
+        segment->field2c += bytes;
+    }
+}
+
+/* Original29740..2980b, ECX symbol/EDX prefix and one callee-cleaned
+   stack argument. Position the label, then reserve its initial byte prefix. */
+void __fastcall begin_initializer_listing(SymbolHeader *symbol, long offset, Segment *segment)
+{
+    listed_segment = write_segment_listing(segment, 0);
+    if (symbol->field04 != segment->field2c) {
+        write_listing_origin((long)(symbol->field04 - segment->field2c));
+        listing_column = 0;
+        printf("\n");
+        segment->field2c = symbol->field04;
+    }
+    listing_column += printf("%s", symbol_display_name(symbol));
+    if (offset) {
+        pad_listing_column(8);
+        listing_column += printf("DB");
+        pad_listing_column(16);
+        printf("0%xH DUP (?)", (unsigned)offset);
+        listing_column = 0;
+        printf("\n");
+        segment->field2c += (unsigned)offset;
+    }
+}
+
+void __fastcall write_listing_string(unsigned char *bytes, int count);
+void __fastcall write_listing_datum(Initializer *initializer);
+/* Original29510..296f6. Each initializer contributes its original byte
+   count; string repetitions share their payload and print on separate lines. */
+unsigned __fastcall write_initializer_listing_item(Initializer *initializer)
+{
+    int bytes = -1, repeat, alignment;
+    SymbolHeader *symbol;
+    switch (initializer->kind) {
+    case 1:
+        repeat = initializer->repeat;
+        bytes = initializer->content.datum.bytes * repeat;
+        if (initializer->content.datum.type == 6) {
+            if (repeat < 1) compiler_internal_error("@(#)listing.c:1.76", 0x1a6);
+            while (repeat--) {
+                write_listing_string(initializer->content.datum.value.bytes,
+                    initializer->content.datum.bytes);
+                if (repeat) {
+                    listing_column = 0;
+                    printf("\n");
+                    pad_listing_column(8);
+                }
+            }
+        } else write_listing_datum(initializer);
+        break;
+    case 2:
+        bytes = (signed char)initializer->content.relocation.flags;
+        pad_listing_column(8);
+        listing_column += printf("%s", listing_data_directive(bytes));
+        pad_listing_column(16);
+        symbol = lookup_global_symbol(initializer->content.relocation.symbol_id);
+        if ((symbol->kind == 4 || symbol->kind == 1) &&
+            (((BackendSymbol *)symbol)->attributes & 0x1000))
+            symbol = lookup_alias_target(symbol);
+        listing_column += printf("%s%s", dos_object ? "FLAT:" : "",
+            symbol_display_name(symbol));
+        if (initializer->content.relocation.offset)
+            listing_column += printf("%+ld", initializer->content.relocation.offset);
+        break;
+    case 4:
+        alignment = (signed char)initializer->content.byte_argument;
+        bytes = (alignment - listed_segment->field2c) & (alignment - 1);
+        pad_listing_column(8);
+        /* Original passes the alignment-name pointer to this %d conversion.
+           Keep that original call shape; this case has not reached it. */
+        listing_column += printf("ALIGN\t%d", listing_alignment_name(alignment));
+        break;
+    case 8:
+        bytes = initializer->content.argument;
+        write_listing_origin(bytes);
+        break;
+    case 3:
+        break;
+    default:
+        compiler_internal_error("@(#)listing.c:1.76", 0x1cc);
+        break;
+    }
+    return (unsigned)bytes;
+}
+
+void __fastcall write_listing_float(unsigned type, InitializerValue *value, int repeat);
+/* Original29340..29483. Integer literals retain their encoded width;
+   floating literals are delegated with the original precision selector. */
+void __fastcall write_listing_datum(Initializer *initializer)
+{
+    int repeat = initializer->repeat;
+    if (initializer->content.datum.type == 5) {
+        switch (initializer->content.datum.bytes) {
+        case 4: write_listing_float(0x1004, &initializer->content.datum.value, repeat); break;
+        case 8: write_listing_float(0x1008, &initializer->content.datum.value, repeat); break;
+        case 10: write_listing_float(0x100a, &initializer->content.datum.value, repeat); break;
+        default: compiler_internal_error("@(#)listing.c:1.76", 0x17e); break;
+        }
+        return;
+    }
+    pad_listing_column(8);
+    listing_column += printf("%s", listing_data_directive(initializer->content.datum.bytes));
+    pad_listing_column(16);
+    if (repeat > 1) listing_column += printf("%ld DUP(", repeat);
+    switch (initializer->content.datum.bytes) {
+    case 1: listing_column += printf("0%01xH", (unsigned)initializer->content.datum.value.byte); break;
+    case 2: listing_column += printf("0%xH", (unsigned)(unsigned short)initializer->content.datum.value.word); break;
+    case 4: listing_column += printf("0%lxH", initializer->content.datum.value.integer); break;
+    default: compiler_internal_error("@(#)listing.c:1.76", 0x191); break;
+    }
+    if (repeat > 1) listing_column += printf(")");
+}
+
+/* Original28160..28225. Account for tab stops in the listing's logical
+   columns, emitting at least one separator when the target is behind us. */
+void __fastcall pad_listing_column(unsigned column)
+{
+    int current = (int)listing_column, remaining, first_tab;
+    if (current >= (int)column) {
+        listing_column += printf(" ");
+        return;
+    }
+    remaining = (int)column - current;
+    first_tab = 8 - (current > 8 ? current % 8 : current);
+    if (remaining >= first_tab) {
+        remaining -= first_tab;
+        printf("\t");
+        listing_column += first_tab;
+    }
+    while (remaining >= 8) {
+        remaining -= 8;
+        printf("\t");
+        listing_column += 8;
+    }
+    while (remaining-- > 0) listing_column += printf(" ");
+}
+
+/* Original29490..294dc with10-entry jump table294dc..29504. */
+char *__fastcall listing_data_directive(long bytes)
+{
+    switch (bytes) {
+    case 1: return "DB";
+    case 2: return "DW";
+    case 4: return "DD";
+    case 6: return "DF";
+    case 8: return "DQ";
+    case 10: return "DT";
+    default:
+        compiler_internal_error("@(#)listing.c:1.76", 0x514);
+        return NULL;
+    }
+}
+
+/* Original28920..2892f. The caller owns column reset and line ending. */
+void __fastcall write_listing_origin(long offset)
+{
+    printf("\tORG $%+ld", offset);
+}
+
+/* Original28ea0..290b0. Printable bytes share quoted runs; control bytes
+   are hexadecimal operands. A doubled quote represents an apostrophe. */
+void __fastcall write_listing_string(unsigned char *bytes, int count)
+{
+    int first = 1, quoted = 0, printable;
+    unsigned byte;
+    pad_listing_column(8);
+    listing_column += printf("DB");
+    pad_listing_column(16);
+    while (count--) {
+        if ((int)listing_column > 72) {
+            if (quoted) {
+                printf("%c", '\'');
+                quoted = 0;
+            }
+            listing_column = 0;
+            printf("\n");
+            pad_listing_column(8);
+            listing_column += printf("DB\t");
+            first = 1;
+        }
+        byte = *bytes++;
+        printable = MB_CUR_MAX > 1 ? _isctype(byte, 0x157) : (_pctype[byte] & 0x157);
+        if (printable) {
+            if (!quoted) {
+                if (!first) listing_column += printf(", ");
+                listing_column += printf("%c", '\'');
+                quoted = 1;
+            }
+            if (byte == '\'') listing_column += printf("%c", '\'');
+            listing_column += printf("%c", byte);
+        } else {
+            if (quoted) {
+                listing_column += printf("%c", '\'');
+                quoted = 0;
+            }
+            if (!first) listing_column += printf(", ");
+            listing_column += printf("0%xH", byte);
+        }
+        first = 0;
+    }
+    if (quoted) listing_column += printf("%c", '\'');
 }

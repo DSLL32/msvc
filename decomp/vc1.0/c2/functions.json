@@ -1176,7 +1176,15 @@
     "@write_common_listing@4",
     "@mark_listing_symbols@4",
     "@coff_write_word@4",
-    "@coff_fill_bytes@8"
+    "@coff_fill_bytes@8",
+    "@write_initializer_assembly@4",
+    "@begin_initializer_listing@12",
+    "@write_initializer_listing_item@4",
+    "@write_listing_datum@4",
+    "@pad_listing_column@4",
+    "@listing_data_directive@4",
+    "@write_listing_origin@4",
+    "@write_listing_string@8"
   ],
   "driver": [
     {
@@ -2390,8 +2398,7 @@
     {
       "name": "@write_initializer_assembly@4",
       "start": 170000,
-      "end": 170001,
-      "provisional": true
+      "end": 170211
     },
     {
       "name": "_reset_stack_frame",
@@ -3990,8 +3997,7 @@
     {
       "name": "@pad_listing_column@4",
       "start": 164192,
-      "end": 164193,
-      "provisional": true
+      "end": 164389
     },
     {
       "name": "@write_listing_symbol@4",
@@ -7631,7 +7637,43 @@
     {
       "name": "@listing_data_directive@4",
       "start": 169104,
-      "end": 169105,
+      "end": 169180,
+      "shared": [
+        [
+          169180,
+          169220
+        ]
+      ]
+    },
+    {
+      "name": "@begin_initializer_listing@12",
+      "start": 169792,
+      "end": 169995
+    },
+    {
+      "name": "@write_listing_origin@4",
+      "start": 166176,
+      "end": 166191
+    },
+    {
+      "name": "@write_initializer_listing_item@4",
+      "start": 169232,
+      "end": 169718
+    },
+    {
+      "name": "@write_listing_string@8",
+      "start": 167584,
+      "end": 168112
+    },
+    {
+      "name": "@write_listing_datum@4",
+      "start": 168768,
+      "end": 169091
+    },
+    {
+      "name": "@write_listing_float@12",
+      "start": 168112,
+      "end": 168113,
       "provisional": true
     }
   ],

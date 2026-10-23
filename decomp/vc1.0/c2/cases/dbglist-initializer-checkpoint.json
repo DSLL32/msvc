@@ -1,0 +1,880 @@
+{
+  "checkpoint": 1180,
+  "previous_checkpoint": 1172,
+  "case": "dbglist",
+  "source_graphs": 1089,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1180,
+    "accepted_code_bytes": 320875,
+    "original_code_bytes": 399693,
+    "percentage": 80.28036518027587,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 556
+  },
+  "new_application": [
+    {
+      "name": "@write_initializer_assembly@4",
+      "start": 170000,
+      "end": 170211
+    },
+    {
+      "name": "@begin_initializer_listing@12",
+      "start": 169792,
+      "end": 169995
+    },
+    {
+      "name": "@write_initializer_listing_item@4",
+      "start": 169232,
+      "end": 169718
+    },
+    {
+      "name": "@write_listing_datum@4",
+      "start": 168768,
+      "end": 169091
+    },
+    {
+      "name": "@pad_listing_column@4",
+      "start": 164192,
+      "end": 164389
+    },
+    {
+      "name": "@listing_data_directive@4",
+      "start": 169104,
+      "end": 169180,
+      "shared": [
+        [
+          169180,
+          169220
+        ]
+      ]
+    },
+    {
+      "name": "@write_listing_origin@4",
+      "start": 166176,
+      "end": 166191
+    },
+    {
+      "name": "@write_listing_string@8",
+      "start": 167584,
+      "end": 168112
+    }
+  ],
+  "new_code_extent_union_bytes": 2079,
+  "evidence": [
+    {
+      "before": "dbglist-original-1172.json",
+      "after": "dbglist-original-1173.json",
+      "native": "dbglist-original-1173-native.json"
+    },
+    {
+      "before": "dbglist-original-1173.json",
+      "after": "dbglist-original-1174.json",
+      "native": "dbglist-original-1174-native.json"
+    },
+    {
+      "before": "dbglist-original-1174.json",
+      "after": "dbglist-original-1175.json",
+      "native": "dbglist-original-1175-native.json"
+    },
+    {
+      "before": "dbglist-original-1175.json",
+      "after": "dbglist-original-1176.json",
+      "native": "dbglist-original-1176-native.json"
+    },
+    {
+      "before": "dbglist-original-1176.json",
+      "after": "dbglist-original-1177.json",
+      "native": "dbglist-original-1177-native.json"
+    },
+    {
+      "before": "dbglist-original-1177.json",
+      "after": "dbglist-original-1178.json",
+      "native": "dbglist-original-1178-native.json"
+    },
+    {
+      "before": "dbglist-original-1178.json",
+      "after": "dbglist-original-1179.json",
+      "native": "dbglist-original-1179-native.json"
+    },
+    {
+      "before": "dbglist-original-1179.json",
+      "after": "dbglist-original-1180.json",
+      "native": "dbglist-original-1180-native.json"
+    }
+  ],
+  "current_frontier": "@input_counted_string@8, original700b0",
+  "checks": {
+    "native_cases": 14,
+    "completed_output_cases": 13,
+    "expected_named_trap_cases": 1,
+    "directive_sizes": 15,
+    "directive_table_dwords": 10,
+    "string_shapes": 48,
+    "printability_table_bytes_checked": 256,
+    "listing_output_abi_functions": 18,
+    "whole_graph_and_extents": true,
+    "data_and_negatives": true,
+    "original_W3_listing": true
+  },
+  "fixture_timing": {
+    "fixture_seconds": 0.5775209944695234,
+    "suite_setup_seconds": 0.15827495697885752,
+    "negative_check_seconds": 0.023888064548373222,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "timings": [
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 0.6337561449036002,
+      "returncode": 2,
+      "log_sha256": "b3391eaa056aa27da91c558e6f407aefa4c789fc4d864193c40e798b999b3605",
+      "label": "dbglist1173-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1172.json",
+        "--extend-after",
+        "cases/dbglist-original-1173.json"
+      ],
+      "seconds": 0.3114632498472929,
+      "returncode": 0,
+      "log_sha256": "ffed922ab5d18aab1af69559710e42a46f2a4c250ec53fa4a5283c7cbf0f4ae6",
+      "label": "dbglist1173-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 3.0000776825472713,
+      "returncode": 0,
+      "log_sha256": "39418852ae3d0e445c6be7922ca51ec0d09595a55c67cd701a41a8ab2f124842",
+      "label": "dbglist1173-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1173.json"
+      ],
+      "seconds": 0.24000514391809702,
+      "returncode": 0,
+      "log_sha256": "5d058023856fc50e975b8fbfbb779ec07c48d4def7cc3fd686051b17029d6509",
+      "label": "dbglist1173-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.9588156566023827,
+      "returncode": 0,
+      "log_sha256": "1dbd3337719ebe2ff6c80a4baa7116d0a19d7757f66dbf5d4268da73ef8bce2b",
+      "label": "dbglist1173-prototype-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1173.json"
+      ],
+      "seconds": 1.9828911582008004,
+      "returncode": 0,
+      "log_sha256": "383bd4e77c06cc99e6cefe1e28c0732272a998376a768b6a5d24496f04891cbd",
+      "label": "dbglist1173-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.822215690277517,
+      "returncode": 0,
+      "log_sha256": "cbef7b1d11b7e588a19504a3b5a92d404b9e606d0ff94e9c45901ba79d504ff8",
+      "label": "dbglist1174-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1173.json",
+        "--extend-after",
+        "cases/dbglist-original-1174.json"
+      ],
+      "seconds": 0.34720392245799303,
+      "returncode": 0,
+      "log_sha256": "ffed922ab5d18aab1af69559710e42a46f2a4c250ec53fa4a5283c7cbf0f4ae6",
+      "label": "dbglist1174-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 3.0230100862681866,
+      "returncode": 0,
+      "log_sha256": "3e98373ec5dfd65baf99914c6aa44bbd08490010f785caeee9bcf6285105cf43",
+      "label": "dbglist1174-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1174.json"
+      ],
+      "seconds": 0.22516570426523685,
+      "returncode": 0,
+      "log_sha256": "3dcbcbf2d03796b8e863a956ef8689ea1c2ef76662d9f2d524059e46ce735109",
+      "label": "dbglist1174-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1174.json"
+      ],
+      "seconds": 1.827813345938921,
+      "returncode": 0,
+      "log_sha256": "137ac4fa85c5c7c9748b7de4fc2f6bc5b2ca7045b5c4dc15d5cddad6cbf3a223",
+      "label": "dbglist1174-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+        "--repo",
+        "../../..",
+        "--project",
+        ".",
+        "--profile",
+        "c2",
+        "--discovery",
+        "cfg",
+        "--check-ownership",
+        "--check-extents",
+        "--check-accepted-extents",
+        "--config",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/functions-1175.json",
+        "--report",
+        "cases/dbglist-1175-approved-graph.json"
+      ],
+      "seconds": 1.5011038202792406,
+      "returncode": 0,
+      "log_sha256": "17240767048c951e02f6f71387097f22ebe4f805c5a57548a1b5d7c1108c7851",
+      "label": "dbglist1175-approved-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.936113045550883,
+      "returncode": 0,
+      "log_sha256": "67ecec12e723bfbab243449a775a02b77cda97ba851fe042bb8df27f923e526d",
+      "label": "dbglist1175-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1174.json",
+        "--extend-after",
+        "cases/dbglist-original-1175.json"
+      ],
+      "seconds": 0.3224753327667713,
+      "returncode": 0,
+      "log_sha256": "85ff6000bc49ec976b7f857112f08cbf27007a41bdaf72d6c248f94085582fe5",
+      "label": "dbglist1175-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 33.80962005537003,
+      "returncode": 0,
+      "log_sha256": "53d4d8cf69f89f94838d6991f5d2f332323f0cb94fdbabc7e1b84aab7ae8e778",
+      "label": "dbglist1175-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1175.json"
+      ],
+      "seconds": 0.21294029708951712,
+      "returncode": 0,
+      "log_sha256": "30c2f0d656eae4d512285c5410bea0ed013298090922595648dfbb229539c4db",
+      "label": "dbglist1175-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1175.json"
+      ],
+      "seconds": 1.9056405099108815,
+      "returncode": 0,
+      "log_sha256": "1c24d6cba57a8b2286d743e3b0f54c5a1bc1497d0bc1305efe0ef5088c5e7701",
+      "label": "dbglist1175-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.359111654572189,
+      "returncode": 0,
+      "log_sha256": "b07f86a814b2f37fdf776b7d2093fa38bebec7d8421eaa3c5d2d86dd0d1945a6",
+      "label": "dbglist1176-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1175.json",
+        "--extend-after",
+        "cases/dbglist-original-1176.json"
+      ],
+      "seconds": 0.3088209144771099,
+      "returncode": 0,
+      "log_sha256": "45bac7bd742069664db5f9a0f7392248bddfd7b24f456fe0a037b418517bd571",
+      "label": "dbglist1176-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 30.48910005390644,
+      "returncode": 0,
+      "log_sha256": "661c98d90d528335bd667766168c2a5da5bdf81630c1b2fded6b4ad081f206cc",
+      "label": "dbglist1176-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1176.json"
+      ],
+      "seconds": 0.20855139382183552,
+      "returncode": 0,
+      "log_sha256": "a474b2aa0b647afc67d74d9948367a54066bdd0c9a30c50ff8d471dd81bf5eff",
+      "label": "dbglist1176-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1176.json"
+      ],
+      "seconds": 1.3998122289776802,
+      "returncode": 0,
+      "log_sha256": "d546308b92349e46187daeb54bfec60bd028b4a0b8e9ca5372006d789fdb4375",
+      "label": "dbglist1176-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.9304315727204084,
+      "returncode": 0,
+      "log_sha256": "4f92776ce6545221459871ca287a0e99e1d95e1952cfe100b077d4f13feec457",
+      "label": "dbglist1177-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1176.json",
+        "--extend-after",
+        "cases/dbglist-original-1177.json"
+      ],
+      "seconds": 0.30804743990302086,
+      "returncode": 0,
+      "log_sha256": "45bac7bd742069664db5f9a0f7392248bddfd7b24f456fe0a037b418517bd571",
+      "label": "dbglist1177-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "GRAPH_AUDIT_BIN=/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+        "-o",
+        "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline"
+      ],
+      "seconds": 3.135354363359511,
+      "returncode": 0,
+      "log_sha256": "30078fdaad05c790c1aa0ef60965a6b777a7a52592f9fd138827cbad5303e578",
+      "label": "dbglist1177-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1177.json"
+      ],
+      "seconds": 0.22216993384063244,
+      "returncode": 0,
+      "log_sha256": "d17db6140fba545704a573e36526ebda745fee9e7c0c48fed9abcabca55b4205",
+      "label": "dbglist1177-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1177.json"
+      ],
+      "seconds": 1.248819151893258,
+      "returncode": 0,
+      "log_sha256": "522fbd1f425066cea9a929ec7470f16dd3a1f49d098019e937be3698081e59dc",
+      "label": "dbglist1177-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.481744605116546,
+      "returncode": 0,
+      "log_sha256": "4f92776ce6545221459871ca287a0e99e1d95e1952cfe100b077d4f13feec457",
+      "label": "dbglist1178-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1177.json",
+        "--extend-after",
+        "cases/dbglist-original-1178.json"
+      ],
+      "seconds": 0.28695317544043064,
+      "returncode": 0,
+      "log_sha256": "45bac7bd742069664db5f9a0f7392248bddfd7b24f456fe0a037b418517bd571",
+      "label": "dbglist1178-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "build/native/check-listing-directive"
+      ],
+      "seconds": 0.6572626307606697,
+      "returncode": 0,
+      "log_sha256": "ac3014aa767917956082dba69ca1b7b83a424383140d1446ab6e0f45eb2036ef",
+      "label": "dbglist1178-directive-shape",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check-listing-directive.py"
+      ],
+      "seconds": 0.16994226444512606,
+      "returncode": 0,
+      "log_sha256": "63627d355397cc0d6eecb60da822225c6c54363684d7e30838fbc3bf20a4c99a",
+      "label": "dbglist1178-directive-values",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "GRAPH_AUDIT_BIN=/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+        "-o",
+        "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline"
+      ],
+      "seconds": 3.030781777575612,
+      "returncode": 0,
+      "log_sha256": "48fb7aed15d2ae20babc1fb8490702ed73c73c21b8f341e37e7282b697e7beea",
+      "label": "dbglist1178-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1178.json"
+      ],
+      "seconds": 0.21183720417320728,
+      "returncode": 0,
+      "log_sha256": "86dfdb28af2e4442fca4d8e5eaa7409be09b22b19d6fef0f5311deac748273b5",
+      "label": "dbglist1178-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1178.json"
+      ],
+      "seconds": 1.1157410265877843,
+      "returncode": 0,
+      "log_sha256": "8afc19a7dcf2913533ed3fdbc78dc12e5dc2c4ff7364b1c34280ac1d4f8b83ee",
+      "label": "dbglist1178-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.285528757609427,
+      "returncode": 0,
+      "log_sha256": "b07f86a814b2f37fdf776b7d2093fa38bebec7d8421eaa3c5d2d86dd0d1945a6",
+      "label": "dbglist1179-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1178.json",
+        "--extend-after",
+        "cases/dbglist-original-1179.json"
+      ],
+      "seconds": 0.3079322371631861,
+      "returncode": 0,
+      "log_sha256": "45bac7bd742069664db5f9a0f7392248bddfd7b24f456fe0a037b418517bd571",
+      "label": "dbglist1179-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "GRAPH_AUDIT_BIN=/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+        "-o",
+        "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline"
+      ],
+      "seconds": 3.113127234391868,
+      "returncode": 0,
+      "log_sha256": "4723bbe3c62c5c204684f2430b2d21b233cbdd9d3a8a1519fa48640c677ee322",
+      "label": "dbglist1179-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1179.json"
+      ],
+      "seconds": 0.22165236715227365,
+      "returncode": 0,
+      "log_sha256": "1340ca1db94b3e908305cc49bc99a80618fdb13ac076465eb75634b2d9b07186",
+      "label": "dbglist1179-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1179.json"
+      ],
+      "seconds": 1.6183672044426203,
+      "returncode": 0,
+      "log_sha256": "064e841edc7d4d36d21233db1b38b97650f0f8c8a4d03de1b8a29350d7482bef",
+      "label": "dbglist1179-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.2354504354298115,
+      "returncode": 0,
+      "log_sha256": "4f92776ce6545221459871ca287a0e99e1d95e1952cfe100b077d4f13feec457",
+      "label": "dbglist1180-build",
+      "category": "build-unsplit"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1179.json",
+        "--extend-after",
+        "cases/dbglist-original-1180.json"
+      ],
+      "seconds": 0.3103597043082118,
+      "returncode": 0,
+      "log_sha256": "45bac7bd742069664db5f9a0f7392248bddfd7b24f456fe0a037b418517bd571",
+      "label": "dbglist1180-cache",
+      "category": "cache-extension"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "audit-data",
+        "audit-negatives",
+        "GRAPH_AUDIT_BIN=/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+        "-o",
+        "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline"
+      ],
+      "seconds": 53.77979183848947,
+      "returncode": 0,
+      "log_sha256": "9ff2a2718fc37980a8d5aef7fcd637912bfa6b99edbd3dae7d5bfbd4cda63877",
+      "label": "dbglist1180-final-static",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 6.402258945629001,
+      "returncode": 0,
+      "log_sha256": "602a24115d8421c56368a23e3d71a8641132fbed70211af672a79628817e26b2",
+      "label": "dbglist1180-fixtures",
+      "category": "fixture-wrapper"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "GRAPH_AUDIT_BIN=/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+        "-o",
+        "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline"
+      ],
+      "seconds": 3.103087332099676,
+      "returncode": 0,
+      "log_sha256": "b248b9d41b1297f7fa163aae72221c6ea4c7a49b7ec8557ee9309cd56c97e017",
+      "label": "dbglist1180-graph",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1180.json"
+      ],
+      "seconds": 0.22276371251791716,
+      "returncode": 0,
+      "log_sha256": "83da86cb1fd52767fb118b8f2cda43c49a5097b42ddad5556a7387fb7e86898f",
+      "label": "dbglist1180-native",
+      "category": "native-debug"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1180.json"
+      ],
+      "seconds": 1.487380975857377,
+      "returncode": 0,
+      "log_sha256": "1d89f9f742d16f9addc626f882325c55b49ff568c3720c804a530432361045f0",
+      "label": "dbglist1180-reference",
+      "category": "reference"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "build/native/check-listing-string"
+      ],
+      "seconds": 0.6352201271802187,
+      "returncode": 0,
+      "log_sha256": "c28bd9cfe63d9c84af7bd125b5a1c6bc1d9f3abd91dd5814cff4a3860c8e564b",
+      "label": "dbglist1180-string-shape-corrected",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "build/native/check-listing-string"
+      ],
+      "seconds": 0.6528285574167967,
+      "returncode": 2,
+      "log_sha256": "4e2f03574e6c099a4f63a5949303f8fb720edd459981fcf8ad125f03cae5989b",
+      "label": "dbglist1180-string-shape",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check-listing-string.py"
+      ],
+      "seconds": 0.8873173259198666,
+      "returncode": 0,
+      "log_sha256": "ada27a238267e451503662184cdc830ea2006bcf6c6e1f17d28d982c00c18085",
+      "label": "dbglist1180-string-values",
+      "category": "audit-or-focused-check"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "listing"
+      ],
+      "seconds": 2.1265709400177,
+      "returncode": 0,
+      "log_sha256": "a7cc9c43a40ab2affabda0dd4a782d57e425da9cef005669b7cb54a9b1b69c73",
+      "label": "dbglist1180-warnings",
+      "category": "canonical-warning-build"
+    }
+  ],
+  "timing_limits": [
+    "Analysis/editing time not separately measured. Native/canonical -j4 builds are combined unsplit commands; do not impute per-compiler time. Reference receipts contain measured setup/execution/check splits.",
+    "1175 ordinary audit33.810s included transient shared-tool development auto-build; approved immutable graph recertification1.501s is separate.1176 ordinary audit30.489s also retained, not claimed pure graph time. Later pinned graph/ABI/coverage commands~3.0s.",
+    "Final static53.780s included canonical full rebuild after shared/header dependency changes plus all data/negative checks. Fixture wrapper6.402s includes prerequisite rebuild; actual suite/setup/check timing retained separately.",
+    "Failed1173 candidate build lacked existing pointer-return lookup_alias_target prototype; corrected before pairing. Failed isolated string probe linked remapped sscanf; host-only report parser now explicitly undefines it. Both failed attempts retained."
+  ],
+  "abi": {
+    "header": "begin_initializer_listing original29740..2980b ECX symbol/EDX offset/one stackSegment*, RET4; other new functions RET0",
+    "data": "Directive294dc..29504 exactly10 originalDWORD jump destinations; named sizes1/2/4/6/8/10 mapDB/DW/DD/DF/DQ/DT, all others original diagnostic0x514 thenNULL if callback returns."
+  },
+  "limits": [
+    "Debug/listing case remains incomplete: current named trap700b0; full object/listing/PDB completion oracle remains required.",
+    "Initializer kind4 original calls alignment-name helper then passes pointer to ALIGN\\t%d. Original call shape preserved; no execution/address-equivalence claim for unvisited path. If reached, hold for explicit evidence/policy rather than changing format.",
+    "Floating-data formatter, demangler and other newly reached children remain named trapping stubs. Public/external/common declaration guards from prior checkpoint have not exercised every transformation body.",
+    "String microprobes isolate printf/_isctype contracts, not their internal CRT ABIs/bodies. Only C-locale printability is covered; all256 original entries checked,48 actual native/original quoting/wrap/column shapes.",
+    "COFF fill scope proof concerns current verified construction domain, not universal future kind0 unreachability. Any future real oversized direct-file read HOLD for root-approved bounded native policy; do not invent adjacent storage or alter unsigned predicates."
+  ]
+}

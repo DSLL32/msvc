@@ -287,7 +287,7 @@
       "instruction": "mov word ptr [eax + 0x12], dx"
     }
   ],
-  "invariant": "For normally constructed private C2 COFF sections: arena7 allocator starts zeroed; constructors add8, open adds1/2, close clears2. No method introduces state4; contribution kind=(state&4)==0 is1. String/trailer scopes also have explicit kind1. Global addresses do not escape; indexed and displacement references are bound to true operands and all literal reference candidates are accounted for.",
+  "invariant": "For the currently verified case and its private C2 COFF section construction domain: arena7 allocator starts zeroed; constructors add8, open adds1/2, close clears2. No method introduces state4; contribution kind=(state&4)==0 is1. String/trailer scopes also have explicit kind1. Global addresses do not escape; indexed and displacement references are bound to true operands and all literal reference candidates are accounted for.",
   "alias_review": "Section pointers are retained only by private section/contribution vectors and coff_current_section. Selected contributions supply active scopes; temporary name/trailer scopes restore or replace it with kind1. Allocator/error callbacks receive size or diagnostic arguments, not Section pointers. Source fields and original register/displacement def-use were reviewed; similarly numbered non-Section fields are not rewritten.",
   "scratch": {
     "original": "7e8d0..7e920",
@@ -298,7 +298,7 @@
   "direct_branch": "Original JA6f24f and JBE6f20b retain unsigned <=80. Typed80-byte scratch;102 independent original/native probes include mocked direct fwrite request shapes and fully defined buffered/count-only contents/counters.",
   "limits": [
     "No actual oversized direct-file read or adjacent bytes are represented or claimed matching. Mocked request proof stops at fwrite contract.",
-    "Invariant concerns C2 internal construction paths, not arbitrary malformed/corrupted caller-supplied object states or an external COFF library API. Failure callbacks remain named boundaries."
+    "Case-specific scope proof, not a universal claim that future kind0 paths are unreachable. A future real oversized direct read must HOLD for root-approved bounded native policy; never invent adjacent storage or change predicates. Arbitrary corrupted states and external COFF library APIs are not covered. Failure callbacks remain named boundaries."
   ],
-  "seconds": 3.3534254133701324
+  "seconds": 3.368605646304786
 }

@@ -497,7 +497,7 @@ void __fastcall coff_write_word(unsigned short value)
 static unsigned char coff_fill_scratch[80];
 /* Original6f1c0..6f36e. Contributions either count uninitialized space or
    fill circular500-byte data blocks. The original direct-file branch uses
-   the surprising unsigned <=80 loop, retained literally here. C2 creates
+   the surprising unsigned <=80 loop, retained literally here. The current case creates
    buffered contribution scopes; see the caller/state-contract receipt. */
 void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes)
 {

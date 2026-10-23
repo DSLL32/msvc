@@ -59,7 +59,7 @@
       "buffer_sha256": "42dedb212ff5f354e44fa5f2242567ca73dc97ad614840066bd59ca011209841"
     }
   ],
-  "seconds": 0.05825434811413288,
+  "seconds": 0.06435820274055004,
   "method": "Original69520..69580 plus exact original strncpy leaf in Unicorn; actual compiled native C helper; diagnostic edge captures actual cdecl arguments without inventing diagnostic execution",
   "limit": "Helper scalar/buffer/ABI shapes only; does not claim long-name diagnostics executed in the listing case"
 }

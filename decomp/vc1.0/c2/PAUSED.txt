@@ -1,3 +1,8 @@
+C2 ACTIVE1180 accepted /1089 source graphs, matching input_counted_string700b0.
+320875/399693 code-extent union bytes (80.280365%); not branch coverage.
+See cases/dbglist-initializer-checkpoint.json.14 native cases pass:13complete+debug named trap.
+Continue approved debug/listing/inline-assembly case; no new case yet.
+
 C2 ACTIVE1172 accepted /1081 source graphs, matching write_initializer_assembly29810.
 318796/399693 code-extent union bytes (79.760216%); not branch coverage.
 See cases/dbglist-listing-checkpoint.json. All14 native cases pass:13 completed+debug named trap.

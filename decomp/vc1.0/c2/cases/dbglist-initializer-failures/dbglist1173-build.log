@@ -1,0 +1,16 @@
+python3 scripts/dependencies.py
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/listing.c -o build/native/listing.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TRACE -finstrument-functions -c src/stubs.c -o build/native-trace/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TRACE -finstrument-functions -c src/listing.c -o build/native-trace/listing.o
+src/listing.c:377:16: error: incompatible integer to pointer conversion assigning to 'SymbolHeader *' (aka 'struct SymbolHeader *') from 'int' [-Wint-conversion]
+  377 |         symbol = lookup_alias_target(symbol);
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [Makefile:117: build/native/listing.o] Error 1
+make: *** Waiting for unfinished jobs....
+src/listing.c:377:16: error: incompatible integer to pointer conversion assigning to 'SymbolHeader *' (aka 'struct SymbolHeader *') from 'int' [-Wint-conversion]
+  377 |         symbol = lookup_alias_target(symbol);
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [Makefile:119: build/native-trace/listing.o] Error 1

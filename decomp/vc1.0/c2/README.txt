@@ -216,3 +216,14 @@ Oversized reads are not claimed matching. A separate closed-target scope/operand
 contract and readonly unaccepted trailer-helper analysis document the limit.
 Coverage is318796/399693 original code bytes (79.760216%), not branch coverage.
 See cases/dbglist-listing-checkpoint.json for split timings, repetitions and limits.
+
+Initializer/listing checkpoint1180 adds eight complete application bodies and
+2079 original code/text-data bytes. Driver/header/item/scalar/padding/directive/
+ORG/string functions pass fresh ordered original/native frontiers.18 listing
+cleanup ABIs,15 directive classes and48 isolated string quoting/wrapping/column
+shapes pass; the original10-DWORD table and all256 C-locale printability entries
+are checked independently. All14 native cases pass (13 complete, debug trap).
+Coverage320875/399693=80.280365% is code-extent union, not branch
+coverage. Debug input_counted_string700b0 is next; full debug artifacts still pending.
+Retained unvisited pointer-to-ALIGN%d behavior and case-specific COFF fill limits
+are explicit. See cases/dbglist-initializer-checkpoint.json for failures/timings.

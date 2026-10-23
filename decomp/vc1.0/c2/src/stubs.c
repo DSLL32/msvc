@@ -119,8 +119,7 @@ void __fastcall coff_write_comment(char *text) { __asm int 3 }
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
 #include "symbol-output.h"
 char *__fastcall listing_data_type(long bytes) { __asm int 3 }
-char *__fastcall listing_data_directive(long bytes) { __asm int 3 }
-void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
+void __fastcall write_listing_float(unsigned type, InitializerValue *value, int repeat) { __asm int 3 }
 #include "frame.h"
 
 
@@ -159,7 +158,6 @@ unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
 void __fastcall prepare_source_listing(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall open_listing_source(char *filename) { __asm int 3 }
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
-void __fastcall pad_listing_column(unsigned column) { __asm int 3 }
 void __fastcall write_listing_symbol(SymbolHeader *symbol) { __asm int 3 }
 int __fastcall write_listing_comment(int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }

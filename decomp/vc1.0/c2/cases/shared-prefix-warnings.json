@@ -2,14 +2,9 @@
   "modules": [
     {
       "module": "listing",
-      "seconds": 2.3251382494345307,
-      "returncode": 0
-    },
-    {
-      "module": "coff-writer",
-      "seconds": 2.22105183172971,
+      "seconds": 2.076583622954786,
       "returncode": 0
     }
   ],
-  "seconds": 4.546512089669704
+  "seconds": 2.0767864417284727
 }

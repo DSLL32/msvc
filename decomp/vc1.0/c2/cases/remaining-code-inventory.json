@@ -1,14 +1,14 @@
 {
-  "checkpoint": 1172,
+  "checkpoint": 1180,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1257,
-    "accepted_rows": 1081,
-    "accepted_union_bytes": 306132,
-    "unaccepted_rows": 176,
-    "unaccepted_provisional_rows": 170,
-    "unaccepted_indexed_extent_bytes": 696,
+    "indexed_rows": 1263,
+    "accepted_rows": 1089,
+    "accepted_union_bytes": 308211,
+    "unaccepted_rows": 174,
+    "unaccepted_provisional_rows": 168,
+    "unaccepted_indexed_extent_bytes": 694,
     "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
@@ -30,8 +30,8 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 68267,
-  "unclassified_ranges": 643,
+  "unclassified_code_union_bytes": 66190,
+  "unclassified_ranges": 648,
   "largest_unclassified_ranges": [
     {
       "start": "0x29921",
@@ -84,11 +84,6 @@
       "bytes": 1615
     },
     {
-      "start": "0x28e97",
-      "end": "0x29490",
-      "bytes": 1529
-    },
-    {
       "start": "0x6f621",
       "end": "0x6fb70",
       "bytes": 1359
@@ -132,6 +127,11 @@
       "start": "0x66091",
       "end": "0x66450",
       "bytes": 959
+    },
+    {
+      "start": "0x4ab41",
+      "end": "0x4aea0",
+      "bytes": 863
     }
   ],
   "limit": "Unclassified ranges can include application/support functions, code data and alignment; no CRT/stdlib attribution without identity evidence.",
@@ -439,13 +439,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@write_initializer_assembly@4",
-      "start": 170000,
-      "end": 170001,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@decode_inline_assembly@8",
       "start": 108912,
       "end": 108913,
@@ -680,13 +673,6 @@
       "name": "@write_demangled_listing@8",
       "start": 164128,
       "end": 164129,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@pad_listing_column@4",
-      "start": 164192,
-      "end": 164193,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1356,9 +1342,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@listing_data_directive@4",
-      "start": 169104,
-      "end": 169105,
+      "name": "@write_listing_float@12",
+      "start": 168112,
+      "end": 168113,
       "provisional": true,
       "extent_status": "entry placeholder"
     }

@@ -42,7 +42,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-audit-graph.py
 	$(PYTHON) scripts/check-rust-audit.py --binary $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-stdio-support.py
-audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -61,6 +61,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-codeview-string.py
 	$(PYTHON) scripts/check-coff-fill.py
 	$(PYTHON) scripts/check-coff-fill-contract.py
+	$(PYTHON) scripts/check-listing-directive.py
+	$(PYTHON) scripts/check-listing-string.py
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -163,3 +165,9 @@ build/native/check-codeview-string: src/check-codeview-string.c src/codeview-out
 
 build/native/check-coff-fill: src/check-coff-fill.c src/coff-writer.c $(NATIVE_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-coff-fill.c src/coff-writer.c -Wl,--gc-sections -o $@
+
+build/native/check-listing-directive: src/check-listing-directive.c src/listing.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-directive.c src/listing.c -Wl,--gc-sections -o $@
+
+build/native/check-listing-string: src/check-listing-string.c src/listing.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-string.c src/listing.c -Wl,--gc-sections -o $@
