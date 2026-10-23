@@ -217,3 +217,8 @@ build/fstat-probe: tests/fstat-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 fstat-check: build/fstat-probe
 	$(PYTHON) tests/check-fstat.py build/fstat-probe
+
+build/mapview-ex-probe: tests/mapview-ex-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mapview-ex-check: build/mapview-ex-probe
+	$(PYTHON) tests/check-mapview-ex.py build/mapview-ex-probe

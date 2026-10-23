@@ -569,3 +569,8 @@ signed32-bit UTC times; the proved Wine environment uses mtime as creation.
 Char/pipe handles use descriptor identity and zero sizes/times. Invalid bounds
 preserve LastError/doserrno while setting errno9; closed handles set LastError6.
 Success preserves errors. Directory/socket/error variants remain unsupported.
+
+MapViewOfFileEx supports the observed whole-view NULL-base form through the
+same typed mapping/view ownership model. Its successful call preserves both
+error slots, proved with a full2MB zero-extension/lifetime/persistence probe.
+Fixed-base or partial-view requests remain explicitly unsupported.

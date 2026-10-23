@@ -1,0 +1,6 @@
+{
+  "scope": "Genuine WINAPI MapViewOfFileEx NULL-base whole view; existing typed mapping/view ownership; fixed/partial unsupported",
+  "reference": "tests/mapview-ex-original.json",
+  "native_checks": "GCC/Clang exact original bytes/errors +full2MB zero tail +view lifetime after mapping handle close +persisted artifact hash; fixed-base denial; existing mapping/default checks",
+  "combined_build_checks_seconds": 2.399
+}

@@ -595,6 +595,14 @@ BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
         recon_unsupported("FlushViewOfFile registered success");
     errno=saved_errno; last_error=saved_error; return TRUE;
 }
+LPVOID WINAPI recon_MapViewOfFileEx(HANDLE handle,DWORD access,DWORD high,DWORD low,DWORD bytes,LPVOID base)
+{
+    DWORD saved_error=last_error;int saved_errno=errno;LPVOID result;
+    if (base || high || low || bytes) recon_unsupported("MapViewOfFileEx fixed/partial view");
+    result=recon_MapViewOfFile(handle,access,high,low,bytes);
+    if (result) {last_error=saved_error;errno=saved_errno;}
+    return result;
+}
 BOOL WINAPI recon_UnmapViewOfFile(LPCVOID address)
 {
     View **p,*v;

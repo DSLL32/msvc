@@ -260,7 +260,7 @@ void recon_load_system_profile(const char *,const char *);
  X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) \
  X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) X(BOOL,DisableThreadLibraryCalls,(HMODULE)) \
  X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
- X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
+ X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(LPVOID,MapViewOfFileEx,(HANDLE,DWORD,DWORD,DWORD,DWORD,LPVOID)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
  X(BOOL,SetConsoleCtrlHandler,(BOOL (WINAPI *)(DWORD),BOOL)) \
  X(USHORT *,LdrProcessRelocationBlock,(LPVOID,DWORD,USHORT *,LONG)) \
  X(DWORD,SearchPathA,(LPCSTR,LPCSTR,LPCSTR,DWORD,LPSTR,LPSTR *)) \
@@ -506,6 +506,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define DisableThreadLibraryCalls recon_DisableThreadLibraryCalls
 #define CreateFileMappingA recon_CreateFileMappingA
 #define MapViewOfFile recon_MapViewOfFile
+#define MapViewOfFileEx recon_MapViewOfFileEx
 #define UnmapViewOfFile recon_UnmapViewOfFile
 #define SetConsoleCtrlHandler recon_SetConsoleCtrlHandler
 #define LdrProcessRelocationBlock recon_LdrProcessRelocationBlock
