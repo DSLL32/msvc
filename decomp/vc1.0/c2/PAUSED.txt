@@ -1,8 +1,6 @@
-C2 ACTIVE: finish /O2 /G5 hello, then approved optimizer queue in cases/queue.json.
-Verified738 acceptances/660 source graphs; current lower_comma0x52180.
-Intrinsic173 aggregate initialization lowered; other descriptor IDs deliberately
-trap until introduced. All command logic reconstructed; only vyE0 exercised.
-Extent union206701/399693=51.7149412174%, not branch coverage.
-Canonical/W3, graph/extent/mask and native fixtures pass. Full hello incomplete.
-See cases/hello-intrinsic-lowering.json for evidence, data provenance and timing.
-Continue lower_comma; no shim requests. Use shared Git lock for checkpoints.
+C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
+Verified748 acceptances/670 source graphs. Matching canonicalize_conditional
+0x513c0 in WinMain; full hello object incomplete. Extent union207473/399693=51.9080894587%,
+not branch coverage. Canonical/W3, graph/extent/mask and native fixtures pass.
+See cases/hello-expression-values.json for ordered references/limits/timings.
+Continue conditional canonicalization; no shared shim requests.

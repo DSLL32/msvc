@@ -742,7 +742,17 @@
     "@prepare_intrinsic_arguments@12",
     "@intrinsic_argument_types@4",
     "@can_repeat_tree@4",
-    "@inspect_tree_repeatability@4"
+    "@inspect_tree_repeatability@4",
+    "@lower_comma@8",
+    "@copy_value_into_container@8",
+    "@make_truth_test@4",
+    "@typed_integer_node@8",
+    "@negate_condition@4",
+    "@map_comparison_opcode@8",
+    "@materialize_boolean@8",
+    "@is_constant_value@8",
+    "@assignment_value@4",
+    "@constant_assignment_value@4"
   ],
   "driver": [
     {
@@ -2222,8 +2232,7 @@
     {
       "name": "@lower_comma@8",
       "start": 336256,
-      "end": 336257,
-      "provisional": true
+      "end": 336316
     },
     {
       "name": "@materialize_expression@4",
@@ -2266,8 +2275,7 @@
     {
       "name": "@assignment_value@4",
       "start": 336784,
-      "end": 336785,
-      "provisional": true
+      "end": 336867
     },
     {
       "name": "@clone_node@4",
@@ -2340,8 +2348,7 @@
     {
       "name": "@is_constant_value@8",
       "start": 348272,
-      "end": 348273,
-      "provisional": true
+      "end": 348362
     },
     {
       "name": "@new_storage_reference@4",
@@ -2357,20 +2364,17 @@
     {
       "name": "@make_truth_test@4",
       "start": 333008,
-      "end": 333009,
-      "provisional": true
+      "end": 333065
     },
     {
       "name": "@negate_condition@4",
       "start": 333360,
-      "end": 333361,
-      "provisional": true
+      "end": 333486
     },
     {
       "name": "@materialize_boolean@8",
       "start": 333072,
-      "end": 333073,
-      "provisional": true
+      "end": 333154
     },
     {
       "name": "@simplify_short_circuit@8",
@@ -2678,8 +2682,7 @@
     {
       "name": "@typed_integer_node@8",
       "start": 361536,
-      "end": 361537,
-      "provisional": true
+      "end": 361570
     },
     {
       "name": "@rewrite_shift_as_multiply@4",
@@ -2815,8 +2818,7 @@
     {
       "name": "@map_comparison_opcode@8",
       "start": 360448,
-      "end": 360449,
-      "provisional": true
+      "end": 360472
     },
     {
       "name": "@integer_type_limit@8",
@@ -6012,6 +6014,16 @@
       "name": "@inspect_tree_repeatability@4",
       "start": 362080,
       "end": 362185
+    },
+    {
+      "name": "@copy_value_into_container@8",
+      "start": 336992,
+      "end": 337107
+    },
+    {
+      "name": "@constant_assignment_value@4",
+      "start": 336880,
+      "end": 336981
     }
   ],
   "cases": {

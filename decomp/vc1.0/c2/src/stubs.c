@@ -55,11 +55,7 @@ char *__fastcall format_function_name(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
-int __fastcall is_constant_value(Node *node, int value) { __asm int 3 }
 Node *__fastcall new_storage_reference(unsigned bytes) { __asm int 3 }
-Node *__fastcall make_truth_test(Node *node) { __asm int 3 }
-Node *__fastcall negate_condition(Node *node) { __asm int 3 }
-Node *__fastcall materialize_boolean(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
@@ -72,11 +68,9 @@ Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode) { __asm int 3 
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 int __fastcall can_keep_conditional(Node *node) { __asm int 3 }
 Node *__fastcall lower_conditional(Node *node, Node *container) { __asm int 3 }
-Node *__fastcall lower_comma(Node *node, Node *container) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
 unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
-Node *__fastcall assignment_value(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
@@ -109,7 +103,6 @@ Node *__fastcall fold_integer_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall integer_type_limit(Node *node, int limit) { __asm int 3 }
 Node *__fastcall strip_integer_cast(Node *node) { __asm int 3 }
-Node *__fastcall typed_integer_node(Node *model, unsigned value) { __asm int 3 }
 int __fastcall rewrite_shift_as_multiply(Node *node) { __asm int 3 }
 Node *__fastcall fold_absorbing_constant(Node *node, int value) { __asm int 3 }
 int __fastcall reduce_constant_bits(Node *node, Node *parent) { __asm int 3 }
@@ -131,7 +124,6 @@ int __fastcall factor_compatible_operator(Node *node, unsigned opcode, int impli
 int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall conversion_loses_value(unsigned short source, unsigned short target) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
-unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
 #include "work-prepare.h"
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
 void __fastcall lower_float_expression(Node *node) { __asm int 3 }

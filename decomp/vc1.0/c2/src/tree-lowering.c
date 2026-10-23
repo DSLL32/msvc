@@ -2,6 +2,7 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "records.h"
+#include "algebra.h"
 #include <recon.h>
 extern int optimize_global;
 /* Original [00051e20,000520d0). Expand statement-level forms before their
@@ -177,6 +178,107 @@ ordinary_assignment:
     if (left->opcode == 0x37) {
         lower_bitfield_assignment(node);
         if (node->opcode == 0x44) return rewrite_subtree(node, parent, flags);
+    }
+    return node;
+}
+
+/* Original [00052180,000521bc). Move the left side into a preceding
+   expression, then preserve the enclosing value form around the right side. */
+Node *__fastcall lower_comma(Node *node, Node *container)
+{
+    Node *value;
+    splice_expressions("I", copy_tree(node->left.node));
+    value = copy_value_into_container(node->second.node, container);
+    if (!container) container = node;
+    release_tree(container);
+    return value;
+}
+
+/* Original [00052460,000524d3). Copy a value into the assignment or
+   return-like expression which encloses it, preserving the original shell. */
+Node *__fastcall copy_value_into_container(Node *node, Node *container)
+{
+    if (!container) return copy_tree(node);
+    if (node_shapes[container->opcode] & NODE_WRITES_LEFT)
+        return build_tree("DDLY", container->left.node, node, clone_node(container));
+    if (container->opcode == 0x41)
+        return build_tree("DLY", node, clone_node(container));
+    compiler_internal_error("@(#)canon.c:1.182", 0x59c);
+}
+
+/* Original [000514d0,00051509). Boolean and comparison operators already
+   produce truth values; every other scalar is compared with a typed zero. */
+Node *__fastcall make_truth_test(Node *node)
+{
+    if ((node->opcode >= 0x1a && node->opcode <= 0x1c) ||
+        (node->opcode >= 0x1f && node->opcode <= 0x24)) return node;
+    return build_tree("PPNY", node, typed_integer_node(node, 0), 0x20);
+}
+
+/* Original [00051630,000516ae). Remove double negation, apply De Morgan
+   to short-circuit pairs, or complement an ordinary comparison opcode. */
+Node *__fastcall negate_condition(Node *node)
+{
+    Node *left = node->left.node, *right = node->second.node;
+    unsigned opcode = node->opcode;
+    switch (opcode) {
+    case 0x1a:
+        release_node(node);
+        return left;
+    case 0x1b: case 0x1c:
+        right = negate_condition(right);
+        left = negate_condition(left);
+        return build_tree("PPOL", left, right, opcode == 0x1b ? 0x1c : 0x1b, node);
+    default:
+        node->opcode = map_comparison_opcode(opcode, 1);
+        return node;
+    }
+}
+
+/* Original [00051510,00051562). Keep predicates in a Boolean control
+   context; materialize all other uses as a typed conditional yielding1/0. */
+Node *__fastcall materialize_boolean(Node *node, Node *parent)
+{
+    Node *zero, *one;
+    if (parent && ((parent->opcode >= 0x1a && parent->opcode <= 0x1c) ||
+                   parent->opcode == 0x38 || parent->opcode == 0x42)) return node;
+    zero = integer_node(0, 0x104);
+    one = integer_node(1, 0x104);
+    return build_tree("PYPPNYNY", node, one, zero, 0x43, 0x42);
+}
+
+/* Original [00052390,000523e3). Produce the value of an assignment
+   without evaluating its store again. Bitfield constants are width-masked. */
+Node *__fastcall assignment_value(Node *node)
+{
+    Node *value = constant_assignment_value(node);
+    unsigned width;
+    if (value->opcode == 0x33) {
+        width = node->left.node->second.node->second.node->left.value;
+        return typed_integer_node(node, value->left.value &
+            (~0U >> ((32 - width) & 31)));
+    }
+    value = build_tree("DNT", node->left.node, 0x30, node);
+    if (node->attributes.words.flags & 0x800) value->attributes.words.flags |= 0x800;
+    return value;
+}
+
+/* Original [000523f0,00052455). Look through bitfield assignments and
+   explicit conversions for a constant which can be used as the stored value. */
+Node *__fastcall constant_assignment_value(Node *node)
+{
+    Node *value;
+    unsigned width;
+    if (node->opcode == 0x32 && node->left.node->opcode == 0x37) {
+        value = constant_assignment_value(node->second.node);
+        if (value->opcode == 0x33) {
+            width = node->left.node->second.node->second.node->left.value;
+            return typed_integer_node(node, value->left.value &
+                (~0U >> ((32 - width) & 31)));
+        }
+    } else if (node->opcode == 0x34) {
+        value = constant_assignment_value(node->left.node);
+        if (value->opcode == 0x33) return fold_constant_node(value);
     }
     return node;
 }

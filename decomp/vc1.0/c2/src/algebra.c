@@ -1,6 +1,7 @@
 #include "algebra.h"
 #include "tree-input.h"
 #include "expression-fields.h"
+#include "records.h"
 #include <recon.h>
 /* Original [00056230,000562f0), including its nine-entry opcode table.
    2a denotes an operator without a removable right-hand identity. */
@@ -322,4 +323,46 @@ cancel_nested_sum:
     else left->second.node = replacement;
     release_tree(candidate);
     return node;
+}
+
+/* Original [00058440,00058462). Start with an ordinary integer constant
+   and apply the model's representation through the normal conversion graph. */
+Node *__fastcall typed_integer_node(Node *model, unsigned value)
+{
+    unsigned short type = model->attributes.words.type;
+    return convert_node_type(intern_leaf(0x33, 0, 0x104, value), type);
+}
+
+/* Original tables [00083650,00083668) and [00083668,00083680):
+   complement a comparison or exchange its operands. Only comparison opcodes
+   1f..24 index these six-entry maps; the original uses biased base pointers. */
+enum ComparisonOpcode { COMPARE_EQUAL = 0x1f, COMPARE_NOT_EQUAL,
+    COMPARE_LESS, COMPARE_LESS_EQUAL, COMPARE_GREATER, COMPARE_GREATER_EQUAL };
+static const unsigned negated_comparison[] = {
+    COMPARE_NOT_EQUAL, COMPARE_EQUAL, COMPARE_GREATER_EQUAL,
+    COMPARE_GREATER, COMPARE_LESS_EQUAL, COMPARE_LESS
+};
+static const unsigned exchanged_comparison[] = {
+    COMPARE_EQUAL, COMPARE_NOT_EQUAL, COMPARE_GREATER,
+    COMPARE_GREATER_EQUAL, COMPARE_LESS, COMPARE_LESS_EQUAL
+};
+
+/* Original [00058000,00058018). */
+unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate)
+{
+    if (negate) return negated_comparison[opcode - COMPARE_EQUAL];
+    return exchanged_comparison[opcode - COMPARE_EQUAL];
+}
+
+/* Original [00055070,000550ca). Integral/pointer constants carry their
+   bits directly; floating constants compare through the compiler's extended
+   representation after converting the requested signed integer value. */
+int __fastcall is_constant_value(Node *node, int value)
+{
+    Extended number;
+    if (node->opcode != 0x33) return 0;
+    if (node->attributes.words.type & 0xf00)
+        return node->left.value == (unsigned)value;
+    integer_to_extended(&value, &number);
+    return compare_extended(1, node->left.pointer, &number);
 }

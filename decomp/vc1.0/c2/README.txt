@@ -1898,3 +1898,16 @@ and original compiler/W3 pass. Extent union206701/399693=51.7149412174%, not
 branch coverage. Full object remains incomplete; prior exact first-function
 contribution proof remains valid. See cases/hello-intrinsic-lowering.json for
 ordered references, limits, data extents, timings and failed/repeated attempts.
+
+Expression values: checkpoint748
+--------------------------------
+Comma splitting preserves expression order and enclosing assignment/return
+forms. Truth tests, typed constants, De Morgan negation, comparison complement
+and operand exchange, Boolean control-context materialization and assignment
+value extraction are recovered as whole functions. Two six-entry comparison
+maps use named relation opcodes; unrelated original data is omitted. Bitfield
+width shifts preserve x86 modulo32 behavior. Floating constant comparison still
+calls its named trapping helper when reached. Native/original now agree at
+canonicalize_conditional513c0.670 graph/extent checks, native fixtures, canonical
+build and two modules/W3 pass. Full hello object remains incomplete. See
+cases/hello-expression-values.json for unvisited branches and separate timings.
