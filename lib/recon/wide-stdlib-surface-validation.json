@@ -1,0 +1,5 @@
+{
+  "scope": "Native UTF16 _wcsdup(constWCHAR*)\u2192ownedWCHAR* and legacy32-bit long wcstol(constWCHAR*,WCHAR**,int) declarations/remaps. Both fail125; no behavior claim before encountered contract.",
+  "request": "RCDLL complete option dispatcher requires unvisited_wcsdup; upcoming numeric helper useswcstol. Actual canonical probe retained byowner for later review.",
+  "checks": "GCC/Clang full SDKsurface compile/link/explicitunsupportedcalls;12 implemented imports retain positive checks."
+}

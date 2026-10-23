@@ -25,5 +25,7 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"wideupper")) return towupper('a')!='A';
     if(!strcmp(argv[1],"charlength")) return _mbclen(text)!=1;
     if(!strcmp(argv[1],"span")) return _mbsspn(text,text)!=1;
+    if(!strcmp(argv[1],"widedup")){WCHAR word[]={'a',0};return _wcsdup(word)==NULL;}
+    if(!strcmp(argv[1],"widenumber")){WCHAR word[]={'1',0};return wcstol(word,NULL,10)!=1;}
     return 1;
 }

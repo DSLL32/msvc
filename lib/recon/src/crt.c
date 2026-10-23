@@ -1900,3 +1900,12 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
 {
     (void)text;(void)accept;recon_unsupported("unreviewed _mbsspn");return 0;
 }
+
+WEAK WCHAR *recon_wcsdup(const WCHAR *text)
+{
+    (void)text;recon_unsupported("unreviewed UTF16 _wcsdup");return NULL;
+}
+WEAK long recon_wcstol(const WCHAR *text,WCHAR **end,int base)
+{
+    (void)text;(void)end;(void)base;recon_unsupported("unreviewed legacy UTF16 wcstol");return 0;
+}
