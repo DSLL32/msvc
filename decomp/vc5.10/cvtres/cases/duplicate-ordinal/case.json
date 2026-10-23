@@ -1,0 +1,38 @@
+{
+  "id": "duplicate-ordinal",
+  "arguments": [
+    "/nologo",
+    "/machine:ix86",
+    "/verbose",
+    "/readonly",
+    "/out:duplicate.obj",
+    "duplicate-ordinal.res"
+  ],
+  "inputs": [
+    {
+      "name": "duplicate-ordinal.res",
+      "path": "cases/final-validation-group/input/duplicate-ordinal.res",
+      "sha256": "f81b939537e8ddcd1bf10147cd4aa9651305ae262bf7791d84b3946b32ad6644"
+    }
+  ],
+  "artifacts": [
+    "duplicate.obj"
+  ],
+  "canonical_reference": {
+    "status": 1,
+    "stdout_size": 566,
+    "stderr_size": 0,
+    "stdout_sha256": "638f380e1d8572650bd30b302b72459a546c14fb2f225b0825107f995a7acbdf",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "2d531f7109ce16eb99ef544b3f82ad1b9088eb6c6da250ec5fac856b5faccd99",
+    "artifacts": {
+      "duplicate.obj": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "normalization": []
+  }
+}

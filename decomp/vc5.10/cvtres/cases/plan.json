@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "authorized-five-cases-complete",
+  "state": "application-complete-final-validation-complete-idle",
   "target": "toolchains/5.10/bin/CVTRES.EXE",
   "release_conditions": [
     "All VC5 workers authorized to resume first substantive cases"
@@ -118,14 +118,70 @@
       "state": "complete",
       "completion": "arm-without-windowsce/completion.json",
       "acceptance_reference": "arm-without-windowsce/reference/fixture.json"
+    },
+    {
+      "id": "palettes-ce-verbose",
+      "argv": [
+        "/nologo",
+        "/machine:ARM",
+        "/windowsce",
+        "/verbose",
+        "/readonly",
+        "/out:palettes.obj",
+        "palettes.res"
+      ],
+      "state": "complete",
+      "purpose": "Final bounded palette/verbose/duplicate validation; no new application-function credit.",
+      "completion": "palettes-ce-verbose/completion.json",
+      "acceptance_reference": "palettes-ce-verbose/reference/fixture.json"
+    },
+    {
+      "id": "duplicate-ordinal",
+      "argv": [
+        "/nologo",
+        "/machine:ix86",
+        "/verbose",
+        "/readonly",
+        "/out:duplicate.obj",
+        "duplicate-ordinal.res"
+      ],
+      "state": "complete",
+      "purpose": "Final bounded palette/verbose/duplicate validation; no new application-function credit.",
+      "completion": "duplicate-ordinal/completion.json",
+      "acceptance_reference": "duplicate-ordinal/reference/fixture.json"
+    },
+    {
+      "id": "duplicate-named",
+      "argv": [
+        "/nologo",
+        "/machine:ix86",
+        "/verbose",
+        "/readonly",
+        "/out:duplicate.obj",
+        "duplicate-named.res"
+      ],
+      "state": "complete",
+      "purpose": "Final bounded palette/verbose/duplicate validation; no new application-function credit.",
+      "completion": "duplicate-named/completion.json",
+      "acceptance_reference": "duplicate-named/reference/fixture.json"
+    },
+    {
+      "id": "duplicate-unknown",
+      "argv": [
+        "/nologo",
+        "/machine:ix86",
+        "/verbose",
+        "/readonly",
+        "/out:duplicate.obj",
+        "duplicate-unknown.res"
+      ],
+      "state": "complete",
+      "purpose": "Final bounded palette/verbose/duplicate validation; no new application-function credit.",
+      "completion": "duplicate-unknown/completion.json",
+      "acceptance_reference": "duplicate-unknown/reference/fixture.json"
     }
   ],
-  "proposed_followups": [
-    "/readonly and /verbose conversion",
-    "non-IX86 COFF machine variants",
-    "WINDOWSCE conversion variants and legacy .res formats",
-    "malformed/truncated/duplicate-resource diagnostics"
-  ],
+  "proposed_followups": [],
   "shared_questions": [
     "PE executable section includes IAT/import metadata; masking must preserve exact loader ranges",
     "USER32!LoadStringA must read target module resources",
@@ -158,8 +214,9 @@
   "inventory": "code-extent-inventory.json",
   "fixture_times": "fixture-times.json",
   "remaining_validation": [
-    "Only seven encountered message IDs are provided; unknown resource IDs fail closed.",
-    "Valid bitmap1/2/4/8/24bpp paths are reconstructed, but the case exercises24bpp input/2bpp output; malformed depths have no defined C return and remain unvalidated.",
-    "Other option, malformed/duplicate resource, large-file and error branches/API slices remain untested."
-  ]
+    "Unsupported-depth original AX/residual-high-EAX behavior remains unvalidated; native stops rather than inventing a result.",
+    "Only18 encountered target string IDs supplied. Other resource formats, arbitrary identifiers/locale and unreached API/error branches are outside validated scope."
+  ],
+  "final_validation_group": "final-validation-group/completion.json",
+  "next_action": "Idle. No further case queue; identify a concrete missing body or actual bug before further reconstruction work."
 }

@@ -15,9 +15,9 @@
         "load_message"
       ],
       "seconds": {
-        "setup": 0.05775853060185909,
-        "execution": 0.0017285244539380074,
-        "checks": 0.0005641737952828407
+        "setup": 0.06134960148483515,
+        "execution": 0.001953689381480217,
+        "checks": 0.0005682744085788727
       }
     },
     {
@@ -47,9 +47,9 @@
         "copy_bytes"
       ],
       "seconds": {
-        "setup": 0.05826971493661404,
-        "execution": 0.0028376812115311623,
-        "checks": 0.0013213101774454117
+        "setup": 0.061454239301383495,
+        "execution": 0.003017148934304714,
+        "checks": 0.00138159841299057
       }
     },
     {
@@ -86,9 +86,9 @@
         "write_pixel"
       ],
       "seconds": {
-        "setup": 0.05641610827296972,
-        "execution": 0.0028294241055846214,
-        "checks": 0.0021245721727609634
+        "setup": 0.06105163600295782,
+        "execution": 0.0031392155215144157,
+        "checks": 0.002231043763458729
       }
     },
     {
@@ -120,9 +120,9 @@
         "copy_bytes"
       ],
       "seconds": {
-        "setup": 0.058553220704197884,
-        "execution": 0.00292796827852726,
-        "checks": 0.0016017630696296692
+        "setup": 0.05957371927797794,
+        "execution": 0.002848315052688122,
+        "checks": 0.0016320813447237015
       }
     },
     {
@@ -154,15 +154,141 @@
         "copy_bytes"
       ],
       "seconds": {
-        "setup": 0.05821232497692108,
-        "execution": 0.0029080919921398163,
-        "checks": 0.0015559643507003784
+        "setup": 0.06016044598072767,
+        "execution": 0.002926943823695183,
+        "checks": 0.002085256390273571
+      }
+    },
+    {
+      "case": "palettes-ce-verbose",
+      "passed": true,
+      "status": 0,
+      "stdout_bytes": 476,
+      "stderr_bytes": 0,
+      "artifacts": {
+        "palettes.obj": {
+          "sha256": "66e7006a66ee3f0b0f563a936d2a6bf5dfe36dae364743d409752dfccdf79474",
+          "bytes": 1164
+        }
+      },
+      "application_entries": [
+        "main",
+        "seek_file",
+        "tell_file",
+        "convert_resources",
+        "read_bytes",
+        "allocate_block",
+        "read_identifier",
+        "load_message",
+        "insert_resource",
+        "init_directory",
+        "init_data_entry",
+        "write_bytes",
+        "convert_ce_image",
+        "color_to_gray",
+        "convert_rows",
+        "read_pixel",
+        "write_pixel",
+        "free_block",
+        "copy_bytes"
+      ],
+      "seconds": {
+        "setup": 0.05925467889755964,
+        "execution": 0.003066440112888813,
+        "checks": 0.0015966594219207764
+      }
+    },
+    {
+      "case": "duplicate-ordinal",
+      "passed": true,
+      "status": 1,
+      "stdout_bytes": 566,
+      "stderr_bytes": 0,
+      "artifacts": {
+        "duplicate.obj": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "application_entries": [
+        "main",
+        "seek_file",
+        "tell_file",
+        "convert_resources",
+        "read_bytes",
+        "allocate_block",
+        "read_identifier",
+        "load_message",
+        "insert_resource"
+      ],
+      "seconds": {
+        "setup": 0.06320615205913782,
+        "execution": 0.003613242879509926,
+        "checks": 0.0014842068776488304
+      }
+    },
+    {
+      "case": "duplicate-named",
+      "passed": true,
+      "status": 1,
+      "stdout_bytes": 593,
+      "stderr_bytes": 0,
+      "artifacts": {
+        "duplicate.obj": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "application_entries": [
+        "main",
+        "seek_file",
+        "tell_file",
+        "convert_resources",
+        "read_bytes",
+        "allocate_block",
+        "read_identifier",
+        "load_message",
+        "insert_resource"
+      ],
+      "seconds": {
+        "setup": 0.06371326092630625,
+        "execution": 0.0023422958329319954,
+        "checks": 0.0020019598305225372
+      }
+    },
+    {
+      "case": "duplicate-unknown",
+      "passed": true,
+      "status": 1,
+      "stdout_bytes": 559,
+      "stderr_bytes": 0,
+      "artifacts": {
+        "duplicate.obj": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "application_entries": [
+        "main",
+        "seek_file",
+        "tell_file",
+        "convert_resources",
+        "read_bytes",
+        "allocate_block",
+        "read_identifier",
+        "load_message",
+        "insert_resource"
+      ],
+      "seconds": {
+        "setup": 0.06075733341276646,
+        "execution": 0.0026872213929891586,
+        "checks": 0.0019499994814395905
       }
     }
   ],
-  "native_sha256": "2e17ecd69bd9307d24257affb5a14d89394a3ffbcb458fb9e182327a18ffa316",
+  "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
   "seconds": {
-    "build": 0.004722364246845245,
-    "total": 0.3207401856780052
+    "build": 0.004728331230580807,
+    "total": 0.6097816787660122
   }
 }

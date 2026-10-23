@@ -1,0 +1,38 @@
+{
+  "id": "duplicate-named",
+  "arguments": [
+    "/nologo",
+    "/machine:ix86",
+    "/verbose",
+    "/readonly",
+    "/out:duplicate.obj",
+    "duplicate-named.res"
+  ],
+  "inputs": [
+    {
+      "name": "duplicate-named.res",
+      "path": "cases/final-validation-group/input/duplicate-named.res",
+      "sha256": "000e17a50e129310a35f738ccfadc27b81a7d22dde4599e9b3abc9d6fb48c27a"
+    }
+  ],
+  "artifacts": [
+    "duplicate.obj"
+  ],
+  "canonical_reference": {
+    "status": 1,
+    "stdout_size": 593,
+    "stderr_size": 0,
+    "stdout_sha256": "b64558339747a05b2d863d577aa81d4f52a1fd9fa378cc94764178474f57cfdc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "7d1feefa1473519d02715a14c857e1304154dd450386da57cb1bde1761346036",
+    "artifacts": {
+      "duplicate.obj": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "normalization": []
+  }
+}

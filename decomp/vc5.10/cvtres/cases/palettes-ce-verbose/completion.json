@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "case": "palettes-ce-verbose",
+  "state": "complete",
+  "new_application_functions": 0,
+  "application_inventory": {
+    "functions": 22,
+    "extent_bytes": 7445
+  },
+  "arguments": [
+    "/nologo",
+    "/machine:ARM",
+    "/windowsce",
+    "/verbose",
+    "/readonly",
+    "/out:palettes.obj",
+    "palettes.res"
+  ],
+  "inputs": [
+    {
+      "name": "palettes.res",
+      "path": "cases/final-validation-group/input/palettes.res",
+      "sha256": "fffd75070f25f2ad6952aef7bf4fecf38b03089ba608c50baa8a335dbf5b8606"
+    }
+  ],
+  "canonical_reference": {
+    "status": 0,
+    "stdout_size": 476,
+    "stderr_size": 0,
+    "stdout_sha256": "929f3482a4d32fee445ae538a82708caf592501649612719540b80b84b5498bb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "aa80a2e3082be1d3a16d38714779d6cfa5fa4f9dfac77f875e3594afb7fc69a4",
+    "artifacts": {
+      "palettes.obj": {
+        "sha256": "66e7006a66ee3f0b0f563a936d2a6bf5dfe36dae364743d409752dfccdf79474",
+        "bytes": 1164
+      }
+    },
+    "normalization": []
+  },
+  "native_fixture": {
+    "case": "palettes-ce-verbose",
+    "passed": true,
+    "status": 0,
+    "stdout_bytes": 476,
+    "stderr_bytes": 0,
+    "artifacts": {
+      "palettes.obj": {
+        "sha256": "66e7006a66ee3f0b0f563a936d2a6bf5dfe36dae364743d409752dfccdf79474",
+        "bytes": 1164
+      }
+    },
+    "application_entries": [
+      "main",
+      "seek_file",
+      "tell_file",
+      "convert_resources",
+      "read_bytes",
+      "allocate_block",
+      "read_identifier",
+      "load_message",
+      "insert_resource",
+      "init_directory",
+      "init_data_entry",
+      "write_bytes",
+      "convert_ce_image",
+      "color_to_gray",
+      "convert_rows",
+      "read_pixel",
+      "write_pixel",
+      "free_block",
+      "copy_bytes"
+    ],
+    "seconds": {
+      "setup": 0.05925467889755964,
+      "execution": 0.003066440112888813,
+      "checks": 0.0015966594219207764
+    }
+  },
+  "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+  "original_unmasked_master": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master",
+  "original_masked_entries": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-entries",
+  "original_pinned": {
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master/configuration.json": "9bdd412991208fe0cae1507f836f872f999deede71e2434aa3724926e9283b56",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master/receipt.json": "aa80a2e3082be1d3a16d38714779d6cfa5fa4f9dfac77f875e3594afb7fc69a4",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master/events.txt": "1c7bf2c09b8c11751363c5932cbc702f216090ce70449d393db59fb4037f471f",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-entries/configuration.json": "c5b5b086cedda0375336d98d0ac640ea52b3ce0f837c6a2a3b8099f3e1e436a9",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-entries/receipt.json": "59eeb4ff44627a075c42a547eca1684738207d9a775a664ef6697fb466ff9533",
+    "cases/palettes-ce-verbose/reference/fixture.json": "6d628a95efcaef609c8963abea82223d723bdb958808b163b322e889ef1cf78f"
+  },
+  "normalization": [],
+  "audit": "build/final-guarded-audit",
+  "audit_receipt_sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+  "resource_manifest": "cases/final-validation-group/resources/manifest.json",
+  "wide_call_proof": "cases/final-validation-group/palette-wide-guarded-proof.json"
+}

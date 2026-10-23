@@ -13,12 +13,16 @@ for label in ('both-wrong-COFF','both-wrong-stdout','both-wrong-status'):
    for name in names:shutil.copyfile(source/name,dest/name)
   if label=='both-wrong-COFF':
    for directory in [old,new]:
-    data=bytearray((directory/artifact).read_bytes());data[-1]^=1;(directory/artifact).write_bytes(data)
+    data=bytearray((directory/artifact).read_bytes());
+    if data:data[-1]^=1
+    else:data+=b'X'
+    (directory/artifact).write_bytes(data)
   elif label=='both-wrong-stdout':
    for directory in [old,new]:(directory/'stdout.bin').write_bytes(b'wrong\n')
   else:
-   (old/'events.txt').write_text((old/'events.txt').read_text().replace('exit 0\n','exit 1\n'))
-   state=json.loads((new/'state.json').read_text());state['exit_status']=1;(new/'state.json').write_text(json.dumps(state))
+   expected=config['case']['canonical_reference']['status'];wrong=1 if expected==0 else 0
+   (old/'events.txt').write_text((old/'events.txt').read_text().replace('exit %d\n'%expected,'exit %d\n'%wrong))
+   state=json.loads((new/'state.json').read_text());state['exit_status']=wrong;(new/'state.json').write_text(json.dumps(state))
   try:compare_frontier(config,old,new)
   except AssertionError as error:results.append(dict(name=label,rejected=True,reason=str(error)))
   else:raise AssertionError(label+' accepted')

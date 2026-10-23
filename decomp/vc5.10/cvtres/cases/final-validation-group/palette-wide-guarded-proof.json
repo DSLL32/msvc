@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "comparison": {
+    "calls": 3,
+    "returns": [
+      38,
+      18,
+      19
+    ],
+    "formats": [
+      "adding resource -- type:%S,%c",
+      "name:%S,%c",
+      "name:%S,%c"
+    ],
+    "wchar16": "Full terminated Windows16-bit arguments match",
+    "stdout": "Complete FILE32 nonaddress fields, cursor offsets and pending bytes match"
+  },
+  "controls": [
+    {
+      "name": "wide-argument",
+      "rejected": true,
+      "reason": "wide printf argument differs"
+    },
+    {
+      "name": "following-argument",
+      "rejected": true,
+      "reason": "wide printf following argument differs"
+    },
+    {
+      "name": "return",
+      "rejected": true,
+      "reason": "wide printf return differs"
+    },
+    {
+      "name": "pending-bytes",
+      "rejected": true,
+      "reason": "printf pending stdout differs"
+    }
+  ],
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-native-guarded",
+  "pinned": {
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-original/events.txt": "f3e618f38e2bed11ef9a369c7431a9d8cfb7397ea40b2197fd654f21da5d0729",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-original/receipt.json": "cef2401026f3b7f89a4e2886617362ad039865a6d7a8ad58cbf8aeb33fb12314",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-native-guarded/state.json": "5eb2d7bd35a1836c3d6ec5c7ed460ba014d6b30e4780aacb6038a89b54cc040d",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palette-printf-native-guarded/receipt.json": "b57baf319cda80d840d5fb8fa87673ce71fa12859ef31e49832db2e26ff31d4f",
+    "/root/msvc2/decomp/vc5.10/cvtres/scripts/check-wide-format.py": "3ec28daa43ab3bad6c546f27498eb92862f930480eb8c6f67267c5a3f16dce11"
+  }
+}

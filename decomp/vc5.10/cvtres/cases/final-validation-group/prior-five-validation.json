@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "state": "five-cases-complete",
+  "application": {
+    "functions": 22,
+    "accepted_functions": 22,
+    "extent_bytes": 7445,
+    "accepted_extent_bytes": 7445,
+    "extent_percent": 100,
+    "classification": "All identified application extents; not arbitrary input/branch/API/resource completeness"
+  },
+  "runtime": {
+    "crt_functions": 4,
+    "crt_bytes": 400,
+    "import_thunks": 4,
+    "import_thunk_bytes": 24
+  },
+  "original_build": {
+    "passed": true,
+    "seconds": 4.231604949571192,
+    "command": [
+      "make",
+      "--no-print-directory",
+      "-j4",
+      "original"
+    ],
+    "log": "build/final-original-build.log",
+    "binary_sha256": "0a90547315943a594a55161b74f8baa30ade64c8b49a3721f4e8f896d0b5b61e",
+    "source_snapshot_sha256": "0c90cc6443dad1ca403338a849af0acbc66ebf11755e0380165c135d9478dcc4"
+  },
+  "native_fixture_suite": {
+    "passed": true,
+    "case_count": 5,
+    "native_sha256": "2e17ecd69bd9307d24257affb5a14d89394a3ffbcb458fb9e182327a18ffa316",
+    "seconds": {
+      "build": 0.004722364246845245,
+      "total": 0.3207401856780052
+    },
+    "total_execution_seconds": 0.013231690041720867
+  },
+  "static_audits": {
+    "ce": {
+      "path": "build/ce-review-audit-03",
+      "seconds": {
+        "engine": 0.08901077788323164,
+        "total": 0.2634403435513377
+      },
+      "tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+      "checked_functions": 20
+    },
+    "warning": {
+      "path": "build/warning-review-audit",
+      "seconds": {
+        "engine": 0.08933003526180983,
+        "total": 0.2661484060809016
+      },
+      "tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+      "checked_functions": 21
+    },
+    "error": {
+      "path": "build/error-review-audit",
+      "seconds": {
+        "engine": 0.08954828325659037,
+        "total": 0.27057957742363214
+      },
+      "tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+      "checked_functions": 22
+    }
+  },
+  "inventory": "code-extent-inventory.json",
+  "rejection_controls": {
+    "default-machine": {
+      "vprintf": 5,
+      "cached_import": 3,
+      "canonical_completion": 3
+    },
+    "arm-without-windowsce": {
+      "vprintf": 5,
+      "cached_import": 3,
+      "canonical_completion": 3
+    }
+  },
+  "limits": [
+    "Seven encountered string resource IDs only; other IDs fail closed.",
+    "Unsupported bitmap bit depths have no defined C result; malformed paths and unexercised format/options/API slices remain unvalidated.",
+    "No cross-process CRT sharing claim."
+  ],
+  "suggested_validation": [
+    "4/8bpp Windows CE bitmap conversion and CE emulation",
+    "Verbose named/ordinal/language resource listing and duplicate diagnostics",
+    "Malformed/truncated inputs and unsupported bitmap-depth behavior"
+  ]
+}

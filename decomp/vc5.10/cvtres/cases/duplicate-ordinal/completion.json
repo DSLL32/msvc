@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "case": "duplicate-ordinal",
+  "state": "complete",
+  "new_application_functions": 0,
+  "application_inventory": {
+    "functions": 22,
+    "extent_bytes": 7445
+  },
+  "arguments": [
+    "/nologo",
+    "/machine:ix86",
+    "/verbose",
+    "/readonly",
+    "/out:duplicate.obj",
+    "duplicate-ordinal.res"
+  ],
+  "inputs": [
+    {
+      "name": "duplicate-ordinal.res",
+      "path": "cases/final-validation-group/input/duplicate-ordinal.res",
+      "sha256": "f81b939537e8ddcd1bf10147cd4aa9651305ae262bf7791d84b3946b32ad6644"
+    }
+  ],
+  "canonical_reference": {
+    "status": 1,
+    "stdout_size": 566,
+    "stderr_size": 0,
+    "stdout_sha256": "638f380e1d8572650bd30b302b72459a546c14fb2f225b0825107f995a7acbdf",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "2d531f7109ce16eb99ef544b3f82ad1b9088eb6c6da250ec5fac856b5faccd99",
+    "artifacts": {
+      "duplicate.obj": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "normalization": []
+  },
+  "native_fixture": {
+    "case": "duplicate-ordinal",
+    "passed": true,
+    "status": 1,
+    "stdout_bytes": 566,
+    "stderr_bytes": 0,
+    "artifacts": {
+      "duplicate.obj": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "application_entries": [
+      "main",
+      "seek_file",
+      "tell_file",
+      "convert_resources",
+      "read_bytes",
+      "allocate_block",
+      "read_identifier",
+      "load_message",
+      "insert_resource"
+    ],
+    "seconds": {
+      "setup": 0.06320615205913782,
+      "execution": 0.003613242879509926,
+      "checks": 0.0014842068776488304
+    }
+  },
+  "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+  "original_unmasked_master": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master",
+  "original_masked_entries": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-entries",
+  "original_pinned": {
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master/configuration.json": "13d53d9064c4678179dd20059421150a391a07ddd822144a8fae1f362196d349",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master/receipt.json": "2d531f7109ce16eb99ef544b3f82ad1b9088eb6c6da250ec5fac856b5faccd99",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master/events.txt": "fcaea074ba4c6099a0c19741e91708bd82b95392b16a5d6c42de82122ca03641",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-entries/configuration.json": "3a806e9d340706fdf72a62a0dcdf88e6abd04290c4a138c4793292c1b7605eee",
+    "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-entries/receipt.json": "c81df00207c230a4e200e33cfd06b876705d104f358710d88105d32b244d3b72",
+    "cases/duplicate-ordinal/reference/fixture.json": "c412df2c6d20501cd37c7df577f068bfdbc636d8ec1b59b0b01a69da558b3b9c"
+  },
+  "normalization": [],
+  "audit": "build/final-guarded-audit",
+  "audit_receipt_sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+  "resource_manifest": "cases/final-validation-group/resources/manifest.json"
+}

@@ -39,7 +39,12 @@ unsigned long __stdcall read_pixel(const BYTE *row, unsigned long index, WORD bi
         shift = index & 7;
         return (row[index >> 3] & (1 << shift)) >> shift;
     }
-    /* The original has no defined result for other bit depths. */
+    /* Original fallthrough leaves AX from bits and residual high EAX. No
+     * unsupported-depth consumer has been validated. Stop native execution
+     * instead of assigning a result to that unvalidated original behavior. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+    __builtin_debugtrap();
+#endif
 }
 
 unsigned long __stdcall color_to_gray(unsigned long color)

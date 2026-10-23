@@ -8,7 +8,7 @@ start=time.perf_counter();config=json.loads((BINARY/'functions.json').read_text(
 environment=os.environ.copy();environment.pop('MAKEFLAGS',None);environment.pop('MFLAGS',None)
 build=time.perf_counter();subprocess.run(['make','--no-print-directory','-j4','native'],cwd=BINARY,env=environment,check=True,stdout=subprocess.DEVNULL);build=time.perf_counter()-build
 cases=[]
-for case in ('help','resources-rich','resources-rich-ce','default-machine','arm-without-windowsce'):
+for case in ('help','resources-rich','resources-rich-ce','default-machine','arm-without-windowsce','palettes-ce-verbose','duplicate-ordinal','duplicate-named','duplicate-unknown'):
  reference=BINARY/'cases'/case/'reference';master=json.loads((reference/'fixture.json').read_text())
  assert config['target']['sha256']==master['target_sha256']
  assert all(any(f['name']==name and f['status']=='accepted' for f in config['functions']) for name in master['required_accepted'])

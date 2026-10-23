@@ -1,0 +1,6 @@
+LANGUAGE 9, 1
+104 BITMAP "palette4.bmp"
+105 BITMAP "palette8.bmp"
+"NamedData" "CUSTOMTYPE" "payload.bin"
+107 256 "payload.bin"
+"NamedKnown" RCDATA "payload.bin"

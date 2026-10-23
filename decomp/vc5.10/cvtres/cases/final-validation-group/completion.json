@@ -1,0 +1,441 @@
+{
+  "schema": 1,
+  "state": "complete-idle",
+  "scope": "One final bounded group: valid 4/8bpp CE palette conversion with verbose output, plus three distinct duplicate-resource diagnostic forms.",
+  "new_application_functions": 0,
+  "application": {
+    "functions": 22,
+    "extent_bytes": 7445,
+    "extent_percent": 100,
+    "qualification": "All identified application extents; no universal branch/API/input/resource claim"
+  },
+  "runtime": {
+    "crt_functions": 4,
+    "crt_bytes": 400,
+    "import_thunks": 4,
+    "import_thunk_bytes": 24
+  },
+  "cases": [
+    {
+      "schema": 1,
+      "case": "palettes-ce-verbose",
+      "state": "complete",
+      "new_application_functions": 0,
+      "application_inventory": {
+        "functions": 22,
+        "extent_bytes": 7445
+      },
+      "arguments": [
+        "/nologo",
+        "/machine:ARM",
+        "/windowsce",
+        "/verbose",
+        "/readonly",
+        "/out:palettes.obj",
+        "palettes.res"
+      ],
+      "inputs": [
+        {
+          "name": "palettes.res",
+          "path": "cases/final-validation-group/input/palettes.res",
+          "sha256": "fffd75070f25f2ad6952aef7bf4fecf38b03089ba608c50baa8a335dbf5b8606"
+        }
+      ],
+      "canonical_reference": {
+        "status": 0,
+        "stdout_size": 476,
+        "stderr_size": 0,
+        "stdout_sha256": "929f3482a4d32fee445ae538a82708caf592501649612719540b80b84b5498bb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+        "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "capture_receipt_sha256": "aa80a2e3082be1d3a16d38714779d6cfa5fa4f9dfac77f875e3594afb7fc69a4",
+        "artifacts": {
+          "palettes.obj": {
+            "sha256": "66e7006a66ee3f0b0f563a936d2a6bf5dfe36dae364743d409752dfccdf79474",
+            "bytes": 1164
+          }
+        },
+        "normalization": []
+      },
+      "native_fixture": {
+        "case": "palettes-ce-verbose",
+        "passed": true,
+        "status": 0,
+        "stdout_bytes": 476,
+        "stderr_bytes": 0,
+        "artifacts": {
+          "palettes.obj": {
+            "sha256": "66e7006a66ee3f0b0f563a936d2a6bf5dfe36dae364743d409752dfccdf79474",
+            "bytes": 1164
+          }
+        },
+        "application_entries": [
+          "main",
+          "seek_file",
+          "tell_file",
+          "convert_resources",
+          "read_bytes",
+          "allocate_block",
+          "read_identifier",
+          "load_message",
+          "insert_resource",
+          "init_directory",
+          "init_data_entry",
+          "write_bytes",
+          "convert_ce_image",
+          "color_to_gray",
+          "convert_rows",
+          "read_pixel",
+          "write_pixel",
+          "free_block",
+          "copy_bytes"
+        ],
+        "seconds": {
+          "setup": 0.05925467889755964,
+          "execution": 0.003066440112888813,
+          "checks": 0.0015966594219207764
+        }
+      },
+      "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+      "original_unmasked_master": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master",
+      "original_masked_entries": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-entries",
+      "original_pinned": {
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master/configuration.json": "9bdd412991208fe0cae1507f836f872f999deede71e2434aa3724926e9283b56",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master/receipt.json": "aa80a2e3082be1d3a16d38714779d6cfa5fa4f9dfac77f875e3594afb7fc69a4",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-master/events.txt": "1c7bf2c09b8c11751363c5932cbc702f216090ce70449d393db59fb4037f471f",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-entries/configuration.json": "c5b5b086cedda0375336d98d0ac640ea52b3ce0f837c6a2a3b8099f3e1e436a9",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-palettes-ce-verbose-entries/receipt.json": "59eeb4ff44627a075c42a547eca1684738207d9a775a664ef6697fb466ff9533",
+        "cases/palettes-ce-verbose/reference/fixture.json": "6d628a95efcaef609c8963abea82223d723bdb958808b163b322e889ef1cf78f"
+      },
+      "normalization": [],
+      "audit": "build/final-guarded-audit",
+      "audit_receipt_sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+      "resource_manifest": "cases/final-validation-group/resources/manifest.json",
+      "wide_call_proof": "cases/final-validation-group/palette-wide-guarded-proof.json"
+    },
+    {
+      "schema": 1,
+      "case": "duplicate-ordinal",
+      "state": "complete",
+      "new_application_functions": 0,
+      "application_inventory": {
+        "functions": 22,
+        "extent_bytes": 7445
+      },
+      "arguments": [
+        "/nologo",
+        "/machine:ix86",
+        "/verbose",
+        "/readonly",
+        "/out:duplicate.obj",
+        "duplicate-ordinal.res"
+      ],
+      "inputs": [
+        {
+          "name": "duplicate-ordinal.res",
+          "path": "cases/final-validation-group/input/duplicate-ordinal.res",
+          "sha256": "f81b939537e8ddcd1bf10147cd4aa9651305ae262bf7791d84b3946b32ad6644"
+        }
+      ],
+      "canonical_reference": {
+        "status": 1,
+        "stdout_size": 566,
+        "stderr_size": 0,
+        "stdout_sha256": "638f380e1d8572650bd30b302b72459a546c14fb2f225b0825107f995a7acbdf",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+        "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "capture_receipt_sha256": "2d531f7109ce16eb99ef544b3f82ad1b9088eb6c6da250ec5fac856b5faccd99",
+        "artifacts": {
+          "duplicate.obj": {
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        "normalization": []
+      },
+      "native_fixture": {
+        "case": "duplicate-ordinal",
+        "passed": true,
+        "status": 1,
+        "stdout_bytes": 566,
+        "stderr_bytes": 0,
+        "artifacts": {
+          "duplicate.obj": {
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        "application_entries": [
+          "main",
+          "seek_file",
+          "tell_file",
+          "convert_resources",
+          "read_bytes",
+          "allocate_block",
+          "read_identifier",
+          "load_message",
+          "insert_resource"
+        ],
+        "seconds": {
+          "setup": 0.06320615205913782,
+          "execution": 0.003613242879509926,
+          "checks": 0.0014842068776488304
+        }
+      },
+      "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+      "original_unmasked_master": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master",
+      "original_masked_entries": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-entries",
+      "original_pinned": {
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master/configuration.json": "13d53d9064c4678179dd20059421150a391a07ddd822144a8fae1f362196d349",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master/receipt.json": "2d531f7109ce16eb99ef544b3f82ad1b9088eb6c6da250ec5fac856b5faccd99",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-master/events.txt": "fcaea074ba4c6099a0c19741e91708bd82b95392b16a5d6c42de82122ca03641",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-entries/configuration.json": "3a806e9d340706fdf72a62a0dcdf88e6abd04290c4a138c4793292c1b7605eee",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-ordinal-entries/receipt.json": "c81df00207c230a4e200e33cfd06b876705d104f358710d88105d32b244d3b72",
+        "cases/duplicate-ordinal/reference/fixture.json": "c412df2c6d20501cd37c7df577f068bfdbc636d8ec1b59b0b01a69da558b3b9c"
+      },
+      "normalization": [],
+      "audit": "build/final-guarded-audit",
+      "audit_receipt_sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+      "resource_manifest": "cases/final-validation-group/resources/manifest.json"
+    },
+    {
+      "schema": 1,
+      "case": "duplicate-named",
+      "state": "complete",
+      "new_application_functions": 0,
+      "application_inventory": {
+        "functions": 22,
+        "extent_bytes": 7445
+      },
+      "arguments": [
+        "/nologo",
+        "/machine:ix86",
+        "/verbose",
+        "/readonly",
+        "/out:duplicate.obj",
+        "duplicate-named.res"
+      ],
+      "inputs": [
+        {
+          "name": "duplicate-named.res",
+          "path": "cases/final-validation-group/input/duplicate-named.res",
+          "sha256": "000e17a50e129310a35f738ccfadc27b81a7d22dde4599e9b3abc9d6fb48c27a"
+        }
+      ],
+      "canonical_reference": {
+        "status": 1,
+        "stdout_size": 593,
+        "stderr_size": 0,
+        "stdout_sha256": "b64558339747a05b2d863d577aa81d4f52a1fd9fa378cc94764178474f57cfdc",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+        "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "capture_receipt_sha256": "7d1feefa1473519d02715a14c857e1304154dd450386da57cb1bde1761346036",
+        "artifacts": {
+          "duplicate.obj": {
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        "normalization": []
+      },
+      "native_fixture": {
+        "case": "duplicate-named",
+        "passed": true,
+        "status": 1,
+        "stdout_bytes": 593,
+        "stderr_bytes": 0,
+        "artifacts": {
+          "duplicate.obj": {
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        "application_entries": [
+          "main",
+          "seek_file",
+          "tell_file",
+          "convert_resources",
+          "read_bytes",
+          "allocate_block",
+          "read_identifier",
+          "load_message",
+          "insert_resource"
+        ],
+        "seconds": {
+          "setup": 0.06371326092630625,
+          "execution": 0.0023422958329319954,
+          "checks": 0.0020019598305225372
+        }
+      },
+      "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+      "original_unmasked_master": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-master",
+      "original_masked_entries": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-entries",
+      "original_pinned": {
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-master/configuration.json": "5746313e174b92d4e1a7ffe4d192e9512ac986b893acae8bd9154db3f6f1f158",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-master/receipt.json": "7d1feefa1473519d02715a14c857e1304154dd450386da57cb1bde1761346036",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-master/events.txt": "ae8c96025d760561e6611c0ef79d721928b930f469923f75d10cc2071d420558",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-entries/configuration.json": "26935a212440f355bd7fbb2aa5db59799a613dbc3b25ea3c081db3cc27ad48d9",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-named-entries/receipt.json": "1b8a5ae54298e9f3c280b99454e322c90e364b6bc7fa453a619af8a769a5e05f",
+        "cases/duplicate-named/reference/fixture.json": "c2ad4d2271ba1aae37f5b9086739f623d66bd86dc7bfb2626b2c24f9fccb3c1f"
+      },
+      "normalization": [],
+      "audit": "build/final-guarded-audit",
+      "audit_receipt_sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+      "resource_manifest": "cases/final-validation-group/resources/manifest.json",
+      "wide_call_proof": "cases/final-validation-group/duplicate-wide-guarded-proof.json"
+    },
+    {
+      "schema": 1,
+      "case": "duplicate-unknown",
+      "state": "complete",
+      "new_application_functions": 0,
+      "application_inventory": {
+        "functions": 22,
+        "extent_bytes": 7445
+      },
+      "arguments": [
+        "/nologo",
+        "/machine:ix86",
+        "/verbose",
+        "/readonly",
+        "/out:duplicate.obj",
+        "duplicate-unknown.res"
+      ],
+      "inputs": [
+        {
+          "name": "duplicate-unknown.res",
+          "path": "cases/final-validation-group/input/duplicate-unknown.res",
+          "sha256": "ca1c7fd96f6f8047938260b31714e87b0ba4c73864b9882f7efe8502e89cf133"
+        }
+      ],
+      "canonical_reference": {
+        "status": 1,
+        "stdout_size": 559,
+        "stderr_size": 0,
+        "stdout_sha256": "ea25b0624f9d655c37e422e0b39c6c08487b55218359ca86a009227738fd28f3",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+        "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "capture_receipt_sha256": "cb5ea0a34315c97a17d26ba08d760b05f25805bad62fc9ec150ba5f880009859",
+        "artifacts": {
+          "duplicate.obj": {
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        "normalization": []
+      },
+      "native_fixture": {
+        "case": "duplicate-unknown",
+        "passed": true,
+        "status": 1,
+        "stdout_bytes": 559,
+        "stderr_bytes": 0,
+        "artifacts": {
+          "duplicate.obj": {
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        "application_entries": [
+          "main",
+          "seek_file",
+          "tell_file",
+          "convert_resources",
+          "read_bytes",
+          "allocate_block",
+          "read_identifier",
+          "load_message",
+          "insert_resource"
+        ],
+        "seconds": {
+          "setup": 0.06075733341276646,
+          "execution": 0.0026872213929891586,
+          "checks": 0.0019499994814395905
+        }
+      },
+      "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+      "original_unmasked_master": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-master",
+      "original_masked_entries": "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-entries",
+      "original_pinned": {
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-master/configuration.json": "91ab8cddfe2cb245fe9656eb6129557d2e92d989e137549917dec51df2b04200",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-master/receipt.json": "cb5ea0a34315c97a17d26ba08d760b05f25805bad62fc9ec150ba5f880009859",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-master/events.txt": "1281c84af1110a8f0fcd67c625f3316cfd95483e5dc73e5b445be5a0117d4eef",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-entries/configuration.json": "31da8f3a0a7e7a4b841dbd7e24f25cceee08df6719c885c986fc3c0d389c0eba",
+        "/root/.ai-tmp/msvc2/vc5.10/cvtres/final-duplicate-unknown-entries/receipt.json": "6286069c33e2bc055066ff6bde1e416a198b349475995fe7e35eb25bf225b42c",
+        "cases/duplicate-unknown/reference/fixture.json": "7ddddcc865e9f1db450d72d5e01055572fe3b8e7b71d2df43fc35ce30d8a9d22"
+      },
+      "normalization": [],
+      "audit": "build/final-guarded-audit",
+      "audit_receipt_sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+      "resource_manifest": "cases/final-validation-group/resources/manifest.json"
+    }
+  ],
+  "shared_formatter": {
+    "commit": "4ec9223d",
+    "scope": "MSVCRT_510/default-C ASCII WCHAR16 plain %S with reached literal/%c/lowercase%.4x grammar; unsupported grammar/nonASCII/locale fails closed.",
+    "proofs": [
+      "palette-wide-guarded-proof.json",
+      "duplicate-wide-guarded-proof.json"
+    ]
+  },
+  "native_guard": {
+    "proof": "pixel-depth-guard.json",
+    "win32_identity": "win32-guard-identity.json",
+    "behavior": "Native-only INT3 for unsupported depths; original-compiler code/data/relocations remain exactly unchanged. No returned-value or public 16bpp claim."
+  },
+  "control_accounting": "control-reuse.json",
+  "fixture_times": "../fixture-times.json",
+  "audit": {
+    "path": "build/final-guarded-audit",
+    "sha256": "0a6753dda8be9a790141240933e1e7bc6b18b1c7006355895ba18095aae85386",
+    "seconds": {
+      "engine": 0.10203592665493488,
+      "total": 0.28271870967000723
+    },
+    "native_sha256": "a3c67b12ab0ffe5ebd549d5ab4774128b670eef65f844001bc4930cf6e99c21e",
+    "rebuilt_sha256": "1486eac36d48b0e73cd7ac7709031af76196beb0d15ae605834dbcbf78eebcac",
+    "tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f"
+  },
+  "timings": {
+    "original_resource_producer": 0.59607443,
+    "initial_original_build": 1.7360281450673938,
+    "shared_header_original_refresh": 3.93547919485718,
+    "native_formatter_build": 1.4978655586019158,
+    "final_both_target_guard_build": 2.5279855374246836,
+    "original_masked_capture_seconds": {
+      "palettes-ce-verbose": 1.1594631467014551,
+      "duplicate-ordinal": 1.06162566319108,
+      "duplicate-named": 1.0726557541638613,
+      "duplicate-unknown": 1.1741186594590545
+    },
+    "final_native_gdb": {
+      "palette": {
+        "build": 0.004717372357845306,
+        "setup": 0.06383335683494806,
+        "execution": 0.34897568821907043,
+        "total": 0.42527396511286497
+      },
+      "duplicate": {
+        "build": 0.004783344455063343,
+        "setup": 0.06516961101442575,
+        "execution": 0.35629741940647364,
+        "total": 0.43404283840209246
+      }
+    },
+    "warm_nine_case_suite": {
+      "build": 0.004728331230580807,
+      "total": 0.6097816787660122
+    },
+    "total_elf_execution": 0.025594512932002544,
+    "direct_guard_control": 0.22498770523816347
+  },
+  "limits": [
+    "Unsupported-depth original AX/residual-high-EAX behavior remains unvalidated; native stops rather than inventing a result.",
+    "Only 18 encountered target string IDs supplied. Other resource formats, arbitrary identifiers/locale and unreached API/error branches are outside validated scope."
+  ],
+  "next_action": "Idle. No further case queue; identify a concrete missing body or actual bug before further reconstruction work."
+}

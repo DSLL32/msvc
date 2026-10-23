@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "seconds": 2.5279855374246836,
+  "command": [
+    "make",
+    "--no-print-directory",
+    "-j4",
+    "native",
+    "original"
+  ],
+  "note": "Both target builds after native-only guard; no reference capture"
+}

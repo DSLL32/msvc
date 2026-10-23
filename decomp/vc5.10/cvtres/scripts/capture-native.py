@@ -179,6 +179,28 @@ class Entry(gdb.Breakpoint):
 for name in ENTRY_NAMES:Entry(name)
 if OBSERVE:ResourceCall("recon_LoadStringA",internal=True)
 if VPRINTF:VPrintfCall("recon_vprintf",internal=True)
+class PrintfReturn(gdb.FinishBreakpoint):
+ def __init__(self,frame,call):
+  super().__init__(frame,internal=True);self.call=call
+ def stop(self):
+  result.setdefault("printf_returns",[]).append(dict(call=self.call,return_value=int(self.return_value),crt=crt_state()))
+  return False
+class PrintfCall(gdb.Breakpoint):
+ def stop(self):
+  frame=gdb.newest_frame();format=frame.read_var("format");text=format.string()
+  if "%S" not in text:return False
+  pointer=int(frame.read_register("ebp"))+12
+  value=struct.unpack("<I",bytes(gdb.selected_inferior().read_memory(pointer,4)))[0]
+  wide=bytearray()
+  for index in range(256):
+   pair=bytes(gdb.selected_inferior().read_memory(value+2*index,2));wide+=pair
+   if pair==b"\\x00\\x00":break
+  else:raise AssertionError("unterminated printf WCHAR16")
+  second=struct.unpack("<I",bytes(gdb.selected_inferior().read_memory(pointer+4,4)))[0]
+  call=dict(caller=frame.older().name(),format_hex=text.encode("ascii").hex(),format_pointer=int(format),argument_pointer=value,argument_slot=pointer,second_argument=second,wide_hex=wide.hex(),crt=crt_state())
+  result.setdefault("printf_calls",[]).append(call);PrintfReturn(frame,len(result["printf_calls"])-1)
+  return False
+if PRINTF:PrintfCall("recon_printf",internal=True)
 gdb.execute("run")
 result["info_program"]=gdb.execute("info program",to_string=True)
 try:
@@ -204,7 +226,7 @@ except gdb.error as error:result["frame_error"]=str(error)
 open(OUTPUT,"w").write(json.dumps(result,indent=2)+"\\n")
 '''
 config=json.loads((out/'configuration.json').read_text())
-script='VPRINTF='+repr(config.get('vprintf_observations'))+'\nSCRIPT_DIR='+repr(str(BINARY/'scripts'))+'\nHEAP_STATE='+repr(config.get('heap_state',False))+'\nOUTPUT='+repr(str(out/'state.json'))+'\nDATA='+repr(config.get('data',[]))+'\nCRT='+repr(config.get('crt_data',[]))+'\nOBSERVE='+repr(bool(config.get('observations')))+'\nPARAMETERS='+repr({f['native']:f.get('parameters',[]) for f in config['functions']})+'\nENTRY_NAMES='+repr([f['native'] for f in config['functions'] if f['status']!='stub'])+'\n'+script
+script='PRINTF='+repr(config.get('printf_observations',False))+'\nVPRINTF='+repr(config.get('vprintf_observations'))+'\nSCRIPT_DIR='+repr(str(BINARY/'scripts'))+'\nHEAP_STATE='+repr(config.get('heap_state',False))+'\nOUTPUT='+repr(str(out/'state.json'))+'\nDATA='+repr(config.get('data',[]))+'\nCRT='+repr(config.get('crt_data',[]))+'\nOBSERVE='+repr(bool(config.get('observations')))+'\nPARAMETERS='+repr({f['native']:f.get('parameters',[]) for f in config['functions']})+'\nENTRY_NAMES='+repr([f['native'] for f in config['functions'] if f['status']!='stub'])+'\n'+script
 (out/'observe.py').write_text(script)
 for item in config['case'].get('inputs',[]):
  source=BINARY/item['path'];assert hashlib.sha256(source.read_bytes()).hexdigest()==item['sha256']

@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "scope": "Offline original COFF/resource observation; never a fixture dependency",
+  "machine": 448,
+  "timestamp": 0,
+  "coff_bytes": 1164,
+  "coff_sha256": "66e7006a66ee3f0b0f563a936d2a6bf5dfe36dae364743d409752dfccdf79474",
+  "resources": [
+    {
+      "identity": [
+        "\"CUSTOMTYPE\"",
+        "\"NAMEDDATA\"",
+        1033
+      ],
+      "size": 37,
+      "sha256": "041d730da3a0ba3ef5bb1e9e8d0da1630caa624173dfd6b70d2fc7d632a56ce2"
+    },
+    {
+      "identity": [
+        2,
+        104,
+        1033
+      ],
+      "size": 72,
+      "sha256": "7788f5edceaf237272f6e1d75f67c1e7afbf927ea715d4beee839452e8cd00e8"
+    },
+    {
+      "identity": [
+        2,
+        105,
+        1033
+      ],
+      "size": 72,
+      "sha256": "0441be03db5c8e85878f39aaa68d5b91bc35082d77b1dd8c561cfafc228bee2c"
+    },
+    {
+      "identity": [
+        10,
+        "\"NAMEDKNOWN\"",
+        1033
+      ],
+      "size": 37,
+      "sha256": "041d730da3a0ba3ef5bb1e9e8d0da1630caa624173dfd6b70d2fc7d632a56ce2"
+    },
+    {
+      "identity": [
+        256,
+        107,
+        1033
+      ],
+      "size": 37,
+      "sha256": "041d730da3a0ba3ef5bb1e9e8d0da1630caa624173dfd6b70d2fc7d632a56ce2"
+    }
+  ],
+  "bitmap_conversions": [
+    {
+      "identity": [
+        2,
+        104,
+        1033
+      ],
+      "input_bits": 4,
+      "input_dib_bytes": 120,
+      "output_bits": 2,
+      "output_bytes": 72,
+      "width": 8,
+      "height": 4,
+      "output_palette": [
+        0,
+        8421504,
+        12632256,
+        16777215
+      ],
+      "pixel_bytes": "1b56000065a900001b56000065a90000",
+      "sha256": "7788f5edceaf237272f6e1d75f67c1e7afbf927ea715d4beee839452e8cd00e8"
+    },
+    {
+      "identity": [
+        2,
+        105,
+        1033
+      ],
+      "input_bits": 8,
+      "input_dib_bytes": 1096,
+      "output_bits": 2,
+      "output_bytes": 72,
+      "width": 8,
+      "height": 4,
+      "output_palette": [
+        0,
+        8421504,
+        12632256,
+        16777215
+      ],
+      "pixel_bytes": "1b55000059690000a9a6000057920000",
+      "sha256": "0441be03db5c8e85878f39aaa68d5b91bc35082d77b1dd8c561cfafc228bee2c"
+    }
+  ],
+  "input_asset_manifest": "cases/final-validation-group/source/assets.json",
+  "normalization": []
+}

@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "reviewed_commit": "84d1861c489c4ead422caf083b0fe805e9e78631",
+  "reason": "Existing immutable raw/candidate/controller protocols and semantic validators unchanged. Root explicitly approved hash-bound reuse; this group reruns new wide/empty-output states and all actual native fixtures.",
+  "unchanged_validator_sha256": {
+    "scripts/evidence.py": "6bdb5e41a5d554bf0ec6b5621d8ae4fef143112093aaea664bedfc108fdb6d47",
+    "scripts/accept.py": "eef39583f35022fbc1a8e541f45298e6b5964f800f39e57cd394a11cd44fc055",
+    "scripts/audit.py": "dcf616af13aa23fed57b561ddc2388cac62395d4a06566ebfc3cfeb176e5a87e",
+    "scripts/import-residual.py": "2446d6b11da30624860624955af91fd0dab00ebcb9f0372df398ea3bc441d94e",
+    "scripts/rebuilt_data.py": "b22e0b277213230303edfc344959e6058390c913cce48e20a1b8d76123a0ad03",
+    "scripts/resource_state.py": "82babb5a73db87834f783d7ede189ca275c4038830314bc55db665719a909dd1"
+  },
+  "reused": [
+    {
+      "path": "cases/first-review-rejections.json",
+      "sha256": "f42d2ed1face7df971ffe8df837e83c03cf85cc15575fc4eb40915603523807e",
+      "controls": 0,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/help/import-rejections.json",
+      "sha256": "6e7ca70f3e9ce523aa3d2d27fd54d89fc7e247c478664f28815626fc2accf97e",
+      "controls": 4,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/help/message-rejections.json",
+      "sha256": "7e0f3edca982c9637d5018711d99e0fb5a13be5ef3865bb35d993cab4da09c7b",
+      "controls": 6,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/help/main-rejections.json",
+      "sha256": "e0237e9a890dd901092a91edad5951825e22c0c282c14220e4cac6c45dd59d71",
+      "controls": 8,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich/file-argument-rejections.json",
+      "sha256": "46967fbc88df857e2e5ca779fa0f6c9ace99fea741011f4744d5498a85abf862",
+      "controls": 5,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich/buffer-argument-rejections.json",
+      "sha256": "ce5039b74be2044868fa1891191a9a75bbd012e17a4dcb5efc98481209f73ed4",
+      "controls": 3,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich/resource-state-rejections.json",
+      "sha256": "a20662206ab976247f0c12c76a4e01fa29c50e91d10b7312b5bf18452697e58c",
+      "controls": 6,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich/insert-import-rejections.json",
+      "sha256": "8496b137eae9fa05aa76301ba8a7e1d362fe3bc4eb96a20d12a1a9ac9eac4ce4",
+      "controls": 4,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich-ce/image-import-rejections.json",
+      "sha256": "130f06669d4e2d79dd603f9fdc58e267c3045152de2b39013715ab528e332a17",
+      "controls": 6,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich-ce/switch-rejections.json",
+      "sha256": "b5e0eb53e94c8b1717878c7ad9677fe1e59ee40e252f313e955a9d31f55571d6",
+      "controls": 4,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    },
+    {
+      "path": "cases/resources-rich-ce/bitmap-rejections.json",
+      "sha256": "1a7dd83b70683dcb6b8551a83f7d187df259ffd3e56f4de96cc1a3ece1c6f663",
+      "controls": 6,
+      "execution": "Reused immutable earlier result; not rerun for this group"
+    }
+  ],
+  "reused_controls": 52,
+  "new_controls": {
+    "wide_state": 8,
+    "canonical_completion": 6,
+    "direct_unsupported_depth_guard": 1
+  },
+  "limits": "Earlier control execution times remain earlier timings; no claim that these were freshly executed against the guarded ELF."
+}

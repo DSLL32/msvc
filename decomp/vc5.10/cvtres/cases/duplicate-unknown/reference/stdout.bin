@@ -1,0 +1,7 @@
+adding resource -- type:BITMAP, name:104, language:409, flags:30, size:120
+adding resource -- type:BITMAP, name:105, language:409, flags:30, size:1096
+adding resource -- type:"CUSTOMTYPE", name:"NAMEDDATA", language:409, flags:30, size:37
+adding resource -- type:256, name:107, language:409, flags:30, size:37
+adding resource -- type:RCDATA, name:"NAMEDKNOWN", language:409, flags:30, size:37
+adding resource -- type:256, name:107, language:409, flags:30, size:37
+CVTRES : fatal error CVT1100: duplicate resource -- type:256, name:107, language:0x0409

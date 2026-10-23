@@ -338,6 +338,23 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
                 request=strchr(request,',');if (request) ++request;
             }
         }
+        if (address==0x1002fff || address==0x1003005 || address==0x100302d || address==0x1003033 ||
+            address==0x1001f1e || address==0x1001f20 || address==0x1001f50 || address==0x1001f52) {
+            char format[128]; DWORD got, n; WORD wide = 1;
+            memset(format,0,sizeof(format));
+            if (ReadProcessMemory(child,(void *)words[0],format,sizeof(format)-1,&got)) {
+                argument_string(log,child,words[0],prefix,0);
+                if (strstr(format,"%S")) {
+                    fprintf(log,"%sprintf-wide pointer %08lx raw ",prefix,words[1]);
+                    for (n=0;n<256;++n) {
+                        if (!ReadProcessMemory(child,(void *)(words[1]+2*n),&wide,2,&got) || got!=2) break;
+                        fprintf(log,"%02x%02x",wide&255,wide>>8);
+                        if (!wide) break;
+                    }
+                    fprintf(log," terminated %d\n",n<256 && !wide);
+                }
+            }
+        }
         if (address==0x1001c27 || address==0x1001c2d || address==0x1001be5 || address==0x1001beb) {
             char *request=getenv("CVTRES_VPRINTF_ARGUMENT_COUNT");DWORD n=request?atoi(request):0,pointer,got;
             fprintf(log,"%svprintf-va-list %08lx\n",prefix,words[1]);

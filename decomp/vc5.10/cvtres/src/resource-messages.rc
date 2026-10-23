@@ -1,0 +1,17 @@
+#include <windows.h>
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STRINGTABLE DISCARDABLE
+BEGIN
+    2000 "duplicate resource -- type:%S,%c"
+    2001 "duplicate resource -- type:%s,%c"
+    2002 "duplicate resource -- type:%ld,%c"
+    2003 "name:%S, language:0x%.4x\n"
+    2004 "name:%ld, language:0x%.4x\n"
+    5001 "adding resource -- type:%S,%c"
+    5002 "adding resource -- type:%s,%c"
+    5003 "adding resource -- type:%ld,%c"
+    5004 "name:%S,%c"
+    5005 "name:%ld,%c"
+    5006 "language:%x, flags:%x, size:%ld\n"
+END
