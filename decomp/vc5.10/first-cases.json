@@ -153,8 +153,13 @@
       "arguments": [
         "/?"
       ],
-      "original_observation": null,
-      "expected": "Help option is supported by static option evidence; fresh successful original status/streams still required. Prior timeouts are not expected results."
+      "original_observation": "decomp/vc5.10/link/cases/help/original/receipt.json",
+      "expected": "Preserve full Win32 DWORD status 1100, exact streams and application trace. Native POSIX low-byte status is additionally checked through the shared full-status protocol.",
+      "observed_result": {
+        "status": 1100,
+        "stdout_bytes": 1430,
+        "stderr_bytes": 0
+      }
     },
     {
       "binary": "rcdll",

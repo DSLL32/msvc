@@ -65,8 +65,8 @@ support or claiming case readiness.
 Concrete module-resource requirements found so far are C1/C1XX `LoadStringA`
 using the HINSTANCE cached by DllMain, and RCDLL `FormatMessageA` with
 `FROM_HMODULE | IGNORE_INSERTS` against its embedded message table. The shared
-library currently has no target-module resource registry. These are readiness
-requirements, not implemented shims.
+maintainer owns the explicit module identity and encountered-resource contracts. Module registration is implemented; resource support is being added
+for the exact IDs reached by the first cases. Unknown dependencies fail closed.
 
 ## Builds and references
 
@@ -79,14 +79,14 @@ Native DLL harnesses, debugging and dependency handling remain entirely Linux
 native. Do not run PE or Wine helpers for DLL, PDB or other dependencies; use
 strict previously captured responses or an evidenced native implementation.
 
-The experimental Rust graph auditor currently understands PE32 bytes, including
-DLLs, but its verified profiles cover vc1.0. VC 5.10 profiles must describe the
-actual graph roots, import/runtime boundaries, export aliases and any executable
-text data. Keep module identities distinct if a later case needs multiple
-reconstructed modules in one run. Integrate the common auditor with explicit
+The shared Rust graph auditor supports PE32 DLLs, exact noncontiguous function
+chunks and optional qualified import checks. VC 5.10 indexes describe the actual
+graph roots, import/runtime boundaries, export aliases and executable text data.
+Keep module identities distinct if a later case needs multiple reconstructed
+modules in one run. Integrate the common auditor with explicit
 target metadata and retain separate export, ABI and lifecycle checks.
 
-The shared auditor can provisionally read a DLL using the CL-shaped index format
+The shared auditor reads a DLL using the CL-shaped index format
 and explicit original/rebuilt/MAP/config/runtime paths; that format has no fixed
 CL addresses. Function names must match decorated MAP symbols. Supply explicit
 entry roots, text data and switch targets. Export ordinals/signatures, DLL loader
@@ -110,7 +110,13 @@ diagnostic. The original-only debugger probe also captured C1 DLL load, CRT
 entry, invocation and detach in order, plus complete pre-C2 intermediate files.
 C1 receives 27 arguments and Boolean 1 for this case. C2 receives only argv[0];
 its actual options arrive in `MSC_CMD_FLAGS`, whose exact bytes were captured.
-Resource conversion, LINK outputs and debug/PDB variants remain unverified.
+LINK help is also verified (DWORD status 1100, 1,430 stdout bytes). Resource
+conversion, linked output artifacts and debug/PDB variants remain unverified.
 Shared Wine startup hangs interrupted those
 investigations; no timeout is recorded as an expected target result or native
 fixture oracle.
+
+Capture compiled source content and hashes alongside each immutable binary.
+Later shared worktree or validator changes do not alter old execution receipts.
+Re-audit unchanged captures natively; rebuild and recapture only the native side
+for shared native changes when original target, mask and case inputs are unchanged.
