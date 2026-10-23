@@ -27,7 +27,7 @@ def check(original,native,require_audit=True,audit_path=None):
     registrar=trial['trial']=='_register_cleanup'
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=21,
+    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=22,
               'no reviewed callback decoder for this function')
     index=16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -70,7 +70,8 @@ def check(original,native,require_audit=True,audit_path=None):
             path.append(callback(8+number))
         if deferred or index>=17:
             path += [('initialize_deferred_work',0x38904),('register_cleanup',0x386ae),callback(17)]
-            if not deferred:path += [callback(slot) for slot in range(18,index+2)]
+            if not deferred:path += [callback(slot) for slot in range(18,min(index+2,23))]
+            if index==22:path.append(('initialize_pdb_context_01',0x3894f))
         elif not constructor_number and not registrar:
             name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))

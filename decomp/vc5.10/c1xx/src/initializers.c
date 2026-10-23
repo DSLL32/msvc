@@ -1,5 +1,6 @@
 #include "frontend.h"
 #include "output.h"
+#include "pdb-context.h"
 #include <recon.h>
 
 void initialize_frontend_01(void)
@@ -123,7 +124,8 @@ void initialize_frontend_21(void)
 
 void initialize_frontend_22(void)
 {
-    __asm { int 3 }
+    initialize_pdb_context_01();
+    register_cleanup(destroy_pdb_context_01);
 }
 
 void initialize_frontend_23(void)

@@ -170,7 +170,7 @@ end
         result_point=output/'collect-value-copy-result.gdb'
         result_point.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'value-copy-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'value-copy-result-argv.bin'))))
         observer+='break *initialize_frontend_19\ncommands\nsilent\nsource '+str(result_point)+'\ncontinue\nend\n'
-    if trial['trial']=='_initialize_frontend_21':
+    if model['schema']>=16:
         signature=output/'collect-signature-entry.gdb'
         signature.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'signature-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'signature-entry-argv.bin'))))
         observer+='break *initialize_frontend_21\ncommands\nsilent\nsource '+str(signature)+'\ncontinue\nend\n'
