@@ -46,7 +46,13 @@
     "pack_module",
     "initialize_single_module",
     "read_module_symbols",
-    "widen_subsection"
+    "widen_subsection",
+    "pack_symbols",
+    "map_legacy_index",
+    "compact_legacy_index",
+    "map_primitive_type",
+    "flush_type_stack",
+    "insert_public_symbol"
   ],
   "functions": [
     {
@@ -1354,8 +1360,11 @@
       "symbol": "_pack_symbols",
       "native_symbol": "pack_symbols",
       "original": 4237824,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4237824,
+        4238215
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1377,7 +1386,8 @@
           "count": "directory_count",
           "element_size": 12
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0041-pack-symbols-types/promotion.json"
     },
     {
       "name": "decode_legacy_lines",
@@ -1545,6 +1555,338 @@
       "extent": null,
       "ret": 0,
       "parameters": []
+    },
+    {
+      "name": "map_legacy_index",
+      "symbol": "@map_legacy_index@4",
+      "source_name": "map_legacy_index",
+      "native_symbol": "map_legacy_index",
+      "original": 4203984,
+      "status": "accepted",
+      "extent": [
+        4203984,
+        4204001
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0042-map-legacy-index/promotion.json"
+    },
+    {
+      "name": "map_type_index",
+      "symbol": "@map_type_index@4",
+      "source_name": "map_type_index",
+      "native_symbol": "map_type_index",
+      "original": 4206720,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "symbol_record_key",
+      "symbol": "_symbol_record_key",
+      "source_name": "symbol_record_key",
+      "native_symbol": "symbol_record_key",
+      "original": 4247376,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "local-record",
+          "owner": "pack_symbols",
+          "local": "record",
+          "capacity": 512,
+          "owner_return": 4248113,
+          "original_delta": 96
+        },
+        {
+          "name": "hash",
+          "slot": 2,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "hash",
+          "width": 4,
+          "original_delta": 44,
+          "owner_return": 4248113,
+          "initialized": false
+        },
+        {
+          "name": "name",
+          "slot": 3,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "name",
+          "width": 2,
+          "original_delta": 48,
+          "owner_return": 4248113,
+          "initialized": false
+        },
+        {
+          "name": "segment",
+          "slot": 4,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "segment",
+          "width": 2,
+          "original_delta": 52,
+          "owner_return": 4248113,
+          "initialized": true
+        },
+        {
+          "name": "offset",
+          "slot": 5,
+          "kind": "caller-local-pointer",
+          "owner": "insert_public_symbol",
+          "local": "offset",
+          "width": 4,
+          "original_delta": 56,
+          "owner_return": 4248113,
+          "initialized": true
+        },
+        {
+          "name": "flags",
+          "slot": 6,
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "insert_public_symbol",
+      "symbol": "_insert_public_symbol",
+      "source_name": "insert_public_symbol",
+      "native_symbol": "insert_public_symbol",
+      "original": 4248048,
+      "status": "accepted",
+      "extent": [
+        4248048,
+        4248614
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "local-record",
+          "owner": "pack_symbols",
+          "local": "record",
+          "capacity": 512,
+          "owner_return": 4238187,
+          "original_delta": 32
+        },
+        {
+          "name": "key",
+          "slot": 2,
+          "kind": "function-pointer",
+          "function": "symbol_record_key",
+          "original": 4247376
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0046-insert-public-symbol/promotion.json"
+    },
+    {
+      "name": "compact_legacy_index",
+      "symbol": "@compact_legacy_index@4",
+      "source_name": "compact_legacy_index",
+      "native_symbol": "compact_legacy_index",
+      "original": 4204016,
+      "status": "accepted",
+      "extent": [
+        4204016,
+        4205470
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4205472,
+          4205598
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0043-compact-legacy-index/promotion.json"
+    },
+    {
+      "name": "flush_type_stack",
+      "symbol": "_flush_type_stack",
+      "source_name": "flush_type_stack",
+      "native_symbol": "flush_type_stack",
+      "original": 4206240,
+      "status": "accepted",
+      "extent": [
+        4206240,
+        4206692
+      ],
+      "ret": 0,
+      "parameters": [],
+      "text_data": [
+        [
+          4206692,
+          4206708
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0045-flush-type-stack-memmove/promotion.json"
+    },
+    {
+      "name": "map_primitive_type",
+      "symbol": "_map_primitive_type",
+      "source_name": "map_primitive_type",
+      "native_symbol": "map_primitive_type",
+      "original": 4203936,
+      "status": "accepted",
+      "extent": [
+        4203936,
+        4203981
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0044-map-primitive-type/promotion.json"
+    },
+    {
+      "name": "lookup_global_type",
+      "symbol": "_lookup_global_type",
+      "source_name": "lookup_global_type",
+      "native_symbol": "lookup_global_type",
+      "original": 4205600,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "convert_legacy_record",
+      "symbol": "_convert_legacy_record",
+      "source_name": "convert_legacy_record",
+      "native_symbol": "convert_legacy_record",
+      "original": 4224656,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "compact_legacy_pointer",
+      "symbol": "@compact_legacy_pointer@4",
+      "source_name": "compact_legacy_pointer",
+      "native_symbol": "compact_legacy_pointer",
+      "original": 4209296,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "match_forward_type",
+      "symbol": "@match_forward_type@12",
+      "source_name": "match_forward_type",
+      "native_symbol": "match_forward_type",
+      "original": 4246704,
+      "status": "stub",
+      "extent": null,
+      "ret": 4,
+      "parameters": []
+    },
+    {
+      "name": "associate_forward_type",
+      "symbol": "@associate_forward_type@8",
+      "source_name": "associate_forward_type",
+      "native_symbol": "associate_forward_type",
+      "original": 4206160,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "compact_type_list",
+      "symbol": "@compact_type_list@8",
+      "source_name": "compact_type_list",
+      "native_symbol": "compact_type_list",
+      "original": 4209696,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "resolve_recursive_type",
+      "symbol": "_resolve_recursive_type",
+      "source_name": "resolve_recursive_type",
+      "native_symbol": "resolve_recursive_type",
+      "original": 4246544,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "intern_type",
+      "symbol": "@intern_type@4",
+      "source_name": "intern_type",
+      "native_symbol": "intern_type",
+      "original": 4239888,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "compact_type_index",
+      "symbol": "@compact_type_index@4",
+      "source_name": "compact_type_index",
+      "native_symbol": "compact_type_index",
+      "original": 4206752,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "allocate_public_block",
+      "symbol": "_allocate_public_block",
+      "native_symbol": "allocate_public_block",
+      "original": 4239824,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ]
     }
   ],
   "support_unmasked": [

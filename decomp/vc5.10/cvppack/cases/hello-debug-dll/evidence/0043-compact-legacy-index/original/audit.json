@@ -1,0 +1,424 @@
+{
+  "schema": 1,
+  "config_sha256": "1f3be1404eb5e9b9bf84a6821b4ffb247299123bb15a6d7479a8f1c8f8213123",
+  "graph_config_sha256": "8d7223c3ed6c0b7998094b02cd31c559bc71cac77f33b1f9a9f9ef7c5d2ffd86",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "rebuilt_sha256": "cc1edebaadf38eb363ee99020794ed6d34a00bfda154652fcee68777abbef221",
+  "native_sha256": "0dc58338cf2064556b09ea53f5c94da9619f269774e5b17efcbad33998f92d93",
+  "map_sha256": "613dcfddaf68cee75311de279e617ca604ae68a00a68adedfb666ca9b2f3aefa",
+  "graph_tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+  "graph_metadata_sha256": "1205e8ab477e18c3168a6a05a4382301e2fcf6336710ecc332c60f3cadf6aa6e",
+  "graph_metadata_proof_sha256": "e656d822a44472b24fbd2ea3b55c5570f09cd02f166a49ef4002f5c0c81acde6",
+  "switch_data_validator_sha256": "3a0a394a0a72b3ea003d9b4efd1467093ecf269823f49da245deeec7058254af",
+  "data_sha256": "702f1d4f34353aabc4d62771624de60d27fb156b73d6ebc5513b4b2e6912a33a",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "audit_wrapper_sha256": "0a3863514ec42800ae7de77298b4092fdcfe3cd882577280c871daa8bedc0a31",
+  "data_objects_checked": 117,
+  "resource_strings_checked": 3,
+  "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de",
+  "candidates": [
+    "compact_legacy_index"
+  ],
+  "checked_functions": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "files_initialize",
+    "print_banner",
+    "select_input_name",
+    "initialize_type_tables",
+    "read_image_debug",
+    "initialize_module_pack",
+    "pack_module",
+    "fatal_error",
+    "message_text",
+    "allocate_zero",
+    "allocate_page",
+    "allocate_file",
+    "open_cached_file",
+    "prepare_cached_file",
+    "open_mapped_file",
+    "find_cached_file",
+    "take_free_file",
+    "duplicate_string",
+    "move_cached_file",
+    "create_mapping",
+    "mapped_seek",
+    "allocate_cleared",
+    "allocate_bytes",
+    "initialize_arena",
+    "seek_cached_file",
+    "read_cached_file",
+    "tell_cached_file",
+    "read_codeview_signature",
+    "read_codeview_directory",
+    "classify_debug_directory",
+    "mapped_read",
+    "compare_directory_entries",
+    "load_debug_subsection",
+    "find_module_info",
+    "initialize_single_module",
+    "read_module_symbols",
+    "pack_symbols",
+    "widen_subsection",
+    "map_legacy_index",
+    "compact_legacy_index"
+  ],
+  "owned_ranges": 55,
+  "graph_command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "cl",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/cvppack",
+    "--repo",
+    "/root/msvc2",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "--config",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0043-compact-legacy-index/original/graph-config.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0043-compact-legacy-index/original/graph-runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0043-compact-legacy-index/original/graph-runtime.json",
+    "--metadata",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0043-compact-legacy-index/original/graph-metadata.json",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "graph": {
+    "checked_accepted_extents": null,
+    "checked_functions": 43,
+    "checked_unique_accepted_extents": null,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "discovery": "cfg",
+    "functions": {
+      "@compact_legacy_index@4": {
+        "edges": [
+          "@associate_forward_type@8",
+          "@compact_legacy_index@4",
+          "@compact_legacy_pointer@4",
+          "@compact_type_list@8",
+          "@intern_type@4",
+          "@match_forward_type@12",
+          "_convert_legacy_record",
+          "_lookup_global_type",
+          "_map_primitive_type",
+          "_resolve_recursive_type"
+        ]
+      },
+      "@map_legacy_index@4": {
+        "edges": [
+          "@compact_legacy_index@4",
+          "_flush_type_stack"
+        ]
+      },
+      "_allocate_bytes": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_allocate_cleared": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_allocate_file": {
+        "edges": [
+          "_allocate_zero"
+        ]
+      },
+      "_allocate_page": {
+        "edges": [
+          "_allocate_zero"
+        ]
+      },
+      "_allocate_zero": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_classify_debug_directory": {
+        "edges": [
+          "_allocate_cleared",
+          "_fatal_error",
+          "_find_module_info",
+          "_load_debug_subsection"
+        ]
+      },
+      "_compare_directory_entries": {
+        "edges": []
+      },
+      "_create_mapping": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "_duplicate_string": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_fatal_error": {
+        "edges": [
+          "_close_file",
+          "_message_text",
+          "_print_banner",
+          "indirect"
+        ]
+      },
+      "_files_initialize": {
+        "edges": [
+          "_allocate_file",
+          "_allocate_page",
+          "_allocate_zero",
+          "indirect"
+        ]
+      },
+      "_find_cached_file": {
+        "edges": [
+          "_move_cached_file"
+        ]
+      },
+      "_find_module_info": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "_initialize_arena": {
+        "edges": []
+      },
+      "_initialize_messages": {
+        "edges": []
+      },
+      "_initialize_module_pack": {
+        "edges": [
+          "_allocate_bytes"
+        ]
+      },
+      "_initialize_single_module": {
+        "edges": [
+          "_fatal_error",
+          "_read_cached_file",
+          "_seek_cached_file",
+          "indirect"
+        ]
+      },
+      "_initialize_type_tables": {
+        "edges": [
+          "_allocate_bytes",
+          "_allocate_cleared",
+          "_initialize_arena"
+        ]
+      },
+      "_load_debug_subsection": {
+        "edges": [
+          "_fatal_error",
+          "_read_cached_file",
+          "_seek_cached_file",
+          "indirect"
+        ]
+      },
+      "_main": {
+        "edges": [
+          "_close_file",
+          "_files_initialize",
+          "_flush_packed_file",
+          "_free_type_tables",
+          "_get_file_size",
+          "_initialize_messages",
+          "_initialize_module_pack",
+          "_initialize_type_tables",
+          "_map_file_region",
+          "_pack_module",
+          "_parse_options",
+          "_print_banner",
+          "_print_statistics",
+          "_read_image_debug",
+          "_select_input_name",
+          "_warning",
+          "_write_debug_directory",
+          "indirect"
+        ]
+      },
+      "_mapped_read": {
+        "edges": [
+          "_fatal_error",
+          "_grow_mapping"
+        ]
+      },
+      "_mapped_seek": {
+        "edges": [
+          "_fatal_error",
+          "_grow_mapping"
+        ]
+      },
+      "_message_text": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "_move_cached_file": {
+        "edges": []
+      },
+      "_open_cached_file": {
+        "edges": [
+          "_open_mapped_file",
+          "_open_stream_file",
+          "_prepare_cached_file"
+        ]
+      },
+      "_open_mapped_file": {
+        "edges": [
+          "_create_mapping",
+          "_fatal_error",
+          "_mapped_seek",
+          "indirect"
+        ]
+      },
+      "_pack_module": {
+        "edges": [
+          "_decode_legacy_lines",
+          "_decode_new_lines",
+          "_initialize_single_module",
+          "_pack_symbols",
+          "_prepare_precompiled_types",
+          "_read_module_global_types",
+          "_read_module_lines",
+          "_read_module_symbols",
+          "_read_module_types",
+          "_rewrite_legacy_lines",
+          "_rewrite_module_global_types",
+          "_rewrite_new_lines"
+        ]
+      },
+      "_pack_symbols": {
+        "edges": [
+          "@map_legacy_index@4",
+          "@map_type_index@4",
+          "_insert_public_symbol"
+        ]
+      },
+      "_parse_options": {
+        "edges": [
+          "_fatal_error",
+          "_print_banner",
+          "_warning",
+          "indirect"
+        ]
+      },
+      "_prepare_cached_file": {
+        "edges": [
+          "_duplicate_string",
+          "_find_cached_file",
+          "_take_free_file"
+        ]
+      },
+      "_print_banner": {
+        "edges": [
+          "_message_text",
+          "indirect"
+        ]
+      },
+      "_read_cached_file": {
+        "edges": [
+          "_mapped_read",
+          "_stream_read"
+        ]
+      },
+      "_read_codeview_directory": {
+        "edges": [
+          "_fatal_error",
+          "_read_cached_file",
+          "_seek_cached_file",
+          "indirect"
+        ]
+      },
+      "_read_codeview_signature": {
+        "edges": [
+          "_close_file",
+          "_fatal_error",
+          "_read_cached_file",
+          "_warning",
+          "indirect"
+        ]
+      },
+      "_read_image_debug": {
+        "edges": [
+          "_allocate_cleared",
+          "_classify_debug_directory",
+          "_fatal_error",
+          "_read_cached_file",
+          "_read_codeview_directory",
+          "_read_codeview_signature",
+          "_seek_cached_file",
+          "_tell_cached_file",
+          "indirect"
+        ]
+      },
+      "_read_module_symbols": {
+        "edges": [
+          "_fatal_error",
+          "_module_name",
+          "_read_cached_file",
+          "_seek_cached_file",
+          "_widen_subsection"
+        ]
+      },
+      "_seek_cached_file": {
+        "edges": [
+          "_mapped_seek",
+          "_seek_stream_file"
+        ]
+      },
+      "_select_input_name": {
+        "edges": [
+          "_fatal_error",
+          "_open_cached_file",
+          "indirect"
+        ]
+      },
+      "_take_free_file": {
+        "edges": [
+          "_move_cached_file",
+          "_release_cached_file"
+        ]
+      },
+      "_tell_cached_file": {
+        "edges": []
+      },
+      "_widen_subsection": {
+        "edges": [
+          "_create_widen",
+          "_emit_widen",
+          "_fatal_error",
+          "_query_widen",
+          "_release_widen",
+          "_resize_bytes"
+        ]
+      }
+    },
+    "original_accepted_graphs": null,
+    "profile": "cl"
+  },
+  "seconds": 0.3291984051465988
+}

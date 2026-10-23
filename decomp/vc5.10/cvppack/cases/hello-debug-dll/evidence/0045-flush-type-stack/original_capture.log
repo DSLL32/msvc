@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 155, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 37, in main
+    audit_candidate(output / 'configuration.json', args.candidate, output / 'audit.json')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 94, in run
+    assert result.returncode == 0, result.stderr.decode()
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: graph-audit: _flush_type_stack call graph differs: original {"@compact_type_index@4", "@compact_type_list@8", "_lookup_global_type"}; reconstruction {"@compact_type_index@4", "@compact_type_list@8", "_lookup_global_type", "import:memcpy"}
+

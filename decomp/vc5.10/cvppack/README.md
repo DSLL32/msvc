@@ -5,8 +5,8 @@ spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `pack_symbols`. Forty application functions are accepted
-overall, covering 8,601 extent bytes (13.73% of the same whole-text denominator).
+matching frontier is `symbol_record_key`. Forty-six application functions are accepted
+overall, covering 11,526 extent bytes (18.39% of the same whole-text denominator).
 The type-table initialization and complete PE/COFF debug-reader body have
 also been recovered; the PE and CodeView directory reads, complete subsection sort and owned
 segment-map/library loads now match. Module-node creation, scratch setup and the per-module dispatcher are
@@ -113,3 +113,10 @@ match. This first subsection has signature 2 and therefore bypasses WidenTi;
 its next boundary checks the full live 116-byte symbol buffer, directory-element
 identity and bytes. The earlier empty pack-symbol parameter schema was tightened
 and explicitly recaptured before proceeding; both historical observations remain.
+
+The legacy type compactor, primitive conversion, queued recursive-type cleanup
+and public-symbol insertion are reconstructed. The next callback boundary checks
+the caller-owned record, four distinct output locals and their widths, the two
+initialized zero inputs and the bucket divisor. Twelve ABI mutation controls pass.
+Primitive conversion has a separate 517-input native check against the original
+semantic tables, taking 1.4 ms after a 215 ms standalone build.

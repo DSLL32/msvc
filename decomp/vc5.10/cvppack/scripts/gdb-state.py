@@ -182,6 +182,26 @@ def capture(configuration,data_file,output):
             local=owner.read_var(item['local']);size=int(frame.read_var(item['count_name']))
             assert int(value)==int(local.address) and local.type.sizeof==item['capacity'] and 0<=size<=item['capacity'],'output buffer caller-local identity/extent differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],size=size)
+        elif item['kind']=='local-record':
+            owner=frame.older()
+            while owner is not None and owner.name()!=item['owner']:owner=owner.older()
+            assert owner is not None
+            local=owner.read_var(item['local']);address=int(value)
+            assert int(local.address)==address and local.type.sizeof==item['capacity'],'record buffer owner/identity differs'
+            size=int.from_bytes(bytes(inferior.read_memory(address,2)),'little')+2
+            assert 2<=size<=item['capacity']
+            parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],bytes=bytes(inferior.read_memory(address,size)).hex())
+        elif item['kind']=='caller-local-pointer':
+            owner=frame.older()
+            while owner is not None and owner.name()!=item['owner']:owner=owner.older()
+            assert owner is not None
+            local=owner.read_var(item['local']);address=int(value)
+            assert int(local.address)==address and local.type.sizeof==item['width'],'output argument caller-local identity differs'
+            parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
+            if item.get('initialized'):parameters[item['name']]['bytes']=bytes(inferior.read_memory(address,item['width'])).hex()
+        elif item['kind']=='function-pointer':
+            assert int(value)==int(gdb.parse_and_eval('&'+item['function'])),'function-pointer argument differs'
+            parameters[item['name']]=dict(function=item['function'])
         elif item['kind']=='object-pointer':parameters[item['name']]=dict(null=int(value)==0,address=int(value))
         elif item['kind']=='global-pointer':
             address=int(value)

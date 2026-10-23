@@ -101,8 +101,8 @@ def main():
         next((row['original'] for row in data if row['name']==item['blob'].get('count')),0),item['blob'].get('element_size',0),
         next((row['size'] for row in data if row['name']==item['blob'].get('count')),4)) for item in data if 'blob' in item)
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s:%d:%d' % (record['original'],item['slot'],
-        'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'B' if 'buffer_count_slot' in item else 'C' if item['kind']=='global-buffer' else 'A',item.get('buffer_count_slot',item.get('entry_slot',0)),item.get('count_offset',0xffffffff)) for record in config['functions']
-        for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer') or 'buffer_count_slot' in item or item['kind']=='global-buffer')
+        'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'B' if 'buffer_count_slot' in item else 'C' if item['kind']=='global-buffer' else 'D' if item['kind']=='local-record' else 'F' if item['kind']=='caller-local-pointer' else 'A',item.get('buffer_count_slot',item.get('entry_slot',item.get('width',0))),item.get('count_offset',0xffffffff)) for record in config['functions']
+        for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer') or 'buffer_count_slot' in item or item['kind'] in ('global-buffer','local-record') or (item['kind']=='caller-local-pointer' and item.get('initialized')))
     result = subprocess.run(command, env=env, stdin=subprocess.DEVNULL,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=False)
     elapsed = time.perf_counter() - execute

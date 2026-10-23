@@ -61,7 +61,7 @@ def run(config_path, candidates=(), output=None):
     source = '\n'.join(path.read_text() for path in (BINARY / 'src').glob('*.c'))
     for record in functions:
         native_name = record['native_symbol']
-        declaration = 'main' if record['symbol'] == '_main' else record['symbol'].lstrip('_').split('@')[0]
+        declaration = record.get('source_name','main' if record['symbol'] == '_main' else record['symbol'].lstrip('_').split('@')[0])
         assert re.search(r'\b' + re.escape(declaration) + r'\s*\([^;]+?\)\s*\{', source), ('missing source body', record['name'])
         assert native_name
         if record['status']=='stub':

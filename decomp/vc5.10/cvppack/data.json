@@ -848,5 +848,89 @@
         "length_offset": 16
       }
     }
+  },
+  {
+    "name": "public_scope_depth",
+    "original": 4281120,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_record_count",
+    "original": 4272740,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_type_base",
+    "original": 4281548,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_records",
+    "original": 4272836,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "recursive_type_pending",
+    "original": 4281904,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_recursion_depth",
+    "original": 4270484,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_recursion_chain",
+    "original": 4270488,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_recursion_stack",
+    "original": 4282016,
+    "size": 1024,
+    "kind": "bytes"
+  },
+  {
+    "name": "discard_types",
+    "original": 4271360,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pending_types_head",
+    "original": 4269416,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "pending_types_tail",
+    "original": 4269420,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "public_symbol_bytes",
+    "original": 4272852,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "public_symbol_count",
+    "original": 4272756,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "duplicate_public_symbols",
+    "original": 4271688,
+    "size": 4,
+    "kind": "integer"
   }
 ]

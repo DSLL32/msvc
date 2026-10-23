@@ -297,7 +297,14 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
         if (argument_kind[i] == 'S' && value) string(log, process, value);
+        if (argument_kind[i] == 'D' && value) {
+            WORD length;
+            if (read_bytes(process, value, &length, 2) && (DWORD)length + 2 <= 512)
+                memory(log, process, value, (DWORD)length + 2);
+        }
         if (argument_kind[i] == 'P' && value) memory(log, process, value, 4);
+        if (argument_kind[i] == 'F' && value && argument_buffer_count[i] <= 4)
+            memory(log, process, value, argument_buffer_count[i]);
         if ((argument_kind[i] == 'B' || argument_kind[i] == 'C') && value &&
             read_bytes(process, context->Esp + argument_buffer_count[i]*4, &count, 4)) {
             item = value;

@@ -63,3 +63,12 @@ void *allocate_bytes(unsigned size)
     if (!result) fatal_error(1001, NULL, NULL);
     return result;
 }
+
+/* The original ECX argument is the compiler's genuine single-register ABI.
+ * Compact an old index, then resolve queued recursive types [004025d0,004025e1). */
+unsigned __fastcall map_legacy_index(unsigned index)
+{
+    unsigned result = compact_legacy_index(index);
+    flush_type_stack();
+    return result;
+}

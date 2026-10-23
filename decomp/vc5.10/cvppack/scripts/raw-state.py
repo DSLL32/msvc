@@ -99,7 +99,7 @@ def decode(events):
     stack = memory[registers[-1]]
     assert len(stack) == 128
     return dict(address=address,memory=memory,strings=strings,
-                esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations)
+                registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations)
 
 
 def compare(config,data,events,native,artifacts=None,views=None):
@@ -109,7 +109,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
     parameters = {};object_parameters=[]
     assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
     for item in record['parameters']:
-        value = original['stack'][item['slot']]
+        value = original['registers'][item['register']] if 'register' in item else original['stack'][item['slot']]
         if item['kind'] == 'integer':
             parameters[item['name']] = value
         elif item['kind'] == 'string':
@@ -157,6 +157,20 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert value==original['esp']+item['original_delta'],'output buffer original stack-local identity differs'
             size=original['stack'][item['count_slot']];assert 0<=size<=item['capacity']
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],size=size)
+        elif item['kind']=='local-record':
+            assert original['stack'][0]==item['owner_return'] and value==original['esp']+item['original_delta'],'original record owner/caller-local identity differs'
+            raw=original['memory'][value];size=int.from_bytes(raw[:2],'little')+2
+            assert len(raw)==size and 2<=size<=item['capacity']
+            parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],bytes=raw.hex())
+        elif item['kind']=='caller-local-pointer':
+            assert original['stack'][0]==item['owner_return'] and value==original['esp']+item['original_delta'],'original output argument caller-local identity differs'
+            parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
+            if item.get('initialized'):
+                assert len(original['memory'][value])==item['width']
+                parameters[item['name']]['bytes']=original['memory'][value].hex()
+        elif item['kind']=='function-pointer':
+            assert value==item['original'],'original function-pointer argument differs'
+            parameters[item['name']]=dict(function=item['function'])
         elif item['kind'] == 'object-pointer':
             object_parameters.append((item,value))
         else:

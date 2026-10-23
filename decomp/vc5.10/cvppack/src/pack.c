@@ -139,3 +139,48 @@ unsigned widen_subsection(unsigned char **buffer, unsigned size, unsigned *capac
     }
     return result;
 }
+
+/* Process aligned or unaligned public-symbol records [0040aa00,0040ab87). */
+unsigned public_scope_depth;
+void pack_symbols(void *symbols, CodeViewDirectoryEntry *entry)
+{
+    union {
+        unsigned char bytes[512];
+        unsigned short words[256];
+        unsigned dwords[128];
+    } record;
+    unsigned char *cursor, *end;
+    unsigned short length, kind;
+    unsigned index;
+    public_scope_depth = 0;
+    if (!entry->size) return;
+    cursor = (unsigned char *)symbols + 4;
+    end = (unsigned char *)symbols + entry->size;
+    while (cursor < end) {
+        if ((unsigned)cursor & 1) {
+            length = (unsigned short)((cursor[1] << 8) + cursor[0] + 2);
+            kind = (unsigned short)((cursor[3] << 8) + cursor[2]);
+        } else {
+            length = (unsigned short)(*(unsigned short *)cursor + 2);
+            kind = *(unsigned short *)(cursor + 2);
+        }
+        for (index = 0; index < length; ++index) record.bytes[index] = cursor[index];
+        if (kind == 0x1009) {
+            if (module_type_low != 1 && module_type_low != 2) {
+                if (minimum_pack) record.words[4] = 0;
+                else record.dwords[1] = map_legacy_index(record.dwords[1]);
+            } else if (minimum_pack) {
+                if (record.dwords[1] >= 0x1000) record.dwords[1] = 0;
+            } else record.dwords[1] = map_type_index(record.dwords[1]);
+        } else if (kind == 0x103) {
+            if (module_type_low != 1 && module_type_low != 2) {
+                if (minimum_pack) record.words[4] = 0;
+                else record.words[4] = (unsigned short)map_legacy_index(record.words[4]);
+            } else if (minimum_pack) {
+                if (record.words[4] >= 0x1000) record.words[4] = 0;
+            } else record.words[4] = (unsigned short)map_type_index(record.words[4]);
+        }
+        insert_public_symbol(record.bytes, symbol_record_key);
+        cursor += length;
+    }
+}

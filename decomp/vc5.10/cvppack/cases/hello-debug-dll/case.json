@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0040-widen-subsection-typed-continuation/original",
-  "reference_receipt_sha256": "758c25c149b7f87009f096e3da0ee3b3ba3a8c8e4b31b24c36dcea85d4f1f2cc",
+  "reference": "cases/hello-debug-dll/evidence/0046-insert-public-symbol/original",
+  "reference_receipt_sha256": "6b014a853b7d06c3e15cfca415d363327e51ab70b0126989614bbca42bd1448f",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -46,6 +46,12 @@
     "initialize_single_module",
     "read_module_symbols",
     "widen_subsection",
-    "pack_symbols"
+    "pack_symbols",
+    "map_legacy_index",
+    "compact_legacy_index",
+    "map_primitive_type",
+    "flush_type_stack",
+    "insert_public_symbol",
+    "symbol_record_key"
   ]
 }
