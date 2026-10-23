@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "213f42a4d873027969a94fbba309d7fcb4dd644048c6452f1a8eee7c851434f8",
+    "functions.json": "5a9882d96a01e9cd86ec6e274f5c3057be348912d04cce5eef2804ede47ab80e",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "058f68f4ce613293241af455ada44ec97040a4b43bd9889f133fb46ce1fc3664",
-    "cases/canonical-map.txt": "ecae841119353e64f223286bb95a8d0024fdaa13c23b5322a6aa449f18dd296d",
+    "cases/original-entry-references.json": "c5b0f05c206116abef4a2ccd9af92138bd07be976113b447314c3cf76cda1007",
+    "cases/canonical-map.txt": "abea370f10ecfa4e0f152e62cee40ce29a35a7d1231541d358d96e16ffa6a78e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/entry-reference/original-receipt.json": "52f5d7f1f2c32c39d11571975e87ae833ecf7e6f195fadf4c0091350e7133c88",
-    "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/entry-reference/original-events.txt": "09fdece6d163a3a93a2af2591a86751bfff3e57d3f1717e04f45735b2d1e2e17",
-    "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/entry-reference/original-entries.plan": "c09e667709c30b4dd56a872dfd75ee572587078cbad6604f25ff4a81c66ee610"
+    "cases/frontiers/state_machine_debug/1040-print_declaration-8/entry-reference/original-receipt.json": "4ddc9b84585ecba07c3553d93bfde1b6b254fec5548c05057bc3dcb67ebaa2a5",
+    "cases/frontiers/state_machine_debug/1040-print_declaration-8/entry-reference/original-events.txt": "6f541402d5feb2d67a248357d4eb6593cb0ab7cc450fb576f0faa82dddfa3743",
+    "cases/frontiers/state_machine_debug/1040-print_declaration-8/entry-reference/original-entries.plan": "f52896243d3d2cbe5ebd927966e8aa417e3c543f3b4ba492714d28a789661397"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3913,7 +3913,7 @@
     },
     "print_declaration": {
       "logical": "_print_declaration@8",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "print_inline_declaration": {
       "logical": "_print_inline_declaration@8",
@@ -6274,7 +6274,8 @@
     "check_parameter_default",
     "save_default_argument",
     "collect_member_references",
-    "print_inline_declaration"
+    "print_inline_declaration",
+    "print_declaration"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10386,7 +10387,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1040,
+      "last": 1041,
       "seen": [
         "main",
         "message_text",
@@ -11336,12 +11337,13 @@
         "save_default_argument",
         "collect_member_references",
         "print_inline_declaration",
-        "print_declaration"
+        "print_declaration",
+        "format_declarator"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_print_declaration@8",
-        "native": "print_declaration",
+        "logical": "_format_declarator@8",
+        "native": "format_declarator",
         "signal": 5
       }
     }

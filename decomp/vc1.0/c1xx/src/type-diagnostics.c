@@ -3,6 +3,8 @@
 #include "declarations.h"
 #include "cpp-context.h"
 #include "type-diagnostics-internal.h"
+#include "function-definitions.h"
+#include "lexer.h"
 #include <recon.h>
 
 TypeDiagnosticStorage type_diagnostic_storage; /* original 0x90f54, slots start 0x90f64 */
@@ -161,4 +163,43 @@ void end_type_diagnostic(void)
     if (--type_diagnostic_depth) return;
     for (index = 0; index < 32; ++index)
         type_diagnostic_slots[index].handle = 0;
+}
+
+char *declaration_print_error; /* original 0xa1e58 */
+int printing_function_declaration; /* original 0xa1e60 */
+
+/* Original 0x67a40..0x67bd2. A null stream writes reconstructed
+   declaration text to the pending compiler text stack. A file receives the
+   same spelling, with a final semicolon/newline only for stdout. Unsupported
+   spellings are emitted as comments and diagnosed by their recorded kind. */
+void __stdcall print_declaration(CppSymbol *symbol, FILE *stream)
+{
+    char *text;
+    unsigned length, kind;
+    StorageSpec storage;
+    if (!symbol) return;
+    declaration_print_error = 0;
+    printing_function_declaration = (symbol->kind & 31) == 7;
+    text = type_diagnostic_text(format_declarator(symbol, 0));
+    if (declaration_print_error) {
+        if (!stream) write_work_bytes("/* ", 3, 1, compiler_stack);
+        else fwrite("/* ", 3, 1, stream);
+        for (length = 0; text[length]; ++length) {}
+        if (!stream) write_work_bytes(text, length, 1, compiler_stack);
+        else fwrite(text, length, 1, stream);
+        if (!stream) write_work_bytes("; */\n", 5, 1, compiler_stack);
+        else fwrite("; */\n", 5, 1, stream);
+        compiler_warning(1, 36, declaration_print_error);
+        return;
+    }
+    kind = symbol->kind & 31;
+    if ((kind != 6 && kind != 7) || !(symbol->declaration_flags & 0x7000)) {
+        storage.flags = symbol->storage[0] | ((unsigned short)symbol->storage[1] << 8);
+        storage.extended = symbol->storage[2];
+        write_storage_specification(storage, stream);
+    }
+    for (length = 0; text[length]; ++length) {}
+    if (!stream) write_work_bytes(text, length, 1, compiler_stack);
+    else fwrite(text, length, 1, stream);
+    if (stream == stdout) fwrite(";\n", 2, 1, stream);
 }

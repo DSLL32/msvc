@@ -1044,7 +1044,8 @@
     "_check_parameter_default@8",
     "_save_default_argument@4",
     "_collect_member_references@8",
-    "_print_inline_declaration@8"
+    "_print_inline_declaration@8",
+    "_print_declaration@8"
   ],
   "driver": [
     {
@@ -4609,7 +4610,7 @@
     {
       "name": "_print_declaration@8",
       "start": 424512,
-      "end": 424513
+      "end": 424914
     },
     {
       "name": "_begin_function_output@4",
@@ -7970,7 +7971,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_print_declaration@8",
+      "terminal": "_format_declarator@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7993,7 +7994,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1040-print_declaration-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8038,7 +8039,8 @@
         "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1037-save_default_argument-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1038-collect_member_references-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1040-print_declaration-8/frontier-extension.json"
       ]
     }
   },
@@ -10326,6 +10328,23 @@
         {
           "name": "_printing_inline_declaration",
           "original": 663140,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_print_error",
+      "original": 663128,
+      "fields": [
+        {
+          "name": "_declaration_print_error",
+          "original": 663128,
+          "bytes": 4
+        },
+        {
+          "name": "_printing_function_declaration",
+          "original": 663136,
           "bytes": 4
         }
       ]

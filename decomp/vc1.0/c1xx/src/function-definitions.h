@@ -39,4 +39,7 @@ void activate_qualified_definition_scopes(void);
 CppSymbol *__stdcall class_tag_for_type(CType *type);
 void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment);
 CppSymbol *__stdcall prepare_function_definition(CppSymbol *symbol);
+extern char *declaration_print_error;
+extern int printing_function_declaration;
+void __stdcall write_storage_specification(StorageSpec storage, FILE *stream);
 #endif
