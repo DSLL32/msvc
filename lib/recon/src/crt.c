@@ -1319,7 +1319,11 @@ WEAK void recon_mbccpy(unsigned char *destination,const unsigned char *source)
     *destination=*source;
 }
 WEAK int recon_ismbcspace(unsigned int value)
-{ (void)value; recon_unsupported("unreviewed _ismbcspace"); return 0; }
+{
+    ascii_multibyte_scope();
+    if (value>127) recon_unsupported("non-ASCII _ismbcspace input");
+    return value==' ' || (value>='\t' && value<='\r')?8:0;
+}
 
 WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
 { (void)text; (void)value; recon_unsupported("unreviewed _mbschr"); return NULL; }

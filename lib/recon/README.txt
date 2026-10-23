@@ -421,8 +421,9 @@ Default-C ASCII multibyte calls now support `_mbsncmp`, `_mbsinc` and `_mbccpy`.
 Scope requires codepage0, MB_CUR_MAX1 and C LC_CTYPE; target evidence also verifies
 clear ASCII lead-byte bits. Comparisons return canonical-1/0/+1; count0 accepts
 NULL inputs. Advance includes NUL, copy changes exactly one byte including NUL.
-Unknown codepages/locales/non-ASCII fail explicitly. `_ismbcspace` and `_mbschr`
-remain unsupported. The separate `recon_mb_codepage` state is not LC_CTYPE's
+Unknown codepages/locales/non-ASCII fail explicitly. `_ismbcspace` uses the
+canonical mask8 for ASCII space and TAB through CR, zero otherwise; `_mbschr`
+remains unsupported. The separate `recon_mb_codepage` state is not LC_CTYPE's
 codepage and must be observed rather than inferred from MB_CUR_MAX alone.
 
 Minimal native C++ target units may include shared headers with C linkage; shared

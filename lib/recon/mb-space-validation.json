@@ -1,0 +1,7 @@
+{
+  "scope": "Default-C CP0/MB_CUR_MAX1 ASCII _ismbcspace, actual mask8/zero and error preservation",
+  "native_build_checks_seconds": {
+    "gcc": 0.996345086954534,
+    "clang": 1.2492790101096034
+  }
+}
