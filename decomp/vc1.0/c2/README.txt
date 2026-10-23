@@ -352,3 +352,13 @@ all encountered parent fields pass, plus original/canonical cleanup, graph,
 extents, typed cursor/allocation storage identities and original/W3 builds.
 All14 native cases pass;13 outputs complete, dbglist advances to its next
 writer trap. Evidence/extent coverage/timing: cases/dbglist-dispatch-checkpoint.json.
+
+Checkpoint1243 adds186-byte CodeView labels,143-byte frame variables and
+57-byte S_END (historical begin_debug_function name). Actual label list member1
+and parameter member0/type/offset/context match; S_END has a proved genuine
+zero-input ABI and explicit empty observation.144 label and1152 frame
+controls compare packed bytes, raw offset/wrap, function/role adjustment and
+post-select input order with child mocks. All14 native cases and canonical
+graph/extent/ABI/W3 checks pass;13 finished outputs remain exact. Debug case
+now reaches listing_size_suffix2a840.386new bytes, coverage and full timing
+ledger: cases/dbglist-label-frame-checkpoint.json.

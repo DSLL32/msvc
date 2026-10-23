@@ -125,16 +125,25 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             if(cursor)dump_bytes(process,"scope_cursor_hex",cursor,24);
         }
     }
-    if(!strcmp(call->name,"@write_debug_symbol@4")) {
+    if(!strcmp(call->name,"@write_debug_symbol@4") ||
+       !strcmp(call->name,"@write_codeview_label@4") ||
+       !strcmp(call->name,"@write_codeview_frame_variable@4")) {
         DWORD symbol=call->args[0],name=read_word(process,symbol+16);
         DWORD cursor=read_word(process,image_base+0x6e8ac);
-        DWORD record=cursor?read_word(process,cursor+12):0;
+        DWORD record=cursor?read_word(process,cursor+12):0,index=0;
+        while(record&&read_word(process,record+4)!=symbol&&index<64) {
+            record=read_word(process,record);++index;
+        }
+        if(!record||index==64)exit(269);
         dump_bytes(process,"descriptor_hex",symbol,44);
         if(name)dump_bytes(process,"descriptor_name_hex",name,string_bytes(process,name));
         else log_line("descriptor_name_hex \n");
-        sprintf(line,"debug_symbol_state cursor %08lx record %08lx head_symbol %08lx allocation %lu optimize %lu\n",
+        sprintf(line,"debug_symbol_state cursor %08lx record %08lx record_symbol %08lx allocation %lu optimize %lu record_index %lu coff %lu byte_first %lu\n",
             cursor,record,record?read_word(process,record+4):0,
-            read_word(process,image_base+0x74ff8),read_word(process,image_base+0x70624));
+            read_word(process,image_base+0x74ff8),read_word(process,image_base+0x70624),index,
+            read_word(process,image_base+0x706f4),read_word(process,image_base+0x706f0));
+        log_line(line);
+        sprintf(line,"function_flags %lu\n",read_word(process,read_word(process,image_base+0x731b4)+40));
         log_line(line);
     }
     log_line("entry_end\n");

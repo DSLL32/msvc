@@ -1,0 +1,96 @@
+{
+  "checked": [
+    {
+      "function": "@write_codeview_label@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer",
+          "original": 8072312,
+          "native": 1449323888
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x69f29",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x54733",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@write_codeview_frame_variable@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer",
+          "original": 8072524,
+          "native": 1449324100
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x697be",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x54853",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "_begin_debug_function",
+      "formals": [],
+      "returns": [
+        [
+          {
+            "site": "0x69248",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x53f8c",
+            "cleanup": 0
+          }
+        ]
+      ],
+      "zero_input_proof": "Whole69210..69249 constructs its two local WORDs, overwrites ECX/EDX before callback calls; no incoming GPR/flags/stack/x87 values consumed. Historical name writes S_END. Empty formals intentional and actual observation retained."
+    }
+  ],
+  "rejected": [
+    "missing formal",
+    "wrong register",
+    "broken list member",
+    "wrong list position",
+    "changed label offset",
+    "unknown hidden pointer",
+    "changed COFF mode",
+    "missing formal",
+    "wrong register",
+    "broken list member",
+    "wrong list position",
+    "changed label offset",
+    "unknown hidden pointer",
+    "changed COFF mode",
+    "invented zero-formal input",
+    "unknown zero-formal register",
+    "missing zero-formal proof"
+  ],
+  "seconds": 0.27125573717057705,
+  "scope": "Actual named inline-asm label at current scope list index1, not an invented head alias. Defined44-byte prefix projection/name/COFF+byte-block/function flags/stdio/x87 and original/canonical cleanup. Unrelated hash/instruction addresses remain raw; no general deep alias or unvisited leaf claim."
+}

@@ -1244,7 +1244,10 @@
     "@write_codeview_function@4",
     "@coff_output_size@8",
     "@write_debug_scopes@4",
-    "@write_debug_symbol@4"
+    "@write_debug_symbol@4",
+    "@write_codeview_label@4",
+    "@write_codeview_frame_variable@4",
+    "_begin_debug_function"
   ],
   "driver": [
     {
@@ -2043,8 +2046,15 @@
     {
       "name": "_begin_debug_function",
       "start": 430608,
-      "end": 430609,
-      "provisional": true
+      "end": 430665,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-end-abi/validation.json",
+        "zero_input_proof": "Whole69210..69249 constructs its two local WORDs, overwrites ECX/EDX before callback calls; no incoming GPR/flags/stack/x87 values consumed. Historical name writes S_END. Empty formals intentional and actual observation retained."
+      }
     },
     {
       "name": "_finish_debug_module",
@@ -8243,8 +8253,20 @@
     {
       "name": "@write_codeview_frame_variable@4",
       "start": 431920,
-      "end": 431921,
-      "provisional": true
+      "end": 432063,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-frame-abi/validation.json"
+      }
     },
     {
       "name": "@write_codeview_register@4",
@@ -8267,8 +8289,20 @@
     {
       "name": "@write_codeview_label@4",
       "start": 433776,
-      "end": 433777,
-      "provisional": true
+      "end": 433962,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-label-abi/validation.json"
+      }
     },
     {
       "name": "@write_codeview_constant@4",

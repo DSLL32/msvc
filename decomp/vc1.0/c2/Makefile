@@ -38,6 +38,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-source-filename-storage.py
 	$(PYTHON) scripts/check-codeview-storage.py
 	$(PYTHON) scripts/check-debug-symbol-abi.py
+	$(PYTHON) scripts/check-codeview-leaf-abi.py
 
 # Explicit Python compatibility/focused proofs remain available; fixtures do not
 # invoke a compiler, Cargo or Wine. Data checks retain their individual scope.
@@ -56,6 +57,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-source-filename-storage.py
 	$(PYTHON) scripts/check-codeview-storage.py
 	$(PYTHON) scripts/check-debug-symbol-abi.py
+	$(PYTHON) scripts/check-codeview-leaf-abi.py
 audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes build/native/check-listing-special build/native/check-listing-mnemonic build/native/check-listing-operand build/native/check-listing-prefix build/native/check-register-names build/native/check-instruction-comment build/native/check-listing-comment-prefix build/native/check-listing-type
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
@@ -72,6 +74,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-inline-shapes.py
 	$(PYTHON) scripts/check-subtraction-overflow.py
 	$(PYTHON) scripts/check-debug-segment-storage.py
+	$(PYTHON) scripts/check-codeview-frame.py
+	$(PYTHON) scripts/check-codeview-label.py
 	$(PYTHON) scripts/check-codeview-dispatch.py
 	$(PYTHON) scripts/check-codeview-scopes.py
 	$(PYTHON) scripts/check-codeview-procedure.py

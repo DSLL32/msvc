@@ -7,9 +7,20 @@
 #include <string.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
-extern int optimize_global;
+extern int optimize_global, coff_object, byte_block_first;
 DebugScope *codeview_scope_cursor; /* original7e8ac */
 unsigned codeview_allocation_class; /* original84ff8; alias dispatch override */
+/* Original69210..69249. This historical placeholder name denotes S_END.
+   It has no incoming register/stack arguments; the record is four bytes. */
+void begin_debug_function(void)
+{
+    struct { unsigned short length, kind; } record;
+    record.length = 2;
+    record.kind = 6;
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&record, sizeof(record));
+    debug_symbols_segment->symbol.field04 += sizeof(record);
+}
 
 /* Original69250..692a3. Emit the procedure and lexical scopes, then the
    S_END record (the existing begin_debug_function placeholder at69210). */
@@ -178,6 +189,69 @@ void __fastcall write_codeview_function(FunctionSymbol *symbol)
     copy_codeview_string(record.name, name);
     output_callbacks.data(&record, length + 2);
     output_callbacks.size(26 - length, &symbol->symbol);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+#pragma pack(2)
+typedef struct CodeViewLabelRecord {
+    unsigned short length, kind;
+    unsigned offset;
+    unsigned short section;
+    unsigned char flags, name[297];
+} CodeViewLabelRecord;
+#pragma pack()
+typedef char CodeViewLabelSizeCheck[sizeof(CodeViewLabelRecord) == 308 ? 1 : -1];
+/* Original69e70..69f2a. User labels use diagnostic spelling, generated
+   labels use the backend's display name; the address pair is relocated. */
+void __fastcall write_codeview_label(SymbolHeader *symbol)
+{
+    CodeViewLabelRecord record;
+    char *name, *end;
+    unsigned length;
+    name = symbol->field0d ? symbol_display_name(symbol) : format_function_name(symbol);
+    end = name;
+    while (*end++) ;
+    length = (unsigned)(end - name) + 9;
+    record.length = (unsigned short)length;
+    record.kind = 0x209;
+    record.offset = coff_object && !byte_block_first ? symbol->field04 : 0;
+    record.section = 0;
+    record.flags = 0;
+    copy_codeview_string(record.name, name);
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&record, length + 2);
+    output_callbacks.size(2 - length, symbol);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+#pragma pack(2)
+typedef struct CodeViewFrameVariableRecord {
+    unsigned short length, kind;
+    unsigned offset;
+    unsigned short type;
+    unsigned char name[298];
+} CodeViewFrameVariableRecord;
+#pragma pack()
+typedef char CodeViewFrameVariableSizeCheck[sizeof(CodeViewFrameVariableRecord) == 308 ? 1 : -1];
+/* Original69730..697bf. S_BPREL32 retains the raw signed stack-offset
+   bits; function flag10 adjusts role30 parameters by one DWORD. */
+void __fastcall write_codeview_frame_variable(SymbolHeader *symbol)
+{
+    CodeViewFrameVariableRecord record;
+    BackendSymbol *variable = (BackendSymbol *)symbol;
+    char *name = format_function_name(symbol), *end;
+    unsigned length, offset;
+    output_callbacks.select_segment(debug_symbols_segment);
+    end = name;
+    while (*end++) ;
+    length = (unsigned)(end - name) + 8;
+    record.length = (unsigned short)length;
+    record.kind = 0x200;
+    offset = symbol->field04;
+    if ((current_function->field28 & 0x10) &&
+        (variable->attributes & 0x70) == 0x30) offset -= 4;
+    record.offset = offset;
+    record.type = variable->field20;
+    copy_codeview_string(record.name, name);
+    output_callbacks.data(&record, length + 2);
     debug_symbols_segment->symbol.field04 += length + 2;
 }
 /* Original69c60..69cc9. S_OBJNAME consists of the fixed header and a

@@ -3,8 +3,8 @@ from pathlib import Path
 import argparse,hashlib,json,os,re,shutil,subprocess,tempfile,time
 import pe_indexes as idx
 from case_paths import C2_SCRATCH,capture_lock,native_work,windows
-parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--native-only',action='store_true');parser.add_argument('--function',required=True);parser.add_argument('--parameter',action='append',required=True);parser.add_argument('--no-hidden-inputs-proof',required=True);parser.add_argument('--receipt',required=True,type=Path);parser.add_argument('--stack-cleanup',type=int,default=0);args=parser.parse_args()
-parameters=[v.split(':')for v in args.parameter];assert 1<=len(parameters)<=8 and all(len(v)==2 and v[1]in ['signed32','unsigned32','signed16','unsigned16']for v in parameters)
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--native-only',action='store_true');parser.add_argument('--function',required=True);parser.add_argument('--parameter',action='append',default=[]);parser.add_argument('--no-hidden-inputs-proof',required=True);parser.add_argument('--receipt',required=True,type=Path);parser.add_argument('--stack-cleanup',type=int,default=0);args=parser.parse_args()
+parameters=[v.split(':')for v in args.parameter];assert 0<=len(parameters)<=8 and all(len(v)==2 and v[1]in ['signed32','unsigned32','signed16','unsigned16']for v in parameters)
 assert args.stack_cleanup==max(len(parameters)-2,0)*4
 started=time.perf_counter();receipt=args.receipt;receipt.mkdir(exist_ok=args.native_only);fixture=Path('../fixtures/c2-debug-asm-listing');phase=json.loads((fixture/'manifest.json').read_text())['phases']['c2'];name=args.function
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
