@@ -66,6 +66,7 @@ typedef struct CompilerPool {
 #ifdef __cplusplus
     CompilerPool *RECON_THISCALL Initialize(unsigned minimum_pages);
     void RECON_THISCALL BindArena(unsigned arena_index);
+    unsigned char *RECON_THISCALL Refill(unsigned request_bytes);
 #endif
 } CompilerPool;
 

@@ -83,7 +83,8 @@
     "_calculate_arena_reservation",
     "import:_ftol",
     "CompilerArena::Reset",
-    "_initialize_pool_arenas"
+    "_initialize_pool_arenas",
+    "CompilerPool::BindArena"
   ],
   "driver": [
     {
@@ -953,12 +954,21 @@
     {
       "name": "CompilerPool::BindArena",
       "start": 272863124,
-      "end": 272863125,
+      "end": 272863149,
       "source": "src/pools.cpp",
-      "pending_extent": true,
       "abi": "thiscall4",
       "symbol": "?BindArena@CompilerPool@@QAEXI@Z",
       "native_symbol": "_ZN12CompilerPool9BindArenaEj"
+    },
+    {
+      "name": "CompilerPool::Refill",
+      "start": 272756265,
+      "end": 272756266,
+      "source": "src/pools.cpp",
+      "pending_extent": true,
+      "abi": "thiscall4",
+      "symbol": "?Refill@CompilerPool@@QAEPAEI@Z",
+      "native_symbol": "_ZN12CompilerPool6RefillEj"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -4515,6 +4525,55 @@
         "original_seconds": 16.246784506365657,
         "native_seconds": 5.379974288865924
       }
+    },
+    {
+      "name": "CompilerPool::BindArena",
+      "classification": "application source",
+      "source": "src/pools.cpp",
+      "source_sha256": "e13289bc45f84a8a293631ab4f423b3b067398be5e210e4ce90c7c2c4addfc20",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-member-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-member-native-2",
+      "original_receipt_sha256": "e3dea5ac8bf9acc04d567cf25ef3f15d211b016d21eb68ce9648b8fede17601e",
+      "native_receipt_sha256": "e7eb8ff7fe32e0ec45732a7bab90b2dd61287fa4399698972bb42923065537e2",
+      "trial_sha256": "a1aa9f4a96f63b8a3bf1a054d6a4d2a41b46a836889c40ae2dea719e0cc474f4",
+      "audit_sha256": "d3103f7735d83ad6e5bf6450295ecab41f79e2490a8b2a1d7d82e13fd8fbc7dc",
+      "code_chunks": [
+        [
+          233364,
+          233389
+        ]
+      ],
+      "comparison": {
+        "trial": "CompilerPool::BindArena",
+        "frontier": "CompilerPool::Refill",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 15.394568666815758,
+        "native_seconds": 5.5431107291951776
+      },
+      "native_trial_sha256": "ffa89dcd9e52314d6b7c2e2ae7627a7e8cc6f368bb4ecc2f04d46ed85e8978ab",
+      "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
     }
   ],
   "imports": [

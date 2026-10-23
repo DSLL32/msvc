@@ -6,7 +6,10 @@ from pathlib import Path
 def prepare(project,original,output,trial):
     sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
     original=original.resolve();receipt=json.loads((original/'receipt.json').read_text());binding=json.loads((output/'system-info-binding.json').read_text());reference=sha(original/'receipt.json')
-    if binding['original_directory']!=str(original) or binding['original_receipt_sha256']!=reference or binding['trial_sha256']!=sha(original/'trial.json') or (original/'trial.json').read_bytes()!=(output/'trial.json').read_bytes():raise ValueError('x87 profile is not the already verified exact original input closure')
+    from system_info_reference import native_only_trial_refresh
+    refresh=native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
+    if binding.get('native_only_trial_refresh')!=refresh or binding.get('native_trial_sha256')!=sha(output/'trial.json'):raise ValueError('x87 native refresh lacks checked exact trial identity')
+    if binding['original_directory']!=str(original) or binding['original_receipt_sha256']!=reference or binding['trial_sha256']!=sha(original/'trial.json'):raise ValueError('x87 profile is not the already verified exact original input closure')
     raw=original/'x87-context-000.bin';row=receipt['artifacts'].get(raw.name)
     if not row or row['sha256']!=sha(raw) or row['size']!=112 or raw.stat().st_size!=112:raise ValueError('x87 entry raw112 provenance differs')
     cw,sw,tag=(v&0xffff for v in struct.unpack_from('<3I',raw.read_bytes()))

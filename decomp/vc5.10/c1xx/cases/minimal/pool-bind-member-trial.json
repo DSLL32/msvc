@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "trial": "CompilerPool::BindArena",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-member-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-member-native-2",
+  "original_receipt_sha256": "e3dea5ac8bf9acc04d567cf25ef3f15d211b016d21eb68ce9648b8fede17601e",
+  "native_receipt_sha256": "e7eb8ff7fe32e0ec45732a7bab90b2dd61287fa4399698972bb42923065537e2",
+  "status": "accepted after reviewed-shim native-only refresh;25B sole app member, no new fields/support",
+  "code_bytes": 25,
+  "rva_range": [
+    233364,
+    233389
+  ],
+  "observed_effect": "pool10.arena points to real arena0; full original BSS/native modeled/padding/saved/external guards prove no other store",
+  "frontier": {
+    "name": "CompilerPool::Refill",
+    "rva": 126505,
+    "this_original": 273418256,
+    "request_bytes": 1,
+    "caller_return_rva": 233386,
+    "ABI": "ECX this, one DWORD stack argument; member body/returns remain pending"
+  },
+  "new_data_fields": 0,
+  "prior_controls_reused": {
+    "path": "cases/minimal/pool-binding-wrapper-trial.json",
+    "sha256": "1b5c0d6fb3f275f68bf8047d931ba1e4b3bc15cdea48c8fc8c9efdd5bf3ff51d"
+  },
+  "prior_reviewed_native": {
+    "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-member-native-1",
+    "receipt_sha256": "94ae1b23c5c08127b48c114750fecac4b7621c039bb61c6aec5d6c8cf804feec",
+    "scope": "full positive plus9 affected controls before unrelated shared Watcom WIP was consumed; retained unchanged"
+  },
+  "native_only_refresh": {
+    "reason": "subsequent fixture auto-build consumed Watcom-only shared changes; held until independently reviewed READY8c4c76102+472a2dd1f, exact frozen WIP contents unchanged; no VC5/default behavior change",
+    "original_receipt_unchanged": true,
+    "trial_identity": {
+      "kind": "same immutable original execution; changed native ELF binding only",
+      "original_trial_sha256": "a1aa9f4a96f63b8a3bf1a054d6a4d2a41b46a836889c40ae2dea719e0cc474f4",
+      "native_trial_sha256": "ffa89dcd9e52314d6b7c2e2ae7627a7e8cc6f368bb4ecc2f04d46ed85e8978ab",
+      "original_bound_native_sha256": "9e8e4d068693f6191d3c2fb02dd3f2cb5899de14e5594874d679e62788f1025a",
+      "current_native_sha256": "54342ec4356175049dee53baeabb25347f3aa1e89f236c2fce71ac4c6cdd6f60",
+      "only_changed_field": "bound_inputs.build/native/c1xx-host"
+    },
+    "controls": {
+      "result": "PASS",
+      "positive": 1,
+      "negative": 5,
+      "rejected": [
+        "mask",
+        "case-input",
+        "rebuilt",
+        "candidate",
+        "unchanged-native"
+      ],
+      "scope": "exact native ELF-only immutable trial identity guard; no binary execution"
+    }
+  },
+  "controls": {
+    "result": "PASS",
+    "count": 9,
+    "seconds": 3.1213163435459137,
+    "scope": "nine focused pointer-write/next-ABI semantic denials after full immutable paired+strict audit, no binary execution",
+    "rejected": [
+      "refill-this",
+      "refill-request",
+      "refill-formals",
+      "refill-caller",
+      "native-pointer-store",
+      "typed-arena-identity",
+      "original-unknown-BSS",
+      "original-pointer-store",
+      "original-refill-request"
+    ]
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.006430464796721935,
+      "setup": 0.0008581513538956642,
+      "execution": 0.0020986096933484077,
+      "checks": 0.003751336596906185,
+      "total": 0.013864196836948395
+    }
+  },
+  "fixture_WIP_build_observation": {
+    "log": "/root/.ai-tmp/msvc2/vc5.10/c1xx/pool-bind-member-fixtures.log",
+    "build_seconds": 2.4439069516956806,
+    "scope": "the build that consumed unreviewed shared Watcom contents; acceptance held until READY, followed by native-only refresh"
+  },
+  "validation_sources": {
+    "scripts/pool_bind_state.py": "d119b21f7416150ca544c250bdb7a7f32f16c8f90c405651b0fb5c12736f89aa",
+    "scripts/check-pool-bind-member-negative.py": "55d8cc69494d6ee3997e1e7580664b794d4f59db491d66df7475842cfc2a5b4e",
+    "scripts/system_info_reference.py": "52838b19431b4329606f4e6e2b9cc1bf6b32af92f22cffc8892d82e3b83b0d55",
+    "scripts/x87_reference.py": "c01b50cad99d405475f676b9af22d6c305b4799c62465e313e09e8a21ccf3dba",
+    "scripts/check-native-refresh.py": "74bb5d5b3844082842f8fe7b0414c3e18f8c2280a45c8100ce910657659eed68"
+  },
+  "timing": {
+    "original": 15.394568666815758,
+    "native": 5.5431107291951776
+  }
+}

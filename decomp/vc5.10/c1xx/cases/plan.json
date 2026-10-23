@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: pool wrapper accepted; first BindArena member frontier",
+      "status": "active: BindArena accepted; first Refill member frontier",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -51,7 +51,8 @@
       "arena_reserve_validation": "minimal/arena-reserve-trial.json",
       "scaler_validation": "minimal/scaler-trials.json",
       "arena_reset_validation": "minimal/arena-reset-trials.json",
-      "pool_binding_wrapper_validation": "minimal/pool-binding-wrapper-trial.json"
+      "pool_binding_wrapper_validation": "minimal/pool-binding-wrapper-trial.json",
+      "pool_bind_member_validation": "minimal/pool-bind-member-trial.json"
     },
     {
       "id": "cpp-basic",

@@ -1011,6 +1011,12 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38f94 || address == base + 0x1ee29) {
+                    BYTE *pool_bss=(BYTE *)malloc(0xf69c);
+                    if(!pool_bss)fail("pool binding BSS observation");
+                    readmem(base+0xb9000,pool_bss,0xf69c);
+                    save_blob(address==base+0x38f94 ? "pool-bind-bss-entry.bin" : "pool-bind-bss-frontier.bin",pool_bss,0xf69c);free(pool_bss);
+                }
                 if (address == base + 0x38f0a && reset_observers) {
                     DWORD fields[8],words[1];BYTE *blob;char name[80];
                     if(reset_sequence>=9 || reset_return_active || context.Ecx!=base+0xc6500+reset_sequence*32)fail("Reset receiver/order");
@@ -1103,6 +1109,12 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
+                if (address == base + 0x38f94 || address == base + 0x1ee29) {
+                    BYTE *pool_bss=(BYTE *)malloc(0xf69c);
+                    if(!pool_bss)fail("pool binding BSS observation");
+                    readmem(base+0xb9000,pool_bss,0xf69c);
+                    save_blob(address==base+0x38f94 ? "pool-bind-bss-entry.bin" : "pool-bind-bss-frontier.bin",pool_bss,0xf69c);free(pool_bss);
                 }
                 if (address == base + 0x38f0a && reset_observers) {
                     DWORD fields[8],words[1];BYTE *blob;char name[80];

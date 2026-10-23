@@ -10,6 +10,17 @@ import struct
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+
+def native_only_trial_refresh(original_bytes,current_bytes):
+    """A native rebuild may reuse original execution only for this exact delta."""
+    if original_bytes==current_bytes:return None
+    before=json.loads(original_bytes);after=json.loads(current_bytes)
+    key='build/native/c1xx-host';old=before['bound_inputs'][key];new=after['bound_inputs'][key]
+    if not all(isinstance(value,str)and re.fullmatch('[0-9a-f]{64}',value)for value in (old,new))or old==new:raise ValueError('not a genuine native-only ELF binding refresh')
+    after['bound_inputs'][key]=old
+    if after!=before:raise ValueError('original execution input changed beyond native ELF binding')
+    return {'kind':'same immutable original execution; changed native ELF binding only','original_trial_sha256':hashlib.sha256(original_bytes).hexdigest(),'native_trial_sha256':hashlib.sha256(current_bytes).hexdigest(),'original_bound_native_sha256':old,'current_native_sha256':new,'only_changed_field':'bound_inputs.build/native/c1xx-host'}
+
 def prepare(project,original,output,trial):
     original=original.resolve();root=project.parents[2]
     receipt=json.loads((original/'receipt.json').read_text())
@@ -17,7 +28,9 @@ def prepare(project,original,output,trial):
     for name,row in receipt['artifacts'].items():
         file=original/name
         if Path(name).name!=name or not file.is_file() or sha(file)!=row['sha256'] or file.stat().st_size!=row['size']:raise ValueError('original response artifact drift '+name)
-    if (original/'trial.json').read_bytes()!=(output/'trial.json').read_bytes():raise ValueError('original response belongs to different trial')
+    refresh=native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
+    original_trial=json.loads((original/'trial.json').read_text())
+    if original_trial['bound_inputs']['build/native/c1xx-host']!=receipt['native_sha256'] or trial['bound_inputs']['build/native/c1xx-host']!=sha(output/'native-executable.elf'):raise ValueError('original/current native execution binding differs')
     for side in ('target','msvcrt'):
         canonical=root/('toolchains/5.10/bin/C1XX.DLL' if side=='target' else 'toolchains/5.10/bin/MSVCRT.DLL')
         key='target_sha256' if side=='target' else 'canonical_crt_sha256'
@@ -48,6 +61,8 @@ def prepare(project,original,output,trial):
     spec=importlib.util.spec_from_file_location('system_profile_encoder',encoder);shared=importlib.util.module_from_spec(spec);spec.loader.exec_module(shared)
     reference=sha(original/'receipt.json');profile=output/'system-info-profile.bin';shared.write_system_info_profile(profile,reference,raw)
     binding=dict(kind='C1XX actual GetSystemInfo-only response and original HOST CRT vectors; Invoke argv remains separate',original_directory=str(original),original_receipt_sha256=reference,trial_sha256=sha(original/'trial.json'),target_sha256=receipt['target_sha256'],canonical_crt_sha256=receipt['canonical_crt_sha256'],provider_hfile_sha256=sha(original/'loaded-kernel32.bin'),provider_export_rva=export_rva(original/'loaded-kernel32.bin','GetSystemInfo'),raw_output_sha256=sha(original/'system-info-after.bin'),profile_sha256=sha(profile),profile_bytes=104,GlobalMemoryStatus_supplied=False,original_crt_inputs={name:sha(original/name) for name in ('original-crt-argv.bin','original-crt-environment.bin')},controllers=controller)
+    binding['native_trial_sha256']=sha(output/'trial.json')
+    if refresh:binding['native_only_trial_refresh']=refresh
     (output/'system-info-binding.json').write_text(json.dumps(binding,indent=2)+'\n')
     if any(sha(root/path)!=row['sha256'] for path,row in controller.items()):raise ValueError('profile factory changed during preparation')
     return reference

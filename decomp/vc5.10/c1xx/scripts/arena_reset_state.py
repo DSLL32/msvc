@@ -14,7 +14,7 @@ def check(s,d,original,native,trial,text,state,final,symbol_table,traps):
     def call(ret,destination):
         code=bytes(d.elf_byte(native,ret-5+i)for i in range(5));require(code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==destination,'not actual native CALL')
     names=elf_symbols(native/'native-executable.elf');metadata=read('scaler-probe-metadata');require(metadata==describe(native/'native-executable.elf'),'stale/guessed conversion instruction metadata')
-    require(trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas') and 'import:_ftol' in trial['accepted'] and not trial.get('support_imports'),'not sole Reset candidate with durable compiler import')
+    require(trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena') and 'import:_ftol' in trial['accepted'] and not trial.get('support_imports'),'not sole Reset candidate with durable compiler import')
     require(trial['arena_reset_observers']=={'entry_rva':0x38f0a,'return_rva':0x38ec8,'calls':9,'receiver_rvas':[0xc6500+i*32 for i in range(9)],'return_semantics':'void; caller overwrites EAX','full_original_bss_guard':True},'wrong declared Reset observer scope')
     rows=re.findall(r'^scaler point=(\d+) seq=(\d+) rva=(\w+) eax=(\w+) edx=(\w+) ecx=(\w+) edi=(\w+) esi=(\w+) ebx=(\w+) esp=(\w+) error=(\d+) cw=(\w+) sw=(\w+) tag=(\w+) stack=([0-9a-f,]+)$',text,re.M)
     points=[0x38ed7,0x38edd,0x38ee3,0x38ee9,0x38eee,0x38e81,0x38ea9,0x38eaf]
@@ -116,7 +116,9 @@ def check(s,d,original,native,trial,text,state,final,symbol_table,traps):
     pool=one('arena-pool-entries');pool_pc,pool_size=names['initialize_pool_arenas'];wrapper_pc,wrapper_size=names['initialize_compiler_environment']
     require((trial['trial']!='CompilerArena::Reset' or state['symbol']=='initialize_pool_arenas' and state['args']=={}) and pool['pc']==pool_pc and pool['args']==[] and pool['formal_inventory']==[] and wrapper_pc<pool['return_pc']<wrapper_pc+wrapper_size,'actual final noarg frontier/formals/caller differs');call(pool['return_pc'],pool_pc);guard(pool,native_bss)
     require(int(next(row[2]for row in traps if row[1]=='00038f1b').split(',')[0],16)==0x10438e2f,'original next pool initializer caller differs')
-    require((original/('arenas-'+final+'.bin')).read_bytes()==bytes(original_bss[original_offset:original_offset+288]) and state['frontend']==expected_final,'final typed arenas/neighbors differ')
+    loop_state=copy.deepcopy(state['frontend'])
+    if 'CompilerPool::BindArena' in trial['accepted']:loop_state['pools'][9]['arena']=0
+    require((original/('arenas-'+final+'.bin')).read_bytes()==bytes(original_bss[original_offset:original_offset+288]) and loop_state==expected_final,'final typed arenas/neighbors differ')
     require(semantic(pool['fp'])==semantic(inventories['arena-reset-returns'][-1]['fp']),'loop continuation changed FP state')
     # No EAX return value is claimed for void Reset; the original caller overwrites it.
     return {'calls':9,'nonzero_reset_inputs':seeded,'conversions':results,'regular_reserve_alignment_claimed':False,'opaque_reserved_bytes':sum(r['rounded']for r in results)}

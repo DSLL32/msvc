@@ -28,7 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -126,6 +126,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if 'CompilerArena::Reset' in trial['accepted']:
         path += [('CompilerArena::Reserve',0x38e70),('calculate_arena_reservation',0x38ed2),('support:_ftol',0x38f04),('CompilerArena::Reset',0x38f0a)]*8+[('initialize_pool_arenas',0x38f1b)]
     if '_initialize_pool_arenas' in trial['accepted']:path.append(('CompilerPool::BindArena',0x38f94))
+    if 'CompilerPool::BindArena' in trial['accepted']:path.append(('CompilerPool::Refill',0x1ee29))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -135,17 +136,17 @@ def check(original,native,require_audit=True,audit_path=None):
     trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']+([] if seed else ['checked_malloc'])
     for name,_ in path:
         if name=='support:_ftol':continue
-        trace_name=records[name]['native_symbol'] if name in ('CompilerPool::Initialize','CompilerPool::BindArena','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else name
+        trace_name=records[name]['native_symbol'] if name in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else name
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     if frontier=='c1xx_main':
         s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')
         s.require(state['args']=={'argc':26,'argv':native_pointer} and [int(v,16) for v in traps[-1][2].split(',')][1:3]==[26,pointer],'actual main argc/argv ABI differs at frontier')
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)
-    native_frontier=records[frontier]['native_symbol'] if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else frontier
+    native_frontier=records[frontier]['native_symbol'] if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else frontier
     match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+native_frontier+'$',symbols,re.M)
     s.require(match is not None,'missing native callback02 symbol');start,size=[int(word,16) for word in match.groups()]
     s.require(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc,'false native callback INT3 PC')
@@ -259,7 +260,7 @@ def check(original,native,require_audit=True,audit_path=None):
         from pool_bind_state import check as check_pool_binding
         check_pool_binding(s,d,original,native,trial,text,state,final,traps)
     if require_audit:s.audit(trial,audit_path)
-    return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
+    return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
             'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(model['native_padding']['bytes'] if model['schema']>=6 else 0),
             'native_bss_size':state['frontend']['known_sizes']['bss'],

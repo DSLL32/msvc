@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **74 application functions (3,287 bytes)**, **two historical CRT
+Accepted code is **75 application functions (3,312 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 3,750 accepted code bytes are 0.4992% of the 751,216-byte code extent; this is not
+The 3,775 accepted code bytes are 0.5025% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the first real pool-binding member after nine arena reservations.
+stopping in the first real pool-refill member after nine arena reservations.
 
 ## Target and ABI
 
@@ -286,3 +286,15 @@ repeated unchanged control campaign. `cases/minimal/pool-binding-wrapper-trial.j
 records16.25s original/5.38s native GDB and14.09ms native-only lifecycle fixture.
 The other nine binding calls and the member body are not claimed as dynamically
 executed by this wrapper proof.
+
+The25-byte BindArena member is accepted separately: full original BSS and native
+modeled/padding/saved/external guards prove only pool10.arena is assigned arena0.
+The actual next Refill request1/ECX receiver/formal inventory/caller is observed;
+its body and return are pending. Nine affected controls take3.12s. A fixture
+auto-build encountered unrelated shared Watcom WIP, so acceptance waited for
+READY, then refreshed only native evidence against the unchanged original.
+Profile factories now permit exactly the native ELF binding delta; five guards
+reject mask/case/rebuilt/candidate/other trial changes. Both execution/source
+snapshots and trial hashes are retained. `cases/minimal/pool-bind-member-trial.json`
+records15.39s original/5.54s refreshed native and13.86ms native-only lifecycle
+fixture (2.10ms execution). No new data fields or support bodies are credited.

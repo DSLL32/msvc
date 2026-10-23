@@ -59,6 +59,10 @@ def main():
             "code_chunks": [[row["start_rva"], row["end_rva"]] for row in trial["ranges"] if row["owner"] == name and row.get('kind')!='text_data'],
             "comparison": result,
         }
+        native_trial_sha=sha(args.native / 'trial.json')
+        if native_trial_sha!=record['trial_sha256']:
+            record['native_trial_sha256']=native_trial_sha
+            record['native_only_refresh']='original raw execution reused after checked exact native ELF binding-only delta'
         data_ranges=[[row['start_rva'],row['end_rva']] for row in trial['ranges'] if row['owner']==name and row.get('kind')=='text_data']
         if name in support:
             record['application_code_credit']=0
