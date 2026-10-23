@@ -1190,3 +1190,109 @@ int __fastcall match_float_stream_branches(FloatStreamBranch *branches, MachineI
     }
     return 1;
 }
+int float_motion_mode; /* 0007e234 */
+/* Original82e68 is an encountered reset word immediately before the use
+   list. No direct consumer is known; retain the original store for now. */
+unsigned float_motion_reset_word;
+MachineInstruction *float_motion_previous; /* 0007e27c */
+#define FM_MOTION_BARRIER(i) ((FM_ELIGIBLE(i) && (FM_OPERATION(i) == MC_JCC || \
+    FM_OPERATION(i) == MC_JMP || FM_OPERATION(i) == MC_CALL || \
+    FM_OPERATION(i) == MC_LEAVE || FM_OPERATION(i) == MC_RET)) || \
+    (FM_KIND(i) == 1 && (FM_LABEL_BARRIER(i) || backend_stage == 5)))
+/* Original [00039680,00039b2d). Trim non-loop ranges to their useful
+   floating endpoints, validate stack capacity and collect uses through any
+   nested context. Mode2 keeps its loop boundary instead of trimming it. */
+void __fastcall analyze_float_motion_range(MachineInstruction *first, MachineInstruction *last, int mode)
+{
+    MachineInstruction *last_float = 0;
+    int nested = 0;
+    if (!memory_motion_context) compiler_internal_error("@(#)fltreg.c:1.31", 0x49d);
+    initialize_float_motion_uses();
+    if (first == last || (memory_motion_context->flags & 3) ||
+        (memory_motion_context->branches && mode != 2) || memory_motion_context->maximum_depth >= 8) goto invalid;
+    float_motion_mode = mode;
+    float_motion_reset_word = 0;
+    float_motion_previous = 0;
+    if (memory_motion_context->label && mode != 2) {
+        first = first->next;
+        memory_motion_context->boundary = first;
+    }
+    if (mode != 2) {
+        while (first) {
+            if ((FM_ELIGIBLE(first) && FM_FLOAT(first)) || first == last || FM_MOTION_BARRIER(first)) break;
+            first = first->next;
+        }
+        if (!first || first == last || FM_MOTION_BARRIER(first)) goto invalid;
+        memory_motion_context->boundary = first;
+        while (last) {
+            if ((FM_ELIGIBLE(last) && FM_FLOAT(last)) || last == first || FM_MOTION_BARRIER(last)) break;
+            last = last->previous;
+        }
+        if (!last || last == first || (FM_MOTION_BARRIER(last) && memory_motion_context->last != last)) goto invalid;
+        memory_motion_context->last = last;
+    }
+    if ((!memory_motion_context->maximum_depth &&
+         (!memory_motion_context->next || !memory_motion_context->next->uses)) ||
+        (memory_motion_context->stack_depth != 0 && memory_motion_context->stack_depth != 1)) goto invalid;
+    while (first != last->next) {
+        if (!first) compiler_internal_error("@(#)fltreg.c:1.31", 0x4f9);
+        else if (memory_motion_context->next && memory_motion_context->next->boundary == first) nested = 1;
+        if (nested && memory_motion_context->next->last == first) nested = 0;
+        if (FM_ELIGIBLE(first)) {
+            if (FM_FLOAT(first)) {
+                record_float_operation_uses(first, nested);
+                last_float = first;
+            } else record_float_nonfloat_uses(first);
+            if (FM_OPERATION(first) == MC_JMP || (FM_OPERATION(first) == MC_JCC && first != last))
+                record_float_motion_branch(first);
+        } else if (FM_KIND(first) == 1) resolve_float_motion_branch(first);
+        first = first->next;
+    }
+    if (last_float) {
+        finish_float_motion_uses();
+        release_float_motion_scratch();
+        float_motion_split_label = 0;
+    } else {
+        close_float_stream_context();
+        release_float_motion_scratch();
+    }
+    return;
+invalid:
+    close_float_stream_context();
+    release_float_motion_scratch();
+    memory_motion_context->flags |= 2;
+}
+
+FloatStreamUse *float_motion_buckets[8]; /* 0007e238..0007e258 */
+int float_motion_writes_unknown_memory; /* 0007e268 */
+int float_motion_reads_unknown_memory; /* 0007e26c */
+FloatMotionBranch *float_motion_pending_branches; /* 00082e7c */
+/* Original [0003a740,0003a7a7). Clear this range's use hash and branch
+   worklist, reserving ordinary physical registers while EBP remains usable
+   as a canonical stack-base value. */
+void initialize_float_motion_uses(void)
+{
+    int index;
+    float_motion_writes_unknown_memory = 0;
+    float_motion_reads_unknown_memory = 0;
+    float_motion_pending_branches = 0;
+    for (index = 0; index < 8; ++index) float_motion_buckets[index] = 0;
+    for (index = 0; index < float_stream_register_count; ++index)
+        float_stream_register_uses[index] = index < 32 && index != REG_EBP ? FLOAT_STREAM_FIXED_REGISTER : 0;
+}
+
+/* Original [0003a2a0,0003a2f5). A defined label resolves every pending
+   outgoing edge for that label. Nodes remain arena-owned after unlinking. */
+void __fastcall resolve_float_motion_branch(MachineInstruction *instruction)
+{
+    FloatMotionBranch *branch = float_motion_pending_branches, *previous = 0;
+    while (branch) {
+        if (&branch->label->symbol == instruction->record.symbol) {
+            if (!previous || float_motion_pending_branches == branch) {
+                float_motion_pending_branches = float_motion_pending_branches->next;
+                previous = branch;
+            } else previous->next = branch->next;
+        } else previous = branch;
+        branch = branch->next;
+    }
+}

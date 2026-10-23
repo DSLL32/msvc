@@ -2542,3 +2542,9 @@ Floating context entry and branch matching: checkpoint1011
 @analyze_float_motion_range@12. 932 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-context-entry.json for extent union, limits and measured timings.
+
+Whole floating motion range analysis: checkpoint1014
+3 acceptances pass fresh original/native matching; current frontier
+@record_float_operation_uses@8. 935 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-motion-analysis.json for extent union, limits and measured timings.

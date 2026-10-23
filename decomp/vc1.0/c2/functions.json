@@ -1015,7 +1015,10 @@
     "_close_float_stream_context",
     "_merge_float_stream_context",
     "@start_float_stream_context@8",
-    "@match_float_stream_branches@12"
+    "@match_float_stream_branches@12",
+    "@analyze_float_motion_range@12",
+    "_initialize_float_motion_uses",
+    "@resolve_float_motion_branch@4"
   ],
   "driver": [
     {
@@ -7141,8 +7144,7 @@
     {
       "name": "@analyze_float_motion_range@12",
       "start": 235136,
-      "end": 235137,
-      "provisional": true
+      "end": 236333
     },
     {
       "name": "_merge_float_stream_context",
@@ -7200,6 +7202,46 @@
       "name": "@can_reuse_float_branch_target@4",
       "start": 248080,
       "end": 248081,
+      "provisional": true
+    },
+    {
+      "name": "_initialize_float_motion_uses",
+      "start": 239424,
+      "end": 239527
+    },
+    {
+      "name": "_release_float_motion_scratch",
+      "start": 238336,
+      "end": 238337,
+      "provisional": true
+    },
+    {
+      "name": "@record_float_nonfloat_uses@4",
+      "start": 238416,
+      "end": 238417,
+      "provisional": true
+    },
+    {
+      "name": "@record_float_operation_uses@8",
+      "start": 238768,
+      "end": 238769,
+      "provisional": true
+    },
+    {
+      "name": "@record_float_motion_branch@4",
+      "start": 238176,
+      "end": 238177,
+      "provisional": true
+    },
+    {
+      "name": "@resolve_float_motion_branch@4",
+      "start": 238240,
+      "end": 238325
+    },
+    {
+      "name": "_finish_float_motion_uses",
+      "start": 238384,
+      "end": 238385,
       "provisional": true
     }
   ],

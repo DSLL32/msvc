@@ -107,4 +107,25 @@ extern LabelSymbol *float_motion_split_label;
 void __fastcall mark_float_branch_targets(FloatStreamBranch *branches);
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target);
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target);
+extern int float_motion_mode;
+extern unsigned float_motion_reset_word;
+extern MachineInstruction *float_motion_previous;
+void initialize_float_motion_uses(void);
+void release_float_motion_scratch(void);
+void __fastcall record_float_nonfloat_uses(MachineInstruction *instruction);
+void __fastcall record_float_operation_uses(MachineInstruction *instruction, int nested);
+void __fastcall record_float_motion_branch(MachineInstruction *instruction);
+void __fastcall resolve_float_motion_branch(MachineInstruction *instruction);
+void finish_float_motion_uses(void);
+typedef struct FloatMotionBranch {
+    LabelSymbol *label;
+    struct FloatMotionBranch *next;
+    MachineInstruction *instruction;
+} FloatMotionBranch;
+typedef char FloatMotionBranchSizeCheck[sizeof(FloatMotionBranch) == 12 ? 1 : -1];
+extern FloatMotionBranch *float_motion_pending_branches;
+extern FloatStreamUse *float_motion_buckets[8];
+extern int float_motion_writes_unknown_memory, float_motion_reads_unknown_memory;
+/* Tagged register-map cell; not a valid FloatStreamUse allocation. */
+#define FLOAT_STREAM_FIXED_REGISTER ((FloatStreamUse *)1)
 #endif
