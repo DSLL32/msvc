@@ -1,6 +1,8 @@
 # Help capture and scaffold review
 
-Status: proposed, not executed. Native tests use GCC i386 ABI; original-toolchain
+This is the initial proposal retained for context; the baseline was subsequently
+approved and executed, with its timeout receipt and diagnostics under this case.
+No masking or reconstruction acceptance has occurred. Native tests use GCC i386 ABI; original-toolchain
 Win32 builds preserve Watcom ABI. No adapters between individual app functions.
 
 ## Explicit original capture

@@ -53,4 +53,28 @@ assumed accepted from newer source. After architecture review, explicit referenc
 capture will establish them and the application/CRT boundary. Fixtures will
 compare only the native ELF against that cache, without Wine or recapture.
 `cases/help/capture-plan.md` provides the concrete execution and boundary plan
-submitted for review; no command in that document has been executed.
+submitted for review. Its baseline execution and diagnostic results follow.
+
+The subsequently approved unmasked baseline timed out with empty streams after
+30.019 seconds. Two explicit diagnostics reached the resource reader, observed
+GS change from Wine's `0x63` to flat DS `0x2b`, and reached `ExitProcess(1)` while
+GS remained `0x2b`; process exit stalled. Each diagnostic terminated its owned
+child with status 126 and observed the real exit debug event. These are failed
+captures, not successful help or reconstruction acceptance. Raw event logs and
+hash-bound receipts are in `cases/help/diagnostic/`.
+
+The corrected diagnostic proved a caller-owned 128-byte stack buffer, actual
+far selector equal to DS, completed `option\0` writes and unchanged remaining
+121 bytes. Its after-character breakpoint is a shared loop join reached before
+the first actual character store; it is explicitly not an adjacent post-store
+observation. The proposed four-site Wine-only patch is documented in
+`cases/help/diagnostic/gs-patch-proposal.json`, including exact bytes, candidate
+hash, relocation nonoverlap and future-selector restrictions. No patched WLIB
+file has been created or executed. The attempted `-?` currently takes a
+diagnostic path; historical successful help syntax remains to be established.
+
+The reference resource reader in
+`bld/sdk/rc/wres/c/loadstr.c:GetString` closely matches the original 128-byte
+chunking, string selection, bounded byte copies and final NUL. This supports
+source correlation, not wholesale acceptance. WRes support logic is not assumed
+to be CRT merely because it is in a library.

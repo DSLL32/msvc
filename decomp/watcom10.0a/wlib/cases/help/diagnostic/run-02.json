@@ -1,0 +1,68 @@
+{
+  "argv": [
+    "/usr/bin/wine",
+    "S:\\watcom10.0a\\wlib\\startup-diagnostic\\helper-build-v3\\diagnose-startup.exe",
+    "R:\\toolchains\\watcom10.0a\\binnt\\WLIB.EXE",
+    "-?",
+    "S:\\watcom10.0a\\wlib\\startup-diagnostic\\run-02\\child",
+    "S:\\watcom10.0a\\wlib\\startup-diagnostic\\run-02\\stdout.bin",
+    "S:\\watcom10.0a\\wlib\\startup-diagnostic\\run-02\\stderr.bin",
+    "S:\\watcom10.0a\\wlib\\startup-diagnostic\\run-02\\events.txt",
+    "S:\\watcom10.0a\\wlib\\startup-diagnostic\\run-02\\sites.txt",
+    "30000",
+    "64",
+    "-",
+    "-"
+  ],
+  "source_snapshot": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/startup-diagnostic/helper-build-v3/diagnose-startup.c",
+  "source_sha256": "bb2d7176ba54d76367d0de370220516657c8b26a59580eb644a58d53aed37eb0",
+  "helper_sha256": "c9280dd33225d2483e17963e019f5f8dc746e00f67eddd0e4cf0a87d13c3ce41",
+  "original_sha256_before": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "host_environment_sha256": "55dba2c52c9337d0ef836465f24b8a0f43177db6c3944323b7bbe1cc98540f71",
+  "stdin_target": "64LF pipe then EOF",
+  "application_functions_accepted": 0,
+  "masked_replay": false,
+  "helper_unix_pid": 1733203,
+  "elapsed_seconds": 30.783063558861613,
+  "helper_exit_status": 126,
+  "original_sha256_after": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "files": [
+    {
+      "name": "events.txt",
+      "size": 17955,
+      "sha256": "8d098c3b046865ff7da0f3a742f91cb08bb09e2f518ead40998131d96dfabd57"
+    },
+    {
+      "name": "helper.stderr.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "helper.stdout.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host-environment.json",
+      "size": 1393,
+      "sha256": "55dba2c52c9337d0ef836465f24b8a0f43177db6c3944323b7bbe1cc98540f71"
+    },
+    {
+      "name": "sites.txt",
+      "size": 732,
+      "sha256": "1627f5ad94a312ba5ed29a7508730d2f1ee46cb617dd6b73213b44ee46971909"
+    },
+    {
+      "name": "stderr.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stdout.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "raw_evidence_directory": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/startup-diagnostic/run-02",
+  "interpretation": "Diagnostic only, not successful help or masked replay. ExitProcess requested 1; debugger later terminated owned process with 126 and observed EXIT_PROCESS."
+}

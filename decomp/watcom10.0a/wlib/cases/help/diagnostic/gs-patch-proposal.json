@@ -1,0 +1,109 @@
+{
+  "status": "PROPOSAL ONLY: no patched file created or executed",
+  "original": "toolchains/watcom10.0a/binnt/WLIB.EXE",
+  "original_sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "proposed_copy": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+  "proposed_result_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "changed_byte_count": 9,
+  "size_before": 62738,
+  "size_after": 62738,
+  "sites": [
+    {
+      "rva": 100817,
+      "va": 4295121,
+      "file_offset": 36305,
+      "old_hex": "8e6d18",
+      "proposed_hex": "909090",
+      "meaning": "MOV GS,[EBP+18h] -> three NOPs"
+    },
+    {
+      "rva": 100852,
+      "va": 4295156,
+      "file_offset": 36340,
+      "old_hex": "65",
+      "proposed_hex": "3e",
+      "meaning": "GS store prefix -> DS store prefix"
+    },
+    {
+      "rva": 100883,
+      "va": 4295187,
+      "file_offset": 36371,
+      "old_hex": "0fb55514",
+      "proposed_hex": "8b551490",
+      "meaning": "LGS EDX,[EBP+14h] -> MOV EDX,[EBP+14h], NOP"
+    },
+    {
+      "rva": 100891,
+      "va": 4295195,
+      "file_offset": 36379,
+      "old_hex": "65",
+      "proposed_hex": "3e",
+      "meaning": "GS NUL-store prefix -> DS NUL-store prefix"
+    }
+  ],
+  "proof": {
+    "diagnostic": "run-02.json",
+    "events": "run-02-events.txt",
+    "source_snapshot": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/startup-diagnostic/helper-build-v3/diagnose-startup.c",
+    "owner_site_va": 4279786,
+    "owner_ebp": 3276270,
+    "owner_esp": 3276140,
+    "buffer_pointer": 3276140,
+    "buffer_capacity": 128,
+    "owner_derivation": "Original ENTER 0x180 at 0x414dd8; SUB EBP,0xfe at 0x414ddc; LEA EDX,[EBP-0x82] at 0x414de4. Actual owner EBP-0x82 equals EDX equals ESP equals reader output pointer. First of three adjacent 128-byte local buffers.",
+    "selector": 43,
+    "ds": 43,
+    "initial_wine_gs": 99,
+    "gs_after_resource_load": 43,
+    "written_span": {
+      "offset": 0,
+      "length": 7,
+      "bytes_hex": "6f7074696f6e00",
+      "text": "option plus NUL"
+    },
+    "remaining_121_bytes_unchanged": true,
+    "first_character_store": {
+      "site_va": 4295156,
+      "edx": 3276140,
+      "bl": 111
+    },
+    "reader_return_va": 4295358,
+    "reader_return_eax": 0,
+    "normal_exit_observed": false,
+    "requested_ExitProcess_status": 1,
+    "forced_termination_status": 126,
+    "actual_owned_exit_confirmed": true
+  },
+  "limitations": [
+    "after-character site 0x4189f7 is a shared loop join and its one-shot hit precedes the first actual character store; it is not an immediate paired post-store observation",
+    "All other load/LGS/NUL before/after sites were observed in order, with the same actual far-buffer pointer/selector/capacity",
+    "This establishes reached flat-DS resource destination semantics; it does not prove every resource/caller path or whole-program equivalence",
+    "The proposed patch is for explicit original capture under Wine only; it is not reconstructed source, accepted application code, or a native fixture dependency",
+    "Unmasked WLIB -? currently follows a diagnostic path; historical help-switch success has not been established",
+    "No patched PE has been written, run or accepted"
+  ],
+  "relocations": {
+    "directory_rva": 327680,
+    "directory_size": 3000,
+    "highlow_entry_count": 1438,
+    "all_candidate_instruction_spans_disjoint_from_all_highlow_fixup_spans": true,
+    "relocation_bytes_unchanged": true
+  },
+  "future_invocations": {
+    "static_known_chain": [
+      "MsgGet@0x414c67 preserves output pointer in ESI, pushes capacity128, executes MOV ECX,DS at0x414c73 before sole observed direct LoadString call0x414c7e",
+      "LoadString@0x418a28 saves ECX at initial local ESP+0x1c; before GetString call0x418ab9 reloads its lowWORD at0x418aaa and pushes that selectorDWORD; output pointer and capacity are passed separately",
+      "GetString frame at reached site has ptr[EBP+0x14], selectorWORD[EBP+0x18], capacity[EBP+0x1c] and RET12. Exact actual capturedselector0x2b equals actual DS0x2b."
+    ],
+    "not_claimed": "First reader observation does not establish all future callers/selectors. Unknown indirect callers or non-DS selectors are not covered.",
+    "capture_guard_proposal": "For a new patched case, require an original-only ALL-invocation reader-entry guard checking actual selector lowWORD(entryESP+8)==actual DS before executing the patched reader; record actual pointer/capacity/caller. Native regression uses captured contracts only. This persistent guard is not implemented by the current one-shot diagnostic helper.",
+    "non_ds_behavior": "HOLD; do not assume patched DS addressing preserves non-DS semantics."
+  },
+  "paths_and_untouched_bytes": {
+    "pristine_original_retained": true,
+    "no_toolchain_copy_created": true,
+    "pe_headers_imports_relocations_overlay_unmodified": true,
+    "direct_pe_transport": "Proposed patched native PE32 WLIB may be invoked directly by Wine; no binnt CF path derivation or sidecar relocation required.",
+    "case_argv_status": "-? is still the exact attempted baseline input, observed diagnostic path; do not relabel it as successful historical help."
+  }
+}
