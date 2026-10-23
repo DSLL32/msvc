@@ -1,0 +1,34 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 26,
+  "terminal": "_main",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "308531d698f0b3808ac6162f0a9c505fa603a3fd1b560ecda774925e31c476d9",
+  "capture_seconds": 0.9162280913442373,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "state-machine.cpp": {
+      "bytes": 3831,
+      "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-debug",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "95db76360e7fa51a936c0e791d5626768241c016a927aa922a73ab412080b1b5",
+  "x87_control": {
+    "requested": 0,
+    "actual": 0,
+    "context_read": true,
+    "control": 639,
+    "status": 0,
+    "tag": 65535,
+    "top": 0
+  }
+}

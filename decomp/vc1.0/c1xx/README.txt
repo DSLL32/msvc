@@ -78,6 +78,10 @@ reached inputs must match or hold. This adds no application/source function cred
 
 Native build and regressions
 ----------------------------
+The reviewed shared bf7d2cbfd pin uses RECON_NATIVE_STARTUP_CONTROLFP_53.
+This reproduces original main-entry CW027f/status0/tagsffff without an app call
+or entry rename; evidence/startup-precision53 records the original/native check.
+
 Run from this binary directory:
 
     make -j4
@@ -210,9 +214,10 @@ alternate runner/oracle dependency. Current migration timings are separate.
 Explicit build provenance
 -------------------------
 scripts/build-frontier.py LABEL records native and original-toolchain builds
-separately. Each phase archives the encountered shared C/header sources under
-evidence/shared-build-inputs, keyed by the manifest hash, and verifies that the
-immutable compiled inputs did not change during compilation.
+separately. New pins use immutable Git commit/tree references and ordinary
+per-file manifests under evidence/shared-build-inputs. Each phase verifies that
+the exact compiled inputs did not change during compilation. Historical source
+archives remain unchanged and supported.
 Default native and canonical builds use the committed pin/tree in
 cases/shared-build-reference.json, materialized from Git blobs; no live or
 untracked shared source is used. At each substantial case boundary, review
@@ -221,8 +226,7 @@ refresh with:
 
     make refresh-shared-build RECON_COMMIT=<reviewed-commit>
 
-Old archives remain available and the selected revision/tree is in each build
-receipt. The native input signature covers nested headers, C inputs and compiler
+The selected revision/tree is in each build receipt; new pins create no archive. The native input signature covers nested headers, C inputs and compiler
 flags; unchanged inputs retain incremental objects. Setup/hash failures stop before
 the dependent phase or acceptance capture. --native-only supports infrastructure
 revalidation without another original invocation. Snapshot setup time is separate

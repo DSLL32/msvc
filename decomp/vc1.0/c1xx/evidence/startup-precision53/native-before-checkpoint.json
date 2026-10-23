@@ -1,0 +1,35 @@
+{
+  "buffers": [
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "states": [
+    0,
+    0,
+    0,
+    0,
+    4294967295,
+    0,
+    0,
+    0,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "function": "main",
+  "signal": 5,
+  "declared_arguments": [
+    "argc",
+    "argv",
+    "environment"
+  ],
+  "control": 895,
+  "status": 0,
+  "tag": 65535
+}

@@ -48,7 +48,7 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
 /* Compare selected semantic state while the child is stopped. Pointer
    fields report nullness, so addresses need not match between linked images. */
 static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
-    DWORD base, char *specifications, unsigned argument_words, unsigned ownership_register)
+    DWORD base, char *specifications, unsigned argument_words, unsigned ownership_register, unsigned x87_inputs)
 {
     DWORD address, value, got, written, bytes, index = 0;
     unsigned read_succeeded;
@@ -77,7 +77,8 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         }
         specifications = *next == ',' ? next + 1 : next;
     }
-    context.ContextFlags = CONTEXT_CONTROL | (ownership_register ? CONTEXT_INTEGER : 0);
+    context.ContextFlags = CONTEXT_CONTROL | (ownership_register ? CONTEXT_INTEGER : 0) |
+        (x87_inputs ? CONTEXT_FLOATING_POINT : 0);
     value = got = 0;
     context_read = GetThreadContext(thread, &context);
     if (!context_read ||
@@ -101,6 +102,27 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     sprintf(line, "argument-words requested %u actual %u context %u\n",
         argument_words, actual, context_read != 0);
     WriteFile(log, line, strlen(line), &written, 0);
+    if (x87_inputs) {
+        unsigned top, physical, tag, i, j;
+        top = context_read ? ((context.FloatSave.StatusWord >> 11) & 7) : 0;
+        sprintf(line, "x87-context requested %u actual %u success %u control %04lx status %04lx tag %04lx top %u\n",
+            x87_inputs == 2 ? 2 : 0, context_read && x87_inputs == 2 ? 2 : 0, context_read != 0,
+            context_read ? context.FloatSave.ControlWord & 0xffff : 0,
+            context_read ? context.FloatSave.StatusWord & 0xffff : 0,
+            context_read ? context.FloatSave.TagWord & 0xffff : 0, top);
+        WriteFile(log, line, strlen(line), &written, 0);
+        for (i = 0; i < (x87_inputs == 2 ? 2U : 0U); ++i) {
+            physical = (top + i) & 7;
+            tag = context_read ? ((context.FloatSave.TagWord >> (2 * physical)) & 3) : 3;
+            sprintf(line, "x87-input st%u physical %u tag %u requested 10 actual %u success %u ",
+                i, physical, tag, context_read ? 10 : 0, context_read != 0);
+            if (context_read)
+                for (j = 0; j < 10; ++j)
+                    sprintf(line + strlen(line), "%02x", (unsigned char)context.FloatSave.RegisterArea[10 * i + j]);
+            strcat(line, "\n");
+            WriteFile(log, line, strlen(line), &written, 0);
+        }
+    }
     if (ownership_register) {
         char *register_name;
         DWORD value;
@@ -159,11 +181,18 @@ int main(int argc, char **argv)
     char *argument_option = getenv("C1XX_CAPTURE_ARGUMENT_WORDS");
     char *ownership_option = getenv("C1XX_CAPTURE_OWNERSHIP_REGISTER");
     unsigned ownership_register = ownership_option != 0;
+    char *x87_option = getenv("C1XX_CAPTURE_X87_INPUTS");
+    unsigned x87_inputs = 0;
 
     /* This is observer configuration, not a debugged-program argument. */
     if (argument_option) {
         if (!strcmp(argument_option, "6")) argument_words = 6;
         else if (strcmp(argument_option, "4")) return 2;
+    }
+    if (x87_option) {
+        if (!strcmp(x87_option, "2")) x87_inputs = 2;
+        else if (!strcmp(x87_option, "control")) x87_inputs = 1;
+        else return 2;
     }
     if (ownership_option) {
         if (!strcmp(ownership_option, "esi,ebp")) ownership_register = 14;
@@ -284,7 +313,7 @@ int main(int argc, char **argv)
                 if (argc >= 10)
                     dump_stream_buffers(pi.hProcess, log, base, argv[9]);
                 if (argc >= 11)
-                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10], argument_words, ownership_register);
+                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10], argument_words, ownership_register, x87_inputs);
                 TerminateProcess(pi.hProcess, 99);
 #endif
             }

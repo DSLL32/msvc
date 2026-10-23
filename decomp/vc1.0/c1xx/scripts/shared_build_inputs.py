@@ -1,7 +1,7 @@
 """Immutable shared C/header evidence for explicit reconstruction builds.
 
-Only compare the live tree across the actual build window. Historical receipts
-verify their own archived bytes and never require an evolving worktree match.
+New pins use immutable Git trees and per-file manifests. Historical receipts
+retain their archived bytes and never require an evolving worktree match.
 """
 import gzip
 import hashlib
@@ -31,9 +31,10 @@ def signature(files):
     return hashlib.sha256(raw).hexdigest(), raw
 
 
-def committed_inputs():
+def committed_inputs(reference=None):
     repo = BINARY.parents[2]
-    reference = json.loads((BINARY / 'cases/shared-build-reference.json').read_text())
+    if reference is None:
+        reference = json.loads((BINARY / 'cases/shared-build-reference.json').read_text())
     actual = subprocess.check_output(['git', 'rev-parse', reference['commit'] + ':lib/recon'],
                                      cwd=repo, text=True).strip()
     assert actual == reference['tree'], 'pinned shared tree differs'
@@ -59,6 +60,14 @@ def snapshot():
     ARCHIVES.mkdir(exist_ok=True)
     path = ARCHIVES / (digest + '.tar.gz')
     manifest_path = ARCHIVES / (digest + '.json')
+    if reference.get('storage') == 'git-blobs':
+        if manifest_path.exists():
+            assert manifest_path.read_bytes() == manifest, 'immutable shared manifest differs'
+        else:
+            manifest_path.write_bytes(manifest)
+        return dict(manifest=str(manifest_path.relative_to(BINARY)),
+                    manifest_sha256=digest, storage='git-blobs', files=len(files),
+                    committed_reference=reference['commit'], committed_tree=reference['tree'])
     if not path.exists():
         output = io.BytesIO()
         with tarfile.open(fileobj=output, mode='w') as archive:
@@ -89,24 +98,31 @@ def current_signature():
 def materialize(record):
     manifest = BINARY / record['manifest']
     assert hashlib.sha256(manifest.read_bytes()).hexdigest() == record['manifest_sha256']
-    path = BINARY / record['archive']
-    assert hashlib.sha256(path.read_bytes()).hexdigest() == record['archive_sha256']
     rows = json.loads(manifest.read_text())['files']
     directory = BINARY / 'build/shared-inputs' / record['manifest_sha256']
-    with tarfile.open(path, 'r:gz') as archive:
-        assert set(archive.getnames()) == set(rows)
-        for member in archive.getmembers():
-            assert member.isfile() and '..' not in Path(member.name).parts
-            data = archive.extractfile(member).read()
-            assert len(data) == rows[member.name]['bytes']
-            assert hashlib.sha256(data).hexdigest() == rows[member.name]['sha256']
-            target = directory / member.name
-            if target.exists():
-                assert target.read_bytes() == data, 'immutable compiled input changed'
-            else:
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(data)
-                target.chmod(0o444)
+    if record.get('storage') == 'git-blobs':
+        saved, reference = committed_inputs(dict(commit=record['committed_reference'],
+                                                tree=record['committed_tree']))
+    else:
+        path = BINARY / record['archive']
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == record['archive_sha256']
+        with tarfile.open(path, 'r:gz') as archive:
+            assert all(member.isfile() and '..' not in Path(member.name).parts
+                       for member in archive.getmembers())
+            saved = {member.name: archive.extractfile(member).read()
+                     for member in archive.getmembers()}
+    assert set(saved) == set(rows)
+    for name, data in saved.items():
+        assert '..' not in Path(name).parts and not Path(name).is_absolute()
+        assert len(data) == rows[name]['bytes']
+        assert hashlib.sha256(data).hexdigest() == rows[name]['sha256']
+        target = directory / name
+        if target.exists():
+            assert target.read_bytes() == data, 'immutable compiled input changed'
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+            target.chmod(0o444)
     assert signature(inputs(directory))[0] == record['manifest_sha256']
     return directory
 
@@ -128,8 +144,8 @@ if __name__ == '__main__':
         if (commit, tree) != (reference['commit'], reference['tree']):
             reference.setdefault('previous_references', []).append(
                 dict(commit=reference['commit'], tree=reference['tree']))
-            reference.update(commit=commit, tree=tree,
-                verification='Explicit reviewed committed slice; refresh invoked with --pin-commit')
+            reference.update(commit=commit, tree=tree, storage='git-blobs',
+                verification='Reviewed immutable Git commit/tree and per-file manifest; refresh invoked with --pin-commit')
             path.write_text(json.dumps(reference, indent=2) + '\n')
     record = snapshot()
     directory = materialize(record)

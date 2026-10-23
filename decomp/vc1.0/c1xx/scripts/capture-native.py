@@ -15,7 +15,7 @@ from case_paths import paths, native_work, windows, ROOT, CAPTURE_ROOT
 BINARY = Path(__file__).resolve().parents[1]
 
 
-def capture(directory, executable=None, breakpoint=None, expressions=None, case_name='cpp_basic', caller_locals=None):
+def capture(directory, executable=None, breakpoint=None, expressions=None, case_name='cpp_basic', caller_locals=None, x87_inputs=False):
     started = time.perf_counter()
     config = json.loads((BINARY/'functions.json').read_text())
     _,fixture,_,_=paths(config,case_name)
@@ -43,6 +43,17 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
                      '    result["declared_arguments"] = sorted(arguments)']
     for key, expression in (expressions or {}).items():
         commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
+    if x87_inputs:
+        assert breakpoint=='check_extended_range', 'only the actual two-operand range helper is supported'
+        commands += ['    import re',
+                     '    raw_x87=gdb.execute("info registers st0 st1",to_string=True)',
+                     '    x87_values=re.findall(r"^st([01])\\s+.*\\(raw 0x([0-9a-f]{20})\\)\\s*$",raw_x87,re.M)',
+                     '    assert len(x87_values)==2 and [n for n,value in x87_values]==["0","1"], "missing raw x87 input"',
+                     '    x87_status=int(gdb.parse_and_eval("$fstat")) & 0xffff',
+                     '    x87_control=int(gdb.parse_and_eval("$fctrl")) & 0xffff',
+                     '    x87_tag=int(gdb.parse_and_eval("$ftag")) & 0xffff',
+                     '    x87_top=(x87_status>>11)&7',
+                     '    result["x87_inputs"]=dict(requested=2,actual=2,context_read=True,status=x87_status,control=x87_control,tag=x87_tag,top=x87_top,inputs=[dict(register="st"+n,physical_index=(x87_top+int(n))&7,tag=(x87_tag>>(2*((x87_top+int(n))&7)))&3,requested_bytes=10,read_bytes=10,read_succeeded=True,raw=bytes.fromhex(value)[::-1].hex()) for n,value in x87_values],raw_gdb=raw_x87)']
     if caller_locals:
         commands += ['    result["caller_locals"] = {}']
         for key, owner in caller_locals.items():
@@ -121,12 +132,13 @@ def main():
     parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--directory',type=Path)
     parser.add_argument('--breakpoint',help='explicit runtime entry breakpoint instead of first INT3')
+    parser.add_argument('--x87-inputs',action='store_true')
     parser.add_argument('--observe',action='append',default=[],metavar='NAME=EXPRESSION')
     args=parser.parse_args()
     scratch=CAPTURE_ROOT/'native'
     scratch.mkdir(parents=True,exist_ok=True)
     directory=args.directory or Path(tempfile.mkdtemp(prefix='native-frontier-',dir=scratch))
-    checkpoint=capture(directory,breakpoint=args.breakpoint,expressions=dict(item.split('=',1) for item in args.observe),case_name=args.case)
+    checkpoint=capture(directory,breakpoint=args.breakpoint,expressions=dict(item.split('=',1) for item in args.observe),case_name=args.case,x87_inputs=args.x87_inputs)
     print(checkpoint['function'])
     print(directory)
 
