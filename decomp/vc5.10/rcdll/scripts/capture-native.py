@@ -12,6 +12,7 @@ HERE=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path);p.add_argument('--original-inputs',type=Path);p.add_argument('--compiler-frame',action='store_true')
+    p.add_argument('--errno-history',action='store_true')
     a=p.parse_args();out=a.output.resolve()
     if out.exists():p.error('output must be new')
     out.mkdir(parents=True)
@@ -33,6 +34,8 @@ def main():
     for k in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH','RECON_RC_ENVIRONMENT']:env.pop(k,None)
     cwd=HERE;target_args=[];actual=None
     env['RCDLL_NATIVE_HEAP_LIMIT']='1'
+    if a.errno_history:env['RCDLL_OBSERVE_ERRNO']='1'
+    else:env.pop('RCDLL_OBSERVE_ERRNO',None)
     if a.reference:
         reference=a.reference.resolve();manifest=json.loads((reference/'manifest.json').read_text())
         assert manifest['case']=='resources-rich'

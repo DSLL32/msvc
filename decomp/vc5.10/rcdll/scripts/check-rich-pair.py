@@ -6,9 +6,9 @@ from pathlib import Path
 import shutil
 import tempfile
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option'],default='trial')
-a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number'],default='trial')
+a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -123,8 +123,8 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-converted-argv','native','snapshot.json',snapshot(lambda v:v['arguments']['argv'].pop()))
         reject('wrong-new-allocation-size','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(bytes=1)))
         reject('wrong-initial-zeroes','native','snapshot.json',snapshot(lambda v:next(x for x in reversed(v['heap'])if x['operation']=='allocate').update(payload='5a')))
-    if a.stage in ['preprocessor-main','next-argument','scan-options','apply-option']:
-        reject('wrong-preprocessor-remaining','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_remaining'].update(bytes='00000000')))
+    if a.stage in ['preprocessor-main','next-argument','scan-options','apply-option','option-number']:
+        reject('wrong-preprocessor-remaining','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_remaining'].update(bytes='ffffffff')))
         reject('wrong-preprocessor-vector','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_arguments'].update(bytes='00000000')))
         reject('wrong-option-pattern','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['tables']['options']['rows'][0].update(pattern='0000')))
         reject('wrong-option-destination','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['tables']['options']['rows'][0].update(destination=0)))
@@ -149,6 +149,19 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-number-alias','native','snapshot.json',snapshot(lambda v:v['arguments']['number'].update(operand=0)))
         reject('wrong-parent-descriptor','native','snapshot.json',snapshot(lambda v:v['arguments']['number']['parent'].update(option=0)))
         reject('wrong-parent-duplicate','native','snapshot.json',snapshot(lambda v:v['arguments']['number']['parent'].update(duplicate=1)))
+    if a.stage=='option-number':
+        reject('host-log-in-target-lowio','native','errno-history.json',snapshot(lambda v:next(row for row in v if row['phase']=='RC')['lowio'].append(dict(slot=3,flags=1))))
+        reject('host-log-in-target-FILE','native','errno-history.json',snapshot(lambda v:next(row for row in v if row['phase']=='RC')['iob'].append(dict(slot=3,flags=0x80,descriptor=3))))
+        reject('wrong-entry-errno','native','errno-history.json',snapshot(lambda v:next(row for row in v if row['phase']=='RC').update(value=2)))
+        reject('wrong-number-result','native','snapshot.json',snapshot(lambda v:v['arguments']['conversion'][0].update(result=1253)))
+        reject('wrong-number-errno','native','snapshot.json',snapshot(lambda v:v['arguments']['conversion'][0].update(errno_after=34)))
+        reject('wrong-number-last-error','native','snapshot.json',snapshot(lambda v:v['arguments']['conversion'][0].update(last_error_after=1)))
+        reject('wrong-number-write','native','snapshot.json',snapshot(lambda v:v['arguments']['conversion'][0].update(after='0000')))
+        reject('wrong-input-alias','native','snapshot.json',snapshot(lambda v:v['arguments']['open'].update(input=v['arguments']['wide_vector'][6]['pointer'])))
+        reject('wrong-output-alias','native','snapshot.json',snapshot(lambda v:v['arguments']['open'].update(output=v['arguments']['wide_vector'][4]['pointer'])))
+        reject('wrong-definition-list','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_defines'].update(bytes='00'*404)))
+        reject('wrong-E-state','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_E'].update(bytes='00000000')))
+        reject('wrong-original-number-return','original','events.txt',lambda p:p.write_text(p.read_text().replace('number-conversion-result 1252','number-conversion-result 1253')))
     reject('wrong-allocation-owner','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(owner=0)))
     reject('wrong-registered-module','native','snapshot.json',snapshot(lambda v:v['module'].update(sha256='0'*64)))
     reject('wrong-codepage','native','snapshot.json',snapshot(lambda v:v['globals'].update(rc_codepage='00000000')))

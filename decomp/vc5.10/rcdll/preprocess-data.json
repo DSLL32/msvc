@@ -29,13 +29,13 @@
     {
       "name": "rc_cpp_input",
       "original_rva": "0x16cbc",
-      "kind": "null-pointer",
+      "kind": "packed-argument",
       "bytes": 4
     },
     {
       "name": "rc_cpp_output",
       "original_rva": "0x18e60",
-      "kind": "null-pointer",
+      "kind": "packed-argument",
       "bytes": 4
     },
     {

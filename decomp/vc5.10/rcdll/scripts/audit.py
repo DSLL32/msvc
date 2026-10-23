@@ -33,7 +33,13 @@ def prepare(config,out):
         (out/'compiler-support-identity.json').write_text(json.dumps(support,indent=2)+'\n')
     (out/'original-runtime.json').write_text(json.dumps(original_runtime,indent=2)+'\n')
     (out/'rebuilt-runtime.json').write_text(json.dumps(rebuilt_runtime,indent=2)+'\n')
-    (out/'graph-metadata.json').write_text('{"schema":1,"functions":{},"callback_tables":[]}\n')
+    metadata=dict(schema=1,functions={},callback_tables=[])
+    if any(f['name']=='rc_apply_option'and not f.get('stub')for f in config['functions']):
+        spec=spec_from_file_location('dispatcher_switch',HERE/'scripts/check-dispatcher-switch.py');module=module_from_spec(spec);spec.loader.exec_module(module)
+        switch=module.verify()
+        metadata['functions']['rc_apply_option']=dict(rebuilt={key:switch[key]for key in ['text_data','switches']})
+        (out/'dispatcher-switch.json').write_text(json.dumps(switch,indent=2)+'\n')
+    (out/'graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
     return accepted
 
 def run(config_path=None,out=None):
@@ -44,6 +50,7 @@ def run(config_path=None,out=None):
     started=time.perf_counter();p=subprocess.run(command,capture_output=True,text=True);elapsed=time.perf_counter()-started
     (out/'graph-audit.stdout').write_text(p.stdout);(out/'graph-audit.stderr').write_text(p.stderr)
     receipt=dict(engine_sha256=sha(ENGINE),command=command,status=p.returncode,elapsed_seconds=elapsed,functions=accepted,input_sha256=sha(config_path),candidate=candidate())
+    receipt['audit_inputs']={name:sha(out/name)for name in ['graph-input.json','original-runtime.json','rebuilt-runtime.json','graph-metadata.json','compiler-support-identity.json','dispatcher-switch.json']if (out/name).is_file()}
     if not p.returncode:
         report=json.loads(p.stdout)
         assert report['checked_functions']==len(accepted),'prefix-only audit omitted trial'

@@ -1,4 +1,6 @@
 #include <string.h>
+#include <wchar.h>
+#include <wctype.h>
 #include "command.h"
 #include "preprocess.h"
 #include <recon.h>
@@ -186,4 +188,20 @@ fatal_option:
         *(WCHAR **)option->destination=operand;
         break;
     }
+}
+
+int __stdcall rc_option_number(WCHAR *operand)
+{
+    WCHAR *digits=operand;
+    long value=0;
+
+    while(iswctype(*digits,8)) ++digits;
+    if(iswctype(*digits,4)){
+        value=wcstol(digits,NULL,10);
+        if(value>=0&&value<65535) return value;
+    }
+    rc_error_template=rc_message(1049);
+    rc_format(rc_error_text,2048,rc_error_template,operand);
+    rc_input_fatal(1049);
+    return value;
 }

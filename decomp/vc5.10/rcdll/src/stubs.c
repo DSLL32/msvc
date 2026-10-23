@@ -66,11 +66,6 @@ void __stdcall rc_input_warning(unsigned code)
     __asm int 3
 }
 
-int __stdcall rc_option_number(WCHAR *operand)
-{
-    __asm int 3
-    return 0;
-}
 int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
 {
     __asm int 3

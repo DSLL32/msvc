@@ -425,15 +425,18 @@ def prefix_trial(original,native):
 
 
 
-def prepared_case_state(original,native,b,argv,extra_blocks=0):
+def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None):
     text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
     assert arguments['count']==20 and arguments['argv']==argv
     assert arguments['prepared_lines']==len(source.splitlines())==126 and arguments['current_line']==0
     raw=(original/'globals.bin').read_bytes()
     assert struct.unpack_from('<I',raw,0x29458-0x14000)[0]==126 and struct.unpack_from('<I',raw,0x16ce8-0x14000)[0]==0
-    assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])=='resources.rc'.encode('utf-16le')+b'\0'*(514-24)
+    strict_files=filename is not None
+    filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
+    assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
     assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,0,0,4096,0)and old[4]>=3 and new[4]>=3
+    if strict_files:assert old==new and old[4]==4,'closed input descriptor differs after host-only I/O separation'
     assert b['globals']['rc_window']=='00000000','this case cannot invoke an unproved window callback'
     input_temporary=raw_bytes(text,'input-temporary')[:-1].decode('ascii');output_temporary=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
     assert argv[:4]==['RCPP','-CP','1252','-f']and argv[4]==input_temporary and argv[5:7]==['-g',output_temporary]
@@ -488,14 +491,14 @@ def preprocess_trial(original,native):
     return proof
 
 
-def wide_argument_state(original,native,a,b):
+def wide_argument_state(original,native,a,b,filename=None):
     text=(original/'events.txt').read_text();arguments=b['arguments']
     # The previously accepted forwarding boundary records this exact case's
     # ANSI vector. Only its two actual temporary paths vary between captures.
     expected=json.loads((HERE/'cases/resources-rich/acceptance-0020.json').read_text())['proof']['forwarded']['argv'][:]
     expected[4]=raw_bytes(text,'input-temporary')[:-1].decode('ascii');expected[6]=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
     assert len(expected)==20 and all(value.isascii()for value in expected)
-    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1)
+    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1,filename=filename)
     original_pointer=int(re.findall(r'^wide-args 20 ([0-9a-f]+)$',text,re.M)[0],16);native_pointer=arguments['vector_pointer'];assert native_pointer>0
     vector=arguments['wide_vector'];assert len(vector)==20 and arguments['wide_terminator']==0
     assert re.findall(r'^wide-terminator ([0-9a-f]+)$',text,re.M)==['00000000']
@@ -554,10 +557,18 @@ def preprocessor_state(original,native,b,state,remaining,advance):
         offset=rva-(0x14000 if rva>=0x14000 else 0x1000)
         assert 0<=offset<=len(data)-size
         return data[offset:offset+size]
+    def packed(pointer):
+        offset=pointer-state['widened']['original_base']
+        assert 0<=offset<state['widened']['allocation_bytes']-8
+        return state['widened']['native_base']+offset
     def wide(pointer):
         value=bytearray()
+        block=raw_bytes((original/'events.txt').read_text(),'wide-argument-block')
         for index in range(4177):
-            word=read(pointer-0x71c20000+index*2,2);value.extend(word)
+            at=pointer+index*2
+            offset=at-state['widened']['original_base']
+            word=block[8+offset:10+offset]if 0<=offset<len(block)-9 else read(at-0x71c20000,2)
+            assert len(word)==2;value.extend(word)
             if word==b'\0\0':return bytes(value)
         raise AssertionError('unterminated descriptor string')
     addresses={0:0}
@@ -569,6 +580,11 @@ def preprocessor_state(original,native,b,state,remaining,advance):
         if row['kind']=='wide-vector':
             assert int.from_bytes(old,'little')==state['widened']['original_base']+4*advance
             assert int.from_bytes(new,'little')==state['widened']['native_base']+4*advance
+        elif row['kind']=='option-list':
+            assert old[:4]==new[:4]
+            for offset in range(4,row['bytes'],4):
+                left=int.from_bytes(old[offset:offset+4],'little');right=int.from_bytes(new[offset:offset+4],'little')
+                assert right==(packed(left)if left else 0)
         elif row['kind']=='packed-argument':
             left=int.from_bytes(old,'little');right=int.from_bytes(new,'little')
             assert bool(left)==bool(right)
@@ -672,4 +688,57 @@ def apply_option_trial(original,native):
     assert parent['option']==b['arguments']['preprocessor']['tables']['options']['address']+3*12 and parent['duplicate']==0
     assert proof['application_trace'][-1]=='rc_apply_option'
     proof.update(trial='rc_apply_option',preprocessor=parser,numeric=dict(argument='1252',abi='stdcall1/ret4',descriptor_index=3,action=0x24,duplicate=0,pointer_alias='packed argv[2]'))
+    return proof
+
+
+
+
+def entry_file_state(original,native):
+    text=(original/'events.txt').read_text();history=json.loads((native/'errno-history.json').read_text());result={}
+    for phase,label in [('dll-entry','_DllMainCRTStartup'),('RC-entry','RC')]:
+        old_errno=re.findall(r'^errno-boundary '+re.escape(phase)+r' (-?\d+)$',text,re.M)
+        records=[row for row in history if row['phase']==label];assert len(records)==1
+        new=records[0];assert old_errno==['0']and new['value']==0
+        old_lowio=[dict(slot=int(slot),flags=int(flags,16))for slot,flags,handle in re.findall(r'^lowio-open '+re.escape(phase)+r' (\d+) flags=([0-9a-f]+) handle=([0-9a-f]+)$',text,re.M)]
+        assert old_lowio==new['lowio']==[dict(slot=0,flags=0xc1),dict(slot=1,flags=0x81),dict(slot=2,flags=0x81)]
+        data=raw_bytes(text,'iob-'+phase);assert len(data)==640
+        old_files=[]
+        for index in range(20):
+            fields=struct.unpack_from('<8I',data,index*32)
+            if fields[3]:old_files.append(dict(slot=index,flags=fields[3],descriptor=fields[4]))
+        assert old_files==new['iob']==[dict(slot=0,flags=0x101,descriptor=0),dict(slot=1,flags=2,descriptor=1),dict(slot=2,flags=2,descriptor=2)]
+        capacities=re.findall(r'^lowio-capacity '+re.escape(phase)+r' (\d+)$',text,re.M);assert len(capacities)==1
+        result[phase]=dict(errno=0,lowio=old_lowio,files=old_files,original_capacity=int(capacities[0]),native_capacity=new['lowio_capacity'],capacity_scope='unused allocation capacity is recorded separately; only live descriptor/FILE inventory equivalence is claimed')
+    return dict(boundaries=result,original_events_sha256=sha(original/'events.txt'),native_history_sha256=sha(native/'errno-history.json'))
+
+def option_number_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_option_number'and len(config['accepted'])==25
+    a,b,proof=checkpoint(original,native,'rc_open_preprocessor',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c2bdf5
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocessor_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();input_name=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
+    state=wide_argument_state(original,native,a,b,filename=input_name);proof.update(state)
+    parser=preprocessor_state(original,native,b,state,0,19)
+    opened=b['arguments']['open'];globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
+    old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
+    assert a['words'][1:5]==[old_pointers[4],old_pointers[6],0x71c344f8,0x71c34690]
+    assert opened==dict(input=wide[4]['pointer'],output=wide[6]['pointer'],defines=globals['rc_cpp_defines']['address'],undefines=globals['rc_cpp_undefines']['address'])
+    for field,expected in [('rc_cpp_input',wide[4]['pointer']),('rc_cpp_output',wide[6]['pointer']),('rc_cpp_path_characters',wide[9]['pointer']+6),('rc_cpp_option_argument',wide[18]['pointer'])]:
+        assert int.from_bytes(bytes.fromhex(globals[field]['bytes']),'little')==expected
+    assert globals['rc_cpp_active']['bytes']==globals['rc_cpp_E']['bytes']=='01000000'and globals['rc_cpp_P']['bytes']=='00000000'
+    for field,slots in [('rc_cpp_defines',[(99,7,4),(98,8,4),(97,19,0)]),('rc_cpp_includes',[(99,11,4),(98,13,0),(97,15,0),(96,17,0)]),('rc_cpp_undefines',[])]:
+        raw=bytes.fromhex(globals[field]['bytes']);count=struct.unpack_from('<I',raw)[0];assert count==100-len(slots)
+        wanted=[0]*100
+        for slot,index,offset in slots:wanted[slot]=wide[index]['pointer']+offset
+        assert list(struct.unpack('<100I',raw[4:]))==wanted
+    assert re.findall(r'^number-conversion end=([0-9a-f]+) base=(\d+) last-error=([0-9a-f]+) errno=(-?\d+)$',text,re.M)==[('00000000','10','00000000','0')]
+    assert raw_bytes(text,'number-conversion-input')==('1252'+'\0').encode('utf-16le')
+    assert re.findall(r'^number-conversion-result (-?\d+) last-error=([0-9a-f]+) errno=(-?\d+)$',text,re.M)==[('1252','00000000','0')]
+    calls=b['arguments']['conversion'];assert calls==json.loads((native/'numeric-conversion.json').read_text())and len(calls)==1
+    call=calls[0];assert call['caller']=='rc_option_number'and call['text']==wide[2]['pointer']and call['end']==0 and call['base']==10
+    assert call['result']==1252 and call['errno_before']==call['errno_after']==call['last_error_before']==call['last_error_after']==0
+    assert call['before']==call['after']==('1252'+'\0').encode('utf-16le').hex()
+    assert proof['application_trace'][-1]=='rc_option_number'
+    proof.update(trial='rc_option_number',entry_files=entry_file_state(original,native),preprocessor=parser,numeric=dict(text='1252',result=1252,errno=[0,0],last_error=[0,0],end=None,base=10),parsed_options=dict(remaining=0,defines=3,undefines=0,includes=4,input=input_name,output=raw_bytes(text,'output-temporary')[:-1].decode('ascii'),active=1,E=1,P=0))
     return proof

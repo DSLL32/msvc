@@ -28,6 +28,8 @@ static DWORD character_pointer;
 static CONTEXT probe_context;
 static DWORD probe_return,cpinfo_pointer,cpinfo_error,local_pointer,local_bytes,line_file,line_format_pointer,towupper_value;
 static DWORD cpp_count,cpp_vector;
+static int path_errors;
+static DWORD path_api_pointer,path_api_call;
 static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
@@ -84,6 +86,24 @@ static void hexbytes(const char *tag,DWORD at,DWORD size)
         if(fwrite(encoded,2,take,events)!=take)fail("hex-write");
     }
     fprintf(events,"\n");fflush(events);
+}
+static void crt_file_inventory(const char *phase)
+{
+    DWORD count,index,block,handle;BYTE flags;char label[80];
+    /* Canonical provider's lowio allocation (36-byte entries) and exported
+     * _iob at RVA3f570. Capture live slots, not unused capacity equivalence. */
+    readmem(crt_base+0x3f7f0,&count,4);if(count>2048)fail("lowio-capacity");
+    fprintf(events,"lowio-capacity %s %lu\n",phase,count);
+    for(index=0;index<count;++index){
+        readmem(crt_base+0x3f460+4*(index>>5),&block,4);if(!block)continue;
+        readmem(block+36*(index&31)+4,&flags,1);
+        if(flags&1){
+            readmem(block+36*(index&31),&handle,4);
+            fprintf(events,"lowio-open %s %lu flags=%02x handle=%08lx\n",phase,index,flags,handle);
+            sprintf(label,"lowio-%s-%lu",phase,index);hexbytes(label,block+36*(index&31),36);
+        }
+    }
+    sprintf(label,"iob-%s",phase);hexbytes(label,crt_base+0x3f570,20*32);
 }
 static void vector_state(const char *stage)
 {
@@ -224,6 +244,12 @@ static void snapshot_and_mask(void)
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12df0&&ranges[n].end==0x12e1f&&!ranges[n].kind)point(base+0x12df0,28);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x10bcf&&ranges[n].kind){point(base+0x10bf3,40);point(base+0x10bff,40);point(base+0x8765,42);point(base+0x894f,43);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x2b84&&ranges[n].kind)point(base+0x2bc1,45);
+        if(path_errors){
+            point(base+0x7efb,47);point(base+0x7f49,49);point(base+0x7f7c,49);
+            point(base+0x7f93,51);point(base+0x85b6,51);point(base+0x85ed,51);
+            fprintf(events,"errno-boundary dll-entry %ld\n",(long)crt_errno_value());
+            crt_file_inventory("dll-entry");
+        }
         for(n=0;n<range_count;++n)if(ranges[n].start==0x9041&&ranges[n].kind){point(base+0x90e5,33);point(base+0x9182,35);point(base+0x873e,37);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8c9e&&ranges[n].kind){point(base+0x8ea2,30);point(base+0x108e7,32);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
@@ -271,6 +297,7 @@ static int trap(HANDLE thread,DWORD address)
             }
         }else if(p->kind==2){
             fprintf(events,"entry %08lx\n",address-base);if(address==base+0x8b46)export_inputs(&c);
+            if(path_errors&&address==base+0x8b46){fprintf(events,"errno-boundary RC-entry %ld\n",(long)crt_errno_value());crt_file_inventory("RC-entry");}
             if(address==base+0xbc80){readmem(c.Esp,words,12);cpp_count=words[1];cpp_vector=words[2];}
         }
         else if(p->kind==3){
@@ -356,6 +383,22 @@ static int trap(HANDLE thread,DWORD address)
         }else if(p->kind==46){
             DWORD error;readmem(initial_teb+0x34,&error,4);
             fprintf(events,"number-conversion-result %ld last-error=%08lx errno=%ld\n",(long)c.Eax,error,(long)crt_errno_value());
+        }else if(p->kind==47||p->kind==49||p->kind==51){
+            DWORD error;readmem(c.Esp,words,12);readmem(initial_teb+0x34,&error,4);
+            path_api_call=address-base;path_api_pointer=words[0];
+            fprintf(events,"path-api-call %08lx errno=%ld last-error=%08lx\n",path_api_call,(long)crt_errno_value(),error);
+            if(p->kind==47){
+                if(words[2]!=260)fail("fullpath-capacity");
+                fprintf(events,"fullpath-capacity %lu\n",words[2]);hexbytes("fullpath-input",words[1],string_bytes(words[1]));hexbytes("fullpath-before",words[0],260);
+            }else if(p->kind==49)hexbytes("mktemp-before",words[0],260);
+            else{hexbytes("fopen-path",words[0],string_bytes(words[0]));hexbytes("fopen-mode",words[1],string_bytes(words[1]));}
+            point(address+((p->kind==47||address==base+0x7f49||address==base+0x7f7c||address==base+0x7f93)?6:2),p->kind+1);
+        }else if(p->kind==48||p->kind==50||p->kind==52){
+            DWORD error;readmem(initial_teb+0x34,&error,4);
+            fprintf(events,"path-api-result %08lx result=%08lx errno=%ld last-error=%08lx\n",path_api_call,c.Eax,(long)crt_errno_value(),error);
+            if(p->kind==48){if(c.Eax!=path_api_pointer)fail("fullpath-result-alias");hexbytes("fullpath-after",path_api_pointer,260);}
+            else if(p->kind==50){if(c.Eax!=path_api_pointer)fail("mktemp-result-alias");hexbytes("mktemp-after",path_api_pointer,260);}
+            else{if(!c.Eax)fail("fopen-result-null");hexbytes("fopen-state",c.Eax,32);}
         }else if(p->kind==29){
             fprintf(events,"compiler-probe-return eax=%08lx esp=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
             if(c.Esp!=probe_context.Esp+4-probe_context.Eax||c.Eax!=probe_return||c.Ecx!=probe_context.Ecx||c.Ebx!=probe_context.Ebx||c.Esi!=probe_context.Esi||c.Edi!=probe_context.Edi||c.Ebp!=probe_context.Ebp)fail("compiler-probe-return");
@@ -396,7 +439,7 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
@@ -519,8 +562,10 @@ int main(int argc,char **argv)
         if(GetEnvironmentVariableA("RCDLL_CAPTURE_HEAP_LIMIT",value,sizeof(value)))heap_limit=atoi(value);
         if(GetEnvironmentVariableA("RCDLL_CAPTURE_FREE_LIMIT",value,sizeof(value)))free_limit=atoi(value);
         if(GetEnvironmentVariableA("RCDLL_CAPTURE_CHARACTER_LIMIT",value,sizeof(value)))character_limit=atoi(value);
+        if(GetEnvironmentVariableA("RCDLL_CAPTURE_PATH_ERRORS",value,sizeof(value)))path_errors=atoi(value);
         if(heap_limit>8192||free_limit>8192||character_limit>8192)return 125;
         SetEnvironmentVariableA("RCDLL_CAPTURE_HEAP_LIMIT",NULL);SetEnvironmentVariableA("RCDLL_CAPTURE_FREE_LIMIT",NULL);SetEnvironmentVariableA("RCDLL_CAPTURE_CHARACTER_LIMIT",NULL);
+        SetEnvironmentVariableA("RCDLL_CAPTURE_PATH_ERRORS",NULL);
     }
     baseline=!strcmp(argv[1],"baseline")||!strcmp(argv[1],"api-probe");
     if(!baseline&&strcmp(argv[1],"masked"))return 125;

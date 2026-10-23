@@ -214,3 +214,19 @@ The option dispatcher is accepted (405 bytes), matching the numeric helper's
 exact `1252` operand and descriptor ownership. [Verification](cases/resources-rich/apply-option-verification.json)
 records 29 fresh rejection controls. Unvisited `_wcsdup` branches use a typed
 fail-closed shared import; numeric CRT behavior is still independently gated.
+
+The numeric option helper is accepted (135 bytes). The complete option loop now
+matches at preprocessor setup, including three definitions, four include paths
+and exact input/output aliases. [Verification](cases/resources-rich/option-number-verification.json)
+records fresh numeric/error-state evidence and the retained investigation timings.
+
+[Host I/O](cases/resources-rich/host-io-verification.json) uses libc for logs and
+control files, leaving only standard descriptors open at DLL/RC entry. Actual
+callback output still uses the Win32 CRT shim for matching CRLF bytes. The new
+error proof also corrected shared successful-path errno leaks. The original
+help completion and its rejection matrix pass with the current native host,
+reusing the unchanged original reference.
+
+The rebuilt dispatcher's compiler-generated switch data is [verified from COFF](cases/resources-rich/dispatcher-switch-verification.json),
+including exact relocation targets, index bytes and linked bounds. This supplies
+the existing Rust metadata interface; code/RET/ownership checks remain strict.

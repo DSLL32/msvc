@@ -207,3 +207,54 @@ class LineFormatEntered(gdb.Breakpoint):
         entry=dict(format=bytes(gdb.selected_inferior().read_memory(format,22)).hex(),number=int.from_bytes(bytes(gdb.selected_inferior().read_memory(base+16,4)),'little',signed=True),before=bytes(gdb.selected_inferior().read_memory(pointer,8196)).hex())
         LineFormatReturned(frame,entry,pointer);return False
 LineFormatEntered();format_path.write_text('[]\n')
+
+numeric_path=path.parent/'numeric-conversion.json'
+numeric=[]
+class NumericReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&0xffffffff,last_error_after=int(gdb.parse_and_eval('last_error')),errno_after=int(gdb.parse_and_eval('*(int *)&errno')),
+            after=bytes(gdb.selected_inferior().read_memory(self.entry['text'],len(bytes.fromhex(self.entry['before'])))).hex())
+        numeric_path.write_text(json.dumps(numeric,indent=2)+'\n');return False
+class NumericEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('recon_wcstol',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_option_number':return False
+        self.enabled=False
+        from importlib.machinery import SourceFileLoader
+        observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
+        pointer=int(frame.read_var('text'))
+        entry=dict(caller=caller.name(),text=pointer,end=int(frame.read_var('end')),base=int(frame.read_var('base')),before=observer.wide_bytes(pointer),last_error_before=int(gdb.parse_and_eval('last_error')),errno_before=int(gdb.parse_and_eval('*(int *)&errno')))
+        numeric.append(entry);NumericReturned(frame,entry);return False
+NumericEntered();numeric_path.write_text('[]\n')
+
+if os.environ.get('RCDLL_OBSERVE_ERRNO')=='1':
+    errno_path=path.parent/'errno-history.json'
+    errno_history=[]
+    def record_errno(phase):
+        frame=gdb.newest_frame();frames=[]
+        while frame and len(frames)<10:
+            frames.append(dict(function=frame.name(),pc=int(frame.pc())))
+            frame=frame.older()
+        capacity=int(gdb.parse_and_eval('recon_nhandle'))
+        lowio=[dict(slot=index,flags=int(gdb.parse_and_eval('recon_osfile[%d]'%index)))for index in range(capacity)if int(gdb.parse_and_eval('recon_osfile[%d]'%index))&1]
+        iob=[]
+        for index in range(20):
+            entry=gdb.parse_and_eval('recon_iob[%d]'%index)
+            if int(entry['_flag']):iob.append(dict(slot=index,flags=int(entry['_flag']),descriptor=int(entry['_file'])))
+        errno_history.append(dict(phase=phase,value=int(gdb.parse_and_eval('*(int *)&errno')),frames=frames,lowio_capacity=capacity,lowio=lowio,iob=iob))
+        errno_path.write_text(json.dumps(errno_history,indent=2)+'\n')
+    class ErrnoWrite(gdb.Breakpoint):
+        def stop(self):record_errno('write');return False
+    class ErrnoStart(gdb.Breakpoint):
+        def stop(self):
+            self.enabled=False;record_errno('host-main')
+            address=int(gdb.parse_and_eval('&errno'))
+            ErrnoWrite('*(int *)'+str(address),type=gdb.BP_WATCHPOINT,wp_class=gdb.WP_WRITE,internal=True)
+            return False
+    class ErrnoBoundary(gdb.Breakpoint):
+        def __init__(self,name):self.label=name;super().__init__(name,internal=True)
+        def stop(self):record_errno(self.label);return False
+    ErrnoStart('main',internal=True)
+    ErrnoBoundary('_DllMainCRTStartup');ErrnoBoundary('RC')

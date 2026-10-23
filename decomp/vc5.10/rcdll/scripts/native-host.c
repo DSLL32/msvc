@@ -1,4 +1,5 @@
 /* Linux-only fixture infrastructure. Not reconstructed target code. */
+#define RECON_SHIM_IMPL
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,15 +73,15 @@ static int WINAPI fixture_diagnostic(DWORD first, DWORD second, char *message)
                     *out++=*at;
                 }
                 *out=0;
-                printf(escaped);
+                recon_printf(escaped);
                 /* Original RC host does not free this allocation. */
             } else {
                 while ((at=strchr(message,'%')) != NULL) *at=' ';
-                printf(message);
+                recon_printf(message);
             }
-        } else printf(message);
+        } else recon_printf(message);
     }
-    printf("\n");
+    recon_printf("\n");
     bytes("after", message, length+1);
     fprintf(events, "callback-return 0\n");
     fflush(events);
@@ -123,7 +124,7 @@ int main(int count, char **arguments)
     else for (i=1; i<target_count; ++i) vector[i]=arguments[i+1];
     vector[target_count]=NULL;
     if(!bind_environment(target_count,vector))return 125;
-    fixture_input_include=getenv("INCLUDE");fixture_input_codepage=getenv("RCCODEPAGE");
+    fixture_input_include=recon_getenv("INCLUDE");fixture_input_codepage=recon_getenv("RCCODEPAGE");
     fixture_argument_count=target_count;fixture_argument_vector=vector;
     for(i=0;i<target_count;++i){fixture_argument_storage[i]=vector[i];fixture_argument_lengths[i]=strlen(vector[i])+1;}
     fprintf(events,"attach\n"); fflush(events);
