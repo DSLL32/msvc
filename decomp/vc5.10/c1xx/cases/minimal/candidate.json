@@ -56,9 +56,10 @@
     "_initialize_frontend_31",
     "_initialize_frontend_32",
     "_initialize_frontend_33",
-    "_initialize_frontend_34"
+    "_initialize_frontend_34",
+    "_initialize_type_ranks"
   ],
-  "trial": "_initialize_type_ranks",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -493,5 +494,5 @@
       "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_34 accepted; next frontier _initialize_type_ranks"
+  "stage": "_initialize_type_ranks accepted; next frontier _initialize_frontend_35"
 }

@@ -118,7 +118,7 @@
     }
   ],
   "incremental_build_audit_seconds": 0.18196508660912514,
-  "projection_review_required_before_promotion": true,
+  "projection_review_required_before_promotion": false,
   "targeted_controls": {
     "result": "PASS",
     "count": 54,
@@ -266,5 +266,11 @@
   "reused_controls": {
     "member_entry_return": "cases/minimal/pool03-wrapper-trials.json prior_member_controls_refreshed",
     "reason": "Unchanged actual22-byte class body, return ABI/controller and pool_state.py; new generic state and per-instance controls are fresh. No broad replay of unrelated historical cases."
+  },
+  "orchestrator_review": {
+    "result": "PASS",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/rank-helper-orchestrator-review.json",
+    "sha256": "def0bd7f88efa06e9f928e1695701e75aa61e3ba3f6ced10331ed73e1cbddab1",
+    "limits": "Later1137e consumer stays unaccepted until actual domains/aliases modeled; masked complex indices can overlap primitive storage, never blindly enlarge independent arrays."
   }
 }
