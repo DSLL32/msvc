@@ -28,6 +28,11 @@ def main():
         m=re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',line)
         if m:symbols[m[1]]=int(m[2],16)
     addresses=sorted(set(symbols.values()))
+    # Accepted fragmented bodies must not retain an older one-byte stub owner.
+    pending=[{'name':r['name'],'start':r['start'],'end':r['end'],
+              'pending_extent':True,'kind':'named-target-stub','evidence':None}
+             for r in config['stubs']]
+    (BINARY/'runtime.json').write_text(json.dumps(pending,indent=2)+'\n')
     rebuilt=[]
     for record in config['stubs']:
         start=symbols[record.get('symbol',record['name'])]

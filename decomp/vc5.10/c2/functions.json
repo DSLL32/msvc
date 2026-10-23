@@ -35,7 +35,8 @@
     "_format_diagnostic_args",
     "@format_integer@12",
     "_c2_cleanup",
-    "_c2_copy_arguments"
+    "_c2_copy_arguments",
+    "@parse_option_integer@4"
   ],
   "driver": [
     {
@@ -178,17 +179,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4206660,
+            "slot": 4206684,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "f70ca5c5115f9c0902a5f630317b32aef08dafc3f8ce02b6d7da919f292198f1",
+            "lifetime_sha256": "aa68ba4e3315d7b6f8e2fabd48b8da3d297a2ce5fe7b10a764418e77fa9624b5",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d44304000894df4"
+                "bytes": "8b0d5c304000894df4"
               },
               {
                 "offset": 243,
@@ -203,7 +204,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Complete 00401774..004017d8 manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
+            "review": "Complete 00401754..004017b8 manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
           }
         }
       ]
@@ -350,24 +351,24 @@
             "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
           },
           "rebuilt": {
-            "slot": 4206684,
+            "slot": 4206688,
             "holder": "[EBP-0x4]",
             "lifetime": [
               42,
               191
             ],
-            "lifetime_sha256": "b31a848c2ddd29ef1aea1e23e50f3c56e22dd870f2e9a40f2c03b58d69e33ae1",
+            "lifetime_sha256": "3f0f00939d67fa17b9afc201814fd8fa9f5b23c3a6f1ee433cfc52a8cd09b193",
             "instructions": [
               {
                 "offset": 42,
-                "bytes": "a15c3040008945fc"
+                "bytes": "a1603040008945fc"
               },
               {
                 "offset": 104,
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 00401ead..00401f42 manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
+            "review": "Complete 00401f3d..00401fd2 manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
           }
         }
       ]
@@ -432,17 +433,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4206692,
+            "slot": 4206712,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "c6823a45c607148fc748136758d150ff0aa9d490b5f08edd8943052f435bbe97",
+            "lifetime_sha256": "6588fbe437265a1a83d10568be60a04df403d3e8a3d4491427c40264edadea35",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d64304000894df8"
+                "bytes": "8b0d78304000894df8"
               },
               {
                 "offset": 509,
@@ -453,7 +454,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Complete 004021e0..0040222e manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
+            "review": "Complete 00402270..004022be manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
           }
         }
       ]
@@ -581,17 +582,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206680,
+            "slot": 4206708,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "015d3b1efccc1c1739d74cb46eeab2389867d9c4d51b2452b326b8d5566ceb8b",
+            "lifetime_sha256": "7def4a1ac629a3987ca3a732a20db696d3e2e7efb6a845d6b93fce9a6223e8ed",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a1583040008945f8"
+                "bytes": "a1743040008945f8"
               },
               {
                 "offset": 110,
@@ -602,7 +603,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 004025b6..0040262a manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
+            "review": "Complete 00402646..004026ba manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
           }
         },
         {
@@ -642,17 +643,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206696,
+            "slot": 4206716,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "7bcdb949f776ddc3451994c8f9c3f32f56ed5a819fb1cceb827f73511e9e0b6d",
+            "lifetime_sha256": "f6886fe3c9e9dc8f36bb9f4154e0db42ebbf800992bd79c9cf46e29f96018e5d",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d68304000894dfc"
+                "bytes": "8b0d7c304000894dfc"
               },
               {
                 "offset": 89,
@@ -663,7 +664,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 004025be..0040262a manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
+            "review": "Complete 0040264e..004026ba manually reviewed for integer-parser trial: same qualified IAT load, unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual addresses relocate."
           }
         }
       ]
@@ -732,6 +733,196 @@
       "state_policy": "environment-copy",
       "argv_consumed": 0,
       "evidence": "cases/analysis/argv-copy-disassembly.txt: complete 51-byte leaf through RET; static 50-pointer argv storage bounded by independently referenced next object"
+    },
+    {
+      "name": "@parse_option_integer@4",
+      "native": "parse_option_integer",
+      "start": 4533799,
+      "end": 4533915,
+      "kind": "application",
+      "abi": "fastcall ECX integer text; no stack parameters",
+      "state_policy": "integer-option",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        }
+      ],
+      "expected_argv": [
+        "1",
+        "-dos",
+        "-Fonumeric-control-flow.obj",
+        "-ML",
+        "-Fdvc50.idb",
+        "-Bd",
+        "-Gs4096",
+        "-Gy",
+        "-G5"
+      ],
+      "code_chunks": [
+        [
+          4671496,
+          4671534
+        ]
+      ],
+      "evidence": "cases/analysis/integer-option-disassembly.txt: full hot/cold body through RET, whitespace/MB/strtol/ERANGE branches",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "_isctype",
+          "abi": "cdecl int(int character,int mask); caller cleanup8",
+          "original": {
+            "slot": 4772096,
+            "holder": "EDI",
+            "instructions": [
+              {
+                "offset": 6,
+                "bytes": "8b3d00d14800"
+              },
+              {
+                "offset": 137703,
+                "bytes": "ffd783c408"
+              }
+            ],
+            "review": "Full hot classification and cold MB/whitespace-loop intervals reviewed; EDI is loaded once, preserved through loop and used only for cdecl _isctype; overwritten only after leaving classification.",
+            "lifetime_ranges": [
+              [
+                6,
+                52
+              ],
+              [
+                137697,
+                137719
+              ]
+            ],
+            "lifetime_sha256s": [
+              "e13ee85e587ca53dfe5e7addfb47fbee1bb7da98652388bfb569eff44463f1e2",
+              "9fd98a8cafcf8ba9baf9569851f350afd8ebfe9ec6f89d45ce2b055900201855"
+            ]
+          },
+          "rebuilt": {
+            "slot": 4206704,
+            "holder": "[EBP-0x14]",
+            "instructions": [
+              {
+                "offset": 15,
+                "bytes": "8b0d70304000894dec"
+              },
+              {
+                "offset": 44,
+                "bytes": "ff55ec83c408"
+              }
+            ],
+            "review": "Full 401ddf..401e32 reviewed: unique stack-slot load, MB branch call cleanup8, direct character-table branch and loop, no slot overwrite/escape.",
+            "lifetime": [
+              15,
+              98
+            ],
+            "lifetime_sha256": "8a1ecb332cc6a35289333bcb225255844c7887a971332f2af3b8b7cd374ae906"
+          }
+        },
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "_errno",
+          "abi": "cdecl int*(void); returns same thread-local CRT error slot; no stack cleanup",
+          "original": {
+            "slot": 4772120,
+            "holder": "EDI",
+            "instructions": [
+              {
+                "offset": 52,
+                "bytes": "8b3d18d14800"
+              },
+              {
+                "offset": 58,
+                "bytes": "ffd7"
+              },
+              {
+                "offset": 85,
+                "bytes": "ffd7"
+              }
+            ],
+            "review": "Full452e5b..452e7e reviewed: EDI imported _errno, two zero-argument calls around strtol, no intervening overwrite/escape; strtol preserves EDI.",
+            "lifetime": [
+              52,
+              87
+            ],
+            "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
+          },
+          "rebuilt": {
+            "slot": 4206660,
+            "holder": "[EBP-0x10]",
+            "instructions": [
+              {
+                "offset": 98,
+                "bytes": "a1443040008945f0"
+              },
+              {
+                "offset": 106,
+                "bytes": "ff55f0"
+              },
+              {
+                "offset": 137,
+                "bytes": "ff55f0"
+              }
+            ],
+            "review": "Full401e32..401e5c reviewed: unique imported pointer stack-slot assignment, two zero-argument calls around direct-IAT strtol; stack slot never passed or overwritten.",
+            "lifetime": [
+              98,
+              140
+            ],
+            "lifetime_sha256": "bcae9cf9bdea0afeba313d26cd63ced867547864553920bf71373da3c7a0d801"
+          }
+        }
+      ]
     }
   ],
   "stubs": [
@@ -903,26 +1094,8 @@
       "end": 4533924,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall, ECX alignment"
-    },
-    {
-      "name": "@c2_system_fatal@12",
-      "native": "c2_system_fatal",
-      "start": 4765320,
-      "end": 4765358,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
-    },
-    {
-      "name": "@parse_option_integer@4",
-      "native": "parse_option_integer",
-      "start": 4533799,
-      "end": 4533800,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX integer text; no stack parameters",
-      "state_policy": "integer-option",
+      "abi": "fastcall, ECX alignment",
+      "state_policy": "alignment-option",
       "state": [
         {
           "original": "0x499708",
@@ -978,16 +1151,18 @@
         }
       ],
       "expected_argv": [
-        "1",
-        "-dos",
-        "-Fonumeric-control-flow.obj",
-        "-ML",
-        "-Fdvc50.idb",
-        "-Bd",
-        "-Gs4096",
-        "-Gy",
         "-G5"
-      ]
+      ],
+      "expected_argc": 0
+    },
+    {
+      "name": "@c2_system_fatal@12",
+      "native": "c2_system_fatal",
+      "start": 4765320,
+      "end": 4765358,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
     },
     {
       "name": "@resolve_diagnostic_location@8",

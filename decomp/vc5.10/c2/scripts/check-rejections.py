@@ -107,6 +107,13 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'alignment_option'in current_state:
+        def changed_alignment(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['alignment_option'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('absent alignment is not an empty string',lambda r:changed_alignment(r,'alignment','')),
+                      ('final option loses captured environment offset',lambda r:changed_alignment(r,'current_offset',110)),
+                      ('completed parser has wrong static argv position',lambda r:changed_alignment(r,'argv_offset',60)),
+                      ('last argv value loses current-option pointer alias',lambda r:changed_alignment(r,'argv_value_alias',False))]
     if 'integer_option'in current_state:
         def changed_integer_option(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['integer_option'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

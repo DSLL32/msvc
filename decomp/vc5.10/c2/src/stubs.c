@@ -113,12 +113,6 @@ void __fastcall c2_system_fatal(int message, char *prefix, char *filename)
     __asm { int 3 }
 }
 
-int __fastcall parse_option_integer(char *value)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 
 
 

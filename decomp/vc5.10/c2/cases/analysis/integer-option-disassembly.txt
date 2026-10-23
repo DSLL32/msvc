@@ -1,0 +1,77 @@
+parse_option_integer: fastcall ECX text, no stack parameters; int result.
+Whole hot 0x452e27..0x452e9b (116 bytes) and cold 0x474808..0x47482e
+(38 bytes), including MB character classification, whitespace loop, error branch.
+External canonical MSVCRT uses data imports __mb_cur_max and _pctype, plus
+cached _isctype and _errno; strtol input/base0, end-pointer, ERANGE34 check.
+The canonical _errno export is 0x78006436: getptd(), add EAX8, RET.
+Reached runtime data proof: numeric-control-flow/ctype-original/events.txt
+freezes canonical provider hFile, __mb_cur_max 7803fba0=1, _pctype data
+7803fb9c ->7803fbaa, input49 ('1') flags0084 (SPACE8 clear). Native matches.
+No provider table is copied into reconstructed source.
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00452e27 <.text+0x51e27>:
+  452e27:	51                   	push   ecx
+  452e28:	53                   	push   ebx
+  452e29:	56                   	push   esi
+  452e2a:	8b d9                	mov    ebx,ecx
+  452e2c:	57                   	push   edi
+  452e2d:	8b 3d 00 d1 48 00    	mov    edi,DWORD PTR ds:0x48d100
+  452e33:	8b f3                	mov    esi,ebx
+  452e35:	a1 04 d1 48 00       	mov    eax,ds:0x48d104
+  452e3a:	83 38 01             	cmp    DWORD PTR [eax],0x1
+  452e3d:	0f 8f c5 19 02 00    	jg     0x474808
+  452e43:	a1 d4 d0 48 00       	mov    eax,ds:0x48d0d4
+  452e48:	0f be 16             	movsx  edx,BYTE PTR [esi]
+  452e4b:	8b 08                	mov    ecx,DWORD PTR [eax]
+  452e4d:	8a 04 51             	mov    al,BYTE PTR [ecx+edx*2]
+  452e50:	83 e0 08             	and    eax,0x8
+  452e53:	85 c0                	test   eax,eax
+  452e55:	0f 85 bd 19 02 00    	jne    0x474818
+  452e5b:	8b 3d 18 d1 48 00    	mov    edi,DWORD PTR ds:0x48d118
+  452e61:	ff d7                	call   edi
+  452e63:	8d 54 24 0c          	lea    edx,[esp+0xc]
+  452e67:	6a 00                	push   0x0
+  452e69:	52                   	push   edx
+  452e6a:	56                   	push   esi
+  452e6b:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+  452e71:	ff 15 14 d1 48 00    	call   DWORD PTR ds:0x48d114
+  452e77:	83 c4 0c             	add    esp,0xc
+  452e7a:	8b f0                	mov    esi,eax
+  452e7c:	ff d7                	call   edi
+  452e7e:	83 38 22             	cmp    DWORD PTR [eax],0x22
+  452e81:	0f 84 97 19 02 00    	je     0x47481e
+  452e87:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+  452e8b:	80 38 00             	cmp    BYTE PTR [eax],0x0
+  452e8e:	0f 85 8a 19 02 00    	jne    0x47481e
+  452e94:	8b c6                	mov    eax,esi
+  452e96:	5f                   	pop    edi
+  452e97:	5e                   	pop    esi
+  452e98:	5b                   	pop    ebx
+  452e99:	59                   	pop    ecx
+  452e9a:	c3                   	ret
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00474808 <.text+0x73808>:
+  474808:	0f be 0e             	movsx  ecx,BYTE PTR [esi]
+  47480b:	6a 08                	push   0x8
+  47480d:	51                   	push   ecx
+  47480e:	ff d7                	call   edi
+  474810:	83 c4 08             	add    esp,0x8
+  474813:	e9 3b e6 fd ff       	jmp    0x452e53
+  474818:	46                   	inc    esi
+  474819:	e9 17 e6 fd ff       	jmp    0x452e35
+  47481e:	53                   	push   ebx
+  47481f:	6a 31                	push   0x31
+  474821:	e8 41 6b 01 00       	call   0x48b367
+  474826:	83 c4 08             	add    esp,0x8
+  474829:	e9 66 e6 fd ff       	jmp    0x452e94

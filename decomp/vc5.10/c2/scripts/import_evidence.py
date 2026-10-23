@@ -38,8 +38,15 @@ def verify(config,graph):
                 for instruction in item['instructions']:
                     address=start+instruction['offset'];expected=bytes.fromhex(instruction['bytes'])
                     assert read(address,len(expected))==expected,'reviewed cached-import instruction changed'
-                low=start+item['lifetime'][0];high=start+item['lifetime'][1]
-                assert sha(read(low,high-low))==item['lifetime_sha256'],'cached-import live interval changed: review new compiled bytes'
+                intervals=item.get('lifetime_ranges',[item.get('lifetime')])
+                hashes=item.get('lifetime_sha256s',[item.get('lifetime_sha256')])
+                assert intervals and len(intervals)==len(hashes)
+                for interval,digest in zip(intervals,hashes):
+                    low=start+interval[0];high=start+interval[1]
+                    assert low<high
+                    if side=='original':
+                        assert any(a<=low<high<=b for a,b in [[record['start'],record['end']]]+record.get('code_chunks',[])),'cached import interval exceeds owned function code'
+                    assert sha(read(low,high-low))==digest,'cached-import live interval changed: review new compiled bytes'
             evidence.append({'function':record['name'],'identity':identity,'abi':cache['abi'],
                              'original':cache['original'],'rebuilt':cache['rebuilt'],
                              'scope':'Qualified slot/load/calls and manually reviewed complete live interval; Rust generic indirect edge is not import identity proof'})

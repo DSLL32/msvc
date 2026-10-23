@@ -10,9 +10,17 @@
 #include <excpt.h>
 #include <io.h>
 #include <stdarg.h>
+#include <ctype.h>
+#include <errno.h>
 /* This target imports the FILE array; the SDK accessor adds a graph vertex. */
 #undef _iob
 __declspec(dllimport) extern FILE _iob[];
+/* Its character macros also import data directly rather than SDK accessors. */
+#undef _pctype
+__declspec(dllimport) extern unsigned short *_pctype;
+#undef MB_CUR_MAX
+#define MB_CUR_MAX __mb_cur_max
+__declspec(dllimport) extern int __mb_cur_max;
 #include <recon.h>
 
 typedef void (__cdecl *C2Initializer)(void);
