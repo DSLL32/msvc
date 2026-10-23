@@ -534,6 +534,12 @@ HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
     if (name && !strcasecmp(name,"user32.dll")) return (HMODULE)2;
     last_error=ERROR_MOD_NOT_FOUND; return NULL;
 }
+BOOL WINAPI recon_FreeLibrary(HMODULE module)
+{
+    (void)module;
+    recon_unsupported("unreviewed FreeLibrary module lifetime");
+    return FALSE;
+}
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
     if ((uintptr_t)name<65536) recon_unsupported("unreviewed ordinal/null export lookup");

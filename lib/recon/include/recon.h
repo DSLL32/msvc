@@ -278,7 +278,7 @@ void recon_load_system_profile(const char *,const char *);
  X(HANDLE,GetStdHandle,(DWORD)) X(BOOL,SetStdHandle,(DWORD,HANDLE)) \
  X(int,LoadStringA,(HINSTANCE,UINT,LPSTR,int)) \
  X(DWORD,FormatMessageA,(DWORD,LPCVOID,DWORD,DWORD,LPSTR,DWORD,va_list *)) \
- X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) \
+ X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) X(BOOL,FreeLibrary,(HMODULE)) \
  X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) X(BOOL,DisableThreadLibraryCalls,(HMODULE)) \
  X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
  X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(LPVOID,MapViewOfFileEx,(HANDLE,DWORD,DWORD,DWORD,DWORD,LPVOID)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
@@ -535,6 +535,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define FormatMessageA recon_FormatMessageA
 #define GetModuleHandleA recon_GetModuleHandleA
 #define LoadLibraryA recon_LoadLibraryA
+#define FreeLibrary recon_FreeLibrary
 #define GetProcAddress recon_GetProcAddress
 #define DisableThreadLibraryCalls recon_DisableThreadLibraryCalls
 #define CreateFileMappingA recon_CreateFileMappingA

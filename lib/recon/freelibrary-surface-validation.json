@@ -1,0 +1,18 @@
+{
+  "scope": "SDK BOOL WINAPI FreeLibrary(HMODULE) declaration/remap only, explicit unsupported125 for every module. No successful unload/lifetime/provider behavior until concrete contract review.",
+  "caller": "VC5CL whole execute_pass source needs actual FreeLibrary import linkable even before provider success is authorized.",
+  "native_checks": [
+    {
+      "compiler": "gcc",
+      "status": 125,
+      "executable_sha256": "ba500d756c7441c9a0998af42bfec3aba94241e7552998609cb521b22c5967d3"
+    },
+    {
+      "compiler": "clang",
+      "status": 125,
+      "executable_sha256": "a478f4cf64745be0cce22ec4ac8b8bf2cf4bf39fad81da5b138263ded2c4c1f1"
+    }
+  ],
+  "probe": "/root/.ai-tmp/msvc2/recon-maintenance/freelibrary-surface.c",
+  "probe_sha256": "ac7ca828ab78a4ac4cacac41f43dc7e57b7db7219dd649b58317a31ec5ebe2e1"
+}
