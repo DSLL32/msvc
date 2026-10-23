@@ -1,0 +1,1644 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-23T10:02:37.667757+00:00",
+  "status": "standalone implementation complete; integration controlled by orchestrator",
+  "delivered_binary": {
+    "path": "target/release/graph-audit",
+    "sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65"
+  },
+  "scope": {
+    "profiles": [
+      "cl",
+      "c1",
+      "c1xx",
+      "c2",
+      "link",
+      "rc",
+      "rcpp",
+      "cvpack"
+    ],
+    "common_engine": "instruction-level CFG used to discover the function-call graph; not exact basic-block equivalence",
+    "legacy_mode": "explicit existing-policy compatibility; no extra flags silently ignored",
+    "cvpack": "graph/root/switch/RET/ownership subset only; full runtime-identification/source/data/seam audits remain outside Rust",
+    "rc": "legacy parity includes existing FILE/locale/Kanji extras; default CFG does not",
+    "native_elf": "not part of existing canonical PE graph audits; CVPACK native-symbol inventory remains Python",
+    "wine_invocations": 0
+  },
+  "checks": {
+    "rust_unit_tests": 16,
+    "clippy": "cargo clippy --locked --all-targets -- -D warnings passed",
+    "canonical_positive_profiles": 8,
+    "negative_mutations": 34,
+    "negative_rejections": 33,
+    "legacy_blindspot_acceptances": [
+      {
+        "tool": "cl",
+        "mutation": "split-ret-operand"
+      }
+    ],
+    "real_rc_optional_flag_tests": [
+      {
+        "test": "core-positive",
+        "flags": [],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "positive---check-ret",
+        "flags": [
+          "--check-ret"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "positive---check-references",
+        "flags": [
+          "--check-references"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "positive---check-callbacks",
+        "flags": [
+          "--check-callbacks"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "positive---check-ownership",
+        "flags": [
+          "--check-ownership"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "positive---check-extents",
+        "flags": [
+          "--check-extents"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "positive---check-instruction-overlap",
+        "flags": [
+          "--check-instruction-overlap"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "leaf-ret-positive",
+        "flags": [
+          "--check-ret"
+        ],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "changed-ret-core-still-same-graph",
+        "flags": [],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "changed-ret-optional-check-rejects",
+        "flags": [
+          "--check-ret"
+        ],
+        "accepted": false,
+        "diagnostic": "graph-audit: _is_kanji_lead@4 RET cleanup differs"
+      },
+      {
+        "test": "changed-callback-core-still-same-graph",
+        "flags": [],
+        "accepted": true,
+        "diagnostic": ""
+      },
+      {
+        "test": "changed-callback-optional-check-rejects",
+        "flags": [
+          "--check-callbacks"
+        ],
+        "accepted": false,
+        "diagnostic": "graph-audit: different/unaccepted callback identity or order"
+      },
+      {
+        "test": "legacy-refuses-silently-ignored-flags",
+        "flags": [
+          "--discovery",
+          "legacy",
+          "--check-ret"
+        ],
+        "accepted": false,
+        "diagnostic": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
+      }
+    ],
+    "cvpack_full_canonical_context": {
+      "full_python_canonical_audit_seconds": 0.5795194264501333,
+      "full_python_stdout": "14 complete original/compiler CFG/callee/ABI functions; 41 contextual data objects; strict CRT/import identities verified.\n",
+      "scope_note": "Context only, not used for graph-only Rust speedup. Native source-symbol inventory not run (--canonical-only).",
+      "rust_extra_checks": {
+        "checked_functions": 14,
+        "checks": [
+          "call_graph",
+          "ret_cleanup",
+          "extent_ownership",
+          "whole_extent_boundaries",
+          "nonoverlapping_instruction_assumption"
+        ],
+        "discovery": "cfg",
+        "functions": {
+          "acquire_file_slot": {
+            "edges": [
+              "move_file_slot",
+              "release_file_slot"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "allocate_file_page": {
+            "edges": [
+              "attach_page",
+              "release_page",
+              "remove_lru_page"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "cvpack_main": {
+            "edges": [
+              "__makepath",
+              "__setmode",
+              "__snprintf",
+              "__spawnlp",
+              "__splitpath",
+              "__write",
+              "_exit",
+              "_fprintf",
+              "_free",
+              "_getenv",
+              "_sprintf",
+              "_strncmp",
+              "close_file",
+              "compact_types",
+              "fatal_error",
+              "files_initialize",
+              "free_type_tables",
+              "open_file",
+              "pack_module",
+              "parse_options",
+              "print_banner",
+              "print_statistics",
+              "read_debug_directory",
+              "strip_debug",
+              "update_image_checksum",
+              "warning",
+              "write_debug_directory"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "fatal_error": {
+            "edges": [
+              "_exit",
+              "_printf",
+              "_sprintf",
+              "print_banner"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "files_initialize": {
+            "edges": [
+              "_calloc",
+              "import:GetModuleHandleA",
+              "import:GetProcAddress",
+              "import:LoadLibraryA",
+              "indirect",
+              "new_file_slot",
+              "new_page"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "find_cached_file": {
+            "edges": [
+              "move_file_slot"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "move_file_slot": {
+            "edges": [],
+            "returns": [
+              0
+            ]
+          },
+          "new_file_slot": {
+            "edges": [
+              "_calloc",
+              "indirect"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "new_page": {
+            "edges": [
+              "_calloc",
+              "indirect"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "open_buffered_file": {
+            "edges": [
+              "__open",
+              "__stat",
+              "_calloc",
+              "indirect",
+              "seek_buffered_file"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "open_file": {
+            "edges": [
+              "__strdup",
+              "acquire_file_slot",
+              "find_cached_file",
+              "indirect",
+              "open_buffered_file",
+              "open_mapped_file"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "parse_options": {
+            "edges": [
+              "__spawnlp",
+              "__strcmpi|__stricmp",
+              "_exit",
+              "_toupper",
+              "fatal_error",
+              "print_banner",
+              "warning"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "print_banner": {
+            "edges": [
+              "_printf"
+            ],
+            "returns": [
+              0
+            ]
+          },
+          "seek_buffered_file": {
+            "edges": [
+              "allocate_file_page",
+              "grow_page_table",
+              "read_file_page",
+              "touch_page"
+            ],
+            "returns": [
+              0
+            ]
+          }
+        },
+        "profile": "cvpack",
+        "scope": "graph subset with optional ownership/RET checks; runtime identity generation/source/data checks excluded"
+      }
+    }
+  },
+  "timings": {
+    "method": "Seven warmed CLI samples including startup/loading/output. Retained Python baselines and original paired rows kept; delivered Rust was measured later separately (UNPAIRED comparison). RC and C1XX additionally have explicit paired refreshes. No fixture/Wine/build/cache-preparation time included.",
+    "rust_legacy_session": {
+      "started_utc": "2026-10-23T09:55:26.527261+00:00",
+      "finished_utc": "2026-10-23T09:55:39.851300+00:00",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "discovery": "legacy",
+      "load_average": [
+        4.453125,
+        4.11572265625,
+        4.0029296875
+      ]
+    },
+    "rust_cfg_session": {
+      "started_utc": "2026-10-23T09:55:39.976477+00:00",
+      "finished_utc": "2026-10-23T09:55:53.971482+00:00",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "discovery": "cfg",
+      "load_average": [
+        4.21630859375,
+        4.07763671875,
+        3.99267578125
+      ]
+    },
+    "rows": {
+      "cl": {
+        "python": {
+          "median_seconds": 0.21351164672523737,
+          "min_seconds": 0.20986447483301163,
+          "max_seconds": 0.21931653656065464,
+          "samples_seconds": [
+            0.21282565407454967,
+            0.20986447483301163,
+            0.2160324901342392,
+            0.2122405208647251,
+            0.21775531023740768,
+            0.21351164672523737,
+            0.21931653656065464
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.029209014028310776,
+          "min_seconds": 0.027969843707978725,
+          "max_seconds": 0.03008627239614725,
+          "samples_seconds": [
+            0.028489702381193638,
+            0.027969843707978725,
+            0.02931927889585495,
+            0.029209014028310776,
+            0.03008627239614725,
+            0.029997840523719788,
+            0.02887349296361208
+          ],
+          "checked_functions": 110,
+          "canonical_report_sha256": "b7525d69b6023dcdc5f786ea4bcc238f67258d15ee3245bb3081ce62aa5fe94d"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.041575921699404716,
+          "min_seconds": 0.0403023986145854,
+          "max_seconds": 0.043525103479623795,
+          "samples_seconds": [
+            0.04337684717029333,
+            0.040629396215081215,
+            0.0403023986145854,
+            0.041575921699404716,
+            0.043406423181295395,
+            0.043525103479623795,
+            0.04117743857204914
+          ],
+          "checked_functions": 110,
+          "canonical_report_sha256": "1ecbe61473f48e47fa053a72df2385e4c49038b663c9b79a5a226d1a64c8bd0e"
+        },
+        "legacy_speedup_vs_retained_python": 7.3097861680059335,
+        "saved_seconds_vs_retained_python": 0.1843026326969266,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 110,
+        "checked_functions_cfg": 110,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "ccc0754c1af23f3428921c48a21f4d3aa270b7897e334a7c8113d8a8df528751",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 0.21351164672523737,
+            "min_seconds": 0.20986447483301163,
+            "max_seconds": 0.21931653656065464,
+            "samples_seconds": [
+              0.21282565407454967,
+              0.20986447483301163,
+              0.2160324901342392,
+              0.2122405208647251,
+              0.21775531023740768,
+              0.21351164672523737,
+              0.21931653656065464
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.031096418388187885,
+            "min_seconds": 0.028699771501123905,
+            "max_seconds": 0.03292557876557112,
+            "samples_seconds": [
+              0.031096418388187885,
+              0.030647004954516888,
+              0.028699771501123905,
+              0.031402504071593285,
+              0.03292557876557112,
+              0.030564913526177406,
+              0.03154787328094244
+            ]
+          },
+          "speedup": 6.866116993278581,
+          "binary_sha256": null,
+          "started_utc": null,
+          "finished_utc": "2026-10-23T09:42:23.911764+00:00",
+          "note": "Retained completed paired session, post-software-interrupt fix, before RC output-only alias expansion/C1XX literal-fit follow-up; original session did not capture binary SHA or per-row timestamps. Completion timestamp is session-wide."
+        }
+      },
+      "c1": {
+        "python": {
+          "median_seconds": 2.1603359058499336,
+          "min_seconds": 2.1333954175934196,
+          "max_seconds": 2.257416892796755,
+          "samples_seconds": [
+            2.185745947062969,
+            2.2043973449617624,
+            2.1333954175934196,
+            2.158435291610658,
+            2.141099074855447,
+            2.1603359058499336,
+            2.257416892796755
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.36864328663796186,
+          "min_seconds": 0.36350125074386597,
+          "max_seconds": 0.3800391014665365,
+          "samples_seconds": [
+            0.36511474568396807,
+            0.36864328663796186,
+            0.3673595981672406,
+            0.36350125074386597,
+            0.3800391014665365,
+            0.3735591396689415,
+            0.37180555798113346
+          ],
+          "checked_functions": 710,
+          "canonical_report_sha256": "dece5c0c8b993ab3f234f81fe23bbc1fbe0631baf0b6555e8fff70f49c82a4fb"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.3286412274464965,
+          "min_seconds": 0.32289024721831083,
+          "max_seconds": 0.35966313816607,
+          "samples_seconds": [
+            0.3286412274464965,
+            0.32692172192037106,
+            0.32289024721831083,
+            0.35966313816607,
+            0.3297922359779477,
+            0.32794290874153376,
+            0.33312261290848255
+          ],
+          "checked_functions": 710,
+          "canonical_report_sha256": "5bb968bc56882894a06d0186ad922b93675bf3909fd5728f933d12ba4239bd7a"
+        },
+        "legacy_speedup_vs_retained_python": 5.860233955573323,
+        "saved_seconds_vs_retained_python": 1.7916926192119718,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 710,
+        "checked_functions_cfg": 710,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "6c4c8671e4d5878f982af9624556a4663a190d18d581362fa38f08d68e84218b",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 2.1603359058499336,
+            "min_seconds": 2.1333954175934196,
+            "max_seconds": 2.257416892796755,
+            "samples_seconds": [
+              2.185745947062969,
+              2.2043973449617624,
+              2.1333954175934196,
+              2.158435291610658,
+              2.141099074855447,
+              2.1603359058499336,
+              2.257416892796755
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.36955138575285673,
+            "min_seconds": 0.36263670306652784,
+            "max_seconds": 0.38470588251948357,
+            "samples_seconds": [
+              0.3783300034701824,
+              0.38470588251948357,
+              0.36634595785290003,
+              0.36955138575285673,
+              0.3817079197615385,
+              0.36263670306652784,
+              0.3645006772130728
+            ]
+          },
+          "speedup": 5.845833594829738,
+          "binary_sha256": null,
+          "started_utc": null,
+          "finished_utc": "2026-10-23T09:42:23.911764+00:00",
+          "note": "Retained completed paired session, post-software-interrupt fix, before RC output-only alias expansion/C1XX literal-fit follow-up; original session did not capture binary SHA or per-row timestamps. Completion timestamp is session-wide."
+        }
+      },
+      "c1xx": {
+        "python": {
+          "median_seconds": 2.5748173417523503,
+          "min_seconds": 2.5423800414428115,
+          "max_seconds": 2.6881034141406417,
+          "samples_seconds": [
+            2.572721341624856,
+            2.5748173417523503,
+            2.5638690209016204,
+            2.590636349283159,
+            2.5423800414428115,
+            2.6881034141406417,
+            2.6348477685824037
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.41659464593976736,
+          "min_seconds": 0.4115712707862258,
+          "max_seconds": 0.42842832393944263,
+          "samples_seconds": [
+            0.42842832393944263,
+            0.41659464593976736,
+            0.4151350213214755,
+            0.4170671636238694,
+            0.4115712707862258,
+            0.41428172774612904,
+            0.4173462921753526
+          ],
+          "checked_functions": 769,
+          "canonical_report_sha256": "9d87a70b654aa8fdbb14989fefa5e58aca95eac44c6b9649900ace291b71b92f"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.37495394330471754,
+          "min_seconds": 0.373683868907392,
+          "max_seconds": 0.3963371720165014,
+          "samples_seconds": [
+            0.38146284222602844,
+            0.3963371720165014,
+            0.39187838323414326,
+            0.373683868907392,
+            0.3748857034370303,
+            0.3739346843212843,
+            0.37495394330471754
+          ],
+          "checked_functions": 769,
+          "canonical_report_sha256": "33f721e45dd83da09f94fdb2b05ec763dc59e784a5f02b13240921890b016e6d"
+        },
+        "legacy_speedup_vs_retained_python": 6.180629940512068,
+        "saved_seconds_vs_retained_python": 2.158222695812583,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 769,
+        "checked_functions_cfg": 769,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "e44661589e9a4093d47c1fd958f00cde4c6996dca8900c81d9ddd3f91144b0f4",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 2.5748173417523503,
+            "min_seconds": 2.5423800414428115,
+            "max_seconds": 2.6881034141406417,
+            "samples_seconds": [
+              2.572721341624856,
+              2.5748173417523503,
+              2.5638690209016204,
+              2.590636349283159,
+              2.5423800414428115,
+              2.6881034141406417,
+              2.6348477685824037
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.42480103578418493,
+            "min_seconds": 0.415558360517025,
+            "max_seconds": 0.42959922552108765,
+            "samples_seconds": [
+              0.4272379297763109,
+              0.4250464215874672,
+              0.42480103578418493,
+              0.42328905314207077,
+              0.415558360517025,
+              0.4161043977364898,
+              0.42959922552108765
+            ]
+          },
+          "speedup": 6.061231317384205,
+          "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+          "started_utc": "2026-10-23T09:54:16.135772+00:00",
+          "finished_utc": "2026-10-23T09:54:44.258512+00:00",
+          "note": "Explicit paired refresh"
+        }
+      },
+      "c2": {
+        "python": {
+          "median_seconds": 4.318953426554799,
+          "min_seconds": 4.263979936018586,
+          "max_seconds": 4.4071689788252115,
+          "samples_seconds": [
+            4.379976951517165,
+            4.263979936018586,
+            4.404259796254337,
+            4.292928076349199,
+            4.4071689788252115,
+            4.318953426554799,
+            4.317151071503758
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.4353464599698782,
+          "min_seconds": 0.4231988163664937,
+          "max_seconds": 0.4719074498862028,
+          "samples_seconds": [
+            0.4282989213243127,
+            0.44476822577416897,
+            0.42956452164798975,
+            0.4353464599698782,
+            0.4603520892560482,
+            0.4231988163664937,
+            0.4719074498862028
+          ],
+          "checked_functions": 995,
+          "canonical_report_sha256": "5dc759916c06a2c897eaf67e55f808cc862924e0e479c66b8b57ea761bbbb702"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.487465119920671,
+          "min_seconds": 0.4850176041945815,
+          "max_seconds": 0.5508911134675145,
+          "samples_seconds": [
+            0.48690712079405785,
+            0.487465119920671,
+            0.4850176041945815,
+            0.5071762725710869,
+            0.5508911134675145,
+            0.4865880673751235,
+            0.48787583503872156
+          ],
+          "checked_functions": 995,
+          "canonical_report_sha256": "d303ec37d3076cbd77a6c69618ed22e70c05bf92bbe35bfead5aa22f933b51e0"
+        },
+        "legacy_speedup_vs_retained_python": 9.920727107448236,
+        "saved_seconds_vs_retained_python": 3.883606966584921,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 995,
+        "checked_functions_cfg": 995,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "530a0715efdd1c4b10b21e3437921fac8c56fae7b733adbcf79774bd3c38d4fd",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 4.318953426554799,
+            "min_seconds": 4.263979936018586,
+            "max_seconds": 4.4071689788252115,
+            "samples_seconds": [
+              4.379976951517165,
+              4.263979936018586,
+              4.404259796254337,
+              4.292928076349199,
+              4.4071689788252115,
+              4.318953426554799,
+              4.317151071503758
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.4301133705303073,
+            "min_seconds": 0.42729947715997696,
+            "max_seconds": 0.46535390615463257,
+            "samples_seconds": [
+              0.4301133705303073,
+              0.4299941463395953,
+              0.46535390615463257,
+              0.42729947715997696,
+              0.4437306635081768,
+              0.434842555783689,
+              0.42889992613345385
+            ]
+          },
+          "speedup": 10.041430289018347,
+          "binary_sha256": null,
+          "started_utc": null,
+          "finished_utc": "2026-10-23T09:42:23.911764+00:00",
+          "note": "Retained completed paired session, post-software-interrupt fix, before RC output-only alias expansion/C1XX literal-fit follow-up; original session did not capture binary SHA or per-row timestamps. Completion timestamp is session-wide."
+        }
+      },
+      "link": {
+        "python": {
+          "median_seconds": 11.468855452723801,
+          "min_seconds": 11.323520474135876,
+          "max_seconds": 11.718392432667315,
+          "samples_seconds": [
+            11.718392432667315,
+            11.323520474135876,
+            11.43227400071919,
+            11.619445049203932,
+            11.468855452723801,
+            11.362940356135368,
+            11.481452042236924
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.24665202293545008,
+          "min_seconds": 0.24274463672190905,
+          "max_seconds": 0.2602734724059701,
+          "samples_seconds": [
+            0.24665202293545008,
+            0.2440867442637682,
+            0.24672267399728298,
+            0.24309880938380957,
+            0.24274463672190905,
+            0.24682297464460135,
+            0.2602734724059701
+          ],
+          "checked_functions": 626,
+          "canonical_report_sha256": "81ef25285bd6d111a8547a6a52d6392ea07578d497e6c6bc5222764524e7ed56"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.31345001701265574,
+          "min_seconds": 0.31160944420844316,
+          "max_seconds": 0.3171492600813508,
+          "samples_seconds": [
+            0.31345001701265574,
+            0.31251922249794006,
+            0.3133669039234519,
+            0.31160944420844316,
+            0.31587373185902834,
+            0.31388632487505674,
+            0.3171492600813508
+          ],
+          "checked_functions": 617,
+          "canonical_report_sha256": "3b478af8abcd447f089f9608583918100cb8c61ea96b7497ee352d52ed7e23f7"
+        },
+        "legacy_speedup_vs_retained_python": 46.49812037311063,
+        "saved_seconds_vs_retained_python": 11.222203429788351,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 626,
+        "checked_functions_cfg": 617,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "c818544c99a36b0da0582fc3b5ea62ed37e635457a4faa9ee5aa3461c75f90df",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 11.468855452723801,
+            "min_seconds": 11.323520474135876,
+            "max_seconds": 11.718392432667315,
+            "samples_seconds": [
+              11.718392432667315,
+              11.323520474135876,
+              11.43227400071919,
+              11.619445049203932,
+              11.468855452723801,
+              11.362940356135368,
+              11.481452042236924
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.24681865330785513,
+            "min_seconds": 0.2432985296472907,
+            "max_seconds": 0.2525949887931347,
+            "samples_seconds": [
+              0.2432985296472907,
+              0.2525949887931347,
+              0.24881752859801054,
+              0.24681865330785513,
+              0.2498266864567995,
+              0.24504590034484863,
+              0.24523542914539576
+            ]
+          },
+          "speedup": 46.46672890812179,
+          "binary_sha256": null,
+          "started_utc": null,
+          "finished_utc": "2026-10-23T09:42:23.911764+00:00",
+          "note": "Retained completed paired session, post-software-interrupt fix, before RC output-only alias expansion/C1XX literal-fit follow-up; original session did not capture binary SHA or per-row timestamps. Completion timestamp is session-wide."
+        }
+      },
+      "rc": {
+        "python": {
+          "median_seconds": 5.123926792293787,
+          "min_seconds": 4.997327455319464,
+          "max_seconds": 5.24300850648433,
+          "samples_seconds": [
+            5.039059489965439,
+            4.997327455319464,
+            5.123926792293787,
+            5.129181349650025,
+            5.18435250967741,
+            5.022291311062872,
+            5.24300850648433
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.052649883553385735,
+          "min_seconds": 0.05130497086793184,
+          "max_seconds": 0.05606972053647041,
+          "samples_seconds": [
+            0.05207394529134035,
+            0.05130497086793184,
+            0.0529356449842453,
+            0.05227825790643692,
+            0.052649883553385735,
+            0.05606972053647041,
+            0.05302735511213541
+          ],
+          "checked_functions": 193,
+          "canonical_report_sha256": "6c0b91fe032cab647563c630b96e0c2e9edd6c3fc40c229c6520a544afac736c"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.07307572849094868,
+          "min_seconds": 0.07063975185155869,
+          "max_seconds": 0.07582274079322815,
+          "samples_seconds": [
+            0.07307572849094868,
+            0.07326317671686411,
+            0.07399370800703764,
+            0.071848314255476,
+            0.07265704963356256,
+            0.07063975185155869,
+            0.07582274079322815
+          ],
+          "checked_functions": 193,
+          "canonical_report_sha256": "339baa4e84eb8095e558a433efbbcaa6a6f08fa5332195c1e9025c5068e0bf4c"
+        },
+        "legacy_speedup_vs_retained_python": 97.32076210763594,
+        "saved_seconds_vs_retained_python": 5.071276908740401,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 193,
+        "checked_functions_cfg": 193,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "1dc53b4ba25c4075f465b4575a233275ed92d5b6f72899d9c70dad487d1b4d11",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 5.123926792293787,
+            "min_seconds": 4.997327455319464,
+            "max_seconds": 5.24300850648433,
+            "samples_seconds": [
+              5.039059489965439,
+              4.997327455319464,
+              5.123926792293787,
+              5.129181349650025,
+              5.18435250967741,
+              5.022291311062872,
+              5.24300850648433
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.05501085426658392,
+            "min_seconds": 0.05293155927211046,
+            "max_seconds": 0.05668709799647331,
+            "samples_seconds": [
+              0.053173527121543884,
+              0.05293155927211046,
+              0.05647115129977465,
+              0.05501085426658392,
+              0.0557209113612771,
+              0.053651160560548306,
+              0.05668709799647331
+            ]
+          },
+          "speedup": 93.14392333307741,
+          "binary_sha256": "1f15e78243724d69b9106b5125e1401217efe3addddc677392c9466c1aca5192",
+          "started_utc": "2026-10-23T09:49:46.986392+00:00",
+          "finished_utc": "2026-10-23T09:50:34.903598+00:00",
+          "note": "Explicit paired refresh"
+        }
+      },
+      "rcpp": {
+        "python": {
+          "median_seconds": 1.341182223521173,
+          "min_seconds": 1.3147875973954797,
+          "max_seconds": 1.403650970198214,
+          "samples_seconds": [
+            1.3600318981334567,
+            1.3147875973954797,
+            1.348662257194519,
+            1.3181163473054767,
+            1.341182223521173,
+            1.403650970198214,
+            1.3254287773743272
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.0559414466843009,
+          "min_seconds": 0.05442232731729746,
+          "max_seconds": 0.05721530597656965,
+          "samples_seconds": [
+            0.05442232731729746,
+            0.05537331476807594,
+            0.05638324003666639,
+            0.05721530597656965,
+            0.05546061601489782,
+            0.0559414466843009,
+            0.05665980372577906
+          ],
+          "checked_functions": 161,
+          "canonical_report_sha256": "0ab7057ba00c3e93714eacb353977c07affaaa7b1118d6613e8f1ec91336fde4"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.06072957534343004,
+          "min_seconds": 0.05833609960973263,
+          "max_seconds": 0.061370438896119595,
+          "samples_seconds": [
+            0.06088025402277708,
+            0.06091260630637407,
+            0.05833609960973263,
+            0.061370438896119595,
+            0.05991321336477995,
+            0.05871061701327562,
+            0.06072957534343004
+          ],
+          "checked_functions": 161,
+          "canonical_report_sha256": "62069687dae82ca1d9c6a12a1ec21134873a3953cc248edb2759347efea512aa"
+        },
+        "legacy_speedup_vs_retained_python": 23.974750440223332,
+        "saved_seconds_vs_retained_python": 1.285240776836872,
+        "python_scope": "unchanged full standalone Python audit",
+        "checked_functions_legacy": 161,
+        "checked_functions_cfg": 161,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "483bffd5392bacef472bca6a9e95692fcf91227f4cdd9639c45f828531b273cc",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 1.341182223521173,
+            "min_seconds": 1.3147875973954797,
+            "max_seconds": 1.403650970198214,
+            "samples_seconds": [
+              1.3600318981334567,
+              1.3147875973954797,
+              1.348662257194519,
+              1.3181163473054767,
+              1.341182223521173,
+              1.403650970198214,
+              1.3254287773743272
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.05762836057692766,
+            "min_seconds": 0.054988578893244267,
+            "max_seconds": 0.05943106487393379,
+            "samples_seconds": [
+              0.05731005501002073,
+              0.059160939417779446,
+              0.057247660122811794,
+              0.05762836057692766,
+              0.05917252507060766,
+              0.054988578893244267,
+              0.05943106487393379
+            ]
+          },
+          "speedup": 23.272954671872697,
+          "binary_sha256": null,
+          "started_utc": null,
+          "finished_utc": "2026-10-23T09:42:23.911764+00:00",
+          "note": "Retained completed paired session, post-software-interrupt fix, before RC output-only alias expansion/C1XX literal-fit follow-up; original session did not capture binary SHA or per-row timestamps. Completion timestamp is session-wide."
+        }
+      },
+      "cvpack": {
+        "python": {
+          "median_seconds": 0.36741884239017963,
+          "min_seconds": 0.3569818986579776,
+          "max_seconds": 0.3731657974421978,
+          "samples_seconds": [
+            0.3569818986579776,
+            0.3604410644620657,
+            0.3710529897361994,
+            0.3731657974421978,
+            0.36766976956278086,
+            0.36618573404848576,
+            0.36741884239017963
+          ]
+        },
+        "rust_legacy": {
+          "median_seconds": 0.043735221959650517,
+          "min_seconds": 0.042062198743224144,
+          "max_seconds": 0.04599167499691248,
+          "samples_seconds": [
+            0.042062198743224144,
+            0.04599167499691248,
+            0.043735221959650517,
+            0.042594680562615395,
+            0.044648852199316025,
+            0.042987401597201824,
+            0.04415381979197264
+          ],
+          "checked_functions": 14,
+          "canonical_report_sha256": "da9807040eab2f2526841bfc0a78de150e6e28cfbc2ae154a0eabf681b5d71a8"
+        },
+        "rust_cfg": {
+          "median_seconds": 0.04134602565318346,
+          "min_seconds": 0.03951927833259106,
+          "max_seconds": 0.04271067213267088,
+          "samples_seconds": [
+            0.04184670653194189,
+            0.04271067213267088,
+            0.03951927833259106,
+            0.04134602565318346,
+            0.040172708220779896,
+            0.041902187280356884,
+            0.03990547638386488
+          ],
+          "checked_functions": 14,
+          "canonical_report_sha256": "01327f184a9c3ade1e9ebff21d437adfce61026fce280897a4042c6cb90abc06"
+        },
+        "legacy_speedup_vs_retained_python": 8.400982684600411,
+        "saved_seconds_vs_retained_python": 0.3236836204305291,
+        "python_scope": "extracted graph/ownership/RET subset with frozen runtime index",
+        "checked_functions_legacy": 14,
+        "checked_functions_cfg": 14,
+        "exact_canonical_function_report_match": true,
+        "canonical_functions_sha256": "f2d7d0049616af161f1b0f7d93e828d88428ebafc149246daf1c300f27bf4638",
+        "paired_measurement": {
+          "python": {
+            "median_seconds": 0.36741884239017963,
+            "min_seconds": 0.3569818986579776,
+            "max_seconds": 0.3731657974421978,
+            "samples_seconds": [
+              0.3569818986579776,
+              0.3604410644620657,
+              0.3710529897361994,
+              0.3731657974421978,
+              0.36766976956278086,
+              0.36618573404848576,
+              0.36741884239017963
+            ]
+          },
+          "rust": {
+            "median_seconds": 0.046774388290941715,
+            "min_seconds": 0.043556563556194305,
+            "max_seconds": 0.04697182681411505,
+            "samples_seconds": [
+              0.046774388290941715,
+              0.043556563556194305,
+              0.04680491890758276,
+              0.04443957004696131,
+              0.04678637254983187,
+              0.04644501954317093,
+              0.04697182681411505
+            ]
+          },
+          "speedup": 7.855128753470703,
+          "binary_sha256": null,
+          "started_utc": null,
+          "finished_utc": "2026-10-23T09:42:23.911764+00:00",
+          "note": "Retained completed paired session, post-software-interrupt fix, before RC output-only alias expansion/C1XX literal-fit follow-up; original session did not capture binary SHA or per-row timestamps. Completion timestamp is session-wide."
+        }
+      }
+    },
+    "summed_medians": {
+      "python_seconds": 27.56900163181126,
+      "rust_legacy_seconds": 1.6487719817087054,
+      "rust_cfg_seconds": 1.7212375588715076,
+      "legacy_speedup": 16.720930448636153,
+      "saved_seconds": 25.920229650102556
+    },
+    "build": {
+      "seconds": 41.767679050564766,
+      "exit_status": 0,
+      "command": "CARGO_TARGET_DIR=~/.ai-tmp/graph-audit/clean-release-target cargo build --release --locked --offline --manifest-path tooling/graph-audit/Cargo.toml",
+      "scope": "clean target directory; downloaded dependencies already cached; no network-fetch time",
+      "note": "Clean dependency-cached target build of initial completed implementation; later small correctness/reporting changes rebuilt incrementally in about 20-21 seconds. Not included in audit savings."
+    }
+  },
+  "machine": {
+    "platform": "Linux-6.10.9-amd64-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "logical_cpus": 48,
+    "cpu_model": "Intel(R) Xeon(R) CPU E5-2697 v2 @ 2.70GHz",
+    "load_average": [
+      3.24365234375,
+      3.32373046875,
+      3.37255859375
+    ],
+    "python": "3.13.5",
+    "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "python_capstone": "5.0.7",
+    "rust_capstone_engine": "5.0.6",
+    "cgroup_cpu_max": "max 100000",
+    "concurrency_note": "Other reconstruction workers remained active. Graph benchmark commands themselves ran serially; Python/Rust compatibility runs alternated order. No fixture or Wine time included."
+  },
+  "snapshot": {
+    "path": "/root/.ai-tmp/graph-audit/snapshot",
+    "receipt_sha256": "7d1e719e75e9d9bc646c0e691e3a39869f66030760cefb35bdc7989104af182b",
+    "critical_input_sha256": {
+      "cl": {
+        "build/cl.exe": "d87c6348b23bc0deda97765c652004070cf8ac19471a03aaa917c8f1d19b4ad7",
+        "build/cl.map": "be2ee80a4765ce0e21eb693a80cb9c73201f731bb6f51f665ec41d43366e93b7",
+        "build/runtime.json": "acf5a6604248bbf9e27bc7e514281a50a45bb98d0eee3048242ff0986482736a",
+        "functions.json": "1ffb9ddcd3840dd0476fa8ff6c88a813b6ad029bf5f686aee211113eb017e8a7",
+        "runtime.json": "0d19902b6cbbef5f7366117a2cb72c2322e26f755287b7c18bcb0ecef45e294c",
+        "scripts/audit-graph.py": "9c303c43de52c541f4a350c2f7c4ba88065bef0251fa2ff2d72df4f6b1f94fa4",
+        "scripts/binary-analysis.py": "4e7bedf6f1c823b9ec6042d306275958afccfc0098de5daaaa925cd25490352d",
+        "scripts/binary.py": "388d0dd4cb64a10ef01c79331569edb81466775ef62707b9d0fce7d352cd8e40",
+        "scripts/capture-native.py": "b14db5ae93d48babc59610eb2e24f783af0fe3cb8028492d402003dafa7a42cc",
+        "scripts/case_paths.py": "9b1b58a5192416c0c25c82514d720c939f06997b014ec0a5fef255eaf237e1e7",
+        "scripts/check-native-negative.py": "68b4f20e429495da3baad1f901e05a7238f90779ae3faeccf28334ce1b167bf9",
+        "scripts/check-native.py": "8346b7a2a1f24f1a43d29375c02d5b528c4ce88fbdb82819936b5d03f5c2c1dc",
+        "scripts/identify-runtime.py": "9ca71ee29ade61b93a9640e36a614a14885080bb3197989c28b25a7f0f230cdb",
+        "scripts/native-artifacts.py": "235fb2c1bf7d45a3789b624e97f39a0964445b34efa2add761e7bcbef5bfdd93",
+        "scripts/native-cases.py": "ca2bcc51ac259b92aefe7eebec5c27dc1a35d6d82bbf6824f8a6f01204afd65c",
+        "scripts/native-processes.py": "94940a99eb919abab71be6c3e3084b10eda9e3e0add2ec785e2b1b93d179985b",
+        "scripts/native-traces.py": "b068c69b3f0eed9e30af8a12b11bf1904f93642c2e13dacc2885c24d1ece6ccf",
+        "scripts/probe-cases.py": "479fe3c564b41bcdff3a7bf025ba9836706199cfd129ace378cc8bb5f35d1844",
+        "scripts/wine-tool.py": "56c9b50d5f1e8a78a3740459f7bad0737d57799f2836013c472fb53cf55cfa56"
+      },
+      "c1": {
+        "build/c1.exe": "af710f282d3eca17f7d81e7c44cb2350097a4b7dd30ba2e2d84fa5ecd6ce8ca1",
+        "build/c1.map": "28af91613b1e342587452add23a76775c84160611fc83b3632e3e0b5e98eef33",
+        "build/runtime.json": "bcd74b66deb27baaf6ee4f877e91451d23b6c971b9847cfe20788953fdb6e2dd",
+        "functions.json": "29df593f8ea3c50a46ec0e8d22e47f0cc58cba7ab8a932a55acf49a09a23116c",
+        "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9",
+        "scripts/audit-asm-grammar.py": "a8868b83c113afcf3d8d0d3d81b0ef8b3368fa6c6b8dfed656a7c38282f2628b",
+        "scripts/audit-grammar.py": "70aa3e6c146848be161818f3f787db0685b128007130e6e335cbf549d98fe2ce",
+        "scripts/audit-graph.py": "d2457f76ca18ff9fdb8e5298ae0b15efc296ca98340880a07ac0d148bc61a30b",
+        "scripts/audit-state.py": "e4e17dbb4e69aa287605140956d47e46ebcf6b2e060051ce3d0fbca6acfa7f80",
+        "scripts/binary.py": "388d0dd4cb64a10ef01c79331569edb81466775ef62707b9d0fce7d352cd8e40",
+        "scripts/build-capture-helper.py": "2da6e2e039749475a927dcc874f9ece5bab271f6133cd9f30afe19b8de8de237",
+        "scripts/capture-frontier.py": "dc4863973d49b027dff7eb19c8bc4f1f423ff3700ad6dc9c44cb882b102c9e4f",
+        "scripts/case_paths.py": "faddf41d19655b761085bb29e208eb278aa47a5cca66b37799cefcf9d9c5924f",
+        "scripts/check-native-rejections.py": "44f7ee17e26151e066e0c5d9493616c85734cb0f1827fa103d3d6fef72b8dd3e",
+        "scripts/check-native.py": "6ae7ed3c48e9956d3044165b5aa74dd872bfeb067fd681ebcd80c5d92494918d",
+        "scripts/coverage.py": "42ff9ae3e993ad0a1962085baf3a3f938b4c8cf9b995323e36d11d1eab6c89ad",
+        "scripts/debug-frontier.py": "68d69e105c15b5d807974f9571a23fc705ed6ef2a5eecdaec0c562c10f23f4c5",
+        "scripts/dependencies.py": "3d3e21bdda5172e6d22dd5a1b29776b3698db9fedf7a8c6313a0d6e4f5de8638",
+        "scripts/generate-asm-grammar.py": "5cdac1c101698715d0284041c22846063b81586073ab552b1ab825dcb9b50cbf",
+        "scripts/grammar.py": "51ef53b3ef6b10d8e220377a1bbcf29f873c5442078776f951f651fe412961ce",
+        "scripts/identify-runtime.py": "e4f72d35223c018949aac4f2cfa32ce1df7db9b109afc29c6cd10865955319ca",
+        "scripts/images.py": "0ee1d4af56397b7199543347bcb9862e88510a4c255e566ef8ab4ef9d1b2eb14",
+        "scripts/native-traces.py": "71bea8982e23fa826dee302981d1062103c7884c5ab2ac6c0280b212e26e31a1",
+        "scripts/wine-tool.py": "18c464b46b139e00a56acea624d69355e0272f79ddbd13db9dc596f548a1452e"
+      },
+      "c1xx": {
+        "build/c1xx.exe": "bf8b6666ad93fba3caf0a25c0eaa0008a38b2d15942ccc3b547ab105bc9adcc7",
+        "build/c1xx.map": "cacf48f9c506d9821ef00b97ab5e71ae958a666be95138880bdbdbbfedacca9b",
+        "build/runtime.json": "288e9b011815a548be92501620e935e5273f26c2aac187d56dbf4c4eeb73ce07",
+        "functions.json": "d57733764af29dd5b1501a7322adfeb68690fd4ef4a0cb85f7445f7d9c928589",
+        "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
+        "scripts/advance-close-frontier.py": "4907356e22a0c05e3629bcaaa13b9d7a33aa586ac51c7527de4ee4875ae5c77c",
+        "scripts/advance-frontier.py": "108a6c120bb068b8d0bab64f1240a46df681130b6c3297b58dfe39a0a8855689",
+        "scripts/advance-runtime-frontier.py": "599c8372d8c6d44e0fff3e035986a5bca460c7c34e6cd11f40380202be5b345a",
+        "scripts/analysis/recover-grammar.py": "5980f243eb3ff09844d49588decb633b60c8f368819260c2f3e79d9325be736e",
+        "scripts/audit-data.py": "bcea3ff75d28626be40ff7b672c2d5024177ce2433e93f481306e75f18198409",
+        "scripts/audit-graph.py": "ec31f9d1c97f4e34f38b9dfd460ad4d5c53896ca77ec1d2bbb0f3163ea2356e1",
+        "scripts/audit-lookahead-grammar.py": "fc437da7fc9fbefcb4fcb9b6bc980517a80cde8f931bd54259aaa880da0b18cc",
+        "scripts/audit-parser-grammar.py": "d365e32180e8e72b690973071b576abf7e16b7c123647b91323facbf562646c0",
+        "scripts/audit-runtime-variants.py": "2cf3cf124d0b6fa24919e5eb5be1005ca46fbdb1b09c67d648cc6cc8b427a7ac",
+        "scripts/binary.py": "388d0dd4cb64a10ef01c79331569edb81466775ef62707b9d0fce7d352cd8e40",
+        "scripts/build-frontier.py": "0e582a57f1db057b64354be6dfc548c2f280ebe28e65698fa840c11305b89136",
+        "scripts/capture-close-boundary.py": "91a43355314aa153647dc75adcb8fbf67492e0dcb3776f5c7d8cefd605fb32aa",
+        "scripts/capture-copy-boundary.py": "173e5b51d143205ad232e899d6522678f35984dbba316ce9d98c2d71e673211e",
+        "scripts/capture-native.py": "0942eaa0364941f4bbcac2df17705262a981c82b0415d4456d8c403c78b960f9",
+        "scripts/capture-original.py": "c0357efe298e4fb5afd48aa313ea27e9797216c06b10c94ad74e0fb568e18f94",
+        "scripts/capture-realloc-boundary.py": "aaa0f63f8c9f2f1d62ec3c7dbf73d45bcfd01903e8f778b75295ec216021e867",
+        "scripts/capture-stream-boundary.py": "2709647bbf5c734d7adea86b5f570f9165ac1eb24be94e295195c79167370af8",
+        "scripts/case_paths.py": "b702a6abaa530b8aaf8962146fb1b818cad545242e7d262e62beab25300dac3c",
+        "scripts/check-native-boundary.py": "6da9f1709bf4220a41e2cd966f4824e1bc842f0d3635c97789ba0d14cdaa1818",
+        "scripts/check-native.py": "4b8a498f847582cfd64dd775137303847f65773cffc2eb51206412e33ef94c45",
+        "scripts/coverage.py": "fc06e8c9efa8bfe6408fbd2c6685efe768afd0589464ffba7a879abe02e902ab",
+        "scripts/dependencies.py": "3d3e21bdda5172e6d22dd5a1b29776b3698db9fedf7a8c6313a0d6e4f5de8638",
+        "scripts/generate-lookahead.py": "b062deff21ce2d4bdc80c48e55dfda243feed0ddfa6e4624cf245d04af0fa112",
+        "scripts/generate-parser.py": "aa37fcad412a9eeca0bbbefd1ceff77ca399c2241f9ba62d0bd0fff720014c93",
+        "scripts/grammar.py": "88adac80ec2cdbaec585bfde9aa7ebc37880dda162d082b31dcbacfa4fd64245",
+        "scripts/identify-runtime.py": "05fe41adcce5ff62d88a078529c43a6db0bb71bcfe7573e2e92db0fb3ba9f4a3",
+        "scripts/native-traces.py": "f8e9c3a7f896b25f7f34c89e8e0024138a61c1c2cd0e4a0ef4221add48d6a384",
+        "scripts/register-cpp-queue.py": "e45a3c8eb1db2e675ec6b9ccff45c29bb47e331a36ef5ea63625e96052520439",
+        "scripts/runtime-boundary.py": "9ac98d222a852c0d845cd7ddc9b56e9b1df368306ff137d09b6d70d4b6c428f0",
+        "scripts/runtime_boundary_loader.py": "151664b883117689714f04a4114dabbec13203d9f3b14dbb5445e45f96c7afa9",
+        "scripts/seed-case.py": "b904fbe5f2cab19d6f0777167fd9c2edec52b9478ea3df2cefd3cbe2aacb5014",
+        "scripts/win32_indexes.py": "8a93213b9f00321722730b3877ba4a3c4e8a9943a6bae3d1d72112cf9ec89211",
+        "scripts/wine-tool.py": "e41d59379abff5888c1c6fbd6d0f2da33d4f966aa554580b9bcad7e8aeda8c23"
+      },
+      "c2": {
+        "build/c2.exe": "e9c1d2864d71e7a446d33074286f6a3baab363e98aac8f4159b2faed6c9d4bc4",
+        "build/c2.map": "5d0dc253790a16632f61cb4f221047ae3e460bcc758e3c32915519ea6eb0316f",
+        "build/runtime.json": "ad2cb9bcb4df9765c718d06bc5800ff4f632883b8f11e38b00e8731403a3494e",
+        "functions.json": "df94e6f2251bdde5f3e35b4a4ab5b467c8a41b8a8b039e1761b332f9689c8820",
+        "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2",
+        "scripts/audit-graph.py": "db0b0bfb50046a7228d3201b77e87458aa20af4e288923583c6b36c0fa6a9ebd",
+        "scripts/binary.py": "388d0dd4cb64a10ef01c79331569edb81466775ef62707b9d0fce7d352cd8e40",
+        "scripts/capture-fread-seam.py": "47efca67aea31fda5b2beabc17923dd62178e091a1375f1c918632884b99da21",
+        "scripts/capture-original.py": "81af257277b4b53610e27212b9488b43e70df9d2d49ea6319e7805d15f92c51a",
+        "scripts/capture-stress.py": "c35c984bf14457e42efbaadabbfad1078ab3606a7de7de511bc7ca4e2f0f12ea",
+        "scripts/case_paths.py": "e74af3093f2607453f9cdb30c2c15b3cb24b066f93f5638a6f7ff593ad9ab046",
+        "scripts/check-audit-graph.py": "9048716659bcf75dda1d125f2890725d075be1d6167c3d9c40b6986ef9966575",
+        "scripts/check-float-dispatcher-data.py": "86178e958247508c726c6f66792aa37eb94071261283e4399f7e6f5becfb24ca",
+        "scripts/check-float-peephole-data.py": "36f12c8a850f306fb424549b7da71a0d58ab26fae711536d51c0f6eb635d4849",
+        "scripts/check-float-promotion-costs.py": "b212b6dccdc31ae472c0b5c6051647560ca97925a0889839c322c4fe1fb53cde",
+        "scripts/check-float-stack-effects.py": "429b180af79987cf99cbb0ab6c315c4b8113274207c8279b90aae7852368f16c",
+        "scripts/check-floating-completion.py": "b0115b7b6c5f6f5e0fc19b1f53e918cea9b38d2f801a6e0598cc0007e5ef911e",
+        "scripts/check-fread-evidence.py": "e4ab7d98d452b4e154381c22553c6530a26776ee7c73c97919eb6bacfa74ded6",
+        "scripts/check-integer-radix-contract.py": "e469a856e855218a9306a1b68296f90f60c313cdf0eb8f89b1deac062d390323",
+        "scripts/check-intrinsic-descriptors.py": "00386933fd1950a03fe8b69521f7413c4989b5186bd49c63c116319e24ee2fad",
+        "scripts/check-native-traces.py": "b024661d9c449fea56575a9ea9bb973013f305d8c85a83f8a86e0f8c7a3c1b7b",
+        "scripts/check-native.py": "862a32bd18264bed2fae736282650fe285006cea7a7d854200025d740bbaab33",
+        "scripts/check-scheduler-stack-operands.py": "c61a3488f74bc36d46a894bd35078399e84776006acaadc5d6e87539e145f288",
+        "scripts/coverage.py": "e5eadc02615e98b501074ba9ee8150012527856618ed7b8f586e7e5188e25eb4",
+        "scripts/dependencies.py": "3d3e21bdda5172e6d22dd5a1b29776b3698db9fedf7a8c6313a0d6e4f5de8638",
+        "scripts/gdb-first-function.py": "4a5273aeecaf21ca349fcb2269eeacfd97ae83c42183988091fa7f22f6ed660d",
+        "scripts/identify-runtime.py": "75bb57046d3d2afd5d43ec3214fcd0caed2a6d4b9d245c91d15e3a6a440289a0",
+        "scripts/native-traces.py": "0d7e43a4a33d8e08fcab57c4b0a33830448f2e016a4b5a06b54227cda2e921f2",
+        "scripts/pe_indexes.py": "c76c53a63019c84d2284035063c1ae08dd1918f3f435bf3e34c57b5d9e11aaa4",
+        "scripts/wine-tool.py": "aba41095903d27463a409a60d715203e8f2c313fb5d600afaab940785fdf5a74"
+      },
+      "link": {
+        "build/link.exe": "a53a8803ccb45cc929cabde6a962a4e35c6ef4b938580228b107080c9728100f",
+        "build/link.map": "dba624db75b987ad9bb1971ac9f41085d270c25d87eba94d15c31a85a1f28847",
+        "build/runtime.json": "9649bcff3308cb477affa89af07cc81ec637f170199428c7dd706f42c010e188",
+        "functions.json": "bcb7a01305a14a0dddd9fe2ad12f778afefa6fb30893e3bfa9e9de2333fe764b",
+        "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
+        "scripts/artifacts-m68k.py": "a3e96ca6c5ed6e6ad1a137e48931ccdc54c579123cf9d1ea83b9e29360e37cf8",
+        "scripts/artifacts-mac-debug.py": "dd4570b22b65a45130cc56bc77b3cd7fc2832d1712782906c433f1b8d072c84e",
+        "scripts/audit-abi.py": "981667ebc46de452d13fcd0e11326449f632def731e91343e1e99ef2d79f4105",
+        "scripts/audit-callbacks.py": "3e71f7e6729799b5516bf060ba6a9212c0d9acfe396a8b14072a12c0754bb95b",
+        "scripts/audit-data.py": "3b169b84ef36af34754b7d6a5051b0cdb5176158eecdf2751b82f172919dcc5c",
+        "scripts/audit-graph.py": "7cd11474150e30da7e3c21cf93a8a4eb0d9a041f696478db741861489ee9a148",
+        "scripts/binary.py": "388d0dd4cb64a10ef01c79331569edb81466775ef62707b9d0fce7d352cd8e40",
+        "scripts/build-absolute-weak-input.py": "4dbf736a99a2dbc423e2a9f8e3476943004c81552015396857eeb20e82f2b776",
+        "scripts/build-m68k-input.py": "ea2a41444ca713aa60c9b12d0b241c8d4d3e2eb6574d9271c0728bf481cffd99",
+        "scripts/build-mac-debug-input.py": "165b802bc86655ed2942f0436a321eb3a90369f87fe6a05b65e6f81334145e34",
+        "scripts/build-mac-dupcon-input.py": "22d91bb02d9c6a72102706a32248951055b8a7d219987585aed7874afb48c97c",
+        "scripts/build-mac-pcode-input.py": "75da7dbc48487dd2fb43b2a855bdaa7f638d5f718fd7d71bc552bae95ed06f1e",
+        "scripts/build-mac-static-input.py": "cf80f1ba63d2c6e7141c2f49733a6ca2fa072bfb0afe19753d66bd33f7158948",
+        "scripts/build-undecorate-grammar-input.py": "c4c0c48fc948794b1dbe2abfbddecd0afe685c277a54000dc5f60960174bd815",
+        "scripts/check-native-boundary.py": "36c234d1407977896a6e451ae0f277c707625b920cb0a75e9cd0535b17202b76",
+        "scripts/check-native.py": "83124e328250e6ce23cf6665abd5419d6b138bf99ac7e1a1c96a3d8deb4aaf15",
+        "scripts/identify-runtime.py": "068fb1320162e29dc0df10ba98efaf2e6e10289101a6ee5b86ac95ca3a10a38b",
+        "scripts/indexes.py": "6c3ad9e934919d4f6625b35faaddd303c607abba28187bbbd71bea0616a98a0e",
+        "scripts/measure-components.py": "65465b67a9cbb1d3c2f8857b6fc497709a077ee532ddee1624295b47f0e1df41",
+        "scripts/measure-coverage.py": "97d0dad56817350eac2ca02f6e3999f004d8daa36a5ac80ad2134eeb97e1e8cd",
+        "scripts/measure-disassembler.py": "038bd207238fc88453b31cceb5d78ace9dc6a65919b7ecc4b6ff0329cc0fa56e",
+        "scripts/native-processes.py": "1238c9a10aefca9699995a34aaa8053ae0e14718ed99c0645112e73615613bba",
+        "scripts/native-traces.py": "1953540da225531f8fae38501278a1b98a7d15c9012eebc1a972355543150bed",
+        "scripts/wine-tool.py": "74eb62c1e62ff44bc93dcf1b6bca37d5283796977957f2bba771b27e190f4bca"
+      },
+      "rc": {
+        "build/rc.exe": "8dd4cf24febed07353f17d2ec47aa917bad5e881d1dc668e6b070acfc148a50c",
+        "build/rc.map": "1f29d4ecefdb765fb66ebb1c551048f02a788fbfc4a366f829d12e6cb96d446f",
+        "build/runtime.json": "482e1e331ed2b0063c161c272ac61af376a1b3c402edc5283671fcd3bb5a6bfd",
+        "functions.json": "83cf79ae725ae6887147f2d801c172aaebbae6362e973e8285c7865ac74aa69b",
+        "runtime.json": "f121a1f7f6feab2249b488c03acad20dba01001976ea3c1b23ed9bcc2269605d",
+        "scripts/audit-graph.py": "e8bb93afa976e4c82d49067f3bc2a1b650e41b74a1a325541bd400750d8cb40b",
+        "scripts/audit-uncovered.py": "615e37d538f45fd44ec93a562ed17512f98e4719cca3abb05f29f8f7f7cc9dde",
+        "scripts/binary.py": "7b1eaf737f9ad148ed06a99548fc74448664bd994ebd795629a058a0a07c2925",
+        "scripts/capture-direct.py": "5076453ef8ca2efbfc8cb4a75a06a54c0e8cd9c0a9c2cff6cc16539e79136da2",
+        "scripts/capture-native-boundaries.py": "24bb9b72c1032da4c31e2e1b9b5c74deba0dacf28b1c3a7e3afd6a110165898a",
+        "scripts/case_paths.py": "c42ccac33e229b4207b1940f37c48d34414f75e1ba81ec4f0c8630b3519049e3",
+        "scripts/check-native-rejections.py": "0b3179e5089203133139a16663725996322325c25a6a769e1a71636be0d7a502",
+        "scripts/check-native.py": "4bfce4e8063311cbb5050850fdcb008e13fc337aeab0607ed4a6b20b181c1d74",
+        "scripts/identify-runtime.py": "102ff6f94131b096c56952994c6a4ab629dd0a953fcab0f256a357ca9d169704",
+        "scripts/import-library.py": "0ebf92fb52ef1db80c656b0629941630ed042c2a024ea4ed582e41f2142941ad",
+        "scripts/make-alternate-assets.py": "38f1672f77b628ec5a01b25df72a55d8dc4932cfee6d306f9be201c88e910196",
+        "scripts/native-processes.py": "b94e01eb107024f8fd7d0ae66362ea7dcefcd52a9c18cfab03af93f2266e2465",
+        "scripts/native-traces.py": "e8f26c3231a66a0599ff1281018b31504b830ced3efd2409b38cb57f9aa205ed",
+        "scripts/reference_indexes.py": "9af6a001905d3658486664357287397c727edd9bc29243845c3b3735fe913a33",
+        "scripts/wine-tool.py": "0286828765228497f9830930498465b3ab773ba8822ed8c22759b9003b39afe2"
+      },
+      "rcpp": {
+        "build/rcpp.exe": "37bf37a52eadee4b77aa6265044d3950070596c8cd1fde9a158c564c484601d4",
+        "build/rcpp.map": "fdeb510c246dd41301bc9199442f9c7a3e6e7e1db7e04f5a0d76884f9fe9fe78",
+        "functions.json": "e2040926950b85f13d8a2bfed8d620fc1c88281b8c2f7ff0f0fd2edf865b6e10",
+        "scripts/audit-data.py": "6ec8c747c4a8eb4548f750a676e559badaabc753e8ca0fd67c0c7f52ad3d09e9",
+        "scripts/audit-graph.py": "806aa2a8f1056176a0bbcccbb257ee8c7f6dc3908908dee25fbc2e2afc2faf02",
+        "scripts/binary.py": "d29af42b3dfe058ab1be46cbcb606f30966eafce37fe04cae2f3ed2aeff19907",
+        "scripts/capture-shared-prefix.py": "0d47bf20a7850c99ab6a238490a0ed4e5d15b165ea3fd6a4cc42dad1d0146241",
+        "scripts/case_paths.py": "7dbbc96627dd339dc8dadeaf02adba1331c1ba0dbdb9ed08a0b80b4536c21db6",
+        "scripts/check-classifiers.py": "30f0896490ec05efd75018e1ae607430936c5adf2d4e10f9bd4289f505adfd4d",
+        "scripts/check-messages.py": "8837762fcff928bf3c3db3cc9f1db41557280568c15904de4e1e78cf270375e6",
+        "scripts/check-native.py": "05d426d77ddfefd53fd9f52dbd5725824a3856f5e239e5d5b575ebc593b5b4fd",
+        "scripts/coverage.py": "6d2b2505bb8e6022fed2905c848f4f4b5786a3d09e0ff7602107d1153a41cc85",
+        "scripts/identify-runtime.py": "2d26d1045a47a0f77b9d63046fd8ff6a759426ccbcac525e11d3681963e4e714",
+        "scripts/native-traces.py": "32b3bf944b9e3310461ce0dc7de334dc8e6e02f78d664ed01ba4f3c52fbffe5c",
+        "scripts/prove-library.py": "a92e5230250c8d2c5592c85692a370ef040481cebd919bb03d54591f5be2261c",
+        "scripts/reference.py": "903211c7168a509da012fbbf4c46be123c2e1d49bad39e6090f9cec9d5d2a8a3",
+        "scripts/wine-tool.py": "7b166e9dfe9723b2b551e37442ec76d2291a22ecd593358a9659ee6d24c26b84"
+      },
+      "cvpack": {
+        "build/CVPACK.EXE": "4dce36a00fbe8c8e0a67f46b162b05ff53a5a34ab293b73f1d411595071540a0",
+        "build/cvpack.map": "729d3bafc0dad598c44945864f686816545db705642d2576c672f819d3c4a90d",
+        "data.json": "0f4b28344ea21130ef5213348b8f5991714f67b76531b50620c3859aa22147d8",
+        "functions.json": "5b42c019d6065c404e11eb824d3cde6b31d7340f901564c8327cab9c6a7dc00d",
+        "runtime-anchors.json": "857aeb268b3d7182032fce936b6bd4cc62f53580491f880e00c5e3e3336bcf43",
+        "runtime.json": "3b1d328ecf732b7fa6cbff92a5ccfa77073d850354183feec8e4472009a68b55",
+        "scripts/accept.py": "e4a1b09b07315b47cecd280143304c32353bbea5e99e81a93772d8f6cafcc63c",
+        "scripts/audit.py": "b5c6cf9760f42427fc662184752807c4c50dfc2d36010529d2c99a58775ea886",
+        "scripts/binary.py": "17df69c3e47910b0ffd4850623b4158f1a0e6a3f43457bc4378ca0f589e55fa5",
+        "scripts/capture-original.py": "7f43e7326c414e9992a6aa79ad2c090d093cd8c9a0bd04d684d31100972baee2",
+        "scripts/check-native.py": "3fa0dd96fcfe78ef090a88d7fabfbf6835423d745361d49920d11e45128e2de5",
+        "scripts/check-rejections.py": "c366c9904329281b1465f50412dae6316485509af64c1b23fa7396e0a9f28eb1",
+        "scripts/graph.py": "cf653e16ed6459ab46e617d53c2147313aa0501d5dca83e39b945a9adbd3c9af",
+        "scripts/native-debug.py": "82e7f97df1f7d3a88eb7366d8076e5bf04caa0ab910018a7e94e9b3f49dec790",
+        "scripts/objects.py": "73279449f4e4e222f5f811b6e3e9b68a81dcf8edf33dbd5fe6963f0b4b5b6d5c",
+        "scripts/processes.py": "86e43090fe93390ef466f5ea3416bf4d16a50589d7e0a067417a1a2066c977a4",
+        "scripts/runtime.py": "56aba034ceb294bbc9211e93f908bf574916402eee7a38a54bb353bcf1577f2a",
+        "scripts/seams.py": "f5fcfcae19f1e1f3d572ec47010a15614db48479389fff2c7f65255f43adc7eb",
+        "scripts/state.py": "6c9f291509c840b3bed94d9819189620c1a30d84e78499317cfcb6f76a8b319d",
+        "scripts/wine-tool.py": "e9f258440c4a673c519e3f410feeeb9c0463ac4610f1a25a86ab5bac806d6f86"
+      }
+    },
+    "cvpack_identity_cache_sha256": "8e774fbc38328a58a4c9f40ee7c8112d1937b333f617b82be16ff2aec611b66c"
+  },
+  "negative_tests": [
+    {
+      "tool": "cl",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only []; reconstruction only [\"0xdeadbeef\"]\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "cl",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"_allocate\", \"_append_string\", \"_banner\", \"_count_arguments\", \"_driver_exit\", \"_fatal\", \"_finish_options\", \"_getenv\", \"_has_nologo\", \"_initialize_driver\", \"_install_control_handler\", \"_join_path\", \"_load_messages\", \"_parse_arguments\", \"_prepare_execution\", \"_prepare_inputs\", \"_program_name\", \"_release\", \"_run_driver\", \"_setbuf\", \"_split_arguments\", \"_strlen\", \"_usage\", \"_warning\", \"_write_message\"]; reconstruction only []\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "cl",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing reconstructed function _main\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "cl",
+      "mutation": "split-ret-operand",
+      "python_accepted": true,
+      "rust_accepted": true,
+      "diagnostic": "Legacy CL accepts split RET operand; shared CFG rejects it",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c1",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only []; reconstruction only [\"0xdeadbeef\"]\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c1",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"_compile_translation_unit\", \"_guarded_compile\", \"_message_text\", \"_parse_options\", \"_signal\"]; reconstruction only []\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c1",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing reconstructed function _main\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c1",
+      "mutation": "split-ret-operand",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _new_vector@8 extent truncates ret at 3257a (end 3257b)\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c1xx",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only []; reconstruction only [\"0xdeadbeef\"]\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:42.197989+00:00"
+    },
+    {
+      "tool": "c1xx",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"_compile_translation_unit\", \"_guarded_compile\", \"_message_text\", \"_parse_options\", \"_signal\"]; reconstruction only []\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:44.873561+00:00"
+    },
+    {
+      "tool": "c1xx",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing reconstructed function _main\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:45.207632+00:00"
+    },
+    {
+      "tool": "c1xx",
+      "mutation": "split-ret-operand",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _push_linkage@4 extent truncates ret at 3cd5f (end 3cd60)\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:45.559821+00:00"
+    },
+    {
+      "tool": "c2",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"import:SetConsoleCtrlHandler\"]; reconstruction only [\"0xdeadbeef\"]\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c2",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\", \"import:SetConsoleCtrlHandler\"]; reconstruction only []\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c2",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing reconstructed function _main\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "c2",
+      "mutation": "split-ret-operand",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: @coff_output_relocation@12 extent ends inside ret at 6d9a6\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "link",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"import:SetConsoleCtrlHandler\"]; reconstruction only [\"0xdeadbeef\"]\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "link",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _main graph differs: original only [\"__splitpath\", \"__strnicmp\", \"__strupr\", \"_debug_enabled\", \"_debug_initialize\", \"_driver_usage\", \"_files_initialize\", \"_fprintf\", \"_malloc\", \"_memmove\", \"_print_banner\", \"_setvbuf\", \"_strncmp\", \"import:SetConsoleCtrlHandler\"]; reconstruction only []\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "link",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing reconstructed function _main\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "link",
+      "mutation": "split-ret-operand",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _demangle_name_assign truncated instruction\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "rc",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _mainCRTStartup call graph differs\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:48.062088+00:00"
+    },
+    {
+      "tool": "rc",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _mainCRTStartup call graph differs\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:50.049749+00:00"
+    },
+    {
+      "tool": "rc",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing reconstructed function\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:52.026576+00:00"
+    },
+    {
+      "tool": "rc",
+      "mutation": "split-ret-operand",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _switch_character@4 extent truncates instruction 100f416\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:52.383782+00:00"
+    },
+    {
+      "tool": "rcpp",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _rcpp_start graph differs: original only [\"import:GetCommandLineA\"]; reconstruction only [\"0xdeadbeef\"]\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "rcpp",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _rcpp_start graph differs: original only [\"__ioinit\", \"__setenvp\", \"_rc_exception_filter\", \"_rc_exit\", \"_rc_fast_exit\", \"_rc_heap_initialize\", \"_rc_initialize_c\", \"_rc_main\", \"_rc_setargv\", \"import:GetCommandLineA\", \"import:GetEnvironmentStrings\", \"import:GetVersion\"]; reconstruction only []\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "rcpp",
+      "mutation": "missing-public-mapping",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: missing public _rcpp_start\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "rcpp",
+      "mutation": "split-ret-operand",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: _rc_parse_option@16 extent truncates instruction\n",
+      "binary_sha256": null,
+      "captured_utc": null
+    },
+    {
+      "tool": "cvpack",
+      "mutation": "wrong-direct-callee",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: unresolved callee deadbeef\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:52.850426+00:00"
+    },
+    {
+      "tool": "cvpack",
+      "mutation": "missing-direct-edges",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: \"cvpack_main\" graph differs: {\"__makepath\", \"__setmode\", \"__snprintf\", \"__spawnlp\", \"__splitpath\", \"__write\", \"_exit\", \"_fprintf\", \"_free\", \"_getenv\", \"_sprintf\", \"_strncmp\", \"close_file\", \"compact_types\", \"fatal_error\", \"files_initialize\", \"free_type_tables\", \"open_file\", \"pack_module\", \"parse_options\", \"print_banner\", \"print_statistics\", \"read_debug_directory\", \"strip_debug\", \"update_image_checksum\", \"warning\", \"write_debug_directory\"} / {}\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:53.175070+00:00"
+    },
+    {
+      "tool": "cvpack",
+      "mutation": "overlapping-application-ownership",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: application range contains another entry\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:53.417523+00:00"
+    },
+    {
+      "tool": "cvpack",
+      "mutation": "wrong-declared-ret-cleanup",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: \"cvpack_main\" ABI RET cleanup differs\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:53.725430+00:00"
+    },
+    {
+      "tool": "cvpack",
+      "mutation": "stale-runtime-identity-cache",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: rebuilt identity cache stale\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:53.926934+00:00"
+    },
+    {
+      "tool": "c1xx",
+      "mutation": "oversized-crt-literal",
+      "python_accepted": false,
+      "rust_accepted": false,
+      "diagnostic": "graph-audit: CRT global value does not fit declared 4-byte width\n",
+      "binary_sha256": "126b3ebd1f3ac2afbb8977a7f11530b1f7c9c07ba1054e32879438345ffe8e65",
+      "captured_utc": "2026-10-23T09:57:45.871957+00:00"
+    }
+  ],
+  "limitations": [
+    "Pinned coherent snapshots, not later advancing worker heads.",
+    "Python Capstone 5.0.7 and vendored Rust engine 5.0.6: parity verified for current corpus.",
+    "No new multi-module IDs, DLL export ordinal/ABI catalog or loader/TLS contract.",
+    "Legacy target-specific metadata/policies retained for parity; future callers can retire compatibility after explicit migration.",
+    "CVPACK identity cache must be explicitly regenerated when bound inputs change; Rust never invokes Python or silently rebuilds it."
+  ]
+}
