@@ -830,3 +830,17 @@ Node *__fastcall reverse_subtraction_chain(Node *node, Node *right)
     }
     return finish_canonical_node(node);
 }
+
+/* Original [000551d0,00055207). Drop one left-child wrapper, retaining
+   its first operand and releasing the unused second operand of a binary form. */
+Node *__fastcall remove_left_wrapper(Node *node)
+{
+    Node *left;
+    tree_changed = 1;
+    left = node->left.node;
+    node->left.node = left->left.node;
+    if ((node_shapes[left->opcode] & NODE_ARITY) == NODE_BINARY)
+        release_tree(left->second.node);
+    release_node(left);
+    return node;
+}

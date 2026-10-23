@@ -92,7 +92,6 @@ Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
-Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
@@ -303,7 +302,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 
 void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
-int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }
 
 
 
@@ -402,13 +400,10 @@ void __fastcall remove_region_candidate(Node *node, int ancestors) { __asm int 3
 int __fastcall induction_is_dead_on_exit(Node *assignment) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
-int __fastcall basic_induction_increment(BasicInduction *induction) { __asm int 3 }
 int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
     Node *right, Node **representative) { __asm int 3 }
 int __fastcall derived_induction_is_profitable(Node *node) { __asm int 3 }
 void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative) { __asm int 3 }
-void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *basic,
-    Node *factor, int negative, int blocked) { __asm int 3 }
 Node *__fastcall materialize_region_value(Node *node) { __asm int 3 }
 int supports_region_memory_operations(void) { __asm int 3 }
 BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,

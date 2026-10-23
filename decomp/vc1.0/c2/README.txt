@@ -2185,3 +2185,11 @@ Loop induction records and entry values: checkpoint868
 native fixtures pass. See cases/loops-basic-region-fixed.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Loop derived-value collection: checkpoint872
+-----------------------------
+4 whole functions pass fresh original/native matching; current frontier
+@materialize_region_value@4. 794 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-derived-collection.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

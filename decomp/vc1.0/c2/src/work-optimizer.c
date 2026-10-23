@@ -1099,3 +1099,16 @@ void __fastcall add_region_candidate(Node *node, FlowRegion *region)
     candidate->next = region->candidates;
     region->candidates = candidate;
 }
+
+/* Original [0005d470,0005d4ac). The selected store supplies the final
+   value only if no following expression stores to the same address. */
+int __fastcall has_no_later_work_store(Expression *expression)
+{
+    Node *store = expression->tree, *candidate;
+    for (expression = expression->next; expression; expression = expression->next) {
+        candidate = expression->tree;
+        if (candidate->opcode == 0x32 &&
+            trees_equal(candidate->left.node, store->left.node, 1)) return 0;
+    }
+    return 1;
+}

@@ -990,3 +990,57 @@ Node *__fastcall find_induction_initial_value(Node *assignment)
     }
     return 0;
 }
+
+/* Original [0005f4d0,0005f503). A subtracting update reverses its
+   constant increment, retaining the original32-bit negation behavior. */
+int __fastcall basic_induction_increment(BasicInduction *induction)
+{
+    Node *step = induction->step;
+    unsigned value;
+    if (step->opcode != 0x33)
+        compiler_internal_error("@(#)nglobal.c:1.48", 0xf02);
+    value = step->left.value;
+    if (induction->assignment->second.node->opcode == 3) value = 0U - value;
+    return (int)value;
+}
+
+/* Original [0005fd60,0005fe64). Intern an optimized derived tree and
+   retain each actual use with its expression/work context. The group owns
+   deep tree/factor copies; duplicate uses release their temporary tree. */
+void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *basic,
+    Node *factor, int negative, int blocked)
+{
+    Node *value = optimize_tree_global(copy_tree(tree));
+    DerivedInduction *candidate;
+    DerivedInductionUse *use;
+    for (candidate = derived_region_inductions; candidate; candidate = candidate->next)
+        if (trees_equal(value, candidate->tree, 1)) break;
+    if (!candidate) {
+        candidate = arena_alloc(4, sizeof(DerivedInduction));
+        use = arena_alloc(4, sizeof(DerivedInductionUse));
+        candidate->references = use;
+        use->next = 0;
+        use->tree = tree;
+        use->work = current_expression_work;
+        use->expression = work_expression;
+        candidate->tree = value;
+        candidate->factor = copy_tree(factor);
+        candidate->basic = basic;
+        candidate->negative = negative;
+        candidate->parent = parent;
+        candidate->uses = 1;
+        candidate->blocked = blocked;
+        candidate->next = derived_region_inductions;
+        derived_region_inductions = candidate;
+    } else {
+        use = arena_alloc(4, sizeof(DerivedInductionUse));
+        use->next = candidate->references;
+        use->tree = tree;
+        use->work = current_expression_work;
+        use->expression = work_expression;
+        candidate->references = use;
+        release_tree(value);
+        ++candidate->uses;
+        candidate->blocked &= blocked;
+    }
+}

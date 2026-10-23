@@ -1,0 +1,275 @@
+{
+  "checkpoint": 872,
+  "base_commit": "9f5ec3b",
+  "status": "loops active",
+  "source_graphs": 794,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 872,
+    "accepted_code_bytes": 234489,
+    "original_code_bytes": 399693,
+    "percentage": 58.66727713520127,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 335
+  },
+  "frontier": "@materialize_region_value@4",
+  "accepted_functions": [
+    {
+      "name": "@remove_left_wrapper@4",
+      "start": 348624,
+      "end": 348679
+    },
+    {
+      "name": "@has_no_later_work_store@4",
+      "start": 382064,
+      "end": 382124
+    },
+    {
+      "name": "@basic_induction_increment@4",
+      "start": 390352,
+      "end": 390403
+    },
+    {
+      "name": "@add_derived_induction@24",
+      "start": 392544,
+      "end": 392804
+    }
+  ],
+  "reference_sequence": [
+    "cases/loops-original-868.json",
+    "cases/loops-original-869.json",
+    "cases/loops-original-870.json",
+    "cases/loops-original-871.json",
+    "cases/loops-original-872.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "cc83212876ca5ef366be09035042734eaf4ce4ba1c34ef1a583ae81cca4a5d42",
+      "config_sha256": "658dfacc74605d9e112d12b4ab88a14d5727f88bc530cfcd2d436fd6849426e1",
+      "seconds": 0.1363870557397604,
+      "logical": "@basic_induction_increment@4",
+      "matched": true,
+      "log_sha256": "dbf0f26e1a70b3d5e9cd9f22364863b92e046b0d8a62aa93314f700909b8ad2d",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-jo7vixgy"
+    },
+    {
+      "executable_sha256": "7b79ff6bb524fd93d21369e3cccbe17d533b792656c8bf7398c5b24cb258af09",
+      "config_sha256": "9aecca790946481b8d4076b2a4d8b6050d5db5112b6722656bbdbd535fd98da6",
+      "seconds": 0.13763663079589605,
+      "logical": "@remove_left_wrapper@4",
+      "matched": true,
+      "log_sha256": "6d3042d67116ca5d4cc5e2c24981ef87c88ebc34f6cda1b5da97b425ac51137a",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-t5m6uols"
+    },
+    {
+      "executable_sha256": "caf0bfce1a2bc1680b61967fa7701d5c4509c229924c15b966c0d7c583539a1e",
+      "config_sha256": "5f26cdad4eef936e6746648582b22e62b8a9204631de3291d894c66bed7bfdba",
+      "seconds": 0.13458538427948952,
+      "logical": "@add_derived_induction@24",
+      "matched": true,
+      "log_sha256": "6836cacb1652703b187a7a77b5eb93fc355f7052fd0b396f037347fc44725a35",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-wgf7xfa_"
+    },
+    {
+      "executable_sha256": "f2141dca78c35ba8b7d08c029210f1a2dc6d84cf8bf14b76795acbb9045657d0",
+      "config_sha256": "8a6236c630ef5cfacbe59f8f81556eb1449d890832cd787040a6201699979e96",
+      "seconds": 0.13168460968881845,
+      "logical": "@materialize_region_value@4",
+      "matched": true,
+      "log_sha256": "a9feb0cfd97c5387bb32ee765ff38f9b78b4db7209a9df397bf106ed1fab63f5",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-2gnw7fez"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "572b52a45a0a7ca63285d25520d354b5a21dab7618b49eef8f6d7094b3a443a2",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012980484403669834,
+        "execution_seconds": 0.005031943321228027,
+        "check_seconds": 0.0012641334906220436,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xph9pdfv/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.010715844109654427,
+        "execution_seconds": 0.009535068646073341,
+        "check_seconds": 0.0013025328516960144,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xph9pdfv/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "@materialize_region_value@4",
+        "returncode": -5,
+        "application_entries": 33,
+        "seeded_entries": 757,
+        "output": null,
+        "setup_seconds": 0.010423852130770683,
+        "execution_seconds": 0.004402508959174156,
+        "check_seconds": 0.0006897412240505219,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xph9pdfv/loops"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.22144633624702692,
+    "suite_setup_seconds": 0.13676185440272093,
+    "negative_check_seconds": 0.0197402723133564,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Deep copies of both derived trees and factors follow original584e0; each16-byte use retains original tree/expression/work identity and insertion order.",
+    "Duplicate derived records release the temporary optimized tree, increment uses and bitwise-AND blocked flags; all duplicate patterns not independently observed.",
+    "Basic constant increment and entry final-store queries execute; invalid nonconstant-step diagnostic remains a named trap.",
+    "Native/original reach materialize_region_value5f910 during selected loop-value rewriting; final loop620-byte object remains incomplete."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "loops-left-wrapper-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.348361765034497,
+        "returncode": 0,
+        "log_sha256": "6b862fa040c647bf2f9f5d414fce4bd0555153be96a4b16f3c84d2a0f4c03af0"
+      },
+      "loops-derived-intern-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.2827432677149773,
+        "returncode": 0,
+        "log_sha256": "975595347026264b5999b6fd841178f4626c43473b8c9690eed2a3ba697e19ee"
+      },
+      "loops-increment-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.283098928630352,
+        "returncode": 0,
+        "log_sha256": "8fa594aefeed8c8f2a675973136f861b1ee1b118e8977fec52501304f951272a"
+      },
+      "loops-last-store-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.3530405899509788,
+        "returncode": 0,
+        "log_sha256": "57c9f70c917a10371b165cb45f52566f1e7e4a42be52da0c40d1a1c27c0408c5"
+      },
+      "loops-derived-collection-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.006594735197723,
+        "returncode": 0,
+        "log_sha256": "35f6ab588577f527829c21139f4d611890a08f7fcb67934e90d19a2eec464122"
+      },
+      "loops-derived-collection-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "algebra",
+          "work-optimizer",
+          "region-motion"
+        ],
+        "seconds": 1.0106010790914297,
+        "returncode": 0,
+        "log_sha256": "60d1a57314002aaddcff5f503f2405d568f4fc4b4e28f9abd405aa9f977e8b1b"
+      },
+      "loops-derived-collection-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.3215635195374489,
+        "returncode": 0,
+        "log_sha256": "dc1aaa1e04b91b63c1f1cd931b26fc47ed3b6209786ead7b304cba2734746ea3"
+      }
+    }
+  }
+}

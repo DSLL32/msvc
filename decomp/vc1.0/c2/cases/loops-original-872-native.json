@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "f2141dca78c35ba8b7d08c029210f1a2dc6d84cf8bf14b76795acbb9045657d0",
+  "config_sha256": "8a6236c630ef5cfacbe59f8f81556eb1449d890832cd787040a6201699979e96",
+  "seconds": 0.13168460968881845,
+  "logical": "@materialize_region_value@4",
+  "matched": true,
+  "log_sha256": "a9feb0cfd97c5387bb32ee765ff38f9b78b4db7209a9df397bf106ed1fab63f5",
+  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-2gnw7fez"
+}

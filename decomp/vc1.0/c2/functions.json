@@ -872,7 +872,11 @@
     "@matches_assignment_load@8",
     "@new_basic_induction@24",
     "@work_dominates_region_paths@4",
-    "@find_induction_initial_value@4"
+    "@find_induction_initial_value@4",
+    "@has_no_later_work_store@4",
+    "@basic_induction_increment@4",
+    "@remove_left_wrapper@4",
+    "@add_derived_induction@24"
   ],
   "driver": [
     {
@@ -2846,8 +2850,7 @@
     {
       "name": "@remove_left_wrapper@4",
       "start": 348624,
-      "end": 348625,
-      "provisional": true
+      "end": 348679
     },
     {
       "name": "@take_left_operand@4",
@@ -4644,8 +4647,7 @@
     {
       "name": "@has_no_later_work_store@4",
       "start": 382064,
-      "end": 382065,
-      "provisional": true
+      "end": 382124
     },
     {
       "name": "@collect_work_memory_reads@4",
@@ -6240,8 +6242,7 @@
     {
       "name": "@basic_induction_increment@4",
       "start": 390352,
-      "end": 390353,
-      "provisional": true
+      "end": 390403
     },
     {
       "name": "@collect_derived_induction_tree@8",
@@ -6274,8 +6275,7 @@
     {
       "name": "@add_derived_induction@24",
       "start": 392544,
-      "end": 392545,
-      "provisional": true
+      "end": 392804
     },
     {
       "name": "@collect_selected_region_values@4",
