@@ -24,16 +24,20 @@ def main():
     result = checker.check(args.original, args.native)
     trial = json.loads((args.original / "trial.json").read_text())
     cfg = json.loads((PROJECT / "functions.json").read_text())
-    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    candidate_path = cfg.get("candidate_path", "cases/lifecycle/candidate.json")
+    candidate = json.loads((PROJECT / candidate_path).read_text())
     if trial["trial"] != candidate["trial"] or trial["trial"] in cfg["accepted"]:
         raise ValueError("trial is not exactly one new function")
     cfg["accepted"] = trial["accepted"]
-    cfg["status"] = "lifecycle reconstruction active; compiler exports remain trapping stubs"
+    cfg["status"] = "autonomous minimal C++ reconstruction active" if trial["case"] == "minimal" else "lifecycle reconstruction active"
     source = "src/dllmain.c" if trial["trial"] == "_DllMain@12" else "src/startup.c"
     classification = "application source" if trial["trial"] == "_DllMain@12" else "target CRT support source"
     if trial["trial"].startswith("import:"):
         source = "src/c1xx.h"
         classification = "linker-generated import thunk; ordinary external declaration"
+    if trial["case"] == "minimal":
+        source = next(row["source"] for row in cfg["driver"] if row["name"] == trial["trial"])
+        classification = "application source"
     cfg.setdefault("acceptances", []).append({
         "name": trial["trial"], "classification": classification,
         "source": source, "source_sha256": sha(PROJECT / source),
@@ -50,7 +54,7 @@ def main():
     candidate["trial"] = None
     candidate["stage"] = trial["trial"] + " accepted; next frontier " + result["frontier"]
     for path, value in ((PROJECT / "functions.json", cfg),
-                        (PROJECT / "cases/lifecycle/candidate.json", candidate)):
+                        (PROJECT / candidate_path, candidate)):
         temporary = path.with_suffix(path.suffix + ".tmp")
         temporary.write_text(json.dumps(value, indent=2) + "\n")
         temporary.replace(path)

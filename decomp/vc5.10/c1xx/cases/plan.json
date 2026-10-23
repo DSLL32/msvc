@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "First lifecycle/export-presence case complete and verified; paused before C++ compilation",
+  "state": "Autonomous real C++ invocation reconstruction authorized",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,8 +29,10 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "source-seed-only; exact pass inputs and references not captured",
-      "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196"
+      "status": "active; Invoke wrapper promoted172bytes; next initializer and snapshot schema",
+      "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
+      "contract": "minimal/contract.json",
+      "validation": "minimal/invoke-validation.json"
     },
     {
       "id": "cpp-basic",
@@ -109,8 +111,9 @@
     }
   ],
   "release_gates": [
-    "Scaffold and first CRT promotion reviewed and approved by orchestrator",
-    "First case complete: paused; second case requires explicit release"
+    "First lifecycle case complete; real minimal C++ compilation now authorized",
+    "Capture genuine CL argc/argv/BOOL and provider identities; send initial plan before first new promotion"
   ],
-  "oracle_policy": "Seed source/themes only. Capture vc5.10 inputs, raw streams, output and traces explicitly; never reuse vc1.0 IR, traces, addresses or expected artifacts."
+  "oracle_policy": "Seed source/themes only. Capture vc5.10 inputs, raw streams, output and traces explicitly; never reuse vc1.0 IR, traces, addresses or expected artifacts.",
+  "authorized_case": "minimal"
 }

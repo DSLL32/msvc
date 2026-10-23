@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <float.h>
 #include "c1xx.h"
+#include "invoke-arguments.h"
 #include <recon.h>
 
 
@@ -45,6 +46,9 @@ int main(void)
     HINSTANCE module;
     FARPROC abort_export, invoke_export;
     BOOL status;
+    const char *argument_file;
+    int pass_argc, pass_result;
+    char **pass_argv;
     spec.name = "C1XX.DLL";
     spec.path = "R:\\toolchains\\5.10\\bin\\C1XX.DLL";
     spec.sha256 = "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9";
@@ -65,6 +69,14 @@ int main(void)
     invoke_export = (FARPROC)InvokeCompilerPass;
     if (!abort_export || !invoke_export || abort_export == invoke_export) return 4;
     puts("exports=1");
+    argument_file = getenv("C1XX_INVOKE_ARGV");
+    if (argument_file) {
+        pass_argc = read_invoke_arguments(argument_file, &pass_argv);
+        SetLastError(203);
+        pass_result = InvokeCompilerPass(pass_argc, pass_argv, 1);
+        printf("invoke=%d\n", pass_result);
+        if (pass_result) return pass_result;
+    }
     status = _DllMainCRTStartup(module, DLL_PROCESS_DETACH, NULL);
     checkpoint(DLL_PROCESS_DETACH, status, module, &spec);
     if (!status) return 5;

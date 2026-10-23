@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "invoke-arguments.h"
 #include <recon.h>
 
 typedef struct Range { DWORD first, last; int entry; BYTE saved; } Range;
@@ -202,6 +203,8 @@ static void save_state(void)
     fclose(state); fflush(events);
 }
 
+static void invocation_arguments(CONTEXT *context);
+
 static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
 {
     DWORD stack[5];
@@ -212,6 +215,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "control-word=%04lx\n", context->FloatSave.ControlWord);
     save_state();
+    if (address == base + 0x384d4) invocation_arguments(context);
     if (address == base + entry_rva) {
         if (return_active) fail("nested target DLL entry unsupported");
         return_address = stack[0]; return_reason = stack[2];
@@ -220,10 +224,34 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     }
 }
 
+static void invocation_arguments(CONTEXT *context)
+{
+    DWORD stack[4], i, pointer, length;
+    FILE *file;
+    char text[32768];
+    readmem(context->Esp, stack, sizeof(stack));
+    if (!stack[1] || stack[1] > 512 || !stack[2] || stack[3] != 1) fail("unobserved invocation ABI");
+    file = fopen("invoke-entry-argv.bin", "wb");
+    if (!file) fail("save invoke argv");
+    fwrite(stack + 2, 4, 1, file); fwrite(stack + 1, 4, 1, file);
+    for (i = 0; i < stack[1]; ++i) {
+        readmem(stack[2] + i * 4, &pointer, 4);
+        remote_string(pointer, text, sizeof(text)); length = strlen(text) + 1;
+        fwrite(&pointer, 4, 1, file); fwrite(&length, 4, 1, file); fwrite(text, 1, length, file);
+    }
+    fclose(file);
+    file = fopen("invoke-entry-context.bin", "wb");
+    if (!file || fwrite(context, 1, sizeof(*context), file) != sizeof(*context)) fail("save invocation context");
+    fclose(file);
+}
+
 static int host(const char *path)
 {
     HMODULE module;
     FARPROC invoke, abort;
+    const char *argument_file;
+    int pass_argc, pass_result;
+    char **pass_argv;
     module = LoadLibraryA(path);
     if (!module) return 3;
     puts("attach=1");
@@ -232,6 +260,14 @@ static int host(const char *path)
     if (!invoke || !abort || invoke != GetProcAddress(module, (LPCSTR)2) ||
             abort != GetProcAddress(module, (LPCSTR)1)) return 4;
     puts("exports=1");
+    argument_file = getenv("C1XX_INVOKE_ARGV");
+    if (argument_file) {
+        pass_argc = read_invoke_arguments(argument_file, &pass_argv);
+        SetLastError(203);
+        pass_result = ((int (WINAPI *)(int,char **,int))invoke)(pass_argc,pass_argv,1);
+        printf("invoke=%d\n", pass_result);
+        if (pass_result) return pass_result;
+    }
     if (!FreeLibrary(module)) return 5;
     puts("detach=1");
     return 0;

@@ -42,7 +42,12 @@ def checked_receipt(directory):
 
 
 def check(original, native, require_audit=True, audit_path=None):
-    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    cfg = json.loads((PROJECT / "functions.json").read_text())
+    candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
+    if candidate["case"] == "minimal":
+        spec = importlib.util.spec_from_file_location("minimal",Path(__file__).with_name("check-minimal.py"))
+        decoder = importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
+        return decoder.check(original,native,require_audit,audit_path)
     if candidate["trial"] in ("__CRT_INIT@12", "import:_initterm", "_DllMain@12"):
         decoder_name = {"__CRT_INIT@12":"check-initializer.py", "import:_initterm":"check-import.py", "_DllMain@12":"check-completion.py"}[candidate["trial"]]
         spec = importlib.util.spec_from_file_location("initializer", Path(__file__).with_name(decoder_name))

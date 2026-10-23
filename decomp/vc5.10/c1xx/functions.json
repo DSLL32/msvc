@@ -9,16 +9,55 @@
     "__DllMainCRTStartup@12",
     "__CRT_INIT@12",
     "import:_initterm",
-    "_DllMain@12"
+    "_DllMain@12",
+    "_InvokeCompilerPass@12"
   ],
   "driver": [
     {
       "name": "_DllMain@12",
       "start": 272819498,
       "end": 272819533
+    },
+    {
+      "name": "_InvokeCompilerPass@12",
+      "start": 272860372,
+      "end": 272860496,
+      "code_chunks": [
+        [
+          273096616,
+          273096664
+        ]
+      ],
+      "source": "src/exports.c",
+      "abi": "stdcall12"
+    },
+    {
+      "name": "_initialize_compiler_pass",
+      "start": 272860496,
+      "end": 272860497,
+      "source": "src/frontend.c",
+      "pending_extent": true,
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_main",
+      "start": 272862205,
+      "end": 272862206,
+      "source": "src/frontend.c",
+      "pending_extent": true,
+      "abi": "cdecl8",
+      "native_symbol": "c1xx_main"
+    },
+    {
+      "name": "_cleanup_compiler_pass",
+      "start": 272844403,
+      "end": 272844404,
+      "source": "src/frontend.c",
+      "pending_extent": true,
+      "abi": "cdecl0"
     }
   ],
-  "status": "first lifecycle-and-exports case complete; paused; compiler exports remain trapping stubs",
+  "status": "autonomous minimal C++ reconstruction active",
   "acceptances": [
     {
       "name": "__DllMainCRTStartup@12",
@@ -195,6 +234,42 @@
         "original_seconds": 0.6663388386368752,
         "native_seconds": 0.002153516747057438
       }
+    },
+    {
+      "name": "_InvokeCompilerPass@12",
+      "classification": "application source",
+      "source": "src/exports.c",
+      "source_sha256": "b90e39e2566d23553055df0ca02a2592f0bcfcb1efa70192b15ee2b19a587538",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-invoke-trial-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-invoke-trial-native-1",
+      "original_receipt_sha256": "d4a9d8ec6d119e28dcbfaa9b0f3c4c420e00e940f928f6146cb6349fa7e6cc33",
+      "native_receipt_sha256": "e171cd15a387ed63022d1b4dd2c3e00c7442a6cd01c17eb5b4b2a835b9c7c3f1",
+      "trial_sha256": "6f595d61eff9d21e9f0388c892be760e85237d7cf2d0f5fcc552b2ba21e11930",
+      "audit_sha256": "792a4a05b6a8bdf0a279382f0ea1b49beb4cd740f61beb49357dc1d648e2df6b",
+      "code_chunks": [
+        [
+          230612,
+          230736
+        ],
+        [
+          466856,
+          466904
+        ]
+      ],
+      "comparison": {
+        "trial": "_InvokeCompilerPass@12",
+        "frontier": "_initialize_compiler_pass",
+        "raw_frontier_rva": 230736,
+        "argc": 26,
+        "mode": 1,
+        "compiler_mode_before_initializer": 0,
+        "last_error": 203,
+        "control_word": 639,
+        "whole_mask_bytes_checked": 751216,
+        "audit_checked": true,
+        "original_seconds": 0.9163426486775279,
+        "native_seconds": 0.16197341214865446
+      }
     }
   ],
   "imports": [
@@ -208,5 +283,6 @@
       },
       "classification": "linker-generated import thunk"
     }
-  ]
+  ],
+  "candidate_path": "cases/minimal/candidate.json"
 }

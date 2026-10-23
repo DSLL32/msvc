@@ -16,7 +16,8 @@ def sha(path):
 
 def prepare():
     cfg = json.loads((PROJECT / "functions.json").read_text())
-    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    candidate_path = cfg.get("candidate_path", "cases/lifecycle/candidate.json")
+    candidate = json.loads((PROJECT / candidate_path).read_text())
     runtime = json.loads((PROJECT / "runtime.json").read_text())
     if candidate["accepted"] != cfg["accepted"]:
         raise ValueError("candidate accepted prefix differs from durable configuration")
@@ -72,10 +73,13 @@ def prepare():
     trial["trial"] = trial_name
     trial["ranges"] = expected
     trial["case"] = candidate["case"]
-    trial["candidate_sha256"] = sha(PROJECT / "cases/lifecycle/candidate.json")
+    trial["candidate_sha256"] = sha(PROJECT / candidate_path)
     trial["bound_inputs"] = {item: sha(PROJECT / item) for item in (
         "functions.json", "runtime.json", "graph-metadata.json", "build/runtime.json",
         "build/c1n32_l.dll", "build/c1xx.map", "build/native/c1xx-host")}
+    if trial["case"] == "minimal":
+        trial["case_inputs"] = {item: sha(PROJECT / item) for item in (
+            "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp")}
     path = PROJECT / "build/trial.json"
     path.write_text(json.dumps(trial, indent=2) + "\n")
     return trial

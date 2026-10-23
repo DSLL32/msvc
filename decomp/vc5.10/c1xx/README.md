@@ -1,8 +1,9 @@
 # C1XX.DLL
 
 The first case is complete: load/CRT attach, resolve both compiler exports by
-name and ordinal without calling them, then unload/CRT detach. Paused before
-the queued minimal C++ compile. Both compiler exports remain named INT3 stubs.
+name and ordinal without calling them, then unload/CRT detach. The first real
+minimal C++ compilation is now active: InvokeCompilerPass has its full wrapper,
+and reaches the initializer stub. AbortCompilerPass remains an INT3 stub.
 
 `make -j4 native` builds the i386 Linux static harness. `make -j4 fixtures`
 replays its cached original oracle with native instrumentation and no Wine.
@@ -11,10 +12,10 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **one application function (DllMain, 35 bytes)**, **two target
-CRT functions (451 bytes)** and **one genuine linker-generated import thunk
-(6 bytes)**. The 492 accepted bytes are 0.0655% of the 751,216-byte code extent;
-this is not a non-CRT coverage percentage. Compiler-pass bodies are untouched.
+Accepted code is **two application functions (207 bytes)**, **two target CRT
+functions (451 bytes)** and **one genuine linker-generated import thunk (6 bytes)**.
+The 664 accepted bytes are 0.0884% of the 751,216-byte code extent; this is not
+a non-CRT coverage percentage. The frontend driver and initializer remain stubs.
 
 ## Target and ABI
 
@@ -28,9 +29,17 @@ The export module name is `c1n32_l.dll`.
 | 1 | `_AbortCompilerPass@4` | `0x903ad` | stdcall, one DWORD, ret 4 |
 | 2 | `_InvokeCompilerPass@12` | `0x384d4` | stdcall, argc/argv/BOOL, ret 12 |
 
+For native builds, target translation units use `-Dmain=c1xx_main`; the host is
+compiled separately. Source keeps canonical main and the Win32 symbol remains
+_main. This explicit native symbol projection adds no target wrapper or graph edge.
+
 CL statically pushes `(pass.flags >> 3) & 1`, argv and argc. The third argument
-is a Boolean mode, not a host callback table. Runtime C++ invocation remains a
-second-case task. Repeated invocation resets frontend state and runs `.initfe`
+is a Boolean mode, not a host callback table. The real invocation is captured under
+`cases/minimal/contract.json`: argc26, Boolean1, raw vectors/context and a return0.
+A direct original DLL host reproduces all four CL-produced IR files byte-for-byte.
+`cases/minimal/invoke-validation.json` records the wrapper promotion and11 rejected
+input/state/ELF/extent controls. The initializer snapshot schema remains pending
+common policy; no frontend data section has been bulk copied. Repeated invocation resets frontend state and runs `.initfe`
 callbacks; cancellation, SEH, PDB/COM and resource lookup need later cases.
 
 ## First-case evidence

@@ -30,8 +30,10 @@ def frozen_name(item):
 
 def receipt(directory, original=False):
     value = json.loads((directory / "receipt.json").read_text())
-    require(set(value["snapshot_inputs"]) == set(INPUTS), "incomplete frozen trial inputs")
-    for item in INPUTS:
+    frozen_cfg = json.loads((directory / "functions.json").read_text())
+    inputs = tuple(frozen_cfg.get("candidate_path", "cases/lifecycle/candidate.json") if item == "cases/lifecycle/candidate.json" else item for item in INPUTS)
+    require(set(value["snapshot_inputs"]) == set(inputs), "incomplete frozen trial inputs")
+    for item in inputs:
         path = directory / frozen_name(item)
         require(sha(path) == value["snapshot_inputs"][item], "historical input changed " + item)
         if HISTORICAL_SNAPSHOT is None and (item != "build/trial.json" or not original):
@@ -83,6 +85,11 @@ def pair(original, native):
             continue
         path = HISTORICAL_SNAPSHOT / frozen_name(item) if HISTORICAL_SNAPSHOT else PROJECT / item
         require(sha(path) == digest, "candidate build changed " + item)
+    for item,digest in trial.get("case_inputs", {}).items():
+        require(sha(native / Path(item).name) == sha(original / Path(item).name) == digest,
+                "frozen case input differs " + item)
+        if HISTORICAL_SNAPSHOT is None:
+            require(sha(PROJECT / item) == digest, "current case input changed " + item)
     target = ROOT / "toolchains/5.10/bin/C1XX.DLL"
     crt = ROOT / "toolchains/5.10/bin/MSVCRT.DLL"
     require(sha(original / "loaded-target.bin") == o["target_sha256"] == sha(target) == trial["target"]["sha256"],

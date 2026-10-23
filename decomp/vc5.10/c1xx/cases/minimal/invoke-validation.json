@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "status": "InvokeCompilerPass promoted; initializer next",
+  "acceptance": {
+    "name": "_InvokeCompilerPass@12",
+    "classification": "application source",
+    "source": "src/exports.c",
+    "source_sha256": "b90e39e2566d23553055df0ca02a2592f0bcfcb1efa70192b15ee2b19a587538",
+    "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-invoke-trial-original-1",
+    "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-invoke-trial-native-1",
+    "original_receipt_sha256": "d4a9d8ec6d119e28dcbfaa9b0f3c4c420e00e940f928f6146cb6349fa7e6cc33",
+    "native_receipt_sha256": "e171cd15a387ed63022d1b4dd2c3e00c7442a6cd01c17eb5b4b2a835b9c7c3f1",
+    "trial_sha256": "6f595d61eff9d21e9f0388c892be760e85237d7cf2d0f5fcc552b2ba21e11930",
+    "audit_sha256": "792a4a05b6a8bdf0a279382f0ea1b49beb4cd740f61beb49357dc1d648e2df6b",
+    "code_chunks": [
+      [
+        230612,
+        230736
+      ],
+      [
+        466856,
+        466904
+      ]
+    ],
+    "comparison": {
+      "trial": "_InvokeCompilerPass@12",
+      "frontier": "_initialize_compiler_pass",
+      "raw_frontier_rva": 230736,
+      "argc": 26,
+      "mode": 1,
+      "compiler_mode_before_initializer": 0,
+      "last_error": 203,
+      "control_word": 639,
+      "whole_mask_bytes_checked": 751216,
+      "audit_checked": true,
+      "original_seconds": 0.9163426486775279,
+      "native_seconds": 0.16197341214865446
+    }
+  },
+  "initial_original_frontier": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-mask-initial-1",
+  "initial_native_frontier": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-native-initial-1",
+  "baseline": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-baseline-1",
+  "baseline_exact_CL_IR": true,
+  "negative_controls": {
+    "count": 11,
+    "result": "all rejected",
+    "script": "scripts/check-minimal-negative.py"
+  },
+  "note": "Canonical CL export argc26/argv/BOOL1 captured separately; full DLL baseline exactly matches four captured CL IR files. Init-segment snapshot schema is awaiting common policy, not bulk copied."
+}

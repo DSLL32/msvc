@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "case": "minimal",
+  "capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/invoke-contract-minimal-2",
+  "receipt_sha256": "0fbbd4a1bc42ae59f005cb012317a9e12cd68e1fb611a11cdae7d2804fb37b8c",
+  "original_argv": [
+    "R:\\toolchains\\5.10\\bin\\c1xx.dll",
+    "-il",
+    ".\\a00436",
+    "-f",
+    "minimal.cpp",
+    "-W",
+    "1",
+    "-Ze",
+    "-D_MSC_EXTENSIONS",
+    "-Zp8",
+    "-ZB64",
+    "-D_INTEGRAL_MAX_BITS=64",
+    "-D_M_IX86=500",
+    "-G5",
+    "-Gs",
+    "-pc",
+    "\\:/",
+    "-Fdvc50.pdb",
+    "-D_MSC_VER=1100",
+    "-D_WIN32",
+    "-nologo",
+    "-Ob0",
+    "-Ot",
+    "-Fominimal.obj",
+    "-I",
+    "R:\\toolchains\\5.10\\include"
+  ],
+  "argc": 26,
+  "mode": 1,
+  "return": 0,
+  "consumed_environment_seed": {
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "TEMP": ".",
+    "TMP": "."
+  },
+  "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "ir": {
+    "a00436ex": {
+      "size": 1213,
+      "sha256": "3204fe8232b2c54beb4bd48823ab0cb13e3f8567cfb451fcc93675fed8862c63"
+    },
+    "a00436gl": {
+      "size": 56,
+      "sha256": "6904815058397b9fc745c75e7a4976aa465dadebcac2479978fdd35938fb25a4"
+    },
+    "a00436in": {
+      "size": 3,
+      "sha256": "827cffb8b1ae422bacbc2a5f44672610b0eda194fb51c15a0223c2ba0eedb25a"
+    },
+    "a00436sy": {
+      "size": 13,
+      "sha256": "ec258f63315118a030cdc9b74f67ce5b9483aad90be0eac9aa116068733cf2b1"
+    }
+  },
+  "raw_vectors": [
+    "invoke-argv.bin",
+    "invoke-environment.bin"
+  ],
+  "raw_context": "invoke-context.bin"
+}

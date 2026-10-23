@@ -97,7 +97,8 @@ def main():
     if not trial_path.is_file():
         raise ValueError("prepare the exact whole-function trial before capture")
     trial = json.loads(trial_path.read_text())
-    snapshot = [PROJECT / "cases/lifecycle/candidate.json", PROJECT / "functions.json",
+    candidate_path = json.loads((PROJECT / "functions.json").read_text()).get("candidate_path", "cases/lifecycle/candidate.json")
+    snapshot = [PROJECT / candidate_path, PROJECT / "functions.json",
                 PROJECT / "runtime.json", PROJECT / "graph-metadata.json",
                 PROJECT / "build/c1n32_l.dll", PROJECT / "build/c1xx.map",
                 PROJECT / "build/runtime.json", trial_path]
@@ -119,12 +120,21 @@ def main():
         "%x %x %d\n" % (row["start_rva"], row["end_rva"], row["entry"])
         for row in trial["ranges"]))
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
+    shutil.copy2(PROJECT / "build/native/c1xx-host", output / "native-executable.elf")
+    for source in ("dll-capture.c", "invoke-arguments.h"):
+        shutil.copy2(PROJECT / "scripts" / source, output / source)
+    environment = transport.environment()
+    if trial["case"] == "minimal":
+        for item,digest in trial["case_inputs"].items():
+            if sha(PROJECT / item) != digest: raise ValueError("case input changed " + item)
+            shutil.copy2(PROJECT / item, output / Path(item).name)
+        environment.update(C1XX_INVOKE_ARGV="invoke-argv.bin", TMP=".", TEMP=".")
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     command = ["wine", transport.windows(output / "dll-capture.exe"), "--debug",
                transport.windows(TARGET), transport.windows(CRT), args.mode, "ranges.txt"]
     started = time.perf_counter()
     with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
-        result = subprocess.run(command, cwd=output, env=transport.environment(),
+        result = subprocess.run(command, cwd=output, env=environment,
                                 stdout=stdout, stderr=stderr, timeout=args.timeout)
     elapsed = time.perf_counter() - started
     for item, digest in inputs.items():
