@@ -143,7 +143,7 @@ int main(int argc, char **argv)
     register_cleanup(cleanup_main);
     frontend_bss.command_argc = argc;
     frontend_bss.command_argv = argv;
-    initialize_intermediate_files(argv);
+    scan_internal_switches(argv);
     initialize_frontend_hook();
     GetSystemInfo(&frontend_data.system_info);
     initialize_compiler_environment();
@@ -176,7 +176,7 @@ BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes)
     return buffer;
 }
 
-void initialize_intermediate_files(char **argv)
+void scan_internal_switches(char **argv)
 {
     char option[514];
     char *environment;
@@ -241,7 +241,6 @@ char *read_command_argument(char *source, char *argument, unsigned capacity)
 
 void initialize_frontend_hook(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_compiler_environment(void)

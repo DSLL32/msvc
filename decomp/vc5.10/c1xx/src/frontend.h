@@ -139,7 +139,7 @@ int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
 void initialize_work_buffers(void);
 BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes);
-void initialize_intermediate_files(char **argv);
+void scan_internal_switches(char **argv);
 void initialize_frontend_hook(void);
 int process_early_option(char *argument, int state);
 char *read_command_argument(char *source, char *argument, unsigned capacity);

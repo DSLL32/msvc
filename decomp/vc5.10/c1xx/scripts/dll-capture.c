@@ -21,6 +21,9 @@ static DWORD option_return_pc;
 static BYTE option_return_byte;
 static unsigned option_calls;
 static int option_return_active;
+static int system_observer_active, system_observer_stage;
+static DWORD system_observer_esp, system_observer_provider;
+static BYTE system_before_byte, system_after_byte;
 static BYTE allocation_before_byte[2], allocation_after_byte[2];
 static BYTE return_saved;
 static DWORD pch_return_address;
@@ -227,6 +230,15 @@ static void prepare_mask(void)
         }
         allocation_observers = 1;
         fprintf(events, "allocation-observers before=00038cdf,00038cf8 after=00038ce1,00038cfa dynamic-return=actual-stack no-code-mock=1\n");
+    }
+    if (getenv("C1XX_OBSERVE_SYSTEM_INFO") && !baseline) {
+        BYTE instruction[6];
+        memcpy(instruction,snapshot + 0x38c42-code_rva,6);
+        if (instruction[0]!=0xff || instruction[1]!=0x15 || instruction[2]!=0xf4 || instruction[3]!=0x91 || instruction[4]!=0x4c || instruction[5]!=0x10 || snapshot[0x38c48-code_rva]!=0xe8) fail("system info observer instruction");
+        system_before_byte=instruction[0];system_after_byte=snapshot[0x38c48-code_rva];
+        readmem(base+0xc91f4,&system_observer_provider,4);
+        patch(base+0x38c42,0xcc);system_observer_active=1;
+        fprintf(events,"system-info-observer before=00038c42 after=00038c48 iat=000c91f4 provider=%08lx after-mask-readback=1\n",system_observer_provider);
     }
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
@@ -706,6 +718,19 @@ static void invocation_arguments(CONTEXT *context)
     fclose(file);
 }
 
+static void save_crt_vector(const char *name, char **values, unsigned count)
+{
+    FILE *file;
+    DWORD address=(DWORD)values,i,pointer,length;
+    file=fopen(name,"wb");if(!file)exit(126);
+    if(fwrite(&address,4,1,file)!=1 || fwrite(&count,4,1,file)!=1)exit(126);
+    for(i=0;i<count;++i) {
+        pointer=(DWORD)values[i];length=strlen(values[i])+1;
+        if(fwrite(&pointer,4,1,file)!=1 || fwrite(&length,4,1,file)!=1 || fwrite(values[i],1,length,file)!=length)exit(126);
+    }
+    if(fclose(file))exit(126);
+}
+
 static int host(const char *path)
 {
     HMODULE module;
@@ -723,7 +748,11 @@ static int host(const char *path)
     puts("exports=1");
     argument_file = getenv("C1XX_INVOKE_ARGV");
     if (argument_file) {
+        unsigned count=0;
         pass_argc = read_invoke_arguments(argument_file, &pass_argv);
+        while(_environ[count]) {if(count>=16384)return 126;++count;}
+        save_crt_vector("original-crt-argv.bin",__argv,__argc);
+        save_crt_vector("original-crt-environment.bin",_environ,count);
         SetLastError(203);
         pass_result = ((int (WINAPI *)(int,char **,int))invoke)(pass_argc,pass_argv,1);
         printf("invoke=%d\n", pass_result);
@@ -790,6 +819,25 @@ int main(int argc, char **argv)
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && system_observer_active && (address==base+0x38c42 || address==base+0x38c48)) {
+                DWORD argument;BYTE *state_bss;SYSTEM_INFO info;
+                state_bss=(BYTE *)malloc(0xf69c);if(!state_bss)fail("system info observation buffer");
+                if (!system_observer_stage) {
+                    if (address!=base+0x38c42) fail("system info observer order");
+                    readmem(context.Esp,&argument,4);if(argument!=base+0xcd7b8) fail("system info destination");
+                    system_observer_esp=context.Esp;
+                    fprintf(events,"system-info-before pc=%08lx esp=%08lx argument=%08lx provider=%08lx edi=%08lx esi=%08lx ebx=%08lx error=%lu fpu=%04lx\n",address,context.Esp,argument,system_observer_provider,context.Edi,context.Esi,context.Ebx,thread_error(&context,thread),context.FloatSave.ControlWord);
+                    readmem(argument,&info,sizeof(info));save_blob("system-info-before.bin",&info,sizeof(info));
+                    readmem(base+0xb9000,state_bss,0xf69c);save_blob("system-info-bss-before.bin",state_bss,0xf69c);save_frontend_state("system-info-before");
+                    patch(address,system_before_byte);patch(base+0x38c48,0xcc);system_observer_stage=1;
+                } else {
+                    if (address!=base+0x38c48 || context.Esp!=system_observer_esp+4) fail("system info return ABI");
+                    fprintf(events,"system-info-after pc=%08lx esp=%08lx edi=%08lx esi=%08lx ebx=%08lx error=%lu fpu=%04lx\n",address,context.Esp,context.Edi,context.Esi,context.Ebx,thread_error(&context,thread),context.FloatSave.ControlWord);
+                    readmem(base+0xcd7b8,&info,sizeof(info));save_blob("system-info-after.bin",&info,sizeof(info));
+                    readmem(base+0xb9000,state_bss,0xf69c);save_blob("system-info-bss-after.bin",state_bss,0xf69c);save_frontend_state("system-info-after");
+                    patch(address,system_after_byte);system_observer_active=0;
+                }
+                free(state_bss);context.Eip=address;if(!SetThreadContext(thread,&context))fail("system info observer context");
             } else if (code == EXCEPTION_BREAKPOINT && option_return_active && address == option_return_pc) {
                 DWORD fields[3];
                 readmem(base + 0xcd09c, fields, 4);

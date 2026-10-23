@@ -112,6 +112,8 @@ def prepare():
         trial['early_options_observers']={'owner':'_initialize_intermediate_files','entry_rva':0x38d07,'frontier_rva':0x38d56,'purpose':'actual argv entry and first option/state ABI; full original BSS at frontier; no mocked inputs or returns'}
     if '_process_early_option' in accepted:
         trial['early_switch_observers']={'owner':'_process_early_option','scope':'25 real argv calls and actual returns; no environment arguments mocked','entry_rva':0x38d56,'return_rva':0x38d28,'shared_text_data_rvas':[[0x38de0,0x38df0]]}
+    if '_initialize_frontend_hook' in accepted:
+        trial['system_info_observers']={'owner':'_main','before_rva':0x38c42,'after_rva':0x38c48,'provider_iat_rva':0xc91f4,'destination_rva':0xcd7b8,'output_bytes':36,'scope':'one actual GetSystemInfo; no GlobalMemoryStatus or fabricated fields'}
     trial['test_action_seed']=bool(candidate.get('test_action_seed'))
     if trial['test_action_seed']:
         trial['auxiliary_action_data_seed']={'owner':'_initialize_frontend_41','point':'actual entry after BSS reset','head':'owned snapshot+4','tail':'owned snapshot+8','depth':17,'pointees_dereferenced':False,'code_or_allocator_mock':False}

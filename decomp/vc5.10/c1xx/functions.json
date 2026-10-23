@@ -796,14 +796,16 @@
           273096872,
           273096956
         ]
-      ]
+      ],
+      "symbol": "_scan_internal_switches",
+      "native_symbol": "initialize_intermediate_files",
+      "symbol_projection": "Readable source scan_internal_switches; historical logicalID retained; native target-TU macro alias preserves existing seam, no wrapper."
     },
     {
       "name": "_initialize_frontend_hook",
       "start": 272862704,
       "end": 272862705,
       "source": "src/frontend.c",
-      "pending_extent": true,
       "abi": "cdecl0"
     },
     {

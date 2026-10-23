@@ -1,0 +1,472 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_hook",
+  "trials": [
+    {
+      "seed": null,
+      "auxiliary": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-original-2",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-native-2",
+      "original_receipt_sha256": "f50cf2889e5aa81ef30fd4e1f159eeeb5d3e7ef92a8a883574802d6fdea272e0",
+      "native_receipt_sha256": "d82c8bb4c893d58ad90b787cb52422712bbb3d0d9c0e7923fad744614762b7af",
+      "audit": "build/audits/346bd8021ada8d0edfae8aeaf05a20364545d51ce9d348bd0b1c66955606c598.json",
+      "comparison": {
+        "trial": "_initialize_frontend_hook",
+        "frontier": "_initialize_compiler_environment",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 8.43037573620677,
+        "native_seconds": 4.527147281914949
+      },
+      "private_crt_inputs": {
+        "original-crt-argv.bin": {
+          "sha256": "262ea88299b8d6ca16d26f6d9dee8fdf966aba9f809fba30925d87ee01d5b2ab",
+          "bytes": 133,
+          "count": 3
+        },
+        "original-crt-environment.bin": {
+          "sha256": "606829ae6e4386151e150744bda23a9cd61036d656a6bf6982d91fb6a9aa4bd9",
+          "bytes": 3047,
+          "count": 85
+        },
+        "native-crt-argv.bin": {
+          "sha256": "57772c1926f649052eb4f94ce78b0dc0f4f98e2d7af1b4e099dbe460474cb8be",
+          "bytes": 133,
+          "count": 3
+        },
+        "native-crt-environment.bin": {
+          "sha256": "d4ca6a6b92d6f3708403b6f4827a064ccdd84e389b5c4890bc92db1189e81f41",
+          "bytes": 3047,
+          "count": 85
+        }
+      },
+      "native_capture_accounting": {
+        "snapshot_provenance_setup_seconds": 0.02794765867292881,
+        "execution_seconds": 4.527147281914949,
+        "post_execution_verification_seconds": 1.513007741421461,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_phases": {
+        "source_command_seconds": 3.343355576507747,
+        "source_command_count": 54,
+        "gdb_total_seconds": 4.527147281914949,
+        "startup_seconds": 0.0954955006018281,
+        "breakpoint_setup_seconds": 0.4484255015850067,
+        "collection_seconds": 3.47894832957536,
+        "serialization_io_seconds": 0.05529898125678301,
+        "residual_inferior_debugger_seconds": 0.4489789688959718,
+        "collector_count": 59,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "auditor_sha256": "eb2cd26c11408839b97ab3ff39e2df5d14ae96459b1f05806cc06d74e4c68cf7",
+      "strict_audit_seconds": 0.10493564140051603
+    },
+    {
+      "seed": "restore-nonzero",
+      "auxiliary": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-restore-nonzero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-restore-nonzero-aux-native-1",
+      "original_receipt_sha256": "6f725928410e963b965d386de9670d48df5090e4c942e2bc650954ac6d0b4cef",
+      "native_receipt_sha256": "893ebb6183ed2c64dde5c62228f3d12e0cab8127431f4d54d8c1fc6c23e8f377",
+      "audit": "build/audits/62362220437cd8a5bd60418bb18b6389ea9d5a0d587b44ce154e48f372f3523b.json",
+      "comparison": {
+        "trial": "_initialize_frontend_hook",
+        "frontier": "_initialize_compiler_environment",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 8.636137766763568,
+        "native_seconds": 4.651879304088652
+      },
+      "private_crt_inputs": {
+        "original-crt-argv.bin": {
+          "sha256": "25e58cd24c5aaf50044bcef39320971fa216c1d7fc07f2228aac2cd1491f0180",
+          "bytes": 153,
+          "count": 3
+        },
+        "original-crt-environment.bin": {
+          "sha256": "f6d4430f81d8c7b92739641744050532a1e92decafe14cd20e6f57ea4575cf40",
+          "bytes": 3094,
+          "count": 86
+        },
+        "native-crt-argv.bin": {
+          "sha256": "33c2c22c5e7fbff716a89c1d223ddd954292406322e35022fa86e5837135ff56",
+          "bytes": 153,
+          "count": 3
+        },
+        "native-crt-environment.bin": {
+          "sha256": "6adca3ddaddefb79fbd40d8fc72974e6de0ef38c696f650ce2168a3656db8e4f",
+          "bytes": 3094,
+          "count": 86
+        }
+      },
+      "native_capture_accounting": {
+        "snapshot_provenance_setup_seconds": 0.027838214300572872,
+        "execution_seconds": 4.651879304088652,
+        "post_execution_verification_seconds": 1.517471781000495,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_phases": {
+        "source_command_seconds": 3.452584463171661,
+        "source_command_count": 54,
+        "gdb_total_seconds": 4.651879304088652,
+        "startup_seconds": 0.09804531745612621,
+        "breakpoint_setup_seconds": 0.4473459729924798,
+        "collection_seconds": 3.580841813236475,
+        "serialization_io_seconds": 0.05564950406551361,
+        "residual_inferior_debugger_seconds": 0.4699966963380575,
+        "collector_count": 59,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "auditor_sha256": "eb2cd26c11408839b97ab3ff39e2df5d14ae96459b1f05806cc06d74e4c68cf7",
+      "strict_audit_seconds": 0.09809843637049198
+    },
+    {
+      "seed": "restore-zero",
+      "auxiliary": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-restore-zero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-restore-zero-aux-native-1",
+      "original_receipt_sha256": "42280153ed39dc677dbf080cc8b22229a7872090574c6f1a2a3a3803abbcacce",
+      "native_receipt_sha256": "1a2b5b3c792a90ffe4dc0771593d2261aeff0525005c2a0892556e5864417f33",
+      "audit": "build/audits/2a5c6a04f64a085fede3c9928ceea54f6069d15a757b6229f07b0f5d0f3961e4.json",
+      "comparison": {
+        "trial": "_initialize_frontend_hook",
+        "frontier": "_initialize_compiler_environment",
+        "seed": "restore-zero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 8.479642333462834,
+        "native_seconds": 4.4999289670959115
+      },
+      "private_crt_inputs": {
+        "original-crt-argv.bin": {
+          "sha256": "e85402a917f18c1fa30e37e853ae8efa7eff207db3ff9a80d9348d91fb6c5123",
+          "bytes": 150,
+          "count": 3
+        },
+        "original-crt-environment.bin": {
+          "sha256": "1e76b4810d018c471c15192e4c8dfe85a9cb403f1425090a7f71df2b6f3cae80",
+          "bytes": 3091,
+          "count": 86
+        },
+        "native-crt-argv.bin": {
+          "sha256": "f730d9edf7053125de200b31fbfc62447f80ce229c02fb1d2c586a797f7f653f",
+          "bytes": 150,
+          "count": 3
+        },
+        "native-crt-environment.bin": {
+          "sha256": "9acae1077b659b9e71075b1d2a7ecef472d55e94f43ef7f2c2cca23b260978dd",
+          "bytes": 3091,
+          "count": 86
+        }
+      },
+      "native_capture_accounting": {
+        "snapshot_provenance_setup_seconds": 0.027496266178786755,
+        "execution_seconds": 4.4999289670959115,
+        "post_execution_verification_seconds": 1.496310162357986,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_phases": {
+        "source_command_seconds": 3.3172566760331392,
+        "source_command_count": 54,
+        "gdb_total_seconds": 4.4999289670959115,
+        "startup_seconds": 0.0954840462654829,
+        "breakpoint_setup_seconds": 0.450756941922009,
+        "collection_seconds": 3.4542729631066322,
+        "serialization_io_seconds": 0.05276419036090374,
+        "residual_inferior_debugger_seconds": 0.44665082544088364,
+        "collector_count": 59,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "auditor_sha256": "eb2cd26c11408839b97ab3ff39e2df5d14ae96459b1f05806cc06d74e4c68cf7",
+      "strict_audit_seconds": 0.09688624553382397
+    }
+  ],
+  "status": "PENDING orchestrator review; hook candidate unaccepted, accepted prefix70",
+  "scope": {
+    "application_candidate_bytes": 1,
+    "source_name_projection": "scan_internal_switches source, Win32 driver.symbol _scan_internal_switches, native per-target-TU macro alias initialize_intermediate_files; same logical vertex/ABI, no wrapper",
+    "shared_API": "reviewed4bd4606d RSI1 GetSystemInfo-only profile; exactly1 call, zero GlobalMemoryStatus capability",
+    "normal_original": "proper fresh -2 capture; failed -1 is not a baseline",
+    "namespace_correction": "Earlier native captures had seeded Linux INCLUDE/TMP/TEMP only. Old actual MSC_CMD_FLAGS absence proof remains finite; no earlier full Windows CRT namespace binding is claimed."
+  },
+  "crt_storage_rules": {
+    "original": "canonical MSVCRT.DLL actual __argc/__argv/_environ in original host immediately before Invoke, not inferred from pass arguments",
+    "native": "recon_crt_bind_arguments receives separately allocated captured HOST CRT argv and environment; actual GDB globals/value/vector observed at real target getenv",
+    "argc": "3 original HOST CRT entries, compared by value; Invoke remains26",
+    "argv_environment": "full ordered string bytes compared privately, logical vector identity by captured base pointers; observed vector+string intervals disjoint on each side, including separate Invoke storage",
+    "address_equivalence": "no physical pointer/address equality across processes; per-position owned-object mapping, no alias loss observed",
+    "getenv": "one genuine MSC_CMD_FLAGS query, bound=1, borrowed environment vector identity unchanged, returnNULL; present-value pointer arm not exercised",
+    "host_controls": "every native-host control uses explicit recon_host_getenv, including checkpoint after bind; no magic name-prefix bypass",
+    "future_scope": "Win32 OS environment/GetCommandLine and other key lookups are not certified by this finite CRT lookup"
+  },
+  "fresh_targeted_controls": {
+    "result": "PASS",
+    "count": 23,
+    "seconds": 71.15734665561467,
+    "rejected": [
+      {
+        "seed": null,
+        "rejected": "unbound-getenv"
+      },
+      {
+        "seed": null,
+        "rejected": "Invoke-argc-as-CRT"
+      },
+      {
+        "seed": null,
+        "rejected": "nonNULL-getenv"
+      },
+      {
+        "seed": null,
+        "rejected": "wrong-environment-identity"
+      },
+      {
+        "seed": null,
+        "rejected": "wrong-CRT-argv-identity"
+      },
+      {
+        "seed": null,
+        "rejected": "changed-CRT-argument"
+      },
+      {
+        "seed": null,
+        "rejected": "changed-CRT-environment"
+      },
+      {
+        "seed": null,
+        "rejected": "wrong-API-pointer"
+      },
+      {
+        "seed": null,
+        "rejected": "wrong-API-formal"
+      },
+      {
+        "seed": null,
+        "rejected": "wrong-API-RET4"
+      },
+      {
+        "seed": null,
+        "rejected": "wrong-API-register"
+      },
+      {
+        "seed": null,
+        "rejected": "second-API-response"
+      },
+      {
+        "seed": null,
+        "rejected": "memory-capability"
+      },
+      {
+        "seed": null,
+        "rejected": "changed-profile-byte"
+      },
+      {
+        "seed": null,
+        "rejected": "changed-native-output"
+      },
+      {
+        "seed": null,
+        "rejected": "changed-native-neighbor"
+      },
+      {
+        "seed": null,
+        "rejected": "changed-saved-snapshot"
+      },
+      {
+        "seed": "restore-nonzero",
+        "rejected": "wrong-before-input"
+      },
+      {
+        "seed": "restore-nonzero",
+        "rejected": "partial-output"
+      },
+      {
+        "seed": "restore-nonzero",
+        "rejected": "native-neighbor"
+      },
+      {
+        "seed": "restore-zero",
+        "rejected": "wrong-before-input"
+      },
+      {
+        "seed": "restore-zero",
+        "rejected": "partial-output"
+      },
+      {
+        "seed": "restore-zero",
+        "rejected": "native-neighbor"
+      }
+    ]
+  },
+  "reused_controls": {
+    "packet": "cases/minimal/early-switches-trials.json",
+    "sha256": "e16b53bf271cccdac167c91d0e7753405a4958463144226b6e2e11b2b3b5ffb5",
+    "scope": "unchanged32 switch/table controls reused, not rerun; all3 current full prefix proofs rerun with new CRT binding and affected23 controls fresh"
+  },
+  "private_input_archive": {
+    "root": "/root/.ai-tmp/msvc2/vc5.10/c1xx",
+    "policy": "immutable per-execution raw files/receipts, no env/CRT argv bytes in repo metadata; reference/current full artifact hashes checked before use",
+    "files": [
+      "original-crt-argv.bin",
+      "original-crt-environment.bin",
+      "native-crt-argv.bin",
+      "native-crt-environment.bin"
+    ],
+    "original_host_dump_source": "scripts/dll-capture.c host before Invoke using actual canonical CRT symbols",
+    "native_observer_source": "scripts/system_info_probe.py real recon_getenv entry reads actual bound global vectors"
+  },
+  "host_environment_isolation_auxiliary": {
+    "kind": "native-only Linux host collision, target CRT vectors identical to cached original2; not promotion input",
+    "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-original-2",
+    "original_receipt_sha256": "f50cf2889e5aa81ef30fd4e1f159eeeb5d3e7ef92a8a883574802d6fdea272e0",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-host-env-aux-native-1",
+    "native_receipt_sha256": "04dab74ae25fabd5f380db3da7e2eebec71a95c2e9173a89e9abe097bcdf0c1d",
+    "comparison": {
+      "trial": "_initialize_frontend_hook",
+      "frontier": "_initialize_compiler_environment",
+      "seed": null,
+      "modeled_context_fields": 35,
+      "original_default_context": [
+        0,
+        0,
+        0
+      ],
+      "typed_bss_bytes": 1085,
+      "native_bss_size": 1116,
+      "native_c_padding_bytes": 31,
+      "output_constructor_fields_checked": 72,
+      "cleanup_registration_checked": true,
+      "nonzero_output_constructor_input_checked": false,
+      "token_semantic_bytes_checked": 17,
+      "token_pointer_arm_tested": false,
+      "token_unknown_tail_bytes_each": 32,
+      "deferred_work_pointer_checked": true,
+      "nonzero_deferred_constructor_input_checked": false,
+      "nonzero_expanded_BSS_restore_checked": false,
+      "original_unmodeled_snapshot_bytes": 8371,
+      "native_snapshot_byte_equivalence_claimed": false,
+      "whole_mask_bytes_checked": 751216,
+      "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+      "original_seconds": 8.43037573620677,
+      "native_seconds": 4.531851942650974
+    },
+    "observed_host_key_hash_only": [
+      {
+        "bytes": 22,
+        "sha256": "07eaa4bf844da2df086625d55cbf4927b3cfb7d296b5700964a554fd76e871ae"
+      }
+    ],
+    "target_lookup_result": 0,
+    "new_Wine_runs": 0,
+    "controller_note": "readonly Linux-host hash observation added after normal native2; old generated controller/raw receipt retained unchanged. Restore and collision captures include that observation."
+  },
+  "preserved_failed_attempt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-original-1",
+    "receipt_sha256": "c73e3c89f43f44de35bf305541b36fb06d853d581975b7851a24effa07b68b2b",
+    "exit": 253,
+    "reason": "original debugger stack overflow after Invoke-entry; added63KiB automatic observation buffer in existing large /Od debugger frame",
+    "fix": "host-only observation buffer malloc/free; original2 proper fresh pair; no provider/baseline change",
+    "acceptance_credit": 0
+  },
+  "controller_sources": {
+    "scripts/system_info_reference.py": "77d215db036ea6f0d8f01566f91436d228d907588a66e023eff31e2ed35745f6",
+    "scripts/system_info_probe.py": "8b8dde02118dba9bf89b82e2dec9194c0fdfd3802acda8200349454a87177d03",
+    "scripts/system_info_state.py": "c590362fb41dcc26871dd3f1eb636c7ba1713d513016b55bebe601877cdd96ac",
+    "scripts/check-system-info-negative.py": "0dc0e782bc749e7e0f2829c8a918ede8a03868f389a1e8d59edc7a3559f85fd6",
+    "scripts/capture-minimal-native.py": "437e4e121edac303753b8f5073941ee79ab85eef885b3103180ba322d3aae8a4",
+    "scripts/dll-capture.c": "f95b9dd458427368b28e64b15426ba5d6c09d2604f8167cdb76c5c321cddd7a3",
+    "scripts/native-host.c": "83d53b4a02bbd61be611859fb93bf8c514f8295408705d8ecee87e5d9fd1f84b",
+    "scripts/invoke-arguments.h": "d6fe9df952247265c6f4b85151a185c0b6f6f5fb2a659752c97d1b80dc655397",
+    "scripts/check-callback.py": "407e22abc81f410fb4c08f614857f8e527af8d284832c62706392693bbd75c89",
+    "src/frontend.c": "32cd1430952b300b1a25b782435becbeb21d10e31426ae859271ed9860adcdc9",
+    "src/frontend.h": "174763409c7f182cf5adaa33903bd6daae832738dec1558237b6b93894ac6b39",
+    "Makefile": "c0d08af424a0192030bc47cfad9df1641f45c29f89fdf032ad39f06c66ba5c0d"
+  },
+  "host_control_audit": {
+    "result": "PASS",
+    "source_sha256": "83d53b4a02bbd61be611859fb93bf8c514f8295408705d8ecee87e5d9fd1f84b",
+    "explicit_getter_calls": 7,
+    "unqualified_getenv_calls": 0
+  },
+  "completed_lifecycle_fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.005567883141338825,
+      "setup": 0.0008631693199276924,
+      "execution": 0.002146434038877487,
+      "checks": 0.003704419359564781,
+      "total": 0.013025223277509212
+    }
+  },
+  "build_accounting": {
+    "native_final_compile_link_seconds": 1.5242035780102015,
+    "Win32_final_link_seconds": 0.6174257872626185,
+    "full_build_wall": "not separately measured; successful make-j4 original/native/helper build before fresh captures; no estimate substituted",
+    "fixture_build_seconds": 0.005567883141338825
+  },
+  "audit_version_separation": "normal original2/native2 raw includes prior3c1 tool proof unchanged; current validation re-audits same config/images with READY5e6734b5/eb2cd26c, no execution solely for tool change"
+}

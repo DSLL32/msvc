@@ -32,6 +32,10 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,symbols,trap
         for i in range(count):pointer,length=struct.unpack_from('<II',blob,cursor);cursor+=8+length;pointers.append(pointer)
         return pointers
     def symbol(name):return tuple(int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+name+'$',symbols,re.M).groups())
+    if '_initialize_frontend_hook' in trial['accepted']:
+        state=read('hook-entry.json')
+        traps=traps[:next(i for i,row in enumerate(traps) if row[1]=='00038df0')+1]
+        final='%03d'%int(traps[-1][0])
     check_table(require,trial,read('graph-metadata.json'),(original/'relocated-text.bin').read_bytes(),(original/'masked-text.bin').read_bytes(),s.ROOT/'toolchains/5.10/bin/C1XX.DLL')
     require(trial['early_switch_observers']=={'owner':'_process_early_option','scope':'25 real argv calls and actual returns; no environment arguments mocked','entry_rva':0x38d56,'return_rva':0x38d28,'shared_text_data_rvas':[[0x38de0,0x38df0]]},'undeclared call/return observer')
     defaults=[0,0,100];live=[43,-47,53] if seed else defaults;saved=[31,-37,41] if seed else defaults

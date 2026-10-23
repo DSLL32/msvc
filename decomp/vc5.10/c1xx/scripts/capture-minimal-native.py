@@ -25,6 +25,12 @@ def capture(project,output,binary,trial):
     environment.update(contract['consumed_environment_seed'])
     environment['C1XX_INVOKE_ARGV']=str(output/'invoke-argv.bin')
     environment['RECON_DRIVE_R']=str(project.parents[2])
+    if trial.get('system_info_observers'):
+        reference=environment.get('C1XX_SYSTEM_INFO_ORIGINAL')
+        if not reference:raise ValueError('provide explicit cached original system-info reference')
+        from system_info_reference import prepare as prepare_system_info
+        reference_sha=prepare_system_info(project,Path(reference),output,trial)
+        environment.update(C1XX_SYSTEM_INFO_PROFILE=str(output/'system-info-profile.bin'),C1XX_SYSTEM_INFO_REFERENCE_SHA256=reference_sha,C1XX_CRT_ARGV=str(output/'original-crt-argv.bin'),C1XX_CRT_ENVIRONMENT=str(output/'original-crt-environment.bin'))
     environment.pop('C1XX_TEST_INIT_RESTORE',None)
     if trial.get('test_seed'):environment['C1XX_TEST_INIT_RESTORE']=trial['test_seed']
     wrapper=output/'exec-wrapper.py'
@@ -45,6 +51,10 @@ while block is not None and not block.is_global and not block.is_static:
 if frame.name()=='reserve_work_buffer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&reserve_work_buffer')):
     value['args']={'reserve_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)')),'commit_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+8)'))}
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['reserve_bytes'],value['args']['commit_bytes']]}
+if frame.name()=='recon_GetSystemInfo' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&recon_GetSystemInfo')):
+    value['args']={'output':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
+if frame.name()=='initialize_frontend_hook' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&initialize_frontend_hook')):
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[]}
 if frame.name() in ('initialize_intermediate_files','process_early_option') and value['pc']==int(gdb.parse_and_eval('(unsigned int)&'+frame.name())):
     names=['argv'] if frame.name()=='initialize_intermediate_files' else ['argument','state']
     values=[int(gdb.parse_and_eval('*(unsigned int *)($esp+%d)'%(4+4*i))) for i in range(len(names))]
@@ -413,6 +423,11 @@ end
         from early_switch_probe import setup as setup_switches
         switch_observer,switch_finish=setup_switches(output)
         observer+=switch_observer
+    system_finish=''
+    if trial.get('system_info_observers'):
+        from system_info_probe import setup as setup_system_info
+        system_observer,system_finish=setup_system_info(output,collector)
+        observer+=system_observer
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
@@ -423,7 +438,7 @@ end
     timing_before_run='python\nrecon_before_run=time.perf_counter()\nend\n'
     timing_after_run='python\nrecon_after_run=time.perf_counter()\nend\n'
     timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings,"source_commands":recon_source_timings},indent=2)+"\\n")\nend\n'
-    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+switch_finish+timing_finish+'quit\n')
+    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+switch_finish+system_finish+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
                           stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)

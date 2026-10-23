@@ -49,10 +49,10 @@ build/c1n32_l.dll build/c1xx.map &: $(OBJECTS) src/c1xx.def Makefile
 	$(PYTHON) scripts/record-build.py --link --record build/win32-provenance.json --artifact build/c1n32_l.dll -- $(TOOL) LINK.EXE /nologo /dll /nodefaultlib /entry:_DllMainCRTStartup@12 /def:src/c1xx.def /map:build/c1xx.map /out:build/c1n32_l.dll $(OBJECTS) MSVCRT.LIB KERNEL32.LIB
 
 build/native/%.o: src/%.c $(HEADERS) scripts/record-build.py $(wildcard $(RECON)/include/*.h $(RECON)/native/*.h) | build/native
-	$(PYTHON) scripts/record-build.py --native --record $@.build.json --artifact $@ -- $(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -Dmain=c1xx_main -finstrument-functions -c $< -o $@
+	$(PYTHON) scripts/record-build.py --native --record $@.build.json --artifact $@ -- $(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -Dmain=c1xx_main -Dscan_internal_switches=initialize_intermediate_files -finstrument-functions -c $< -o $@
 
 build/native/%.o: src/%.cpp $(HEADERS) scripts/record-build.py $(wildcard $(RECON)/include/*.h $(RECON)/native/*.h) | build/native
-	$(PYTHON) scripts/record-build.py --native --record $@.build.json --artifact $@ -- $(NATIVE_CXX) $(NATIVE_CPPFLAGS) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -Dmain=c1xx_main -finstrument-functions -c $< -o $@
+	$(PYTHON) scripts/record-build.py --native --record $@.build.json --artifact $@ -- $(NATIVE_CXX) $(NATIVE_CPPFLAGS) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -Dmain=c1xx_main -Dscan_internal_switches=initialize_intermediate_files -finstrument-functions -c $< -o $@
 
 build/native/c1xx-host: $(NATIVE_OBJECTS) scripts/native-host.c scripts/invoke-arguments.h $(NATIVE_SHIMS) $(HEADERS) $(wildcard $(RECON)/include/*.h)
 	$(PYTHON) scripts/record-build.py --native --link --record build/native/provenance.json --artifact $@ -- $(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie -Isrc scripts/native-host.c $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@

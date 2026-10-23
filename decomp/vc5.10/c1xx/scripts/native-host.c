@@ -54,6 +54,14 @@ int main(void)
     char **pass_argv;
     const char *seed;
     unsigned i;
+    {
+        const char *profile=recon_host_getenv("C1XX_SYSTEM_INFO_PROFILE");
+        const char *reference=recon_host_getenv("C1XX_SYSTEM_INFO_REFERENCE_SHA256");
+        if (profile || reference) {
+            if (!profile || !reference) return 126;
+            recon_load_system_info_profile(profile,reference);
+        }
+    }
     spec.name = "C1XX.DLL";
     spec.path = "R:\\toolchains\\5.10\\bin\\C1XX.DLL";
     spec.sha256 = "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9";
@@ -77,6 +85,16 @@ int main(void)
     argument_file = recon_host_getenv("C1XX_INVOKE_ARGV");
     if (argument_file) {
         pass_argc = read_invoke_arguments(argument_file, &pass_argv);
+        {
+            const char *crt_arguments=recon_host_getenv("C1XX_CRT_ARGV");
+            const char *crt_environment=recon_host_getenv("C1XX_CRT_ENVIRONMENT");
+            char **host_arguments,**host_environment;
+            int host_argc;
+            if (!crt_arguments || !crt_environment) return 126;
+            host_argc=read_invoke_arguments(crt_arguments,&host_arguments);
+            read_invoke_arguments(crt_environment,&host_environment);
+            recon_crt_bind_arguments(host_argc,host_arguments,host_environment);
+        }
         seed = recon_host_getenv("C1XX_TEST_INIT_RESTORE");
         if (seed) {
             if (strcmp(seed, "restore-nonzero") && strcmp(seed, "restore-zero") && strcmp(seed, "first-copy-aux")) return 126;

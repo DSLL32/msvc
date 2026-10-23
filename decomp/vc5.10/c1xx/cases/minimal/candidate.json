@@ -74,7 +74,7 @@
     "_initialize_intermediate_files",
     "_process_early_option"
   ],
-  "trial": null,
+  "trial": "_initialize_frontend_hook",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -634,6 +634,12 @@
       "end_rva": 232944,
       "entry": 0,
       "kind": "text_data"
+    },
+    {
+      "owner": "_initialize_frontend_hook",
+      "start_rva": 232944,
+      "end_rva": 232945,
+      "entry": 1
     }
   ],
   "stage": "_process_early_option accepted; next frontier _initialize_frontend_hook"
