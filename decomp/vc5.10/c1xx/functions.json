@@ -731,10 +731,9 @@
     {
       "name": "_initialize_type_ranks",
       "start": 272861803,
-      "end": 272861804,
+      "end": 272861878,
       "source": "src/types.c",
-      "abi": "cdecl0",
-      "pending_extent": true
+      "abi": "cdecl0"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",

@@ -125,6 +125,16 @@ if any(f.name=='pools' for f in gdb.lookup_type('FrontendBss').fields()):
 if any(f.name=='type_ranks_initialized' for f in gdb.lookup_type('FrontendBss').fields()):
     value['frontend']['type_ranks_initialized']=int(gdb.parse_and_eval('frontend_bss.type_ranks_initialized'))
     value['frontend']['storage']['type_ranks_initialized']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.type_ranks_initialized')),4]
+if any(f.name=='primitive_type_ranks' for f in gdb.lookup_type('FrontendData').fields()):
+    for name,count in [('primitive_type_ranks',8),('complex_type_ranks',9)]:
+        value['frontend'][name]=[[int(gdb.parse_and_eval('frontend_data.%s[%d].%s'%(name,i,field))) for field in ('code','rank')] for i in range(count)]
+        value['frontend']['saved_'+name]=[[int(gdb.parse_and_eval('frontend_bss.saved_state->%s[%d].%s'%(name,i,field))) for field in ('code','rank')] for i in range(count)] if value['frontend']['saved_state'] else None
+        for i in range(count):
+            for field,width in [('code',4),('rank',1)]:value['frontend']['storage']['%s[%d].%s'%(name,i,field)]=[int(gdb.parse_and_eval('(unsigned int)&frontend_data.%s[%d].%s'%(name,i,field))),width]
+    value['frontend']['type_rank_layout']={'size':int(gdb.parse_and_eval('sizeof(TypeRankMapping)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('TypeRankMapping').fields()}}
+    for name,count in [('primitive_type_rank',65),('complex_type_rank',69)]:
+        value['frontend'][name]=[int(gdb.parse_and_eval('frontend_bss.%s[%d]'%(name,i))) for i in range(count)]
+        value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),int(gdb.parse_and_eval('sizeof(frontend_bss.'+name+')'))]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None

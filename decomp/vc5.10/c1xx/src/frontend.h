@@ -8,8 +8,15 @@ enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
 
 /* Only encountered fields are modeled. Unmodeled original snapshot bytes
  * have no native representation and must not reach a semantic consumer. */
+typedef struct TypeRankMapping {
+    int code;
+    unsigned char rank;
+} TypeRankMapping;
+
 typedef struct FrontendData {
     int first_invocation;
+    TypeRankMapping primitive_type_ranks[8];
+    TypeRankMapping complex_type_ranks[9];
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -64,6 +71,8 @@ typedef struct FrontendBss {
     unsigned long source_signature;
     CompilerPool pools[10];
     int type_ranks_initialized;
+    unsigned char primitive_type_rank[65];
+    unsigned char complex_type_rank[69];
 } FrontendBss;
 
 #ifdef __cplusplus

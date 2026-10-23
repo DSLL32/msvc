@@ -293,6 +293,10 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "pool-10-%s.bin", suffix); save_blob(name, data, 16);
     readmem(base + 0xc0ac8, data, 16);
     sprintf(name, "pool-01-%s.bin", suffix); save_blob(name, data, 16);
+    readmem(base + 0xc4cc8, data, 65);
+    sprintf(name, "primitive-type-rank-%s.bin", suffix); save_blob(name, data, 65);
+    readmem(base + 0xc4c80, data, 69);
+    sprintf(name, "complex-type-rank-%s.bin", suffix); save_blob(name, data, 69);
     readmem(base + 0xc4c78, data, 4);
     sprintf(name, "type-ranks-ready-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xc0834, data, 4);
@@ -353,6 +357,10 @@ static void seed_frontend_restore(void)
     if (!first_copy && strcmp(seed, "restore-nonzero") && strcmp(seed, "restore-zero")) fail("unknown restore seed");
     readmem(base + 0xcc000, bytes, sizeof(bytes));
     value = first_copy ? 23 : 17; memcpy(bytes + 0x17e0, &value, 4);
+    for (i = 0; i < 8; ++i) bytes[0x1708 + i * 8 + 4] += 40;
+    for (i = 0; i < 9; ++i) bytes[0x1748 + i * 8 + 4] += 40;
+    value = 0x20; memcpy(bytes + 0x1708, &value, 4);
+    value = 5; memcpy(bytes + 0x1748, &value, 4);
     if (first_copy) {
         aux_old_base = (DWORD)VirtualAllocEx(child, NULL, 8584, MEM_COMMIT, PAGE_READWRITE);
         aux_new_base = (DWORD)VirtualAllocEx(child, NULL, 8584, MEM_COMMIT, PAGE_READWRITE);
@@ -370,6 +378,16 @@ static void seed_frontend_restore(void)
         if (!allocated) fail("restore-test allocation");
     }
     write_mem(allocated, bytes, sizeof(bytes));
+    for (i = 0; i < 8; ++i) {
+        value = 31337 + i; write_mem(base + 0xcd708 + i * 8, &value, 4);
+        value = 200 + i; write_mem(base + 0xcd70c + i * 8, &value, 1);
+    }
+    for (i = 0; i < 9; ++i) {
+        value = 31437 + i; write_mem(base + 0xcd748 + i * 8, &value, 4);
+        value = 210 + i; write_mem(base + 0xcd74c + i * 8, &value, 1);
+    }
+    memset(bytes, 181, 65); write_mem(base + 0xc4cc8, bytes, 65);
+    memset(bytes, 182, 69); write_mem(base + 0xc4c80, bytes, 69);
     write_mem(base + 0xc4d50, &allocated, 4);
     value = first_copy ? 17 : 0; write_mem(base + 0xcd7e0, &value, 4);
     value = 32; write_mem(base + 0xc4d54, &value, 4);

@@ -1,7 +1,11 @@
 #include "frontend.h"
 #include <recon.h>
 
-FrontendData frontend_data = { 1 };
+FrontendData frontend_data = {
+    1,
+    { { 0x10, 1 }, { 0x40, 2 }, { 0x80, 3 }, { 0x100, 4 }, { 0x200, 5 }, { 0x400, 6 }, { 0x800, 7 }, { 0x0, 0 } },
+    { { 0x1, 8 }, { 0x2, 9 }, { 0x3, 10 }, { 0x4, 11 }, { 0x10, 12 }, { 0x20, 13 }, { 0x40, 14 }, { 0x44, 15 }, { 0x0, 0 } }
+};
 FrontendBss frontend_bss;
 int restore_mode;
 
@@ -58,6 +62,10 @@ int initialize_compiler_pass(void)
             frontend_bss.pools[i].arena = NULL;
         }
         frontend_bss.type_ranks_initialized = 0;
+        for (i = 0; i < sizeof(frontend_bss.primitive_type_rank); ++i)
+            frontend_bss.primitive_type_rank[i] = 0;
+        for (i = 0; i < sizeof(frontend_bss.complex_type_rank); ++i)
+            frontend_bss.complex_type_rank[i] = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

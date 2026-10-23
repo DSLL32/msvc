@@ -25,21 +25,22 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor=constructor_number==1
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
+    rank_helper=trial['trial']=='_initialize_type_ranks'
     pool_member=trial['trial']=='CompilerPool::Initialize'
     pdb=trial['trial'] in ('_initialize_pdb_context_01','_initialize_pdb_context_02')
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=34,
+    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=34,
               'no reviewed callback decoder for this function')
-    index=24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -87,7 +88,9 @@ def check(original,native,require_audit=True,audit_path=None):
         elif not constructor_number and not registrar:
             name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))
-    if index==34:path.append(('initialize_type_ranks',0x38a6b))
+    if index==34:
+        path.append(('initialize_type_ranks',0x38a6b))
+        if rank_helper:path.append(callback(35))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -170,7 +173,10 @@ def check(original,native,require_audit=True,audit_path=None):
         def ready(suffix):
             blob=(original/('type-ranks-ready-'+suffix+'.bin')).read_bytes();s.require(len(blob)==4,'missing raw rank-ready field');return struct.unpack('<I',blob)[0]
         s.require(ready('000')==0 and ready('006')==pre['frontend']['type_ranks_initialized']==(37 if seed else 0),'rank-ready initial/nonzero state differs')
-        s.require(ready('phase')==phase['frontend']['type_ranks_initialized']==ready(final)==state['frontend']['type_ranks_initialized']==0,'rank-ready escaped BSS reset or changed before helper')
+        s.require(ready('phase')==phase['frontend']['type_ranks_initialized']==0 and ready(final)==state['frontend']['type_ranks_initialized']==(1 if rank_helper else 0),'rank-ready escaped BSS reset or changed before helper')
+    if model['schema']>=22:
+        spec=importlib.util.spec_from_file_location('type_rank_state',Path(__file__).with_name('type_rank_state.py'));ranks=importlib.util.module_from_spec(spec);spec.loader.exec_module(ranks)
+        ranks.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
@@ -188,7 +194,7 @@ def check(original,native,require_audit=True,audit_path=None):
             'token_unknown_tail_bytes_each':32 if model['schema']>=15 else None,
             'deferred_work_pointer_checked':model['schema']>=14,
             'nonzero_deferred_constructor_input_checked':bool(trial.get('test_deferred_seed')),
-            'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8516,
+            'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8431 if model['schema']>=22 else 8516,
             'native_snapshot_byte_equivalence_claimed':False,'whole_mask_bytes_checked':751216,
             'nonzero_seed_scope':'typed pointer identities and exact scalar17' if model['schema']>=5 else 'legacy zeroing/reset evidence only; not middle-scalar equivalence',
             'original_seconds':o['seconds'],'native_seconds':n['seconds']}

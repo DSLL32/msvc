@@ -93,6 +93,23 @@ int main(void)
             }
             frontend_bss.saved_state = !strcmp(seed, "first-copy-aux") ? c1xx_aux_old_payload : (FrontendData *)malloc(FRONTEND_STATE_BYTES);
             if (!frontend_bss.saved_state) return 126;
+            *frontend_bss.saved_state = frontend_data;
+            for (i = 0; i < 8; ++i) {
+                frontend_bss.saved_state->primitive_type_ranks[i].rank += 40;
+                frontend_data.primitive_type_ranks[i].code = 31337 + i;
+                frontend_data.primitive_type_ranks[i].rank = 200 + i;
+            }
+            for (i = 0; i < 9; ++i) {
+                frontend_bss.saved_state->complex_type_ranks[i].rank += 40;
+                frontend_data.complex_type_ranks[i].code = 31437 + i;
+                frontend_data.complex_type_ranks[i].rank = 210 + i;
+            }
+            frontend_bss.saved_state->primitive_type_ranks[0].code = 0x20;
+            frontend_bss.saved_state->complex_type_ranks[0].code = 5;
+            for (i = 0; i < sizeof(frontend_bss.primitive_type_rank); ++i)
+                frontend_bss.primitive_type_rank[i] = 181;
+            for (i = 0; i < sizeof(frontend_bss.complex_type_rank); ++i)
+                frontend_bss.complex_type_rank[i] = 182;
             frontend_bss.saved_state->first_invocation = !strcmp(seed, "first-copy-aux") ? 23 : 17;
             frontend_data.first_invocation = !strcmp(seed, "first-copy-aux") ? 17 : 0;
             frontend_bss.cleanup_count = 32;
