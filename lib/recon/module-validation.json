@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "scope": "Verified no-TLS target EXE/DLL native host identity and encountered DisableThreadLibraryCalls contract; no PE/DSO loader",
+  "original_lifecycle": {
+    "target": "toolchains/5.10/bin/C1.DLL",
+    "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1/lifecycle-baseline-002/receipt.json",
+    "receipt_sha256": "68c0a7686cd9b23f88d7c9914803c2bfc17468cbed26dd2e4cd0881ea25f274b",
+    "events_sha256": "1e1219e13eab39c04630103fee90be5170daf93a4dd19aef2e051cd7bf534cbf",
+    "module_handle": "0x10600000",
+    "no_tls": {
+      "rva": 0,
+      "size": 0
+    },
+    "call": "DllMain1218e saves module; DisableThreadLibraryCalls call121a9 returns at121af",
+    "result": 1,
+    "last_error_before": 14007,
+    "last_error_after": 14007
+  },
+  "original_api_probe": {
+    "source": "lib/recon/tests/module-probe.c",
+    "source_sha256": "a322305f64f2ec4fe9efddd4b7d2ac720f5f7579cbfce4c6c57462dce14f4cc3",
+    "executable_sha256": "c41a6a214ea9c118c83b0fb9fa9880236744947972aaef3d6414cb287da8078f",
+    "capture": {
+      "build_seconds": 2.9782497100532055,
+      "execution_seconds": 1.1062108352780342,
+      "status": 0
+    },
+    "stdout": "lib/recon/tests/module-probe.stdout",
+    "stdout_sha256": "0c8d409eb771e5804ec78a10e1739824c1aa14a87cb570d7d4c19d87f530e690",
+    "rows": 4,
+    "results": "Success/repeat TRUE preserve errno123/LastError4386; NULL/unknown FALSE preserve errno123 and setLastError126"
+  },
+  "native": [
+    {
+      "compiler": "gcc",
+      "build_and_checks_seconds": 0.8971126321703196,
+      "status": "passed"
+    },
+    {
+      "compiler": "clang",
+      "build_and_checks_seconds": 1.167113802395761,
+      "status": "passed"
+    }
+  ],
+  "identity_contract": "Host verifies name/path/SHA256/no-TLS first; shared registration copies metadata, primary lookup and stable token; no disk access or application initialization; DLL attach/export/detach remains target code",
+  "checks": [
+    "primary EXE vs distinct DLL identity",
+    "case-insensitive name/path lookup",
+    "copied metadata provenance",
+    "GetModuleFileName uses registered target path",
+    "persistent thread-disabled state",
+    "invalid hash/path/flags/duplicate identity denied",
+    "registered identity never implies LoadLibrary execution"
+  ],
+  "native_fixtures": "Native-only runners compare frozen raw original bytes; no Wine, PE helper or automatic recapture",
+  "coverage": "Shared support only, no target function acceptance"
+}

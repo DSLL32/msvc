@@ -33,6 +33,18 @@
 #define _P_NOWAIT 1
 #define _P_OVERLAY 2
 
+/* Native host metadata, verified against the captured original before launch.
+ * Registration never opens or loads a PE image. Target DLLs retain DllMain. */
+#define RECON_MODULE_PRIMARY 1
+#define RECON_MODULE_NO_TLS 2
+typedef struct ReconModuleSpec {
+ const char *name,*path,*sha256;
+ DWORD flags;
+} ReconModuleSpec;
+HMODULE recon_register_module(const ReconModuleSpec *);
+const ReconModuleSpec *recon_module_identity(HMODULE);
+BOOL recon_module_thread_calls_disabled(HMODULE);
+
 typedef struct ShimFILE {
  char *_ptr; int _cnt; char *_base; int _flag,_file,_charbuf,_bufsiz; char *_tmpfname;
 } ShimFILE;
@@ -168,7 +180,7 @@ void recon_unsupported(const char *);
  X(BOOL,WriteFile,(HANDLE,LPCVOID,DWORD,LPDWORD,LPVOID)) X(BOOL,FlushFileBuffers,(HANDLE)) \
  X(HANDLE,GetStdHandle,(DWORD)) X(BOOL,SetStdHandle,(DWORD,HANDLE)) \
  X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) \
- X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) \
+ X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) X(BOOL,DisableThreadLibraryCalls,(HMODULE)) \
  X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
  X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
  X(BOOL,SetConsoleCtrlHandler,(BOOL (WINAPI *)(DWORD),BOOL)) \
@@ -358,6 +370,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define GetModuleHandleA recon_GetModuleHandleA
 #define LoadLibraryA recon_LoadLibraryA
 #define GetProcAddress recon_GetProcAddress
+#define DisableThreadLibraryCalls recon_DisableThreadLibraryCalls
 #define CreateFileMappingA recon_CreateFileMappingA
 #define MapViewOfFile recon_MapViewOfFile
 #define UnmapViewOfFile recon_UnmapViewOfFile

@@ -13,6 +13,13 @@
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
 static DWORD last_error;
+typedef struct NativeModule {
+    ReconModuleSpec identity;
+    char name[MAX_PATH],path[MAX_PATH],sha256[65];
+    BOOL thread_calls_disabled;
+} NativeModule;
+static NativeModule native_modules[32],*primary_module;
+static unsigned module_count;
 static HANDLE standard_handles[3]={(HANDLE)1,(HANDLE)2,(HANDLE)3};
 typedef struct Mapping {
     struct Mapping *next; int fd,writable; size_t length;
@@ -21,6 +28,71 @@ typedef struct View { struct View *next; void *address; size_t length; } View;
 static Mapping *mappings;
 static View *views,*allocations;
 static BOOL (WINAPI *console_handler)(DWORD);
+
+static NativeModule *recon_registered_module(HMODULE handle)
+{
+    unsigned n;
+    for (n=0;n<module_count;++n) if (handle==(HMODULE)(native_modules+n)) return native_modules+n;
+    return NULL;
+}
+
+HMODULE recon_register_module(const ReconModuleSpec *spec)
+{
+    NativeModule *module;
+    const char *basename,*slash;
+    unsigned n;
+    if (!spec || !spec->name || !spec->path || !spec->sha256 || !*spec->name ||
+        strlen(spec->name)>=MAX_PATH || strlen(spec->path)>=MAX_PATH || strlen(spec->sha256)!=64 ||
+        (spec->flags&~(RECON_MODULE_PRIMARY|RECON_MODULE_NO_TLS)) || !(spec->flags&RECON_MODULE_NO_TLS) ||
+        !isalpha((unsigned char)spec->path[0]) || spec->path[1]!=':' ||
+        (spec->path[2]!='\\' && spec->path[2]!='/')) {
+        last_error=ERROR_INVALID_PARAMETER; return NULL;
+    }
+    for (n=0;n<64;++n) if (!isxdigit((unsigned char)spec->sha256[n])) {
+        last_error=ERROR_INVALID_PARAMETER; return NULL;
+    }
+    basename=strrchr(spec->path,'\\'); slash=strrchr(spec->path,'/');
+    if (slash && (!basename || slash>basename)) basename=slash;
+    if (!basename || strcasecmp(basename+1,spec->name)) { last_error=ERROR_INVALID_PARAMETER; return NULL; }
+    for (n=0;n<module_count;++n) if (!strcasecmp(native_modules[n].name,spec->name)) {
+        module=native_modules+n;
+        if (strcasecmp(module->path,spec->path) || strcasecmp(module->sha256,spec->sha256) ||
+            module->identity.flags!=spec->flags) { last_error=183; return NULL; }
+        return (HMODULE)module;
+    }
+    if ((spec->flags&RECON_MODULE_PRIMARY) && primary_module) { last_error=183; return NULL; }
+    if (module_count==sizeof(native_modules)/sizeof(native_modules[0])) {
+        last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL;
+    }
+    module=native_modules+module_count++;
+    strcpy(module->name,spec->name); strcpy(module->path,spec->path); strcpy(module->sha256,spec->sha256);
+    module->identity.name=module->name; module->identity.path=module->path;
+    module->identity.sha256=module->sha256; module->identity.flags=spec->flags;
+    if (spec->flags&RECON_MODULE_PRIMARY) primary_module=module;
+    return (HMODULE)module;
+}
+
+const ReconModuleSpec *recon_module_identity(HMODULE handle)
+{
+    NativeModule *module=recon_registered_module(handle);
+    if (!module) { last_error=ERROR_MOD_NOT_FOUND; return NULL; }
+    return &module->identity;
+}
+
+BOOL recon_module_thread_calls_disabled(HMODULE handle)
+{
+    NativeModule *module=recon_registered_module(handle);
+    if (!module) { last_error=ERROR_MOD_NOT_FOUND; return FALSE; }
+    return module->thread_calls_disabled;
+}
+
+BOOL WINAPI recon_DisableThreadLibraryCalls(HMODULE handle)
+{
+    NativeModule *module=recon_registered_module(handle);
+    if (!module) { last_error=ERROR_MOD_NOT_FOUND; return FALSE; }
+    module->thread_calls_disabled=TRUE;
+    return TRUE;
+}
 
 static DWORD error_code(int error)
 {
@@ -213,10 +285,19 @@ BOOL WINAPI recon_GetConsoleScreenBufferInfo(HANDLE handle,CONSOLE_SCREEN_BUFFER
 }
 HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
 {
-    if (!name || !strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
-    last_error=126; return NULL;
+    unsigned n;
+    if (!name) return primary_module?(HMODULE)primary_module:(HMODULE)1;
+    if (!strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
+    for (n=0;n<module_count;++n)
+        if (!strcasecmp(name,native_modules[n].name) || !strcasecmp(name,native_modules[n].path))
+            return (HMODULE)(native_modules+n);
+    last_error=ERROR_MOD_NOT_FOUND; return NULL;
 }
-HMODULE WINAPI recon_LoadLibraryA(LPCSTR name) { return recon_GetModuleHandleA(name); }
+HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
+{
+    if (name && !strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
+    last_error=ERROR_MOD_NOT_FOUND; return NULL;
+}
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
     if (module!=(HMODULE)1) { last_error=ERROR_INVALID_HANDLE; return NULL; }
@@ -280,10 +361,13 @@ BOOL WINAPI recon_SetConsoleCtrlHandler(BOOL (WINAPI *handler)(DWORD),BOOL add)
 }
 DWORD WINAPI recon_GetModuleFileNameA(HMODULE module,LPSTR out,DWORD count)
 {
-    size_t length; (void)module;
+    size_t length;
+    NativeModule *registered=module?recon_registered_module(module):primary_module;
+    const char *path=registered?registered->path:recon_pgmptr;
+    if (module && module!=(HMODULE)1 && !registered) { last_error=ERROR_MOD_NOT_FOUND; return 0; }
     if (!count) { last_error=ERROR_INVALID_PARAMETER; return 0; }
-    length=strlen(recon_pgmptr); if (length>=count) { memcpy(out,recon_pgmptr,count); return count; }
-    memcpy(out,recon_pgmptr,length+1); return length;
+    length=strlen(path); if (length>=count) { memcpy(out,path,count); return count; }
+    memcpy(out,path,length+1); return length;
 }
 DWORD WINAPI recon_GetVersion(void) { return 0x00000a03; }
 void WINAPI recon_GetSystemTime(SYSTEMTIME *out)

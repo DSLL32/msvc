@@ -62,6 +62,21 @@ resolves the supported mapping exports to their native implementations. Missing
 exports (including LINK's IsTNT probe) return NULL with the Windows error code;
 unsupported DLLs fail. No dynamic PE loading is involved.
 
+Native EXE/DLL hosts can register a verified module with recon_register_module
+and a ReconModuleSpec containing its name, canonical DOS path, image SHA256 and
+RECON_MODULE_NO_TLS flag. The case adapter must verify that provenance before
+launch; registration only retains metadata and never opens a PE image.
+RECON_MODULE_PRIMARY selects GetModuleHandleA(NULL)'s EXE identity. DLL hosts
+keep their real reconstructed attach/export/detach calls; registration does not
+run initialization or load a DLL. Registered modules are process-lifetime tokens.
+DisableThreadLibraryCalls validates the token, records disabled notifications
+and preserves errno/LastError on success. Native hosts can inspect retained
+metadata and state with recon_module_identity/thread_calls_disabled. Unknown
+handles return failure with ERROR_MOD_NOT_FOUND, as the explicit original probe
+does. Unregistered VC1 hosts retain their existing kernel32-only module behavior.
+Run make -j4 module-check for native identity/lifecycle checks and the frozen
+original DisableThreadLibraryCalls success, repeat and invalid-handle comparison.
+
 Compatibility scope
 -------------------
 

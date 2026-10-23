@@ -1,0 +1,4 @@
+valid 1 errno=123 error=4386
+repeat 1 errno=123 error=4386
+null 0 errno=123 error=126
+unknown 0 errno=123 error=126
