@@ -5,7 +5,7 @@ The source entry is `main` (Win32 MAP `_main`); the historical logical ID
 `_rc_main` is retained explicitly, and native target translation units use
 `-Dmain=rc_main` to keep the host adapter separate. The naming-only migration
 retains the old raw evidence and did not recapture the original.
-The released first case, `/help`, is complete. Rich resource compilation is now authorized and in preparation. Two application functions account for all 277 identified application
+The released first case, `/help`, is complete. The rich resource case is also complete through a strict native dependency replay. Two application functions account for all 277 identified application
 bytes. Reached startup support accounts for 350 of 353 bytes; the unvisited
 three-byte math-error hook remains an INT3 stub. Three accepted import thunks
 account for another 18 bytes, separately. This earns no RCDLL implementation credit.
@@ -73,7 +73,29 @@ rejection checks, including wrong trap PC/signal; the completed pair has 17
 corresponding fail-closed checks, including missing actual completion events.
 
 The original-only `probe-help` requires a new explicit `REFERENCE_DIR`; resource
-probe targets remain closed. `cases/minimal/source` and `resources-rich/source`
-are queued source-only seeds, with no successful resource reference claimed.
+references are coordinated with RCDLL, and fixtures never regenerate them. `cases/minimal/source` and `resources-rich/source`
+retain the source seeds; resources-rich now pins its actual VC5.10 reference.
 Historical groundwork timeouts remain recorded as such. All original work uses
 the fixed shared-prefix R:/S: mappings without remapping or stopping its server.
+
+## Rich resources
+
+`make -j4 fixtures` also runs `/r /dCASE_FROM_COMMAND=7 /iinclude
+/foresources.res resources.rc`. The single shared original capture supplies an
+actual RC main entry/export caller, empty streams, no callbacks and the exact
+3,672-byte `.res`. The fixture verifies all nine source/assets and conservatively
+pins all 428 supplied include files before execution; the in-process boundary
+rechecks each case byte. Its native working directory represents the captured
+Windows directory for these relative inputs. The complete observed UTF16 process
+environment is ASCII and is projected losslessly to the registered narrow vector;
+this does not claim a separate snapshot of the original rich-case CRT heap.
+
+The dependency changes argv pointers, including making one slot alias the original
+`/fo` argument and another point three bytes into that same storage. Replay applies
+those original-storage/offset effects, and a native caller tests the returned
+pointer identities. Eighteen controls reject wrong inputs, arguments, environment,
+CWD and preexisting artifacts before replay effects. The driver produces the same
+resource bytes and RC-only trace; this adds no function or DLL coverage.
+`cases/resources-rich/evidence/summary.json` records timings and immutable proof.
+The next authorized case is a missing filename containing `%`, to exercise the
+already-reconstructed diagnostic escaping branch through a real DLL error.

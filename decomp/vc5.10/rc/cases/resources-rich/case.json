@@ -1,0 +1,13 @@
+{
+  "id": "resources-rich",
+  "arguments": [
+    "/r",
+    "/dCASE_FROM_COMMAND=7",
+    "/iinclude",
+    "/foresources.res",
+    "resources.rc"
+  ],
+  "reference_manifest_sha256": "c42f64bfad93cef7d1459c44dafe373d369cb79e4eb03a372c636d9eff7133b2",
+  "driver_functions_added": 0,
+  "DLL_coverage_claimed": false
+}

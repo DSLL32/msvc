@@ -1,0 +1,72 @@
+{
+  "schema": 2,
+  "case": "resources-rich",
+  "provider_manifest_sha256": "fbe34f41417763d839fefdeb176074e616b8f7fe10152f9850930b2dcfd20fe4",
+  "source_owner": "decomp/vc5.10/rcdll/cases/resources-rich",
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/rcdll/resources-rich-baseline-02",
+  "environment_projection": "lossless ASCII projection of actual UTF16 process block; not a rich CRT-heap snapshot",
+  "cwd_transport": "native fixture directory is the relative-input root corresponding to the captured Windows CWD",
+  "driver_trace_basis": "actual driver-main010011d2 plus export-caller010011fd; no callback events",
+  "original_driver_sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+  "original_dll_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "original_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "original_seconds": 0.6655022110790014,
+  "files": {
+    "boundary.json": {
+      "bytes": 2496,
+      "sha256": "a80f8afc79a6a689b50a5bac94fb20cc738888b2cc3183fe3c228747de8e6f9b"
+    },
+    "callbacks.json": {
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    "case-args.txt": {
+      "bytes": 64,
+      "sha256": "aa9dc14a7337efdadcc38977032493a6b476b1da707e7ef884a357f51e33f61a"
+    },
+    "compiled-source.json": {
+      "bytes": 49381,
+      "sha256": "7708291cbf2247dbd45d074496db9eda4b6590ddd101c6c7a6b184e360552225"
+    },
+    "environment-utf16.bin": {
+      "bytes": 2816,
+      "sha256": "dfbf30967021e49f462c7299cc4a8f0d05cedf1451cfb327b03f5c6fd1a4bc7c"
+    },
+    "events.txt": {
+      "bytes": 4913,
+      "sha256": "111febf0719bf94cdc1021b52f42e969b576d2118407ecd1b214068c9d163081"
+    },
+    "helper-compiled-source.json": {
+      "bytes": 43239,
+      "sha256": "79ef5ac7325543f635ee2470087b23b38e0dc4159b3952774fd9848164c2baf4"
+    },
+    "include-tree.json": {
+      "bytes": 55734,
+      "sha256": "11d4c43cf55726621d5d8f87820070044906bd4c74a6e98039a07e14f69421b1"
+    },
+    "provider-manifest.json": {
+      "bytes": 3247,
+      "sha256": "fbe34f41417763d839fefdeb176074e616b8f7fe10152f9850930b2dcfd20fe4"
+    },
+    "rcdll-response.bin": {
+      "bytes": 12140,
+      "sha256": "e044e0c036f160f9a812b58a4a3ed19e220cff3761b6329d66992ab7b5bcc334"
+    },
+    "receipt.json": {
+      "bytes": 5328,
+      "sha256": "78645872b02c938b2e15e1c0ca51da54a3a303a333464336cb8c81b2aa2a8f9a"
+    },
+    "resources.res": {
+      "bytes": 3672,
+      "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

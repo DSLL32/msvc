@@ -1,0 +1,92 @@
+{
+  "export": "RC",
+  "abi": "stdcall",
+  "slots": 6,
+  "window": 0,
+  "unused": 0,
+  "diagnostic_original": 16781568,
+  "resource": null,
+  "count": 6,
+  "before": [
+    {
+      "pointer": 8850348,
+      "text": "S:\\vc5.10\\rcdll\\resources-rich-baseline-02\\RC.EXE",
+      "bytes": "533a5c7663352e31305c7263646c6c5c7265736f75726365732d726963682d626173656c696e652d30325c52432e45584500"
+    },
+    {
+      "pointer": 8850398,
+      "text": "/r",
+      "bytes": "2f7200"
+    },
+    {
+      "pointer": 8850401,
+      "text": "/dCASE_FROM_COMMAND=7",
+      "bytes": "2f64434153455f46524f4d5f434f4d4d414e443d3700"
+    },
+    {
+      "pointer": 8850423,
+      "text": "/iinclude",
+      "bytes": "2f69696e636c75646500"
+    },
+    {
+      "pointer": 8850433,
+      "text": "/foresources.res",
+      "bytes": "2f666f7265736f75726365732e72657300"
+    },
+    {
+      "pointer": 8850450,
+      "text": "resources.rc",
+      "bytes": "7265736f75726365732e726300"
+    }
+  ],
+  "after": [
+    {
+      "pointer": 8850348,
+      "text": "S:\\vc5.10\\rcdll\\resources-rich-baseline-02\\RC.EXE",
+      "bytes": "533a5c7663352e31305c7263646c6c5c7265736f75726365732d726963682d626173656c696e652d30325c52432e45584500",
+      "original_allocation": 0,
+      "offset": 0
+    },
+    {
+      "pointer": 8850398,
+      "text": "/r",
+      "bytes": "2f7200",
+      "original_allocation": 1,
+      "offset": 0
+    },
+    {
+      "pointer": 8850403,
+      "text": "CASE_FROM_COMMAND=7",
+      "bytes": "434153455f46524f4d5f434f4d4d414e443d3700",
+      "original_allocation": 2,
+      "offset": 2
+    },
+    {
+      "pointer": 8850433,
+      "text": "/foresources.res",
+      "bytes": "2f666f7265736f75726365732e72657300",
+      "original_allocation": 4,
+      "offset": 0
+    },
+    {
+      "pointer": 8850436,
+      "text": "resources.res",
+      "bytes": "7265736f75726365732e72657300",
+      "original_allocation": 4,
+      "offset": 3
+    },
+    {
+      "pointer": 8850450,
+      "text": "resources.rc",
+      "bytes": "7265736f75726365732e726300",
+      "original_allocation": 5,
+      "offset": 0
+    }
+  ],
+  "result": 0,
+  "callbacks": [],
+  "original_caller": 16781821,
+  "driver_main": 16781778,
+  "cwd_utf16": "53003a005c007600630035002e00310030005c007200630064006c006c005c007200650073006f00750072006300650073002d0072006900630068002d0062006100730065006c0069006e0065002d00300032005c0073006f0075007200630065005c00",
+  "environment_utf16_sha256": "dfbf30967021e49f462c7299cc4a8f0d05cedf1451cfb327b03f5c6fd1a4bc7c"
+}

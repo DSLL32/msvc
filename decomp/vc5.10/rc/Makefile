@@ -38,11 +38,13 @@ build/native/check-boundary: scripts/test-boundary.c scripts/native-boundary.c s
 fixtures check: native build/native/check-boundary
 	$(PYTHON) scripts/check-native.py
 	$(PYTHON) scripts/check-boundary.py
+	$(PYTHON) scripts/check-rich.py
+	$(PYTHON) scripts/check-rich-boundary.py
 probe-help: build/debug-original.exe
 	@test -n "$(REFERENCE_DIR)" || (echo 'Set REFERENCE_DIR for an explicit new original capture.' >&2; exit 2)
 	$(PYTHON) scripts/capture-original.py --baseline "$(REFERENCE_DIR)"
 probe-minimal probe-rich:
-	@echo 'Only /help is released; resource compilation remains queued.' >&2
+	@echo 'Explicit original resource captures are coordinated with the RCDLL worker; fixtures use their frozen native-only references.' >&2
 	@exit 2
 
 build/debug-original.obj: scripts/debug-original.c | build

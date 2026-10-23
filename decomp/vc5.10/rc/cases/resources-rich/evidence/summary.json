@@ -1,0 +1,118 @@
+{
+  "case": "resources-rich",
+  "state": "accepted-driver-dependency-fixture",
+  "arguments": [
+    "/r",
+    "/dCASE_FROM_COMMAND=7",
+    "/iinclude",
+    "/foresources.res",
+    "resources.rc"
+  ],
+  "application_coverage": {
+    "functions": 2,
+    "bytes": 277,
+    "identified_bytes": 277,
+    "added_for_this_case": 0
+  },
+  "reached_support": {
+    "functions": 3,
+    "bytes": 350,
+    "identified_bytes": 353
+  },
+  "reached_import_thunks": {
+    "functions": 3,
+    "bytes": 18
+  },
+  "DLL_coverage_claimed": false,
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/rcdll/resources-rich-baseline-02",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/rc/resources-rich-native-01",
+  "help_native_refresh": "/root/.ai-tmp/msvc2/vc5.10/rc/frontiers/020-rich-adapter-help-regression",
+  "source_owner": "decomp/vc5.10/rcdll/cases/resources-rich",
+  "output_bytes": 3672,
+  "output_sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318",
+  "master_manifest_sha256": "c42f64bfad93cef7d1459c44dafe373d369cb79e4eb03a372c636d9eff7133b2",
+  "audit_sha256": "f10cc62692237ce77d3d8c690176fe3ccf192b6ece7e13003d77e5496dd67e99",
+  "original_seconds": 0.6655022110790014,
+  "native_fixture": {
+    "status": "pass",
+    "case": "resources-rich",
+    "status_code": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "resource_bytes": 3672,
+    "resource_sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318",
+    "case_inputs": 9,
+    "conservative_headers": 428,
+    "post_argv_aliases": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        0
+      ]
+    ],
+    "native_trace": [
+      "rc_main"
+    ],
+    "setup_seconds": 0.1320661623030901,
+    "execution_seconds": 0.003329499624669552,
+    "verification_seconds": 0.002180403098464012,
+    "native_sha256": "a4d31ed66aaf07cd35f3df0c6b36564691e12ed154c4b1d5127dd98f6c56d818",
+    "native_compiled_receipt_sha256": "29d276e1199cfa393b1e67678790973562f7573878ec28beaf04640d9fdb836a",
+    "case_manifest_sha256": "c42f64bfad93cef7d1459c44dafe373d369cb79e4eb03a372c636d9eff7133b2",
+    "target_functions_added": 0,
+    "DLL_coverage_claimed": false,
+    "wine_invocations": 0,
+    "command_seconds": 0.2044182876124978
+  },
+  "native_boundary": {
+    "status": "pass",
+    "case": "resources-rich",
+    "positive": "actual returned argv allocation+offset identity and exact artifact",
+    "rejected": [
+      "host-case",
+      "window",
+      "flags",
+      "resource",
+      "callback",
+      "argc",
+      "argv-alias",
+      "argv-mutation",
+      "argv-terminator",
+      "environment-mutation",
+      "handler",
+      "wrong-logical-cwd",
+      "changed-source",
+      "missing-icon",
+      "existing-artifact",
+      "truncated-response",
+      "trailing-response",
+      "unknown-input-before-execution"
+    ],
+    "elapsed_seconds": 0.22747857123613358,
+    "wine_invocations": 0,
+    "command_seconds": 0.2996149305254221
+  },
+  "environment_qualification": "Actual UTF16 process environment is ASCII; native registered narrow vector is its lossless ASCII projection. Rich CRT heap envp was not separately snapshotted.",
+  "cwd_transport": "Exact captured Windows CWD labels a native fixture directory with the identical relative input tree; driver does not query CWD.",
+  "input_verification": "Python verifies exact case file set and all428 conservative SDK headers before execution; in-process RC boundary rechecks every case input byte and original export/vector contents.",
+  "argv_effects": "Actual post-RC allocation/offset identities are tested by a native caller, including slot3 aliasing original slot4 and slot4 pointing three bytes into that same storage."
+}

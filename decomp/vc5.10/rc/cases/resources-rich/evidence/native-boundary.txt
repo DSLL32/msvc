@@ -1,0 +1,18 @@
+RC 0 0 6
+input assets/messages.bin 48
+input assets/multi.ico 518
+input assets/pattern.bmp 246
+input assets/payload.bin 50
+input assets/pointer.cur 198
+input include/features.h 938
+input include/nested/values.h 129
+input resource.h 746
+input resources.rc 3440
+argv-after 0 0 0
+argv-after 1 1 0
+argv-after 2 2 2
+argv-after 3 4 0
+argv-after 4 4 3
+argv-after 5 5 0
+artifact resources.res 3672
+return 0

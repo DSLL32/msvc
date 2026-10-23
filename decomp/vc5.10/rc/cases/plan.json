@@ -1,5 +1,5 @@
 {
-  "status": "resources-rich-authorized-reference-in-preparation",
+  "status": "resources-rich-complete-next-error-case-authorized",
   "gates": [],
   "reconstructed_functions": 5,
   "cases": [
@@ -33,9 +33,20 @@
       "source": "resources-rich/source",
       "source_seed": "decomp/vc1.0/fixtures/resources-rich/source",
       "initial": true,
-      "status": "shared-original-reference-in-preparation",
+      "status": "accepted-native-driver-dependency-fixture",
       "shared_source_owner": "decomp/vc5.10/rcdll/cases/resources-rich/source",
-      "dependency": "strict native RCDLL response replay with complete inputs, callbacks and .res artifact"
+      "dependency": "strict native RCDLL response replay with complete inputs, callbacks and .res artifact",
+      "reference": "resources-rich/reference/manifest.json",
+      "evidence": "resources-rich/evidence/summary.json"
+    },
+    {
+      "id": "missing-percent-source",
+      "argv": [
+        "/r",
+        "missing%source.rc"
+      ],
+      "status": "authorized-next",
+      "purpose": "actual DLL error exercises driver percent escaping; preserve callback mutations, status and absent/artifact effects"
     }
   ],
   "dependency_boundary": {
