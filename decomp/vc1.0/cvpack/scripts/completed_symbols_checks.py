@@ -74,3 +74,27 @@ def check_scope_links(directory):
     for ins,label in((code[call-5],'successor module loaded from wrong formal'),(code[call-2],'successor size loaded from wrong local')):
         altered=copy.deepcopy(rebuilt);raw=bytearray(altered.data);offset=altered.offset(ins.address);raw[offset+len(ins.bytes)-1]^=4;altered.data=bytes(raw)
         reject(label,lambda:validate(config,pe,altered,linked))
+
+
+def check_reference_frontier(directory):
+    config,pe=load();directory=Path(directory);events=(directory/'original-events').read_text();state=json.loads((directory/'native-gdb.json').read_text());old=original_walks(events,json.loads((directory/'walks.json').read_text()));new=state['walks'];rows=json.loads((directory/'native-symbol-output.json').read_text())
+    proof=symbol_compare(config,pe,events,rows,old,new,True,state)
+    accepted=json.loads((directory/'proof.json').read_text());definitions={'type_data':accepted['observed_objects']['type_data'][0]['allocation']};left=old['type_data'][0]['address']+4746;right=new['type_data'][0]['address']+4746
+    compare(config,pe,'symbol_input',left,right,old,new,state,definitions,events,proof)
+    def reject(label,action):
+        try:action()
+        except(AssertionError,KeyError,IndexError):print('rejected:',label)
+        else:raise AssertionError('accepted '+label)
+    def run(change):
+        a,b,c=copy.deepcopy((rows,state,events));change(a,b,c)
+        return symbol_compare(config,pe,c,a,old,new,True,b)
+    reject('symbol reference uses wrong native record owner',lambda:run(lambda a,b,c:a[0].update(reference_record=a[0]['reference_record']+4)))
+    reject('symbol reference uses wrong native buckets',lambda:run(lambda a,b,c:a[0].update(reference_buckets=0)))
+    reject('symbol reference input kind is not PROCREF',lambda:run(lambda a,b,c:a[0].update(reference_kind=0x401)))
+    reject('symbol reference source offset is not Paint',lambda:run(lambda a,b,c:a[0].update(reference_offset=296)))
+    reject('symbol reference input module differs',lambda:run(lambda a,b,c:a[0].update(reference_module=4)))
+    from completed_symbol_input import compare as cursor_compare
+    import re
+    for slot,label in((9,'saved outer end value'),(10,'outer caller return')):
+        altered=re.sub(r'^stack '+str(slot)+r' [0-9a-f]+$', 'stack '+str(slot)+' 00000000',events,flags=re.M)
+        reject('nested one-past wrong '+label,lambda:cursor_compare(config,pe,'symbol_input',left,right,old,new,state,definitions,altered,proof))

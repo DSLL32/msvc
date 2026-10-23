@@ -34,7 +34,7 @@ def compare(config,pe,events,native,old,new,case):
     p=validate(config,pe)
     if not p:return
     original=parse(events)
-    profiles=p['scope_link_frontier']['calls']if re.search(r'^exception 80000003 va (?:0001bd60|0001d840) ',events,re.M)else[{k:p[k]for k in('input_offset','record_size','offset')}]
+    profiles=p['scope_link_frontier']['calls']if re.search(r'^exception 80000003 va (?:0001bd60|0001d840|0001d790) ',events,re.M)else[{k:p[k]for k in('input_offset','record_size','offset')}]
     assert case=='hello-debug-dll'and len(original)==len(native)==len(profiles),'missing module-address return/entry inventory'
     assert events.splitlines().count('module-address-rearm 000257c5 000257c8')==len(profiles),'module-address return probe missing rearm'
     results=[]

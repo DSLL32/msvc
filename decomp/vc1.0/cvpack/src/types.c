@@ -1888,3 +1888,40 @@ int link_symbol_scopes(unsigned char *symbols, unsigned long size)
     }
     return 1;
 }
+
+unsigned long local_symbol_references, local_symbol_reference_bytes;
+
+void record_symbol_offsets(unsigned char *symbols, unsigned long size,
+                           unsigned short module)
+{
+    unsigned char *record;
+    unsigned long offset;
+    unsigned short kind;
+
+    offset = 4;
+    record = symbols+4;
+    while (offset < size) {
+        kind = *(unsigned short *)(record+2);
+        if ((kind >= 0x101 && kind <= 0x102) ||
+            (kind >= 0x201 && kind <= 0x202) ||
+            (kind >= 0x20d && kind <= 0x20e)) {
+            create_symbol_reference(record, type_hash_extra_c, module, offset, 0x401);
+            local_symbol_reference_bytes += 16;
+            ++local_symbol_references;
+        } else if (kind == 0x104 || kind == 0x204 || kind == 0x300) {
+            create_symbol_reference(record, type_hash_extra_c, module, offset, 0x400);
+            offset = *(unsigned long *)(record+8);
+            record = symbols+offset;
+            local_symbol_reference_bytes += 16;
+            ++local_symbol_references;
+        } else if (kind == 0x105 || kind == 0x205 || kind == 0x301) {
+            create_symbol_reference(record, global_symbol_hash, module, offset, 0x400);
+            offset = *(unsigned long *)(record+8);
+            record = symbols+offset;
+            global_symbols_size += 16;
+            ++global_symbols_count;
+        }
+        offset += *(unsigned short *)record+2;
+        record += *(unsigned short *)record+2;
+    }
+}

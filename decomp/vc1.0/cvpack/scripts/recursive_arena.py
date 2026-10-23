@@ -70,9 +70,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_contex
         return
     assert p and buffer_context and not native.get('error'),'recursive slab observer failed'
     original=parse(events);assert len(original['allocations'])==len(native['allocations'])==1 and original['frontier']and native['frontier'],'missing/extra recursive slab lifetimes'
-    frontier=native['frontier']['name'];assert frontier in('hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets'),'unsupported recursive slab consumer'
+    frontier=native['frontier']['name'];assert frontier in('hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets','create_symbol_reference'),'unsupported recursive slab consumer'
     inputs=p['input_types'];published=p['published_types']
-    if frontier in('publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets'):inputs=p['packed_type_frontier']['input_types'];published=p['packed_type_frontier']['published_types']
+    if frontier in('publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets','create_symbol_reference'):inputs=p['packed_type_frontier']['input_types'];published=p['packed_type_frontier']['published_types']
     used=len(inputs)*12
     assert events.splitlines().count('recursive-hash-rearm 00019cb6 00019cb9')==1,'recursive slab allocation probe not rearmed'
     memory={}

@@ -103,7 +103,7 @@ void convert_procedure16(void) { __asm { int 3 } }
 
 
 
-void record_symbol_offsets(unsigned char *symbols, unsigned long size, unsigned short module) { __asm { int 3 } }
+
 
 void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { __asm { int 3 } }
 
@@ -115,3 +115,7 @@ void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }
 
 int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, unsigned char *record, unsigned short index) { __asm { int 3 } return 0; }
+
+void create_symbol_reference(unsigned char *record, void **buckets, unsigned short module,
+                             unsigned long offset, unsigned short kind)
+{ __asm { int 3 } }

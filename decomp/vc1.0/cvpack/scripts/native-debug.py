@@ -466,12 +466,18 @@ def capture_symbol_output():
         entry['nested_callers']=names
         if f.name()=='compact_new_type':entry['type_index']=int(f.read_var('type'))
         assert entry['type_index']==4134,'unreviewed compact symbol type'
-    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    if f.name()=='create_symbol_reference':
+        assert caller.name()=='record_symbol_offsets'and int(caller.read_var('offset'))==108 and int(caller.read_var('size'))==608 and int(caller.read_var('module'))==3
+        entry['reference_record']=int(f.read_var('record'));entry['reference_offset']=int(f.read_var('offset'));entry['reference_kind']=int(f.read_var('kind'));entry['reference_module']=int(f.read_var('module'));entry['reference_buckets']=int(f.read_var('buckets'))
+        assert entry['reference_record']==entry['base']+108 and entry['reference_offset']==108 and entry['reference_kind']==0x400 and entry['reference_module']==3 and entry['reference_buckets']==int(gdb.parse_and_eval('global_symbol_hash'))
+        caller=caller.older()
+    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets','create_symbol_reference')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
-    assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==(608 if f.name()in('link_symbol_scopes','record_symbol_offsets')else size)
-    if f.name()in('link_symbol_scopes','record_symbol_offsets'):
-        assert cursor==base+608 and int(f.read_var('symbols'))==base and int(f.read_var('size'))==608
+    assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==(608 if f.name()in('link_symbol_scopes','record_symbol_offsets','create_symbol_reference')else size)
+    if f.name()in('link_symbol_scopes','record_symbol_offsets','create_symbol_reference'):
+        assert cursor==base+608
+        if f.name()!='create_symbol_reference':assert int(f.read_var('symbols'))==base and int(f.read_var('size'))==608
         if f.name()=='record_symbol_offsets':assert int(f.read_var('module'))==3
         entry['completed_input']=dict(end=int(caller.read_var('end')))
         assert int(gdb.parse_and_eval('symbol_input'))==entry['completed_input']['end']==entry['input']+4746
@@ -521,7 +527,8 @@ def capture_type_page():
         roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))
         result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
         return [result]
-    if f.name()in('link_symbol_scopes','record_symbol_offsets'):
+    if f.name()in('link_symbol_scopes','record_symbol_offsets','create_symbol_reference'):
+        if f.name()=='create_symbol_reference':assert caller.name()=='record_symbol_offsets';caller=caller.older()
         assert caller.name()=='pack_new_types'
         assert int(gdb.parse_and_eval('next_type_index'))==0x1074 and int(gdb.parse_and_eval('type_page_capacity'))==512
         roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))

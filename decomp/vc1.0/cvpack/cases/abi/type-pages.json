@@ -8,8 +8,8 @@
   "allocation_return": 104919,
   "native_allocation_line": 1230,
   "sources": {
-    "src/types.c": "15250ebcf89bef0db63b77669d82fc534cd4f54c8e56fbc4cebf48c1ce42856f",
-    "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644",
+    "src/types.c": "7ffd068dd2fc43fc83d06adc9110c2591f783a7b2726668e4ca364c0a4897f15",
+    "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23",
     "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33",
     "src/modules.c": "c8f766b6c7ca20f14f3304c53ccf16be74fa5c1c05a0ca7f73e2d11494dd56d6"
   },
@@ -31,6 +31,6 @@
     }
   ],
   "scope": "One exact cold hello-debug-dll/module3/type4115 first2048-byte global pointer page, index1000/capacity512, zero defined slots before append_buffer returns.120 statically reachable page roots, onlyslot0 populated. Following32 bytes unclassified. Full raw pre/post retained; no cross-heap undefined equality. Unknown/extra pages/owners/frames fail.",
-  "data.json_sha256": "f5264f909069b6b6addadaa381ccf26238f9cc0fbf370794f8b048f1aa405dc4",
+  "data.json_sha256": "218d222f37500b0a264bb9c059465e383acbc4e614216661baaa60e10461ff4a",
   "walks.json_sha256": "9e8c4574a364950e57c2288a044b2e2653010d17fbb9d411d41171e686a19549"
 }

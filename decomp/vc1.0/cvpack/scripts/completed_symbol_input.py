@@ -6,8 +6,9 @@ def validate(config,original,rebuilt=None,linked=None):
     ref=config['symbol_output_observations'];path=BINARY/ref['evidence']
     assert hashlib.sha256(path.read_bytes()).hexdigest()==ref['evidence_sha256'],'stale completed cursor proof'
     p=json.loads(path.read_text())['completed_input']
-    assert {k:v for k,v in p.items()if k not in('original_loop','scope','successors','successor_call')}==dict(global_name='symbol_input',owner='type_data',extent=4746,offset=4746,frontier=0x1bd60,caller_return=0x25238,identity_only=True),'unreviewed one-past cursor identity'
-    assert p['successors']==[dict(original=0x1d840,native='record_symbol_offsets',caller_return=0x25277)],'unreviewed one-past successor'
+    assert {k:v for k,v in p.items()if k not in('original_loop','scope','successors','successor_call','nested_reference_call')}==dict(global_name='symbol_input',owner='type_data',extent=4746,offset=4746,frontier=0x1bd60,caller_return=0x25238,identity_only=True),'unreviewed one-past cursor identity'
+    assert p['successors']==[dict(original=0x1d840,native='record_symbol_offsets',caller_return=0x25277),dict(original=0x1d790,native='create_symbol_reference',caller_return=0x1d943,end_slot=9,outer_return=0x25277)],'unreviewed one-past successor'
+    r=p['nested_reference_call'];assert r['start']==0x1d930 and r['end']==0x1d943 and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor nested reference frame changed'
     r=p['successor_call'];assert r['start']==0x25262 and r['end']==0x2527a and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor successor call changed'
     r=p['original_loop'];assert r['start']==0x2520a and r['end']==0x25238 and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor original loop changed'
     assert original.read(0x2520a,0x19)==bytes.fromhex('8bc525ffff00000105e4350300391de43503000f82d4feffff'),'completed cursor original add/test differs'
@@ -38,7 +39,10 @@ def compare(config,pe,name,old_pointer,new_pointer,old,new,state,definitions,eve
     assert definition['write_evidence']==[dict(site=0x17dc9,offset=0,length=4746)],'one-past allocation defining read differs'
     assert symbol_proof and symbol_proof['defined']==608 and symbol_proof['native']['completed_input']['end']==new_pointer,'one-past native loop-exit proof missing'
     fields=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(fields[::2],fields[1::2])}
-    assert registers['ebx']==old_pointer,'one-past original end-register differs'
+    if 'end_slot'in profile:
+        words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
+        assert words[profile['end_slot']]==old_pointer and words[10]==profile['outer_return'],'one-past original saved end/frame differs'
+    else:assert registers['ebx']==old_pointer,'one-past original end-register differs'
     for pointer,walks,row in((old_pointer,old,symbol_proof['original']),(new_pointer,new,symbol_proof['native'])):
         owners=walks[p['owner']];assert len(owners)==1,'one-past cursor owner missing/ambiguous'
         owner=owners[0];assert len(bytes.fromhex(owner['bytes']))==p['extent']and owner['address']==row['input'],'one-past cursor actual owner/extent differs'

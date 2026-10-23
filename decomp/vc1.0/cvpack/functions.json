@@ -4053,13 +4053,16 @@
       "native": "record_symbol_offsets",
       "symbol": "_record_symbol_offsets",
       "original": 120896,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        120896,
+        121205
+      ],
       "abi": "void record_symbol_offsets(unsigned char *,unsigned long,unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0096-record_symbol_offsets/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4081,7 +4084,25 @@
           "kind": "integer",
           "bits": 16
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "intern_global",
@@ -5344,6 +5365,54 @@
           }
         ]
       }
+    },
+    {
+      "name": "create_symbol_reference",
+      "native": "create_symbol_reference",
+      "symbol": "_create_symbol_reference",
+      "original": 120720,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __cdecl create_symbol_reference(unsigned char *,void **,unsigned short,unsigned long,unsigned short)",
+      "return_bits": 0,
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "buckets",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "offset",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "kind",
+          "slot": 5,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     }
   ],
   "review": {
@@ -5940,6 +6009,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 95
+    },
+    {
+      "function": "record_symbol_offsets",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 96
     }
   ],
   "support_unmasked": [
@@ -6534,11 +6609,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "00f34eaa6afb7e2e87ae54724eb2c32567680152a716389004a65fe6c7090085"
+    "evidence_sha256": "7f9d9717ac22810e52d992bcecb4696346b3ac79c840cd7c3d060511a55561e4"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "a3035aa57a2b5692cb187f1f7034d8dac8ee199c39fc2d8644ef99231de88c32"
+    "evidence_sha256": "4feff7bd4e1fdde22bc8f7f10156d3c0bd38b5389602362576b4da2f92051069"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6570,42 +6645,42 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "753101d931b32e6112d7d91871526bdc46cecd3055c1741303475d3c43a36eea"
+    "evidence_sha256": "10fcfeb44f9901b948f58360ed698380c5eabb1f081e567d6d9a3646c29300c1"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "30d3969c3e377cc6cc668e9d12db26e7fa68f7a86076f26cbc1f60af0a292b04"
+    "evidence_sha256": "5feb10ddb0fda2861905ed44ce58d9b6eea5560eec6eed3c669278f2a616cd25"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "e694ce9823dad981367d6414a26adde9acc1f955d801188044b04de02d8d7189"
+    "evidence_sha256": "c7936ad2734d5e23aa751ae45e8e56ad113a4644c7fb08f2e51f9e982cb6e7b9"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "e3b48ba84aaaaaf8ab617c12a47db06ce86bae5a056e38b4ef638ad2a4a71e78"
+    "evidence_sha256": "a67c4e8848802272a0edba2dcbb0991a7b6bafb5693a3eba9910de779ad9a6b2"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "adb65df832fd89ab5c99ad544c28efe6f17d2eaba175aa1aede41022bfdfbfaf"
+    "evidence_sha256": "8c43b84ccd63f7ed64fce4af6e43f3e8f87cc880ffcffb203ff08941550a18e7"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "557ac4bcdf164983df679a73e43796382949ab309fff8f8b37c9ea30ec32ae9d"
+    "evidence_sha256": "1cec60de75d637400e99775f6a181374e574f99f3cf9cf67eb1bc098d37740ac"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "de2a53e3fcb5bb4fba5d217b734f03e209591176747b9bb6dd6a912e3ceb1ed5"
+    "evidence_sha256": "b74eb303a1cece88f560d966500b8eed5ccefc151f4259de5001e78ea42a847c"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "a6a90bed4cd6aeb9abbaa8df1ed41931b00def6416c1710f69168ee0b9434be9"
+    "evidence_sha256": "01a1082edad63abfc0132d6e760114e63bcca9e26bc089b678ba141b1a457287"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "7911c3022e311547624e06f28bce2d3a9b6dbed7b14be838e99ccba1b9e0b9e2"
+    "evidence_sha256": "97e3a8ac6ca7a37a3510ea45de6f0005bf74ebc38efe994cec7b562e96d6fb9b"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "1c60d25cc8250912f101597ce06f912f7b86358fb19f1e3fa2c49bf6f79ecb1a"
+    "evidence_sha256": "8aba52ee92fe9da713be780c8826515f6796d1ff721d948a20af9ce9ee19325b"
   }
 }

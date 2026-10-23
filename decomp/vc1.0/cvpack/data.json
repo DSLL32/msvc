@@ -1141,5 +1141,19 @@
     "original": 217260,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "local_symbol_references",
+    "symbol": "_local_symbol_references",
+    "original": 226224,
+    "size": 4,
+    "source": "src/types.c"
+  },
+  {
+    "name": "local_symbol_reference_bytes",
+    "symbol": "_local_symbol_reference_bytes",
+    "original": 226228,
+    "size": 4,
+    "source": "src/types.c"
   }
 ]

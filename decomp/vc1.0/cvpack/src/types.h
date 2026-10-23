@@ -124,4 +124,7 @@ void convert_udt_symbol(void);
 unsigned short write_search_symbol(unsigned char *, unsigned short);
 int link_symbol_scopes(unsigned char *, unsigned long);
 void record_symbol_offsets(unsigned char *, unsigned long, unsigned short);
+void create_symbol_reference(unsigned char *, void **, unsigned short, unsigned long, unsigned short);
+extern unsigned long global_symbols_count, global_symbols_size;
+extern unsigned long local_symbol_references, local_symbol_reference_bytes;
 #endif

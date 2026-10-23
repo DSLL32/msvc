@@ -55,9 +55,9 @@ def parse(events):
 def compare(config,pe,events,native,old_walks,new_walks,state,case,old_buffer,native_buffer):
     p=validate(config,pe)
     if not native:
-        assert not(case=='hello-debug-dll'and native_buffer and native_buffer['frontier']['name']in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets')),'missing packed slab observations'
+        assert not(case=='hello-debug-dll'and native_buffer and native_buffer['frontier']['name']in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets','create_symbol_reference')),'missing packed slab observations'
         return
-    assert p and not native.get('error')and native['frontier']['name']in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets'),'unsupported packed slab frontier'
+    assert p and not native.get('error')and native['frontier']['name']in('convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol','end_symbol_block','link_symbol_scopes','record_symbol_offsets','create_symbol_reference'),'unsupported packed slab frontier'
     if native['frontier']['name']=='address_in_module':assert p['address_frontier']==0x25920,'missing packed module-address scope'
     if native['frontier']['name']=='convert_bp_relative32':assert p['bp_frontier']==0x254f0,'missing BP-relative observed scope'
     original=parse(events);assert len(original['allocations'])==len(native['allocations'])==1 and original['frontier']and native['frontier'],'missing/extra packed slab lifetime'

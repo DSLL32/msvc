@@ -108,8 +108,8 @@
     }
   ],
   "sources": {
-    "src/types.c": "15250ebcf89bef0db63b77669d82fc534cd4f54c8e56fbc4cebf48c1ce42856f",
-    "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644",
+    "src/types.c": "7ffd068dd2fc43fc83d06adc9110c2591f783a7b2726668e4ca364c0a4897f15",
+    "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23",
     "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
@@ -646,6 +646,15 @@
       "allocation_esp_delta": 12,
       "buffer_slot": 8,
       "input_slot": 11
+    },
+    "create_symbol_reference": {
+      "original": 120720,
+      "defined": 608,
+      "input_offset": 4746,
+      "return_address": 121155,
+      "allocation_esp_delta": 52,
+      "buffer_slot": 18,
+      "input_slot": 21
     }
   },
   "completed_input": {
@@ -667,12 +676,24 @@
         "original": 120896,
         "native": "record_symbol_offsets",
         "caller_return": 152183
+      },
+      {
+        "original": 120720,
+        "native": "create_symbol_reference",
+        "caller_return": 121155,
+        "end_slot": 9,
+        "outer_return": 152183
       }
     ],
     "successor_call": {
       "start": 152162,
       "end": 152186,
       "bytes": "8b74242433c0668b06508b4424185750e8c985ffff83c40c"
+    },
+    "nested_reference_call": {
+      "start": 121136,
+      "end": 121155,
+      "bytes": "68000400005557a1787103005053e84dfeffff"
     }
   },
   "scope_link_writes": {

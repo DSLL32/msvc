@@ -159,6 +159,10 @@ def main():
     if scope_links_pair.is_dir():
         from completed_symbols_checks import check_scope_links
         check_scope_links(scope_links_pair)
+    reference_pair=BINARY/'cases/hello-debug-dll/evidence/0096-record_symbol_offsets'
+    if reference_pair.is_dir():
+        from completed_symbols_checks import check_reference_frontier
+        check_reference_frontier(reference_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)
