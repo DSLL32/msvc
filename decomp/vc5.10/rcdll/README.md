@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty application functions (19,663 original code bytes), two embedded CRT functions
+Sixty-one application functions (19,775 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_skip_block_comment`.
+currently matches at the next named trap, `rc_push_condition`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -527,3 +527,10 @@ compared with the decoded WCHAR; a match returns1/ret4 and advances the cursor
 from2 to4. [Verification](cases/resources-rich-trailing-space/character-match-verification.json)
 records eight affected controls, the actual typed return, and the next
 block-comment scanner at plus43. Both builds and cached native help pass.
+
+Block-comment skipping is accepted (112 bytes). The SDK opening comment reads
+434 initialized bytes, advances13 lines and appends52 exact CRLF bytes before
+returning with ret0. [Verification](cases/resources-rich-trailing-space/block-comment-verification.json)
+records twelve affected controls and the next conditional-stack helper at
+`#ifndef _WINDOWS_`, with nesting-1 and condition1. The encountered four-byte
+CRLF literal is contextual data with no code credit. EOF/resume remains trapped.

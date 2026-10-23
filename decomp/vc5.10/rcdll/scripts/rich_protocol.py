@@ -1841,11 +1841,11 @@ def angle_name_trial(original,native):
     proof['trial']='rc_parse_angle_name';return proof
 
 
-def _include_search_checkpoint(original,native,comment=False,matcher=False):
-    trial='rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=4 if matcher else 2;source_word=43 if matcher else 42
-    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(61 if matcher else 60 if comment else 59)
+def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False):
+    trial='rc_skip_block_comment'if block else'rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_push_condition'if block else'rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_handle_directive'if block else'rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=476 if block else 4 if matcher else 2;source_word=10 if block else 43 if matcher else 42
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(62 if block else 61 if matcher else 60 if comment else 59)
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==(0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert a['words'][0]==(0x71c2674b if block else 0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     assert proof['application_trace'][-1]==trial
     text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals'];calls=args['include_opens']
     assert calls==json.loads((native/'include-opens.json').read_text())and len(calls)==4
@@ -1880,7 +1880,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False):
     assert old_file[1:2]+old_file[3:]==new_file[1:2]+new_file[3:]==(510,9,6,0,4096,0)and old_file[0]-old_file[2]==new_file[0]-new_file[2]==2
     assert raw_bytes(text,'comment-source-buffer')[:512]==bytes.fromhex(c['file_buffer'])[:512]==master[4096:4608]
     assert re.findall(r'^comment-source-position (\d+)$',text,re.M)==['4608']and re.findall(r'^pos:\s*(\d+)$',c['file_fdinfo'],re.M)==['4608']and Path(c['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINDOWS.H').resolve()
-    assert struct.unpack_from('<I',old_globals,0x14a10-0x14000)[0]==1 and struct.unpack_from('<I',old_globals,0x16ce8-0x14000)[0]==args['current_line']==1 and struct.unpack_from('<I',old_globals,0x29458-0x14000)[0]==args['prepared_lines']==128
+    assert struct.unpack_from('<I',old_globals,0x14a10-0x14000)[0]==1 and struct.unpack_from('<I',old_globals,0x16ce8-0x14000)[0]==args['current_line']==(16 if block else 1)and struct.unpack_from('<I',old_globals,0x29458-0x14000)[0]==args['prepared_lines']==(130 if block else 128)
     old_output=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));new_output=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=old_output[0]-old_output[2]
     assert old_output[1:2]+old_output[3:]==new_output[1:2]+new_output[3:]and defined==new_output[0]-new_output[2]and 0<=defined<=4096 and raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]
     assert b['crt_errors']==dict(errno=2,last_error=0)
@@ -1917,6 +1917,27 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False):
         assert int(result)==row['result']==1 and int(end_sp,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+8
         proof['include_search'].update(current_source_offset=source_offset,current_word=source_word,next_hidden_inputs='Actual cursor4/plus43 in the same initialized SDK source; block-comment scanner has no formals or additional register/out-pointer inputs, and consumes existing source/line/output globals.',return_scope='Fourth open and comment dispatcher remain pending; matcher has actually returned1 with ret4 and source advance2.')
         proof['character_match']=dict(character=42,formal_bytes=4,comparison_bits=32,result=1,cleanup=4,source_before_offset=2,source_after_offset=4,next_formals=[],next_current_word=source_word,next_caller='rc_scan_comment',next_original_return_to='0x71c32a12',state_scope='Full source frame and initialized source bytes plus line/FILE/output parser globals checked; block-comment helper has no additional register/out-pointer inputs identified.')
+    if block:
+        rows=args['block_comments'];assert rows==json.loads((native/'block-comments.json').read_text())and len(rows)==1;row=rows[0]
+        entry=re.findall(r'^block-comment-entry cursor=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returned=re.findall(r'^block-comment-return cursor=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+)$',text,re.M);assert len(entry)==len(returned)==1
+        cursor,line,sp,return_to=entry[0];after,line_after,end_sp=returned[0];end=master.index(b'*/')+2;line_count=master[2:end].count(b'\n');assert end==219 and line_count==13
+        assert row['formals']==[]and row['caller']=='rc_scan_comment'and int(return_to,16)==0x71c32a12 and int(sp,16)+4==int(end_sp,16)and row['return_esp']==row['entry_esp']+4
+        assert int(cursor,16)-old[5]==row['cursor']-new[5]==4 and int(after,16)-old[5]==row['cursor_after']-new[5]==end*2
+        assert int(line)==row['line']==1 and int(line_after)==row['line_after']==1+line_count
+        buffers=[]
+        for phase in ['before','after']:
+            old_state=struct.unpack('<8I',raw_bytes(text,'block-'+phase+'-file'));new_state=struct.unpack('<8I',bytes.fromhex(row['output_'+phase]['file_state']));written=old_state[0]-old_state[2]
+            assert old_state[1:2]+old_state[3:]==new_state[1:2]+new_state[3:]and written==new_state[0]-new_state[2]==row['output_'+phase]['defined_bytes']and 0<written<=4096
+            payload=raw_bytes(text,'block-'+phase+'-buffer');assert payload==bytes.fromhex(row['output_'+phase]['payload'])and len(payload)==written;buffers.append(payload)
+        assert buffers[1]==buffers[0]+'\r\n'.encode('utf-16le')*line_count
+        condition=args['condition_entry'];assert condition['formals']==[]and condition['nesting']==struct.unpack('<i',raw_bytes(text,'condition-nesting'))[0]==-1
+        assert condition['caller']=='rc_handle_directive'and condition['directive']==5 and condition['condition']==1 and a['registers']['esi']==1
+        assert condition['word']==condition['macro']and raw_bytes(text,'condition-word')==bytes.fromhex(condition['macro_bytes'])and raw_bytes(text,'condition-word')[:20]=='_WINDOWS_\0'.encode('utf-16le')
+        assert raw_bytes(text,'condition-state')==bytes.fromhex(condition['state'])==bytes(128)
+        assert masked[0x230:0x234]==relocated[0x230:0x234]=='\r\n'.encode('utf-16le')
+        literal=next(v for v in config['functions']if v['name']=='rc_skip_block_comment');assert ['0x1230','0x1234']in literal['text_data']
+        proof['include_search'].update(current_source_offset=source_offset,current_word=source_word,next_hidden_inputs='Actual nesting=-1 is the conditional push helper input; caller has #ifndef directive5, condition1 and current _WINDOWS_ identifier. Full source/FILE/current-line globals remain captured.',return_scope='Fourth source open remains pending; block-comment helper has returned normally, conditional push is an actual nonempty frontier.')
+        proof['block_comment']=dict(formals=[],return_cleanup=0,source_before_offset=4,source_after_offset=end*2,initialized_read_bytes=end*2-4,line_before=1,line_after=14,LFs=line_count,output_append_bytes=line_count*4,output_defined_before=len(buffers[0]),output_defined_after=len(buffers[1]),literal_rva='0x1230',literal_bytes=4,literal_code_credit=0,next_formals=[],next_hidden_inputs=dict(nesting=-1,caller='rc_handle_directive',directive=5,condition=1,word='_WINDOWS_',current_source_offset=source_offset,current_word=source_word),scope='Only actual initialized header span and normal return traversed; EOF/resume branch remains named trapped dependency.')
     proof['trial']=trial;return proof
 
 def include_search_trial(original,native):
@@ -1927,3 +1948,6 @@ def scan_comment_trial(original,native):
 
 def character_match_trial(original,native):
     return _include_search_checkpoint(original,native,matcher=True)
+
+def block_comment_trial(original,native):
+    return _include_search_checkpoint(original,native,block=True)

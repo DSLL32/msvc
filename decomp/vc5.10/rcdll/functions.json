@@ -65,7 +65,8 @@
     "rc_parse_angle_name",
     "rc_search_include_directories",
     "rc_scan_comment",
-    "rc_match_logical_character"
+    "rc_match_logical_character",
+    "rc_skip_block_comment"
   ],
   "functions": [
     {
@@ -1412,7 +1413,12 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x1230",
+          "0x1234"
+        ]
+      ]
     },
     {
       "name": "rc_skip_line_comment",

@@ -684,3 +684,19 @@ class CharacterMatchEntered(gdb.Breakpoint):
         entry=dict(character=int(character),formal_bytes=character.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),caller=frame.older().name())
         character_matches.append(entry);save_character_matches();CharacterMatchReturned(frame,entry);return False
 CharacterMatchEntered('rc_match_logical_character',internal=True);save_character_matches()
+
+block_comments=[]
+def save_block_comments():(path.parent/'block-comments.json').write_text(json.dumps(block_comments,indent=2)+'\n')
+def block_output():
+    file=gdb.parse_and_eval('rc_cpp_output_file').dereference();base=int(file['_base']);defined=int(file['_ptr'])-base
+    return dict(file_state=bytes(gdb.selected_inferior().read_memory(int(file.address),32)).hex(),defined_bytes=defined,payload=bytes(gdb.selected_inferior().read_memory(base,defined)).hex())
+class BlockCommentReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')),line_after=int(gdb.parse_and_eval('rc_preparing_line')),output_after=block_output())
+        save_block_comments();return False
+class BlockCommentEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),line=int(gdb.parse_and_eval('rc_preparing_line')),caller=frame.older().name(),output_before=block_output())
+        block_comments.append(entry);save_block_comments();BlockCommentReturned(frame,entry);return False
+BlockCommentEntered('rc_skip_block_comment',internal=True);save_block_comments()
