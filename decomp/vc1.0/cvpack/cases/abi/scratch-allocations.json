@@ -2,23 +2,23 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "advance_file_page"
+    "convert_new_type"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
   "sources": {
     "src/cvpack.h": "e0478763deb6fc09929433ce520bfd4a74cc908344a60526205e1713d82c9691",
     "src/diagnostics.c": "88717de8be9d57afadd1a66cef24e4346c1d03dbc40c8fe349928b5606847a45",
-    "src/files.c": "bceafc3238f58167a1e6a552d487109271ec87b63c8e821137e13ab151297040",
-    "src/files.h": "1c211716783eecc72ac0a500633e0e9125f03624240950a3af91b1d23d481c75",
+    "src/files.c": "fd7ad4f6cbf4693bef0ffbea48a372e7ed2ad42bb0acd2b28c62326242195499",
+    "src/files.h": "5fd235d43717f5a5128ec437477f8dcbfaea06bc2dc79f87ac5b2ee5fe8eafd9",
     "src/image.c": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
     "src/image.h": "8d6612c22ac7c5896e4dcdf2b8c2923060819a2db43592f1a7dccf0b0c902519",
     "src/main.c": "00c081d082c9e938f6f0aed5370001a20973247944e028754a446f0b8de350cc",
-    "src/modules.c": "ad28d7fb9548e4a4ce3ecbf8c04da13a4d9a6cb9992f1ffcba219afeae2dacdb",
+    "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab",
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "bb26cbc3f55e52fd2fbe9c7dc1bd46334b8bd7af277677f20f7f95856c6d893e",
+    "src/stubs.c": "ecfc7fbacbdecc0e73566665db59ae2f379b8b897c4dad4c34889d2d371cd2b1",
     "src/types.c": "0083f0ef43673e5c1387fe93960bcbec6a7401e6694551d0003c765143b9ab81",
     "src/types.h": "7bb0fbdd081fc52c0ca4783c3e0906ebb3812ee858c85fc97024775d1bec5791"
   },
@@ -56,7 +56,10 @@
       "notes": "Malloc result stored at3305c; no writes before initial pack_module entry.",
       "lifetime": "creation-through-first-module-entry",
       "defined_ranges": [],
-      "size_global": "type_capacity"
+      "size_global": "type_capacity",
+      "allowed_write_sites": [
+        97737
+      ]
     },
     {
       "name": "module_data",
@@ -100,7 +103,7 @@
   "first_module_mode": "explicit_module_index",
   "allowed_module_boundaries": [
     {
-      "frontier": "advance_file_page",
+      "frontier": "convert_new_type",
       "index": 2,
       "module": 3
     }

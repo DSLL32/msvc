@@ -823,13 +823,16 @@
       "native": "release_page",
       "symbol": "_release_page",
       "original": 174160,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "void release_page(Page *)",
+      "status": "accepted",
+      "extent": [
+        174160,
+        174289
+      ],
+      "abi": "unsigned char release_page(Page *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0059-release_page/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -839,7 +842,23 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "return_bits": 8,
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "attach_page",
@@ -1455,13 +1474,16 @@
       "native": "advance_file_page",
       "symbol": "_advance_file_page",
       "original": 173504,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        173504,
+        173676
+      ],
       "abi": "void advance_file_page(FileSlot *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0056-advance_file_page/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1471,7 +1493,22 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "compare_directory",
@@ -1723,13 +1760,16 @@
       "native": "read_types",
       "symbol": "_read_types",
       "original": 97664,
-      "source": "src/stubs.c",
+      "source": "src/modules.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        97664,
+        97810
+      ],
       "abi": "void read_types(unsigned long,const CvDirectoryEntry *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0058-read_types/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1745,7 +1785,22 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "read_lines",
@@ -3136,6 +3191,46 @@
           }
         ]
       }
+    },
+    {
+      "name": "flush_file_page",
+      "native": "flush_file_page",
+      "symbol": "_flush_file_page",
+      "original": 172320,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        172320,
+        172519
+      ],
+      "abi": "void flush_file_page(Page *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0057-flush_file_page/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "page",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -3492,6 +3587,30 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 55
+    },
+    {
+      "function": "advance_file_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 56
+    },
+    {
+      "function": "flush_file_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 57
+    },
+    {
+      "function": "read_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 58
+    },
+    {
+      "function": "release_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 59
     }
   ],
   "support_unmasked": [
@@ -4086,15 +4205,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "52ace21d5b92f02e905a092d14046eab988e4a2f6aa937d399d3840f6bf6322d"
+    "evidence_sha256": "dc2df1c77d97ee3253751510a34cf358316bf679427436b1716458fde7e46c84"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "c8cfb6e3fd1f1a945a463e8033ff75aa146b1ceb6b3a14983bc3390034391712"
+    "evidence_sha256": "6c2ce76d817fdbfc292686f7f8b7f85a2bd856875e62f9233df49df4e556fcac"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "c1e6545da657fafa70b4cda1b27d6c5327ba62d731c3df1f4b14d62cc7f1101b"
+    "evidence_sha256": "840aab29fb4fab5ee391a5d7940a1b2339465afba87efcd1c6fbd3fa50624be7"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -4114,6 +4233,10 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "eef685961f870cc63e62c513d5e5104974ad7064c1397b56b4e9519b46aee8fe"
+    "evidence_sha256": "ec9e393081d58a7ab5a9a440420b9d9e314670be203257ef4027dfc62468d85a"
+  },
+  "module_buffer_publication": {
+    "evidence": "cases/abi/module-buffer-publication.json",
+    "evidence_sha256": "f103eee88494a0fc7389afe6a5b45fd5162c0f75995b104fe8ef71f4d1c523ed"
   }
 }

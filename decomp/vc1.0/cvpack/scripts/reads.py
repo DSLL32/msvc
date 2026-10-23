@@ -18,6 +18,7 @@ def validate(config,pe):
     for site in proof['sites']:
         owner=next(r for r in config['functions']if r['name']==site.get('owner',proof['owner']))
         call,returned=site['call'],site['returned']
+        assert site.get('maximum_count',4096)==(4746 if call==0x17dc9 else 4096),'unreviewed read site bound'
         assert call not in known and returned not in known;known.update((call,returned))
         assert owner['extent'][0]<=call<returned<owner['extent'][1]
         raw=pe.read(call,5)
@@ -32,6 +33,11 @@ def original(events):
         if line.startswith('read-entry '):
             _,site,handle,address,count,error,position,fd,osfile,host_position,raw=line.split()
             result.append(dict(site=int(site,16),handle=int(handle),address=int(address,16),count=int(count),entry_errno=int(error),entry_position=int(position),descriptor=int(fd),entry_osfile=int(osfile,16),entry_host_position=int(host_position),prebytes=raw))
+        elif line.startswith('read-page-entry '):
+            words=line.split()[1:];assert words[::2]==['site','slot','page','flags','position','address'],'invalid read page entry'
+            item={key:int(value,16 if key in('site','slot','page','address')else 10)for key,value in zip(words[::2],words[1::2])}
+            assert result and result[-1]['site']==item['site']and 'page_entry'not in result[-1]
+            result[-1]['page_entry']=item
         elif line.startswith('read-return '):
             _,site,count,error,position,fd,osfile,host_position,raw=line.split()
             assert result and 'returned'not in result[-1]and result[-1]['site']==int(site,16)
@@ -58,10 +64,16 @@ def compare(events,native,sites):
         assert a['site']in {r['call']for r in sites}
         for field in ('site','handle','count','entry_errno','entry_position','descriptor','entry_osfile','entry_host_position',*(['returned','errno','position','descriptor_return','osfile','host_position']if 'returned'in a else [])):
             assert a[field]==b[field],('read state differs',field,a[field],b[field])
+        if 'page_entry'in a or 'page_entry'in b:
+            assert 'page_entry'in a and 'page_entry'in b,'missing actual Page entry state'
+            for key in('site','flags','position'):assert a['page_entry'][key]==b['page_entry'][key],'Page entry state differs'
+            for record in(a,b):
+                page=record['page_entry'];assert page['address']==record['address']and page['slot']and page['page'],'Page entry ownership differs'
+        assert 0<=a['count']<=next(r for r in sites if r['call']==a['site']).get('maximum_count',4096),'read exceeds site limit'
         if 'returned'not in a:
             assert len(bytes.fromhex(a['prebytes']))==len(bytes.fromhex(b['prebytes']))==a['count']
             receipt.append(dict(site=a['site'],requested=a['count'],completed=False));continue
-        count=a['count'];returned=a['returned'];assert 0<=count<=4096 and -1<=returned<=count
+        count=a['count'];returned=a['returned'];assert 0<=count<=next(r for r in sites if r['call']==a['site']).get('maximum_count',4096) and -1<=returned<=count
         defined=max(returned,0)
         for item in (a,b):
             before,after=bytes.fromhex(item['prebytes']),bytes.fromhex(item['postbytes'])

@@ -64,9 +64,10 @@ void read_file_page(FileSlot *);
 int read_buffered_file(FileSlot *,void *,unsigned long);
 int read_mapped_file(FileSlot *,void *,unsigned long);
 void advance_file_page(FileSlot *);
+void flush_file_page(Page *);
 void touch_page(Page *);
 Page *remove_lru_page(void);
-void release_page(Page *);
+unsigned char release_page(Page *);
 unsigned char attach_page(FileSlot *,Page *);
 
 #endif

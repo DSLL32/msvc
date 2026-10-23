@@ -1,0 +1,59 @@
+[
+  {
+    "case": "help",
+    "terminal": "exit",
+    "status": 1,
+    "function": "print_banner",
+    "executable_sha256": "d4208039aa1b7a87474108872307ceef068c0e78ed9b5bc133382677e046618e",
+    "configuration_sha256": "2bd055c965bed128685f5aae735b73b3cb58d20b8fdfd8ad72970f04e91c746f",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "5e71a75bf592afa3864117ee72b2893b21334bd2002438a3aa52a1fa77ae074c",
+    "process_boundary": {
+      "requests": [
+        {
+          "mode": 0,
+          "pid": 1192386,
+          "file": "qh.exe",
+          "cwd": "/root/.ai-tmp/vc1.0-cvpack/checkpoint-0059-native/help/work",
+          "argv": [
+            "qh",
+            "-u",
+            "cvpack.exe"
+          ],
+          "action": "replay",
+          "status": -1,
+          "errno": 2
+        }
+      ],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.11719496827572584,
+      "execution": 0.010371224023401737,
+      "debugging": 0,
+      "checks": 0.003702622838318348,
+      "total": 0.1312746573239565
+    }
+  },
+  {
+    "case": "hello-debug-dll",
+    "terminal": "trap",
+    "status": -5,
+    "function": "convert_new_type",
+    "executable_sha256": "d4208039aa1b7a87474108872307ceef068c0e78ed9b5bc133382677e046618e",
+    "configuration_sha256": "2bd055c965bed128685f5aae735b73b3cb58d20b8fdfd8ad72970f04e91c746f",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "5e71a75bf592afa3864117ee72b2893b21334bd2002438a3aa52a1fa77ae074c",
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.0982648441568017,
+      "execution": 0.01486042607575655,
+      "debugging": 0,
+      "checks": 0.012567255645990372,
+      "total": 0.12569496501237154
+    }
+  }
+]

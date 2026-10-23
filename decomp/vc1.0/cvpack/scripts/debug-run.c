@@ -367,7 +367,7 @@ static ReadSite read_sites[32];
 static DWORD pdb_read_enabled, pdb_read_step, pdb_read_tf, pdb_read_site;
 static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
 static DWORD read_active_site, read_address, read_size, read_handle;
-static unsigned char read_step_byte, read_before[4096];
+static unsigned char read_step_byte, read_before[8192];
 
 static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
                            HANDLE thread, DWORD address)
@@ -519,7 +519,18 @@ static int observe_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
             byte = 0x83; read_step_address = address+3;
         }
         object_line[used++] = '\n';
-        if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used ||
+        if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return -1;
+        if(before && address==0x17dc9 && read_size==4746) {
+            DWORD table,slot,page,page_flags,page_position;
+            if(!ReadProcessMemory(child,(void *)0x33000,&table,4,&bytes) || bytes!=4 ||
+               !ReadProcessMemory(child,(void *)(table+4*read_handle),&slot,4,&bytes) || bytes!=4 ||
+               !ReadProcessMemory(child,(void *)(slot+32),&page,4,&bytes) || bytes!=4 ||
+               !ReadProcessMemory(child,(void *)(page+20),&page_flags,4,&bytes) || bytes!=4 ||
+               !ReadProcessMemory(child,(void *)(page+12),&page_position,4,&bytes) || bytes!=4) return -1;
+            used=sprintf(object_line,"read-page-entry site %08lx slot %08lx page %08lx flags %lu position %lu address %08lx\n",address,slot,page,page_flags,page_position,read_address);
+            if(!WriteFile(log,object_line,used,&written,0) || written!=(DWORD)used) return -1;
+        }
+        if (
             !ReadProcessMemory(child, (void *)(address+1), expected, before ? 4 : 2, &bytes) || bytes != (before ? 4 : 2) ||
             (!before && (expected[0] != 0xc4 || expected[1] != 0x0c)) ||
             !WriteProcessMemory(child, (void *)address, &byte, 1, &bytes) || bytes != 1) return -1;
@@ -537,19 +548,28 @@ static int observe_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
 static int dump_read_progress(HANDLE child,HANDLE log,DWORD entry,CONTEXT *context,DWORD *words)
 {
     DWORD bytes,written,position,fd,flags,host_position,module,module_number=0;
-    int used;DWORD i;
+    int used;DWORD i,shift=0,inner_return=0,page,requested,copied,returned;CONTEXT parent;
     if (!read_active_site) return 1;
-    if (entry!=0x2a5c0 || read_active_site!=0x17e69 || read_size!=209 || context->Ebp!=197 ||
-        words[0]!=0x2a3dd || words[1]!=context->Ebx || words[3]!=209 || words[8]!=words[1] ||
-        words[9]!=read_address || words[10]!=209 || words[11]!=0x17e6e ||
-        words[12]!=read_handle || words[13]!=read_address || words[14]!=209 ||
-        context->Edi!=read_address+197 ||
+    if(read_active_site==0x17dc9) {requested=4746;copied=3076;returned=0x17dce;}
+    else if(read_active_site==0x17e69) {requested=209;copied=197;returned=0x17e6e;}
+    else return 0;
+    if (entry==0x2a120 || entry==0x2a850) {
+        if((entry==0x2a120 && (read_active_site!=0x17e69 || words[0]!=0x2a606)) ||
+           (entry==0x2a850 && (read_active_site!=0x17dc9 || words[0]!=0x2a5ef)) || !ReadProcessMemory(child,(void *)(words[6]+32),&page,4,&bytes) || bytes!=4 || page!=words[1]) return 0;
+        inner_return=words[0];shift=5;parent=*context;
+        parent.Edi=words[2];parent.Esi=words[3];parent.Ebx=words[4];context=&parent;words+=5;
+    } else if(entry!=0x2a5c0) return 0;
+    if (read_size!=requested || context->Ebp!=copied ||
+        words[0]!=0x2a3dd || words[1]!=context->Ebx || words[3]!=requested || words[8]!=words[1] ||
+        words[9]!=read_address || words[10]!=requested || words[11]!=returned ||
+        words[12]!=read_handle || words[13]!=read_address || words[14]!=requested ||
+        context->Edi!=read_address+copied ||
         !ReadProcessMemory(child,(void *)0x33050,&module,4,&bytes) || bytes!=4 ||
         !ReadProcessMemory(child,(void *)module,&module_number,2,&bytes) || bytes!=2 || module_number!=3 ||
         !ReadProcessMemory(child,(void *)read_address,array_bytes,read_size,&bytes) || bytes!=read_size ||
         !read_state(child,read_handle,&position,&fd,&flags,&host_position)) return 0;
-    used=sprintf(object_line,"read-progress site %08lx address %08lx count %lu copied %lu remaining %lu counter %lu position %lu slot %08lx caller %08lx readreturn %08lx destination %08lx cursor %08lx module %lu bytes ",
-        read_active_site,read_address,read_size,context->Ebp,words[3]-context->Ebp,words[3],position,words[1],words[0],words[11],words[9],context->Esi,module_number);
+    used=sprintf(object_line,"read-progress site %08lx address %08lx count %lu copied %lu remaining %lu counter %lu position %lu slot %08lx caller %08lx readreturn %08lx destination %08lx cursor %08lx module %lu frontier %08lx innerreturn %08lx shift %lu bytes ",
+        read_active_site,read_address,read_size,context->Ebp,words[3]-context->Ebp,words[3],position,words[1],words[0],words[11],words[9],context->Esi,module_number,entry,inner_return,shift);
     for(i=0;i<read_size;++i)used+=sprintf(object_line+used,"%02x",array_bytes[i]);
     object_line[used++]='\n';
     return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;

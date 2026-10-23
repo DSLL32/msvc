@@ -350,3 +350,74 @@ long tell_file(int handle)
     if (slot->flags & 8) return slot->cursor.position;
     return slot->cursor.page->position;
 }
+
+void advance_file_page(FileSlot *slot)
+{
+    Page **next = &slot->storage.pages[(slot->cursor.page->start >> 12)+1];
+    Page *cached = *next;
+    Page *page;
+    if (cached && cached != (Page *)1) {
+        slot->cursor.page->flags &= ~16UL;
+        release_page(slot->cursor.page);
+        slot->cursor.page = *next;
+        slot->cursor.page->flags |= 16;
+    } else {
+        flush_file_page(slot->cursor.page);
+        *next = slot->cursor.page;
+        page = slot->cursor.page;
+        page->start += 4096;
+        page->limit += 4096;
+        page->dirty_end = page->start;
+        if (!(slot->flags & 2)) page->flags |= 8;
+        if (cached == (Page *)1) {
+            read_file_page(slot);
+            ++page_reads;
+            slot->cursor.page->flags |= 4;
+        }
+    }
+    page = slot->cursor.page;
+    page->position = page->start;
+    page->cursor = page->data;
+}
+
+void flush_file_page(Page *page)
+{
+    FileSlot *slot = file_slots[page->handle];
+    long count;
+    if (page->flags & 2) {
+        count = page->dirty_end-page->start;
+        if (_lseek(slot->source.descriptor, page->start, 0) == -1)
+            file_failure(20, NULL, NULL);
+        if (_write(slot->source.descriptor, page->data, count) != count)
+            file_failure(20, NULL, NULL);
+        slot->storage.pages[page->start >> 12] = (Page *)1;
+        if ((slot->flags & 2) && slot->length < page->dirty_end)
+            slot->length = page->dirty_end;
+    } else if (page->flags & 4) {
+        slot->storage.pages[page->start >> 12] = (Page *)1;
+    } else slot->storage.pages[page->start >> 12] = NULL;
+}
+
+unsigned char release_page(Page *page)
+{
+    Page *previous, *next;
+    flush_file_page(page);
+    page->flags = 0;
+    page->handle = -1;
+    if (used_pages == page) used_pages = used_pages->next;
+    else {
+        previous = used_pages;
+        next = previous->next;
+        while (next) {
+            if (next == page) {
+                previous->next = next->next;
+                break;
+            }
+            previous = next;
+            next = next->next;
+        }
+    }
+    page->next = free_pages;
+    free_pages = page;
+    return 1;
+}

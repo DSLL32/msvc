@@ -99,10 +99,13 @@ def install_read_observer(output,sites):
                     expected=int(caller.read_var(site['count_local_value']))if 'count_local_value'in site else int(gdb.parse_and_eval(site['count_native']))if 'count_native'in site else int(gdb.parse_and_eval(site['count_global']))*site['element_size']if 'count_global'in site else int(caller.read_var(site['count_local']).dereference()[site['count_field']])&((1<<site['count_bits'])-1)
                     assert int(local)==address and count==expected,'unidentified read heap allocation'
                 else:assert int(local.address)==address and local.type.sizeof==count==site['size'],'unidentified read output local'
-                assert 0<=count<=4096
+                assert 0<=count<=site.get('maximum_count',4096)
                 position,fd,flags,host_position=state(handle)
                 entry=dict(site=site['call'],handle=handle,address=address,count=count,entry_errno=int(gdb.parse_and_eval('(int)errno')),entry_position=position,descriptor=fd,entry_osfile=flags,entry_host_position=host_position,
                     native_return_pc=int(caller.pc()),prebytes=bytes(gdb.selected_inferior().read_memory(address,count)).hex())
+                if site['call']==0x17dc9 and count==4746:
+                    page=gdb.parse_and_eval('file_slots[%d]'%handle).dereference()['cursor']['page']
+                    entry['page_entry']=dict(site=site['call'],slot=int(gdb.parse_and_eval('file_slots[%d]'%handle)),page=int(page),flags=int(page.dereference()['flags']),position=int(page.dereference()['position']),address=address)
                 events.append(entry);save();Returned(entry);return False
             except Exception as error:events.append(dict(error=str(error)));save();return True
     Entered();save()
@@ -172,18 +175,35 @@ def install_pdb_consumed_observer(output,source,line):
 def capture_read_progress(source,line):
     events=getattr(gdb,'cvpack_read_events',[])
     if not events or 'returned'in events[-1]:return []
-    active=events[-1];current=gdb.newest_frame();caller=current.older();outer=caller.older()
-    assert current.name()=='advance_file_page'and caller.name()=='read_buffered_file'and outer.name()=='read_file','unreviewed pending read consumer'
+    active=events[-1];current=gdb.newest_frame();caller=current.older();nested=0;inner_return=0;shift=0;nested_line=0
+    typed=active['site']==0x17dc9
+    assert active['site']in(0x17e69,0x17dc9),'unreviewed pending read site'
+    count,copied_expected=(4746,3076)if typed else(209,197)
+    if current.name()in('flush_file_page','release_page'):
+        assert caller.name()=='advance_file_page','unreviewed nested pending-read caller'
+        assert current.name()==('release_page'if typed else 'flush_file_page')
+        nested_sal=gdb.find_pc_line(int(caller.pc())-1)
+        call=('release_page'if typed else 'flush_file_page')+'(slot->cursor.page);'
+        nested_line=next(i for i,text in enumerate(Path(source).read_text().splitlines(),1)if text.strip()==call)
+        assert Path(nested_sal.symtab.fullname()).resolve()==Path(source).resolve()and nested_sal.line==nested_line
+        slot=caller.read_var('slot');assert int(current.read_var('page'))==int(slot.dereference()['cursor']['page'])
+        caller=caller.older();nested=1;inner_return=0x2a5ef if typed else 0x2a606;shift=5
+    else:
+        assert not typed and current.name()=='advance_file_page','unreviewed pending-read consumer'
+        slot=current.read_var('slot')
+    outer=caller.older()
+    assert caller.name()=='read_buffered_file'and outer.name()=='read_file','unreviewed pending read loop'
     sal=gdb.find_pc_line(int(caller.pc())-1)
     assert Path(sal.symtab.fullname()).resolve()==Path(source).resolve()and sal.line==line,'pending read caller site differs'
-    slot=current.read_var('slot');address=int(caller.read_var('buffer'));destination=int(caller.read_var('destination'))
+    address=int(caller.read_var('buffer'));destination=int(caller.read_var('destination'))
     copied=int(caller.read_var('copied'));counter=int(caller.read_var('remaining'));size=int(caller.read_var('size'))
     assert int(slot)==int(caller.read_var('slot'))and int(slot)==int(gdb.parse_and_eval('file_slots[%d]'%active['handle']))
-    assert outer.older().name()=='read_publics'and int(outer.read_var('buffer'))==address and int(outer.read_var('size'))==size
-    assert address==active['address']==destination and size==counter==active['count']==209 and copied==197
+    assert outer.older().name()==('read_types'if typed else 'read_publics')and int(outer.read_var('buffer'))==address and int(outer.read_var('size'))==size
+    assert address==active['address']==destination and size==counter==active['count']==count and copied==copied_expected
     assert int(gdb.parse_and_eval('current_module->module'))==3
     page=slot.dereference()['cursor']['page'].dereference()
     assert int(page['position'])==int(page['limit'])
     return [dict(site=active['site'],address=address,count=size,copied=copied,remaining=counter-copied,counter=counter,
-        position=int(page['position']),slot=int(slot),caller=0x2a3dd,readreturn=0x17e6e,destination=destination,cursor=int(page['cursor']),module=3,
+        position=int(page['position']),slot=int(slot),caller=0x2a3dd,readreturn=0x17dce if typed else 0x17e6e,destination=destination,cursor=int(page['cursor']),module=3,
+        frontier=0x2a850 if typed else 0x2a120 if nested else 0x2a5c0,innerreturn=inner_return,shift=shift,nested_source_line=nested_line,
         pending=True,returned=False,native_return_pc=int(caller.pc()),native_source_line=sal.line,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())]

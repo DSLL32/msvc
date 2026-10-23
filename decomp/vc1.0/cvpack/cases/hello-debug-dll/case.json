@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "advance_file_page",
-    "native_function": "advance_file_page",
+    "logical": "convert_new_type",
+    "native_function": "convert_new_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -73,7 +73,11 @@
       "type_server_limit",
       "type_server_record",
       "reset_type_hash",
-      "advance_file_page"
+      "advance_file_page",
+      "flush_file_page",
+      "read_types",
+      "release_page",
+      "convert_new_type"
     ]
   },
   "complete_reference": {

@@ -337,3 +337,19 @@ void read_global_types(const CvDirectoryEntry *entry, int precompiled)
     if (!previous_type_count) previous_type_count = local_type_count;
     if (!module_types_indexed) reset_type_hash();
 }
+
+void *module_type_buffer;
+
+void read_types(unsigned long directory, const CvDirectoryEntry *entry)
+{
+    if (cv_read_offset != (unsigned long)entry->location.offset) {
+        cv_read_offset = entry->location.offset;
+        ++subsection_reads;
+        seek_file(input_file, cv_file_offset+cv_read_offset, 0);
+    }
+    if (read_file(input_file, type_data, entry->size) != entry->size)
+        fatal_error(19, "Types", module_name(current_module));
+    cv_read_offset += entry->size;
+    module_type_buffer = type_data;
+    type_directory = directory;
+}

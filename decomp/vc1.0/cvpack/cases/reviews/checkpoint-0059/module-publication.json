@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "kind": "supplemental checker/static ownership proof; no new execution or function acceptance",
+  "case": "hello-debug-dll",
+  "source_evidence": "cases/hello-debug-dll/evidence/0059-release_page",
+  "raw_sha256": {
+    "cases/hello-debug-dll/evidence/0059-release_page/original-events": "856307e3245f6afe93331b9684e0a97d5231b1bb0b9a42fcab1f4323627f272a",
+    "cases/hello-debug-dll/evidence/0059-release_page/original-configuration.json": "9b2279813b632b06ffea304f9d6ef6a6594390aa8f60831843aa7fc421a57026",
+    "cases/hello-debug-dll/evidence/0059-release_page/native-gdb.json": "14126736d8dedba290819b45d376ee6efe894604d2bd75965a60e2c1f85bc3d9",
+    "cases/hello-debug-dll/evidence/0059-release_page/native-configuration.json": "9b2279813b632b06ffea304f9d6ef6a6594390aa8f60831843aa7fc421a57026",
+    "cases/hello-debug-dll/evidence/0059-release_page/proof.json": "192dbb2ecbac3ef774665ffdb1aa0c25a4fc71206edc237f752cb670276afaf4"
+  },
+  "old_configuration_sha256": "9b2279813b632b06ffea304f9d6ef6a6594390aa8f60831843aa7fc421a57026",
+  "new_configuration_sha256": "2bd055c965bed128685f5aae735b73b3cb58d20b8fdfd8ad72970f04e91c746f",
+  "checker_sha256": "1ac9b3aba7d81d47966e8f2aaaeb9a07286627c9e3cc1848a4fa0d58c415074c",
+  "proof_sha256": "f103eee88494a0fc7389afe6a5b45fd5162c0f75995b104fe8ef71f4d1c523ed",
+  "observations": {
+    "current_type_map": {
+      "original_address": 208972,
+      "original_bytes": "00000000",
+      "original_value": 0,
+      "native_symbol_address": 1448905408,
+      "native": {
+        "null": true,
+        "address": 0
+      }
+    },
+    "module_type_buffer": {
+      "original_address": 211792,
+      "original_bytes": "68137900",
+      "original_value": 7934824,
+      "native_symbol_address": 1448905468,
+      "native": {
+        "null": false,
+        "address": 1481522768
+      }
+    },
+    "type_data": {
+      "original_address": 208988,
+      "original_bytes": "68137900",
+      "original_value": 7934824,
+      "native_symbol_address": 1448905332,
+      "native": {
+        "null": false,
+        "address": 1481522768
+      }
+    }
+  },
+  "entry_state": "Original PE initial values of both globals are zero; no transient pre-store observation is claimed. Exact full read_types body and rebuilt instructions bind the sole store target and source.",
+  "correction": "Previous provisional read_types body tail wrote current_type_map. Accepted58 stopped before that tail. Fresh59 first exposed a nullness mismatch; corrected59 captures both actual globals. No additional function acceptance credit."
+}

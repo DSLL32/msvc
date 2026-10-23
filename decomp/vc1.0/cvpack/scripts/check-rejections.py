@@ -67,8 +67,10 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
-    from read_progress_checks import check as progress_checks
+    from read_progress_checks import check as progress_checks,check_nested,check_types
     progress_checks(config,original,reject)
+    check_nested(config,original,reject)
+    check_types(config,original,reject)
     from stack_output import compare as compare_output,validate as validate_output
     outputs=next(r for r in config['functions']if r['name']=='read_file')['parameters']
     output=next(r for r in outputs if r['name']=='buffer')
@@ -499,6 +501,13 @@ def main():
         image=bytearray(pe.data)
         image[pe.offset(symbols['_show_logo'])]^=1
         mutations['changed contextual global initializer']=image
+        from module_write import stores
+        start=symbols['_read_types'];end=min(v for v in symbols.values()if v>start)
+        write=stores(pe,start,end,symbols['_module_type_buffer'])[0]
+        assert write.bytes[0]==0xa3
+        image=bytearray(pe.data)
+        struct.pack_into('<I',image,pe.offset(write.address)+1,symbols['_current_type_map'])
+        mutations['wrong module buffer publication target']=image
         scratch=Path.home()/'.ai-tmp/vc1.0-cvpack'
         scratch.mkdir(exist_ok=True,parents=True)
         with tempfile.TemporaryDirectory(prefix='audit-rejections-',dir=scratch) as directory:
@@ -514,6 +523,7 @@ def main():
                 assert b'identity cache stale'not in result.stderr,'mutation rejected before its graph/data check'
                 if label=='redirected application callee':assert b'graph differs'in result.stderr,result.stderr
                 if label=='changed callee stack cleanup':assert b'ABI RET cleanup differs'in result.stderr,result.stderr
+                if label=='wrong module buffer publication target':assert b'read_types writes wrong current_type_map global'in result.stderr or b'module buffer publication store missing'in result.stderr,result.stderr
                 print('rejected:',label)
 
 if __name__=='__main__':main()

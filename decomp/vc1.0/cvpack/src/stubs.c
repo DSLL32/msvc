@@ -20,7 +20,6 @@ int update_image_checksum(const char *name, unsigned long length, unsigned char 
 void grow_page_table(FileSlot *slot) { __asm { int 3 } }
 
 Page *remove_lru_page(void) { __asm { int 3 } return NULL; }
-void release_page(Page *page) { __asm { int 3 } }
 
 
 int write_file(int handle, const void *buffer, unsigned long size) { __asm { int 3 } return -1; }
@@ -31,7 +30,6 @@ void read_packed_modules(void) { __asm { int 3 } }
 long seek_mapped_file(FileSlot *slot, long offset, int origin) { __asm { int 3 } return -1; }
 
 int read_mapped_file(FileSlot *slot, void *buffer, unsigned long size) { __asm { int 3 } return -1; }
-void advance_file_page(FileSlot *slot) { __asm { int 3 } }
 
 void read_old_module(unsigned long directory,ModuleInfo * module) { __asm { int 3 } }
 
@@ -41,7 +39,6 @@ const char *module_name(ModuleInfo * module) { __asm { int 3 } return NULL; }
 void read_symbols(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
 
 
-void read_types(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
 
 void read_lines(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
 

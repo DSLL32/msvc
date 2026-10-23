@@ -8,8 +8,8 @@
   "module": 3,
   "native_line": 340,
   "sources": {
-    "src/files.c": "bceafc3238f58167a1e6a552d487109271ec87b63c8e821137e13ab151297040",
-    "src/modules.c": "ad28d7fb9548e4a4ce3ecbf8c04da13a4d9a6cb9992f1ffcba219afeae2dacdb"
+    "src/files.c": "fd7ad4f6cbf4693bef0ffbea48a372e7ed2ad42bb0acd2b28c62326242195499",
+    "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab"
   },
   "instructions": [
     [
@@ -21,7 +21,33 @@
       97824,
       97960,
       "1a976e13c514ea7b19e0a7eb7fe02bd85ab34c858d5e3c7a3d1952764a459f4e"
+    ],
+    [
+      173504,
+      173574,
+      "213aef4a8aea84711fdf36607eb8ae5be34789ab6b5247af9685f105a642f694"
+    ],
+    [
+      97664,
+      97810,
+      "73d20479887551020e53ea61d80c82cd2f8de74d9eadc45d5456b17bf5f5df8e"
     ]
   ],
-  "scope": "Root-approved exact module3 public read: first209-byte request pauses at advance_file_page after197actual writes. Physical loop counter remains209 before subtraction; logical remainder12 derived. Exact raw stack/caller/page/source/allocation proof; full209bytes preserved,197defined compared, each own12-byte tail unchanged. No invented return or arbitrary partial-write exemption."
+  "scope": "Root-approved exact module3 public read: first209-byte request pauses at advance_file_page after197actual writes. Physical loop counter remains209 before subtraction; logical remainder12 derived. Exact raw stack/caller/page/source/allocation proof; full209bytes preserved,197defined compared, each own12-byte tail unchanged. No invented return or arbitrary partial-write exemption.",
+  "nested_native_line": 365,
+  "counter_before_subtraction": 209,
+  "logical_remaining_after_copy": 12,
+  "nested_scope": "Root-approved exact nested flush_file_page entry2a120 from2a606, before any page/data mutation on uncached branch. Saved EDI/ESI/EBX words2/3/4 and outer2a3dd atword5 recover exact same typed loop. No extra definingwrites. All other nestedframes fail until identified.",
+  "type_read": {
+    "site": 97737,
+    "owner": "type_data",
+    "requested": 4746,
+    "copied": 3076,
+    "remaining": 1670,
+    "position": 45056,
+    "frontier": 174160,
+    "inner_return": 173551,
+    "native_nested_line": 361,
+    "scope": "Root-approved separate malloc4746 type_data/module3 read. Actual3076writes and own1670untouchedtail; physicalcounter4746. CapturePage.flags actual21 at readentry and actual5 at release_page; all otherbits (includingallocated1) retained; exactloop/cachedadvanceprefix provesonly16clearbetween snapshots, with samepage anddisjointdestination. Unknownsite/count/owner/context fails."
+  }
 }
