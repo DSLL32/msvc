@@ -1,0 +1,50 @@
+{
+  "case": "mac-loader-map",
+  "status": "pass",
+  "value": 1792775956,
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "observations": [
+    {
+      "event": "clock_boundary",
+      "caller": "link_passes",
+      "result": 1792775956,
+      "output": 1792775956,
+      "argument_nonnull": 1,
+      "errno_before": 0,
+      "errno_after": 0,
+      "caller_stack_unchanged": 1
+    }
+  ],
+  "captured": {
+    "loader-map.exe": {
+      "path": "cases/mac-loader-map/clock/loader-map.exe",
+      "bytes": 2097152,
+      "sha256": "de6e9e793b1ed97e55e61634aa1c783be574b43240490d1c681edc33cadce99d"
+    },
+    "loader-map.map": {
+      "path": "cases/mac-loader-map/clock/loader-map.map",
+      "bytes": 1012,
+      "sha256": "18a83f12611a9d09a8f9c48eff9ea41f4a548d3819b71d68ccf75b459b334d7d"
+    },
+    "events.jsonl": {
+      "path": "cases/mac-loader-map/clock/events.jsonl",
+      "bytes": 848,
+      "sha256": "a025fb08855fbcb52de407bb8e6d0146150d3bb01d510281c1b28759ffe404fd"
+    },
+    "receipt.json": {
+      "path": "cases/mac-loader-map/clock/receipt.json",
+      "bytes": 1819,
+      "sha256": "984c6aca25894bb256d92cc7ecee98a6af486df217498501a85c27e3cd52fe2f"
+    }
+  },
+  "timestamp_fields": {
+    "PE_COFF": 136,
+    "MAP": "Single hex/ctime Timestamp line; raw expected MAP is retained"
+  },
+  "call_sites": {
+    "before": "0x1b099",
+    "after": "0x1b09e",
+    "named_caller": "link_passes"
+  },
+  "input_kind": "Captured public time(&image->file.TimeDateStamp), deterministic external input only"
+}

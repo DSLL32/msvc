@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x5b540: file src/driver-stubs.c, line 5.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, compare_external_sections (left=0x56630b70, right=0x8) at src/driver-stubs.c:5
+5	int compare_external_sections(const void *left,const void *right) { __asm { int 3 } return 0; }
+NATIVE_MATCH compare_external_sections
+0xffffcecc:	0x565b9f17	0x56630b74	0x56630b70	0x00000000
+0xffffcedc:	0x00000000	0x00000005
+#0  compare_external_sections (left=0x56630b70, right=0x8) at src/driver-stubs.c:5
+#1  0x565b9f17 in recon_qsort (array=0x56630b70, count=8, width=4, compare=0x565b0540 <compare_external_sections>) at ../../../lib/recon/src/crt.c:1618
+#2  0x56587da3 in sort_external_table (table=0x56618290, compare=0x565b0540 <compare_external_sections>) at src/symbols.c:373
+#3  0x5658840a in get_externals_by_symbol (table=0x56618290) at src/symbols.c:545
+#4  0x5657e26e in write_map (kind=2, image=0x56618130, name=0x566196f4 "loader-map.exe") at src/map-file.c:103

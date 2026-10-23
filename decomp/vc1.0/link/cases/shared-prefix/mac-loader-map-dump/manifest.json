@@ -1,0 +1,49 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-mac-map.py",
+    "sha256": "fbdeee1b55a58b8a56c98a95af458ad5d831f29fae5cad0affdc3bb0e9f273f4"
+  },
+  "case": "mac-loader-map-dump",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-dump",
+        "/headers",
+        "/symbols",
+        "/relocations",
+        "loader-map.exe"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../../mac-loader-map/clock/loader-map.exe",
+          "bytes": 2097152,
+          "sha256": "de6e9e793b1ed97e55e61634aa1c783be574b43240490d1c681edc33cadce99d",
+          "from_case": {
+            "case": "mac-loader-map",
+            "output_name": "loader-map.exe"
+          },
+          "artifact_kind": "m68k-pe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "826f24d224af4129c7f93405008255a51cc1ef6e070ee0e3657cb09f99cd0d7c"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\mac-loader-map-dump",
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file loader-map.exe\r\n\r\nNT signature found\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\nFILE HEADER VALUES\r\n     268 machine (M68K)\r\n       5 number of sections\r\n6ADB9714 time date stamp Fri Oct 23 10:19:16 2026\r\n       0 file pointer to symbol table\r\n       0 number of symbols\r\n      E0 size of optional header\r\n    818F characteristics\r\n            Relocations stripped\r\n            Executable\r\n            Line numbers stripped\r\n            Local symbols stripped\r\n            Bytes reversed\r\n            32 bit word machine\r\n\r\nOPTIONAL HEADER VALUES\r\n     10B magic #\r\n    2.23 linker version\r\n      A8 size of code\r\n       0 size of initialized data\r\n       0 size of uninitialized data\r\n       4 address of entry point\r\n     290 base of code\r\n     338 base of data\r\n         ----- new -----\r\n   10000 image base\r\n       4 section alignment\r\n       4 file alignment\r\n       0 subsystem (Unknown)\r\n     1.0 operating system version\r\n     0.0 image version\r\n     0.0 subsystem version\r\n     368 size of image\r\n     290 size of headers\r\n       0 checksum\r\n  100000 size of stack reserve\r\n    1000 size of stack commit\r\n  100000 size of heap reserve\r\n    1000 size of heap commit\r\n       0 [       0] address [size] of Export Directory\r\n       0 [       0] address [size] of Import Directory\r\n       0 [       0] address [size] of Resource Directory\r\n       0 [       0] address [size] of Exception Directory\r\n       0 [       0] address [size] of Security Directory\r\n       0 [       0] address [size] of Base Relocation Directory\r\n       0 [       0] address [size] of Debug Directory\r\n       0 [       0] address [size] of Description Directory\r\n       0 [       0] address [size] of Special Directory\r\n       0 [       0] address [size] of Thread Storage Directory\r\n\r\n\r\nSECTION HEADER #1\r\n   .text name\r\n      2C virtual size\r\n     290 virtual address\r\n      2C size of raw data\r\n     290 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n60400020 flags\r\n         Code\r\n         Purgeable\r\n         Execute Read\r\n\r\nSECTION HEADER #2\r\n  .text2 name\r\n      4C virtual size\r\n     2BC virtual address\r\n      4C size of raw data\r\n     2BC file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n60400020 flags\r\n         Code\r\n         Purgeable\r\n         Execute Read\r\n\r\nSECTION HEADER #3\r\n .jtable name\r\n      30 virtual size\r\n     308 virtual address\r\n      30 size of raw data\r\n     308 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n61C00020 flags\r\n         Code\r\n         Purgeable\r\n         Locked\r\n         Preload\r\n         Execute Read\r\n\r\nSECTION HEADER #4\r\n   .dfix name\r\n       4 virtual size\r\n     338 virtual address\r\n       4 size of raw data\r\n     338 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000100 flags\r\n         Other\r\n         Read Write\r\n\r\nSECTION HEADER #5\r\n .resmap name\r\n      1E virtual size\r\n     33C virtual address\r\n      1E size of raw data\r\n     33C file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000100 flags\r\n         Other\r\n         Read Write\r\n\r\n     Summary\r\n       .text       2C\r\n      .text2       4C\r\n     .jtable       30\r\n       .dfix        4\r\n     .resmap       1E\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/mac-loader-map/dump",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

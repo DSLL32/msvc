@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x53a90: file src/mac-object.c, line 164.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, compare_mac_jump_entries (left=0x5662fbc0, right=0x2) at src/mac-object.c:164
+164	int compare_mac_jump_entries(const void *left,const void *right) { __asm { int 3 } }
+NATIVE_MATCH compare_mac_jump_entries
+0xffffcf0c:	0x565b9e87	0x5662fbc8	0x5662fbc0	0xf7e0ccbf
+0xffffcf1c:	0x5662f360	0xf7f9ee14
+#0  compare_mac_jump_entries (left=0x5662fbc0, right=0x2) at src/mac-object.c:164
+#1  0x565b9e87 in recon_qsort (array=0x5662fbc0, count=2, width=8, compare=0x565a8a90 <compare_mac_jump_entries>) at ../../../lib/recon/src/crt.c:1618
+#2  0x565a829a in finalize_mac_jump_list (section=2, lists=0x5662ebe0) at src/mac-object.c:158
+#3  0x565a7df0 in finalize_mac_fixups () at src/mac-object.c:98
+#4  0x5659c9d9 in link_passes (image=0x56617130, pack=0xffffd2d7 <incomplete sequence \367>) at src/link-pass.c:415

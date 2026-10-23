@@ -1,0 +1,45 @@
+{
+  "status": "Root-approved next single resource-identity workflow; start after Mac checkpoint",
+  "family": "Named Win32 resource languages, duplicate-identity diagnostic and recovery",
+  "routines": [
+    {
+      "name": "_resource_error_prefix",
+      "entry": "0x42e00",
+      "known_instruction_bytes": 14,
+      "caller": "insert_resource duplicate type/name/language branch"
+    },
+    {
+      "name": "_resource_name_to_ansi",
+      "entry": "0x45180",
+      "known_instruction_bytes": 86,
+      "caller": "duplicate named resource diagnostic converts actualUTF16 type/name"
+    },
+    {
+      "name": "_resource_unicode_to_ansi_byte",
+      "entry": "0x451e0",
+      "known_instruction_bytes": 55,
+      "caller": "reached only if actual named resource includes a valid nonASCII character; zero-callee legacy conversion table"
+    },
+    {
+      "name": "_fatal_message",
+      "entry": "0x218d0",
+      "known_instruction_bytes": 187,
+      "caller": "convert_resource_input catches resource_abort then reports public conversion failure"
+    }
+  ],
+  "known_application_instruction_bytes": 342,
+  "plan": "Build one valid Win32 .res from documented standard records with named type and name (including an original-supported legacy nonASCII character), two distinct language records and meaningful payloads. Positive phase links a minimal existing original-backed COFF plus this resource and independently dumps actual native output. Companion changes only the second language to collide with the first identical type/name/language, an ordinary semantic resource conflict, not a malformed record or binary. Public LINK must diagnose duplicate identity, unwind its existing resource converter and emit actual fatal status/streams/file effects. Pin complete input/reference outputs before accepting; no resource_debug/internal-d access.",
+  "original_validation": "Use bundled NTIMAGE.H standard RES layouts or original RC-generated ordinary records as format evidence. Two untouched originals per positive/error phase, exact named diagnostics/exit/all produced artifact inventory; fixed R/S and relative inputs. Preserve failures independently. Capture actual setjmp/longjmp saved/current SEH registration/scopes and value if conflict reaches resource_abort; if true unwind/filter is needed, HOLD for root policy rather than claiming native ABI equivalence. Default fatal varargs/catalog/shutdown graph must match original at fresh trap.",
+  "purpose": "The remaining large known OMF debug closure is not publicly selected by LINK. This coherent public identity-validation workflow targets several still-unaccepted application helpers and actual diagnostic recovery, without fake malformed binary/crash reachability or allocation-failure injection. It also tests a successful resource path alongside ordinary duplicate semantics.",
+  "remaining": {
+    "known_target_unaccepted_bytes": 8462,
+    "known_OMF_closure_bytes": 7367,
+    "unaccepted_unclassified_bytes": 16914
+  },
+  "limits": [
+    "No promise Unicode byte helper reaches before original validation",
+    "No forced internal CVTRES-d or OMF-g",
+    "Shared setjmp/longjmp transport only after actual no-SEH-unwind proof; real filters/finalizers require new policy",
+    "Unknown16914bytes remain unclassified pending, never CRT credit"
+  ]
+}

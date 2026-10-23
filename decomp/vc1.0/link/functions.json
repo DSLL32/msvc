@@ -931,7 +931,12 @@
     "_edit_section",
     "_skip_definition_code",
     "_skip_definition_data",
-    "_write_helper_thunk_member"
+    "_write_helper_thunk_member",
+    "_compare_mac_external_names",
+    "_compare_mac_external_contributions",
+    "_compare_mac_jump_entries",
+    "_get_externals_by_symbol",
+    "_compare_external_sections"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4805,10 +4810,11 @@
     {
       "name": "_get_externals_by_symbol",
       "start": 156800,
-      "end": 156801,
-      "implementation": "stub-C",
-      "source": "src/driver-stubs.c",
-      "abi": "cdecl External **(SymbolTable *)"
+      "end": 156833,
+      "implementation": "C",
+      "source": "src/symbols.c",
+      "abi": "cdecl External **(SymbolTable *)",
+      "evidence": "Whole33-byte26480..264a1 caches array at SymbolTable+28 and calls original sort_external_table with distinct callback26280. Fresh masked-original/native GDB mac-loader-map get_externals_by_symbol match before C replacement; public write_map in Mac mode genuinely selects it."
     },
     {
       "name": "_write_map_symbol",
@@ -7738,11 +7744,11 @@
     {
       "name": "_compare_mac_external_names",
       "start": 233856,
-      "end": 233857,
-      "implementation": "stub-C",
+      "end": 233977,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl unsigned char(External *left,External *right)",
-      "evidence": "Named callback/list callee from complete Mac external-reference recorder; body masked."
+      "evidence": "Whole121-byte39180..391f9,119 CFG instructions+2alignment. Fresh masked-original/native GDB mac-loader-map-compare_mac_external_names-ziipxp33 matches exact first callback. cdecl byte-return unsigned lexical-1/0/+1 narrowedAL; both short names intentionally reuse shared buffer, matching original alias behavior. Current positive case uses distinct long names before capture."
     },
     {
       "name": "_find_mac_external_reference",
@@ -7783,11 +7789,11 @@
     {
       "name": "_compare_mac_external_contributions",
       "start": 233984,
-      "end": 233985,
-      "implementation": "stub-C",
+      "end": 234006,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl unsigned char(External *,External *)",
-      "evidence": "Named contribution comparator; body remains masked."
+      "evidence": "Whole22-byte39200..39216 zero-callee byte predicate compares original External+20 contribution pointers. Fresh masked-original/native first callback mac-loader-map-compare_mac_external_contributions-u4oxtcbx; distinct long-name contributions actually reach callback. Does not compare owner allocations numerically."
     },
     {
       "name": "_initialize_mac_code_section",
@@ -7864,11 +7870,11 @@
     {
       "name": "_compare_mac_jump_entries",
       "start": 225392,
-      "end": 225393,
-      "implementation": "stub-C",
+      "end": 225427,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl int(const void *,const void *)",
-      "evidence": "Named jump-entry comparator; body masked."
+      "evidence": "Whole35-byte37070..37093,33 CFG instructions+2alignment; unsigned DWORD offset comparator-1/0/1, no callees. Fresh masked-original/native GDB mac-loader-map-compare_mac_jump_entries-1uwv6gk5 proves actual qsort count2,width8,section2; distinct original bsearch callback remains separate."
     },
     {
       "name": "_write_mac_far_jump",
@@ -8274,6 +8280,15 @@
       "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
       "evidence": "Whole original body; all branch/return instructions and contextual references analyzed; fresh native GDB/original masked first-entry and exact partial streams recorded in monitor progress."
+    },
+    {
+      "name": "_compare_external_sections",
+      "start": 156288,
+      "end": 156393,
+      "implementation": "C",
+      "source": "src/symbols.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Whole105-byte26280..262e9: qsort External** comparator, null first-owner returns1 (including bothnull), null second-owner-1, unsigned16-bit Section.index difference, otherwise wrappedDWORD final-value difference. Zero callees. New actual callback reached after get_externals_by_symbol, fresh masked-original/native mac-loader-map-compare_external_sections-3rqrr7vc. C follows original individual branches, no imposed total-order repair."
     }
   ],
   "c_stub_references": [
@@ -9211,6 +9226,11 @@
     "edit-section-rename",
     "import-archive-i860",
     "import-archive-i860",
-    "import-archive-i860"
+    "import-archive-i860",
+    "mac-loader-map",
+    "mac-loader-map",
+    "mac-loader-map",
+    "mac-loader-map",
+    "mac-loader-map"
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "canonical_original_compiler_and_audits": {
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "audit"
+    ],
+    "status": 0,
+    "seconds": 26.289525048807263,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-canonical_original_compiler_and_audits.log"
+  },
+  "graph_negative_controls": {
+    "command": [
+      "python3",
+      "scripts/check-graph-audit.py"
+    ],
+    "status": 0,
+    "seconds": 18.46089604496956,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-graph_negative_controls.log"
+  },
+  "native_reference_rejections": {
+    "command": [
+      "python3",
+      "scripts/check-native-rejections.py"
+    ],
+    "status": 0,
+    "seconds": 0.26835166569799185,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-native_reference_rejections.log"
+  },
+  "call_edge_controls": {
+    "command": [
+      "python3",
+      "scripts/check-call-edge.py"
+    ],
+    "status": 0,
+    "seconds": 0.09882157482206821,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-call_edge_controls.log"
+  },
+  "crt_observation_controls": {
+    "command": [
+      "python3",
+      "scripts/check-crt-observations.py"
+    ],
+    "status": 0,
+    "seconds": 0.04982329998165369,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-crt_observation_controls.log"
+  },
+  "cross_import_controls": {
+    "command": [
+      "python3",
+      "scripts/check-cross-import.py",
+      "--native-receipt",
+      "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-j9b93c0_/receipt.json",
+      "--run-denials"
+    ],
+    "status": 0,
+    "seconds": 0.11175153404474258,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-cross_import_controls.log"
+  }
+}

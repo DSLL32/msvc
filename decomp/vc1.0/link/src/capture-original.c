@@ -141,16 +141,17 @@ static void auxiliary_watch_event(Process *process,Thread *thread)
 }
 
 /* First observed public time boundary at each import-archive named caller. */
-static DWORD clock_pointer[2],clock_stack[2],clock_errno[2];
+static DWORD clock_pointer[3],clock_stack[3],clock_errno[3];
 static void clock_sample(Process *process,CONTEXT *context,DWORD site)
 {
     DWORD index,pointer,got,result,after_errno;
     const char *caller;
     if (site==0x28f61 || site==0x28f66) index=0;
     else if (site==0x2fbe8 || site==0x2fbed) index=1;
+    else if (site==0x1b099 || site==0x1b09e) index=2;
     else return;
-    caller=index?"build_archive_header":"build_import_library";
-    if (site==0x28f61 || site==0x2fbe8) {
+    caller=index==2?"link_passes":(index?"build_archive_header":"build_import_library");
+    if (site==0x28f61 || site==0x2fbe8 || site==0x1b099) {
         if (!ReadProcessMemory(process->handle,(void *)context->Esp,&pointer,4,&got) || got!=4) return;
         clock_pointer[index]=pointer;
         clock_stack[index]=context->Esp;

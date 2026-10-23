@@ -161,7 +161,15 @@ void finalize_mac_jump_list(unsigned short section,MacJumpList *lists)
         if (list->entries[index].external)
             list->entries[index].external->mac_jump_offset=offset;
 }
-int compare_mac_jump_entries(const void *left,const void *right) { __asm { int 3 } }
+/* Original [00037070,00037093), ascending unsigned jump offsets. */
+int compare_mac_jump_entries(const void *left,const void *right)
+{
+    unsigned long first=((const MacJumpEntry *)left)->offset;
+    unsigned long second=((const MacJumpEntry *)right)->offset;
+    if (first>second) return 1;
+    if (first<second) return -1;
+    return 0;
+}
 /* Original [00036300,00036742).  CODE resources have a four-byte header;
  * nonstartup resources with a loader use its forty-byte extended header. */
 void write_mac_loader_prologue(Contribution *contribution)
@@ -559,7 +567,11 @@ void set_mac_export_mode(unsigned char mode)
             module->characteristics,mac_code_section_count,mac_segment_library,NULL);
     }
 }
-unsigned char compare_mac_external_contributions(External *left,External *right) { __asm { int 3 } }
+/* Original [00039200,00039216), byte predicate: distinct source contribution. */
+unsigned char compare_mac_external_contributions(External *left,External *right)
+{
+    return left->owner.contribution!=right->owner.contribution;
+}
 
 /* Original [00039460,00039549).  Reference kinds1/2/4 reserve one, two,
  * or four bytes per resource; other values retain the prior WORD size. */
@@ -629,7 +641,23 @@ void record_mac_external(External *external,unsigned long index)
     }
 }
 
-unsigned char compare_mac_external_names(External *left,External *right) { __asm { int 3 } }
+/* Original [00039180,000391f9), unsigned string ordering narrowed to AL.
+ * Both short names intentionally share the original scratch buffer. */
+unsigned char compare_mac_external_names(External *left,External *right)
+{
+    const unsigned char *first,*second;
+    if (left->symbol.N.Name.Short)
+        first=(unsigned char *)strncpy(short_symbol_name,(const char *)left,8);
+    else first=(unsigned char *)mac_symbol_table->strings.data+left->symbol.N.Name.Long;
+    if (right->symbol.N.Name.Short)
+        second=(unsigned char *)strncpy(short_symbol_name,(const char *)right,8);
+    else second=(unsigned char *)mac_symbol_table->strings.data+right->symbol.N.Name.Long;
+    while (*first==*second) {
+        if (!*first) return 0;
+        ++first;++second;
+    }
+    return (unsigned char)(*first<*second?-1:1);
+}
 /* Original [000393b0,00039451), insertion-ordered reference list. */
 MacExternalReference *find_mac_external_reference(MacExternalReference **list,
     External *external,unsigned long flags,MacExternalCompare compare,unsigned char *created)

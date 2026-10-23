@@ -1,0 +1,28 @@
+{
+  "section_sizes": {
+    ".text": 44,
+    ".text2": 76,
+    ".jtable": 48,
+    ".dfix": 4,
+    ".resmap": 30
+  },
+  "CODE_resources": 2,
+  "distinct_copied_contributions": 2,
+  "far_jump_offsets": [
+    40,
+    44
+  ],
+  "status": "pass",
+  "rejected": [
+    "entry",
+    "copy-one",
+    "second-target",
+    "jump-resource",
+    "missing-flow",
+    "wrong-flow",
+    "changed-input"
+  ],
+  "seconds": 0.05621751677244902,
+  "clock": "Full raw image/MAP exact under captured external time input",
+  "limits": "No Macintosh execution; original MAP zero-section copied-source rows retained"
+}

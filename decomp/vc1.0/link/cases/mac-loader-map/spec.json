@@ -1,0 +1,34 @@
+{
+  "case": "mac-loader-map",
+  "arguments": [
+    "-link",
+    "/machine:M68K",
+    "/nodefaultlib",
+    "/entry:main",
+    "/out:loader-map.exe",
+    "/debug:none",
+    "/fixed",
+    "/map:loader-map.map",
+    "loader-map.obj"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/mac-loader-map/inputs/loader-map.obj",
+      "bytes": 498,
+      "sha256": "2f634779b477d93ae4633b9b221dd31497a22ac0842dfc1134b882f64975c408"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "loader-map.exe",
+      "artifact_kind": "m68k-pe"
+    },
+    {
+      "output_name": "loader-map.map",
+      "artifact_kind": "map"
+    }
+  ]
+}

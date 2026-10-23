@@ -258,3 +258,18 @@ All64 cached native cases/741appentries pass5.390s;771 CFG graphs,758 callback
 sets,490 contextual data definitions and41ECX routines pass. Extent coverage is
 246759/281634=87.6169%;17197 unaccepted unclassified bytes are not CRT. Detailed
 scope, limitations, time splits and evidence: cases/cross-machine-imports/README.txt.
+
+Mac multi-entry loader/MAP checkpoint (937 frontiers)
+
+Five C bodies add305instruction bytes+11alignment, including the genuinely new
+26280Mac section/value qsort callback. A valid long-name COFF module produces two
+CODE resources, actual per-resource duplicated code and two far jumps. Full RAW
+native image/MAP equality is required using captured external time input; public
+header/symbol/relocation dump consumes actual prior native image. Historical
+short-name failure and odd original MAP rows remain untouched limitations.
+All66 native cases746appentries pass5.725s, native rebuild7.158s separately;
+canonical compile/audits26.290s pass776graphs763callbacks490data41ECX. Extent is
+247075/281634=87.7291%;16914unaccepted unclassified bytes remain pending, not CRT.
+See cases/mac-loader-map/README.txt, validation/timing/components JSON. The next
+root-approved single workflow tests named-resource language identities and
+ordinary duplicate-identity error recovery, with actual no-SEH-unwind proof gate.

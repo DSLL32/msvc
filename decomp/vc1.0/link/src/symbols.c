@@ -537,3 +537,27 @@ void resolve_weak_externals(SymbolTable *table,unsigned long flags)
     }
     end_external_enumeration(table);
 }
+
+/* Original [00026480,000264a1), cached Mac section/value public-symbol order. */
+External **get_externals_by_symbol(SymbolTable *table)
+{
+    if (!table->sorted_by_symbol)
+        table->sorted_by_symbol=sort_external_table(table,compare_external_sections);
+    return table->sorted_by_symbol;
+}
+
+/* Original [00026280,000262e9). Null first owners sort last, even when
+ * both are null; otherwise section index precedes wrapped final-value order. */
+int compare_external_sections(const void *left,const void *right)
+{
+    const External *first=*(External *const *)left;
+    const External *second=*(External *const *)right;
+    unsigned short first_section,second_section;
+    if (!first->owner.contribution) return 1;
+    if (!second->owner.contribution) return -1;
+    first_section=first->owner.contribution->group->section->index;
+    second_section=second->owner.contribution->group->section->index;
+    if (first_section!=second_section)
+        return (int)first_section-(int)second_section;
+    return (int)(first->value.final_value-second->value.final_value);
+}

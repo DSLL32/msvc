@@ -1,0 +1,98 @@
+{
+  "machine": 616,
+  "sections": [
+    {
+      "name": ".text",
+      "data": "4ead00004ead000061000000610000004e754e75",
+      "flags": "0x60000020",
+      "relocations": [
+        [
+          2,
+          2,
+          8
+        ],
+        [
+          6,
+          3,
+          8
+        ],
+        [
+          10,
+          4,
+          41
+        ],
+        [
+          14,
+          5,
+          41
+        ]
+      ]
+    },
+    {
+      "name": ".text2",
+      "data": "70014e7570024e75",
+      "flags": "0x60000020",
+      "relocations": []
+    },
+    {
+      "name": ".dupa",
+      "data": "4eb9000000004e75",
+      "flags": "0x60000020",
+      "relocations": [
+        [
+          2,
+          2,
+          12
+        ]
+      ]
+    },
+    {
+      "name": ".dupb",
+      "data": "4eb90000000070034e75",
+      "flags": "0x60000020",
+      "relocations": [
+        [
+          2,
+          3,
+          12
+        ]
+      ]
+    }
+  ],
+  "symbols": [
+    [
+      "_main",
+      0,
+      1
+    ],
+    [
+      "___Init32BitLoadSeg",
+      18,
+      1
+    ],
+    [
+      "_helper_function_one",
+      0,
+      2
+    ],
+    [
+      "_helper_function_two",
+      4,
+      2
+    ],
+    [
+      "_copy_function_one",
+      0,
+      3
+    ],
+    [
+      "_copy_function_two",
+      0,
+      4
+    ]
+  ],
+  "bytes": 498,
+  "sha256": "2f634779b477d93ae4633b9b221dd31497a22ac0842dfc1134b882f64975c408",
+  "legacy_bits": "Original preflight required; PE flags0x60000020 preserve legacy code/read/execute interpretation",
+  "runtime": "No Macintosh instruction is executed"
+}

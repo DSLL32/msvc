@@ -190,5 +190,11 @@
   },
   "import-dump-mips-data": {
     "directory": "cases/shared-prefix/import-dump-mips-data"
+  },
+  "mac-loader-map": {
+    "directory": "cases/shared-prefix/mac-loader-map"
+  },
+  "mac-loader-map-dump": {
+    "directory": "cases/shared-prefix/mac-loader-map-dump"
   }
 }

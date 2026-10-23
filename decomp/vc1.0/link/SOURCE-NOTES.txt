@@ -1181,3 +1181,26 @@ list/dump phases consume actual native outputs and exact complete streams match.
 Initial first-entry acceptance provenance is retained via explicit frontier_case.
 See cases/cross-machine-imports for raw limitation proof, positive preflights,
 acceptance/layout data, timing and honest component coverage.
+
+Mac multi-entry loader/MAP checkpoint937
+
+Five whole C functions add305 instruction bytes plus11 alignment: shared-scratch
+external-name byte comparison, source-contribution identity, unsigned jump offset
+ordering, cached Mac public-symbol sort and its newly discovered26280 callback.
+The latter retains null-first-owner return1 including bothnull, then unsigned
+section-index and wrappedDWORD final-value order. Fresh masked-original/native
+GDB stops match each vertex; no CRT/import/application support conflation.
+
+A valid long-name498-byte COFF object produces two CODE resources, two genuinely
+duplicated source contributions in each, two far jumps40/44 and public MAP. Full
+raw native image/MAP bytes match the independently clock-captured original; later
+header/symbol/relocation dump consumes actual native image bytes. Existing external
+RECON_FIXED_TIME supplies only creation's observed time(&TimeDateStamp). Normal
+clocked fixtures now also enforce raw size/SHA, not merely normalized clocks.
+The historical short-name two-source388fb rejection is preserved unchanged; this
+separate success does not claim every old layout works. Original zero-section
+MAP source rows are retained. No Macintosh execution is performed.
+
+All66 native trace/output cases746appentries pass; canonical -j4 compile and
+776CFG/763callback/490data/41ECX checks pass, plus negative guards. Source/clock/
+flow provenance, precise raw records and split timings live in cases/mac-loader-map.

@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "mac-loader-map",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "8eb8496245eaee010b9f478f24b3df039d1a1b29e1b5a22d60463e0cf34f899d",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 932,
+  "accepted_sha256": "e30b1c56b2881df5ebf8914ab9d8d06929f8a37643c86b7ea319facb2069e097",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\mac-loader-map",
+    "TEMP": "S:\\vc1.0\\link\\mac-loader-map"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /machine:M68K /nodefaultlib /entry:main /out:loader-map.exe /debug:none /fixed /map:loader-map.map loader-map.obj",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\events.jsonl",
+    "S:\\vc1.0\\link\\mac-loader-map",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\mac-loader-map\\original-99rf3u6z\\after.dll",
+    "-"
+  ],
+  "seconds": 0.6911618718877435
+}

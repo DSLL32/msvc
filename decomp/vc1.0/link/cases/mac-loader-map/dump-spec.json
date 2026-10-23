@@ -1,0 +1,21 @@
+{
+  "case": "mac-loader-map-dump",
+  "arguments": [
+    "-dump",
+    "/headers",
+    "/symbols",
+    "/relocations",
+    "loader-map.exe"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/mac-loader-map/clock/loader-map.exe",
+      "bytes": 2097152,
+      "sha256": "de6e9e793b1ed97e55e61634aa1c783be574b43240490d1c681edc33cadce99d"
+    }
+  ],
+  "outputs": []
+}

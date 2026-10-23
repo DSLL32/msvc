@@ -229,6 +229,16 @@ def run_case(name, executable, directory, parser, state, tracing=None, completed
         assert result.stderr == phase['expected_stderr'].encode('latin1'), 'stderr differs'
         outputs = [validate_output(work, fixture, item, parser)
                    for item in phase.get('outputs', [])]
+    if clock_input:
+        # Captured external time makes all creation bytes deterministic. The
+        # normal fixture must require raw equality too, independent of later
+        # inspection stages and the cross-run timestamp-normalized oracle.
+        raw_outputs=clock_input['raw_outputs']
+        assert set(raw_outputs)=={item['name'] for item in outputs}
+        for item in outputs:
+            original=raw_outputs[item['name']]
+            assert item['bytes']==original['bytes'] and item['sha256']==original['sha256'], 'Raw captured-clock output differs: '+item['name']
+        state['raw_captured_clock_outputs_exact']=sorted(raw_outputs)
     if completed is not None:
         completed[name]=dict(work=work,outputs={item['name']:item for item in outputs})
     return dict(case=name, status='pass', exit=result.returncode,

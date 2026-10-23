@@ -1,0 +1,339 @@
+{
+  "native": {
+    "shared_commit": "65d0c1f8",
+    "shared_source_sha256": {
+      "../../../lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "../../../lib/recon/src/crt.c": "e23dc579c72f5121ed101b5db91c185c44c8d7f0b6b8246749f9e0e0ed7c2efd",
+      "../../../lib/recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+      "../../../lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+      "../../../lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "../../../lib/recon/src/win32.c": "359624c8e9601af1abf5b4ca4423a7ab03e51ef23045adc0ae6b23491fa0c7a5",
+      "../../../lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "../../../lib/recon/include/recon.h": "a8c94bc07bbc3f0a2a65500470060542be82843f67cef44bf5254b57dd8c471e",
+      "../../../lib/recon/include/win32.h": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4",
+      "../../../lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "../../../lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "../../../lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "../../../lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "../../../lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "../../../lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "../../../lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "../../../lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "../../../lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "../../../lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+      "../../../lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "../../../lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a"
+    },
+    "native_build_seconds": 7.158218126744032,
+    "native_suite_process_seconds": 5.725274288095534,
+    "native_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-j9b93c0_/receipt.json",
+    "native_receipt_sha256": "a10d3522f1ae879a9cb585375655ac9b796920b447d0799e81b5326d82c3991e",
+    "native_internal_seconds": 5.44744310900569,
+    "trace_prepare_seconds": 0.1831777049228549,
+    "native_case_sums": {
+      "setup_seconds": 1.997640185058117,
+      "execution_seconds": 0.6850666338577867,
+      "oracle_seconds": 2.7089034374803305,
+      "trace_check_seconds": 0.007080741226673126
+    },
+    "application_entries": 746,
+    "native_executable_sha256": "f9dc8faad6c5e257a8d580cae49ba72ca58a5c92e4111df06561b654e5bcf645"
+  },
+  "canonical_and_host_checks": {
+    "canonical_original_compiler_and_audits": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "status": 0,
+      "seconds": 26.289525048807263,
+      "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-canonical_original_compiler_and_audits.log"
+    },
+    "graph_negative_controls": {
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "status": 0,
+      "seconds": 18.46089604496956,
+      "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-graph_negative_controls.log"
+    },
+    "native_reference_rejections": {
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "status": 0,
+      "seconds": 0.26835166569799185,
+      "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-native_reference_rejections.log"
+    },
+    "call_edge_controls": {
+      "command": [
+        "python3",
+        "scripts/check-call-edge.py"
+      ],
+      "status": 0,
+      "seconds": 0.09882157482206821,
+      "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-call_edge_controls.log"
+    },
+    "crt_observation_controls": {
+      "command": [
+        "python3",
+        "scripts/check-crt-observations.py"
+      ],
+      "status": 0,
+      "seconds": 0.04982329998165369,
+      "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-crt_observation_controls.log"
+    },
+    "cross_import_controls": {
+      "command": [
+        "python3",
+        "scripts/check-cross-import.py",
+        "--native-receipt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-j9b93c0_/receipt.json",
+        "--run-denials"
+      ],
+      "status": 0,
+      "seconds": 0.11175153404474258,
+      "log": "/root/.ai-tmp/msvc2/vc1.0/link/mac-loader-final-cross_import_controls.log"
+    }
+  },
+  "original_capture_attempts": [
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-76hm4gsr",
+      "seconds": 0.6667031403630972,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "a17b83175b69fbeec7c0ae621bc807ce62040a00d3f2db567ba154b44cfaa14f"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-8lpgo3zo",
+      "seconds": 1.6456536436453462,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "cb909e2f72d55990a9bc5c8dee41cb3984828be273dba6dea1df9bd41eed94b5"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-9ciauqi5",
+      "seconds": 0.7977479854598641,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "c1e9865185a3e8539e374c7579b83b53d73146c85b582db0743f607cf1709e8c"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-arnei95s",
+      "seconds": 1.3872790252789855,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "cbf6bc99902a9ad71bf347de3c2cb39566ff3335018ba4f2d56b51b594b53278"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-bskvr46k",
+      "seconds": 1.728611153550446,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "37d645a74c573829fba507100be81684fb4768304bf3b8e0c72a93905e15113a"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-cxem3yan",
+      "seconds": 1.01669589150697,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "4a48d99f9b522f5d91ceb16f754149b3fb9dbfd758617e03a13b21015c3649bb"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "masked",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/masked-m0aan8a5",
+      "seconds": 1.5397307788953185,
+      "summary": {
+        "event": "summary",
+        "root_exit": 999,
+        "failed": 10,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "711bb29de3349debda986d878425378a7d3117ec165f2cfcd7ac85af8be549cc"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "original",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/original-99rf3u6z",
+      "seconds": 0.6911618718877435,
+      "summary": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "f7982398689e740776933ddb886ab05bc716fb9ecbf71e64f6283fc42aca85e9"
+    },
+    {
+      "case": "mac-loader-map",
+      "mode": "original",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map/original-ss7rvaeu",
+      "seconds": 0.8908780235797167,
+      "summary": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "984c6aca25894bb256d92cc7ecee98a6af486df217498501a85c27e3cd52fe2f"
+    },
+    {
+      "case": "mac-loader-map-dump",
+      "mode": "original",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map-dump/original-_851bl5v",
+      "seconds": 1.2189322421327233,
+      "summary": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "74a9936ce5fa43cd046f4ed36b8e88c8b83a8322c3f4d9295dcdd55cae9c39b5"
+    },
+    {
+      "case": "mac-loader-map-dump",
+      "mode": "original",
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/mac-loader-map-dump/original-ewp_fdmg",
+      "seconds": 1.5026810560375452,
+      "summary": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      },
+      "sha256": "e4393f8e21e1b106f44cf56fc6a58bb7febd34598b97ec95092ae06bd288b168"
+    }
+  ],
+  "original_capture_sum_seconds": 13.086074812337756,
+  "frontier_acceptances": [
+    {
+      "case": "934-compare_mac_jump_entries",
+      "seconds": 1.8569685444235802,
+      "receipt": "cases/mac-loader-map/acceptance/934-compare_mac_jump_entries/receipt.json",
+      "separate_phases": "Parallel original/native GDB, per-side split unmeasured"
+    },
+    {
+      "case": "933-compare_mac_external_contributions",
+      "seconds": 1.1468385346233845,
+      "receipt": "cases/mac-loader-map/acceptance/933-compare_mac_external_contributions/receipt.json",
+      "separate_phases": "Parallel original/native GDB, per-side split unmeasured"
+    },
+    {
+      "case": "932-compare_mac_external_names",
+      "seconds": 1.7777917264029384,
+      "receipt": "cases/mac-loader-map/acceptance/932-compare_mac_external_names/receipt.json",
+      "separate_phases": "Parallel original/native GDB, per-side split unmeasured"
+    },
+    {
+      "case": "936-compare_external_sections",
+      "seconds": 1.5132390558719635,
+      "receipt": "cases/mac-loader-map/acceptance/936-compare_external_sections/receipt.json",
+      "separate_phases": "Parallel original/native GDB, per-side split unmeasured"
+    },
+    {
+      "case": "935-get_externals_by_symbol",
+      "seconds": 0.7910291124135256,
+      "receipt": "cases/mac-loader-map/acceptance/935-get_externals_by_symbol/receipt.json",
+      "separate_phases": "Parallel original/native GDB, per-side split unmeasured"
+    }
+  ],
+  "focused_raw_clock_guard": {
+    "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-fbwr0gk2/receipt.json",
+    "internal_seconds": 0.2424576934427023,
+    "trace_prepare_seconds": 0.17296435497701168,
+    "case_components": {
+      "setup_seconds": 0.1568371457979083,
+      "execution_seconds": 0.026955503970384598,
+      "oracle_seconds": 0.052637006156146526,
+      "trace_check_seconds": 0.0007562190294265747
+    },
+    "external_process_wall": "unmeasured",
+    "reason": "Stronger normal raw-clock oracle; no source/executable/original change, all8affected phases pass"
+  },
+  "earlier_native_and_analysis_helper_build_seconds": "unmeasured; final7.158s rebuild measured separately"
+}

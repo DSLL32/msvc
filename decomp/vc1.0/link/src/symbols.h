@@ -102,6 +102,8 @@ External **sort_external_table(SymbolTable *,ExternalCompare);
 int compare_external_names(const void *,const void *);
 External **get_externals_by_name(SymbolTable *);
 External **get_externals_by_address(SymbolTable *);
+External **get_externals_by_symbol(SymbolTable *);
+int compare_external_sections(const void *,const void *);
 char *undecorate_symbol_name(const char *,unsigned char);
 void format_undefined_references(TextBuffer *,External *);
 unsigned long intern_symbol_name(SymbolTable *,const char *);

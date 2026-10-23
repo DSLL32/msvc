@@ -449,12 +449,26 @@
       "manifest_path": "cases/shared-prefix/import-dump-mips-data/manifest.json",
       "manifest_sha256": "01b7563eb0719851d74d93de15eb8efcee18d5b3128f24eb5703b7dc0875fb61",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "mac-loader-map": {
+      "receipt_path": "cases/shared-prefix/mac-loader-map/capture/receipt.json",
+      "receipt_sha256": "9e47b8ea9086530d055e1af798a3ccc2971ff106793f80cc60c1f37bbcdb78a6",
+      "manifest_path": "cases/shared-prefix/mac-loader-map/manifest.json",
+      "manifest_sha256": "0e9c04b8235e435802b405f04396bf91941311dd4df0fd7979fdd85c20ddf190",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "mac-loader-map-dump": {
+      "receipt_path": "cases/shared-prefix/mac-loader-map-dump/capture/receipt.json",
+      "receipt_sha256": "a40db043a25e59c7d3849697083c33a88c3dc8e320aa26831f65709f3268520b",
+      "manifest_path": "cases/shared-prefix/mac-loader-map-dump/manifest.json",
+      "manifest_sha256": "0f6508772c5d98521ff8d01083364868f5803cd18c582300c75e67ed226250af",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "7c3ef8ca0a1f81047b8c8cbd6562189dfd33a380fcd844f0e11b47c2e04b35f6",
+    "functions.json": "c98b051f7f7437a11e37816f36db67d49ddc0001ffdd71ca16806712f679cb66",
     "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
-    "replay-cases.json": "423b692c335d05557e8374b575c0a26a93ab970b438b654bb34443aaad390b62"
+    "replay-cases.json": "679d1cdce40f4bc0e283da95d2a8076cd94e593011f9e5a72ad0408b38dfb250"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -767,6 +781,11 @@
       "logical": "_compare_external_names",
       "implementation": "C"
     },
+    "compare_external_sections": {
+      "source": "src/symbols.c",
+      "logical": "_compare_external_sections",
+      "implementation": "C"
+    },
     "compare_fpo_records": {
       "source": "src/debug-symbols.c",
       "logical": "_compare_fpo_records",
@@ -775,12 +794,12 @@
     "compare_mac_external_contributions": {
       "source": "src/mac-object.c",
       "logical": "_compare_mac_external_contributions",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "compare_mac_external_names": {
       "source": "src/mac-object.c",
       "logical": "_compare_mac_external_names",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "compare_mac_fixup_offsets": {
       "source": "src/mac-fixups.c",
@@ -790,7 +809,7 @@
     "compare_mac_jump_entries": {
       "source": "src/mac-object.c",
       "logical": "_compare_mac_jump_entries",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "compare_mac_jump_key": {
       "source": "src/mac-object.c",
@@ -2488,9 +2507,9 @@
       "implementation": "C"
     },
     "get_externals_by_symbol": {
-      "source": "src/driver-stubs.c",
+      "source": "src/symbols.c",
       "logical": "_get_externals_by_symbol",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "get_hash_flags": {
       "source": "src/symbols.c",
@@ -5124,7 +5143,12 @@
     "edit_section",
     "skip_definition_code",
     "skip_definition_data",
-    "write_helper_thunk_member"
+    "write_helper_thunk_member",
+    "compare_mac_external_names",
+    "compare_mac_external_contributions",
+    "compare_mac_jump_entries",
+    "get_externals_by_symbol",
+    "compare_external_sections"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6743,6 +6767,32 @@
       "first": 932,
       "last": 932,
       "seen_count": 741,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "mac-loader-map": {
+      "first": 932,
+      "last": 937,
+      "seen_count": 741,
+      "expected": [
+        "compare_mac_external_names",
+        "compare_mac_external_contributions",
+        "compare_mac_jump_entries",
+        "get_externals_by_symbol",
+        "compare_external_sections"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "mac-loader-map-dump": {
+      "first": 937,
+      "last": 937,
+      "seen_count": 746,
       "expected": [],
       "terminal": {
         "kind": "exit",
