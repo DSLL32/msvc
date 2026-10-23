@@ -318,3 +318,8 @@ build/fullpath-errno-probe: tests/fullpath-errno-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 fullpath-errno-check: build/fullpath-errno-probe
 	$(PYTHON) tests/check-fullpath-errno.py build/fullpath-errno-probe
+
+build/mb-pbrk-probe: tests/mb-pbrk-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mb-pbrk-check: build/mb-pbrk-probe
+	$(PYTHON) tests/check-mb-pbrk.py build/mb-pbrk-probe

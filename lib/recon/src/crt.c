@@ -1813,7 +1813,18 @@ WEAK unsigned char *recon_mbsstr(const unsigned char *text,const unsigned char *
 WEAK unsigned char *recon_mbsupr(unsigned char *text)
 { (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)
-{ (void)text; (void)accept; recon_unsupported("unreviewed _mbspbrk"); return NULL; }
+{
+    const unsigned char *cursor,*set;
+    ascii_multibyte_scope();
+    if (!text || !accept) recon_unsupported("NULL _mbspbrk argument");
+    for (set=accept;*set;++set)
+        if (*set>=128) recon_unsupported("nonASCII _mbspbrk set");
+    for (cursor=text;*cursor;++cursor) {
+        if (*cursor>=128) recon_unsupported("nonASCII _mbspbrk text");
+        if (strchr((const char *)accept,*cursor)) return (unsigned char *)cursor;
+    }
+    return NULL;
+}
 WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
 {
     unsigned char byte;

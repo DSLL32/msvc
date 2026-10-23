@@ -1,0 +1,44 @@
+{
+  "scope": "Default-C CP0/MB_CUR_MAX1 ASCII _mbspbrk first matching byte pointer orNULL; unknown locale/codepage/nonASCII/NULL denied.",
+  "actual_original": {
+    "events": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-yi9_6k7k/events.jsonl",
+    "sha256": "e90a12a7868caa5c3a9dc04e872a2138c9f91440c268c881316247958e3688fd",
+    "call": {
+      "event": "mbs_observation",
+      "name": "observe:mbspbrk_call",
+      "site": 4573099,
+      "codepage": 0,
+      "eax": 9573376,
+      "arguments": [
+        9573571,
+        4231688
+      ],
+      "left": "hello.obj",
+      "lc_ctype_handle": 0,
+      "mb_cur_max": 1,
+      "locale_codepage": 0,
+      "right": "?*",
+      "mbctype_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010000000000000202020202020202020202020202020202020202020202020202000000000000000002000000000000010001000100000000000000000000000200020002010000000000000000000002000000000000000000000200000000020000000000010101010101010101010101010101010101010101010100010101010101010202020202020202020202020202020202020202020202020002020202020202020"
+    },
+    "return": {
+      "event": "mbs_observation",
+      "name": "observe:mbspbrk_return",
+      "site": 4573105,
+      "codepage": 0,
+      "eax": 0,
+      "arguments": [
+        9573571,
+        4231688
+      ],
+      "left": "hello.obj",
+      "lc_ctype_handle": 0,
+      "mb_cur_max": 1,
+      "locale_codepage": 0,
+      "right": "?*",
+      "mbctype_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010000000000000202020202020202020202020202020202020202020202020202000000000000000002000000000000010001000100000000000000000000000200020002010000000000000000000002000000000000000000000200000000020000000000010101010101010101010101010101010101010101010100010101010101010202020202020202020202020202020202020202020202020002020202020202020"
+    }
+  },
+  "provider_review": "Canonical _mbspbrk324f..32d7 +CP0 coldbranchbb20..bb33 delegates complete strpbrk19a55..19a8f; no imports/errorwrites onCP0 path. Canonicalprovider hFile verified byowner.",
+  "native_checks": "GCC/Clang actualhello.obj wildcardabsence plusfirstmatch pointer/empty/duplicate-set/errors and5 unknown controls; SDKsurface checks pass.",
+  "limits": "No DBCS or1252/en-US locale relaxation; CLs newly observed postDLL state remains separate."
+}
