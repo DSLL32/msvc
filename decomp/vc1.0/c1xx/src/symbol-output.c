@@ -3,6 +3,18 @@
 #include "lexer.h"
 #include <recon.h>
 
+/* Original 0x56cb0..0x56cf7. Skip forward function declarations and
+   unnamed/compiler-generated declarations except the actual this parameter. */
+void __stdcall prepare_symbol_debug_type(CppSymbol *symbol)
+{
+    unsigned kind = symbol->kind & 31;
+    if ((kind == 6 || kind == 7) && !(symbol->flags & 4)) return;
+    if (!symbol->name || symbol->name == name_unnamed) return;
+    if ((symbol->flags & 0x80) && symbol->name != name_this) return;
+    reference_debug_type(symbol->type);
+    flush_debug_types();
+}
+
 /* Original 0x56d20..0x57189. PCH/debug selection, class member passes,
    aliases, unused-declaration diagnostics and final record selection. */
 void __stdcall emit_symbol_declaration(CppSymbol *symbol)

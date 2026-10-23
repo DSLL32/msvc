@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "fdb01a1d1d9dbf5e1cb8f8961220a14a4999c74dae421cc7a6c9a7e6cd94c966",
+    "functions.json": "2be7062a9b317ccfbb17855ff5ac55d877d227d3eab12d659776ef8e3a328bf2",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "054dcddb42373e06b034079f85d10403b1cbfaeab6038ae421f2bd9a449c1031",
-    "cases/canonical-map.txt": "474e80373364f9497feb0340c89685a29f7aad324f4c1f4a8e2fb600779fc95d",
+    "cases/original-entry-references.json": "907809e417162ca914fbf022b739024a01568a5685d27ad014bc7e8b764e5497",
+    "cases/canonical-map.txt": "9b38448e0cb1d0a44a08b78dd1daf75ae4461bd2ae1e84ecf7588cd78cffe7dc",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1068-equal_symbol_indices/entry-reference/original-receipt.json": "a41635cf12aead3cb269718d2e1d80890205c799450b21f57f672a85d6ce5d97",
-    "cases/frontiers/state_machine_debug/1068-equal_symbol_indices/entry-reference/original-events.txt": "dd3270a7703fd95cf95df52bc1bcce5e3305f6388878fdb082d79c47fbc9fe71",
-    "cases/frontiers/state_machine_debug/1068-equal_symbol_indices/entry-reference/original-entries.plan": "3babaeab5d9c46fe7e8270c18269b908d857d5cc72274e2aa10bc09386418262"
+    "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/entry-reference/original-receipt.json": "72e7751ef3bb5c2c500ea96dbdb9dc33e67cd14ac406ff4819ecd705e25ca3fd",
+    "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/entry-reference/original-events.txt": "0702cf4d06fabf2e863bafd3a9f52d99715db77f72c76e211b5dfc8dfe3d3d81",
+    "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/entry-reference/original-entries.plan": "e54fdc95a0d1a88d03df9db7934787dbb1e8037e6851d0024f30777dc53185e8"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3921,7 +3921,7 @@
     },
     "prepare_symbol_debug_type": {
       "logical": "_prepare_symbol_debug_type@4",
-      "source": "src/stubs.c"
+      "source": "src/symbol-output.c"
     },
     "prepare_value_operand": {
       "logical": "_prepare_value_operand@8",
@@ -6367,7 +6367,8 @@
     "find_friend_access",
     "equal_first_words",
     "static_member_alias",
-    "equal_symbol_indices"
+    "equal_symbol_indices",
+    "prepare_symbol_debug_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10479,7 +10480,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1069,
+      "last": 1070,
       "seen": [
         "main",
         "message_text",
@@ -11458,12 +11459,13 @@
         "equal_first_words",
         "static_member_alias",
         "equal_symbol_indices",
-        "prepare_symbol_debug_type"
+        "prepare_symbol_debug_type",
+        "reference_debug_type"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_prepare_symbol_debug_type@4",
-        "native": "prepare_symbol_debug_type",
+        "logical": "_reference_debug_type@4",
+        "native": "reference_debug_type",
         "signal": 5
       }
     }

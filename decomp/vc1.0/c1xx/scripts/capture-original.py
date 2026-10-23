@@ -32,7 +32,7 @@ def main():
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
     parser.add_argument('--argument-words', type=int, choices=(4, 6), default=4,
         help='explicit raw stack-word count for a proved current ABI; default remains four')
-    parser.add_argument('--ownership-register', choices=('esi', 'ebx'),
+    parser.add_argument('--ownership-register', choices=('esi', 'ebx', 'edi'),
         help='explicit caller-owned allocation anchor; not an extra callee ABI input')
     parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
         help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')

@@ -95,10 +95,10 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     WriteFile(log, line, strlen(line), &written, 0);
     if (ownership_register) {
         if (context_read) sprintf(line, "ownership-anchor %s %08lx\n",
-            ownership_register == 2 ? "ebx" : "esi",
-            ownership_register == 2 ? context.Ebx : context.Esi);
+            ownership_register == 3 ? "edi" : (ownership_register == 2 ? "ebx" : "esi"),
+            ownership_register == 3 ? context.Edi : (ownership_register == 2 ? context.Ebx : context.Esi));
         else sprintf(line, "ownership-anchor %s unreadable\n",
-            ownership_register == 2 ? "ebx" : "esi");
+            ownership_register == 3 ? "edi" : (ownership_register == 2 ? "ebx" : "esi"));
         WriteFile(log, line, strlen(line), &written, 0);
     }
 }
@@ -137,7 +137,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "ebx")) ownership_register = 2;
+        if (!strcmp(ownership_option, "edi")) ownership_register = 3;
+        else if (!strcmp(ownership_option, "ebx")) ownership_register = 2;
         else if (strcmp(ownership_option, "esi")) return 2;
     }
 

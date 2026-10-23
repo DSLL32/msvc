@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_prepare_symbol_debug_type@4",
+  "native_entry": "prepare_symbol_debug_type",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    355616,
+    356745
+  ],
+  "native_caller_locals": {
+    "caller_symbol": {
+      "frame": 1,
+      "function": "emit_symbol_declaration",
+      "local": "symbol"
+    }
+  },
+  "native_expressions": {
+    "raw_symbol": "(unsigned)symbol"
+  },
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 291188,
+        "original_owner_function": "_emit_symbol_declaration@4",
+        "native_owner_field": "caller_symbol",
+        "native_owner_function": "emit_symbol_declaration",
+        "native_owner_local": "symbol",
+        "identity": "actual symbol being serialized by accepted emit_symbol_declaration: EDI loaded from its argument and kept through selection branches/callee-saved calls, PUSH EDI0x5716e/CALL0x5716f return0x57174. Native immediate caller formal symbol supplies identical logical ownership. EDI is observer anchor only."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      355504,
+      355575
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4], CL kind loaded and only byte-tested until ECX fully loaded with name at0x56cc9. Reads flags/name/type through this formal; type pushed to reference_debug_type followed by no-argument flush_debug_types; RET4. No incoming semantic register/hidden input. Interned exclusions0x9f250=name_unnamed and0x9f37c=name_this independently identified through existing special identifier table, not guessed from null initial globals."
+  }
+}

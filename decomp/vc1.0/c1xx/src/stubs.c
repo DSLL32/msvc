@@ -484,7 +484,6 @@ void finish_inline_function(void) { __asm { int 3 } }
 unsigned short __stdcall debug_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
 void __stdcall reference_debug_type(CType *type) { __asm { int 3 } }
 void flush_debug_types(void) { __asm { int 3 } }
-void __stdcall prepare_symbol_debug_type(CppSymbol *symbol) { __asm { int 3 } }
 
 char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 

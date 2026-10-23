@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x4d4d9: file src/symbol-output.c, line 10.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, prepare_symbol_debug_type (symbol=0x56646060) at src/symbol-output.c:10
+10	    unsigned kind = symbol->kind & 31;
+#0  prepare_symbol_debug_type (symbol=0x56646060) at src/symbol-output.c:10
+#1  0x565a2ca3 in emit_symbol_declaration (symbol=0x56646060) at src/symbol-output.c:148
+#2  0x565a35c9 in serialize_scope (scope=0x56646150) at src/function-finalization.c:137
+#3  0x565a33ad in finish_function_output () at src/function-finalization.c:92
+#4  0x565a31a2 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#5  0x565a2fa4 in end_function_definition () at src/function-finalization.c:22
+#6  0x565ae7a4 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#7  0x5655dfaf in compile_translation_unit () at src/frontend.c:73
+#8  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558874 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

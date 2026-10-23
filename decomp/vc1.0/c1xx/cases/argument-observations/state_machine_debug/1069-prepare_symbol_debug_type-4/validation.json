@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_prepare_symbol_debug_type@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1069,
+  "configuration_sha256": "0cd1e533f15a7e5ffd06450c586f49c38ee68878723eaa22990a768afded9aa7",
+  "native_entry": "prepare_symbol_debug_type",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 291188,
+        "original_owner_function": "_emit_symbol_declaration@4",
+        "native_owner_field": "caller_symbol",
+        "native_owner_function": "emit_symbol_declaration",
+        "native_owner_local": "symbol",
+        "identity": "actual symbol being serialized by accepted emit_symbol_declaration: EDI loaded from its argument and kept through selection branches/callee-saved calls, PUSH EDI0x5716e/CALL0x5716f return0x57174. Native immediate caller formal symbol supplies identical logical ownership. EDI is observer anchor only.",
+        "original_owner_value": 8451560,
+        "native_owner_value": 1449418848
+      },
+      "original_raw": 8451560,
+      "native_raw": 1449418848,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      355504,
+      355575
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4], CL kind loaded and only byte-tested until ECX fully loaded with name at0x56cc9. Reads flags/name/type through this formal; type pushed to reference_debug_type followed by no-argument flush_debug_types; RET4. No incoming semantic register/hidden input. Interned exclusions0x9f250=name_unnamed and0x9f37c=name_this independently identified through existing special identifier table, not guessed from null initial globals.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "cfdc8c5971effe67f309984429bb4c46655eae94e0e71d7682f5d13e5d5aafdb",
+  "capture_timing": {
+    "original_capture_seconds": 1.9695174470543861,
+    "native_capture_seconds": 0.18434874527156353,
+    "total_operation_seconds": 2.456701384857297
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "7c3ed028e6810a4c7bf2c8a090ba3d84a6d64c972f0dae2424bd4e28eca2d1b8",
+    "native-commands.gdb": "0f4bba54b9a9a4365facf6c4812fd5a6004bb16959b2460932cc160de49828c0",
+    "native-gdb.log": "6ef9807a94979eeb7ed316619fa2a505f4914ad116f62ede6bc2460c5e87666f",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "66a6545b1bc145bf6711b2c94fbc28130b2b7334d2e75366ca1d05fd9f0502ea",
+    "original-configuration.json": "0cd1e533f15a7e5ffd06450c586f49c38ee68878723eaa22990a768afded9aa7",
+    "original-disassembly.txt": "9cf813f4c045dd4cc4702d06d9f8710c54ff6afeb55349c09629254f778fdd44",
+    "original-entries.plan": "f451a68f31cd62b015dc551ee9a70766f4d8d1423f2d197c951e444e935703e6",
+    "original-events.txt": "f62f741e7451425d8114a0348865891bd6549fe91b873f8cbc4c5787254e229c",
+    "original-ownership-caller-disassembly.txt": "7b3c6a47d86fc4e9721647155f0b2b2359c2486ee94e382e2f40acbe71c7f5e4",
+    "original-receipt.json": "f93b47ab5c192a0dec0ab353274eaa5d80945d015b3186613f1dab621017af9d",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f270baa6969e21115ebe5e16cd25d042025d42e909795a5a5aead4d8baeaacdf"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
