@@ -1,0 +1,24 @@
+{
+  "scope": "opaque caller-frame count0 save, no target raw-field interpretation",
+  "original_evidence": "/root/.ai-tmp/msvc2/vc5.10/rcdll/crt-format-original",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "actual_original": {
+    "buffer_size": 64,
+    "count": 0,
+    "registration": 3276608,
+    "try_level": 0,
+    "result": 0,
+    "writes": "first40bytes;last24unchanged; fullrawbeforeafter retained in original receipt"
+  },
+  "native_representation": "opaque64byteobjectaddress maps to genuine caller-frame glibc context outside target storage; no equality claim for raw register/SEH fields",
+  "tests": [
+    "actual host context resumes caller7 in native-only validation",
+    "legacy bytes untouched",
+    "positivecount/wrongsize/SEHlongjmp rejected",
+    "VC1regularsetjmp and8/16wordstorage regression"
+  ],
+  "native_build_checks_seconds": {
+    "gcc": 0.9734354978427291,
+    "clang": 1.192389807663858
+  }
+}

@@ -4,7 +4,7 @@ CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
 SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
 HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
-.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check cpp-new-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
+.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check cpp-new-check setjmp3-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -63,6 +63,10 @@ cpp-new-check: build/check-cpp-new build/cpp-new-probe
 	./build/check-cpp-new
 	$(PYTHON) -c "from pathlib import Path; import subprocess; p=subprocess.run(['build/cpp-new-probe'],capture_output=True,check=True); assert not p.stderr and p.stdout==Path('tests/cpp-new-original.stdout').read_bytes()"
 	$(PYTHON) -c "import subprocess; p=subprocess.run(['build/check-cpp-new','failure'],capture_output=True); assert p.returncode==125"
+build/check-setjmp3: tests/check-setjmp3.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 tests/check-setjmp3.c $(SOURCES) -o $@
+setjmp3-check: build/check-setjmp3
+	$(PYTHON) tests/check-setjmp3.py build/check-setjmp3
 build/trace-target.o: tests/trace-target.c | build
 	$(CC) -m32 -std=gnu89 -O0 -g -finstrument-functions -c $< -o $@
 build/trace-pie: build/trace-target.o src/trace.c

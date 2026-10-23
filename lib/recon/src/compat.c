@@ -13,6 +13,7 @@
  * fixtures. Entries cannot be freed because C has no jump-buffer destructor. */
 struct JumpContext {
     void *legacy;
+    int opaque_setjmp3;
     recon_host_jmp_buf host;
     struct JumpContext *next;
 };
@@ -22,20 +23,34 @@ recon_host_jmp_buf *recon_jmp_context(void *legacy)
 {
     struct JumpContext *context;
     for (context = jump_contexts; context; context = context->next)
-        if (context->legacy == legacy) return &context->host;
+        if (context->legacy == legacy) { context->opaque_setjmp3=0; return &context->host; }
     context = malloc(sizeof(*context));
     if (!context) recon_unsupported("setjmp context allocation");
     context->legacy = legacy;
+    context->opaque_setjmp3=0;
     context->next = jump_contexts;
     jump_contexts = context;
     return &context->host;
+}
+
+recon_host_jmp_buf *recon_setjmp3_context(void *legacy,unsigned size,int count)
+{
+    struct JumpContext *context; recon_host_jmp_buf *host;
+    if (!legacy || size!=64 || count) recon_unsupported("unreviewed _setjmp3 storage/count/unwind");
+    host=recon_jmp_context(legacy);
+    for (context=jump_contexts;context;context=context->next)
+        if (context->legacy==legacy) { context->opaque_setjmp3=1; break; }
+    return host;
 }
 
 void recon_longjmp(void *legacy, int value)
 {
     struct JumpContext *context;
     for (context = jump_contexts; context; context = context->next)
-        if (context->legacy == legacy) longjmp(context->host, value);
+        if (context->legacy == legacy) {
+            if (context->opaque_setjmp3) recon_unsupported("unreviewed _setjmp3 longjmp/SEH unwind");
+            longjmp(context->host, value);
+        }
     recon_unsupported("longjmp without matching setjmp");
     abort();
 }

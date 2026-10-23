@@ -602,3 +602,11 @@ LONG WINAPI recon_RtlUnicodeStringToAnsiString(struct AnsiString *out,struct Uni
     }
     out->text[length]=0; out->length=length; return 0;
 }
+
+/* Reached only in unvisited RC conversion branches; retain SDK call ABIs. */
+BOOL WINAPI recon_IsValidCodePage(UINT page)
+{ (void)page; recon_unsupported("unreviewed IsValidCodePage"); return FALSE; }
+UINT WINAPI recon_GetACP(void)
+{ recon_unsupported("unreviewed GetACP"); return 0; }
+LPSTR WINAPI recon_CharNextA(LPCSTR text)
+{ (void)text; recon_unsupported("unreviewed CharNextA"); return NULL; }

@@ -357,3 +357,14 @@ provider allocation to16bytes and preserves observed errno/LastError on normal
 success. Requested size and initialized bytes remain the application's ownership
 bounds, irrespective of allocator capacity. Host allocation failure is explicitly
 unsupported until handler/failure state is characterized.
+
+The native flag `RECON_NATIVE_SETJMP3_COUNT0` (with16word storage) selects the
+observed MSVCRT `_setjmp3` intrinsic for ordinary source `setjmp`. It validates
+64byte storage/count0 and saves a genuine context in the caller's frame. The
+legacy object's address is an opaque owner token; original raw register/SEH
+writes and untouched tail remain in case evidence, not equated to glibc bytes.
+Cases must prove no application raw-field interpretation. Count/unwind variants
+and longjmp from these contexts fail explicitly until characterized. Ordinary
+VC1 setjmp/longjmp is unchanged. RC's unvisited IsValidCodePage/GetACP/CharNextA
+imports have SDK call ABIs and explicitly unsupported bodies, not guessed locale
+behavior.

@@ -214,6 +214,7 @@ void recon_load_module_resources(HMODULE,const char *);
  X(int,MultiByteToWideChar,(UINT,DWORD,LPCSTR,int,LPWSTR,int)) \
  X(int,WideCharToMultiByte,(UINT,DWORD,LPCWSTR,int,LPSTR,int,LPCSTR,BOOL *)) \
  X(int,LCMapStringW,(DWORD,DWORD,LPCWSTR,int,LPWSTR,int)) \
+ X(BOOL,IsValidCodePage,(UINT)) X(UINT,GetACP,(void)) X(LPSTR,CharNextA,(LPCSTR)) \
  X(UINT,GetConsoleCP,(void)) X(BOOL,GetCPInfo,(UINT,CPINFO *)) \
  X(UINT,SetHandleCount,(UINT)) \
  X(BOOL,GetConsoleScreenBufferInfo,(HANDLE,CONSOLE_SCREEN_BUFFER_INFO *)) \
@@ -423,6 +424,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define MultiByteToWideChar recon_MultiByteToWideChar
 #define WideCharToMultiByte recon_WideCharToMultiByte
 #define LCMapStringW recon_LCMapStringW
+#define IsValidCodePage recon_IsValidCodePage
+#define GetACP recon_GetACP
+#define CharNextA recon_CharNextA
 #define GetConsoleCP recon_GetConsoleCP
 #define GetCPInfo recon_GetCPInfo
 #define SetHandleCount recon_SetHandleCount
