@@ -18,6 +18,7 @@ typedef char DebugTypeRecordRelatedOffsetMustBe8[(offsetof(DebugTypeRecord, rela
 extern DebugTypeRecord *debug_types;
 extern unsigned short next_debug_type_index;
 extern unsigned debug_type_count;
+extern unsigned short debug_field_properties;
 unsigned __stdcall reserve_debug_type(unsigned char kind);
 unsigned short __stdcall primitive_pointer_debug_type(CType *type);
 unsigned short __stdcall base_debug_type(CType *type);
@@ -42,4 +43,11 @@ void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned field_count,
 void __stdcall emit_debug_argument_list(FunctionParameters *parameters);
 void __stdcall emit_debug_vshape(CppSymbol *tag);
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit);
+void __cdecl prepare_line_record_tag(CppSymbol *tag);
+unsigned short __cdecl line_record_tag_type(CppSymbol *tag);
+struct HashTable;
+unsigned __stdcall hash_table_count(struct HashTable *table);
+short __stdcall class_virtual_table_group_count(CppSymbol *tag);
+unsigned __stdcall count_debug_methods(struct OverloadSet *overloads,
+    unsigned short *field_properties);
 #endif

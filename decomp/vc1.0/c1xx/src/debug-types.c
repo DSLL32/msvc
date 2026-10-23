@@ -7,6 +7,76 @@
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
 unsigned short next_debug_type_index = 0x1000; /* original 0x9f454 */
 unsigned debug_type_count; /* original 0xa25c0 */
+unsigned short debug_field_properties; /* original 0xa25c4 */
+
+/* Original 0x6db20..0x6dd7e. Assign the tag index before descending into
+   bases/members, then count the fields its deferred class record will emit. */
+unsigned short __stdcall debug_tag_type(CppSymbol *tag)
+{
+    CppSymbol *member, *base;
+    BaseClassLink *base_link;
+    unsigned record, kind;
+    unsigned short flags;
+    int count = 0;
+    if (options.configuration.line_records) {
+        prepare_line_record_tag(tag);
+        return line_record_tag_type(tag);
+    }
+    if (!tag) return 0;
+    flags = tag->type->flags;
+    if (tag->type->debug_index) return tag->type->debug_index;
+    tag->type->debug_index = next_debug_type_index;
+    record = reserve_debug_type(1);
+    debug_types[record].subject.symbol = tag;
+    debug_types[record].detail.field_list = debug_field_properties;
+    if (tag->flags & 4) {
+        if (flags & 0x200)
+            count = hash_table_count(tag->auxiliary.enumerators);
+        else {
+            for (member = tag->auxiliary.scope_members; member; member = member->next) {
+                if ((member->kind & 31) != 15 || (member->flags & 0x80)) continue;
+                base_link = (BaseClassLink *)member;
+                base = cpp_context_stack->items[base_link->context_index];
+                base->type->debug_index = debug_tag_type(base);
+                if (!(base_link->state & 1)) ++count;
+            }
+            count += class_virtual_table_group_count(tag);
+            for (member = tag->auxiliary.scope_members; member; member = member->next) {
+                kind = member->kind & 31;
+                if (kind == 15 || kind == 5) continue;
+                /* Anonymous enum declarations retain a debug field even
+                   though the ordinary unnamed-declaration filter rejects it. */
+                if (!(kind == 4 && member->name == name_unnamed &&
+                      (member->type->flags & 0x200))) {
+                    if (!member->name || member->name == name_unnamed ||
+                        member->name == name_alignment) continue;
+                    if (kind >= 1 && kind <= 13 && kind != 5 && !member->type) continue;
+                }
+                if (kind == 17) {
+                    if (!((OverloadSet *)member)->functions) continue;
+                    if (member->name == name_vbase_dtor || member->name == name_delete_dtor ||
+                        member->name == name_vector_delete_dtor ||
+                        member->name == name_default_ctor_closure || tag->name == name_unnamed)
+                        continue;
+                    count += count_debug_methods((OverloadSet *)member,
+                        &debug_types[record].detail.field_list);
+                } else if (kind == 4) {
+                    member->type->debug_index = debug_tag_type(member);
+                    ++count;
+                } else if (member->name == name_vbptr) {
+                    reference_debug_type(member->type);
+                } else {
+                    if (member->name != name_vfptr && kind != 2)
+                        reference_debug_type(member->type);
+                    ++count;
+                }
+            }
+        }
+    }
+    debug_types[record].attributes = (unsigned short)count;
+    tag->flags &= ~8;
+    return tag->type->debug_index;
+}
 
 /* Original 0x6e080..0x6e267, switch data 0x6e268..0x6e288. Emission
    may append more records, so reread both the count and queue each turn. */

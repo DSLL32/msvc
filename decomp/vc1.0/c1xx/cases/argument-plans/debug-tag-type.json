@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_debug_tag_type@4",
+  "native_entry": "debug_tag_type",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "retained_class",
+      "original": 573948
+    }
+  ],
+  "native_expressions": {
+    "raw_tag": "(unsigned)tag",
+    "retained_class": "(unsigned)class_contexts[0].symbol",
+    "class_index": "(unsigned)current_class_context"
+  },
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 4294967295
+    }
+  ],
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "retained_class",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "retained_class",
+        "identity": "Counter tag retained in former class_contexts[0] slot, although active class context is already -1. Fresh exact owner alias on both sides; no forced new owner or object dump."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      449312,
+      449918
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP,24/saveEBX,ESI,EDI,EBP; tag from adjustedESP+44. All working regs derive tag/global/callee results. Three returns restore saved registers/frame and RET4. Enum count uses unsigned hash count; group count sign-extends returned short. Class bases use distinct BaseClassLink prefix, member overloads use16B OverloadSet prefix; methods update only queue.detail WORD. Early assignment prevents recursive cycles. No hidden/register incoming argument."
+  }
+}
