@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_reset_debug_type_records",
+  "case": "state_machine_debug",
+  "accepted_before": 1099,
+  "configuration_sha256": "416adbc03da0393b0e0958e67648059978fd2b3f90a137211dfd4652b51dfeee",
+  "native_entry": "reset_debug_type_records",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      450592,
+      450679
+    ],
+    "argument_bytes": 0,
+    "proof": "No frame/save or incoming arguments; plain RET0. ECX=(capacity<1) then max with128 is128 for every unsignedcapacity. If128<oldcapacity shrink to2048bytes via shipped_realloc83610, storeglobalqueuepointer, fatal60 at73280 onNULL. Always reset countglobal to0. Native zeroformals; exact encountered globalcount30/capacity128 supplement fresh checkpoint; no unproved registerinput.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "ef3d64766fbc540d99226b4d575187faa74451c15f4db01b0ccba6b3df1d813e",
+  "capture_timing": {
+    "original_capture_seconds": 0.7160322898998857,
+    "native_capture_seconds": 0.18442131020128727,
+    "total_operation_seconds": 1.1321325460448861
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "edf9c1625286ae210f7e714f4c562146da70db8630ccc52bcce8747564ee9dad",
+    "native-commands.gdb": "46d81b7fc6247ca8e3d00c9936c8b6e2db8d4282accfee07a8e358f234645c31",
+    "native-gdb.log": "9fdaf8866bd9ceb1ab1df02495493e885e18657a0b2c995d735e771535ab87c6",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "0172e8c1d42bd5a957c8f647f63295113dc79afed2ad74943185e23a8a1bf56d",
+    "original-configuration.json": "416adbc03da0393b0e0958e67648059978fd2b3f90a137211dfd4652b51dfeee",
+    "original-disassembly.txt": "b2544b5bd61c1a00f366813fff92df8726af51472fb5fbb9f55215d5c61ff569",
+    "original-events.txt": "cd5834d3e1ce1a27f4749bb170d33590b71fe229d9eaa79af98384017bd0eb5e",
+    "original-receipt.json": "660f723e903898c902798d9450e1bd5d9dbb6845318945aa27c36465cc92ab7c",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "b951445eb106bd734131fa3629fe46fc761923db74fecaaf9e0e08ca01a5fecc"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "debug_capacity",
+      "equals": 128
+    },
+    {
+      "index": 15,
+      "native_field": "debug_count",
+      "equals": 30
+    }
+  ]
+}

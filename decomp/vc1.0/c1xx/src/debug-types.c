@@ -16,6 +16,18 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Original 0x6e020..0x6e077. Keep a small reusable queue after
+   flushing, shrinking larger allocations to the initial capacity. */
+void reset_debug_type_records(void)
+{
+    if (debug_type_capacity > 128) {
+        debug_type_capacity = 128;
+        debug_types = realloc(debug_types, 128 * sizeof(DebugTypeRecord));
+        if (!debug_types) fatal_error(60);
+    }
+    debug_type_count = 0;
+}
+
 /* Original 0x6fab0..0x6fc6d. Omit trivial implicit special members
    and retain per-overload access, virtual, pure and static attributes. */
 void __stdcall emit_debug_method_list(OverloadSet *overloads)

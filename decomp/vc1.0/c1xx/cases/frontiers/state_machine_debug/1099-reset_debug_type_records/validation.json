@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_reset_debug_type_records",
+    "start": 450592,
+    "end": 450679
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1099-reset_debug_type_records/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_realloc"
+  ],
+  "next_frontier": "_reference_tag_symbol@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4922410976141691,
+  "total_operation_seconds": 3.606542899273336,
+  "original_capture_seconds": 1.0165158519521356
+}
