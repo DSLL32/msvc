@@ -140,6 +140,10 @@
     "asm-diagnostic-recovery": {
       "receipt": "cases/asm-diagnostic-recovery/evidence/asm-errors-complete-958.receipt.json",
       "sha256": "a27ddb8cd155c50998c7c820b266a08e187c37a521a85fb78a2a506506dc9512"
+    },
+    "calibration-table": {
+      "receipt": "cases/calibration-table/evidence/calibration-complete-966.receipt.json",
+      "sha256": "29bc985969f4e77abe2f7e01d447951beccba044c23a780496cd06d43611cdef"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

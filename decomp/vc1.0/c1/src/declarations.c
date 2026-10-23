@@ -2436,3 +2436,29 @@ void __stdcall define_register_parameter(FrontendSymbol *parameter)
     push_work_list((void **)&scope_cleanup_stack, 1);
     scope_cleanup_stack->value.saved_depth = 1;
 }
+
+/* Original0x33750..0x337fe, RET4. Local thread-static declarations
+   receive an ordinary serialized zero initializer, scalar or aggregate. */
+void __stdcall initialize_thread_symbol(FrontendSymbol *symbol)
+{
+    TypeShape *shape;
+    if (!symbol->index) {
+        if (next_symbol_index > 0x7ffffffeU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_index_overflow();
+        symbol->index = next_symbol_index++;
+    }
+    symbol->attributes |= 4;
+    declare_initialized_symbol(symbol);
+    if (!(symbol->type->flags & 0x400)) {
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 7)) shape = shape->related;
+        if (!shape || (shape->flags & 7) != 2) {
+            finish_initializer(symbol,make_integer_constant(0));
+            return;
+        }
+    }
+    begin_aggregate_initializer(symbol);
+    emit_initializer(make_integer_constant(0));
+    finish_aggregate_initializer(symbol);
+}

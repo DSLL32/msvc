@@ -279,6 +279,27 @@ def main():
     rejects('asm-errors-browser-final-marker', 'output bytes differ: errors.sbr',
             lambda:checker.validate_artifacts(asm_errors,asm_errors_fixture,asm_errors_phase))
 
+    _, calibration = checker.run_case('calibration-table', executable, directory, (cache,filter_path))
+    calibration_fixture = checker.BINARY/'cases/calibration-table'
+    calibration_phase = json.loads((calibration_fixture/'manifest.json').read_text())['phases']['c1']
+    initialized_data = (calibration/'irin').read_bytes()
+    coefficients = bytearray(initialized_data)
+    last_coefficient = coefficients.index(bytes.fromhex('01020430'))
+    coefficients[last_coefficient+3] = 47
+    (calibration/'irin').write_bytes(coefficients)
+    rejects('calibration-last-configured-coefficient', 'output bytes differ: irin',
+            lambda:checker.validate_artifacts(calibration,calibration_fixture,calibration_phase))
+    unsigned_gain = bytearray(initialized_data)
+    positive_gain = struct.pack('<d',2147483648.0)
+    assert unsigned_gain.count(positive_gain) == 1
+    gain_offset = unsigned_gain.index(positive_gain)
+    unsigned_gain[gain_offset+7] ^= 0x80
+    (calibration/'irin').write_bytes(unsigned_gain)
+    rejects('calibration-unsigned-floating-gain', 'output bytes differ: irin',
+            lambda:checker.validate_artifacts(calibration,calibration_fixture,calibration_phase))
+    rejects('calibration-conversion-warning', 'stdout differs',
+            lambda:checker.validate_result('calibration-table',0,b'',b'',calibration_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

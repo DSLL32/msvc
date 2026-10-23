@@ -1,0 +1,27 @@
+[
+  {
+    "name": "irdb",
+    "bytes": 295,
+    "sha256": "6d368ac4c27da14fe3b7d3c082c259882da9e406706f8cea8ca4783a01fbae93"
+  },
+  {
+    "name": "irex",
+    "bytes": 1940,
+    "sha256": "a2fe3ef467a99dc45f91b4f97f630372777464fc6466075f5ea3ae5dc0bc3a2a"
+  },
+  {
+    "name": "irgl",
+    "bytes": 318,
+    "sha256": "7b3ba9ffd759e9bac632cb19e90ceef32732215ba01f4ea68182cccf13ecd57a"
+  },
+  {
+    "name": "irin",
+    "bytes": 296,
+    "sha256": "1c87ae0071357afc74966c1df0be99994ffde97373fa1a9df9ff2c7f4cee4c02"
+  },
+  {
+    "name": "irsy",
+    "bytes": 294,
+    "sha256": "daeb08fd63286226e1541c535048f9fe53dd02ce98ba12f5a4bececd4811cfe1"
+  }
+]

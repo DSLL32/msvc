@@ -959,3 +959,30 @@ void __stdcall emit_runtime_initializer(IrToken *value)
     target = make_indirection(make_symbol_reference(initializer_temporary));
     emit_expression_statement(make_binary_expression(TOK_OR_ASSIGN,target,expression));
 }
+
+/* Original0x30f90..0x30fc2, RET8. A shared allocation unit ends at a
+   different offset or at the interned alignment-member sentinel. */
+FrontendSymbol *__stdcall next_shared_bitfield(unsigned offset, FrontendSymbol *member)
+{
+    if (!member || member->name == name_alignment || member->detail.value != offset)
+        return 0;
+    return member;
+}
+
+/* Original0x30fd0..0x3102b, RET4. Walk to the link after a balanced
+   anonymous aggregate, retaining the original close-before-open tests. */
+FrontendSymbol *__stdcall skip_initializer_anonymous_members(FrontendSymbol *member)
+{
+    int depth = 1;
+    unsigned kind;
+    member = member->next;
+    while (member && depth > 0) {
+        kind = member->kind & 31;
+        if (kind >= 1 && kind <= 13 && kind != 5) {
+            if (member->attributes & 0x1000) --depth;
+            if (member->attributes & 0x800) ++depth;
+        }
+        member = member->next;
+    }
+    return member;
+}

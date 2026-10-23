@@ -1,0 +1,13 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 7.299805035814643,
+    "exit": 2
+  }
+]

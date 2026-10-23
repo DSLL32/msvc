@@ -1,0 +1,8 @@
+22580 53 _grow_vector@4
+22620 8b _vector_storage_bytes@4
+10110 53 _emit_listing_directive@4
+3c6fc 55 _integer_to_extended
+3c71e 55 _unsigned_to_extended
+20f90 8b _next_shared_bitfield@8
+20fd0 53 _skip_initializer_anonymous_members@4
+23750 56 _initialize_thread_symbol@4

@@ -1,0 +1,13 @@
+{
+  "status": "Failedpreflight retained as original limitation; not a passingfixture",
+  "source": "evidence/probes/draft1/calibration.c",
+  "original_compile_exit": 0,
+  "original_runtime_exit": 2,
+  "object": "evidence/probes/draft1/calibration.obj",
+  "facts": [
+    "Original main uses34-byte CalibrationRow stride and expects second rowtag at data+0x102. Original initializer emits thattag at0xea, only10bytes after firstrow0xe0.",
+    "Original remaining_initializer_bytes31030 adds anonymousunion size, calls30fd0 and breaks, omitting the uninitialized trailingdouble[3].",
+    "Beforefreezing, moved anonymousunion to finalmember. Samefields, packed/sharedbitfields, partialinitialization, gains/TLS/48-D remain; draft2compile/link/runtime0. No codefix, statepatch or normalization."
+  ],
+  "validation_policy": "Preserve targetbehavior when helper is reconstructed; failedvariant is limitation evidence only."
+}

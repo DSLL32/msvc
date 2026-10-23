@@ -28,7 +28,7 @@ void fatal_error(unsigned code, ...) { __asm { int 3 } }
 
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
-void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
+
 
 
 /* Original 0x4bee0. */
@@ -522,7 +522,7 @@ void warn_expected_identifier(void) { __asm { int 3 } }
 /* Original 0x1e9e0. */
 
 /* Original 0x20110. */
-void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
+
 
 /* Original 0x1c290. */
 
@@ -577,7 +577,6 @@ unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 /* Original 0x40c10. */
 
 /* Original 0x33750. */
-void __stdcall initialize_thread_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
 
 /* Original 0x33d00. */
 
@@ -637,9 +636,9 @@ void __stdcall report_function_operand(unsigned char operation, int argument) { 
 
 /* Original 0x4c80f. */
 /* Original 0x4c71e. */
-int unsigned_to_extended(const unsigned *value, Extended *number) { __asm { int 3 } return 0; }
+
 /* Original 0x4c6fc. */
-int integer_to_extended(const int *value, Extended *number) { __asm { int 3 } return 0; }
+
 /* Original 0x28190. */
 /* Original 0x4c260. */
 /* Original 0x4c080. */
@@ -716,9 +715,7 @@ void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *targe
 /* Original 0x31030. */
 
 /* Original 0x30f90. */
-FrontendSymbol *__stdcall next_shared_bitfield(unsigned offset, FrontendSymbol *member) { __asm { int 3 } }
 /* Original 0x30fd0. */
-FrontendSymbol *__stdcall skip_initializer_anonymous_members(FrontendSymbol *member) { __asm { int 3 } }
 
 /* Original 0x2f7b0. */
 

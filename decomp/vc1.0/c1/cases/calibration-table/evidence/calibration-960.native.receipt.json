@@ -1,0 +1,50 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "emit_listing_directive",
+    "process_pragma",
+    "preprocess_directive",
+    "begin_source_line",
+    "scan_source_token",
+    "scan_token",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "emit_listing_directive",
+  "pc": 1449073719,
+  "label_stack_count": 0,
+  "scanner_flags": 65536,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_emit_listing_directive@4",
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0037658456712961197,
+  "execution_seconds": 0.1475151814520359,
+  "total_seconds": 0.15319721400737762,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f calibration.c -Ze -Zp8 -Gs -Focalibration.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -DCAL00=1 -DCAL01=2 -DCAL02=3 -DCAL03=4 -DCAL04=5 -DCAL05=6 -DCAL06=7 -DCAL07=8 -DCAL08=9 -DCAL09=10 -DCAL10=11 -DCAL11=12 -DCAL12=13 -DCAL13=14 -DCAL14=15 -DCAL15=16 -DCAL16=17 -DCAL17=18 -DCAL18=19 -DCAL19=20 -DCAL20=21 -DCAL21=22 -DCAL22=23 -DCAL23=24 -DCAL24=25 -DCAL25=26 -DCAL26=27 -DCAL27=28 -DCAL28=29 -DCAL29=30 -DCAL30=31 -DCAL31=32 -DCAL32=33 -DCAL33=34 -DCAL34=35 -DCAL35=36 -DCAL36=37 -DCAL37=38 -DCAL38=39 -DCAL39=40 -DCAL40=41 -DCAL41=42 -DCAL42=43 -DCAL43=44 -DCAL44=45 -DCAL45=46 -DCAL46=47 -DCAL47=48 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate oneC4051warning from CL source banner."
+  },
+  "executable_sha256": "4b4dea8cdd10ff63422225b86678d702a4674a5031e355517c7c662fe5b69465"
+}

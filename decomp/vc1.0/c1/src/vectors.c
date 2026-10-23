@@ -163,3 +163,41 @@ short __stdcall vector_count(Vector *vector)
 {
     return vector ? vector->count : 0;
 }
+
+/* Original0x32580..0x3261b, RET4. The short capacity grows geometrically
+   until1000 entries, then linearly; old arena storage is retained. */
+Vector *__stdcall grow_vector(Vector *vector)
+{
+    void **old_items = vector->items;
+    unsigned bytes, index;
+    int arena = vector->arena;
+    ArenaPool *pool;
+    unsigned char *source, *destination;
+    if (vector->capacity < 1000)
+        vector->capacity = (short)(vector->capacity * 2 + 4);
+    else vector->capacity = (short)(vector->capacity + 1000);
+    bytes = ((int)vector->capacity * 4 + 3) & ~3U;
+    if (!arena) vector->items = allocate_permanent(bytes);
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)bytes) refill_arena(&compiler_arena,pool);
+        vector->items = (void **)pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+    }
+    if (vector->count > 0) {
+        bytes = vector_storage_bytes(vector);
+        source = (unsigned char *)old_items;
+        destination = (unsigned char *)vector->items;
+        for (index = 0; index < bytes; ++index) destination[index] = source[index];
+    }
+    return vector;
+}
+
+/* Original0x32620..0x3262d, RET4. Counts are signed shorts while the
+   byte result retains their original32-bit shifted representation. */
+unsigned __stdcall vector_storage_bytes(Vector *vector)
+{
+    return (unsigned)(int)vector->count * 4;
+}

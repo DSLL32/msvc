@@ -1,26 +1,26 @@
 {
-  "authorization": "Root approved one bounded inline-assembler diagnostic/recovery C unit, /FR /Z7 /Od /G5 /W3; exact expected compile errors/partial files and valid tail recovery, no runtime claim.",
-  "baseline_commit": "42a90bd57ec1a19c691a2885480d030d902e907b",
-  "baseline_accepted_count": 953,
+  "authorization": "Root approved SINGLE successful configurable calibration checksum /Z7 /Od /G5 /W3,48 consumed public-D coefficients, zeroTLS, partial packed/bitfield/anonymous records, integer floating gains; natural listing metadata only.",
+  "baseline_commit": "d5ff2b96f13b1858a9f9dcf37a6e93860c91a2d1",
+  "baseline_accepted_count": 958,
   "baseline_coverage": {
-    "accepted_union_bytes": 234498,
+    "accepted_union_bytes": 234925,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 214069,
+      "frontend_source": 214496,
       "CRT": 20243,
       "import_thunks": 186
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 84.58486332845177,
+    "percent": 84.73888484096467,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "cases": [
     {
-      "case": "asm-diagnostic-recovery",
+      "case": "calibration-table",
       "phase": "c1",
-      "status": "complete;953 through958, exact expectedexit4/fourerrors/sixpartialfiles, proved validtail recovery"
+      "status": "complete;958 through966, originalruntime0/fiveexactIRfiles/oneC4051warning"
     }
   ],
   "status": "complete",
-  "completion": "cases/asm-diagnostic-recovery/validation.json"
+  "completion": "cases/calibration-table/validation.json"
 }

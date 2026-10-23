@@ -698,3 +698,24 @@ trailing_token:
     } while (current_token_code != TOK_NEWLINE);
     return valid;
 }
+
+/* Original0x20110..0x201a9; twelve-way table0x201ac..0x201dc.
+   Listing metadata is inert unless the source-listing stream is enabled. */
+void __stdcall emit_listing_directive(unsigned char mode)
+{
+    if (!options.option_Fs) return;
+    auxiliary_ir_stream = listing_file;
+    putc(mode,auxiliary_ir_stream);
+    write_ir_short((short *)&source_line_number);
+    switch (mode) {
+    case 1: case 3: case 7: case 12:
+        write_ir_short(&listing_number);
+        break;
+    case 8:
+        write_ir_string(listing_subtitle);
+        break;
+    case 9:
+        write_ir_string(listing_title);
+        break;
+    }
+}

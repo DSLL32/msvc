@@ -1,0 +1,30 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "006900000102040101020402010204030102040401020405010204060102040701020408010204090102040a0102040b0102040c0102040d0102040e0102040f010204100102041101020412010204130102041401020415010204160102041701020418010204190102041a0102041b0102041c0102041d0102041e0102041f010204200102042101020422010204230102042401020425010204260102042701020428010204290102042a0102042b0102042c0102042d0102042e0102042f0102043007",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "unsigned_to_extended",
+    "write_initializer_value",
+    "emit_initializer",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "unsigned_to_extended",
+  "pc": 1449340139,
+  "label_stack_count": 0,
+  "scanner_flags": 1048576,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

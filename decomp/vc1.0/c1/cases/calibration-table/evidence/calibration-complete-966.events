@@ -1,0 +1,9 @@
+entry _grow_vector@4 rva 00022580 byte 53
+entry _vector_storage_bytes@4 rva 00022620 byte 8b
+entry _emit_listing_directive@4 rva 00010110 byte 53
+entry _integer_to_extended rva 0003c6fc byte 55
+entry _unsigned_to_extended rva 0003c71e byte 55
+entry _next_shared_bitfield@8 rva 00020f90 byte 8b
+entry _skip_initializer_anonymous_members@4 rva 00020fd0 byte 53
+entry _initialize_thread_symbol@4 rva 00023750 byte 56
+exit 0

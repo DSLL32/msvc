@@ -1,5 +1,6 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
+#include <stddef.h>
 #include "c1.h"
 #include <recon.h>
 
@@ -8,6 +9,10 @@ typedef struct Vector {
     int arena;
     void **items;
 } Vector;
+typedef char Vector_size[(sizeof(Vector) == 12) ? 1 : -1];
+typedef char Vector_capacity[(offsetof(Vector,capacity) == 2) ? 1 : -1];
+typedef char Vector_arena[(offsetof(Vector,arena) == 4) ? 1 : -1];
+typedef char Vector_items[(offsetof(Vector,items) == 8) ? 1 : -1];
 
 typedef struct ZRule {
     unsigned letter;
@@ -191,5 +196,6 @@ int match_option_suffix(char *pattern, char *argument, unsigned action);
 void apply_option(OptionRule *rule, char *value, int copy);
 int parse_option_number(char *value);
 void __stdcall append_vector(Vector *vector, void *item);
-void __stdcall grow_vector(Vector *vector);
+Vector *__stdcall grow_vector(Vector *vector);
+unsigned __stdcall vector_storage_bytes(Vector *vector);
 #endif

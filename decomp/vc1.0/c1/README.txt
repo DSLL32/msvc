@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Thirty-five native phases are complete: minimal C, optimized Win32 hello, DLL,
+Thirty-six native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, and bounded assembler error recovery.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, and configurable calibration tables.
 
-There are 829 accepted source functions and 958 accepted original entries.
-Accepted original extents cover 234925/277234 code-section bytes (84.738885%):
-214496 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
+There are 837 accepted source functions and 966 accepted original entries.
+Accepted original extents cover 235696/277234 code-section bytes (85.016989%):
+215267 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 35 completed phase histories to fresh
-shared-prefix original first-entry captures. All 818 accepted application entries
+cases/original-entry-references.json binds 36 completed phase histories to fresh
+shared-prefix original first-entry captures. All 826 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 35 regression receipts are in cases/asm-diagnostic-recovery/validation.json.
+current all 36 regression receipts are in cases/calibration-table/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -279,3 +279,16 @@ observations prove recovery into valid recovered_tail; no backend or runtime
 success is claimed. All35 native phases,35 rejection checks, six strict graph/
 ABI/mask checks, three flag mutations,289 state/alias checks and both grammar
 suites pass. Diagnostic grammar audit now checks50 logical token names.
+
+Completed configurable calibration table
+----------------------------------------
+cases/calibration-table consumes48 public-D coefficients, verifies integer-
+derived gains and partial packed/shared-bitfield/anonymous records, and tests
+local thread-static zero initialization and retention. Eight whole functions
+add771 frontend extent bytes, including48 original switch-table bytes. All
+five rawIR files and one exact C4051 warning match; untouched checksum exits0.
+The failed original anonymous-union-tail variant is preserved as a target
+limitation. All36 native phases,38 rejections, six graph/ABI/mask checks, three
+flag mutations,289 state/alias checks, Vector layout and both grammars pass.
+Listing pragmas reach the reconstructed helper with Fs0; active listing output
+is untested, and byte coverage remains an extent union, not branch coverage.

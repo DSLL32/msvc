@@ -1,0 +1,78 @@
+{
+  "case": "Configurable calibration-table checksum",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f calibration.c -Ze -Zp8 -Gs -Focalibration.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -DCAL00=1 -DCAL01=2 -DCAL02=3 -DCAL03=4 -DCAL04=5 -DCAL05=6 -DCAL06=7 -DCAL07=8 -DCAL08=9 -DCAL09=10 -DCAL10=11 -DCAL11=12 -DCAL12=13 -DCAL13=14 -DCAL14=15 -DCAL15=16 -DCAL16=17 -DCAL17=18 -DCAL18=19 -DCAL19=20 -DCAL20=21 -DCAL21=22 -DCAL22=23 -DCAL23=24 -DCAL24=25 -DCAL25=26 -DCAL26=27 -DCAL27=28 -DCAL28=29 -DCAL29=30 -DCAL30=31 -DCAL31=32 -DCAL32=33 -DCAL33=34 -DCAL34=35 -DCAL35=36 -DCAL36=37 -DCAL37=38 -DCAL38=39 -DCAL39=40 -DCAL40=41 -DCAL41=42 -DCAL42=43 -DCAL43=44 -DCAL44=45 -DCAL45=46 -DCAL46=47 -DCAL47=48 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/calibration.c",
+          "bytes": 1897,
+          "sha256": "faa6387fb044f9334af3f875f472c535d54f5d93bf5b805b23a7d42effa69748"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 295,
+          "sha256": "6d368ac4c27da14fe3b7d3c082c259882da9e406706f8cea8ca4783a01fbae93",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 1940,
+          "sha256": "a2fe3ef467a99dc45f91b4f97f630372777464fc6466075f5ea3ae5dc0bc3a2a",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 318,
+          "sha256": "7b3ba9ffd759e9bac632cb19e90ceef32732215ba01f4ea68182cccf13ecd57a",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 296,
+          "sha256": "1c87ae0071357afc74966c1df0be99994ffde97373fa1a9df9ff2c7f4cee4c02",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 294,
+          "sha256": "daeb08fd63286226e1541c535048f9fe53dd02ce98ba12f5a4bececd4811cfe1",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "calibration.c(14) : warning C4051: type conversion; possible loss of data\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "calibration.obj",
+        "calibration.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 /DCAL00=1 /DCAL01=2 /DCAL02=3 /DCAL03=4 /DCAL04=5 /DCAL05=6 /DCAL06=7 /DCAL07=8 /DCAL08=9 /DCAL09=10 /DCAL10=11 /DCAL11=12 /DCAL12=13 /DCAL13=14 /DCAL14=15 /DCAL15=16 /DCAL16=17 /DCAL17=18 /DCAL18=19 /DCAL19=20 /DCAL20=21 /DCAL21=22 /DCAL22=23 /DCAL23=24 /DCAL24=25 /DCAL25=26 /DCAL26=27 /DCAL27=28 /DCAL28=29 /DCAL29=30 /DCAL30=31 /DCAL31=32 /DCAL32=33 /DCAL33=34 /DCAL34=35 /DCAL35=36 /DCAL36=37 /DCAL37=38 /DCAL38=39 /DCAL39=40 /DCAL40=41 /DCAL41=42 /DCAL42=43 /DCAL43=44 /DCAL44=45 /DCAL45=46 /DCAL46=47 /DCAL47=48 calibration.c",
+      "transport_reference": "evidence/calibration.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate oneC4051warning from CL source banner."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original capture/build separate.",
+  "normalization": "None.",
+  "capture_policy": "Two actualCLchild transports,48 consumed public-D coefficients, full rawIR/one exactC4051warning/status/absent object/PDB. Relative temporary prefix alone becomes ir.",
+  "runtime": "Untouched adjusteddraft2 fullcompile/link and checksum program exit0. Initialpartialanonymousuniontail draft1 compiles0 but programreturns2; retained as original limitation, not passingfixture."
+}

@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "27dafa3e451df44c2ac2b34872b0e2a16d3895488eb65431589b06d3d2e94ed3",
+    "functions.json": "4c936393aca3a3ab6cb187406be81c128d432ba54e0f5f1047d70cdf89e29752",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "4dc7ef95ad3af24405450ec4ea1abee506fbfcec81f49d2642ac1675fbcd44c1"
+    "sha256": "e55ebe860203e4bd01d05143e7e36b25397c118385abbbacdda2856362f37979"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "4356651556a407577b369473b8ef74bebd00437b2bd4750b05f89a9e01082e3d"
+    "sha256": "65f6c9e484692f8bfaff1d69c90baab38cee7e9084db3e2ecc340597da43d890"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -1059,7 +1059,7 @@
     },
     "emit_listing_directive": {
       "logical": "_emit_listing_directive@4",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "emit_literal_initializer": {
       "logical": "_emit_literal_initializer@8",
@@ -1539,7 +1539,7 @@
     },
     "grow_vector": {
       "logical": "_grow_vector@4",
-      "source": "src/stubs.c"
+      "source": "src/vectors.c"
     },
     "guarded_compile": {
       "logical": "_guarded_compile",
@@ -1667,7 +1667,7 @@
     },
     "initialize_thread_symbol": {
       "logical": "_initialize_thread_symbol@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "initialize_translation_state": {
       "logical": "_initialize_translation_state",
@@ -1719,7 +1719,7 @@
     },
     "integer_to_extended": {
       "logical": "_integer_to_extended",
-      "source": "src/stubs.c"
+      "source": "src/floating.c"
     },
     "intern_identifier": {
       "logical": "_intern_identifier@4",
@@ -2267,7 +2267,7 @@
     },
     "next_shared_bitfield": {
       "logical": "_next_shared_bitfield@8",
-      "source": "src/stubs.c"
+      "source": "src/initializers.c"
     },
     "next_source_character": {
       "logical": "_next_source_character",
@@ -3299,7 +3299,7 @@
     },
     "skip_initializer_anonymous_members": {
       "logical": "_skip_initializer_anonymous_members@4",
-      "source": "src/stubs.c"
+      "source": "src/initializers.c"
     },
     "skip_line_comment": {
       "logical": "_skip_line_comment",
@@ -3411,7 +3411,7 @@
     },
     "unsigned_to_extended": {
       "logical": "_unsigned_to_extended",
-      "source": "src/stubs.c"
+      "source": "src/floating.c"
     },
     "usual_arithmetic_type": {
       "logical": "_usual_arithmetic_type@12",
@@ -3435,6 +3435,10 @@
     },
     "vector_count": {
       "logical": "_vector_count@4",
+      "source": "src/vectors.c"
+    },
+    "vector_storage_bytes": {
+      "logical": "_vector_storage_bytes@4",
       "source": "src/vectors.c"
     },
     "visit_pragma_names": {
@@ -4460,7 +4464,15 @@
     "asm_error_context",
     "copy_asm_context_text",
     "report_asm_parser_error",
-    "browser_error_record"
+    "browser_error_record",
+    "grow_vector",
+    "vector_storage_bytes",
+    "emit_listing_directive",
+    "integer_to_extended",
+    "unsigned_to_extended",
+    "next_shared_bitfield",
+    "skip_initializer_anonymous_members",
+    "initialize_thread_symbol"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5806,6 +5818,25 @@
       "terminal": {
         "kind": "exit",
         "code": 4
+      }
+    },
+    "calibration-table": {
+      "first": 958,
+      "last": 966,
+      "seen_count": 818,
+      "expected": [
+        "grow_vector",
+        "vector_storage_bytes",
+        "emit_listing_directive",
+        "integer_to_extended",
+        "unsigned_to_extended",
+        "next_shared_bitfield",
+        "skip_initializer_anonymous_members",
+        "initialize_thread_symbol"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

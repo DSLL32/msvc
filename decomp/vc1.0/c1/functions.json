@@ -962,7 +962,15 @@
     "_asm_error_context",
     "_copy_asm_context_text@8",
     "_report_asm_parser_error@4",
-    "_browser_error_record"
+    "_browser_error_record",
+    "_grow_vector@4",
+    "_vector_storage_bytes@4",
+    "_emit_listing_directive@4",
+    "_integer_to_extended",
+    "_unsigned_to_extended",
+    "_next_shared_bitfield@8",
+    "_skip_initializer_anonymous_members@4",
+    "_initialize_thread_symbol@4"
   ],
   "driver": [
     {
@@ -1129,7 +1137,7 @@
     {
       "name": "_grow_vector@4",
       "start": 206208,
-      "end": 206353
+      "end": 206363
     },
     {
       "name": "_compiler_warning",
@@ -3309,7 +3317,13 @@
     {
       "name": "_emit_listing_directive@4",
       "start": 131344,
-      "end": 131345
+      "end": 131497,
+      "shared": [
+        [
+          131500,
+          131548
+        ]
+      ]
     },
     {
       "name": "_pragma_message@4",
@@ -3429,7 +3443,7 @@
     {
       "name": "_initialize_thread_symbol@4",
       "start": 210768,
-      "end": 210769
+      "end": 210942
     },
     {
       "name": "_process_symbol_storage@4",
@@ -3734,12 +3748,12 @@
     {
       "name": "_unsigned_to_extended",
       "start": 313118,
-      "end": 313119
+      "end": 313171
     },
     {
       "name": "_integer_to_extended",
       "start": 313084,
-      "end": 313085
+      "end": 313118
     },
     {
       "name": "_fold_floating_binary@12",
@@ -4130,12 +4144,12 @@
     {
       "name": "_next_shared_bitfield@8",
       "start": 200592,
-      "end": 200593
+      "end": 200642
     },
     {
       "name": "_skip_initializer_anonymous_members@4",
       "start": 200656,
-      "end": 200657
+      "end": 200747
     },
     {
       "name": "_emit_runtime_zero_initializer",
@@ -5694,6 +5708,11 @@
       "name": "_copy_asm_context_text@8",
       "start": 320498,
       "end": 320524
+    },
+    {
+      "name": "_vector_storage_bytes@4",
+      "start": 206368,
+      "end": 206381
     }
   ],
   "cases": {
@@ -5852,6 +5871,10 @@
       "accepted_from": 953,
       "accepted_count": 958,
       "expected_exit": 4
+    },
+    "calibration-table": {
+      "accepted_from": 958,
+      "accepted_count": 966
     }
   },
   "buffered_streams": [

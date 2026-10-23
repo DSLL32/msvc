@@ -563,3 +563,40 @@ void truncate_extended(void)
         fldcw word ptr floating_workspace + 6
     }
 }
+
+/* Original0x4c6fc..0x4c71e. Signed integer expansion uses the existing
+   ESI/ST(0) store entry. Period C cannot express that private x87 call ABI;
+   these narrow transfers preserve it without adding a wrapper callee. */
+int integer_to_extended(const int *value, Extended *number)
+{
+    __asm {
+        mov eax, value
+        fild dword ptr [eax]
+    }
+    number->format = 4;
+    __asm {
+        mov esi, number
+        call store_extended
+    }
+    return 0;
+}
+
+/* Original0x4c71e..0x4c753. Zero-widen the unsigned input into two
+   i386 words before loading it as a signed64-bit x87 integer. Only the
+   load and original ESI/ST(0) store ABI require assembly. */
+int unsigned_to_extended(const unsigned *value, Extended *number)
+{
+    unsigned words[2];
+    words[0] = *value;
+    words[1] = 0;
+    __asm {
+        lea eax, words
+        fild qword ptr [eax]
+    }
+    number->format = 4;
+    __asm {
+        mov esi, number
+        call store_extended
+    }
+    return 0;
+}
