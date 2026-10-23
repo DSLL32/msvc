@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "awaiting orchestrator review before original execution",
+  "status": "unmasked baseline approved; CF masking and application acceptance remain gated",
   "original": {
     "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help/reference",
     "argv": [
@@ -45,7 +45,7 @@
       "Record startup AH, ECX, CS:EDX gateway pointer and EDI startup structure with owned strings/blocks; do not compare these raw registers with native main",
       "Keep complete payload and resource tail intact; startup clears BSS that overlaps relocation material after relocation is complete"
     ],
-    "masking": "After load/relocation and before payload execution, mask only disassembler-proved instruction ranges and associated .text data using payload-relative IDs. Common adapter must distinguish runtime/loader from genuine application code. CF initialized bytes are not a code extent. Unknown extents or startup callbacks hold acceptance; no blanket runtime exemptions",
+    "masking": "Unknown application code must not run silently. Before any masked reconstruction acceptance, establish complete executable regions excluding proved data, or enforce an accepted-extent outbound-transfer gate before every unclassified target, including indirect calls, jumps, callbacks and fallthrough. Apply masks only after relocation using payload-relative IDs; the unmasked baseline does not satisfy or relax this gate.",
     "first_frontier": "Verify payload startup transport, identify its shipped CRT entry boundary, then trap at first reached unaccepted application function. main at 0xcb28 is a static candidate, not an assumption that no application initializer runs first"
   },
   "service_boundary": {

@@ -6,8 +6,14 @@ case: `/?`, with redirected output to avoid interactive help pagination.
 
 `make -j4 inspect` only reads and validates the two original files. Native,
 original-compiler and fixture targets deliberately fail until the common CF
-transport and service-boundary review is complete. There is no accepted code or
-captured behavior yet.
+transport and service-boundary review is complete. There is no accepted code.
+
+The first approved unmasked `/?` baseline reached its 30-second timeout with
+empty stdout/stderr and no tool artifacts. `cases/help/baseline-timeout.json`
+retains the exact command, host environment, identities, inventory and timing.
+This failed transport capture supplies no help-output oracle; no repeat or
+environment change has been made. `scripts/capture-help-baseline.py` is an
+explicit one-shot capture utility and refuses to overwrite its evidence folder.
 
 The embedded CF header is at file offset `0x50`, the MZ header size in
 paragraphs. Its initialized image occupies file `[0x2200, 0x2a482)`, with entry

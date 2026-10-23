@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "case": "help",
+  "kind": "unmasked-original-baseline",
+  "plan_sha256": "40edf8542e0739105196889d679f69ca99aceb669c963250e784bb204c90b843",
+  "argv": [
+    "/usr/bin/wine",
+    "R:\\toolchains\\watcom10.0a\\binnt\\WASM.EXE",
+    "/?"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help/reference",
+  "host_environment": {
+    "HOME": "/root",
+    "PATH": "/usr/bin:/bin",
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEARCH": "win32",
+    "WINEDEBUG": "-all",
+    "LANG": "C",
+    "LC_ALL": "C",
+    "TZ": "UTC0"
+  },
+  "windows_environment": "not observed; no claim of complete Windows environment",
+  "original_identities": {
+    "target": "toolchains/watcom10.0a/binb/WASM.EXE",
+    "target_sha256": "a79e0dc11a26b098728aa988cfc974113e7ac5d28c81baded1f077ed27be0513",
+    "loader": "toolchains/watcom10.0a/binnt/WASM.EXE",
+    "loader_sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+  },
+  "timeout_seconds": 30,
+  "timed_out": true,
+  "returncode": -15,
+  "inventory_before": [
+    {
+      "path": "stdin.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "inventory_after": [
+    {
+      "path": "stderr.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdin.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.bin",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "timing_seconds": {
+    "setup": 0.002351614646613598,
+    "execution": 30.002499563619494,
+    "checks": 0.0018412498757243156,
+    "total": 30.00669826194644
+  },
+  "acceptance": "none; no masks, ABI proof or reconstructed functions"
+}
