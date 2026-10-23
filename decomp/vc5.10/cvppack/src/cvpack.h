@@ -22,7 +22,7 @@ void select_input_name(char *name);
 void initialize_type_tables(void);
 void read_image_debug(void);
 void initialize_module_pack(void);
-void pack_module(unsigned int module);
+int pack_module(unsigned short module);
 void write_debug_directory(void);
 void free_type_tables(void);
 void print_statistics(void);

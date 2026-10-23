@@ -282,7 +282,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 bytes = count * blob_element_size[i];
             }
             memory(log, process, value, bytes);
-            if (blob_pointer[i] <= blob_size[i] - 4 &&
+            if (blob_child_size[i] && blob_pointer[i] <= blob_size[i] - 4 &&
                 read_bytes(process, value + blob_pointer[i], &item, 4) && item)
                 memory(log, process, item, blob_child_size[i]);
         }
@@ -349,6 +349,14 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (entry == 0x40591a && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "subsection-allocation-call %08lx %lu\n", context->Esi, value);
     else if (entry == 0x405920) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x4062b0 || entry == 0x4062d3 || entry == 0x4062f7 || entry == 0x40631b || entry == 0x40639d) {
+        if (read_bytes(process, context->Esp, &value, 4)) fprintf(log, "image-allocation-call %08lx %lu\n", entry, value);
+    } else if (entry == 0x4062b2 || entry == 0x4062d5 || entry == 0x4062f9 || entry == 0x40631d || entry == 0x40639f) {
+        fprintf(log, "image-allocation-return %08lx\n", context->Eax);
+    }
+    if (entry == 0x40fb66 && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "checked-allocation-call %lu\n", value);
+    else if (entry == 0x40fb6c) fprintf(log, "checked-allocation-return %08lx\n", context->Eax);
     widen_state(log, process, context, entry);
 }
 

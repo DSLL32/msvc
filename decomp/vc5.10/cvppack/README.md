@@ -5,11 +5,12 @@ spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `find_module_info`. Thirty-four application functions are accepted
-overall, covering 7,031 extent bytes (11.22% of the same whole-text denominator).
+matching frontier is `initialize_single_module`. Thirty-seven application functions are accepted
+overall, covering 7,888 extent bytes (12.59% of the same whole-text denominator).
 The type-table initialization and complete PE/COFF debug-reader body have
 also been recovered; the PE and CodeView directory reads, complete subsection sort and owned
-segment-map/library loads now match. Module-node creation remains trapped. The cache prefix
+segment-map/library loads now match. Module-node creation, scratch setup and the per-module dispatcher are
+also reconstructed; the first module payload load remains trapped. The cache prefix
 now includes the actual mapped-file registry and strict
 file-handle identity, input-content, access-mode, size and position checks.
 
@@ -92,3 +93,11 @@ The audit runner and acceptance checker honor an explicit `GRAPH_AUDIT_BIN`
 for an approved immutable auditor. Function 34 additionally has a static sidecar
 revalidation with the published pre-edit auditor hash, retaining its unchanged
 original/native raw captures. No reference was rerun for that tool-version check.
+
+The current prefix verifies 93 object identities, 19 completed reads and seven
+actual allocator requests. Six work buffers have checked capacities and aliases;
+their uninitialized bytes are not treated as defined inputs. Eleven further
+module/allocation mutation controls fail. The partial-case native fixture takes
+about 0.67 s including GDB capture; the direct instrumented execution is about
+7 ms. Shared-source updates are handled with native-only recapture and a fresh
+static sidecar audit against the unchanged original trial.

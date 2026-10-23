@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive_objects": 91,
+  "uninitialized_owned_allocations": 4,
+  "payload_policy": "Compare initialized storage only; actual malloc capacities and live aliases cover uninitialized work buffers.",
+  "rejected": [
+    "changed-real-malloc-capacity",
+    "lost-real-malloc-result",
+    "aliased-distinct-work-buffers",
+    "lost-module-node-link",
+    "changed-module-node-id",
+    "lost-module-index-alias",
+    "wrong-indexed-module",
+    "non-NULL-unallocated-segment-slot",
+    "changed-subsection-allocation-size",
+    "wrong-subsection-allocation-source",
+    "wrong-subsection-global-alias"
+  ],
+  "seconds": 0.5093599623069167
+}

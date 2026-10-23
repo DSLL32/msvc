@@ -277,3 +277,37 @@ void load_debug_subsection(CodeViewDirectoryEntry *entry, unsigned char **data, 
     *data = buffer;
     *size = entry->size;
 }
+
+/* Original ordered module-node lookup/insertion [004059a0,00405a0b). */
+ModuleInfo *module_list;
+ModuleInfo *find_module_info(unsigned short module)
+{
+    ModuleInfo *entry = module_list, *previous = NULL, *result;
+    unsigned index;
+    while (entry) {
+        if (entry->module == module) return entry;
+        if (entry->module > module) break;
+        previous = entry;
+        entry = entry->next;
+    }
+    result = malloc(sizeof(ModuleInfo));
+    for (index = 0; index < sizeof(ModuleInfo); ++index) ((unsigned char *)result)[index] = 0;
+    result->module = module;
+    if (!previous) module_list = result;
+    else previous->next = result;
+    result->next = entry;
+    return result;
+}
+
+/* Original module-packing scratch setup [004051e0,00405230). */
+unsigned pack_buffer_size, pack_fixup_count;
+unsigned char *pack_buffer;
+void *pack_fixups;
+void initialize_module_pack(void)
+{
+    unsigned size = source_line_bytes > source_symbol_bytes ? source_line_bytes : source_symbol_bytes;
+    pack_buffer_size = (size * 3) >> 1;
+    pack_fixup_count = pack_buffer_size >> 3;
+    pack_buffer = allocate_bytes(pack_buffer_size);
+    pack_fixups = allocate_bytes(pack_fixup_count * 8);
+}

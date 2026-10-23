@@ -39,7 +39,10 @@
     "name": "debug_directory",
     "original": 4281944,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "module_capacity"
+    }
   },
   {
     "name": "line_data",
@@ -51,19 +54,28 @@
     "name": "symbol_data",
     "original": 4283044,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "symbol_capacity"
+    }
   },
   {
     "name": "type_data",
     "original": 4281972,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "line_capacity"
+    }
   },
   {
     "name": "module_data",
     "original": 4281976,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "type_capacity"
+    }
   },
   {
     "name": "minimum_pack",
@@ -538,7 +550,21 @@
     "name": "type_segments",
     "original": 4281932,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "blob": {
+      "count": "type_segment_count",
+      "element_size": 4,
+      "pointers": [
+        {
+          "offset": 0,
+          "stride": 4,
+          "allocation": {
+            "size_global": "type_segment_bytes",
+            "maximum": 65512
+          }
+        }
+      ]
+    }
   },
   {
     "name": "codeview_signature",
@@ -630,7 +656,177 @@
     "kind": "pointer",
     "blob": {
       "count": "module_count",
-      "element_size": 12
+      "element_size": 12,
+      "pointers": [
+        {
+          "offset": 8,
+          "stride": 12,
+          "size": 48,
+          "shape": {
+            "size": 48,
+            "link": 44
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "module_list",
+    "original": 4281192,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 48,
+      "link": 44
+    }
+  },
+  {
+    "name": "pack_buffer_size",
+    "original": 4269424,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pack_fixup_count",
+    "original": 4269428,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pack_buffer",
+    "original": 4269432,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "pack_buffer_size"
+    }
+  },
+  {
+    "name": "pack_fixups",
+    "original": 4269436,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "pack_fixup_count",
+      "element_size": 8
+    }
+  },
+  {
+    "name": "module_type_low",
+    "original": 4281544,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_symbol_count",
+    "original": 4281572,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "module_reference_count",
+    "original": 4281584,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "module_procedure_count",
+    "original": 4281586,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "module_symbol_flags",
+    "original": 4281568,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_type_index",
+    "original": 4272744,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "current_module_flags",
+    "original": 4281892,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "line_entry_index",
+    "original": 4281580,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "symbol_entry_index",
+    "original": 4281540,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_entry_index",
+    "original": 4281560,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_type_count",
+    "original": 4281588,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "has_precompiled",
+    "original": 4281592,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pending_module_bytes",
+    "original": 4281956,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "total_symbol_bytes",
+    "original": 4281552,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "total_line_bytes",
+    "original": 4281564,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "strip_module_lines",
+    "original": 4281900,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_module_has_types",
+    "original": 4281538,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "current_module_buffer",
+    "original": 4281596,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "current_module_info",
+    "original": 4281916,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 48,
+      "link": 44
     }
   }
 ]

@@ -12,9 +12,19 @@ def decode(events):
     assert len(frontiers) == 1, 'expected one raw original frontier'
     index,address = frontiers[0]
     memory,strings = {},{}
-    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[]
+    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[]
     for line in lines:
-        if line.startswith('subsection-allocation-call '):
+        if line.startswith('checked-allocation-call '):
+            checked_allocations.append(dict(size=int(line.split()[1])))
+        elif line.startswith('checked-allocation-return '):
+            assert checked_allocations and 'address' not in checked_allocations[-1]
+            checked_allocations[-1]['address']=int(line.split()[1],16)
+        elif line.startswith('image-allocation-call '):
+            _,site,size=line.split();image_allocations.append(dict(site=int(site,16),size=int(size)))
+        elif line.startswith('image-allocation-return '):
+            assert image_allocations and 'address' not in image_allocations[-1]
+            image_allocations[-1]['address']=int(line.split()[1],16)
+        elif line.startswith('subsection-allocation-call '):
             _,entry,size=line.split();subsection_allocations.append(dict(entry=int(entry,16),size=int(size)))
         elif line.startswith('subsection-allocation-return '):
             assert subsection_allocations and 'address' not in subsection_allocations[-1]
@@ -84,7 +94,7 @@ def decode(events):
     stack = memory[registers[-1]]
     assert len(stack) == 128
     return dict(address=address,memory=memory,strings=strings,
-                esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations)
+                esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations)
 
 
 def compare(config,data,events,native,artifacts=None,views=None):
@@ -172,6 +182,27 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert left['size']==right['size'] and (left['entry']-root)//12==right['entry_index'],'subsection allocation source/size differs'
             assert left['address'] and right['address'] and left['address'] not in allocation_aliases and right['address'] not in allocation_aliases.values(),'live subsection allocation identity reused'
             allocation_aliases[left['address']]=right['address']
+    image_aliases={};image_sizes={}
+    assert len(original['image_allocations'])==len(native.get('image_allocations',[])),'image allocation inventory differs'
+    for left,right in zip(original['image_allocations'],native.get('image_allocations',[])):
+        sites={0x4062b0:('debug_directory','module_capacity'),0x4062d3:('symbol_data','symbol_capacity'),
+               0x4062f7:('type_data','line_capacity'),0x40631b:('module_data','type_capacity'),0x40639d:None}
+        assert left['site'] in sites,'unknown actual image allocator caller'
+        if sites[left['site']] is not None:
+            name,size_name=sites[left['site']]
+            row=next(row for row in data if row['name']==name)
+            assert int.from_bytes(original['memory'][row['original']],'little')==left['address'],'actual allocation not assigned to its evidenced output'
+            row=next(row for row in data if row['name']==size_name)
+            assert int.from_bytes(original['memory'][row['original']],'little')==left['size'],'actual allocation request differs from capacity source'
+        assert left['size']==right['size'] and left['address'] and right['address'],'actual image allocation request/result differs'
+        assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live image allocation identity reused'
+        image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
+    assert len(original['checked_allocations'])==len(native.get('checked_allocations',[])),'checked allocator request inventory differs'
+    for left,right in zip(original['checked_allocations'],native.get('checked_allocations',[])):
+        assert left['size']==right['size'] and left['address'] and right['address'],'checked allocator request/result differs'
+        assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live checked allocation identity reused'
+        image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
+    used_uninitialized=set()
     aliases,reverse={},{}
     handle_aliases,handle_reverse={},{}
     original_calls=original['file_calls'];native_calls=native.get('file_calls',[])
@@ -249,6 +280,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert other not in reverse,'native object aliases distinct original objects'
         aliases[address]=other;reverse[other]=address
         return True
+    def allocation(address,other,spec):
+        assert bool(address)==bool(other),'uninitialized allocation NULL state differs'
+        if not address:return
+        item=next(item for item in data if item['name']==spec['size_global'])
+        size=int.from_bytes(original['memory'][item['original']],'little')*spec.get('element_size',1)
+        if 'maximum' in spec:size=min(size,spec['maximum'])
+        assert image_aliases[address]==other and image_sizes[address]==size,'uninitialized allocation ownership/capacity differs'
+        used_uninitialized.add(address)
+        pair(address,other)
     def linked(address,other,shape):
         while pair(address,other):
             assert len(aliases)<=512,'unbounded object graph'
@@ -283,7 +323,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if 'blob' in item:
+            if 'allocation' in item:
+                allocation(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'),item['allocation'])
+            elif 'blob' in item:
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if address in allocation_aliases:assert allocation_aliases[address]==other,'subsection output/global allocation alias differs'
                 if pair(address,other):
@@ -295,11 +337,16 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert len(left)==len(right)==size,'allocated initialized byte extent differs'
                     excluded=set()
                     for pointer in spec.get('pointers',[]):
-                        offset=pointer['offset'];excluded.update(range(offset,offset+4))
-                        source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
-                        if pair(source,destination):
-                            child=original['memory'][source];actual_child=bytes.fromhex(native['memory'][str(destination)])
-                            assert len(child)==len(actual_child)==pointer['size'] and child==actual_child,'nested initialized allocation bytes differ'
+                        for offset in range(pointer['offset'],size,pointer.get('stride',size+1)):
+                            excluded.update(range(offset,offset+4))
+                            source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
+                            if 'allocation' in pointer:allocation(source,destination,pointer['allocation'])
+                            elif 'shape' in pointer:linked(source,destination,pointer['shape'])
+                            elif pair(source,destination):
+                                if source in image_aliases:
+                                    assert image_aliases[source]==destination and image_sizes[source]==pointer['size'],'initialized checked allocation ownership/capacity differs'
+                                child=original['memory'][source];actual_child=bytes.fromhex(native['memory'][str(destination)])
+                                assert len(child)==len(actual_child)==pointer['size'] and child==actual_child,'nested initialized allocation bytes differ'
                     assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'allocated initialized bytes differ'
             elif 'shape' not in item:
                 assert not any(raw) and not any(actual), ('non-NULL pointer needs an evidenced role',item['name'])
@@ -329,4 +376,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads))
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases))

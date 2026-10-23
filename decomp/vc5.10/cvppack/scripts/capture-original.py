@@ -88,9 +88,13 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40584b:directory-allocation-entry,405851:directory-allocation-result'
     if any(r['name']=='load_debug_subsection' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',40591a:subsection-allocation-entry,405920:subsection-allocation-result'
+    if any(r['name']=='find_module_info' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',4062b0:image-allocation-entry,4062b2:image-allocation-result,4062d3:image-allocation-entry,4062d5:image-allocation-result,4062f7:image-allocation-entry,4062f9:image-allocation-result,40631b:image-allocation-entry,40631d:image-allocation-result,40639d:image-allocation-entry,40639f:image-allocation-result'
+    if any(r['name']=='allocate_bytes' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',40fb66:checked-allocation-entry,40fb6c:checked-allocation-result'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
-        item['blob'].get('pointers',[dict(size=0)])[0]['size'],
+        item['blob'].get('pointers',[dict(size=0)])[0].get('size',0),
         next((row['original'] for row in data if row['name']==item['blob'].get('count')),0),item['blob'].get('element_size',0),
         next((row['size'] for row in data if row['name']==item['blob'].get('count')),4)) for item in data if 'blob' in item)
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s' % (record['original'],item['slot'],

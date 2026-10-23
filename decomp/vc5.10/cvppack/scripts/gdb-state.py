@@ -12,6 +12,8 @@ mapping_calls=[]
 file_reads=[]
 directory_allocation={}
 subsection_allocations=[]
+image_allocations=[]
+checked_allocations=[]
 live_mappings={}
 def install(configuration):
     config=json.loads(Path(configuration).read_text())
@@ -128,12 +130,16 @@ def install(configuration):
         def __init__(self):super().__init__('*malloc',internal=True)
         def stop(self):
             frame=gdb.newest_frame();owner=frame.older()
-            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection'):return False
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes'):return False
             stack=int(gdb.parse_and_eval('$esp'))
             size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
             if owner.name()=='read_codeview_directory':
                 assert not directory_allocation,'directory allocation generation needs an explicit model'
                 directory_allocation['size']=size;record=directory_allocation
+            elif owner.name()=='allocate_bytes':
+                record=dict(size=size);checked_allocations.append(record)
+            elif owner.name()=='read_image_debug':
+                record=dict(size=size);image_allocations.append(record)
             else:
                 entry=int(owner.read_var('entry'));root=int(gdb.parse_and_eval('directory_entries'))
                 assert entry>=root and (entry-root)%12==0
@@ -182,12 +188,19 @@ def capture(configuration,data_file,output):
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
     state['subsection_allocations']=subsection_allocations
+    state['image_allocations']=image_allocations
+    state['checked_allocations']=checked_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
-    memory={};strings={};handles={};mapped_views={}
+    memory={};strings={};handles={};mapped_views={};captured_shapes={}
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
     def linked(head,shape):
         visited=set()
         while head:
+            signature={key:shape[key] for key in ('size','link','string','handle','view') if key in shape}
+            if head in captured_shapes:
+                assert captured_shapes[head]==signature,'same live object observed through incompatible layouts'
+                return
+            captured_shapes[head]=signature
             if head in visited:return
             assert len(visited)<128,'unbounded target object graph'
             visited.add(head)
@@ -268,8 +281,11 @@ def capture(configuration,data_file,output):
         assert 0<=size<=65536
         raw=bytes(inferior.read_memory(head,size));memory[str(head)]=raw.hex()
         for pointer in spec.get('pointers',[]):
-            offset=pointer['offset'];child=int.from_bytes(raw[offset:offset+4],'little')
-            if child:memory[str(child)]=bytes(inferior.read_memory(child,pointer['size'])).hex()
+            for offset in range(pointer['offset'],size,pointer.get('stride',size+1)):
+                child=int.from_bytes(raw[offset:offset+4],'little')
+                if not child or 'allocation' in pointer:continue
+                if 'shape' in pointer:linked(child,pointer['shape'])
+                else:memory[str(child)]=bytes(inferior.read_memory(child,pointer['size'])).hex()
     state['memory']=memory
     state['strings']=strings
     state['file_handles']=handles

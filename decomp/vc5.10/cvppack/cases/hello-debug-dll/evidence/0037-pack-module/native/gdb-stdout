@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5658db15 in initialize_single_module (entry=0x56e492e0, info=0x56e49760) at src/stubs.c:24
+24	void initialize_single_module(CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }
