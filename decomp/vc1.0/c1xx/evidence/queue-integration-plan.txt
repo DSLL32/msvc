@@ -2,12 +2,12 @@ Approved C1XX queue after cpp_basic completion6b78fb6.
 
 Four exact original-validated fixtures are being persisted by
 scripts/register-cpp-queue.py from scratch follow-on-capture (original driver
-capture already complete; independent phase replay running). Fixtures are
+capture already complete; all independent phase replay complete). Fixtures are
 c1xx-virtual-diamond, c1xx-copy-assignment, c1xx-stack-lifetime, c1xx-new-delete.
 Each original compiled program has already returned0 silently; phase replay
 must finish before registration. No sibling source/worker dispatch.
 
-Next native harness integration, preserving cpp_basic's frozen references:
+Native harness integration completed and verified, preserving cpp_basic's frozen references:
 1. Add --case default cpp_basic to capture-original.py, capture-native.py and
 advance-frontier.py. Case record carries fixture ../fixtures/c1xx-..., native
 reference cases/native-CASE and frontier root cases/CASE-frontiers. Current
@@ -41,3 +41,8 @@ boundary; existing cpp-basic-specific proofs stay unchanged and pinned.
 Current code is643 accepted/560 source,201713/476418=42.339500% accepted extent,
 not branch coverage. cpp_basic complete exact outputs1136/123/9/137 bytes,
 empty streams/exit0,553 application first entries. No current shim blocker.
+
+Implementation checkpoint:all six steps except generalizing later runtime-chain
+exit acceptance are in place. virtual_diamond seed matches complete_declaration
+0x518b0. Full audits/two cached cases/21rejections pass; no new function accepted
+during adapter changes. Next reconstruct the current whole function.

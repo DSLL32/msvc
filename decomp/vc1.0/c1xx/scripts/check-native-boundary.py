@@ -123,6 +123,12 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted termination evidence')
+    if 'virtual_diamond' in cache['cases']:
+        wrong=json.loads(json.dumps(cache))
+        wrong['cases']['virtual_diamond']['seen'].remove('main')
+        wrong_path=directory/'missing-case-prefix.json';wrong_path.write_text(json.dumps(wrong))
+        reject('missing-case-prefix',['--trace','--trace-cache',str(wrong_path)],'application entry 0')
+        reject('partial-case-wrong-exit',['--case','virtual_diamond','--exe',str(directory/'wrong-stdout')],'expected named frontier SIGTRAP')
     receipt = dict(status='pass', scope='native regression-boundary fault injection; no original execution',
         negative_helper_build_seconds=build_seconds,checks=checks)
     (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

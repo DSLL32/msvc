@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import sys
 import time
+from case_paths import paths
 
 BINARY=Path(__file__).resolve().parents[1]
 
@@ -29,6 +30,7 @@ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--candidate',required=True)
     parser.add_argument('--original',type=Path)
     parser.add_argument('--native',type=Path)
@@ -37,21 +39,22 @@ def main():
     started=time.perf_counter()
     config_path=BINARY/'functions.json'
     config=json.loads(config_path.read_text())
-    case=config['cases']['cpp_basic']
+    case,fixture,reference,frontier_root=paths(config,args.case)
     assert args.candidate==case['terminal'] and args.candidate not in config['accepted']
     candidate=next(r for r in config['driver'] if r['name']==args.candidate)
     assert candidate['end']>candidate['start']+1,'complete original extent required'
     if args.original is None:
-        captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate],cwd=BINARY,text=True)
+        captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate,'--case',args.case],cwd=BINARY,text=True)
         args.original=Path(captured.strip().splitlines()[-1]).parent
     original=json.loads((args.original/'receipt.json').read_text())
     assert original['configuration_sha256']==sha(config_path)
+    assert original.get('case','cpp_basic')==args.case
     assert original['candidate']==args.candidate and original['accepted_count']==len(config['accepted'])
     trace=module('c1xx_frontier_names','native-traces.py')
     if args.native is None:
         import tempfile
         args.native=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=Path.home()/'.ai-tmp/vc1.0-c1xx'))
-        module('c1xx_native_capture','capture-native.py').capture(args.native)
+        module('c1xx_native_capture','capture-native.py').capture(args.native,case_name=args.case)
     native=json.loads((args.native/'checkpoint.json').read_text())
     assert native['signal']==5,'native did not stop on INT3'
     assert native['function']==trace.native_name(original['terminal']),(original['terminal'],native['function'])
@@ -72,7 +75,7 @@ def main():
     assert left==right,(left-right,right-left)
     number=len(config['accepted'])
     name=re.sub(r'[^A-Za-z_0-9-]','-',args.candidate.lstrip('_@'))
-    record=BINARY/'cases/cpp-basic-frontiers'/('%04d-'%number+name)
+    record=frontier_root/('%04d-'%number+name)
     record.mkdir(parents=True)
     for directory,label,names in [(args.original,'original',['receipt.json','events.txt','stdout.bin','stderr.bin','configuration.json']),
                                  (args.native,'native',['checkpoint.json','gdb.log','timing.json','stdout.bin','stderr.bin'])]:
@@ -87,6 +90,7 @@ def main():
     extension=dict(schema=1,accepted_before=number,accepted=args.candidate,terminal=original['terminal'],
         original_capture=relative(record/'original-receipt.json'),original_capture_sha256=sha(record/'original-receipt.json'),
         original_events=relative(record/'original-events.txt'),original_events_sha256=sha(record/'original-events.txt'),
+        original_configuration=relative(record/'original-configuration.json'),
         scope='Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified')
     extension_path=record/'frontier-extension.json'
     extension_path.write_text(json.dumps(extension,indent=2)+'\n')
@@ -95,21 +99,22 @@ def main():
     case['terminal_evidence']=relative(record/'original-events.txt')
     case.setdefault('frontier_extensions',[]).append(relative(extension_path))
     config_path.write_text(json.dumps(config,indent=2)+'\n')
-    snapshot=BINARY/'cases/native-cpp-basic/canonical-map.txt'
+    snapshot=reference/'canonical-map.txt'
     snapshot.write_text(''.join(line.rstrip()+'\n' for line in (BINARY/'build/c1xx.map').read_text().splitlines()))
-    reference_path=BINARY/'cases/native-cpp-basic/manifest.json'
-    reference=json.loads(reference_path.read_text())
-    reference['terminal']['logical']=original['terminal']
-    reference['reference_receipt']=relative(record/'original-receipt.json')
-    reference['reference_receipt_sha256']=sha(record/'original-receipt.json')
-    reference['canonical_map_sha256']=sha(snapshot)
-    reference['capture_seconds']=original['capture_seconds']
-    reference['scope']='%d accepted frontiers; explicit original-backed current partial frontend terminal'%len(config['accepted'])
-    for output in reference['outputs']:
-        path=BINARY/'cases/native-cpp-basic'/output['path']
+    shutil.copyfile(snapshot,BINARY/'cases/canonical-map.txt')
+    reference_path=reference/'manifest.json'
+    metadata=json.loads(reference_path.read_text())
+    metadata['terminal']['logical']=original['terminal']
+    metadata['reference_receipt']=relative(record/'original-receipt.json')
+    metadata['reference_receipt_sha256']=sha(record/'original-receipt.json')
+    metadata['canonical_map_sha256']=sha(snapshot)
+    metadata['capture_seconds']=original['capture_seconds']
+    metadata['scope']='%d accepted frontiers; explicit original-backed current partial frontend terminal'%len(config['accepted'])
+    for output in metadata['outputs']:
+        path=reference/output['path']
         path.write_bytes(expected[output['path']])
         output.update(bytes=path.stat().st_size,sha256=sha(path))
-    reference_path.write_text(json.dumps(reference,indent=2)+'\n')
+    reference_path.write_text(json.dumps(metadata,indent=2)+'\n')
     subprocess.run([sys.executable,str(BINARY/'scripts/native-traces.py'),'--write'],cwd=BINARY,check=True)
     checked=time.perf_counter()
     fixture=subprocess.run([sys.executable,str(BINARY/'scripts/check-native.py'),'--trace'],cwd=BINARY,text=True,capture_output=True)
@@ -125,12 +130,13 @@ def main():
     application_count=len(cache['accepted_application'])
     current_path=BINARY/'validation.json'
     current=json.loads(current_path.read_text())
-    current.update(accepted_frontiers=len(config['accepted']),driver_functions=application_count,
+    current.update(active_case=args.case,status=args.case+' reconstruction in progress',complete_frontend_case=False,accepted_frontiers=len(config['accepted']),driver_functions=application_count,
         reconstructed_source_functions=application_count+current['older_crt_functions'],
         current_frontier=original['terminal'],
         original_frontier_va=hex(next(r['start'] for r in config['driver'] if r['name']==original['terminal'])),
-        current_native_application_entries=len(cache['cases']['cpp_basic']['expected']),
+        current_native_application_entries=len(cache['cases'][args.case]['expected']),
         latest_verification=relative(record/'validation.json'))
+    current.setdefault('cases',{})[args.case]=dict(status='partial',frontier=original['terminal'],latest_verification=relative(record/'validation.json'))
     current['graceful_pause'].update(paused=False, current_frontier=original['terminal'],
         original_va=current['original_frontier_va'])
     coverage=json.loads(subprocess.check_output([sys.executable,str(BINARY/'scripts/coverage.py')],cwd=BINARY,text=True))
@@ -145,7 +151,7 @@ def main():
         'trap is %s at original VA %s.'%(original['terminal'],current['original_frontier_va']),readme,count=1)
     readme=re.sub(r'all \d+ application definitions','all %d application definitions'%len(cache['application_definitions']),readme,count=1)
     readme=re.sub(r'case expects \d+ first\nentries: \d+ accepted frontend functions plus [A-Za-z_0-9]+',
-        'case expects %d first\nentries: %d accepted frontend functions plus %s'%(len(cache['cases']['cpp_basic']['expected']),application_count,trace.native_name(original['terminal'])),readme,count=1)
+        'case expects %d first\nentries: %d accepted frontend functions plus %s'%(len(cache['cases'][args.case]['expected']),application_count,trace.native_name(original['terminal'])),readme,count=1)
     readme_path.write_text(readme)
     print(args.candidate+' -> '+original['terminal'])
     print(record/'validation.json')

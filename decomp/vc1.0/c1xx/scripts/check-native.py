@@ -15,6 +15,7 @@ import sys
 import subprocess
 import tempfile
 import time
+from case_paths import paths
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
@@ -52,17 +53,19 @@ def compare_trace(actual, expected):
         assert left == right, 'application entry %d: expected %s, actual %s' % (index, left, right)
 
 
-def run(executable, directory, tracing, accounting):
+def run(executable, directory, tracing, accounting, case_name='cpp_basic'):
     started = time.perf_counter()
-    phase = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
-    metadata_path = REFERENCE / 'manifest.json'
+    config=json.loads((BINARY/'functions.json').read_text())
+    _,fixture,reference,_=paths(config,case_name)
+    phase = json.loads((fixture / 'manifest.json').read_text())['phases']['c1']
+    metadata_path = reference / 'manifest.json'
     metadata = json.loads(metadata_path.read_text())
-    work = directory / 'cpp_basic'
+    work = directory / case_name
     work.mkdir()
     for item in phase['inputs']:
-        (work / Path(item['path']).name).write_bytes(captured(FIXTURE / item['path'], item))
+        (work / Path(item['path']).name).write_bytes(captured(fixture / item['path'], item))
     for item in metadata['outputs']:
-        captured(REFERENCE / item['path'], item)
+        captured(reference / item['path'], item)
     for item in metadata.get('dependencies', []):
         captured(ROOT / item['path'], item)
     env = {k: v for k, v in os.environ.items() if not k.startswith('RECON_')}
@@ -80,7 +83,7 @@ def run(executable, directory, tracing, accounting):
     entry = None
     if tracing:
         cache, filter_path = tracing
-        entry = cache['cases']['cpp_basic']
+        entry = cache['cases'][case_name]
         seen = work / 'trace.seen'
         seen.write_text(''.join(n + '\n' for n in entry['seen']))
         trace = (work / 'trace.entries').open('wb')
@@ -118,9 +121,9 @@ def run(executable, directory, tracing, accounting):
     artifacts = []
     for item in metadata['outputs']:
         data = (work / item['path']).read_bytes()
-        assert data == captured(REFERENCE / item['path'], item), item['path'] + ': visible bytes differ'
+        assert data == captured(reference / item['path'], item), item['path'] + ': visible bytes differ'
         artifacts.append(dict(name=item['path'], bytes=len(data), sha256=sha(data)))
-    allowed = {'cpp-basic.cpp', 'irex', 'irin', 'irsy', 'irgl', 'tmp', 'stdout.bin', 'stderr.bin'}
+    allowed = {Path(e['path']).name for e in phase['inputs']} | {e['path'] for e in metadata['outputs']} | {'tmp','stdout.bin','stderr.bin'}
     if tracing:
         allowed |= {'trace.entries', 'trace.seen', 'trace.state'}
     assert {p.name for p in work.iterdir()} == allowed, 'unexpected fixture files'
@@ -133,7 +136,7 @@ def run(executable, directory, tracing, accounting):
         actual = raw.decode('ascii').splitlines()
         trace_count = len(actual)
         compare_trace(actual, entry['expected'])
-    return dict(case='cpp_basic', status='pass', terminal=metadata['terminal'],
+    return dict(case=case_name, status='pass', terminal=metadata['terminal'],
         native_status=result.returncode, complete_frontend_case=complete,
         setup_seconds=setup_seconds, execution_seconds=execution_seconds,
         oracle_seconds=oracle_seconds, trace_check_seconds=time.perf_counter()-trace_start,
@@ -145,6 +148,7 @@ def run(executable, directory, tracing, accounting):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',action='append',help='registered case; defaults to all')
     parser.add_argument('--trace', action='store_true')
     parser.add_argument('--exe', type=Path)
     parser.add_argument('--directory', type=Path)
@@ -169,12 +173,17 @@ def main():
         executable_sha256=sha(executable.read_bytes()), trace_prepare_seconds=time.perf_counter()-prepared,
         build_seconds='separate target; unmeasured here', capture_seconds='none; immutable prior evidence')
     try:
-        receipt['cases'] = [run(executable, directory, tracing, receipt['measured_partial_phases'])]
+        names=args.case or list(json.loads((BINARY/'functions.json').read_text())['cases'])
+        receipt['cases']=[]
+        for name in names:
+            accounting={}
+            receipt['measured_partial_phases'][name]=accounting
+            receipt['cases'].append(run(executable,directory,tracing,accounting,name))
         receipt['status'] = 'pass'
     except Exception as error:
         receipt.update(status='fail', error=str(error))
     (directory / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
-    print('cpp_basic:', receipt['status'])
+    print(','.join(args.case or list(json.loads((BINARY/'functions.json').read_text())['cases']))+':',receipt['status'])
     print('receipt:', directory / 'receipt.json')
     return int(receipt['status'] != 'pass')
 

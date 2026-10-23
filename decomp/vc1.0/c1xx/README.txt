@@ -1368,3 +1368,20 @@ Independent C1XX/C2/LINK replay passes all four; only demonstrated downstream
 COFF/PE timestamps are excluded. Reference registration is an explicit script
 operation, separate from native fixtures. Native per-case seed integration is
 next; these captures have not yet been claimed reconstructed.
+
+Multi-case adapter checkpoint:the completed cpp_basic history remains fixed at
+553 application entries and exit0. virtual_diamond starts from the proved643
+accepted prefix, seeds553 application names, and matches complete_declaration
+(original0x518b0) with four pending buffers, fourteen fields, streams and files
+exact. cases/virtual_diamond-seed retains both explicit captures; registration
+accepted no additional function. Global cases/canonical-map.txt classifies all
+current application definitions; per-case historical maps remain evidence.
+
+Ordinary make check/replay now runs every registered case with its own source,
+reference files, expected terminal and seen-state prefix. --case selects one
+for native diagnostics/checks. Full canonical audits, both cached cases and21
+rejection checks pass in4.679seconds combined wall. New rejection checks remove
+main from the new case's seed and force a completed exit at its pending trap.
+The case fixtures remain native-only. Full reference capture and acceptance
+operations accept an explicit --case separately. The active frontier is now
+complete_declaration; accepted extent remains42.339500% before its recovery.

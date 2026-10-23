@@ -9,15 +9,16 @@ from pathlib import Path
 import subprocess
 import tempfile
 import time
+from case_paths import paths
 
 BINARY = Path(__file__).resolve().parents[1]
 
 
-def capture(directory, executable=None, breakpoint=None, expressions=None):
+def capture(directory, executable=None, breakpoint=None, expressions=None, case_name='cpp_basic'):
     started = time.perf_counter()
-    fixture = BINARY.parent/'fixtures/cpp-basic'
-    phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
     config = json.loads((BINARY/'functions.json').read_text())
+    _,fixture,_,_=paths(config,case_name)
+    phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
     directory.mkdir(parents=True, exist_ok=True)
     work = directory/'case'
     work.mkdir()
@@ -60,13 +61,14 @@ def capture(directory, executable=None, breakpoint=None, expressions=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--directory',type=Path)
     parser.add_argument('--breakpoint',help='explicit runtime entry breakpoint instead of first INT3')
     parser.add_argument('--observe',action='append',default=[],metavar='NAME=EXPRESSION')
     args=parser.parse_args()
     scratch=Path.home()/'.ai-tmp/vc1.0-c1xx'
     directory=args.directory or Path(tempfile.mkdtemp(prefix='native-frontier-',dir=scratch))
-    checkpoint=capture(directory,breakpoint=args.breakpoint,expressions=dict(item.split('=',1) for item in args.observe))
+    checkpoint=capture(directory,breakpoint=args.breakpoint,expressions=dict(item.split('=',1) for item in args.observe),case_name=args.case)
     print(checkpoint['function'])
     print(directory)
 

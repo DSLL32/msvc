@@ -11,6 +11,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import time
+from case_paths import paths
 from binary import PE
 from win32_indexes import imports, mask, logical
 
@@ -19,6 +20,7 @@ BINARY = Path(__file__).resolve().parents[1]
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--accepted-count', type=int)
     parser.add_argument('--candidate', help='explicit proposed function to unmask for fresh acceptance evidence')
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
@@ -50,7 +52,7 @@ def main():
     (directory / 'configuration.json').write_bytes(configuration)
     work = directory / 'case'
     work.mkdir()
-    fixture = BINARY.parent / 'fixtures/cpp-basic'
+    _,fixture,_,_=paths(config,args.case)
     phase = json.loads((fixture / 'manifest.json').read_text())['phases']['c1']
     for item in phase['inputs']:
         data = (fixture / item['path']).read_bytes()
@@ -68,7 +70,7 @@ def main():
     started = time.perf_counter()
     subprocess.run(command, env=tool.environment(), check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    receipt = dict(scope='explicit original-only reference diagnostic; no cache update',
+    receipt = dict(case=args.case,scope='explicit original-only reference diagnostic; no cache update',
         accepted_count=count, terminal=logical((directory / 'events.txt').read_text(), image, records),
         candidate=args.candidate, pending_accepted=pending, configuration_sha256=hashlib.sha256(configuration).hexdigest(),
         capture_seconds=time.perf_counter()-started, original_sha256=config['target']['sha256'],

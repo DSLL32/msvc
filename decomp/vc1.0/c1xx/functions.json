@@ -6032,6 +6032,16 @@
         "cases/cpp-basic-frontiers/0641-flsall/frontier-extension.json",
         "cases/cpp-basic-frontiers/0642-import-ExitProcess/frontier-extension.json"
       ]
+    },
+    "virtual_diamond": {
+      "fixture": "../fixtures/c1xx-virtual-diamond",
+      "native_reference": "cases/native-virtual-diamond",
+      "frontiers": "cases/virtual-diamond-frontiers",
+      "accepted_from": 643,
+      "terminal": "_complete_declaration@8",
+      "frontier_extensions": [],
+      "terminal_evidence": "cases/virtual_diamond-seed/original-events.txt",
+      "original_seed": "cases/virtual_diamond-seed"
     }
   },
   "runtime_data": [
