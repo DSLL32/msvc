@@ -1,0 +1,24 @@
+{
+  "kind": "Accepted original function extents, not branch coverage.",
+  "application": {
+    "functions": 99,
+    "extent_bytes": 17168,
+    "percent_of_whole_text": 90.06400167873255
+  },
+  "denominator": {
+    "whole_text_bytes": 19062,
+    "nonCRT_bytes": null
+  },
+  "support": {
+    "selected_records": 15,
+    "extent_bytes": 476,
+    "source_credit": false,
+    "dynamic_reached_count": null,
+    "note": "Verified startup/archive/import closure; support selection does not claim each record dynamically ran.",
+    "top_level_accepted_vertices": 7,
+    "startup_closure_records": 9,
+    "startup_closure_bytes": 440,
+    "additional_import_leaves": 6,
+    "additional_import_bytes": 36
+  }
+}

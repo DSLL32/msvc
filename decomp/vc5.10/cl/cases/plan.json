@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "link-object-active",
+  "state": "link-object-completed",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -157,6 +157,7 @@
     "preprocessor-pass-options",
     "explicit-inputs",
     "macro-language-conflict",
-    "optimization-defaults"
+    "optimization-defaults",
+    "link-object"
   ]
 }

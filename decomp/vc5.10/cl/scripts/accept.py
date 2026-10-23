@@ -52,7 +52,8 @@ def reconstruction_capture(capture):
         marker=b'CL_LINK_RESPONSE_V1\n'
         assert capture['files']['dependency-observer.txt']=={'sha256':hashlib.sha256(marker).hexdigest(),'bytes':len(marker)}, 'missing or different link response request'
         assert capture['command'][-2]=='1', 'link response original was not a masked trial'
-        raise AssertionError('LINK-only response comparator/provider is not implemented; original observation is not acceptance')
+        # Full raw child/state decoding is mandatory in observation()->state.project;
+        # this guard establishes only the unambiguous fresh masked mode.
     if capture.get('dependency_response'):
         assert capture['case']=='minimal-c' and not capture.get('dependency_complete'), 'ambiguous dependency response mode'
         marker=b'CL_DEPENDENCY_RESPONSE_V1\n'
@@ -86,6 +87,8 @@ def observation(entry,trial,expected):
         if capture_entry:
             capture=json.loads(checked_file(capture_entry).read_text())
             reconstruction_capture(capture)
+            if capture['case']=='link-object' and '_write_link_message'in trial['accepted']:
+                assert capture.get('link_response')is True,'LINK child candidate requires its complete actual response'
             assert capture['target_sha256']==expected['target_sha256'] and capture['original_mask_sha256']==expected['trial_mask_sha256'], 'original execution receipt image differs'
             assert capture['config_sha256']==digest(config_path), 'original execution receipt trial differs'
             assert capture['case']==raw['case'] and capture['arguments']==raw['arguments'], 'original execution receipt case differs'

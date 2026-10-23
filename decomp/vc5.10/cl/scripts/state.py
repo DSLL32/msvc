@@ -115,6 +115,20 @@ def project(platform,directory):
         names=['pass-state-observer.txt','pass-state.bin','events.txt']if platform=='original'else['pass-state-observer.txt','pass-state.bin','pass-state-gdb.json','gdb_pass.py']
         result['raw_inputs'].update({name:sha(directory/name)for name in names})
         result['pass_decoder_sha256']=sha(Path(pass_state.__file__))
+    link_mode=((directory/'link-native.json').exists()if platform=='native'else
+        ((directory/'capture.json').exists()and json.loads((directory/'capture.json').read_text()).get('link_response',False)))
+    if link_mode:
+        from link_provider import verify as verify_link,projection as link_projection
+        from link_response import decode as decode_link
+        result['fields']['link_response']=(verify_link(directory)if platform=='native'else link_projection(decode_link(directory)))
+        names=['link-native.json','link-response.json','link-binding.bin','gdb_link.py','link_provider.py','link_response.py','link_state.py','spawn_reader.py']if platform=='native'else['capture.json']
+        if platform=='native':
+            names += [path.name for path in directory.glob('native-link-*-gdb.json')]
+            names += [path.name for path in directory.glob('streams-link-*')]
+            names += ['test.exe']
+        result['raw_inputs'].update({name:sha(directory/name)for name in names})
+        import link_provider,link_response,link_state
+        result['link_decoder_hashes']={Path(module.__file__).name:sha(Path(module.__file__))for module in (link_provider,link_response,link_state)}
     response_mode=((directory/'dependency-native.json').exists() if platform=='native' else
         ((directory/'capture.json').exists() and json.loads((directory/'capture.json').read_text()).get('dependency_response',False))or
         ((directory/'dependency-observer.txt').exists() and (directory/'dependency-observer.txt').read_bytes()==b'CL_DEPENDENCY_RESPONSE_V1\n'))

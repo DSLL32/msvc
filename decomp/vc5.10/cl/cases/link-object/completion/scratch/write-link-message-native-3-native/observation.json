@@ -1,0 +1,249 @@
+{
+  "candidate": "_write_link_message",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "a27c9d019e7cdb3fdf456362b01fd674e59ff6ad3845347c566dbd75093ca529",
+  "rebuilt_sha256": "642e9e4d4e68731b3cfe913d2522fad74d0f2c35c5c0f69091403b92d9dcf362",
+  "trial_mask_sha256": "d7a980c447a29993a938b98b242b730fbb06d5024e7674752d1165e0cdb00f56",
+  "platform": "native",
+  "trial_identity": "bf7059fa9734656df07299194dcefa0c5b90996a369121a90b0b987cff08087a",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/config.json",
+    "sha256": "b7bbb9389ca369141df0a1c40a4f87b7239aba99e3951e4694f5fe9316da0820"
+  },
+  "case": "link-object",
+  "arguments": [
+    "/nologo",
+    "/Fetest.exe",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/state.json",
+      "sha256": "a4d203b7816d3105561fa2e7be23d2abce6e49e72cb56aff96c48fd74b8238e1"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/trace.txt",
+      "sha256": "2223c97f88d333f0dabdebdfb14f740630cefd70122ffd8c6e434d51f45b36a8"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/debugger.txt",
+      "sha256": "55d270a2b916ed0d8eb00da183089630646e05fce7d462ed2704e468b3bdc05e"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/trace-filter.txt",
+      "sha256": "db4ffc7dcce46e652b46444bf6f0f95076db0f93206a14ed43f413c1e4109458"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/exec-wrapper.py",
+      "sha256": "1a7e8f04fc54bc5010bcc83f4b96c57190705d979513fd0a1ca1058580d818eb"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/resources.bin",
+      "sha256": "4880ccdea2efd1554678238738b03105dc0bcac4c8b2736ad31f88c9b6fc9cab"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/debugger.txt",
+      "sha256": "55d270a2b916ed0d8eb00da183089630646e05fce7d462ed2704e468b3bdc05e"
+    },
+    "raw:terminal-status.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/terminal-status.bin",
+      "sha256": "9685451f25adf2100974c60b7c919a0f0d5c6e3c238439ce723c604004ec70d8"
+    },
+    "raw:status_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/status_reader.py",
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-process.json",
+      "sha256": "07b297039e95b37f52bdd222c36569df6b4b3c852f1cb673473bd5794c9fc677"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-build.json",
+      "sha256": "6d9efa42fff86d71c5f421fd56bbf8581e24323816f7ca2353c76266329c6fcf"
+    },
+    "raw:native_status.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+    },
+    "raw:gdb_capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb_capture.py",
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97"
+    },
+    "raw:gdb-capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb-capture.py",
+      "sha256": "c2d7f0b824cd8aa71f402bf94f42f57d97c5e23f5db07a06b11d1be30484477c"
+    },
+    "raw:entry-profile.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/entry-profile.json",
+      "sha256": "1d94ef6f713a489ab4d5af8ef2ec6d1474cc6fa1a27861e3bebf9b1e27c7bdba"
+    },
+    "raw:link-native.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/link-native.json",
+      "sha256": "5b23b4cf8631df453f001176c333bc74e1f78ff7a703e13dfeda8e57929bf70c"
+    },
+    "raw:link-response.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/link-response.json",
+      "sha256": "24d60896b8bd74f12a8a95bbbe8473bb8e65cb581358b8c604bbdca3f4950ea1"
+    },
+    "raw:link-binding.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/link-binding.bin",
+      "sha256": "652911591d13f96082da800ee04c65b3258b8f823a13fe593189e2366892fdf4"
+    },
+    "raw:gdb_link.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb_link.py",
+      "sha256": "99ceb2cd8797e8317343bee82ab4958e558e6ac8ccc3afd8d2105961a7e3080d"
+    },
+    "raw:link_provider.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/link_provider.py",
+      "sha256": "60fd36cb57bb999a4fd7b6c22cfea84abf9185766c68caaee18e781006ca0739"
+    },
+    "raw:link_response.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/link_response.py",
+      "sha256": "3a6e41c2ffb13e76e80e35b15defb3160cf3737b9ff9915f1edbb93e31da714a"
+    },
+    "raw:link_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/link_state.py",
+      "sha256": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f"
+    },
+    "raw:spawn_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/spawn_reader.py",
+      "sha256": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4"
+    },
+    "raw:native-link-exit-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-link-exit-gdb.json",
+      "sha256": "c0ce7ee4ce132822aec2bedf621bbefff531570d22e5b291538318113a38e13b"
+    },
+    "raw:native-link-unlink-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-link-unlink-gdb.json",
+      "sha256": "f563793f24072fb1567b6ddc41404571bfca9dd9a0cf5ce7a952c12c53b54119"
+    },
+    "raw:native-link-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-link-before-gdb.json",
+      "sha256": "a337144858393d72ec38cafe81547788a83d7ee922f1d6eb01fb619032734660"
+    },
+    "raw:native-link-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-link-after-gdb.json",
+      "sha256": "65e1e850399647228610bf0f6bec30417e3dd0a7d817a5e5661d74bce6d6377b"
+    },
+    "raw:native-link-postchild-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-link-postchild-gdb.json",
+      "sha256": "efe488c9a06fb37b69266d222210174923e444dd7ea66fbb40892bc6da36c28e"
+    },
+    "raw:streams-link-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-before-iob.bin",
+      "sha256": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092"
+    },
+    "raw:streams-link-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-after-iob.bin",
+      "sha256": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092"
+    },
+    "raw:streams-link-exit.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-exit.json",
+      "sha256": "26a0134e18b8235132f3bcb9ed250a947a428d2803d34c16ac0b55468221d94e"
+    },
+    "raw:streams-link-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-after.json",
+      "sha256": "26a0134e18b8235132f3bcb9ed250a947a428d2803d34c16ac0b55468221d94e"
+    },
+    "raw:streams-link-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-before.json",
+      "sha256": "6060a419247953d9c7ada82155b36800cd06c61aba51ac69f6f2d037f6aef9c7"
+    },
+    "raw:streams-link-postchild-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-postchild-iob.bin",
+      "sha256": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092"
+    },
+    "raw:streams-link-exit-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-exit-iob.bin",
+      "sha256": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092"
+    },
+    "raw:streams-link-postchild.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-link-postchild.json",
+      "sha256": "26a0134e18b8235132f3bcb9ed250a947a428d2803d34c16ac0b55468221d94e"
+    },
+    "raw:test.exe": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/test.exe",
+      "sha256": "2e565639cb65a95b141da240b3532b40fcda9302482b6066a6468c0b19bad095"
+    },
+    "raw:dependency-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/dependency-inputs.json",
+      "sha256": "92aacc2c96764a7fd1730b1d2b56db4ac7a3a25df3f6dd547035aaa802c6a966"
+    },
+    "raw:LINK.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "raw:case-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/case-inputs.json",
+      "sha256": "9c438d99103b75c9d28b934f52061d94737dfc696cee87d55bbbcfa3a28b51ea"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb-entry.py",
+      "sha256": "df0e0f544d95c881d49a40f8f4d3f82d35936f9b321fde4689d7c708f7001cf6"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-entry.json",
+      "sha256": "e8f29a2ccc1043b8b743524c04de219c662cdf84d6c1949fb9fcac77d8ccadc3"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/streams-entry-iob.bin",
+      "sha256": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092"
+    },
+    "raw:gdb_streams.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/mktemp-expected.json",
+      "sha256": "050d64614998b0591885d7590cecb22d9fbc8337d41b4536091dad4512055354"
+    },
+    "raw:mktemp-receipt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/mktemp-receipt.bin",
+      "sha256": "c9fcef91335f2652e0c53530a315b31aa22eba2d56e86771d09288b4325e169e"
+    },
+    "raw:mktemp_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/mktemp_reader.py",
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-mktemp-gdb.json",
+      "sha256": "3da7930cbae627384e8ee0868bfdad5dc5c5eb4ed934ef582ae9ff445cb5216b"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3-native/native-build.json",
+    "sha256": "6d9efa42fff86d71c5f421fd56bbf8581e24323816f7ca2353c76266329c6fcf"
+  }
+}

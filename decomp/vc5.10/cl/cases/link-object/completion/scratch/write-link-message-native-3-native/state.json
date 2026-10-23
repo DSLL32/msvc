@@ -1,0 +1,359 @@
+{
+  "projection": "cl-case-completion-v1; temporary-name-boundary-v1",
+  "fields": {
+    "status": 0,
+    "link_response": {
+      "case": "link-object",
+      "child": {
+        "argv": [
+          "S:\\vc5.10\\cl\\write-link-message-1-original\\link.exe",
+          "-link",
+          "@.\\a01056lk"
+        ],
+        "cwd": "S:\\vc5.10\\cl\\write-link-message-1-original\\",
+        "environment": [
+          "TMUX=/tmp/tmux-0/default,230,0",
+          "CODEX_CI=1",
+          "USER=root",
+          "SSH_CLIENT=127.0.0.1 38608 22",
+          "SHLVL=3",
+          "MOTD_SHOWN=pam",
+          "OLDPWD=/root/msvc",
+          "TERM_PROGRAM_VERSION=3.5a",
+          "SSH_TTY=/dev/pts/1",
+          "INCLUDE=R:\\toolchains\\5.10\\include",
+          "PAGER=cat",
+          "LC_CTYPE=C.UTF-8",
+          "NO_COLOR=1",
+          "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus",
+          "COLORTERM=",
+          "CODEX_PERMISSION_PROFILE=:danger-full-access",
+          "LOGNAME=root",
+          "_=/usr/bin/python3",
+          "WINEPREFIX=/root/.ai-tmp/vc1.0-capture/wine",
+          "XDG_SESSION_CLASS=user",
+          "TERM=dumb",
+          "XDG_SESSION_ID=c1",
+          "CODEX_VERSION=0.160.0",
+          "CODEX_SESSION_ID=01a1602d-9ac4-7392-9901-9b69cb8ca3a5",
+          "XDG_RUNTIME_DIR=/run/user/0",
+          "LANG=C.UTF-8",
+          "GH_PAGER=cat",
+          "TERM_PROGRAM=tmux",
+          "SHELL=/bin/bash",
+          "LIB=R:\\toolchains\\5.10\\lib",
+          "CODEX_THREAD_ID=01a16811-d8be-7191-bcda-9aa46f6305f2",
+          "WINEDEBUG=-all",
+          "GIT_PAGER=cat",
+          "LC_ALL=C.UTF-8",
+          "CODEX_MANAGED_PACKAGE_ROOT=/usr/local/lib/node_modules/@openai/codex",
+          "SSH_CONNECTION=127.0.0.1 42936 127.0.0.1 22",
+          "WINEARCH=win32",
+          "CODEX_MANAGED_BY_NPM=1",
+          "TMUX_PANE=%64",
+          "ComSpec=C:\\windows\\system32\\cmd.exe",
+          "NUMBER_OF_PROCESSORS=48",
+          "OS=Windows_NT",
+          "PATH=R:\\toolchains\\5.10\\bin;C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem;C:\\windows\\system32\\WindowsPowershell\\v1.0",
+          "PATHEXT=.com;.exe;.bat;.cmd;.vbs;.vbe;.js;.jse;.wsf;.wsh",
+          "PROCESSOR_ARCHITECTURE=x86",
+          "PROCESSOR_IDENTIFIER=x86 Family 6 Model 62 Stepping 4, GenuineIntel",
+          "PROCESSOR_LEVEL=6",
+          "PROCESSOR_REVISION=3e04",
+          "windir=C:\\windows",
+          "winsysdir=C:\\windows\\system32",
+          "TEMP=.",
+          "TMP=.",
+          "APPDATA=C:\\users\\root\\AppData\\Roaming",
+          "CLIENTNAME=Console",
+          "HOMEDRIVE=C:",
+          "HOMEPATH=\\users\\root",
+          "LOCALAPPDATA=C:\\users\\root\\AppData\\Local",
+          "LOGONSERVER=\\\\USR-SCBETA",
+          "SESSIONNAME=Console",
+          "USERDOMAIN=USR-SCBETA",
+          "USERNAME=root",
+          "USERPROFILE=C:\\users\\root",
+          "ALLUSERSPROFILE=C:\\ProgramData",
+          "ProgramData=C:\\ProgramData",
+          "PUBLIC=C:\\users\\Public",
+          "ProgramFiles=C:\\Program Files",
+          "CommonProgramFiles=C:\\Program Files\\Common Files",
+          "COMPUTERNAME=USR-SCBETA",
+          "WINEDATADIR=\\??\\Z:\\usr\\share\\wine",
+          "WINEHOMEDIR=\\??\\Z:\\root",
+          "WINECONFIGDIR=\\??\\Z:\\root\\.ai-tmp\\vc1.0-capture\\wine",
+          "WINEDLLDIR0=\\??\\Z:\\usr\\lib\\i386-linux-gnu\\wine",
+          "WINELOADER=/usr/lib/wine/wine",
+          "WINEUSERNAME=root",
+          "WINEDLLOVERRIDES=msvcrt=n",
+          "WINEUSERLOCALE=C",
+          "SystemDrive=C:",
+          "SystemRoot=C:\\windows"
+        ],
+        "environment_source": "target-os",
+        "inputs": {
+          "a01056lk": {
+            "bytes": 82,
+            "sha256": "0787cfbbe0cf2084ef62258e3571b34b73b00b5f6c598f761019046fde0b471f"
+          },
+          "test.obj": {
+            "bytes": 275,
+            "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+          }
+        },
+        "linker_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+        "mode": 0,
+        "output": {
+          "bytes": 1024,
+          "name": "test.exe",
+          "sha256": "2e565639cb65a95b141da240b3532b40fcda9302482b6066a6468c0b19bad095"
+        },
+        "path": "S:\\vc5.10\\cl\\write-link-message-1-original\\link.exe",
+        "provider_inputs": {
+          "MSPDB50.DLL": {
+            "bytes": 167424,
+            "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+          },
+          "MSVCRT.DLL": {
+            "bytes": 277776,
+            "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+          }
+        },
+        "status": 0,
+        "stderr_hex": "",
+        "stdout_hex": ""
+      },
+      "parent_errors": {
+        "spawn-before": {
+          "doserrno": 2,
+          "errno": 0,
+          "last_error": 0
+        },
+        "spawn-after": {
+          "doserrno": 0,
+          "errno": 0,
+          "last_error": 0
+        },
+        "exit-before": {
+          "doserrno": 0,
+          "errno": 0,
+          "last_error": 0
+        }
+      },
+      "CRT_and_OS_environment_unchanged": true,
+      "CP0_and_stream_ownership_unchanged": true,
+      "unlink_calls": 1,
+      "output_sha256": "2e565639cb65a95b141da240b3532b40fcda9302482b6066a6468c0b19bad095"
+    },
+    "compiler_inputs": {
+      "case": "link-object",
+      "role": "Inert exact original linker dependency input; native execution forbidden.",
+      "files": [
+        {
+          "name": "LINK.EXE",
+          "source": "toolchains/5.10/bin/LINK.EXE",
+          "bytes": 464896,
+          "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+        }
+      ]
+    },
+    "case_inputs": {
+      "case": "link-object",
+      "arguments": [
+        "/nologo",
+        "/Fetest.exe",
+        "test.obj",
+        "/link",
+        "/ENTRY:main",
+        "/SUBSYSTEM:CONSOLE",
+        "/NODEFAULTLIB"
+      ],
+      "inputs": [
+        {
+          "name": "test.obj",
+          "source": "cases/minimal-c/reference/test.obj",
+          "bytes": 275,
+          "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+        }
+      ]
+    },
+    "main_entry_errors": {
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 0,
+      "x87_control_word": 639
+    },
+    "streams": {
+      "entry": {
+        "crt": [
+          {
+            "type": 2,
+            "role": "stdin",
+            "position": null
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          },
+          {
+            "type": 1,
+            "role": "stderr",
+            "position": 0
+          }
+        ],
+        "win32": [
+          {
+            "type": 2,
+            "role": "stdin",
+            "position": null
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          },
+          {
+            "type": 1,
+            "role": "stderr",
+            "position": 0
+          }
+        ],
+        "crt_win32_slot_alias": [
+          true,
+          true,
+          true
+        ],
+        "osfile": [
+          193,
+          129,
+          129
+        ],
+        "files": [
+          {
+            "count": 0,
+            "flags": 257,
+            "descriptor": 0,
+            "character_buffer": 0,
+            "buffer_size": 4096,
+            "buffer": {
+              "present": true,
+              "position": 0,
+              "capacity": 4096,
+              "live_bytes": ""
+            },
+            "temporary": null
+          },
+          {
+            "count": 0,
+            "flags": 2,
+            "descriptor": 1,
+            "character_buffer": 0,
+            "buffer_size": 0,
+            "buffer": null,
+            "temporary": null
+          },
+          {
+            "count": 0,
+            "flags": 2,
+            "descriptor": 2,
+            "character_buffer": 0,
+            "buffer_size": 0,
+            "buffer": null,
+            "temporary": null
+          }
+        ],
+        "errors": {
+          "errno": 0,
+          "doserrno": 0,
+          "last_error": 0,
+          "x87_control_word": 639
+        }
+      }
+    },
+    "external_mre_calls": 0,
+    "temporary_name_boundary": {
+      "entry": {
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "x87_control_word": 639
+      },
+      "calls": [
+        {
+          "template": ".\\XXXXXX",
+          "result": ".\\a01056",
+          "result_alias": true,
+          "before": {
+            "errno": 0,
+            "doserrno": 0,
+            "last_error": 0
+          },
+          "after": {
+            "errno": 0,
+            "doserrno": 2,
+            "last_error": 2
+          }
+        }
+      ]
+    }
+  },
+  "decoder_sha256": "53b720398586195a3802af55ef57e6025f10f85953d93c846d1f05690fea5b77",
+  "raw_inputs": {
+    "debugger.txt": "55d270a2b916ed0d8eb00da183089630646e05fce7d462ed2704e468b3bdc05e",
+    "terminal-status.bin": "9685451f25adf2100974c60b7c919a0f0d5c6e3c238439ce723c604004ec70d8",
+    "status_reader.py": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65",
+    "native-process.json": "07b297039e95b37f52bdd222c36569df6b4b3c852f1cb673473bd5794c9fc677",
+    "native-build.json": "6d9efa42fff86d71c5f421fd56bbf8581e24323816f7ca2353c76266329c6fcf",
+    "native_status.py": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d",
+    "gdb_capture.py": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97",
+    "gdb-capture.py": "c2d7f0b824cd8aa71f402bf94f42f57d97c5e23f5db07a06b11d1be30484477c",
+    "entry-profile.json": "1d94ef6f713a489ab4d5af8ef2ec6d1474cc6fa1a27861e3bebf9b1e27c7bdba",
+    "link-native.json": "5b23b4cf8631df453f001176c333bc74e1f78ff7a703e13dfeda8e57929bf70c",
+    "link-response.json": "24d60896b8bd74f12a8a95bbbe8473bb8e65cb581358b8c604bbdca3f4950ea1",
+    "link-binding.bin": "652911591d13f96082da800ee04c65b3258b8f823a13fe593189e2366892fdf4",
+    "gdb_link.py": "99ceb2cd8797e8317343bee82ab4958e558e6ac8ccc3afd8d2105961a7e3080d",
+    "link_provider.py": "60fd36cb57bb999a4fd7b6c22cfea84abf9185766c68caaee18e781006ca0739",
+    "link_response.py": "3a6e41c2ffb13e76e80e35b15defb3160cf3737b9ff9915f1edbb93e31da714a",
+    "link_state.py": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f",
+    "spawn_reader.py": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4",
+    "native-link-exit-gdb.json": "c0ce7ee4ce132822aec2bedf621bbefff531570d22e5b291538318113a38e13b",
+    "native-link-unlink-gdb.json": "f563793f24072fb1567b6ddc41404571bfca9dd9a0cf5ce7a952c12c53b54119",
+    "native-link-before-gdb.json": "a337144858393d72ec38cafe81547788a83d7ee922f1d6eb01fb619032734660",
+    "native-link-after-gdb.json": "65e1e850399647228610bf0f6bec30417e3dd0a7d817a5e5661d74bce6d6377b",
+    "native-link-postchild-gdb.json": "efe488c9a06fb37b69266d222210174923e444dd7ea66fbb40892bc6da36c28e",
+    "streams-link-before-iob.bin": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092",
+    "streams-link-after-iob.bin": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092",
+    "streams-link-exit.json": "26a0134e18b8235132f3bcb9ed250a947a428d2803d34c16ac0b55468221d94e",
+    "streams-link-after.json": "26a0134e18b8235132f3bcb9ed250a947a428d2803d34c16ac0b55468221d94e",
+    "streams-link-before.json": "6060a419247953d9c7ada82155b36800cd06c61aba51ac69f6f2d037f6aef9c7",
+    "streams-link-postchild-iob.bin": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092",
+    "streams-link-exit-iob.bin": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092",
+    "streams-link-postchild.json": "26a0134e18b8235132f3bcb9ed250a947a428d2803d34c16ac0b55468221d94e",
+    "test.exe": "2e565639cb65a95b141da240b3532b40fcda9302482b6066a6468c0b19bad095",
+    "dependency-inputs.json": "92aacc2c96764a7fd1730b1d2b56db4ac7a3a25df3f6dd547035aaa802c6a966",
+    "LINK.EXE": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+    "case-inputs.json": "9c438d99103b75c9d28b934f52061d94737dfc696cee87d55bbbcfa3a28b51ea",
+    "test.obj": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e",
+    "native-entry-errors.json": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c",
+    "gdb_entry.py": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+    "gdb-entry.py": "df0e0f544d95c881d49a40f8f4d3f82d35936f9b321fde4689d7c708f7001cf6",
+    "streams-entry.json": "e8f29a2ccc1043b8b743524c04de219c662cdf84d6c1949fb9fcac77d8ccadc3",
+    "streams-entry-iob.bin": "03c6e745f95d4e46ecf3f8639677a99a6ee6a4c216af1204decc97ce47477092",
+    "gdb_streams.py": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5",
+    "mktemp-expected.json": "050d64614998b0591885d7590cecb22d9fbc8337d41b4536091dad4512055354",
+    "mktemp-receipt.bin": "c9fcef91335f2652e0c53530a315b31aa22eba2d56e86771d09288b4325e169e",
+    "mktemp_reader.py": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570",
+    "native-mktemp-gdb.json": "3da7930cbae627384e8ee0868bfdad5dc5c5eb4ed934ef582ae9ff445cb5216b",
+    "gdb_mktemp.py": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+  },
+  "wrapper_decoder_sha256": "53b720398586195a3802af55ef57e6025f10f85953d93c846d1f05690fea5b77",
+  "link_decoder_hashes": {
+    "link_provider.py": "60fd36cb57bb999a4fd7b6c22cfea84abf9185766c68caaee18e781006ca0739",
+    "link_response.py": "3a6e41c2ffb13e76e80e35b15defb3160cf3737b9ff9915f1edbb93e31da714a",
+    "link_state.py": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f"
+  },
+  "stream_decoder_sha256": "5c7c2c39f50ae2c974bf397f764d534778a52da76b85dc56a5456df9709fec4f",
+  "boundary_decoder_sha256": "b19c62e2518ce96e8d2c5867060a704bad352131b3b3d31b8ef43dcf657bc9b7"
+}

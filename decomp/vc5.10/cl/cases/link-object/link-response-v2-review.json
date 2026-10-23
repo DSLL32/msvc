@@ -1,0 +1,63 @@
+{
+  "kind": "offline v2 input-inventory correction, unchanged original raw",
+  "changes": "Add exact captured MSVCRT.DLL and MSPDB50.DLL child inputs; no state or output changes",
+  "files": {
+    "/root/msvc2/decomp/vc5.10/cl/cases/link-object/dependency-packet-v2.json": {
+      "sha256": "242c7a25c0c975954220cd9eedd0b7e7e559e896705099140971292ea69b3aff",
+      "bytes": 108751
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/link_response.py": {
+      "sha256": "3a6e41c2ffb13e76e80e35b15defb3160cf3737b9ff9915f1edbb93e31da714a",
+      "bytes": 11210
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/check-link-response.py": {
+      "sha256": "f8629c53a026accac31c8e25ff828a5278b67c3ff71c0a8775ffdc87128564fb",
+      "bytes": 4680
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/link-response-v2-controls.json": {
+      "sha256": "47f9d037ff935b31254e00cc003d42f0d456b1a1d915f282384e6704a55ed442",
+      "bytes": 751
+    }
+  },
+  "controls": {
+    "passed": true,
+    "negative_controls": 34,
+    "seconds": 2.1583290845155716,
+    "controls": [
+      "unmasked",
+      "wrong family",
+      "missing mode",
+      "failed controller",
+      "wrong marker",
+      "spawn mode",
+      "spawn path pointer",
+      "spawn argv pointer",
+      "changed caller argv",
+      "child status",
+      "x87 control word",
+      "CRT errno",
+      "CRT DOS error",
+      "Win32 LastError",
+      "code page",
+      "ctype table",
+      "CRT environment",
+      "OS environment",
+      "FILE state",
+      "Win32 standard handle",
+      "live argv pointer identity",
+      "pass environment",
+      "response bytes",
+      "object bytes",
+      "output bytes",
+      "executable identity",
+      "adjacent CRT provider input",
+      "adjacent PDB provider input",
+      "unlink filename",
+      "unlink result",
+      "child family marker",
+      "full exit status",
+      "unexpected stderr",
+      "unknown extra invocation"
+    ]
+  }
+}

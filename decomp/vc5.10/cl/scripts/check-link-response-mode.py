@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline checks for masked LINK observation, owned paths and acceptance hold."""
+"""Offline checks for masked LINK observation, owned paths and strict response selection."""
 import copy
 import ctypes
 import hashlib
@@ -32,7 +32,9 @@ marker=b'CL_LINK_RESPONSE_V1\n'
 capture={'baseline':False,'dependency_analysis':False,'dependency_complete':False,'dependency_response':False,
     'link_response':True,'controller_error':None,'helper_status':0,'case':'link-object',
     'files':{'dependency-observer.txt':{'bytes':len(marker),'sha256':hashlib.sha256(marker).hexdigest()}},'command':['helper','1','out']}
-denied('valid observation cannot bypass missing comparator/provider',lambda:reconstruction_capture(capture))
+reconstruction_capture(capture)
+# Mode guards alone give no acceptance: observation still requires complete
+# raw child and independent native state decoding.
 for name,change in [('wrong marker',lambda c:c['files']['dependency-observer.txt'].update(sha256='0'*64)),
                     ('unmasked helper',lambda c:c.update(command=['helper','0','out'])),
                     ('wrong child family',lambda c:c.update(case='minimal-c'))]:

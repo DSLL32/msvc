@@ -43,6 +43,9 @@ def decode(directory):
     for item in case['inputs']:assert capture['files'][item['name']]=={k:item[k]for k in ('bytes','sha256')}
     dependency=verify_dependencies(directory);assert len(dependency['files'])==1 and dependency['files'][0]['name']=='LINK.EXE'
     linker_sha=dependency['files'][0]['sha256'];assert digest(read('LINK.EXE'))==digest(read('observer/spawn-executable.bin'))==linker_sha
+    assert digest(read('MSVCRT.DLL'))==CRT_SHA
+    assert digest(read('MSPDB50.DLL'))==digest(read('loaded-mspdb50.bin'))=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
+
     events=read('observer/events.txt').decode('ascii');target_events=read('events.txt').decode('ascii')
     assert re.findall(r'^snapshot phase=(\S+)',events,re.M)==list(PHASES),'unexpected full-snapshot inventory'
     assert re.findall(r'^exit .*status=(\d+)$',target_events,re.M)==['0']
@@ -58,6 +61,7 @@ def decode(directory):
         assert (item['fmode'],item['commode'],item['mb_cur_max'],item['mb_codepage'],item['lc_codepage'],item['lc_handles'],item['x87_control_word'])==(0,0,1,0,0,[0]*6,639)
         assert item['pass_address']==0x4090a8+4*36 and item['pass_words'][2:]==[0,0x2f43,11,0,0,0,0]
         assert item['pass_environment']is None
+        lowio=read('observer/'+phase+'-lowio-0.bin');assert [lowio[index*36+4]for index in range(3)]==[0xc1,0x81,0x81]
         execution=struct.unpack('<5I',read('observer/'+phase+'-execution-words.bin'))
         assert execution==(0,item['pass_address'],0 if phase=='exit-before'else 1,0x4095d8,item['pass_address'])
         for field in ('cwd','image','command','pctype_address','mb_state_sha256','ctype_sha256','crt_environment_count','crt_environment_sha256','os_environment_sha256','file0_2_words','streams','open_descriptors'):
@@ -103,15 +107,16 @@ def decode(directory):
     assert all(state==errors['spawn-after']for state in unlink_errors.values())
     assert re.findall(r'^exit-call status=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)==[('0','%08x'%(provider.base+exports(provider)['exit']['rva']),'%08x'%u32(contexts['exit-before'],196))]
     assert u32(read('observer/exit-before-stack.bin'),0)==0
+    assert before['cwd'].startswith('S:\\vc5.10\\cl\\') and all(part not in ('','.','..')for part in before['cwd'][3:].rstrip('\\').split('\\'))
     env_address,env=vector(read('observer/spawn-before-crt-environment.bin'))
     os_block=read('observer/spawn-before-os-environment.bin');assert os_block.endswith(b'\0\0\0\0')
     os_strings=os_block.decode('utf-16le')[:-2].split('\0');crt_strings=[text.decode('ascii')for pointer,text in env]
     assert crt_strings==os_strings,'this case requires exact matching CRT/OS contents and order'
     trace=read('trace.txt').decode('ascii').splitlines();assert len(trace)==len(set(trace)) and 'write_link_message'in trace
     return {'kind':'fresh masked LINK-only external response; acceptance still held','case':'link-object',
-        'capture':{'path':str(directory/'capture.json'),'sha256':digest((directory/'capture.json').read_bytes())},
+        'capture':{'path':str(Path('/root/.ai-tmp/msvc2').joinpath(*before['cwd'][3:].rstrip('\\').split('\\'))/'capture.json'),'sha256':digest((directory/'capture.json').read_bytes())},
         'config_sha256':capture['config_sha256'],'mask_sha256':capture['original_mask_sha256'],
-        'child':{'mode':mode,'path':before['argv'][0],'argv':before['argv'],'cwd':before['cwd'],'environment_source':'target-os','environment':os_strings,'linker_sha256':linker_sha,
+        'child':{'mode':mode,'path':before['argv'][0],'argv':before['argv'],'cwd':before['cwd'],'environment_source':'target-os','environment':os_strings,'linker_sha256':linker_sha,'provider_inputs':{name:capture['files'][name]for name in ('MSVCRT.DLL','MSPDB50.DLL')},
             'inputs':{name:capture['files']['observer/link-input/'+name]for name in ('test.obj',response_name)},'status':0,'stdout_hex':'','stderr_hex':'','output':{'name':'test.exe',**capture['files']['test.exe']}},
         'parent':{'phases':phases,'CRT_environment':crt_strings,'OS_environment_hex':os_block.hex(),'unlink_calls':1,'unlink_errors':unlink_errors,'status':0,'trace':trace}}
 

@@ -21,6 +21,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1/pair.json",
         "sha256": "b6ec611e9e3e81641189ad7c2ee94be3a10d6f8efe9e7d0409282de441110f95"
       }
+    },
+    {
+      "order": 3,
+      "candidate": "_write_link_message",
+      "class": "application",
+      "extent_bytes": 76,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-native-3/pair.json",
+        "sha256": "136d78d18ec1b5a1c9e90fbb6b64fd177227530ac346727537da17f8980cbfdd"
+      }
     }
   ]
 }

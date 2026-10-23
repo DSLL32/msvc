@@ -5,7 +5,7 @@ RECON = ../../../lib/recon
 NATIVE_CC ?= clang
 LLVM_DLLTOOL ?= llvm-dlltool
 # Freeze the shared release actually compiled, independently of concurrent WIP.
-RECON_SHARED_REVISION ?= 094d818f
+RECON_SHARED_REVISION ?= 51d053557
 export RECON_SHARED_REVISION
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TEST -DRECON_NATIVE_ENTRY_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -I$(RECON)/include -I$(RECON)/native
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
@@ -34,10 +34,10 @@ build/native/%.o: src/%.c $(SOURCE_HEADERS) $(NATIVE_RELEASE) Makefile scripts/n
 	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) -c $< -o $@
 build/native-trace/%.o: src/%.c $(SOURCE_HEADERS) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py | build/native-trace
 	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-build/native/CL.EXE: $(addprefix build/native/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c
-	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c $(NATIVE_SHIMS) -Wl,--wrap=main -o $@
-build/native-trace/CL.EXE: $(addprefix build/native-trace/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c
-	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main -o $@
+build/native/CL.EXE: $(addprefix build/native/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c scripts/link-host.c
+	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c scripts/link-host.c $(NATIVE_SHIMS) -Wl,--wrap=main -o $@
+build/native-trace/CL.EXE: $(addprefix build/native-trace/,$(addsuffix .o,$(NAMES))) $(NATIVE_RELEASE) Makefile scripts/native-build.py scripts/build_inputs.py scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c scripts/link-host.c
+	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c scripts/link-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main -o $@
 build/%.obj: src/%.c $(ORIGINAL_HEADERS) Makefile | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /MD /I$(RECON)/include /Fobuild/$*.obj $<
 build/resources.bin: src/messages.rc $(RESOURCE_PROOFS) scripts/resources.py ../../../lib/recon/resources.py | build

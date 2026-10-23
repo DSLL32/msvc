@@ -58,6 +58,8 @@ with tempfile.TemporaryDirectory(prefix='link-response-controls-',dir='/root/.ai
     mutation('object bytes',{'observer/link-input/test.obj':xor(0)})
     mutation('output bytes',{'observer/link-output/test.exe':xor(64)})
     mutation('executable identity',{'observer/spawn-executable.bin':xor(64)})
+    mutation('adjacent CRT provider input',{'MSVCRT.DLL':xor(64)})
+    mutation('adjacent PDB provider input',{'MSPDB50.DLL':xor(64)})
     mutation('unlink filename',{'observer/unlink-1-before-filename.bin':xor(2)})
     mutation('unlink result',{'observer/events.txt':replace(b'unlink-return sequence=1 result=00000000',b'unlink-return sequence=1 result=00000001')})
     mutation('child family marker',{'observer/events.txt':replace(b'observed-child family=link',b'observed-child family=c2xx')})

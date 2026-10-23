@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 98 accepted application functions /17,092 original extent bytes
-(89.67% of whole `.text`); the non-CRT
+There are now 99 accepted application functions /17,168 original extent bytes
+(90.06% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -68,10 +68,18 @@ help at status 0. Its fixture takes 31 ms, with 8 ms execution.
 
 An existing-object LINK case has accepted the linker-command builder and
 response-file writer, with matching named frontiers and actual driver inputs.
-Its required original child observation produces a 1,024-byte executable from
-the owned 275-byte object and 82-byte response file. Native child replay and
-the final 76-byte output helper remain held for a dedicated CP0 contract; this
-is not a completed fixture. See `cases/link-object/progress.json`.
+The completed case produces the exact 1,024-byte executable from the owned
+275-byte object and 82-byte response file. Its final 76-byte output helper is
+accepted with the qualified cached `_write` imports and actual FILE argument.
+The Linux-only child provider verifies the full command, ordered OS namespace,
+LINK/CRT/PDB identities and complete inputs before applying the captured result.
+Read-only GDB proves CP0/tables, environment and FILE/stdhandle identities stay
+unchanged, with errors 0/2/0 becoming 0/0/0 through one actual unlink and exit.
+Forty-nine native state/effect controls pass. The fixture takes 532 ms including
+setup/checks and 16.1 ms in the executable; all ten cached cases take 2.78 seconds.
+Shared revision `51d053557` supplies the narrow CP0 RSP2 profile. New proof is
+ordinary files and path/hash references under `cases/link-object/completion/`;
+earlier prefixes, raw failures and archives remain unchanged.
 
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,
@@ -110,7 +118,7 @@ the original RC and prepared for native use from the same payloads.
 
 `make -j4 native native-trace` builds Linux binaries. `original` explicitly uses
 Wine; `audit` is separate. `check` tests masking, current named traps, acceptance
-negatives and grammar controls. `fixtures` runs the completed help case directly on Linux with cached references,
+negatives and grammar controls. `fixtures` runs all ten completed cases directly on Linux with cached references,
 shared PID-owned status/API receipts, and no Windows child or Wine. Native-only corrections explicitly reuse unchanged original captures;
 failed captures and old decoder/build receipts remain intact. Earlier groundwork
 below is historical; accepted references use the shipped canonical MSVCRT.

@@ -32,7 +32,6 @@ def capture(original,directory):
     (directory/'status_reader.py').write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/status.py'],cwd=ROOT))
     argv=vector(original/'argv.bin')[1]
     receipt=json.loads((original/'capture.json').read_text())
-    assert not receipt.get('link_response'), 'LINK-only native provider is not implemented; no child execution is allowed'
     case=load_case(receipt['case'])
     assert receipt['arguments']==case['arguments']==argv[1:]
     if case['inputs']:
@@ -89,6 +88,15 @@ def capture(original,directory):
         env.update(provider.environment())
         for name in ('dependency_provider.py','dependency_response.py','dependency_native.py','dependency_wire.py'):
             shutil.copyfile(PROJECT/'scripts'/name,directory/name)
+    if receipt.get('link_response'):
+        assert provider is None,'ambiguous CL dependency provider'
+        from link_provider import Provider
+        spawn_reader=directory/'spawn_reader.py'
+        spawn_reader.write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/spawn.py'],cwd=ROOT))
+        provider=Provider(original,directory,spawn_reader)
+        env.update(provider.environment())
+        for name in ('link_provider.py','link_response.py','link_state.py','gdb_link.py'):
+            shutil.copyfile(PROJECT/'scripts'/name,directory/name)
     temporary=None
     if (original/'mktemp-before.bin').exists():
         from mktemp_state import original as temporary_state
@@ -113,6 +121,8 @@ def capture(original,directory):
     (directory/'gdb-entry.py').write_text('import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_entry import capture\ncapture('+repr(str(directory))+')\nfrom gdb_mktemp import install\ninstall('+repr(str(directory))+')\nfrom gdb_unlink import install\ninstall('+repr(str(directory))+')\nfrom gdb_exit import install\ninstall('+repr(str(directory))+')\n')
     if(directory/'pass-state-observer.txt').exists():
         with(directory/'gdb-entry.py').open('a')as script:script.write('from gdb_pass import install\ninstall('+repr(str(directory))+')\n')
+    if receipt.get('link_response'):
+        with(directory/'gdb-entry.py').open('a')as script:script.write('from gdb_link import install\ninstall('+repr(str(directory))+')\n')
     # argv[0] is supplied as captured Win32 data while the executable is ELF.
     commands=['/usr/bin/gdb','-q','-nx','-batch','-ex','set pagination off',
         '-ex','set exec-wrapper /usr/bin/env',
@@ -137,6 +147,7 @@ def capture(original,directory):
     wrapper.write_text('#!/usr/bin/python3\nimport os,sys\nfd=os.open('+repr(str(directory/'trace.txt'))+',os.O_CREAT|os.O_TRUNC|os.O_WRONLY,0o600)\nos.set_inheritable(fd,True)\nos.environ["RECON_TRACE_FD"]=str(fd)\n'+status+receipt+'os.execv(sys.argv[1],'+repr(argv)+')\n')
     wrapper.chmod(0o755)
     commands[commands.index('set exec-wrapper /usr/bin/env')]='set exec-wrapper '+str(wrapper)
+    if (directory/'link-response.json').exists():provider.arm()
     started=time.perf_counter()
     result=subprocess.run(commands,env=env,cwd=directory,capture_output=True,stdin=subprocess.DEVNULL,timeout=25,
         pass_fds=provider.descriptors()if provider is not None else())

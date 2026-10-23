@@ -28,6 +28,7 @@ static void __attribute__((constructor)) configure_module(void)
  * optional host main is disabled for this target. */
 extern int __real_main(int, char **, char **);
 extern char **cl_dependency_bind_entry(int, char **, char **);
+extern char **link_bind_entry(int, char **, char **);
 int __wrap_main(int argc, char **argv, char **envp)
 {
     int result;
@@ -81,6 +82,7 @@ int __wrap_main(int argc, char **argv, char **envp)
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);
+    envp = link_bind_entry(argc, argv, envp);
     errno = 0;
     recon_doserrno = 0;
     recon_SetLastError(entry_error);

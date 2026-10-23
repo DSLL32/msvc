@@ -110,7 +110,8 @@
     "_option_conflict",
     "_copy_option",
     "_link_pass",
-    "_write_link_response"
+    "_write_link_response",
+    "_write_link_message"
   ],
   "driver": [
     {
