@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_prepare_virtual_group_tables@12",
+    "start": 495344,
+    "end": 495463
+  },
+  "distinct_direct_callees": [
+    "_prepare_inherited_virtual_table@12"
+  ],
+  "next_frontier": "_prepare_inherited_virtual_table@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3617300158366561,
+  "total_operation_seconds": 6.94543472584337,
+  "original_capture_seconds": 4.326567376963794
+}

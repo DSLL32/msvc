@@ -964,3 +964,169 @@ unsigned virtual_base_entry_width(void)
 {
     return builtin_integer_type()->flags & 15;
 }
+
+void __stdcall merge_virtual_table_groups(Vector *destination, Vector *source,
+    CppSymbol *tag, BaseClassLink *base);
+VirtualTable *__stdcall copy_virtual_table(VirtualTable *table, int extra);
+void __stdcall prepare_inherited_virtual_table(VirtualTable *table,
+    BaseClassLink *base, VirtualTable *original);
+void __stdcall shift_inherited_virtual_table(VirtualTable *table,
+    BaseClassLink *base, unsigned displacement);
+VirtualTableGroup *__stdcall build_virtual_base_group(BaseClassLink *base,
+    CppSymbol *tag, int arena);
+void __stdcall merge_virtual_base_group(Vector *groups, VirtualTableGroup *group,
+    CppSymbol *tag, BaseClassLink *base);
+
+/* Original 0x79e40..0x79f1a. Propagate each direct base's virtual-base
+   groups first. Nonvirtual bases contribute independent copies of both table
+   families; a virtual base contributes a new group at the derived scope. */
+void __stdcall complete_direct_base_layout(BaseClassLink *base, CppSymbol *tag)
+{
+    CppSymbol *base_tag = cpp_context_stack->items[base->context_index];
+    Vector *tables, *destination;
+    VirtualTable *original, *table;
+    VirtualTableGroup *group;
+    int family;
+    short index;
+
+    merge_virtual_table_groups(tag->detail.class_info->virtual_table_groups,
+        base_tag->detail.class_info->virtual_table_groups, tag, base);
+    if (!(base->state & 1)) {
+        for (family = 0; family < 2; ++family) {
+            tables = family ? base_tag->detail.class_info->virtual_base_tables :
+                base_tag->detail.class_info->virtual_tables;
+            index = 0;
+            while (index < tables->count) {
+                original = tables->items[index++];
+                table = copy_virtual_table(original, 0);
+                prepare_inherited_virtual_table(table, base, original);
+                shift_inherited_virtual_table(table, base, base->displacement);
+                destination = family ? tag->detail.class_info->virtual_base_tables :
+                    tag->detail.class_info->virtual_tables;
+                append_vector(destination, table);
+            }
+        }
+    } else {
+        group = build_virtual_base_group(base, tag, 2);
+        merge_virtual_base_group(tag->detail.class_info->virtual_table_groups,
+            group, tag, base);
+    }
+}
+
+VirtualTableGroup *__stdcall copy_inherited_virtual_group(VirtualTableGroup *group,
+    BaseClassLink *base, int arena);
+
+/* Original 0x7a030..0x7a089. Preserve source order while making an
+   inherited group for every virtual base already represented by this base. */
+void __stdcall merge_virtual_table_groups(Vector *destination, Vector *source,
+    CppSymbol *tag, BaseClassLink *base)
+{
+    short index = 0;
+    VirtualTableGroup *group;
+    while (index < source->count) {
+        group = copy_inherited_virtual_group(source->items[index++], base, 2);
+        merge_virtual_base_group(destination, group, tag, base);
+    }
+}
+
+void __stdcall prepare_virtual_group_tables(Vector *destination, Vector *source,
+    BaseClassLink *base);
+void *__stdcall copy_virtual_table_element(void *item, int arena);
+
+/* Original 0x78e30..0x78eee. The tag argument occupies its original stack
+   slot but is unused. Only the tag, low flags byte and two table vectors are
+   initialized here; the remaining group fields are filled by later passes. */
+VirtualTableGroup *__stdcall build_virtual_base_group(BaseClassLink *base,
+    CppSymbol *tag, int arena)
+{
+    VirtualTableGroup *group;
+    ArenaPool *pool;
+    CppSymbol *base_tag;
+    Vector *source, *destination;
+    int index = arena, family;
+    if (!arena) group = allocate_permanent(sizeof(VirtualTableGroup));
+    else {
+        if (index == -1) index = 0;
+        pool = &compiler_arena.pools[index];
+        if (pool->remaining < (int)sizeof(VirtualTableGroup))
+            refill_arena(&compiler_arena, pool);
+        group = (VirtualTableGroup *)pool->next;
+        pool->remaining -= sizeof(VirtualTableGroup);
+        pool->next += sizeof(VirtualTableGroup);
+    }
+    group->tag = cpp_context_stack->items[base->context_index];
+    group->flags = 3;
+    for (family = 0; family < 2; ++family) {
+        base_tag = cpp_context_stack->items[base->context_index];
+        source = family ? base_tag->detail.class_info->virtual_base_tables :
+            base_tag->detail.class_info->virtual_tables;
+        destination = copy_vector_elements(source, arena, copy_virtual_table_element);
+        if (family) group->base_tables = destination;
+        else group->tables = destination;
+        base_tag = cpp_context_stack->items[base->context_index];
+        source = family ? base_tag->detail.class_info->virtual_base_tables :
+            base_tag->detail.class_info->virtual_tables;
+        prepare_virtual_group_tables(destination, source, base);
+    }
+    return group;
+}
+
+/* Original 0x78ab0..0x78b1b. Virtual-base group copies distinguish
+   inherited dispatch/base tables by kinds 2/3. The callback arena is unused. */
+void *__stdcall copy_virtual_table_element(void *item, int arena)
+{
+    VirtualTable *table = copy_virtual_table(item, 0);
+    int index;
+    if (table->kind == 0) {
+        table->kind = 2;
+        for (index = 0; index < table->entry_count; ++index)
+            table->entries[index].dispatch.flags |= 1;
+    } else if (table->kind == 1)
+        table->kind = 3;
+    return table;
+}
+
+Vector *__stdcall copy_vector_with_spare(Vector *vector, int arena);
+
+/* Original 0x789d0..0x78a31. Clone the complete table into zeroed heap
+   storage and leave one spare owner slot. Entries reserve full capacity but
+   only used entries are copied. The second stack argument is unused. */
+VirtualTable *__stdcall copy_virtual_table(VirtualTable *table, int extra)
+{
+    VirtualTable *copy = allocate_zeroed(sizeof(VirtualTable));
+    unsigned bytes, index;
+    *copy = *table;
+    copy->shared_owners = copy_vector_with_spare(table->shared_owners, 0);
+    if (copy->entry_count > 0) {
+        copy->entries = allocate_zeroed(virtual_entry_capacity_bytes(table));
+        bytes = virtual_entry_used_bytes(table);
+        for (index = 0; index < bytes; ++index)
+            ((unsigned char *)copy->entries)[index] = ((unsigned char *)table->entries)[index];
+    }
+    return copy;
+}
+
+/* Original 0x78ef0..0x78f66. Walk the copied and source vectors in
+   lockstep, stopping at the end of either signed-short iterator. */
+void __stdcall prepare_virtual_group_tables(Vector *destination, Vector *source,
+    BaseClassLink *base)
+{
+    short destination_index = 0, source_index = 0;
+    VirtualTable *table, *original;
+    while (destination_index < destination->count) {
+        table = destination->items[destination_index++];
+        if (source_index >= source->count) return;
+        original = source->items[source_index++];
+        prepare_inherited_virtual_table(table, base, original);
+    }
+}
+
+/* Original 0x79f20..0x79f45. Retain the direct path and source table
+   separately: later override/offset passes use both identities. */
+void __stdcall prepare_inherited_virtual_table(VirtualTable *table,
+    BaseClassLink *base, VirtualTable *original)
+{
+    table->unshared_owner = cpp_context_stack->items[base->context_index];
+    table->inheritance_path = base;
+    table->source_table = original;
+}

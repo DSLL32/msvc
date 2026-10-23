@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.2308271834626794,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-build-virtual-base-group-reviewed-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 4.7857750952243805,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-build-virtual-base-group-reviewed-canonical.log"
+  }
+]

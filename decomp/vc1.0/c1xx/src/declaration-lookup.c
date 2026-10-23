@@ -910,7 +910,7 @@ int __stdcall next_virtual_base_search(VirtualBaseSearch *search)
 {
     if (search->active && search->index < search->groups->count) {
         search->group = search->groups->items[search->index++];
-        search->tag = (CppSymbol *)search->group->field00;
+        search->tag = search->group->tag;
         search->field14 = search->group->field04;
         return 1;
     }

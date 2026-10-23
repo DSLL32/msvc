@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 706,
+  "accepted": "_prepare_virtual_group_tables@12",
+  "terminal": "_prepare_inherited_virtual_table@12",
+  "original_capture": "cases/virtual-diamond-frontiers/0706-prepare_virtual_group_tables-12/original-receipt.json",
+  "original_capture_sha256": "0f8eab2c244d65012225d86accb1521a19dc405a4cb4f8775a8d492b48decda0",
+  "original_events": "cases/virtual-diamond-frontiers/0706-prepare_virtual_group_tables-12/original-events.txt",
+  "original_events_sha256": "29d46a073a8d78e275a8b9d81c33de528e7c6ffa44e57d6c12409f2985978875",
+  "original_configuration": "cases/virtual-diamond-frontiers/0706-prepare_virtual_group_tables-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -399,7 +399,6 @@ CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 void __stdcall inherit_virtual_pointer_layout(CppSymbol *tag, CppSymbol *base, unsigned displacement, int unused) { __asm { int 3 } }
 
-void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject, SpecialMemberState *states, int model) { __asm { int 3 } }
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
 
 
@@ -422,7 +421,6 @@ short __stdcall format_function_parameters(short text, FunctionParameters *param
 
 
 
-void __stdcall complete_direct_base_layout(BaseClassLink *base, CppSymbol *tag) { __asm { int 3 } }
 
 int __stdcall find_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag) { __asm { int 3 } return 0; }
 void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag) { __asm { int 3 } }
@@ -668,3 +666,6 @@ int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
+void __stdcall shift_inherited_virtual_table(VirtualTable *table, BaseClassLink *base, unsigned displacement) { __asm { int 3 } }
+void __stdcall merge_virtual_base_group(Vector *groups, VirtualTableGroup *group, CppSymbol *tag, BaseClassLink *base) { __asm { int 3 } }
+VirtualTableGroup *__stdcall copy_inherited_virtual_group(VirtualTableGroup *group, BaseClassLink *base, int arena) { __asm { int 3 } return 0; }

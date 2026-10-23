@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.842415350489318,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/inherited-table-copy-checkpoint.log",
+  "raw_log_sha256": "5a34d2defa4b2bb41c5a988b000469ea82e7796394f854a3860802d8e90e805d",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture timings separate"
+}

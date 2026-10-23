@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.2304243156686425,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-copy-virtual-table-element-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.828844174742699,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-copy-virtual-table-element-canonical.log"
+  }
+]

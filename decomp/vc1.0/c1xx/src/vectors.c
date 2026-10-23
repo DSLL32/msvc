@@ -172,3 +172,10 @@ Vector *__stdcall copy_vector_with_extra(Vector *vector, short extra, int arena)
     }
     return copy;
 }
+
+/* Original 0x4ea20..0x4ea33. Table-owner lists reserve one additional
+   pointer slot through the shared three-argument vector factory. */
+Vector *__stdcall copy_vector_with_spare(Vector *vector, int arena)
+{
+    return copy_vector_with_extra(vector, 1, arena);
+}

@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 698 accepted frontiers, including 606 frontend
+PARTIAL binary reconstruction: 708 accepted frontiers, including 616 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1554,3 +1554,26 @@ data/defaults/callback identities, both grammars, both cached native cases and
 Accepted extent union208177/476418bytes is43.696292%, not branch coverage.
 virtual_diamond has created Left's vbptr and initial vbtable, and is incomplete
 at merge_subobject_special_members0x36ee0 while inheriting special-member traits.
+
+Inherited table-copy checkpoint:708 accepted frontiers,623 source functions.
+Ten whole functions beyond bab3ed2 merge inherited special-member eligibility,
+copy both virtual table families, create virtual-base groups and retain the
+source table/direct path separately. The copy callback changes table kinds0/1
+to2/3 and marks each inherited dispatch entry; its unused arena slot remains
+part of the original two-argument ABI. Temporary copies reserve full entry
+capacity and a spare owner slot while copying only used entries.
+
+VirtualTableGroup stores its class pointer at+0 and initializes only the flag
+byte at+28; the suffix padding is preserved. VirtualTable stores its direct
+BaseClassLink path at+40 and source table at+44. Both original and native
+builds check these layouts explicitly. Unreached merge/offset callees remain
+named trapping stubs.
+
+Every0698through0707 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible files. Completed cpp_basic
+remains raw byte-exact. Full623-function graph, contextual data/defaults/callback
+identities, both grammars, both cached native cases and25negative checks pass.
+Combined measured wall:4.842415seconds.
+
+Accepted extent union209366/476418bytes is43.945863%, not branch coverage.
+virtual_diamond remains incomplete at merge_virtual_base_group0x7a090.

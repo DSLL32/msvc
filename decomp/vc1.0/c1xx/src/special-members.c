@@ -580,3 +580,54 @@ void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor,
         break;
     }
 }
+
+void __stdcall merge_subobject_special_member(CppSymbol *tag, CppSymbol *subobject,
+    SpecialMemberState *states, int kind, int model);
+
+/* Original 0x36ee0..0x36f24. Trivial inherited members contribute no
+   generation requirements; merge each of the four remaining kinds separately. */
+void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject,
+    SpecialMemberState *states, int model)
+{
+    int kind;
+    for (kind = 0; kind < 4; ++kind)
+        if (!(subobject->detail.class_info->trivial_special_members & (1U << kind)))
+            merge_subobject_special_member(tag, subobject, states, kind, model);
+}
+
+/* Original 0x36f30..0x3701c. A missing, private or ambiguous inherited
+   member prevents synthesis. The qualifier byte combines intersection of
+   the const capability with union of the volatile requirement. */
+void __stdcall merge_subobject_special_member(CppSymbol *tag, CppSymbol *subobject,
+    SpecialMemberState *states, int kind, int model)
+{
+    SpecialMemberState *state = &states[kind];
+    unsigned bit = 1U << ((unsigned)kind & 31);
+    unsigned char qualifiers;
+
+    state->fields.nontrivial = 1;
+    while (model < 1 &&
+        !(CLASS_SPECIAL_BYTE(subobject->detail.class_info, available, model) & bit))
+        ++model;
+    if (model < 1 &&
+        (CLASS_SPECIAL_BYTE(subobject->detail.class_info, nonprivate, model) & bit) &&
+        !(CLASS_SPECIAL_BYTE(subobject->detail.class_info, ambiguous, model) & bit)) {
+        if (kind == 1)
+            qualifiers = CLASS_SPECIAL_BYTE(subobject->detail.class_info, qualifiers, model) & 3;
+        else if (kind == 2)
+            qualifiers = (CLASS_SPECIAL_BYTE(subobject->detail.class_info, qualifiers, model) & 12) >> 2;
+        else
+            qualifiers = 1;
+        state->fields.qualifiers &= qualifiers;
+        state->fields.qualifiers &= 1;
+        if (kind == 1)
+            qualifiers = CLASS_SPECIAL_BYTE(subobject->detail.class_info, qualifiers, model) & 3;
+        else if (kind == 2)
+            qualifiers = (CLASS_SPECIAL_BYTE(subobject->detail.class_info, qualifiers, model) & 12) >> 2;
+        else
+            qualifiers = 1;
+        state->fields.qualifiers |= qualifiers & 2;
+        return;
+    }
+    state->fields.can_generate = 0;
+}

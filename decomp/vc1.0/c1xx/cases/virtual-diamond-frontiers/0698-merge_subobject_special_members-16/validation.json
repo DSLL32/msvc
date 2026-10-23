@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_merge_subobject_special_members@16",
+    "start": 224992,
+    "end": 225061
+  },
+  "distinct_direct_callees": [
+    "_merge_subobject_special_member@20"
+  ],
+  "next_frontier": "_merge_subobject_special_member@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.322053549811244,
+  "total_operation_seconds": 7.237283261492848,
+  "original_capture_seconds": 4.727425983175635
+}

@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_copy_virtual_table@8",
+    "start": 494032,
+    "end": 494130
+  },
+  "distinct_direct_callees": [
+    "_allocate_zeroed@4",
+    "_copy_vector_with_spare@8",
+    "_virtual_entry_capacity_bytes@4",
+    "_virtual_entry_used_bytes@4"
+  ],
+  "next_frontier": "_copy_vector_with_spare@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.32556277140975,
+  "total_operation_seconds": 6.6893894001841545,
+  "original_capture_seconds": 4.124877959489822
+}

@@ -1,14 +1,14 @@
 {
   "status": "virtual_diamond reconstruction in progress",
-  "accepted_frontiers": 698,
-  "driver_functions": 606,
+  "accepted_frontiers": 708,
+  "driver_functions": 616,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 613,
-  "current_frontier": "_merge_subobject_special_members@16",
-  "original_frontier_va": "0x36ee0",
+  "reconstructed_source_functions": 623,
+  "current_frontier": "_merge_virtual_base_group@16",
+  "original_frontier_va": "0x7a090",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 613,
+  "call_graph_audit_functions": 623,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -676,9 +676,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 177735,
+    "bytes": 209366,
     "total_original_executable_bytes": 476418,
-    "percent": 37.30652494238253,
+    "percent": 43.945862666817796,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -1139,8 +1139,8 @@
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_merge_subobject_special_members@16",
-    "original_va": "0x36ee0"
+    "current_frontier": "_merge_virtual_base_group@16",
+    "original_va": "0x7a090"
   },
   "source_layout": {
     "source": "src",
@@ -1166,8 +1166,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 54,
-  "latest_verification": "cases/virtual-diamond-frontiers/0697-virtual_base_entry_width/validation.json",
+  "current_native_application_entries": 64,
+  "latest_verification": "cases/virtual-diamond-frontiers/0707-prepare_inherited_virtual_table-12/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1176,12 +1176,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 208177,
+    "accepted_code_bytes": 209366,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 43.69629191172458,
-    "accepted_frontiers": 698,
-    "source_functions": 613,
-    "accepted_source_text_and_switch_bytes": 196666,
+    "accepted_code_percent": 43.945862666817796,
+    "accepted_frontiers": 708,
+    "source_functions": 623,
+    "accepted_source_text_and_switch_bytes": 197855,
     "section_ranges": [
       [
         94208,
@@ -1190,12 +1190,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 208177,
+    "accepted_code_bytes": 209366,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 43.69629191172458,
-    "accepted_frontiers": 698,
-    "source_functions": 613,
-    "accepted_source_text_and_switch_bytes": 196666,
+    "accepted_code_percent": 43.945862666817796,
+    "accepted_frontiers": 708,
+    "source_functions": 623,
+    "accepted_source_text_and_switch_bytes": 197855,
     "section_ranges": [
       [
         94208,
@@ -1203,9 +1203,9 @@
       ]
     ]
   },
-  "static_checkpoint": "translation finalization and function directory:544 graph functions, data/defaults, both grammars, native entry/output and12boundary/evidence rejections pass",
+  "static_checkpoint": "623 source functions: canonical graph, contextual data/defaults/callbacks, both grammars, both native cases and25 evidence rejections pass",
   "latest_checkpoint_checks": "evidence/translation-finalization-checkpoint.json",
-  "latest_checkpoint": "evidence/virtual-base-table-checkpoint.json",
+  "latest_checkpoint": "evidence/inherited-table-copy-checkpoint.json",
   "complete_frontend_case": false,
   "active_case": "virtual_diamond",
   "cases": {
@@ -1215,8 +1215,8 @@
     },
     "virtual_diamond": {
       "status": "partial",
-      "frontier": "_merge_subobject_special_members@16",
-      "latest_verification": "cases/virtual-diamond-frontiers/0697-virtual_base_entry_width/validation.json"
+      "frontier": "_merge_virtual_base_group@16",
+      "latest_verification": "cases/virtual-diamond-frontiers/0707-prepare_inherited_virtual_table-12/validation.json"
     }
   }
 }
