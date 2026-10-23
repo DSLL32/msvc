@@ -119,3 +119,13 @@ Node *__fastcall clone_node(Node *node)
     *copy = *node;
     return copy;
 }
+
+/* Original [0004fc70,0004fca1). Release operands while retaining the
+   owning node for an in-place replacement. Left precedes right here. */
+void __fastcall release_node_children(Node *node)
+{
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        release_tree(node->left.node);
+        if (node_shapes[node->opcode] & NODE_HAS_SECOND) release_tree(node->second.node);
+    }
+}

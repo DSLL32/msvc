@@ -1,0 +1,26 @@
+{
+  "label": "loops-original-888",
+  "profile": "loops",
+  "accepted": 888,
+  "events": "exception 80000003 rva 00050ef0 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "0e71d705e492d14ca15615f053c3ce1b039eb3a0e120d834a429c96647519ede",
+  "config_sha256": "623549ceb2552ca0c090a8315849fa97556a41fafe53b234d91821dc017c0410",
+  "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+  "inputs": {
+    "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+    "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+    "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+    "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-ua4bty6f",
+  "logical": "@rewrite_region_exit_counter@4",
+  "original_va": "0x60ef0",
+  "setup_seconds": 0.26475371699780226,
+  "execution_seconds": 1.1596288811415434,
+  "check_seconds": 0.006329137831926346,
+  "total_seconds": 1.430712386034429
+}

@@ -509,8 +509,8 @@ void collect_derived_region_inductions(void)
         release_tree(group->representative);
     }
     for (rewrite = derived_induction_rewrites; rewrite; rewrite = rewrite->next) {
-        release_tree(rewrite->field04);
-        release_tree(rewrite->field08);
+        release_tree(rewrite->value);
+        release_tree(rewrite->temporary_load);
     }
 }
 
@@ -1231,4 +1231,176 @@ int __fastcall derived_induction_is_profitable(Node *node)
         if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return 1;
         node = node->second.node;
     }
+}
+
+LoopTreeRecord *__fastcall find_reusable_induction_counter(DerivedInduction *candidate, Node **step);
+void __fastcall save_region_counter(Node *address, Node *step, Node *assignment);
+void __fastcall record_current_region_effect(Node *node);
+unsigned __fastcall derived_increment_opcode(unsigned opcode, int negative);
+WorkItem *__fastcall find_region_assignment_work(WorkItem *head, Node *assignment);
+/* Original [0005feb0,00060379). Materialize a derived representative,
+   maintain its induction update and replace every recorded use. A single use
+   may reuse an enclosing loop counter; other groups share computed increments. */
+void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative)
+{
+    BasicInduction *basic = candidates->basic, *derived_basic;
+    LoopTreeRecord *reuse = 0;
+    DerivedInductionRewrite *rewrite;
+    DerivedInductionUse *use;
+    WorkValue *memory;
+    WorkItem *update_work;
+    Node *reuse_step, *address, *increment_address, *load, *store, *increment, *increment_store;
+    Node *factor, *difference, *replacement, *copy;
+    unsigned operation;
+    int identifier, memory_identifier;
+    if (candidates->uses == 1) reuse = find_reusable_induction_counter(candidates, &reuse_step);
+    if (reuse) address = candidates->parent->left.node;
+    else address = new_temporary_reference(((representative->attributes.words.type & 255) + 1) & ~1U, 0);
+    load = build_tree("DNTS", address, 0x30, representative);
+    memory = intern_work_value(load);
+    load->detail.node = memory->canonical;
+    store = build_tree("DDNTS", address, representative, 0x32, representative);
+    store->detail.node = load->detail.node;
+    insert_tree_expression(transformation_cursor.expression, 0, store);
+    record_hoisted_work_effect(store);
+    identifier = load->info.words.identifier;
+    hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT] =
+        bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT], identifier);
+    hoist_header_work->flow_sets[WORK_MEMORY_READS] =
+        bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_READS], identifier);
+    if (reuse) {
+        if (hoist_current_region->parent && region_trip_count)
+            save_region_counter(reuse->address, reuse_step, reuse->assignment);
+        --basic->total_uses;
+        release_tree(candidates->parent->second.node);
+        candidates->parent->opcode = 1;
+        release_tree(candidates->factor);
+        release_tree(candidates->tree);
+        bitset_remove(candidates->references->work->flow_sets[WORK_MEMORY_STORES], identifier);
+        return;
+    }
+    increment = optimize_tree_global(build_tree("DPNY", candidates->factor, copy_tree(basic->step), 4));
+    if (increment->opcode != 0x33 &&
+        !(increment->opcode == 0x30 && increment->left.node->opcode == 0x26)) {
+        for (rewrite = derived_induction_rewrites; rewrite; rewrite = rewrite->next)
+            if (trees_equal(rewrite->value, increment, 1)) break;
+        if (rewrite) increment = copy_tree(rewrite->temporary_load);
+        else {
+            increment_address = new_temporary_reference(((increment->attributes.words.type & 255) + 1) & ~1U, 0);
+            store = build_tree("DPNTS", increment_address, increment, 0x32, increment);
+            insert_tree_expression(transformation_cursor.expression, 0, store);
+            increment = build_tree("PNTS", increment_address, 0x30, store);
+            memory = intern_work_value(increment);
+            memory_identifier = memory->identifier;
+            increment->detail.node = store->detail.node = memory->canonical;
+            record_current_region_effect(store);
+            hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT] =
+                bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT], memory_identifier);
+            hoist_header_work->flow_sets[WORK_MEMORY_STORES] =
+                bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_STORES], memory_identifier);
+            rewrite = arena_alloc(4, sizeof(DerivedInductionRewrite));
+            rewrite->value = copy_tree(store->second.node);
+            rewrite->temporary_load = copy_tree(increment);
+            rewrite->next = derived_induction_rewrites;
+            derived_induction_rewrites = rewrite;
+        }
+    }
+    operation = derived_increment_opcode(basic->assignment->second.node->opcode, candidates->negative);
+    increment_store = build_tree("PPPNYNTS", address, load, increment,
+                                 operation, 0x32, representative);
+    update_work = find_region_assignment_work(hoist_first_work, basic->assignment);
+    insert_tree_expression(update_work->body.expressions, basic->assignment, increment_store);
+    increment_store->detail.node = load->detail.node;
+    record_current_region_effect(increment_store);
+    identifier = load->info.words.identifier;
+    update_work->flow_sets[WORK_MEMORY_READS] =
+        bitset_include(update_work->flow_sets[WORK_MEMORY_READS], identifier);
+    update_work->flow_sets[WORK_MEMORY_STORES] =
+        bitset_include(update_work->flow_sets[WORK_MEMORY_STORES], identifier);
+    if (increment->opcode == 0x30)
+        update_work->flow_sets[WORK_MEMORY_READS] =
+            bitset_include(update_work->flow_sets[WORK_MEMORY_READS], increment->info.words.identifier);
+    if (candidates->negative)
+        factor = optimize_tree_global(build_tree("DNY", candidates->factor, 8));
+    else factor = copy_tree(candidates->factor);
+    derived_basic = new_basic_induction(increment_store, increment, 0, basic, representative, factor);
+    release_tree(factor);
+    derived_basic->total_uses = 1;
+    if (hoist_current_region->parent && derived_basic->dominates_region && region_trip_count)
+        save_region_counter(increment_store->left.node, increment, increment_store);
+    for (; candidates; candidates = candidates->next) {
+        replacement = copy_tree(load);
+        if (!reuse) {
+            derived_basic->total_uses += candidates->uses;
+            difference = optimize_tree_global(build_tree("DDNY", candidates->tree, representative, 3));
+            if (!is_constant_value(difference, 0))
+                replacement = build_tree("PPNY", replacement, difference, 2);
+            release_tree(difference);
+        }
+        basic->total_uses -= candidates->uses;
+        for (use = candidates->references; use; use = use->next) {
+            release_node_children(use->tree);
+            copy = copy_tree(replacement);
+            *use->tree = *copy;
+            release_node(copy);
+            use->work->flow_sets[WORK_MEMORY_READS] =
+                bitset_include(use->work->flow_sets[WORK_MEMORY_READS], load->info.words.identifier);
+        }
+        release_tree(candidates->factor);
+        release_tree(candidates->tree);
+        release_tree(replacement);
+    }
+}
+
+/* Original [000608c0,000609ef). A sole dominating store may reuse a
+   counter inherited from an inner loop when update direction and total
+   advance agree exactly. On success the caller owns the returned advance. */
+LoopTreeRecord *__fastcall find_reusable_induction_counter(DerivedInduction *candidate, Node **step)
+{
+    BasicInduction *basic = candidate->basic;
+    Node *parent = candidate->parent, *advance, *wanted;
+    LoopTreeRecord *counter;
+    unsigned operation;
+    if (!basic->dominates_region || !parent || parent->opcode != 0x32 ||
+        candidate->uses != 1 || candidate->next) return 0;
+    for (counter = hoist_current_region->loop_trees; counter; counter = counter->next)
+        if (trees_equal(counter->address, parent->left.node, 1)) break;
+    if (!counter || !work_dominates_region_paths(candidate->references->work)) return 0;
+    operation = derived_increment_opcode(basic->assignment->second.node->opcode, candidate->negative);
+    if (operation != counter->assignment->second.node->opcode) return 0;
+    advance = optimize_tree_global(build_tree("DDNY", counter->trip_count, copy_tree(counter->step), 4));
+    wanted = optimize_tree_global(build_tree("DDNY", candidate->factor, copy_tree(basic->step), 4));
+    if (advance->opcode == 0x33 && is_constant_value(wanted, advance->left.value)) {
+        *step = advance;
+        return counter;
+    }
+    release_tree(advance);
+    release_tree(wanted);
+    return 0;
+}
+
+/* Original [000608a0,000608b6). Reverse an additive update when its
+   derived factor is negative; the nonnegative form retains the opcode. */
+unsigned __fastcall derived_increment_opcode(unsigned opcode, int negative)
+{
+    if (!negative) return opcode;
+    return opcode == 2 ? 3 : 2;
+}
+
+/* Original [0005f490,0005f4c2). Locate an assignment by node identity
+   in the forward work chain; absence violates the induction pass invariant. */
+WorkItem *__fastcall find_region_assignment_work(WorkItem *head, Node *assignment)
+{
+    Expression *expression;
+    for (; head; head = head->next)
+        for (expression = head->body.expressions; expression; expression = expression->next)
+            if (expression->tree == assignment) return head;
+    compiler_internal_error("@(#)nglobal.c:1.48", 0x109e);
+    return 0;
+}
+
+/* Original [0005fc60,0005fc6b). Update the current loop and its parents. */
+void __fastcall record_current_region_effect(Node *node)
+{
+    record_work_effect_in_regions(node, hoist_current_region);
 }

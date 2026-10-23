@@ -86,7 +86,6 @@ void __fastcall recycle_inline_site(InlineSite *site) { __asm int 3 }
 void __fastcall recycle_inline_binding(InlineBinding *binding) { __asm int 3 }
 unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
-void __fastcall release_node_children(Node *node) { __asm int 3 }
 Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
@@ -403,7 +402,7 @@ void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
     Node *right, Node **representative) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
-void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative) { __asm int 3 }
+void __fastcall save_region_counter(Node *address, Node *step, Node *assignment) { __asm int 3 }
 int __fastcall region_assignment_precedes(Node *first, Node *second) { __asm int 3 }
 void create_region_induction_counter(void) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,

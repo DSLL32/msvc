@@ -886,7 +886,13 @@
     "@find_region_memory_induction@16",
     "@exclude_region_memory_operations@4",
     "@release_basic_induction@4",
-    "@derived_induction_is_profitable@4"
+    "@derived_induction_is_profitable@4",
+    "@rewrite_derived_induction_group@8",
+    "@find_reusable_induction_counter@8",
+    "@derived_increment_opcode@8",
+    "@find_region_assignment_work@8",
+    "@record_current_region_effect@4",
+    "@release_node_children@4"
   ],
   "driver": [
     {
@@ -2689,8 +2695,7 @@
     {
       "name": "@release_node_children@4",
       "start": 326768,
-      "end": 326769,
-      "provisional": true
+      "end": 326817
     },
     {
       "name": "@release_expression@4",
@@ -6273,8 +6278,7 @@
     {
       "name": "@rewrite_derived_induction_group@8",
       "start": 392880,
-      "end": 392881,
-      "provisional": true
+      "end": 394105
     },
     {
       "name": "@find_basic_induction@4",
@@ -6564,6 +6568,32 @@
       "start": 395232,
       "end": 395233,
       "provisional": true
+    },
+    {
+      "name": "@find_reusable_induction_counter@8",
+      "start": 395456,
+      "end": 395759
+    },
+    {
+      "name": "@save_region_counter@12",
+      "start": 395296,
+      "end": 395297,
+      "provisional": true
+    },
+    {
+      "name": "@record_current_region_effect@4",
+      "start": 392288,
+      "end": 392299
+    },
+    {
+      "name": "@derived_increment_opcode@8",
+      "start": 395424,
+      "end": 395446
+    },
+    {
+      "name": "@find_region_assignment_work@8",
+      "start": 390288,
+      "end": 390338
     }
   ],
   "cases": {

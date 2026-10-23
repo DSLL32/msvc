@@ -2209,3 +2209,11 @@ Nested loop strength screening: checkpoint882
 native fixtures pass. See cases/loops-strength-screen.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Derived induction group rewrite passed: checkpoint888
+--------------------------------------
+6 whole functions pass fresh original/native matching; current frontier
+@rewrite_region_exit_counter@4. 810 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-derived-rewrite.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

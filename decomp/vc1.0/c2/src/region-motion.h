@@ -63,7 +63,7 @@ typedef struct DerivedInductionGroup {
 } DerivedInductionGroup;
 typedef struct DerivedInductionRewrite {
     struct DerivedInductionRewrite *next;
-    Node *field04, *field08;
+    Node *value, *temporary_load;
 } DerivedInductionRewrite;
 typedef char DerivedInductionSizeCheck[sizeof(DerivedInduction) == 36 ? 1 : -1];
 typedef char DerivedGroupSizeCheck[sizeof(DerivedInductionGroup) == 16 ? 1 : -1];
@@ -103,7 +103,7 @@ int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node 
    the final tree is the saved trip count. Cleanup609f0 releases all four. */
 struct LoopTreeRecord {
     struct LoopTreeRecord *next;
-    Node *field04, *field08, *field0c, *trip_count;
+    Node *address, *assignment, *step, *trip_count;
 };
 typedef char LoopTreeRecordSizeCheck[sizeof(LoopTreeRecord) == 20 ? 1 : -1];
 void __fastcall release_basic_induction(BasicInduction *induction);
