@@ -92,6 +92,10 @@
     "debug-pch-create": {
       "receipt": "cases/debug-pch/evidence/debug-pch-create-entries-874.receipt.json",
       "sha256": "539b8e4d380507806e3a893b9339da3b90456a6f917489efd77ae0883cc1c8cf"
+    },
+    "debug-pch-use": {
+      "receipt": "cases/debug-pch/evidence/debug-pch-use-entries-875.receipt.json",
+      "sha256": "8ce537ea12b22e0f0a2729c6dfe7a3a818aeca9724e2e63c04e8d52e10ba4b47"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

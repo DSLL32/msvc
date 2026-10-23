@@ -878,7 +878,8 @@
     "_write_legacy_enum_members@12",
     "_write_legacy_signed_number@8",
     "_finish_pch_type_records",
-    "import:SetEndOfFile"
+    "import:SetEndOfFile",
+    "_restore_pch_debug_state@4"
   ],
   "driver": [
     {
@@ -4852,7 +4853,7 @@
     {
       "name": "_restore_pch_debug_state@4",
       "start": 294000,
-      "end": 294001
+      "end": 294112
     },
     {
       "name": "_reference_pch_debug_library@4",
@@ -5611,6 +5612,10 @@
     "debug-pch-create": {
       "accepted_from": 862,
       "accepted_count": 874
+    },
+    "debug-pch-use": {
+      "accepted_from": 874,
+      "accepted_count": 875
     }
   },
   "buffered_streams": [

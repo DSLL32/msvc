@@ -14,3 +14,12 @@ producer PCH after exact comparison with the original bytes. Consumer also
 checks the PCH remains unchanged. Original backend object inputs are raw
 captured dependencies only; no backend reconstruction is assigned. /Yd is
 omitted because it selects a different debug-PCH mode.
+
+Both phases complete at875 accepted entries,748 source functions. The producer
+required eight new source functions plus three identified CRT support entries
+and SetEndOfFile; the consumer added restore_pch_debug_state. Native PCH bytes
+match the original exactly and the actual producer output is passed onward.
+Every enum comparator operand pair (six calls) was observed and matched on both
+sides. LF_PRECOMP restoration and all24 native phases pass. Negative checks
+reject a changed producer PCH before launching the consumer and reject any
+changed PCH bytes left by the consumer. See validation.json and evidence/.

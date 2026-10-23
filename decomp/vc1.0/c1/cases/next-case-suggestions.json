@@ -1,28 +1,27 @@
 {
-  "authorization": "Combined enum/type/literal/floating single case complete. All suggestions below are unassigned; paused for user selection.",
-  "remaining_original_code_extent_bytes": 55448,
+  "authorization": "Debug-bearing PCH producer/consumer complete. Suggestions below are unassigned; paused for user selection.",
+  "remaining_original_code_extent_bytes": 54166,
   "metric": "Remaining code-section bytes outside accepted extent union, including unknown application and runtime code; not branch coverage.",
   "suggestions": [
     {
-      "case": "Debug-bearing explicit PCH producer/consumer under supported /Z7 with ordinary /Yc and /Yu, validating /Yd only as a relevant variant.",
+      "case": "Richer valid inline assembly: scaled address arithmetic, record member offsets, explicit operand sizes, OFFSET and x87 stack forms.",
       "grounding": [
-        "initialize_frontend sets pch_separate_debug iff debug_info&&!option_Yd&&(pch_create||pch_create_file)",
-        "finish_pch_output calls declare_pch_debug_library and finish_pch_debug_symbols on that separate-debug path",
-        "pch-reader restore calls restore_pch_debug_state or restore_pch_separate_debug according to captured settings",
-        "CL has explicit Yc/Yu/Yd option rows; exact combined behavior still requires untouched original validation"
+        "asm-parser semantic actions call multiply_asm_expression, asm_member_offset, make_asm_offset and set_asm_operand_size",
+        "asm-instructions emit path calls normalize_asm_x87_operands for x87 operand normalization",
+        "asm operand validation calls fits_asm_integer for width-sensitive immediate forms"
       ],
-      "reason": "Existing explicit/automatic PCH cases do not combine legacy debug types with captured PCH debug state. Source enum tags are retained in the PCH graph even though ordinary declarations lower to int; no enum-writer reachability promise.",
-      "approximate_reachable_scope": "Unmeasured; multiple identified pending PCH/debug entry points. Do not reuse the misleading ordinary-enum debug estimate."
+      "reason": "Existing inline-asm case exercises ordinary integer operands/labels but misses these expression/address/x87 branches.",
+      "approximate_reachable_scope": "The bounded frontend assembler band4c940..5092c has4125 bytes outside the accepted union, including diagnostics/gaps. This is a band estimate, not a reachable-byte promise; exact valid forms require untouched original validation."
     },
     {
       "case": "Deliberate diagnostic/recovery input with malformed declarations, incomplete records and recoverable expression/token errors.",
       "grounding": [
-        "translation-unit parser syntax-error branches call report_parser_error and recover_parser_token",
+        "parser syntax-error branches call report_parser_error and recover_parser_token",
         "declaration/expression checks call report_type_syntax_error/report_syntax_error",
-        "lexer exposes token recovery and expected-token reporters"
+        "lexer exposes recovery/expected-token reporters"
       ],
-      "reason": "Successful valid-source cases avoid most diagnostic dispatch, formatting, error accounting and parser-recovery code.",
-      "approximate_reachable_scope": "Unmeasured; gate/caller evidence exists but exact reachable function sizes are not established."
+      "reason": "Successful valid-source cases avoid most diagnostic dispatch, formatting, error accounting and parser recovery.",
+      "approximate_reachable_scope": "Unmeasured; gate/caller evidence exists but exact reachable extents are not established."
     }
   ],
   "extent_estimate_policy": "Band estimates subtract the exact clipped accepted union from bounded frontend code regions containing the named original stubs. They include unverified gaps/shared text, are not accepted function extents, and do not promise every byte is reached by one case.",
@@ -42,6 +41,12 @@
       "new_functions": 10,
       "new_extent_bytes": 2351,
       "enum_reachability": "C enum source declarations lower to ordinary int; enum debug helpers remain unvisited."
+    },
+    {
+      "case": "debug-pch-create/use",
+      "new_functions": 9,
+      "new_extent_bytes": 1282,
+      "scope": "Nine new source functions plus matched CRT support/import extents. Enum debug serialization reached through retained PCH declarations; actual producer PCH consumed."
     }
   ],
   "internal_inline_gate_analysis": "Internal standalone MSC_CMD_FLAGS -qc -Ol entries exist and directly gate the pending inline-query family. CL generic /d1 forwarding is statically available, but an untouched successful full pipeline is not validated. Ordinary /Ob1-/Ob2 does not exercise this family."

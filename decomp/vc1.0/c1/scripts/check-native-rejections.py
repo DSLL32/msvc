@@ -85,6 +85,24 @@ def main():
     rejects('generated-pch-dependency', 'generated PCH differs from captured dependency',
             lambda: checker.run_case('pch-use', executable, directory, dependency=corrupt))
     assert not (directory/'pch-use/execution.json').exists(), 'consumer ran with bad dependency'
+    _, debug_producer = checker.run_case('debug-pch-create', executable, directory)
+    debug_pch = bytearray((debug_producer/'debug.pch').read_bytes())
+    debug_pch[-1] ^= 1
+    corrupt_debug = directory/'corrupt-debug.pch'
+    corrupt_debug.write_bytes(debug_pch)
+    rejects('debug-pch-generated-dependency', 'generated PCH differs from captured dependency',
+            lambda: checker.run_case('debug-pch-use', executable, directory, dependency=corrupt_debug))
+    assert not (directory/'debug-pch-use/execution.json').exists(), 'debug consumer ran with bad PCH'
+    debug_valid = directory/'valid-debug-use'
+    debug_valid.mkdir()
+    _, debug_used = checker.run_case('debug-pch-use', executable, debug_valid,
+                                    dependency=debug_producer/'debug.pch')
+    debug_fixture = checker.BINARY/'cases/debug-pch'
+    debug_phase = json.loads((debug_fixture/'manifest.json').read_text())['phases']['c1-use']
+    (debug_used/'debug.pch').write_bytes(debug_pch)
+    rejects('debug-pch-preserved-input-byte', 'output bytes differ: debug.pch',
+            lambda: checker.validate_artifacts(debug_used, debug_fixture, debug_phase))
+
     _, browser = checker.run_case('browser', executable, directory)
     browser_fixture = checker.BINARY/'cases/browser'
     browser_phase = json.loads((browser_fixture/'manifest.json').read_text())['phases']['c1']

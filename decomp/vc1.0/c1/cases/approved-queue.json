@@ -16,10 +16,10 @@
     {
       "case": "debug-pch",
       "phase": "c1-use",
-      "status": "active next; standalone untouched originals verified twice"
+      "status": "complete at875; actual native producer PCH consumed and unchanged, raw IR/streams/status/first-entry order exact"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "active",
+  "status": "complete; paused for user selection",
   "previous_completed_authorization": "User selected ONE substantial combined ordinary C case; finish it, then pause. No other case is assigned."
 }

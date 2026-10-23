@@ -1,7 +1,7 @@
 {
-  "status": "producer complete; consumer queued",
-  "accepted_count": 874,
-  "source_functions": 747,
+  "status": "complete producer-to-consumer workflow; actual native producer PCH required",
+  "accepted_count": 875,
+  "source_functions": 748,
   "state_defaults_aliases": 286,
   "producer": {
     "accepted_from": 862,
@@ -127,15 +127,15 @@
     "scope": "Native PCH and all5 IR files/status/streams match fresh masked original; original first-entry order plus every comparator operand pair match."
   },
   "coverage": {
-    "accepted_union_bytes": 222956,
+    "accepted_union_bytes": 223068,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 203189,
+      "frontend_source": 203301,
       "CRT": 19587,
       "import_thunks": 180
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 80.42159331106575,
+    "percent": 80.46199239631503,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "CRT_seams": {
@@ -149,5 +149,873 @@
     "All captured source/header/PCH/object mtimes and canonical S paths remain exact input provenance.",
     "Only native fixtures execute normal regression; original captures and helper compilation are explicit.",
     "Two adapter dispatch gaps (_qsort/_swap and SetEndOfFile) were fixed after preserving failed attempt timings; no shared shim code changed."
-  ]
+  ],
+  "consumer": {
+    "accepted_from": 874,
+    "accepted_count": 875,
+    "accepted_order": [
+      "_restore_pch_debug_state@4"
+    ],
+    "raw_pch_bytes": 40167,
+    "checks": [
+      {
+        "name": "debug-pch-875-canonical",
+        "command": [
+          "make",
+          "-j4",
+          "audit-win32"
+        ],
+        "seconds": 9.271570817567408,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-875-projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.22789613623172045,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-875-entries",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/debug-pch",
+          "--phase",
+          "c1-use",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-entries-875",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+          "--entry-from",
+          "874",
+          "--entry-to",
+          "875"
+        ],
+        "seconds": 2.0002634031698108,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-875-final-projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.22940575890243053,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-875-twentyfour",
+        "command": [
+          "python3",
+          "scripts/check-native.py",
+          "--trace",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-875-twentyfour"
+        ],
+        "seconds": 0.589866304770112,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-875-native-negatives",
+        "command": [
+          "python3",
+          "scripts/check-native-rejections.py"
+        ],
+        "seconds": 0.4071050910279155,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-875-graph-negatives",
+        "command": [
+          "python3",
+          "scripts/check-graph-audit.py",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/graph-adoption/final-875-negatives"
+        ],
+        "seconds": 3.7394790863618255,
+        "exit": 0
+      }
+    ],
+    "scope": "LF_PRECOMP producer type range/checksum/object restored. Consumer uses real native producer bytes; PCH remains unchanged and all raw IR/status/streams/entry trace match."
+  },
+  "new_extent_bytes": 1282,
+  "completed_native_phases": 24,
+  "final_checks": [
+    {
+      "name": "debug-pch-875-canonical",
+      "command": [
+        "make",
+        "-j4",
+        "audit-win32"
+      ],
+      "seconds": 9.271570817567408,
+      "exit": 0
+    },
+    {
+      "name": "debug-pch-875-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.22789613623172045,
+      "exit": 0
+    },
+    {
+      "name": "debug-pch-875-entries",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-use",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-entries-875",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+        "--entry-from",
+        "874",
+        "--entry-to",
+        "875"
+      ],
+      "seconds": 2.0002634031698108,
+      "exit": 0
+    },
+    {
+      "name": "debug-pch-875-final-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.22940575890243053,
+      "exit": 0
+    },
+    {
+      "name": "debug-pch-875-twentyfour",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-875-twentyfour"
+      ],
+      "seconds": 0.589866304770112,
+      "exit": 0
+    },
+    {
+      "name": "debug-pch-875-native-negatives",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.4071050910279155,
+      "exit": 0
+    },
+    {
+      "name": "debug-pch-875-graph-negatives",
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/graph-adoption/final-875-negatives"
+      ],
+      "seconds": 3.7394790863618255,
+      "exit": 0
+    }
+  ],
+  "incremental_operations": [
+    {
+      "tag": "debug-pch-create-862.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.6411763383075595,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-862.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-862",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.640629980713129,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-862.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-862",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-862"
+      ],
+      "seconds": 0.22419347055256367,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-863.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.754214919172227,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-863.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-863",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 0.8242042232304811,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-863.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-863",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-863"
+      ],
+      "seconds": 0.22540928423404694,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-864.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6579882949590683,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-864.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-864",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.5337039800360799,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-864.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-864",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-864"
+      ],
+      "seconds": 0.22784220520406961,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-865.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.758745250292122,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-865.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-865",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 0.7589143877848983,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-865.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-865",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-865"
+      ],
+      "seconds": 0.21609959471970797,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-866.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6466447953134775,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-866.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-866",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.648049128241837,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-866.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-866",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-866"
+      ],
+      "seconds": 0.07864020764827728,
+      "exit": 1
+    },
+    {
+      "tag": "debug-pch-create-868.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 0.018832940608263016,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-868.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-868",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.0575035875663161,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-868.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-868",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-868"
+      ],
+      "seconds": 0.24241951387375593,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-869.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6705708717927337,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-869.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-869",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.734791235998273,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-869.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-869",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-869"
+      ],
+      "seconds": 0.0805688351392746,
+      "exit": 1
+    },
+    {
+      "tag": "debug-pch-create-870.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 0.018835747614502907,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-870.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-870",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.3338169008493423,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-870.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-870",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-870"
+      ],
+      "seconds": 0.22142226248979568,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-871.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.805849059484899,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-871.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-871",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.646480644121766,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-871.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-871",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-871"
+      ],
+      "seconds": 0.22620923351496458,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-872.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6525685405358672,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-872.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-872",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.8856961140409112,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-872.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-872",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-872"
+      ],
+      "seconds": 0.23522666469216347,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-873.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6684835515916348,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-873.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-873",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.4832707401365042,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-873.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-873",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-873"
+      ],
+      "seconds": 0.07946093007922173,
+      "exit": 1
+    },
+    {
+      "tag": "debug-pch-create-874.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 0.019250341691076756,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-874.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-874",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.9468044573441148,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-create-874.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-create",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-create-874",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-874"
+      ],
+      "seconds": 0.21937301009893417,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-use-874.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.828997504897416,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-use-874.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-use",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-874",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.7778875771909952,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-use-874.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-use",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-use-874",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-874"
+      ],
+      "seconds": 0.2309365849941969,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-use-875.timings",
+      "name": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.6649194732308388,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-use-875.timings",
+      "name": "original-capture",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-use",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-875",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+      ],
+      "seconds": 1.6988936457782984,
+      "exit": 0
+    },
+    {
+      "tag": "debug-pch-use-875.timings",
+      "name": "native-frontier",
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--case",
+        "cases/debug-pch",
+        "--phase",
+        "c1-use",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-use-875",
+        "--reference",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-875"
+      ],
+      "seconds": 0.2389694582670927,
+      "exit": 0
+    }
+  ],
+  "incremental_measured_seconds": {
+    "native-build": 43.80707762949169,
+    "original-capture": 20.970646603032947,
+    "native-frontier": 2.7467712555080652
+  },
+  "native_fixture_timings": {
+    "trace_setup": 0.10125208739191294,
+    "setup": 0.10031246859580278,
+    "execution": 0.25001454073935747,
+    "oracle_checks": 0.03358460869640112,
+    "fixture_total": 0.3984390199184418
+  },
+  "timing_limits": "Per-function records include adapter-dispatch diagnostic failures. Original CL transports, four independent standalone checks, original link/program, producer and final canonical builds are separate receipts. Some callback-helper build/interactive diagnostic timing was not separately measured; no total wall-clock claim."
 }

@@ -1,16 +1,16 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Twenty-two cases are complete: minimal C, optimized Win32 hello, DLL,
+Twenty-four native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 /O2 /Ob1 plus /Ob2 small functions with early returns, and the combined
-enum/long-record/literal/floating case.
+enum/long-record/literal/floating case, plus debug-bearing PCH creation/reuse.
 
-There are747 accepted source functions and874 accepted original entries.
-Accepted original extents cover222956/277234 code-section bytes (80.421593%):
-203189 frontend bytes,19587 CRT bytes and180 import-thunk bytes. This is a
+There are748 accepted source functions and875 accepted original entries.
+Accepted original extents cover223068/277234 code-section bytes (80.461992%):
+203301 frontend bytes,19587 CRT bytes and180 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -32,12 +32,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds23 completed phase histories to fresh
-shared-prefix original first-entry captures. All736 accepted application entries
+cases/original-entry-references.json binds24 completed phase histories to fresh
+shared-prefix original first-entry captures. All737 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all23 regression receipts are in cases/debug-pch/validation.json.
+current all24 regression receipts are in cases/debug-pch/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -65,6 +65,8 @@ embedded-codeview     1196   177    74   332  irdb643
 inlining-ob1          1369   223    15   162
 inlining-ob2          1369   223    15   162
 combined-types        1611   186   198   484  irdb1261
+debug-pch-create       443    87    26   462  irdb619; debug.pch40167
+debug-pch-use         1212   108     6   215  irdb67; debug.pch unchanged
 
 All primary intermediates match raw bytes. Numeric stderr retains the captured
 line24 C4069 CRLF warning. Only identified timestamp DWORDs at irdb+14 and
@@ -98,7 +100,7 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check747 function graphs and instruction boundaries,
+Original compiler audits check748 function graphs and instruction boundaries,
 286 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
@@ -149,13 +151,14 @@ derived entry projections pin its original receipt hashes and document the
 logical-name correction. scripts/check-graph-audit.py checks scratch mutations,
 including a regression to the old RET8 and an omitted external switch mask.
 
-Active debug-PCH workflow
--------------------------
-cases/debug-pch is the one approved producer/consumer workflow now in progress.
-The /Z7 /Ycdebug.h producer is complete: all5 intermediates and its40167-byte
-PCH match exactly; all23 currently completed native phases pass. The consumer
-is queued next, with original /Yu transport and full outputs already frozen.
-Every enum-sort callback operand pair was observed in order on both sides,
-in addition to the ordinary original-backed first-entry trace. Debug-only
-callback observation uses explicit --trace-enum-callbacks; fixtures never run
-the original helper. No shared shim changes were needed.
+Completed debug-PCH workflow
+---------------------------
+cases/debug-pch completes the approved producer/consumer workflow. The /Z7
+/Ycdebug.h producer emits an exact40167-byte PCH; /Yudebug.h restores its
+LF_PRECOMP type range/checksum/object record and consumes the actual native
+producer output after exact comparison. Header/PCH/object mtimes and canonical
+S paths remain explicit input data. Consumer verifies the PCH is unchanged.
+All24 native phases and10 oracle/dependency rejections pass. The fresh producer
+all-call debugger proof also matches every one of six enum-sort operand pairs
+in order, alongside the normal original-backed first-entry trace. /Yd was not
+needed for this separate-debug mode. No extra case is queued.

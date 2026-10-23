@@ -1,6 +1,7 @@
 /* Embedded CodeView type records and their deferred emission queue. */
 #include <stdlib.h>
 #include "debug-info.h"
+#include "frontend.h"
 #include "parser.h"
 #include "codeview-types.h"
 #include "literal-names.h"
@@ -593,4 +594,27 @@ void finish_pch_type_records(void)
         write_legacy_type_record(6);
         ++next_debug_type_index;
     }
+}
+
+/* Original0x47c70..0x47cdf. Start the consumer debug stream with a
+   LF_PRECOMP reference to the producer's type range, checksum and object. */
+void __stdcall restore_pch_debug_state(char *object_name)
+{
+    unsigned short *record, previous;
+    char *name, *end;
+    if (options.line_records) {
+        begin_program_database();
+        return;
+    }
+    debug_type_bytes = 0;
+    begin_debug_info();
+    record = (unsigned short *)debug_record_buffer + 1;
+    record[0] = 0x13;
+    record[1] = 0x1000;
+    previous = next_debug_type_index--;
+    record[2] = (unsigned short)(previous - 0x1001);
+    *(unsigned *)(record + 3) = pragma_record_number;
+    name = (char *)(record + 5);
+    end = append_codeview_name(name,object_name);
+    write_legacy_type_record(10 + (end - name));
 }

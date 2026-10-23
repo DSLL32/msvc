@@ -1,0 +1,82 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/debug-pch",
+  "phase": "c1-use",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "accepted_count": 875,
+  "accepted_sha256": "9661bdd7efea3858ee7851791bb6593fee8baff885453e7d55abf975b1ad69ab",
+  "executable_sha256": "74ee48e6e50d4594e4feb0f374201b072e532cf5bfcd861929fd8835ab87a00b",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "1e991b685aec2f0a5e6d411180f09a258ecd4701237eba322480f344b55d8c47",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yudebug.h -Fpdebug.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\debug-pch",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/debug-pch",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05305789038538933,
+  "execution_seconds": 1.5734798591583967,
+  "total_seconds": 1.6265412662178278,
+  "files": [
+    {
+      "name": "consumer.c",
+      "bytes": 512,
+      "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72"
+    },
+    {
+      "name": "debug.h",
+      "bytes": 998,
+      "sha256": "4718d25835ad9ffa04ff62747a81a6f9a378d000e373cab30cb387613a13fbf4"
+    },
+    {
+      "name": "debug.pch",
+      "bytes": 40167,
+      "sha256": "3336bc4295ab6dae33cc74a7d6d8dfa4dc381bc3a9ea57e4db62b1ff023730ee"
+    },
+    {
+      "name": "irdb",
+      "bytes": 67,
+      "sha256": "d6a295603f71bc4d5c22a5ef6db86cd06ccbb80f319b2ad9993aaf189669774c"
+    },
+    {
+      "name": "irex",
+      "bytes": 1212,
+      "sha256": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42"
+    },
+    {
+      "name": "irgl",
+      "bytes": 215,
+      "sha256": "2f816931208b8c4d6d2d7f42aa59edeb742fc23acb805026914d74f2517ac23e"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429"
+    },
+    {
+      "name": "irsy",
+      "bytes": 108,
+      "sha256": "143d83e1e17bf597b18cb89aa3365a96f1c71d18263e69a6bcfee805cb2d07aa"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 720,
+      "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+    },
+    {
+      "name": "producer.obj",
+      "bytes": 2988,
+      "sha256": "aa4afe47ba915b42620de050240c42629478a5b648fc17c389fe87263c08a952"
+    }
+  ]
+}

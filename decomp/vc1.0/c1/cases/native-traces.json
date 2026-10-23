@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "63290db417f8289e043da99088b016578ac8b6ac68bec7b523dfce467cf45999",
+    "functions.json": "d31bc9123bd8c4f0adcf90aec4b724dd953c2f65fe49b54e86f415fcb0df6e6b",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "ca223581e931b4066346bdc429ec2aad28c13b8e7c86c73e63140a701bddb82e"
+    "sha256": "03e3f466bc089cf52a3250443e2644f2597d386a3e667b4837d8eda9a0355aaa"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "68d8b298c387bb430ac9cc99fbd7b1f4223f9e96a6307f615744842611761ce9"
+    "sha256": "db968f9ecdf9fb5dd280af3bb8afeac798d8a9908c9e34b864c9da038139d35b"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -3067,7 +3067,7 @@
     },
     "restore_pch_debug_state": {
       "logical": "_restore_pch_debug_state@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "restore_pch_pointers": {
       "logical": "_restore_pch_pointers",
@@ -4302,7 +4302,8 @@
     "compare_legacy_enumerators",
     "write_legacy_enum_members",
     "write_legacy_signed_number",
-    "finish_pch_type_records"
+    "finish_pch_type_records",
+    "restore_pch_debug_state"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5428,6 +5429,18 @@
         "write_legacy_enum_members",
         "write_legacy_signed_number",
         "finish_pch_type_records"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "debug-pch-use": {
+      "first": 874,
+      "last": 875,
+      "seen_count": 736,
+      "expected": [
+        "restore_pch_debug_state"
       ],
       "terminal": {
         "kind": "exit",

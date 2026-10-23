@@ -889,7 +889,6 @@ void begin_browser_pch_record(void) { __asm { int 3 }  }
 
 void __stdcall restore_pch_browser_name(char *filename) { __asm { int 3 } }
 
-void __stdcall restore_pch_debug_state(char *object_name) { __asm { int 3 } }
 
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
 
