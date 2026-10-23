@@ -1,0 +1,32 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_cleanup_precompiled_files",
+    "start": 446528,
+    "end": 446777
+  },
+  "runtime_acceptance": [
+    "_exit",
+    "_doexit",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "import:ExitProcess"
+  ],
+  "distinct_direct_callees": [
+    "__unlink",
+    "_fclose",
+    "_message_text",
+    "_report_error",
+    "_report_fatal"
+  ],
+  "next_frontier": "exit:0",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "runtime_boundary": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json",
+  "fixture_seconds": 0.258691294118762,
+  "total_operation_seconds": 1.7375820390880108,
+  "original_capture_seconds": 20.618473855778575,
+  "boundary_original_seconds": 0,
+  "boundary_native_seconds": 0.15931345615535975
+}

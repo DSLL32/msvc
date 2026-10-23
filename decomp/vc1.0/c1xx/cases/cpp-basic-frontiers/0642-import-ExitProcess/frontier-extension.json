@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "accepted_before": 642,
+  "accepted": "import:ExitProcess",
+  "terminal": "exit:0",
+  "original_capture": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-receipt.json",
+  "original_capture_sha256": "89b8e40e32802d4b0291173e1eda78da75e7cef040834f81a0d3476eb3dfb940",
+  "original_events": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-events.txt",
+  "original_events_sha256": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+  "original_configuration": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-configuration.json",
+  "scope": "Explicit runtime first-entry sequence, indexed library/import identity, original/native runtime boundary and downstream full checkpoint",
+  "runtime_evidence": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json",
+  "runtime_evidence_sha256": "5941a18a0d59db248373e51adbdb89cd2a98a93e0cc73c1daea31fc1e9fdd73f",
+  "downstream_frontier": "exit:0",
+  "downstream_comparison": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/validation.json"
+}

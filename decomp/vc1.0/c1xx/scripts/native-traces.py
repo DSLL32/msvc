@@ -88,8 +88,13 @@ def project():
         assert extension['terminal'] == capture['terminal']
         event = re.search(r'^exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1$',
                           events_path.read_text(), re.M)
-        assert event, 'original extension did not stop at a first-chance INT3'
-        assert int(event[1], 16) + int(event[2], 16) == records[extension['terminal']]['start']
+        if extension['terminal'].startswith('exit:'):
+            status=int(extension['terminal'].split(':')[1])
+            assert not event and not re.search(r'^exception ',events_path.read_text(),re.M),'exit extension contains an exception'
+            assert re.search(r'^exit '+str(status)+r'$',events_path.read_text(),re.M),'original terminal status differs'
+        else:
+            assert event, 'original extension did not stop at a first-chance INT3'
+            assert int(event[1], 16) + int(event[2], 16) == records[extension['terminal']]['start']
         if extension['accepted'] not in application:
             evidence_path = BINARY / extension['runtime_evidence']
             spec = importlib.util.spec_from_file_location('c1xx_runtime_boundary', BINARY/'scripts/runtime-boundary.py')
@@ -112,7 +117,8 @@ def project():
     assert transcript == config['accepted'], 'original reference acceptance identity changed'
     terminal = config['cases']['cpp_basic']['terminal']
     assert original_terminal == terminal
-    assert terminal in application, 'partial terminal must be an application stub'
+    complete=terminal.startswith('exit:')
+    assert complete or terminal in application, 'partial terminal must be an application stub'
     first = config['cases']['cpp_basic'].get('accepted_from', 0)
     project_names = lambda names: [native_name(n) for n in names if n in application]
     definitions = {native_name(n): dict(logical=n, source=source)
@@ -127,8 +133,9 @@ def project():
                            for kind in ('CRT', 'import')},
         cases={'cpp_basic': dict(first=first, last=len(transcript),
             seen=project_names(transcript[:first]),
-            expected=project_names(transcript[first:]) + [native_name(terminal)],
-            terminal=dict(kind='frontier', logical=terminal, native=native_name(terminal), signal=5))})
+            expected=project_names(transcript[first:]) + ([] if complete else [native_name(terminal)]),
+            terminal=(dict(kind='exit',logical=terminal,status=int(terminal.split(':')[1])) if complete else
+                      dict(kind='frontier',logical=terminal,native=native_name(terminal),signal=5)))})
 
 
 def load(directory, path=CACHE):

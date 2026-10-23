@@ -9,6 +9,7 @@
 #include "call-expressions.h"
 #include "return-statements.h"
 #include "symbol-output.h"
+#include "cpp-context.h"
 #include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
@@ -402,4 +403,22 @@ void write_function_directory(void)
         } while (function_directory);
     }
     normalized_Oq = saved_Oq;
+}
+
+/* Original 0x55900..0x5597b. PCH-resident declarations need no further
+   ordering. Other tagged declarations defer their dependent storage entry. */
+int defer_global_symbol(CppSymbol *symbol)
+{
+    CppSymbol *dependency;
+    unsigned kind;
+    if (pch_separate_debug) return 0;
+    kind = symbol->kind & 0x1f;
+    if (kind == 4 || kind == 5)
+        return (symbol->flags & 8) && !(symbol->declaration_flags & 1);
+    if ((symbol->storage[0] & 7) == 7) {
+        dependency = cpp_context_stack->items[symbol->type->field08];
+        if (dependency && !(symbol->declaration_flags & 1) && defer_global_symbol(dependency))
+            return 1;
+    }
+    return 0;
 }

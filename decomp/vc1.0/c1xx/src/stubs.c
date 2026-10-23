@@ -59,10 +59,8 @@ void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { 
 void __stdcall emit_class_virtual_table(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } }
 void finish_debug_info(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
-void close_intermediate(FILE *file) { __asm { int 3 } }
 void finish_browser_output(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
-void cleanup_precompiled_files(void) { __asm { int 3 } }
 void begin_browser_output(void) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
@@ -616,8 +614,6 @@ void __stdcall emit_vbase_destructor_epilogue(CppSymbol *tag) { __asm { int 3 } 
 
 void finish_inline_function(void) { __asm { int 3 } }
 
-void __stdcall emit_function_symbols(CppSymbol *symbols) { __asm { int 3 } }
-int defer_global_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 unsigned short __stdcall debug_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
 void __stdcall reference_debug_type(CType *type) { __asm { int 3 } }

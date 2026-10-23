@@ -1,0 +1,480 @@
+{
+  "scope": "632..642 checkpoint operations; retained receipts deduplicated by kind/hash; overlapping suite/fixture wall explicitly labeled",
+  "records": [
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/original-receipt.json",
+      "sha256": "28e8549b565e05ea09e637a67aaee8d783d7d491bdb37aadd2e89a3d6f5523c3",
+      "seconds": 4.226272827014327,
+      "detail": null
+    },
+    {
+      "kind": "build native",
+      "receipt": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/build-timing.json",
+      "sha256": "eabcdfa290242cca8c7bf76bfe344a6e77b12fe68340a26668ef3cd8041470ef",
+      "seconds": 2.212274894118309,
+      "detail": null
+    },
+    {
+      "kind": "build canonical",
+      "receipt": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/build-timing.json",
+      "sha256": "eabcdfa290242cca8c7bf76bfe344a6e77b12fe68340a26668ef3cd8041470ef",
+      "seconds": 5.474322463385761,
+      "detail": null
+    },
+    {
+      "kind": "native debugger",
+      "receipt": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/native-timing.json",
+      "sha256": "d35045aa4e469c8aaf93431b4954475dcc647201c0eea952a0c9e338c62fb421",
+      "seconds": 0.16708271764218807,
+      "detail": null
+    },
+    {
+      "kind": "cached fixture run",
+      "receipt": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/native-fixture-receipt.json",
+      "sha256": "8e179db5d529fcd4b44a88e1e51d891c61c5ac747e56fb741169bedc826a6ed2",
+      "seconds": 0.014739368110895157,
+      "detail": {
+        "case": "cpp_basic",
+        "status": "pass",
+        "terminal": {
+          "kind": "frontier",
+          "logical": "_defer_global_symbol",
+          "native_signal": 5,
+          "original_exception": "80000003"
+        },
+        "native_status": -5,
+        "complete_frontend_case": false,
+        "setup_seconds": 0.002490086480975151,
+        "execution_seconds": 0.010706830769777298,
+        "oracle_seconds": 0.0008205017074942589,
+        "trace_check_seconds": 0.0003048926591873169,
+        "total_seconds": 0.014739368110895157,
+        "application_trace_entries": 551,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "outputs": [
+          {
+            "name": "irex",
+            "bytes": 6,
+            "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+          },
+          {
+            "name": "irsy",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "irin",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "irgl",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+        "reference_manifest_sha256": "f8058ea06844691076afbba2d4bfe0d40b8d7ffcecf33a567ce71162b4a7e6f1"
+      }
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0633-defer_global_symbol/original-receipt.json",
+      "sha256": "fb48974f5396729e9d61780d7772b0ce18f9f45b57bc3fca4ec9b25ffe0f85d3",
+      "seconds": 4.376569535583258,
+      "detail": null
+    },
+    {
+      "kind": "build native",
+      "receipt": "cases/cpp-basic-frontiers/0633-defer_global_symbol/build-timing.json",
+      "sha256": "b3e599f25d7c77866f7867ead651ea7d81b7afb1c970800041f6166f93968532",
+      "seconds": 2.1001804126426578,
+      "detail": null
+    },
+    {
+      "kind": "build canonical",
+      "receipt": "cases/cpp-basic-frontiers/0633-defer_global_symbol/build-timing.json",
+      "sha256": "b3e599f25d7c77866f7867ead651ea7d81b7afb1c970800041f6166f93968532",
+      "seconds": 5.066446891054511,
+      "detail": null
+    },
+    {
+      "kind": "native debugger",
+      "receipt": "cases/cpp-basic-frontiers/0633-defer_global_symbol/native-timing.json",
+      "sha256": "235f53ada84dd582e7f051306fc4c4b3b8d6f44003d8d65816ed6b988beb52f3",
+      "seconds": 0.16563990712165833,
+      "detail": null
+    },
+    {
+      "kind": "cached fixture run",
+      "receipt": "cases/cpp-basic-frontiers/0633-defer_global_symbol/native-fixture-receipt.json",
+      "sha256": "78d8e06eade27719ddd8c84db9445d82cf0aed286a66ec60e45ec38aff176cd9",
+      "seconds": 0.01277587004005909,
+      "detail": {
+        "case": "cpp_basic",
+        "status": "pass",
+        "terminal": {
+          "kind": "frontier",
+          "logical": "_close_intermediate",
+          "native_signal": 5,
+          "original_exception": "80000003"
+        },
+        "native_status": -5,
+        "complete_frontend_case": false,
+        "setup_seconds": 0.002259031869471073,
+        "execution_seconds": 0.009176976047456264,
+        "oracle_seconds": 0.0008003916591405869,
+        "trace_check_seconds": 0.00024408381432294846,
+        "total_seconds": 0.01277587004005909,
+        "application_trace_entries": 552,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "outputs": [
+          {
+            "name": "irex",
+            "bytes": 6,
+            "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+          },
+          {
+            "name": "irsy",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "irin",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "irgl",
+            "bytes": 137,
+            "sha256": "73531273672ef87bd32e6956ea2e3ef2162f054bdd0bb4768a462fc3a3eecbf5"
+          }
+        ],
+        "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+        "reference_manifest_sha256": "bf5e2b50bda5ea9870cbf806f5af5040f6e061bc6b71dc5323db6183f94f358a"
+      }
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/original-receipt.json",
+      "sha256": "4a236301a0d28b541f698df13d41df7e9c390b6b661c48ac116ae47391bcdfe0",
+      "seconds": 3.576986434869468,
+      "detail": null
+    },
+    {
+      "kind": "build native",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/build-timing.json",
+      "sha256": "c0897ad0280ba6e7a0bc10d58f2163e8ab06e6b4b67e28679b0ef17515a4e2fb",
+      "seconds": 1.5930839339271188,
+      "detail": null
+    },
+    {
+      "kind": "build canonical",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/build-timing.json",
+      "sha256": "c0897ad0280ba6e7a0bc10d58f2163e8ab06e6b4b67e28679b0ef17515a4e2fb",
+      "seconds": 5.1442184913903475,
+      "detail": null
+    },
+    {
+      "kind": "cached fixture run",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/native-fixture-receipt.json",
+      "sha256": "8dd160416e1ebbc52f67349c0730c23dd3801e7239eb7c99703e7dd14a1bc19a",
+      "seconds": 0.012003631331026554,
+      "detail": {
+        "case": "cpp_basic",
+        "status": "pass",
+        "terminal": {
+          "kind": "frontier",
+          "logical": "_cleanup_precompiled_files",
+          "native_signal": 5,
+          "original_exception": "80000003"
+        },
+        "native_status": -5,
+        "complete_frontend_case": false,
+        "setup_seconds": 0.001958044245839119,
+        "execution_seconds": 0.008769105188548565,
+        "oracle_seconds": 0.0007613860070705414,
+        "trace_check_seconds": 0.0002266308292746544,
+        "total_seconds": 0.012003631331026554,
+        "application_trace_entries": 553,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "outputs": [
+          {
+            "name": "irex",
+            "bytes": 1136,
+            "sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10"
+          },
+          {
+            "name": "irsy",
+            "bytes": 123,
+            "sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01"
+          },
+          {
+            "name": "irin",
+            "bytes": 9,
+            "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f"
+          },
+          {
+            "name": "irgl",
+            "bytes": 137,
+            "sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c"
+          }
+        ],
+        "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+        "reference_manifest_sha256": "9113d4fa8e2833d5df63f757223f8eddf073da06b2a744a2757b8e5a184ea662"
+      }
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0635-fflush/original-receipt.json",
+      "sha256": "75702c0417a1d3308c51e09f2e5963542632bcb33ac796650609e71bd3ec5204",
+      "seconds": 4.0256264908239245,
+      "detail": null
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/original-receipt.json",
+      "sha256": "d80cd47971ac10a81125ce0b950334b828f9c787354cb33f06c1daaaf0aee569",
+      "seconds": 0.8682102067396045,
+      "detail": null
+    },
+    {
+      "kind": "build native",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/build-timing.json",
+      "sha256": "338fd407bb2d882e17edbd66d65d0e8db8384d7eb51fb20ed627da12eae9da27",
+      "seconds": 2.083350043743849,
+      "detail": null
+    },
+    {
+      "kind": "build canonical",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/build-timing.json",
+      "sha256": "338fd407bb2d882e17edbd66d65d0e8db8384d7eb51fb20ed627da12eae9da27",
+      "seconds": 4.742592571303248,
+      "detail": null
+    },
+    {
+      "kind": "cached fixture run",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/native-fixture-receipt.json",
+      "sha256": "e9b95a50e164ecf16980fbd3b07985e937472ac1e3e57f74ad3c8a8d6e25b43f",
+      "seconds": 0.015036258846521378,
+      "detail": {
+        "case": "cpp_basic",
+        "status": "pass",
+        "terminal": {
+          "kind": "exit",
+          "logical": "exit:0",
+          "status": 0
+        },
+        "native_status": 0,
+        "complete_frontend_case": true,
+        "setup_seconds": 0.0028617409989237785,
+        "execution_seconds": 0.010468131862580776,
+        "oracle_seconds": 0.0010321084409952164,
+        "trace_check_seconds": 0.00032236985862255096,
+        "total_seconds": 0.015036258846521378,
+        "application_trace_entries": 553,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "outputs": [
+          {
+            "name": "irex",
+            "bytes": 1136,
+            "sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10"
+          },
+          {
+            "name": "irsy",
+            "bytes": 123,
+            "sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01"
+          },
+          {
+            "name": "irin",
+            "bytes": 9,
+            "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f"
+          },
+          {
+            "name": "irgl",
+            "bytes": 137,
+            "sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c"
+          }
+        ],
+        "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+        "reference_manifest_sha256": "67f131cc61ac0048c077e20af71ac3c6c3dfec3a948c2e2972833148dce9a3ee"
+      }
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0637-exit/original-receipt.json",
+      "sha256": "603f63cbab91368c886d006a7076b0a22fa6274c9ad2e8cc4a9d6825bdea9b63",
+      "seconds": 4.727905836887658,
+      "detail": null
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0638-doexit/original-receipt.json",
+      "sha256": "a6568c7afa6e21cc5cd33e4840c82b86d58897c01e08d0fa6c3aeada694037d3",
+      "seconds": 3.9759223237633705,
+      "detail": null
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0639-endstdio/original-receipt.json",
+      "sha256": "3f0462b1f8bfee1d8582632c9ea1d31b6c709ff51018bdd25739bd161a3de279",
+      "seconds": 1.571170554496348,
+      "detail": null
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0640-flushall/original-receipt.json",
+      "sha256": "ebd1acdbac08524866953d1dafacaf01b8df7f65529ddbb53983b8182c519f29",
+      "seconds": 4.175822372548282,
+      "detail": null
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0641-flsall/original-receipt.json",
+      "sha256": "bbd7527230aaaa4a5444ec2b7cf2f3560f1e7528a2eae772876de74e1f108635",
+      "seconds": 1.575494946911931,
+      "detail": null
+    },
+    {
+      "kind": "original masked capture",
+      "receipt": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-receipt.json",
+      "sha256": "89b8e40e32802d4b0291173e1eda78da75e7cef040834f81a0d3476eb3dfb940",
+      "seconds": 3.7239476144313812,
+      "detail": null
+    },
+    {
+      "kind": "original boundary capture",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/validation.json",
+      "sha256": "1406512fedd7a70108fad641ec0f136bab6a29d2719dca89ac468c80f30d21f3",
+      "seconds": 3.82265233900398,
+      "detail": null
+    },
+    {
+      "kind": "native boundary debugger",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/validation.json",
+      "sha256": "1406512fedd7a70108fad641ec0f136bab6a29d2719dca89ac468c80f30d21f3",
+      "seconds": 0.1557670747861266,
+      "detail": null
+    },
+    {
+      "kind": "original boundary capture",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/receipt.json",
+      "sha256": "4049c56815cd4015ecc1dcc8d511610ca5473e2f71a327c7c879bf8f5f7e38fd",
+      "seconds": 4.1734020644798875,
+      "detail": null
+    },
+    {
+      "kind": "native boundary debugger",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/receipt.json",
+      "sha256": "4049c56815cd4015ecc1dcc8d511610ca5473e2f71a327c7c879bf8f5f7e38fd",
+      "seconds": 0.14730618242174387,
+      "detail": null
+    },
+    {
+      "kind": "build native",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/corrective-build-timing.json",
+      "sha256": "240b2aad7ba069fa3114a4bfe35cd55038c07455b9bb0fac32ba5a78772f1ca2",
+      "seconds": 1.329764923080802,
+      "detail": null
+    },
+    {
+      "kind": "build canonical",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/corrective-build-timing.json",
+      "sha256": "240b2aad7ba069fa3114a4bfe35cd55038c07455b9bb0fac32ba5a78772f1ca2",
+      "seconds": 4.610892793163657,
+      "detail": null
+    },
+    {
+      "kind": "original observer build",
+      "receipt": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/observer-build.json",
+      "sha256": "09af81603d9cf081b1e23afd5adfc761ef31369f30b8f8fafc39ee9019fe7478",
+      "seconds": 5.292557121254504,
+      "detail": null
+    },
+    {
+      "kind": "original extra entry capture",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/earlier-entry-receipt.json",
+      "sha256": "79c74213e3f29faa05c4721546da99db28637d514042b46cf7ef417c1e394217",
+      "seconds": 4.3268405962735415,
+      "detail": null
+    },
+    {
+      "kind": "original debugger build",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/abi-debugger-build.json",
+      "sha256": "7b3bb52eabf7075c4cab5dfb1545afd4297eba8faf6039dd0dfbfd7bc8b14821",
+      "seconds": 3.97225284203887,
+      "detail": null
+    },
+    {
+      "kind": "native debugger",
+      "receipt": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/native-entry-timing.json",
+      "sha256": "1b9c20819cc8530c56048b3060c2a5a4d5851cbba9500858236b53f1aba74b64",
+      "seconds": 0.16253359150141478,
+      "detail": null
+    },
+    {
+      "kind": "final cached fixture run",
+      "receipt": "evidence/cpp-basic-completion-native-check.json",
+      "sha256": "ba5d1805eb8cd4ca3f21378a00950bf8d4683d7306a3731a27acaa360c9d8c34",
+      "seconds": 0.011552350595593452,
+      "detail": {
+        "case": "cpp_basic",
+        "status": "pass",
+        "terminal": {
+          "kind": "exit",
+          "logical": "exit:0",
+          "status": 0
+        },
+        "native_status": 0,
+        "complete_frontend_case": true,
+        "setup_seconds": 0.002001596614718437,
+        "execution_seconds": 0.008238697424530983,
+        "oracle_seconds": 0.0008005350828170776,
+        "trace_check_seconds": 0.00022548995912075043,
+        "total_seconds": 0.011552350595593452,
+        "application_trace_entries": 553,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "outputs": [
+          {
+            "name": "irex",
+            "bytes": 1136,
+            "sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10"
+          },
+          {
+            "name": "irsy",
+            "bytes": 123,
+            "sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01"
+          },
+          {
+            "name": "irin",
+            "bytes": 9,
+            "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f"
+          },
+          {
+            "name": "irgl",
+            "bytes": 137,
+            "sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c"
+          }
+        ],
+        "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+        "reference_manifest_sha256": "67f131cc61ac0048c077e20af71ac3c6c3dfec3a948c2e2972833148dce9a3ee"
+      }
+    },
+    {
+      "kind": "combined full audit/check/rejections",
+      "receipt": "evidence/cpp-basic-completion-checkpoint.json",
+      "sha256": "1f9d9b925661b518fdcac05d7bce67f76b5aef877505521d855e65acfa37753d",
+      "seconds": 4.8171548852697015,
+      "detail": "parallel wall; overlaps final cached fixture above, do not sum"
+    }
+  ],
+  "unmeasured": [
+    "Rejected initial stream boundary original/native elapsed times were not retained; raw rejected observations remain under evidence/fflush-write-state"
+  ]
+}

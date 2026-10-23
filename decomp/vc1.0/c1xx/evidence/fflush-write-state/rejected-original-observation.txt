@@ -1,0 +1,5 @@
+runtime _fflush
+return_va 00074324
+before descriptor 5 flags 138 count 3779 used 317 size 4096
+after descriptor 5 flags 136 count 0 used 0 size 4096
+result 0

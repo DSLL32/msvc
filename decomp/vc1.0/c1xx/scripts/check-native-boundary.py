@@ -38,16 +38,18 @@ def main():
     missing_path = directory/'missing-definition.json'
     missing_path.write_text(json.dumps(missing))
     reject('missing-definition', ['--trace','--trace-cache',str(missing_path)], 'unresolved native application definition')
+    complete=cache['cases']['cpp_basic']['terminal']['kind']=='exit'
+    stop='return 0;' if complete else 'raise(SIGTRAP);'
     build_started = time.perf_counter()
     for name, body in [
         ('wrong-terminal', 'raise(SIGSEGV);'),
-        ('wrong-stdout', 'write(1,"wrong",5);raise(SIGTRAP);'),
-        ('wrong-artifact', 'int f=open("irex",O_WRONLY|O_CREAT,0600);write(f,"wrong",5);close(f);raise(SIGTRAP);')]:
+        ('wrong-stdout', 'write(1,"wrong",5);'+stop),
+        ('wrong-artifact', 'int f=open("irex",O_WRONLY|O_CREAT,0600);write(f,"wrong",5);close(f);'+stop)]:
         source = directory/(name+'.c')
         source.write_text('#include <signal.h>\n#include <unistd.h>\n#include <fcntl.h>\nint main(void){'+body+'return 0;}\n')
         subprocess.run(['clang','-m32','-O0','-g',str(source),'-o',str(directory/name)],check=True)
     build_seconds = time.perf_counter()-build_started
-    reject('reject-terminal', ['--exe',str(directory/'wrong-terminal')], 'expected named frontier SIGTRAP')
+    reject('reject-terminal', ['--exe',str(directory/'wrong-terminal')], 'expected completed frontend exit status' if complete else 'expected named frontier SIGTRAP')
     reject('reject-stdout', ['--exe',str(directory/'wrong-stdout')], 'stdout differs')
     reject('reject-artifact', ['--exe',str(directory/'wrong-artifact')], 'irex: visible bytes differ')
     spec = importlib.util.spec_from_file_location('c1xx_native',BINARY/'scripts/check-native.py')
@@ -85,6 +87,42 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'observation bytes contradict claimed descriptor',seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted runtime evidence')
+    stream_path=BINARY/'cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/validation.json'
+    if stream_path.exists():
+        from runtime_boundary_loader import load_boundary
+        boundary=load_boundary()
+        proof=boundary.check(stream_path)
+        changes=[
+            ('fflush-write-bit',lambda p:p['native']['after'].__setitem__('flags',p['native']['before']['flags']),'fflush boundary differs'),
+            ('fflush-stale-both',lambda p:(p['original']['after'].__setitem__('flags',p['original']['before']['flags']),p['native']['after'].__setitem__('flags',p['native']['before']['flags'])),'fflush stream transition differs'),
+            ('fflush-failed-both',lambda p:(p['original'].__setitem__('result',-1),p['native'].__setitem__('result',-1)),''),
+            ('fflush-library',lambda p:p['identity']['records'][0].__setitem__('object_sha256','0'*64),'fflush library identity changed')]
+        for name,change,expected in changes:
+            altered=json.loads(json.dumps(proof));change(altered)
+            altered_path=directory/(name+'.json');altered_path.write_text(json.dumps(altered))
+            started=time.perf_counter()
+            try:boundary.check(altered_path)
+            except AssertionError as error:
+                assert expected in str(error),(name,str(error))
+                checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'fflush did not successfully drain buffer',seconds=time.perf_counter()-started))
+            else:raise AssertionError(name+' accepted corrupted runtime evidence')
+    exit_path=BINARY/'cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json'
+    if exit_path.exists():
+        from runtime_boundary_loader import load_boundary
+        boundary=load_boundary();proof=boundary.check(exit_path)
+        changes=[
+            ('exit-runtime-order',lambda p:p['runtime_order'].reverse(),'unobserved termination sequence'),
+            ('exit-library',lambda p:p['identity']['records'][0].__setitem__('object_sha256','0'*64),'termination library identity changed'),
+            ('exit-observation',lambda p:p['evidence_files'][0].__setitem__('sha256','0'*64),'termination evidence changed')]
+        for name,change,expected in changes:
+            altered=json.loads(json.dumps(proof));change(altered)
+            altered_path=directory/(name+'.json');altered_path.write_text(json.dumps(altered))
+            started=time.perf_counter()
+            try:boundary.check(altered_path)
+            except AssertionError as error:
+                assert expected in str(error),(name,str(error))
+                checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
+            else:raise AssertionError(name+' accepted corrupted termination evidence')
     receipt = dict(status='pass', scope='native regression-boundary fault injection; no original execution',
         negative_helper_build_seconds=build_seconds,checks=checks)
     (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.8171548852697015,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/cpp-basic-completion-checkpoint.log",
+  "raw_log_sha256": "f1bcd211a3536635d50bde2016ee17a357f9f8dbb56dfa410b43bbde94b3225f",
+  "log_format": "display CRLF converted to LF; raw canonical bytes retained in .raw.log.gz",
+  "timing_scope": "combined parallel audit/check wall; individual source and debugger builds, original captures and native fixture phases kept separate"
+}

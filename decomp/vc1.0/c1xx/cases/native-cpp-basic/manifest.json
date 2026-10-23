@@ -1,43 +1,42 @@
 {
   "case": "cpp_basic",
-  "scope": "632 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/cpp-basic-frontiers/0631-mangle_type-12/original-receipt.json",
-  "reference_receipt_sha256": "6f82ae8c1e1c22ced5036150ef27d5ad4301c5ec0dfdb9822c368e42b5e7c7ee",
+  "scope": "643 accepted frontiers; explicit runtime boundary and downstream completed frontend terminal",
+  "reference_receipt": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-receipt.json",
+  "reference_receipt_sha256": "89b8e40e32802d4b0291173e1eda78da75e7cef040834f81a0d3476eb3dfb940",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "6763854c44d854bf496f528fd845e67fb0d1beae1b0a7076ded3a0a304f45301",
+  "canonical_map_sha256": "dcba6117c72a7fe0da125456630249cc97c29fc91f9652db32dddf22ee36654f",
   "terminal": {
-    "kind": "frontier",
-    "logical": "_emit_function_symbols@4",
-    "native_signal": 5,
-    "original_exception": "80000003"
+    "kind": "exit",
+    "logical": "exit:0",
+    "status": 0
   },
   "expected_stdout": "",
   "expected_stderr": "",
   "outputs": [
     {
       "path": "irex",
-      "bytes": 6,
-      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      "bytes": 1136,
+      "sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10"
     },
     {
       "path": "irsy",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 123,
+      "sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01"
     },
     {
       "path": "irin",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 9,
+      "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f"
     },
     {
       "path": "irgl",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 137,
+      "sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c"
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 4.130275411531329,
+  "capture_seconds": 20.618473855778575,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

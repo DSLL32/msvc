@@ -6,17 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 632 accepted frontiers, including 549 frontend
-functions and seven older CRT routines. The complete yacc driver and its 285
-explicit semantic blocks are reconstructed, preserving all 186 original call
-targets. Type-symbol application, type combinations and class-body initialization
-are reconstructed; class-member alignment, insertion and access labels are
-accepted. Scoped C++ lookup and declaration capture are also reconstructed.
-The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _emit_function_symbols@4 at original VA 0x54940. The latest ordered replay is recorded in validation.json;
-the expression stream begins with the six bytes 5b8034030000. Semantic branches
-will be exercised as their named callees are reconstructed. The complete
-frontend case is not yet reconstructed or claimed equivalent.
+PARTIAL binary reconstruction:643 accepted frontiers, including553 frontend
+functions and seven older CRT routines. The cpp_basic starting case now completes
+with exit0, empty stdout/stderr and exact raw intermediate files. All reached
+application functions have readable C bodies and verified original call targets;
+unvisited application callees remain named trapping stubs. Coverage below is
+accepted original code extent, not branch coverage or full binary equivalence.
+The approved inheritance/virtual/copy/destruction/allocation queue follows this
+completed case; its durable record is cases/reconstruction-queue.json.
 
 Native regression commands (run from this binary directory):
 
@@ -28,19 +25,17 @@ Native regression commands (run from this binary directory):
 check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
-functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 1036 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 550 first
-entries: 549 accepted frontend functions plus emit_function_symbols, whose INT3
-must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
-trial accepted initialize_object_value.
+functions.json retains every accepted original range/order; cases/native-traces.json
+projects the original history onto all1036 application definitions, excluding
+CRT/import entries on both sides. The case expects553 first application entries
+and successful exit0. Explicit runtime evidence retains each library/import trap
+rather than silently treating an unmatched terminal as an application entry.
 
 Visible streams and all four intermediate files are compared byte-for-byte:
-irex is six bytes and irsy/irin/irgl are empty at this partial frontier. These
-are original-backed cached terminal bytes, independent of the reconstruction.
-Pending CRT buffers were checked by the earlier original paired evidence; the
-native regression compares visible artifacts and does not claim that live-state
-oracle. Complete frontend output is still not reached.
+irex1136, irsy123, irin9 and irgl137bytes. Their hashes equal the independent
+original phase oracle. Explicit acceptance comparisons also check four pending
+FILE buffers and fourteen selected state values; the cached native regression
+checks the complete first-entry trace, exit status, streams and final files.
 
 The native final link compiles shared lib/recon C directly, without an archive.
 Only application objects are instrumented; reconstructed runtime.c and shared
@@ -1324,3 +1319,39 @@ No shared shim source change was needed.
 
 Accepted extent union200712/476418bytes is42.129391%, not branch coverage.
 cpp_basic remains incomplete at emit_function_symbols (original0x54940).
+
+cpp_basic completion checkpoint:643 accepted frontiers,560 source functions.
+The overload-group walk, dependency ordering, intermediate flush and incomplete
+PCH cleanup now preserve their whole original bodies. PCH stream pointers and
+ownership/status words have six initial-state/address checks. The error path's
+_fileno remains an out-of-line call despite STDIO.H's default macro.
+
+The flush boundary exposed one native compatibility difference: a successful
+positive buffered write on an update stream clears its write flag. Exact entry
+and return observations retained both the rejected138/138 flag transition and
+the corrected138/136 transition. The parent fixed shared recon_flush with the
+original write/buffer predicates and reset semantics. Repeated successful
+observations, original-toolchain observer build and corrective build timings
+remain separate in acceptance0634/runtime-boundary. Four rejection checks
+exercise stale flags, failure on both sides and corrupted library identity.
+
+Explicit original/native exit entry agrees on code0, four empty FILE buffers,
+fourteen selected fields, streams and visible files. The original then follows
+exit, doexit, endstdio, flushall, flsall and ExitProcess to exit0. Every library
+body has exact relocation-aware LIBC member identity; doexit's static .data
+references are anchored by the object's exported globals and initialized bytes.
+Each original first-entry trap is retained in0636through0642, and the native
+projection excludes only proved library/import entries. No termination range
+was silently unmasked or counted as application source.
+
+The cached native regression now checks553 first application entries, exit0,
+empty streams and full raw bytes:irex1136,irsy123,irin9,irgl137. These hashes also
+match the independent original phase fixture. Full560-function graph, contextual
+data/defaults, both grammars and19meaningful native/evidence rejections pass;
+combined parallel wall is4.817seconds. Detailed split timings, repeated captures
+and explicitly unmeasured failed-boundary elapsed time are retained in
+evidence/cpp-basic-completion-timing.json. Native fixtures execute no original.
+
+Accepted extent union201713/476418bytes is42.339500%, not branch coverage.
+This completes the starting case; the binary remains partial and the approved
+follow-on C++ queue remains active.

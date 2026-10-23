@@ -13,7 +13,7 @@ import time
 BINARY = Path(__file__).resolve().parents[1]
 
 
-def capture(directory, executable=None):
+def capture(directory, executable=None, breakpoint=None, expressions=None):
     started = time.perf_counter()
     fixture = BINARY.parent/'fixtures/cpp-basic'
     phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
@@ -23,8 +23,10 @@ def capture(directory, executable=None):
     work.mkdir()
     for item in phase['inputs']:
         (work/Path(item['path']).name).write_bytes((fixture/item['path']).read_bytes())
-    commands = ['run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'), 'bt', 'python',
+    commands = (['break '+breakpoint] if breakpoint else []) + ['run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'), 'bt', 'python',
                 'import gdb, json', 'result = {"buffers": [], "states": [], "function": gdb.newest_frame().name(), "signal": int(gdb.parse_and_eval("$_siginfo.si_signo"))}']
+    for key, expression in (expressions or {}).items():
+        commands += ['result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
     for field in config['buffered_streams']:
         name = field['name'][1:]
         commands += ['stream = gdb.parse_and_eval("'+name+'")',
@@ -59,10 +61,12 @@ def capture(directory, executable=None):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--directory',type=Path)
+    parser.add_argument('--breakpoint',help='explicit runtime entry breakpoint instead of first INT3')
+    parser.add_argument('--observe',action='append',default=[],metavar='NAME=EXPRESSION')
     args=parser.parse_args()
     scratch=Path.home()/'.ai-tmp/vc1.0-c1xx'
     directory=args.directory or Path(tempfile.mkdtemp(prefix='native-frontier-',dir=scratch))
-    checkpoint=capture(directory)
+    checkpoint=capture(directory,breakpoint=args.breakpoint,expressions=dict(item.split('=',1) for item in args.observe))
     print(checkpoint['function'])
     print(directory)
 

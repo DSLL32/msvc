@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "fabdfe16a7cfa7c3346d01090ac860c155ad065df0cc8b23a87f92e83a2a851f",
+    "functions.json": "38cacc76b30625553f035fdb6588511561fdb10c9dbdfa463e7fbc2d7ee97792",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "6763854c44d854bf496f528fd845e67fb0d1beae1b0a7076ded3a0a304f45301",
+    "cases/native-cpp-basic/canonical-map.txt": "dcba6117c72a7fe0da125456630249cc97c29fc91f9652db32dddf22ee36654f",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -315,7 +315,95 @@
     "cases/cpp-basic-frontiers/0630-mangle_function_terminator-8/original-events.txt": "449fc83468facabe31510af95067a205f06403370d106a5418e8f55e2ca604a9",
     "cases/cpp-basic-frontiers/0631-mangle_type-12/frontier-extension.json": "1e99d4b20f06b24d1c6606222fbb508691caa70deb4c2ac75ca89a80d538166a",
     "cases/cpp-basic-frontiers/0631-mangle_type-12/original-receipt.json": "6f82ae8c1e1c22ced5036150ef27d5ad4301c5ec0dfdb9822c368e42b5e7c7ee",
-    "cases/cpp-basic-frontiers/0631-mangle_type-12/original-events.txt": "baf75d536dc878f44e16894f4bc6901c5fdf8fe6075d8733d64c97bdb4f5926f"
+    "cases/cpp-basic-frontiers/0631-mangle_type-12/original-events.txt": "baf75d536dc878f44e16894f4bc6901c5fdf8fe6075d8733d64c97bdb4f5926f",
+    "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/frontier-extension.json": "25b1c2918c22de1e2bb9e4cce9fe10ad2d5672027ad2983956951ba1365d4b80",
+    "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/original-receipt.json": "28e8549b565e05ea09e637a67aaee8d783d7d491bdb37aadd2e89a3d6f5523c3",
+    "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/original-events.txt": "df7f63c285129f20d2cf1c418031d548bfad021e1ca4bf4c4222460eeb7481a1",
+    "cases/cpp-basic-frontiers/0633-defer_global_symbol/frontier-extension.json": "d1a6079fd203cf39c5d0995dbea8c901bf5c0879e082c90e11d2bcad45e52c32",
+    "cases/cpp-basic-frontiers/0633-defer_global_symbol/original-receipt.json": "fb48974f5396729e9d61780d7772b0ce18f9f45b57bc3fca4ec9b25ffe0f85d3",
+    "cases/cpp-basic-frontiers/0633-defer_global_symbol/original-events.txt": "ec00527766ec314de61a036607874753d0a3d29cc547ecec4f443caa3f8c4e54",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/original-configuration.json": "171afe70c0c64b04eeda40ee16c5e4c6ee9e7651611225a1358e3bc3599d8bb7",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/frontier-extension.json": "0f55b7e47fee84802ac292c1514d4d13de743d08e3061d75db4a132e05c411df",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/original-receipt.json": "4a236301a0d28b541f698df13d41df7e9c390b6b661c48ac116ae47391bcdfe0",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/original-events.txt": "bbed506791ead88d4af8bda873ab825c3e86ab028ee4402e7ed59843a9ac0fe1",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/validation.json": "1406512fedd7a70108fad641ec0f136bab6a29d2719dca89ac468c80f30d21f3",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/original-observation.txt": "d4e48297cd13a81384e60cb0213c44aebad355d05d4a461e0f00a197649df585",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/native-observation.json": "21d9a4cd4d4e4b6d346953c0eed9ee25e40f192976bc80be773dd766d7bd83d5",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/native-gdb.log": "e75b9aec2d442be4c4af45543c482b673e1e20b3de5bf15dee779ac037c101e7",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/original-events.txt": "662ce29150bcc534429c089fa6c1394f287e57078fa4a81df05ab4d4d1e42964",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/restore-plan.txt": "9a03cca37f01f6d2437deffcc7933d90a83c295d80bbd47ca8f36e6346bda2d7",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/native.gdb": "10ad2eab070351f4379ef305ebd1deb6c0b1cc7bb0576bdb838d8b6a9ed9be64",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/observer-source.c": "0680f23ba1b829be83bc36b06b13fcba049390b470661284030d9ebf0954d892",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/observer-build.json": "09af81603d9cf081b1e23afd5adfc761ef31369f30b8f8fafc39ee9019fe7478",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/corrective-build-timing.json": "240b2aad7ba069fa3114a4bfe35cd55038c07455b9bb0fac32ba5a78772f1ca2",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/receipt.json": "4049c56815cd4015ecc1dcc8d511610ca5473e2f71a327c7c879bf8f5f7e38fd",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/original-observation.txt": "d4e48297cd13a81384e60cb0213c44aebad355d05d4a461e0f00a197649df585",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/native-observation.json": "21d9a4cd4d4e4b6d346953c0eed9ee25e40f192976bc80be773dd766d7bd83d5",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/native-gdb.log": "a55bf1b5babf69e5e769c4fb6c00ed47b15811a862c8bf4bb2c2b74cf6129c22",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/original-events.txt": "662ce29150bcc534429c089fa6c1394f287e57078fa4a81df05ab4d4d1e42964",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/abi-verified-observation/build-timing.json": "c0897ad0280ba6e7a0bc10d58f2163e8ab06e6b4b67e28679b0ef17515a4e2fb",
+    "cases/cpp-basic-frontiers/0635-fflush/original-configuration.json": "171afe70c0c64b04eeda40ee16c5e4c6ee9e7651611225a1358e3bc3599d8bb7",
+    "cases/cpp-basic-frontiers/0635-fflush/frontier-extension.json": "d1e9d387dca7b01ebf5201f04917705f09e802339de7d22714d591895f8a49a5",
+    "cases/cpp-basic-frontiers/0635-fflush/original-receipt.json": "75702c0417a1d3308c51e09f2e5963542632bcb33ac796650609e71bd3ec5204",
+    "cases/cpp-basic-frontiers/0635-fflush/original-events.txt": "28527a6cb672325366edc7831e7f9f94510a734f4b5c169d3d1a2105d1a62d11",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/frontier-extension.json": "7fe16812e489d5d0dd9e7b70991978c6ae976eec14f4c3eb9ea03bae1f49a19d",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/original-receipt.json": "d80cd47971ac10a81125ce0b950334b828f9c787354cb33f06c1daaaf0aee569",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/original-events.txt": "6048d4e8b6a69c4dd410b51b065f5fddc5f685785224b631ba5c7743f4facdb8",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json": "5941a18a0d59db248373e51adbdb89cd2a98a93e0cc73c1daea31fc1e9fdd73f",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/original-entry-events.txt": "6048d4e8b6a69c4dd410b51b065f5fddc5f685785224b631ba5c7743f4facdb8",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/native-entry-checkpoint.json": "8ba0f6012822e4d803db84ac409dd03128c8425c62e575a2e3ccea30b22fc354",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/native-entry-gdb.log": "78ea5bb1c95c838a17e65630f5d0d342236ba4c15b61a892a22586fe9a93be78",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/native-entry-timing.json": "1b9c20819cc8530c56048b3060c2a5a4d5851cbba9500858236b53f1aba74b64",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/native-entry-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/native-entry-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-00-receipt.json": "603f63cbab91368c886d006a7076b0a22fa6274c9ad2e8cc4a9d6825bdea9b63",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-00-events.txt": "2c3b55e3fddacce2c50b5e968b7a4c94d9eed03d01d6115b33b72f7e0ea60116",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-01-receipt.json": "a6568c7afa6e21cc5cd33e4840c82b86d58897c01e08d0fa6c3aeada694037d3",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-01-events.txt": "d107390e57f4bda5670858ad7d89d01584e438f86f2ed85f29ead9dc36bed7dc",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-02-receipt.json": "3f0462b1f8bfee1d8582632c9ea1d31b6c709ff51018bdd25739bd161a3de279",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-02-events.txt": "2e19408c862940a8e872467718e828f076cc5096be053e8599790b1331d33ff0",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-03-receipt.json": "ebd1acdbac08524866953d1dafacaf01b8df7f65529ddbb53983b8182c519f29",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-03-events.txt": "3bd18ca043c3a2f0202400d55eae90559bd355e38a8c8ee82c36b24f78171b1e",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-04-receipt.json": "bbd7527230aaaa4a5444ec2b7cf2f3560f1e7528a2eae772876de74e1f108635",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-04-events.txt": "f48e429800e34eb67b86f52698acdd07c5ca7869a70fb2e2dbe634ef2a3b6ba0",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-05-receipt.json": "89b8e40e32802d4b0291173e1eda78da75e7cef040834f81a0d3476eb3dfb940",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/runtime-05-events.txt": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/earlier-entry-receipt.json": "79c74213e3f29faa05c4721546da99db28637d514042b46cf7ef417c1e394217",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/abi-debugger-build.json": "7b3bb52eabf7075c4cab5dfb1545afd4297eba8faf6039dd0dfbfd7bc8b14821",
+    "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/build-timing.json": "338fd407bb2d882e17edbd66d65d0e8db8384d7eb51fb20ed627da12eae9da27",
+    "cases/cpp-basic-frontiers/0637-exit/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0637-exit/frontier-extension.json": "dd6272aaa45f13663f2db14779d1b81ae8a4a8e4ad97beb63d13cbec79658384",
+    "cases/cpp-basic-frontiers/0637-exit/original-receipt.json": "603f63cbab91368c886d006a7076b0a22fa6274c9ad2e8cc4a9d6825bdea9b63",
+    "cases/cpp-basic-frontiers/0637-exit/original-events.txt": "2c3b55e3fddacce2c50b5e968b7a4c94d9eed03d01d6115b33b72f7e0ea60116",
+    "cases/cpp-basic-frontiers/0638-doexit/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0638-doexit/frontier-extension.json": "b436d959b17cfb4875459cf294a505f5b5c60aa0a986f479f5a4469394870a0f",
+    "cases/cpp-basic-frontiers/0638-doexit/original-receipt.json": "a6568c7afa6e21cc5cd33e4840c82b86d58897c01e08d0fa6c3aeada694037d3",
+    "cases/cpp-basic-frontiers/0638-doexit/original-events.txt": "d107390e57f4bda5670858ad7d89d01584e438f86f2ed85f29ead9dc36bed7dc",
+    "cases/cpp-basic-frontiers/0639-endstdio/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0639-endstdio/frontier-extension.json": "9ecdb555b74a10b76e36225e8c20255e2f92d8b873d0d87b79db413db77a065e",
+    "cases/cpp-basic-frontiers/0639-endstdio/original-receipt.json": "3f0462b1f8bfee1d8582632c9ea1d31b6c709ff51018bdd25739bd161a3de279",
+    "cases/cpp-basic-frontiers/0639-endstdio/original-events.txt": "2e19408c862940a8e872467718e828f076cc5096be053e8599790b1331d33ff0",
+    "cases/cpp-basic-frontiers/0640-flushall/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0640-flushall/frontier-extension.json": "040028cfa0789e79357041a7ca6076a2e09690afd96b60814c0f24dfb92a1d41",
+    "cases/cpp-basic-frontiers/0640-flushall/original-receipt.json": "ebd1acdbac08524866953d1dafacaf01b8df7f65529ddbb53983b8182c519f29",
+    "cases/cpp-basic-frontiers/0640-flushall/original-events.txt": "3bd18ca043c3a2f0202400d55eae90559bd355e38a8c8ee82c36b24f78171b1e",
+    "cases/cpp-basic-frontiers/0641-flsall/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0641-flsall/frontier-extension.json": "3ab2232934a0081dc187154bb90fed1d767be79f30315fc92f5fe735c4c2e87d",
+    "cases/cpp-basic-frontiers/0641-flsall/original-receipt.json": "bbd7527230aaaa4a5444ec2b7cf2f3560f1e7528a2eae772876de74e1f108635",
+    "cases/cpp-basic-frontiers/0641-flsall/original-events.txt": "f48e429800e34eb67b86f52698acdd07c5ca7869a70fb2e2dbe634ef2a3b6ba0",
+    "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-configuration.json": "2e75f7a51bbff53432dc6f630e1d30116006bab156adf18b4e69a694be880ab6",
+    "cases/cpp-basic-frontiers/0642-import-ExitProcess/frontier-extension.json": "4a5c59c447bf0178fe9c297c45b17f696b0a191bc53e6e8ab344a61b51c3e3cf",
+    "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-receipt.json": "89b8e40e32802d4b0291173e1eda78da75e7cef040834f81a0d3476eb3dfb940",
+    "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-events.txt": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1060,7 +1148,7 @@
     },
     "cleanup_precompiled_files": {
       "logical": "_cleanup_precompiled_files",
-      "source": "src/stubs.c"
+      "source": "src/intermediate.c"
     },
     "clear_most_derived_argument": {
       "logical": "_clear_most_derived_argument@4",
@@ -1084,7 +1172,7 @@
     },
     "close_intermediate": {
       "logical": "_close_intermediate",
-      "source": "src/stubs.c"
+      "source": "src/intermediate.c"
     },
     "close_source_file": {
       "logical": "_close_source_file",
@@ -1424,7 +1512,7 @@
     },
     "defer_global_symbol": {
       "logical": "_defer_global_symbol",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "defer_nested_tag": {
       "logical": "_defer_nested_tag@8",
@@ -1572,7 +1660,7 @@
     },
     "emit_function_symbols": {
       "logical": "_emit_function_symbols@4",
-      "source": "src/stubs.c"
+      "source": "src/symbol-output.c"
     },
     "emit_generated_assignment": {
       "logical": "_emit_generated_assignment@12",
@@ -5012,7 +5100,11 @@
     "mangle_parameter_type",
     "mangle_type_shape",
     "mangle_function_terminator",
-    "mangle_type"
+    "mangle_type",
+    "emit_function_symbols",
+    "defer_global_symbol",
+    "close_intermediate",
+    "cleanup_precompiled_files"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5079,7 +5171,13 @@
       "__isatty",
       "__ftbuf",
       "__close",
-      "__free_osfhnd"
+      "__free_osfhnd",
+      "_fflush",
+      "_exit",
+      "_doexit",
+      "__endstdio",
+      "__flushall",
+      "_flsall"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -5100,13 +5198,14 @@
       "import:SetFilePointer",
       "import:GetSystemTime",
       "import:ReadFile",
-      "import:CloseHandle"
+      "import:CloseHandle",
+      "import:ExitProcess"
     ]
   },
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 632,
+      "last": 643,
       "seen": [],
       "expected": [
         "main",
@@ -5658,13 +5757,15 @@
         "mangle_type_shape",
         "mangle_function_terminator",
         "mangle_type",
-        "emit_function_symbols"
+        "emit_function_symbols",
+        "defer_global_symbol",
+        "close_intermediate",
+        "cleanup_precompiled_files"
       ],
       "terminal": {
-        "kind": "frontier",
-        "logical": "_emit_function_symbols@4",
-        "native": "emit_function_symbols",
-        "signal": 5
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
       }
     }
   }

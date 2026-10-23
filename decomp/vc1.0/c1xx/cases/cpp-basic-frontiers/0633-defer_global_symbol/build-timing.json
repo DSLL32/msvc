@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.1001804126426578,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-defer-global-symbol-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.066446891054511,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-defer-global-symbol-canonical.log"
+  }
+]

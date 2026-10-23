@@ -1,0 +1,9 @@
+{
+  "seconds": 5.292557121254504,
+  "status": 0,
+  "command": [
+    "make",
+    "-j4",
+    "build/reference-stream-observer.exe"
+  ]
+}

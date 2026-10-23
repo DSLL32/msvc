@@ -1,0 +1,21 @@
+exception 80000003 rva 0005d040 base 00010000 first 1
+buffer 0 0 
+buffer 1 0 
+buffer 2 0 
+buffer 3 0 
+state 0 00000000
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 ffffffff
+state 5 00000000
+state 6 80200000
+state 7 00008200
+state 8 00000090
+state 9 00000000
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+caller 00059a60
+exit 99

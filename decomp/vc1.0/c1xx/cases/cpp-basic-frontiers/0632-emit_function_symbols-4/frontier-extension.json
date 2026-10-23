@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 632,
+  "accepted": "_emit_function_symbols@4",
+  "terminal": "_defer_global_symbol",
+  "original_capture": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/original-receipt.json",
+  "original_capture_sha256": "28e8549b565e05ea09e637a67aaee8d783d7d491bdb37aadd2e89a3d6f5523c3",
+  "original_events": "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/original-events.txt",
+  "original_events_sha256": "df7f63c285129f20d2cf1c418031d548bfad021e1ca4bf4c4222460eeb7481a1",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

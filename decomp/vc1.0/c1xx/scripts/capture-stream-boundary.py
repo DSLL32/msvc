@@ -1,0 +1,88 @@
+"""Explicit original/native fflush entry/return observation, outside fixtures."""
+import argparse
+import importlib.util
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import tempfile
+import time
+from binary import PE
+from runtime_boundary_loader import load_boundary
+
+BINARY=Path(__file__).resolve().parents[1]
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('original_capture',type=Path)
+    args=parser.parse_args()
+    boundary=load_boundary()
+    sha=boundary.sha
+    spec=importlib.util.spec_from_file_location('c1xx_tool',BINARY/'scripts/wine-tool.py')
+    tool=importlib.util.module_from_spec(spec);spec.loader.exec_module(tool)
+    config=json.loads((BINARY/'functions.json').read_text())
+    before=json.loads((args.original_capture/'receipt.json').read_text())
+    assert before['candidate']=='_close_intermediate' and before['terminal']=='_fflush'
+    assert before['configuration_sha256']==sha(BINARY/'functions.json')
+    original=PE(tool.TC/'bin/C1XX3232.EXE')
+    selected=next(r for r in json.loads((BINARY/'runtime.json').read_text()) if r['name']=='_fflush')
+    directory=Path(tempfile.mkdtemp(prefix='stream-boundary-',dir=tool.PREFIX.parent))
+    plan=directory/'restore-plan.txt'
+    plan.write_text('%x %x %x _fflush\n'%(selected['start'],original.offset(selected['start']),selected['end']-selected['start']))
+    fixture=BINARY.parent/'fixtures/cpp-basic'
+    phase=json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+    flags=phase['environment']['MSC_CMD_FLAGS'].format(bin=tool.windows(tool.TC/'bin'),include=tool.windows(tool.TC/'include'))
+    program=phase['command_line_template'].format(bin=tool.windows(tool.TC/'bin'))
+    def prepare(name):
+        work=directory/name;work.mkdir()
+        for item in phase['inputs']:shutil.copyfile(fixture/item['path'],work/Path(item['path']).name)
+        return work
+    work=prepare('original-case')
+    command=['wine',str(BINARY/'build/reference-stream-observer.exe'),tool.windows(args.original_capture/'masked-original.exe'),'',
+        tool.windows(directory/'original-stdout.bin'),tool.windows(directory/'original-stderr.bin'),tool.windows(directory/'original-events.txt'),
+        tool.windows(work),'MSC_CMD_FLAGS='+flags,program]
+    env=tool.environment();env.update(C1XX_STREAM_PLAN=tool.windows(plan),C1XX_STREAM_LOG=tool.windows(directory/'original-observation.txt'),C1XX_STREAM_IMAGE=tool.windows(tool.TC/'bin/C1XX3232.EXE'))
+    started=time.perf_counter()
+    subprocess.run(command,env=env,check=True,timeout=90,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    original_seconds=time.perf_counter()-started
+    raw=(directory/'original-observation.txt').read_text()
+    observed={'result':int(re.search(r'^result (-?\d+)$',raw,re.M)[1]),'return_va':int(re.search(r'^return_va ([0-9a-f]+)$',raw,re.M)[1],16)}
+    keys=('descriptor','flags','count','used','size')
+    for stage in ('before','after'):
+        match=re.search(r'^'+stage+r' descriptor (\d+) flags (\d+) count (-?\d+) used (-?\d+) size (\d+)$',raw,re.M)
+        observed[stage]=dict(zip(keys,map(int,match.groups())))
+    work=prepare('native-case')
+    commands=['break close_intermediate','run > '+str(directory/'native-stdout.bin')+' 2> '+str(directory/'native-stderr.bin'),
+        'break recon_fflush','continue','python','import gdb,json',
+        'stream=gdb.parse_and_eval("s")',
+        'def snapshot(): return {"descriptor":int(stream["_file"]),"flags":int(stream["_flag"]),"count":int(stream["_cnt"]),"used":int(stream["_ptr"])-int(stream["_base"]),"size":int(stream["_bufsiz"])}',
+        'before=snapshot()','end','finish','python',
+        'observed={"before":before,"after":snapshot(),"result":int(gdb.parse_and_eval("(int)$eax")),"caller":gdb.newest_frame().name()}',
+        'open('+repr(str(directory/'native-observation.json'))+',"w").write(json.dumps(observed,indent=2)+"\\n")','end']
+    script=directory/'native.gdb';script.write_text('\n'.join(commands)+'\n')
+    env={k:v for k,v in os.environ.items() if not k.startswith('RECON_')}
+    for name in ('CL','_CL_','LINK','_LINK_'):env.pop(name,None)
+    env.update(MSC_CMD_FLAGS=flags,RECON_PROGRAM_PATH=program,TZ='PST8PDT')
+    started=time.perf_counter();result=subprocess.run(['gdb','-q','-batch','-x',str(script),'--args',str(BINARY/'build/native/C1XX3232.EXE')],env=env,cwd=work,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=60)
+    native_seconds=time.perf_counter()-started
+    (directory/'native-gdb.log').write_text(result.stdout+result.stderr)
+    assert result.returncode==0,result.stdout+result.stderr
+    native=json.loads((directory/'native-observation.json').read_text())
+    assert native['caller']=='close_intermediate'
+    assert observed['return_va']==0x74324
+    assert all(observed[key]==native[key] for key in ('before','after','result')),(observed,native)
+    expected={p.name:p.read_bytes() for p in (directory/'original-case').iterdir() if p.is_file()}
+    actual={p.name:p.read_bytes() for p in work.iterdir() if p.is_file()}
+    assert expected==actual,'stream boundary visible bytes differ'
+    receipt=dict(scope='explicit fflush boundary; not application acceptance',target_sha256=config['target']['sha256'],
+        configuration_sha256=sha(BINARY/'functions.json'),accepted_before=len(config['accepted']),runtime_order=['_fflush'],
+        original=observed,native=native,original_capture=str(args.original_capture),original_capture_sha256=sha(args.original_capture/'receipt.json'),
+        original_seconds=original_seconds,native_seconds=native_seconds,identity=boundary.identities(names=('_fflush',),canonical=True))
+    (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    print(directory/'receipt.json')
+
+
+if __name__=='__main__':main()

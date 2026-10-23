@@ -138,3 +138,23 @@ emit_record:
     write_global_record(record, symbol);
     symbol->flags |= 8;
 }
+
+/* Original 0x54940..0x549b8. Expand an overload set, stopping at the
+   first non-function member. The original's null input leaves its cursor
+   uninitialized; callers provide a symbol and the same condition is retained. */
+void __stdcall emit_function_symbols(CppSymbol *symbols)
+{
+    CppSymbol *cursor, *function;
+    unsigned kind;
+    if (symbols) {
+        kind = symbols->kind & 0x1f;
+        cursor = kind == 16 || kind == 17 ? ((OverloadSet *)symbols)->functions : symbols;
+    }
+    while (cursor) {
+        kind = cursor->kind & 0x1f;
+        if (kind != 6 && kind != 7) break;
+        function = cursor;
+        cursor = cursor->next;
+        emit_symbol_declaration(function);
+    }
+}

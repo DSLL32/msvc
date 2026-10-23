@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b308 in defer_global_symbol (symbol=0x565eb084) at src/stubs.c:619
+619	int defer_global_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
+#0  0x5655b308 in defer_global_symbol (symbol=0x565eb084) at src/stubs.c:619
+#1  0x5658b986 in serialize_scope (scope=0x565e9048) at src/function-finalization.c:130
+#2  0x5658c1ee in finish_expression_output () at src/function-finalization.c:322
+#3  0x5655db2e in compile_translation_unit () at src/frontend.c:81
+#4  0x565587c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558794 in main (argc=1, argv=0xffffd8c4, environment=0xffffd8cc) at src/c1xx.c:20

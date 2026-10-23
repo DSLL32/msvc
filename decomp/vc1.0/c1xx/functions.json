@@ -636,7 +636,18 @@
     "_mangle_parameter_type@8",
     "_mangle_type_shape@8",
     "_mangle_function_terminator@8",
-    "_mangle_type@12"
+    "_mangle_type@12",
+    "_emit_function_symbols@4",
+    "_defer_global_symbol",
+    "_close_intermediate",
+    "_fflush",
+    "_cleanup_precompiled_files",
+    "_exit",
+    "_doexit",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "import:ExitProcess"
   ],
   "driver": [
     {
@@ -917,7 +928,7 @@
     {
       "name": "_close_intermediate",
       "start": 475920,
-      "end": 475921
+      "end": 476021
     },
     {
       "name": "_finish_browser_output",
@@ -932,7 +943,7 @@
     {
       "name": "_cleanup_precompiled_files",
       "start": 446528,
-      "end": 446529
+      "end": 446777
     },
     {
       "name": "_initialize_work_stack@4",
@@ -4975,12 +4986,12 @@
     {
       "name": "_emit_function_symbols@4",
       "start": 346432,
-      "end": 346433
+      "end": 346553
     },
     {
       "name": "_defer_global_symbol",
       "start": 350464,
-      "end": 350465
+      "end": 350588
     },
     {
       "name": "_debug_tag_type@4",
@@ -5908,8 +5919,8 @@
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_emit_function_symbols@4",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0631-mangle_type-12/original-events.txt",
+      "terminal": "exit:0",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -6008,7 +6019,18 @@
         "cases/cpp-basic-frontiers/0628-mangle_parameter_type-8/frontier-extension.json",
         "cases/cpp-basic-frontiers/0629-mangle_type_shape-8/frontier-extension.json",
         "cases/cpp-basic-frontiers/0630-mangle_function_terminator-8/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0631-mangle_type-12/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0631-mangle_type-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0632-emit_function_symbols-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0633-defer_global_symbol/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0634-close_intermediate/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0635-fflush/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0637-exit/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0638-doexit/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0639-endstdio/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0640-flushall/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0641-flsall/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0642-import-ExitProcess/frontier-extension.json"
       ]
     }
   },
@@ -7850,6 +7872,43 @@
         }
       ],
       "original": 621576
+    },
+    {
+      "name": "_pch_file_incomplete",
+      "original": 664432,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pch_file_incomplete",
+          "original": 664432,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_replacement_incomplete",
+          "original": 664436,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_expression_output",
+          "original": 654024,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_file",
+          "original": 577500,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_replacement_file",
+          "original": 576716,
+          "bytes": 4
+        },
+        {
+          "name": "_intermediate_status",
+          "original": 576636,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [

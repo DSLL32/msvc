@@ -75,6 +75,15 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         sprintf(line, "caller unreadable\n");
     else sprintf(line, "caller %08lx\n", value - base);
     WriteFile(log, line, strlen(line), &written, 0);
+    /* Raw ABI evidence for newly reached runtime boundaries. Do not infer
+       argument meaning from these words without inspecting the call site. */
+    for (index = 0; index < 4; ++index) {
+        value = got = 0;
+        if (!ReadProcessMemory(process, (void *)(context.Esp + 4 + 4 * index), &value, 4, &got) || got != 4)
+            sprintf(line, "argument %lu unreadable\n", index);
+        else sprintf(line, "argument %lu %08lx\n", index, value);
+        WriteFile(log, line, strlen(line), &written, 0);
+    }
 }
 
 int main(int argc, char **argv)

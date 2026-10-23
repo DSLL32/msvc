@@ -1,0 +1,18 @@
+{
+  "before": {
+    "descriptor": 5,
+    "flags": 138,
+    "count": 3779,
+    "used": 317,
+    "size": 4096
+  },
+  "after": {
+    "descriptor": 5,
+    "flags": 138,
+    "count": 0,
+    "used": 0,
+    "size": 4096
+  },
+  "result": 0,
+  "caller": "close_intermediate"
+}

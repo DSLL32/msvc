@@ -1,7 +1,7 @@
-"""Run the existing incomplete C++ fixture natively against immutable references.
+"""Run the C++ fixture natively against immutable references.
 
 No reference refresh, Win32 process, Wine lookup or downstream compiler is run.
-The expected terminal is an application INT3, not successful frontend completion.
+The frozen oracle specifies an application frontier or a completed exit status.
 """
 import argparse
 import hashlib
@@ -108,7 +108,11 @@ def run(executable, directory, tracing, accounting):
     (work / 'stdout.bin').write_bytes(result.stdout)
     (work / 'stderr.bin').write_bytes(result.stderr)
     checked = time.perf_counter()
-    assert result.returncode == -signal.SIGTRAP, 'expected named frontier SIGTRAP, got %d' % result.returncode
+    complete=metadata['terminal']['kind']=='exit'
+    if complete:
+        assert result.returncode==metadata['terminal']['status'],'expected completed frontend exit status, got %d'%result.returncode
+    else:
+        assert result.returncode == -signal.SIGTRAP, 'expected named frontier SIGTRAP, got %d' % result.returncode
     assert result.stdout == metadata['expected_stdout'].encode('latin1'), 'stdout differs'
     assert result.stderr == metadata['expected_stderr'].encode('latin1'), 'stderr differs'
     artifacts = []
@@ -130,7 +134,7 @@ def run(executable, directory, tracing, accounting):
         trace_count = len(actual)
         compare_trace(actual, entry['expected'])
     return dict(case='cpp_basic', status='pass', terminal=metadata['terminal'],
-        native_status=result.returncode, complete_frontend_case=False,
+        native_status=result.returncode, complete_frontend_case=complete,
         setup_seconds=setup_seconds, execution_seconds=execution_seconds,
         oracle_seconds=oracle_seconds, trace_check_seconds=time.perf_counter()-trace_start,
         total_seconds=time.perf_counter()-started, application_trace_entries=trace_count,

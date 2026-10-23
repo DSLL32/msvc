@@ -1,0 +1,7 @@
+{
+  "status": "accepted runtime library/import identity",
+  "function": "_exit",
+  "next_frontier": "_doexit",
+  "boundary_evidence": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json",
+  "downstream_comparison": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/validation.json"
+}

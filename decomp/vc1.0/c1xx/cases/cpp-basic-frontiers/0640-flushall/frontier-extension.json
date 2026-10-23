@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "accepted_before": 640,
+  "accepted": "__flushall",
+  "terminal": "_flsall",
+  "original_capture": "cases/cpp-basic-frontiers/0640-flushall/original-receipt.json",
+  "original_capture_sha256": "ebd1acdbac08524866953d1dafacaf01b8df7f65529ddbb53983b8182c519f29",
+  "original_events": "cases/cpp-basic-frontiers/0640-flushall/original-events.txt",
+  "original_events_sha256": "3bd18ca043c3a2f0202400d55eae90559bd355e38a8c8ee82c36b24f78171b1e",
+  "original_configuration": "cases/cpp-basic-frontiers/0640-flushall/original-configuration.json",
+  "scope": "Explicit runtime first-entry sequence, indexed library/import identity, original/native runtime boundary and downstream full checkpoint",
+  "runtime_evidence": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json",
+  "runtime_evidence_sha256": "5941a18a0d59db248373e51adbdb89cd2a98a93e0cc73c1daea31fc1e9fdd73f",
+  "downstream_frontier": "exit:0",
+  "downstream_comparison": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/validation.json"
+}

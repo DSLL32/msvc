@@ -7,7 +7,8 @@
   "current": {
     "case": "cpp_basic",
     "fixture": "../fixtures/cpp-basic",
-    "status": "reconstruction in progress"
+    "status": "cpp_basic complete; follow-on original capture next",
+    "completion_checkpoint": "cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/validation.json"
   },
   "pending": [
     {
