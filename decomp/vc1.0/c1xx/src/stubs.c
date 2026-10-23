@@ -107,7 +107,6 @@ char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { 
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall defer_object_definition(CppSymbol *symbol) { __asm { int 3 } }
-short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall make_local_static_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -621,3 +620,4 @@ short __stdcall format_based_declaration(unsigned short attributes, void *base) 
 short __stdcall format_pointer_declarator(short text, TypeShape *shape) { __asm { int 3 } return 0; }
 void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm { int 3 } }
 void __stdcall prepend_type_diagnostic(short text, char *value) { __asm { int 3 } }
+short __stdcall format_storage_extensions(short text, StorageSpec storage) { __asm { int 3 } return 0; }

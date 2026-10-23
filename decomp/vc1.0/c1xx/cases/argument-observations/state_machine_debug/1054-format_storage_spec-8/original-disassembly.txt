@@ -1,0 +1,86 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000684f0 <.text+0x514f0>:
+   684f0:	56                   	push   esi
+   684f1:	66 8b 74 24 08       	mov    si,WORD PTR [esp+0x8]
+   684f6:	66 0b f6             	or     si,si
+   684f9:	75 08                	jne    0x68503
+   684fb:	e8 80 04 00 00       	call   0x68980
+   68500:	66 8b f0             	mov    si,ax
+   68503:	f6 44 24 0d 01       	test   BYTE PTR [esp+0xd],0x1
+   68508:	74 14                	je     0x6851e
+   6850a:	a1 10 16 0a 00       	mov    eax,ds:0xa1610
+   6850f:	50                   	push   eax
+   68510:	56                   	push   esi
+   68511:	e8 0a f3 ff ff       	call   0x67820
+   68516:	6a 20                	push   0x20
+   68518:	56                   	push   esi
+   68519:	e8 62 f3 ff ff       	call   0x67880
+   6851e:	f6 44 24 0d 02       	test   BYTE PTR [esp+0xd],0x2
+   68523:	74 14                	je     0x68539
+   68525:	a1 14 16 0a 00       	mov    eax,ds:0xa1614
+   6852a:	50                   	push   eax
+   6852b:	56                   	push   esi
+   6852c:	e8 ef f2 ff ff       	call   0x67820
+   68531:	6a 20                	push   0x20
+   68533:	56                   	push   esi
+   68534:	e8 47 f3 ff ff       	call   0x67880
+   68539:	83 3d a4 cc 08 00 00 	cmp    DWORD PTR ds:0x8cca4,0x0
+   68540:	75 24                	jne    0x68566
+   68542:	f6 44 24 0d 04       	test   BYTE PTR [esp+0xd],0x4
+   68547:	74 1d                	je     0x68566
+   68549:	f6 05 91 f7 09 00 02 	test   BYTE PTR ds:0x9f791,0x2
+   68550:	75 14                	jne    0x68566
+   68552:	a1 0c 16 0a 00       	mov    eax,ds:0xa160c
+   68557:	50                   	push   eax
+   68558:	56                   	push   esi
+   68559:	e8 c2 f2 ff ff       	call   0x67820
+   6855e:	6a 20                	push   0x20
+   68560:	56                   	push   esi
+   68561:	e8 1a f3 ff ff       	call   0x67880
+   68566:	f6 44 24 0c 20       	test   BYTE PTR [esp+0xc],0x20
+   6856b:	75 67                	jne    0x685d4
+   6856d:	8a 44 24 0c          	mov    al,BYTE PTR [esp+0xc]
+   68571:	83 e0 07             	and    eax,0x7
+   68574:	83 f8 07             	cmp    eax,0x7
+   68577:	77 07                	ja     0x68580
+   68579:	ff 24 85 ec 85 06 00 	jmp    DWORD PTR [eax*4+0x685ec]
+   68580:	b8 f4 20 0a 00       	mov    eax,0xa20f4
+   68585:	eb 3e                	jmp    0x685c5
+   68587:	b8 f0 20 0a 00       	mov    eax,0xa20f0
+   6858c:	eb 37                	jmp    0x685c5
+   6858e:	8b ff                	mov    edi,edi
+   68590:	a1 00 16 0a 00       	mov    eax,ds:0xa1600
+   68595:	eb 2e                	jmp    0x685c5
+   68597:	b8 e4 20 0a 00       	mov    eax,0xa20e4
+   6859c:	eb 27                	jmp    0x685c5
+   6859e:	8b ff                	mov    edi,edi
+   685a0:	a1 fc 15 0a 00       	mov    eax,ds:0xa15fc
+   685a5:	eb 1e                	jmp    0x685c5
+   685a7:	a1 f8 15 0a 00       	mov    eax,ds:0xa15f8
+   685ac:	eb 17                	jmp    0x685c5
+   685ae:	8b ff                	mov    edi,edi
+   685b0:	a1 04 16 0a 00       	mov    eax,ds:0xa1604
+   685b5:	eb 0e                	jmp    0x685c5
+   685b7:	b8 cc 20 0a 00       	mov    eax,0xa20cc
+   685bc:	eb 07                	jmp    0x685c5
+   685be:	8b ff                	mov    edi,edi
+   685c0:	a1 08 16 0a 00       	mov    eax,ds:0xa1608
+   685c5:	50                   	push   eax
+   685c6:	56                   	push   esi
+   685c7:	e8 54 f2 ff ff       	call   0x67820
+   685cc:	6a 20                	push   0x20
+   685ce:	56                   	push   esi
+   685cf:	e8 ac f2 ff ff       	call   0x67880
+   685d4:	8a 44 24 0e          	mov    al,BYTE PTR [esp+0xe]
+   685d8:	c1 e0 10             	shl    eax,0x10
+   685db:	66 8b 44 24 0c       	mov    ax,WORD PTR [esp+0xc]
+   685e0:	50                   	push   eax
+   685e1:	56                   	push   esi
+   685e2:	e8 d9 fd ff ff       	call   0x683c0
+   685e7:	5e                   	pop    esi
+   685e8:	c2 08 00             	ret    0x8

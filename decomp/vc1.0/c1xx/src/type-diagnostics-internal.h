@@ -20,4 +20,5 @@ short __stdcall format_pointer_declarator(short text, TypeShape *shape);
 void __stdcall prepend_type_diagnostic_char(short text, int character);
 short __stdcall format_function_parameters(short text, FunctionParameters *parameters, unsigned flags);
 void __stdcall prepend_type_diagnostic(short text, char *value);
+short __stdcall format_storage_extensions(short text, StorageSpec storage);
 #endif

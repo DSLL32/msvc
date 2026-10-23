@@ -1058,7 +1058,8 @@
     "_release_type_diagnostic@4",
     "_format_this_qualifiers@8",
     "_read_number_text@4",
-    "_write_storage_specification@8"
+    "_write_storage_specification@8",
+    "_format_storage_spec@8"
   ],
   "driver": [
     {
@@ -2111,7 +2112,13 @@
     {
       "name": "_format_storage_spec@8",
       "start": 427248,
-      "end": 427499
+      "end": 427499,
+      "shared": [
+        [
+          427500,
+          427532
+        ]
+      ]
     },
     {
       "name": "_merge_storage_spec@8",
@@ -7844,6 +7851,11 @@
       "name": "_prepend_type_diagnostic@8",
       "start": 424096,
       "end": 424097
+    },
+    {
+      "name": "_format_storage_extensions@8",
+      "start": 426944,
+      "end": 426945
     }
   ],
   "cases": {
@@ -8044,7 +8056,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_format_storage_spec@8",
+      "terminal": "_format_storage_extensions@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8067,7 +8079,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1054-format_storage_spec-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8126,7 +8138,8 @@
         "cases/frontiers/state_machine_debug/1050-release_type_diagnostic-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1051-format_this_qualifiers-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1052-read_number_text-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1054-format_storage_spec-8/frontier-extension.json"
       ]
     }
   },

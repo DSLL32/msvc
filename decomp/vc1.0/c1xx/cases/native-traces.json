@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "7812371a4c5f41bf7f02a8d55d9d8acb1951c347c1e72d76504c228998734714",
+    "functions.json": "274adb62dfc0ef6a426261cdc23b0225671b7f24da5b7f5ad831c9e2d092bb71",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "e1c1a34d2501c2afeaa3bdd7ad0cdc39b463705b2c0fc664969ea63a35c11e7f",
-    "cases/canonical-map.txt": "dc55fac667886fbcbecf1c4520cff40bbac41b91c02380365bfd183e4057d655",
+    "cases/original-entry-references.json": "ff8f14211883865d435f26d3563770850bc031f2d482c73f2a8dec430435b6b8",
+    "cases/canonical-map.txt": "ae4d101312981da0d67c8f7664d7430f3aaa771834eb816cb2d509fb8b9bdae6",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/entry-reference/original-receipt.json": "b3a1f91409867b360ddacb7352165a809f98744f7dc7f076fe58621db698f3b9",
-    "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/entry-reference/original-events.txt": "9c2272bbbd7d50a3f46cb5b75b099774905cad8cefe7a1c9e14e407bc43241ce",
-    "cases/frontiers/state_machine_debug/1053-write_storage_specification-8/entry-reference/original-entries.plan": "f6d5a32770632039e1e9a9e528969349ee3b6c82e3947eb839482bafa07cd5d0"
+    "cases/frontiers/state_machine_debug/1054-format_storage_spec-8/entry-reference/original-receipt.json": "72c450829c50edef8a5197c3a730030e38b346fc136167466ab34cc85eeb09ee",
+    "cases/frontiers/state_machine_debug/1054-format_storage_spec-8/entry-reference/original-events.txt": "9cc07772d3cede2d68b43a80240f6efc038c8aa3de8a19aee6d24cc254f14136",
+    "cases/frontiers/state_machine_debug/1054-format_storage_spec-8/entry-reference/original-entries.plan": "c65bd1a4219f0ce6c6f953815895c2c228e6e7399c8ef4e611fb8698a1b166de"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2363,9 +2363,13 @@
       "logical": "_format_shape_attributes@20",
       "source": "src/type-diagnostics.c"
     },
+    "format_storage_extensions": {
+      "logical": "_format_storage_extensions@8",
+      "source": "src/stubs.c"
+    },
     "format_storage_spec": {
       "logical": "_format_storage_spec@8",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "format_symbol_name": {
       "logical": "_format_symbol_name@4",
@@ -6336,7 +6340,8 @@
     "release_type_diagnostic",
     "format_this_qualifiers",
     "read_number_text",
-    "write_storage_specification"
+    "write_storage_specification",
+    "format_storage_spec"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10448,7 +10453,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1054,
+      "last": 1055,
       "seen": [
         "main",
         "message_text",
@@ -11412,12 +11417,13 @@
         "format_this_qualifiers",
         "read_number_text",
         "write_storage_specification",
-        "format_storage_spec"
+        "format_storage_spec",
+        "format_storage_extensions"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_format_storage_spec@8",
-        "native": "format_storage_spec",
+        "logical": "_format_storage_extensions@8",
+        "native": "format_storage_extensions",
         "signal": 5
       }
     }

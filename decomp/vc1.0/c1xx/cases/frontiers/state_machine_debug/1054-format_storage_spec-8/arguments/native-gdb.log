@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x3bab0: file src/type-diagnostics.c, line 615.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, format_storage_spec (text=0, storage=...) at src/type-diagnostics.c:615
+615	    if (!text) text = reserve_type_diagnostic();
+#0  format_storage_spec (text=0, storage=...) at src/type-diagnostics.c:615
+#1  0x5658f40f in write_storage_specification (storage=..., stream=0x0) at src/type-diagnostics.c:602
+#2  0x5658f1fe in print_declaration (symbol=0x56620054, stream=0x0) at src/type-diagnostics.c:201
+#3  0x565c3988 in print_inline_declaration (symbol=0x56620054, stream=0x0) at src/inline-capture.c:334
+#4  0x565c32c0 in capture_inline_member_declaration (symbol=0x56620054, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:144
+#5  0x565bfe74 in configure_member_function (storage=..., member=0x56620054, pure=0) at src/class-members.c:538
+#6  0x565bed33 in declare_class_member (context=0x566069e8 <declaration_spec_storage+8>, member=0x56620054) at src/class-members.c:176
+#7  0x565af619 in parse_translation_unit () at src/parser-declaration-actions.inc:274
+#8  0x5655e0ff in compile_translation_unit () at src/frontend.c:73
+#9  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558874 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

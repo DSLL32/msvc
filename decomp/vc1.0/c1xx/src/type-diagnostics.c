@@ -605,3 +605,41 @@ void __stdcall write_storage_specification(StorageSpec storage, FILE *stream)
     else fwrite(text, length, 1, stream);
     end_type_diagnostic();
 }
+
+/* Original 0x684f0..0x685eb and its 0x685ec..0x6860c switch table.
+   Retain inline/virtual/friend spelling order, storage-class comments, and
+   the separate extended-storage formatter. */
+short __stdcall format_storage_spec(short text, StorageSpec storage)
+{
+    char *spelling;
+    if (!text) text = reserve_type_diagnostic();
+    if (storage.flags & 0x100) {
+        append_type_diagnostic(text, token_spellings[17]);
+        append_type_diagnostic_char(text, ' ');
+    }
+    if (storage.flags & 0x200) {
+        append_type_diagnostic(text, token_spellings[18]);
+        append_type_diagnostic_char(text, ' ');
+    }
+    if (!options.prototypes_only && (storage.flags & 0x400) &&
+        !(token_allocation_flags & 0x200)) {
+        append_type_diagnostic(text, token_spellings[16]);
+        append_type_diagnostic_char(text, ' ');
+    }
+    if (!(storage.flags & 0x20)) {
+        switch (storage.flags & 7) {
+        case 0: spelling = ""; break;
+        case 1: spelling = token_spellings[13]; break;
+        case 2: spelling = "/*global*/"; break;
+        case 3: spelling = token_spellings[12]; break;
+        case 4: spelling = token_spellings[11]; break;
+        case 5: spelling = token_spellings[14]; break;
+        case 6: spelling = "/* really */ register"; break;
+        case 7: spelling = token_spellings[15]; break;
+        default: spelling = "/*CLASS?*/"; break;
+        }
+        append_type_diagnostic(text, spelling);
+        append_type_diagnostic_char(text, ' ');
+    }
+    return format_storage_extensions(text, storage);
+}
