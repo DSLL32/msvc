@@ -412,40 +412,1600 @@
       "seconds": 39.25548110622913
     },
     "other_measured": {
-      "commands": 1,
-      "failed": 0,
-      "seconds": 0.07955918088555336
+      "commands": 3,
+      "failed": 1,
+      "seconds": 2.018848143517971
     },
     "native_debug": {
-      "commands": 40,
+      "commands": 41,
       "failed": 2,
-      "seconds": 9.11602940224111
+      "seconds": 9.34572964347899
     },
     "original_reference": {
-      "commands": 39,
+      "commands": 40,
       "failed": 0,
-      "seconds": 67.9837970212102
+      "seconds": 70.08958994504064
     },
     "canonical_warnings": {
-      "commands": 7,
+      "commands": 9,
       "failed": 1,
-      "seconds": 33.25776566192508
+      "seconds": 43.802351197227836
     },
     "data_checks": {
+      "commands": 2,
+      "failed": 0,
+      "seconds": 45.74196944385767
+    },
+    "original_pipeline_capture": {
       "commands": 1,
       "failed": 0,
-      "seconds": 5.777666352689266
+      "seconds": 3.8483254332095385
     },
     "rejection_checks": {
       "commands": 1,
       "failed": 0,
       "seconds": 16.74699905142188
+    },
+    "arithmetic_proof": {
+      "commands": 1,
+      "failed": 0,
+      "seconds": 0.3083428405225277
     }
   },
   "timing_notes": [
-    "Groups sum measured durations, including failed/repeated frontier1109..1146 commands, and may overlap; not task wall-clock. Individual prior attempts remain in checkpoint receipts.",
+    "Groups sum all measured frontier1109..1146 and inline/inlrec/proof commands, including failures and repeats; commands may overlap, so this is not task wall-clock. Per-attempt list retained.",
     "Reference and native fixture receipts split setup/run/check where measured. Fixtures contain noWine.",
     "Combined canonical/native/traced builds and dependency rebuilds remain unsplit. Analysis/edit time and incidental uninstrumented script attempts unmeasured.",
-    "An initial completion-document script had a syntax error before executing; corrected without altering acceptance or rerunning tests."
+    "An initial completion-document script had a syntax error before executing; corrected without altering acceptance or rerunning tests.",
+    "Initial timing-account update used repo cwd instead of binary cwd and failed before editing; follow-up documentation-only commit corrects account without rerunning target checks."
+  ],
+  "all_measured_attempts": [
+    {
+      "label": "frontier1109-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2340780841186643,
+      "returncode": 0,
+      "log_sha256": "5f1e4454e646c0e5c179361ffeb94beb6b254ff3633e7490c95dcebabb772875"
+    },
+    {
+      "label": "frontier1109-build-timing",
+      "phase": "combined_build",
+      "seconds": 6.138331359252334,
+      "returncode": 0,
+      "log_sha256": "ceb385afdd75eb9e885e181afef315e95d9bc6fed9e8a05f12377a26ab3abb15"
+    },
+    {
+      "label": "frontier1109-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.64769830647856,
+      "returncode": 0,
+      "log_sha256": "c396511962aa943dc851dda8b68ee1ab2c6391d153bed09708bf8a8a785195bc"
+    },
+    {
+      "label": "frontier1109-data-build-timing",
+      "phase": "combined_build",
+      "seconds": 3.63609554246068,
+      "returncode": 0,
+      "log_sha256": "918d0e3fb81dfb30e4d5945b0005e2e131ff7addaea550b65e267b47dc0825fb"
+    },
+    {
+      "label": "frontier1109-data-timing",
+      "phase": "other_measured",
+      "seconds": 0.07955918088555336,
+      "returncode": 0,
+      "log_sha256": "37ec9aa61c524ce03e99d36a2e3240cf8bded5de543d522fc495627af7a32eea"
+    },
+    {
+      "label": "frontier1109-debug-corrected-timing",
+      "phase": "native_debug",
+      "seconds": 0.22849330119788647,
+      "returncode": 0,
+      "log_sha256": "d3e9fafe0c31b180ca5e2504ea07f40e3159ab406fcefb16317eac73074b1db4"
+    },
+    {
+      "label": "frontier1109-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22873193304985762,
+      "returncode": 1,
+      "log_sha256": "c3dae712d584dffdaa97a86d338c7c1971044b25447f73130467ccc3e5d35a2a"
+    },
+    {
+      "label": "frontier1109-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.5626285253092647,
+      "returncode": 0,
+      "log_sha256": "bb31fa02601dc3651b521e0e5fde57ce23adde4c8741f1f075a5fbddc69dd209"
+    },
+    {
+      "label": "frontier1110-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.277014084160328,
+      "returncode": 0,
+      "log_sha256": "14fe05ce2fba4013e57df1532f10159f262d736527c9b82618cb3afe84742e5a"
+    },
+    {
+      "label": "frontier1110-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.6437305686995387,
+      "returncode": 0,
+      "log_sha256": "d66765b4587e911e0344df35358f67b433f61040e667e303c9a4a193cb7fc19b"
+    },
+    {
+      "label": "frontier1110-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6229290897026658,
+      "returncode": 0,
+      "log_sha256": "b46d492c69538c7616e8f09560766194e1386335c6f5b057af10f702e8c7c4ca"
+    },
+    {
+      "label": "frontier1110-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22508922219276428,
+      "returncode": 0,
+      "log_sha256": "5479cecfacc0877a4a30822d1051e4709cdfe95fa02deb8e969fbca2ddebcea3"
+    },
+    {
+      "label": "frontier1110-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.000755992718041,
+      "returncode": 0,
+      "log_sha256": "82ea15d84914d4cf16b1f7228be5c28af7354750781e2d6daf31fbf139f32bc7"
+    },
+    {
+      "label": "frontier1111-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 31.505065351724625,
+      "returncode": 0,
+      "log_sha256": "83a575df66758b24f2290175f604c67cd841956a76eff8461dad3858c078e2a3"
+    },
+    {
+      "label": "frontier1111-build-corrected-timing",
+      "phase": "combined_build",
+      "seconds": 2.4798864852637053,
+      "returncode": 0,
+      "log_sha256": "bdbf4a3b332442d5e062fdf41ca1d81d16f405cfc6b596a8355c719e34fb4f79"
+    },
+    {
+      "label": "frontier1111-build-timing",
+      "phase": "combined_build",
+      "seconds": 0.6447959756478667,
+      "returncode": 2,
+      "log_sha256": "4fead12e1192fcd6ec685dde21f392a8cc3767dd2fff10aa551d0da123c61a9c"
+    },
+    {
+      "label": "frontier1111-check-timing",
+      "phase": "fixture_check",
+      "seconds": 5.872266321443021,
+      "returncode": 0,
+      "log_sha256": "4f285a0018cbf7937f65e4a33615fea800c630551947687321bebdeb5cf5db4c"
+    },
+    {
+      "label": "frontier1111-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2202090360224247,
+      "returncode": 0,
+      "log_sha256": "846d2c71f213f338f1ee73daf0b1d376f14b9a44760dd2e4b407e5ebe16034be"
+    },
+    {
+      "label": "frontier1111-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.7972278436645865,
+      "returncode": 0,
+      "log_sha256": "ef07714d9495f5f52cd3e599a391fcfbba0fff13b8b9d8cd6abf08dd0503ceb1"
+    },
+    {
+      "label": "frontier1112-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.25414006318897,
+      "returncode": 0,
+      "log_sha256": "00a5a8003624a33176899f0e705c9aa3c960f0d5c95a83f782654c107e1b1f75"
+    },
+    {
+      "label": "frontier1112-build-timing",
+      "phase": "combined_build",
+      "seconds": 6.5591594111174345,
+      "returncode": 0,
+      "log_sha256": "cd60b713ca26452ffbfb3c4635d11cd9c276a022a77571fb20bbbc4d04af0711"
+    },
+    {
+      "label": "frontier1112-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5908711440861225,
+      "returncode": 0,
+      "log_sha256": "9f929b0fe7fc6ee2fd468a98b9e7a4e3c1e8d5356c8f120d87abcd9d1d68efdf"
+    },
+    {
+      "label": "frontier1112-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22791856992989779,
+      "returncode": 0,
+      "log_sha256": "550e551d5a42c814c060c1c878bc751dd248b7b439c7276ddd3f1c095faf6818"
+    },
+    {
+      "label": "frontier1112-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.9382178923115134,
+      "returncode": 0,
+      "log_sha256": "06b9a13788e5d144767934defb828e01cb205ef0b6e8767ac80da60433e9c8be"
+    },
+    {
+      "label": "frontier1112-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 8.856706541962922,
+      "returncode": 0,
+      "log_sha256": "515073dcdaa9fccd66225f0a90af16804b0adcaba71061ae2e4a2483758493b0"
+    },
+    {
+      "label": "frontier1113-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 31.51180307753384,
+      "returncode": 0,
+      "log_sha256": "a3d84151b49fdef81e9122779f693e746a63a1e9b8f189549dd5461a41bbcef0"
+    },
+    {
+      "label": "frontier1113-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.769145967438817,
+      "returncode": 0,
+      "log_sha256": "f0915e5c711de7a4f0407d4cae93edef80f7cc0ec784485a070e975818f1a819"
+    },
+    {
+      "label": "frontier1113-check-timing",
+      "phase": "fixture_check",
+      "seconds": 5.904465369880199,
+      "returncode": 0,
+      "log_sha256": "a37673ba2964dc4cdf9572aabf060e205c6c352f0e458bdc58fbc96d95ea8077"
+    },
+    {
+      "label": "frontier1113-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.21456801239401102,
+      "returncode": 0,
+      "log_sha256": "c579c3f0b0a6f72e30156c3cfba5469a9e5d80b3c27598493715ac06f66659a8"
+    },
+    {
+      "label": "frontier1113-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.9986621709540486,
+      "returncode": 0,
+      "log_sha256": "4a98dc6f9873677857a5ef4016813b020a00f9348223796cab77e7fcf013d09f"
+    },
+    {
+      "label": "frontier1114-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 12.375960437580943,
+      "returncode": 0,
+      "log_sha256": "b85bac1e2b97942de810d0563efc87d8ed3430f65129567723b660ba4b791095"
+    },
+    {
+      "label": "frontier1114-build-timing",
+      "phase": "combined_build",
+      "seconds": 37.30358791910112,
+      "returncode": 0,
+      "log_sha256": "cf49bf5d5078d721607546a2acce4ec5a1b915952f77230ca88684bc7bf90cd5"
+    },
+    {
+      "label": "frontier1114-check-timing",
+      "phase": "fixture_check",
+      "seconds": 5.935643334873021,
+      "returncode": 0,
+      "log_sha256": "0fe5227be95fcc6c7671e39db15680f469f6947a80b1ce9a2c85de7ff33f7a81"
+    },
+    {
+      "label": "frontier1114-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.21691392082720995,
+      "returncode": 0,
+      "log_sha256": "441ab0192584531c7c8a2ea050a385bcc99ee0dcf5698d0894ccda644996ca47"
+    },
+    {
+      "label": "frontier1114-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8497116025537252,
+      "returncode": 0,
+      "log_sha256": "5d10db189e481dd9ec77bfa70976532766382017f0e0f685ce51bf55d41f2517"
+    },
+    {
+      "label": "frontier1115-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2426030850037932,
+      "returncode": 0,
+      "log_sha256": "b441151c1ab7504f39ddd303e03754871ff38e966d1939f23f3326b4967030f5"
+    },
+    {
+      "label": "frontier1115-build-timing",
+      "phase": "combined_build",
+      "seconds": 6.671989486552775,
+      "returncode": 0,
+      "log_sha256": "38928e920d3af2f8045eef9332cc14c03f6e6f0203e0c91b1ce1a00fa90205ba"
+    },
+    {
+      "label": "frontier1115-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6209135605022311,
+      "returncode": 0,
+      "log_sha256": "1d9ebf360decff932dd494debc557da15acff6d72baf900c5486328ebac0ace8"
+    },
+    {
+      "label": "frontier1115-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.21391428261995316,
+      "returncode": 0,
+      "log_sha256": "ab9449aa4579aa97a0c36654c8eda2a3f57c3d66c2f150c0c9495e53475a617e"
+    },
+    {
+      "label": "frontier1115-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.9527307329699397,
+      "returncode": 0,
+      "log_sha256": "0d6e7ea9e482e292e462065aa69472d1514d8207e1a68c0ac0912d089f1d2b4f"
+    },
+    {
+      "label": "frontier1116-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.222543423064053,
+      "returncode": 0,
+      "log_sha256": "8f38614daa9423cfcdc54eb7fa13f5b2cf1c17a2a9f7d96a19cca50a6dce0e61"
+    },
+    {
+      "label": "frontier1116-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.8845264771953225,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1116-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6251130448654294,
+      "returncode": 0,
+      "log_sha256": "cb5b982d447e72589b673c55e6c087423ca76d426613374f1658f9656d6f902f"
+    },
+    {
+      "label": "frontier1116-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2221045270562172,
+      "returncode": 0,
+      "log_sha256": "9732dcc76fc43c689ef44bd5395f34225ba5ec1097b64145dbfd38ac060ae89f"
+    },
+    {
+      "label": "frontier1116-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8493827870115638,
+      "returncode": 0,
+      "log_sha256": "441486c8d30a595b0e3d0f78d0593df766b91434e53157414bfa3dc138ceeb67"
+    },
+    {
+      "label": "frontier1116-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 4.066505135037005,
+      "returncode": 0,
+      "log_sha256": "5002572fde6247e137ac2e660fc8975c0156761d35dbf30f7f4e8c201ea965a2"
+    },
+    {
+      "label": "frontier1117-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.240969347767532,
+      "returncode": 0,
+      "log_sha256": "aa8611016595721b9c1831a5b268ac3cc8963ae18afd74500dc0ed1658680808"
+    },
+    {
+      "label": "frontier1117-build-timing",
+      "phase": "combined_build",
+      "seconds": 36.73772920668125,
+      "returncode": 0,
+      "log_sha256": "ca3a6e97ba486b0db403ea1a81c5c0465867fb594c90d448c454206e965497c9"
+    },
+    {
+      "label": "frontier1117-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6025571636855602,
+      "returncode": 0,
+      "log_sha256": "f27256ed96f6fe0597dae7e41e54859817eef4bb781e36667d59370272df08a3"
+    },
+    {
+      "label": "frontier1117-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.23423314280807972,
+      "returncode": 0,
+      "log_sha256": "073f83029b66a3a62b8a6a5a235218fb77e1b7d2e18e5273774a4e29f53ead09"
+    },
+    {
+      "label": "frontier1117-reference-timing",
+      "phase": "original_reference",
+      "seconds": 0.9146358547732234,
+      "returncode": 0,
+      "log_sha256": "0a7b726ff52d1454daf736952a192a2a3934599c52b86c870d403ffa970ff770"
+    },
+    {
+      "label": "frontier1118-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2627659616991878,
+      "returncode": 0,
+      "log_sha256": "4d55b0a5fad5914bdc6f21341b9a1344003d6cf2b560c07e6fcc050d52736faa"
+    },
+    {
+      "label": "frontier1118-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.747354648075998,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1118-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5611146334558725,
+      "returncode": 0,
+      "log_sha256": "91ce0da8f422a0995108d493f4c4884baa724f1476e5cb611b832e35be628322"
+    },
+    {
+      "label": "frontier1118-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2079266095533967,
+      "returncode": 0,
+      "log_sha256": "f469039a5f9a0978bcb7497d626ea85e6f988ee67ac4a820a342f5c005f8a31c"
+    },
+    {
+      "label": "frontier1118-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.1820852858945727,
+      "returncode": 0,
+      "log_sha256": "7bccb5c69a27d2c8b8beacafedd1e0e40a916a6a963b9b3f44c44f5d45333a77"
+    },
+    {
+      "label": "frontier1118-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 5.2749856831505895,
+      "returncode": 0,
+      "log_sha256": "d5fafed6d696d460a10de3cfec0248743d435cf1e5455083fbec4fd04103a60b"
+    },
+    {
+      "label": "frontier1119-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2248657885938883,
+      "returncode": 0,
+      "log_sha256": "a0a4d2b24820d81f8cd144335f108635640e4c10a964a77fd56a126e719893cf"
+    },
+    {
+      "label": "frontier1119-build-timing",
+      "phase": "combined_build",
+      "seconds": 1.9945603916421533,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1119-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6445582946762443,
+      "returncode": 0,
+      "log_sha256": "c1b94ba0aff1b17035e6453b74111eec592f0103fd6c8409aeff3aec003bd4de"
+    },
+    {
+      "label": "frontier1119-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22028573136776686,
+      "returncode": 0,
+      "log_sha256": "e7f410b656d454a1d92fadb87b6fc199308e3e517ff74272debb1c44ad6d5cf4"
+    },
+    {
+      "label": "frontier1119-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.6264547798782587,
+      "returncode": 0,
+      "log_sha256": "8d8e02fc0ff8d81d6b137e0031f4b51694447f7104b1fbb97c16fba3cdb355a3"
+    },
+    {
+      "label": "frontier1120-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.24337097723037,
+      "returncode": 0,
+      "log_sha256": "03a4ade28bfa4fd51989dbcde3db0c5fba3f9f5cb1f3f8fd927ebcb0c59d4a08"
+    },
+    {
+      "label": "frontier1120-build-corrected-timing",
+      "phase": "combined_build",
+      "seconds": 37.36361123342067,
+      "returncode": 0,
+      "log_sha256": "0d7628c7441016ac5b08029aa7459ad107b51d6c28bc8e014eb9156c893fa67d"
+    },
+    {
+      "label": "frontier1120-build-timing",
+      "phase": "combined_build",
+      "seconds": 1.2887428225949407,
+      "returncode": 2,
+      "log_sha256": "1782afab7c585df9d79a7d30f52fae7d4a4fbbf78c0daffe78569cdf655c2e10"
+    },
+    {
+      "label": "frontier1120-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6118641495704651,
+      "returncode": 0,
+      "log_sha256": "e6448bfbbe5e328885748f77a6e16129fc42c18f97cf325a2b8332fce06695c6"
+    },
+    {
+      "label": "frontier1120-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.23581276927143335,
+      "returncode": 0,
+      "log_sha256": "7404c33b4875957c2ab4c49b3b7cca1b7f7d80d839ffc1075bfe867d514a3d53"
+    },
+    {
+      "label": "frontier1120-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.2673833994194865,
+      "returncode": 0,
+      "log_sha256": "d40255a85ee94a3c0ab72155738558837f3dd2950445c90a53fc6f21e96dccab"
+    },
+    {
+      "label": "frontier1121-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2435019901022315,
+      "returncode": 0,
+      "log_sha256": "6e91f7badfd4f70e87d45485c1c88874155df78a20a5f0fe591601fdc00c4b04"
+    },
+    {
+      "label": "frontier1121-build-timing",
+      "phase": "combined_build",
+      "seconds": 37.37862860225141,
+      "returncode": 0,
+      "log_sha256": "2416652b5e4be989b08fe7edda719feb27d6280ea840a1e20faa5520c873a5be"
+    },
+    {
+      "label": "frontier1121-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6177972108125687,
+      "returncode": 0,
+      "log_sha256": "e65e7b0e530300f6d6dae2b244534088eeecbc0de663b27d74123cf1e7a90359"
+    },
+    {
+      "label": "frontier1121-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.23166122194379568,
+      "returncode": 0,
+      "log_sha256": "8531b7f7abe55235d69d001994e255c446c78e497408062b3e93d8121182e175"
+    },
+    {
+      "label": "frontier1121-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.323332971893251,
+      "returncode": 0,
+      "log_sha256": "b929c555877fdd9c6391a5922ad69661d77118226c5c4bd3a4de8482882f768a"
+    },
+    {
+      "label": "frontier1121-word-abi-build-timing",
+      "phase": "combined_build",
+      "seconds": 10.564174639992416,
+      "returncode": 0,
+      "log_sha256": "f1b91203580c15136a77d0fae523345d9a712a87b51b6f4adcfec2bf2f7d6afe"
+    },
+    {
+      "label": "frontier1122-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.256760796532035,
+      "returncode": 0,
+      "log_sha256": "936ba6ae4c125a3d9bb87810db44ad278c3809f7676ccd3ca3a2394242a2a682"
+    },
+    {
+      "label": "frontier1122-build-timing",
+      "phase": "combined_build",
+      "seconds": 36.47208265401423,
+      "returncode": 0,
+      "log_sha256": "e41f0e6fc21d0380dafefab2998bae39adad724e7774d2b61c91b6de5881dc4b"
+    },
+    {
+      "label": "frontier1122-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6439183140173554,
+      "returncode": 0,
+      "log_sha256": "24c381c218c30b3d560d4d6f8b7e20b51ca082e511ed3cd38ec234de70e8523d"
+    },
+    {
+      "label": "frontier1122-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.23886074777692556,
+      "returncode": 0,
+      "log_sha256": "a0d5a2c70d05ee3e33b1f06e26f6e48bdf768cc8ec21c701a47b02b31cafafd9"
+    },
+    {
+      "label": "frontier1122-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.5502968663349748,
+      "returncode": 0,
+      "log_sha256": "5fc8f2a238c516c096feb2cb83e561b12c70e5ceab2db028ac1559af92c75a3e"
+    },
+    {
+      "label": "frontier1123-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.232728648930788,
+      "returncode": 0,
+      "log_sha256": "a701248b4c835a0716ac9895c266b6f8aaa8d5b6f8a28f00c7e1746df85c76d0"
+    },
+    {
+      "label": "frontier1123-build-timing",
+      "phase": "combined_build",
+      "seconds": 38.46921385452151,
+      "returncode": 0,
+      "log_sha256": "4519e8410a888b47f749fbfa3b0bf9ded19a8b1e5bdb086f61c2df10fb67110d"
+    },
+    {
+      "label": "frontier1123-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6259562419727445,
+      "returncode": 0,
+      "log_sha256": "8f0c43d6e611e6e1d3700eb87a87ce8415141ca6a77627fa9a576517b3c03749"
+    },
+    {
+      "label": "frontier1123-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2290038513019681,
+      "returncode": 0,
+      "log_sha256": "e2a1716e6e188fbe2b42daacd0be7ca22dd1051e3e2bfc6b24f366b48da99e54"
+    },
+    {
+      "label": "frontier1123-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.908181886188686,
+      "returncode": 0,
+      "log_sha256": "1508cd9759b235a9fb5010cf25e743d131cb5462874e0b44f59fce486aac2328"
+    },
+    {
+      "label": "frontier1124-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.270340608432889,
+      "returncode": 0,
+      "log_sha256": "daf7b11a4eac70cba0bac46958cf752f01875c05ba694d0294eb5735578ef889"
+    },
+    {
+      "label": "frontier1124-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.3882213681936264,
+      "returncode": 0,
+      "log_sha256": "d66765b4587e911e0344df35358f67b433f61040e667e303c9a4a193cb7fc19b"
+    },
+    {
+      "label": "frontier1124-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5645890068262815,
+      "returncode": 0,
+      "log_sha256": "8fcbafc009fb5373b37e9339cc95b21152d76fa28dd105d86efc8f0da1a9c71c"
+    },
+    {
+      "label": "frontier1124-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.23420144338160753,
+      "returncode": 0,
+      "log_sha256": "c6a6ceb22593113c5ebb89aae4ee10ce9303082cc5acb7db7357143500fb903a"
+    },
+    {
+      "label": "frontier1124-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.827318450435996,
+      "returncode": 0,
+      "log_sha256": "a7ff0db8213b8e8028230e66cb850a4066d15ec505ac8433df98b7f01487c80b"
+    },
+    {
+      "label": "frontier1125-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2701231446117163,
+      "returncode": 0,
+      "log_sha256": "f1b4340bdd5f46561f4474ec607445351a0d18b097b37df1d9f292c34cb755d4"
+    },
+    {
+      "label": "frontier1125-build-timing",
+      "phase": "combined_build",
+      "seconds": 36.93342438992113,
+      "returncode": 0,
+      "log_sha256": "5b34ac764928a47f253baf452005897700ca873d5c7d39a42591679f374b4269"
+    },
+    {
+      "label": "frontier1125-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6154310097917914,
+      "returncode": 0,
+      "log_sha256": "33585d933cbd10ee74f75fb626f3e681582547a05bab46577e302e52faa43127"
+    },
+    {
+      "label": "frontier1125-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.23846218828111887,
+      "returncode": 0,
+      "log_sha256": "4bca37f4b2ef39e7324b9848bbd33d784147f6b92cebb27289c6d9c40b500390"
+    },
+    {
+      "label": "frontier1125-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8370361980050802,
+      "returncode": 0,
+      "log_sha256": "c714ada8484e7f2e7dbde97bcb9867f0649b4b65b244490c86a835b8340e1c2a"
+    },
+    {
+      "label": "frontier1126-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2589103560894728,
+      "returncode": 0,
+      "log_sha256": "9070564075569efc28ddf4b531fd8c4542d945e41e78ee0efe9eaa1b4d099f31"
+    },
+    {
+      "label": "frontier1126-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.469892716035247,
+      "returncode": 0,
+      "log_sha256": "0f02fbeb6e235bf64b79d7876e3e111eba1c7a563fe607bec3d5bf6f7ebba7a2"
+    },
+    {
+      "label": "frontier1126-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.61821105517447,
+      "returncode": 0,
+      "log_sha256": "60c41d6d48826ef8eccf3dc4a14b8803aa3d8985a98f43aba9e9c07d4bfb91d9"
+    },
+    {
+      "label": "frontier1126-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22923779673874378,
+      "returncode": 0,
+      "log_sha256": "3a054ffc872eb9c4b243caa41cc011a939b5c5b836c93d07170dfdd59dbf4586"
+    },
+    {
+      "label": "frontier1126-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.17894144449383,
+      "returncode": 0,
+      "log_sha256": "5fa325fb9aa17c218ba10995d15305032e985e741d92ff0b1dfbe35d5a2499f7"
+    },
+    {
+      "label": "frontier1127-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2448701867833734,
+      "returncode": 0,
+      "log_sha256": "4d056e25fd398ed39b80fb86bd71931c3e4bd40b2761245982cdf255b36ceea2"
+    },
+    {
+      "label": "frontier1127-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.038623203523457,
+      "returncode": 0,
+      "log_sha256": "0f02fbeb6e235bf64b79d7876e3e111eba1c7a563fe607bec3d5bf6f7ebba7a2"
+    },
+    {
+      "label": "frontier1127-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6260436708107591,
+      "returncode": 0,
+      "log_sha256": "ee6f02fba2e1e3c8085679560afb2e17b6d12702539c3101e203d82d7ffac0d1"
+    },
+    {
+      "label": "frontier1127-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2306166086345911,
+      "returncode": 0,
+      "log_sha256": "405260a9e98e7f91cb6df68a3715c5d3dec905ebafbaf0e058cf18e956fe7699"
+    },
+    {
+      "label": "frontier1127-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.6658424818888307,
+      "returncode": 0,
+      "log_sha256": "c510e3aeaa9f407111e866caa46720fce7bbbda92de4a9a327896ffad42080ed"
+    },
+    {
+      "label": "frontier1127-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 8.055355574004352,
+      "returncode": 0,
+      "log_sha256": "5f4c499036eda76da0e9a0cee0b0a3fd4574382f0cdc6ac0c5b242bc1cf2ff19"
+    },
+    {
+      "label": "frontier1128-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2833619844168425,
+      "returncode": 0,
+      "log_sha256": "41113a0a528874c48da3242d51582a272178dd53a6af37535c5aed898abeefb3"
+    },
+    {
+      "label": "frontier1128-build-timing",
+      "phase": "combined_build",
+      "seconds": 36.437246434390545,
+      "returncode": 0,
+      "log_sha256": "90a92aaa07267ea23cce16e6c4c59264e15981a53ce2e4fd275bd200cf840e7b"
+    },
+    {
+      "label": "frontier1128-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6295656813308597,
+      "returncode": 0,
+      "log_sha256": "232edd47c7b893a64b5fd20eb685ad6c7592cb23d9ac730ed90964942801de15"
+    },
+    {
+      "label": "frontier1128-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22885128017514944,
+      "returncode": 0,
+      "log_sha256": "d19db0bd5ec4b4979ce9bd76babad52878be415688ffdd86e19f06773514764c"
+    },
+    {
+      "label": "frontier1128-metadata-build-timing",
+      "phase": "combined_build",
+      "seconds": 0.058238571509718895,
+      "returncode": 0,
+      "log_sha256": "9c98e6586de7e9ac7c2aec19a795aed53f845ded5e05632fa7b98025956e2def"
+    },
+    {
+      "label": "frontier1128-reference-corrected-timing",
+      "phase": "original_reference",
+      "seconds": 2.0198673689737916,
+      "returncode": 0,
+      "log_sha256": "ce56d1798aaaa566344c298febcd52c363fa8e7123822eafa5fb52aa923440bf"
+    },
+    {
+      "label": "frontier1128-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8974218349903822,
+      "returncode": 0,
+      "log_sha256": "ba029798adaee08e2a5359a28acee4208922a68f90a3af2cbdda0d383ffaf8ad"
+    },
+    {
+      "label": "frontier1128-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 2.602571223862469,
+      "returncode": 0,
+      "log_sha256": "4462b2164ea52382cf710831d9b06fb39fe74f9af55ce5a36cca3204c56b25ea"
+    },
+    {
+      "label": "frontier1129-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.274456308223307,
+      "returncode": 0,
+      "log_sha256": "06965873a13fc06c966bacb265fa45e4f8b72df1baf161aefd0853ae74c7dd07"
+    },
+    {
+      "label": "frontier1129-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.6172885010018945,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1129-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6472691725939512,
+      "returncode": 0,
+      "log_sha256": "eb4a1636afdc0fee26abaa221e45261c8fa9c72290769a216f0eb349df339801"
+    },
+    {
+      "label": "frontier1129-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2291160011664033,
+      "returncode": 0,
+      "log_sha256": "3b36e8786b7d29b8965e7b0eb985fde6158d806ac227e58cb9f97f708bfb7869"
+    },
+    {
+      "label": "frontier1129-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.531993062235415,
+      "returncode": 0,
+      "log_sha256": "a75337af286d8053aedd02ecdec517356adc220c1ca7b60a97a080156cdf6f51"
+    },
+    {
+      "label": "frontier1130-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2444514269009233,
+      "returncode": 0,
+      "log_sha256": "952d74360671fbc5ac52bdad0e384e4616b19f1d42368540de594cfa3da7c424"
+    },
+    {
+      "label": "frontier1130-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.4700002502650023,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1130-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6418863367289305,
+      "returncode": 0,
+      "log_sha256": "0921bf51f6bffb4fcdf12b51fa5aaea21e3a440c67fe73d599b1b35e30d987dd"
+    },
+    {
+      "label": "frontier1130-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22250505164265633,
+      "returncode": 0,
+      "log_sha256": "af6485fc292541a7c74791da93404e41e455502c2fe81ea410798440116ab19e"
+    },
+    {
+      "label": "frontier1130-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.810406475327909,
+      "returncode": 0,
+      "log_sha256": "3bc096e866adbc110f6abb13fc4a94d2848947f523b620ab69c3d9f2c53c56e5"
+    },
+    {
+      "label": "frontier1131-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.2609550934284925,
+      "returncode": 0,
+      "log_sha256": "488432de68a742717894436514ed82dd7f356405a45880955b76b39825929c82"
+    },
+    {
+      "label": "frontier1131-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.8721193596720695,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1131-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5918204868212342,
+      "returncode": 0,
+      "log_sha256": "4c50bfd400a7650097d521ba805c3a9a3416f588205d113d4a8bd9b7fffea25c"
+    },
+    {
+      "label": "frontier1131-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.22431611362844706,
+      "returncode": 0,
+      "log_sha256": "3b64df42391053491696a6f69e7601036d402e847de2a5103253f4a3fa7e0177"
+    },
+    {
+      "label": "frontier1131-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.9652252485975623,
+      "returncode": 0,
+      "log_sha256": "15a090477c95603c6971efbd7f70767568fea02b4c256393447003a3861bcaff"
+    },
+    {
+      "label": "frontier1132-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 19.068966669030488,
+      "returncode": 0,
+      "log_sha256": "bb5f40a5f91334171c80cb9b7638db8acb227cb3f25a4519b396285019f5aa49"
+    },
+    {
+      "label": "frontier1132-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.6182365901768208,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1132-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5822789315134287,
+      "returncode": 0,
+      "log_sha256": "0ad7fd9c854f458b05eb95740e9906771d8555a4a46ca7d6e83d6df81e6bfbe6"
+    },
+    {
+      "label": "frontier1132-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.23968950379639864,
+      "returncode": 1,
+      "log_sha256": "a1cef79b81b6d771487ea1930908ccbfca383f943e06a4ab2f8e5ab954c3bb7d"
+    },
+    {
+      "label": "frontier1132-predicate-proof-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.35540153644979,
+      "returncode": 0,
+      "log_sha256": "bb5f40a5f91334171c80cb9b7638db8acb227cb3f25a4519b396285019f5aa49"
+    },
+    {
+      "label": "frontier1132-predicate-proof-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.8256970550864935,
+      "returncode": 0,
+      "log_sha256": "5ccc641df45353cbb837fc612eb86af95b2757c03cc48252a4caccd0f0091f80"
+    },
+    {
+      "label": "frontier1132-predicate-proof-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6373589280992746,
+      "returncode": 0,
+      "log_sha256": "ca57204cc984ebbdd656640280867bbdec62d94006744c0e143c826f6485fcdb"
+    },
+    {
+      "label": "frontier1132-predicate-proof-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.22138976026326418,
+      "returncode": 0,
+      "log_sha256": "2d845d5e0a5e23cfd9e9a7346a701ce5b216921be30419d9f1aba799f10c36d4"
+    },
+    {
+      "label": "frontier1132-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.1899045584723353,
+      "returncode": 0,
+      "log_sha256": "2e0e310928ef8aaf2bce7fc9837aa2382fb2271fdd8ffc8df6d7f149220e410a"
+    },
+    {
+      "label": "frontier1132-shape-fix-build-timing",
+      "phase": "combined_build",
+      "seconds": 37.374094364233315,
+      "returncode": 0,
+      "log_sha256": "422e6b1138ea7c381500c6582e77969b2f986a78426d3e994779d4b7723adf1e"
+    },
+    {
+      "label": "frontier1132-shape-fix-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.22827921621501446,
+      "returncode": 0,
+      "log_sha256": "46535a3a34b6990846d38c5de7c66a96d50895e99cec6b8b457c44b5517381e8"
+    },
+    {
+      "label": "frontier1133-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.2022275291383266,
+      "returncode": 0,
+      "log_sha256": "b9474ab3382841e8dcbb150ee0958e795560b0d8542212171ef109c09711dc3d"
+    },
+    {
+      "label": "frontier1133-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.22591368574649096,
+      "returncode": 0,
+      "log_sha256": "c423e2598a60f1fe8ad18d26b585f6174e4bf85df978599c0e76969f2227718c"
+    },
+    {
+      "label": "frontier1133-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8976652659475803,
+      "returncode": 0,
+      "log_sha256": "56339e2fc3d3295aff905f79d77621cf06a9baec327895229fbd241b4c9f7b9c"
+    },
+    {
+      "label": "frontier1134-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3332968996837735,
+      "returncode": 0,
+      "log_sha256": "17e6ba468f5c2287b63f3d67760de5d2173cbe4969fbb5bb01e36e39c5ff4a8f"
+    },
+    {
+      "label": "frontier1134-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.425077209249139,
+      "returncode": 0,
+      "log_sha256": "b9474ab3382841e8dcbb150ee0958e795560b0d8542212171ef109c09711dc3d"
+    },
+    {
+      "label": "frontier1134-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5876635750755668,
+      "returncode": 0,
+      "log_sha256": "fe7921321297b68222e25d202fe8d93327853e33d89c6f94256b7a6230956995"
+    },
+    {
+      "label": "frontier1134-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.23688076436519623,
+      "returncode": 0,
+      "log_sha256": "2533a55bbed93fdb01f322d5164e3683388a517c6f742e28a9d52398ab2d12f8"
+    },
+    {
+      "label": "frontier1134-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.0990566778928041,
+      "returncode": 0,
+      "log_sha256": "c918b7c1cb588804a5eaeea7af96d156b5ad2cb8344aa5e63ff58728f5404d63"
+    },
+    {
+      "label": "frontier1135-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.4369862778112292,
+      "returncode": 0,
+      "log_sha256": "e4a905451e60e9de0a0e18f7619d88d6610366ef17f91fb10bc34b39768486c1"
+    },
+    {
+      "label": "frontier1135-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.6081697437912226,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    {
+      "label": "frontier1135-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6283657737076283,
+      "returncode": 0,
+      "log_sha256": "7fcc2974adda41b222fc46d820c4ef7a3d61275f17ed6eaa1396eb344aea24d1"
+    },
+    {
+      "label": "frontier1135-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.23171700630337,
+      "returncode": 0,
+      "log_sha256": "ad88e438180392989fb22f08d0f079a407ead4f5c5df33ed11163276848e35d8"
+    },
+    {
+      "label": "frontier1135-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8890216564759612,
+      "returncode": 0,
+      "log_sha256": "449adaa8456e958bb13e09146356eaf1bd5da1eb23e8b931e07a5c790c844a89"
+    },
+    {
+      "label": "frontier1136-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 11.368208589032292,
+      "returncode": 0,
+      "log_sha256": "354b630cb66a9b937d4d494af22ecbd5aba01f50b0a6c165bb12b64b7e081518"
+    },
+    {
+      "label": "frontier1136-build-timing",
+      "phase": "combined_build",
+      "seconds": 6.404929555952549,
+      "returncode": 0,
+      "log_sha256": "0c33e9b0e48d1178c238323044a535a31ba17514770aa640f50cf7adafaf33ae"
+    },
+    {
+      "label": "frontier1136-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5628232285380363,
+      "returncode": 0,
+      "log_sha256": "83d78f01d18731e45d7647a85c5defd51b40d88197fe5e9ae9867a4622277ecf"
+    },
+    {
+      "label": "frontier1136-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.2047831816598773,
+      "returncode": 0,
+      "log_sha256": "2f7126f724ffb173d01c838e49fb6e48b2cfa34ad550c748bf15df868dad61fb"
+    },
+    {
+      "label": "frontier1136-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.1121898842975497,
+      "returncode": 0,
+      "log_sha256": "549c255c564ab887d9176de614675ee70bebecbefa0ba07cde442624e97a0481"
+    },
+    {
+      "label": "frontier1137-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.394896083511412,
+      "returncode": 0,
+      "log_sha256": "2c77c00b2e1ffc8847dc3bc22e7277d9223c6f5f69b0930d521101e754c79a03"
+    },
+    {
+      "label": "frontier1137-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.7028060238808393,
+      "returncode": 0,
+      "log_sha256": "c9e7107211b91ea764e69c9bb17d444b8b57f6c637f363d9a0e6777ad4cc5ebd"
+    },
+    {
+      "label": "frontier1137-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6583526581525803,
+      "returncode": 0,
+      "log_sha256": "25cc31bac7b84ed8237770e829d5c13e3b10f78541dd56f66e4dc49df7608929"
+    },
+    {
+      "label": "frontier1137-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.236994668841362,
+      "returncode": 0,
+      "log_sha256": "c66c8ca658bbbd53a93d71f808711c17d10bae3eb8d76d9ed47d2d684f518031"
+    },
+    {
+      "label": "frontier1137-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.845721773803234,
+      "returncode": 0,
+      "log_sha256": "c98df89b2c27ed8cdb9eada5c416af69a09fe753f4ede742cc77283be84c6e58"
+    },
+    {
+      "label": "frontier1138-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.4083099737763405,
+      "returncode": 0,
+      "log_sha256": "00ada2a4fe014e9309f8c282ae7bc70b18af050e92086226855a757dd626f097"
+    },
+    {
+      "label": "frontier1138-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.3236694829538465,
+      "returncode": 0,
+      "log_sha256": "c9e7107211b91ea764e69c9bb17d444b8b57f6c637f363d9a0e6777ad4cc5ebd"
+    },
+    {
+      "label": "frontier1138-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5700880046933889,
+      "returncode": 0,
+      "log_sha256": "dd0daf50d3f7574bdec2ae3d6926cca5614eb78ae4a12985317b24a19d0aa5e8"
+    },
+    {
+      "label": "frontier1138-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.21158046182245016,
+      "returncode": 0,
+      "log_sha256": "b91b13be5aa27ef7de8950521f965e267e033c87a23e7f9346d086ad61915b2d"
+    },
+    {
+      "label": "frontier1138-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.9842107156291604,
+      "returncode": 0,
+      "log_sha256": "bde6384c250fb04c7c0e8cd06d8c88186272f604e8f65fca51dc21c595dd9e95"
+    },
+    {
+      "label": "frontier1139-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3524886602535844,
+      "returncode": 0,
+      "log_sha256": "7a9f2fe3e1d2dbec1d00348a006869a6c37b5f483abede78372fbef7a9929b35"
+    },
+    {
+      "label": "frontier1139-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.358841202221811,
+      "returncode": 0,
+      "log_sha256": "1bf22435eb09b47ee48ecaafc1eb4182dc9066a4b0eac5f458ccd7e16b517cfc"
+    },
+    {
+      "label": "frontier1139-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6531051890924573,
+      "returncode": 0,
+      "log_sha256": "0178f4ef7173e837c974bfe7c5ec7c85fd8fa329197ea572026b15b584403c0b"
+    },
+    {
+      "label": "frontier1139-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.24299624375998974,
+      "returncode": 0,
+      "log_sha256": "5b4fc1cfea1756c1559d7dda708f548381f3de05826107bb8e83a4ce6c8fe976"
+    },
+    {
+      "label": "frontier1139-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.0520107289776206,
+      "returncode": 0,
+      "log_sha256": "4e76db19c7ed58e526cff7b288a991ceaaa35138b2759a3e56b58b8a530a14a1"
+    },
+    {
+      "label": "frontier1140-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.1147439377382398,
+      "returncode": 0,
+      "log_sha256": "62fa6fdb899002248d7acb5aa86be08236ae309266e2a553280521c13a51da30"
+    },
+    {
+      "label": "frontier1140-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.2256723353639245,
+      "returncode": 0,
+      "log_sha256": "2d63ee4f8be6b07d064a7626fd93f13d557f6989299f2af9108cf13bfd9092eb"
+    },
+    {
+      "label": "frontier1140-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.7375587355345488,
+      "returncode": 0,
+      "log_sha256": "ee2a1b7d4144e420192a4f3956108cfc0b949e57ddba0b0a1e3f0451b801b014"
+    },
+    {
+      "label": "frontier1140-short-extent-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 0.9170990521088243,
+      "returncode": 2,
+      "log_sha256": "f1fe3d974f737dcc0b4a8675b35683eaec8f5bc9e25c15bbb0467c0a8e2d72b1"
+    },
+    {
+      "label": "frontier1141-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3981825038790703,
+      "returncode": 0,
+      "log_sha256": "818da86372a94fa6b52448239073f9b115f83f46f06c66245d0db803eb43357a"
+    },
+    {
+      "label": "frontier1141-build-timing",
+      "phase": "combined_build",
+      "seconds": 37.605367539450526,
+      "returncode": 0,
+      "log_sha256": "33c71c298ffe39f5979f3c25add109bcaba0d7ba81b5e54040d9cb11efd96659"
+    },
+    {
+      "label": "frontier1141-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6425042701885104,
+      "returncode": 0,
+      "log_sha256": "647f6a6bcc5eebe819ede83d6e13ac221ddb668cc315bebefbb06ef5a38001b9"
+    },
+    {
+      "label": "frontier1141-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.2367441849783063,
+      "returncode": 0,
+      "log_sha256": "33c3b6ec0841a3c8153853cce83f3db944cd1ca0b01a7e78b9422c341fd6612b"
+    },
+    {
+      "label": "frontier1141-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.4580659763887525,
+      "returncode": 0,
+      "log_sha256": "da4b1a0e55a370060834891dc3e307727e84179331d606786f2afe51844fb9d2"
+    },
+    {
+      "label": "frontier1142-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3510513473302126,
+      "returncode": 0,
+      "log_sha256": "28363287e18da6877fc076e8523fc766a481361c0d350f8cccdd36f1a5150fa1"
+    },
+    {
+      "label": "frontier1142-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.2029866985976696,
+      "returncode": 0,
+      "log_sha256": "2fda71a67d8390ab9effe1a2da3c6d635535923295349b5c08731fd24dbdc359"
+    },
+    {
+      "label": "frontier1142-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5965724308043718,
+      "returncode": 0,
+      "log_sha256": "3d54b56362e0af1d69075760d0bf95f80cb6bf25ada707d3bb7917620b6fa182"
+    },
+    {
+      "label": "frontier1142-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.23541666194796562,
+      "returncode": 0,
+      "log_sha256": "84b50d6debf497fb1b33d9b421bcea5fc3ec8b24a590f2f4e7e3417a482b691b"
+    },
+    {
+      "label": "frontier1142-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.0463078925386071,
+      "returncode": 0,
+      "log_sha256": "f6104160774e5b19834c3352f361992528ef0bb094551fa2fe5cff919c1f7829"
+    },
+    {
+      "label": "frontier1143-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.404513887129724,
+      "returncode": 0,
+      "log_sha256": "1fbe248247d90da78551c95b4ab08c988e804c4a1ea610c39ee0ed5e1a2b3144"
+    },
+    {
+      "label": "frontier1143-build-timing",
+      "phase": "combined_build",
+      "seconds": 38.738058417104185,
+      "returncode": 0,
+      "log_sha256": "de18210473653a222dc3665db03b0066488da37c68fc1f2ed500114c7bcab200"
+    },
+    {
+      "label": "frontier1143-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5944600906223059,
+      "returncode": 0,
+      "log_sha256": "83517eabab3ba0fab4ece8ee4fafe9a5f47f2e34b9e48ac991c60e228f479ed8"
+    },
+    {
+      "label": "frontier1143-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.24867228511720896,
+      "returncode": 0,
+      "log_sha256": "bd2fd8252fd6a0dc5bffaac13c8d43d6c1eafc46a0dd7fbbe27c91a89ee4ba23"
+    },
+    {
+      "label": "frontier1143-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.8092297436669469,
+      "returncode": 0,
+      "log_sha256": "5ed90c434e70f93c640dcd93588d8ecbadfc165b5952b407599e8394cd5c452f"
+    },
+    {
+      "label": "frontier1144-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 18.04873846657574,
+      "returncode": 0,
+      "log_sha256": "9223cf9f715544aa84efc9658a935a4b1a1052ce881f94247b49fdeddbddd981"
+    },
+    {
+      "label": "frontier1144-build-timing",
+      "phase": "combined_build",
+      "seconds": 38.193844586610794,
+      "returncode": 0,
+      "log_sha256": "fbf89a4cf4beb72318f9b618be76d326696eff422223ad6448686ec3cecacbda"
+    },
+    {
+      "label": "frontier1144-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.6461578086018562,
+      "returncode": 0,
+      "log_sha256": "dd3add0ac7d0e768c39c85c9237b31e5f0b57f9511a650eec7e86e50dfbd5297"
+    },
+    {
+      "label": "frontier1144-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.23159535136073828,
+      "returncode": 0,
+      "log_sha256": "90803ab4456332a64e3f445c53c511f404e160588eef724d46284c065e817fa5"
+    },
+    {
+      "label": "frontier1144-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.2182337949052453,
+      "returncode": 0,
+      "log_sha256": "86a8546daf2ff4ecdaa936d7bcda133611a4164b0624dcbb3ee20230251b3827"
+    },
+    {
+      "label": "frontier1145-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3569561187177896,
+      "returncode": 0,
+      "log_sha256": "e7aa5f7c6f71e655705e12544d2d0c6882b10ad6b2bd0a189e468d2cbd4b248f"
+    },
+    {
+      "label": "frontier1145-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.469893961213529,
+      "returncode": 0,
+      "log_sha256": "478a21ad63605d541bda8e4eeabaf81717db2fe1814533fe4315098ff6598708"
+    },
+    {
+      "label": "frontier1145-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.647945056669414,
+      "returncode": 0,
+      "log_sha256": "ab6e8db3df4b7042174d9ea993edc8124a631fbf7a90926bf6c753922e69966e"
+    },
+    {
+      "label": "frontier1145-native-timing",
+      "phase": "native_debug",
+      "seconds": 0.22467072773724794,
+      "returncode": 0,
+      "log_sha256": "62a95a9ced348ed781e7a8e8f1a858f19925cdd5a89f18ae060354a468dca81b"
+    },
+    {
+      "label": "frontier1145-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.052862579934299,
+      "returncode": 0,
+      "log_sha256": "0b79166db67bcee979211b4faec023f6f3e97a670f221be3beeb0128a9533a22"
+    },
+    {
+      "label": "frontier1146-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3963826755061746,
+      "returncode": 0,
+      "log_sha256": "5fdbe4fc8a3f95ed5c9313f508d6b4730f7db30be7c13a5a61b42186c6b882cb"
+    },
+    {
+      "label": "frontier1146-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.0778958713635802,
+      "returncode": 0,
+      "log_sha256": "478a21ad63605d541bda8e4eeabaf81717db2fe1814533fe4315098ff6598708"
+    },
+    {
+      "label": "frontier1146-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.5930064814165235,
+      "returncode": 0,
+      "log_sha256": "0e11024ce76aedb000cc9c1ef04937744383e3b5184eb4913acb769e6b934698"
+    },
+    {
+      "label": "frontier1146-reference-timing",
+      "phase": "original_reference",
+      "seconds": 1.1360158799216151,
+      "returncode": 0,
+      "log_sha256": "2dc8dbfb40e3c67252b65388722c20193ef3780ef6271d19d6fb6cd86c067126"
+    },
+    {
+      "label": "inline-alignment-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 2.332361607812345,
+      "returncode": 1,
+      "log_sha256": "2daba727eaf14e35784e72dd6e274496bc9379b3b78155f2dff967d2e2696ca2"
+    },
+    {
+      "label": "inline-bitfield-switch-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 5.916543195024133,
+      "returncode": 0,
+      "log_sha256": "a6ae33748faea8ae9616ccb4b61e2ad17ea66cca3c1b7872263168b751eae0a2"
+    },
+    {
+      "label": "inline-node-data-timing",
+      "phase": "data_checks",
+      "seconds": 39.964303091168404,
+      "returncode": 0,
+      "log_sha256": "27be52fab18490c7c6c13948347eef9863cc6d4a7bf4d5340a81e23bdb94b261"
+    },
+    {
+      "label": "inline-node-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 4.6280423402786255,
+      "returncode": 0,
+      "log_sha256": "25ea30944d9093b46116aefab1a4cd392bfeeb2125cea4f230a69c49c5ac29b0"
+    },
+    {
+      "label": "inlrec-capture-timing",
+      "phase": "original_pipeline_capture",
+      "seconds": 3.8483254332095385,
+      "returncode": 0,
+      "log_sha256": "8764679c1b58cad8be5fc354b5b1c75cfca78c159e972dbaf9018db3b410f941"
+    },
+    {
+      "label": "inlrec-eligibility-timing",
+      "phase": "other_measured",
+      "seconds": 1.6920322868973017,
+      "returncode": 0,
+      "log_sha256": "e7f18d727fb5f4867db0fb662e7c30248d4b8a785ac4d20b227983fea84c1a71"
+    },
+    {
+      "label": "inlrec-final-audit-timing",
+      "phase": "graph_abi_coverage",
+      "seconds": 2.3354658987373114,
+      "returncode": 0,
+      "log_sha256": "5fdbe4fc8a3f95ed5c9313f508d6b4730f7db30be7c13a5a61b42186c6b882cb"
+    },
+    {
+      "label": "inlrec-final-build-timing",
+      "phase": "combined_build",
+      "seconds": 2.141594191081822,
+      "returncode": 0,
+      "log_sha256": "598ab17e8ed7a47e2fef00c257bf2c137abdb01fdeffe220648cfc48b33303db"
+    },
+    {
+      "label": "inlrec-final-check-timing",
+      "phase": "fixture_check",
+      "seconds": 0.592316078953445,
+      "returncode": 0,
+      "log_sha256": "809036005a2fbf61d107b3f06d4066edf37dbe8f3a52c946eeb29243e0d5ebad"
+    },
+    {
+      "label": "inlrec-final-data-timing",
+      "phase": "data_checks",
+      "seconds": 5.777666352689266,
+      "returncode": 0,
+      "log_sha256": "7cb98bbd7ac5a773225617cbfaf9e718a82fdeafe3e93dd9a81daf21782705e8"
+    },
+    {
+      "label": "inlrec-final-negatives-timing",
+      "phase": "rejection_checks",
+      "seconds": 16.74699905142188,
+      "returncode": 0,
+      "log_sha256": "ad0c538dbf24569fd9b3f7d207b23888b641221288bde7fe43fc1f02644d776e"
+    },
+    {
+      "label": "inlrec-final-warnings-timing",
+      "phase": "canonical_warnings",
+      "seconds": 2.069279896095395,
+      "returncode": 0,
+      "log_sha256": "57ef65d57b32a22bfa756ac754bd8cc2fe1ab9113a356ba1e334edcfd5944d20"
+    },
+    {
+      "label": "inlrec-initial-debug-timing",
+      "phase": "native_debug",
+      "seconds": 0.2297002412378788,
+      "returncode": 0,
+      "log_sha256": "7d6599d53eb99a3198c5ca2b9795a9ae9d507de2726e6a99734e5426e5244240"
+    },
+    {
+      "label": "inlrec-initial-reference-timing",
+      "phase": "original_reference",
+      "seconds": 2.1057929238304496,
+      "returncode": 0,
+      "log_sha256": "f30628b931d77ba7023c1e971c2893653808740fc7c8a1f97a385c30a8752ed1"
+    },
+    {
+      "label": "inlrec-intrinsic-analysis-timing",
+      "phase": "other_measured",
+      "seconds": 0.247256675735116,
+      "returncode": 1,
+      "log_sha256": "b29bd485155ec5184c48412fa0e0328242bf76f5a1701968ca310b4871402eec"
+    },
+    {
+      "label": "subtraction-overflow-proof-timing",
+      "phase": "arithmetic_proof",
+      "seconds": 0.3083428405225277,
+      "returncode": 0,
+      "log_sha256": "f7b4078a246985edce3fba47dbcbb99d79050bc69f591f9ef1045a4f80bf848c"
+    }
   ]
 }
