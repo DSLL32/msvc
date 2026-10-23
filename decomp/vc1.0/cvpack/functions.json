@@ -6834,6 +6834,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "d649458b97aacd05188e34d75b370edf5c8e3e727ef1c47f8e9da64b1db6f61a"
+    "sha256": "200265aeee30f5c1c9f0590f9fb0a6c98f836834ecebac724080ee4819c0f7ac"
   }
 }

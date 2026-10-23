@@ -19,7 +19,6 @@ check: native
 	$(PYTHON) scripts/check-native.py
 audit: all native $(GRAPH_AUDIT_BIN) build/graph-identities.json
 	$(PYTHON) scripts/audit.py
-	$(PYTHON) scripts/check-rejections.py
 
 # Explicit strict archive-relocation verification; ordinary audits never refresh.
 graph-identities: build/graph-identities.json

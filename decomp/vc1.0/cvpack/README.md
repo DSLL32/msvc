@@ -166,5 +166,13 @@ Checkpoint 99: `strip_debug` is accepted (99 application functions, 32,547
 bytes). Routine acceptance now uses the existing entry-flow runner/acceptor:
 whole original/compiler graph and ABI, matching real next entry and formal
 inputs, relevant reached state, trace/status/streams/full artifacts. Additional
-probes address concrete gaps; full historical controls run at substantial
-checkpoints. The next real frontier is `initialize_strip_sections`.
+probes address concrete gaps. The next real frontier is
+`initialize_strip_sections`.
+
+Current testing rule (explicit user override): never rerun the historical
+proof/negative suite, including at checkpoints or case completion. Do not run
+`check-rejections.py` or replay the bespoke 97/98 all-prefix proofs. Those
+files and receipts remain historical evidence only. Use original-compiler
+compilation, static graph/ABI/data audits and ordinary cached native
+trace/status/artifact fixtures. Add only small targeted checks for actual
+changes or mismatches. This supersedes all earlier replay-cadence notes.

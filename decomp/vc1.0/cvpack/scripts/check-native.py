@@ -337,6 +337,8 @@ def main():
     parser.add_argument('--reference-completion',action='store_true',help='native97 actual third constructor return, separate from progression fixture')
     parser.add_argument("--scalar-completion",action="store_true",help="exact98 first native callback actual return")
     args=parser.parse_args()
+    if args.scalar_completion or args.reference_completion:
+        parser.error("Historical97/98 proof replay is disabled by explicit user instruction; use ordinary native fixtures")
     assert not(args.scalar_completion and args.reference_completion)
     directory=args.output or Path.home()/'.ai-tmp/vc1.0-cvpack'/('native-'+str(time.time_ns()))
     directory.mkdir(parents=True,exist_ok=False)

@@ -28,6 +28,8 @@ def main():
     parser.add_argument('--reference-completion',action='store_true',help='stop at actual third module3 reference constructor caller return')
     parser.add_argument("--scalar-completion",action="store_true",help="reviewed98 first actual callback return")
     args = parser.parse_args()
+    if args.scalar_completion or args.reference_completion:
+        parser.error("Historical97/98 completion capture is disabled by explicit user instruction")
     assert not args.scalar_completion or(args.entry_progress_only and args.candidate==["begin_symbol_block"]),"only98 scalar slice"
     assert not(args.entry_progress_only and args.reference_completion), 'capture modes are separate'
     assert not((args.entry_progress_only or args.reference_completion)and(args.unmasked or args.guard_probe or args.stop_at)), 'bounded capture modes require normal masked candidate'
