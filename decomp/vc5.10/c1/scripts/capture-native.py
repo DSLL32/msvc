@@ -24,9 +24,11 @@ def main():
     parser.add_argument("--restore-probe", action="store_true")
     parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
     parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
+    parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
     assert not args.negative_value or args.restore_probe
+    assert not args.pdb_reuse or args.restore_probe
     assert args.name.replace("-", "").replace("_", "").isalnum()
     output = SCRATCH / args.name
     output.mkdir(parents=True, exist_ok=False)
@@ -85,6 +87,8 @@ value['module_identity']={key:identity[key].string() for key in ('name','path','
 value['module_identity']['flags']=int(identity['flags'])
 value['module_token']=int(gdb.parse_and_eval('(unsigned int)c1_host_module'))
 value['compiler_state']={
+ 'pdb_context':{key:int(gdb.parse_and_eval(('(int)' if key=='read_mode' else '(unsigned int)')+'c1_pdb_context.'+key)) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')},
+ 'pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_pdb_context.'+key+'-(char*)&c1_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
  'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call'))},
  'bss':{'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
@@ -188,6 +192,9 @@ for i in range(6):
 for i in range(BUFFER_COUNT): seed_output_buffer(i)
 VALUE_BEFORE_CLEAR
 gdb.execute('set var c1_bss.pdb_signature = 0x13572468')
+for i,key in enumerate(('database','names','types','minimal_rebuild','rebuild_state')):
+    gdb.execute('set var c1_pdb_context.'+key+' = (void *)((char *)c1_bss.saved_data + '+str(i*8)+')')
+gdb.execute('set var c1_pdb_context.read_mode = 37')
 gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
 restore_observations['before']=capture_modeled()
@@ -242,6 +249,18 @@ gdb.execute('set var c1_bss.pdb_signature = 0x24681357')
 restore_observations['before_signature']=capture_modeled()
 restore_observations['signature_pc']=int(gdb.parse_and_eval('$pc'))
 end
+break initialize_state_1266f
+continue
+python
+restore_observations['after_signature']=capture_modeled()
+end
+break initialize_pdb_context_12676
+continue
+python
+gdb.execute('set var c1_reuse_state = PDB_REUSE')
+restore_observations['before_pdb_context']=capture_modeled()
+restore_observations['pdb_context_pc']=int(gdb.parse_and_eval('$pc'))
+end
 python
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
 end
@@ -259,7 +278,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
                                                   ("saved_literal_available", value_plan["flag_before"])])
         setup = setup.replace("VALUE_BEFORE_CLEAR", seed_value(value_plan["before_clear_source"], value_plan["before_clear_cached"]))
         value_probe = "break initialize_state_12646\ncontinue\npython\n" + seed_value(value_plan["negative_source" if args.negative_value else "positive_source"], value_plan["cached_before_copy"]) + "\nrestore_observations['before_value_copy']=capture_modeled()\nrestore_observations['value_copy_pc']=int(gdb.parse_and_eval('$pc'))\nend"
-        setup = setup.replace("VALUE_CALLBACK_PROBE", value_probe)
+        setup = setup.replace("VALUE_CALLBACK_PROBE", value_probe).replace("PDB_REUSE", str(args.pdb_reuse))
         commands = commands.replace("run\nbt\npython", setup + "\nbt\npython", 1)
     commands = commands.replace("BUFFER_COUNT", str(len(buffer_models)))
     (output / "commands.gdb").write_text(commands)
@@ -291,7 +310,8 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     receipt = {"schema": 1, "kind": "native-gdb-frontier",
                "candidate_path": "cases/" + args.case + "/candidate.json",
                "probe": "restore" if args.restore_probe else "normal",
-               "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None, "seconds": elapsed,
+               "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,
+               "pdb_reuse": args.pdb_reuse if args.restore_probe else None, "seconds": elapsed,
                "native_sha256": binary_sha, "build_source_reuse": source_reuse,
                "rebuilt_sha256": sha(PROJECT / "build/c1.dll"),
                "candidate_sha256": sha(output / "candidate.json"),

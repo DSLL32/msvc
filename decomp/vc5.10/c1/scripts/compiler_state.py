@@ -4,6 +4,7 @@ from pathlib import Path
 import buffer_state
 import value_state
 import signature_state
+import pdb_state
 PROJECT=Path(__file__).resolve().parents[1]
 def i32(data,offset):return struct.unpack_from('<i',data,offset)[0]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -33,6 +34,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  buffer_state.validate(fields,original,bss,current)
  value_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  signature_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
+ pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  assert i32(data,0x1530)==current['initialized']['first_call']
  saved=u32(bss,0x7818);b=current['bss']
  assert bool(saved)==bool(b['saved_data'])
@@ -79,7 +81,8 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   expected_first = candidate['restore_probe']['snapshot_first_call'] if probe=='restore' else 1
   assert i32(snapshot,0x1530)==current['snapshot']['first_call']==expected_first
  else:raise AssertionError('new state consumer requires an explicit modeled projection')
- assert current['reuse_state']==0 and b['cleanup_count']==len(registered)
+ final_reuse=json.loads((native/'receipt.json').read_text()).get('pdb_reuse',0) if probe=='restore' else 0
+ assert current['reuse_state']==final_reuse and b['cleanup_count']==len(registered)
 
  if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation'):
   raw=(original/'events.txt').read_text()
@@ -140,7 +143,7 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols,fie
    assert d==seed
    zero=bytearray(b);struct.pack_into('<I',zero,0x7818,0);assert not any(zero)
  assert u32((original/('compiler-bss-%03d.bin'%sequence)).read_bytes(),0x7818)==original_alloc
- assert last['bss']['saved_data']==native_alloc and last['reuse_state']==0
+ assert last['bss']['saved_data']==native_alloc and last['reuse_state']==json.loads((native/'receipt.json').read_text()).get('pdb_reuse',0)
  assert last['initialized']['first_call']==0
  for rva,name,offset,value,key,pc_key,plan_key in [
    (0x12365,'context',0x18c8,23,'before_callback','callback_pc','callback_context_auxiliary'),

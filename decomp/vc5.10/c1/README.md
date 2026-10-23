@@ -289,3 +289,12 @@ at its separate named helper12676. No persistent PDB context field is consumed
 yet. Fresh caller/return-site and stale-prefix guards pass;45 unchanged generic
 controls reuse explicitly hashed prior results with byte-identical validators
 and mutation bodies. Source functions34; owned original bytes1850.
+
+The first persistent PDB-context helper12676 (43 bytes) is accepted, reaching
+callback126af with nine cleanup identities. Six typed fields occupy24 native
+bytes; the original+0x10 gap remains UNMODELED. Fresh normal/clear/retain pairs
+prove the separate session lifetime and both reuse branches without invoking
+a provider. All changed transport/state controls passed with measured times;
+see `cases/minimal/PDB-CONTEXT.md`. Durable coverage is33 application functions /
+1436 bytes,2 CRT functions /451 bytes and the6-byte import thunk (1893 total).
+The cached native lifecycle fixture passed in5.65ms under concurrent checks.

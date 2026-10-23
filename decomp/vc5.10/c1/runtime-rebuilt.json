@@ -182,16 +182,9 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_pdb_context_12676",
-    "start": 268442224,
-    "end": 268442225,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_destroy_pdb_context_238dc",
-    "start": 268442238,
-    "end": 268442239,
+    "start": 268442300,
+    "end": 268442301,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

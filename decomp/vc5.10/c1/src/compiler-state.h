@@ -47,6 +47,17 @@ typedef struct CompilerBss {
     unsigned char saved_literal_available;
     unsigned long pdb_signature;
 } CompilerBss;
+/* These session fields are outside the datafe snapshot and BSS reset.
+ * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
+typedef struct CompilerPdbContext {
+    struct PDB *database;
+    struct NameMap *names;
+    struct TPI *types;
+    struct MREngine *minimal_rebuild;
+    struct CompilerMreState *rebuild_state;
+    int read_mode;
+} CompilerPdbContext;
+extern CompilerPdbContext c1_pdb_context;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;
 extern int c1_reuse_state;

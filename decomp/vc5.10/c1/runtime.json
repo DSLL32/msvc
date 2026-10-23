@@ -182,13 +182,6 @@
     "evidence": "separate named pending body; entry identity only"
   },
   {
-    "name": "_initialize_pdb_context_12676",
-    "start": 274802294,
-    "end": 274802295,
-    "pending_extent": true,
-    "evidence": "actual separate callee and registration callback identity; named INT3 only"
-  },
-  {
     "name": "_destroy_pdb_context_238dc",
     "start": 274872540,
     "end": 274872541,

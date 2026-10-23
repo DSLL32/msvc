@@ -21,6 +21,7 @@ def check(original, native, audit_directory=None):
     assert n["kind"] in ("native-gdb-frontier", "native-gdb-completion")
     assert o.get("probe", "normal") == n.get("probe", "normal")
     assert o.get("value_copy_sign") == n.get("value_copy_sign")
+    assert o.get("pdb_reuse") == n.get("pdb_reuse")
     candidate = json.loads((original / "candidate.json").read_text())
     config = json.loads((original / "functions.json").read_text())
     assert candidate["functions"] and config["driver"], "trial itself is absent"

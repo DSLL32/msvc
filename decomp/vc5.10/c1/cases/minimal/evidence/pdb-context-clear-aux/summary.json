@@ -1,0 +1,30 @@
+{
+  "accepted_function": "_initialize_pdb_context_12676",
+  "new_original_bytes": 43,
+  "source_functions": 35,
+  "application_functions": 33,
+  "application_bytes": 1436,
+  "CRT_functions": 2,
+  "CRT_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes": 1893,
+  "new_modeled_persistent_bytes": 24,
+  "persistent_unmodeled_gap_bytes": 4,
+  "persistent_outside_snapshot_and_BSS_clear": true,
+  "original_seconds": 1.418577378615737,
+  "native_gdb_seconds": 0.6687325090169907,
+  "graph_audit_seconds": 0.017637714743614197,
+  "fresh_control_counts": {
+    "controls": 24,
+    "signature-controls": 21,
+    "generic-controls": 100
+  },
+  "fresh_control_seconds": {
+    "controls": 7.840939881280065,
+    "signature-controls": 5.8536651115864515,
+    "generic-controls": 36.187072861008346
+  },
+  "reused_controls_instead_of_these_runs": 0,
+  "branch": "clear",
+  "provider_objects_dereferenced": false
+}

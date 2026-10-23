@@ -1266,7 +1266,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75382,
+    "hard_frontier_rva": 75439,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -1286,5 +1286,81 @@
       ]
     ],
     "provider": "MSPDB50 SigForPbCb; not called in current prefix"
+  },
+  "modeled_persistent": [
+    {
+      "name": "database",
+      "original_rva": 376904,
+      "bytes": 4,
+      "native_offset": 0,
+      "native_field": "c1_pdb_context.database",
+      "default": 0,
+      "evidence": "PDB::OpenEx output"
+    },
+    {
+      "name": "names",
+      "original_rva": 376908,
+      "bytes": 4,
+      "native_offset": 4,
+      "native_field": "c1_pdb_context.names",
+      "default": 0,
+      "evidence": "NameMap::open output at192dd..192e6"
+    },
+    {
+      "name": "types",
+      "original_rva": 376912,
+      "bytes": 4,
+      "native_offset": 8,
+      "native_field": "c1_pdb_context.types",
+      "default": 0,
+      "evidence": "TypesQueryTiForCVRecordEx first argument at23fb6..23fc2"
+    },
+    {
+      "name": "minimal_rebuild",
+      "original_rva": 376916,
+      "bytes": 4,
+      "native_offset": 12,
+      "native_field": "c1_pdb_context.minimal_rebuild",
+      "default": 0,
+      "evidence": "MREngine::FOpen output at1935a..1936d"
+    },
+    {
+      "name": "rebuild_state",
+      "original_rva": 376924,
+      "bytes": 4,
+      "native_offset": 16,
+      "native_field": "c1_pdb_context.rebuild_state",
+      "default": 0,
+      "evidence": "target member4dcc8 receiver from226c3; pointer domain opaque"
+    },
+    {
+      "name": "read_mode",
+      "original_rva": 376928,
+      "bytes": 4,
+      "native_offset": 20,
+      "native_field": "c1_pdb_context.read_mode",
+      "default": 0,
+      "evidence": "1588b/31844 writes0/1 according to strchr(mode,'r')"
+    }
+  ],
+  "pdb_context": {
+    "original_base_rva": 376904,
+    "original_unmodeled_offsets": [
+      [
+        16,
+        20
+      ]
+    ],
+    "native_size": 24,
+    "native_members": {
+      "database": 0,
+      "names": 4,
+      "types": 8,
+      "minimal_rebuild": 12,
+      "rebuild_state": 16,
+      "read_mode": 20
+    },
+    "lifetime": "plain .data: outside both datafe snapshot and bssfe clear",
+    "provider_layout_claimed": false
   }
 }

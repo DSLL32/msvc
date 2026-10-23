@@ -72,9 +72,11 @@ def main():
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     parser.add_argument("--restore-probe", action="store_true")
     parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
+    parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
     assert not args.negative_value or args.restore_probe
+    assert not args.pdb_reuse or args.restore_probe
     assert args.name.replace("-", "").replace("_", "").isalnum()
     checks = preflight()
     output = SCRATCH / "vc5.10/c1" / args.name
@@ -94,6 +96,8 @@ def main():
         if args.restore_probe and field_map.get("pdb_signature"):
             plan = candidate["restore_probe"]["pdb_signature"]
             (output / "signature-probe.txt").write_text("%x %x\n" % (plan["before_clear"], plan["before_callback"]))
+        if args.restore_probe and field_map.get("pdb_context"):
+            (output / "pdb-context-probe.txt").write_text("%x\n" % args.pdb_reuse)
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -134,7 +138,8 @@ def main():
     receipt = {"schema": 1, "kind": "explicit-original-capture",
                "candidate_path": "cases/" + args.case + "/candidate.json",
                "probe": "restore" if args.restore_probe else "normal",
-               "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None, "mode": args.mode,
+               "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,
+               "pdb_reuse": args.pdb_reuse if args.restore_probe else None, "mode": args.mode,
                "command": command, "cwd": windows(output), "exit": result.returncode,
                "seconds": elapsed, "preflight": checks,
                "target_sha256": sha(TARGET), "canonical_crt_sha256": CRT_HASH,

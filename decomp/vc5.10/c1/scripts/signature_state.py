@@ -42,9 +42,20 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_12664$',symbols,re.M).groups()
  assert int(address,16)<=obs['signature_pc']<int(address,16)+int(size,16)
  # Every other mapped field and pointer identity must survive this scalar write.
- old=obs['before_signature'];now=state['compiler_state']
+ transcript=(native/'gdb.txt').read_text()
+ hits=re.findall(r'^Breakpoint (\d+), initialize_state_1266f \(\) at ',transcript,re.M)
+ assert len(hits)==1
+ points=re.findall(r'^Breakpoint '+hits[0]+r' at (0x[0-9a-f]+): ',transcript,re.M)
+ assert len(points)==1
+ wrapper_address,wrapper_size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_1266f$',symbols,re.M).groups()
+ assert int(wrapper_address,16)<=int(points[0],16)<int(wrapper_address,16)+int(wrapper_size,16)
+ assert "break initialize_state_1266f\ncontinue\npython\nrestore_observations['after_signature']=capture_modeled()" in (native/'commands.gdb').read_text()
+ old=obs['before_signature'];now=obs['after_signature']
+ postseqs=re.findall(r'^trap seq=(\d+) rva=0001266f ',events,re.M)
+ assert len(postseqs)==1
+ after=(original/('compiler-bss-%03d.bin'%int(postseqs[0]))).read_bytes()
  for key in old:
   if key=='bss':assert {k:v for k,v in old[key].items() if k!='pdb_signature'}=={k:v for k,v in now[key].items() if k!='pdb_signature'}
   else:assert old[key]==now[key]
  expected=bytearray(before);struct.pack_into('<I',expected,0x4de0,0xffffffff)
- assert bytes(expected)==final
+ assert bytes(expected)==after

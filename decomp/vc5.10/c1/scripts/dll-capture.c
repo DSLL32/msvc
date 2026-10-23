@@ -30,6 +30,8 @@ static DWORD value_words[9];
 static int value_probe, value_seeded;
 static DWORD signature_words[2];
 static int signature_probe, signature_seeded;
+static DWORD pdb_reuse;
+static int pdb_probe, pdb_seeded;
 
 static void fail(const char *message)
 {
@@ -334,6 +336,31 @@ static void seed_signature(DWORD rva, unsigned index)
     fprintf(events, "signature-seed rva=%08lx value=%08lx\n", rva, signature_words[index]);
 }
 
+static void read_pdb_probe(void)
+{
+    FILE *file;
+    DWORD extra;
+    file = fopen("pdb-context-probe.txt", "r");
+    if (!file) return;
+    if (fscanf(file, "%lx", &pdb_reuse) != 1 || pdb_reuse > 1 ||
+            fscanf(file, "%lx", &extra) != EOF) fail("invalid PDB helper probe");
+    fclose(file); pdb_probe = 1;
+}
+
+static void seed_pdb_context(void)
+{
+    DWORD saved, value, offsets[5] = {0,4,8,12,20};
+    unsigned index;
+    readmem(base + 0x57818, &saved, 4);
+    if (!saved) fail("PDB probe missing owned snapshot");
+    for (index = 0; index < 5; ++index) {
+        value = saved + index * 8;
+        write_mem(base + 0x5c048 + offsets[index], &value, 4);
+    }
+    value = 37; write_mem(base + 0x5c060, &value, 4);
+    fprintf(events, "pdb-context-seed rva=000122a5 allocation=%08lx read_mode=37\n", saved);
+}
+
 static void seed_output_buffer(unsigned index, DWORD rva)
 {
     DWORD saved, start, object, values[7], descriptor;
@@ -390,6 +417,7 @@ static void seed_restore_state(void)
     for (index = 0; index < buffer_probe_count; ++index) seed_output_buffer(index, 0x122a5);
     if (value_probe) seed_value(0x122a5, 0);
     if (signature_probe) seed_signature(0x122a5, 0);
+    if (pdb_probe) seed_pdb_context();
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -516,7 +544,7 @@ int main(int argc, char **argv)
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
     if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
     restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
-    if (restore_probe) { read_buffer_probes(); read_value_probe(); read_signature_probe(); }
+    if (restore_probe) { read_buffer_probes(); read_value_probe(); read_signature_probe(); read_pdb_probe(); }
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;
@@ -593,6 +621,10 @@ int main(int argc, char **argv)
                 }
                 if (restore_probe && signature_probe && !signature_seeded && address == base + 0x12664) {
                     seed_signature(0x12664, 1); signature_seeded = 1;
+                }
+                if (restore_probe && pdb_probe && !pdb_seeded && address == base + 0x12676) {
+                    write_mem(base + 0x5c064, &pdb_reuse, 4);
+                    fprintf(events, "pdb-helper-seed rva=00012676 reuse=%lu\n", pdb_reuse); pdb_seeded = 1;
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

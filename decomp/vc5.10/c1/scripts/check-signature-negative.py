@@ -9,12 +9,21 @@ def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();start=time.perf_counter();trial.check(a.original,a.native)
  aux=json.loads((a.native/'receipt.json').read_text())['probe']=='restore'
  tests=['native-signature','native-offset','native-alias','original-signature','original-default','metadata-width','metadata-default','metadata-alias']
- if aux:tests+=['missing-seed','wrong-probe','zero-reset-input','wrong-reset-result','wrong-callback-input','wrong-callback-pc','missing-after-copy','wrong-after-copy-pc','wrong-after-copy-state','changed-neighbor']
+ if aux:tests+=['missing-seed','wrong-probe','zero-reset-input','wrong-reset-result','wrong-callback-input','wrong-callback-pc','missing-after-copy','wrong-after-copy-pc','wrong-after-copy-state','changed-neighbor','missing-signature-point','wrong-signature-point','wrong-signature-command']
  for name in tests:
   with tempfile.TemporaryDirectory(prefix='signature-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as tmp:
    root=Path(tmp);o=root/'original';n=root/'native';b=root/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
    for f in ('trial-audit.json','trial-audit-binding.json'):shutil.copy2(trial.PROJECT/'build'/f,b/f)
-   if name.startswith('metadata-'):
+   if name in ('missing-signature-point','wrong-signature-point','wrong-signature-command'):
+    if name=='wrong-signature-command':
+     f=n/'commands.gdb';f.write_text(f.read_text().replace("restore_observations['after_signature']=capture_modeled()","restore_observations['different_point']=capture_modeled()"))
+    else:
+     f=n/'gdb.txt';r=f.read_text();hit=re.findall(r'^Breakpoint (\d+), initialize_state_1266f ',r,re.M)[0]
+     if name=='missing-signature-point':r=re.sub(r'^Breakpoint '+hit+r', initialize_state_1266f .*\n','',r,flags=re.M)
+     else:r=re.sub(r'(^Breakpoint '+hit+r' at )0x[0-9a-f]+',r'\g<1>0x1',r,flags=re.M)
+     f.write_text(r)
+    rehash(n,f.name)
+   elif name.startswith('metadata-'):
     import signature_state
     field=json.loads((trial.PROJECT/'cases/minimal/field-map.json').read_text())
     key,value={'metadata-width':('bytes',8),'metadata-default':('default',1),'metadata-alias':('original_rva',0x518a0)}[name]
