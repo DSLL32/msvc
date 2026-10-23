@@ -1,0 +1,54 @@
+enter _printf eax 00000001 args 00080e1c 007b00b9
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+enter __stbuf eax 00000001 args 000861b8
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+enter __isatty eax 00000001 args 00000001
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+return __isatty eax 00000000 args 00000001
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+return __stbuf eax 00000000 args 000861b8
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+enter __output eax 00080e1c args 000861b8 00080e1c 0029feac
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+enter _write_char eax 00000009 args 00000009 000861b8 0029fc58
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+return _write_char eax 0029fc58 args 00000009 000861b8 0029fc58
+file flags 10 count 4095 fd 1 size 4096 null 0 used 1 position 0 counter 1 cursor 00000000 value 00000000
+buffer_hex 09
+enter _get_int_arg eax 0029fe98 args 0029fe98
+file flags 10 count 4089 fd 1 size 4096 null 0 used 7 position 0 counter 0 cursor 0029feac value 007b00b9
+buffer_hex 095449544c4509
+return _get_int_arg eax 007b00b9 args 0029fe98
+file flags 10 count 4089 fd 1 size 4096 null 0 used 7 position 0 counter 0 cursor 0029feb0 value 00000000
+buffer_hex 095449544c4509
+enter _write_multi_char eax fffffff7 args 00000020 fffffff7 000861b8 0029fc58
+file flags 10 count 4089 fd 1 size 4096 null 0 used 7 position 0 counter 7 cursor 00000000 value 00000000
+buffer_hex 095449544c4509
+return _write_multi_char eax fffffff7 args 00000020 fffffff7 000861b8 0029fc58
+file flags 10 count 4089 fd 1 size 4096 null 0 used 7 position 0 counter 7 cursor 00000000 value 00000000
+buffer_hex 095449544c4509
+enter _write_string eax 0029fc48 args 0029fc48 00000000 000861b8 0029fc58
+file flags 10 count 4089 fd 1 size 4096 null 0 used 7 position 0 counter 7 cursor 00000000 value 00000000
+buffer_hex 095449544c4509
+return _write_string eax 00000000 args 0029fc48 00000000 000861b8 0029fc58
+file flags 10 count 4089 fd 1 size 4096 null 0 used 7 position 0 counter 7 cursor 00000000 value 00000000
+buffer_hex 095449544c4509
+return __output eax 00000018 args 000861b8 00080e1c 0029feac
+file flags 10 count 4072 fd 1 size 4096 null 0 used 24 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 095449544c45096462676c6973742e630a092e333836500a
+enter __ftbuf eax 00000018 args 00000000 000861b8
+file flags 10 count 4072 fd 1 size 4096 null 0 used 24 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 095449544c45096462676c6973742e630a092e333836500a
+return __ftbuf eax 00000018 args 00000000 000861b8
+file flags 10 count 4072 fd 1 size 4096 null 0 used 24 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 095449544c45096462676c6973742e630a092e333836500a
+return _printf eax 00000018 args 00080e1c 007b00b9
+file flags 10 count 4072 fd 1 size 4096 null 0 used 24 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 095449544c45096462676c6973742e630a092e333836500a

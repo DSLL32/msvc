@@ -1,0 +1,26 @@
+{
+  "checked": [
+    "__stbuf",
+    "__isatty",
+    "__output",
+    "_write_char",
+    "_get_int_arg",
+    "_write_multi_char",
+    "_write_string",
+    "__ftbuf"
+  ],
+  "rejected": [
+    "changed native buffer",
+    "changed both buffers",
+    "wrong descriptor position",
+    "wrong FILE mode",
+    "wrong public return",
+    "empty internal inventory",
+    "wrong internal return",
+    "unknown internal helper",
+    "changed linked archive identity",
+    "fabricated native internal ABI claim"
+  ],
+  "seconds": 0.05012853164225817,
+  "scope": "Strict cached observations and exact original archive identities, no Wine/native launch/compiler; no application credit for CRT support"
+}

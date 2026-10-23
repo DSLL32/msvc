@@ -1,3 +1,8 @@
+C2 ACTIVE1162 accepted /1071 source graphs, matching write_segment_listing28510.
+See cases/dbglist-codeview-checkpoint.json. Four CodeView bodies accepted, strict CRTpublicstdio seam passed.
+All14 native cases pass:13 complete outputs plus debug/listing named trap.
+Continue current approved debug/listing case; no new case yet.
+
 C2 ACTIVE: approved debug-asm-listing case,1149 accepted /1067 source graphs.
 Fresh original/native matching frontier initialize_codeview_output69100.
 All14 native cases pass:13 complete objects plus dbglist expected named application trap.

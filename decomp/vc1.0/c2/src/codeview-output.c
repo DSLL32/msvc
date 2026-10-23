@@ -1,0 +1,71 @@
+/* CodeView symbol stream records, introduced as their writers are reached. */
+#include "codeview-output.h"
+#include "coff-output.h"
+#include "options.h"
+#include "records.h"
+#include <string.h>
+#include <recon.h>
+int codeview_output_started; /* original84fd8 */
+
+/* Original69100..69114; final call is a tail jump in the original. */
+void initialize_codeview_output(void)
+{
+    codeview_output_started = 1;
+    write_codeview_signature();
+    write_codeview_object_name();
+}
+
+/* Original69cd0..69d03. The initial CodeView symbol-stream signature. */
+void write_codeview_signature(void)
+{
+    unsigned signature = 1;
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&signature, sizeof(signature));
+    debug_symbols_segment->symbol.field04 += sizeof(signature);
+}
+
+/* The kind10 symbol input at4d8a5 owns this same original83278 word. */
+extern long il_option_flags;
+unsigned __fastcall copy_codeview_string(unsigned char *destination, char *source);
+/* Original69c60..69cc9. S_OBJNAME consists of the fixed header and a
+   one-byte counted object name; the terminating source NUL is not emitted. */
+void write_codeview_object_name(void)
+{
+    struct {
+        unsigned short length, kind;
+        unsigned signature;
+        unsigned char name[300];
+    } record;
+    char *end = object_filename;
+    unsigned length;
+    while (*end++) ;
+    length = (unsigned)(end - object_filename) + 6;
+    record.length = (unsigned short)length;
+    record.kind = 9;
+    record.signature = (unsigned)il_option_flags;
+    copy_codeview_string(record.name, object_filename);
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&record, length + 2);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+
+/* Original69520..69580, ECX destination/EDX source. Preserve the original
+   two-byte spare tail convention at length+2 (outside the emitted count). */
+unsigned __fastcall copy_codeview_string(unsigned char *destination, char *source)
+{
+    char *end;
+    int length = 0;
+    if (source) {
+        end = source;
+        while (*end++) ;
+        length = (int)(end - source) - 1;
+    }
+    if (length > 255) {
+        compiler_warning(1, 0x312, 255);
+        length = 255;
+    }
+    destination[0] = (unsigned char)length;
+    strncpy((char *)destination + 1, source, length);
+    destination[length + 2] = 0;
+    return length + 1;
+}

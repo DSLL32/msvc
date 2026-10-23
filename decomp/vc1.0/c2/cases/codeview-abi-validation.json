@@ -1,0 +1,69 @@
+{
+  "checked": [
+    {
+      "name": "_initialize_codeview_output",
+      "original": [],
+      "canonical": [
+        {
+          "address": "0x5324e",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "cdecl no arguments"
+    },
+    {
+      "name": "_write_codeview_signature",
+      "original": [
+        {
+          "address": "0x69d02",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x53286",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "cdecl no arguments"
+    },
+    {
+      "name": "_write_codeview_object_name",
+      "original": [
+        {
+          "address": "0x69cc8",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x5332c",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "cdecl no arguments"
+    },
+    {
+      "name": "@copy_codeview_string@8",
+      "original": [
+        {
+          "address": "0x6957f",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x533d4",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall two register arguments"
+    }
+  ],
+  "seconds": 0.25467044301331043,
+  "tail": "Original initializer tail-jumps to object-name writer; both use cdecl(void) with no callee stack cleanup"
+}

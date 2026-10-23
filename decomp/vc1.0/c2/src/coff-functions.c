@@ -18,7 +18,7 @@ unsigned coff_last_function_line; /* 0007e8b8 */
 int coff_emitted_function; /* 000850c8 */
 static Segment *coff_default_fpo_segment; /* 0007e8c8 */
 static char *coff_last_function_filename; /* 0007e8cc */
-Segment *coff_function_fpo_segment, *coff_function_debug_segment; /* 00079148,0007914c */
+Segment *coff_function_fpo_segment; /* 00079148;7914c is shared debug_symbols_segment */
 /* Original [0006ccd0,0006cce0): COFF's derived-function type bit. */
 unsigned short __fastcall coff_symbol_type(SymbolHeader *symbol)
 {
@@ -57,10 +57,10 @@ void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int 
     coff_mark_symbol(&symbol->symbol);
     if (codeview_debug) {
         if (!(symbol->symbol.field0e & 0x20))
-            coff_function_debug_segment = (Segment *)lookup_global_symbol(7);
+            debug_symbols_segment = (Segment *)lookup_global_symbol(7);
         else {
             segment = create_segment(".debug$S", "DEBSYM", next_symbol_identifier());
-            coff_function_debug_segment = segment;
+            debug_symbols_segment = segment;
             segment->alignment = 1;
             segment->word_size = 7;
             segment->format_flags = 1;

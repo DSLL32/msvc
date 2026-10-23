@@ -1,0 +1,8 @@
+{
+  "failed_capture": "Initial1153 strict entry indexing rejected _printf/_wprintf duplicate candidates",
+  "source_directory": "/root/.ai-tmp/msvc2/vc1.0/c2/original-dbglist-gt_zf8ks",
+  "masked_sha256": "32aa0bd5d1116e3a96486c9c7b0a3bef67e4d7ab830d513d15007484722883bd",
+  "raw_events_sha256": "38211946d14ef3a211e90fa844b785311ae8ec34d0973b643b44c7285e080d49",
+  "corrected_receipt": "cases/dbglist-original-1153.json",
+  "limit": "Failed initial run is retained separately; subsequent narrow alias capture does not replace it"
+}

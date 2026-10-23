@@ -1153,7 +1153,20 @@
     "@widen_instruction_encoding@8",
     "_strpbrk",
     "_freopen",
-    "import:SetStdHandle"
+    "import:SetStdHandle",
+    "_initialize_codeview_output",
+    "_write_codeview_signature",
+    "_write_codeview_object_name",
+    "@copy_codeview_string@8",
+    "_printf",
+    "__stbuf",
+    "__isatty",
+    "__output",
+    "_write_char",
+    "_get_int_arg",
+    "_write_multi_char",
+    "_write_string",
+    "__ftbuf"
   ],
   "driver": [
     {
@@ -2129,8 +2142,7 @@
     {
       "name": "_initialize_codeview_output",
       "start": 430336,
-      "end": 430337,
-      "provisional": true
+      "end": 430356
     },
     {
       "name": "_coff_timestamp",
@@ -7588,6 +7600,21 @@
       "name": "@switch_range_at@8",
       "start": 424416,
       "end": 424436
+    },
+    {
+      "name": "_write_codeview_signature",
+      "start": 433360,
+      "end": 433411
+    },
+    {
+      "name": "_write_codeview_object_name",
+      "start": 433248,
+      "end": 433353
+    },
+    {
+      "name": "@copy_codeview_string@8",
+      "start": 431392,
+      "end": 431488
     }
   ],
   "cases": {

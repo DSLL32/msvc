@@ -49,8 +49,8 @@ void __fastcall queue_symbol_debug(SymbolHeader *symbol)
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol);
 Segment *initializer_reference_segment; /* original00079150 */
 /* Original [00069360,00069415). Emit one symbol's initializer chain with
-   temporary segment offsets. Kind10 is inline data in the code segment and
-   intentionally retains the updated code position. */
+   temporary segment offsets. Kind10 is inline CodeView type data and
+   intentionally retains the updated type-stream position. */
 void __fastcall emit_initializer(Initializer *initializer)
 {
     SymbolHeader *symbol = lookup_global_symbol(initializer->content.reference.symbol_id);
@@ -59,7 +59,7 @@ void __fastcall emit_initializer(Initializer *initializer)
     if (symbol && (symbol->kind == 1 || symbol->kind == 4) &&
         (((BackendSymbol *)symbol)->attributes & 0x1000)) symbol = lookup_alias_target(symbol);
     if (initializer->kind == 0) segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
-    else if (initializer->kind == 10) segment = code_segment;
+    else if (initializer->kind == 10) segment = debug_types_segment;
     else {
         compiler_internal_error("@(#)emit.c:1.20", 0x1d1);
         return;
@@ -71,5 +71,5 @@ void __fastcall emit_initializer(Initializer *initializer)
         else if (initializer->kind != 10)
             segment->symbol.field04 += output_callbacks.relocation(initializer, symbol, segment);
     }
-    if (segment != code_segment) segment->symbol.field04 = saved_offset;
+    if (segment != debug_types_segment) segment->symbol.field04 = saved_offset;
 }

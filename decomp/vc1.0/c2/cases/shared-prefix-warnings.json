@@ -1,15 +1,20 @@
 {
   "modules": [
     {
-      "module": "branch-scheduler",
-      "seconds": 1.0798003291711211,
+      "module": "codeview-output",
+      "seconds": 1.3227615533396602,
       "returncode": 0
     },
     {
-      "module": "machine-layout",
-      "seconds": 0.9423403413966298,
+      "module": "coff-functions",
+      "seconds": 1.7532071024179459,
+      "returncode": 0
+    },
+    {
+      "module": "symbol-output",
+      "seconds": 0.9698158260434866,
       "returncode": 0
     }
   ],
-  "seconds": 2.0224153995513916
+  "seconds": 4.046180406585336
 }

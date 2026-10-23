@@ -178,3 +178,28 @@ four-byte COFF timestamp normalization; all13 native cases now complete.
 Original /W3, data audits, graph/extent audits and focused negatives pass.
 cases/inlrec-completion.json records timings/failures/limits; scripts/inventory.py
 refreshes the application/library/import/unclassified inventory for the next case.
+
+Debug/listing case setup (1149 accepted; no new application body yet)
+The original-validated dbglist /Od /G3 /Zi /FAcs case freezes five IR channels,
+source and the pre-C2 PDB. Object timestamp bytes4..7 are the only normalization;
+the .cod and retained .pdb are exact output oracles. Strict multi-artifact checks
+reject corruption, missing/extra artifacts and changed PDB input. Native fixtures
+now include13 completed cases and dbglist's named initialize_codeview_output trap.
+Two exact LIBC bodies and SetStdHandle were accepted separately with real call
+observations, not application credit. The actual freopen close transition exposed
+a shared lowio mismatch; commit410fea95 fixes it. Original/native transient state,
+the earlier mismatch and failed setup attempts are retained in cases/dbglist-*.
+See cases/dbglist-plan.json for capture/build/fixture/check timings and limits.
+
+CodeView prefix checkpoint1162 adds four readable C writers (272 bytes), with
+fresh original/native progression to write_segment_listing. One original debug
+segment global7914c had incorrectly become two C globals; operand validation now
+binds23 accepted function/storage pairs across nine segment globals, rejects a
+second zero-valued storage and checks actual original/native segment identity.
+The same domain proof corrected initializer kind10 to the original type stream.
+Nine isolated original/native counted-string shapes cover null/255/clamp/spare
+byte behavior. CRT printf internals retain exact archive/relocation/per-body
+frontier evidence; native ABI matching is only at the public printf seam. Actual
+FILE,24 buffered bytes, descriptorposition0 and result24 match; ten proof
+negatives pass. Thirteen cases complete and dbglist still traps as expected.
+Full receipts, failed attempts and timing limits: cases/dbglist-codeview-checkpoint.json.

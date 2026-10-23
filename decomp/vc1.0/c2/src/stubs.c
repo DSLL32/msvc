@@ -109,7 +109,6 @@ unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader
 __declspec(naked) void omf_output_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_record) __asm int 3 }
 __declspec(naked) void omf_mark_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_mark_symbol) __asm int 3 }
 void omf_open_module(void) { __asm int 3 }
-void initialize_codeview_output(void) { __asm int 3 }
 #include "coff-output.h"
 void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"

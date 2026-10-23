@@ -1,24 +1,24 @@
 {
-  "checkpoint": 1149,
+  "checkpoint": 1162,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1251,
-    "accepted_rows": 1067,
-    "accepted_union_bytes": 303788,
-    "unaccepted_rows": 184,
-    "unaccepted_provisional_rows": 178,
-    "unaccepted_indexed_extent_bytes": 704,
+    "indexed_rows": 1254,
+    "accepted_rows": 1071,
+    "accepted_union_bytes": 304060,
+    "unaccepted_rows": 183,
+    "unaccepted_provisional_rows": 177,
+    "unaccepted_indexed_extent_bytes": 703,
     "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
     "indexed_rows": 194,
-    "accepted_rows": 65,
-    "accepted_union_bytes": 9698,
-    "unaccepted_rows": 129,
+    "accepted_rows": 74,
+    "accepted_union_bytes": 12562,
+    "unaccepted_rows": 120,
     "unaccepted_provisional_rows": 0,
-    "unaccepted_indexed_extent_bytes": 14748,
-    "unaccepted_nonprovisional_indexed_extent_bytes": 14748
+    "unaccepted_indexed_extent_bytes": 11948,
+    "unaccepted_nonprovisional_indexed_extent_bytes": 11948
   },
   "import_thunks": {
     "indexed_rows": 28,
@@ -30,8 +30,8 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 70603,
-  "unclassified_ranges": 639,
+  "unclassified_code_union_bytes": 70332,
+  "unclassified_ranges": 642,
   "largest_unclassified_ranges": [
     {
       "start": "0x29920",
@@ -42,11 +42,6 @@
       "start": "0x49231",
       "end": "0x49f80",
       "bytes": 3407
-    },
-    {
-      "start": "0x6951f",
-      "end": "0x6a100",
-      "bytes": 3041
     },
     {
       "start": "0x6bd01",
@@ -77,6 +72,11 @@
       "start": "0x777a0",
       "end": "0x77ec0",
       "bytes": 1824
+    },
+    {
+      "start": "0x69580",
+      "end": "0x69c60",
+      "bytes": 1760
     },
     {
       "start": "0x6a351",
@@ -114,6 +114,11 @@
       "bytes": 1151
     },
     {
+      "start": "0x69d03",
+      "end": "0x6a100",
+      "bytes": 1021
+    },
+    {
       "start": "0x6b2c1",
       "end": "0x6b6a0",
       "bytes": 991
@@ -127,11 +132,6 @@
       "start": "0x66091",
       "end": "0x66450",
       "bytes": 959
-    },
-    {
-      "start": "0x4ab41",
-      "end": "0x4aea0",
-      "bytes": 863
     }
   ],
   "limit": "Unclassified ranges can include application/support functions, code data and alignment; no CRT/stdlib attribution without identity evidence.",
@@ -414,13 +414,6 @@
       "name": "_omf_open_module",
       "start": 435024,
       "end": 435025,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_initialize_codeview_output",
-      "start": 430336,
-      "end": 430337,
       "provisional": true,
       "extent_status": "entry placeholder"
     },

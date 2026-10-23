@@ -1,0 +1,85 @@
+{
+  "logical": "_write_multi_char",
+  "before_config_sha256": "919edb0037a5a5a81b4d7266e6e0ea4df833acbfddf481b9dbc587571074fa84",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "identity": {
+    "record": {
+      "name": "_write_multi_char",
+      "start": 475616,
+      "end": 475680,
+      "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+      "library": "LIBC.LIB"
+    },
+    "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+    "object_sha256": "d31f9126453d421c1efd9999d360ed3eb3d6173402058930158574b53a5e70a9",
+    "function_offset": 2384,
+    "exact_text_bytes": 64,
+    "text_sha256": "87e77e3bca7b9a7b139b4c261bb2ea3afcc2daf7512d49f3d8ceaf557425278a",
+    "linked_text_sha256": "48ea6d1fc49f6deebce9cd159feea219f057a463d73da3534efcc496fbd2222d",
+    "relocations": [
+      {
+        "offset": 31,
+        "symbol": "_write_char",
+        "kind": 20,
+        "target": "0x74190",
+        "binding": "named code relocation"
+      }
+    ],
+    "external_bindings": {}
+  },
+  "contract": "void __cdecl write_multi_char(int,int,FILE *,int *); actual signed count-9 leaves counter unchanged",
+  "observation_path": "cases/dbglist-stdio-support/validation.json",
+  "observation_sha256": "84bd9249160eac099a5cd3fb4665da218e70c814ebfb6bcbceba3131a93a2818",
+  "internal_observations": [
+    {
+      "stage": "enter",
+      "name": "_write_multi_char",
+      "eax": 4294967287,
+      "args": [
+        32,
+        4294967287,
+        549304,
+        2751576
+      ],
+      "file": {
+        "flags": 10,
+        "count": 4089,
+        "fd": 1,
+        "size": 4096,
+        "null": 0,
+        "used": 7,
+        "position": 0,
+        "counter": 7,
+        "cursor": 0,
+        "value": 0,
+        "buffer_hex": "095449544c4509"
+      }
+    },
+    {
+      "stage": "return",
+      "name": "_write_multi_char",
+      "eax": 4294967287,
+      "args": [
+        32,
+        4294967287,
+        549304,
+        2751576
+      ],
+      "file": {
+        "flags": 10,
+        "count": 4089,
+        "fd": 1,
+        "size": 4096,
+        "null": 0,
+        "used": 7,
+        "position": 0,
+        "counter": 7,
+        "cursor": 0,
+        "value": 0,
+        "buffer_hex": "095449544c4509"
+      }
+    }
+  ],
+  "native_boundary": "Public printf seam only; internal CRT native ABIs not independently matched/reconstructed; zero application credit",
+  "limit": "One observed call for this exact initial format/source. All listing formats still require complete-case artifact oracle; unknown helpers or state mismatches hold acceptance."
+}

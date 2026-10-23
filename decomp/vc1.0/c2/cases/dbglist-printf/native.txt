@@ -1,0 +1,22 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3d68: file src/options.c, line 15.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_options () at src/options.c:15
+15	    char *previous = debug_filename;
+Breakpoint 2 at 0x565d8a59: file ../../../lib/recon/src/crt.c, line 717.
+
+Breakpoint 2, recon_printf (format=0x565e5937 "\tTITLE\t%s\n\t.386P\n") at ../../../lib/recon/src/crt.c:717
+717	    va_list args; int n; va_start(args,format); n=recon_vfprintf(&recon_iob[1],format,args); va_end(args); return n;
+#0  recon_printf (format=0x565e5937 "\tTITLE\t%s\n\t.386P\n") at ../../../lib/recon/src/crt.c:717
+#1  0x565a565b in write_module_listing (source=0xffffde3a "dbglist.c") at src/listing.c:116
+#2  0x5659bc9b in emit_backend_work () at src/backend-flow.c:24
+#3  0x5655d024 in compile_functions () at src/functions.c:22
+C2_PRINTF_FORMAT 	TITLE	%s
+	.386P
+C2_PRINTF_ARGUMENT dbglist.c
+0x565a565b in write_module_listing (source=0xffffde3a "dbglist.c") at src/listing.c:116
+116	    printf("\tTITLE\t%s\n\t.386P\n", source);
+Value returned is $1 = 24
+C2_PRINTF_RESULT 24

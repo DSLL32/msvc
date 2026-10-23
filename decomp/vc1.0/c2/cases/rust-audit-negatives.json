@@ -1,11 +1,11 @@
 {
   "method": "Current isolated canonical C2 snapshot mutations; no Wine or target execution",
   "input_sha256": {
-    "functions.json": "163d9d198067485fb84023254ce985bc28d961ba972b1b4257c91edb49abcbec",
+    "functions.json": "94a3668eb0d2a289d292e798b16d8760adbb1684e0a55e973536b2ce4138373f",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2",
-    "build/c2.exe": "2be2ff884fd54045e0160a00d69bb7621aa3c737c859288e361903621986dc72",
-    "build/c2.map": "e960b04738ffc6505671fb22d0145791e3ee09ad40b1ce4e493f230d89b8fc82",
-    "build/runtime.json": "d5197cf2073a6cc2d1565e1aa51bb6d0f2d561f9148f51886b77af1792d64925"
+    "build/c2.exe": "963fe5f66f99ec092617e978c41566601dc3c93e4457fe7b3c8af6a151329845",
+    "build/c2.map": "a3e2be81ba3325d80c6695e01770ff43ef8e55602e0dab027be27342badeab7d",
+    "build/runtime.json": "992eaec3cc7047a27d6d59ee57eb15b1f79b2890ba8b5fd9329aa607195cba12"
   },
   "tool_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
   "command_flags": [
@@ -19,8 +19,8 @@
   ],
   "baseline": {
     "status": 0,
-    "seconds": 1.4769745068624616,
-    "stdout_sha256": "2dbc93d8621c764d83a1b8abc278412feb7ddd0564187aa4ffa1246ec3444496",
+    "seconds": 1.4924726029857993,
+    "stdout_sha256": "d4f3b706a384a5ed92042b6c48a955c90d9ba2b98b291f641c6457bc196b4c88",
     "diagnostic": ""
   },
   "checks": [
@@ -28,13 +28,13 @@
       "mutation": "wrong direct callee",
       "python": {
         "status": 1,
-        "seconds": 4.6509359227493405,
+        "seconds": 4.650889608077705,
         "stdout_sha256": "08d4222bd4f027b4ef537c06de16d8622d0579b16c8a90385e878da5e890afa2",
         "diagnostic": ""
       },
       "rust": {
         "status": 1,
-        "seconds": 0.02432197518646717,
+        "seconds": 0.021162986755371094,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: _main call graph differs: original {\"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\", \"import:SetConsoleCtrlHandler\"}; reconstruction {\"0xdeadbeef\", \"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\"}\n"
       }
@@ -43,13 +43,13 @@
       "mutation": "removed direct call edges",
       "python": {
         "status": 1,
-        "seconds": 4.714550797827542,
-        "stdout_sha256": "2b896c879c1e68019e7951602fa4b907af7a378c15f848a0b35f4463f84e8d85",
+        "seconds": 4.643124407157302,
+        "stdout_sha256": "b417a66f6f26a0d1b6fc1fd1373c9da098109f52a679327653ab2434a00e579e",
         "diagnostic": ""
       },
       "rust": {
         "status": 1,
-        "seconds": 0.0227135568857193,
+        "seconds": 0.023692934773862362,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: _main call graph differs: original {\"@append_environment_arguments@4\", \"@compiler_internal_error@8\", \"@open_intermediate@16\", \"__control87\", \"_atexit\", \"_compile_functions\", \"_exit\", \"_finish_debugging\", \"_finish_globals\", \"_finish_output\", \"_getenv\", \"_initialize_backend\", \"_initialize_codegen\", \"_initialize_debugging\", \"_initialize_frontend_data\", \"_initialize_globals\", \"_initialize_limits\", \"_initialize_output\", \"_initialize_registers\", \"_initialize_segments\", \"_initialize_symbols\", \"_parse_options\", \"import:SetConsoleCtrlHandler\"}; reconstruction {}\n"
       }
@@ -58,13 +58,13 @@
       "mutation": "missing application public mapping",
       "python": {
         "status": 1,
-        "seconds": 0.4471749123185873,
+        "seconds": 0.5145413614809513,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 185, in main\n    counterpart = reconstructed_by_name[record['name']]\n                  ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nKeyError: '_main'\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 185, in main\n    counterpart = reconstructed_by_name[record['name']]\n                  ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nKeyError: '_main'\n"
       },
       "rust": {
         "status": 1,
-        "seconds": 0.020650852471590042,
+        "seconds": 0.021213768981397152,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: missing reconstructed function\n"
       }
@@ -73,13 +73,13 @@
       "mutation": "split application RET operand",
       "python": {
         "status": 1,
-        "seconds": 0.9704702692106366,
+        "seconds": 0.9728197017684579,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 186, in main\n    actual = edges(original, original_index, record, original_names)\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: @coff_output_relocation@12 extent ends at 0006d9a7 inside ret at 0006d9a6\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 186, in main\n    actual = edges(original, original_index, record, original_names)\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: @coff_output_relocation@12 extent ends at 0006d9a7 inside ret at 0006d9a6\n"
       },
       "rust": {
         "status": 1,
-        "seconds": 0.10836507380008698,
+        "seconds": 0.10725926328450441,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: original @coff_output_relocation@12: instruction crosses code chunk boundary at 6d9a6\n"
       }
@@ -88,13 +88,13 @@
       "mutation": "split accepted CRT call operand: _freopen",
       "python": {
         "status": 1,
-        "seconds": 0.3188467398285866,
+        "seconds": 0.31004249304533005,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 180, in main\n    edges(pe, records, record, names)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: _freopen extent ends at 00071aad inside call at 00071aac\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 198, in <module>\n    main()\n    ~~~~^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 180, in main\n    edges(pe, records, record, names)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/audit-graph.py\", line 114, in edges\n    raise ValueError('%s extent ends at %08x inside %s at %08x' %\n                     (record['name'], end, mnemonic, address))\nValueError: _freopen extent ends at 00071aad inside call at 00071aac\n"
       },
       "rust": {
         "status": 1,
-        "seconds": 0.7494128309190273,
+        "seconds": 0.7757579209282994,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "diagnostic": "graph-audit: original accepted extent _freopen 71aa0..71aad: instruction crosses code chunk boundary at 71aac\n"
       }
@@ -103,19 +103,19 @@
       "mutation": "changed generated-call RET8 to RET4",
       "narrow_python_abi": {
         "status": 1,
-        "seconds": 0.3164776461198926,
+        "seconds": 0.3114476948976517,
         "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg/decomp/vc1.0/c2/scripts/check-frontier-abi.py\", line 39, in <module>\n    assert returns and all(r['stack_bytes'] == expected for r in returns),(name,returns,expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('@set_generated_intrinsic_call@16', [{'address': '0x1b3b6', 'stack_bytes': 4}], 8)\n"
+        "diagnostic": "Traceback (most recent call last):\n  File \"/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh/decomp/vc1.0/c2/scripts/check-frontier-abi.py\", line 39, in <module>\n    assert returns and all(r['stack_bytes'] == expected for r in returns),(name,returns,expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('@set_generated_intrinsic_call@16', [{'address': '0x1b3aa', 'stack_bytes': 4}], 8)\n"
       }
     }
   ],
   "restored_positive": {
     "status": 0,
-    "seconds": 1.484846342355013,
-    "stdout_sha256": "2dbc93d8621c764d83a1b8abc278412feb7ddd0564187aa4ffa1246ec3444496",
+    "seconds": 1.4869673736393452,
+    "stdout_sha256": "d4f3b706a384a5ed92042b6c48a955c90d9ba2b98b291f641c6457bc196b4c88",
     "diagnostic": ""
   },
-  "seconds": 16.445312034338713,
-  "snapshot": "/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-d9ib86fg",
+  "seconds": 16.464899444952607,
+  "snapshot": "/root/.ai-tmp/msvc2/vc1.0/c2/rust-graph-negatives-e0ua8afh",
   "ret_scope": "15 evidence-backed application ABIs; global indirect-tail ABI unresolved"
 }

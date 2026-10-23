@@ -1,0 +1,19 @@
+exception 80000003 rva 00061b40 base 00010000 first 1
+exception 80000003 rva 000637a0 base 00010000 first 1
+exception 80000003 rva 000663e0 base 00010000 first 1
+exception 80000003 rva 000637af base 00010000 first 1
+exception 80000003 rva 00061b4c base 00010000 first 1
+exception 80000003 rva 00063890 base 00010000 first 1
+exception 80000003 rva 00064190 base 00010000 first 1
+exception 80000003 rva 00063989 base 00010000 first 1
+exception 80000003 rva 00064260 base 00010000 first 1
+exception 80000003 rva 00063e92 base 00010000 first 1
+exception 80000003 rva 000641e0 base 00010000 first 1
+exception 80000003 rva 00063f87 base 00010000 first 1
+exception 80000003 rva 00064220 base 00010000 first 1
+exception 80000003 rva 00063fa6 base 00010000 first 1
+exception 80000003 rva 00061b65 base 00010000 first 1
+exception 80000003 rva 00063840 base 00010000 first 1
+exception 80000003 rva 00061b75 base 00010000 first 1
+exception 80000003 rva 000187a1 base 00010000 first 1
+exit 99

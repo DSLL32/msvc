@@ -1,0 +1,18 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3d68: file src/options.c, line 15.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_options () at src/options.c:15
+15	    char *previous = debug_filename;
+Breakpoint 2 at 0x565d8a59: file ../../../lib/recon/src/crt.c, line 717.
+
+Breakpoint 2, recon_printf (format=0x565e5937 "\tTITLE\t%s\n\t.386P\n") at ../../../lib/recon/src/crt.c:717
+warning: Source file is more recent than executable.
+717	    va_list args; int n; va_start(args,format); n=recon_vfprintf(&recon_iob[1],format,args); va_end(args); return n;
+C2_STDIO_BEFORE {"flags": 2, "count": 0, "fd": 1, "size": 0, "null": 1, "used": 0, "position": 0, "buffer_hex": ""}
+0x565a565b in write_module_listing (source=0xffffde2c "dbglist.c") at src/listing.c:116
+116	    printf("\tTITLE\t%s\n\t.386P\n", source);
+Value returned is $1 = 24
+C2_STDIO_RESULT 24
+C2_STDIO_AFTER {"flags": 10, "count": 4072, "fd": 1, "size": 4096, "null": 0, "used": 24, "position": 0, "buffer_hex": "095449544c45096462676c6973742e630a092e333836500a"}

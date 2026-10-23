@@ -1,0 +1,118 @@
+{
+  "logical": "__stbuf",
+  "before_config_sha256": "131d4bfdd5c2faf0cc0fc6e2e15acd19de85d9fb9abfbfd02f4970b9bccd9d5f",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "identity": {
+    "record": {
+      "name": "__stbuf",
+      "start": 472992,
+      "end": 473152,
+      "object": "stdio\\obj\\i386\\_SFTBUF.OBJ",
+      "library": "LIBC.LIB"
+    },
+    "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+    "object_sha256": "e00f7292b29d88ac21b53feefb1004d3cfc8d1b9d1b9da7f777dc1df871e9caf",
+    "function_offset": 0,
+    "exact_text_bytes": 160,
+    "text_sha256": "08dfbac46982cf7bae8e0a9608caf2ca9a0a4498cc7cdf24b68af448f8f8ba35",
+    "linked_text_sha256": "dbaefb8a6075771052f31ad2e864c611068d0d9dc0016a838a1eb4044763373e",
+    "relocations": [
+      {
+        "offset": 11,
+        "symbol": "__isatty",
+        "kind": 20,
+        "target": "0x763e0",
+        "binding": "named code relocation"
+      },
+      {
+        "offset": 34,
+        "symbol": "__iob",
+        "kind": 6,
+        "target": "0x861b8",
+        "binding": "linked external data binding; known anchor where available"
+      },
+      {
+        "offset": 50,
+        "symbol": "__iob",
+        "kind": 6,
+        "target": "0x861d8",
+        "binding": "linked external data binding; known anchor where available"
+      },
+      {
+        "offset": 63,
+        "symbol": "__cflush",
+        "kind": 6,
+        "target": "0x8709c",
+        "binding": "linked external data binding; known anchor where available"
+      },
+      {
+        "offset": 84,
+        "symbol": ".data",
+        "kind": 6,
+        "target": "0x86698",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 99,
+        "symbol": "_malloc",
+        "kind": 20,
+        "target": "0x71ff0",
+        "binding": "named code relocation"
+      }
+    ],
+    "external_bindings": {
+      "__iob": "0x86198",
+      "__cflush": "0x8709c",
+      ".data": "0x86698"
+    }
+  },
+  "contract": "int __cdecl _stbuf(FILE *); actual disk stdout returns0, FILE unchanged",
+  "observation_path": "cases/dbglist-stdio-support/validation.json",
+  "observation_sha256": "84bd9249160eac099a5cd3fb4665da218e70c814ebfb6bcbceba3131a93a2818",
+  "internal_observations": [
+    {
+      "stage": "enter",
+      "name": "__stbuf",
+      "eax": 1,
+      "args": [
+        549304
+      ],
+      "file": {
+        "flags": 2,
+        "count": 0,
+        "fd": 1,
+        "size": 0,
+        "null": 1,
+        "used": 0,
+        "position": 0,
+        "counter": 0,
+        "cursor": 0,
+        "value": 0,
+        "buffer_hex": ""
+      }
+    },
+    {
+      "stage": "return",
+      "name": "__stbuf",
+      "eax": 0,
+      "args": [
+        549304
+      ],
+      "file": {
+        "flags": 2,
+        "count": 0,
+        "fd": 1,
+        "size": 0,
+        "null": 1,
+        "used": 0,
+        "position": 0,
+        "counter": 0,
+        "cursor": 0,
+        "value": 0,
+        "buffer_hex": ""
+      }
+    }
+  ],
+  "native_boundary": "Public printf seam only; internal CRT native ABIs not independently matched/reconstructed; zero application credit",
+  "limit": "One observed call for this exact initial format/source. All listing formats still require complete-case artifact oracle; unknown helpers or state mismatches hold acceptance."
+}

@@ -1,0 +1,12 @@
+{
+  "logical": "_write_codeview_object_name",
+  "matched": false,
+  "executable_sha256": "f8d1952368a418a8ae57f0bbceda90b59856d73c9e58c08a590e32e2f23f2147",
+  "config_sha256": "f39c9b1545bb1c0d5047cb20a80df5bb8461f6e5ca1b0f81b35df93e35e04d3a",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "setup_seconds": 0.007626088336110115,
+  "execution_seconds": 0.1367298411205411,
+  "seconds": 0.1576109193265438,
+  "log_sha256": "6e6966c58389024eedf44ced23c72bcb72c67ec72ea4cedf598129b9e1053aba",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/dbglist-gdb-votabiy8"
+}

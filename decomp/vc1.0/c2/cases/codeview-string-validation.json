@@ -1,0 +1,65 @@
+{
+  "cases": [
+    {
+      "source_bytes": 0,
+      "result": 1,
+      "warnings": [],
+      "buffer_sha256": "42dedb212ff5f354e44fa5f2242567ca73dc97ad614840066bd59ca011209841"
+    },
+    {
+      "source_bytes": 1,
+      "result": 2,
+      "warnings": [],
+      "buffer_sha256": "b31d79d4476745d8d8865bfccff59967875c387dcc7dea8d8b0adcf00c364092"
+    },
+    {
+      "source_bytes": 2,
+      "result": 3,
+      "warnings": [],
+      "buffer_sha256": "38cf030aaaa127533fa3af5bae45f27b82a5cdfc6d2ec712fbf87ef15569067a"
+    },
+    {
+      "source_bytes": 31,
+      "result": 32,
+      "warnings": [],
+      "buffer_sha256": "6eb043aac866e91966776adb2c901c3887085e6c3b65a9b18e51d29b8a4b9e90"
+    },
+    {
+      "source_bytes": 254,
+      "result": 255,
+      "warnings": [],
+      "buffer_sha256": "d3b6c24540cb6f2cfb15609f0fcc23efa0a379bb0070e4b3d2d7d22264fe90f8"
+    },
+    {
+      "source_bytes": 255,
+      "result": 256,
+      "warnings": [],
+      "buffer_sha256": "9a15c34d2d4c41cb99b78568014b435dd8eb489d9c882d2a71139a16ff59c946"
+    },
+    {
+      "source_bytes": 256,
+      "result": 256,
+      "warnings": [
+        255
+      ],
+      "buffer_sha256": "9a15c34d2d4c41cb99b78568014b435dd8eb489d9c882d2a71139a16ff59c946"
+    },
+    {
+      "source_bytes": 300,
+      "result": 256,
+      "warnings": [
+        255
+      ],
+      "buffer_sha256": "9a15c34d2d4c41cb99b78568014b435dd8eb489d9c882d2a71139a16ff59c946"
+    },
+    {
+      "source_bytes": null,
+      "result": 1,
+      "warnings": [],
+      "buffer_sha256": "42dedb212ff5f354e44fa5f2242567ca73dc97ad614840066bd59ca011209841"
+    }
+  ],
+  "seconds": 0.0582839148119092,
+  "method": "Original69520..69580 plus exact original strncpy leaf in Unicorn; actual compiled native C helper; diagnostic edge captures actual cdecl arguments without inventing diagnostic execution",
+  "limit": "Helper scalar/buffer/ABI shapes only; does not claim long-name diagnostics executed in the listing case"
+}

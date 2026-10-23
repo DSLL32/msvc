@@ -156,6 +156,10 @@ def check_runtime_evidence(path, name, before, record):
         assert evidence['abi']=='BOOL WINAPI SetStdHandle(DWORD,HANDLE); stdcall8; original import is a tail thunk'
         assert evidence['caller_result_use']=='API return ignored by original free-os-handle path; StdOutput transition independently checked'
         return dict(path=str(path),sha256=sha(path),evidence=evidence)
+    from crt_stdio import CONTRACTS,validate as validate_stdio
+    if name in CONTRACTS:
+        validate_stdio(evidence,record,before)
+        return dict(path=str(path),sha256=sha(path),evidence=evidence)
     identity = evidence['original']['identity']
     assert identity['record'] == record
     library = BINARY.parents[2]/'toolchains/1.0-nt/lib'/record['library']
@@ -181,15 +185,20 @@ def check_runtime_evidence(path, name, before, record):
         assert left['left_hex'] and left['right_hex'], 'Empty CRT argument inventory'
         assert left['result_nonnull'] and left['result_offset'] == 1
         assert evidence['caller_result_use'] == 'zero/nonzero; pointer offset independently preserved'
-    elif name in ('_fread','_freopen'):
+    elif name in ('_fread','_freopen','_printf'):
         assert hashlib.sha256(linked).hexdigest() == identity['linked_text_sha256']
         runtime = {r['name']:r for r in (runtime_records()+json.loads((BINARY/'functions.json').read_text())['driver'])}
         compared = bytearray(linked)
         relocations = []
         for offset, symbol, kind in text['relocs']:
-            assert kind == 20 and symbol['name'] in runtime
-            target = (record['start']+offset+4+u32(linked,offset)) & 0xffffffff
-            assert target == runtime[symbol['name']]['start']
+            if kind == 20:
+                assert symbol['name'] in runtime
+                target = (record['start']+offset+4+u32(linked,offset)) & 0xffffffff
+                assert target == runtime[symbol['name']]['start']
+            else:
+                assert name=='_printf' and kind==6 and symbol['name']=='__iob'
+                target=u32(linked,offset)
+                assert target==0x86198+u32(text['data'],offset)==0x861b8
             relocations.append(dict(offset=offset,symbol=symbol['name'],kind=kind,target=target))
             compared[offset:offset+4] = text['data'][offset:offset+4]
         assert bytes(compared) == text['data']
@@ -200,6 +209,12 @@ def check_runtime_evidence(path, name, before, record):
             assert (left['size'],left['count'],left['result']) == (12,1,1)
             assert len(bytes.fromhex(left['bytes_hex'])) == 12
             assert evidence['caller_result_use'] == 'ignored; complete 12-byte destination is copied to Extended return value'
+        elif name=='_printf':
+            assert bytes.fromhex(left['format_hex'])==b'\tTITLE\t%s\n\t.386P\n\0'
+            assert bytes.fromhex(left['argument_hex'])==b'dbglist.c\0' and left['result']==24
+            assert evidence['caller_result_use']=='ignored at write_module_listing287a1; public return24 independently checked'
+            assert any(r['symbol']=='__output' and r['target']==0x73890 for r in relocations)
+            assert evidence['rejected_wide_alias']=='WPRINTF.OBJ has __woutput relocation, while linked target is proven narrow __output73890 and actual format is narrow ASCII'
         else:
             assert bytes.fromhex(left['name_hex']) == b'dbglist.cod\0'
             assert bytes.fromhex(left['mode_hex']) == b'wt\0'

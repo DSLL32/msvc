@@ -1,0 +1,73 @@
+{
+  "logical": "_printf",
+  "before_config_sha256": "80df5d3b86fec66473d0e423aa48b2886215b7e47099e3fdc29b23f3761e911d",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "original": {
+    "identity": {
+      "record": {
+        "name": "_printf",
+        "start": 465728,
+        "end": 465792,
+        "object": "stdio\\obj\\i386\\PRINTF.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+      "object_sha256": "16e623772d427e570152912d0888f5ca9df3b6c6489940b5093129d81b7404ea",
+      "exact_text_bytes": 64,
+      "text_sha256": "d10b81850a8cd99f1faea8eb8a3fcb7595c42f2e9ad343e04bb8e13b6590c04e",
+      "linked_text_sha256": "3481dfb84cbeb286b9a84f31a7329eeb3cd2365a858de6cb97d63d9bbcf211db",
+      "relocations": [
+        {
+          "offset": 3,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 549304
+        },
+        {
+          "offset": 8,
+          "symbol": "__stbuf",
+          "kind": 20,
+          "target": 472992
+        },
+        {
+          "offset": 28,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 549304
+        },
+        {
+          "offset": 33,
+          "symbol": "__output",
+          "kind": 20,
+          "target": 473232
+        },
+        {
+          "offset": 43,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 549304
+        },
+        {
+          "offset": 49,
+          "symbol": "__ftbuf",
+          "kind": 20,
+          "target": 473152
+        }
+      ]
+    }
+  },
+  "observed_original": {
+    "format_hex": "095449544c450925730a092e333836500a00",
+    "argument_hex": "6462676c6973742e6300",
+    "result": 24
+  },
+  "observed_native": {
+    "format_hex": "095449544c450925730a092e333836500a00",
+    "argument_hex": "6462676c6973742e6300",
+    "result": 24
+  },
+  "observation_receipt": "cases/dbglist-printf/validation.json",
+  "caller_result_use": "ignored at write_module_listing287a1; public return24 independently checked",
+  "rejected_wide_alias": "WPRINTF.OBJ has __woutput relocation, while linked target is proven narrow __output73890 and actual format is narrow ASCII",
+  "limit": "Only narrow printf wrapper64B acceptance. Its still-masked CRT callees are exposed individually next; public observation uses otherwise unmodified original and grants no child acceptance."
+}
