@@ -31,5 +31,6 @@ extern Extended extended_zero, scanned_floating_value;
 int __stdcall convert_floating_literal(char *text, Extended *value);
 int subtract_extended(const Extended *left, const Extended *right, Extended *result);
 Extended *__stdcall save_extended_constant(Extended *value);
+Extended *__stdcall save_extended_in_arena(Extended value, int arena);
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right);
 #endif

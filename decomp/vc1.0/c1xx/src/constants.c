@@ -266,3 +266,11 @@ make_result:
     integer_constant_scratch = value;
     return new_literal_constant((unsigned_arithmetic ? 9 : 7) + long_result, &integer_constant_scratch);
 }
+
+/* Original 0x2d3f0..0x2d420. Ordinary parser constants use arena two;
+   persistent/scanner allocation modes keep the value permanently. */
+Extended *__stdcall save_extended_constant(Extended *value)
+{
+    return save_extended_in_arena(*value,
+        token_allocation_flags & 0x20000020UL ? 0 : 2);
+}

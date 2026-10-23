@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_save_extended_constant@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1155,
+  "configuration_sha256": "9575fb38925f3e7150498270f6b424f3d41d8045b6d0fc3c0b22cdcb24758180",
+  "native_entry": "save_extended_constant",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "value",
+      "stack_index": 0,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 621480,
+        "offset": 0,
+        "native_anchor_field": "value_owner",
+        "native_object_address": 1449197736
+      },
+      "original_raw": 621480,
+      "native_raw": 1449197736,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      185328,
+      185377
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4, pointerreturn",
+    "proof": "Whole49B noframe, valuepointerentryESP+4 and RET4/EAXpointer. Tests bytes0/3 of existingtoken_allocation_flags9f790 for20 bits =>mask20000020; arena0ifset else2. Push arena then high/low twelvebytes from realExtended value then CALL2d430, which RET16 and returns storagepointer. Nohidden/registerformals or newdata. Entire12B value was defined by converter low/high/exponent plus format8 and actualtenbyte store; no paddinginvented.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "0b7380f7de0966eb22b5cad17903c6e70d67fde6a278b3dc7ad813f86fa6f7a4",
+  "capture_timing": {
+    "original_capture_seconds": 1.4175003878772259,
+    "native_capture_seconds": 0.17194541823118925,
+    "total_operation_seconds": 1.8136518010869622
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "483175e0bbd6b8149dca362a6809584639a57b5f98772fcc711f90983f30ed3b",
+    "native-commands.gdb": "24050fb718dfe3a8aa1058947890a205bb6c0b756e8440fb1d2e47a58445caed",
+    "native-gdb.log": "0e63146101a30e9239bddd3cb5478dcc1ba6966e62d1ed32cadbd55835e33b33",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "468e7b9db7202a2b825618fb46576f6e60448ff4f2a23324d2d57e8d435051f5",
+    "original-configuration.json": "9575fb38925f3e7150498270f6b424f3d41d8045b6d0fc3c0b22cdcb24758180",
+    "original-disassembly.txt": "648388ec15601e1f3806474a865af37615b13e293b6376775bad1ca13cd9e1bc",
+    "original-events.txt": "b7618936cfea0cd4ad4682c6e5691d01e69295f0a5dcc64b6993698da504f372",
+    "original-receipt.json": "9f87d9cd6f93b6d4bba4d44f2d24288b1e0632201e17a81a8828380d699e5bc7",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "741de20a90fd4d6bd092a1e095d45b72cd93ad973ae3efb4492a50db6f18d34f"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "function": "_save_extended_constant@4",
+  "native_entry": "save_extended_constant",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_value": "(unsigned)value",
+    "value_owner": "(unsigned)&scanned_floating_value"
+  },
+  "formals": [
+    {
+      "name": "value",
+      "stack_index": 0,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 621480,
+        "offset": 0,
+        "native_anchor_field": "value_owner"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      185328,
+      185377
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4, pointerreturn",
+    "proof": "Whole49B noframe, valuepointerentryESP+4 and RET4/EAXpointer. Tests bytes0/3 of existingtoken_allocation_flags9f790 for20 bits =>mask20000020; arena0ifset else2. Push arena then high/low twelvebytes from realExtended value then CALL2d430, which RET16 and returns storagepointer. Nohidden/registerformals or newdata. Entire12B value was defined by converter low/high/exponent plus format8 and actualtenbyte store; no paddinginvented."
+  }
+}

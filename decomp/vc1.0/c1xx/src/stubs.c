@@ -432,7 +432,6 @@ IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
-Extended *__stdcall save_extended_constant(Extended *value) { __asm { int 3 } return 0; }
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 
 int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } return 0; }

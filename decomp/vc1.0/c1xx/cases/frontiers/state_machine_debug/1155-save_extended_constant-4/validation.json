@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_save_extended_constant@4",
+    "start": 185328,
+    "end": 185377
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1155-save_extended_constant-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_save_extended_in_arena@16"
+  ],
+  "next_frontier": "_save_extended_in_arena@16",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8223699955269694,
+  "total_operation_seconds": 5.159077567048371,
+  "original_capture_seconds": 1.8696472579613328
+}
