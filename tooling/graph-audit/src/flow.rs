@@ -129,6 +129,7 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
         }
         if operation == "call" || operation == "lcall" {
             if let Some(t) = i.imm() {
+                ensure!(!is_data(t), "call enters declared text data at {t:x}");
                 if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t)) {
                     out.imports.insert(identity.clone());
                 } else {
@@ -146,6 +147,7 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
         }
         if operation == "jmp" {
             if let Some(t) = i.imm() {
+                ensure!(!is_data(t), "branch enters declared text data at {t:x}");
                 if inside(t) {
                     pending.push(t)
                 } else {
@@ -198,6 +200,10 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
         }
         if i.jump || i.m.starts_with("loop") {
             let t = i.imm().context("unknown conditional transfer")?;
+            ensure!(
+                !is_data(t),
+                "conditional branch enters declared text data at {t:x}"
+            );
             if inside(t) {
                 pending.push(t)
             } else {

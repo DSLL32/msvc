@@ -539,3 +539,125 @@ fn malformed_import_tables_fail_without_guessing() {
     bytes[0x300..0x304].fill(0);
     assert!(crate::imports::Catalog::load(&Pe::parse(bytes).unwrap()).is_ok());
 }
+
+fn tiny_record(start: u32, end: u32) -> crate::index::Record {
+    crate::index::Record {
+        name: "data_fixture".into(),
+        start,
+        end,
+        shared: vec![],
+        code_chunks: vec![],
+        evidence: serde_json::Value::Null,
+        pending_extent: false,
+    }
+}
+#[test]
+fn extent_excludes_exact_data_but_checks_every_gap_and_tail() {
+    let d = Decoder::new().unwrap();
+    // Trailing data deliberately ends in03, which would consume the next byte
+    // as an ADD operand when incorrectly decoded across its declared endpoint.
+    let pe = image(&[0xc3, 0xff, 0xff, 0x03]);
+    let record = tiny_record(0x401000, 0x401004);
+    let data = vec![(0x401001, 0x401004)];
+    let options = Options {
+        data: data.clone(),
+        ..Options::default()
+    };
+    crate::audit::validate_text_data(&pe, &record, &data, &[]).unwrap();
+    let graph = walk(&d, &pe, record.start, record.end, &options).unwrap();
+    assert!(crate::audit::cfg_boundaries(&d, &pe, &record, &graph, &data, true).is_ok());
+    assert!(crate::audit::cfg_boundaries(&d, &pe, &record, &graph, &[], true).is_err());
+    // Both a gap between exact data ranges and a suffix after the last range
+    // still contain a clipped ADD EAX,imm32 and must fail.
+    for data in [
+        vec![(0x401001, 0x401003), (0x401004, 0x401005)],
+        vec![(0x401001, 0x401003)],
+    ] {
+        let pe = image(&[0xc3, 0xff, 0xff, 0x05, 0xcc]);
+        let record = tiny_record(0x401000, 0x401005);
+        let graph = walk(
+            &d,
+            &pe,
+            record.start,
+            record.end,
+            &Options {
+                data: data.clone(),
+                ..Options::default()
+            },
+        )
+        .unwrap();
+        assert!(crate::audit::cfg_boundaries(&d, &pe, &record, &graph, &data, true).is_err());
+    }
+}
+#[test]
+fn explicit_data_requires_owned_file_bytes_and_cannot_hide_execution() {
+    let d = Decoder::new().unwrap();
+    let pe = image(&[0xc3]);
+    let mut record = tiny_record(0x401000, 0x401001);
+    let external = [(0x401010, 0x401014)];
+    assert!(crate::audit::validate_text_data(&pe, &record, &external, &[]).is_err());
+    record.shared = external.to_vec();
+    assert!(crate::audit::validate_text_data(&pe, &record, &external, &[]).is_ok());
+    let foreign = tiny_record(0x401012, 0x401018);
+    assert!(crate::audit::validate_text_data(&pe, &record, &external, &[foreign]).is_err());
+    for data in [
+        vec![(0x401010, 0x401010)],
+        vec![(0x401010, 0x401014), (0x401012, 0x401014)],
+        vec![(0x401400, 0x401410)],
+        vec![(0x401000, 0x401002)],
+    ] {
+        assert!(crate::audit::validate_text_data(&pe, &record, &data, &[]).is_err());
+    }
+    let pe = image(&[0xeb, 0, 0xc3]);
+    let data = vec![(0x401002, 0x401003)];
+    assert!(
+        walk(
+            &d,
+            &pe,
+            0x401000,
+            0x401003,
+            &Options {
+                data,
+                ..Options::default()
+            }
+        )
+        .is_err()
+    );
+    for code in [vec![0xe9, 0x0b, 0, 0, 0], vec![0xe8, 0x0b, 0, 0, 0, 0xc3]] {
+        let pe = image(&code);
+        let result = walk(
+            &d,
+            &pe,
+            0x401000,
+            0x401000 + code.len() as u32,
+            &Options {
+                data: vec![(0x401010, 0x401014)],
+                ..Options::default()
+            },
+        );
+        assert!(
+            result
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("declared text data")
+        );
+    }
+    // Replacing the terminal RET with NOP must fall into the declared data and
+    // fail, rather than using that declaration as an invented terminal.
+    let pe = image(&[0x90, 0xff, 0xff]);
+    let data = vec![(0x401001, 0x401003)];
+    assert!(
+        walk(
+            &d,
+            &pe,
+            0x401000,
+            0x401003,
+            &Options {
+                data,
+                ..Options::default()
+            }
+        )
+        .is_err()
+    );
+}

@@ -156,6 +156,17 @@ interval counts, declared bytes, and unique physical code bytes. Consumers must
 check this report and pin the auditor hash when requiring chunk support; older
 binaries do not produce it.
 
+Per-side `functions[name].{original,rebuilt}.text_data` declares exact data
+intervals for discovery and extent checks. Interior data must fit one owned code
+interval; external restored `.text` data must additionally be owned by that
+record's `shared` ranges. Data must be file-backed, disjoint from other function
+bodies and executable instructions, and cannot straddle a chunk boundary.
+Declarations are exact uint32 pairs and cannot overlap one another. Inferred
+switch tables and explicit data are skipped only over those intervals: every
+remaining code gap and suffix still receives instruction-boundary checks. A data
+declaration cannot replace a missing terminal instruction. These ownership checks
+do not prove the table's contents; retain the target's byte/shape/target proofs.
+
 Graph metadata is JSON, supplied through `--metadata`; RC's callback table layout
 is in `profiles/rc.json`. Example function metadata:
 
@@ -316,3 +327,21 @@ python3 tooling/graph-audit/check-imports.py \
   --scratch ~/.ai-tmp/graph-audit/import-cli \
   --report ~/.ai-tmp/graph-audit/import-cli-validation.json
 ```
+
+For a frozen real C2 switch/classmap snapshot prepared under `~/.ai-tmp`:
+
+```sh
+python3 tooling/graph-audit/check-text-data.py \
+  --snapshot ~/.ai-tmp/graph-audit/c2-data-fixture \
+  --report ~/.ai-tmp/graph-audit/text-data-validation.json
+```
+
+This control runner changes only the scratch snapshot and restores every input.
+It deliberately demonstrates that changed declared data bytes require a separate
+content proof; graph/extent acceptance alone is insufficient for those bytes.
+
+`text-data-validation.json` records this change's real C2 controls and exact VC1
+report parity. Its historical C1 support index contains a zero-length `__stricmp`
+record rejected by both versions with optional `--check-accepted-extents`; C1 did
+not adopt that flag. The source/legacy policies are preserved without weakening
+that rejection.

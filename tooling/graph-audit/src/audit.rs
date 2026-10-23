@@ -857,6 +857,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         };
         let mut options = options;
         apply_metadata(&mut options, &metadata["functions"][&f.name]["original"])?;
+        validate_text_data(&x.o, f, &options.data, &x.oi)?;
         let l = flow::walk(&d, &x.o, f.start, f.end, &options)
             .with_context(|| format!("original {}", f.name))?;
         let mut rebuilt_options = Options {
@@ -877,6 +878,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             &mut rebuilt_options,
             &metadata["functions"][&f.name]["rebuilt"],
         )?;
+        validate_text_data(&x.r, other, &rebuilt_options.data, &x.ri)?;
         let r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
             .with_context(|| format!("reconstructed {}", f.name))?;
         ensure!(
@@ -945,8 +947,8 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             ensure!(left == right, "{} RET cleanup differs", f.name);
         }
         if a.check_extents {
-            cfg_boundaries(&d, &x.o, f, &l, true)?;
-            cfg_boundaries(&d, &x.r, other, &r, true)?;
+            cfg_boundaries(&d, &x.o, f, &l, &options.data, true)?;
+            cfg_boundaries(&d, &x.r, other, &r, &rebuilt_options.data, true)?;
         }
         let mut edges = l
             .calls
@@ -1024,27 +1026,123 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     Ok(result)
 }
 
-fn cfg_boundaries(
+pub(crate) fn validate_text_data(
+    pe: &Pe,
+    record: &Record,
+    data: &[(u32, u32)],
+    index: &[Record],
+) -> Result<()> {
+    let overlaps = |(a, b): (u32, u32), (c, d): (u32, u32)| a < d && c < b;
+    let mut ordered = data.to_vec();
+    ordered.sort();
+    ensure!(
+        ordered.windows(2).all(|w| w[0].1 <= w[1].0),
+        "{} overlapping text-data declarations",
+        record.name
+    );
+    for &(a, b) in data {
+        ensure!(
+            pe.file_backed_code(a, b),
+            "{} text data is malformed/non-file-backed: {a:x}..{b:x}",
+            record.name
+        );
+        let touches_code = record.code_ranges().any(|r| overlaps((a, b), r));
+        if touches_code {
+            ensure!(
+                record.code_ranges().any(|(c, d)| c <= a && b <= d),
+                "{} text data crosses code chunk ownership boundary",
+                record.name
+            );
+        } else {
+            ensure!(
+                record
+                    .shared
+                    .iter()
+                    .any(|&(c, d)| c <= a && b <= d && pe.file_backed_code(c, d)),
+                "{} external text data lacks explicit shared ownership: {a:x}..{b:x}",
+                record.name
+            );
+        }
+        for other in index {
+            if record.start == other.start
+                && record.code_ranges().collect::<BTreeSet<_>>()
+                    == other.code_ranges().collect::<BTreeSet<_>>()
+            {
+                continue;
+            }
+            ensure!(
+                other.code_ranges().all(|r| !overlaps((a, b), r)),
+                "{} text data intersects another function {}",
+                record.name,
+                other.name
+            );
+        }
+    }
+    Ok(())
+}
+pub(crate) fn cfg_boundaries(
     d: &Decoder,
     pe: &Pe,
     record: &Record,
     graph: &crate::flow::Graph,
+    declared_data: &[(u32, u32)],
     complete: bool,
 ) -> Result<()> {
+    let mut excluded = graph
+        .tables
+        .iter()
+        .chain(declared_data)
+        .copied()
+        .collect::<Vec<_>>();
+    excluded.sort();
+    let mut merged = Vec::<(u32, u32)>::new();
+    for (a, b) in excluded {
+        ensure!(a < b, "{} invalid extent data range", record.name);
+        ensure!(
+            graph.calls.iter().all(|target| *target < a || b <= *target),
+            "{} control transfer enters extent data",
+            record.name
+        );
+        ensure!(
+            graph
+                .instructions
+                .values()
+                .all(|i| i.next() <= a || b <= i.a),
+            "{} extent data overlaps executable instruction",
+            record.name
+        );
+        if let Some(last) = merged.last_mut()
+            && a < last.1
+        {
+            last.1 = last.1.max(b);
+        } else {
+            merged.push((a, b));
+        }
+    }
     for (a, b) in record.code_ranges() {
-        let tail = graph
-            .tables
-            .iter()
-            .filter(|(s, _)| a <= *s && *s < b)
-            .map(|(_, e)| *e)
-            .max()
-            .unwrap_or(a);
-        ensure!(tail <= b, "{} switch data exceeds code chunk", record.name);
-        let mut chunk = record.clone();
-        chunk.start = a;
-        chunk.end = b;
-        chunk.code_chunks.clear();
-        boundary(d, pe, &chunk, tail, complete)?;
+        let mut cursor = a;
+        for &(start, end) in merged.iter().filter(|&&(c, d)| c < b && a < d) {
+            ensure!(
+                a <= start && end <= b,
+                "{} extent data crosses code chunk boundary",
+                record.name
+            );
+            if cursor < start {
+                let mut code = record.clone();
+                code.start = cursor;
+                code.end = start;
+                code.code_chunks.clear();
+                boundary(d, pe, &code, cursor, complete)?;
+            }
+            cursor = end;
+        }
+        if cursor < b {
+            let mut code = record.clone();
+            code.start = cursor;
+            code.end = b;
+            code.code_chunks.clear();
+            boundary(d, pe, &code, cursor, complete)?;
+        }
     }
     Ok(())
 }
@@ -1054,10 +1152,10 @@ fn apply_metadata(options: &mut crate::flow::Options, value: &Value) -> Result<(
         options.roots.push(crate::index::num(root)?);
     }
     for interval in value["text_data"].as_array().into_iter().flatten() {
-        options.data.push((
-            crate::index::num(&interval[0])?,
-            crate::index::num(&interval[1])?,
-        ));
+        options.data.push(
+            serde_json::from_value(interval.clone())
+                .context("text_data must contain exact uint32 interval pairs")?,
+        );
     }
     for (address, targets) in value["switches"].as_object().into_iter().flatten() {
         options.switches.insert(
@@ -1095,6 +1193,7 @@ fn cfg_cleanup(
         ..Default::default()
     };
     apply_metadata(&mut options, &metadata["functions"][&r.name][side])?;
+    validate_text_data(pe, r, &options.data, index)?;
     let graph = crate::flow::walk(d, pe, r.start, r.end, &options)?;
     ensure!(
         !graph.unresolved_tail,
@@ -1233,6 +1332,7 @@ fn accepted_extents(
                 ..Default::default()
             };
             apply_metadata(&mut options, &metadata["functions"][&record.name][side])?;
+            validate_text_data(pe, record, &options.data, index)?;
             let graph = crate::flow::walk(d, pe, record.start, record.end, &options).with_context(
                 || {
                     format!(
@@ -1246,7 +1346,7 @@ fn accepted_extents(
                 raw.0.extend(&graph.calls);
                 raw.1.extend(&graph.references);
             }
-            cfg_boundaries(d, pe, record, &graph, false)
+            cfg_boundaries(d, pe, record, &graph, &options.data, false)
                 .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
         }
         counts.insert(side, records);

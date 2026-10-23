@@ -1,0 +1,1640 @@
+{
+  "timestamp": "2026-10-23T12:47:28.505373+00:00",
+  "scope": "Exact full JSON parity on coherent pinned VC1 corpus vs separately rebuilt08b1d606. Default/legacy/source-extents all8; accepted-support extent checks on five appropriate historical profiles. Historical C1 support index has pre-existing zero-length __stricmp rejected by BOTH versions with accepted-extents flag; that flag was not part of its accepted migration policy. No latest-worker-frontier claim, Wine or target execution.",
+  "baseline_commit": "08b1d606",
+  "binary_sha256": "825d547079ceb9fa8558b250e67fe43bc5a1e0a46afa1d8a08012a3aebe51d83",
+  "profiles": [
+    {
+      "profile": "cl",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.04313164763152599,
+        "after": 0.04460351727902889
+      }
+    },
+    {
+      "profile": "cl",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.03073050267994404,
+        "after": 0.03163879830390215
+      }
+    },
+    {
+      "profile": "cl",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.05733018461614847,
+        "after": 0.06008512061089277
+      }
+    },
+    {
+      "profile": "cl",
+      "mode": "accepted_support_extents",
+      "exact_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.14171343948692083,
+        "after": 0.15210817381739616
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.3455631332471967,
+        "after": 0.3347953921183944
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.35679979249835014,
+        "after": 0.37746956944465637
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.453717908822,
+        "after": 0.4759830869734287
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.3737915828824043,
+        "after": 0.38390489760786295
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.4114943565800786,
+        "after": 0.47077421844005585
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.49983030278235674,
+        "after": 0.5522081777453423
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.4844683902338147,
+        "after": 0.49327773600816727
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.44351355358958244,
+        "after": 0.4480699533596635
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.6729659009724855,
+        "after": 0.7292676102370024
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "accepted_support_extents",
+      "exact_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 1.301990288309753,
+        "after": 1.420465148985386
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 617,
+      "single_sample_seconds": {
+        "before": 0.316300299949944,
+        "after": 0.3155364068225026
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 626,
+      "single_sample_seconds": {
+        "before": 0.2359570898115635,
+        "after": 0.2534734383225441
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 617,
+      "single_sample_seconds": {
+        "before": 0.44786135107278824,
+        "after": 0.46657252311706543
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "accepted_support_extents",
+      "exact_report_equal": true,
+      "checked_functions": 617,
+      "single_sample_seconds": {
+        "before": 0.8799244901165366,
+        "after": 0.9272493263706565
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.07196539081633091,
+        "after": 0.07302261423319578
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.05236839782446623,
+        "after": 0.05789351090788841
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.09822262823581696,
+        "after": 0.10517899133265018
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "accepted_support_extents",
+      "exact_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.19241613429039717,
+        "after": 0.20573032088577747
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.05927777849137783,
+        "after": 0.0586562380194664
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.05609598755836487,
+        "after": 0.05546560697257519
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.08573380392044783,
+        "after": 0.08445482142269611
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "accepted_support_extents",
+      "exact_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.15118983574211597,
+        "after": 0.15985636785626411
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.04086091835051775,
+        "after": 0.0400226004421711
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.04194158501923084,
+        "after": 0.04546154197305441
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "strict_source_extents",
+      "exact_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.04287725407630205,
+        "after": 0.044067603535950184
+      }
+    }
+  ],
+  "unit_tests": 27,
+  "clippy": "all-targets -D warnings passed",
+  "real_C2_controls": {
+    "scope": "Mutate a pre-existing scratch C2 switch-data audit snapshot; never worker files.\n\nThe snapshot's config/metadata/runtime/PE/MAP and command must already be frozen\nunder ~/.ai-tmp (snapshot.json). This tests graph/extent ownership, not data-byte\nfunctional equivalence, which remains the worker's separate policy.\n",
+    "binary_sha256": "825d547079ceb9fa8558b250e67fe43bc5a1e0a46afa1d8a08012a3aebe51d83",
+    "snapshot_source_sha256": {
+      "config": "da501e0c3dba2365f3c16c6ec001552b0106d1275745e8737d5a02f4ce875c46",
+      "metadata": "963bc407ff37abc2d6eba156d5b2de4702e4ff0d651e6f255629f40cc8695a0d",
+      "rebuilt": "e1182b27102e00fdb4703aa8830b92160aa69706478b7bf30af0424874865e5e",
+      "map": "7411aa058893b56c24c75f5e741cd2673816070f69120366842b3cdfb14b55a7",
+      "runtime": "c9f5108c88d8540a0694d8c7c327e8a11655c4b52f7a077528d6da5ef71b7788",
+      "rebuilt-runtime": "79fc9e0f74e86880f04f1f346e34f0454cda369874d98af3dfdd7bd78bfc795b"
+    },
+    "projected_shared": [
+      [
+        4533424,
+        4533444
+      ],
+      [
+        4533456,
+        4533502
+      ]
+    ],
+    "positive_report": {
+      "checked_accepted_extents": {
+        "original": 10,
+        "rebuilt": 10
+      },
+      "checked_functions": 10,
+      "checked_unique_accepted_extents": {
+        "original": 10,
+        "rebuilt": 10
+      },
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "known_imports",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "accepted_index_extents"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "@c2_match_option@16": {
+          "edges": [
+            "@c2_apply_option@12",
+            "@c2_wildcard_match@12",
+            "indirect"
+          ],
+          "imports": []
+        },
+        "@c2_read_environment@4": {
+          "edges": [
+            "_c2_copy_arguments"
+          ],
+          "imports": []
+        },
+        "_c2_crt_startup": {
+          "edges": [
+            "_c2_main",
+            "_c2_set_argv",
+            "_c2_set_default_precision"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            }
+          ]
+        },
+        "_c2_initialize_options": {
+          "edges": [
+            "@c2_get_diagnostic_string@4",
+            "@c2_match_option@16",
+            "@c2_system_fatal@12",
+            "@c2_validate_alignment@4",
+            "_c2_fatal",
+            "_c2_next_argument",
+            "indirect"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "freopen"
+            }
+          ]
+        },
+        "_c2_main": {
+          "edges": [
+            "@c2_open_intermediate@16",
+            "@c2_read_environment@4",
+            "@c2_report_internal@8",
+            "_c2_compile_unit",
+            "_c2_create_type_table",
+            "_c2_fatal",
+            "_c2_finalize_output",
+            "_c2_flush_debug",
+            "_c2_initialize_codegen",
+            "_c2_initialize_constants",
+            "_c2_initialize_machine",
+            "_c2_initialize_opcodes",
+            "_c2_initialize_optimizer",
+            "_c2_initialize_options",
+            "_c2_initialize_registers",
+            "_c2_initialize_trees",
+            "_c2_print_banner",
+            "_c2_read_header",
+            "_c2_register_exit",
+            "_c2_reset_symbol_table",
+            "_c2_set_argv"
+          ],
+          "imports": [
+            {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            }
+          ]
+        },
+        "_c2_next_argument": {
+          "edges": [],
+          "imports": []
+        },
+        "_c2_register_exit": {
+          "edges": [
+            "_c2_register_onexit"
+          ],
+          "imports": []
+        },
+        "_c2_register_onexit": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            }
+          ]
+        },
+        "_c2_set_argv": {
+          "edges": [],
+          "imports": []
+        },
+        "_c2_set_default_precision": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            }
+          ]
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 6,
+          "slots": {
+            "4771840": {
+              "dll": "mspdb50.dll",
+              "name": "StreamAppend"
+            },
+            "4771844": {
+              "dll": "mspdb50.dll",
+              "name": "StreamReplace"
+            },
+            "4771848": {
+              "dll": "mspdb50.dll",
+              "name": "ILModGetILVer"
+            },
+            "4771852": {
+              "dll": "mspdb50.dll",
+              "name": "ILModGetIL"
+            },
+            "4771856": {
+              "dll": "mspdb50.dll",
+              "name": "StreamQueryCb"
+            },
+            "4771860": {
+              "dll": "mspdb50.dll",
+              "name": "StreamRead"
+            },
+            "4771864": {
+              "dll": "mspdb50.dll",
+              "name": "ILModRelease"
+            },
+            "4771868": {
+              "dll": "mspdb50.dll",
+              "name": "ILStoreRelease"
+            },
+            "4771872": {
+              "dll": "mspdb50.dll",
+              "name": "StreamRelease"
+            },
+            "4771876": {
+              "dll": "mspdb50.dll",
+              "name": "PDBCommit"
+            },
+            "4771880": {
+              "dll": "mspdb50.dll",
+              "name": "SigForPbCb"
+            },
+            "4771884": {
+              "dll": "mspdb50.dll",
+              "name": "PDBClose"
+            },
+            "4771888": {
+              "dll": "mspdb50.dll",
+              "name": "ILStoreGetILMod"
+            },
+            "4771892": {
+              "dll": "mspdb50.dll",
+              "name": "PDBOpen"
+            },
+            "4771896": {
+              "dll": "mspdb50.dll",
+              "name": "PDBOpenStream"
+            },
+            "4771900": {
+              "dll": "mspdb50.dll",
+              "name": "ILStoreOpen"
+            },
+            "4771908": {
+              "dll": "user32.dll",
+              "name": "LoadStringA"
+            },
+            "4771916": {
+              "dll": "msvcrt.dll",
+              "name": "fwrite"
+            },
+            "4771920": {
+              "dll": "msvcrt.dll",
+              "name": "fputc"
+            },
+            "4771924": {
+              "dll": "msvcrt.dll",
+              "name": "fseek"
+            },
+            "4771928": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4771932": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4771936": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4771940": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4771944": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4771948": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4771952": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4771956": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4771960": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4771964": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4771968": {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            },
+            "4771972": {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            "4771976": {
+              "dll": "msvcrt.dll",
+              "name": "freopen"
+            },
+            "4771980": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4771984": {
+              "dll": "msvcrt.dll",
+              "name": "strpbrk"
+            },
+            "4771988": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            },
+            "4771992": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4771996": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4772000": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            "4772004": {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            },
+            "4772008": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4772012": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            },
+            "4772016": {
+              "dll": "msvcrt.dll",
+              "name": "remove"
+            },
+            "4772020": {
+              "dll": "msvcrt.dll",
+              "name": "strncpy"
+            },
+            "4772024": {
+              "dll": "msvcrt.dll",
+              "name": "_write"
+            },
+            "4772028": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4772032": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4772036": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4772040": {
+              "dll": "msvcrt.dll",
+              "name": "time"
+            },
+            "4772044": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4772048": {
+              "dll": "msvcrt.dll",
+              "name": "_fullpath"
+            },
+            "4772052": {
+              "dll": "msvcrt.dll",
+              "name": "_pctype"
+            },
+            "4772056": {
+              "dll": "msvcrt.dll",
+              "name": "ftell"
+            },
+            "4772060": {
+              "dll": "msvcrt.dll",
+              "name": "_strdup"
+            },
+            "4772064": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            },
+            "4772068": {
+              "dll": "msvcrt.dll",
+              "name": "atoi"
+            },
+            "4772072": {
+              "dll": "msvcrt.dll",
+              "name": "_chsize"
+            },
+            "4772076": {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            },
+            "4772080": {
+              "dll": "msvcrt.dll",
+              "name": "__unDName"
+            },
+            "4772084": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4772088": {
+              "dll": "msvcrt.dll",
+              "name": "fgets"
+            },
+            "4772092": {
+              "dll": "msvcrt.dll",
+              "name": "_fcloseall"
+            },
+            "4772096": {
+              "dll": "msvcrt.dll",
+              "name": "_isctype"
+            },
+            "4772100": {
+              "dll": "msvcrt.dll",
+              "name": "__mb_cur_max"
+            },
+            "4772104": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4772108": {
+              "dll": "msvcrt.dll",
+              "name": "_filbuf"
+            },
+            "4772112": {
+              "dll": "msvcrt.dll",
+              "name": "_strerror"
+            },
+            "4772116": {
+              "dll": "msvcrt.dll",
+              "name": "strtol"
+            },
+            "4772120": {
+              "dll": "msvcrt.dll",
+              "name": "_errno"
+            },
+            "4772128": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4772132": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            }
+          }
+        },
+        "rebuilt": {
+          "normalizable_thunks": 5,
+          "slots": {
+            "4202496": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            },
+            "4202504": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4202508": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4202512": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4202516": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4202520": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4202524": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4202528": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4202532": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4202536": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4202540": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4202544": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4202548": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4202552": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            "4202556": {
+              "dll": "msvcrt.dll",
+              "name": "getenv"
+            },
+            "4202560": {
+              "dll": "msvcrt.dll",
+              "name": "__dllonexit"
+            },
+            "4202564": {
+              "dll": "msvcrt.dll",
+              "name": "_onexit"
+            },
+            "4202568": {
+              "dll": "msvcrt.dll",
+              "name": "freopen"
+            },
+            "4202572": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4202576": {
+              "dll": "msvcrt.dll",
+              "name": "strpbrk"
+            }
+          }
+        }
+      },
+      "original_accepted_graphs": {
+        "@c2_match_option@16": {
+          "calls": [
+            4533502,
+            4765688
+          ],
+          "references": [
+            0,
+            8,
+            12,
+            32,
+            45,
+            255
+          ]
+        },
+        "@c2_read_environment@4": {
+          "calls": [
+            4532888
+          ],
+          "references": [
+            0,
+            4,
+            32,
+            34,
+            92
+          ]
+        },
+        "_c2_crt_startup": {
+          "calls": [
+            4320137,
+            4532369,
+            4532394,
+            4532400,
+            4767924
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            12,
+            20,
+            4484380,
+            4767691,
+            4772816,
+            4822704,
+            4822708,
+            4823544,
+            4823548,
+            4294967264,
+            4294967295
+          ]
+        },
+        "_c2_initialize_options": {
+          "calls": [
+            4533175,
+            4533209,
+            4533915,
+            4764519,
+            4765320,
+            4765390
+          ],
+          "references": [
+            0,
+            1,
+            6,
+            7,
+            8,
+            12,
+            32,
+            83,
+            310,
+            2058,
+            4822880,
+            4826574,
+            4826578,
+            4826582,
+            4826586,
+            4826590
+          ]
+        },
+        "_c2_main": {
+          "calls": [
+            4320137,
+            4530997,
+            4532715,
+            4532721,
+            4532770,
+            4532939,
+            4533924,
+            4534290,
+            4534317,
+            4534326,
+            4534439,
+            4534522,
+            4534572,
+            4534958,
+            4535034,
+            4535045,
+            4538855,
+            4541174,
+            4738355,
+            4746044,
+            4764519,
+            4766214
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            63,
+            379,
+            525,
+            524319,
+            4541188,
+            4737491,
+            4767691,
+            4772800,
+            4813568,
+            4822768,
+            4822784,
+            4822796,
+            4822804,
+            4822852,
+            4838580,
+            3221225477,
+            3221225725,
+            4294967284,
+            4294967295
+          ]
+        },
+        "_c2_next_argument": {
+          "calls": [],
+          "references": [
+            4
+          ]
+        },
+        "_c2_register_exit": {
+          "calls": [
+            4532742
+          ],
+          "references": [
+            4
+          ]
+        },
+        "_c2_register_onexit": {
+          "calls": [
+            4767918
+          ],
+          "references": [
+            4,
+            12,
+            4822740,
+            4822792,
+            4294967295
+          ]
+        },
+        "_c2_set_argv": {
+          "calls": [],
+          "references": []
+        },
+        "_c2_set_default_precision": {
+          "calls": [
+            4532388
+          ],
+          "references": [
+            8,
+            65536,
+            196608
+          ]
+        }
+      },
+      "owned_code_chunks": {
+        "original": {
+          "declared_code_bytes": 1888,
+          "functions": {
+            "@c2_match_option@16": [
+              [
+                4533209,
+                4533422
+              ],
+              [
+                4671127,
+                4671231
+              ]
+            ],
+            "@c2_read_environment@4": [
+              [
+                4532770,
+                4532888
+              ],
+              [
+                4670837,
+                4670880
+              ]
+            ],
+            "_c2_crt_startup": [
+              [
+                4532119,
+                4532369
+              ],
+              [
+                4670578,
+                4670673
+              ]
+            ],
+            "_c2_initialize_options": [
+              [
+                4532939,
+                4533175
+              ],
+              [
+                4670880,
+                4671127
+              ]
+            ],
+            "_c2_main": [
+              [
+                4532400,
+                4532715
+              ],
+              [
+                4670673,
+                4670813
+              ]
+            ],
+            "_c2_next_argument": [
+              [
+                4533175,
+                4533209
+              ]
+            ],
+            "_c2_register_exit": [
+              [
+                4532721,
+                4532742
+              ]
+            ],
+            "_c2_register_onexit": [
+              [
+                4532742,
+                4532770
+              ],
+              [
+                4670813,
+                4670837
+              ]
+            ],
+            "_c2_set_argv": [
+              [
+                4320137,
+                4320138
+              ]
+            ],
+            "_c2_set_default_precision": [
+              [
+                4532369,
+                4532388
+              ]
+            ]
+          },
+          "interval_count": 16,
+          "logical_function_count": 10,
+          "unique_code_bytes": 1888
+        },
+        "rebuilt": {
+          "declared_code_bytes": 2270,
+          "functions": {
+            "@c2_match_option@16": [
+              [
+                4200624,
+                4201086
+              ]
+            ],
+            "@c2_read_environment@4": [
+              [
+                4199776,
+                4200080
+              ]
+            ],
+            "_c2_crt_startup": [
+              [
+                4198816,
+                4199172
+              ]
+            ],
+            "_c2_initialize_options": [
+              [
+                4200080,
+                4200558
+              ]
+            ],
+            "_c2_main": [
+              [
+                4199248,
+                4199712
+              ]
+            ],
+            "_c2_next_argument": [
+              [
+                4200558,
+                4200624
+              ]
+            ],
+            "_c2_register_exit": [
+              [
+                4199177,
+                4199216
+              ]
+            ],
+            "_c2_register_onexit": [
+              [
+                4199712,
+                4199776
+              ]
+            ],
+            "_c2_set_argv": [
+              [
+                4199172,
+                4199177
+              ]
+            ],
+            "_c2_set_default_precision": [
+              [
+                4199216,
+                4199248
+              ]
+            ]
+          },
+          "interval_count": 10,
+          "logical_function_count": 10,
+          "unique_code_bytes": 2270
+        }
+      },
+      "profile": "cl"
+    },
+    "results": [
+      {
+        "case": "actual_C2_switch_and_classmap_strict",
+        "accepted": true,
+        "seconds": 0.02333546243607998,
+        "error": ""
+      },
+      {
+        "case": "missing_classmap",
+        "accepted": false,
+        "seconds": 0.015596585348248482,
+        "error": "graph-audit: @c2_match_option@16 extent truncates add at 401a7d (end 401a7e)"
+      },
+      {
+        "case": "classmap_prefix_gap",
+        "accepted": false,
+        "seconds": 0.018888710997998714,
+        "error": "graph-audit: @c2_match_option@16 extent truncates add at 401a50 (end 401a51)"
+      },
+      {
+        "case": "classmap_clipped_suffix",
+        "accepted": false,
+        "seconds": 0.015491972677409649,
+        "error": "graph-audit: @c2_match_option@16 extent truncates add at 401a7d (end 401a7e)"
+      },
+      {
+        "case": "declared_live_RET",
+        "accepted": false,
+        "seconds": 0.016506615094840527,
+        "error": "graph-audit: reconstructed @c2_match_option@16: CFG enters text data"
+      },
+      {
+        "case": "data_crosses_chunk",
+        "accepted": false,
+        "seconds": 0.014535303227603436,
+        "error": "graph-audit: @c2_match_option@16 text data crosses code chunk ownership boundary"
+      },
+      {
+        "case": "overlapping_declarations",
+        "accepted": false,
+        "seconds": 0.01569658052176237,
+        "error": "graph-audit: @c2_match_option@16 overlapping text-data declarations"
+      },
+      {
+        "case": "external_owner_removed",
+        "accepted": false,
+        "seconds": 0.015047415159642696,
+        "error": "graph-audit: @c2_match_option@16 external text data lacks explicit shared ownership: 452cb0..452cc4"
+      },
+      {
+        "case": "non_file_backed_external",
+        "accepted": false,
+        "seconds": 0.01420727651566267,
+        "error": "graph-audit: @c2_match_option@16 text data is malformed/non-file-backed: dead0000..dead0010"
+      },
+      {
+        "case": "malformed_interval",
+        "accepted": false,
+        "seconds": 0.01452833041548729,
+        "error": "graph-audit: text_data must contain exact uint32 interval pairs: invalid length 3, expected fewer elements in array"
+      },
+      {
+        "case": "missing_terminal_RET_cannot_fall_into_data",
+        "accepted": false,
+        "seconds": 0.014538216404616833,
+        "error": "graph-audit: reconstructed @c2_match_option@16: CFG enters text data"
+      },
+      {
+        "case": "data_content_needs_separate_byte_proof_scope_control",
+        "accepted": true,
+        "seconds": 0.019875465892255306,
+        "error": ""
+      }
+    ]
+  },
+  "chunk_regression": {
+    "scope": "Read-only real C1XX PGO-domain CLI fixture plus metadata mutation controls.\n\nAudits the original PE against itself, with explicit symbol/index metadata. This\nchecks auditor discovery/ownership/ABI policies, not reconstruction acceptance.\nNo PE is modified; no target, compiler, debugger, or Wine process is launched.\n",
+    "binary_sha256": "825d547079ceb9fa8558b250e67fe43bc5a1e0a46afa1d8a08012a3aebe51d83",
+    "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+    "positive_report": {
+      "checked_accepted_extents": {
+        "original": 2,
+        "rebuilt": 2
+      },
+      "checked_functions": 2,
+      "checked_unique_accepted_extents": {
+        "original": 2,
+        "rebuilt": 2
+      },
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "function_references",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "accepted_index_extents"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "__CRT_INIT@12": {
+          "edges": [
+            "import:_initterm",
+            "indirect"
+          ]
+        },
+        "__DllMainCRTStartup@12": {
+          "edges": [
+            "_DllMain@12",
+            "__CRT_INIT@12",
+            "indirect"
+          ]
+        }
+      },
+      "original_accepted_graphs": {
+        "__CRT_INIT@12": {
+          "calls": [
+            272860366
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            12,
+            128,
+            273461264,
+            273461268
+          ]
+        },
+        "__DllMainCRTStartup@12": {
+          "calls": [
+            272819306,
+            272819498
+          ],
+          "references": [
+            1,
+            2,
+            3,
+            12
+          ]
+        }
+      },
+      "owned_code_chunks": {
+        "original": {
+          "declared_code_bytes": 451,
+          "functions": {
+            "__CRT_INIT@12": [
+              [
+                272819306,
+                272819498
+              ],
+              [
+                273067247,
+                273067282
+              ]
+            ],
+            "__DllMainCRTStartup@12": [
+              [
+                272819142,
+                272819306
+              ],
+              [
+                273067187,
+                273067247
+              ]
+            ]
+          },
+          "interval_count": 4,
+          "logical_function_count": 2,
+          "unique_code_bytes": 451
+        },
+        "rebuilt": {
+          "declared_code_bytes": 451,
+          "functions": {
+            "__CRT_INIT@12": [
+              [
+                272819306,
+                272819498
+              ],
+              [
+                273067247,
+                273067282
+              ]
+            ],
+            "__DllMainCRTStartup@12": [
+              [
+                272819142,
+                272819306
+              ],
+              [
+                273067187,
+                273067247
+              ]
+            ]
+          },
+          "interval_count": 4,
+          "logical_function_count": 2,
+          "unique_code_bytes": 451
+        }
+      },
+      "profile": "cl"
+    },
+    "results": [
+      {
+        "case": "real_C1XX_two_split_functions",
+        "accepted": true,
+        "seconds": 0.018361452035605907,
+        "diagnostic": ""
+      },
+      {
+        "case": "missing_chunk",
+        "accepted": false,
+        "seconds": 0.01460582297295332,
+        "diagnostic": "graph-audit: __DllMainCRTStartup@12 call graph differs: original {\"0x1046acb3\", \"0x1046acbc\", \"0x1046acc6\", \"0x1046accf\", \"0x1046acdc\", \"0x1046ace3\", \"_DllMain@12\", \"__CRT_INIT@12\"}; reconstruction {\"_DllMain@12\", \"__CRT_INIT@12\"}"
+      },
+      {
+        "case": "overlap_primary",
+        "accepted": false,
+        "seconds": 0.014157087542116642,
+        "diagnostic": "graph-audit: original code chunk ownership: __DllMainCRTStartup@12 overlapping code chunks"
+      },
+      {
+        "case": "overlap_foreign",
+        "accepted": false,
+        "seconds": 0.013850390911102295,
+        "diagnostic": "graph-audit: original code chunk ownership: code chunk ownership overlaps __DllMainCRTStartup@12 / __CRT_INIT@12"
+      },
+      {
+        "case": "split_cold_ret",
+        "accepted": false,
+        "seconds": 0.015796350315213203,
+        "diagnostic": "graph-audit: original __DllMainCRTStartup@12: instruction crosses code chunk boundary at 1046acb9"
+      },
+      {
+        "case": "outside_file",
+        "accepted": false,
+        "seconds": 0.014863849617540836,
+        "diagnostic": "graph-audit: original code chunk ownership: __DllMainCRTStartup@12 invalid/non-file-backed code chunk 20400000..20400010"
+      },
+      {
+        "case": "empty_interval",
+        "accepted": false,
+        "seconds": 0.01570432074368,
+        "diagnostic": "graph-audit: original code chunk ownership: __DllMainCRTStartup@12 invalid/non-file-backed code chunk 1046acb3..1046acb3"
+      },
+      {
+        "case": "malformed_chunks",
+        "accepted": false,
+        "seconds": 0.012085619382560253,
+        "diagnostic": "graph-audit: invalid type: string \"not an interval list\", expected a sequence"
+      },
+      {
+        "case": "malformed_rebuilt_chunks",
+        "accepted": false,
+        "seconds": 0.011935490183532238,
+        "diagnostic": "graph-audit: invalid type: string \"not an interval list\", expected a sequence"
+      },
+      {
+        "case": "legacy_rejects_fragment_metadata",
+        "accepted": false,
+        "seconds": 0.0023946119472384453,
+        "diagnostic": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
+      }
+    ]
+  },
+  "import_regression": {
+    "scope": "Synthetic PE32 import-identity CLI controls; no target execution or Wine.",
+    "binary_sha256": "825d547079ceb9fa8558b250e67fe43bc5a1e0a46afa1d8a08012a3aebe51d83",
+    "results": [
+      {
+        "case": "direct_iat_equals_import_thunk",
+        "accepted": true,
+        "seconds": 0.004127882421016693,
+        "diagnostic": "",
+        "caller": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ]
+        }
+      },
+      {
+        "case": "DLL_basename_case_normalization",
+        "accepted": true,
+        "seconds": 0.0032557928934693336,
+        "diagnostic": "",
+        "caller": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ]
+        }
+      },
+      {
+        "case": "different_provider",
+        "accepted": false,
+        "seconds": 0.002427375875413418,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}; reconstruction {Identity { dll: \"other.dll\", symbol: Name { name: \"Foo\" } }}",
+        "caller": null
+      },
+      {
+        "case": "different_export_case",
+        "accepted": false,
+        "seconds": 0.002722586505115032,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"foo\" } }}",
+        "caller": null
+      },
+      {
+        "case": "ordinal_is_not_name",
+        "accepted": false,
+        "seconds": 0.002581339329481125,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Ordinal { ordinal: 17 } }}",
+        "caller": null
+      },
+      {
+        "case": "different_ordinal",
+        "accepted": false,
+        "seconds": 0.0026097558438777924,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Ordinal { ordinal: 17 } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Ordinal { ordinal: 18 } }}",
+        "caller": null
+      },
+      {
+        "case": "ordinal_like_name_stays_name",
+        "accepted": false,
+        "seconds": 0.003123677335679531,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"ordinal_17\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Ordinal { ordinal: 17 } }}",
+        "caller": null
+      },
+      {
+        "case": "wrong_IAT_slot",
+        "accepted": false,
+        "seconds": 0.002624611370265484,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}; reconstruction {}",
+        "caller": null
+      },
+      {
+        "case": "unresolved_register_call_is_not_import",
+        "accepted": false,
+        "seconds": 0.002587391994893551,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}; reconstruction {}",
+        "caller": null
+      },
+      {
+        "case": "segment_override_is_not_image_IAT",
+        "accepted": false,
+        "seconds": 0.002886206842958927,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}; reconstruction {}",
+        "caller": null
+      },
+      {
+        "case": "declared_vertex_cannot_be_collapsed",
+        "accepted": false,
+        "seconds": 0.002635049633681774,
+        "diagnostic": "graph-audit: _caller call graph differs: original {\"_wrapper\"}; reconstruction {}",
+        "caller": null
+      },
+      {
+        "case": "declared_vertex_preserved",
+        "accepted": true,
+        "seconds": 0.0026382096111774445,
+        "diagnostic": "",
+        "caller": {
+          "edges": [
+            "_wrapper"
+          ],
+          "imports": []
+        }
+      },
+      {
+        "case": "flag_off_preserves_old_topology",
+        "accepted": false,
+        "seconds": 0.002597787417471409,
+        "diagnostic": "graph-audit: _caller call graph differs: original {\"import:Foo\"}; reconstruction {}",
+        "caller": null
+      },
+      {
+        "case": "legacy_rejects_optional_imports",
+        "accepted": false,
+        "seconds": 0.002028645947575569,
+        "diagnostic": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks",
+        "caller": null
+      },
+      {
+        "case": "zero_OriginalFirstThunk_uses_unbound_IAT",
+        "accepted": true,
+        "seconds": 0.00342666357755661,
+        "diagnostic": "",
+        "caller": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ]
+        }
+      },
+      {
+        "case": "malformed_directory_bounds",
+        "accepted": false,
+        "seconds": 0.001771697774529457,
+        "diagnostic": "graph-audit: rebuilt PE imports: import RVA overflow",
+        "caller": null
+      },
+      {
+        "case": "unterminated_directory",
+        "accepted": false,
+        "seconds": 0.0018716910853981972,
+        "diagnostic": "graph-audit: rebuilt PE imports: unterminated import directory",
+        "caller": null
+      },
+      {
+        "case": "reserved_ordinal_bits",
+        "accepted": false,
+        "seconds": 0.0017660828307271004,
+        "diagnostic": "graph-audit: rebuilt PE imports: reserved ordinal bits are set",
+        "caller": null
+      }
+    ]
+  }
+}
