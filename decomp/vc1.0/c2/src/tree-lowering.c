@@ -343,3 +343,33 @@ Node *__fastcall lower_conditional(Node *node, Node *container)
     release_tree(container);
     return done_label;
 }
+
+/* Original836a0..836f0, owned by the bidirectional operator mapper. */
+static const struct AssignmentOpcodePair {
+    unsigned operation, assignment;
+} assignment_opcode_pairs[] = {
+    {2,15},   /* addition */
+    {3,16},   /* subtraction */
+    {4,17},   /* multiplication */
+    {5,18},   /* division */
+    {6,19},   /* remainder */
+    {9,21},   /* left shift */
+    {10,22},  /* right shift */
+    {11,23},  /* bitwise AND */
+    {12,25},  /* bitwise OR */
+    {13,24}   /* bitwise XOR */
+};
+/* Original [000583e0,00058425). A nonzero direction maps an operation to
+   compound assignment; zero recovers the operation from its assignment. */
+unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse)
+{
+    unsigned i;
+    for (i = 0; i < sizeof(assignment_opcode_pairs) / sizeof(assignment_opcode_pairs[0]); ++i) {
+        if (opcode == (reverse ? assignment_opcode_pairs[i].operation :
+                                assignment_opcode_pairs[i].assignment))
+            return reverse ? assignment_opcode_pairs[i].assignment :
+                             assignment_opcode_pairs[i].operation;
+    }
+    compiler_internal_error("@(#)misc.c:1.100", 0x109);
+    return 1;
+}

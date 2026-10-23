@@ -1,0 +1,24 @@
+{
+  "timing": {
+    "capture-compile": {
+      "seconds": null,
+      "note": "unmeasured"
+    },
+    "capture-link": {
+      "seconds": null,
+      "note": "unmeasured"
+    },
+    "pipeline": {
+      "seconds": null,
+      "note": "unmeasured; first metadata assembly failed on Linux path case after successful capture"
+    },
+    "standalone": {
+      "seconds": 1.5793872689828277,
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "standalone": "exit0, empty streams, object matches pipeline after only timestamp",
+  "scratch": "/root/.ai-tmp/vc1.0-c2/optimizer-loops-capture"
+}

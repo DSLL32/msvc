@@ -18,6 +18,7 @@ int __fastcall constant_as_integer(Node *node, int *value);
 Node *__fastcall lift_left_unary(Node *node);
 Node *__fastcall remove_left_wrapper(Node *node);
 Node *__fastcall take_left_operand(Node *node);
+Node *__fastcall lift_right_unary(Node *node);
 Node *__fastcall lift_unary_operand(Node *node, unsigned opcode);
 Node *__fastcall remove_right_wrapper(Node *node);
 unsigned __fastcall normalize_integer_width(Node *node, unsigned value);

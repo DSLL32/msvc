@@ -134,6 +134,8 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     assert before['config_sha256'] == cache['metadata_sha256']['functions.json'], 'before capture is not the cached checkpoint'
     assert sha(BINARY/'runtime.json') == cache['metadata_sha256']['runtime.json'], 'runtime classification changed during one-function extension'
     assert after['config_sha256'] == sha(BINARY/'functions.json'), 'after capture is not current code metadata'
+    profile = after.get('profile', 'hello')
+    assert before.get('profile', 'hello') == profile, 'reference profiles differ'
     name = accepted[old_count]
     # An untyped naked stub can acquire its recovered calling convention at
     # acceptance. Require the same C identity and exact original entry below;
@@ -157,7 +159,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
             assert terminal in runtime, 'next nonapplication entry must have indexed CRT identity'
         assert after['original_va'] == hex(records[terminal]['start'])
         assert after['logical'] not in accepted
-    case = cache['cases']['hello']
+    case = cache['cases'][profile]
     assert case['last'] == old_count and case['terminal'] == before['logical']
     if name in application_names:
         assert case['expected'][-1] == native_name(name)
@@ -166,7 +168,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     else:
         assert runtime_evidence is not None, 'CRT acceptance requires explicit library and call evidence'
         library_evidence = check_runtime_evidence(runtime_evidence, name, before, records[name])
-    manifest = BINARY/config['cases']['hello']['fixture_manifest']
+    manifest = BINARY/config['cases'][profile]['fixture_manifest']
     for receipt in (before, after):
         assert receipt['target_sha256'] == config['target']['sha256']
         assert receipt['manifest_sha256'] == sha(manifest)
@@ -201,14 +203,51 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     if terminal in application_names:
         case['expected'].append(native_name(terminal))
     cache['metadata_sha256'] = {n:sha(BINARY/n) for n in ('functions.json','runtime.json')}
-    cache['provenance']['hello'].setdefault('extensions', []).append(dict(
+    cache['provenance'][profile].setdefault('extensions', []).append(dict(
         accepted_function=name, accepted_kind='application' if name in application_names else 'runtime-library',
         previous_logical=before['logical'],
         original_extent=[hex(records[name]['start']),hex(records[name]['end'])],
         before=dict(path=str(before_path), sha256=sha(before_path), capture=before),
         after=dict(path=str(after_path), sha256=sha(after_path), capture=after)))
     if library_evidence is not None:
-        cache['provenance']['hello']['extensions'][-1]['library_evidence'] = library_evidence
+        cache['provenance'][profile]['extensions'][-1]['library_evidence'] = library_evidence
+    return cache
+
+
+def begin(directory, profile, reference_path):
+    """Register an independently captured case without changing acceptance."""
+    cache = json.loads(CACHE.read_text())
+    config = json.loads((BINARY/'functions.json').read_text())
+    assert profile not in cache['cases'] and profile in config['cases']
+    old = json.loads(json.dumps(config))
+    case_config = old['cases'].pop(profile)
+    assert hashlib.sha256((json.dumps(old,indent=2)+'\n').encode()).hexdigest() == cache['metadata_sha256']['functions.json'], 'new case must be the only configuration change'
+    assert sha(BINARY/'runtime.json') == cache['metadata_sha256']['runtime.json']
+    receipt = json.loads(reference_path.read_text())
+    assert receipt['profile'] == profile
+    assert receipt['accepted'] == len(config['accepted']) == case_config['accepted_from']
+    assert receipt['config_sha256'] == sha(BINARY/'functions.json')
+    assert receipt['target_sha256'] == config['target']['sha256']
+    manifest = BINARY/case_config['fixture_manifest']
+    assert receipt['manifest_sha256'] == sha(manifest) == case_config['fixture_manifest_sha256']
+    phase = json.loads(manifest.read_text())['phases']['c2']
+    assert receipt['inputs'] == {r['path']:r['sha256'] for r in phase['inputs']}
+    assert receipt['environment'] == phase['environment']
+    terminal = receipt['logical']
+    drivers = {r['name']:r for r in config['driver']}
+    assert terminal in drivers and drivers[terminal].get('provisional')
+    assert receipt['original_va'] == hex(drivers[terminal]['start'])
+    event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n',receipt['events'])
+    assert event and int(event[1],16)+int(event[2],16) == drivers[terminal]['start']
+    actual = definitions(directory)
+    assert actual == {n:r['source'] for n,r in cache['application_definitions'].items()}
+    application = {r['logical'] for r in cache['application_definitions'].values()}
+    seen = [native_name(n) for n in config['accepted'] if n in application]
+    cache['cases'][profile] = dict(first=len(config['accepted']),last=len(config['accepted']),
+        seen=seen,expected=[native_name(terminal)],terminal=terminal,
+        terminal_kind='application',returncode=-5)
+    cache['provenance'][profile] = dict(initial=dict(path=str(reference_path),sha256=sha(reference_path),capture=receipt))
+    cache['metadata_sha256']['functions.json'] = sha(BINARY/'functions.json')
     return cache
 
 
@@ -219,8 +258,14 @@ if __name__ == '__main__':
     parser.add_argument('--extend-before', type=Path, help='explicit original-only receipt before one-function acceptance')
     parser.add_argument('--extend-after', type=Path, help='explicit original-only receipt after one-function acceptance')
     parser.add_argument('--runtime-evidence', type=Path, help='explicit indexed CRT body/call observations for a library acceptance')
+    parser.add_argument('--begin-profile', help='new case added alone, with all existing acceptances seeded')
+    parser.add_argument('--reference', type=Path, help='fresh original-only initial named-stub receipt')
     args = parser.parse_args()
-    if args.extend_before or args.extend_after:
+    if args.begin_profile:
+        assert args.reference and not args.write and not args.extend_before and not args.extend_after
+        result = begin(args.objects, args.begin_profile, args.reference)
+        CACHE.write_text(json.dumps(result,indent=2)+'\n')
+    elif args.extend_before or args.extend_after:
         assert args.extend_before and args.extend_after and not args.write
         result = extend(args.objects, args.extend_before, args.extend_after, args.runtime_evidence)
         CACHE.write_text(json.dumps(result,indent=2)+'\n')

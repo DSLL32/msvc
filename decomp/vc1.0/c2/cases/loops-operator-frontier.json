@@ -1,0 +1,309 @@
+{
+  "checkpoint": 844,
+  "base_commit": "57aa257",
+  "status": "loops active; reduce_constant_bits56600 next",
+  "source_graphs": 766,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 844,
+    "accepted_code_bytes": 231017,
+    "original_code_bytes": 399693,
+    "percentage": 57.79861043350772,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 311
+  },
+  "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json",
+  "fixture_manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+  "capture_validation": {
+    "timing": {
+      "capture-compile": {
+        "seconds": null,
+        "note": "unmeasured"
+      },
+      "capture-link": {
+        "seconds": null,
+        "note": "unmeasured"
+      },
+      "pipeline": {
+        "seconds": null,
+        "note": "unmeasured; first metadata assembly failed on Linux path case after successful capture"
+      },
+      "standalone": {
+        "seconds": 1.5793872689828277,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "standalone": "exit0, empty streams, object matches pipeline after only timestamp",
+    "scratch": "/root/.ai-tmp/vc1.0-c2/optimizer-loops-capture"
+  },
+  "accepted_functions": [
+    {
+      "name": "@map_assignment_opcode@8",
+      "start": 361440,
+      "end": 361509
+    },
+    {
+      "name": "@lift_typed_sequence@8",
+      "start": 353136,
+      "end": 353231
+    },
+    {
+      "name": "@fold_absorbing_constant@8",
+      "start": 354912,
+      "end": 354987
+    },
+    {
+      "name": "@lift_unary_operand@8",
+      "start": 354848,
+      "end": 354879
+    }
+  ],
+  "reference_sequence": [
+    "cases/loops-original-840-initial.json",
+    "cases/loops-original-841.json",
+    "cases/loops-original-842.json",
+    "cases/loops-original-843.json",
+    "cases/loops-original-844.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "817e9525c6f7a7ba34e0c31bf6f9e379384829ef90069f17cfedf934e7898c90",
+      "config_sha256": "4b29ffef08ddfc4ab4374707b4a4907c31ffb68b93e501f5b3840060ccfcce3b",
+      "seconds": 0.13654394913464785,
+      "logical": "@lift_typed_sequence@8",
+      "matched": true,
+      "log_sha256": "9c16871e3e2553c9e9e282b265176d9b0188e6c20beb985381aa4229479b12c1",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-z3acu7z7"
+    },
+    {
+      "executable_sha256": "d06c69e44052a0679b712c73fbbd9eb692cfb29347915291cebb26909bfb260c",
+      "config_sha256": "c68ef2836b32808c888d32fb18e53116c70964618a04e0502fbbaf91e65c587d",
+      "seconds": 0.14190949127078056,
+      "logical": "@lift_unary_operand@8",
+      "matched": true,
+      "log_sha256": "0a1dddbb20f0832d1e73a1151f4cbb246b5ba59db71fb8a33503347fffb966d0",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-66p12qae"
+    },
+    {
+      "executable_sha256": "26f338b3e602ba5abb550128dd410bd77c72a29b4513dd74da57b1086eb79ab5",
+      "config_sha256": "08ad3e1803c4407b079368d3155c70da12d0926e807e690b04e1a41ccc2fdd3c",
+      "seconds": 0.13139966409653425,
+      "logical": "@fold_absorbing_constant@8",
+      "matched": true,
+      "log_sha256": "fa6765a844aa770aff945512cd4996364a1e4f0bfc1cfc30fe872b73b58eb1cd",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-5xi6dec9"
+    },
+    {
+      "executable_sha256": "7941049936faf2f74f4c5d7220006d0aa9817ef644983835e86d40b806ef4c13",
+      "config_sha256": "85b9b9b4b1896cf7da4b2dab175fd01aae33e77f861bccdfef2a72f16c056bdd",
+      "seconds": 0.13645416405051947,
+      "logical": "@reduce_constant_bits@8",
+      "matched": true,
+      "log_sha256": "a7b5ff7e97536a467e138b949b0a99f332cdb2402705b5b527494b87f5020da7",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-eubc6j50"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "ec1c73e2a93aada830f56ddc9749c52e6f19dc2be52291f021bd1ce0459b6042",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012668956071138382,
+        "execution_seconds": 0.005228959023952484,
+        "check_seconds": 0.0012336121872067451,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-q20ucvgu/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.010513781569898129,
+        "execution_seconds": 0.009457158856093884,
+        "check_seconds": 0.0013209441676735878,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-q20ucvgu/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "@reduce_constant_bits@8",
+        "returncode": -5,
+        "application_entries": 5,
+        "seeded_entries": 757,
+        "output": null,
+        "setup_seconds": 0.010157091543078423,
+        "execution_seconds": 0.0036821607500314713,
+        "check_seconds": 0.0006771506741642952,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-q20ucvgu/loops"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.21272257156670094,
+    "suite_setup_seconds": 0.13007618114352226,
+    "negative_check_seconds": 0.01926542352885008,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "data_provenance": "Original836a0..836f0 exactly10 paired opcode records, owned by map_assignment_opcode. Named typed operation/compound-assignment pairs reconstruct arithmetic/shift/bitwise semantics; no address identity escapes. No other data copied.",
+  "limits": [
+    "Mapper error branch and every operator/direction combination not independently observed.",
+    "Unary dispatcher retains distinct still-trapped lift_right_unary56e50.",
+    "Absorbing-constant side-effect-preservation branch reconstructed but not independently observed; loop object incomplete."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "loops-initial-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.35417871456593275,
+        "returncode": 0,
+        "log_sha256": "292cadcf621c8487138e8dd2f7d36bc67688d1ef1a665f016f183af1f6a5371f"
+      },
+      "loops-opcode-map-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.527888538315892,
+        "returncode": 0,
+        "log_sha256": "0e1a4cdd0690685dce2fb0cd533fa09d0f16d8f91e320394ffaa742ddbe39a39"
+      },
+      "loops-lift-unary-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 12.225677629001439,
+        "returncode": 0,
+        "log_sha256": "9d0bbc240f3b4c53399574d99fa33b009cdad6ddf7257af63b2d9982965c330d"
+      },
+      "loops-initial-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.940122961997986,
+        "returncode": 0,
+        "log_sha256": "fde2590c7f93405b30940112893cd9c53409d4ffe2546af55a209db273c18b47"
+      },
+      "loops-absorbing-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.251417170278728,
+        "returncode": 0,
+        "log_sha256": "fca133df697168996fb8363bac22cf7bf8419ea263388b5351e7614079e57f67"
+      },
+      "loops-operators-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "algebra",
+          "tree-lowering"
+        ],
+        "seconds": 0.9467870593070984,
+        "returncode": 0,
+        "log_sha256": "d0e9803c7f965548548ba455ab121397155621fcfc67f00e67f0654d31d52a40"
+      },
+      "loops-lift-sequence-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.444887911900878,
+        "returncode": 0,
+        "log_sha256": "fca133df697168996fb8363bac22cf7bf8419ea263388b5351e7614079e57f67"
+      },
+      "loops-operators-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.313008701428771,
+        "returncode": 0,
+        "log_sha256": "86cd000e8184ca4dd71b3791052807b1ebfd6997c6c87270e2ae0160442710a9"
+      }
+    }
+  }
+}

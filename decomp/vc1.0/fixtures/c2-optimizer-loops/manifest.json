@@ -1,0 +1,119 @@
+{
+  "project": "vc1.0",
+  "case": "c2-optimizer-loops",
+  "description": "Nested loops/branches/loop-carried values and conditional call, original CL /c /O2 /G5",
+  "source": {
+    "path": "source/loops.c",
+    "bytes": 734,
+    "sha256": "3824da776baf9b2f7b6b42093b001a0dad6cfcb225b714091aae7ae37c33c25e"
+  },
+  "capture": {
+    "helper": "decomp/vc1.0/fixtures/minimal-c/capture-cl.c",
+    "helper_sha256": "426c17badcff72f4bb2dd15494bf528b6ca321e215f549567a482e3063532f12",
+    "cl_arguments": [
+      "/nologo",
+      "/c",
+      "/O2",
+      "/G5",
+      "loops.c"
+    ],
+    "environment": {
+      "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+      "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+      "WINEPATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin"
+    },
+    "working_directory": "/root/.ai-tmp/vc1.0-c2/optimizer-loops-capture/work",
+    "temporary_directory": "/root/.ai-tmp/vc1.0-c2/optimizer-loops-capture/work",
+    "frontend": {
+      "application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "environment_hex": "4d53435f434d445f464c4147533d2d6566205a3a5c726f6f745c6d737663325c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c205a3a5c726f6f745c2e61692d746d705c7663312e302d63325c6f7074696d697a65722d6c6f6f70732d636170747572655c776f726b5c303030363438202d66206c6f6f70732e63202d572031202d5a65202d5a7038202d466f6c6f6f70732e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4773202d4766202d4f67202d4f69202d4f74202d4f79202d4f6231202d445f4d5f495838363d353030202d4734202d49205a3a5c726f6f745c6d737663325c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
+      "cwd": ""
+    },
+    "dependency_policy": "No source headers; original CL/C1/C2 and error files are pinned; no reconstructed frontend involved",
+    "dependencies": [
+      {
+        "path": "toolchains/1.0-nt/bin/CL.EXE",
+        "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C13232.EXE",
+        "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C23232.EXE",
+        "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C1.ERR",
+        "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C23.ERR",
+        "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5"
+      }
+    ]
+  },
+  "phases": {
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+      },
+      "environment_inheritance": false,
+      "working_directory": "c2",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-loops-capture\\work\\000648 -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 1337,
+          "sha256": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 315,
+          "sha256": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 3,
+          "sha256": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 79,
+          "sha256": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/loops.obj",
+          "bytes": 620,
+          "sha256": "b507a4224cb93b1de695b98fc262fa8ae0fb32ffd8a12f767b8dba8d9ecaeb3b",
+          "output_name": "loops.obj",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87"
+        }
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C23.ERR",
+          "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5"
+        }
+      ]
+    }
+  }
+}

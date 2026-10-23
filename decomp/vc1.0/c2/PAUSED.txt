@@ -1,7 +1,7 @@
-C2 ACTIVE: optimized hello complete at840 acceptances/762 source graphs.
-Minimal286-byte and hello2289-byte objects match after only timestamp normalization.
-Extent union230747/399693=57.7310585875%, not branch coverage.
-Next: capture approved optimizer-loops independently from original CL/frontend.
-Then register-pressure, aliasing and floating-point cases in cases/queue.json.
-Canonical/W3, audit, native fixtures and completion rejection tests pass.
-See cases/hello-completion.json. No shared shim requests.
+C2 ACTIVE: approved nested-loop stress at844 acceptances/766 source graphs.
+Matching original/native frontier reduce_constant_bits56600.
+Extent union231017/399693=57.7986104335%, not branch coverage.
+Minimal+hello completed object regressions pass; loop620-byte object incomplete.
+Next reference BEFORE cases/loops-original-844.json.
+Then register pressure, aliasing and floating point in cases/queue.json.
+Canonical/W3, audit and all three native fixtures pass; no shim requests.

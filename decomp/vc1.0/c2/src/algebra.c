@@ -560,3 +560,48 @@ Node *__fastcall integer_node(unsigned value, unsigned type)
 {
     return intern_leaf(0x33, 0, type, value);
 }
+
+/* Original [00056370,000563cf). Lift a matching binary child around the
+   current operator, reusing both operator nodes through the tree builder. */
+Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode)
+{
+    Node *left = node->left.node, *right;
+    if (left->opcode == opcode) {
+        tree_changed = 1;
+        return build_tree("PPLYPLY", left->left.node, node->second.node, node,
+                          left->second.node, left);
+    }
+    right = node->second.node;
+    if (right->opcode == opcode) {
+        tree_changed = 1;
+        return build_tree("PPLYPLY", left, right->left.node, node,
+                          right->second.node, right);
+    }
+    return node;
+}
+
+/* Original [00056a20,00056a3f). Lift a matching unary operand, retaining
+   distinct left/right transformations and the unchanged-node result. */
+Node *__fastcall lift_unary_operand(Node *node, unsigned opcode)
+{
+    if (node->left.node->opcode == opcode) return lift_left_unary(node);
+    if (node->second.node->opcode == opcode) return lift_right_unary(node);
+    return node;
+}
+
+/* Original [00056a60,00056aab). Preserve evaluation of the left operand
+   when an absorbing right constant makes the arithmetic result known. */
+Node *__fastcall fold_absorbing_constant(Node *node, int value)
+{
+    Node *right = node->second.node;
+    if (is_constant_value(right, value)) {
+        tree_changed = 1;
+        if (can_repeat_tree(node)) {
+            release_tree(node->left.node);
+            release_node(node);
+            return right;
+        }
+        node->opcode = 0x44;
+    }
+    return node;
+}

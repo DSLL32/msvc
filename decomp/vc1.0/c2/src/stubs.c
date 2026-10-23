@@ -63,11 +63,9 @@ Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
 unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
-Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
-unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
 void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
@@ -94,14 +92,13 @@ Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall integer_type_limit(Node *node, int limit) { __asm int 3 }
-Node *__fastcall fold_absorbing_constant(Node *node, int value) { __asm int 3 }
 int __fastcall reduce_constant_bits(Node *node, Node *parent) { __asm int 3 }
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
 int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second) { __asm int 3 }
 int __fastcall integer_log2(unsigned value) { __asm int 3 }
 int __fastcall constant_as_integer(Node *node, int *value) { __asm int 3 }
 Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
-Node *__fastcall lift_unary_operand(Node *node, unsigned opcode) { __asm int 3 }
+Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 Node *__fastcall simplify_masked_tree(Node *node, unsigned mask) { __asm int 3 }
 unsigned __fastcall shift_discard_mask(Node *node) { __asm int 3 }
 int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }

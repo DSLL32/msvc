@@ -2141,3 +2141,14 @@ fixtures pass. Completed-reference extension rejects corrupt objects/nonzero
 or duplicated exit events. Explicit scripts/capture-original.py saves masked
 reference evidence outside fixtures; fixtures use only cached references.
 Continue the approved loops/register-pressure/aliasing/floating-point queue.
+
+Loop stress registered: checkpoint844
+------------------------------------
+The approved nested-loop case is independently captured from original CL/C1/C2,
+with actual launches/environment, four raw IR inputs and620-byte expected object.
+Standalone original C2 validates the relative IR prefix and timestamp-only
+normalization. Four whole functions map compound operators, lift binary/unary
+children and fold absorbing constants. Native/original agree at
+reduce_constant_bits56600.766 graphs, canonical/native/W3 and three native
+fixtures pass, including completed minimal+hello objects. See
+cases/loops-operator-frontier.json and ../fixtures/c2-optimizer-loops/README.txt.

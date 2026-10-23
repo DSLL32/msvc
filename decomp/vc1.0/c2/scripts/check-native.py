@@ -131,7 +131,7 @@ def run(profile, executable, directory, cache, tracing=True, expected_override=N
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--profile', choices=('minimal', 'hello'))
+    parser.add_argument('--profile', choices=tuple(json.loads((BINARY/'functions.json').read_text())['cases']))
     parser.add_argument('--no-trace', action='store_true')
     parser.add_argument('--reject-checks', action='store_true')
     args = parser.parse_args()
@@ -145,7 +145,7 @@ def main():
     scratch = Path.home()/'.ai-tmp/vc1.0-c2'
     directory = Path(tempfile.mkdtemp(prefix='native-fixtures-', dir=scratch))
     suite_setup_seconds = time.perf_counter()-started
-    profiles = [args.profile] if args.profile else (['minimal'] if args.no_trace else ['minimal', 'hello'])
+    profiles = [args.profile] if args.profile else ([p for p,c in cache['cases'].items() if c['terminal'].startswith('exit:')] if args.no_trace else list(cache['cases']))
     if args.no_trace:
         assert all(cache['cases'][profile]['terminal'].startswith('exit:') for profile in profiles), 'incomplete cases require tracing for named-stub evidence'
     results = [run(profile, executable, directory/profile, cache, not args.no_trace) for profile in profiles]

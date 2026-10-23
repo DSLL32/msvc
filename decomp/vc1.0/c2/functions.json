@@ -844,7 +844,11 @@
     "@remove_pentium_ready_candidate@4",
     "@pair_pentium_taken_edge@16",
     "@alignment_lookahead@4",
-    "@coff_write_relocations@8"
+    "@coff_write_relocations@8",
+    "@map_assignment_opcode@8",
+    "@lift_typed_sequence@8",
+    "@lift_unary_operand@8",
+    "@fold_absorbing_constant@8"
   ],
   "driver": [
     {
@@ -2354,8 +2358,7 @@
     {
       "name": "@map_assignment_opcode@8",
       "start": 361440,
-      "end": 361441,
-      "provisional": true
+      "end": 361509
     },
     {
       "name": "@copy_tree@4",
@@ -2535,8 +2538,7 @@
     {
       "name": "@lift_typed_sequence@8",
       "start": 353136,
-      "end": 353137,
-      "provisional": true
+      "end": 353231
     },
     {
       "name": "@is_function_reference@4",
@@ -2774,8 +2776,7 @@
     {
       "name": "@fold_absorbing_constant@8",
       "start": 354912,
-      "end": 354913,
-      "provisional": true
+      "end": 354987
     },
     {
       "name": "@reduce_constant_bits@8",
@@ -2836,8 +2837,7 @@
     {
       "name": "@lift_unary_operand@8",
       "start": 354848,
-      "end": 354849,
-      "provisional": true
+      "end": 354879
     },
     {
       "name": "@remove_right_wrapper@4",
@@ -6510,6 +6510,12 @@
       "start": 294768,
       "end": 294769,
       "provisional": true
+    },
+    {
+      "name": "@lift_right_unary@4",
+      "start": 355920,
+      "end": 355921,
+      "provisional": true
     }
   ],
   "cases": {
@@ -6525,6 +6531,12 @@
       "accepted_from": 352,
       "fixture_manifest": "../fixtures/hello-win32/manifest.json",
       "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9"
+    },
+    "loops": {
+      "arguments": "",
+      "accepted_from": 840,
+      "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json",
+      "fixture_manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56"
     }
   },
   "crt_defaults": {
