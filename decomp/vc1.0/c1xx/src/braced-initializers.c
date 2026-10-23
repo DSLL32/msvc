@@ -84,3 +84,26 @@ void __stdcall push_braced_initializer(CppSymbol *symbol)
     if ((kind == 2 || kind == 3) && (symbol->flags & 3) != 3)
         report_syntax_error(557, symbol->name);
 }
+
+/* Exact meaningful declaration prefixes, indexed by original symbol kind.
+   The zero terminator ends this table; following image strings are not rows. */
+unsigned initializer_symbol_bytes[21] = {
+    52,52,40,38,40,28,36,32,40,52,36,52,52,32,52,24,16,16,16,52,0
+};
+
+/* Original 0x47410..0x4747e. Copy only the declaration variant's
+   prefix, and give a class tag its separately owned class-info copy. Other
+   bytes in the destination declaration retain their prior contents. */
+void __stdcall copy_initializer_symbol(CppSymbol *destination, ClassInfo *class_info,
+    CppSymbol *source)
+{
+    unsigned kind = source->kind & 31;
+    unsigned bytes = initializer_symbol_bytes[kind], index;
+    unsigned char *to = (unsigned char *)destination;
+    unsigned char *from = (unsigned char *)source;
+    for (index = 0; index < bytes; ++index) to[index] = from[index];
+    if (kind == 4) {
+        destination->detail.class_info = class_info;
+        *class_info = *source->detail.class_info;
+    }
+}

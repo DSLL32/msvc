@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "140b50e5b0f88c2dbf0e069fc295e301fcc4fce3fb4814fea620258851971c06",
+    "functions.json": "a3dbebc19b285e3e0fbfe05ea8d9f3fe4ab04732bc029327b4ac21104346cf10",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "7572d5ac350fca04222de77f7dc2487d94192fb122b2e4467290337cb75bdbac",
-    "cases/canonical-map.txt": "7d21ae6d9ddc309b6ad9efb2b907469c50cac6167f5e50b19b823b773c155133",
+    "cases/original-entry-references.json": "36ba5662564a6c957bbb46770d1a355dbfda2b5986361032a574d91e88c43acf",
+    "cases/canonical-map.txt": "337dcef3e7bcaa6544a33c8b95f88d44ecc6c2b21b2c8c0ea041300221a304ec",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/entry-reference/original-receipt.json": "1ad0b09cbcad59133471a493f64b5fe82cc012e99aed65765c34e41416a29d3d",
-    "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/entry-reference/original-events.txt": "e856020413fc9cef3e57078135ee0d55c4c7adaa31904c1e13551c3dfa8666d1",
-    "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/entry-reference/original-entries.plan": "9fa5b95f716aaa019ac4ce1293ffd4b4fcd436b145e76c9ac830c48df1f44bd9"
+    "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/entry-reference/original-receipt.json": "224445a2bd42ae4daded385f13aa46ba0d91b50661cc1b3eb5e82af7e0bf12f2",
+    "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/entry-reference/original-events.txt": "3bc8160d0ccc1bb5ac8d043d3d7b9439980c5c2481e6e5c62f546183e4ee7e49",
+    "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/entry-reference/original-entries.plan": "bc898e440614949ba729f2f692aba44cdaacbc7a53738bd904cb93954f1344e5"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1161,7 +1161,7 @@
     },
     "copy_initializer_symbol": {
       "logical": "_copy_initializer_symbol@12",
-      "source": "src/stubs.c"
+      "source": "src/braced-initializers.c"
     },
     "copy_macro_literal": {
       "logical": "_copy_macro_literal@12",
@@ -6170,7 +6170,8 @@
     "end_enum_specifier",
     "layout_bit_field",
     "begin_braced_initializer",
-    "push_braced_initializer"
+    "push_braced_initializer",
+    "copy_initializer_symbol"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10282,7 +10283,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1012,
+      "last": 1013,
       "seen": [
         "main",
         "message_text",
@@ -11204,12 +11205,13 @@
         "layout_bit_field",
         "begin_braced_initializer",
         "push_braced_initializer",
-        "copy_initializer_symbol"
+        "copy_initializer_symbol",
+        "begin_nested_initializer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_copy_initializer_symbol@12",
-        "native": "copy_initializer_symbol",
+        "logical": "_begin_nested_initializer",
+        "native": "begin_nested_initializer",
         "signal": 5
       }
     }

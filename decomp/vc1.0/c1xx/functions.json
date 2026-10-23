@@ -1016,7 +1016,8 @@
     "_end_enum_specifier",
     "_layout_bit_field@16",
     "_begin_braced_initializer@4",
-    "_push_braced_initializer@4"
+    "_push_braced_initializer@4",
+    "_copy_initializer_symbol@12"
   ],
   "driver": [
     {
@@ -7646,7 +7647,7 @@
     {
       "name": "_copy_initializer_symbol@12",
       "start": 291856,
-      "end": 291857
+      "end": 291966
     }
   ],
   "cases": {
@@ -7847,7 +7848,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_copy_initializer_symbol@12",
+      "terminal": "_begin_nested_initializer",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7870,7 +7871,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7887,7 +7888,8 @@
         "cases/frontiers/state_machine_debug/1008-end_enum_specifier/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1009-layout_bit_field-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1010-begin_braced_initializer-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1012-copy_initializer_symbol-12/frontier-extension.json"
       ]
     }
   },
@@ -10106,6 +10108,12 @@
           "bytes": 640
         }
       ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_initializer_symbol_bytes",
+      "original": 654536,
+      "bytes": 84
     }
   ],
   "buffered_streams": [
