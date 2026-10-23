@@ -5,7 +5,7 @@
       "original": [],
       "canonical": [
         {
-          "address": "0x53e72",
+          "address": "0x53f6e",
           "stack_bytes": 0
         }
       ],
@@ -22,7 +22,7 @@
       ],
       "canonical": [
         {
-          "address": "0x53eaa",
+          "address": "0x53fa6",
           "stack_bytes": 0
         }
       ],
@@ -39,7 +39,7 @@
       ],
       "canonical": [
         {
-          "address": "0x53f50",
+          "address": "0x5404c",
           "stack_bytes": 0
         }
       ],
@@ -56,7 +56,7 @@
       ],
       "canonical": [
         {
-          "address": "0x53ff8",
+          "address": "0x540f4",
           "stack_bytes": 0
         }
       ],
@@ -64,6 +64,6 @@
       "abi": "fastcall two register arguments"
     }
   ],
-  "seconds": 0.2498202072456479,
+  "seconds": 0.2601186214014888,
   "tail": "Original initializer tail-jumps to object-name writer; both use cdecl(void) with no callee stack cleanup"
 }

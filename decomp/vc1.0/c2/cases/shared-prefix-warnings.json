@@ -1,20 +1,20 @@
 {
   "modules": [
     {
-      "module": "input",
-      "seconds": 1.249244793318212,
+      "module": "unoptimized",
+      "seconds": 1.028629113920033,
       "returncode": 0
     },
     {
-      "module": "inline-assembly",
-      "seconds": 2.047664772719145,
+      "module": "coff-writer",
+      "seconds": 0.9911192310974002,
       "returncode": 0
     },
     {
-      "module": "assembly-operands",
-      "seconds": 2.3068686109036207,
+      "module": "listing",
+      "seconds": 1.0842563696205616,
       "returncode": 0
     }
   ],
-  "seconds": 5.60422458127141
+  "seconds": 3.1043654046952724
 }

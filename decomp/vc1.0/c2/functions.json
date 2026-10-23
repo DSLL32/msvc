@@ -1190,7 +1190,27 @@
     "@decode_assembly_instruction@8",
     "@decode_assembly_operand@12",
     "@read_assembly_symbol_id@4",
-    "@append_embedded_record@4"
+    "@append_embedded_record@4",
+    "@assign_physical_register@12",
+    "@coff_define_aux_symbol@24",
+    "@write_listing_float@12",
+    "__cfltcvt",
+    "__cftog",
+    "__fltout",
+    "___dtold",
+    "_$I10_OUTPUT",
+    "___multtenpow12",
+    "___ld12mul",
+    "___addl",
+    "___shl_12",
+    "___shr_12",
+    "___add_12",
+    "__fptostr",
+    "__cftof_g",
+    "__cftof",
+    "__shift",
+    "_memcpy",
+    "__cropzeros"
   ],
   "driver": [
     {
@@ -3793,8 +3813,7 @@
     {
       "name": "@assign_physical_register@12",
       "start": 205216,
-      "end": 205217,
-      "provisional": true
+      "end": 205430
     },
     {
       "name": "@release_bitset@4",
@@ -3961,8 +3980,7 @@
     {
       "name": "@coff_define_aux_symbol@24",
       "start": 453232,
-      "end": 453233,
-      "provisional": true
+      "end": 453336
     },
     {
       "name": "@coff_resolve_function@8",
@@ -7676,8 +7694,7 @@
     {
       "name": "@write_listing_float@12",
       "start": 168112,
-      "end": 168113,
-      "provisional": true
+      "end": 168766
     },
     {
       "name": "@decode_assembly_instruction@8",
@@ -7699,6 +7716,12 @@
       "name": "@read_assembly_symbol_id@4",
       "start": 111072,
       "end": 111120
+    },
+    {
+      "name": "@spill_lowering_register@8",
+      "start": 205440,
+      "end": 205441,
+      "provisional": true
     }
   ],
   "cases": {

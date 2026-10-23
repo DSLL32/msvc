@@ -7,15 +7,18 @@
 
 /* Observation-only breakpoints in otherwise untouched original CRT code. */
 typedef struct ObservedCall {
-    DWORD rva, nargs, return_address, args[5];
+    DWORD rva, nargs, return_address, args[8];
     unsigned char first, return_byte;
     int entered, returned;
+    unsigned entry_order;
     char name[80];
 } ObservedCall;
 static ObservedCall observed_calls[32];
-static unsigned observed_count;
+static unsigned observed_count, entered_count;
 static HANDLE observation_log;
 static DWORD image_base;
+static char printf_format[64],stop_entry[80];
+static DWORD rearm_address;
 static DWORD read_word(HANDLE process,DWORD address)
 {
     DWORD value,got;
@@ -32,6 +35,61 @@ static void log_line(char *line)
 {
     DWORD wrote;
     if(!WriteFile(observation_log,line,strlen(line),&wrote,0)||wrote!=strlen(line))exit(243);
+}
+static void dump_bytes(HANDLE process,char *name,DWORD address,unsigned length)
+{
+    unsigned char bytes[1024];char line[2200];DWORD got,i;
+    if(length>sizeof(bytes))exit(258);
+    if(length&&(!ReadProcessMemory(process,(void*)address,bytes,length,&got)||got!=length))exit(259);
+    sprintf(line,"%s ",name);log_line(line);
+    for(i=0;i<length;++i)sprintf(line+2*i,"%02x",bytes[i]);line[2*length]=0;
+    log_line(line);log_line("\n");
+}
+static unsigned string_bytes(HANDLE process,DWORD address)
+{
+    DWORD got;unsigned i;unsigned char byte;
+    for(i=0;i<512;++i){if(!ReadProcessMemory(process,(void*)(address+i),&byte,1,&got)||got!=1)exit(260);if(!byte)return i+1;}
+    exit(261);return 0;
+}
+static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)
+{
+    char line[1024];DWORD *args=call->args;int after=!strcmp(stage,"return");
+    sprintf(line,"numeric eax %08lx ecx %08lx edx %08lx esp %08lx cw %08lx sw %08lx\n",context->Eax,context->Ecx,context->Edx,context->Esp,context->FloatSave.ControlWord,context->FloatSave.StatusWord);log_line(line);
+    if(!strcmp(call->name,"_main")) {
+        /* Startup proof stops before any application instruction. */
+    } else if(!strcmp(call->name,"_printf")) {
+        dump_bytes(process,"format_hex",args[0],string_bytes(process,args[0]));
+        sprintf(line,"value_words %08lx%08lx\n",args[1],args[2]);log_line(line);
+    } else if(!strcmp(call->name,"__positive")) {
+        dump_bytes(process,"input_hex",args[0],8);
+    } else if(!strcmp(call->name,"__fltout")) {
+        sprintf(line,"value_words %08lx%08lx\n",args[0],args[1]);log_line(line);
+        if(after){dump_bytes(process,"float_info_hex",context->Eax,12);dump_bytes(process,"digits_hex",read_word(process,context->Eax+12),string_bytes(process,read_word(process,context->Eax+12)));}
+    } else if(!strcmp(call->name,"___dtold")) {
+        dump_bytes(process,"input_hex",args[1],8);
+        if(after)dump_bytes(process,"extended_hex",args[0],10);
+    } else if(!strcmp(call->name,"_$I10_OUTPUT")) {
+        sprintf(line,"value_words %08lx%08lx%04lx\n",args[0],args[1],args[2]&65535);log_line(line);
+        if(after){dump_bytes(process,"decimal_header_hex",args[5],4);dump_bytes(process,"digits_hex",args[5]+4,string_bytes(process,args[5]+4));}
+    } else if(!strcmp(call->name,"__fptostr")) {
+        dump_bytes(process,"float_info_hex",args[2],12);dump_bytes(process,"digits_hex",read_word(process,args[2]+12),string_bytes(process,read_word(process,args[2]+12)));
+        if(after)dump_bytes(process,"output_hex",args[0],string_bytes(process,args[0]));
+    } else if(!strcmp(call->name,"__shift")||!strcmp(call->name,"__cropzeros")||!strcmp(call->name,"__forcdecpt")) {
+        dump_bytes(process,"output_hex",args[0],string_bytes(process,args[0]));
+    } else if(!strcmp(call->name,"_memcpy")) {
+        dump_bytes(process,"input_hex",args[1],args[2]);
+        if(after)dump_bytes(process,"output_hex",args[0],args[2]);
+    } else if(!strcmp(call->name,"___addl")) {
+        if(after)dump_bytes(process,"sum_hex",args[2],4);
+    } else if(!strcmp(call->name,"___ld12mul")||!strcmp(call->name,"___add_12")) {
+        dump_bytes(process,"left_hex",args[0],12);dump_bytes(process,"right_hex",args[1],12);
+    } else if(!strcmp(call->name,"___multtenpow12")||!strcmp(call->name,"___shl_12")||!strcmp(call->name,"___shr_12")) {
+        dump_bytes(process,"extended_hex",args[0],12);
+    } else {
+        dump_bytes(process,"input_hex",args[0],8);
+        if(after)dump_bytes(process,"output_hex",args[1],string_bytes(process,args[1]));
+    }
+    log_line("numeric_end\n");
 }
 static void snapshot(HANDLE process,ObservedCall *call,char *stage,DWORD eax)
 {
@@ -60,6 +118,8 @@ static void install_plan(HANDLE process,DWORD base)
 {
     char path[1024];FILE *plan;unsigned long rva,first,nargs;
     image_base=base;
+    GetEnvironmentVariableA("C2_PRINTF_FORMAT",printf_format,sizeof(printf_format));
+    GetEnvironmentVariableA("C2_STOP_ENTRY",stop_entry,sizeof(stop_entry));
     if(!GetEnvironmentVariableA("C2_CRT_CAPTURE",path,sizeof(path)))exit(249);
     observation_log=CreateFileA(path,GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
     if(!GetEnvironmentVariableA("C2_CRT_PLAN",path,sizeof(path)))exit(250);
@@ -67,7 +127,7 @@ static void install_plan(HANDLE process,DWORD base)
     while(observed_count<32&&fscanf(plan,"%lx %lx %lu %79s",&rva,&first,&nargs,observed_calls[observed_count].name)==4){
         ObservedCall *call=&observed_calls[observed_count++];
         call->rva=rva;call->first=(unsigned char)first;call->nargs=nargs;
-        if(nargs>5||(read_word(process,base+rva)&255)!=first)exit(252);
+        if(nargs>8||(read_word(process,base+rva)&255)!=first)exit(252);
         write_byte(process,base+rva,0xcc);
     }
     fclose(plan);if(!observed_count)exit(253);
@@ -75,20 +135,39 @@ static void install_plan(HANDLE process,DWORD base)
 static void capture_crt(HANDLE process,HANDLE thread,DWORD base,DWORD address)
 {
     unsigned i;ObservedCall *call=0;DWORD got;CONTEXT c;
-    memset(&c,0,sizeof(c));c.ContextFlags=CONTEXT_FULL;
+    memset(&c,0,sizeof(c));c.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
     if(!GetThreadContext(thread,&c))exit(254);
     for(i=0;i<observed_count;++i)if(observed_calls[i].entered&&!observed_calls[i].returned&&observed_calls[i].return_address==address){call=&observed_calls[i];break;}
     if(call){
-        snapshot(process,call,"return",c.Eax);call->returned=1;
-        if(!strcmp(call->name,"_printf")){CloseHandle(observation_log);TerminateProcess(process,99);return;}
-        write_byte(process,address,call->return_byte);
+        unsigned char restored=call->return_byte;int finish=0;
+        /* Tail-called CRT wrappers share the same physical return address.
+           Observe every active logical boundary there, deepest entry first. */
+        for(;;){
+            call=0;
+            for(i=0;i<observed_count;++i)if(observed_calls[i].entered&&!observed_calls[i].returned&&observed_calls[i].return_address==address&&(!call||observed_calls[i].entry_order>call->entry_order))call=&observed_calls[i];
+            if(!call)break;
+            snapshot(process,call,"return",c.Eax);if(printf_format[0])numeric_snapshot(process,call,"return",&c);call->returned=1;
+            if(call->return_byte!=0xcc)restored=call->return_byte;
+            if(!strcmp(call->name,"_printf"))finish=1;
+        }
+        if(finish){CloseHandle(observation_log);TerminateProcess(process,99);return;}
+        write_byte(process,address,restored);
     }else{
         for(i=0;i<observed_count;++i)if(!observed_calls[i].entered&&base+observed_calls[i].rva==address){call=&observed_calls[i];break;}
         if(!call)exit(255);
-        call->entered=1;call->return_address=read_word(process,c.Esp);
+        if(printf_format[0]&&!strcmp(call->name,"_printf")) {
+            DWORD pointer=read_word(process,c.Esp+4),got;char format[64];unsigned n;
+            for(n=0;n<sizeof(format)-1;++n){if(!ReadProcessMemory(process,(void*)(pointer+n),format+n,1,&got)||got!=1)exit(262);if(!format[n])break;}format[sizeof(format)-1]=0;
+            if(strcmp(format,printf_format)) {
+                write_byte(process,address,call->first);rearm_address=address;
+                c.Eip=address;c.EFlags|=0x100;if(!SetThreadContext(thread,&c))exit(263);return;
+            }
+        }
+        call->entered=1;call->entry_order=++entered_count;call->return_address=read_word(process,c.Esp);
         if(!ReadProcessMemory(process,(void*)(c.Esp+4),call->args,call->nargs*4,&got)||got!=call->nargs*4)exit(256);
         call->return_byte=(unsigned char)read_word(process,call->return_address);
-        snapshot(process,call,"enter",c.Eax);
+        snapshot(process,call,"enter",c.Eax);if(printf_format[0])numeric_snapshot(process,call,"enter",&c);
+        if(stop_entry[0]&&!strcmp(stop_entry,call->name)){CloseHandle(observation_log);TerminateProcess(process,99);return;}
         write_byte(process,address,call->first);write_byte(process,call->return_address,0xcc);
     }
     c.Eip=address;if(!SetThreadContext(thread,&c))exit(257);
@@ -145,7 +224,12 @@ int main(int argc, char **argv)
             if (ev.u.LoadDll.hFile) CloseHandle(ev.u.LoadDll.hFile);
         } else if (ev.dwDebugEventCode == EXCEPTION_DEBUG_EVENT) {
             code = ev.u.Exception.ExceptionRecord.ExceptionCode;
-            if (code == EXCEPTION_BREAKPOINT && !loader_break) {
+            if(code==EXCEPTION_SINGLE_STEP&&rearm_address) {
+                CONTEXT context;memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                if(!GetThreadContext(pi.hThread,&context))return 264;
+                context.EFlags&=~0x100;if(!SetThreadContext(pi.hThread,&context))return 265;
+                write_byte(pi.hProcess,rearm_address,0xcc);rearm_address=0;
+            } else if (code == EXCEPTION_BREAKPOINT && !loader_break) {
                 loader_break = 1;
             } else {
                 sprintf(line, "exception %08lx rva %08lx base %08lx first %lu\n",

@@ -133,14 +133,19 @@ def capture_locked(profile, receipt_path, entries=False, reject_plan=False, reje
         address = int(match[1],16)+int(match[2],16)
         found = [r for r in records if r['start'] == address]
         if len(found)>1:
-            # LIBC ships byte-identical narrow/wide wrapper objects at this
-            # linked address. Do not invent two code bodies or accept either
-            # here; preserve both identities for the explicit seam proof.
-            assert {r['name'] for r in found} == {'_printf','_wprintf'}
+            # Only these independently identified LIBC aliases are understood.
+            # The encountered __shift archive relocation names _memcpy; the
+            # numeric support evidence retains the exact linked body identity.
+            aliases={frozenset(('_printf','_wprintf')):'_printf',
+                     frozenset(('_memcpy','_memmove')):'_memcpy'}
+            names=frozenset(r['name'] for r in found)
+            assert names in aliases, 'Unresolved original library aliases: '+repr(names)
             assert len({(r['start'],r['end'],r['library']) for r in found}) == 1
             receipt['indexed_aliases'] = found
-            receipt['alias_choice'] = 'narrow printf call; exact archive aliases and actual format/argument/return require separate runtime evidence'
-            found = [r for r in found if r['name']=='_printf']
+            selected=aliases[names]
+            receipt['alias_choice'] = ('narrow printf call' if selected=='_printf' else
+                '__shift archive call relocation names _memcpy')+'; exact archive identities and actual arguments/results require separate runtime evidence'
+            found = [r for r in found if r['name']==selected]
         assert len(found) == 1 and found[0]['name'] not in config['accepted']
         receipt.update(logical=found[0]['name'], original_va=hex(address))
     receipt.update(setup_seconds=prepared-started, execution_seconds=executed-prepared,

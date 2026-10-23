@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-canonical-warnings.py", line 21, in <module>
+    assert result.returncode == 0 and not re.search(rb'\b(?:warning|error) C[0-9]+',result.stdout),result.stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'src/listing.c\r\nsrc/listing.c(634) : warning C4069: long double is the same precision as double\r\n'

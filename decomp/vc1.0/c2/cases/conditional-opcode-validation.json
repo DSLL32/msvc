@@ -25,8 +25,8 @@
   "mismatches": 0,
   "executes_wine": false,
   "timing": {
-    "compile_seconds": 0.15189251955598593,
-    "execution_seconds": 0.0012227538973093033,
-    "total_seconds": 0.15648473519831896
+    "compile_seconds": 0.15816231910139322,
+    "execution_seconds": 0.001131654717028141,
+    "total_seconds": 0.1624966487288475
   }
 }

@@ -1,0 +1,1597 @@
+{
+  "checkpoint": 1206,
+  "previous_checkpoint": 1186,
+  "application_graphs": 1098,
+  "case": "dbglist",
+  "frontier": "@prepare_source_listing@4 original28680",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1206,
+    "accepted_code_bytes": 327863,
+    "original_code_bytes": 399693,
+    "percentage": 82.02870703264756,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 563
+  },
+  "new_application": [
+    {
+      "name": "@assign_physical_register@12",
+      "start": 205216,
+      "end": 205430
+    },
+    {
+      "name": "@coff_define_aux_symbol@24",
+      "start": 453232,
+      "end": 453336
+    },
+    {
+      "name": "@write_listing_float@12",
+      "start": 168112,
+      "end": 168766
+    }
+  ],
+  "application_extent_delta_bytes": 972,
+  "original_runtime_support": [
+    {
+      "name": "__cfltcvt",
+      "start": 477184,
+      "end": 477296,
+      "object": "obj\\i386\\cvt.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__cftog",
+      "start": 476992,
+      "end": 477184,
+      "object": "obj\\i386\\cvt.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__fltout",
+      "start": 487120,
+      "end": 487232,
+      "object": "obj\\i386\\cfout.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___dtold",
+      "start": 487232,
+      "end": 487456,
+      "object": "obj\\i386\\cfout.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "_$I10_OUTPUT",
+      "start": 491280,
+      "end": 492208,
+      "object": "obj\\i386\\x10fout.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___multtenpow12",
+      "start": 493312,
+      "end": 493440,
+      "object": "obj\\i386\\tenpow.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___ld12mul",
+      "start": 492544,
+      "end": 493312,
+      "object": "obj\\i386\\tenpow.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___addl",
+      "start": 488816,
+      "end": 488864,
+      "object": "obj\\i386\\mantold.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___shl_12",
+      "start": 488976,
+      "end": 489056,
+      "object": "obj\\i386\\mantold.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___shr_12",
+      "start": 489056,
+      "end": 489136,
+      "object": "obj\\i386\\mantold.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "___add_12",
+      "start": 488864,
+      "end": 488976,
+      "object": "obj\\i386\\mantold.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__fptostr",
+      "start": 486976,
+      "end": 487120,
+      "object": "convert\\obj\\i386\\_FPTOSTR.OBJ",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__cftof_g",
+      "start": 476944,
+      "end": 476992,
+      "object": "obj\\i386\\cvt.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__cftof",
+      "start": 476688,
+      "end": 476944,
+      "object": "obj\\i386\\cvt.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__shift",
+      "start": 477296,
+      "end": 477344,
+      "object": "obj\\i386\\cvt.obj",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "_memcpy",
+      "start": 487456,
+      "end": 487790,
+      "object": "string\\obj\\i386\\MEMCPY.OBJ",
+      "library": "LIBC.LIB"
+    },
+    {
+      "name": "__cropzeros",
+      "start": 476144,
+      "end": 476240,
+      "object": "obj\\i386\\cvt.obj",
+      "library": "LIBC.LIB"
+    }
+  ],
+  "runtime_extent_delta_bytes": 3710,
+  "runtime_application_credit": 0,
+  "acceptance_chain": "Three complete C bodies1187..1189 followed by17 individually indexed/masked original CRT bodies1190..1206.1189 initially diverged at __cfltcvt and remained explicitly pending until fresh1206 matched the next application stub. Original internal ABIs are observed, not independently implemented/matched natively.",
+  "numeric_public_observation": "dbglist-numeric-support/validation.json",
+  "startup_precision_proof": "dbglist-fp-entry/validation.json",
+  "shared_fixes": [
+    "bf7d2cbf startup53 opt-in",
+    "a70f4e71 finite plain%g x87 environment/signedzero/exponent",
+    "cc550c8c separately proved%Lg exact-double12-byte native adapter"
+  ],
+  "checks": {
+    "native_cases": 14,
+    "completed_cases": 13,
+    "named_trap_cases": 1,
+    "fixture_seconds": 0.5232729241251945,
+    "suite_setup_seconds": 0.14135913457721472,
+    "negative_check_seconds": 0.023236289620399475,
+    "native_build_bound_shared_hashes": {
+      "lib/recon/include/recon.h": "269066f979a8015b32f841567bfdd7c4d65c2bda16a4a38e82328fa78fdc518a",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+      "lib/recon/src/crt.c": "b2ecb90f9101e742c4b3bdd04eaed4fce5cff1a8e50dc3860c04312864e39a0e",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "lib/recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "e1aac13365695a424df34d1fd1bcc08ed0ee838899955c681d19bd5f54a6eaaf"
+    },
+    "listing_width_repeat_column_states": 120,
+    "listing_cleanup_abis": 27,
+    "numeric_original_contracts": 17,
+    "numeric_negative_checks": 20,
+    "all_static_data_and_graph_negatives": true,
+    "original_W3_modules": [
+      "unoptimized",
+      "coff-writer",
+      "listing"
+    ]
+  },
+  "failures_preserved": [
+    {
+      "attempt": "1189 first paired native frontier",
+      "reason": "Original __cfltcvt versus native source-listing; CRT numeric support unresolved, explicitly pending cache"
+    },
+    {
+      "attempt": "Initial numeric public seam",
+      "reason": "CW027f vs037f and SW0 vs0400; output/FILE/return matched but full proof rejected"
+    },
+    {
+      "attempt": "Width100a default-g probe",
+      "reason": "Original negativezero comment0 versus host-0; retained failed probe; separately original-proved public%Lg adapter fixes it"
+    },
+    {
+      "attempt": "1194 cache extension",
+      "reason": "Generic native-name parser rejected exact CRT name _$I10_OUTPUT; exact original identity now short-circuits normalization; fallback limited to app driver identities"
+    },
+    {
+      "attempt": "1204 original reference",
+      "reason": "Strict unknown-alias rejection on memcpy/memmove. Both same linked extent; actual __shift archive relocation names memcpy. Raw failed events/streams retained, recaptured with explicit alias selection and independent identity proof"
+    },
+    {
+      "attempt": "Original /W3 listing",
+      "reason": "C4069 correctly reports VC1longdouble==double at necessary native printf vararg cast. Narrow documented original warning pragma only; no behavior/oracle change. Rebuild/graph/ABI/W3 pass"
+    }
+  ],
+  "limits": [
+    "Debug case incomplete: all14 native cases pass, but dbglist is an expected named stub trap, not a complete three-artifact match. Full object/listing/PDB oracle remains mandatory at completion.",
+    "Numeric public support is bounded finite C-locale1.25 actual call plus explicit limited value probes, not universal float/locale/exception or native internal CRT ABI equivalence.",
+    "Type100a decimal comment consumes first8 raw bytes as double, not a genuine80-bit scalar; native%Lg receives exact-double promotion.",
+    "Existing unvisited pointer-to-ALIGN%d behavior and COFF direct oversized-read current-case scope are unchanged."
+  ],
+  "timing": {
+    "measured_commands": [
+      {
+        "label": "dbglist1187-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.577339045703411,
+        "returncode": 0,
+        "log_sha256": "c4fa1fc1a2b6c03a9ba1cd4ccb7597b21b921120163d3786d13a4148c4072cbb"
+      },
+      {
+        "label": "dbglist1187-cache",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1186.json",
+          "--extend-after",
+          "cases/dbglist-original-1187.json"
+        ],
+        "seconds": 0.2804984748363495,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1187-graph",
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.2736360784620047,
+        "returncode": 0,
+        "log_sha256": "a28958a909607b6c5337dd5684b67ce11cdcd0765e41a1b7dbfeb1d3e4e1600a"
+      },
+      {
+        "label": "dbglist1187-native",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1187.json"
+        ],
+        "seconds": 0.20953739527612925,
+        "returncode": 0,
+        "log_sha256": "a56d9e42ceb1e5b94c37ab662aa9efa2e6189fd1f0d196af3d78ecc0242e7ee6"
+      },
+      {
+        "label": "dbglist1187-reference",
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1187.json"
+        ],
+        "seconds": 1.797542347572744,
+        "returncode": 0,
+        "log_sha256": "c81ff1b53df7a304c27f8ac9f63c71ee87796c3890dacb42db91feb42f8037c1"
+      },
+      {
+        "label": "dbglist1188-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 39.8154979236424,
+        "returncode": 0,
+        "log_sha256": "0b63ce7cbd06454d134d2724da781cbc6fc1687beaa4ebafd4724e07ebe574f0"
+      },
+      {
+        "label": "dbglist1188-cache",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1187.json",
+          "--extend-after",
+          "cases/dbglist-original-1188.json"
+        ],
+        "seconds": 0.31620854791253805,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1188-graph",
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.2528371019288898,
+        "returncode": 0,
+        "log_sha256": "6edfefa58ce26cd9c23f611d758e7de01e1eade1e8f0352567b6dd0b784518cb"
+      },
+      {
+        "label": "dbglist1188-native",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1188.json"
+        ],
+        "seconds": 0.2347218068316579,
+        "returncode": 0,
+        "log_sha256": "c64402314bb0952cd1eb3a331d3aa2973600be9a7d3445f52492841e8c2b620d"
+      },
+      {
+        "label": "dbglist1188-reference",
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1188.json"
+        ],
+        "seconds": 1.969641000032425,
+        "returncode": 0,
+        "log_sha256": "41e657f423721a18b3c13aaee18a8072107482cc0f73ef8b87f663a65c9b4948"
+      },
+      {
+        "label": "dbglist1189-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.6657893154770136,
+        "returncode": 0,
+        "log_sha256": "d190e3770ba85de065960e32177c1cbad8836c66a46ec6ab49f2af4a341682ef"
+      },
+      {
+        "label": "dbglist1189-crop-observer-build",
+        "command": [
+          "make",
+          "-j4",
+          "build/reference-stdio-observer.exe"
+        ],
+        "seconds": 3.9731411477550864,
+        "returncode": 0,
+        "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+      },
+      {
+        "label": "dbglist1189-float-unit-build",
+        "command": [
+          "make",
+          "-j4",
+          "build/native/check-listing-float"
+        ],
+        "seconds": 0.6763252820819616,
+        "returncode": 0,
+        "log_sha256": "5ee97e4da805fb530bca4caeaf25efec29f3efd1ef669f0a95e4f84b27b5f24b"
+      },
+      {
+        "label": "dbglist1189-float-unit-real-build",
+        "command": [
+          "make",
+          "-j4",
+          "build/native/check-listing-float"
+        ],
+        "seconds": 1.561938675120473,
+        "returncode": 0,
+        "log_sha256": "a13be388c78abc8a0cb0dcd88d493e3c42a5502ffd4886f62572d085ef85c59b"
+      },
+      {
+        "label": "dbglist1189-float-unit-values",
+        "command": [
+          "python3",
+          "scripts/check-listing-float.py"
+        ],
+        "seconds": 1.10491740424186,
+        "returncode": 1,
+        "log_sha256": "5b712e10674567c9a06ecb874f71ab03de2f13f1d29e783956c39aa42c34f5f4"
+      },
+      {
+        "label": "dbglist1189-fp-entry-observation",
+        "command": [
+          "python3",
+          "scripts/observe-fp-entry.py"
+        ],
+        "seconds": 1.0509244268760085,
+        "returncode": 0,
+        "log_sha256": "1d01c3eabef744a7b58a750f48a2d5906f210d4bf72441e706ba3e6e18096f19"
+      },
+      {
+        "label": "dbglist1189-fp-entry-observer-build",
+        "command": [
+          "make",
+          "-j4",
+          "build/reference-stdio-observer.exe"
+        ],
+        "seconds": 3.1226728884503245,
+        "returncode": 0,
+        "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+      },
+      {
+        "label": "dbglist1189-graph",
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.272239555604756,
+        "returncode": 0,
+        "log_sha256": "f69dcfb5a510e28a1a6dde78a09680115d34d48654d615e7de24997e728b2d91"
+      },
+      {
+        "label": "dbglist1189-native",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1189.json"
+        ],
+        "seconds": 0.24009472504258156,
+        "returncode": 1,
+        "log_sha256": "65386d7cf02d7448eef99bef51818c06d357a26ce84fd36549cce6f5db52b208"
+      },
+      {
+        "label": "dbglist1189-numeric-crop-observation",
+        "command": [
+          "python3",
+          "scripts/observe-numeric-support.py",
+          "--refresh-original"
+        ],
+        "seconds": 2.463676598854363,
+        "returncode": 1,
+        "log_sha256": "1fcec21a750014a3bd0d367689fc18731a20ceabbb8c8ee0a2c020b0545681c5"
+      },
+      {
+        "label": "dbglist1189-numeric-fixed",
+        "command": [
+          "python3",
+          "scripts/observe-numeric-support.py",
+          "--native-only"
+        ],
+        "seconds": 0.2973819822072983,
+        "returncode": 0,
+        "log_sha256": "90e60eb627adfafdac85b65a2fe7d24266694e31619776c2c85dc41f4c618688"
+      },
+      {
+        "label": "dbglist1189-numeric-observation",
+        "command": [
+          "python3",
+          "scripts/observe-numeric-support.py"
+        ],
+        "seconds": 1.3924624538049102,
+        "returncode": 1,
+        "log_sha256": "b2bed32531387d914483587c8bd8fb299506120356637880236697ddd1aff645"
+      },
+      {
+        "label": "dbglist1189-numeric-observer-build",
+        "command": [
+          "make",
+          "-j4",
+          "build/reference-stdio-observer.exe"
+        ],
+        "seconds": 2.948694469407201,
+        "returncode": 0,
+        "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+      },
+      {
+        "label": "dbglist1189-numeric-observer-tail-build",
+        "command": [
+          "make",
+          "-j4",
+          "build/reference-stdio-observer.exe"
+        ],
+        "seconds": 2.3861499140039086,
+        "returncode": 0,
+        "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+      },
+      {
+        "label": "dbglist1189-pending-cache",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1188.json",
+          "--extend-after",
+          "cases/dbglist-original-1189.json"
+        ],
+        "seconds": 0.3296825382858515,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1189-reference",
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1189.json"
+        ],
+        "seconds": 1.1557565666735172,
+        "returncode": 0,
+        "log_sha256": "45be3d0c099c9d42697f91fd4dfe6f70fa1b99df6f998ff343ae38ef3fa8e2a9"
+      },
+      {
+        "label": "dbglist1189-shared-fix-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 10.479684327729046,
+        "returncode": 0,
+        "log_sha256": "4c54da0aa889a0bca843e8d045c195476c8c6a9c9a4e6d464332eff7d497c6da"
+      },
+      {
+        "label": "dbglist1190-cache",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1189.json",
+          "--extend-after",
+          "cases/dbglist-original-1190.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1190-evidence.json"
+        ],
+        "seconds": 0.32613483536988497,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1190-numeric-accept",
+        "command": [
+          "python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1189.json"
+        ],
+        "seconds": 0.08805404603481293,
+        "returncode": 0,
+        "log_sha256": "e6dd68f543e76206bccdaff38c8b24d56eb7ee7ea0d95f71ecad384b17da4eff"
+      },
+      {
+        "label": "dbglist1190-reference",
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1190.json"
+        ],
+        "seconds": 2.0206706020981073,
+        "returncode": 0,
+        "log_sha256": "f4ae982046a3d79bc43e0461ad2ec2580e9087c078821f8a02fda214be52777a"
+      },
+      {
+        "label": "dbglist1191-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1190.json",
+          "--extend-after",
+          "cases/dbglist-original-1191.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1191-evidence.json"
+        ],
+        "seconds": 0.31609486415982246,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1191-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1190.json"
+        ],
+        "seconds": 0.08596462104469538,
+        "returncode": 0,
+        "log_sha256": "98f60da6101766c6c9859e878eff2849c68b22719fed88ea92368035bd2c88e2"
+      },
+      {
+        "label": "dbglist1191-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1191.json"
+        ],
+        "seconds": 2.0762863643467426,
+        "returncode": 0,
+        "log_sha256": "08afde74fb39a76c5c8be918b1cb8634a7a85defafd017f767ebeef6ef03588c"
+      },
+      {
+        "label": "dbglist1192-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1191.json",
+          "--extend-after",
+          "cases/dbglist-original-1192.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1192-evidence.json"
+        ],
+        "seconds": 0.291274425573647,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1192-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1191.json"
+        ],
+        "seconds": 0.08756336476653814,
+        "returncode": 0,
+        "log_sha256": "835c9493984ea7791ed712723541f86825688102fff185796ca13e5e2dd02cfe"
+      },
+      {
+        "label": "dbglist1192-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1192.json"
+        ],
+        "seconds": 1.5343825751915574,
+        "returncode": 0,
+        "log_sha256": "bca89dc005fc395cf0ab80af7fd054d1f14012d6a2defcdadd93cdc0742947db"
+      },
+      {
+        "label": "dbglist1193-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1192.json",
+          "--extend-after",
+          "cases/dbglist-original-1193.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1193-evidence.json"
+        ],
+        "seconds": 0.2932090749964118,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1193-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1192.json"
+        ],
+        "seconds": 0.0843217745423317,
+        "returncode": 0,
+        "log_sha256": "8a4bf3b99871f6052d4668b14af74faa9d9c8d75462467b431c8539929e822bc"
+      },
+      {
+        "label": "dbglist1193-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1193.json"
+        ],
+        "seconds": 1.295608103275299,
+        "returncode": 0,
+        "log_sha256": "07e0430921bd0a6d9d6ef0219c8092dffc6df258e04694f3a6633a7f7869a91b"
+      },
+      {
+        "label": "dbglist1194-cache-name-fix",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1193.json",
+          "--extend-after",
+          "cases/dbglist-original-1194.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1194-evidence.json"
+        ],
+        "seconds": 0.319870644249022,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1194-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1193.json",
+          "--extend-after",
+          "cases/dbglist-original-1194.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1194-evidence.json"
+        ],
+        "seconds": 0.09682793635874987,
+        "returncode": 1,
+        "log_sha256": "45a18be49e6c2f060fca3c90a1fc4210aa5a8f924e2ace4dfa588e811dfb7270"
+      },
+      {
+        "label": "dbglist1194-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1193.json"
+        ],
+        "seconds": 0.0864869961515069,
+        "returncode": 0,
+        "log_sha256": "91a3d370705e6588ba76970e86d0a37e94de0bb19bc30ad9e5004832c9e732de"
+      },
+      {
+        "label": "dbglist1194-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1194.json"
+        ],
+        "seconds": 1.524394747801125,
+        "returncode": 0,
+        "log_sha256": "a21108cb431c653540e39361eaef07064db7bf6643c74ca1bc5affe553515e52"
+      },
+      {
+        "label": "dbglist1195-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1194.json",
+          "--extend-after",
+          "cases/dbglist-original-1195.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1195-evidence.json"
+        ],
+        "seconds": 0.2956803981214762,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1195-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1194.json"
+        ],
+        "seconds": 0.08667662274092436,
+        "returncode": 0,
+        "log_sha256": "2ead5ff16379b7d7ee55a18ee69701d3bc75d83c996fab68fb9c297068c4abab"
+      },
+      {
+        "label": "dbglist1195-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1195.json"
+        ],
+        "seconds": 1.2953430758789182,
+        "returncode": 0,
+        "log_sha256": "4e5619fac2c4d2769cf21617e8b79d2975ccbd2472204c541c089e9fedaee67e"
+      },
+      {
+        "label": "dbglist1196-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1195.json",
+          "--extend-after",
+          "cases/dbglist-original-1196.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1196-evidence.json"
+        ],
+        "seconds": 0.3212228901684284,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1196-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1195.json"
+        ],
+        "seconds": 0.08814026229083538,
+        "returncode": 0,
+        "log_sha256": "34fc806bb27a3accd0eb2ead2b0477957a886df2db88db75b4d4a63d6d5eb001"
+      },
+      {
+        "label": "dbglist1196-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1196.json"
+        ],
+        "seconds": 1.4922740086913109,
+        "returncode": 0,
+        "log_sha256": "99335bc134fe2c0603f401a81434a0ef1013f8766e9f36a97390fc7f57241244"
+      },
+      {
+        "label": "dbglist1197-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1196.json",
+          "--extend-after",
+          "cases/dbglist-original-1197.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1197-evidence.json"
+        ],
+        "seconds": 0.29722281359136105,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1197-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1196.json"
+        ],
+        "seconds": 0.08636100869625807,
+        "returncode": 0,
+        "log_sha256": "61da40b9ddd2c91319bdd9ef3720e243d68f26d401738d3d84c8bd9323688811"
+      },
+      {
+        "label": "dbglist1197-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1197.json"
+        ],
+        "seconds": 1.4648820850998163,
+        "returncode": 0,
+        "log_sha256": "a18da87f221aff5a0697250553ea18197ff80f4245d36f17ab42edfd4b7a780b"
+      },
+      {
+        "label": "dbglist1198-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1197.json",
+          "--extend-after",
+          "cases/dbglist-original-1198.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1198-evidence.json"
+        ],
+        "seconds": 0.30004154797643423,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1198-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1197.json"
+        ],
+        "seconds": 0.08494936674833298,
+        "returncode": 0,
+        "log_sha256": "39be9b2490b2867ead2faeccfec41a6f3d188b37326428e7541f63de5ba32697"
+      },
+      {
+        "label": "dbglist1198-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1198.json"
+        ],
+        "seconds": 1.1479307608678937,
+        "returncode": 0,
+        "log_sha256": "653b746228e68a5d0d617a336ac5a1702f18af88b1b0a721a04fb283e5225185"
+      },
+      {
+        "label": "dbglist1199-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1198.json",
+          "--extend-after",
+          "cases/dbglist-original-1199.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1199-evidence.json"
+        ],
+        "seconds": 0.32906474173069,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1199-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1198.json"
+        ],
+        "seconds": 0.0853712186217308,
+        "returncode": 0,
+        "log_sha256": "cb5e60cedde223579de0fc01943fd3286d7b6395e67d15402ee84acd325752f9"
+      },
+      {
+        "label": "dbglist1199-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1199.json"
+        ],
+        "seconds": 1.4500004397705197,
+        "returncode": 0,
+        "log_sha256": "74ad27d6e33dc5a4d4467cbaa98f71c373b5b88516a28c22bf5dfc5697bf6ccc"
+      },
+      {
+        "label": "dbglist1200-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1199.json",
+          "--extend-after",
+          "cases/dbglist-original-1200.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1200-evidence.json"
+        ],
+        "seconds": 0.2938787452876568,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1200-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1199.json"
+        ],
+        "seconds": 0.08673818875104189,
+        "returncode": 0,
+        "log_sha256": "a4c6b341766d741162be1637f4e5f87d3a9a42b63cac44c0d7ae7e6f5faeca9b"
+      },
+      {
+        "label": "dbglist1200-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1200.json"
+        ],
+        "seconds": 1.3135187849402428,
+        "returncode": 0,
+        "log_sha256": "be8f4fd9e60ddcf5fc03fccbc2e21d9c2f3fa1d56e4b892366a135fe881ab926"
+      },
+      {
+        "label": "dbglist1201-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1200.json",
+          "--extend-after",
+          "cases/dbglist-original-1201.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1201-evidence.json"
+        ],
+        "seconds": 0.3188184751197696,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1201-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1200.json"
+        ],
+        "seconds": 0.08271117601543665,
+        "returncode": 0,
+        "log_sha256": "c2d691abea5a0e580d880ca5a2bdaf5a53e4242cea50f134a07b9330b20ea1c2"
+      },
+      {
+        "label": "dbglist1201-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1201.json"
+        ],
+        "seconds": 1.6075185891240835,
+        "returncode": 0,
+        "log_sha256": "711568976054e52b3bbc3efb8954ae3778ea55aaace1c888890eea0590951e6a"
+      },
+      {
+        "label": "dbglist1202-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1201.json",
+          "--extend-after",
+          "cases/dbglist-original-1202.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1202-evidence.json"
+        ],
+        "seconds": 0.3194278506562114,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1202-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1201.json"
+        ],
+        "seconds": 0.08537932951003313,
+        "returncode": 0,
+        "log_sha256": "ae03be3620460a5c1271a07bcba2a9da2428dc84eb74420d44a1090f0dda66e0"
+      },
+      {
+        "label": "dbglist1202-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1202.json"
+        ],
+        "seconds": 1.2690088953822851,
+        "returncode": 0,
+        "log_sha256": "344177c6c657440aa256c9789e0d19e6061ed4e8b7b236d246ef3eedfbc272ff"
+      },
+      {
+        "label": "dbglist1203-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1202.json",
+          "--extend-after",
+          "cases/dbglist-original-1203.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1203-evidence.json"
+        ],
+        "seconds": 0.3027060329914093,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1203-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1202.json"
+        ],
+        "seconds": 0.08646401669830084,
+        "returncode": 0,
+        "log_sha256": "7d50d80fbd6d68c1cce7c4f37eb257a2b355aedea6cfe57a2aca69d3c5fdf8e8"
+      },
+      {
+        "label": "dbglist1203-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1203.json"
+        ],
+        "seconds": 1.3799603236839175,
+        "returncode": 0,
+        "log_sha256": "304925a1d51c982e09a0b31391720179311eb7664ad2d81f5f766556a0d917b1"
+      },
+      {
+        "label": "dbglist1204-cache",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1203.json",
+          "--extend-after",
+          "cases/dbglist-original-1204.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1204-evidence.json"
+        ],
+        "seconds": 0.3230606960132718,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1204-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1203.json"
+        ],
+        "seconds": 0.08486046548932791,
+        "returncode": 0,
+        "log_sha256": "25ecdc31ad8337563a29d4659d7669357f7ae651c3ad5d25fe71a0b8c294c1f3"
+      },
+      {
+        "label": "dbglist1204-reference-alias-fix",
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1204.json"
+        ],
+        "seconds": 1.893097160384059,
+        "returncode": 0,
+        "log_sha256": "977085827ade8692fad4691e020fc94861be66d41fdd8ed0e325f8ef0a4a649e"
+      },
+      {
+        "label": "dbglist1204-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1204.json"
+        ],
+        "seconds": 1.299324905499816,
+        "returncode": 1,
+        "log_sha256": "152652a916d901f6ce05c4b3a63223b8596545b70e02edaed81ffcb412844923"
+      },
+      {
+        "label": "dbglist1205-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1204.json",
+          "--extend-after",
+          "cases/dbglist-original-1205.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1205-evidence.json"
+        ],
+        "seconds": 0.3258891412988305,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1205-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1204.json"
+        ],
+        "seconds": 0.09259242657572031,
+        "returncode": 0,
+        "log_sha256": "7c3bf1e5609edd25924cb75eb1904dfd97f4514bdee348edca176cd292baccdd"
+      },
+      {
+        "label": "dbglist1205-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1205.json"
+        ],
+        "seconds": 1.0873422054573894,
+        "returncode": 0,
+        "log_sha256": "d34e1deafbc9f2a899c372fdab2e595e5de0517a1ed6880da373d8caa872cbb8"
+      },
+      {
+        "label": "dbglist1206-cache",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1205.json",
+          "--extend-after",
+          "cases/dbglist-original-1206.json",
+          "--runtime-evidence",
+          "cases/dbglist-numeric-crt-1206-evidence.json"
+        ],
+        "seconds": 0.32319024950265884,
+        "returncode": 0,
+        "log_sha256": "a559118ce18dfd66e72799ffef658831f527c1cb4e3b62e65ecdc129f151d051"
+      },
+      {
+        "label": "dbglist1206-cast-final-audit",
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 33.91042275540531,
+        "returncode": 0,
+        "log_sha256": "750903c57c7ceb51ad3ded6e4c6115c8f05408767118b1e0b970196d8420e1dc"
+      },
+      {
+        "label": "dbglist1206-cast-warning-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.249187027104199,
+        "returncode": 0,
+        "log_sha256": "3d3c7b20dee7bab47c1e465d2cb6cb9fbeb8acf237cadcc152693f51ae3be1b4"
+      },
+      {
+        "label": "dbglist1206-checkpoint-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 39.79971416480839,
+        "returncode": 0,
+        "log_sha256": "dbffffc6f4356312e217fdd5d3e2203d5b8eaf370c22a0f8f3aaf62d568f668e"
+      },
+      {
+        "label": "dbglist1206-fixtures",
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 6.625731815584004,
+        "returncode": 0,
+        "log_sha256": "4a2543eb00a665a88e3474db18ea2de72c1ade8b2cf6ccff268b94fd041c6957"
+      },
+      {
+        "label": "dbglist1206-native",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1206.json"
+        ],
+        "seconds": 0.222838394343853,
+        "returncode": 0,
+        "log_sha256": "6feb5c251e2a975f10799bc86ca942cc067c33a63cf23dceb55496db211eb2c1"
+      },
+      {
+        "label": "dbglist1206-numeric-accept",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/accept-numeric-support.py",
+          "--before",
+          "cases/dbglist-original-1205.json"
+        ],
+        "seconds": 0.07935672719031572,
+        "returncode": 0,
+        "log_sha256": "24d2b513cb03d3c741222ffacdf666b4eb0a39da669d03ef563ba445f1559c5c"
+      },
+      {
+        "label": "dbglist1206-reference",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1206.json"
+        ],
+        "seconds": 1.2101230192929506,
+        "returncode": 0,
+        "log_sha256": "d6a14e5c840d9171c2e5d6d82f2809af4ef4a1c6528528046da57936f6835a64"
+      },
+      {
+        "label": "dbglist1206-static",
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage",
+          "audit-data",
+          "audit-negatives"
+        ],
+        "seconds": 24.987591288983822,
+        "returncode": 0,
+        "log_sha256": "2b69edec190045d4cbe2a481cf9e071855efa0c3118f6a7f27212b101f067359"
+      },
+      {
+        "label": "dbglist1206-warnings-cast-documented",
+        "command": [
+          "python3",
+          "scripts/check-canonical-warnings.py",
+          "unoptimized",
+          "coff-writer",
+          "listing"
+        ],
+        "seconds": 3.151337950490415,
+        "returncode": 0,
+        "log_sha256": "dcfa2953fd8495d303c77dc6626c0991b71f58ad57c80f2bd5cd11ffe2e512af"
+      },
+      {
+        "label": "dbglist1206-warnings",
+        "command": [
+          "python3",
+          "scripts/check-canonical-warnings.py",
+          "unoptimized",
+          "coff-writer",
+          "listing"
+        ],
+        "seconds": 5.9518745532259345,
+        "returncode": 1,
+        "log_sha256": "4f4c872f708f946b2b19bb16be04a30d52d8b2552f25c7f552c541656f386d10"
+      }
+    ],
+    "reference_capture_splits": [
+      {
+        "checkpoint": 1187,
+        "logical": "@coff_define_aux_symbol@24",
+        "setup_seconds": 0.3088540518656373,
+        "execution_seconds": 1.393544309772551,
+        "check_seconds": 0.02623437251895666,
+        "total_seconds": 1.7286331048235297
+      },
+      {
+        "checkpoint": 1188,
+        "logical": "@write_listing_float@12",
+        "setup_seconds": 0.22871823981404305,
+        "execution_seconds": 1.6471922509372234,
+        "check_seconds": 0.024780694395303726,
+        "total_seconds": 1.9006915912032127
+      },
+      {
+        "checkpoint": 1189,
+        "logical": "__cfltcvt",
+        "setup_seconds": 0.2386163230985403,
+        "execution_seconds": 0.8162720380350947,
+        "check_seconds": 0.02766786329448223,
+        "total_seconds": 1.0825566612184048
+      },
+      {
+        "checkpoint": 1190,
+        "logical": "__cftog",
+        "setup_seconds": 0.23634839057922363,
+        "execution_seconds": 1.6881293095648289,
+        "check_seconds": 0.024910260923206806,
+        "total_seconds": 1.9493883959949017
+      },
+      {
+        "checkpoint": 1191,
+        "logical": "__fltout",
+        "setup_seconds": 0.23233478143811226,
+        "execution_seconds": 1.7452747216448188,
+        "check_seconds": 0.026805194094777107,
+        "total_seconds": 2.004415115341544
+      },
+      {
+        "checkpoint": 1192,
+        "logical": "___dtold",
+        "setup_seconds": 0.23029231745749712,
+        "execution_seconds": 1.2069597765803337,
+        "check_seconds": 0.02424227725714445,
+        "total_seconds": 1.4614948341622949
+      },
+      {
+        "checkpoint": 1193,
+        "logical": "_$I10_OUTPUT",
+        "setup_seconds": 0.22940688021481037,
+        "execution_seconds": 0.9730627136304975,
+        "check_seconds": 0.02446803729981184,
+        "total_seconds": 1.2269382672384381
+      },
+      {
+        "checkpoint": 1194,
+        "logical": "___multtenpow12",
+        "setup_seconds": 0.23109993897378445,
+        "execution_seconds": 1.1951812142506242,
+        "check_seconds": 0.02726602740585804,
+        "total_seconds": 1.4535476909950376
+      },
+      {
+        "checkpoint": 1195,
+        "logical": "___ld12mul",
+        "setup_seconds": 0.2307444317266345,
+        "execution_seconds": 0.9686468821018934,
+        "check_seconds": 0.02670510020107031,
+        "total_seconds": 1.2260967958718538
+      },
+      {
+        "checkpoint": 1196,
+        "logical": "___addl",
+        "setup_seconds": 0.23246586695313454,
+        "execution_seconds": 1.1420914083719254,
+        "check_seconds": 0.04265349078923464,
+        "total_seconds": 1.4172117998823524
+      },
+      {
+        "checkpoint": 1197,
+        "logical": "___shl_12",
+        "setup_seconds": 0.22924738191068172,
+        "execution_seconds": 1.14446506742388,
+        "check_seconds": 0.023803585208952427,
+        "total_seconds": 1.3975164778530598
+      },
+      {
+        "checkpoint": 1198,
+        "logical": "___shr_12",
+        "setup_seconds": 0.23748724535107613,
+        "execution_seconds": 0.8183945249766111,
+        "check_seconds": 0.02226224448531866,
+        "total_seconds": 1.0781444618478417
+      },
+      {
+        "checkpoint": 1199,
+        "logical": "___add_12",
+        "setup_seconds": 0.2295593162998557,
+        "execution_seconds": 1.1282452838495374,
+        "check_seconds": 0.024678790010511875,
+        "total_seconds": 1.3824837934225798
+      },
+      {
+        "checkpoint": 1200,
+        "logical": "__fptostr",
+        "setup_seconds": 0.22935973294079304,
+        "execution_seconds": 0.9899869142100215,
+        "check_seconds": 0.024127410724759102,
+        "total_seconds": 1.24347460642457
+      },
+      {
+        "checkpoint": 1201,
+        "logical": "__cftof_g",
+        "setup_seconds": 0.23098941519856453,
+        "execution_seconds": 1.2845647912472486,
+        "check_seconds": 0.023750420659780502,
+        "total_seconds": 1.5393049931153655
+      },
+      {
+        "checkpoint": 1202,
+        "logical": "__cftof",
+        "setup_seconds": 0.23710741940885782,
+        "execution_seconds": 0.9377252757549286,
+        "check_seconds": 0.023948541842401028,
+        "total_seconds": 1.1987816179171205
+      },
+      {
+        "checkpoint": 1203,
+        "logical": "__shift",
+        "setup_seconds": 0.23158391658216715,
+        "execution_seconds": 1.0508717373013496,
+        "check_seconds": 0.02668173983693123,
+        "total_seconds": 1.3091378705576062
+      },
+      {
+        "checkpoint": 1204,
+        "logical": "_memcpy",
+        "setup_seconds": 0.23106710519641638,
+        "execution_seconds": 1.5660099610686302,
+        "check_seconds": 0.02560246642678976,
+        "total_seconds": 1.8226799201220274
+      },
+      {
+        "checkpoint": 1205,
+        "logical": "__cropzeros",
+        "setup_seconds": 0.23006441816687584,
+        "execution_seconds": 0.7602323098108172,
+        "check_seconds": 0.02636811137199402,
+        "total_seconds": 1.016665244475007
+      },
+      {
+        "checkpoint": 1206,
+        "logical": "@prepare_source_listing@4",
+        "setup_seconds": 0.24575361981987953,
+        "execution_seconds": 0.865612342953682,
+        "check_seconds": 0.025043305940926075,
+        "total_seconds": 1.136409780010581
+      }
+    ],
+    "unmeasured": [
+      "analysis/reconstruction elapsed",
+      "separate canonical/native portions of combined make commands",
+      "individual full static-check durations unless their own receipt measures them"
+    ],
+    "note": "Failed/repeated attempts retained. Command durations overlap when independent checks ran concurrently; do not sum as overall wall clock. The39.7997s checkpoint build and33.9104s final audit include full canonical rebuilds following shared header changes. Numeric native-only reobservation reuses retained original proof and does not repeat its Wine duration."
+  }
+}

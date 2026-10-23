@@ -1,3 +1,17 @@
+C2 ACTIVE1206 accepted /1098 application graphs; matching prepare_source_listing28680.
+327863/399693=82.028707% code-extent union, not branch coverage.
+See cases/dbglist-numeric-checkpoint.json:3 full C bodies plus17 CRT support entries, zero application credit for CRT.
+All14 native cases pass:13 complete+debug named trap; full dbglist artifacts remain pending.
+Continue approved debug/listing case. No new case yet.
+
+C2 ACTIVE: candidate1189 floating listing is PENDING CRT/FPU seam closure.
+Original next boundary __cfltcvt74800; native reaches prepare_source_listing.
+Full public text/result/FILE state matches, but CW027f vs037f and host printf SW0400 differ.
+Original startup53 proof: cases/dbglist-fp-entry/validation.json. Shared maintainer owns fix.
+Cache is explicitly pending_runtime; no current14-case PASS claim or1189 matched promotion.
+Last committed fully verified checkpoint987a15d9=1186/80.857308%;1187/1188 pairs pass.
+Continue actual numeric seam validation, then ordered CRT support/matching app frontier.
+
 C2 ACTIVE1186 accepted /1095 source graphs, matching assign_physical_register321a0.
 323181/399693 code-extent union bytes (80.857308%); not branch coverage.
 See cases/dbglist-assembly-checkpoint.json.14 native cases pass:13complete+debug named trap.

@@ -237,3 +237,19 @@ probes pass alongside24 cleanup ABI checks and selected original /W3 builds.
 All14 native cases pass,13 complete and dbglist at its expected allocation trap.
 Coverage323181/399693=80.857308% is extent union, not branch
 coverage. See cases/dbglist-assembly-checkpoint.json for exact seams and timings.
+
+Numeric listing checkpoint1206 adds three whole application bodies (972 bytes):
+physical-register selection, COFF auxiliary-symbol construction and floating
+initializer listing. Seventeen reached CRT bodies are independently indexed,
+archive/relocation-identified and masked, with zero application coverage credit.
+Their actual internal arguments/results/buffers are observed; native matching
+uses the public printf seam rather than invented internal native entries. The
+real1.25 call matches complete FILE buffer, return, descriptor position and x87
+state after separately proved startup53/%g fixes. A separately proved%Lg
+exact-double promotion adapter closes the prior negative-zero width10 failure.
+All120 bounded width/repetition/column probes and20 numeric-proof negatives pass.
+Twenty-seven cleanup ABIs, original /W3 modules, graph/data/negative checks and
+all14 native cases pass (13 complete plus debug's named source-listing trap).
+Coverage327863/399693=82.028707% is extent union, not branch coverage;
+3710 of the4682 newly accepted bytes are CRT support. Debug artifacts remain
+pending. See cases/dbglist-numeric-checkpoint.json for failures and split timings.

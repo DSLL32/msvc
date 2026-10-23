@@ -596,3 +596,52 @@ void __fastcall write_listing_string(unsigned char *bytes, int count)
     }
     if (quoted) listing_column += printf("%c", '\'');
 }
+
+/* Original290b0..2933e. The assembler's real-number suffix prints the raw
+   encoded bits; decimal comments use the original first4/8 payload bytes.
+   The target's long double is8 bytes. Explicit double-to-long-double promotion
+   keeps its first8-byte interpretation and the printf L argument type in both
+   the original compiler and the native host's wider printf ABI. */
+#define BEGIN_FLOAT_LISTING(directive) \
+    pad_listing_column(8); \
+    listing_column += printf(directive); \
+    pad_listing_column(16); \
+    if (repeat != 1) listing_column += printf("%ld DUP(", (long)repeat)
+#define END_FLOAT_BITS() \
+    if (repeat != 1) listing_column += printf(")"); \
+    pad_listing_column(48)
+void __fastcall write_listing_float(unsigned type, InitializerValue *value, int repeat)
+{
+    switch (type) {
+    case 0x1004:
+        BEGIN_FLOAT_LISTING("DD");
+        listing_column += printf("0%.8lxr", (unsigned long)value->float_bits);
+        END_FLOAT_BITS();
+        listing_column += printf("; %g", (double)*(float *)value);
+        break;
+    case 0x1008:
+        BEGIN_FLOAT_LISTING("DQ");
+        listing_column += printf("0%.8lx%.8lxr", value->double_bits.high, value->double_bits.low);
+        END_FLOAT_BITS();
+        listing_column += printf("; %g", *(double *)value);
+        break;
+    case 0x100a:
+        BEGIN_FLOAT_LISTING("DT");
+        listing_column += printf("0%.8lx%.8lx%.4xr",
+            *(unsigned long *)((unsigned char *)value + 6),
+            *(unsigned long *)((unsigned char *)value + 2), *(unsigned short *)value);
+        END_FLOAT_BITS();
+        /* VC1 reports C4069 for the intentional identity conversion: its
+           long double is double. The wider native vararg requires the cast. */
+#ifdef _MSC_VER
+#pragma warning(disable:4069)
+#endif
+        listing_column += printf("; %Lg", (long double)*(double *)value);
+#ifdef _MSC_VER
+#pragma warning(default:4069)
+#endif
+        break;
+    }
+}
+#undef BEGIN_FLOAT_LISTING
+#undef END_FLOAT_BITS

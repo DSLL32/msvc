@@ -1,0 +1,928 @@
+{
+  "identities": [
+    {
+      "name": "_$I10_OUTPUT",
+      "identity": {
+        "record": {
+          "name": "_$I10_OUTPUT",
+          "start": 491280,
+          "end": 492208,
+          "object": "obj\\i386\\x10fout.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "54bfda6c0c63d5fbb8a4e561e797e06f9f4ac9cb1dae981912d43b5d70c89ed4",
+        "function_offset": 0,
+        "exact_text_bytes": 928,
+        "text_sha256": "8308362572357ecdc2382ae3dbc64177433031859a10bcf59189b48815d1a938",
+        "linked_text_sha256": "01e2853c3e2529bcc237dfa5fa257e9e6085496459ce75f81fa93bf90ea331d6",
+        "relocations": [
+          {
+            "offset": 205,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x87144",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 265,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8714c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 317,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x87154",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 354,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8715c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 510,
+            "symbol": "___multtenpow12",
+            "kind": 20,
+            "target": "0x78700",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 539,
+            "symbol": "___ld12mul",
+            "kind": 20,
+            "target": "0x78400",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 653,
+            "symbol": "___shl_12",
+            "kind": 20,
+            "target": "0x77610",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 683,
+            "symbol": "___shr_12",
+            "kind": 20,
+            "target": "0x77660",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 735,
+            "symbol": "___shl_12",
+            "kind": 20,
+            "target": "0x77610",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 748,
+            "symbol": "___shl_12",
+            "kind": 20,
+            "target": "0x77610",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 766,
+            "symbol": "___add_12",
+            "kind": 20,
+            "target": "0x775a0",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 779,
+            "symbol": "___shl_12",
+            "kind": 20,
+            "target": "0x77610",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {
+          ".data": "0x87144"
+        }
+      }
+    },
+    {
+      "name": "___add_12",
+      "identity": {
+        "record": {
+          "name": "___add_12",
+          "start": 488864,
+          "end": 488976,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "function_offset": 48,
+        "exact_text_bytes": 112,
+        "text_sha256": "c4e6ee5e2a8358cd744c88bf960f25d5c7a61cb206980543791c0469eb0c4f29",
+        "linked_text_sha256": "9758645c64848dc424b4c2354e8e22ac76ca83b0d305a402757e94f5b32c7f55",
+        "relocations": [
+          {
+            "offset": 18,
+            "symbol": "___addl",
+            "kind": 20,
+            "target": "0x77570",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 39,
+            "symbol": "___addl",
+            "kind": 20,
+            "target": "0x77570",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 65,
+            "symbol": "___addl",
+            "kind": 20,
+            "target": "0x77570",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 91,
+            "symbol": "___addl",
+            "kind": 20,
+            "target": "0x77570",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "___addl",
+      "identity": {
+        "record": {
+          "name": "___addl",
+          "start": 488816,
+          "end": 488864,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "function_offset": 0,
+        "exact_text_bytes": 48,
+        "text_sha256": "2a1ecfcfe2f0645d5972d57ee475817a07c0c8cfac2dca61aa9c18bcb0c51d8d",
+        "linked_text_sha256": "2a1ecfcfe2f0645d5972d57ee475817a07c0c8cfac2dca61aa9c18bcb0c51d8d",
+        "relocations": [],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "___dtold",
+      "identity": {
+        "record": {
+          "name": "___dtold",
+          "start": 487232,
+          "end": 487456,
+          "object": "obj\\i386\\cfout.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "8b65aeabfd3e258a48417354d202e094d4eb5f622775aee2c3a0a20580aade99",
+        "function_offset": 112,
+        "exact_text_bytes": 224,
+        "text_sha256": "9c71d6b284bb144ff894700c988008d91779c340eac527ce089ef5db499e66e4",
+        "linked_text_sha256": "9c71d6b284bb144ff894700c988008d91779c340eac527ce089ef5db499e66e4",
+        "relocations": [],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "___ld12mul",
+      "identity": {
+        "record": {
+          "name": "___ld12mul",
+          "start": 492544,
+          "end": 493312,
+          "object": "obj\\i386\\tenpow.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "eada7d69ffec601d5e815e1e76b9ca9816641721be19d5114a85fe064bc109d9",
+        "function_offset": 0,
+        "exact_text_bytes": 768,
+        "text_sha256": "be5edf1beec83b433616bec590c2fe69ab1d0d2de6a48049cd48363d0150b691",
+        "linked_text_sha256": "8f0b04310a77a0b035773d4b4e7ecda2806ccd1fc3df1d582795d2d8eb5c4615",
+        "relocations": [
+          {
+            "offset": 350,
+            "symbol": "___addl",
+            "kind": 20,
+            "target": "0x77570",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 429,
+            "symbol": "___shl_12",
+            "kind": 20,
+            "target": "0x77610",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 500,
+            "symbol": "___shr_12",
+            "kind": 20,
+            "target": "0x77660",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "___multtenpow12",
+      "identity": {
+        "record": {
+          "name": "___multtenpow12",
+          "start": 493312,
+          "end": 493440,
+          "object": "obj\\i386\\tenpow.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "eada7d69ffec601d5e815e1e76b9ca9816641721be19d5114a85fe064bc109d9",
+        "function_offset": 768,
+        "exact_text_bytes": 128,
+        "text_sha256": "7db3c46702a6377c58bef92bc30e6fbdc47bfda1d1a1dcc24786634a20d3066a",
+        "linked_text_sha256": "fb644fe424bb372fcc107f6bf93faeaa85b145a7e7310a6884fb2e8c4b7232b1",
+        "relocations": [
+          {
+            "offset": 7,
+            "symbol": "__pow10pos",
+            "kind": 6,
+            "target": "0x87108",
+            "binding": "linked external data binding; known anchor where available"
+          },
+          {
+            "offset": 24,
+            "symbol": "__pow10neg",
+            "kind": 6,
+            "target": "0x87268",
+            "binding": "linked external data binding; known anchor where available"
+          },
+          {
+            "offset": 105,
+            "symbol": "___ld12mul",
+            "kind": 20,
+            "target": "0x78400",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {
+          "__pow10pos": "0x87168",
+          "__pow10neg": "0x872c8"
+        }
+      }
+    },
+    {
+      "name": "___shl_12",
+      "identity": {
+        "record": {
+          "name": "___shl_12",
+          "start": 488976,
+          "end": 489056,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "function_offset": 160,
+        "exact_text_bytes": 80,
+        "text_sha256": "a3bf6df6e9e5f42112806294ff5f07dc80c8254e3de7ccba7faa5e793f2d576b",
+        "linked_text_sha256": "a3bf6df6e9e5f42112806294ff5f07dc80c8254e3de7ccba7faa5e793f2d576b",
+        "relocations": [],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "___shr_12",
+      "identity": {
+        "record": {
+          "name": "___shr_12",
+          "start": 489056,
+          "end": 489136,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "function_offset": 240,
+        "exact_text_bytes": 80,
+        "text_sha256": "7215a6feddf612c1f9d76dddd3aed6965af6984bb48b4fe8045e12f72124290e",
+        "linked_text_sha256": "7215a6feddf612c1f9d76dddd3aed6965af6984bb48b4fe8045e12f72124290e",
+        "relocations": [],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "__cfltcvt",
+      "identity": {
+        "record": {
+          "name": "__cfltcvt",
+          "start": 477184,
+          "end": 477296,
+          "object": "obj\\i386\\cvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "7526b05bf0e462c8f92d1f1710bfd5842bd42f73d2e156f551d939dec909c9f6",
+        "function_offset": 1152,
+        "exact_text_bytes": 112,
+        "text_sha256": "b057bd80e8bc0a9e549ad6c266b58e90fc99c04fd2384c5e09240cec47e91bfa",
+        "linked_text_sha256": "1200b2266832dc41ec7d9aa5fc861e0cd1346edd43ac13239cf0e8c64d31bc66",
+        "relocations": [
+          {
+            "offset": 35,
+            "symbol": "__cftof",
+            "kind": 20,
+            "target": "0x74610",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 64,
+            "symbol": "__cftog",
+            "kind": 20,
+            "target": "0x74740",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 93,
+            "symbol": "__cftoe",
+            "kind": 20,
+            "target": "0x744a0",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "__cftof",
+      "identity": {
+        "record": {
+          "name": "__cftof",
+          "start": 476688,
+          "end": 476944,
+          "object": "obj\\i386\\cvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "7526b05bf0e462c8f92d1f1710bfd5842bd42f73d2e156f551d939dec909c9f6",
+        "function_offset": 656,
+        "exact_text_bytes": 256,
+        "text_sha256": "29752bf111514a6deee3ff6230a77098cd30adf7019f1a5a0cfaf34f66cbc758",
+        "linked_text_sha256": "a504aaaa66aac4b8e7f6a71d6914b7147fe8b423105ca21b175c8a0bdc84e9f5",
+        "relocations": [
+          {
+            "offset": 6,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x86758",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 15,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ec88",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 43,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8675c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 51,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8675c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 76,
+            "symbol": "__fltout",
+            "kind": 20,
+            "target": "0x76ed0",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 116,
+            "symbol": "__fptostr",
+            "kind": 20,
+            "target": "0x76e40",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 147,
+            "symbol": "__shift",
+            "kind": 20,
+            "target": "0x74870",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 170,
+            "symbol": "__shift",
+            "kind": 20,
+            "target": "0x74870",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 175,
+            "symbol": "__decimal_point",
+            "kind": 6,
+            "target": "0x86634",
+            "binding": "linked external data binding; known anchor where available"
+          },
+          {
+            "offset": 196,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x86758",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 219,
+            "symbol": "__shift",
+            "kind": 20,
+            "target": "0x74870",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {
+          ".data": "0x86758",
+          ".bss": "0x7ec88",
+          "__decimal_point": "0x86634"
+        }
+      }
+    },
+    {
+      "name": "__cftof_g",
+      "identity": {
+        "record": {
+          "name": "__cftof_g",
+          "start": 476944,
+          "end": 476992,
+          "object": "obj\\i386\\cvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "7526b05bf0e462c8f92d1f1710bfd5842bd42f73d2e156f551d939dec909c9f6",
+        "function_offset": 912,
+        "exact_text_bytes": 48,
+        "text_sha256": "0763e3447237d8e1417fb5f79f4128174670a27995853fa67fd9eb7a9c915633",
+        "linked_text_sha256": "12d17204c494dc8ffae6b95655b4d417efaa5552b565f98361380919fd287175",
+        "relocations": [
+          {
+            "offset": 7,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x86758",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 23,
+            "symbol": "__cftof",
+            "kind": 20,
+            "target": "0x74610",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 32,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x86758",
+            "binding": "archive data section exact bytes"
+          }
+        ],
+        "external_bindings": {
+          ".data": "0x86758"
+        }
+      }
+    },
+    {
+      "name": "__cftog",
+      "identity": {
+        "record": {
+          "name": "__cftog",
+          "start": 476992,
+          "end": 477184,
+          "object": "obj\\i386\\cvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "7526b05bf0e462c8f92d1f1710bfd5842bd42f73d2e156f551d939dec909c9f6",
+        "function_offset": 960,
+        "exact_text_bytes": 192,
+        "text_sha256": "3b92bdfe1ca5eacfd4464b8865dc0697b69eda3170b3b365f90549f31a85b9f2",
+        "linked_text_sha256": "3893904bac9d734ee8a3fbbba2abc46879f04db6c0b583e301c8250f646a04ca",
+        "relocations": [
+          {
+            "offset": 17,
+            "symbol": "__fltout",
+            "kind": 20,
+            "target": "0x76ed0",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 25,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ec88",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 34,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8675c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 39,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ec88",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 63,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ec88",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 75,
+            "symbol": "__fptostr",
+            "kind": 20,
+            "target": "0x76e40",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 84,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ec88",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 97,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8675c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 105,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x86760",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 113,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x8675c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 128,
+            "symbol": ".data",
+            "kind": 6,
+            "target": "0x86760",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 151,
+            "symbol": "__cftof_g",
+            "kind": 20,
+            "target": "0x74710",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 172,
+            "symbol": "__cftoe_g",
+            "kind": 20,
+            "target": "0x745e0",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {
+          ".bss": "0x7ec88",
+          ".data": "0x86758"
+        }
+      }
+    },
+    {
+      "name": "__cropzeros",
+      "identity": {
+        "record": {
+          "name": "__cropzeros",
+          "start": 476144,
+          "end": 476240,
+          "object": "obj\\i386\\cvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "7526b05bf0e462c8f92d1f1710bfd5842bd42f73d2e156f551d939dec909c9f6",
+        "function_offset": 112,
+        "exact_text_bytes": 96,
+        "text_sha256": "8384dcaf2cb00ce5156ea2850630771a44d22e1c288312e7d30330cb9dfa2234",
+        "linked_text_sha256": "ff0dd313c7123b0a96a6e9c48a80443091798963214860d996831371a2fd6d52",
+        "relocations": [
+          {
+            "offset": 11,
+            "symbol": "__decimal_point",
+            "kind": 6,
+            "target": "0x86634",
+            "binding": "linked external data binding; known anchor where available"
+          },
+          {
+            "offset": 72,
+            "symbol": "__decimal_point",
+            "kind": 6,
+            "target": "0x86634",
+            "binding": "linked external data binding; known anchor where available"
+          }
+        ],
+        "external_bindings": {
+          "__decimal_point": "0x86634"
+        }
+      }
+    },
+    {
+      "name": "__fltout",
+      "identity": {
+        "record": {
+          "name": "__fltout",
+          "start": 487120,
+          "end": 487232,
+          "object": "obj\\i386\\cfout.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "8b65aeabfd3e258a48417354d202e094d4eb5f622775aee2c3a0a20580aade99",
+        "function_offset": 0,
+        "exact_text_bytes": 112,
+        "text_sha256": "53eb420a37fe3ebd62530724bdea3bf6b05d99f584a5e6fea1cad9a2f16e7b8e",
+        "linked_text_sha256": "75ecc190ec750f7b1d8456e879818b2c7efe5491e38d485a20207b527c82b80c",
+        "relocations": [
+          {
+            "offset": 14,
+            "symbol": "___dtold",
+            "kind": 20,
+            "target": "0x76f40",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 22,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ed98",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 47,
+            "symbol": "_$I10_OUTPUT",
+            "kind": 20,
+            "target": "0x77f10",
+            "binding": "named code relocation"
+          },
+          {
+            "offset": 52,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7edc0",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 59,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ed9a",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 64,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7edb8",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 71,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ed98",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 79,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7edbc",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 85,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7edc4",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 89,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7ed9c",
+            "binding": "archive data section exact bytes"
+          },
+          {
+            "offset": 94,
+            "symbol": ".bss",
+            "kind": 6,
+            "target": "0x7edb8",
+            "binding": "archive data section exact bytes"
+          }
+        ],
+        "external_bindings": {
+          ".bss": "0x7ed98"
+        }
+      }
+    },
+    {
+      "name": "__fptostr",
+      "identity": {
+        "record": {
+          "name": "__fptostr",
+          "start": 486976,
+          "end": 487120,
+          "object": "convert\\obj\\i386\\_FPTOSTR.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "36dd42e84285439ad9bddbd3392ede66a693d44589fd1a05de231ae7654a9032",
+        "function_offset": 0,
+        "exact_text_bytes": 144,
+        "text_sha256": "d193e4d07ffc88ef8276b21d2a05b983737f5903c3ae6579caf2a00a431bef6d",
+        "linked_text_sha256": "d193e4d07ffc88ef8276b21d2a05b983737f5903c3ae6579caf2a00a431bef6d",
+        "relocations": [],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "__shift",
+      "identity": {
+        "record": {
+          "name": "__shift",
+          "start": 477296,
+          "end": 477344,
+          "object": "obj\\i386\\cvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "7526b05bf0e462c8f92d1f1710bfd5842bd42f73d2e156f551d939dec909c9f6",
+        "function_offset": 1264,
+        "exact_text_bytes": 48,
+        "text_sha256": "4d6fca1dfedd1659ed95007766cb6c4550a0e99bb9e54cf13b4342b5708e4fe1",
+        "linked_text_sha256": "3f20f0a6de19b77b7648783f461a47e4a5e33d8e96270edb58cc1fe793bb57ea",
+        "relocations": [
+          {
+            "offset": 34,
+            "symbol": "_memmove",
+            "kind": 20,
+            "target": "0x77020",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {}
+      }
+    },
+    {
+      "name": "_memcpy",
+      "identity": {
+        "record": {
+          "name": "_memcpy",
+          "start": 487456,
+          "end": 487790,
+          "object": "string\\obj\\i386\\MEMCPY.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "45ca8b7713bd464c98d7470a38d2f7f3e00ea6b250cb07f0cb75dd6b2626c940",
+        "function_offset": 0,
+        "exact_text_bytes": 334,
+        "text_sha256": "a69820f5b4b259160d92daedc3bdf105d9057d323445023e32893db13ad85592",
+        "linked_text_sha256": "878c40c932b6dbe1d1ff07b6580028603c180b86c5031439c31c54e65362b8ba",
+        "relocations": [
+          {
+            "offset": 319,
+            "symbol": "$$R000B",
+            "kind": 6,
+            "target": "0x770f0",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 220,
+            "symbol": "$$R0001",
+            "kind": 6,
+            "target": "0x77100",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 216,
+            "symbol": "$$R0002",
+            "kind": 6,
+            "target": "0x77118",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 212,
+            "symbol": "$$R0003",
+            "kind": 6,
+            "target": "0x77128",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 208,
+            "symbol": "$$R0005",
+            "kind": 6,
+            "target": "0x7712e",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 204,
+            "symbol": "$$R000B",
+            "kind": 6,
+            "target": "0x770f0",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 153,
+            "symbol": "$$R0004",
+            "kind": 6,
+            "target": "0x77058",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 68,
+            "symbol": "$$R0006",
+            "kind": 6,
+            "target": "0x77068",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 64,
+            "symbol": "$$R0007",
+            "kind": 6,
+            "target": "0x7707c",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 60,
+            "symbol": "$$R0008",
+            "kind": 6,
+            "target": "0x7708c",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 56,
+            "symbol": "$$R0009",
+            "kind": 6,
+            "target": "0x77090",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 52,
+            "symbol": "$$R0004",
+            "kind": 6,
+            "target": "0x77058",
+            "binding": "same archive text/table"
+          },
+          {
+            "offset": 27,
+            "symbol": "$$R000A",
+            "kind": 20,
+            "target": "0x770cc",
+            "binding": "named code relocation"
+          }
+        ],
+        "external_bindings": {}
+      }
+    }
+  ],
+  "seconds": 0.07246772199869156
+}

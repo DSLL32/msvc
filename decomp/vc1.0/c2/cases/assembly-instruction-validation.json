@@ -1931,7 +1931,7 @@
     }
   ],
   "opcode_property_words": 231,
-  "seconds": 0.574588131159544,
+  "seconds": 1.630515274591744,
   "method": "Actual compiled C parent/new_machine_record/initialize_operand/address allocator and recycler versus original whole corresponding machine bodies; decoded operand and zeroed arena allocator contracts are explicit seams.",
   "limits": "Serialized operand parsing is not implemented by this probe: named decode_assembly_operand remains a trapping reconstruction stub. Only supplied valid operand shapes and C allocator success are covered; error paths and other serialized opcodes are not claimed exercised."
 }

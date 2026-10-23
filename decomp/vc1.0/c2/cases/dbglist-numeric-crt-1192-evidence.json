@@ -1,0 +1,178 @@
+{
+  "logical": "__fltout",
+  "before_config_sha256": "d5007770f8323eacb8982d452ddffd366883bebe2dcb2b04f789ffbda361a20c",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "identity": {
+    "record": {
+      "name": "__fltout",
+      "start": 487120,
+      "end": 487232,
+      "object": "obj\\i386\\cfout.obj",
+      "library": "LIBC.LIB"
+    },
+    "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+    "object_sha256": "8b65aeabfd3e258a48417354d202e094d4eb5f622775aee2c3a0a20580aade99",
+    "function_offset": 0,
+    "exact_text_bytes": 112,
+    "text_sha256": "53eb420a37fe3ebd62530724bdea3bf6b05d99f584a5e6fea1cad9a2f16e7b8e",
+    "linked_text_sha256": "75ecc190ec750f7b1d8456e879818b2c7efe5491e38d485a20207b527c82b80c",
+    "relocations": [
+      {
+        "offset": 14,
+        "symbol": "___dtold",
+        "kind": 20,
+        "target": "0x76f40",
+        "binding": "named code relocation"
+      },
+      {
+        "offset": 22,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7ed98",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 47,
+        "symbol": "_$I10_OUTPUT",
+        "kind": 20,
+        "target": "0x77f10",
+        "binding": "named code relocation"
+      },
+      {
+        "offset": 52,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7edc0",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 59,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7ed9a",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 64,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7edb8",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 71,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7ed98",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 79,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7edbc",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 85,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7edc4",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 89,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7ed9c",
+        "binding": "archive data section exact bytes"
+      },
+      {
+        "offset": 94,
+        "symbol": ".bss",
+        "kind": 6,
+        "target": "0x7edb8",
+        "binding": "archive data section exact bytes"
+      }
+    ],
+    "external_bindings": {
+      ".bss": "0x7ed98"
+    }
+  },
+  "contract": "Original by-value double1.25 returns sign/decimal/flags/digits metadata",
+  "observation_path": "cases/dbglist-numeric-support/validation.json",
+  "observation_sha256": "9de3da7a260bdaf122a62ea5739fb7f35ffce005a7a228732976cf7516c17e75",
+  "internal_observations": [
+    {
+      "stage": "enter",
+      "name": "__fltout",
+      "eax": 0,
+      "args": [
+        0,
+        1072955392
+      ],
+      "file": {
+        "flags": 10,
+        "count": 3321,
+        "fd": 1,
+        "size": 4096,
+        "null": 0,
+        "used": 775,
+        "position": 0,
+        "counter": 0,
+        "cursor": 0,
+        "value": 0,
+        "buffer_hex": "095449544c45096462676c6973742e630a092e333836500a696e636c756465206c697374696e672e696e630a6966204056657273696f6e206774203531300a2e6d6f64656c20464c41540a656c73650a5f54455854095345474d454e542044574f5244205553453332205055424c49432027434f4445270a5f5445585409454e44530a5f44415441095345474d454e542044574f5244205553453332205055424c4943202744415441270a5f4441544109454e44530a434f4e5354095345474d454e542044574f5244205553453332205055424c49432027434f4e5354270a434f4e535409454e44530a5f425353095345474d454e542044574f5244205553453332205055424c49432027425353270a5f42535309454e44530a242453594d424f4c53095345474d454e542042595445205553453332202744454253594d270a242453594d424f4c5309454e44530a24245459504553095345474d454e5420425954452055534533322027444542545950270a2424545950455309454e44530a5f544c53095345474d454e542044574f5244205553453332205055424c49432027544c53270a5f544c5309454e44530a464c41540947524f5550205f444154412c20434f4e53542c205f4253530a09415353554d450943533a20464c41542c2044533a20464c41542c2053533a20464c41540a656e6469660a5f44415441095345474d454e540a5f61646a7573746d656e74732453313133204457203066666639480a094457093033480a09445709303133480a094457093066666635480a094457093035480a094f524720242b320a5f6465736372697074696f6e245331313420444220276465627567207265636f7264206c697374696e67272c203030480a5f4441544109454e44530a5055424c4943095f7472616e73666f726d5f64656275675f7265636f72640a455854524e095f5f666c74757365643a4e4541520a455854524e095f6f6273657276655f64656275673a4e4541520a434f4e5354095345474d454e540a24543133390944510930336666343030303030303030303030307209093b20"
+      },
+      "registers": {
+        "eax": 0,
+        "ecx": 0,
+        "edx": 549304,
+        "esp": 2751400,
+        "cw": 4294902399,
+        "sw": 4294901760
+      },
+      "extra": {
+        "value_words": "000000003ff40000"
+      }
+    },
+    {
+      "stage": "return",
+      "name": "__fltout",
+      "eax": 519608,
+      "args": [
+        0,
+        1072955392
+      ],
+      "file": {
+        "flags": 10,
+        "count": 3321,
+        "fd": 1,
+        "size": 4096,
+        "null": 0,
+        "used": 775,
+        "position": 0,
+        "counter": 0,
+        "cursor": 0,
+        "value": 0,
+        "buffer_hex": "095449544c45096462676c6973742e630a092e333836500a696e636c756465206c697374696e672e696e630a6966204056657273696f6e206774203531300a2e6d6f64656c20464c41540a656c73650a5f54455854095345474d454e542044574f5244205553453332205055424c49432027434f4445270a5f5445585409454e44530a5f44415441095345474d454e542044574f5244205553453332205055424c4943202744415441270a5f4441544109454e44530a434f4e5354095345474d454e542044574f5244205553453332205055424c49432027434f4e5354270a434f4e535409454e44530a5f425353095345474d454e542044574f5244205553453332205055424c49432027425353270a5f42535309454e44530a242453594d424f4c53095345474d454e542042595445205553453332202744454253594d270a242453594d424f4c5309454e44530a24245459504553095345474d454e5420425954452055534533322027444542545950270a2424545950455309454e44530a5f544c53095345474d454e542044574f5244205553453332205055424c49432027544c53270a5f544c5309454e44530a464c41540947524f5550205f444154412c20434f4e53542c205f4253530a09415353554d450943533a20464c41542c2044533a20464c41542c2053533a20464c41540a656e6469660a5f44415441095345474d454e540a5f61646a7573746d656e74732453313133204457203066666639480a094457093033480a09445709303133480a094457093066666635480a094457093035480a094f524720242b320a5f6465736372697074696f6e245331313420444220276465627567207265636f7264206c697374696e67272c203030480a5f4441544109454e44530a5055424c4943095f7472616e73666f726d5f64656275675f7265636f72640a455854524e095f5f666c74757365643a4e4541520a455854524e095f6f6273657276655f64656275673a4e4541520a434f4e5354095345474d454e540a24543133390944510930336666343030303030303030303030307209093b20"
+      },
+      "registers": {
+        "eax": 519608,
+        "ecx": 0,
+        "edx": 2751324,
+        "esp": 2751404,
+        "cw": 4294902399,
+        "sw": 4294901760
+      },
+      "extra": {
+        "value_words": "000000003ff40000",
+        "float_info_hex": "200000000100000001000000",
+        "digits_hex": "31323500"
+      }
+    }
+  ],
+  "native_boundary": "Public printf numeric seam only; original internal CRT ABIs observed, never independently matched to fabricated native entries; zero application credit",
+  "source_case": "dbglist numeric printf1.25, finite C locale, plain%g",
+  "limit": "One observed finite public call and actual internal body inputs/outputs. No independent native internal ABI match or application credit. Full listing/object/PDB oracle remains mandatory."
+}

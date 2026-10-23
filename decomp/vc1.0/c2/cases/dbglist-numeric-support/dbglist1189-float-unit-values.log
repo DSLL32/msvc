@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-listing-float.py", line 49, in <module>
+    assert result==[str(word(u,0x80d40)),output.hex()],(kind,payload,repeat,column,result,output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (4106, b'\x00\x00\x00\x00\x00\x00\x00\x80\xff?\n\x10', -1, 0, ['52', '094454092d3120445550283033666666383030303030303030303030303030307229093b202d30'], bytearray(b'\tDT\t-1 DUP(03fff8000000000000000r)\t; 0'))

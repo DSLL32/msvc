@@ -1,24 +1,24 @@
 {
-  "checkpoint": 1186,
+  "checkpoint": 1206,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1266,
-    "accepted_rows": 1095,
-    "accepted_union_bytes": 310517,
-    "unaccepted_rows": 171,
-    "unaccepted_provisional_rows": 165,
-    "unaccepted_indexed_extent_bytes": 691,
+    "indexed_rows": 1267,
+    "accepted_rows": 1098,
+    "accepted_union_bytes": 311489,
+    "unaccepted_rows": 169,
+    "unaccepted_provisional_rows": 163,
+    "unaccepted_indexed_extent_bytes": 689,
     "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
     "indexed_rows": 194,
-    "accepted_rows": 74,
-    "accepted_union_bytes": 12562,
-    "unaccepted_rows": 120,
+    "accepted_rows": 91,
+    "accepted_union_bytes": 16272,
+    "unaccepted_rows": 103,
     "unaccepted_provisional_rows": 0,
-    "unaccepted_indexed_extent_bytes": 11948,
-    "unaccepted_nonprovisional_indexed_extent_bytes": 11948
+    "unaccepted_indexed_extent_bytes": 8588,
+    "unaccepted_nonprovisional_indexed_extent_bytes": 8588
   },
   "import_thunks": {
     "indexed_rows": 28,
@@ -30,8 +30,8 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 63887,
-  "unclassified_ranges": 649,
+  "unclassified_code_union_bytes": 62917,
+  "unclassified_ranges": 650,
   "largest_unclassified_ranges": [
     {
       "start": "0x29921",
@@ -94,11 +94,6 @@
       "bytes": 1183
     },
     {
-      "start": "0x321a1",
-      "end": "0x32630",
-      "bytes": 1167
-    },
-    {
       "start": "0x6b861",
       "end": "0x6bce0",
       "bytes": 1151
@@ -122,6 +117,11 @@
       "start": "0x66091",
       "end": "0x66450",
       "bytes": 959
+    },
+    {
+      "start": "0x32281",
+      "end": "0x32630",
+      "bytes": 943
     },
     {
       "start": "0x4ab41",
@@ -607,13 +607,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@assign_physical_register@12",
-      "start": 205216,
-      "end": 205217,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@expand_zero_extension@4",
       "start": 149312,
       "end": 149313,
@@ -624,13 +617,6 @@
       "name": "@coff_define_weak_symbol@28",
       "start": 453408,
       "end": 453409,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@coff_define_aux_symbol@24",
-      "start": 453232,
-      "end": 453233,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1321,9 +1307,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@write_listing_float@12",
-      "start": 168112,
-      "end": 168113,
+      "name": "@spill_lowering_register@8",
+      "start": 205440,
+      "end": 205441,
       "provisional": true,
       "extent_status": "entry placeholder"
     }

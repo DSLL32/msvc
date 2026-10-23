@@ -43,8 +43,8 @@
   "bytes_compared": 392,
   "limits": "Synthetic slot8 test is distinct from fresh target-case execution; original diagnostic1..8 contract retained.",
   "timing": {
-    "build_seconds": 0.18244738969951868,
-    "execution_seconds": 0.001151510514318943,
-    "total_seconds": 0.18924841098487377
+    "build_seconds": 0.17954231332987547,
+    "execution_seconds": 0.0011088838800787926,
+    "total_seconds": 0.1862230310216546
   }
 }

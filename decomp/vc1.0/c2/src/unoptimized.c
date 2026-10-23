@@ -196,3 +196,30 @@ void __fastcall mark_lowering_register_dead(unsigned reg)
     else if (reg < 8 && reg != REG_EBP && reg != REG_ESP)
         unoptimized_live_mask &= ~(1U << reg);
 }
+
+unsigned __fastcall spill_lowering_register(MachineInstruction *instruction, unsigned reg);
+/* Original321a0..32276. Reuse an existing mapping first; otherwise choose
+   a free nonconflicting integer register or spill one through the slow path. */
+unsigned __fastcall assign_physical_register(MachineInstruction *instruction, unsigned reg, int last_use)
+{
+    unsigned slot;
+    if (!(reg & 0xc000)) return reg;
+    for (slot = 0; slot < 8; ++slot) {
+        if (unoptimized_registers[slot].virtual_register == reg) {
+            if (last_use) unoptimized_registers[slot].virtual_register = 0x1a;
+            return slot;
+        }
+    }
+    for (slot = 0; slot < 8; ++slot) {
+        if (slot == REG_ESP || slot == REG_EBP) continue;
+        if (unoptimized_registers[slot].virtual_register == 0x1a &&
+            (!unoptimized_registers[slot].conflicts ||
+             !bitset_contains(unoptimized_registers[slot].conflicts, reg & 0xffff3fffU))) {
+            unoptimized_registers[slot].virtual_register = reg;
+            return slot;
+        }
+    }
+    slot = spill_lowering_register(instruction, reg);
+    unoptimized_registers[slot].virtual_register = reg;
+    return slot;
+}

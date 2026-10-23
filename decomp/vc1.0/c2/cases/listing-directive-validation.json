@@ -64,6 +64,6 @@
       "result": "1 NULL"
     }
   ],
-  "seconds": 0.1742887021973729,
+  "seconds": 0.07671826798468828,
   "limits": "The error callback is observed and returned for this isolated probe; no claim that actual compiler error handling returns successfully."
 }

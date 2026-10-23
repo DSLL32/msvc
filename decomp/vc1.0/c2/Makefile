@@ -42,7 +42,8 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-audit-graph.py
 	$(PYTHON) scripts/check-rust-audit.py --binary $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-stdio-support.py
-audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand
+	$(PYTHON) scripts/check-numeric-support.py
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -65,6 +66,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-listing-string.py
 	$(PYTHON) scripts/check-assembly-instruction.py
 	$(PYTHON) scripts/check-assembly-operand.py
+	$(PYTHON) scripts/check-listing-float.py
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -107,7 +109,7 @@ coverage: runtime.json
 # Native regression builds have no Wine or original-toolchain prerequisites.
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I$(RECON)/include -I$(RECON)/native
 NATIVE_HEADERS = $(wildcard src/*.h src/*.def $(RECON)/include/*.h $(RECON)/native/*.h)
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
 NATIVE_OBJECTS = build/native/c2.o build/native/stubs.o build/native/arguments.o build/native/options.o build/native/warnings.o build/native/initialize.o build/native/input.o build/native/runtime.o build/native/memory.o build/native/symbols.o build/native/extended.o build/native/constant-conversion.o build/native/segments.o build/native/initializers.o build/native/functions.o build/native/function-input.o build/native/inline-assembly.o build/native/assembly-operands.o build/native/tree-input.o build/native/expression-fields.o build/native/control-input.o build/native/nodes.o build/native/leaves.o build/native/tree-builder.o build/native/canonicalize.o build/native/canonical-before.o build/native/canonical-after.o build/native/intrinsics.o build/native/tree-types.o build/native/function-references.o build/native/inline-calls.o build/native/inline-candidates.o build/native/temporaries.o build/native/tree-references.o build/native/tree-lowering.o build/native/tree-optimizer.o build/native/global-tree.o build/native/tail-recursion.o build/native/optimizer-cache.o build/native/integer-fold.o build/native/algebra.o build/native/tree-equality.o build/native/tree-cleanup.o build/native/work-input.o build/native/global-work.o build/native/global-registers.o build/native/register-transfers.o build/native/register-variables.o build/native/work-lists.o build/native/flow-labels.o build/native/flow-edges.o build/native/flow-blocks.o build/native/flow-order.o build/native/flow-dominators.o build/native/flow-regions.o build/native/flow-rotation.o build/native/flow-boundaries.o build/native/work-optimizer.o build/native/work-alias.o build/native/region-motion.o build/native/work-expressions.o build/native/work-prepare.o build/native/parameter-storage.o build/native/instruction-selection.o build/native/expression-selection.o build/native/value-selection.o build/native/intrinsic-selection.o build/native/selection-finishing.o build/native/machine-transfers.o build/native/instruction-rewrite.o build/native/instruction-uses.o build/native/function-selection.o build/native/register-use.o build/native/bitsets.o build/native/machine-records.o build/native/machine-operations.o build/native/machine-operands.o build/native/records.o build/native/symbol-input.o build/native/names.o build/native/segment-storage.o build/native/backend-flow.o build/native/operand-encoding.o build/native/address-encoding.o build/native/encoding-recipes.o build/native/instruction-encoding.o build/native/machine-layout.o build/native/machine-emission.o build/native/final-instructions.o build/native/unoptimized.o build/native/backend-symbols.o build/native/output.o build/native/codeview-output.o build/native/coff-output.o build/native/coff-functions.o build/native/coff-initializers.o build/native/coff-writer.o build/native/coff-finalize.o build/native/coff-segments.o build/native/listing.o build/native/machine-symbols.o build/native/initializer-symbols.o build/native/symbol-output.o build/native/machine-analysis.o build/native/machine-simplify.o build/native/physical-allocation.o build/native/physical-conflicts.o build/native/physical-spill.o build/native/physical-coalescing.o build/native/physical-rewrite.o build/native/frame-symbols.o build/native/frame-access.o build/native/linked-lists.o build/native/comparison-branches.o build/native/jump-threading.o build/native/late-peepholes.o build/native/scheduler.o build/native/float-store-split.o build/native/float-machine.o build/native/float-peepholes.o build/native/branch-scheduler.o build/native/post-allocation.o build/native/machine-state.o build/native/frame.o build/native/frame-output.o
@@ -179,3 +181,6 @@ build/native/check-assembly-instruction: src/check-assembly-instruction.c src/in
 
 build/native/check-assembly-operand: src/check-assembly-operand.c src/assembly-operands.c src/machine-operands.c src/algebra.c $(NATIVE_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-assembly-operand.c src/assembly-operands.c src/machine-operands.c src/algebra.c -Wl,--gc-sections -o $@
+
+build/native/check-listing-float: src/check-listing-float.c src/listing.c $(NATIVE_HEADERS) $(NATIVE_SHIMS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-float.c src/listing.c $(NATIVE_SHIMS) -Wl,--gc-sections -o $@

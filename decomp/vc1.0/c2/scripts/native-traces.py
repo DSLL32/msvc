@@ -156,6 +156,10 @@ def check_runtime_evidence(path, name, before, record):
         assert evidence['abi']=='BOOL WINAPI SetStdHandle(DWORD,HANDLE); stdcall8; original import is a tail thunk'
         assert evidence['caller_result_use']=='API return ignored by original free-os-handle path; StdOutput transition independently checked'
         return dict(path=str(path),sha256=sha(path),evidence=evidence)
+    from crt_numeric import CONTRACTS as NUMERIC_CONTRACTS,validate as validate_numeric
+    if name in NUMERIC_CONTRACTS:
+        validate_numeric(evidence,record,before)
+        return dict(path=str(path),sha256=sha(path),evidence=evidence)
     from crt_stdio import CONTRACTS,validate as validate_stdio
     if name in CONTRACTS:
         validate_stdio(evidence,record,before)
@@ -244,7 +248,11 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     # An untyped naked stub can acquire its recovered calling convention at
     # acceptance. Require the same C identity and exact original entry below;
     # only the decoration changes, never the function being accepted.
-    assert (before['logical']==name if name.startswith('import:') else native_name(before['logical'])==native_name(name)), 'wrong original entry before acceptance'
+    # CRT names such as _$I10_OUTPUT are exact library identities, not native
+    # application identifiers. Only a changed application ABI decoration needs
+    # the normalized-name fallback.
+    assert before['logical']==name or (name in {r['name']for r in config['driver']} and
+        native_name(before['logical'])==native_name(name)), 'wrong original entry before acceptance'
     drivers = {r['name']:r for r in config['driver']}
     runtime = {r['name']:r for r in (runtime_records()+json.loads((BINARY/'functions.json').read_text())['driver'])}
     records = dict(runtime, **drivers)

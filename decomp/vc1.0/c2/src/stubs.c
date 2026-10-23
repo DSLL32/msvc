@@ -117,7 +117,6 @@ void __fastcall coff_write_comment(char *text) { __asm int 3 }
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
 #include "symbol-output.h"
 char *__fastcall listing_data_type(long bytes) { __asm int 3 }
-void __fastcall write_listing_float(unsigned type, InitializerValue *value, int repeat) { __asm int 3 }
 #include "frame.h"
 
 
@@ -137,7 +136,7 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
-unsigned __fastcall assign_physical_register(MachineInstruction *instruction, unsigned reg, int last_use) { __asm int 3 }
+unsigned __fastcall spill_lowering_register(MachineInstruction *instruction, unsigned reg) { __asm int 3 }
 int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
 
 #include "machine-layout.h"
@@ -150,8 +149,6 @@ int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
-unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
-    unsigned char storage, unsigned offset, unsigned short type, void **auxiliary) { __asm int 3 }
 void __fastcall prepare_source_listing(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall open_listing_source(char *filename) { __asm int 3 }
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }

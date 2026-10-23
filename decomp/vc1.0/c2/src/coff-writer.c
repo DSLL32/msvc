@@ -547,3 +547,19 @@ void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes)
     scope->buffered_bytes += bytes;
     ++scope->write_count;
 }
+
+/* Original6ea70..6ead8. Append one18-byte auxiliary record and attach
+   its storage to the caller, incrementing the owning symbol's byte count. */
+unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, void **auxiliary)
+{
+    unsigned handle = coff_define_symbol(name, section, storage, offset, type);
+    CoffSymbolEntry *symbol = coff_vector_get(coff_symbol_entries, handle + 1);
+    CoffSymbolEntry *entry;
+    ++symbol->data.symbol->auxiliary_count;
+    entry = coff_allocator(sizeof(CoffSymbolEntry));
+    entry->kind = 4;
+    *auxiliary = entry->data.auxiliary = coff_allocator(18);
+    coff_vector_append(coff_symbol_entries, entry);
+    return handle;
+}
