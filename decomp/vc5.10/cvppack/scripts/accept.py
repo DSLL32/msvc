@@ -2,6 +2,7 @@
 """Validate fresh raw evidence against an immutable candidate trial."""
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 from state import BINARY, ROOT, load, mask, sha
@@ -63,7 +64,7 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
     assert audit['graph']['checked_functions'] == len(expected_checked), 'candidate graph missing'
     for key,path in [('original_sha256',target),('rebuilt_sha256',BINARY/'build/CVPACK.EXE'),
                      ('native_sha256',BINARY/'build/native/CVPACK'),('map_sha256',BINARY/'build/cvpack.map'),
-                     ('graph_tool_sha256',ROOT/'tooling/graph-audit/target/release/graph-audit'),
+                     ('graph_tool_sha256',Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()),
                      ('runtime_sha256',BINARY/'runtime.json'),('data_sha256',BINARY/'data.json'),
                      ('audit_wrapper_sha256',BINARY/'scripts/audit.py'),
                      ('resource_evidence_sha256',BINARY/'cases/help/resources.json'),

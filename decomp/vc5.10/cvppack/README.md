@@ -5,10 +5,11 @@ spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `mapped_seek`. Twenty-five application functions are accepted
-overall, covering 5,285 extent bytes (8.43% of the same whole-text denominator).
+matching frontier is `find_module_info`. Thirty-four application functions are accepted
+overall, covering 7,031 extent bytes (11.22% of the same whole-text denominator).
 The type-table initialization and complete PE/COFF debug-reader body have
-also been recovered; called read/seek boundaries remain trapped. The cache prefix
+also been recovered; the PE and CodeView directory reads, complete subsection sort and owned
+segment-map/library loads now match. Module-node creation remains trapped. The cache prefix
 now includes the actual mapped-file registry and strict
 file-handle identity, input-content, access-mode, size and position checks.
 
@@ -79,3 +80,15 @@ VirtualQuery/protection metadata, backing-file identity, offset and mapping/view
 ownership. Fourteen semantic mutations fail. Original 33,280 input bytes plus
 2,063,872 zero-extension bytes match the live native view completely. All eleven
 initialized type-table allocations and the nested empty type record are compared.
+
+Nineteen completed reads now compare their actual caller/local or owned-heap
+identity, capacity, count, logical positions, LastError and initialized output
+bytes. Thirteen read mutations and eight initialized-storage mutations fail.
+Uninitialized allocation tails are excluded from initialized input claims; the
+70-entry directory compares its full initialized 840 bytes and separately proves
+the actual 912-byte allocation. Original and native sorting results match exactly.
+
+The audit runner and acceptance checker honor an explicit `GRAPH_AUDIT_BIN`
+for an approved immutable auditor. Function 34 additionally has a static sidecar
+revalidation with the published pre-edit auditor hash, retaining its unchanged
+original/native raw captures. No reference was rerun for that tool-version check.

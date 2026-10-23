@@ -12,9 +12,32 @@ def decode(events):
     assert len(frontiers) == 1, 'expected one raw original frontier'
     index,address = frontiers[0]
     memory,strings = {},{}
-    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={}
+    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[]
     for line in lines:
-        if line.startswith(('mapping-create-arguments ','view-map-arguments ')):
+        if line.startswith('subsection-allocation-call '):
+            _,entry,size=line.split();subsection_allocations.append(dict(entry=int(entry,16),size=int(size)))
+        elif line.startswith('subsection-allocation-return '):
+            assert subsection_allocations and 'address' not in subsection_allocations[-1]
+            subsection_allocations[-1]['address']=int(line.split()[1],16)
+        elif line.startswith('directory-allocation-call '):
+            assert not directory_allocation,'directory allocation generation needs an explicit model'
+            directory_allocation['size']=int(line.split()[1])
+        elif line.startswith('directory-allocation-return '):
+            directory_allocation['address']=int(line.split()[1],16)
+        elif line.startswith('blob-observation-failed'):raise AssertionError('incomplete initialized allocation observation')
+        elif line.startswith('file-read-call '):
+            _,file,buffer,size,pc,position=line.split()
+            file_reads.append(dict(file=int(file),buffer=int(buffer,16),size=int(size),pc=int(pc,16),entry_position=int(position),entry_last_error=last_error))
+        elif line.startswith('file-read-return '):
+            assert file_reads and 'returned' not in file_reads[-1]
+            _,returned,position=line.split()
+            file_reads[-1].update(returned=int(returned),exit_position=int(position),exit_last_error=last_error)
+        elif line.startswith('file-read-bytes '):
+            assert file_reads and 'returned' in file_reads[-1]
+            file_reads[-1]['bytes']=line.split(' ',1)[1]
+            assert len(bytes.fromhex(file_reads[-1]['bytes']))==file_reads[-1]['returned']
+        elif line in ('file-read-failed','file-read-overlap'):raise AssertionError('incomplete actual read observation')
+        elif line.startswith(('mapping-create-arguments ','view-map-arguments ')):
             fields=line.split();args=[int(value,16) for value in fields[1:]];assert len(args)==6
             mapping_calls.append(dict(kind='create' if fields[0]=='mapping-create-arguments' else 'map',args=args))
         elif line.startswith('mapping-close-argument '):
@@ -61,7 +84,7 @@ def decode(events):
     stack = memory[registers[-1]]
     assert len(stack) == 128
     return dict(address=address,memory=memory,strings=strings,
-                stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views)
+                esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations)
 
 
 def compare(config,data,events,native,artifacts=None,views=None):
@@ -93,10 +116,62 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and row['original']==value]
                 assert len(names)==1,'argument is not the specified original global address'
                 parameters[item['name']]=dict(null=False,global_name=names[0])
+        elif item['kind']=='blob-element-pointer':
+            row=next(row for row in data if row['name']==item['root']);root=int.from_bytes(original['memory'][row['original']],'little')
+            row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
+            assert root<=value<root+count*item['element_size'] and (value-root)%item['element_size']==0,'argument is not an original directory element'
+            offset=value-root;payload=original['memory'][root][offset:offset+item['element_size']]
+            assert len(payload)==item['element_size']
+            parameters[item['name']]=dict(root=item['root'],index=offset//item['element_size'],bytes=payload.hex())
+        elif item['kind']=='output-buffer':
+            assert original['stack'][item['owner_return_slot']]==item['owner_return'],'output buffer original caller site differs'
+            assert value==original['esp']+item['original_delta'],'output buffer original stack-local identity differs'
+            size=original['stack'][item['count_slot']];assert 0<=size<=item['capacity']
+            parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],size=size)
         elif item['kind'] == 'object-pointer':
             object_parameters.append((item,value))
         else:
             raise AssertionError('unimplemented parameter kind: '+item['kind'])
+    reads=[]
+    for captured in original['file_reads']:
+        row=dict(captured)
+        pc=row.pop('pc');sites=[site for site in config.get('read_sites',[]) if site['return_pc']==pc]
+        assert len(sites)==1,'unknown actual original read caller'
+        site=sites[0];row.pop('buffer')
+        if site.get('count_parameter'):
+            allocations=[allocation for allocation in original['subsection_allocations'] if allocation['address']==captured['buffer']]
+            assert len(allocations)==1,'subsection allocation ownership missing/ambiguous'
+            allocation=allocations[0];capacity=allocation['size']
+            item=next(item for item in data if item['name']=='directory_entries');root=int.from_bytes(original['memory'][item['original']],'little')
+            entry=allocation['entry'];assert entry>=root and (entry-root)%12==0
+            payload=original['memory'][root][entry-root:entry-root+12];assert len(payload)==12
+            assert int.from_bytes(payload[8:12],'little')==capacity==row['size'],'actual subsection allocation size differs'
+        elif site.get('heap_buffer'):
+            item=next(item for item in data if item['name']==site['count'])
+            count=int.from_bytes(original['memory'][item['original']],'little')
+            capacity=(count+site['spare_elements'])*site['element_size']
+            assert row['size']==count*site['element_size']
+            assert original['directory_allocation']==dict(address=captured['buffer'],size=capacity),'original directory allocation capacity/ownership differs'
+        else:capacity=site['capacity']
+        row.update(owner=site['owner'],local=site['local'],capacity=capacity)
+        assert 0<=row['size']<=capacity
+        if 'returned' in row:assert row['returned']==row['size'],'partial read needs a defined-tail contract'
+        reads.append(row)
+    assert reads==native.get('file_reads',[]),'actual read caller/extent/position/result/initialized output differs'
+    if original['directory_allocation']:
+        row=next(row for row in data if row['name']=='directory_entries')
+        address=int.from_bytes(original['memory'][row['original']],'little');other=int.from_bytes(bytes.fromhex(native['globals'][row['name']]),'little')
+        assert original['directory_allocation']['address']==address and native['directory_allocation']['address']==other
+        assert original['directory_allocation']['size']==native['directory_allocation']['size'],'actual directory allocation capacity differs'
+    allocations=original['subsection_allocations'];actual_allocations=native.get('subsection_allocations',[]);allocation_aliases={}
+    assert len(allocations)==len(actual_allocations),'subsection allocation inventory differs'
+    if allocations:
+        item=next(item for item in data if item['name']=='directory_entries');root=int.from_bytes(original['memory'][item['original']],'little')
+        for left,right in zip(allocations,actual_allocations):
+            assert left['entry']>=root and (left['entry']-root)%12==0
+            assert left['size']==right['size'] and (left['entry']-root)//12==right['entry_index'],'subsection allocation source/size differs'
+            assert left['address'] and right['address'] and left['address'] not in allocation_aliases and right['address'] not in allocation_aliases.values(),'live subsection allocation identity reused'
+            allocation_aliases[left['address']]=right['address']
     aliases,reverse={},{}
     handle_aliases,handle_reverse={},{}
     original_calls=original['file_calls'];native_calls=native.get('file_calls',[])
@@ -210,9 +285,14 @@ def compare(config,data,events,native,artifacts=None,views=None):
         elif item['kind'] == 'pointer':
             if 'blob' in item:
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if address in allocation_aliases:assert allocation_aliases[address]==other,'subsection output/global allocation alias differs'
                 if pair(address,other):
                     spec=item['blob'];left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
-                    assert len(left)==len(right)==spec['size'],'allocated byte extent differs'
+                    size=spec.get('size')
+                    if size is None:
+                        count_item=next(row for row in data if row['name']==spec['count'])
+                        size=int.from_bytes(original['memory'][count_item['original']],'little')*spec['element_size']
+                    assert len(left)==len(right)==size,'allocated initialized byte extent differs'
                     excluded=set()
                     for pointer in spec.get('pointers',[]):
                         offset=pointer['offset'];excluded.update(range(offset,offset+4))
@@ -249,4 +329,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles))
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads))

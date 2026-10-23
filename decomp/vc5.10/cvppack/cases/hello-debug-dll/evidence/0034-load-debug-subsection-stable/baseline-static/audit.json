@@ -1,0 +1,330 @@
+{
+  "schema": 1,
+  "config_sha256": "9fafb7fc5e35fdd70564e0d7cf7bb83c0039b73d5d894807fce50051c3da783a",
+  "graph_config_sha256": "6052b6506be986827361a526a84c25a3e642f076000ab31bd2ec42dca9c7665f",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "rebuilt_sha256": "a34c1edb8a2bac8bfe88e734aec79f6ce35b340962fa6ae48f9419854b912ade",
+  "native_sha256": "bcccd1c5a7ecd259f53805a1572e8af4271748ca774e87c783f0da5b7833e53d",
+  "map_sha256": "914e21af028581977583ce8da62fd9e58300abe9dbb906e94e7e332240840605",
+  "graph_tool_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "data_sha256": "b4662d7405fd91e2a66108fd80c50a803e4477095e8c4dfd8d13c35eaea7ea59",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "audit_wrapper_sha256": "02121170a33c4c030f0e5247e5212dc53426aa89898eb9ba577adfdd058aa3d2",
+  "data_objects_checked": 84,
+  "resource_strings_checked": 3,
+  "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de",
+  "candidates": [
+    "load_debug_subsection"
+  ],
+  "checked_functions": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "files_initialize",
+    "print_banner",
+    "select_input_name",
+    "initialize_type_tables",
+    "read_image_debug",
+    "fatal_error",
+    "message_text",
+    "allocate_zero",
+    "allocate_page",
+    "allocate_file",
+    "open_cached_file",
+    "prepare_cached_file",
+    "open_mapped_file",
+    "find_cached_file",
+    "take_free_file",
+    "duplicate_string",
+    "move_cached_file",
+    "create_mapping",
+    "mapped_seek",
+    "allocate_cleared",
+    "allocate_bytes",
+    "initialize_arena",
+    "seek_cached_file",
+    "read_cached_file",
+    "tell_cached_file",
+    "read_codeview_signature",
+    "read_codeview_directory",
+    "classify_debug_directory",
+    "mapped_read",
+    "compare_directory_entries",
+    "load_debug_subsection"
+  ],
+  "owned_ranges": 44,
+  "graph_command": [
+    "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+    "--profile",
+    "cl",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/cvppack",
+    "--repo",
+    "/root/msvc2",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "--config",
+    "cases/hello-debug-dll/evidence/0034-load-debug-subsection-stable/baseline-static/graph-config.json",
+    "--runtime",
+    "cases/hello-debug-dll/evidence/0034-load-debug-subsection-stable/baseline-static/graph-runtime.json",
+    "--rebuilt-runtime",
+    "cases/hello-debug-dll/evidence/0034-load-debug-subsection-stable/baseline-static/graph-runtime.json",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "graph": {
+    "checked_accepted_extents": null,
+    "checked_functions": 34,
+    "checked_unique_accepted_extents": null,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "discovery": "cfg",
+    "functions": {
+      "_allocate_bytes": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_allocate_cleared": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_allocate_file": {
+        "edges": [
+          "_allocate_zero"
+        ]
+      },
+      "_allocate_page": {
+        "edges": [
+          "_allocate_zero"
+        ]
+      },
+      "_allocate_zero": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_classify_debug_directory": {
+        "edges": [
+          "_allocate_cleared",
+          "_fatal_error",
+          "_find_module_info",
+          "_load_debug_subsection"
+        ]
+      },
+      "_compare_directory_entries": {
+        "edges": []
+      },
+      "_create_mapping": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "_duplicate_string": {
+        "edges": [
+          "_fatal_error",
+          "indirect"
+        ]
+      },
+      "_fatal_error": {
+        "edges": [
+          "_close_file",
+          "_message_text",
+          "_print_banner",
+          "indirect"
+        ]
+      },
+      "_files_initialize": {
+        "edges": [
+          "_allocate_file",
+          "_allocate_page",
+          "_allocate_zero",
+          "indirect"
+        ]
+      },
+      "_find_cached_file": {
+        "edges": [
+          "_move_cached_file"
+        ]
+      },
+      "_initialize_arena": {
+        "edges": []
+      },
+      "_initialize_messages": {
+        "edges": []
+      },
+      "_initialize_type_tables": {
+        "edges": [
+          "_allocate_bytes",
+          "_allocate_cleared",
+          "_initialize_arena"
+        ]
+      },
+      "_load_debug_subsection": {
+        "edges": [
+          "_fatal_error",
+          "_read_cached_file",
+          "_seek_cached_file",
+          "indirect"
+        ]
+      },
+      "_main": {
+        "edges": [
+          "_close_file",
+          "_files_initialize",
+          "_flush_packed_file",
+          "_free_type_tables",
+          "_get_file_size",
+          "_initialize_messages",
+          "_initialize_module_pack",
+          "_initialize_type_tables",
+          "_map_file_region",
+          "_pack_module",
+          "_parse_options",
+          "_print_banner",
+          "_print_statistics",
+          "_read_image_debug",
+          "_select_input_name",
+          "_warning",
+          "_write_debug_directory",
+          "indirect"
+        ]
+      },
+      "_mapped_read": {
+        "edges": [
+          "_fatal_error",
+          "_grow_mapping"
+        ]
+      },
+      "_mapped_seek": {
+        "edges": [
+          "_fatal_error",
+          "_grow_mapping"
+        ]
+      },
+      "_message_text": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "_move_cached_file": {
+        "edges": []
+      },
+      "_open_cached_file": {
+        "edges": [
+          "_open_mapped_file",
+          "_open_stream_file",
+          "_prepare_cached_file"
+        ]
+      },
+      "_open_mapped_file": {
+        "edges": [
+          "_create_mapping",
+          "_fatal_error",
+          "_mapped_seek",
+          "indirect"
+        ]
+      },
+      "_parse_options": {
+        "edges": [
+          "_fatal_error",
+          "_print_banner",
+          "_warning",
+          "indirect"
+        ]
+      },
+      "_prepare_cached_file": {
+        "edges": [
+          "_duplicate_string",
+          "_find_cached_file",
+          "_take_free_file"
+        ]
+      },
+      "_print_banner": {
+        "edges": [
+          "_message_text",
+          "indirect"
+        ]
+      },
+      "_read_cached_file": {
+        "edges": [
+          "_mapped_read",
+          "_stream_read"
+        ]
+      },
+      "_read_codeview_directory": {
+        "edges": [
+          "_fatal_error",
+          "_read_cached_file",
+          "_seek_cached_file",
+          "indirect"
+        ]
+      },
+      "_read_codeview_signature": {
+        "edges": [
+          "_close_file",
+          "_fatal_error",
+          "_read_cached_file",
+          "_warning",
+          "indirect"
+        ]
+      },
+      "_read_image_debug": {
+        "edges": [
+          "_allocate_cleared",
+          "_classify_debug_directory",
+          "_fatal_error",
+          "_read_cached_file",
+          "_read_codeview_directory",
+          "_read_codeview_signature",
+          "_seek_cached_file",
+          "_tell_cached_file",
+          "indirect"
+        ]
+      },
+      "_seek_cached_file": {
+        "edges": [
+          "_mapped_seek",
+          "_seek_stream_file"
+        ]
+      },
+      "_select_input_name": {
+        "edges": [
+          "_fatal_error",
+          "_open_cached_file",
+          "indirect"
+        ]
+      },
+      "_take_free_file": {
+        "edges": [
+          "_move_cached_file",
+          "_release_cached_file"
+        ]
+      },
+      "_tell_cached_file": {
+        "edges": []
+      }
+    },
+    "original_accepted_graphs": null,
+    "profile": "cl"
+  },
+  "seconds": 0.20684973243623972
+}

@@ -9,8 +9,12 @@ import gdb
 
 file_calls=[]
 mapping_calls=[]
+file_reads=[]
+directory_allocation={}
+subsection_allocations=[]
 live_mappings={}
-def install():
+def install(configuration):
+    config=json.loads(Path(configuration).read_text())
     class Returned(gdb.FinishBreakpoint):
         def __init__(self,call):
             self.call=call
@@ -72,6 +76,70 @@ def install():
     MappingEntered('recon_CreateFileMappingA','create',('file','security','protection','high','low','name'))
     MappingEntered('recon_MapViewOfFileEx','map',('handle','access','high','low','bytes','base'))
     MappingEntered('recon_CloseHandle','close',('handle',))
+    class ReadReturned(gdb.FinishBreakpoint):
+        def __init__(self,call,address):
+            self.call,self.address=call,address
+            super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            row=self.call;returned=int(self.return_value)&0xffffffff
+            assert returned==row['size'],'partial read needs a defined-tail contract'
+            row.update(returned=returned,exit_position=int(gdb.parse_and_eval('cached_files[%d]->position'%row['file'])),
+                exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),
+                bytes=bytes(gdb.selected_inferior().read_memory(self.address,returned)).hex())
+            return False
+    class ReadEntered(gdb.Breakpoint):
+        def __init__(self):super().__init__('read_cached_file',internal=True)
+        def stop(self):
+            frame=gdb.newest_frame();owner=frame.older()
+            assert owner is not None
+            buffer=int(frame.read_var('buffer'));size=int(frame.read_var('size'));file=int(frame.read_var('file'))
+            roles=[]
+            for site in config.get('read_sites',[]):
+                if site['owner']!=owner.name():continue
+                local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') or (site.get('heap_buffer') and not site.get('count_parameter')) else owner.read_var(site['local'])
+                if site.get('count_parameter'):
+                    local=owner.read_var(site['local']);entry=owner.read_var(site['count_parameter'])
+                    capacity=int(entry.dereference()[site['count_member']])
+                    entry_index=(int(entry)-int(gdb.parse_and_eval('directory_entries')))//12
+                    matches=int(local)==buffer and size==capacity and dict(address=buffer,size=capacity,entry_index=entry_index) in subsection_allocations
+                elif site.get('heap_buffer'):
+                    local=gdb.parse_and_eval(site['local']);count=int(gdb.parse_and_eval(site['count']))
+                    capacity=(count+site['spare_elements'])*site['element_size']
+                    matches=int(local)==buffer and size==count*site['element_size'] and directory_allocation==dict(address=buffer,size=capacity)
+                else:
+                    capacity=site['capacity'];matches=int(local.address)==buffer and local.type.sizeof==capacity and size<=capacity
+                if matches:
+                    role=dict(owner=site['owner'],local=site['local'],capacity=capacity)
+                    if role not in roles:roles.append(role)
+            assert len(roles)==1,'read buffer actual caller/local/extent is unobserved'
+            call=dict(**roles[0],file=file,size=size,entry_position=int(gdb.parse_and_eval('cached_files[%d]->position'%file)),
+                entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+            file_reads.append(call);ReadReturned(call,buffer)
+            return False
+    ReadEntered()
+    class AllocationReturned(gdb.FinishBreakpoint):
+        def __init__(self,record):
+            self.record=record
+            super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            self.record['address']=int(gdb.parse_and_eval('$eax'))&0xffffffff
+            return False
+    class AllocationEntered(gdb.Breakpoint):
+        def __init__(self):super().__init__('*malloc',internal=True)
+        def stop(self):
+            frame=gdb.newest_frame();owner=frame.older()
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection'):return False
+            stack=int(gdb.parse_and_eval('$esp'))
+            size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
+            if owner.name()=='read_codeview_directory':
+                assert not directory_allocation,'directory allocation generation needs an explicit model'
+                directory_allocation['size']=size;record=directory_allocation
+            else:
+                entry=int(owner.read_var('entry'));root=int(gdb.parse_and_eval('directory_entries'))
+                assert entry>=root and (entry-root)%12==0
+                record=dict(size=size,entry_index=(entry-root)//12);subsection_allocations.append(record)
+            AllocationReturned(record);return False
+    AllocationEntered()
 
 
 def capture(configuration,data_file,output):
@@ -86,6 +154,18 @@ def capture(configuration,data_file,output):
         if item['kind']=='string':parameters[item['name']]=dict(null=int(value)==0,bytes=(value.string(encoding='latin1').encode('latin1')+b'\0').hex() if int(value) else None)
         elif item['kind']=='argv':parameters[item['name']]=[(value[i].string(encoding='latin1').encode('latin1')+b'\0').hex() for i in range(int(frame.read_var('argc')))]
         elif item['kind']=='integer-pointer':parameters[item['name']]=dict(null=int(value)==0,bytes=bytes(inferior.read_memory(int(value),4)).hex() if int(value) else None)
+        elif item['kind']=='blob-element-pointer':
+            root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
+            assert root<=address<root+count*item['element_size'] and (address-root)%item['element_size']==0,'argument is not a directory element'
+            parameters[item['name']]=dict(root=item['root'],index=(address-root)//item['element_size'],
+                bytes=bytes(inferior.read_memory(address,item['element_size'])).hex())
+        elif item['kind']=='output-buffer':
+            owner=frame.older()
+            while owner is not None and owner.name()!=item['owner']:owner=owner.older()
+            assert owner is not None,'output buffer owner frame missing'
+            local=owner.read_var(item['local']);size=int(frame.read_var(item['count_name']))
+            assert int(value)==int(local.address) and local.type.sizeof==item['capacity'] and 0<=size<=item['capacity'],'output buffer caller-local identity/extent differs'
+            parameters[item['name']]=dict(owner=item['owner'],local=item['local'],capacity=item['capacity'],size=size)
         elif item['kind']=='object-pointer':parameters[item['name']]=dict(null=int(value)==0,address=int(value))
         elif item['kind']=='global-pointer':
             address=int(value)
@@ -99,6 +179,9 @@ def capture(configuration,data_file,output):
     state['parameters']=parameters
     state['file_calls']=file_calls
     state['mapping_calls']=mapping_calls
+    state['file_reads']=file_reads
+    state['directory_allocation']=directory_allocation
+    state['subsection_allocations']=subsection_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
     memory={};strings={};handles={};mapped_views={}
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
@@ -180,7 +263,10 @@ def capture(configuration,data_file,output):
         if 'blob' not in item:continue
         head=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
         if not head:continue
-        spec=item['blob'];raw=bytes(inferior.read_memory(head,spec['size']));memory[str(head)]=raw.hex()
+        spec=item['blob'];size=spec.get('size')
+        if size is None:size=int(gdb.parse_and_eval(spec['count']))*spec['element_size']
+        assert 0<=size<=65536
+        raw=bytes(inferior.read_memory(head,size));memory[str(head)]=raw.hex()
         for pointer in spec.get('pointers',[]):
             offset=pointer['offset'];child=int.from_bytes(raw[offset:offset+4],'little')
             if child:memory[str(child)]=bytes(inferior.read_memory(child,pointer['size'])).hex()

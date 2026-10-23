@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0025-seek-cached-file/original",
-  "reference_receipt_sha256": "1f3292383d1fd92bb2501722d923f9f5205f4da3acba65822d21a4d3b4a73b3d",
+  "reference": "cases/hello-debug-dll/evidence/0034-load-debug-subsection-stable/original",
+  "reference_receipt_sha256": "50b12f0738fe6674a6c4761f44e048ede07aa179ab1464b499122a613fe970e2",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -31,6 +31,15 @@
     "allocate_bytes",
     "read_image_debug",
     "seek_cached_file",
-    "mapped_seek"
+    "mapped_seek",
+    "read_cached_file",
+    "mapped_read",
+    "tell_cached_file",
+    "read_codeview_signature",
+    "read_codeview_directory",
+    "compare_directory_entries",
+    "classify_debug_directory",
+    "load_debug_subsection",
+    "find_module_info"
   ]
 }

@@ -258,3 +258,50 @@ int seek_cached_file(int file, int offset, int origin)
     if (entry->flags & 8) return mapped_seek(entry, offset, origin);
     return seek_stream_file(entry, offset, origin);
 }
+
+/* Original mapped seek [00402270,004022e1). */
+int mapped_seek(CachedFile *file, int offset, int origin)
+{
+    switch (origin) {
+    case 0: file->position = offset; break;
+    case 1: file->position += offset; break;
+    case 2: file->position = file->length + offset; break;
+    }
+    if (file->position > file->capacity && !grow_mapping(file, file->position)) {
+        if (!file->preferred_base) fatal_error(1008, NULL, NULL);
+        return -1;
+    }
+    return file->position;
+}
+
+/* Original mapped/stream read dispatch [00401980,004019b0). */
+unsigned read_cached_file(int file, void *buffer, unsigned size)
+{
+    CachedFile *entry = cached_files[file];
+    if (entry->flags & 8) return mapped_read(entry, buffer, size);
+    return stream_read(entry, buffer, size);
+}
+
+/* Original mapped read [004022f0,0040235d). */
+unsigned mapped_read(CachedFile *file, void *buffer, unsigned size)
+{
+    unsigned index;
+    int end = file->position + size;
+    unsigned char *destination = buffer;
+    if (end > file->capacity) {
+        if (!(file->flags & 2)) return 0;
+        if (!grow_mapping(file, end)) fatal_error(1008, NULL, NULL);
+    }
+    for (index = 0; index < size; ++index)
+        destination[index] = ((unsigned char *)file->view)[file->position + index];
+    file->position += size;
+    return size;
+}
+
+/* Original cached position query [00401a80,00401a9e). */
+unsigned tell_cached_file(int file)
+{
+    CachedFile *entry = cached_files[file];
+    if (entry->flags & 8) return entry->position;
+    return entry->current_page->position;
+}

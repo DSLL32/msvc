@@ -26,7 +26,10 @@ static DWORD graph_string[64], graph_literal[64], graph_handle[64];
 static DWORD file_open_arguments[7];
 static char event_path[MAX_PATH];
 static DWORD captured_views[128], captured_view_count;
+static DWORD pending_read[4];
+static int read_pending;
 static DWORD blob_address[64],blob_size[64],blob_pointer[64],blob_child_size[64],blob_count;
+static DWORD blob_count_address[64],blob_element_size[64],blob_count_width[64];
 static DWORD widen_output, widen_object, widen_arguments[4];
 static DWORD widen_capacities[2];
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
@@ -58,8 +61,9 @@ static void configure(void)
     value = getenv("VC510_CVPACK_BLOBS");
     while (value && *value && blob_count < 64) {
         blob_pointer[blob_count] = 0xffffffffUL;
-        if (sscanf(value, "%lx:%lu:%lu:%lu", &blob_address[blob_count], &blob_size[blob_count],
-                   &blob_pointer[blob_count], &blob_child_size[blob_count]) < 2) break;
+        blob_count_width[blob_count] = 4;
+        if (sscanf(value, "%lx:%lu:%lu:%lu:%lx:%lu:%lu", &blob_address[blob_count], &blob_size[blob_count],
+                   &blob_pointer[blob_count], &blob_child_size[blob_count], &blob_count_address[blob_count], &blob_element_size[blob_count], &blob_count_width[blob_count]) < 2) break;
         ++blob_count;
         next = strchr(value, ',');
         value = next ? next + 1 : NULL;
@@ -269,7 +273,15 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     }
     for (i = 0; full_graphs && i < blob_count; ++i) {
         if (read_bytes(process, blob_address[i], &value, 4) && value) {
-            memory(log, process, value, blob_size[i]);
+            DWORD bytes = blob_size[i];
+            if (blob_count_address[i]) {
+                count = 0;
+                if (!read_bytes(process, blob_count_address[i], &count, blob_count_width[i]) || count > 65536 / blob_element_size[i]) {
+                    fprintf(log, "blob-observation-failed\n"); continue;
+                }
+                bytes = count * blob_element_size[i];
+            }
+            memory(log, process, value, bytes);
             if (blob_pointer[i] <= blob_size[i] - 4 &&
                 read_bytes(process, value + blob_pointer[i], &item, 4) && item)
                 memory(log, process, item, blob_child_size[i]);
@@ -306,6 +318,37 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     } else if (entry == 0x402514 && read_bytes(process, context->Esp, &value, 4)) {
         fprintf(log, "mapping-close-argument %08lx\n", value);
     }
+    if (entry == 0x401984) {
+        DWORD args[4], table, file, position;
+        if (read_pending) fprintf(log, "file-read-overlap\n");
+        if (read_bytes(process, context->Esp, args, sizeof(args)) &&
+            read_bytes(process, 0x41565c, &table, 4) &&
+            read_bytes(process, table + args[1] * 4, &file, 4) &&
+            read_bytes(process, file + 28, &position, 4)) {
+            memcpy(pending_read, args, sizeof(args)); read_pending = 1;
+            fprintf(log, "file-read-call %lu %08lx %lu %08lx %lu\n", args[1], args[2], args[3], args[0], position);
+        }
+    } else if (entry == 0x4019a3 || entry == 0x4019ac) {
+        DWORD table, file, position, n;
+        unsigned char bytes[65536];
+        if (!read_pending || context->Eax > pending_read[3] || context->Eax > sizeof(bytes) ||
+            !read_bytes(process, 0x41565c, &table, 4) ||
+            !read_bytes(process, table + pending_read[1] * 4, &file, 4) ||
+            !read_bytes(process, file + 28, &position, 4) ||
+            !read_bytes(process, pending_read[2], bytes, context->Eax)) fprintf(log, "file-read-failed\n");
+        else {
+            fprintf(log, "file-read-return %lu %lu\nfile-read-bytes ", context->Eax, position);
+            for (n = 0; n < context->Eax; ++n) fprintf(log, "%02x", bytes[n]);
+            fputc('\n', log);
+        }
+        read_pending = 0;
+    }
+    if (entry == 0x40584b && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "directory-allocation-call %lu\n", value);
+    else if (entry == 0x405851) fprintf(log, "directory-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x40591a && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "subsection-allocation-call %08lx %lu\n", context->Esi, value);
+    else if (entry == 0x405920) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
     widen_state(log, process, context, entry);
 }
 

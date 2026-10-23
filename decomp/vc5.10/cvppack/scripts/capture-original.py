@@ -82,9 +82,17 @@ def main():
         env['VC510_CVPACK_PROBES']='4021bd:file-open-call,4021c3:file-open-return'
     if any(r['name']=='create_mapping' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',4024c7:mapping-create-call,4024cd:mapping-create-return,402504:view-map-call,40250a:view-map-return,402514:mapping-close-call,402516:mapping-close-return'
-    env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d'%(item['original'],item['blob']['size'],
+    if any(r['name']=='read_cached_file' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',401984:file-read-entry,4019a3:file-read-mapped-return,4019ac:file-read-stream-return'
+    if any(r['name']=='read_codeview_directory' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',40584b:directory-allocation-entry,405851:directory-allocation-result'
+    if any(r['name']=='load_debug_subsection' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',40591a:subsection-allocation-entry,405920:subsection-allocation-result'
+    env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
-        item['blob'].get('pointers',[dict(size=0)])[0]['size']) for item in data if 'blob' in item)
+        item['blob'].get('pointers',[dict(size=0)])[0]['size'],
+        next((row['original'] for row in data if row['name']==item['blob'].get('count')),0),item['blob'].get('element_size',0),
+        next((row['size'] for row in data if row['name']==item['blob'].get('count')),4)) for item in data if 'blob' in item)
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s' % (record['original'],item['slot'],
         'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'A') for record in config['functions']
         for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer'))

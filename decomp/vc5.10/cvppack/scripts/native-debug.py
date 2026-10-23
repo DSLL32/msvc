@@ -39,7 +39,7 @@ def main():
         'handle SIGTRAP stop print nopass\n'
         'python\nimport importlib.util\n'
         'spec=importlib.util.spec_from_file_location("frozen_gdb_state",'+repr(str(output/'gdb-state.py'))+')\n'
-        'helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)\nhelper.install()\nend\n'
+        'helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)\nhelper.install('+repr(str(output/'configuration.json'))+')\nend\n'
         'run ' + ' '.join(shlex.quote(value) for value in case['argv']) + ' >' + str(output / 'stdout') + ' 2>' + str(output / 'stderr') + '\npython\n'
         'helper.capture('+repr(str(output/'configuration.json'))+','+repr(str(output/'data.json'))+','+repr(str(state_path))+')\nend\nquit\n')
     (output/'gdb-state.py').write_bytes((BINARY/'scripts/gdb-state.py').read_bytes())

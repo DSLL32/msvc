@@ -2,6 +2,7 @@
 """Target/source/data ownership checks plus the shared Rust graph engine."""
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -79,7 +80,7 @@ def run(config_path, candidates=(), output=None):
     generated.write_text(json.dumps(graph_config, indent=2) + '\n')
     empty = destination / 'graph-runtime.json'
     empty.write_text('[]\n')
-    tool = ROOT / 'tooling/graph-audit/target/release/graph-audit'
+    tool = Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()
     command = [str(tool), '--profile', 'cl', '--project', str(BINARY), '--repo', str(ROOT),
                '--original', str(ROOT / config['target']['path']), '--rebuilt', str(BINARY / 'build/CVPACK.EXE'),
                '--map', str(BINARY / 'build/cvpack.map'), '--config', str(generated),
