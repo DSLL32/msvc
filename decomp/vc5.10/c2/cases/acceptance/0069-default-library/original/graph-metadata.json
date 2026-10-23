@@ -1,0 +1,437 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4200779,
+          4200812
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x4070a8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201230,
+          4201293
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x4070b8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@read_initializer_records@4": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true,
+        "enabled": true
+      },
+      "original": {
+        "text_data": [
+          [
+            4531320,
+            4531352
+          ],
+          [
+            4531352,
+            4531369
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4207545,
+            4207577
+          ],
+          [
+            4207577,
+            4207594
+          ]
+        ]
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4202812,
+            4202832
+          ],
+          [
+            4202832,
+            4202878
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4203663,
+            4203695
+          ],
+          [
+            4203695,
+            4203734
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4209282,
+            4209310
+          ],
+          [
+            4209310,
+            4209361
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4210611,
+            4210675
+          ]
+        ]
+      }
+    },
+    "@read_symbols@4": {
+      "original": {
+        "text_data": [
+          [
+            4327020,
+            4327064
+          ],
+          [
+            4327072,
+            4327095
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4214048,
+            4214092
+          ],
+          [
+            4214092,
+            4214115
+          ]
+        ]
+      }
+    },
+    "@read_symbol@4": {
+      "original": {
+        "text_data": [
+          [
+            4328984,
+            4329076
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4217434,
+            4217526
+          ]
+        ]
+      }
+    },
+    "@intern_symbol_name@12": {
+      "original": {
+        "text_data": [
+          [
+            4329420,
+            4329444
+          ],
+          [
+            4329444,
+            4329455
+          ],
+          [
+            4329456,
+            4329492
+          ],
+          [
+            4329492,
+            4329521
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4217946,
+            4217970
+          ],
+          [
+            4217970,
+            4217981
+          ],
+          [
+            4217981,
+            4218017
+          ],
+          [
+            4218017,
+            4218046
+          ]
+        ]
+      }
+    },
+    "@update_symbol_storage@4": {
+      "original": {
+        "text_data": [
+          [
+            4359628,
+            4359656
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4212846,
+            4212874
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "function": "@new_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_varuint"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_compact_signed"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_values@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@queue_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@emit_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@free_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "_c2_read_il_byte"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@input_string@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@lookup_source_file@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_report_internal@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_records@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "01d06ac4354a6c95ba2e1ae59486ef8f75513838c4d3bcf8fd3c5a44e30e468c"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "callback_controls": {
+    "path": "cases/acceptance/0068-output-initialization/callback-controls.json",
+    "sha256": "6dadb2387e42f5a4e07fb46f9ec9543079ddeb019fb58894f66f4d8df259aa6a",
+    "count": 13
+  },
+  "compile_controls": {
+    "path": "cases/acceptance/0068-output-initialization/compile-guard.json",
+    "sha256": "818228fcceea69882d34c64c777098a0a15f49a366d30b2452c5cb3033809548",
+    "count": 20
+  },
+  "review": "Exact callback model/checker/header unchanged; fresh current68slot/target/ELF/MAP check and full69 common references/audit still run. New getter touches only six already-owned flags and string-return literals; no pending callback consumer/invocation/escape.",
+  "fresh_count": 0,
+  "reused_count": 33,
+  "seconds": 0
+}

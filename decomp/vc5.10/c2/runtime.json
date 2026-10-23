@@ -960,14 +960,6 @@
     "evidence": null
   },
   {
-    "name": "_default_runtime_library",
-    "start": 4537010,
-    "end": 4537011,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@add_output_directive@8",
     "start": 4537044,
     "end": 4537045,

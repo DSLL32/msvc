@@ -97,3 +97,15 @@ void initialize_pass_functions(void)
     if (c2_codeview_types)
         initialize_codeview_output();
 }
+
+extern int c2_runtime_md, c2_runtime_mt, c2_runtime_ml;
+extern int c2_runtime_md_debug, c2_runtime_mt_debug, c2_runtime_ml_debug;
+char *default_runtime_library(void)
+{
+    if (c2_runtime_md) return "MSVCRT";
+    if (c2_runtime_mt) return "LIBCMT";
+    if (c2_runtime_ml) return "LIBC";
+    if (c2_runtime_md_debug) return "MSVCRTD";
+    if (c2_runtime_mt_debug) return "LIBCMTD";
+    return c2_runtime_ml_debug ? "LIBCD" : NULL;
+}

@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 63 application functions (14460 bytes) and five CRT
+Current reconstruction has 64 application functions (14554 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
 has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and has consumed the initializer stream and stops at the function-IR pipeline. Four import thunks (24 bytes) and contextual
-text tables (616 bytes) remain separate. The 14898 source bytes are 2.599% of
+text tables (616 bytes) remain separate. The 14992 source bytes are 2.616% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -187,3 +187,10 @@ signature is recovered; all20 direct slot-call attempts fail compilation.
 Independent review and13 focused callback rejection controls passed. The
 separate protocol checkpoint refreshed8 controls and reused123 unchanged ones.
 Proof0068 records the build, capture, audit and rejection times separately.
+
+The94-byte default-runtime-library getter is accepted as source69. It reuses
+the six existing mode flags and preserves original priority, returning a static
+library name orNULL. Its fresh typed boundary proves ECXkind4, EDX`LIBC`,
+EAX return-pointer lineage, both actual GDB formal types, and the native
+caller-local alias. Proof0069 records12 fresh/129 reused protocol controls;
+the unchanged13 callback controls and20 compile guards are reused explicitly.

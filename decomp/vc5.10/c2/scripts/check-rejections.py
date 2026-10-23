@@ -145,6 +145,31 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'output_directive'in current_state:
+        def directive_changed(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['output_directive'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=re.sub(r'^C2-OUTPUT-DIRECTIVE .*$',lambda m:'C2-OUTPUT-DIRECTIVE '+json.dumps(state['output_directive'],sort_keys=True),path.read_text(),flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def directive_original(root,key,value):
+            path=root/'o/events.txt';raw=re.sub(r'^(output-directive-input .*?'+key+'=)[0-9a-f]+',lambda m:m[1]+value,path.read_text(),flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')
+        def directive_string(root):
+            path=root/'o/output-directive-value.bin';path.write_bytes(b'LIBCD\0')
+            path=root/'o/receipt.json';receipt=json_at(path);receipt['globals_complete_hashes']['output-directive-value.bin']=sha((root/'o/output-directive-value.bin').read_bytes());write_json(path,receipt)
+        def directive_missing_raw(root):
+            path=root/'n/gdb.stdout';path.write_text(re.sub(r'^C2-OUTPUT-DIRECTIVE .*\n','',path.read_text(),flags=re.M))
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        mutations += [
+            ('directive kind integer differs',lambda r:directive_changed(r,'kind',5)),
+            ('directive library return text differs',lambda r:directive_changed(r,'value','LIBCD')),
+            ('directive caller return-pointer alias differs',lambda r:directive_changed(r,'caller_value_alias',False)),
+            ('directive actual value formal omitted',lambda r:directive_changed(r,'formals',[{'name':'kind','type':'int'}])),
+            ('directive actual kind formal type differs',lambda r:directive_changed(r,'formals',[{'name':'kind','type':'unsigned int'},{'name':'value','type':'char *'}])),
+            ('directive original ECX kind differs',lambda r:directive_original(r,'kind','5')),
+            ('directive original EDX value pointer differs',lambda r:directive_original(r,'value','0049a640')),
+            ('directive original EAX return-pointer alias differs',lambda r:directive_original(r,'result','00000000')),
+            ('directive original complete string differs',directive_string),
+            ('directive actual native raw observation missing',directive_missing_raw),
+        ]
     if 'globals_complete'in current_state:
         def complete_changed(root,change):
             path=root/'n/state.json';state=json_at(path);change(state['globals_complete']);write_json(path,state);raw_changed(root,'n','state.json')

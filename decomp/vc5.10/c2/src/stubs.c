@@ -567,11 +567,6 @@ void output_callback_4850f5()
     __asm { int 3 }
 }
 
-char *default_runtime_library(void)
-{
-    __asm { int 3 }
-    return NULL;
-}
 void __fastcall add_output_directive(int kind, char *value)
 {
     __asm { int 3 }
