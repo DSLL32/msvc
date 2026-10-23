@@ -119,11 +119,11 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "CompilerPool::Refill",
-    "symbol": "?Refill@CompilerPool@@QAEPAEI@Z",
-    "start": 274770588,
-    "end": 274770589,
+    "name": "CompilerArena::AllocatePages",
+    "symbol": "?AllocatePages@CompilerArena@@QAEPAEIPAI@Z",
+    "start": 274770635,
+    "end": 274770636,
     "pending_extent": true,
-    "evidence": "genuine thiscall pool refill, unsigned minimum byte request; named INT3 entry only, no extent/body credit"
+    "evidence": "genuine thiscall arena page allocator, pages plus owned unsigned count output; named INT3 entry only"
   }
 ]

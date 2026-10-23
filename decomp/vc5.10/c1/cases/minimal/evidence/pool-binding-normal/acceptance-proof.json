@@ -132,5 +132,10 @@
       "checks": 0.00025872234255075455,
       "total": 0.003853069618344307
     }
+  },
+  "focused_controls_reused_from": {
+    "path": "cases/minimal/evidence/pool-binding-clear-aux/binding-controls.json",
+    "sha256": "487730b9252eee46a2f330cde60fc012ff658219b933e3b67e4f75bd7d6bc759",
+    "scope": "The22 new guards ran on the independent full restore pair; normal paired positive separately fresh."
   }
 }

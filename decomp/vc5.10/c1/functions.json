@@ -70,7 +70,8 @@
     "import:_ftol",
     "CompilerArena::Reset",
     "_initialize_default_pools",
-    "CompilerPool::SetArena"
+    "CompilerPool::SetArena",
+    "CompilerPool::Refill"
   ],
   "driver": [
     {
@@ -618,6 +619,19 @@
       "symbol": "?SetArena@CompilerPool@@QAEXI@Z",
       "start": 274803504,
       "end": 274803529,
+      "role": "application"
+    },
+    {
+      "name": "CompilerPool::Refill",
+      "symbol": "?Refill@CompilerPool@@QAEPAEI@Z",
+      "start": 274770588,
+      "end": 274770635,
+      "code_chunks": [
+        [
+          274908151,
+          274908158
+        ]
+      ],
       "role": "application"
     }
   ],

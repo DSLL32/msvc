@@ -118,6 +118,8 @@ if caller.name()=='InvokeCompilerPass':
 if caller.name()=='c1_main':
     value['caller']['pc']=int(caller.pc())
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv')}
+if caller.name()=='CompilerPool::Refill':
+    value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int')))for name in ('this','minimum_bytes')}
 if caller.name()=='CompilerPool::SetArena':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int')))for name in ('this','arena_index')}
 if caller.name()=='CompilerArena::Initialize':
@@ -489,6 +491,11 @@ ActualArenaMemberEntry('*0x%x')
                 pool_probe=pool_probe.replace("'args':{},'formal_inventory':formals", "'args':{'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1]},'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1],'formal_inventory':formals")
                 pool_probe=pool_probe.replace("'symbol':block.function.name","'symbol':frame.name()")
                 default_probe+=pool_probe
+                if candidate['expected_frontier']['kind']=='arena-page-allocation':
+                    refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
+                    refill_probe=pool_probe.replace('pool_arena_entries','pool_refill_entries').replace('ActualPoolArenaEntry','ActualPoolRefillEntry').replace("'boundary_rva':0x12b30","'boundary_rva':0xaa9c").replace('arena_index','minimum_bytes').replace('*0x%x'%pool_address,'*0x%x'%refill_address)
+                    refill_probe=refill_probe.replace("'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{}}", "'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('this','arena_index')}}")
+                    default_probe+=refill_probe
 
             main_probe+=member_probe+default_probe
             main_probe+=work_probe+scanner_probe+empty_probe+arena_probe+primary_probe
@@ -502,6 +509,8 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if candidate['expected_frontier']['kind']=='arena-page-allocation':
+            commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('scaler_observers'):
             from scaler_native_probe import probes
             allocation_probe=allocation_probe.replace('\nend\n','\n'+probes(binary,output,bool(args.restore_probe and candidate.get('reset_observers')))+'end\n')

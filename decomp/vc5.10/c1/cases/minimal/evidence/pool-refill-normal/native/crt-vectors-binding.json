@@ -1,0 +1,12 @@
+{
+  "kind": "actual HOST CRT vectors; separate from Invoke11 and Linux host controls",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-refill-001",
+  "original_receipt_sha256": "eefa2d930ef8b4e3236be3b2beb4a7ce78295b106ef9d76e6fa0d12d45371262",
+  "files": {
+    "original-crt-argv.bin": "0fd175d34e0449dfe713e8c93cca0bcfa5db646931348dc0d1535bb975c7ed58",
+    "original-crt-environment.bin": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2"
+  },
+  "host_argc": 3,
+  "environment_count": 78,
+  "pass_argc": 11
+}

@@ -63,6 +63,7 @@ typedef struct CompilerArena {
 #ifdef __cplusplus
     int RECON_THISCALL Initialize(CompilerArenaDescriptor *, void *);
     void RECON_THISCALL Reset(void);
+    unsigned char *RECON_THISCALL AllocatePages(unsigned, unsigned *);
 #endif
 } CompilerArena;
 /* Genuine thiscall POD. Only four encountered fields are modeled; no

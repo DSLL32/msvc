@@ -80,6 +80,17 @@ void RECON_THISCALL CompilerPool::SetArena(unsigned arena_index)
 
 unsigned char *RECON_THISCALL CompilerPool::Refill(unsigned minimum_bytes)
 {
+    unsigned pages;
+
+    pages = (minimum_bytes - 1) / c1_data.system_info.dwPageSize + 1;
+    if (minimum_pages > pages)
+        pages = minimum_pages;
+    cursor = arena->AllocatePages(pages, &remaining);
+    return cursor;
+}
+
+unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages, unsigned *available_bytes)
+{
     __asm { int 3 }
     return NULL;
 }

@@ -18,7 +18,7 @@ def boundary(original,native,state,sequence,module):
 
 def validate(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     assert candidate['default_pool_order']==ORDER
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('default-pool-arena',0x12b30),('pool-refill',0xaa9c)]
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb)]
     binary=captured_native_binary(native);names=symbols(binary)
     first=fields['pools'][8];native_this=names['c1_bss'][0]+first['native_offset'];original_this=module+first['original_object_rva']
     assert first['index']==8 and first['native_size']==16 and first['original_object_rva']==0x54dc0
@@ -49,7 +49,7 @@ def validate(original,native,fields,entry,state,entry_sequence,sequence,module,c
 
 def validate_binding(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     """Real SetArena entry and its sole pointer store before genuine Refill."""
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==('pool-refill',0xaa9c)
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('pool-refill',0xaa9c),('arena-page-allocation',0xaacb)]
     rows=re.findall(r'^trap seq=(\d+) rva=00012b30 .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
     at=int(rows[0][0]);assert entry_sequence<at<sequence
     observed=json.loads((native/'pool-arena-entries.json').read_text());assert len(observed)==1
@@ -77,3 +77,40 @@ def validate_binding(original,native,fields,entry,state,entry_sequence,sequence,
     snapshot=(original/'relocated-text.bin').read_bytes()
     expected_code=b'\x8b\x44\x24\x04\x6a\x01\xc1\xe0\x05\x05'+struct.pack('<I',module+fields['arenas']['original_rva'])+b'\x89\x41\x0c\xe8'+struct.pack('<i',0xaa9c-0x12b46)+b'\xc2\x04\0'
     assert snapshot[0x12b30-0x1000:0x12b49-0x1000]==expected_code
+
+
+def validate_refill(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
+    """Unsigned page calculation and real owned remaining-count output address."""
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==('arena-page-allocation',0xaacb)
+    rows=re.findall(r'^trap seq=(\d+) rva=0000aa9c .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    at=int(rows[0][0]);assert entry_sequence<at<sequence
+    observed=json.loads((native/'pool-refill-entries.json').read_text());assert len(observed)==1
+    before=copy.deepcopy(observed[0]);before.update(before['crt_state'])
+    assert before['boundary_rva']==0xaa9c and before['invocation']==entry['invocation']==state['invocation']
+    names=symbols(captured_native_binary(native));assert before['pc']==names['_ZN12CompilerPool6RefillEj'][0]
+    assert before['ecx']==before['args']['this'] and before['minimum_bytes']==before['args']['minimum_bytes']
+    validate_binding(original,native,fields,entry,before,entry_sequence,at,module,candidate)
+    binary=captured_native_binary(native);pool=fields['pools'][8]
+    native_pool=names['c1_bss'][0]+pool['native_offset'];native_arena=names['c1_bss'][0]+fields['arenas']['native_offset']
+    original_pool=module+pool['original_object_rva'];original_arena=module+fields['arenas']['original_rva']
+    assert state['symbol']=='CompilerArena::AllocatePages'
+    assert pe_read(original/'loaded-target.bin',0xab0a,3)==b'\xc2\x08\0'
+    assert state['formal_inventory']==[dict(name='this',type='CompilerArena *'),dict(name='pages',type='unsigned int'),dict(name='available_bytes',type='unsigned int *')]
+    page_size=before['compiler_state']['initialized']['system_info']['dwPageSize'];minimum_pages=before['compiler_state']['bss']['pools'][8]['minimum_pages']
+    assert page_size>0 and minimum_pages==1 and before['args']['minimum_bytes']==1
+    pages=max(((before['args']['minimum_bytes']-1)&0xffffffff)//page_size+1,minimum_pages)
+    assert state['args']==dict(this=native_arena,pages=pages,available_bytes=native_pool+4)
+    assert state['caller']['symbol']=='CompilerPool::Refill' and state['caller']['args']==dict(this=native_pool,minimum_bytes=1)
+    call(binary,state['caller']['pc'],names['_ZN13CompilerArena13AllocatePagesEjPj'][0])
+    assert state['compiler_state']==before['compiler_state']
+    for region in ('compiler-data','compiler-bss','compiler-snapshot','state'):
+        assert(original/('%s-%03d.bin'%(region,at))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+    for key,value in before['crt_state'].items():assert state[key]==value
+    rows=re.findall(r'^trap seq=%d rva=0000aacb esp=([0-9a-f]+) eax=[0-9a-f]+ ecx=([0-9a-f]+) stack=([0-9a-f,]+)$'%sequence,(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    assert int(rows[0][1],16)==original_arena and [int(x,16)for x in rows[0][2].split(',')][:3]==[module+0xaac5,pages,original_pool+4]
+    source=next(row for row in candidate['functions']if row['name']=='CompilerPool::Refill');assert source['chunks']==[[0xaa9c,0xaacb],[0x2c3f7,0x2c3fe]]
+    snapshot=(original/'relocated-text.bin').read_bytes()
+    assert snapshot[0xaaa4-0x1000:0xaaaa-0x1000]==b'\xf7\x35'+struct.pack('<I',module+0x5f50c)
+    assert snapshot[0xaac0-0x1000:0xaac5-0x1000]==b'\xe8'+struct.pack('<i',0xaacb-0xaac5)
+    assert snapshot[0xaac5-0x1000:0xaacb-0x1000]==b'\x89\x06\x5e\xc2\x04\0'
+    assert snapshot[0x2c3f7-0x1000:0x2c3fe-0x1000]==b'\x8b\xc1\xe9'+struct.pack('<i',0xaab8-0x2c3fe)

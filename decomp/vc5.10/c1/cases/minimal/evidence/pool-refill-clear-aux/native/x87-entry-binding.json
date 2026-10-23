@@ -1,0 +1,21 @@
+{
+  "kind": "once-before-lifecycle captured architectural x87 input",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-refill-clear-aux-001",
+  "original_receipt_sha256": "60c0d8b17b717d798a6898275b3b5aee643bfca58ceec41040fc49d2c5cd54cb",
+  "original_float_save_sha256": "dc1e050e8b1542df8245e349a141306833a4f10e134bc2807566abe9a532d96a",
+  "original_environment_sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+  "guard_rva": 73770,
+  "cw": 639,
+  "sw": 32,
+  "tag": 65535,
+  "top": 0,
+  "live_registers": [],
+  "excluded": [
+    "IP",
+    "DP",
+    "selectors",
+    "empty register payload",
+    "transport upper words",
+    "Cr0NpxState"
+  ]
+}

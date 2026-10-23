@@ -461,6 +461,16 @@
       "start_rva": 76592,
       "end_rva": 76617,
       "entry": 1
+    },
+    {
+      "start_rva": 43676,
+      "end_rva": 43723,
+      "entry": 1
+    },
+    {
+      "start_rva": 181239,
+      "end_rva": 181246,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1410,6 +1420,23 @@
         ]
       ],
       "source": "src/pools.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerPool::Refill",
+      "native_symbol": "_ZN12CompilerPool6RefillEj",
+      "role": "application",
+      "chunks": [
+        [
+          43676,
+          43723
+        ],
+        [
+          181239,
+          181246
+        ]
+      ],
+      "source": "src/pools.cpp",
       "status": "candidate"
     }
   ],
@@ -1432,18 +1459,19 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 43676,
-    "native_symbol": "CompilerPool::Refill",
-    "native_linkage_symbol": "_ZN12CompilerPool6RefillEj",
-    "kind": "pool-refill",
-    "calling_convention": "thiscall-pool-refill",
+    "rva": 43723,
+    "native_symbol": "CompilerArena::AllocatePages",
+    "native_linkage_symbol": "_ZN13CompilerArena13AllocatePagesEjPj",
+    "kind": "arena-page-allocation",
+    "calling_convention": "thiscall-arena-pages",
     "native_args": [
       "this",
-      "minimum_bytes"
+      "pages",
+      "available_bytes"
     ],
     "caller": {
-      "native_symbol": "CompilerPool::SetArena",
-      "return_rva": 76614
+      "native_symbol": "CompilerPool::Refill",
+      "return_rva": 43717
     }
   },
   "imports": [
@@ -1728,7 +1756,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole25B SetArena member; first genuine Refill(this=pool8,minimum_bytes1) frontier after exact arena pointer store",
+  "staging_role": "sole54B Refill member: unsigned page ceiling/minimum and real Arena AllocatePages frontier before allocator effects/cursor assignment",
   "registered_cleanup": [
     {
       "original_rva": 145728,

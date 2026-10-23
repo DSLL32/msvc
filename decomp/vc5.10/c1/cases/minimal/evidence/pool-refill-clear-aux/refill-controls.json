@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "fresh_target_controls": 23,
+  "rejected": [
+    "missing-refill-entry",
+    "refill-pc",
+    "refill-receiver",
+    "refill-size",
+    "refill-boundary",
+    "refill-formal",
+    "missing-allocator-formal",
+    "allocator-formal-type",
+    "allocator-receiver",
+    "allocator-pages",
+    "allocator-out-pointer",
+    "wrong-caller",
+    "caller-size",
+    "premature-cursor-write",
+    "premature-count-write",
+    "neighbor-arena-write",
+    "snapshot-write",
+    "original-bss-write",
+    "original-receiver",
+    "original-pages",
+    "original-out-pointer",
+    "original-cold-body",
+    "original-page-size-load"
+  ],
+  "seconds": 6.284717665985227,
+  "scope": "Fresh complete restore positive and affected actual refill/page/out-pointer guards; independent normal positive; unchanged campaigns reused."
+}
