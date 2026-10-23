@@ -35,4 +35,5 @@ void __fastcall save_float_machine_register(MachineInstruction *instruction, Flo
 void pop_float_machine_stack(void);
 void __fastcall exchange_float_machine_stack(int first, int second);
 void push_float_machine_stack(void);
+void __fastcall float_register_heap_release(void *allocation);
 #endif

@@ -1,0 +1,306 @@
+{
+  "checkpoint": 999,
+  "base_commit": "bbb3833",
+  "status": "floating active",
+  "source_graphs": 920,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 999,
+    "accepted_code_bytes": 274968,
+    "original_code_bytes": 399693,
+    "percentage": 68.7948000090069,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 422
+  },
+  "frontier": "_rewrite_float_machine_data",
+  "accepted_functions": [
+    {
+      "name": "_exclude_float_machine_registers",
+      "start": 249248,
+      "end": 249335
+    },
+    {
+      "name": "_release_float_machine_data",
+      "start": 249184,
+      "end": 249237
+    },
+    {
+      "name": "@float_register_heap_release@4",
+      "start": 234736,
+      "end": 234746
+    }
+  ],
+  "accepted_libraries": [],
+  "reference_sequence": [
+    "cases/floating-original-996.json",
+    "cases/floating-original-997.json",
+    "cases/floating-original-998.json",
+    "cases/floating-original-999.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "994c68e97b8a72b90f2e064c9943a650b99122f935704631460ef9352ab9ff9e",
+      "config_sha256": "f7a5c568b15a18b7a21692c34de6fb6951a4e76db04220fb740970cb7f41d76b",
+      "seconds": 0.14089537598192692,
+      "logical": "_release_float_machine_data",
+      "matched": true,
+      "log_sha256": "34db9929a65da895e75854391c677af86126f78765817ff6676a59136e09fafa",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-etu4_cob"
+    },
+    {
+      "executable_sha256": "368d52198d50f9576a3be032005a90d3ab967b3748793c09a9db3e5da5ae82b3",
+      "config_sha256": "371ce754877a35b9df392b70651b3886e289e4a4e82ad18d56dd7791f4541c3f",
+      "seconds": 0.12761940713971853,
+      "logical": "@float_register_heap_release@4",
+      "matched": true,
+      "log_sha256": "6dd250fbce6576f9e39cf389e62e9f1e86ac5533e86eacf68e64cf5bb9afba40",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-v9wq1qyx"
+    },
+    {
+      "executable_sha256": "b71619c35d8f58a0c7c0d007cdcf39a87e6277be319f1d32d3a2b4ebdd259df3",
+      "config_sha256": "50b36cda73a1992f0cc3c9c271efc2ac74e821a582fa003f05a7aa64c192534c",
+      "seconds": 0.13544096890836954,
+      "logical": "_rewrite_float_machine_data",
+      "matched": true,
+      "log_sha256": "cd0c11ae2e766255cd445113dc3b51303e7b6c2319d0dd78990722d0ce230033",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-sf9nmybi"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "81127ab1ad7bf1ce8773e3422500313e3f7bbb62022acac24dd1c69241452426",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.020671493373811245,
+        "execution_seconds": 0.008947636000812054,
+        "check_seconds": 0.0014275182038545609,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-do1ud5h4/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01259522046893835,
+        "execution_seconds": 0.011435003019869328,
+        "check_seconds": 0.0014130091294646263,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-do1ud5h4/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 77,
+        "seeded_entries": 757,
+        "output": {
+          "name": "loops.obj",
+          "bytes": 620,
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01167143601924181,
+        "execution_seconds": 0.007312458008527756,
+        "check_seconds": 0.0013128295540809631,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-do1ud5h4/loops"
+      },
+      {
+        "profile": "pressure",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 8,
+        "seeded_entries": 834,
+        "output": {
+          "name": "pressure.obj",
+          "bytes": 879,
+          "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01263523194938898,
+        "execution_seconds": 0.009685431607067585,
+        "check_seconds": 0.001411248929798603,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-do1ud5h4/pressure"
+      },
+      {
+        "profile": "aliasing",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 16,
+        "seeded_entries": 842,
+        "output": {
+          "name": "aliasing.obj",
+          "bytes": 600,
+          "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012857870198786259,
+        "execution_seconds": 0.008538003079593182,
+        "check_seconds": 0.0012541841715574265,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-do1ud5h4/aliasing"
+      },
+      {
+        "profile": "floating",
+        "terminal": "_rewrite_float_machine_data",
+        "returncode": -5,
+        "application_entries": 58,
+        "seeded_entries": 858,
+        "output": null,
+        "setup_seconds": 0.01242765225470066,
+        "execution_seconds": 0.0064520277082920074,
+        "check_seconds": 0.0007851868867874146,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-do1ud5h4/floating"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.3305957531556487,
+    "suite_setup_seconds": 0.1541836652904749,
+    "negative_check_seconds": 0.022715814411640167,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Whole exclusion, declaration/array release and private CRT-free wrapper preserve original graph and ABIs.",
+    "Home operands remain arena-owned; declaration links and register array are freed exactly by their original wrapper.",
+    "Five completed object regressions pass; current floating frontier is the later CPU-specific store rewrite driver."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "floating998-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 11.178483037278056,
+        "returncode": 0,
+        "log_sha256": "eb9fd3131233cbf436a2e268a7c10f06841e5ff5f7f69e836b85b939a8e2d8b8"
+      },
+      "floating-data-cleanup-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.570652252063155,
+        "returncode": 0,
+        "log_sha256": "7b8d25f643c16b1b6d1fe369157a7a829fa29534a716f71cd3c04d56b6b2c49b"
+      },
+      "floating999-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.2750139934942126,
+        "returncode": 0,
+        "log_sha256": "e870f3f207c6c8b9df926de2530a1a781e26efd9e172bd7ed1bcc7422d7b3116"
+      },
+      "floating997-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.714029982686043,
+        "returncode": 0,
+        "log_sha256": "e870f3f207c6c8b9df926de2530a1a781e26efd9e172bd7ed1bcc7422d7b3116"
+      },
+      "floating-data-cleanup-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "float-machine"
+        ],
+        "seconds": 1.168895055539906,
+        "returncode": 0,
+        "log_sha256": "028aee0df939439c256f9e1260c6ebc37e77482b1125443729d4bcfbd5c4f0b8"
+      },
+      "floating-data-cleanup-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.4431365495547652,
+        "returncode": 0,
+        "log_sha256": "c6b78dc59edc42fb3ce526856402b5487a4a6d0ec523d21fd90d533fe357eeb4"
+      }
+    }
+  }
+}

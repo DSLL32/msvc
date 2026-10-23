@@ -1000,7 +1000,10 @@
     "@finish_float_machine_range@4",
     "@prepare_float_register_source@8",
     "@call_preserves_float_stack@4",
-    "@intrinsic_float_cleanup_count@4"
+    "@intrinsic_float_cleanup_count@4",
+    "_exclude_float_machine_registers",
+    "_release_float_machine_data",
+    "@float_register_heap_release@4"
   ],
   "driver": [
     {
@@ -6982,14 +6985,12 @@
     {
       "name": "_exclude_float_machine_registers",
       "start": 249248,
-      "end": 249249,
-      "provisional": true
+      "end": 249335
     },
     {
       "name": "_release_float_machine_data",
       "start": 249184,
-      "end": 249185,
-      "provisional": true
+      "end": 249237
     },
     {
       "name": "@can_keep_float_store@12",
@@ -7045,6 +7046,11 @@
       "name": "_push_float_machine_stack",
       "start": 254592,
       "end": 254717
+    },
+    {
+      "name": "@float_register_heap_release@4",
+      "start": 234736,
+      "end": 234746
     }
   ],
   "cases": {

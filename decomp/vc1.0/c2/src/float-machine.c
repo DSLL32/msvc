@@ -1,4 +1,5 @@
 /* Floating virtual-register preparation and x87 stack tracking. */
+#include <stdlib.h>
 #include "float-machine.h"
 #include "backend-passes.h"
 #include "scheduler.h"
@@ -729,4 +730,43 @@ int __fastcall call_preserves_float_stack(MachineInstruction *instruction)
     symbol = (FunctionSymbol *)instruction->operands[0].value.symbol;
     if ((symbol->field24 & 15) != 5 || symbol->symbol.kind != 4) return 0;
     return function_float_stack_depth(symbol) < 8;
+}
+
+/* Original [0003cda0,0003cdf7). Virtual x87 values no longer participate
+   in the ordinary physical-register uses and definitions of each block. */
+void exclude_float_machine_registers(void)
+{
+    FloatRegisterDeclaration *declaration;
+    MachineInstruction *instruction;
+    MachineBlockHeader *block;
+    BitSet *registers = 0;
+    for (declaration = float_register_declarations; declaration; declaration = declaration->next)
+        registers = bitset_include(registers, declaration->number);
+    if (registers) {
+        for (instruction = machine_instructions; instruction; instruction = next_machine_block(instruction)) {
+            block = (MachineBlockHeader *)instruction;
+            subtract_bitset(block->uses, registers);
+            subtract_bitset(block->definitions, registers);
+        }
+    }
+}
+
+/* Original [0003cd60,0003cd95). Only the malloc-backed declaration links
+   and register array belong to this pass; arena home operands survive it. */
+void release_float_machine_data(void)
+{
+    FloatRegisterDeclaration *declaration = float_register_declarations, *next;
+    while (declaration) {
+        next = declaration->next;
+        float_register_heap_release(declaration);
+        declaration = next;
+    }
+    float_register_declarations = 0;
+    float_register_heap_release(float_machine_registers);
+}
+
+/* Original [000394f0,000394fa). Private fastcall wrapper around CRT free. */
+void __fastcall float_register_heap_release(void *allocation)
+{
+    free(allocation);
 }

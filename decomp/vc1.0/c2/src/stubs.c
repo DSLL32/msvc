@@ -391,8 +391,6 @@ int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruc
 int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 
-void exclude_float_machine_registers(void) { __asm int 3 }
-void release_float_machine_data(void) { __asm int 3 }
 int __fastcall can_keep_float_store(MachineInstruction *instruction, unsigned short number, int use_summary) { __asm int 3 }
 int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall find_float_register_reload(MachineInstruction *instruction, unsigned short number, MachineInstruction **reload) { __asm int 3 }

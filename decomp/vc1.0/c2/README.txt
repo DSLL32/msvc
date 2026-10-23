@@ -2506,3 +2506,9 @@ Resident floating sources and callee stack accounting: checkpoint996
 _exclude_float_machine_registers. 917 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-sources.json for extent union, limits and measured timings.
+
+Floating virtual-register exclusion and cleanup: checkpoint999
+3 acceptances pass fresh original/native matching; current frontier
+_rewrite_float_machine_data. 920 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-data-cleanup.json for extent union, limits and measured timings.
