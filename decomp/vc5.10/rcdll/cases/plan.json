@@ -1,8 +1,20 @@
 {
   "schema": 1,
-  "state": "groundwork-only",
-  "reconstruction_released": false,
-  "accepted_functions": [],
+  "state": "first-case-complete-paused",
+  "reconstruction_released": true,
+  "accepted_functions": [
+    "recon_dll_entry",
+    "rcdll_crt_init",
+    "rcdll_main",
+    "RC",
+    "rc_main",
+    "rc_initialize",
+    "rc_allocate",
+    "rc_is_option",
+    "rc_emit",
+    "rc_message",
+    "rc_format"
+  ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",
   "source_seeds": [
@@ -77,11 +89,12 @@
     {
       "id": "help",
       "priority": 1,
-      "driver": "original RC.EXE /help; native ABI harness later",
+      "driver": "real RC.EXE reference; native static i386 DLL ABI harness",
       "args": [
         "/help"
       ],
-      "reference_state": "RC worker probes original driver; no RCDLL native oracle yet"
+      "reference_state": "captured and verified; native fixture complete",
+      "reference": "cases/help/reference/manifest.json"
     },
     {
       "id": "resources-rich",
@@ -128,9 +141,7 @@
     }
   ],
   "gates": [
-    "Root approval of DLL lifecycle/ABI/state capture workflow",
-    "Rust graph-audit tool readiness and root release",
-    "Fresh original RCDLL-specific references before fixture acceptance"
+    "orchestrator scaffold review before first acceptance"
   ],
   "environment": {
     "wineprefix": "~/.ai-tmp/vc1.0-capture/wine",
@@ -138,5 +149,6 @@
     "scratch_drive": "S:",
     "scratch_subdir": "vc5.10/rcdll",
     "native_fixtures_may_use_wine": false
-  }
+  },
+  "first_case_limit": 1
 }

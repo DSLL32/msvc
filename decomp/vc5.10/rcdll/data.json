@@ -1,0 +1,268 @@
+[
+  {
+    "name": "dll_attach_count",
+    "original_rva": "0x15800",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "dll_attach_count"
+  },
+  {
+    "name": "dll_raw_main",
+    "original_rva": "0x29468",
+    "bytes": 4,
+    "kind": "null-function-pointer",
+    "native_expression": "dll_raw_main"
+  },
+  {
+    "name": "dll_platform_kind",
+    "original_rva": "0x15810",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "dll_platform_kind"
+  },
+  {
+    "name": "dll_fdiv_adjust",
+    "original_rva": "0x2945c",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "dll_fdiv_adjust"
+  },
+  {
+    "name": "dll_constructors",
+    "original_rva": "0x14000",
+    "bytes": 4,
+    "kind": "null-function-pointer",
+    "native_expression": "dll_constructors"
+  },
+  {
+    "name": "dll_exit_end",
+    "original_rva": "0x29460",
+    "bytes": 4,
+    "kind": "exit-array-pointer",
+    "native_expression": "dll_exit_end"
+  },
+  {
+    "name": "dll_exit_base",
+    "original_rva": "0x29464",
+    "bytes": 4,
+    "kind": "exit-array-pointer",
+    "native_expression": "dll_exit_base"
+  },
+  {
+    "name": "dll_instance",
+    "original_rva": "0x25f64",
+    "bytes": 4,
+    "kind": "module-handle",
+    "native_expression": "dll_instance"
+  },
+  {
+    "name": "rc_window",
+    "original_rva": "0x25f60",
+    "bytes": 4,
+    "kind": "window-handle",
+    "native_expression": "rc_window"
+  },
+  {
+    "name": "rc_diagnostic",
+    "original_rva": "0x25f5c",
+    "bytes": 4,
+    "kind": "diagnostic-callback",
+    "native_expression": "rc_diagnostic"
+  },
+  {
+    "name": "rc_resource",
+    "original_rva": "0x25f58",
+    "bytes": 4,
+    "kind": "resource-callback",
+    "native_expression": "rc_resource"
+  },
+  {
+    "name": "rc_result",
+    "original_rva": "0x1853c",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_result"
+  },
+  {
+    "name": "rc_heap",
+    "original_rva": "0x25f54",
+    "bytes": 4,
+    "kind": "private-heap",
+    "native_expression": "rc_heap"
+  },
+  {
+    "name": "rc_include_paths",
+    "original_rva": "0x25588",
+    "bytes": 4,
+    "kind": "include-buffer",
+    "native_expression": "rc_include_paths"
+  },
+  {
+    "name": "rc_default_language",
+    "original_rva": "0x14db8",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_default_language"
+  },
+  {
+    "name": "rc_codepage",
+    "original_rva": "0x16cb4",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_codepage"
+  },
+  {
+    "name": "rc_saved_codepage",
+    "original_rva": "0x16ca4",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_saved_codepage"
+  },
+  {
+    "name": "rc_language",
+    "original_rva": "0x25054",
+    "bytes": 2,
+    "kind": "integer",
+    "native_expression": "rc_language"
+  },
+  {
+    "name": "rc_mac",
+    "original_rva": "0x22c34",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_mac"
+  },
+  {
+    "name": "rc_preprocess_only",
+    "original_rva": "0x24f4c",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_preprocess_only"
+  },
+  {
+    "name": "rc_apstudio",
+    "original_rva": "0x25058",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_apstudio"
+  },
+  {
+    "name": "rc_verbose",
+    "original_rva": "0x25d40",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_verbose"
+  },
+  {
+    "name": "rc_new_style",
+    "original_rva": "0x259d8",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_new_style"
+  },
+  {
+    "name": "rc_warnings",
+    "original_rva": "0x25a20",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_warnings"
+  },
+  {
+    "name": "rc_special_type_count",
+    "original_rva": "0x2547c",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_special_type_count"
+  },
+  {
+    "name": "rc_abort_context",
+    "original_rva": "0x25998",
+    "bytes": 64,
+    "kind": "opaque-jump-context",
+    "native_expression": "rc_abort_context"
+  },
+  {
+    "name": "rc_cancelled",
+    "original_rva": "0x25990",
+    "bytes": 2,
+    "kind": "integer",
+    "native_expression": "rc_cancelled"
+  },
+  {
+    "name": "rc_input_temporary",
+    "original_rva": "0x25f4c",
+    "bytes": 4,
+    "kind": "null-pointer",
+    "native_expression": "rc_input_temporary"
+  },
+  {
+    "name": "rc_output_temporary",
+    "original_rva": "0x25474",
+    "bytes": 4,
+    "kind": "null-pointer",
+    "native_expression": "rc_output_temporary"
+  },
+  {
+    "name": "rc_resource_state",
+    "original_rva": "0x25f50",
+    "bytes": 4,
+    "kind": "null-pointer",
+    "native_expression": "rc_resource_state"
+  },
+  {
+    "name": "rc_scan_state",
+    "original_rva": "0x25d44",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_scan_state"
+  },
+  {
+    "name": "rc_input_name",
+    "original_rva": "0x25b30",
+    "bytes": 1,
+    "kind": "byte-buffer",
+    "native_expression": "rc_input_name"
+  },
+  {
+    "name": "rc_output_path",
+    "original_rva": "0x24f50",
+    "bytes": 1,
+    "kind": "byte-buffer",
+    "native_expression": "rc_output_path"
+  },
+  {
+    "name": "rc_line",
+    "original_rva": "0x25064",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_line"
+  },
+  {
+    "name": "rc_last_line",
+    "original_rva": "0x25f6c",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_last_line"
+  },
+  {
+    "name": "rc_message_count",
+    "original_rva": "0x25f68",
+    "bytes": 4,
+    "kind": "integer",
+    "native_expression": "rc_message_count"
+  },
+  {
+    "name": "rc_message_buffer",
+    "original_rva": "0x15ca0",
+    "bytes": 4096,
+    "kind": "byte-buffer",
+    "native_expression": "rc_message_buffer"
+  },
+  {
+    "name": "rc_error_text",
+    "original_rva": "0x18660",
+    "bytes": 2048,
+    "kind": "byte-buffer",
+    "native_expression": "rc_error_text"
+  }
+]

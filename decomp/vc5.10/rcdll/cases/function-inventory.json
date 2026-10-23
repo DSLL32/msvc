@@ -1,0 +1,2134 @@
+{
+  "source_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "basis": "Ghidra11.0.3 discovered function bodies, analysis only; provisional whole-target denominator, not an accepted extent audit",
+  "functions": [
+    {
+      "rva": "0x2690",
+      "bytes": 43,
+      "ranges": "[[71c22690, 71c226ba] ]",
+      "name": "FUN_71c22690",
+      "kind": "application"
+    },
+    {
+      "rva": "0x26bb",
+      "bytes": 30,
+      "ranges": "[[71c226bb, 71c226d8] ]",
+      "name": "FUN_71c226bb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x26d9",
+      "bytes": 31,
+      "ranges": "[[71c226d9, 71c226f7] ]",
+      "name": "FUN_71c226d9",
+      "kind": "application"
+    },
+    {
+      "rva": "0x26f8",
+      "bytes": 30,
+      "ranges": "[[71c226f8, 71c22715] ]",
+      "name": "FUN_71c226f8",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2716",
+      "bytes": 81,
+      "ranges": "[[71c22716, 71c22766] ]",
+      "name": "FUN_71c22716",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2767",
+      "bytes": 29,
+      "ranges": "[[71c22767, 71c22783] ]",
+      "name": "FUN_71c22767",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2784",
+      "bytes": 22,
+      "ranges": "[[71c22784, 71c22799] ]",
+      "name": "FUN_71c22784",
+      "kind": "application"
+    },
+    {
+      "rva": "0x279a",
+      "bytes": 420,
+      "ranges": "[[71c2279a, 71c2293d] ]",
+      "name": "FUN_71c2279a",
+      "kind": "application"
+    },
+    {
+      "rva": "0x293e",
+      "bytes": 177,
+      "ranges": "[[71c2293e, 71c229ee] ]",
+      "name": "FUN_71c2293e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x29ef",
+      "bytes": 405,
+      "ranges": "[[71c229ef, 71c22b83] ]",
+      "name": "FUN_71c229ef",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2b84",
+      "bytes": 135,
+      "ranges": "[[71c22b84, 71c22c0a] ]",
+      "name": "FUN_71c22b84",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2c0b",
+      "bytes": 89,
+      "ranges": "[[71c22c0b, 71c22c63] ]",
+      "name": "FUN_71c22c0b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2c64",
+      "bytes": 52,
+      "ranges": "[[71c22c64, 71c22c97] ]",
+      "name": "FUN_71c22c64",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2c98",
+      "bytes": 40,
+      "ranges": "[[71c22c98, 71c22cbf] ]",
+      "name": "FUN_71c22c98",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2cc0",
+      "bytes": 195,
+      "ranges": "[[71c22cc0, 71c22d82] ]",
+      "name": "FUN_71c22cc0",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2d83",
+      "bytes": 67,
+      "ranges": "[[71c22d83, 71c22dc5] ]",
+      "name": "FUN_71c22d83",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2dc6",
+      "bytes": 41,
+      "ranges": "[[71c22dc6, 71c22dee] ]",
+      "name": "FUN_71c22dc6",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2def",
+      "bytes": 45,
+      "ranges": "[[71c22def, 71c22e1b] ]",
+      "name": "FUN_71c22def",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2e1c",
+      "bytes": 32,
+      "ranges": "[[71c22e1c, 71c22e3b] ]",
+      "name": "FUN_71c22e1c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2e3c",
+      "bytes": 32,
+      "ranges": "[[71c22e3c, 71c22e5b] ]",
+      "name": "FUN_71c22e3c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2e5c",
+      "bytes": 32,
+      "ranges": "[[71c22e5c, 71c22e7b] ]",
+      "name": "FUN_71c22e5c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2e7c",
+      "bytes": 64,
+      "ranges": "[[71c22e7c, 71c22ebb] ]",
+      "name": "FUN_71c22e7c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2ebc",
+      "bytes": 114,
+      "ranges": "[[71c22ebc, 71c22f2d] ]",
+      "name": "FUN_71c22ebc",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2f2e",
+      "bytes": 54,
+      "ranges": "[[71c22f2e, 71c22f63] ]",
+      "name": "FUN_71c22f2e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2f64",
+      "bytes": 52,
+      "ranges": "[[71c22f64, 71c22f97] ]",
+      "name": "FUN_71c22f64",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2f98",
+      "bytes": 85,
+      "ranges": "[[71c22f98, 71c22fec] ]",
+      "name": "FUN_71c22f98",
+      "kind": "application"
+    },
+    {
+      "rva": "0x2fed",
+      "bytes": 65,
+      "ranges": "[[71c22fed, 71c2302d] ]",
+      "name": "FUN_71c22fed",
+      "kind": "application"
+    },
+    {
+      "rva": "0x302e",
+      "bytes": 147,
+      "ranges": "[[71c2302e, 71c230c0] ]",
+      "name": "FUN_71c2302e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x30c1",
+      "bytes": 2831,
+      "ranges": "[[71c230c1, 71c23bcf] ]",
+      "name": "FUN_71c230c1",
+      "kind": "application"
+    },
+    {
+      "rva": "0x3c80",
+      "bytes": 308,
+      "ranges": "[[71c23c80, 71c23db3] ]",
+      "name": "FUN_71c23c80",
+      "kind": "application"
+    },
+    {
+      "rva": "0x3db4",
+      "bytes": 616,
+      "ranges": "[[71c23db4, 71c2401b] ]",
+      "name": "FUN_71c23db4",
+      "kind": "application"
+    },
+    {
+      "rva": "0x401c",
+      "bytes": 277,
+      "ranges": "[[71c2401c, 71c24130] ]",
+      "name": "FUN_71c2401c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4131",
+      "bytes": 202,
+      "ranges": "[[71c24131, 71c241fa] ]",
+      "name": "FUN_71c24131",
+      "kind": "application"
+    },
+    {
+      "rva": "0x41fb",
+      "bytes": 69,
+      "ranges": "[[71c241fb, 71c2423f] ]",
+      "name": "FUN_71c241fb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4240",
+      "bytes": 88,
+      "ranges": "[[71c24240, 71c24297] ]",
+      "name": "FUN_71c24240",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4298",
+      "bytes": 487,
+      "ranges": "[[71c24298, 71c2447e] ]",
+      "name": "FUN_71c24298",
+      "kind": "application"
+    },
+    {
+      "rva": "0x447f",
+      "bytes": 126,
+      "ranges": "[[71c2447f, 71c244fc] ]",
+      "name": "FUN_71c2447f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x44fd",
+      "bytes": 626,
+      "ranges": "[[71c244fd, 71c2476e] ]",
+      "name": "FUN_71c244fd",
+      "kind": "application"
+    },
+    {
+      "rva": "0x476f",
+      "bytes": 28,
+      "ranges": "[[71c2476f, 71c2478a] ]",
+      "name": "FUN_71c2476f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x478b",
+      "bytes": 101,
+      "ranges": "[[71c2478b, 71c247ef] ]",
+      "name": "FUN_71c2478b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x47f0",
+      "bytes": 216,
+      "ranges": "[[71c247f0, 71c248c7] ]",
+      "name": "FUN_71c247f0",
+      "kind": "application"
+    },
+    {
+      "rva": "0x48c8",
+      "bytes": 307,
+      "ranges": "[[71c248c8, 71c249fa] ]",
+      "name": "FUN_71c248c8",
+      "kind": "application"
+    },
+    {
+      "rva": "0x49fb",
+      "bytes": 564,
+      "ranges": "[[71c249fb, 71c24c2e] ]",
+      "name": "FUN_71c249fb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4c2f",
+      "bytes": 374,
+      "ranges": "[[71c24c2f, 71c24da4] ]",
+      "name": "FUN_71c24c2f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4da5",
+      "bytes": 58,
+      "ranges": "[[71c24da5, 71c24dde] ]",
+      "name": "FUN_71c24da5",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4ddf",
+      "bytes": 58,
+      "ranges": "[[71c24ddf, 71c24e18] ]",
+      "name": "FUN_71c24ddf",
+      "kind": "application"
+    },
+    {
+      "rva": "0x4e19",
+      "bytes": 902,
+      "ranges": "[[71c24e19, 71c2519e] ]",
+      "name": "FUN_71c24e19",
+      "kind": "application"
+    },
+    {
+      "rva": "0x519f",
+      "bytes": 64,
+      "ranges": "[[71c2519f, 71c251de] ]",
+      "name": "FUN_71c2519f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x51df",
+      "bytes": 61,
+      "ranges": "[[71c251df, 71c2521b] ]",
+      "name": "FUN_71c251df",
+      "kind": "application"
+    },
+    {
+      "rva": "0x521c",
+      "bytes": 222,
+      "ranges": "[[71c2521c, 71c252f9] ]",
+      "name": "FUN_71c2521c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x52fa",
+      "bytes": 921,
+      "ranges": "[[71c252fa, 71c25692] ]",
+      "name": "FUN_71c252fa",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5693",
+      "bytes": 827,
+      "ranges": "[[71c25693, 71c259cd] ]",
+      "name": "FUN_71c25693",
+      "kind": "application"
+    },
+    {
+      "rva": "0x59ce",
+      "bytes": 185,
+      "ranges": "[[71c259ce, 71c25a86] ]",
+      "name": "FUN_71c259ce",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5a87",
+      "bytes": 128,
+      "ranges": "[[71c25a87, 71c25b06] ]",
+      "name": "FUN_71c25a87",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5b07",
+      "bytes": 243,
+      "ranges": "[[71c25b07, 71c25bf9] ]",
+      "name": "FUN_71c25b07",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5bfa",
+      "bytes": 64,
+      "ranges": "[[71c25bfa, 71c25c39] ]",
+      "name": "FUN_71c25bfa",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5c3a",
+      "bytes": 155,
+      "ranges": "[[71c25c3a, 71c25cd4] ]",
+      "name": "FUN_71c25c3a",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5cd5",
+      "bytes": 28,
+      "ranges": "[[71c25cd5, 71c25cf0] ]",
+      "name": "FUN_71c25cd5",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5cf1",
+      "bytes": 45,
+      "ranges": "[[71c25cf1, 71c25d1d] ]",
+      "name": "FUN_71c25cf1",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5d1e",
+      "bytes": 47,
+      "ranges": "[[71c25d1e, 71c25d4c] ]",
+      "name": "FUN_71c25d1e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5d4d",
+      "bytes": 61,
+      "ranges": "[[71c25d4d, 71c25d89] ]",
+      "name": "FUN_71c25d4d",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5d8a",
+      "bytes": 127,
+      "ranges": "[[71c25d8a, 71c25e08] ]",
+      "name": "FUN_71c25d8a",
+      "kind": "application"
+    },
+    {
+      "rva": "0x5e09",
+      "bytes": 504,
+      "ranges": "[[71c25e09, 71c26000] ]",
+      "name": "FUN_71c25e09",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6001",
+      "bytes": 80,
+      "ranges": "[[71c26001, 71c26050] ]",
+      "name": "FUN_71c26001",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6051",
+      "bytes": 159,
+      "ranges": "[[71c26051, 71c260ef] ]",
+      "name": "FUN_71c26051",
+      "kind": "application"
+    },
+    {
+      "rva": "0x60f0",
+      "bytes": 69,
+      "ranges": "[[71c260f0, 71c26134] ]",
+      "name": "FUN_71c260f0",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6135",
+      "bytes": 279,
+      "ranges": "[[71c26135, 71c2624b] ]",
+      "name": "FUN_71c26135",
+      "kind": "application"
+    },
+    {
+      "rva": "0x624c",
+      "bytes": 78,
+      "ranges": "[[71c2624c, 71c26299] ]",
+      "name": "FUN_71c2624c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x629a",
+      "bytes": 171,
+      "ranges": "[[71c2629a, 71c26344] ]",
+      "name": "FUN_71c2629a",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6345",
+      "bytes": 1892,
+      "ranges": "[[71c26345, 71c26aa8] ]",
+      "name": "FUN_71c26345",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6ae1",
+      "bytes": 159,
+      "ranges": "[[71c26ae1, 71c26b7f] ]",
+      "name": "FUN_71c26ae1",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6b80",
+      "bytes": 241,
+      "ranges": "[[71c26b80, 71c26c70] ]",
+      "name": "FUN_71c26b80",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6c71",
+      "bytes": 75,
+      "ranges": "[[71c26c71, 71c26cbb] ]",
+      "name": "FUN_71c26c71",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6cbc",
+      "bytes": 151,
+      "ranges": "[[71c26cbc, 71c26d52] ]",
+      "name": "FUN_71c26cbc",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6d53",
+      "bytes": 160,
+      "ranges": "[[71c26d53, 71c26df2] ]",
+      "name": "FUN_71c26d53",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6df3",
+      "bytes": 475,
+      "ranges": "[[71c26df3, 71c26fcd] ]",
+      "name": "FUN_71c26df3",
+      "kind": "application"
+    },
+    {
+      "rva": "0x6fce",
+      "bytes": 197,
+      "ranges": "[[71c26fce, 71c27092] ]",
+      "name": "FUN_71c26fce",
+      "kind": "application"
+    },
+    {
+      "rva": "0x7093",
+      "bytes": 59,
+      "ranges": "[[71c27093, 71c270cd] ]",
+      "name": "FUN_71c27093",
+      "kind": "application"
+    },
+    {
+      "rva": "0x70ce",
+      "bytes": 50,
+      "ranges": "[[71c270ce, 71c270ff] ]",
+      "name": "FUN_71c270ce",
+      "kind": "application"
+    },
+    {
+      "rva": "0x7100",
+      "bytes": 418,
+      "ranges": "[[71c27100, 71c272a1] ]",
+      "name": "FUN_71c27100",
+      "kind": "application"
+    },
+    {
+      "rva": "0x72a2",
+      "bytes": 159,
+      "ranges": "[[71c272a2, 71c27340] ]",
+      "name": "FUN_71c272a2",
+      "kind": "application"
+    },
+    {
+      "rva": "0x7341",
+      "bytes": 42,
+      "ranges": "[[71c27341, 71c2736a] ]",
+      "name": "FUN_71c27341",
+      "kind": "application"
+    },
+    {
+      "rva": "0x736b",
+      "bytes": 216,
+      "ranges": "[[71c2736b, 71c27442] ]",
+      "name": "FUN_71c2736b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x7443",
+      "bytes": 4121,
+      "ranges": "[[71c27443, 71c2845b] ]",
+      "name": "FUN_71c27443",
+      "kind": "application"
+    },
+    {
+      "rva": "0x84c4",
+      "bytes": 78,
+      "ranges": "[[71c284c4, 71c28511] ]",
+      "name": "FUN_71c284c4",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8512",
+      "bytes": 90,
+      "ranges": "[[71c28512, 71c2856b] ]",
+      "name": "FUN_71c28512",
+      "kind": "application"
+    },
+    {
+      "rva": "0x856c",
+      "bytes": 1143,
+      "ranges": "[[71c2856c, 71c289e2] ]",
+      "name": "FUN_71c2856c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x89e3",
+      "bytes": 93,
+      "ranges": "[[71c289e3, 71c28a3f] ]",
+      "name": "FUN_71c289e3",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8a46",
+      "bytes": 100,
+      "ranges": "[[71c28a46, 71c28aa9] ]",
+      "name": "Handler",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8aaa",
+      "bytes": 127,
+      "ranges": "[[71c28aaa, 71c28b28] ]",
+      "name": "FUN_71c28aaa",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8b29",
+      "bytes": 29,
+      "ranges": "[[71c28b29, 71c28b45] ]",
+      "name": "FUN_71c28b29",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8b46",
+      "bytes": 44,
+      "ranges": "[[71c28b46, 71c28b71] ]",
+      "name": "RC",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8b72",
+      "bytes": 28,
+      "ranges": "[[71c28b72, 71c28b8d] ]",
+      "name": "FUN_71c28b72",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8b8e",
+      "bytes": 63,
+      "ranges": "[[71c28b8e, 71c28bcc] ]",
+      "name": "FUN_71c28b8e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8bcd",
+      "bytes": 163,
+      "ranges": "[[71c28bcd, 71c28c6f] ]",
+      "name": "FUN_71c28bcd",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8c70",
+      "bytes": 46,
+      "ranges": "[[71c28c70, 71c28c9d] ]",
+      "name": "FUN_71c28c70",
+      "kind": "application"
+    },
+    {
+      "rva": "0x8c9e",
+      "bytes": 931,
+      "ranges": "[[71c28c9e, 71c29040] ]",
+      "name": "FUN_71c28c9e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9041",
+      "bytes": 355,
+      "ranges": "[[71c29041, 71c291a3] ]",
+      "name": "FUN_71c29041",
+      "kind": "application"
+    },
+    {
+      "rva": "0x91a4",
+      "bytes": 49,
+      "ranges": "[[71c291a4, 71c291d4] ]",
+      "name": "FUN_71c291a4",
+      "kind": "application"
+    },
+    {
+      "rva": "0x91d5",
+      "bytes": 44,
+      "ranges": "[[71c291d5, 71c29200] ]",
+      "name": "FUN_71c291d5",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9201",
+      "bytes": 22,
+      "ranges": "[[71c29201, 71c29216] ]",
+      "name": "FUN_71c29201",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9217",
+      "bytes": 48,
+      "ranges": "[[71c29217, 71c29246] ]",
+      "name": "FUN_71c29217",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9247",
+      "bytes": 99,
+      "ranges": "[[71c29247, 71c292a9] ]",
+      "name": "FUN_71c29247",
+      "kind": "application"
+    },
+    {
+      "rva": "0x92aa",
+      "bytes": 123,
+      "ranges": "[[71c292aa, 71c29324] ]",
+      "name": "FUN_71c292aa",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9325",
+      "bytes": 766,
+      "ranges": "[[71c29325, 71c29622] ]",
+      "name": "FUN_71c29325",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9623",
+      "bytes": 689,
+      "ranges": "[[71c29623, 71c298d3] ]",
+      "name": "FUN_71c29623",
+      "kind": "application"
+    },
+    {
+      "rva": "0x98d4",
+      "bytes": 686,
+      "ranges": "[[71c298d4, 71c29b81] ]",
+      "name": "FUN_71c298d4",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9b82",
+      "bytes": 251,
+      "ranges": "[[71c29b82, 71c29c7c] ]",
+      "name": "FUN_71c29b82",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9c7d",
+      "bytes": 93,
+      "ranges": "[[71c29c7d, 71c29cd9] ]",
+      "name": "FUN_71c29c7d",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9cda",
+      "bytes": 39,
+      "ranges": "[[71c29cda, 71c29d00] ]",
+      "name": "FUN_71c29cda",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9d01",
+      "bytes": 62,
+      "ranges": "[[71c29d01, 71c29d3e] ]",
+      "name": "FUN_71c29d01",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9d3f",
+      "bytes": 96,
+      "ranges": "[[71c29d3f, 71c29d9e] ]",
+      "name": "FUN_71c29d3f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9d9f",
+      "bytes": 243,
+      "ranges": "[[71c29d9f, 71c29e91] ]",
+      "name": "FUN_71c29d9f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9e92",
+      "bytes": 82,
+      "ranges": "[[71c29e92, 71c29ee3] ]",
+      "name": "FUN_71c29e92",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9ee4",
+      "bytes": 5,
+      "ranges": "[[71c29ee4, 71c29ee8] ]",
+      "name": "thunk_FUN_71c29d9f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9ee9",
+      "bytes": 150,
+      "ranges": "[[71c29ee9, 71c29f7e] ]",
+      "name": "FUN_71c29ee9",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9f7f",
+      "bytes": 119,
+      "ranges": "[[71c29f7f, 71c29ff5] ]",
+      "name": "FUN_71c29f7f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x9ff6",
+      "bytes": 76,
+      "ranges": "[[71c29ff6, 71c2a041] ]",
+      "name": "FUN_71c29ff6",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa042",
+      "bytes": 32,
+      "ranges": "[[71c2a042, 71c2a061] ]",
+      "name": "FUN_71c2a042",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa062",
+      "bytes": 194,
+      "ranges": "[[71c2a062, 71c2a123] ]",
+      "name": "FUN_71c2a062",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa124",
+      "bytes": 57,
+      "ranges": "[[71c2a124, 71c2a15c] ]",
+      "name": "FUN_71c2a124",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa15d",
+      "bytes": 61,
+      "ranges": "[[71c2a15d, 71c2a199] ]",
+      "name": "FUN_71c2a15d",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa19a",
+      "bytes": 65,
+      "ranges": "[[71c2a19a, 71c2a1da] ]",
+      "name": "FUN_71c2a19a",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa1db",
+      "bytes": 199,
+      "ranges": "[[71c2a1db, 71c2a2a1] ]",
+      "name": "FUN_71c2a1db",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa2a2",
+      "bytes": 192,
+      "ranges": "[[71c2a2a2, 71c2a361] ]",
+      "name": "FUN_71c2a2a2",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa362",
+      "bytes": 53,
+      "ranges": "[[71c2a362, 71c2a396] ]",
+      "name": "FUN_71c2a362",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa397",
+      "bytes": 258,
+      "ranges": "[[71c2a397, 71c2a498] ]",
+      "name": "FUN_71c2a397",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa499",
+      "bytes": 70,
+      "ranges": "[[71c2a499, 71c2a4de] ]",
+      "name": "FUN_71c2a499",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa4df",
+      "bytes": 194,
+      "ranges": "[[71c2a4df, 71c2a5a0] ]",
+      "name": "FUN_71c2a4df",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa5a1",
+      "bytes": 100,
+      "ranges": "[[71c2a5a1, 71c2a604] ]",
+      "name": "FUN_71c2a5a1",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa605",
+      "bytes": 174,
+      "ranges": "[[71c2a605, 71c2a6b2] ]",
+      "name": "FUN_71c2a605",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa6b3",
+      "bytes": 229,
+      "ranges": "[[71c2a6b3, 71c2a797] ]",
+      "name": "FUN_71c2a6b3",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa798",
+      "bytes": 276,
+      "ranges": "[[71c2a798, 71c2a8ab] ]",
+      "name": "FUN_71c2a798",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa8ac",
+      "bytes": 228,
+      "ranges": "[[71c2a8ac, 71c2a98f] ]",
+      "name": "FUN_71c2a8ac",
+      "kind": "application"
+    },
+    {
+      "rva": "0xa990",
+      "bytes": 128,
+      "ranges": "[[71c2a990, 71c2aa0f] ]",
+      "name": "FUN_71c2a990",
+      "kind": "application"
+    },
+    {
+      "rva": "0xaa10",
+      "bytes": 167,
+      "ranges": "[[71c2aa10, 71c2aab6] ]",
+      "name": "FUN_71c2aa10",
+      "kind": "application"
+    },
+    {
+      "rva": "0xaab7",
+      "bytes": 163,
+      "ranges": "[[71c2aab7, 71c2ab59] ]",
+      "name": "FUN_71c2aab7",
+      "kind": "application"
+    },
+    {
+      "rva": "0xab5a",
+      "bytes": 160,
+      "ranges": "[[71c2ab5a, 71c2abf9] ]",
+      "name": "FUN_71c2ab5a",
+      "kind": "application"
+    },
+    {
+      "rva": "0xabfa",
+      "bytes": 76,
+      "ranges": "[[71c2abfa, 71c2ac45] ]",
+      "name": "FUN_71c2abfa",
+      "kind": "application"
+    },
+    {
+      "rva": "0xac46",
+      "bytes": 593,
+      "ranges": "[[71c2ac46, 71c2ae96] ]",
+      "name": "FUN_71c2ac46",
+      "kind": "application"
+    },
+    {
+      "rva": "0xae97",
+      "bytes": 82,
+      "ranges": "[[71c2ae97, 71c2aee8] ]",
+      "name": "FUN_71c2ae97",
+      "kind": "application"
+    },
+    {
+      "rva": "0xaee9",
+      "bytes": 131,
+      "ranges": "[[71c2aee9, 71c2af6b] ]",
+      "name": "FUN_71c2aee9",
+      "kind": "application"
+    },
+    {
+      "rva": "0xaf6c",
+      "bytes": 198,
+      "ranges": "[[71c2af6c, 71c2b031] ]",
+      "name": "FUN_71c2af6c",
+      "kind": "application"
+    },
+    {
+      "rva": "0xb032",
+      "bytes": 271,
+      "ranges": "[[71c2b032, 71c2b140] ]",
+      "name": "FUN_71c2b032",
+      "kind": "application"
+    },
+    {
+      "rva": "0xb141",
+      "bytes": 200,
+      "ranges": "[[71c2b141, 71c2b208] ]",
+      "name": "FUN_71c2b141",
+      "kind": "application"
+    },
+    {
+      "rva": "0xb209",
+      "bytes": 2431,
+      "ranges": "[[71c2b209, 71c2bb87] ]",
+      "name": "FUN_71c2b209",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbbe0",
+      "bytes": 129,
+      "ranges": "[[71c2bbe0, 71c2bc60] ]",
+      "name": "FUN_71c2bbe0",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbc61",
+      "bytes": 31,
+      "ranges": "[[71c2bc61, 71c2bc7f] ]",
+      "name": "FUN_71c2bc61",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbc80",
+      "bytes": 449,
+      "ranges": "[[71c2bc80, 71c2be40] ]",
+      "name": "FUN_71c2bc80",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbe41",
+      "bytes": 124,
+      "ranges": "[[71c2be41, 71c2bebc] ]",
+      "name": "FUN_71c2be41",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbebd",
+      "bytes": 37,
+      "ranges": "[[71c2bebd, 71c2bee1] ]",
+      "name": "FUN_71c2bebd",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbee2",
+      "bytes": 179,
+      "ranges": "[[71c2bee2, 71c2bf78] [71c2bfa8, 71c2bfc3] ]",
+      "name": "FUN_71c2bee2",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbfc4",
+      "bytes": 34,
+      "ranges": "[[71c2bfc4, 71c2bfe5] ]",
+      "name": "FUN_71c2bfc4",
+      "kind": "application"
+    },
+    {
+      "rva": "0xbfe6",
+      "bytes": 80,
+      "ranges": "[[71c2bfe6, 71c2c035] ]",
+      "name": "FUN_71c2bfe6",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc036",
+      "bytes": 195,
+      "ranges": "[[71c2c036, 71c2c0f8] ]",
+      "name": "FUN_71c2c036",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc0f9",
+      "bytes": 94,
+      "ranges": "[[71c2c0f9, 71c2c156] ]",
+      "name": "FUN_71c2c0f9",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc157",
+      "bytes": 531,
+      "ranges": "[[71c2c157, 71c2c369] ]",
+      "name": "FUN_71c2c157",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc36a",
+      "bytes": 395,
+      "ranges": "[[71c2c36a, 71c2c4f4] ]",
+      "name": "FUN_71c2c36a",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc4f5",
+      "bytes": 793,
+      "ranges": "[[71c2c4f5, 71c2c80d] ]",
+      "name": "FUN_71c2c4f5",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc80e",
+      "bytes": 55,
+      "ranges": "[[71c2c80e, 71c2c844] ]",
+      "name": "FUN_71c2c80e",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc845",
+      "bytes": 63,
+      "ranges": "[[71c2c845, 71c2c883] ]",
+      "name": "FUN_71c2c845",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc884",
+      "bytes": 82,
+      "ranges": "[[71c2c884, 71c2c8d5] ]",
+      "name": "FUN_71c2c884",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc8d6",
+      "bytes": 78,
+      "ranges": "[[71c2c8d6, 71c2c923] ]",
+      "name": "FUN_71c2c8d6",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc924",
+      "bytes": 22,
+      "ranges": "[[71c2c924, 71c2c939] ]",
+      "name": "FUN_71c2c924",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc93a",
+      "bytes": 15,
+      "ranges": "[[71c2c93a, 71c2c948] ]",
+      "name": "FUN_71c2c93a",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc949",
+      "bytes": 21,
+      "ranges": "[[71c2c949, 71c2c95d] ]",
+      "name": "FUN_71c2c949",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc95e",
+      "bytes": 19,
+      "ranges": "[[71c2c95e, 71c2c970] ]",
+      "name": "FUN_71c2c95e",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc971",
+      "bytes": 112,
+      "ranges": "[[71c2c971, 71c2c9e0] ]",
+      "name": "FUN_71c2c971",
+      "kind": "application"
+    },
+    {
+      "rva": "0xc9e1",
+      "bytes": 82,
+      "ranges": "[[71c2c9e1, 71c2ca32] ]",
+      "name": "FUN_71c2c9e1",
+      "kind": "application"
+    },
+    {
+      "rva": "0xca33",
+      "bytes": 346,
+      "ranges": "[[71c2ca33, 71c2cb8c] ]",
+      "name": "FUN_71c2ca33",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcb8d",
+      "bytes": 28,
+      "ranges": "[[71c2cb8d, 71c2cba8] ]",
+      "name": "FUN_71c2cb8d",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcba9",
+      "bytes": 72,
+      "ranges": "[[71c2cba9, 71c2cbf0] ]",
+      "name": "FUN_71c2cba9",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcbf1",
+      "bytes": 88,
+      "ranges": "[[71c2cbf1, 71c2cc48] ]",
+      "name": "FUN_71c2cbf1",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcc49",
+      "bytes": 42,
+      "ranges": "[[71c2cc49, 71c2cc72] ]",
+      "name": "FUN_71c2cc49",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcc73",
+      "bytes": 45,
+      "ranges": "[[71c2cc73, 71c2cc9f] ]",
+      "name": "FUN_71c2cc73",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcca0",
+      "bytes": 50,
+      "ranges": "[[71c2cca0, 71c2ccd1] ]",
+      "name": "FUN_71c2cca0",
+      "kind": "application"
+    },
+    {
+      "rva": "0xccd2",
+      "bytes": 81,
+      "ranges": "[[71c2ccd2, 71c2cd22] ]",
+      "name": "FUN_71c2ccd2",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcd23",
+      "bytes": 74,
+      "ranges": "[[71c2cd23, 71c2cd6c] ]",
+      "name": "FUN_71c2cd23",
+      "kind": "application"
+    },
+    {
+      "rva": "0xcd6d",
+      "bytes": 241,
+      "ranges": "[[71c2cd6d, 71c2ce5d] ]",
+      "name": "FUN_71c2cd6d",
+      "kind": "application"
+    },
+    {
+      "rva": "0xce5e",
+      "bytes": 527,
+      "ranges": "[[71c2ce5e, 71c2d06c] ]",
+      "name": "FUN_71c2ce5e",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd06d",
+      "bytes": 42,
+      "ranges": "[[71c2d06d, 71c2d096] ]",
+      "name": "FUN_71c2d06d",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd097",
+      "bytes": 692,
+      "ranges": "[[71c2d097, 71c2d34a] ]",
+      "name": "FUN_71c2d097",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd34b",
+      "bytes": 669,
+      "ranges": "[[71c2d34b, 71c2d5e7] ]",
+      "name": "FUN_71c2d34b",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd5e8",
+      "bytes": 31,
+      "ranges": "[[71c2d5e8, 71c2d606] ]",
+      "name": "FUN_71c2d5e8",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd607",
+      "bytes": 17,
+      "ranges": "[[71c2d607, 71c2d617] ]",
+      "name": "FUN_71c2d607",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd618",
+      "bytes": 30,
+      "ranges": "[[71c2d618, 71c2d635] ]",
+      "name": "FUN_71c2d618",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd636",
+      "bytes": 34,
+      "ranges": "[[71c2d636, 71c2d657] ]",
+      "name": "FUN_71c2d636",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd658",
+      "bytes": 11,
+      "ranges": "[[71c2d658, 71c2d662] ]",
+      "name": "FUN_71c2d658",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd663",
+      "bytes": 32,
+      "ranges": "[[71c2d663, 71c2d682] ]",
+      "name": "FUN_71c2d663",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd683",
+      "bytes": 210,
+      "ranges": "[[71c2d683, 71c2d754] ]",
+      "name": "FUN_71c2d683",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd755",
+      "bytes": 120,
+      "ranges": "[[71c2d755, 71c2d7cc] ]",
+      "name": "FUN_71c2d755",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd7cd",
+      "bytes": 419,
+      "ranges": "[[71c2d7cd, 71c2d96f] ]",
+      "name": "FUN_71c2d7cd",
+      "kind": "application"
+    },
+    {
+      "rva": "0xd970",
+      "bytes": 340,
+      "ranges": "[[71c2d970, 71c2dac3] ]",
+      "name": "FUN_71c2d970",
+      "kind": "application"
+    },
+    {
+      "rva": "0xdac4",
+      "bytes": 50,
+      "ranges": "[[71c2dac4, 71c2daf5] ]",
+      "name": "FUN_71c2dac4",
+      "kind": "application"
+    },
+    {
+      "rva": "0xdaf6",
+      "bytes": 548,
+      "ranges": "[[71c2daf6, 71c2dd19] ]",
+      "name": "FUN_71c2daf6",
+      "kind": "application"
+    },
+    {
+      "rva": "0xdd1a",
+      "bytes": 66,
+      "ranges": "[[71c2dd1a, 71c2dd5b] ]",
+      "name": "FUN_71c2dd1a",
+      "kind": "application"
+    },
+    {
+      "rva": "0xdd5c",
+      "bytes": 174,
+      "ranges": "[[71c2dd5c, 71c2de09] ]",
+      "name": "FUN_71c2dd5c",
+      "kind": "application"
+    },
+    {
+      "rva": "0xde0a",
+      "bytes": 7,
+      "ranges": "[[71c2de0a, 71c2de10] ]",
+      "name": "FUN_71c2de0a",
+      "kind": "application"
+    },
+    {
+      "rva": "0xde11",
+      "bytes": 17,
+      "ranges": "[[71c2de11, 71c2de21] ]",
+      "name": "FUN_71c2de11",
+      "kind": "application"
+    },
+    {
+      "rva": "0xde22",
+      "bytes": 22,
+      "ranges": "[[71c2de22, 71c2de37] ]",
+      "name": "FUN_71c2de22",
+      "kind": "application"
+    },
+    {
+      "rva": "0xde38",
+      "bytes": 42,
+      "ranges": "[[71c2de38, 71c2de61] ]",
+      "name": "FUN_71c2de38",
+      "kind": "application"
+    },
+    {
+      "rva": "0xde62",
+      "bytes": 19,
+      "ranges": "[[71c2de62, 71c2de74] ]",
+      "name": "FUN_71c2de62",
+      "kind": "application"
+    },
+    {
+      "rva": "0xde75",
+      "bytes": 435,
+      "ranges": "[[71c2de75, 71c2e027] ]",
+      "name": "FUN_71c2de75",
+      "kind": "application"
+    },
+    {
+      "rva": "0xe028",
+      "bytes": 40,
+      "ranges": "[[71c2e028, 71c2e04f] ]",
+      "name": "FUN_71c2e028",
+      "kind": "application"
+    },
+    {
+      "rva": "0xe050",
+      "bytes": 1121,
+      "ranges": "[[71c2e050, 71c2e4b0] ]",
+      "name": "FUN_71c2e050",
+      "kind": "application"
+    },
+    {
+      "rva": "0xe4b1",
+      "bytes": 129,
+      "ranges": "[[71c2e4b1, 71c2e531] ]",
+      "name": "FUN_71c2e4b1",
+      "kind": "application"
+    },
+    {
+      "rva": "0xe532",
+      "bytes": 242,
+      "ranges": "[[71c2e532, 71c2e623] ]",
+      "name": "FUN_71c2e532",
+      "kind": "application"
+    },
+    {
+      "rva": "0xe624",
+      "bytes": 883,
+      "ranges": "[[71c2e624, 71c2e996] ]",
+      "name": "FUN_71c2e624",
+      "kind": "application"
+    },
+    {
+      "rva": "0xe997",
+      "bytes": 362,
+      "ranges": "[[71c2e997, 71c2eb00] ]",
+      "name": "FUN_71c2e997",
+      "kind": "application"
+    },
+    {
+      "rva": "0xeb01",
+      "bytes": 150,
+      "ranges": "[[71c2eb01, 71c2eb96] ]",
+      "name": "FUN_71c2eb01",
+      "kind": "application"
+    },
+    {
+      "rva": "0xeb97",
+      "bytes": 67,
+      "ranges": "[[71c2eb97, 71c2ebd9] ]",
+      "name": "FUN_71c2eb97",
+      "kind": "application"
+    },
+    {
+      "rva": "0xebda",
+      "bytes": 103,
+      "ranges": "[[71c2ebda, 71c2ec40] ]",
+      "name": "FUN_71c2ebda",
+      "kind": "application"
+    },
+    {
+      "rva": "0xec41",
+      "bytes": 140,
+      "ranges": "[[71c2ec41, 71c2eccc] ]",
+      "name": "FUN_71c2ec41",
+      "kind": "application"
+    },
+    {
+      "rva": "0xeccd",
+      "bytes": 1304,
+      "ranges": "[[71c2eccd, 71c2f1e4] ]",
+      "name": "FUN_71c2eccd",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf1e5",
+      "bytes": 238,
+      "ranges": "[[71c2f1e5, 71c2f2d2] ]",
+      "name": "FUN_71c2f1e5",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf317",
+      "bytes": 212,
+      "ranges": "[[71c2f317, 71c2f3ea] ]",
+      "name": "FUN_71c2f317",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf3eb",
+      "bytes": 35,
+      "ranges": "[[71c2f3eb, 71c2f40d] ]",
+      "name": "FUN_71c2f3eb",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf40e",
+      "bytes": 46,
+      "ranges": "[[71c2f40e, 71c2f43b] ]",
+      "name": "FUN_71c2f40e",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf43c",
+      "bytes": 421,
+      "ranges": "[[71c2f43c, 71c2f5e0] ]",
+      "name": "FUN_71c2f43c",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf5e1",
+      "bytes": 136,
+      "ranges": "[[71c2f5e1, 71c2f668] ]",
+      "name": "FUN_71c2f5e1",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf669",
+      "bytes": 35,
+      "ranges": "[[71c2f669, 71c2f68b] ]",
+      "name": "FUN_71c2f669",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf68c",
+      "bytes": 103,
+      "ranges": "[[71c2f68c, 71c2f6f2] ]",
+      "name": "FUN_71c2f68c",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf6f3",
+      "bytes": 533,
+      "ranges": "[[71c2f6f3, 71c2f907] ]",
+      "name": "FUN_71c2f6f3",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf908",
+      "bytes": 187,
+      "ranges": "[[71c2f908, 71c2f9c2] ]",
+      "name": "FUN_71c2f908",
+      "kind": "application"
+    },
+    {
+      "rva": "0xf9c3",
+      "bytes": 229,
+      "ranges": "[[71c2f9c3, 71c2faa7] ]",
+      "name": "FUN_71c2f9c3",
+      "kind": "application"
+    },
+    {
+      "rva": "0xfaa8",
+      "bytes": 107,
+      "ranges": "[[71c2faa8, 71c2fb12] ]",
+      "name": "FUN_71c2faa8",
+      "kind": "application"
+    },
+    {
+      "rva": "0xfb13",
+      "bytes": 299,
+      "ranges": "[[71c2fb13, 71c2fc3d] ]",
+      "name": "FUN_71c2fb13",
+      "kind": "application"
+    },
+    {
+      "rva": "0xfc3e",
+      "bytes": 375,
+      "ranges": "[[71c2fc3e, 71c2fdb4] ]",
+      "name": "FUN_71c2fc3e",
+      "kind": "application"
+    },
+    {
+      "rva": "0xfdb5",
+      "bytes": 366,
+      "ranges": "[[71c2fdb5, 71c2ff22] ]",
+      "name": "FUN_71c2fdb5",
+      "kind": "application"
+    },
+    {
+      "rva": "0xff23",
+      "bytes": 65,
+      "ranges": "[[71c2ff23, 71c2ff63] ]",
+      "name": "FUN_71c2ff23",
+      "kind": "application"
+    },
+    {
+      "rva": "0xff64",
+      "bytes": 52,
+      "ranges": "[[71c2ff64, 71c2ff97] ]",
+      "name": "FUN_71c2ff64",
+      "kind": "application"
+    },
+    {
+      "rva": "0xff98",
+      "bytes": 82,
+      "ranges": "[[71c2ff98, 71c2ffe9] ]",
+      "name": "FUN_71c2ff98",
+      "kind": "application"
+    },
+    {
+      "rva": "0xffea",
+      "bytes": 51,
+      "ranges": "[[71c2ffea, 71c3001c] ]",
+      "name": "FUN_71c2ffea",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1001d",
+      "bytes": 36,
+      "ranges": "[[71c3001d, 71c30040] ]",
+      "name": "FUN_71c3001d",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10041",
+      "bytes": 144,
+      "ranges": "[[71c30041, 71c300d0] ]",
+      "name": "FUN_71c30041",
+      "kind": "application"
+    },
+    {
+      "rva": "0x100d1",
+      "bytes": 213,
+      "ranges": "[[71c300d1, 71c301a5] ]",
+      "name": "FUN_71c300d1",
+      "kind": "application"
+    },
+    {
+      "rva": "0x101a6",
+      "bytes": 162,
+      "ranges": "[[71c301a6, 71c30247] ]",
+      "name": "FUN_71c301a6",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10248",
+      "bytes": 38,
+      "ranges": "[[71c30248, 71c3026d] ]",
+      "name": "FUN_71c30248",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1026e",
+      "bytes": 154,
+      "ranges": "[[71c3026e, 71c30307] ]",
+      "name": "FUN_71c3026e",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10308",
+      "bytes": 243,
+      "ranges": "[[71c30308, 71c303fa] ]",
+      "name": "FUN_71c30308",
+      "kind": "application"
+    },
+    {
+      "rva": "0x103fb",
+      "bytes": 48,
+      "ranges": "[[71c303fb, 71c3042a] ]",
+      "name": "FUN_71c303fb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1042b",
+      "bytes": 149,
+      "ranges": "[[71c3042b, 71c304bf] ]",
+      "name": "FUN_71c3042b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x104c0",
+      "bytes": 257,
+      "ranges": "[[71c304c0, 71c305c0] ]",
+      "name": "FUN_71c304c0",
+      "kind": "application"
+    },
+    {
+      "rva": "0x105c1",
+      "bytes": 236,
+      "ranges": "[[71c305c1, 71c306ac] ]",
+      "name": "FUN_71c305c1",
+      "kind": "application"
+    },
+    {
+      "rva": "0x106ad",
+      "bytes": 348,
+      "ranges": "[[71c306ad, 71c30808] ]",
+      "name": "FUN_71c306ad",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10809",
+      "bytes": 115,
+      "ranges": "[[71c30809, 71c3087b] ]",
+      "name": "FUN_71c30809",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1087c",
+      "bytes": 151,
+      "ranges": "[[71c3087c, 71c30912] ]",
+      "name": "FUN_71c3087c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10913",
+      "bytes": 159,
+      "ranges": "[[71c30913, 71c309b1] ]",
+      "name": "FUN_71c30913",
+      "kind": "application"
+    },
+    {
+      "rva": "0x109b2",
+      "bytes": 75,
+      "ranges": "[[71c309b2, 71c309fc] ]",
+      "name": "FUN_71c309b2",
+      "kind": "application"
+    },
+    {
+      "rva": "0x109fd",
+      "bytes": 31,
+      "ranges": "[[71c309fd, 71c30a1b] ]",
+      "name": "FUN_71c309fd",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10a1c",
+      "bytes": 51,
+      "ranges": "[[71c30a1c, 71c30a4e] ]",
+      "name": "FUN_71c30a1c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10a4f",
+      "bytes": 53,
+      "ranges": "[[71c30a4f, 71c30a83] ]",
+      "name": "FUN_71c30a4f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10a84",
+      "bytes": 44,
+      "ranges": "[[71c30a84, 71c30aaf] ]",
+      "name": "FUN_71c30a84",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10ab0",
+      "bytes": 55,
+      "ranges": "[[71c30ab0, 71c30ae6] ]",
+      "name": "FUN_71c30ab0",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10ae7",
+      "bytes": 69,
+      "ranges": "[[71c30ae7, 71c30b2b] ]",
+      "name": "FUN_71c30ae7",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10b2c",
+      "bytes": 88,
+      "ranges": "[[71c30b2c, 71c30b83] ]",
+      "name": "FUN_71c30b2c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10b84",
+      "bytes": 75,
+      "ranges": "[[71c30b84, 71c30bce] ]",
+      "name": "FUN_71c30b84",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10bcf",
+      "bytes": 85,
+      "ranges": "[[71c30bcf, 71c30c23] ]",
+      "name": "FUN_71c30bcf",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10c24",
+      "bytes": 40,
+      "ranges": "[[71c30c24, 71c30c4b] ]",
+      "name": "FUN_71c30c24",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10c4c",
+      "bytes": 24,
+      "ranges": "[[71c30c4c, 71c30c63] ]",
+      "name": "FUN_71c30c4c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10c64",
+      "bytes": 279,
+      "ranges": "[[71c30c64, 71c30d7a] ]",
+      "name": "FUN_71c30c64",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10d7b",
+      "bytes": 29,
+      "ranges": "[[71c30d7b, 71c30d97] ]",
+      "name": "FUN_71c30d7b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10d98",
+      "bytes": 80,
+      "ranges": "[[71c30d98, 71c30de7] ]",
+      "name": "FUN_71c30d98",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10de8",
+      "bytes": 163,
+      "ranges": "[[71c30de8, 71c30e8a] ]",
+      "name": "FUN_71c30de8",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10e8b",
+      "bytes": 39,
+      "ranges": "[[71c30e8b, 71c30eb1] ]",
+      "name": "FUN_71c30e8b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10eb2",
+      "bytes": 73,
+      "ranges": "[[71c30eb2, 71c30efa] ]",
+      "name": "FUN_71c30eb2",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10efb",
+      "bytes": 164,
+      "ranges": "[[71c30efb, 71c30f9e] ]",
+      "name": "FUN_71c30efb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x10f9f",
+      "bytes": 443,
+      "ranges": "[[71c30f9f, 71c31159] ]",
+      "name": "FUN_71c30f9f",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1115a",
+      "bytes": 706,
+      "ranges": "[[71c3115a, 71c3141b] ]",
+      "name": "FUN_71c3115a",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1141c",
+      "bytes": 108,
+      "ranges": "[[71c3141c, 71c31487] ]",
+      "name": "FUN_71c3141c",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11488",
+      "bytes": 175,
+      "ranges": "[[71c31488, 71c31536] ]",
+      "name": "FUN_71c31488",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11537",
+      "bytes": 271,
+      "ranges": "[[71c31537, 71c31645] ]",
+      "name": "FUN_71c31537",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11646",
+      "bytes": 689,
+      "ranges": "[[71c31646, 71c318f6] ]",
+      "name": "FUN_71c31646",
+      "kind": "application"
+    },
+    {
+      "rva": "0x118f7",
+      "bytes": 9,
+      "ranges": "[[71c318f7, 71c318ff] ]",
+      "name": "FUN_71c318f7",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11900",
+      "bytes": 267,
+      "ranges": "[[71c31900, 71c31a0a] ]",
+      "name": "FUN_71c31900",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11a0b",
+      "bytes": 287,
+      "ranges": "[[71c31a0b, 71c31b29] ]",
+      "name": "FUN_71c31a0b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11b2a",
+      "bytes": 26,
+      "ranges": "[[71c31b2a, 71c31b43] ]",
+      "name": "FUN_71c31b2a",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11b44",
+      "bytes": 361,
+      "ranges": "[[71c31b44, 71c31cac] ]",
+      "name": "FUN_71c31b44",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11cad",
+      "bytes": 217,
+      "ranges": "[[71c31cad, 71c31d85] ]",
+      "name": "FUN_71c31cad",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11d86",
+      "bytes": 437,
+      "ranges": "[[71c31d86, 71c31f3a] ]",
+      "name": "FUN_71c31d86",
+      "kind": "application"
+    },
+    {
+      "rva": "0x11f3b",
+      "bytes": 290,
+      "ranges": "[[71c31f3b, 71c3205c] ]",
+      "name": "FUN_71c31f3b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x1205d",
+      "bytes": 281,
+      "ranges": "[[71c3205d, 71c32175] ]",
+      "name": "FUN_71c3205d",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12176",
+      "bytes": 668,
+      "ranges": "[[71c32176, 71c32411] ]",
+      "name": "FUN_71c32176",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12412",
+      "bytes": 408,
+      "ranges": "[[71c32412, 71c325a9] ]",
+      "name": "FUN_71c32412",
+      "kind": "application"
+    },
+    {
+      "rva": "0x125aa",
+      "bytes": 238,
+      "ranges": "[[71c325aa, 71c32697] ]",
+      "name": "FUN_71c325aa",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12698",
+      "bytes": 23,
+      "ranges": "[[71c32698, 71c326ae] ]",
+      "name": "FUN_71c32698",
+      "kind": "application"
+    },
+    {
+      "rva": "0x126af",
+      "bytes": 28,
+      "ranges": "[[71c326af, 71c326ca] ]",
+      "name": "FUN_71c326af",
+      "kind": "application"
+    },
+    {
+      "rva": "0x126cb",
+      "bytes": 23,
+      "ranges": "[[71c326cb, 71c326e1] ]",
+      "name": "FUN_71c326cb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x126e2",
+      "bytes": 25,
+      "ranges": "[[71c326e2, 71c326fa] ]",
+      "name": "FUN_71c326e2",
+      "kind": "application"
+    },
+    {
+      "rva": "0x126fb",
+      "bytes": 54,
+      "ranges": "[[71c326fb, 71c32730] ]",
+      "name": "FUN_71c326fb",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12731",
+      "bytes": 440,
+      "ranges": "[[71c32731, 71c328e8] ]",
+      "name": "FUN_71c32731",
+      "kind": "application"
+    },
+    {
+      "rva": "0x128e9",
+      "bytes": 31,
+      "ranges": "[[71c328e9, 71c32907] ]",
+      "name": "FUN_71c328e9",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12908",
+      "bytes": 108,
+      "ranges": "[[71c32908, 71c32973] ]",
+      "name": "FUN_71c32908",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12974",
+      "bytes": 142,
+      "ranges": "[[71c32974, 71c32a01] ]",
+      "name": "FUN_71c32974",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12a02",
+      "bytes": 41,
+      "ranges": "[[71c32a02, 71c32a2a] ]",
+      "name": "FUN_71c32a02",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12a2b",
+      "bytes": 112,
+      "ranges": "[[71c32a2b, 71c32a9a] ]",
+      "name": "FUN_71c32a2b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12a9b",
+      "bytes": 97,
+      "ranges": "[[71c32a9b, 71c32afb] ]",
+      "name": "FUN_71c32a9b",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12afc",
+      "bytes": 107,
+      "ranges": "[[71c32afc, 71c32b66] ]",
+      "name": "FUN_71c32afc",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12b67",
+      "bytes": 65,
+      "ranges": "[[71c32b67, 71c32ba7] ]",
+      "name": "FUN_71c32b67",
+      "kind": "application"
+    },
+    {
+      "rva": "0x12bb0",
+      "bytes": 364,
+      "ranges": "[[71c32bb0, 71c32d1b] ]",
+      "name": "__CRT_INIT@12",
+      "kind": "crt-support"
+    },
+    {
+      "rva": "0x12d20",
+      "bytes": 191,
+      "ranges": "[[71c32d20, 71c32dde] ]",
+      "name": "entry",
+      "kind": "crt-support"
+    },
+    {
+      "rva": "0x12de0",
+      "bytes": 6,
+      "ranges": "[[71c32de0, 71c32de5] ]",
+      "name": "_setjmp3",
+      "kind": "import"
+    },
+    {
+      "rva": "0x12df0",
+      "bytes": 47,
+      "ranges": "[[71c32df0, 71c32e1e] ]",
+      "name": "FUN_71c32df0",
+      "kind": "crt-support"
+    },
+    {
+      "rva": "0x12e26",
+      "bytes": 6,
+      "ranges": "[[71c32e26, 71c32e2b] ]",
+      "name": "_initterm",
+      "kind": "import"
+    }
+  ]
+}

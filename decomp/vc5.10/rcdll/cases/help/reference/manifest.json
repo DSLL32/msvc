@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "case": "RC export /help",
+  "status": 0,
+  "argv0": "S:\\vc5.10\\rcdll\\format-original2\\RC.EXE",
+  "module_path": "S:\\vc5.10\\rcdll\\format-original2\\RCDLL.dll",
+  "target_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/rcdll/format-original2",
+  "original_elapsed_seconds": 1.46847908757627,
+  "application_trace_provenance": "derived from exact original first-entry RVAs and checked against native trace in acceptance-0011",
+  "files": {
+    "receipt.json": "d782a30a357f7dd70cd470f6e1815baa129b04bcfdab344e1e80a5e9a6340ff3",
+    "stdout.bin": "e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1",
+    "trace.txt": "cf7a19c0a272dad83052e32037de1588c1c2c56bd358abbc2562f222c424e929",
+    "events.txt": "60d6cea1e89d9032da82d0e1939fbd05e97a5e402f8fab12ea47e5669f978b5f",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "callbacks.json": "b60c994f40e3846eeb9f1f3648799635962780ac14056c853e61afcd939d4626"
+  }
+}

@@ -1,0 +1,4 @@
+LIBRARY RCDLL
+EXPORTS
+    Handler=_Handler@4 @1
+    RC=_RC@24 @2

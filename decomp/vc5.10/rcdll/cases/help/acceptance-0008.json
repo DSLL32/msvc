@@ -1,0 +1,346 @@
+{
+  "configuration": {
+    "schema": 1,
+    "target": "toolchains/5.10/bin/RCDLL.DLL",
+    "image_base": "0x71c20000",
+    "entry_rva": "0x12d20",
+    "accepted": [
+      "recon_dll_entry",
+      "rcdll_crt_init",
+      "rcdll_main",
+      "RC",
+      "rc_main",
+      "rc_initialize",
+      "rc_allocate"
+    ],
+    "functions": [
+      {
+        "name": "recon_dll_entry",
+        "start": "0x12d20",
+        "end": "0x12ddf",
+        "abi": "stdcall",
+        "stack_bytes": 12,
+        "kind": "crt-support",
+        "stub": false
+      },
+      {
+        "name": "rcdll_main",
+        "start": "0x8b29",
+        "end": "0x8b46",
+        "abi": "stdcall",
+        "stack_bytes": 12,
+        "kind": "application",
+        "stub": false
+      },
+      {
+        "name": "Handler",
+        "start": "0x8a46",
+        "end": "0x8aaa",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "RC",
+        "start": "0x8b46",
+        "end": "0x8b72",
+        "abi": "stdcall",
+        "stack_bytes": 24,
+        "kind": "application",
+        "stub": false
+      },
+      {
+        "name": "rcdll_crt_init",
+        "start": "0x12bb0",
+        "end": "0x12d1c",
+        "abi": "stdcall",
+        "stack_bytes": 12,
+        "kind": "crt-support",
+        "stub": false
+      },
+      {
+        "name": "rc_main",
+        "start": "0x7443",
+        "end": "0x845c",
+        "abi": "cdecl",
+        "stack_bytes": 0,
+        "kind": "application",
+        "stub": false,
+        "text_data": [
+          [
+            "0x845c",
+            "0x84c4"
+          ],
+          [
+            "0x11fc",
+            "0x11fe"
+          ]
+        ]
+      },
+      {
+        "name": "rc_initialize",
+        "start": "0x84c4",
+        "end": "0x8512",
+        "abi": "stdcall",
+        "stack_bytes": 0,
+        "kind": "application",
+        "stub": false
+      },
+      {
+        "name": "rc_allocate",
+        "start": "0x109b2",
+        "end": "0x109fd",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": false
+      },
+      {
+        "name": "rc_release",
+        "start": "0x109fd",
+        "end": "0x10a1c",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_is_option",
+        "start": "0x10c4c",
+        "end": "0x10c64",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": false
+      },
+      {
+        "name": "rc_message",
+        "start": "0x2c64",
+        "end": "0x2c98",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_format",
+        "start": "0x2c98",
+        "end": "0x2cc0",
+        "abi": "cdecl",
+        "stack_bytes": 0,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_emit",
+        "start": "0x8bcd",
+        "end": "0x8c70",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_fatal",
+        "start": "0x89e3",
+        "end": "0x8a40",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_seek",
+        "start": "0x10ae7",
+        "end": "0x10b2c",
+        "abi": "stdcall",
+        "stack_bytes": 12,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_prepare_input",
+        "start": "0x856c",
+        "end": "0x89e3",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_preprocess",
+        "start": "0x8b72",
+        "end": "0x8b8e",
+        "abi": "stdcall",
+        "stack_bytes": 12,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_initialize_resource",
+        "start": "0x10f9f",
+        "end": "0x1115a",
+        "abi": "stdcall",
+        "stack_bytes": 0,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_initialize_input",
+        "start": "0x91d5",
+        "end": "0x9201",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_parse_resources",
+        "start": "0xb209",
+        "end": "0xbb88",
+        "abi": "stdcall",
+        "stack_bytes": 0,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_flush_resources",
+        "start": "0x1115a",
+        "end": "0x1141c",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_align_output",
+        "start": "0x10ab0",
+        "end": "0x10ae7",
+        "abi": "stdcall",
+        "stack_bytes": 4,
+        "kind": "application",
+        "stub": true
+      },
+      {
+        "name": "rc_cleanup",
+        "start": "0x8aaa",
+        "end": "0x8b29",
+        "abi": "stdcall",
+        "stack_bytes": 0,
+        "kind": "application",
+        "stub": true
+      }
+    ],
+    "loader_text_metadata": [
+      {
+        "start": "0x1000",
+        "end": "0x114c",
+        "reason": "IAT, padding and PE debug directory; independently exclude from code masking"
+      },
+      {
+        "start": "0x12e2c",
+        "end": "0x13371",
+        "reason": "Import descriptors/thunks/names and export directory/names; loader metadata"
+      }
+    ],
+    "lifecycle": "CRT process attach; RC export; CRT process detach",
+    "status": "help case in progress",
+    "support_imports": [
+      {
+        "name": "import:_initterm",
+        "start": "0x12e26",
+        "end": "0x12e2c",
+        "accepted": true,
+        "provider": "MSVCRT.dll",
+        "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "evidence": "lib/recon/src/crt.c canonical VC5 _initterm contract; IAT symbol and thunk bytes verified by common PE importer"
+      },
+      {
+        "name": "import:_setjmp3",
+        "start": "0x12de0",
+        "end": "0x12de6",
+        "accepted": true,
+        "provider": "MSVCRT.dll",
+        "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "evidence": "Canonical full count0 body and actual CRT-format-original raw64/TEB observation; shared cc1f20b4 opaque save with caller-frame host setjmp; nonzero count and target longjmp/unwind reject"
+      }
+    ],
+    "trial_function": "rc_is_option"
+  },
+  "proof": {
+    "trial": "rc_is_option",
+    "matched_frontier": "rc_emit",
+    "globals": {
+      "dll_attach_count": "01000000",
+      "dll_raw_main": "00000000",
+      "dll_platform_kind": "ffffffff",
+      "dll_fdiv_adjust": "00000000",
+      "dll_constructors": "00000000",
+      "rc_window": "00000000",
+      "rc_resource": "00000000",
+      "rc_result": "00000000",
+      "rc_default_language": "09040000",
+      "rc_codepage": "00000000",
+      "rc_saved_codepage": "00000000",
+      "rc_language": "8000",
+      "rc_mac": "00000000",
+      "rc_preprocess_only": "00000000",
+      "rc_apstudio": "00000000",
+      "rc_verbose": "00000000",
+      "rc_new_style": "00000000",
+      "rc_warnings": "00000000",
+      "rc_special_type_count": "00000000",
+      "rc_cancelled": "0000",
+      "rc_input_temporary": "00000000",
+      "rc_output_temporary": "00000000",
+      "rc_resource_state": "00000000",
+      "rc_scan_state": "00000000",
+      "rc_input_name": "00",
+      "rc_output_path": "00"
+    },
+    "allocation": {
+      "original_heap": 15073280,
+      "native_heap": 4160466944,
+      "bytes": 528,
+      "target_header_bytes": 8,
+      "buffer_bytes": 520,
+      "flags": 9,
+      "zeroed": true
+    },
+    "message": "0a00",
+    "application_functions": 6,
+    "crt_support_functions": 2,
+    "import_boundaries": 2,
+    "graph_audit_sha256": "134d4d3abbb6e4fe747c4f51cc2e2135dfa24a81d7eed0baca2694ef70c5517e",
+    "validation_versions": {
+      "decomp/vc5.10/rcdll/scripts/accept.py": "e8bca3a025b58cbb38527ae70ae9fdc74a6d99f1bc59a225d5c9c8d04b80f899",
+      "decomp/vc5.10/rcdll/scripts/audit.py": "7d68e34c629efe0a506efce37ce662c80d96695b5bf47f46e1166cf47dd11b5f",
+      "decomp/vc5.10/rcdll/scripts/capture-native.py": "b4cd6cbe46ad108d30cebc67489fc75757e6e292f4d7899833d130cd716cffec",
+      "decomp/vc5.10/rcdll/scripts/capture-original.py": "d5ccea968f0d34415f465f2f9d83fb464f94740648d030f4ea8f541f06b9b786",
+      "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+      "decomp/vc5.10/rcdll/scripts/check-plan.py": "c8119061c840d93f850fbf530f0e1fb429f2b07dc4e45cf2ac462d3d13f2c934",
+      "decomp/vc5.10/rcdll/scripts/check-trial.py": "e621a7caa74296a03ec3cccd20a191fdd48aa0b6b0b0fed45df3f3aaecd5ba0e",
+      "decomp/vc5.10/rcdll/scripts/native-gdb.py": "5b4c332bb2dce97137a22a23905604745a30c94ccfd81403390e8a6fb25ffe30",
+      "decomp/vc5.10/rcdll/scripts/native-observers.py": "d0bc4c46edb6331b7379cf1987deab55ca51972f563e6747f872730b15d3db99",
+      "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+      "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "aef2f989c565a841e0c72eb9e08305f6f538769a4c5b651344e9e503d8983ee8",
+      "decomp/vc5.10/rcdll/scripts/protocol.py": "402ed4667c77af26ceeff83881017025a9e6cc7cad9f300bc205a6f7d189f36a",
+      "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "de171331e6df35834accf57fa1510d279ed6e8608afe1cd4cdfd5032885a17ad",
+      "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+      "decomp/vc5.10/rcdll/data.json": "c34e56143fecf6d64790216aedf976f31d093a4db7a30ba62caf9a9b7c1d2760"
+    },
+    "original_receipt_sha256": "9b5e7643aa2a537a3b4f475668fb4a88917468756105bcb6bffcb80debbe4e47",
+    "native_receipt_sha256": "c4c9fb43b0aa01465b34c5ba2bc0f01db34c4b473c467a6455bc9728821e95af"
+  },
+  "review": {
+    "initial_scaffold": "approved by vc510_orchestrator",
+    "trial_promotions": {
+      "recon_dll_entry": "Approved by vc510_orchestrator after independent registered-module state/negative checks and complete 191-byte source review"
+    },
+    "autonomous_scope": "rc-export-help",
+    "scope_authorization": "vc510_orchestrator approved first wrapper promotion and autonomous completion of only the RC-export/help case; stop after completion"
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/option-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/option-native"
+}

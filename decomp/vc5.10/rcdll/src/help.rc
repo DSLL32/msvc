@@ -1,0 +1,3 @@
+/* Only encountered ANSI message-table entries; generated payload in build/. */
+LANGUAGE 9, 1
+1 MESSAGETABLE "build/help-messages.bin"

@@ -1,0 +1,82 @@
+{
+  "status": "first RC-export/help case complete; paused",
+  "accepted_application_functions": 9,
+  "accepted_application_code_bytes": 4626,
+  "accepted_crt_functions": 2,
+  "accepted_crt_code_bytes": 555,
+  "accepted_import_thunks": 2,
+  "provisional_discovered_application_functions": 299,
+  "provisional_discovered_application_code_bytes": 66295,
+  "accepted_application_code_extent_percent": 6.977901802549212,
+  "denominator": "Ghidra discovered application bodies, provisional; separately identified CRT/imports and literal/switch data excluded",
+  "checks": {
+    "full_original_toolchain_build": true,
+    "full_native_i386_build": true,
+    "candidate_inclusive_common_graph": 11,
+    "exports_and_entry": true,
+    "source_provenance": true,
+    "exact_output_and_callbacks": true,
+    "native_application_trace_entries": 9,
+    "real_original_and_native_exit": 0,
+    "final_trial_rejection_controls": [
+      "nonzero-native-exit",
+      "wrong-native-elf",
+      "missing-native-entry",
+      "failed-original-detach",
+      "changed-encountered-global",
+      "unproved-raw-callback",
+      "extra-unmasked-code",
+      "wrong-trial-config",
+      "missing-raw-frontier",
+      "wrong-loaded-target",
+      "wrong-loaded-crt"
+    ],
+    "real_win32_encountered_resources": {
+      "ids": [
+        10001,
+        20001
+      ],
+      "language": 1033,
+      "encoding": "ANSI"
+    }
+  },
+  "seconds": {
+    "original_full_rebuild": 4.566099063493311,
+    "native_full_rebuild": 1.6713058147579432,
+    "rust_audit": 0.03502714727073908,
+    "fresh_original_completion": 1.46847908757627,
+    "native_fixture": {
+      "setup": 0.0036988528445363045,
+      "execution": 0.002297281287610531,
+      "checks": 0.0010844320058822632,
+      "total": 0.007614118047058582
+    }
+  },
+  "current_hashes": {
+    "native": "8234f8b8afc4ee03c40d0a917e484fce71ff8b32695cf04fac0cff2d68011286",
+    "rebuilt_win32": "da4ebdaef3ae184f424e808655b985c2dd375822e16a4f343094d09b4545abae",
+    "map": "4b6833ba8d11fa154d388043273ae67b6dca46ffdeee42f54347c4461042336b",
+    "reference_manifest": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524",
+    "encountered_message_source": "22dee3596f7676c814270a0031d9519c4e6cedd65ae8ea0374c60ecb487f2f48",
+    "win32_message_table": "31dfe14e3a35e3f0d9e4ac55cb0dfad98d863d227306cba91dae03f2bb3f328c"
+  },
+  "final_accepted_pair": {
+    "original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/format-original2",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/format-native2",
+    "acceptance": "cases/help/acceptance-0011.json",
+    "original_compiled_source_sha256": "f754587e1544729fc6c6458e9ea2730fa8f90a5e44048faeb86a638aef37dd1f",
+    "native_compiled_source_sha256": "0c00b5d0a9df75034cdbfb28c5b008ec884e6c33819dcb9e0f6b17ad76f168a5"
+  },
+  "limitations": [
+    "Only RC-export/help released; no second case started",
+    "Whole main recovered and graph-checked; non-help branches remain dynamically untested and call named traps",
+    "Nonpreferred DLL loading, repeat invocations, Handler/control thread and resource callback ABI untested",
+    "Native setjmp3 count0 save is opaque; target longjmp/SEH unwind rejected",
+    "No resource-rich reference or native fixture accepted"
+  ],
+  "completion_recheck": "cases/help/native-recheck.json",
+  "commands": [
+    "make -j4 fixtures graph-audit check-abi check-plan",
+    "python3 scripts/check-completion.py"
+  ]
+}

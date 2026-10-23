@@ -1,116 +1,99 @@
-# RCDLL groundwork
+# RCDLL reconstruction
 
-Target: `toolchains/5.10/bin/RCDLL.DLL`. The supplied toolchain has no
-`RCDLL.EXE`; the requested binary folder remains `rcdll`. Reconstruction is
-paused pending the DLL workflow decision and the Rust graph audit. No function
-has been reconstructed, accepted, unmasked, or counted toward coverage.
+Target: `toolchains/5.10/bin/RCDLL.DLL` (the toolchain contains no RCDLL.EXE).
+The first `RC` export `/help` case is complete and this worker is paused.
+Nine application functions (4,626 original code bytes), two embedded CRT functions
+(555 bytes), and two import-thunk boundaries have been accepted. Only help has
+been exercised dynamically; other command paths retain named, ABI-correct traps.
 
-`make inspect` prints a read-only PE inventory. `make check-plan` verifies that
-inventory and copied input provenance. Native, original-build and fixture targets
-fail with status 125 until explicitly released; neither command invokes Wine.
+`make -j4 native` builds the instrumented Linux i386 static DLL host.
+`make -j4 fixtures` compares cached original output, callback effects and application
+entry order without Wine. `make -j4 original` explicitly invokes the original
+5.10 compiler to build a real Win32 DLL. `make graph-audit check-abi check-plan`
+checks the shared Rust function graph, DLL interface/resources and input provenance.
+`python3 scripts/check-completion.py` revalidates the frozen completion pair and
+11 rejection controls without changing live configuration or invoking Wine.
 
-## Image and external interfaces
+## First case
 
-PE32 i386 DLL, preferred base `0x71c20000`, entry RVA `0x12d20`, image size
-`0x30000`; no TLS directory or delay imports. Section and complete named import
-inventory: [cases/pe-inventory.json](cases/pe-inventory.json). Imports are from
-`MSVCRT.dll`, `KERNEL32.dll` and `USER32.dll`; there is no separate RCPP dependency.
-`.text` also holds IAT/import/export/debug data, so masking must distinguish
-instructions and encountered text data from PE loader metadata.
+The original host is the actual RC.EXE with static imports. It loads the masked
+DLL, performs CRT/application attach, calls
+`RC(0, 0, diagnostic_callback, 0, argc, argv)` for `/help`, then performs process
+exit detach. The native host reproduces that sequence outside the DLL graph.
+Both complete with status 0, identical 589-byte stdout, empty stderr, four exact
+callback before/after buffers and nine matching application first entries.
+[Cached reference](cases/help/reference/manifest.json),
+[acceptance history](cases/help), [verification/timings](cases/help/verification.json).
 
-| Export | Ordinal | RVA | Calling convention |
-| --- | ---: | ---: | --- |
-| Handler | 1 | `0x8a46` | stdcall, one DWORD argument, `ret 4` |
-| RC | 2 | `0x8b46` | stdcall, six 32-bit slots, `ret 24` |
+| Export | Ordinal | ABI |
+| --- | ---: | --- |
+| Handler | 1 | stdcall, DWORD, ret 4; unaccepted trap |
+| RC | 2 | stdcall, six 32-bit slots, ret 24 |
 
-These signatures follow actual export-entry instructions and caller stack setup,
-not export-name decoration. The original RC.EXE statically imports both names.
-Its main registers `Handler` with `SetConsoleCtrlHandler`, invokes
-`RC(0, 0, diagnostic_callback, 0, argc, argv)`, unregisters the handler and exits
-with RC's result. The RC worker owns original driver probes and callback analysis.
+Diagnostic callbacks are stdcall with three slots, with mutable ANSI text in
+slot three. The RC.EXE callback removes a paired trailing CR/LF and escapes `%`
+when printing. The fourth RC argument remains opaque and must be NULL in this
+case. Handler/control-thread behavior and resource callbacks remain untested.
 
-At RC's entry, argument 1 is stored as a window handle at `0x71c45f60`, argument 3
-as the diagnostic callback at `0x71c45f5c`, argument 4 as a resource callback at
-`0x71c45f58`; argument 2 is unused by this wrapper. Arguments 5/6 pass to internal
-compiler routine VA `0x71c27443` with caller cleanup. The compiler mutates argv
-pointers while consuming switches: the harness must supply writable argument
-storage. RC returns the compiler's result unchanged.
+The original target and actual loaded MSVCRT are verified from debugger hFile
+bytes. Target SHA256 is recorded in [inventory](cases/pe-inventory.json); the
+canonical provided MSVCRT SHA256 is
+`e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210`.
+The DLL was loaded at preferred base 0x71c20000, without TLS. Nonpreferred loading
+is untested. Process-startup reserved context is nonNULL and opaque; detach uses
+reserved=1. The reconstructed startup code only forwards these values.
 
-Diagnostic calls at VA `0x71c228fe`, `0x71c28b8e` and `0x71c28bcd` push
-`message, 0, 0` without caller cleanup: callback is stdcall with three slots,
-`callback(0, 0, char *message)`. The RC.EXE callback returns with `ret 12`, mutates
-trailing paired CR/LF characters and escapes percent signs before printing.
-The DLL can instead send messages `0x419` and `0x420` to argument 1 using
-`SendMessageA`; its return can trigger cancellation. Argument 4 is another
-stdcall three-slot callback (VA `0x71c2ba1b`/`0x71c2baba`) with resource records
-whose pointed layouts still need recovery. It is NULL in the CLI driver and
-must not be assigned an invented typed record ABI yet.
+## Evidence and native contracts
 
-## DLL lifecycle and testing design
+The original debugger guards the nonrelocated first entry byte before execution,
+saves relocated text at entry, masks code, restores only accepted/candidate ranges
+from that snapshot, and verifies mask readback. Exact loader metadata and encountered
+text-data exceptions are indexed. Each acceptance binds the same candidate to raw
+original/native evidence and the Rust graph check. Completion requires actual
+process exits on both sides; a pair of absent frontiers is insufficient.
 
-The PE entry at VA `0x71c32d20` wraps CRT initialization at `0x71c32bb0` and the
-application DllMain at `0x71c28b29`. Both consume three stdcall slots. On process
-attach DllMain stores HINSTANCE at `0x71c45f64` and calls
-`DisableThreadLibraryCalls`; it returns TRUE for all reasons. No TLS directory is
-present. The application stores compiler, callback, FILE and heap state globally;
-this is not evidence of reentrancy or safe simultaneous RC invocations.
+Native module identity is registered through `lib/recon`, with the actual captured
+S: module path, original SHA and no-TLS flag. The provider contains only encountered
+message-table entries 10001/20001, verified against source hash/offset/encoding.
+The same readable `src/help.mc` payloads are encoded for the native provider and
+compiled through the original RC into the real Win32 DLL; no original resource
+section is copied.
+Shared FormatMessage support preserves literal message text, inserts, CR/LF,
+NUL/tail bytes and observed LastError. Private heap ownership and the zeroed
+528-byte allocation (eight-byte header plus 520-byte buffer) are checked.
 
-For acceptance, a Windows host must load the *masked* DLL under a debugger before
-LoadLibrary triggers its entry point. The first expected trap is inside DLL
-startup, before export lookup/call. Record actual load base and normalize logical
-locations as module SHA256 plus RVA. A host calling an unmasked original DLL and
-then comparing only the exported call would omit initialization from the graph.
-No masking or acceptance host exists here yet.
+VC5 uses a 16-word jump buffer. The help path's `_setjmp3(...,0)` is an opaque
+save using a genuine native caller frame; original register/SEH bytes are retained
+as original evidence rather than equated to glibc bytes. Target longjmp/unwind,
+nonzero counts, unknown resources, window-message paths and unvisited heap modes
+fail closed in shared compatibility support.
 
-The corresponding native i386 host can statically link reconstructed DLL C plus
-the shared shims, explicitly call the preserved entry/attach sequence, invoke RC
-through its original stdcall signature, then detach in the captured order. This
-avoids requiring ELF dynamic-loader support solely to exercise a DLL interface.
-The host is fixture infrastructure, not an invented application function. Keep
-module identity and original callback edges in traces/audits; filter only the
-host/shared runtime. Start each case in a fresh process. Add explicit repeated
-invoke/load/unload cases later rather than assume globals reset like a fresh EXE.
-A future DSO target needs shared tracing/module support first.
+`capture-original.py`, `message-probe.c` and `heap-probe.c` are explicit reference
+helpers. `capture-native.py` and `fixtures.py` run only Linux programs. GDB observes
+frontiers, typed state and actual completion. Shared shims/host callbacks are outside
+the application trace; embedded target CRT functions remain reconstructed/audited.
+The Rust LINK metadata adapter is used only for explicit symbol aliases and paths,
+with no VC1 defaults. No Python graph discovery is used. DLL export/entry policy
+is checked separately.
 
-Console Ctrl+C invokes Handler on the Windows control thread. This requires a
-separate synchronized case and is not part of ordinary help/resource fixtures;
-a native signal handler cannot silently substitute different threading or
-lifetime semantics. Handler's argument test distinguishes Ctrl+C (0) from other
-console events, so preserve that behavior when reconstructed.
+## Counts, timing and future inputs
 
-The DLL uses its saved HINSTANCE to read its own message table: VA `0x71c22c64`
-calls `FormatMessageA(0xa00, HINSTANCE, message_id, 0, buffer, 0x1000, NULL)`.
-Flags are FROM_HMODULE | IGNORE_INSERTS. The PE has message-table type 11 and
-version type 16, language `0x409`. Shared shims currently lack target-module
-resource registration/FROM_HMODULE lookup; the maintainer has been notified.
-MSVCRT imports include 16-bit wide string/conversion operations, `_setjmp3` and
-`longjmp`; existing shim coverage must be evaluated against actual reached calls,
-not replaced with host wchar_t/FILE assumptions. No speculative shim changes
-were requested.
+The provisional Ghidra inventory discovers 299 application functions / 66,295 code
+bytes: accepted application extent coverage is 6.98% (9 functions). This denominator
+is analysis discovery, not a claim that every remaining original extent has passed
+an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
+identified embedded CRT and import thunks; switch/literal data is excluded from
+accepted code bytes.
 
-## Seeded cases
+Measured full `-j4` rebuilds, including resource assets: original 4.566 seconds,
+native 1.671 seconds. Rust audit of all 11 accepted functions: 0.037 seconds. Last fresh masked original completion:
+1.468 seconds. Native fixture: 0.0026 seconds execution / 0.0081 seconds total,
+including setup and output/callback/trace checks. Exact receipts and current binary
+hashes are in verification metadata; historical raw captures are not relabelled.
 
-[cases/plan.json](cases/plan.json) records ordered proposals and SHA256 source
-provenance. `resources-rich/source` is the complete VC1 input corpus: menus,
-dialogs, strings, icon/cursor/bitmap, accelerators, raw/custom/message resources,
-version records, languages, includes, macros and conditions. It needs original
-5.10 captures with 5.10 headers before becoming an oracle. Binary `.ico`, `.cur`,
-`.bmp`, `.bin` files here are *input assets*, not target data or captured output.
-`preprocessor/source` is token/directive input for later adaptation; it is not
-currently a valid standalone resource script. No old outputs, traces, manifests,
-masked images or acceptance histories were copied.
-
-Use the shared prefix and fixed R:/S: mapping. Scratch namespace:
-`~/.ai-tmp/msvc2/vc5.10/rcdll`. Original probes/captures must be explicit and
-separate from native regressions. Future fixtures compare cached original
-streams/status/resources and traces without invoking Wine. Record split build,
-setup, execution and checking times. Coordinate resource-format cases with the
-RC and CVTRES workers; contact `/root/recon_lib_maintenance` for shared changes.
-
-Original-driver groundwork receipts are owned by RC:
-`../rc/cases/help/probe` records `/help` exit 0, 589 stdout bytes, empty stderr
-(5.582 seconds). `../rc/cases/minimal/probe` records a 30.03-second timeout,
-empty streams and no output resource. Other binaries also stalled before startup;
-shared Wine health is under investigation, so this does **not** establish an
-RCDLL failure. No valid 5.10 resource oracle was produced. All further Wine
-launches are on hold; this worker launched no Wine process of its own.
+[cases/plan.json](cases/plan.json) preserves ordered source-only VC1 seed provenance
+for future resource/preprocessor cases. These inputs include menus, dialogs,
+strings, icons, cursor/bitmap, accelerators, raw/custom/message/version resources,
+includes, macros and conditionals. No VC1 outputs became VC5 reference oracles.
+No second case is released. Original capture scratch uses the shared R:/S: prefix
+under `~/.ai-tmp/msvc2/vc5.10/rcdll`; fixtures never invoke Wine.

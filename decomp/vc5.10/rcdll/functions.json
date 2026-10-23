@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "target": "toolchains/5.10/bin/RCDLL.DLL",
+  "image_base": "0x71c20000",
+  "entry_rva": "0x12d20",
+  "accepted": [
+    "recon_dll_entry",
+    "rcdll_crt_init",
+    "rcdll_main",
+    "RC",
+    "rc_main",
+    "rc_initialize",
+    "rc_allocate",
+    "rc_is_option",
+    "rc_emit",
+    "rc_message",
+    "rc_format"
+  ],
+  "functions": [
+    {
+      "name": "recon_dll_entry",
+      "start": "0x12d20",
+      "end": "0x12ddf",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "crt-support",
+      "stub": false
+    },
+    {
+      "name": "rcdll_main",
+      "start": "0x8b29",
+      "end": "0x8b46",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "Handler",
+      "start": "0x8a46",
+      "end": "0x8aaa",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "RC",
+      "start": "0x8b46",
+      "end": "0x8b72",
+      "abi": "stdcall",
+      "stack_bytes": 24,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "rcdll_crt_init",
+      "start": "0x12bb0",
+      "end": "0x12d1c",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "crt-support",
+      "stub": false
+    },
+    {
+      "name": "rc_main",
+      "start": "0x7443",
+      "end": "0x845c",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": false,
+      "text_data": [
+        [
+          "0x845c",
+          "0x84c4"
+        ],
+        [
+          "0x11fc",
+          "0x11fe"
+        ],
+        [
+          "0x14f8",
+          "0x1504"
+        ]
+      ]
+    },
+    {
+      "name": "rc_initialize",
+      "start": "0x84c4",
+      "end": "0x8512",
+      "abi": "stdcall",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "rc_allocate",
+      "start": "0x109b2",
+      "end": "0x109fd",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "rc_release",
+      "start": "0x109fd",
+      "end": "0x10a1c",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_is_option",
+      "start": "0x10c4c",
+      "end": "0x10c64",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "rc_message",
+      "start": "0x2c64",
+      "end": "0x2c98",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": false,
+      "text_data": [
+        [
+          "0x1218",
+          "0x1219"
+        ]
+      ]
+    },
+    {
+      "name": "rc_format",
+      "start": "0x2c98",
+      "end": "0x2cc0",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "rc_emit",
+      "start": "0x8bcd",
+      "end": "0x8c70",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": false
+    },
+    {
+      "name": "rc_fatal",
+      "start": "0x89e3",
+      "end": "0x8a40",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_seek",
+      "start": "0x10ae7",
+      "end": "0x10b2c",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_prepare_input",
+      "start": "0x856c",
+      "end": "0x89e3",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_preprocess",
+      "start": "0x8b72",
+      "end": "0x8b8e",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_initialize_resource",
+      "start": "0x10f9f",
+      "end": "0x1115a",
+      "abi": "stdcall",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_initialize_input",
+      "start": "0x91d5",
+      "end": "0x9201",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_resources",
+      "start": "0xb209",
+      "end": "0xbb88",
+      "abi": "stdcall",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_flush_resources",
+      "start": "0x1115a",
+      "end": "0x1141c",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_align_output",
+      "start": "0x10ab0",
+      "end": "0x10ae7",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_cleanup",
+      "start": "0x8aaa",
+      "end": "0x8b29",
+      "abi": "stdcall",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    }
+  ],
+  "loader_text_metadata": [
+    {
+      "start": "0x1000",
+      "end": "0x114c",
+      "reason": "IAT, padding and PE debug directory; independently exclude from code masking"
+    },
+    {
+      "start": "0x12e2c",
+      "end": "0x13371",
+      "reason": "Import descriptors/thunks/names and export directory/names; loader metadata"
+    }
+  ],
+  "lifecycle": "CRT process attach; RC export; CRT process detach",
+  "status": "first RC-export/help case complete; paused",
+  "support_imports": [
+    {
+      "name": "import:_initterm",
+      "start": "0x12e26",
+      "end": "0x12e2c",
+      "accepted": true,
+      "provider": "MSVCRT.dll",
+      "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "evidence": "lib/recon/src/crt.c canonical VC5 _initterm contract; IAT symbol and thunk bytes verified by common PE importer"
+    },
+    {
+      "name": "import:_setjmp3",
+      "start": "0x12de0",
+      "end": "0x12de6",
+      "accepted": true,
+      "provider": "MSVCRT.dll",
+      "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "evidence": "Canonical full count0 body and actual CRT-format-original raw64/TEB observation; shared cc1f20b4 opaque save with caller-frame host setjmp; nonzero count and target longjmp/unwind reject"
+    }
+  ]
+}
