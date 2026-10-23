@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "init_data_entry",
+  "comparison": {
+    "kind": "trap",
+    "frontier": "write_bytes",
+    "original": 16784176,
+    "native_function": "write_bytes",
+    "candidate_entry": {
+      "function": "init_data_entry",
+      "original_entry": 16789737,
+      "native_entry": "init_data_entry",
+      "contextual_ranges": 38,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-data-entry-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-data-entry-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/rich-data-entry-audit"
+}

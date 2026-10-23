@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "init_directory",
+  "comparison": {
+    "kind": "trap",
+    "frontier": "init_data_entry",
+    "original": 16789737,
+    "native_function": "init_data_entry",
+    "candidate_entry": {
+      "function": "init_directory",
+      "original_entry": 16789684,
+      "native_entry": "init_directory",
+      "contextual_ranges": 38,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-directory-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-directory-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/rich-directory-audit"
+}

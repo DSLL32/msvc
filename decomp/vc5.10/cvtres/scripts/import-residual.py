@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Finite CVTRES main cached-IAT certificates, not a CFG discovery engine.
+"""Finite CVTRES cached-IAT certificates, not a CFG discovery engine.
 
 The shared Rust engine owns CFG traversal/graph/RET/extent checks. This checker
-verifies four explicit callee-saved register live regions and object relocations
+verifies six explicit callee-saved register live regions and object relocations
 where the common import check intentionally cannot resolve cached registers.
 """
 import argparse
@@ -105,6 +105,38 @@ def check_usage(original,rebuilt,objbytes,maptext):
  seen,rebuilt_calls=rebuilt_import_calls(rebuilt,objbytes,maptext,'_usage@4')
  assert imports==seen=={'msvcrt.dll!puts','msvcrt.dll!printf','msvcrt.dll!exit'}
  return dict(original_cached=dict(import_identity='msvcrt.dll!puts',slot=slot,load=0x1001483,live_end=0x1001495,calls=[0x100148a,0x1001493]),original_direct=direct,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(imports),scope='Fixed straight-line ESI live interval; no independent CFG traversal.')
+
+def check_insert(original,rebuilt,objbytes,maptext):
+ cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
+ start,end=0x1001d49,0x1001fdf
+ instructions=list(cs.disasm(original.read(start,end-start),start));assert sum(i.size for i in instructions)==end-start
+ by_pc={i.address:i for i in instructions};catalog=import_addresses(original)
+ load_pc,live_end=0x1001ecc,0x1001f52
+ callsites=[0x1001ed3,0x1001f1e,0x1001f50]
+ load=by_pc[load_pc];ops=load.operands
+ assert load.mnemonic=='mov' and len(ops)==2 and ops[0].type==X86_OP_REG and load.reg_name(ops[0].reg)=='esi'
+ assert ops[1].type==X86_OP_MEM and not ops[1].mem.base and not ops[1].mem.index
+ slot=ops[1].mem.disp&0xffffffff
+ assert qualified(catalog,slot)=='msvcrt.dll!printf','insert cached IAT slot swapped'
+ actual={(i.address,i.reg_name(i.operands[0].reg)) for i in instructions if i.mnemonic=='call' and i.operands[0].type==X86_OP_REG}
+ assert actual=={(pc,'esi') for pc in callsites},'insert cached callsite set changed'
+ for instruction in instructions:
+  if load_pc<instruction.address<live_end:
+   assert not ALIASES['esi'].intersection(instruction.regs_access()[1]),'insert cached register overwritten'
+  if instruction.group(CS_GRP_JUMP):
+   assert instruction.operands[0].type==X86_OP_IMM,'unexpected indirect branch in fixed insert certificate'
+   target=instruction.operands[0].imm&0xffffffff
+   assert not(load_pc<target<live_end and not load_pc<=instruction.address<live_end),'insert branch bypasses cached load'
+ imports={'msvcrt.dll!printf'};direct=[]
+ for instruction in instructions:
+  if instruction.mnemonic!='call' or instruction.operands[0].type!=X86_OP_MEM:continue
+  memory=instruction.operands[0].mem
+  assert not memory.base and not memory.index
+  identity=qualified(catalog,memory.disp&0xffffffff);imports.add(identity)
+  direct.append(dict(pc=instruction.address,import_identity=identity))
+ seen,rebuilt_calls=rebuilt_import_calls(rebuilt,objbytes,maptext,'_insert_resource@12')
+ assert imports==seen=={'msvcrt.dll!printf','msvcrt.dll!wcscmp','msvcrt.dll!exit'},'insert qualified import set differs'
+ return dict(original_cached=dict(import_identity='msvcrt.dll!printf',slot=slot,load=load_pc,live_end=live_end,calls=callsites),original_direct=direct,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(imports),scope='One fixed callee-saved ESI interval; complete linear register-call set/write/bypass checks, no independent CFG traversal.')
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True,type=Path);a=p.parse_args()

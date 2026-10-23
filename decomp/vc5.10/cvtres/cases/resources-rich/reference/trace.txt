@@ -1,0 +1,12 @@
+main
+seek_file
+tell_file
+convert_resources
+read_bytes
+allocate_block
+read_identifier
+insert_resource
+init_directory
+init_data_entry
+write_bytes
+copy_bytes

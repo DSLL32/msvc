@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "function": "copy_bytes",
+  "comparison": {
+    "kind": "exit",
+    "status": 0,
+    "candidate_entry": {
+      "function": "copy_bytes",
+      "original_entry": 16784232,
+      "native_entry": "copy_bytes",
+      "contextual_ranges": 39,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-copy-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-copy-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/rich-copy-audit"
+}

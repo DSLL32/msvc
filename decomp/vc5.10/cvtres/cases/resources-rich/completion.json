@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "case": "resources-rich",
+  "state": "complete",
+  "argv": [
+    "/nologo",
+    "/machine:ix86",
+    "/readonly",
+    "/out:rich.obj",
+    "rich.res"
+  ],
+  "input": [
+    {
+      "name": "rich.res",
+      "path": "cases/resources-rich/input/rich.res",
+      "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+    }
+  ],
+  "reference": {
+    "status": 0,
+    "stdout_size": 0,
+    "stderr_size": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "312f09782c291d1f04d059205edac339cbe9bc5ad52f8b50a022b5e8a7eec119",
+    "artifacts": {
+      "rich.obj": {
+        "sha256": "3af7e7f765a324544dc48a63e6007f69928bf4833241ba8128d0270e05109d07",
+        "bytes": 5080
+      }
+    },
+    "normalization": [],
+    "repeat_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-master-02"
+  },
+  "application_functions": 14,
+  "application_extent_bytes": 5614,
+  "currently_declared_application_functions": 17,
+  "currently_declared_application_extent_bytes": 6840,
+  "denominator": "Declared extent inventory is incomplete; no whole-application coverage percentage claimed.",
+  "crt_support_functions": 8,
+  "crt_support_extent_bytes": 424,
+  "imports_excluded": true,
+  "normalization": [],
+  "final_proof": "copy-proof.json",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-copy-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-copy-native-final-02",
+  "audit": "build/rich-copy-audit-review",
+  "pinned_files": {
+    "original": {
+      "receipt.json": "c5478d9531abdc04a2499b7db8f7a1b34bfc714ce7efa8f742fadc3e99f2969a",
+      "configuration.json": "72fa15cbdd2f6ec08d840b04d18a1bf9ba2611c460bd34ee7568cc710f109807",
+      "stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rich.obj": "3af7e7f765a324544dc48a63e6007f69928bf4833241ba8128d0270e05109d07"
+    },
+    "native": {
+      "receipt.json": "7f4f355aa1f03f94174edaa7d0350fc0fa336cbdf495aab8c5e2cec3cb0f558f",
+      "configuration.json": "72fa15cbdd2f6ec08d840b04d18a1bf9ba2611c460bd34ee7568cc710f109807",
+      "stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rich.obj": "3af7e7f765a324544dc48a63e6007f69928bf4833241ba8128d0270e05109d07"
+    }
+  },
+  "native_refresh": "Native-only refresh reuses exact original trial/config/mask and retains pinned ELF/rebuilt PE/MAP snapshots; original raw pair remains immutable.",
+  "crt_code_functions": 4,
+  "crt_code_extent_bytes": 400,
+  "import_thunk_functions": 4,
+  "import_thunk_extent_bytes": 24,
+  "verified_data": {
+    "application_text_ranges": 52,
+    "application_text_bytes": 695,
+    "loader_ranges": 45,
+    "loader_bytes": 851,
+    "runtime_scope_table_bytes": 12,
+    "observed_application_ranges": 39,
+    "observed_application_bytes": 2390,
+    "observed_crt_ranges": 4,
+    "observed_crt_bytes": 44
+  }
+}

@@ -9,7 +9,18 @@
   "accepted": [
     "_main",
     "_usage@4",
-    "_load_message@4"
+    "_load_message@4",
+    "_seek_file@12",
+    "_tell_file@4",
+    "_convert_resources@20",
+    "_read_bytes@12",
+    "_allocate_block@4",
+    "_read_identifier@4",
+    "_insert_resource@12",
+    "_init_directory@24",
+    "_init_data_entry@20",
+    "_write_bytes@12",
+    "_copy_bytes@12"
   ],
   "functions": [
     {
@@ -212,8 +223,8 @@
       "end": 16784176,
       "cleanup": 12,
       "abi": "long __stdcall seek_file(FILE*,long,int)",
-      "status": "stub",
-      "source": "src/stubs.c",
+      "status": "accepted",
+      "source": "src/file.c",
       "parameters": [
         {
           "name": "file",
@@ -227,7 +238,8 @@
           "name": "origin",
           "kind": "int"
         }
-      ]
+      ],
+      "evidence": "cases/resources-rich/seek-proof.json"
     },
     {
       "name": "convert_resources",
@@ -237,8 +249,8 @@
       "end": 16789684,
       "cleanup": 20,
       "abi": "int __stdcall convert_resources(FILE*,FILE*,unsigned long,int,unsigned long)",
-      "status": "stub",
-      "source": "src/stubs.c",
+      "status": "accepted",
+      "source": "src/convert.c",
       "ret_sites": [
         16789320
       ],
@@ -263,7 +275,339 @@
           "name": "timestamp",
           "kind": "unsigned"
         }
-      ]
+      ],
+      "text_data": [
+        [
+          16782040,
+          16782128
+        ],
+        [
+          16782128,
+          16782157
+        ],
+        [
+          16782384,
+          16782392
+        ],
+        [
+          16782316,
+          16782323
+        ],
+        [
+          16782308,
+          16782315
+        ],
+        [
+          16782300,
+          16782305
+        ],
+        [
+          16782292,
+          16782297
+        ],
+        [
+          16782284,
+          16782291
+        ],
+        [
+          16782276,
+          16782283
+        ],
+        [
+          16782268,
+          16782276
+        ],
+        [
+          16782260,
+          16782265
+        ],
+        [
+          16782248,
+          16782260
+        ],
+        [
+          16782240,
+          16782247
+        ],
+        [
+          16782224,
+          16782237
+        ],
+        [
+          16782208,
+          16782221
+        ],
+        [
+          16782196,
+          16782207
+        ],
+        [
+          16782188,
+          16782196
+        ],
+        [
+          16782176,
+          16782187
+        ],
+        [
+          16782164,
+          16782173
+        ],
+        [
+          16782160,
+          16782164
+        ]
+      ],
+      "evidence": "cases/resources-rich/convert-proof.json"
+    },
+    {
+      "name": "tell_file",
+      "symbol": "_tell_file@4",
+      "native": "tell_file",
+      "start": 16784073,
+      "end": 16784118,
+      "cleanup": 4,
+      "abi": "long __stdcall tell_file(FILE*)",
+      "status": "accepted",
+      "source": "src/file.c",
+      "parameters": [
+        {
+          "name": "file",
+          "kind": "file"
+        }
+      ],
+      "evidence": "cases/resources-rich/tell-proof.json"
+    },
+    {
+      "name": "allocate_block",
+      "symbol": "_allocate_block@4",
+      "native": "allocate_block",
+      "start": 16783948,
+      "end": 16783994,
+      "cleanup": 4,
+      "abi": "void* __stdcall allocate_block(unsigned long)",
+      "status": "accepted",
+      "source": "src/memory.c",
+      "parameters": [
+        {
+          "name": "size",
+          "kind": "unsigned"
+        }
+      ],
+      "evidence": "cases/resources-rich/allocate-proof.json"
+    },
+    {
+      "name": "read_bytes",
+      "symbol": "_read_bytes@12",
+      "native": "read_bytes",
+      "start": 16784017,
+      "end": 16784073,
+      "cleanup": 12,
+      "abi": "int __stdcall read_bytes(FILE*,void*,unsigned long)",
+      "status": "accepted",
+      "source": "src/file.c",
+      "parameters": [
+        {
+          "name": "file",
+          "kind": "file"
+        },
+        {
+          "name": "buffer",
+          "kind": "out-buffer",
+          "length_arg": 2
+        },
+        {
+          "name": "size",
+          "kind": "unsigned"
+        }
+      ],
+      "buffer_contract": "Destination is forwarded to fread(buffer,1,size,file); no initial destination bytes are read.",
+      "evidence": "cases/resources-rich/read-proof.json"
+    },
+    {
+      "name": "write_bytes",
+      "symbol": "_write_bytes@12",
+      "native": "write_bytes",
+      "start": 16784176,
+      "end": 16784232,
+      "cleanup": 12,
+      "abi": "int __stdcall write_bytes(FILE*,const void*,unsigned long)",
+      "status": "accepted",
+      "source": "src/file.c",
+      "parameters": [
+        {
+          "name": "file",
+          "kind": "file"
+        },
+        {
+          "name": "buffer",
+          "kind": "in-buffer",
+          "length_arg": 2
+        },
+        {
+          "name": "size",
+          "kind": "unsigned"
+        }
+      ],
+      "evidence": "cases/resources-rich/write-proof.json"
+    },
+    {
+      "name": "copy_bytes",
+      "symbol": "_copy_bytes@12",
+      "native": "copy_bytes",
+      "start": 16784232,
+      "end": 16784309,
+      "cleanup": 12,
+      "abi": "unsigned long __stdcall copy_bytes(FILE*,FILE*,unsigned long)",
+      "status": "accepted",
+      "source": "src/file.c",
+      "parameters": [
+        {
+          "name": "input",
+          "kind": "file"
+        },
+        {
+          "name": "output",
+          "kind": "file"
+        },
+        {
+          "name": "size",
+          "kind": "unsigned"
+        }
+      ],
+      "evidence": "cases/resources-rich/copy-proof.json"
+    },
+    {
+      "name": "read_identifier",
+      "symbol": "_read_identifier@4",
+      "native": "read_identifier",
+      "start": 16784441,
+      "end": 16784713,
+      "cleanup": 4,
+      "abi": "ResourceIdentifier* __stdcall read_identifier(FILE*)",
+      "status": "accepted",
+      "source": "src/identifiers.c",
+      "parameters": [
+        {
+          "name": "file",
+          "kind": "file"
+        }
+      ],
+      "evidence": "cases/resources-rich/identifier-proof.json"
+    },
+    {
+      "name": "insert_resource",
+      "symbol": "_insert_resource@12",
+      "native": "insert_resource",
+      "start": 16784713,
+      "end": 16785375,
+      "cleanup": 12,
+      "abi": "ResourceEntry* __stdcall insert_resource(ResourceIdentifier*,ResourceIdentifier*,ResourceHeader*)",
+      "status": "accepted",
+      "source": "src/tree.c",
+      "parameters": [
+        {
+          "name": "type",
+          "kind": "identifier"
+        },
+        {
+          "name": "name",
+          "kind": "identifier"
+        },
+        {
+          "name": "header",
+          "kind": "resource-header"
+        }
+      ],
+      "evidence": "cases/resources-rich/insert-proof.json"
+    },
+    {
+      "name": "init_directory",
+      "symbol": "_init_directory@24",
+      "native": "init_directory",
+      "start": 16789684,
+      "end": 16789737,
+      "cleanup": 24,
+      "abi": "IMAGE_RESOURCE_DIRECTORY* __stdcall init_directory(IMAGE_RESOURCE_DIRECTORY*,DWORD,DWORD,DWORD,WORD,WORD)",
+      "status": "accepted",
+      "source": "src/directory.c",
+      "parameters": [
+        {
+          "name": "directory",
+          "kind": "out-buffer",
+          "size": 16,
+          "base": "directory_buffer"
+        },
+        {
+          "name": "characteristics",
+          "kind": "scalar"
+        },
+        {
+          "name": "version",
+          "kind": "scalar"
+        },
+        {
+          "name": "timestamp",
+          "kind": "scalar"
+        },
+        {
+          "name": "names",
+          "kind": "scalar"
+        },
+        {
+          "name": "ids",
+          "kind": "scalar"
+        }
+      ],
+      "evidence": "cases/resources-rich/directory-proof.json"
+    },
+    {
+      "name": "init_data_entry",
+      "symbol": "_init_data_entry@20",
+      "native": "init_data_entry",
+      "start": 16789737,
+      "end": 16789770,
+      "cleanup": 20,
+      "abi": "IMAGE_RESOURCE_DATA_ENTRY* __stdcall init_data_entry(IMAGE_RESOURCE_DATA_ENTRY*,DWORD,DWORD,DWORD,DWORD)",
+      "status": "accepted",
+      "source": "src/directory.c",
+      "parameters": [
+        {
+          "name": "entry",
+          "kind": "out-buffer",
+          "size": 16,
+          "base": "directory_buffer"
+        },
+        {
+          "name": "offset",
+          "kind": "scalar"
+        },
+        {
+          "name": "size",
+          "kind": "scalar"
+        },
+        {
+          "name": "codepage",
+          "kind": "scalar"
+        },
+        {
+          "name": "reserved",
+          "kind": "scalar"
+        }
+      ],
+      "evidence": "cases/resources-rich/data-entry-proof.json"
+    },
+    {
+      "name": "convert_ce_image",
+      "symbol": "_convert_ce_image@20",
+      "native": "convert_ce_image",
+      "start": 16785957,
+      "end": 16787051,
+      "cleanup": 20,
+      "abi": "int __stdcall convert_ce_image(int,FILE*,FILE*,ResourceEntry*,int)",
+      "status": "stub",
+      "source": "src/stubs.c",
+      "parameters": []
     }
   ],
   "data": [
@@ -342,6 +686,162 @@
     {
       "name": "message_buffer",
       "original": 16795004,
+      "size": 1024,
+      "kind": "bytes"
+    },
+    {
+      "name": "object_header",
+      "original": 16793624,
+      "size": 20,
+      "kind": "bytes"
+    },
+    {
+      "name": "debug_section",
+      "original": 16793648,
+      "size": 40,
+      "kind": "bytes"
+    },
+    {
+      "name": "compiler_symbol",
+      "original": 16793688,
+      "size": 18,
+      "kind": "bytes"
+    },
+    {
+      "name": "debug_symbol",
+      "original": 16793712,
+      "size": 18,
+      "kind": "bytes"
+    },
+    {
+      "name": "directory_section",
+      "original": 16793736,
+      "size": 40,
+      "kind": "bytes"
+    },
+    {
+      "name": "directory_symbol",
+      "original": 16793776,
+      "size": 18,
+      "kind": "bytes"
+    },
+    {
+      "name": "data_section",
+      "original": 16793800,
+      "size": 40,
+      "kind": "bytes"
+    },
+    {
+      "name": "data_symbol",
+      "original": 16793840,
+      "size": 18,
+      "kind": "bytes"
+    },
+    {
+      "name": "resource_symbol",
+      "original": 16793864,
+      "size": 18,
+      "kind": "bytes"
+    },
+    {
+      "name": "object_record",
+      "original": 16793888,
+      "size": 8,
+      "kind": "bytes"
+    },
+    {
+      "name": "compiler_record",
+      "original": 16793896,
+      "size": 8,
+      "kind": "bytes"
+    },
+    {
+      "name": "resource_padding",
+      "original": 16794952,
+      "size": 8,
+      "kind": "bytes"
+    },
+    {
+      "name": "name_entry_count",
+      "original": 16794976,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "name_directory_count",
+      "original": 16794978,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "type_count",
+      "original": 16794980,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "id_type_count",
+      "original": 16794982,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "named_type_count",
+      "original": 16794984,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "resource_count",
+      "original": 16794986,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "language_entry_count",
+      "original": 16794988,
+      "size": 2,
+      "kind": "bytes"
+    },
+    {
+      "name": "resource_relocation",
+      "original": 16794992,
+      "size": 10,
+      "kind": "bytes"
+    },
+    {
+      "name": "resource_strings",
+      "original": 16794960,
+      "size": 4,
+      "kind": "resource-heap"
+    },
+    {
+      "name": "resource_files",
+      "original": 16794964,
+      "size": 4,
+      "kind": "resource-heap"
+    },
+    {
+      "name": "resource_id_types",
+      "original": 16794968,
+      "size": 4,
+      "kind": "resource-heap"
+    },
+    {
+      "name": "resource_named_types",
+      "original": 16794972,
+      "size": 4,
+      "kind": "resource-heap"
+    },
+    {
+      "name": "directory_buffer",
+      "original": 16796056,
+      "size": 4,
+      "kind": "resource-directory"
+    },
+    {
+      "name": "copy_buffer",
+      "original": 16793920,
       "size": 1024,
       "kind": "bytes"
     }
@@ -423,5 +923,6 @@
       "address": 16783856,
       "kind": "output-open-return"
     }
-  ]
+  ],
+  "heap_state": true
 }

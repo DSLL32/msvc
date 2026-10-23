@@ -49,13 +49,15 @@ def projection(config):
     metadata=dict(schema=1,functions={f['symbol']:{'original':{'roots':f.get('roots',[]),'text_data':f.get('text_data',[]),'switches':f.get('switches',{})},'rebuilt':{}} for f in config['functions']})
     return cfg,metadata
 
-def import_residual(config):
+def import_residual(config,artifacts=None):
     if not any(f['name']=='main' and f['status'] in ('accepted','candidate') for f in config['functions']):return None
     spec=importlib.util.spec_from_file_location('cvtres_import_residual',BINARY/'scripts/import-residual.py')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-    original=PE(ROOT/config['target']['path']);rebuilt=PE(BINARY/'build/CVTRES.EXE');maptext=(BINARY/'build/cvtres.map').read_text()
-    result=dict(main=module.check(original,rebuilt,(BINARY/'build/main.obj').read_bytes(),maptext))
-    if any(f['name']=='usage' and f['status'] in ('accepted','candidate') for f in config['functions']):result['usage']=module.check_usage(original,rebuilt,(BINARY/'build/usage.obj').read_bytes(),maptext)
+    directory=artifacts or (BINARY/'build')
+    original=PE(ROOT/config['target']['path']);rebuilt=PE(directory/('rebuilt.exe' if artifacts else 'CVTRES.EXE'));maptext=(directory/('rebuilt.map' if artifacts else 'cvtres.map')).read_text()
+    result=dict(main=module.check(original,rebuilt,(directory/'main.obj').read_bytes(),maptext))
+    if any(f['name']=='usage' and f['status'] in ('accepted','candidate') for f in config['functions']):result['usage']=module.check_usage(original,rebuilt,(directory/'usage.obj').read_bytes(),maptext)
+    if any(f['name']=='insert_resource' and f['status'] in ('accepted','candidate') for f in config['functions']):result['insert_resource']=module.check_insert(original,rebuilt,(directory/'tree.obj').read_bytes(),maptext)
     return result
 
 def audit_paths(config,out):
@@ -69,6 +71,9 @@ def audit_paths(config,out):
     if any(f['name']=='usage' and f['status'] in ('accepted','candidate') for f in config['functions']):paths['usage_object']=BINARY/'build/usage.obj'
     if any(f['name']=='load_message' and f['status'] in ('accepted','candidate') for f in config['functions']):
         paths.update(strict_import_config=out/'strict-import-config.json',resource_source=BINARY/'src/messages.rc',resource_cache=BINARY/'cases/help/resources/messages.res',resource_proof=BINARY/'cases/help/resources/manifest.json',resource_encoder=ROOT/'lib/recon/resources.py',resource_adapter=BINARY/'scripts/prepare-resources.py')
+    if any(f['name']=='insert_resource' and f['status'] in ('accepted','candidate') for f in config['functions']):paths['tree_object']=BINARY/'build/tree.obj'
+    for key,name in [('native','native.elf'),('rebuilt','rebuilt.exe'),('map','rebuilt.map'),('main_object','main.obj'),('usage_object','usage.obj'),('tree_object','tree.obj')]:
+        if (out/name).exists() and key in paths:paths[key]=out/name
     return paths
 
 def audit_command(config,out):
@@ -80,7 +85,7 @@ def audit_command(config,out):
        '--metadata',str(paths['metadata']),'--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
 
 def strict_import_functions(config):
-    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage') and not f.get('import_certificate')]
+    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage','insert_resource') and not f.get('import_certificate')]
 
 def strict_import_command(config,out):
     if not strict_import_functions(config):return None
@@ -102,7 +107,9 @@ def graph(config,out):
     (out/'runtime.json').write_text('[]\n')
     shutil.copyfile(BINARY/'build/native/inputs.json',out/'native-build.json')
     shutil.copyfile(BINARY/'build/original-inputs.json',out/'original-build.json')
-    residual=import_residual(config)
+    for source,name in [(BINARY/'build/native/CVTRES','native.elf'),(BINARY/'build/CVTRES.EXE','rebuilt.exe'),(BINARY/'build/cvtres.map','rebuilt.map')]+[(BINARY/('build/'+name+'.obj'),name+'.obj') for name in ('main','usage','tree')]:
+        if source.exists():shutil.copyfile(source,out/name)
+    residual=import_residual(config,out)
     if residual is not None:(out/'import-residual.json').write_text(json.dumps(residual,indent=2)+'\n')
     strict_command=strict_import_command(config,out)
     if strict_command:

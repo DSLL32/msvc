@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "insert_resource",
+  "comparison": {
+    "kind": "trap",
+    "frontier": "init_directory",
+    "original": 16789684,
+    "native_function": "init_directory",
+    "candidate_entry": {
+      "function": "insert_resource",
+      "original_entry": 16784713,
+      "native_entry": "insert_resource",
+      "contextual_ranges": 38,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-insert-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-insert-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/rich-insert-audit-03"
+}

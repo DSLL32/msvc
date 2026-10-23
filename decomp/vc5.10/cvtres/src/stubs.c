@@ -4,7 +4,4 @@
 /* INT3 is the deliberately unimplemented original-function boundary. */
 void error(unsigned short code, ...) { __asm { int 3 } }
 void warning(unsigned short code, ...) { __asm { int 3 } }
-long __stdcall seek_file(FILE *file, long offset, int origin) { __asm { int 3 } return 0; }
-int __stdcall convert_resources(FILE *input, FILE *output, unsigned long size,
-                                int writable, unsigned long timestamp)
-{ __asm { int 3 } return 0; }
+int __stdcall convert_ce_image(int ce, FILE *input, FILE *output, ResourceEntry *entry, int type) { __asm { int 3 } return 0; }

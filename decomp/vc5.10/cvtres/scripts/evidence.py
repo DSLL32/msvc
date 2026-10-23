@@ -27,7 +27,7 @@ def native_raw(directory):
         assert 'Program received signal SIGTRAP' in raw
         assert isinstance(state.get('function'),str) and state['function']
         assert isinstance(state.get('pc'),int) and state['pc']
-        verify_native_int3(state,BINARY/'build/native/CVTRES')
+        verify_native_int3(state,(directory/'native.elf') if (directory/'native.elf').exists() else (BINARY/'build/native/CVTRES'))
         assert re.search(r'\b'+re.escape(state['function'])+r'\s*\(',raw),'raw GDB frame/symbol differs'
         return dict(kind='trap',function=state['function'],state=state)
     status=state.get('exit_status')
@@ -107,9 +107,10 @@ def bind(config,original,native,frozen=False):
         for item in config['case'].get('inputs',[]):
             assert receipt['case_inputs'][item['name']]==sha((directory/item['name']).read_bytes())==item['sha256'],'case input differs'
         for name,value in receipt.get('artifacts',{}).items():assert sha((directory/name).read_bytes())==value,'case artifact changed'
-    assert new['native_sha256']==sha((BINARY/'build/native/CVTRES').read_bytes()),'native changed'
-    assert new['rebuilt_sha256']==sha((BINARY/'build/CVTRES.EXE').read_bytes()),'Win32 build changed'
-    assert new['map_sha256']==sha((BINARY/'build/cvtres.map').read_bytes()),'Win32 MAP changed'
+    for key,name,current in [('native_sha256','native.elf',BINARY/'build/native/CVTRES'),('rebuilt_sha256','rebuilt.exe',BINARY/'build/CVTRES.EXE'),('map_sha256','rebuilt.map',BINARY/'build/cvtres.map')]:
+        pinned=native/name
+        if pinned.exists():assert new[key]==sha(pinned.read_bytes()),'pinned compiled artifact changed: '+name
+        if not frozen or not pinned.exists():assert new[key]==sha(current.read_bytes()),'current compiled artifact changed: '+name
     verify_build_snapshot(native/'native-build.json',new['native_sha256'],new['build_snapshot_sha256'])
     if (native/'help.resources').exists():
         import subprocess
@@ -152,6 +153,9 @@ def verify_native_int3(state,executable):
 
 def compare_context(config,text,state,prefix='',loaded_messages=False):
     memory={int(a,16):bytes.fromhex(raw) for a,raw in re.findall(r'^'+re.escape(prefix)+r'memory ([0-9a-f]+) ([0-9a-f]+)$',text,re.M)}
+    if config.get('heap_state'):
+        from resource_state import original as original_heap,canonical
+        assert canonical(original_heap(text,prefix))==canonical(state['globals']['__heap__']),'typed resource heap/alias/directory state differs'
     for item in config.get('data',[]):
         assert item['original'] in memory,'missing original contextual state'
         actual=bytes.fromhex(state['globals'][item['name']]['raw_hex']);expected=memory[item['original']]
@@ -162,6 +166,8 @@ def compare_context(config,text,state,prefix='',loaded_messages=False):
                 assert match and bytes.fromhex(match[1]).decode('latin1')==state['globals'][item['name']]['cstring'],'global string differs'
         elif loaded_messages and item['name'] in ('message_library','message_loader'):
             assert int.from_bytes(expected,'little') and int.from_bytes(actual,'little'),'missing resolved message binding'
+        elif item['kind'] in ('resource-heap','resource-directory'):
+            assert bool(int.from_bytes(expected,'little'))==bool(int.from_bytes(actual,'little')),'resource root nullness differs'
         elif item['kind']=='nullable-pointer':assert int.from_bytes(expected,'little')==int.from_bytes(actual,'little')==0,'unexpected nonnull pointer requires typed identity proof'
         else:assert actual==expected,('contextual state differs',item['name'],sha(expected),sha(actual))
     crt_memory={int(a,16):bytes.fromhex(raw) for a,raw in re.findall(r'^'+re.escape(prefix)+r'crt-memory ([0-9a-f]+) ([0-9a-f]+)$',text,re.M)}
@@ -254,6 +260,48 @@ def compare_parameters(config,function,text,state,original,native,prefix=''):
     words=[int(x,16) for x in words[1].split()]
     for index,item in enumerate(function['parameters']):
         record=state['parameters'][str(index)]
+        if item['kind'] in ('identifier','resource-header'):
+            kind='i' if item['kind']=='identifier' else 'h'
+            observed=re.search(r'^'+re.escape(prefix)+r'typed '+str(index)+r' kind '+kind+r' pointer ([0-9a-f]+) raw ([0-9a-f]+)$',text,re.M)
+            assert observed and int(observed[1],16)==words[index+1] and record['pointer'],'missing typed resource pointer'
+            left=bytes.fromhex(observed[2]);right=bytes.fromhex(record['raw_hex'])
+            if config.get('heap_state'):
+                from resource_state import original as original_heap,canonical
+                _,old_ids=canonical(original_heap(text,prefix),with_ids=True)
+                _,new_ids=canonical(state['globals']['__heap__'],with_ids=True)
+                node_kind=1 if kind=='i' else 4
+                assert old_ids.get((node_kind,words[index+1]),0)==new_ids.get((node_kind,record['pointer']),0),'resource argument alias identity differs'
+            if kind=='h':assert left==right and len(left)==24,'resource header differs'
+            else:
+                assert len(left)==len(right)==20
+                original_kind=struct.unpack_from('<I',left)[0]
+                assert original_kind==struct.unpack_from('<I',right)[0] and original_kind in (1,2),'resource identifier kind differs'
+                if original_kind==2:assert left==right,'ordinal resource identifier differs'
+                else:
+                    assert left[:4]+left[8:]==right[:4]+right[8:],'named resource identifier fields differ'
+                    assert bool(int.from_bytes(left[4:8],'little'))==bool(int.from_bytes(right[4:8],'little')),'identifier next nullness differs'
+                    named=re.search(r'^'+re.escape(prefix)+r'typed-text '+str(index)+r' ([0-9a-f]+)$',text,re.M)
+                    assert named and named[1]==record['text_hex'],'resource identifier UTF16 bytes differ'
+            continue
+        if item['kind'] in ('out-buffer','in-buffer'):
+            size=item.get('size') or words[item['length_arg']+1]
+            observed=re.search(r'^'+re.escape(prefix)+r'buffer '+str(index)+r' pointer ([0-9a-f]+) size ([0-9]+) state ([0-9a-f]+) protection ([0-9a-f]+)$',text,re.M)
+            assert observed and int(observed[1],16)==words[index+1] and record['pointer'],'missing typed buffer pointer'
+            assert int(observed[2])==record['size']==size,'buffer size differs'
+            if item.get('base'):
+                base=next(v for v in config['data'] if v['name']==item['base'])
+                source=re.search(r'^'+re.escape(prefix)+r'memory '+format(base['original'],'08x')+r' ([0-9a-f]+)$',text,re.M);assert source
+                original_base=int.from_bytes(bytes.fromhex(source[1]),'little')
+                native_base=int.from_bytes(bytes.fromhex(state['globals'][item['base']]['raw_hex']),'little')
+                offset=words[index+1]-original_base
+                assert offset==record['pointer']-native_base and offset>=0 and offset+size<=state['globals']['__heap__']['directory_size'],'directory output pointer offset differs'
+
+            assert int(observed[3],16)==0x1000 and 'r' in record['permissions'],'buffer mapping is not committed/readable'
+            if item['kind']=='out-buffer':assert int(observed[4],16)&0xcc and 'w' in record['permissions'],'output buffer not writable'
+            else:
+                contents=re.search(r'^'+re.escape(prefix)+r'buffer-bytes '+str(index)+r' ([0-9a-f]*)$',text,re.M)
+                assert contents and contents[1]==record['bytes_hex'],'input buffer bytes differ'
+            continue
         if item['kind']!='file':
             assert record['value']==words[index+1],('scalar argument differs',function['name'],item['name']);continue
         raw=re.search(r'^'+re.escape(prefix)+r'file '+str(index)+r' pointer ([0-9a-f]+) raw ([0-9a-f]+)$',text,re.M);assert raw,'missing original FILE argument'

@@ -108,6 +108,62 @@ static void file_state(FILE *log, HANDLE child, DWORD pointer, unsigned index, c
     }
 }
 
+/* Typed resource data only: bounded pointer closure, not code discovery. */
+static void resource_heap(FILE *log, HANDLE child, const char *prefix)
+{
+    DWORD addresses[512], kinds[512], used = 0, cursor = 0, got, i, j;
+    DWORD roots[5], fields[8], pointer, size, links[6], link_kinds[6], count;
+    WORD counters[7], name_bytes;
+    const char *names[4] = {"resource_strings", "resource_files", "resource_id_types", "resource_named_types"};
+    DWORD root_kinds[4] = {1, 3, 2, 2};
+    char *enabled = getenv("CVTRES_RESOURCE_HEAP");
+    if (!enabled || !*enabled) return;
+    if (!ReadProcessMemory(child, (void *)0x1004550, roots, 16, &got) || got != 16 ||
+        !ReadProcessMemory(child, (void *)0x1004998, roots+4, 4, &got) || got != 4) return;
+    for (i = 0; i < 4; ++i) {
+        fprintf(log, "%sheap-root %s %lu %08lx\n", prefix, names[i], root_kinds[i], roots[i]);
+        if (roots[i]) { addresses[used] = roots[i]; kinds[used++] = root_kinds[i]; }
+    }
+    while (cursor < used && used < 500) {
+        pointer = addresses[cursor]; size = kinds[cursor] == 1 ? 20 : kinds[cursor] == 3 ? 32 : 24;
+        if (!ReadProcessMemory(child, (void *)pointer, fields, size, &got) || got != size) return;
+        if (kinds[cursor] == 1 && fields[0] == 1) size = 20+2*(fields[3]>>16);
+        if (size > sizeof(buffer) || !ReadProcessMemory(child, (void *)pointer, buffer, size, &got) || got != size) return;
+        fprintf(log, "%sheap-node %lu %08lx ", prefix, kinds[cursor], pointer);
+        for (i = 0; i < size; ++i) fprintf(log, "%02x", buffer[i]);
+        fputc('\n', log); count = 0;
+        if (kinds[cursor] == 1 && fields[0] == 1) { links[count] = fields[1]; link_kinds[count++] = 1; }
+        if (kinds[cursor] == 2) {
+            links[0] = fields[0]; link_kinds[0] = 2;
+            links[1] = fields[1]; link_kinds[1] = 1;
+            links[2] = fields[3]; link_kinds[2] = 3;
+            links[3] = fields[4]; link_kinds[3] = 3; count = 4;
+        }
+        if (kinds[cursor] == 3) {
+            links[0] = fields[0]; link_kinds[0] = 3;
+            links[1] = fields[1]; link_kinds[1] = 1;
+            links[2] = fields[3]; link_kinds[2] = 1;
+            links[3] = fields[4]; link_kinds[3] = 3;
+            links[4] = fields[5]; link_kinds[4] = 4; count = 5;
+        }
+        for (i = 0; i < count; ++i) if (links[i]) {
+            for (j = 0; j < used; ++j) if (addresses[j] == links[i] && kinds[j] == link_kinds[i]) break;
+            if (j == used && used < 500) { addresses[used] = links[i]; kinds[used++] = link_kinds[i]; }
+        }
+        ++cursor;
+    }
+    fprintf(log, "%sheap-count %lu %lu\n", prefix, cursor, used);
+    size = 0;
+    if (roots[4] && ReadProcessMemory(child, (void *)0x1004560, counters, 14, &got) && got == 14 &&
+        ReadProcessMemory(child, (void *)0x100454e, &name_bytes, 2, &got) && got == 2) {
+        size = (16+24*counters[2]+8*counters[0]+16*counters[1]+8*counters[6]+16*counters[5]+name_bytes+3)&~3;
+    }
+    fprintf(log, "%sheap-directory %08lx %lu ", prefix, roots[4], size);
+    if (roots[4] && size && size <= sizeof(buffer) && ReadProcessMemory(child, (void *)roots[4], buffer, size, &got) && got == size)
+        for (i = 0; i < size; ++i) fprintf(log, "%02x", buffer[i]);
+    fputc('\n', log);
+}
+
 static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, const char *prefix)
 {
     CONTEXT c;
@@ -179,9 +235,11 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
             if (request) ++request;
         }
     }
+    resource_heap(log, child, prefix);
     fprintf(log, "%strap %08lx eip %08lx esp %08lx eax %08lx ecx %08lx edx %08lx\n",
             prefix, address, c.Eip, c.Esp, c.Eax, c.Ecx, c.Edx);
     if (ReadProcessMemory(child, (void *)c.Esp, words, sizeof(words), &count)) {
+        DWORD stack_size = count;
         {
             char *request = getenv("CVTRES_FILE_ARGUMENTS");
             DWORD function, index;
@@ -191,8 +249,56 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
                 request = strchr(request, ','); if (request) ++request;
             }
         }
+        {
+            char *request = getenv("CVTRES_BUFFER_ARGUMENTS"), kind;
+            DWORD function, index, length_index, fixed_size, size, pointer;
+            MEMORY_BASIC_INFORMATION memory;
+            while (request && *request) {
+                if (sscanf(request, "%lx:%lu:%lu:%lu:%c", &function, &index, &length_index, &fixed_size, &kind) != 5 || index >= 19) break;
+                if (function == address) {
+                    pointer = words[index+1];
+                    size = fixed_size ? fixed_size : words[length_index+1];
+                    if (pointer && size <= sizeof(buffer) && pointer+size >= pointer &&
+                        VirtualQueryEx(child, (void *)pointer, &memory, sizeof(memory)) == sizeof(memory) &&
+                        pointer+size <= (DWORD)memory.BaseAddress+memory.RegionSize) {
+                        fprintf(log, "%sbuffer %lu pointer %08lx size %lu state %08lx protection %08lx\n", prefix, index, pointer, size, memory.State, memory.Protect);
+                        if (kind == 'i' && ReadProcessMemory(child, (void *)pointer, buffer, size, &count) && count == size) {
+                            fprintf(log, "%sbuffer-bytes %lu ", prefix, index);
+                            for (i = 0; i < size; ++i) fprintf(log, "%02x", buffer[i]);
+                            fputc('\n', log);
+                        }
+                    }
+                }
+                request = strchr(request, ','); if (request) ++request;
+            }
+        }
+        {
+            char *request = getenv("CVTRES_TYPED_ARGUMENTS"), kind;
+            DWORD function, index, size, pointer, fields[5];
+            while (request && *request) {
+                if (sscanf(request, "%lx:%lu:%c", &function, &index, &kind) != 3 || index >= 19) break;
+                if (function == address) {
+                    pointer = words[index+1]; size = kind == 'i' ? 20 : 24;
+                    if (pointer && ReadProcessMemory(child, (void *)pointer, buffer, size, &count) && count == size) {
+                        fprintf(log, "%styped %lu kind %c pointer %08lx raw ", prefix, index, kind, pointer);
+                        for (i = 0; i < size; ++i) fprintf(log, "%02x", buffer[i]);
+                        fputc('\n', log);
+                        memcpy(fields, buffer, 20);
+                        if (kind == 'i' && fields[0] == 1 && (fields[3] >> 16) < 256) {
+                            size = (fields[3] >> 16)*2+4;
+                            if (ReadProcessMemory(child, (void *)(pointer+16), buffer, size, &count) && count == size) {
+                                fprintf(log, "%styped-text %lu ", prefix, index);
+                                for (i = 0; i < size; ++i) fprintf(log, "%02x", buffer[i]);
+                                fputc('\n', log);
+                            }
+                        }
+                    }
+                }
+                request = strchr(request, ','); if (request) ++request;
+            }
+        }
         fprintf(log, "%sstack", prefix);
-        for (i = 0; i < count/4; ++i) fprintf(log, " %08lx", words[i]);
+        for (i = 0; i < stack_size/4; ++i) fprintf(log, " %08lx", words[i]);
         fputc('\n', log);
         if (address == 0x010014a5 && words[1] < 64) {
             DWORD pointers[64], j, got;

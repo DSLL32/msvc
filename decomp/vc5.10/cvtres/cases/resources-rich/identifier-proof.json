@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "read_identifier",
+  "comparison": {
+    "kind": "trap",
+    "frontier": "insert_resource",
+    "original": 16784713,
+    "native_function": "insert_resource",
+    "candidate_entry": {
+      "function": "read_identifier",
+      "original_entry": 16784441,
+      "native_entry": "read_identifier",
+      "contextual_ranges": 38,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-identifier-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-identifier-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/rich-identifier-audit"
+}

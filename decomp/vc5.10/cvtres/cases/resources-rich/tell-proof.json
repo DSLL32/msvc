@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "tell_file",
+  "comparison": {
+    "kind": "trap",
+    "frontier": "convert_resources",
+    "original": 16787051,
+    "native_function": "convert_resources",
+    "candidate_entry": {
+      "function": "tell_file",
+      "original_entry": 16784073,
+      "native_entry": "tell_file",
+      "contextual_ranges": 13,
+      "crt_ranges": 4
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-tell-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-tell-native-02",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/rich-tell-audit-02"
+}

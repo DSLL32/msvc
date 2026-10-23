@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "state": "resource-case-authorized-ongoing",
+  "state": "rich-x86-complete-ce-awaiting-review",
   "target": "toolchains/5.10/bin/CVTRES.EXE",
   "release_conditions": [
     "All VC5 workers authorized to resume first substantive cases"
   ],
-  "accepted_functions": 3,
+  "accepted_functions": 14,
   "coverage": null,
   "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
   "scratch_namespace": "S:\\vc5.10\\cvtres",
@@ -32,14 +32,15 @@
       "argv": [
         "/nologo",
         "/machine:ix86",
-        "/out:output.obj",
-        "input.res"
+        "/readonly",
+        "/out:rich.obj",
+        "rich.res"
       ],
       "purpose": "resource .res to COFF conversion including ordinal/string resource identifiers, languages, menus, dialogs, strings, icons and raw data",
       "source_seed": "resources-rich/source",
-      "input_generation": "Explicit original RC capture owned by RC worker; consume result read-only and record source/hash",
+      "input_generation": "Fresh original VC5 RC/RCDLL resources-rich-baseline-01 producer receipt; cached3672-byte .res",
       "original_groundwork": "Fresh VC5 producer input and two identical original CVTRES COFF masters validated; typed FILE caller evidence captured",
-      "acceptance_reference": "resources-rich/reference",
+      "acceptance_reference": "resources-rich/reference/fixture.json",
       "source_provenance": "Source/assets only copied from sibling rc/cases/resources-rich/source, seeded there from vc1.0 RC inputs; no outputs/traces copied",
       "source_sha256": {
         "assets/messages.bin": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc",
@@ -52,7 +53,36 @@
         "resource.h": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8",
         "resources.rc": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
       },
-      "state": "original-validated-awaiting-native-fsopen"
+      "state": "complete",
+      "completion": "resources-rich/completion.json",
+      "proofs": [
+        "cases/resources-rich/seek-proof.json",
+        "cases/resources-rich/convert-proof.json",
+        "cases/resources-rich/tell-proof.json",
+        "cases/resources-rich/allocate-proof.json",
+        "cases/resources-rich/read-proof.json",
+        "cases/resources-rich/write-proof.json",
+        "cases/resources-rich/copy-proof.json",
+        "cases/resources-rich/identifier-proof.json",
+        "cases/resources-rich/insert-proof.json",
+        "cases/resources-rich/directory-proof.json",
+        "cases/resources-rich/data-entry-proof.json"
+      ]
+    },
+    {
+      "id": "resources-rich-ce",
+      "argv": [
+        "/nologo",
+        "/machine:ARM",
+        "/windowsce",
+        "/readonly",
+        "/out:rich-ce.obj",
+        "rich.res"
+      ],
+      "state": "original-validated-awaiting-orchestrator-review",
+      "purpose": "Genuine ARM/Windows CE24bpp\u21922bpp bitmap conversion from same immutable rich input",
+      "original_plan": "resources-rich-ce/original-plan.json",
+      "payload_observation": "resources-rich-ce/payload-observation.json"
     }
   ],
   "proposed_followups": [
@@ -86,7 +116,8 @@
       "<optional WINDOWSCE variants>",
       "<quoted resource-file>"
     ],
-    "status": "Static full call-site evidence; resource conversion/child capture not authorized in this first-case trial",
+    "status": "Static child evidence; standalone resource conversion complete. LINK child fixture integration remains sibling-owned.",
     "followup": "Match actual machine buffer, optional switches, quoting and generated COFF naming in explicit original LINK capture after release"
-  }
+  },
+  "accepted_extent_bytes": 5614
 }

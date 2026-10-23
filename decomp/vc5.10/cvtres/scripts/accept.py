@@ -38,7 +38,7 @@ def bind_audit(config,old,audit):
         strict=json.loads((audit/'strict-import.stdout').read_text());assert strict==report['strict_import_report']
         assert strict['checked_functions']==len(cfg['accepted']) and set(strict['functions'])==set(cfg['accepted'])
         assert 'known_imports' in strict['checks']
-    residual=import_residual(config)
+    residual=import_residual(config,audit if (audit/'rebuilt.exe').exists() else None)
     if residual is not None:assert json.loads((audit/'import-residual.json').read_text())==residual,'bounded import residual differs'
     assert json.loads((audit/'trial.json').read_text())==config,'audit frozen trial differs'
     assert json.loads((audit/'metadata.json').read_text())==expected_metadata,'audit metadata projection differs'

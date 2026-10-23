@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "function": "copy_bytes",
+  "purpose": "Native-only immutable-binary refresh of completed candidate after shared changes",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-copy-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/rich-copy-native-final-02",
+  "audit": "build/rich-copy-audit-review",
+  "configuration_sha256": "72fa15cbdd2f6ec08d840b04d18a1bf9ba2611c460bd34ee7568cc710f109807",
+  "native_sha256": "b991e215f0299050806b6836b6882ebd51e5e06c53bdab80799c128d70710cd9",
+  "rebuilt_sha256": "ec7daa9a86658ad8e0955865c7b73a129a8861e31a0704ce230b89216d970e15",
+  "status": 0,
+  "verified": true
+}
