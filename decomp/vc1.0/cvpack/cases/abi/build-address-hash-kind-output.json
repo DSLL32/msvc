@@ -1,0 +1,28 @@
+{
+  "size": 2,
+  "offset": 0,
+  "owner": "write_global_publics",
+  "local": "header",
+  "esp_offset": 46,
+  "callsite": {
+    "start": 112453,
+    "end": 112485,
+    "sha256": "2d2cf3538244e946e4d972f438695d7c7c1d4592a352b1aa423ca79fafbede34"
+  },
+  "frame": {
+    "start": 112336,
+    "end": 112343,
+    "allocation": 68,
+    "entry_bias": 40,
+    "sha256": "31b38a747fd9c7567bc9197077cc8d540e08e496a53d4ae29047b562b61936bf"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 112485
+    }
+  ],
+  "scope": "Actual address-hash output fields and24-byte buffer in write_global_publics. Exact named member/local pointer and full extent; raw undefined buffer prebytes retained. Initialized header fields remain zero and compare exactly.",
+  "member": "address_kind",
+  "initial_bytes": "0000"
+}

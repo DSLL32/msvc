@@ -451,4 +451,29 @@ void build_symbol_name_hash(SymbolHash hash, unsigned short *kind,
     free(pages);
     for (i = 0; i < 10; ++i) free(overflow_pages[i]);
 }
+
+void *append_fill(GrowingBuffer *buffer, unsigned char value, unsigned long size)
+{
+    BufferBlock *block;
+    unsigned char *result;
+    unsigned long i;
+
+    if (buffer->block_size < size) return NULL;
+    if (buffer->available < size) {
+        block = checked_zero(sizeof(*block));
+        block->data = checked_alloc(buffer->block_size);
+        if (buffer->last) buffer->last->next = block;
+        else buffer->first = block;
+        ++buffer->block_count;
+        buffer->last = block;
+        buffer->next = block->data;
+        buffer->available = buffer->block_size;
+    }
+    result = buffer->next;
+    for (i = 0; i < size; ++i) result[i] = value;
+    buffer->next += size;
+    buffer->available -= size;
+    buffer->last->used += size;
+    return result;
+}
 #undef OUTPUT_BYTES

@@ -7120,7 +7120,44 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "kind",
+          "slot": 1,
+          "kind": "stack-output",
+          "evidence": "cases/abi/build-address-hash-kind-output.json",
+          "evidence_sha256": "f1491c6692914414907fb532da3ca11b1d98594496a4fcc518dcbd5bcffb9dbf"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "stack-output",
+          "evidence": "cases/abi/build-address-hash-size-output.json",
+          "evidence_sha256": "648757766bb2014951a9339eaf5a287ecbc5c330d35bdc6037a6933851cfba3c"
+        },
+        {
+          "name": "buffer",
+          "slot": 3,
+          "kind": "stack-output",
+          "evidence": "cases/abi/build-address-hash-buffer-output.json",
+          "evidence_sha256": "895a851b30114e07938e8aa488cc48002b59674c160a592157519856ac543711"
+        },
+        {
+          "name": "count",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "buckets",
+          "slot": 5,
+          "kind": "global-owner",
+          "root": "public_symbol_hash",
+          "original_root": 225660,
+          "requested_size": 16384
+        }
+      ]
     },
     {
       "name": "first_buffer_block",
@@ -7157,13 +7194,16 @@
       "native": "append_fill",
       "symbol": "_append_fill",
       "original": 143440,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        143440,
+        143578
+      ],
       "abi": "void *append_fill(GrowingBuffer *,unsigned char,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0134-append_fill/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7186,7 +7226,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -8011,6 +8065,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 133
+    },
+    {
+      "function": "append_fill",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 134
     }
   ],
   "support_unmasked": [
@@ -8621,7 +8681,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "84eec6deedc3ede2c990885824c10d7ed312e297c9c28f93d817cd366434a40c"
+    "evidence_sha256": "c5a528a9cd203860c0521a28d6cf01e8e2fc9fd2d397c3448bc1c0338ccfd2c2"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8697,6 +8757,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "b5e4e634fa61453ab2ef18260c4c4b8e4a55063cbe2179b5ed33fc6a4be94a96"
+    "sha256": "f85e12af6f3af2b82712451b54708ab7ee5d21ab2fbc556816730143d1903b23"
   }
 }
