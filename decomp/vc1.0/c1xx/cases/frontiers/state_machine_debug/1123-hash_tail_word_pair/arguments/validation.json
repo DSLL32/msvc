@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_hash_tail_word_pair",
+  "case": "state_machine_debug",
+  "accepted_before": 1123,
+  "configuration_sha256": "d38d7f54ede2e525714f80048db74a54263088d2fe92eb65bbe63116152090c5",
+  "native_entry": "hash_tail_word_pair",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "key",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 257460,
+        "original_owner_function": "_hash_table_bucket@8",
+        "native_owner_function": "hash_table_bucket",
+        "native_owner_field": "caller_key",
+        "native_owner_local": "key",
+        "identity": "Outer accepted find_hash_value loads its actualkeyEDI4ed71 and PUSHEDI4ed75/PUSHtable4ed76/CALLhashbucket4ed77. Actual accepted hashbucket preservesEDI (onlysaveESI), loads samekeyfromESP+12 toEAX4eda1/PUSHEAX4eda9 beforeoverwritingEAXwithhashkind4edaa/callback4edad return4edb4. Thus samecontextEDI is actualcallbackarg and actualimmediatecallerkeyformal; ownershipanchor only, no inheritedregistersemanticinput claim.",
+        "original_owner_value": 8363768,
+        "native_owner_value": 1449354432
+      },
+      "original_raw": 8363768,
+      "native_raw": 1449354432,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319392,
+      319403
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole11B cdecl: keyESP+4, readsDWORDkey+4 thenADDkey+8 unsignedwrapping,fullEAXreturn/RET0 callercleanup4edb4ADDESP4. No callees/hidden/registersemanticinputs. Actual12BMemberPointerThunkKey initializedwholebynew_member_pointer_thunk_key; functionpointerword+0deliberatelyunconsumed.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "1bbc75385dfd4b7fc39d5d69a6145d83a60ff3fa78d5bac0c4fd3a5cc1ca2482",
+  "capture_timing": {
+    "original_capture_seconds": 1.6686397064477205,
+    "native_capture_seconds": 0.1858329502865672,
+    "total_operation_seconds": 2.1133101135492325
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "e20159e43174b53aa9e3a53ff4dfc60e093045cbe2c5cf8a1da1613ee79dcc1d",
+    "native-commands.gdb": "a8c35b920a1295bc669e7795a5a546d4f02fad7407602eb3d0acd31abbc6a222",
+    "native-gdb.log": "e29d34a759cbb505301d171518d53b0e38c76c171a81b46524bd894aa86b02e0",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "550145bb204602c22f4409ce8a70d01f8a9f5159704bba682607265dc43d5e92",
+    "original-configuration.json": "d38d7f54ede2e525714f80048db74a54263088d2fe92eb65bbe63116152090c5",
+    "original-disassembly.txt": "7fed7fc23b4defb71c2343aa120addf1a52ca6cc2cbce459dc1436bc1577555a",
+    "original-entries.plan": "0b30b2899c8677a6fa5922488b54c45b018283c8f42aa0395baaf3d01fc934bf",
+    "original-events.txt": "b796b7d32732a649ede7376268e99e7a86ff5665fec9158bd2dd7ab712a53ba3",
+    "original-ownership-caller-disassembly.txt": "70a89946699bfed0936b1ecdc48164774973adf34db3fbbab335b1a4863460af",
+    "original-receipt.json": "ed57f9c7bf0a5e91d2bdbe5a84b786c1f6bc51ef707a04a3e805334810af232e",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "cfb9df7b0ba9ce374d5cf0bd1b12e289fc27f3657119f2d063c2387e0e548d53"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

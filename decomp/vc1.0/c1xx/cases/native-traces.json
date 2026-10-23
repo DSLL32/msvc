@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c38196a87435698a7135904f2376eead1a47b59f27da8e35afd2a7ce34e6615a",
+    "functions.json": "0a509911ac9c03690a7f0434e518274e81693bc891262f1694213f8368dcdcc6",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "0d7e4bd1f09e6b8973cb30e46630bd673fe638d2772487522ab42d9a68d1f091",
-    "cases/canonical-map.txt": "ebf5e1c0292fb0e22ae2e3282653a18f38d1e441135ae7f8b653baf3a126e027",
+    "cases/original-entry-references.json": "b999c446d51ef849d174472076e458ca45caab9df0ad6f597268fdeabe71977a",
+    "cases/canonical-map.txt": "d4bf3efc29eed71a0b00ae2e9fec5c024e82a551b43b37aca7cc82ea305c3507",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/entry-reference/original-receipt.json": "c4677feb02ac47af6708e676453c2122a696847c8b880732ed2f5378bbfb71f3",
-    "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/entry-reference/original-events.txt": "136299dacc986f814b82aad9001797c7acd3a3e196a8b94d2b810c7f6c13892f",
-    "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/entry-reference/original-entries.plan": "532078461d817d6ea4df6bab0650c890a9a7f72b7c199fffaabc6d98fdd94331"
+    "cases/frontiers/state_machine_debug/1123-hash_tail_word_pair/entry-reference/original-receipt.json": "73b23975f0c830c44eadacb2eba22497b79becdb1eea4cd017ceed8100dda4c0",
+    "cases/frontiers/state_machine_debug/1123-hash_tail_word_pair/entry-reference/original-events.txt": "cbfab07dd85fc2820c388ed7642ed5f1fbab91bf1c2a640307d7b020aa51210f",
+    "cases/frontiers/state_machine_debug/1123-hash_tail_word_pair/entry-reference/original-entries.plan": "4d8099f860ab520291358a6a31e12e7c6039e7adf76b151fe2c91ff9c692a0e8"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2727,7 +2727,7 @@
     },
     "hash_tail_word_pair": {
       "logical": "_hash_tail_word_pair",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "hash_virtual_thunk_key": {
       "logical": "_hash_virtual_thunk_key",
@@ -6674,7 +6674,8 @@
     "convert_member_pointer_initializer",
     "resolve_member_pointer_path",
     "member_pointer_virtual_function",
-    "new_member_pointer_thunk_key"
+    "new_member_pointer_thunk_key",
+    "hash_tail_word_pair"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10787,7 +10788,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1123,
+      "last": 1124,
       "seen": [
         "main",
         "message_text",
@@ -11819,12 +11820,13 @@
         "resolve_member_pointer_path",
         "member_pointer_virtual_function",
         "new_member_pointer_thunk_key",
-        "hash_tail_word_pair"
+        "hash_tail_word_pair",
+        "emit_member_pointer_virtual_thunk"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_hash_tail_word_pair",
-        "native": "hash_tail_word_pair",
+        "logical": "_emit_member_pointer_virtual_thunk@4",
+        "native": "emit_member_pointer_virtual_thunk",
         "signal": 5
       }
     }

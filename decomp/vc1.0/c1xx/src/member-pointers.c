@@ -34,6 +34,14 @@ int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
 
+/* Original 0x4dfa0..0x4dfab, cdecl contextual hash callback.
+   Member identity is deliberately absent from this cache's hash. */
+unsigned __cdecl hash_tail_word_pair(void *key)
+{
+    MemberPointerThunkKey *pair = key;
+    return pair->kind + (unsigned)pair->displacement;
+}
+
 /* Original 0x4dee0..0x4df37. Lookup keys use the requested compiler
    arena; arena zero retains a permanent key and -1 selects pool zero. */
 MemberPointerThunkKey *__stdcall new_member_pointer_thunk_key(CppSymbol *member,

@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_hash_tail_word_pair",
+    "start": 319392,
+    "end": 319403
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1123-hash_tail_word_pair/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_member_pointer_virtual_thunk@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.49669229704886675,
+  "total_operation_seconds": 3.888284527696669,
+  "original_capture_seconds": 1.317579167895019
+}

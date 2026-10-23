@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x4f737: file src/member-pointers.c, line 41.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, hash_tail_word_pair (key=0x566364c0) at src/member-pointers.c:41
+41	    MemberPointerThunkKey *pair = key;
+#0  hash_tail_word_pair (key=0x566364c0) at src/member-pointers.c:41
+#1  0x5657246e in hash_table_bucket (table=0x56629368, key=0x566364c0) at src/hash-table.c:105
+#2  0x56572610 in find_hash_value (table=0x56629368, key=0x566364c0) at src/hash-table.c:181
+#3  0x565a48b5 in member_pointer_virtual_function (member=0x56627180) at src/member-pointers.c:76
+#4  0x565a505e in member_pointer_expression (qualifier=0x5664cb58) at src/member-pointers.c:224
+#5  0x565ac70d in builtin_unary_expression (operation=58 ':', operand=0x566364a0) at src/unary-expressions.c:160
+#6  0x565ac35f in unary_expression (operation=58 ':', expression=0x566364a0) at src/unary-expressions.c:86
+#7  0x565b8b1e in parse_translation_unit () at src/parser-expression-actions.inc:141
+#8  0x5655e0af in compile_translation_unit () at src/frontend.c:73
+#9  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20
