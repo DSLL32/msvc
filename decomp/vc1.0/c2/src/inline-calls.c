@@ -576,3 +576,119 @@ next_expression:
     }
     return expression;
 }
+
+/* Original [000650f0,0006525f). Replace formal parameter addresses by
+   materialized storage, or direct loads by copied caller arguments. F0
+   evaluation lists live in the right field; other intrinsic argument lists
+   retain their root and are rewritten for their child effects. */
+Node *__fastcall substitute_inline_node(InlineBinding *bindings, Node *node, int *changed)
+{
+    InlineBinding *binding;
+    SymbolHeader *symbol;
+    Node *left, *replacement;
+    switch (node->opcode) {
+    case 0x26:
+        symbol = node->right.symbol;
+        if (symbol && symbol->kind == 1 &&
+            (((TemporarySymbol *)symbol)->attributes & 0x70) == 0x30) {
+            binding = find_inline_binding(bindings, symbol);
+            replacement = intern_leaf(0x26, 0, binding->storage->right.symbol,
+                node->left.value, 0x404);
+            release_node(node);
+            *changed = 1;
+            return replacement;
+        }
+        return node;
+    case 0x30:
+        left = node->left.node;
+        if (left->opcode == 0x26 && (symbol = left->right.symbol) != 0 &&
+            symbol->kind == 1 && (((TemporarySymbol *)symbol)->attributes & 0x70) == 0x30) {
+            binding = find_inline_binding(bindings, symbol);
+            if (binding->flags & 1) {
+                release_tree(node);
+                *changed = 1;
+                return copy_tree(binding->argument->left.node);
+            }
+            node->attributes.words.flags &= ~0x40;
+        }
+        break;
+    case 0x40:
+        if (node->left.node->left.value == 0xf0)
+            node->right.node = substitute_inline_node(bindings, node->right.node, changed);
+        else substitute_inline_node(bindings, node->second.node, changed);
+        return node;
+    }
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        node->left.node = substitute_inline_node(bindings, node->left.node, changed);
+        if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+            node->second.node = substitute_inline_node(bindings, node->second.node, changed);
+    }
+    return node;
+}
+
+/* Original [00064590,000645b7). Formal identity must have a binding;
+   retain the diagnostic and null fallback if the invariant is violated. */
+InlineBinding *__fastcall find_inline_binding(InlineBinding *bindings, SymbolHeader *symbol)
+{
+    for (; bindings; bindings = bindings->next)
+        if (bindings->parameter->right.symbol == symbol) return bindings;
+    compiler_internal_error("@(#)inline.c:1.31", 0x320);
+    return 0;
+}
+
+/* Original [00064580,0006458e). Arena ownership remains unchanged;
+   recycling only links the record into the binding free list. */
+void __fastcall recycle_inline_binding(InlineBinding *binding)
+{
+    binding->next = free_inline_bindings;
+    free_inline_bindings = binding;
+}
+
+/* Original [000652a0,000653bd). Reject direct substitutions invalidated
+   by body effects. Alias assumptions are temporarily relaxed for arguments
+   containing global loads, then restored after every binding. Left recursion
+   and right-tail traversal retain the original walk/call structure. */
+void __fastcall scan_inline_argument_uses(InlineBinding *bindings, Node *node)
+{
+    int __fastcall inline_argument_has_global_load(Node *node);
+    extern int optimize_alias;
+    InlineBinding *binding;
+    Node *argument;
+    int saved_alias;
+    unsigned flags;
+    while ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        saved_alias = optimize_alias;
+        if (node_shapes[node->opcode] & NODE_SIDE_EFFECT) {
+            for (binding = bindings; binding; binding = binding->next) {
+                flags = binding->flags;
+                if (flags & 1) {
+                    if ((node_shapes[node->opcode] & NODE_WRITES_LEFT) &&
+                        (node->attributes.words.flags & 1) &&
+                        binding->parameter->right.symbol == node->right.symbol) {
+                        binding->flags = flags & ~1U;
+                    } else {
+                        optimize_alias = saved_alias;
+                        argument = binding->argument;
+                        if (saved_alias && inline_argument_has_global_load(argument)) optimize_alias = 0;
+                        if (argument->left.node->opcode != 0x33 &&
+                            !(argument->attributes.words.flags & 0x40) &&
+                            work_effect_invalidates_value(node, argument))
+                            binding->flags = flags & ~1U;
+                    }
+                }
+                optimize_alias = saved_alias;
+            }
+        }
+        scan_inline_argument_uses(bindings, node->left.node);
+        if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return;
+        node = node->second.node;
+    }
+}
+
+/* Original [00064570,0006457e). Return a site record to its arena's
+   free chain without clearing its caller-owned fields. */
+void __fastcall recycle_inline_site(InlineSite *site)
+{
+    site->next = free_inline_sites;
+    free_inline_sites = site;
+}

@@ -97,3 +97,32 @@ unsigned __fastcall node_hash_key(Node *node)
     if (symbol && symbol->kind != 19) hash += symbol->identifier;
     return hash;
 }
+
+/* Original [00058340,0005834b). Keep the search target in its original
+   shared slot and retain the distinct recursive walk entry. */
+static Node *parent_search_target; /* 0007bf58 */
+Node *__fastcall walk_matching_parent(Node *tree);
+Node *__fastcall find_matching_parent(Node *tree, Node *target)
+{
+    parent_search_target = target;
+    return walk_matching_parent(tree);
+}
+
+/* Original [00058350,000583bd). A sentinel marks equality at this node;
+   the immediate caller replaces it by the parent, while higher callers
+   propagate the already identified parent unchanged. */
+Node *__fastcall walk_matching_parent(Node *tree)
+{
+    Node *found;
+    if (tree->opcode == parent_search_target->opcode &&
+        trees_equal(tree, parent_search_target, 0)) return (Node *)1;
+    if ((node_shapes[tree->opcode] & NODE_ARITY) != NODE_LEAF) {
+        found = walk_matching_parent(tree->left.node);
+        if (found) return found == (Node *)1 ? tree : found;
+    }
+    if (node_shapes[tree->opcode] & NODE_HAS_SECOND) {
+        found = walk_matching_parent(tree->second.node);
+        if (found) return found == (Node *)1 ? tree : found;
+    }
+    return 0;
+}

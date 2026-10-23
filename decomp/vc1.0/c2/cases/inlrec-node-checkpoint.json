@@ -1,0 +1,657 @@
+{
+  "checkpoint": 1135,
+  "source_graphs": 1056,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1135,
+    "accepted_code_bytes": 311135,
+    "original_code_bytes": 399693,
+    "percentage": 77.84349488232218,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 533
+  },
+  "base_commit": "36bd309e",
+  "accepted_functions": [
+    {
+      "name": "@substitute_inline_node@12",
+      "start": 413936,
+      "end": 414303
+    },
+    {
+      "name": "@find_inline_binding@8",
+      "start": 411024,
+      "end": 411063
+    },
+    {
+      "name": "@recycle_inline_binding@4",
+      "start": 411008,
+      "end": 411022
+    },
+    {
+      "name": "@scan_inline_argument_uses@8",
+      "start": 414368,
+      "end": 414653
+    },
+    {
+      "name": "@find_matching_parent@8",
+      "start": 361280,
+      "end": 361291
+    },
+    {
+      "name": "@walk_matching_parent@4",
+      "start": 361296,
+      "end": 361405
+    },
+    {
+      "name": "@recycle_inline_site@4",
+      "start": 410992,
+      "end": 411006
+    }
+  ],
+  "frontier": "@lower_bitfield_assignment@4",
+  "evidence": {
+    "before": "cases/inlrec-original-1128-corrected.json",
+    "after": "cases/inlrec-original-1135.json",
+    "abi": "cases/inlrec-node-abi-validation.json",
+    "predicates": "cases/inline-shape-validation.json",
+    "native": "cases/native-all-validation.json"
+  },
+  "correction": {
+    "initial_crash": "cases/inlrec-1132-initial-native.log",
+    "initial_report": "cases/inlrec-1132-initial-native-report.log",
+    "issue": "Original packed opcode flags are not numerically identical to reconstructed node_shapes. Scanner must use SIDE_EFFECT (original0x200) and WRITES_LEFT (original0x800); MEMORY_ACCESS instead corresponds original0x400.",
+    "failure_limit": "Initial native crash preceded the original matching-parent frontier; not accepted as matching evidence. Corrected rebuild/native checks and13 cached cases pass.",
+    "search_scope": "All src C/H node_shapes and derived shape consumers searched for raw0x200/0x800/512/2048, and named SIDE_EFFECT/WRITES_LEFT; no other accepted raw-mask reuse found in this opcode-property domain. Unrelated node attributes and machine flags left unchanged.",
+    "named_consumers": [
+      {
+        "file": "src/canonical-before.c",
+        "line": 15,
+        "source": "if (node_shapes[node->opcode] & NODE_SIDE_EFFECT) expression_side_effects |= 2;"
+      },
+      {
+        "file": "src/global-registers.c",
+        "line": 160,
+        "source": "if (node_shapes[node->opcode] & NODE_WRITES_LEFT) {"
+      },
+      {
+        "file": "src/global-registers.c",
+        "line": 205,
+        "source": "if (node_shapes[node->opcode] & NODE_WRITES_LEFT) {"
+      },
+      {
+        "file": "src/global-registers.c",
+        "line": 415,
+        "source": "if (node_shapes[node->opcode] & NODE_WRITES_LEFT) {"
+      },
+      {
+        "file": "src/global-registers.c",
+        "line": 465,
+        "source": "(allocation_last_definition != second || (node_shapes[node->opcode] & NODE_WRITES_LEFT))) {"
+      },
+      {
+        "file": "src/inline-calls.c",
+        "line": 661,
+        "source": "if (node_shapes[node->opcode] & NODE_SIDE_EFFECT) {"
+      },
+      {
+        "file": "src/inline-calls.c",
+        "line": 665,
+        "source": "if ((node_shapes[node->opcode] & NODE_WRITES_LEFT) &&"
+      },
+      {
+        "file": "src/register-transfers.c",
+        "line": 128,
+        "source": "if ((node_shapes[expression->tree->opcode] & NODE_WRITES_LEFT) &&"
+      },
+      {
+        "file": "src/register-transfers.c",
+        "line": 155,
+        "source": "if (!(node_shapes[expression->tree->opcode] & NODE_WRITES_LEFT) ||"
+      },
+      {
+        "file": "src/tree-cleanup.c",
+        "line": 42,
+        "source": "if ((node_shapes[node->opcode] & NODE_SIDE_EFFECT) ||"
+      },
+      {
+        "file": "src/tree-equality.c",
+        "line": 22,
+        "source": "if (tree_comparison_flags && (node_shapes[left->opcode] & NODE_SIDE_EFFECT)) return 0;"
+      },
+      {
+        "file": "src/tree-equality.c",
+        "line": 57,
+        "source": "if (node_shapes[left->opcode] & NODE_WRITES_LEFT) {"
+      },
+      {
+        "file": "src/tree-equality.c",
+        "line": 61,
+        "source": "if (node_shapes[right->opcode] & NODE_WRITES_LEFT) {"
+      },
+      {
+        "file": "src/tree-lowering.c",
+        "line": 203,
+        "source": "if (node_shapes[container->opcode] & NODE_WRITES_LEFT)"
+      },
+      {
+        "file": "src/tree-references.c",
+        "line": 35,
+        "source": "if (node_shapes[node->opcode] & NODE_WRITES_LEFT) child_flags |= 5;"
+      },
+      {
+        "file": "src/tree-types.c",
+        "line": 381,
+        "source": "if (node_shapes[node->opcode] & NODE_SIDE_EFFECT) break;"
+      },
+      {
+        "file": "src/work-optimizer.c",
+        "line": 565,
+        "source": "if (node_shapes[node->opcode] & NODE_SIDE_EFFECT) {"
+      }
+    ]
+  },
+  "limits": [
+    "Whole functions recovered, preserving separate setup/tail-search and recursive walker entries plus original free-list ownership.",
+    "Global-load predicate653c0, inline assembly callbacks, secondary-return helper and tail-position helper remain named unaccepted traps. No execution claim for them.",
+    "All12 completed objects and current13th case matching named trap pass. Active inlrec object not yet complete.",
+    "First ad-hoc ABI script lacked scripts import path and failed before checks; corrected scoped proof passes sixRET bodies. Parent wrapper has original tail jump, not a machine RET.",
+    "First predicate probe rejected MEMORY_ACCESS/writes mapping at opcode30; corrected910-value proof and both old-mapping negatives pass."
+  ],
+  "timing": {
+    "frontier1129-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.274456308223307,
+      "returncode": 0,
+      "log_sha256": "06965873a13fc06c966bacb265fa45e4f8b72df1baf161aefd0853ae74c7dd07"
+    },
+    "frontier1129-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.6172885010018945,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    "frontier1129-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6472691725939512,
+      "returncode": 0,
+      "log_sha256": "eb4a1636afdc0fee26abaa221e45261c8fa9c72290769a216f0eb349df339801"
+    },
+    "frontier1129-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1129.json"
+      ],
+      "seconds": 0.2291160011664033,
+      "returncode": 0,
+      "log_sha256": "3b36e8786b7d29b8965e7b0eb985fde6158d806ac227e58cb9f97f708bfb7869"
+    },
+    "frontier1129-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1129.json"
+      ],
+      "seconds": 1.531993062235415,
+      "returncode": 0,
+      "log_sha256": "a75337af286d8053aedd02ecdec517356adc220c1ca7b60a97a080156cdf6f51"
+    },
+    "frontier1130-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2444514269009233,
+      "returncode": 0,
+      "log_sha256": "952d74360671fbc5ac52bdad0e384e4616b19f1d42368540de594cfa3da7c424"
+    },
+    "frontier1130-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.4700002502650023,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    "frontier1130-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6418863367289305,
+      "returncode": 0,
+      "log_sha256": "0921bf51f6bffb4fcdf12b51fa5aaea21e3a440c67fe73d599b1b35e30d987dd"
+    },
+    "frontier1130-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1130.json"
+      ],
+      "seconds": 0.22250505164265633,
+      "returncode": 0,
+      "log_sha256": "af6485fc292541a7c74791da93404e41e455502c2fe81ea410798440116ab19e"
+    },
+    "frontier1130-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1130.json"
+      ],
+      "seconds": 1.810406475327909,
+      "returncode": 0,
+      "log_sha256": "3bc096e866adbc110f6abb13fc4a94d2848947f523b620ab69c3d9f2c53c56e5"
+    },
+    "frontier1131-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2609550934284925,
+      "returncode": 0,
+      "log_sha256": "488432de68a742717894436514ed82dd7f356405a45880955b76b39825929c82"
+    },
+    "frontier1131-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.8721193596720695,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    "frontier1131-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5918204868212342,
+      "returncode": 0,
+      "log_sha256": "4c50bfd400a7650097d521ba805c3a9a3416f588205d113d4a8bd9b7fffea25c"
+    },
+    "frontier1131-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1131.json"
+      ],
+      "seconds": 0.22431611362844706,
+      "returncode": 0,
+      "log_sha256": "3b64df42391053491696a6f69e7601036d402e847de2a5103253f4a3fa7e0177"
+    },
+    "frontier1131-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1131.json"
+      ],
+      "seconds": 1.9652252485975623,
+      "returncode": 0,
+      "log_sha256": "15a090477c95603c6971efbd7f70767568fea02b4c256393447003a3861bcaff"
+    },
+    "frontier1132-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 19.068966669030488,
+      "returncode": 0,
+      "log_sha256": "bb5f40a5f91334171c80cb9b7638db8acb227cb3f25a4519b396285019f5aa49"
+    },
+    "frontier1132-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.6182365901768208,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    "frontier1132-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5822789315134287,
+      "returncode": 0,
+      "log_sha256": "0ad7fd9c854f458b05eb95740e9906771d8555a4a46ca7d6e83d6df81e6bfbe6"
+    },
+    "frontier1132-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1132.json"
+      ],
+      "seconds": 0.23968950379639864,
+      "returncode": 1,
+      "log_sha256": "a1cef79b81b6d771487ea1930908ccbfca383f943e06a4ab2f8e5ab954c3bb7d"
+    },
+    "frontier1132-predicate-proof-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.35540153644979,
+      "returncode": 0,
+      "log_sha256": "bb5f40a5f91334171c80cb9b7638db8acb227cb3f25a4519b396285019f5aa49"
+    },
+    "frontier1132-predicate-proof-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.8256970550864935,
+      "returncode": 0,
+      "log_sha256": "5ccc641df45353cbb837fc612eb86af95b2757c03cc48252a4caccd0f0091f80"
+    },
+    "frontier1132-predicate-proof-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6373589280992746,
+      "returncode": 0,
+      "log_sha256": "ca57204cc984ebbdd656640280867bbdec62d94006744c0e143c826f6485fcdb"
+    },
+    "frontier1132-predicate-proof-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1132.json"
+      ],
+      "seconds": 0.22138976026326418,
+      "returncode": 0,
+      "log_sha256": "2d845d5e0a5e23cfd9e9a7346a701ce5b216921be30419d9f1aba799f10c36d4"
+    },
+    "frontier1132-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1132.json"
+      ],
+      "seconds": 2.1899045584723353,
+      "returncode": 0,
+      "log_sha256": "2e0e310928ef8aaf2bce7fc9837aa2382fb2271fdd8ffc8df6d7f149220e410a"
+    },
+    "frontier1132-shape-fix-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.374094364233315,
+      "returncode": 0,
+      "log_sha256": "422e6b1138ea7c381500c6582e77969b2f986a78426d3e994779d4b7723adf1e"
+    },
+    "frontier1132-shape-fix-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1132.json"
+      ],
+      "seconds": 0.22827921621501446,
+      "returncode": 0,
+      "log_sha256": "46535a3a34b6990846d38c5de7c66a96d50895e99cec6b8b457c44b5517381e8"
+    },
+    "frontier1133-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.2022275291383266,
+      "returncode": 0,
+      "log_sha256": "b9474ab3382841e8dcbb150ee0958e795560b0d8542212171ef109c09711dc3d"
+    },
+    "frontier1133-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1133.json"
+      ],
+      "seconds": 0.22591368574649096,
+      "returncode": 0,
+      "log_sha256": "c423e2598a60f1fe8ad18d26b585f6174e4bf85df978599c0e76969f2227718c"
+    },
+    "frontier1133-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1133.json"
+      ],
+      "seconds": 1.8976652659475803,
+      "returncode": 0,
+      "log_sha256": "56339e2fc3d3295aff905f79d77621cf06a9baec327895229fbd241b4c9f7b9c"
+    },
+    "frontier1134-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.3332968996837735,
+      "returncode": 0,
+      "log_sha256": "17e6ba468f5c2287b63f3d67760de5d2173cbe4969fbb5bb01e36e39c5ff4a8f"
+    },
+    "frontier1134-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.425077209249139,
+      "returncode": 0,
+      "log_sha256": "b9474ab3382841e8dcbb150ee0958e795560b0d8542212171ef109c09711dc3d"
+    },
+    "frontier1134-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5876635750755668,
+      "returncode": 0,
+      "log_sha256": "fe7921321297b68222e25d202fe8d93327853e33d89c6f94256b7a6230956995"
+    },
+    "frontier1134-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1134.json"
+      ],
+      "seconds": 0.23688076436519623,
+      "returncode": 0,
+      "log_sha256": "2533a55bbed93fdb01f322d5164e3683388a517c6f742e28a9d52398ab2d12f8"
+    },
+    "frontier1134-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1134.json"
+      ],
+      "seconds": 1.0990566778928041,
+      "returncode": 0,
+      "log_sha256": "c918b7c1cb588804a5eaeea7af96d156b5ad2cb8344aa5e63ff58728f5404d63"
+    },
+    "frontier1135-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.4369862778112292,
+      "returncode": 0,
+      "log_sha256": "e4a905451e60e9de0a0e18f7619d88d6610366ef17f91fb10bc34b39768486c1"
+    },
+    "frontier1135-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.6081697437912226,
+      "returncode": 0,
+      "log_sha256": "fc64946bcabf55c1c007a48a67ef1850700d5b081e605e3b4526be312e4d5543"
+    },
+    "frontier1135-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6283657737076283,
+      "returncode": 0,
+      "log_sha256": "7fcc2974adda41b222fc46d820c4ef7a3d61275f17ed6eaa1396eb344aea24d1"
+    },
+    "frontier1135-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "inlrec",
+        "--reference",
+        "cases/inlrec-original-1135.json"
+      ],
+      "seconds": 0.23171700630337,
+      "returncode": 0,
+      "log_sha256": "ad88e438180392989fb22f08d0f079a407ead4f5c5df33ed11163276848e35d8"
+    },
+    "frontier1135-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "inlrec",
+        "--receipt",
+        "cases/inlrec-original-1135.json"
+      ],
+      "seconds": 1.8890216564759612,
+      "returncode": 0,
+      "log_sha256": "449adaa8456e958bb13e09146356eaf1bd5da1eb23e8b931e07a5c790c844a89"
+    },
+    "inline-node-data-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-data"
+      ],
+      "seconds": 39.964303091168404,
+      "returncode": 0,
+      "log_sha256": "27be52fab18490c7c6c13948347eef9863cc6d4a7bf4d5340a81e23bdb94b261"
+    },
+    "inline-node-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "inline-calls",
+        "tree-equality"
+      ],
+      "seconds": 4.6280423402786255,
+      "returncode": 0,
+      "log_sha256": "25ea30944d9093b46116aefab1a4cd392bfeeb2125cea4f230a69c49c5ac29b0"
+    }
+  },
+  "timing_limits": [
+    "Analysis/edit time not separately measured. Build commands combine canonical/native/traced build; audit19s and build37s include dependency rebuilds, unsplit. Reference/native receipts separately measure setup/run/check where available. Failed and repeated attempts retained."
+  ]
+}

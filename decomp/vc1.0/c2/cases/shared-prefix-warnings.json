@@ -2,9 +2,14 @@
   "modules": [
     {
       "module": "inline-calls",
-      "seconds": 2.5521349906921387,
+      "seconds": 2.12845975253731,
+      "returncode": 0
+    },
+    {
+      "module": "tree-equality",
+      "seconds": 2.445940872654319,
       "returncode": 0
     }
   ],
-  "seconds": 2.5523466765880585
+  "seconds": 4.574787906371057
 }

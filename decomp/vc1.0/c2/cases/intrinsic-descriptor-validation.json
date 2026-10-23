@@ -6,7 +6,7 @@
       "id": 106,
       "addresses": [
         "0x84078",
-        "0x8a050"
+        "0x8c050"
       ],
       "extent_bytes": 16
     },
@@ -15,7 +15,7 @@
       "id": 107,
       "addresses": [
         "0x84088",
-        "0x8a060"
+        "0x8c060"
       ],
       "extent_bytes": 16
     },
@@ -24,7 +24,7 @@
       "id": 110,
       "addresses": [
         "0x840b8",
-        "0x8a070"
+        "0x8c070"
       ],
       "extent_bytes": 16
     },
@@ -33,7 +33,7 @@
       "id": 111,
       "addresses": [
         "0x840c8",
-        "0x8a080"
+        "0x8c080"
       ],
       "extent_bytes": 16
     },
@@ -42,7 +42,7 @@
       "id": 132,
       "addresses": [
         "0x84218",
-        "0x8a090"
+        "0x8c090"
       ],
       "extent_bytes": 16
     },
@@ -51,7 +51,7 @@
       "id": 133,
       "addresses": [
         "0x84228",
-        "0x8a0a0"
+        "0x8c0a0"
       ],
       "extent_bytes": 16
     },
@@ -60,7 +60,7 @@
       "id": 174,
       "addresses": [
         "0x844b8",
-        "0x8a0b0"
+        "0x8c0b0"
       ],
       "extent_bytes": 16
     },
@@ -69,7 +69,7 @@
       "id": 92,
       "addresses": [
         "0x83f98",
-        "0x8a030"
+        "0x8c030"
       ],
       "extent_bytes": 16
     },
@@ -78,7 +78,7 @@
       "id": 93,
       "addresses": [
         "0x83fa8",
-        "0x8a040"
+        "0x8c040"
       ],
       "extent_bytes": 16
     },
@@ -87,7 +87,7 @@
       "id": 167,
       "addresses": [
         "0x84448",
-        "0x8a100"
+        "0x8c100"
       ],
       "extent_bytes": 16
     },
@@ -96,7 +96,7 @@
       "id": 164,
       "addresses": [
         "0x84418",
-        "0x8a0e0"
+        "0x8c0e0"
       ],
       "extent_bytes": 16
     },
@@ -105,7 +105,7 @@
       "id": 165,
       "addresses": [
         "0x84428",
-        "0x8a0f0"
+        "0x8c0f0"
       ],
       "extent_bytes": 16
     },
@@ -114,7 +114,7 @@
       "id": 179,
       "addresses": [
         "0x84508",
-        "0x8a110"
+        "0x8c110"
       ],
       "extent_bytes": 16
     }
@@ -142,7 +142,7 @@
     ]
   },
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "rebuilt_sha256": "c4a99d95ad738308057a07e685d1e30cb56ad6a44a83926a1499890926feb98a",
+  "rebuilt_sha256": "33f8717841e85997a710dcf16989a0037fac8a0d01d2300f3df7ed5dba587bd0",
   "executes_wine": false,
   "address_identity": "Interpreter does not expose descriptor addresses or perform arithmetic between descriptors"
 }

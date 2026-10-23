@@ -1,0 +1,15 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x56566004 in substitute_inline_node (bindings=0x566101b4, node=0x56610d44, changed=0xffffda50) at src/inline-calls.c:595
+595	            replacement = intern_leaf(0x26, 0, binding->storage->right.symbol,
+#0  0x56566004 in substitute_inline_node (bindings=0x566101b4, node=0x56610d44, changed=0xffffda50) at src/inline-calls.c:595
+#1  0x56566182 in substitute_inline_node (bindings=0x566101b4, node=0x56610d98, changed=0xffffda50) at src/inline-calls.c:622
+#2  0x56565c17 in substitute_inline_body (function=0x56610638, bindings=0x566101b4, result=0x0, source_location=55, site=0x56610150, hidden_result=0) at src/inline-calls.c:554
+#3  0x56564625 in inline_function_calls (function=0x5660aa1c, depth=1, budget=1000) at src/inline-calls.c:114
+#4  0x56564052 in expand_inline_calls (function=0x5660aa1c) at src/inline-calls.c:25
+#5  0x5655d2d2 in compile_functions () at src/functions.c:50
+#6  0x565579e7 in main (argc=1, argv=0xffffdcc4, envp=0xffffdccc) at src/c2.c:56
+C2_FRONTIER_PC=0x56566004 ENTRY=0x56557d20

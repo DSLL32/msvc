@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "5fac5a282ac603d406d30061cbd26633bf8e28580bc199ae76c172ce9cbb8b91",
+    "functions.json": "76032d18c52414d9c3d5914e6e99de5af6255764b5e401975bd9f8aa8935feb0",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -1600,7 +1600,7 @@
     },
     "find_inline_binding": {
       "logical": "@find_inline_binding@8",
-      "source": "src/stubs.c"
+      "source": "src/inline-calls.c"
     },
     "find_irreducible_flow_end": {
       "logical": "@find_irreducible_flow_end@4",
@@ -1612,7 +1612,7 @@
     },
     "find_matching_parent": {
       "logical": "@find_matching_parent@8",
-      "source": "src/stubs.c"
+      "source": "src/tree-equality.c"
     },
     "find_numbered_expression": {
       "logical": "@find_numbered_expression@4",
@@ -2145,6 +2145,10 @@
     "initializer_symbols_available": {
       "logical": "@initializer_symbols_available@4",
       "source": "src/initializer-symbols.c"
+    },
+    "inline_argument_has_global_load": {
+      "logical": "@inline_argument_has_global_load@4",
+      "source": "src/stubs.c"
     },
     "inline_argument_prefix": {
       "logical": "@inline_argument_prefix@4",
@@ -3688,11 +3692,11 @@
     },
     "recycle_inline_binding": {
       "logical": "@recycle_inline_binding@4",
-      "source": "src/stubs.c"
+      "source": "src/inline-calls.c"
     },
     "recycle_inline_site": {
       "logical": "@recycle_inline_site@4",
-      "source": "src/stubs.c"
+      "source": "src/inline-calls.c"
     },
     "redirect_assembly_label": {
       "logical": "@redirect_assembly_label@12",
@@ -4284,7 +4288,7 @@
     },
     "scan_inline_argument_uses": {
       "logical": "@scan_inline_argument_uses@8",
-      "source": "src/stubs.c"
+      "source": "src/inline-calls.c"
     },
     "scan_inline_candidates": {
       "logical": "@scan_inline_candidates@24",
@@ -4692,7 +4696,7 @@
     },
     "substitute_inline_node": {
       "logical": "@substitute_inline_node@12",
-      "source": "src/stubs.c"
+      "source": "src/inline-calls.c"
     },
     "substitute_work_values": {
       "logical": "@substitute_work_values@8",
@@ -4853,6 +4857,10 @@
     "visit_machine_symbols": {
       "logical": "@visit_machine_symbols@12",
       "source": "src/stubs.c"
+    },
+    "walk_matching_parent": {
+      "logical": "@walk_matching_parent@4",
+      "source": "src/tree-equality.c"
     },
     "warning_override_level": {
       "logical": "@warning_override_level@4",
@@ -19520,6 +19528,685 @@
               "total_seconds": 1.945804925635457
             }
           }
+        },
+        {
+          "accepted_function": "@substitute_inline_node@12",
+          "accepted_kind": "application",
+          "previous_logical": "@substitute_inline_node@12",
+          "original_extent": [
+            "0x650f0",
+            "0x6525f"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1128-corrected.json",
+            "sha256": "ce56d1798aaaa566344c298febcd52c363fa8e7123822eafa5fb52aa923440bf",
+            "capture": {
+              "label": "inlrec-original-1128-corrected",
+              "profile": "inlrec",
+              "accepted": 1128,
+              "events": "exception 80000003 rva 000550f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "68c454401b6236cc2576c5afc0401109626671771f770375f26f99345fbc7152",
+              "config_sha256": "5fac5a282ac603d406d30061cbd26633bf8e28580bc199ae76c172ce9cbb8b91",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-0p2ukvo2",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@substitute_inline_node@12",
+              "original_va": "0x650f0",
+              "setup_seconds": 0.24092137068510056,
+              "execution_seconds": 1.6787864929065108,
+              "check_seconds": 0.026096699759364128,
+              "total_seconds": 1.945804925635457
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1129.json",
+            "sha256": "a75337af286d8053aedd02ecdec517356adc220c1ca7b60a97a080156cdf6f51",
+            "capture": {
+              "label": "inlrec-original-1129",
+              "profile": "inlrec",
+              "accepted": 1129,
+              "events": "exception 80000003 rva 00054590 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "04ed359ae58cd36b663d109b126e83d07ec155f066014f6e3a67bc244f320b4f",
+              "config_sha256": "8f3db5bb621f60fa03baaac3930fe195c0802419231269bb02ac62e15e06fe38",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-8bnjaufh",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@find_inline_binding@8",
+              "original_va": "0x64590",
+              "setup_seconds": 0.2678595641627908,
+              "execution_seconds": 1.166443970054388,
+              "check_seconds": 0.027318110689520836,
+              "total_seconds": 1.4616220574826002
+            }
+          }
+        },
+        {
+          "accepted_function": "@find_inline_binding@8",
+          "accepted_kind": "application",
+          "previous_logical": "@find_inline_binding@8",
+          "original_extent": [
+            "0x64590",
+            "0x645b7"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1129.json",
+            "sha256": "a75337af286d8053aedd02ecdec517356adc220c1ca7b60a97a080156cdf6f51",
+            "capture": {
+              "label": "inlrec-original-1129",
+              "profile": "inlrec",
+              "accepted": 1129,
+              "events": "exception 80000003 rva 00054590 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "04ed359ae58cd36b663d109b126e83d07ec155f066014f6e3a67bc244f320b4f",
+              "config_sha256": "8f3db5bb621f60fa03baaac3930fe195c0802419231269bb02ac62e15e06fe38",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-8bnjaufh",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@find_inline_binding@8",
+              "original_va": "0x64590",
+              "setup_seconds": 0.2678595641627908,
+              "execution_seconds": 1.166443970054388,
+              "check_seconds": 0.027318110689520836,
+              "total_seconds": 1.4616220574826002
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1130.json",
+            "sha256": "3bc096e866adbc110f6abb13fc4a94d2848947f523b620ab69c3d9f2c53c56e5",
+            "capture": {
+              "label": "inlrec-original-1130",
+              "profile": "inlrec",
+              "accepted": 1130,
+              "events": "exception 80000003 rva 00054580 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "e1e89f326594aec3958f42b486ae013c2c36562a5cde1a0a6e749f53b98d1adf",
+              "config_sha256": "1749b430aaea79a7516895e19f0e33583872a005c17254f4e7a9953cbd587a6c",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-0ki4w8v3",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@recycle_inline_binding@4",
+              "original_va": "0x64580",
+              "setup_seconds": 0.23258708138018847,
+              "execution_seconds": 1.4803769551217556,
+              "check_seconds": 0.02652613166719675,
+              "total_seconds": 1.7394906608387828
+            }
+          }
+        },
+        {
+          "accepted_function": "@recycle_inline_binding@4",
+          "accepted_kind": "application",
+          "previous_logical": "@recycle_inline_binding@4",
+          "original_extent": [
+            "0x64580",
+            "0x6458e"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1130.json",
+            "sha256": "3bc096e866adbc110f6abb13fc4a94d2848947f523b620ab69c3d9f2c53c56e5",
+            "capture": {
+              "label": "inlrec-original-1130",
+              "profile": "inlrec",
+              "accepted": 1130,
+              "events": "exception 80000003 rva 00054580 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "e1e89f326594aec3958f42b486ae013c2c36562a5cde1a0a6e749f53b98d1adf",
+              "config_sha256": "1749b430aaea79a7516895e19f0e33583872a005c17254f4e7a9953cbd587a6c",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-0ki4w8v3",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@recycle_inline_binding@4",
+              "original_va": "0x64580",
+              "setup_seconds": 0.23258708138018847,
+              "execution_seconds": 1.4803769551217556,
+              "check_seconds": 0.02652613166719675,
+              "total_seconds": 1.7394906608387828
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1131.json",
+            "sha256": "15a090477c95603c6971efbd7f70767568fea02b4c256393447003a3861bcaff",
+            "capture": {
+              "label": "inlrec-original-1131",
+              "profile": "inlrec",
+              "accepted": 1131,
+              "events": "exception 80000003 rva 000552a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "84e588adb14b40bc8ff82b5fc01392f559c95e610dbc9e39202d346198da7e85",
+              "config_sha256": "43db8974d2cdcd8b61b125a9fce8afb5833abae2ff76b4b1f47bd1a41cc38b63",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-v53l_0au",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@scan_inline_argument_uses@8",
+              "original_va": "0x652a0",
+              "setup_seconds": 0.22648758720606565,
+              "execution_seconds": 1.6416987869888544,
+              "check_seconds": 0.026544369757175446,
+              "total_seconds": 1.8947311444208026
+            }
+          }
+        },
+        {
+          "accepted_function": "@scan_inline_argument_uses@8",
+          "accepted_kind": "application",
+          "previous_logical": "@scan_inline_argument_uses@8",
+          "original_extent": [
+            "0x652a0",
+            "0x653bd"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1131.json",
+            "sha256": "15a090477c95603c6971efbd7f70767568fea02b4c256393447003a3861bcaff",
+            "capture": {
+              "label": "inlrec-original-1131",
+              "profile": "inlrec",
+              "accepted": 1131,
+              "events": "exception 80000003 rva 000552a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "84e588adb14b40bc8ff82b5fc01392f559c95e610dbc9e39202d346198da7e85",
+              "config_sha256": "43db8974d2cdcd8b61b125a9fce8afb5833abae2ff76b4b1f47bd1a41cc38b63",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-v53l_0au",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@scan_inline_argument_uses@8",
+              "original_va": "0x652a0",
+              "setup_seconds": 0.22648758720606565,
+              "execution_seconds": 1.6416987869888544,
+              "check_seconds": 0.026544369757175446,
+              "total_seconds": 1.8947311444208026
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1132.json",
+            "sha256": "2e0e310928ef8aaf2bce7fc9837aa2382fb2271fdd8ffc8df6d7f149220e410a",
+            "capture": {
+              "label": "inlrec-original-1132",
+              "profile": "inlrec",
+              "accepted": 1132,
+              "events": "exception 80000003 rva 00048340 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "77603ac098452b16b9e7d0f963fa00059bda220eb3138c3ceaeb9bdaa6cf800c",
+              "config_sha256": "0fc503afee393989d211d9cc86ffef35731ee026177f04284d3014b18db01af1",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-3jy150ad",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@find_matching_parent@8",
+              "original_va": "0x58340",
+              "setup_seconds": 0.22535955905914307,
+              "execution_seconds": 1.868748881854117,
+              "check_seconds": 0.024544572457671165,
+              "total_seconds": 2.118653390556574
+            }
+          }
+        },
+        {
+          "accepted_function": "@find_matching_parent@8",
+          "accepted_kind": "application",
+          "previous_logical": "@find_matching_parent@8",
+          "original_extent": [
+            "0x58340",
+            "0x5834b"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1132.json",
+            "sha256": "2e0e310928ef8aaf2bce7fc9837aa2382fb2271fdd8ffc8df6d7f149220e410a",
+            "capture": {
+              "label": "inlrec-original-1132",
+              "profile": "inlrec",
+              "accepted": 1132,
+              "events": "exception 80000003 rva 00048340 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "77603ac098452b16b9e7d0f963fa00059bda220eb3138c3ceaeb9bdaa6cf800c",
+              "config_sha256": "0fc503afee393989d211d9cc86ffef35731ee026177f04284d3014b18db01af1",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-3jy150ad",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@find_matching_parent@8",
+              "original_va": "0x58340",
+              "setup_seconds": 0.22535955905914307,
+              "execution_seconds": 1.868748881854117,
+              "check_seconds": 0.024544572457671165,
+              "total_seconds": 2.118653390556574
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1133.json",
+            "sha256": "56339e2fc3d3295aff905f79d77621cf06a9baec327895229fbd241b4c9f7b9c",
+            "capture": {
+              "label": "inlrec-original-1133",
+              "profile": "inlrec",
+              "accepted": 1133,
+              "events": "exception 80000003 rva 00048350 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "bc8dd8e8c50af631f3925344676fea4d8b64d305ff8307e84a64b0307c05a215",
+              "config_sha256": "8f808ba7a2ae24a65ef3408a8e0e782fa3beb8902d0cea567a9d23ed097fb49d",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-02h96g46",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@walk_matching_parent@4",
+              "original_va": "0x58350",
+              "setup_seconds": 0.22837302088737488,
+              "execution_seconds": 1.5723032988607883,
+              "check_seconds": 0.027420004829764366,
+              "total_seconds": 1.8280968237668276
+            }
+          }
+        },
+        {
+          "accepted_function": "@walk_matching_parent@4",
+          "accepted_kind": "application",
+          "previous_logical": "@walk_matching_parent@4",
+          "original_extent": [
+            "0x58350",
+            "0x583bd"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1133.json",
+            "sha256": "56339e2fc3d3295aff905f79d77621cf06a9baec327895229fbd241b4c9f7b9c",
+            "capture": {
+              "label": "inlrec-original-1133",
+              "profile": "inlrec",
+              "accepted": 1133,
+              "events": "exception 80000003 rva 00048350 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "bc8dd8e8c50af631f3925344676fea4d8b64d305ff8307e84a64b0307c05a215",
+              "config_sha256": "8f808ba7a2ae24a65ef3408a8e0e782fa3beb8902d0cea567a9d23ed097fb49d",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-02h96g46",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@walk_matching_parent@4",
+              "original_va": "0x58350",
+              "setup_seconds": 0.22837302088737488,
+              "execution_seconds": 1.5723032988607883,
+              "check_seconds": 0.027420004829764366,
+              "total_seconds": 1.8280968237668276
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1134.json",
+            "sha256": "c918b7c1cb588804a5eaeea7af96d156b5ad2cb8344aa5e63ff58728f5404d63",
+            "capture": {
+              "label": "inlrec-original-1134",
+              "profile": "inlrec",
+              "accepted": 1134,
+              "events": "exception 80000003 rva 00054570 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "5b918d7fc078a9263069c08caecc71406302412b1c6cc74d928f66b029729208",
+              "config_sha256": "8e729212d4066c1ac49441a5e6aaf0ef650ba425156c027f9fc20c12644b454a",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-a3xe3kh8",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@recycle_inline_site@4",
+              "original_va": "0x64570",
+              "setup_seconds": 0.22661413066089153,
+              "execution_seconds": 0.7771043963730335,
+              "check_seconds": 0.025044684298336506,
+              "total_seconds": 1.0287635922431946
+            }
+          }
+        },
+        {
+          "accepted_function": "@recycle_inline_site@4",
+          "accepted_kind": "application",
+          "previous_logical": "@recycle_inline_site@4",
+          "original_extent": [
+            "0x64570",
+            "0x6457e"
+          ],
+          "before": {
+            "path": "cases/inlrec-original-1134.json",
+            "sha256": "c918b7c1cb588804a5eaeea7af96d156b5ad2cb8344aa5e63ff58728f5404d63",
+            "capture": {
+              "label": "inlrec-original-1134",
+              "profile": "inlrec",
+              "accepted": 1134,
+              "events": "exception 80000003 rva 00054570 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "5b918d7fc078a9263069c08caecc71406302412b1c6cc74d928f66b029729208",
+              "config_sha256": "8e729212d4066c1ac49441a5e6aaf0ef650ba425156c027f9fc20c12644b454a",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-a3xe3kh8",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@recycle_inline_site@4",
+              "original_va": "0x64570",
+              "setup_seconds": 0.22661413066089153,
+              "execution_seconds": 0.7771043963730335,
+              "check_seconds": 0.025044684298336506,
+              "total_seconds": 1.0287635922431946
+            }
+          },
+          "after": {
+            "path": "cases/inlrec-original-1135.json",
+            "sha256": "449adaa8456e958bb13e09146356eaf1bd5da1eb23e8b931e07a5c790c844a89",
+            "capture": {
+              "label": "inlrec-original-1135",
+              "profile": "inlrec",
+              "accepted": 1135,
+              "events": "exception 80000003 rva 00049190 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2c938bc7c89a13fba0a8c5afc687b27ccb8d88aa3a010649072d295ea55adc95",
+              "config_sha256": "76032d18c52414d9c3d5914e6e99de5af6255764b5e401975bd9f8aa8935feb0",
+              "manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "ebdf5e6daeb1255e60e2838be59dc7becb39637a3313d0b3863fde6db4eb61a8",
+                "c2/irsy": "9aa8b9e21536a9f05f62832a090da88d196a2fc63ee86bf1d8a50f5e240ecfaa",
+                "c2/irin": "10ff3e9316a65fccba0f32d9c0d3172bb5352b46c150fcaca68e8bdcd13afe93",
+                "c2/irgl": "83b47d34f300d3358d4d55a686aaf6fe92c65aad5112d9de5ffbebe866183c7b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f inlrec.c -W 1 -dos -Foinlrec.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-inlrec-1wsi3lwy",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@lower_bitfield_assignment@4",
+              "original_va": "0x59190",
+              "setup_seconds": 0.22799276933073997,
+              "execution_seconds": 1.5654638539999723,
+              "check_seconds": 0.026300763711333275,
+              "total_seconds": 1.8197578340768814
+            }
+          }
         }
       ]
     }
@@ -30251,7 +30938,7 @@
     },
     "inlrec": {
       "first": 1108,
-      "last": 1128,
+      "last": 1135,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -31299,9 +31986,16 @@
         "relocate_inline_sites",
         "retarget_inline_site_tree",
         "substitute_inline_body",
-        "substitute_inline_node"
+        "substitute_inline_node",
+        "find_inline_binding",
+        "recycle_inline_binding",
+        "scan_inline_argument_uses",
+        "find_matching_parent",
+        "walk_matching_parent",
+        "recycle_inline_site",
+        "lower_bitfield_assignment"
       ],
-      "terminal": "@substitute_inline_node@12",
+      "terminal": "@lower_bitfield_assignment@4",
       "terminal_kind": "application",
       "returncode": -5
     }

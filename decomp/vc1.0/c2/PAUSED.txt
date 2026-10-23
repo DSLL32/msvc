@@ -1,3 +1,7 @@
+C2 active: inlrec at1135 accepted /1056 whole source graphs;311135/399693 bytes (77.8434949%), not branch coverage.
+Current matching frontier lower_bitfield_assignment59190.
+See cases/inlrec-node-checkpoint.json for alias flag correction/failure/negative proofs and timings.
+
 C2 active: inline-records at1128 accepted /1049 whole source graphs.
 Full1500-byte substitute_inline_body recovered; matching frontier substitute_inline_node650f0.
 Unvisited matching-parent/assembly/secondary-register children remain named traps.

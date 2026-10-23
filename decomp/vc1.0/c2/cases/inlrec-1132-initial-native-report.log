@@ -1,0 +1,25 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x56566004 in substitute_inline_node (bindings=0x566101b4, node=0x56610d44, changed=0xffffda50) at src/inline-calls.c:595
+595	            replacement = intern_leaf(0x26, 0, binding->storage->right.symbol,
+#0  0x56566004 in substitute_inline_node (bindings=0x566101b4, node=0x56610d44, changed=0xffffda50) at src/inline-calls.c:595
+#1  0x56566182 in substitute_inline_node (bindings=0x566101b4, node=0x56610d98, changed=0xffffda50) at src/inline-calls.c:622
+#2  0x56565c17 in substitute_inline_body (function=0x56610638, bindings=0x566101b4, result=0x0, source_location=55, site=0x56610150, hidden_result=0) at src/inline-calls.c:554
+#3  0x56564625 in inline_function_calls (function=0x5660aa1c, depth=1, budget=1000) at src/inline-calls.c:114
+#4  0x56564052 in expand_inline_calls (function=0x5660aa1c) at src/inline-calls.c:25
+#5  0x5655d2d2 in compile_functions () at src/functions.c:50
+#6  0x565579e7 in main (argc=1, argv=0xffffdcc4, envp=0xffffdccc) at src/c2.c:56
+C2_FRONTIER_PC=0x56566004 ENTRY=0x56557d20
+
+{'logical': '@find_matching_parent@8', 'matched': False, 'executable_sha256': '7e431efcf5a8cf3465dd974a3363ae5043e8a20b93c7da8d7ff18b838a88f2da', 'config_sha256': '0fc503afee393989d211d9cc86ffef35731ee026177f04284d3014b18db01af1', 'canonical_working_directory': 'S:\\vc1.0\\c2\\inlrec', 'setup_seconds': 0.006027050316333771, 'execution_seconds': 0.12991172913461924, 'seconds': 0.15152535401284695, 'log_sha256': 'b87350286d8cd5f2ce1c65542c7a932018fb75b6a4b82576efadbfbe2658e3d7', 'directory': '/root/.ai-tmp/msvc2/vc1.0/c2/inlrec-gdb-ctpg6l55'}
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/debug-frontier.py", line 74, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/debug-frontier.py", line 70, in main
+    assert matched, 'Native frontier differs; see '+str(directory/'gdb.log')
+           ^^^^^^^
+AssertionError: Native frontier differs; see /root/.ai-tmp/msvc2/vc1.0/c2/inlrec-gdb-ctpg6l55/gdb.log

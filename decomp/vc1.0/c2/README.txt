@@ -155,3 +155,11 @@ The full1500-byte inline-body substitution routine is recovered at1128,
 including its bounded12-way directive data. Its named child frontier is node
 substitution; whole-case completion remains pending. Source/ABI/data limits
 and repeated-attempt timing are in cases/inlrec-substitution-checkpoint.json.
+
+Inliner node checkpoint1135 preserves node substitution, binding/site recycling,
+whole alias-use scan and distinct matching-parent setup/recursive graph entries.
+The scan uses named remapped opcode flags; its independent182-row/910-value
+proof rejects both mistaken original/normalized bit substitutions. Failed
+native crash and repeat timings remain in cases/inlrec-node-checkpoint.json.
+All13 native regressions, full graphs/extents, six cleanup ABIs and original
+/W3 pass; current frontier is bitfield assignment lowering, not object completion.
