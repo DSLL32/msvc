@@ -58,7 +58,8 @@
     "CompilerPchState::Initialize",
     "_initialize_state_127a6",
     "_main",
-    "_initialize_work_buffers"
+    "_initialize_work_buffers",
+    "_reserve_work_buffer"
   ],
   "driver": [
     {
@@ -489,6 +490,18 @@
       "name": "_initialize_work_buffers",
       "start": 274802736,
       "end": 274802803,
+      "role": "application"
+    },
+    {
+      "name": "_reserve_work_buffer",
+      "start": 274802803,
+      "end": 274802865,
+      "code_chunks": [
+        [
+          274924603,
+          274924633
+        ]
+      ],
       "role": "application"
     }
   ],

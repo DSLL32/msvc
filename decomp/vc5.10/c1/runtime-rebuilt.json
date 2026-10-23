@@ -131,12 +131,5 @@
     "end": 268442939,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "_reserve_work_buffer",
-    "start": 268443044,
-    "end": 268443045,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }
 ]

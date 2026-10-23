@@ -27,7 +27,7 @@ def validate_fields(original,native,fields,entry,state,entry_sequence,sequence,p
   assert values(raw)==[saved+offset for offset in PLAN['pointer_offsets']]
 
 def boundary(original,native,state,sequence,module,candidate):
- assert candidate['expected_frontier']['kind']=='work-buffer-allocation' and candidate['expected_frontier']['rva']==0x12873
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('work-buffer-allocation',0x12873),('main-switches',0x128b1)]
  events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012830 .*stack=([0-9a-f,]+)\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
  assert len(rows)==1;entry_sequence=int(rows[0][0]);assert entry_sequence<sequence
  words=[int(x,16) for x in rows[0][1].split(',')];assert words[0]==module+0x127b8
@@ -49,7 +49,7 @@ def validate_writes(original,native,entry,state,entry_sequence,sequence,module):
  for region in ('compiler-data','compiler-bss','compiler-snapshot','state'):
   assert (original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  assert entry['compiler_state']==state['compiler_state']
- for key,value in entry['crt_state'].items():assert state[key]==value
+ for key,value in entry['crt_state'].items():assert (state['crt_state'] if 'crt_state' in state else state)[key]==value
  assert state['caller']['symbol']=='initialize_work_buffers'
  assert state['formal_inventory']==[dict(name='reserve_bytes',type='unsigned int'),dict(name='commit_bytes',type='unsigned int')]
  assert state['args']==dict(reserve_bytes=0x500000,commit_bytes=0x4000)

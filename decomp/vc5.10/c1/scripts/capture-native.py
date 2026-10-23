@@ -308,6 +308,84 @@ ActualWorkEntry('*0x%x')
             allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(main_entries,indent=2)+'\\n')\n"%str(output/'main-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(work_entries,indent=2)+'\\n')\n"%str(output/'work-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if candidate.get('allocation_observers'):
+            table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
+            api_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] recon_VirtualAlloc$',table,re.M)[1],16)
+            reserve_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] reserve_work_buffer$',table,re.M)[1],16)
+            api_probe="""work_api_entries=[]
+work_api_returns=[]
+work_reserve_entries=[]
+work_reserve_returns=[]
+class WorkApiReturn(gdb.Breakpoint):
+    def __init__(self,address,index):
+        super(WorkApiReturn,self).__init__('*0x%%x'%%address)
+        self.index=index
+    def stop(self):
+        before=work_api_entries[self.index]
+        result=int(gdb.parse_and_eval('(unsigned int)$eax'))
+        row={'index':self.index,'pc':int(gdb.parse_and_eval('$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'eax':result,'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esi':int(gdb.parse_and_eval('(unsigned int)$esi')),'ebx':int(gdb.parse_and_eval('(unsigned int)$ebx')),
+             'last_error':int(gdb.parse_and_eval('last_error')),'fpu':int(gdb.parse_and_eval('$fctrl')),
+             'maps':open('/proc/%%d/maps'%%gdb.selected_inferior().pid).read()}
+        if self.index%%2:
+            assert result
+            data=gdb.selected_inferior().read_memory(result,0x4000).tobytes()
+            open(WORK_OUTPUT+'/work-committed-%%03d.bin'%%(self.index//2),'wb').write(data)
+        work_api_returns.append(row)
+        self.enabled=False
+        return False
+class WorkApiEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame()
+        # Host/shim initialization does not call this API in this case. Require
+        # the actual application allocator as caller, with no filtered calls.
+        assert frame.older().name()=='reserve_work_buffer'
+        pc=int(gdb.parse_and_eval('$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+        words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(esp,20).tobytes()))
+        block=gdb.block_for_pc(pc)
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        assert {row['name']for row in formals}=={'address','bytes','kind','protection'}
+        index=len(work_api_entries)
+        work_api_entries.append({'index':index,'pc':pc,'esp':esp,'return':words[0],'args':words[1:],'formal_inventory':formals,
+          'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esi':int(gdb.parse_and_eval('(unsigned int)$esi')),'ebx':int(gdb.parse_and_eval('(unsigned int)$ebx')),'last_error':int(gdb.parse_and_eval('last_error')),'fpu':int(gdb.parse_and_eval('$fctrl'))})
+        WorkApiReturn(words[0],index)
+        return False
+class WorkReserveReturn(gdb.Breakpoint):
+    def __init__(self,address,index):
+        super(WorkReserveReturn,self).__init__('*0x%%x'%%address)
+        self.index=index
+    def stop(self):
+        work_reserve_returns.append({'index':self.index,'pc':int(gdb.parse_and_eval('$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),
+          'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esi':int(gdb.parse_and_eval('(unsigned int)$esi')),'compiler_state':capture_modeled()})
+        self.enabled=False
+        return False
+class WorkReserveEntry(gdb.Breakpoint):
+    def stop(self):
+        pc=int(gdb.parse_and_eval('$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+        words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(esp,12).tobytes()))
+        block=gdb.block_for_pc(pc)
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        index=len(work_reserve_entries)
+        crt_state={'win32_last_error':int(gdb.parse_and_eval('last_error')),'x87_control':int(gdb.parse_and_eval('$fctrl')),
+          'crt_attached':int(gdb.parse_and_eval('c1_crt_attached')),'raw_dllmain':int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain')),
+          'onexit_begin':int(gdb.parse_and_eval('(unsigned int)c1_onexit_begin')),'onexit_end':int(gdb.parse_and_eval('(unsigned int)c1_onexit_end')),
+          'onexit_first':int(gdb.parse_and_eval('(unsigned int)*c1_onexit_begin')),'crt_adjust_fdiv':int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),
+          'dll_instance':int(gdb.parse_and_eval('(unsigned int)c1_dll_instance')),'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
+        work_reserve_entries.append({'index':index,'pc':pc,'esp':esp,'return':words[0],'raw_args':words[1:],'args':dict(reserve_bytes=words[1],commit_bytes=words[2]),'formal_inventory':formals,'boundary_rva':0x12873,'symbol':block.function.name,'crt_state':crt_state,
+          'caller':{'symbol':gdb.newest_frame().older().name(),'pc':int(gdb.newest_frame().older().pc())},
+          'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esi':int(gdb.parse_and_eval('(unsigned int)$esi')),'compiler_state':capture_modeled()})
+        WorkReserveReturn(words[0],index)
+        return False
+WorkApiEntry('*0x%x')
+WorkReserveEntry('*0x%x')
+"""%(api_address,reserve_address)
+            api_probe=api_probe.replace('WORK_OUTPUT',repr(str(output)))
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+api_probe+'end\n')
+            for name,expression in [('work-api-entries.json','work_api_entries'),('work-api-returns.json','work_api_returns'),('work-reserve-entries.json','work_reserve_entries'),('work-reserve-returns.json','work_reserve_returns')]:
+                commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands = commands.replace("run\nbt\npython", allocation_probe + "run\nbt\npython", 1)
         commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
                                     "open(%r,'w').write(json.dumps(allocations,indent=2)+'\\n')\n" % str(output/'allocation-observations.json') +

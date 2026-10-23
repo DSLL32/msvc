@@ -361,6 +361,16 @@
       "start_rva": 75824,
       "end_rva": 75891,
       "entry": 1
+    },
+    {
+      "start_rva": 75891,
+      "end_rva": 75953,
+      "entry": 1
+    },
+    {
+      "start_rva": 197691,
+      "end_rva": 197721,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1133,6 +1143,23 @@
         ]
       ],
       "source": "src/work-buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_reserve_work_buffer",
+      "native_symbol": "reserve_work_buffer",
+      "role": "application",
+      "chunks": [
+        [
+          75891,
+          75953
+        ],
+        [
+          197691,
+          197721
+        ]
+      ],
+      "source": "src/work-buffers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1148,16 +1175,15 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75891,
-    "native_symbol": "reserve_work_buffer",
-    "kind": "work-buffer-allocation",
+    "rva": 75953,
+    "native_symbol": "scan_internal_switches",
+    "kind": "main-switches",
     "native_args": [
-      "reserve_bytes",
-      "commit_bytes"
+      "arguments"
     ],
     "caller": {
-      "native_symbol": "initialize_work_buffers",
-      "return_rva": 75839
+      "native_symbol": "c1_main",
+      "return_rva": 75743
     }
   },
   "imports": [
@@ -1409,7 +1435,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "work-buffer initializer candidate; independent main and work-buffer entries followed by first real allocator frontier",
+  "staging_role": "whole reserve helper hot/cold candidate; two real allocator returns, four API calls, then main commandline helper",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1450,6 +1476,10 @@
     {
       "original_rva": 145627,
       "native_symbol": "destroy_pdb_context_238db"
+    },
+    {
+      "original_rva": 145626,
+      "native_symbol": "release_work_buffers_238da"
     }
   ],
   "accepted_joint_prefix": {
@@ -1462,5 +1492,19 @@
       "cases/minimal/evidence/pch-prospective-normal/prospective-validation.json",
       "cases/minimal/evidence/pch-prospective-clear-aux/prospective-validation.json"
     ]
-  }
+  },
+  "allocation_observers": {
+    "kind": "actual in-body source-bound observer points, no target-code credit",
+    "rvas": [
+      75913,
+      75915,
+      75938,
+      75940,
+      75839,
+      75872
+    ],
+    "reserve_bytes": 5242880,
+    "commit_bytes": 16384
+  },
+  "audit_metadata": "cases/minimal/audit-metadata.json"
 }

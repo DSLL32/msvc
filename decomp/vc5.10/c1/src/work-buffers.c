@@ -12,6 +12,11 @@ void __cdecl initialize_work_buffers(void)
 
 void *__cdecl reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes)
 {
-    __asm { int 3 }
-    return NULL;
+    void *memory;
+    memory = VirtualAlloc(NULL, reserve_bytes, MEM_RESERVE, PAGE_READWRITE);
+    if (!memory)
+        compiler_fatal(60);
+    if (!VirtualAlloc(memory, commit_bytes, MEM_COMMIT, PAGE_READWRITE))
+        compiler_fatal(60);
+    return memory;
 }

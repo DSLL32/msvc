@@ -26,6 +26,11 @@ def inputs():
              ROOT / "toolchains/5.10/bin/C1.DLL", TOOL]
     if candidate.get("field_map"):
         paths.append(PROJECT / candidate["field_map"])
+    if candidate.get('audit_metadata'):
+        metadata=PROJECT/candidate['audit_metadata'];paths.append(metadata)
+        for contract in json.loads(metadata.read_text())['register_imports']['preservation_contracts']:
+            evidence=PROJECT/contract['evidence']['path']
+            if evidence not in paths:paths.append(evidence)
     return {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in paths}
 
 
@@ -51,6 +56,10 @@ def main():
                "--runtime", str(PROJECT / "runtime.json"),
                "--rebuilt-runtime", str(PROJECT / "runtime-rebuilt.json"),
                "--check-imports", "--check-ret", "--check-ownership", "--check-extents"]
+    if candidate.get('audit_metadata'):
+        from allocation_imports import check_static
+        check_static()
+        command+=['--metadata',str(PROJECT/candidate['audit_metadata']),'--resolve-register-imports']
     start = time.perf_counter()
     result = subprocess.run(command, check=True, stdout=subprocess.PIPE, text=True)
     seconds = time.perf_counter() - start
@@ -69,6 +78,9 @@ def main():
     assert owned["declared_code_bytes"] == sum(b - a for chunks in expected.values() for a, b in chunks)
     assert set(report["functions"]) == {f["name"] for f in candidate["functions"]}
     assert set(report["checks"]) >= {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"}
+    if candidate.get('audit_metadata'):
+        from allocation_imports import check_report
+        check_report(report)
     output = PROJECT / "build/trial-audit.json"
     output.write_text(result.stdout)
     binding = {"schema": 1, "auditor_path": str(TOOL.relative_to(ROOT)) if TOOL.is_relative_to(ROOT) else str(TOOL), "inputs": before, "report_sha256": sha(output),

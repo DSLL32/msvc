@@ -42,6 +42,14 @@ static BYTE pch_return_saved;
 static int pool_member_probe, pool_member_seeded, pool_return_active;
 static DWORD pool_return_address, pool_entry_esp;
 static BYTE pool_return_saved;
+/* Source-bound observation points remain inside the unchanged candidate body. */
+static Range allocation_observers[6];
+static DWORD allocation_provider;
+static unsigned allocation_observer_count, allocation_call_count;
+static DWORD allocation_before_esp, allocation_before_edi;
+static DWORD allocation_regions[2];
+static unsigned allocation_region_count;
+
 
 static void fail(const char *message)
 {
@@ -124,6 +132,12 @@ static void module_loaded(DWORD address, HANDLE file)
         crt_seen = 1;
         crt_base = address;
     }
+    if (!_stricmp(name, "kernel32.dll")) {
+        if (!file || !same_file(file, "C:\\windows\\system32\\kernel32.dll", "loaded-kernel32.bin")) fail("KERNEL32 loaded file identity");
+    }
+    if (!_stricmp(name, "kernelbase.dll")) {
+        if (!file || !same_file(file, "C:\\windows\\system32\\kernelbase.dll", "loaded-kernelbase.bin")) fail("KernelBase loaded file identity");
+    }
     if (strcmp(name, "c1n32_l.dll")) return;
     if (!file || target_seen || !same_file(file, target_path, "loaded-target.bin")) fail("target file identity");
     target_seen = 1; base = address;
@@ -157,6 +171,7 @@ static void prepare_mask(void)
     DWORD wrote;
     unsigned i;
     DWORD resolved;
+    BYTE first;
     static DWORD import_slots[4] = { 0x5d0e8, 0x5d0a8, 0x5d114, 0x5d0ec };
     static DWORD provider_rvas[4] = { 0x1715, 0x1498, 0x138a, 0x3f928 };
     for (i = 0; i < 4; ++i) {
@@ -194,6 +209,24 @@ static void prepare_mask(void)
         readmem(restore_observer, &current, 1);
         if (current != restore_observer_saved) fail("restore observer outside candidate ownership");
         patch(restore_observer, 0xcc);
+    }
+    {
+        FILE *probe = fopen("allocation-observers.txt", "r");
+        if (probe) {
+            DWORD rva, index;
+            for (index = 0; index < 6; ++index) {
+                if (fscanf(probe, "%lx", &rva) != 1 || rva < code_rva || rva >= code_rva + code_size) fail("allocation observer metadata");
+                readmem(base + rva, &first, 1);
+                if (first != snapshot[rva - code_rva] || first == 0xcc) fail("allocation observer outside candidate");
+                allocation_observers[index].first = rva;
+                allocation_observers[index].saved = first;
+                patch(base + rva, 0xcc);
+            }
+            if (fscanf(probe, "%lx", &rva) != EOF) fail("extra allocation observer metadata");
+            fclose(probe); allocation_observer_count = 6;
+            readmem(base + 0x5d1c4, &allocation_provider, 4);
+            fprintf(events, "allocation-provider iat=0005d1c4 resolved=%08lx\n", allocation_provider);
+        }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
@@ -612,6 +645,9 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
             fprintf(events, "invoke-arg index=%lu address=%08lx bytes=%u\n", argument, pointer, strlen(text) + 1);
         }
     }
+    if (address == base + 0x12873) {
+        fprintf(events, "allocation-helper-entry index=%u pc=%08lx esp=%08lx edi=%08lx esi=%08lx\n", allocation_call_count / 2, address, context->Esp, context->Edi, context->Esi);
+    }
     save_state();
     if (address == base + 0x126fc) {
         unsigned i;
@@ -648,6 +684,43 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
         return_address = stack[0]; return_reason = stack[2];
         readmem(return_address, &return_saved, 1);
         patch(return_address, 0xcc); return_active = 1;
+    }
+}
+
+static void observe_allocation(CONTEXT *context, DWORD address, HANDLE thread)
+{
+    DWORD args[4], cursor, end;
+    MEMORY_BASIC_INFORMATION region;
+    unsigned index;
+    int before = address == base + 0x12889 || address == base + 0x128a2;
+    if (before) {
+        readmem(context->Esp, args, sizeof(args));
+        fprintf(events, "allocation-before index=%u pc=%08lx esp=%08lx edi=%08lx args=%08lx,%08lx,%08lx,%08lx\n",
+            allocation_call_count, address, context->Esp, context->Edi, args[0], args[1], args[2], args[3]);
+        allocation_before_esp = context->Esp; allocation_before_edi = context->Edi;
+        if (context->Edi != allocation_provider) fail("allocation cached provider identity");
+    } else if (address == base + 0x1288b || address == base + 0x128a4) {
+        fprintf(events, "allocation-after index=%u pc=%08lx esp=%08lx eax=%08lx edi=%08lx before-esp=%08lx before-edi=%08lx\n",
+            allocation_call_count, address, context->Esp, context->Eax, context->Edi, allocation_before_esp, allocation_before_edi);
+        fprintf(events, "allocation-error index=%u value=%lu fpu=%04lx\n", allocation_call_count, thread_error(context, thread), context->FloatSave.ControlWord);
+        if (!context->Eax) fail("allocation capture requires actual successful call");
+        if (!(allocation_call_count & 1)) {
+            if (allocation_region_count == 2) fail("excess work reservations");
+            allocation_regions[allocation_region_count++] = context->Eax;
+        }
+        cursor = context->Eax; end = cursor + 0x500000;
+        for (index = 0; cursor < end; ++index) {
+            if (VirtualQueryEx(child, (void *)cursor, &region, sizeof(region)) != sizeof(region) ||
+                    (DWORD)region.BaseAddress != cursor || !region.RegionSize || cursor + region.RegionSize > end) fail("allocation region query");
+            fprintf(events, "allocation-region index=%u part=%u base=%08lx allocation=%08lx allocation-protect=%08lx bytes=%08lx state=%08lx protect=%08lx type=%08lx\n",
+                allocation_call_count, index, region.BaseAddress, region.AllocationBase, region.AllocationProtect, region.RegionSize, region.State, region.Protect, region.Type);
+            cursor += region.RegionSize;
+        }
+        if (allocation_call_count & 1) save_remote_state("work-committed", allocation_call_count / 2, context->Eax, 0x4000);
+        ++allocation_call_count;
+    } else {
+        fprintf(events, "allocation-helper-return index=%u pc=%08lx esp=%08lx eax=%08lx edi=%08lx esi=%08lx\n",
+                allocation_call_count / 2 - 1, address, context->Esp, context->Eax, context->Edi, context->Esi);
     }
 }
 
@@ -766,7 +839,8 @@ int main(int argc, char **argv)
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
-                if (pending == -2) patch(restore_observer, 0xcc);
+                if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
+                else if (pending == -2) patch(restore_observer, 0xcc);
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
@@ -839,6 +913,9 @@ int main(int argc, char **argv)
                     readmem(base + 0x57818, &saved, 4);
                     seed_pch_state(saved, 0x11e2a, "pch-member-seed"); pch_member_seeded = 1;
                 }
+                for (i = 0; i < allocation_observer_count; ++i)
+                    if (address == base + allocation_observers[i].first) break;
+                if (i < allocation_observer_count) observe_allocation(&context, address, thread);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -848,11 +925,18 @@ int main(int argc, char **argv)
                 } else if (restore_probe && address == restore_observer) {
                     patch(address, restore_observer_saved); pending = -2;
                     context.EFlags |= 0x100;
-                } else if (baseline && address == base + entry_rva) {
-                    patch(address, 0x53);
                 } else {
-                    fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
-                    TerminateProcess(child, 125); return 125;
+                    for (i = 0; i < allocation_observer_count; ++i)
+                        if (address == base + allocation_observers[i].first) break;
+                    if (i < allocation_observer_count) {
+                        patch(address, allocation_observers[i].saved); pending = -(int)i - 3;
+                        context.EFlags |= 0x100;
+                    } else if (baseline && address == base + entry_rva) {
+                        patch(address, 0x53);
+                    } else {
+                        fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
+                        TerminateProcess(child, 125); return 125;
+                    }
                 }
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("reset instruction pointer");

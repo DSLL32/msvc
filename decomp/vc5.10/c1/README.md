@@ -3,15 +3,15 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks and main are complete; work-buffer initialization reaches allocator12873. The native i386
+all initialization callbacks and main are complete; work-buffer reservations/commits reach commandline helper128b1. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is52 application functions /1933 original bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2390 of the `.text` virtual
-extent's322288 bytes (0.742%). That denominator includes CRT and unclassified
+Accepted ownership is53 application functions /2025 original bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2482 of the `.text` virtual
+extent's322288 bytes (0.770%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -426,3 +426,14 @@ explicitly. Original/native builds3.156/1.918s, original/native captures1.068/0.
 normal and1.720/1.232s restore, audit0.021s, cached native lifecycle3.90ms.
 Control runtimes22.29/37.95s (work) and18.98/38.72s (main) remain separate from
 fixtures. See `cases/minimal/WORK-BUFFERS.md` and `evidence/work-allocator-*`.
+
+The reserve helper12873 (62hot+30cold bytes) is accepted through two real
+VirtualAlloc pairs and main's next commandline-helper128b1. Actual API inputs,
+RET16/EDI, loadedproviderhFile/IAT, reservation/commit protections, all16KiB
+zeroed committed bytes and exact owned base/limit identities match. Reserved
+remainders remain opaque;64KiB alignment and DECOMMIT are not claimed. Existing
+shared provider suffices for this reached scope. Finite SDK/ordinarycallee
+preservation witnesses enable common Rust cached-import resolution; all55 source
+functions pass strict auditing. Fresh allocation53/53 and core47/100 controls
+pass; cached native lifecycle4.56ms. See `cases/minimal/RESERVE-WORK-BUFFER.md`
+and `evidence/reserve-main-switches-*` for raw bindings and separate timing.

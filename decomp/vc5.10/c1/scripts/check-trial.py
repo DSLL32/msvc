@@ -76,6 +76,9 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
         assert {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"} <= set(report["checks"])
     assert pair.sha(original / "loaded-target.bin") == o["target_sha256"] == config["target"]["sha256"] == pair.sha(pair.ROOT / config["target"]["path"])
     assert pair.sha(original / "loaded-msvcrt.bin") == o["canonical_crt_sha256"] == pair.sha(pair.ROOT / "toolchains/5.10/bin/MSVCRT.DLL")
+    if candidate.get('audit_metadata'):
+        from allocation_imports import check_static,check_report
+        check_static();check_report(report)
     expected = candidate["expected_frontier"]
     if expected.get("kind") == "completion":
         from completion_state import validate
@@ -133,7 +136,8 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
     compiler_main = expected.get("kind") == "compiler-main"
     main_helper = expected.get("kind") == "main-helper"
     work_allocation = expected.get('kind') == 'work-buffer-allocation'
-    compiler_flow = work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
+    main_switches = expected.get('kind') == 'main-switches'
+    compiler_flow = main_switches or work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
         pass_state = state if pass_boundary else state["caller"] if pass_initializer else state["invocation"]
@@ -166,6 +170,14 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             assert expected['native_args']==['reserve_bytes','commit_bytes']
             invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
             args=[int(value,16) for value in invocations[0][2].split(',')][1:4]
+        if main_switches:
+            assert state['caller']['symbol']=='c1_main'
+            assert state['args']=={'arguments':pass_state['args']['argv']}
+            assert state['caller']['args']=={key:pass_state['args'][key] for key in ('argc','argv')}
+            assert int(words.split(',')[0],16)==module_base+0x127df
+            invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
+            args=[int(value,16) for value in invocations[0][2].split(',')][1:4]
+            assert [int(value,16) for value in words.split(',')][1]==args[1]
         if pass_initializer:
             assert state["args"] == {} and pass_state["symbol"] == "InvokeCompilerPass"
             invocations = [row for row in traps if int(row[1], 16) == 0x12229]

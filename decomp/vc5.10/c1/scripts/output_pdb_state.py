@@ -52,7 +52,7 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
   for offset in pdb_state.MEMBERS.values():struct.pack_into('<I',expected,0x70+offset,0)
  assert bytes(expected)==new_raw
  native_symbols={name:int(address,16) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [TtWw] (\S+)$',symbols,re.M)}
- count=len(candidate['registered_cleanup']);assert before['bss']['cleanup_count']==count-1
+ count=next(i+1 for i,row in enumerate(candidate['registered_cleanup']) if row['native_symbol']=='destroy_pdb_context_238db');assert before['bss']['cleanup_count']==count-1
  after_bss=dict(before['bss']);after_bss['cleanup_count']=count;after_bss['cleanup_callbacks']=list(after_bss['cleanup_callbacks']);after_bss['cleanup_callbacks'][count-1]=native_symbols['destroy_pdb_context_238db'];assert after_bss==current['bss']
  for key in before:
   if key not in ('output_pdb_context','bss'):assert before[key]==current[key]

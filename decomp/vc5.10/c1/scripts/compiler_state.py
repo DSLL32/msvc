@@ -12,6 +12,7 @@ import pch_state
 import main_fields
 import main_state
 import work_state
+import allocation_state
 PROJECT=Path(__file__).resolve().parents[1]
 def i32(data,offset):return struct.unpack_from('<i',data,offset)[0]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -44,7 +45,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
  prefix_state,prefix_sequence=state,sequence
- if expected['kind'] in ('main-helper','work-buffer-allocation'):
+ if expected['kind'] in ('main-helper','work-buffer-allocation','main-switches'):
   prefix_state,prefix_sequence=main_state.boundary(original,native,state,sequence,module,candidate,probe)
  prefix_bss=(original/('compiler-bss-%03d.bin'%prefix_sequence)).read_bytes()
  buffer_state.validate(fields,original,prefix_bss,prefix_state['compiler_state'])
@@ -95,7 +96,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  if expected['kind']=='compiler-allocation':
   assert current['initialized']['first_call']==1
   assert saved==b['saved_data']==0 and current['snapshot'] is None
- elif expected['kind'] in ('initialization-callback','initialization-helper','compiler-main','main-helper','work-buffer-allocation'):
+ elif expected['kind'] in ('initialization-callback','initialization-helper','compiler-main','main-helper','work-buffer-allocation','main-switches'):
   assert current['initialized']['first_call']==0 and saved and b['saved_data']
   snapshot=(original/('compiler-snapshot-%03d.bin'%sequence)).read_bytes();assert len(snapshot)==6548
   expected_first = candidate['restore_probe']['snapshot_first_call'] if probe=='restore' else 1
@@ -104,7 +105,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  final_reuse=json.loads((native/'receipt.json').read_text()).get('pdb_reuse',0) if probe=='restore' else 0
  assert current['reuse_state']==final_reuse and b['cleanup_count']==len(registered)
 
- if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation','compiler-main','main-helper','work-buffer-allocation'):
+ if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation','compiler-main','main-helper','work-buffer-allocation','main-switches'):
   raw=(original/'events.txt').read_text()
   rows=re.findall(r'^trap seq=\d+ rva=0000e799 .*stack=([0-9a-f,]+)$',raw,re.M)
   assert len(rows)==1 and int(rows[0].split(',')[1],16)==6548
@@ -122,6 +123,11 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   work_state.validate_fields(original,native,fields,work_entry,state,work_sequence,sequence,probe,candidate)
   work_state.validate_writes(original,native,work_entry,state,work_sequence,sequence,module)
 
+
+ elif expected['kind']=='main-switches':
+  work_entry,work_sequence=work_state.boundary(original,native,state,sequence,module,candidate)
+  main_state.validate_writes(original,native,fields,prefix_state,work_entry,prefix_sequence,work_sequence,module,candidate,probe)
+  allocation_state.validate(original,native,fields,work_entry,state,work_sequence,sequence,module,candidate,probe)
 
 
 def validate_restore(original,native,state,sequence,module,candidate,symbols,fields):

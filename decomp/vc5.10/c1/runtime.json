@@ -131,12 +131,5 @@
     "end": 274806005,
     "pending_extent": true,
     "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
-  },
-  {
-    "name": "_reserve_work_buffer",
-    "start": 274802803,
-    "end": 274802804,
-    "pending_extent": true,
-    "evidence": "actual two-argument cdecl allocation helper; named INT3 entry only, no body credit"
   }
 ]
