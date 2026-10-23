@@ -288,10 +288,8 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 
 
-void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement) { __asm int 3 }
 
 
-int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
 
 
 
@@ -317,7 +315,6 @@ Node *__fastcall make_switch_pivot(Node *range) { __asm int 3 }
 void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count) { __asm int 3 }
 void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
 
-int __fastcall matches_assignment_load(Node *destination, Node *operand) { __asm int 3 }
 void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
 int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }
 
@@ -402,12 +399,9 @@ int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 
 int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void __fastcall remove_region_candidate(Node *node, int ancestors) { __asm int 3 }
-struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *step,
-    WorkItem *work, struct BasicInduction *parent, Node *left, Node *right) { __asm int 3 }
 int __fastcall induction_is_dead_on_exit(Node *assignment) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
-Node *__fastcall find_induction_initial_value(Node *assignment) { __asm int 3 }
 int __fastcall basic_induction_increment(BasicInduction *induction) { __asm int 3 }
 int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
     Node *right, Node **representative) { __asm int 3 }
@@ -417,7 +411,6 @@ void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *
     Node *factor, int negative, int blocked) { __asm int 3 }
 Node *__fastcall materialize_region_value(Node *node) { __asm int 3 }
 int supports_region_memory_operations(void) { __asm int 3 }
-int __fastcall work_dominates_region_paths(WorkItem *work) { __asm int 3 }
 BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,
     unsigned bytes, unsigned *reverse) { __asm int 3 }
 void __fastcall exclude_region_memory_operations(Node *node) { __asm int 3 }

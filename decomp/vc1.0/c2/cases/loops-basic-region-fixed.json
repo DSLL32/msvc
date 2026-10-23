@@ -1,0 +1,352 @@
+{
+  "checkpoint": 868,
+  "base_commit": "bbf203e",
+  "status": "loops active",
+  "source_graphs": 790,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 868,
+    "accepted_code_bytes": 234063,
+    "original_code_bytes": 399693,
+    "percentage": 58.56069533366859,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 331
+  },
+  "frontier": "@has_no_later_work_store@4",
+  "accepted_functions": [
+    {
+      "name": "@replace_flow_region_last@8",
+      "start": 374592,
+      "end": 374611
+    },
+    {
+      "name": "@work_in_flow_region@8",
+      "start": 375376,
+      "end": 375403
+    },
+    {
+      "name": "@matches_assignment_load@8",
+      "start": 361408,
+      "end": 361436
+    },
+    {
+      "name": "@new_basic_induction@24",
+      "start": 392304,
+      "end": 392450
+    },
+    {
+      "name": "@find_induction_initial_value@4",
+      "start": 390416,
+      "end": 390514
+    },
+    {
+      "name": "@work_dominates_region_paths@4",
+      "start": 390144,
+      "end": 390178
+    }
+  ],
+  "reference_sequence": [
+    "cases/loops-original-862.json",
+    "cases/loops-original-863.json",
+    "cases/loops-original-864.json",
+    "cases/loops-original-865.json",
+    "cases/loops-original-866.json",
+    "cases/loops-original-867.json",
+    "cases/loops-original-868.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "2078edc9d3eb8225028d31b9f713e24c7bdc6a8dfe8a157e86cdf132af2f02c9",
+      "config_sha256": "3c68aedc6d246ddad62f6a6168f93de5ab163f393d65caf8540b4eae1f2653a3",
+      "seconds": 0.13469449430704117,
+      "logical": "@replace_flow_region_last@8",
+      "matched": true,
+      "log_sha256": "0e17b815ea5b94821b6eb4749719d7609faa80fa874bf0d70c7c786b12cde839",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-7gpm16j_"
+    },
+    {
+      "executable_sha256": "1db357a593ff6a2a2fb79cf9881b29044189d4478e0a7263f12f13ab30750f71",
+      "config_sha256": "f570925c4f0a5e12f26dba7ac5190812fdefafdcd1c84674775a8e9d23ad44cc",
+      "seconds": 0.1370172994211316,
+      "logical": "@matches_assignment_load@8",
+      "matched": true,
+      "log_sha256": "be4e63206b50a2985434be28773377aeb7f33e4a44172f5d59a719ecf73abeef",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-w2d4t4hi"
+    },
+    {
+      "executable_sha256": "216faef4ad9f9306891c3f713c868e8dae9a7cac5c99c9baffe2e3a65f4c8255",
+      "config_sha256": "46286c91b7c8d97dfd052a0b45662ccb55418c3d1ab4a55ba6bda09618dde072",
+      "seconds": 0.13661827705800533,
+      "logical": "@new_basic_induction@24",
+      "matched": true,
+      "log_sha256": "3417b090c683ec6415e3e958cf187f36803114a0298ecdcf152c141f92020814",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-si_4o0tl"
+    },
+    {
+      "executable_sha256": "4a688de571921fd9f678ec30d632ebba1317a14bc5ac9b9564005ccc308ff101",
+      "config_sha256": "a122e90cedfec7b51343bc199c16dd2ac0ecde8f2a4e595a29444d58017398f1",
+      "seconds": 0.13940315321087837,
+      "logical": "@work_dominates_region_paths@4",
+      "matched": true,
+      "log_sha256": "0c2369ec657d3697da84d7a11b621ae92639704736a247a1c301fea9e3a6ba4f",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-p7ozftwj"
+    },
+    {
+      "executable_sha256": "915fc459af20c65f42cd8dc8205fbfe1fef37ff0def1b3ec6eb10717db8c53bc",
+      "config_sha256": "4090ce4d85f89df3ff10f26fd65fca9b4ab4b58a937ae1da02835bee6df964c9",
+      "seconds": 0.14350935071706772,
+      "logical": "@find_induction_initial_value@4",
+      "matched": true,
+      "log_sha256": "80ed6614b41bed3e2844f9ee6f622bf729b4b67a0cb1846dcbb30501f91bbb1a",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-7vlx_om7"
+    },
+    {
+      "executable_sha256": "9ebda9ec02a9a8a7e96d76aa144d9b85845fc29ef9b2b4cb6470c371ace11890",
+      "config_sha256": "c492546e5a318b813d0d986c2364bf37fbb0d186b846a685cd442e39d0ec1de7",
+      "seconds": 0.1346399812027812,
+      "logical": "@has_no_later_work_store@4",
+      "matched": true,
+      "log_sha256": "762f331c24501e50a1945f58c61b8464e879500b8a73bf9bbd8e4e1fd7a25f2f",
+      "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-v5gn_1sr"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "58afe9ec7e8ab08522ad60f4607f14d1cef8cc32ef9da8e3728e49d7168f06e8",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.02183117251843214,
+        "execution_seconds": 0.00797172449529171,
+        "check_seconds": 0.001947866752743721,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-9z3aimgm/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.015651529654860497,
+        "execution_seconds": 0.01199158001691103,
+        "check_seconds": 0.0013400306925177574,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-9z3aimgm/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "@has_no_later_work_store@4",
+        "returncode": -5,
+        "application_entries": 29,
+        "seeded_entries": 757,
+        "output": null,
+        "setup_seconds": 0.014230097644031048,
+        "execution_seconds": 0.0045631043612957,
+        "check_seconds": 0.0009103817865252495,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-9z3aimgm/loops"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.2609996786341071,
+    "suite_setup_seconds": 0.1462091850116849,
+    "negative_check_seconds": 0.02523932233452797,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Nested-region rotation reaches its transformation body; exact output still awaits the final loop object oracle.",
+    "The36-byte BasicInduction record retains typed assignment/step/dominance/use/affine/parent fields; no opaque storage introduced.",
+    "Full graph audit rejected shallow clone_node calls for optional affine terms; original5fcd2/5fce2 call copy_tree584e0. Corrected to deep copies and reverified; optional terms are null on this case so those branches are not claimed exercised.",
+    "Earlier native868 receipt before correction is retained separately; fresh corrected native GDB matches the same original868 mask/config at has_no_later_work_store5d470."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "loops-basic-region-fixed-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.9800272677093744,
+        "returncode": 0,
+        "log_sha256": "b36d4f07b7429880fab0a41921276f61d7f88c6e918ec3e453b11024812babaa"
+      },
+      "loops-region-membership-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.444618873298168,
+        "returncode": 0,
+        "log_sha256": "6e7774a4bdd03a0688a529970c8f9f34f5af8ec2026ee042fceeca6c30515eac"
+      },
+      "loops-basic-induction-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.237395073287189,
+        "returncode": 0,
+        "log_sha256": "31b5b5a3dc5be6faee8aa4d61ef60bebe6f2e5f910caf6ba459f78a1d233a790"
+      },
+      "loops-initial-value-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.6397727709263563,
+        "returncode": 0,
+        "log_sha256": "8fa594aefeed8c8f2a675973136f861b1ee1b118e8977fec52501304f951272a"
+      },
+      "loops-assignment-load-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.1971591534093022,
+        "returncode": 0,
+        "log_sha256": "cd48eb47596b619889179610c8218a383477429c049483c97a165fa41e75d739"
+      },
+      "loops-basic-region-fixed-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.36741851456463337,
+        "returncode": 0,
+        "log_sha256": "b20e6381005607c9e1449a31de1122f0bb94e46da87366b6875bc7b2c4453002"
+      },
+      "loops-basic-region-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.968466490507126,
+        "returncode": 2,
+        "log_sha256": "72f5b11356a966b789fb6130a4a289ab14fe84977068dddfc3538578f454c065"
+      },
+      "loops-basic-region-fixed-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "flow-regions",
+          "work-prepare",
+          "region-motion"
+        ],
+        "seconds": 1.0022512692958117,
+        "returncode": 0,
+        "log_sha256": "5b69cfe829b51d2a0ef3bbde79c61e0840664ce55ba02ee662a43f89527d6f26"
+      },
+      "loops-affine-copy-fix-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.886049806140363,
+        "returncode": 0,
+        "log_sha256": "8470eb46893f0808a2b7bdbdd709a40007fc35a9cedcef0d80c8ab850414d6ba"
+      },
+      "loops-region-last-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.140335403382778,
+        "returncode": 0,
+        "log_sha256": "6ab80a4db3874b350b9a15501b9e21f062e5f0be4f5b1149d669e512f1c43442"
+      },
+      "loops-region-paths-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.345086763612926,
+        "returncode": 0,
+        "log_sha256": "7692d3cd8ec8e9971adc8e67819fdf93525e7e241228e70f43b00db76f3ddc2d"
+      }
+    }
+  }
+}

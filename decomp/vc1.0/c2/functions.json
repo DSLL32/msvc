@@ -866,7 +866,13 @@
     "@reverse_subtraction_chain@8",
     "@reduce_bitwise_terms@8",
     "@replace_bitwise_occurrences@12",
-    "@fold_bitwise_and@4"
+    "@fold_bitwise_and@4",
+    "@work_in_flow_region@8",
+    "@replace_flow_region_last@8",
+    "@matches_assignment_load@8",
+    "@new_basic_induction@24",
+    "@work_dominates_region_paths@4",
+    "@find_induction_initial_value@4"
   ],
   "driver": [
     {
@@ -4359,8 +4365,7 @@
     {
       "name": "@replace_flow_region_last@8",
       "start": 374592,
-      "end": 374593,
-      "provisional": true
+      "end": 374611
     },
     {
       "name": "@ensure_bitset@8",
@@ -4425,8 +4430,7 @@
     {
       "name": "@work_in_flow_region@8",
       "start": 375376,
-      "end": 375377,
-      "provisional": true
+      "end": 375403
     },
     {
       "name": "@initialize_work_optimizer@4",
@@ -4790,8 +4794,7 @@
     {
       "name": "@matches_assignment_load@8",
       "start": 361408,
-      "end": 361409,
-      "provisional": true
+      "end": 361436
     },
     {
       "name": "@reduce_assignment_operator@16",
@@ -6204,8 +6207,7 @@
     {
       "name": "@new_basic_induction@24",
       "start": 392304,
-      "end": 392305,
-      "provisional": true
+      "end": 392450
     },
     {
       "name": "@induction_is_dead_on_exit@4",
@@ -6233,8 +6235,7 @@
     {
       "name": "@find_induction_initial_value@4",
       "start": 390416,
-      "end": 390417,
-      "provisional": true
+      "end": 390514
     },
     {
       "name": "@basic_induction_increment@4",
@@ -6301,8 +6302,7 @@
     {
       "name": "@work_dominates_region_paths@4",
       "start": 390144,
-      "end": 390145,
-      "provisional": true
+      "end": 390178
     },
     {
       "name": "@find_region_memory_induction@16",

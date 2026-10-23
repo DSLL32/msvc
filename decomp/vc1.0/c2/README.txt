@@ -2177,3 +2177,11 @@ Loop tree normalization passed: checkpoint862
 native fixtures pass. See cases/loops-bitwise-final.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Loop induction records and entry values: checkpoint868
+---------------------------------------
+6 whole functions pass fresh original/native matching; current frontier
+@has_no_later_work_store@4. 790 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-basic-region-fixed.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

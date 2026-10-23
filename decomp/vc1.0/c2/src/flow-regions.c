@@ -292,3 +292,23 @@ WorkItem *__fastcall reduce_flow_regions(FlowRegion *regions)
     }
     return furthest;
 }
+
+/* Original [0005ba50,0005ba6b). Membership includes enclosing regions. */
+int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region)
+{
+    FlowRegion *member;
+    for (member = work->region; member; member = member->parent)
+        if (member == region) return 1;
+    return 0;
+}
+
+/* Original [0005b740,0005b753). Extend enclosing regions that share
+   the same old final block with the region being updated. */
+void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement)
+{
+    WorkItem *old = region->last;
+    do {
+        region->last = replacement;
+        region = region->parent;
+    } while (region && region->last == old);
+}

@@ -349,3 +349,10 @@ Node *__fastcall strip_assignment_conversion(Node *node)
     }
     return node;
 }
+
+/* Original [000583c0,000583dc). Match an ordinary load of the store's
+   destination address through the compiler's structural equality query. */
+int __fastcall matches_assignment_load(Node *destination, Node *operand)
+{
+    return operand->opcode == 0x30 && trees_equal(destination, operand->left.node, 1);
+}

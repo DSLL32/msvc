@@ -943,3 +943,50 @@ void release_region_motion(void)
     release_bitset(hoist_invariant_values);
     hoist_invariant_values = 0;
 }
+
+/* Original [0005fc70,0005fd02). Own one arena-4 basic or derived
+   induction record, deep-copying its optional affine left/right terms. */
+BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *step,
+    WorkItem *work, BasicInduction *parent, Node *left, Node *right)
+{
+    BasicInduction *induction = arena_alloc(4, sizeof(BasicInduction));
+    induction->assignment = assignment;
+    induction->step = step;
+    induction->dominates_region = work ? work_dominates_region_paths(work) : parent->dominates_region;
+    induction->total_uses = induction->derived_uses = 0;
+    induction->left = induction->right = 0;
+    if (right) induction->right = copy_tree(right);
+    if (left) induction->left = copy_tree(left);
+    induction->parent = parent;
+    induction->next = basic_region_inductions;
+    basic_region_inductions = induction;
+    return induction;
+}
+
+/* Original [0005f400,0005f422). Evaluate all three region constraints
+   in order, even when an earlier dominance condition fails. */
+int __fastcall work_dominates_region_paths(WorkItem *work)
+{
+    int result = work_dominates_region_exits(work);
+    result &= work_dominates_region_backedges(work);
+    result &= work_is_outside_child_regions(work);
+    return result;
+}
+
+/* Original [0005f510,0005f572). Find an available final store of the
+   induction destination in its entry block and return that store's value. */
+Node *__fastcall find_induction_initial_value(Node *assignment)
+{
+    Expression *expression;
+    Node *candidate;
+    int identifier = assignment->detail.node->info.words.identifier;
+    for (expression = hoist_entry_work->body.expressions; expression;
+         expression = expression->next) {
+        candidate = expression->tree;
+        if (candidate->opcode == 0x32 &&
+            candidate->detail.node->info.words.identifier == identifier &&
+            bitset_contains(hoist_entry_work->flow_sets[WORK_UNREAD_STORES], identifier) &&
+            has_no_later_work_store(expression)) return candidate->second.node;
+    }
+    return 0;
+}
