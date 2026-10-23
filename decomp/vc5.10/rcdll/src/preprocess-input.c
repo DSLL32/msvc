@@ -183,3 +183,49 @@ WCHAR *__stdcall rc_quote_source_filename(WCHAR *destination,const WCHAR *path)
     *cursor=L'"';
     return cursor+1;
 }
+
+void __cdecl rc_scan_line_start(void)
+{
+    WCHAR character;
+    unsigned previous_line;
+
+    ++rc_preparing_line;
+    for(;;){
+        character=*rc_source_cursor++;
+        switch(rc_character_token(character)){
+        case 1:
+        case 44:
+            break;
+        case 2:
+            if(!rc_scan_comment()) goto unread;
+            break;
+        case 3:
+            if(rc_source_cursor[-1] && rc_source_cursor[-1]!=26){
+                if(!rc_splice_line()) goto unread;
+            }else if(rc_refill_source()) return;
+            break;
+        case 5:
+            previous_line=rc_prepared_lines++;
+            if(!(previous_line&63)) rc_notify_progress(1,rc_prepared_lines);
+            ++rc_preparing_line;
+            if(rc_cpp_active)
+                rc_write_preprocessed(L"\r",2,1,rc_cpp_output_file);
+            /* The original emits CR, then the source's LF. */
+        case 0:
+            if(rc_cpp_active)
+                rc_write_preprocessed(rc_source_cursor-1,2,1,rc_cpp_output_file);
+            else{
+                while(rc_character_class(*rc_source_cursor++)&0x40) ;
+                --rc_source_cursor;
+            }
+            break;
+        case 11:
+            rc_handle_directive();
+            break;
+        default:
+        unread:
+            --rc_source_cursor;
+            return;
+        }
+    }
+}

@@ -330,3 +330,11 @@ the same cursor, source stack and output buffer.
 [Verification](cases/resources-rich-trailing-space/list-macro-verification.json)
 records nine fresh controls, retained observer corrections and separate timings.
 The unvisited general formatter remains unsupported in native execution.
+
+Line-start scanning is accepted (281 bytes). It consumes the prepared source's
+leading `#`, advances the cursor one WCHAR and increments the line before reaching
+the zero-argument directive handler. The complete scanner retains comment, splice,
+refill, progress and newline-output paths behind named unaccepted helpers.
+[Verification](cases/resources-rich-trailing-space/scan-line-start-verification.json)
+records seven fresh character/cursor/line controls and hash-bound prefix reuse.
+Unknown character-class defaults remain unconsumed on this path.

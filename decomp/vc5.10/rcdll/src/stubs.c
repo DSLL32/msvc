@@ -90,9 +90,25 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
     return 0;
 }
 
-void __cdecl rc_scan_line_start(void)
+
+
+
+unsigned short __stdcall rc_character_class(unsigned short character)
+{
+    __asm int 3
+    return 0;
+}
+int __cdecl rc_scan_comment(void)
+{
+    __asm int 3
+    return 0;
+}
+int __cdecl rc_splice_line(void)
+{
+    __asm int 3
+    return 0;
+}
+void __cdecl rc_handle_directive(void)
 {
     __asm int 3
 }
-
-

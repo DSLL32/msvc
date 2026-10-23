@@ -44,7 +44,8 @@
     "rc_write_preprocessed",
     "rc_quote_source_filename",
     "rc_character_token",
-    "rc_list_macro"
+    "rc_list_macro",
+    "rc_scan_line_start"
   ],
   "functions": [
     {
@@ -886,8 +887,7 @@
       "end": "0x12176",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_quote_source_filename",
@@ -904,6 +904,42 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application"
+    },
+    {
+      "name": "rc_character_class",
+      "start": "0x26d9",
+      "end": "0x26f8",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_scan_comment",
+      "start": "0x12a02",
+      "end": "0x12a2b",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_splice_line",
+      "start": "0x12afc",
+      "end": "0x12b67",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_handle_directive",
+      "start": "0x6345",
+      "end": "0x6aa9",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
     }
   ],
   "loader_text_metadata": [
