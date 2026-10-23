@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Thirty-six native phases are complete: minimal C, optimized Win32 hello, DLL,
+Thirty-seven native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, and configurable calibration tables.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, and typed packet-view/callback adapters.
 
-There are 837 accepted source functions and 966 accepted original entries.
-Accepted original extents cover 235696/277234 code-section bytes (85.016989%):
-215267 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
+There are 840 accepted source functions and 969 accepted original entries.
+Accepted original extents cover 235992/277234 code-section bytes (85.123758%):
+215563 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 36 completed phase histories to fresh
-shared-prefix original first-entry captures. All 826 accepted application entries
+cases/original-entry-references.json binds 37 completed phase histories to fresh
+shared-prefix original first-entry captures. All 829 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 36 regression receipts are in cases/calibration-table/validation.json.
+current all 37 regression receipts are in cases/packet-view-adapter/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -292,3 +292,13 @@ limitation. All36 native phases,38 rejections, six graph/ABI/mask checks, three
 flag mutations,289 state/alias checks, Vector layout and both grammars pass.
 Listing pragmas reach the reconstructed helper with Fs0; active listing output
 is untested, and byte coverage remains an extent union, not branch coverage.
+
+Completed typed packet-view/callback adapter
+-------------------------------------------
+cases/packet-view-adapter combines safe byte views, a read-only pointer dropping
+const, defined unsigned negation and correctly typed stdcall callbacks. Three
+whole functions add296 frontend extent bytes. Untouched checksum exits0; all
+five rawIR files and five warnings match. All37 native phases,41 rejections,
+six graph/ABI/mask checks, three flag mutations and state/grammar audits pass.
+The original parameter-cache unwritten-local branch remains documented, not
+claimed exercised. Provisional prefix helpers stay trapping.

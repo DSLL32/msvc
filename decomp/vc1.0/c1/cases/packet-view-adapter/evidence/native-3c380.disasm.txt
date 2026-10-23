@@ -1,0 +1,57 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003c380 <.text+0x25380>:
+   3c380:	56                   	push   esi
+   3c381:	e8 8a 69 00 00       	call   0x42d10
+   3c386:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   3c38a:	0b c0                	or     eax,eax
+   3c38c:	74 12                	je     0x3c3a0
+   3c38e:	50                   	push   eax
+   3c38f:	6a 00                	push   0x0
+   3c391:	e8 3a 60 00 00       	call   0x423d0
+   3c396:	50                   	push   eax
+   3c397:	e8 b4 69 00 00       	call   0x42d50
+   3c39c:	eb 0f                	jmp    0x3c3ad
+   3c39e:	8b ff                	mov    edi,edi
+   3c3a0:	68 59 01 00 00       	push   0x159
+   3c3a5:	e8 a6 ff 00 00       	call   0x4c350
+   3c3aa:	83 c4 04             	add    esp,0x4
+   3c3ad:	8b f0                	mov    esi,eax
+   3c3af:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   3c3b3:	0b c0                	or     eax,eax
+   3c3b5:	74 10                	je     0x3c3c7
+   3c3b7:	50                   	push   eax
+   3c3b8:	6a 00                	push   0x0
+   3c3ba:	e8 11 60 00 00       	call   0x423d0
+   3c3bf:	50                   	push   eax
+   3c3c0:	e8 8b 69 00 00       	call   0x42d50
+   3c3c5:	eb 0d                	jmp    0x3c3d4
+   3c3c7:	68 59 01 00 00       	push   0x159
+   3c3cc:	e8 7f ff 00 00       	call   0x4c350
+   3c3d1:	83 c4 04             	add    esp,0x4
+   3c3d4:	33 c9                	xor    ecx,ecx
+   3c3d6:	8a 4c 24 10          	mov    cl,BYTE PTR [esp+0x10]
+   3c3da:	8b 0c 8d bc d3 06 00 	mov    ecx,DWORD PTR [ecx*4+0x6d3bc]
+   3c3e1:	8b 54 24 0c          	mov    edx,DWORD PTR [esp+0xc]
+   3c3e5:	50                   	push   eax
+   3c3e6:	56                   	push   esi
+   3c3e7:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   3c3eb:	51                   	push   ecx
+   3c3ec:	0b d2                	or     edx,edx
+   3c3ee:	50                   	push   eax
+   3c3ef:	74 12                	je     0x3c403
+   3c3f1:	52                   	push   edx
+   3c3f2:	e8 09 e8 00 00       	call   0x4ac00
+   3c3f7:	83 c4 14             	add    esp,0x14
+   3c3fa:	e8 21 69 00 00       	call   0x42d20
+   3c3ff:	5e                   	pop    esi
+   3c400:	c2 14 00             	ret    0x14
+   3c403:	e8 c8 e5 00 00       	call   0x4a9d0
+   3c408:	83 c4 10             	add    esp,0x10
+   3c40b:	e8 10 69 00 00       	call   0x42d20
+   3c410:	5e                   	pop    esi
+   3c411:	c2 14 00             	ret    0x14

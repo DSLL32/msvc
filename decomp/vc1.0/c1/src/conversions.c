@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "expressions.h"
 #include "initializer-records.h"
+#include "declaration-text.h"
 #include <recon.h>
 
 
@@ -800,4 +801,33 @@ void warn_void_function_pointer(void)
 {
     if (options.extensions_enabled) compiler_warning(4, 152);
     else compiler_warning(1, 153);
+}
+
+/* Original 0x3c380..0x3c414, RET20. Keep both rendered declarators
+   alive until the diagnostic has consumed them, then release the text arena. */
+void __stdcall conversion_diagnostic(unsigned code, unsigned level,
+    unsigned char operation, CType *target, CType *source)
+{
+    char *target_name, *source_name;
+    begin_declaration_text();
+    target_name = target ? declaration_text_value(build_declaration_text(0, target))
+                         : message_text(345);
+    source_name = source ? declaration_text_value(build_declaration_text(0, source))
+                         : message_text(345);
+    if (level)
+        compiler_warning(level, code, token_names[operation], target_name, source_name);
+    else
+        report_syntax_error(code, token_names[operation], target_name, source_name);
+    end_declaration_text();
+}
+
+/* Original 0x3c1b0..0x3c1e2, RET12. Render the operand type even
+   when a particular warning format does not consume its extra argument. */
+void __stdcall type_warning(unsigned level, unsigned code, CType *type)
+{
+    char *name;
+    begin_declaration_text();
+    name = declaration_text_value(build_declaration_text(0, type));
+    compiler_warning(level, code, name);
+    end_declaration_text();
 }

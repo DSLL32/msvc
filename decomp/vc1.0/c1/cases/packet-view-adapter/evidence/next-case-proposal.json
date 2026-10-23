@@ -1,0 +1,48 @@
+{
+  "status": "proposed to root; not yet authorized/executed",
+  "title": "Legacy arena API declarations and prototype export",
+  "source_workflow": "One checksum unit, ordinary /Z7 /Od /G5 /W4 compilation plus /Zg prototype phase. Named-based records/callback parameters, pointer-to-array API, compatible old-style void* adapter and genuinely supported declarator-local calling/storage modifiers.",
+  "provisional_targets": [
+    {
+      "name": "build_based_text",
+      "start": "0x42430",
+      "end": "0x424e2",
+      "bytes": 178,
+      "path": "/Zg write_declarator_attributes attributes&0xc with named-based types"
+    },
+    {
+      "name": "has_parameter_shape_depth",
+      "start": "0x3f7f0",
+      "end": "0x3f817",
+      "bytes": 39,
+      "path": "compatible_parameter_types void* prototype branch"
+    },
+    {
+      "name": "append_type_shape",
+      "start": "0x3fb50",
+      "end": "0x3fb84",
+      "bytes": 52,
+      "path": "parser production91 multiple declaration modifiers"
+    },
+    {
+      "name": "copy_shape_prefix",
+      "start": "0x31ae0",
+      "end": "0x31b82",
+      "bytes": 162,
+      "path": "extract_declarator_prefix actual kind0 prefix"
+    },
+    {
+      "name": "check_declarator_prefix",
+      "start": "0x31b90",
+      "end": "0x31bf7",
+      "bytes": 103,
+      "path": "finalize_declarator shape prefix"
+    }
+  ],
+  "reachability": "Provisional534 bytes. Original public syntax/whole compile/runtime preflight required, then capture actual transport and exact artifacts/prototype output before acceptance. Typedef qualification alone did not reach prefix helpers in packet case; this proposal follows actual grammar modifier production.",
+  "excluded": [
+    "Pascal string helper requires option_m with no established public CL mapping.",
+    "Intrinsic fallback predicate returns0 on both original branches; unvisited helper is compatibility/application, not CRT.",
+    "No injected private frontend flags, incompatible callback calls, padding/address checksums, unreachable-body coverage promise."
+  ]
+}

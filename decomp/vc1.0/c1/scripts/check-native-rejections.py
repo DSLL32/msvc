@@ -300,6 +300,25 @@ def main():
     rejects('calibration-conversion-warning', 'stdout differs',
             lambda:checker.validate_result('calibration-table',0,b'',b'',calibration_phase))
 
+    _, packet = checker.run_case('packet-view-adapter', executable, directory, (cache,filter_path))
+    packet_fixture = checker.BINARY/'cases/packet-view-adapter'
+    packet_phase = json.loads((packet_fixture/'manifest.json').read_text())['phases']['c1']
+    packet_warnings = packet_phase['expected_stdout'].encode('latin1')
+    missing_conversion = b''.join(line for line in packet_warnings.splitlines(keepends=True)
+                                  if b'C4133:' not in line)
+    rejects('packet-typed-conversion-warning', 'stdout differs',
+            lambda:checker.validate_result('packet-view-adapter',0,missing_conversion,b'',packet_phase))
+    wrong_unsigned = packet_warnings.replace(b'C4146:', b'C4147:')
+    rejects('packet-unsigned-negation-warning', 'stdout differs',
+            lambda:checker.validate_result('packet-view-adapter',0,wrong_unsigned,b'',packet_phase))
+    declarations = bytearray((packet/'irgl').read_bytes())
+    assert declarations.count(b'sum_packet@8\0') == 1
+    offset = declarations.index(b'sum_packet@8\0') + len(b'sum_packet@')
+    declarations[offset] = ord('4')
+    (packet/'irgl').write_bytes(declarations)
+    rejects('packet-stdcall-parameter-byte-decoration', 'output bytes differ: irgl',
+            lambda:checker.validate_artifacts(packet,packet_fixture,packet_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

@@ -1,0 +1,4 @@
+entry _conversion_diagnostic@20 rva 0002c380 byte 56
+entry _type_warning@12 rva 0002c1b0 byte e8
+entry _cache_parameter_bytes@4 rva 0001e300 byte 83
+exit 0

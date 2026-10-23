@@ -1,0 +1,85 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/packet-view-adapter",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 969,
+  "accepted_sha256": "0fefe919d481bc9c876b732c70e63d32493333018b4a8f08da6c03e2b32530dc",
+  "executable_sha256": "308b846ba3c2985727ebe829eb77d3a6f1a2533b4f0c3f9ac3fad9014a37f9fb",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f packet.c -Ze -Zp8 -Gs -Fopacket.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\packet-complete-969\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate five exact warnings from CL source banner."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/packet-complete-969/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05274906940758228,
+  "execution_seconds": 1.821336585097015,
+  "total_seconds": 1.8740884559229016,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 291,
+      "sha256": "4d55f49bb1d943415ff9c3a2ee0205f479cebf0c2048076d9a656f33ea62e217"
+    },
+    {
+      "name": "irex",
+      "bytes": 2032,
+      "sha256": "f7a6cfff80e5ef45e50104521e1a41066419302d2a777b92e4f39edf54a3c7ca"
+    },
+    {
+      "name": "irgl",
+      "bytes": 291,
+      "sha256": "1bf0e043abf68dbaa6202c9499290b0e75c8733329699f107867870e7b9a6c14"
+    },
+    {
+      "name": "irin",
+      "bytes": 12,
+      "sha256": "789f0aa30a88cdf2f770561be54a906590b73351d0a99516de48c7a4e7e1d018"
+    },
+    {
+      "name": "irsy",
+      "bytes": 573,
+      "sha256": "425b719d08242eca20cb9f669e28583d80055a3fc52cec25eec2fea9a4dd14b6"
+    },
+    {
+      "name": "packet.c",
+      "bytes": 1601,
+      "sha256": "4bacd7183bd7631742398b9a7f64df2d7f6b48ef861a7807ed90b2942e6a26e6"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 966,
+    "accepted_count": 969,
+    "expected": [
+      "_conversion_diagnostic@20",
+      "_type_warning@12",
+      "_cache_parameter_bytes@4"
+    ],
+    "observed": [
+      "_conversion_diagnostic@20",
+      "_type_warning@12",
+      "_cache_parameter_bytes@4"
+    ],
+    "seeded_prefix_sha256": "81c807698fa16b67f2865e9d4df89778f324a69b85f732c9642e0965d11d961e",
+    "plan_sha256": "9994c88882b34f21832176c63fae22d4791a110058826150ca837dc6eb5a0fd8",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

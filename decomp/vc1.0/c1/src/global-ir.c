@@ -1,5 +1,6 @@
 /* Global intermediate record serialization. */
 #include "global-ir.h"
+#include "expressions.h"
 #include <recon.h>
 
 /* Shared name-formatting workspace, original 0x65e60. The diagnostic
@@ -594,4 +595,24 @@ int format_integer(int value, char *destination, unsigned radix)
 void write_ir_string(char *text)
 {
     do { putc((signed char)*text, auxiliary_ir_stream); } while (*text++);
+}
+
+/* Original 0x2e300..0x2e362, RET4. Cache the prototype's argument
+   bytes for calling-convention name decoration. The original leaves its
+   local unwritten when symbol attribute 0x800 is already set. */
+void __stdcall cache_parameter_bytes(FrontendSymbol *symbol)
+{
+    TypeShape *shape = symbol->type->related;
+    unsigned bytes;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (!(symbol->attributes & 0x800)) {
+        if (shape->flags & 0x800) {
+            compiler_warning(1, 276, symbol->name);
+            bytes = 0;
+        } else {
+            bytes = parameter_info_bytes((ParameterInfo *)shape->field08);
+        }
+    }
+    symbol->detail.value = bytes;
+    symbol->attributes |= 0x4000;
 }

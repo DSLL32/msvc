@@ -1,0 +1,78 @@
+{
+  "case": "Configurable packet-view-adapter checksum",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f packet.c -Ze -Zp8 -Gs -Fopacket.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/packet.c",
+          "bytes": 1601,
+          "sha256": "4bacd7183bd7631742398b9a7f64df2d7f6b48ef861a7807ed90b2942e6a26e6"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 291,
+          "sha256": "4d55f49bb1d943415ff9c3a2ee0205f479cebf0c2048076d9a656f33ea62e217",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 2032,
+          "sha256": "f7a6cfff80e5ef45e50104521e1a41066419302d2a777b92e4f39edf54a3c7ca",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 291,
+          "sha256": "1bf0e043abf68dbaa6202c9499290b0e75c8733329699f107867870e7b9a6c14",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 12,
+          "sha256": "789f0aa30a88cdf2f770561be54a906590b73351d0a99516de48c7a4e7e1d018",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 573,
+          "sha256": "425b719d08242eca20cb9f669e28583d80055a3fc52cec25eec2fea9a4dd14b6",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "packet.c(33) : warning C4133: 'initializing' : incompatible types - from 'struct Packet *' to 'unsigned char *'\r\npacket.c(35) : warning C4090: 'initializing' : different 'const' qualifiers\r\npacket.c(36) : warning C4146: unary minus operator applied to unsigned type, result still unsigned\r\npacket.c(38) : warning C4221: nonstandard extension used : 'words' : cannot be initialized using address of automatic variable 'packet'\r\npacket.c(38) : warning C4221: nonstandard extension used : 'words' : cannot be initialized using address of automatic variable 'other'\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "packet.obj",
+        "packet.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 packet.c",
+      "transport_reference": "evidence/packet.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate five exact warnings from CL source banner."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original capture/build separate.",
+  "normalization": "None.",
+  "capture_policy": "Two actualCLchild transports,typed safe packet views/callbacks, full rawIR/five exact warnings/status/absent object/PDB. Relative temporary prefix alone becomes ir.",
+  "runtime": "Untouched draft1 full compile/link and checksum program exit0, silent."
+}

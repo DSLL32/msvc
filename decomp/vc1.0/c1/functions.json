@@ -970,7 +970,10 @@
     "_unsigned_to_extended",
     "_next_shared_bitfield@8",
     "_skip_initializer_anonymous_members@4",
-    "_initialize_thread_symbol@4"
+    "_initialize_thread_symbol@4",
+    "_conversion_diagnostic@20",
+    "_type_warning@12",
+    "_cache_parameter_bytes@4"
   ],
   "driver": [
     {
@@ -2766,7 +2769,7 @@
     {
       "name": "_conversion_diagnostic@20",
       "start": 246656,
-      "end": 246657
+      "end": 246804
     },
     {
       "name": "_check_based_pointer_conversion@12",
@@ -3889,7 +3892,7 @@
     {
       "name": "_type_warning@12",
       "start": 246192,
-      "end": 246193
+      "end": 246242
     },
     {
       "name": "_subtract_extended",
@@ -5875,6 +5878,10 @@
     "calibration-table": {
       "accepted_from": 958,
       "accepted_count": 966
+    },
+    "packet-view-adapter": {
+      "accepted_from": 966,
+      "accepted_count": 969
     }
   },
   "buffered_streams": [

@@ -411,7 +411,6 @@ void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 
 
 
 
-void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
 
 void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
@@ -430,7 +429,6 @@ void report_ide_file_end(void) { __asm { int 3 } }
 
 
 
-void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -684,7 +682,6 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 /* Original 0x2ee64. */
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 /* Original 0x3c1b0. */
-void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 /* Original 0x4c538. */
 /* Original 0x284f0. */
 

@@ -1,26 +1,14 @@
 {
-  "authorization": "Root approved SINGLE successful configurable calibration checksum /Z7 /Od /G5 /W3,48 consumed public-D coefficients, zeroTLS, partial packed/bitfield/anonymous records, integer floating gains; natural listing metadata only.",
-  "baseline_commit": "d5ff2b96f13b1858a9f9dcf37a6e93860c91a2d1",
-  "baseline_accepted_count": 958,
-  "baseline_coverage": {
-    "accepted_union_bytes": 234925,
-    "original_code_bytes": 277234,
-    "accepted_by_origin_bytes": {
-      "frontend_source": 214496,
-      "CRT": 20243,
-      "import_thunks": 186
-    },
-    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 84.73888484096467,
-    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
-  },
+  "authorization": "Root approved SINGLE successful typed packet-view/callback checksum /Z7 /Od /G5 /W4 with exact ordinary conversion/qualifier warnings and defined unsigned negation; compatible callback conventions and read-only discarded-const view.",
+  "baseline_commit": "b96696224d6153fa5fe54ae079320f5de41a0832",
+  "baseline_accepted_count": 966,
+  "status": "complete",
   "cases": [
     {
-      "case": "calibration-table",
+      "case": "packet-view-adapter",
       "phase": "c1",
-      "status": "complete;958 through966, originalruntime0/fiveexactIRfiles/oneC4051warning"
+      "status": "complete;966 through969, originalruntime0/fiveexactIRfiles/fiveexactwarnings"
     }
   ],
-  "status": "complete",
-  "completion": "cases/calibration-table/validation.json"
+  "completion": "cases/packet-view-adapter/validation.json"
 }

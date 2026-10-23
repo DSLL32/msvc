@@ -1,0 +1,98 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /Od /G5 /W4 packet.c",
+    "S:\\vc1.0\\c1\\transport\\packet-view-adapter-first\\stdout",
+    "S:\\vc1.0\\c1\\transport\\packet-view-adapter-first\\stderr",
+    "S:\\vc1.0\\c1\\transport\\packet-view-adapter-first\\events",
+    "S:\\vc1.0\\c1\\packet-view-adapter",
+    "S:\\vc1.0\\c1\\transport\\packet-view-adapter-first\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\packet-view-adapter-first"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 packet.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\packet-view-adapter",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 1.968204291537404,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001384 -f packet.c -Ze -Zp8 -Gs -Fopacket.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001384 -f packet.c -Gs4096 -dos -Fopacket.obj -ML -Zi -G5 -W 4 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "packet.c",
+        "bytes": 1601,
+        "sha256": "4bacd7183bd7631742398b9a7f64df2d7f6b48ef861a7807ed90b2942e6a26e6",
+        "mtime_ns": 1792772468565788400
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001384db",
+        "bytes": 291,
+        "sha256": "4d55f49bb1d943415ff9c3a2ee0205f479cebf0c2048076d9a656f33ea62e217",
+        "mtime_ns": 1792772470253754800
+      },
+      {
+        "name": "001384ex",
+        "bytes": 2032,
+        "sha256": "f7a6cfff80e5ef45e50104521e1a41066419302d2a777b92e4f39edf54a3c7ca",
+        "mtime_ns": 1792772470253754800
+      },
+      {
+        "name": "001384gl",
+        "bytes": 291,
+        "sha256": "1bf0e043abf68dbaa6202c9499290b0e75c8733329699f107867870e7b9a6c14",
+        "mtime_ns": 1792772470253754800
+      },
+      {
+        "name": "001384in",
+        "bytes": 12,
+        "sha256": "789f0aa30a88cdf2f770561be54a906590b73351d0a99516de48c7a4e7e1d018",
+        "mtime_ns": 1792772470253754800
+      },
+      {
+        "name": "001384sy",
+        "bytes": 573,
+        "sha256": "425b719d08242eca20cb9f669e28583d80055a3fc52cec25eec2fea9a4dd14b6",
+        "mtime_ns": 1792772470253754800
+      },
+      {
+        "name": "packet.c",
+        "bytes": 1601,
+        "sha256": "4bacd7183bd7631742398b9a7f64df2d7f6b48ef861a7807ed90b2942e6a26e6",
+        "mtime_ns": 1792772468565788400
+      }
+    ]
+  }
+}

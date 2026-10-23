@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "4c936393aca3a3ab6cb187406be81c128d432ba54e0f5f1047d70cdf89e29752",
+    "functions.json": "a5580289cda9d9e31954fe53f39b837938d3930537173c2007c29db2b46c85f1",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "e55ebe860203e4bd01d05143e7e36b25397c118385abbbacdda2856362f37979"
+    "sha256": "68f8df7695e1047e38abefbb69e1dd238305fdefba67a7186196fb9b8299b98c"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "65f6c9e484692f8bfaff1d69c90baab38cee7e9084db3e2ecc340597da43d890"
+    "sha256": "77d36922648658bace5010d492726cbaef178cdf34eebdfba36c1ed0edce55e8"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -463,7 +463,7 @@
     },
     "cache_parameter_bytes": {
       "logical": "_cache_parameter_bytes@4",
-      "source": "src/stubs.c"
+      "source": "src/global-ir.c"
     },
     "call_argument_bytes": {
       "logical": "_call_argument_bytes@4",
@@ -723,7 +723,7 @@
     },
     "conversion_diagnostic": {
       "logical": "_conversion_diagnostic@20",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "convert_based_pointer": {
       "logical": "_convert_based_pointer@8",
@@ -3391,7 +3391,7 @@
     },
     "type_warning": {
       "logical": "_type_warning@12",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "undefine_source_macro": {
       "logical": "_undefine_source_macro",
@@ -4472,7 +4472,10 @@
     "unsigned_to_extended",
     "next_shared_bitfield",
     "skip_initializer_anonymous_members",
-    "initialize_thread_symbol"
+    "initialize_thread_symbol",
+    "conversion_diagnostic",
+    "type_warning",
+    "cache_parameter_bytes"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5833,6 +5836,20 @@
         "next_shared_bitfield",
         "skip_initializer_anonymous_members",
         "initialize_thread_symbol"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "packet-view-adapter": {
+      "first": 966,
+      "last": 969,
+      "seen_count": 826,
+      "expected": [
+        "conversion_diagnostic",
+        "type_warning",
+        "cache_parameter_bytes"
       ],
       "terminal": {
         "kind": "exit",

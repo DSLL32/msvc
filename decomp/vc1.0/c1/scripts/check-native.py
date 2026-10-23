@@ -38,7 +38,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'browser-pch-create':('browser-pch-timestamp','c1-create'),
          'browser-pch-use':('browser-pch-timestamp','c1-use'),
          'asm-diagnostic-recovery':('asm-diagnostic-recovery','c1'),
-         'calibration-table':('calibration-table','c1')}
+         'calibration-table':('calibration-table','c1'),
+         'packet-view-adapter':('packet-view-adapter','c1')}
 
 
 CASE_DEPENDENCIES = {

@@ -1,0 +1,68 @@
+{
+  "terminal_exit": 99,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/packet-view-adapter",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 967,
+  "accepted_sha256": "4a6af404cb1ff27f9d493099dd5138b7fcb05d05464b6ea3b6a6ce0b1ac403e3",
+  "executable_sha256": "8c77f93806b382ed22bb4152447895d826b2d2e696977122d7cb9d8b8b65a0e8",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f packet.c -Ze -Zp8 -Gs -Fopacket.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\packet-corrected-967\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate five exact warnings from CL source banner."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/packet-corrected-967/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.0503359055146575,
+  "execution_seconds": 1.7682769801467657,
+  "total_seconds": 1.8186147389933467,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "packet.c",
+      "bytes": 1601,
+      "sha256": "4bacd7183bd7631742398b9a7f64df2d7f6b48ef861a7807ed90b2942e6a26e6"
+    }
+  ]
+}

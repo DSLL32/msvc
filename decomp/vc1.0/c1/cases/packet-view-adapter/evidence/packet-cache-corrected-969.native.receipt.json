@@ -1,0 +1,23 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.003489738330245018,
+  "execution_seconds": 0.1351015381515026,
+  "total_seconds": 0.14084603358060122,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f packet.c -Ze -Zp8 -Gs -Fopacket.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate five exact warnings from CL source banner."
+  },
+  "executable_sha256": "0ef1d2dcafcc95ed15bb5f75be2a575933a4fb2fa12da035d9449b9ab423923a"
+}

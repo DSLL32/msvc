@@ -144,6 +144,10 @@
     "calibration-table": {
       "receipt": "cases/calibration-table/evidence/calibration-complete-966.receipt.json",
       "sha256": "29bc985969f4e77abe2f7e01d447951beccba044c23a780496cd06d43611cdef"
+    },
+    "packet-view-adapter": {
+      "receipt": "cases/packet-view-adapter/evidence/packet-complete-969.receipt.json",
+      "sha256": "351d08728d37be529d8b4b24af98696311f21a0de13f911aa6bfc006f354aa72"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."
