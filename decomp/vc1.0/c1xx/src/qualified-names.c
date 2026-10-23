@@ -5,6 +5,22 @@
 
 SymbolScope *last_lookup_scope; /* original 0x914bc */
 
+/* Original 0x332c0..0x332f8. Deferred inline text names its class using
+   __nctag; the empty form leaves only a scope opened by that directive. */
+void __stdcall declare_nctag(char *name)
+{
+    CppSymbol *tag;
+    if (!name) {
+        if ((current_scope->flags & 0xff) == 0xfd) {
+            retire_scope_directory_entry();
+            pop_symbol_scope();
+        }
+        return;
+    }
+    tag = lookup_tag_name(name);
+    if (tag) enter_class_scope(tag, (signed char)-3);
+}
+
 /* The operator-name bit (0x40) of original lexical properties at 0xa1d47.
    Keep the encountered category as token membership, rather than copying the
    unrelated property bits. Recovery also accepts several internal token forms. */

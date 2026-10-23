@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_declare_nctag@4",
+    "start": 209600,
+    "end": 209656
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1064-declare_nctag-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_enter_class_scope@8",
+    "_lookup_tag_name@4",
+    "_pop_symbol_scope",
+    "_retire_scope_directory_entry"
+  ],
+  "next_frontier": "_find_friend_access@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.40564108081161976,
+  "total_operation_seconds": 3.464719807729125,
+  "original_capture_seconds": 1.1178246401250362
+}

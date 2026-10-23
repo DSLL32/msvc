@@ -1068,7 +1068,8 @@
     "_hash_first_word",
     "_make_default_constructor_closure@12",
     "_default_constructor_closure_table",
-    "_emit_deferred_class_terminator"
+    "_emit_deferred_class_terminator",
+    "_declare_nctag@4"
   ],
   "driver": [
     {
@@ -2672,7 +2673,7 @@
     {
       "name": "_declare_nctag@4",
       "start": 209600,
-      "end": 209601
+      "end": 209656
     },
     {
       "name": "_define_named_label@4",
@@ -8080,7 +8081,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_declare_nctag@4",
+      "terminal": "_find_friend_access@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8103,7 +8104,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1064-declare_nctag-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8172,7 +8173,8 @@
         "cases/frontiers/state_machine_debug/1060-hash_first_word/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1061-make_default_constructor_closure-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1062-default_constructor_closure_table/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1064-declare_nctag-4/frontier-extension.json"
       ]
     }
   },

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "function": "_declare_nctag@4",
+  "native_entry": "declare_nctag",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "parser_name",
+      "original": 573936
+    }
+  ],
+  "native_expressions": {
+    "raw_name": "(unsigned)name",
+    "parser_name": "(unsigned)parser_value.name"
+  },
+  "formals": [
+    {
+      "name": "name",
+      "stack_index": 0,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "parser_name",
+        "original_anchor_address": 573936,
+        "native_anchor_field": "parser_name",
+        "identity": "current parser reduction semantic spelling, same alias natively; case declaration action8 supplies its saved right[-1].name here"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      209600,
+      209656
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4], null test; nonnull pushes name to lookup_tag_name then its result to enter_class_scope; null branch reads current_scope and calls no-argument retirement/pop. RET4 at0x332dd and0x332f5. All semantic register values derive from the stack/global/callee return, no hidden/register argument. Parser-value alias is read in the same stopped original; no string/heap dump."
+  }
+}

@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "9440815f5a58d3c7e272431ec8582cd1d29daee6ec99eb6593b9a60036cab31d",
+    "functions.json": "2a4f1d461fdd0e41939cbf1bcb41e61e53a83e2fbcffaa6138fd19699981452b",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "acada324a2375a1d22617effe0a5ff8fbbc89ad4877840999a40792fe2a0870a",
-    "cases/canonical-map.txt": "0a36cb31dba90335cce76985b909408a67f3b250dfed7a53be0c90fc29501a2e",
+    "cases/original-entry-references.json": "fdfa3e91e228d9959b5b1a78233ec6b3d2565b3e0754e6c931b5c3aa65be8b31",
+    "cases/canonical-map.txt": "3a4a97212e16d942102b21068ea18fe32c6e32eb3c0d1036781ce0a810d3d723",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/entry-reference/original-receipt.json": "c7fe98cdf93b1d5aaecd7145d25a43cf77f76f7761d781f085c361d16f9cf439",
-    "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/entry-reference/original-events.txt": "5748621a178da722ed43dd167f7eb7fe6ea06dea739658b631d7a392ab9eef13",
-    "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/entry-reference/original-entries.plan": "33e6bbc0136fa0fdbcd14c17c653aa073a3006d418c3545582e5ff6db62fb05c"
+    "cases/frontiers/state_machine_debug/1064-declare_nctag-4/entry-reference/original-receipt.json": "1c96f9d2e2e489a31c7925f7a14bb5ccb3596cca093cbdd0c7cf24c0d1444088",
+    "cases/frontiers/state_machine_debug/1064-declare_nctag-4/entry-reference/original-events.txt": "0451036fb0268f2cdfc9a4fbbcfa131bb5b4e6fc228fd23e77bb4ca8175b2741",
+    "cases/frontiers/state_machine_debug/1064-declare_nctag-4/entry-reference/original-entries.plan": "143b7429ef91b254e50e50da758369b4769b9ec5cea7d65c5c5757f19b63f6ff"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1345,7 +1345,7 @@
     },
     "declare_nctag": {
       "logical": "_declare_nctag@4",
-      "source": "src/stubs.c"
+      "source": "src/qualified-names.c"
     },
     "declare_operator_delete": {
       "logical": "_declare_operator_delete@4",
@@ -6362,7 +6362,8 @@
     "hash_first_word",
     "make_default_constructor_closure",
     "default_constructor_closure_table",
-    "emit_deferred_class_terminator"
+    "emit_deferred_class_terminator",
+    "declare_nctag"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10474,7 +10475,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1064,
+      "last": 1065,
       "seen": [
         "main",
         "message_text",
@@ -11448,12 +11449,13 @@
         "make_default_constructor_closure",
         "default_constructor_closure_table",
         "emit_deferred_class_terminator",
-        "declare_nctag"
+        "declare_nctag",
+        "find_friend_access"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_declare_nctag@4",
-        "native": "declare_nctag",
+        "logical": "_find_friend_access@8",
+        "native": "find_friend_access",
         "signal": 5
       }
     }
