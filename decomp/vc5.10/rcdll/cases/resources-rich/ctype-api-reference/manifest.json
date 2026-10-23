@@ -1,0 +1,11 @@
+{
+  "raw_source": "/root/.ai-tmp/msvc2/vc5.10/rcdll/ctype-api-probe-01",
+  "scope": "Canonical default-C iswctype all128ASCII*mask4or8*4errorpairs; no nonASCII/otherlocale claim.",
+  "files": {
+    "events.txt": "617fa372f30c3920fada1594732820cac77d97963a4c765d06c805706db4d32c",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt.json": "df48d46a8dce202a51d723b2327fe9a4687bbf87d4aa9e2bdbc467b8cd11fed7",
+    "stdout.bin": "97f7856b595a34250a0dc89c2a0ca8963a664ff6f509eb88d7014ba7b1cc5aac",
+    "compiled-source.c": "d07b60991968d34ec14bea0288c360a1941d6bdf79ac7c9cc9c5538caaaa1c39"
+  }
+}

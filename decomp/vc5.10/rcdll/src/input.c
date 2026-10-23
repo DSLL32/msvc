@@ -140,3 +140,44 @@ int __stdcall rc_detect_encoding(FILE *file)
     fseek(file,position,SEEK_SET);
     return encoding;
 }
+
+int __stdcall rc_read_wide_line(WCHAR *line,unsigned capacity,int wide,FILE *file)
+{
+    unsigned remaining=capacity-1,spaces;
+    int character=0;
+    WCHAR *output=line;
+    char *buffer,*next;
+
+    *line=0;
+    if(!wide){
+        next=buffer=LocalAlloc(LMEM_ZEROINIT,capacity);
+        while(remaining&&(character=fgetc(file))!=EOF&&character!='\n'){
+            if(character=='\r') continue;
+            if(character=='\t'){
+                spaces=8-((next-buffer)&7);
+                if((int)remaining<=(int)spaces) spaces=remaining;
+                remaining-=spaces;
+                while(spaces--) *next++=' ';
+                character=0;
+            }else{*next++=(char)character;--remaining;}
+        }
+        *next=0;
+        MultiByteToWideChar(rc_codepage,1,buffer,-1,line,next-buffer+1);
+        LocalFree(buffer);
+    }else{
+        while(remaining&&(character=fgetc(file))!=EOF){
+            character=(BYTE)character|((BYTE)fgetc(file)<<8);
+            if(character=='\n') break;
+            if(character=='\r') continue;
+            if(character=='\t'){
+                spaces=8-((output-line)&7);
+                if((int)remaining<=(int)spaces) spaces=remaining;
+                remaining-=spaces;
+                while(spaces--) *output++=' ';
+                character=0;
+            }else{*output++=(WCHAR)character;--remaining;}
+        }
+        *output=0;
+    }
+    return character!=EOF||*line!=0;
+}

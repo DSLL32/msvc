@@ -26,7 +26,7 @@ static DWORD export_storage[256],export_lengths[256];
 static DWORD heap_allocation_size;
 static DWORD character_pointer;
 static CONTEXT probe_context;
-static DWORD probe_return,cpinfo_pointer,cpinfo_error;
+static DWORD probe_return,cpinfo_pointer,cpinfo_error,local_pointer,local_bytes,line_file;
 static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
@@ -53,11 +53,22 @@ static DWORD string_bytes(DWORD at)
     for(n=0;n<16384;++n){readmem(at+n,&c,1);if(!c)return n+1;}
     fail("unterminated-string");return 0;
 }
+static DWORD wide_string_bytes(DWORD at)
+{
+    DWORD n;WCHAR c;
+    for(n=0;n<4177;++n){readmem(at+2*n,&c,2);if(!c)return 2*(n+1);}
+    fail("unterminated-wide-string");return 0;
+}
 static void hexbytes(const char *tag,DWORD at,DWORD size)
 {
-    DWORD n; BYTE byte;
+    DWORD n,take,i; BYTE raw[512];char encoded[1024];
+    const char *digits="0123456789abcdef";
     fprintf(events,"%s %lu ",tag,size);
-    for(n=0;n<size;++n){readmem(at+n,&byte,1);fprintf(events,"%02x",byte);}
+    for(n=0;n<size;n+=take){
+        take=size-n;if(take>sizeof(raw))take=sizeof(raw);readmem(at+n,raw,take);
+        for(i=0;i<take;++i){encoded[2*i]=digits[raw[i]>>4];encoded[2*i+1]=digits[raw[i]&15];}
+        if(fwrite(encoded,2,take,events)!=take)fail("hex-write");
+    }
     fprintf(events,"\n");fflush(events);
 }
 static void vector_state(const char *stage)
@@ -197,6 +208,7 @@ static void snapshot_and_mask(void)
         }
         for(n=0;n<range_count;++n)if(ranges[n].kind)point(base+ranges[n].start,2);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12df0&&ranges[n].end==0x12e1f&&!ranges[n].kind)point(base+0x12df0,28);
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x9041&&ranges[n].kind){point(base+0x90e5,33);point(base+0x9182,35);point(base+0x873e,37);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8c9e&&ranges[n].kind){point(base+0x8ea2,30);point(base+0x108e7,32);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7466,13);
@@ -299,6 +311,17 @@ static int trap(HANDLE thread,DWORD address)
             DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"cpinfo-result %lu last-error=%08lx\n",c.Eax,error);hexbytes("cpinfo-after",cpinfo_pointer,20);
         }else if(p->kind==32){
             DWORD flags;readmem(c.Ebp-4,&flags,4);fprintf(events,"text-test-result %lu flags=%08lx\n",c.Eax,flags);
+        }else if(p->kind==33){
+            readmem(c.Esp,words,8);if(words[0]!=0x40||words[1]!=0x1051)fail("line-local-allocate-scope");
+            local_bytes=words[1];readmem(c.Ebp+0x14,&line_file,4);fprintf(events,"line-local-allocate %lu %lu\n",words[0],words[1]);point(base+0x90eb,34);
+        }else if(p->kind==34){
+            local_pointer=c.Eax;if(!local_pointer)fail("line-local-allocate-null");fprintf(events,"line-local-pointer %08lx\n",local_pointer);hexbytes("line-local-initial",local_pointer,local_bytes);
+        }else if(p->kind==35){
+            readmem(c.Esp,words,4);if(words[0]!=local_pointer)fail("line-local-free-owner");fprintf(events,"line-local-free-pointer %08lx\n",words[0]);hexbytes("line-local-final",local_pointer,local_bytes);point(base+0x9188,36);
+        }else if(p->kind==36){fprintf(events,"line-local-free-result %lu\n",c.Eax);
+        }else if(p->kind==37){
+            readmem(c.Esp,words,8);fprintf(events,"line-ctype %u %u\n",(WORD)words[0],(WORD)words[1]);point(base+0x8744,38);
+        }else if(p->kind==38){fprintf(events,"line-ctype-result %lu\n",c.Eax);
         }else if(p->kind==29){
             fprintf(events,"compiler-probe-return eax=%08lx esp=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
             if(c.Esp!=probe_context.Esp+4-probe_context.Eax||c.Eax!=probe_return||c.Ecx!=probe_context.Ecx||c.Ebx!=probe_context.Ebx||c.Esi!=probe_context.Esi||c.Edi!=probe_context.Edi||c.Ebp!=probe_context.Ebp)fail("compiler-probe-return");
@@ -324,6 +347,13 @@ static int trap(HANDLE thread,DWORD address)
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
         if(export_vector)vector_state("frontier");
+        if(address==base+0x10bcf){
+            DWORD state[8];if(!line_file)fail("line-file-checkpoint");readmem(line_file,state,32);hexbytes("line-read-file-state",line_file,32);
+            if(state[0]<state[2]||state[0]-state[2]+state[1]>4096)fail("line-read-file-buffer");
+            hexbytes("line-read-file-buffer",state[2],state[0]-state[2]+state[1]);
+            hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
+            {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
+        }
         if(address==base+0x9041){
             hexbytes("line-input-state",words[4],32);
             fprintf(events,"line-input-args capacity=%lu wide=%lu\n",words[2],words[3]);

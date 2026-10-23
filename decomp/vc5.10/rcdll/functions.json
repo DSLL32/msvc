@@ -19,7 +19,8 @@
     "rc_prepare_input",
     "rc_write_bytes",
     "rc_detect_encoding",
-    "rc_is_text_unicode"
+    "rc_is_text_unicode",
+    "rc_read_wide_line"
   ],
   "functions": [
     {
@@ -410,7 +411,7 @@
       "abi": "stdcall",
       "stack_bytes": 16,
       "kind": "application",
-      "stub": true
+      "stub": false
     },
     {
       "name": "rc_skip_white",

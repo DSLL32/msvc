@@ -74,3 +74,8 @@ build/cpinfo-api-probe.obj: scripts/cpinfo-api-probe.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/cpinfo-api-probe.exe: build/cpinfo-api-probe.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/ctype-api-probe.obj: scripts/ctype-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/ctype-api-probe.exe: build/ctype-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib

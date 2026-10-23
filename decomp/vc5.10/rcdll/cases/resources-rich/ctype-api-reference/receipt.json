@@ -1,0 +1,60 @@
+{
+  "kind": "explicit original API probe; read-only debugger verifies actual loaded provider hFile",
+  "status": 0,
+  "seconds": 0.5197188714519143,
+  "command": [
+    "wine",
+    "/root/.ai-tmp/msvc2/vc5.10/rcdll/ctype-api-probe-01/debug-original.exe",
+    "api-probe",
+    "S:\\vc5.10\\rcdll\\ctype-api-probe-01\\probe.exe",
+    "ranges.txt"
+  ],
+  "wineprefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "wine_override": "msvcrt=n",
+  "files": {
+    "probe.exe": {
+      "bytes": 3584,
+      "sha256": "ebb780c8ad04207b5a3cff475ff09404e8a32e208c41b9b34c916729504d4f0f"
+    },
+    "loaded-crt.bin": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "ranges.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 102544,
+      "sha256": "97f7856b595a34250a0dc89c2a0ca8963a664ff6f509eb88d7014ba7b1cc5aac"
+    },
+    "helper-compiled-source.json": {
+      "bytes": 53237,
+      "sha256": "c0263073caca4318eb6311c959d59382813088335f89beab75c79ebcf5f9f326"
+    },
+    "loaded-driver.bin": {
+      "bytes": 3584,
+      "sha256": "ebb780c8ad04207b5a3cff475ff09404e8a32e208c41b9b34c916729504d4f0f"
+    },
+    "debug-original.exe": {
+      "bytes": 22016,
+      "sha256": "261f607935aa44d6315d49fdce505c487c598a438c4ea0ca3b7f5a5d2dc653b8"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "events.txt": {
+      "bytes": 590,
+      "sha256": "617fa372f30c3920fada1594732820cac77d97963a4c765d06c805706db4d32c"
+    },
+    "MSVCRT.DLL": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "compiled-source.c": {
+      "bytes": 719,
+      "sha256": "d07b60991968d34ec14bea0288c360a1941d6bdf79ac7c9cc9c5538caaaa1c39"
+    }
+  }
+}

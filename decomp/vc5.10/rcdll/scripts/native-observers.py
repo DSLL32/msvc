@@ -118,3 +118,40 @@ class UnicodeEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();UnicodeReturned(frame,int(frame.read_var('flags')));return False
 UnicodeEntered();unicode_path.write_text('[]\n')
+
+locals_path=path.parent/'locals.json'
+local_records=[]
+class LocalReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):self.record=record;super().__init__(frame,internal=True)
+    def stop(self):
+        self.record['result']=int(gdb.parse_and_eval('$eax'))&0xffffffff
+        if self.record['operation']=='allocate':self.record['contents']=bytes(gdb.selected_inferior().read_memory(self.record['result'],self.record['bytes'])).hex()
+        cursor=gdb.parse_and_eval('native_local_memory');live=[]
+        while int(cursor):
+            entry=cursor.dereference();live.append(dict(pointer=int(entry['memory']),bytes=int(entry['requested_size']),flags=int(entry['flags'])));cursor=entry['next']
+        self.record['live']=live
+        local_records.append(self.record);locals_path.write_text(json.dumps(local_records)+'\n');return False
+class LocalEntered(gdb.Breakpoint):
+    def __init__(self,name,operation):self.operation=operation;super().__init__(name,internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_read_wide_line':return False
+        record=dict(operation=self.operation)
+        if self.operation=='allocate':record.update(flags=int(frame.read_var('flags')),bytes=int(frame.read_var('bytes')))
+        else:
+            pointer=int(frame.read_var('memory'));record.update(pointer=pointer,contents=bytes(gdb.selected_inferior().read_memory(pointer,4177)).hex())
+        LocalReturned(frame,record);return False
+LocalEntered('recon_LocalAlloc','allocate');LocalEntered('recon_LocalFree','free');locals_path.write_text('[]\n')
+ctype_path=path.parent/'ctype.json'
+ctype_records=[]
+class CTypeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):self.record=record;super().__init__(frame,internal=True)
+    def stop(self):
+        self.record['result']=int(gdb.parse_and_eval('$eax'));ctype_records.append(self.record);ctype_path.write_text(json.dumps(ctype_records)+'\n');return False
+class CTypeEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('recon_iswctype',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_prepare_input':return False
+        CTypeReturned(frame,dict(character=int(frame.read_var('character')),mask=int(frame.read_var('mask'))));return False
+CTypeEntered();ctype_path.write_text('[]\n')

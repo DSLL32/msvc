@@ -1,0 +1,63 @@
+{
+  "function": "rc_read_wide_line",
+  "original_start": "0x9041",
+  "original_end": "0x91a4",
+  "original_code_bytes": 355,
+  "abi": "stdcall4/ret16",
+  "accepted_application_functions": 15,
+  "accepted_application_bytes": 7281,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 10.982728712572593,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_prefix_equal",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/line-trial-original-03",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/line-trial-native-02",
+  "builds": {
+    "original": {
+      "seconds": 2.239759558811784,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.5677621876820922,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.4178041387349367,
+  "native_gdb_seconds": 0.2527913060039282,
+  "audit_seconds": 0.057628861628472805,
+  "audit_engine_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "negative_controls": 27,
+  "gate_sha256": "a857ba316806f21ac35c490f270fa49e892e498445af26d8656f456f2d52d91d",
+  "graph_audit_record": "audit-0017.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.0037879683077335358,
+      "execution": 0.003795449621975422,
+      "checks": 0.001157555729150772,
+      "total": 0.009382791817188263
+    },
+    "native_sha256": "181e3383ce9ed44b96b3e04abbe974d41c04177a59b2bb23fe50e2473b62cd85",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Exact first UTF16 line, prefix argument and line number0 match.",
+    "LocalAlloc64/4177 complete zeroed buffer,complete post-read4177 buffer and same-owner LocalFree0 match; native registry unlinks free.",
+    "Actual iswctype35/8 returns0; shared support was enabled only after full canonical ASCII4/8 sentinel probe.",
+    "All512meaningful input buffer bytes,consumed21/remaining491 and next capacity4096 match.",
+    "Original debugger hex capture now batches512-byte ReadProcessMemory reads while retaining exactly the same raw hex format; target reconstruction graph/behavior unchanged.",
+    "Rust adapter supports explicit GRAPH_AUDIT_BIN and records actual engine hash; approved72cac89 baseline used."
+  ]
+}

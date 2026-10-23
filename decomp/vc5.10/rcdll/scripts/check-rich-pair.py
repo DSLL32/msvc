@@ -6,9 +6,9 @@ from pathlib import Path
 import shutil
 import tempfile
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode'],default='trial')
-a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line'],default='trial')
+a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -75,6 +75,17 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-reset-file-state','native','snapshot.json',snapshot(lambda v:v['arguments'].update(file_state='00'*32)))
         reject('wrong-original-classification','original','events.txt',lambda p:p.write_text(p.read_text().replace('text-test-result 0','text-test-result 1')))
         reject('wrong-original-cpinfo-error','original','events.txt',lambda p:p.write_text(p.read_text().replace('cpinfo-result 1 last-error=00000000','cpinfo-result 1 last-error=00000001')))
+    if a.stage=='line':
+        reject('wrong-prefix','native','snapshot.json',snapshot(lambda v:v['arguments'].update(prefix='0000')))
+        reject('wrong-first-line','native','snapshot.json',snapshot(lambda v:v['arguments'].update(text='0000')))
+        reject('wrong-line-number','native','snapshot.json',snapshot(lambda v:v['arguments'].update(current_line=1)))
+        reject('wrong-local-ownership','native','snapshot.json',snapshot(lambda v:v['arguments']['locals'][1].update(pointer=0)))
+        reject('wrong-local-zeroing','native','snapshot.json',snapshot(lambda v:v['arguments']['locals'][0].update(contents='5a'*4177)))
+        reject('wrong-line-buffer','native','snapshot.json',snapshot(lambda v:v['arguments']['locals'][1].update(contents='00'*4177)))
+        reject('local-free-not-unlinked','native','snapshot.json',snapshot(lambda v:v['arguments']['locals'][1]['live'].append(dict(pointer=1,bytes=4177,flags=64))))
+        reject('wrong-ctype-result','native','snapshot.json',snapshot(lambda v:v['arguments']['ctype'][0].update(result=8)))
+        reject('wrong-file-position','native','snapshot.json',snapshot(lambda v:v['arguments'].update(file_state='00'*32)))
+        reject('wrong-unread-buffer','native','snapshot.json',snapshot(lambda v:v['arguments'].update(file_buffer='00')))
     reject('wrong-allocation-owner','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(owner=0)))
     reject('wrong-registered-module','native','snapshot.json',snapshot(lambda v:v['module'].update(sha256='0'*64)))
     reject('wrong-codepage','native','snapshot.json',snapshot(lambda v:v['globals'].update(rc_codepage='00000000')))

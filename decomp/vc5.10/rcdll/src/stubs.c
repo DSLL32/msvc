@@ -52,11 +52,6 @@ void __stdcall rc_cleanup(void)
     __asm int 3
 }
 
-int __stdcall rc_read_wide_line(WCHAR *line,unsigned capacity,int wide,FILE *file)
-{
-    __asm int 3
-    return 0;
-}
 WCHAR *__stdcall rc_skip_white(WCHAR *text,int terminate)
 {
     __asm int 3

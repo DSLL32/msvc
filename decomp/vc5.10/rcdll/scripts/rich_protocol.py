@@ -323,3 +323,50 @@ def unicode_trial(original,native):
     assert proof['application_trace'][-1]=='rc_is_text_unicode'
     proof.update(trial='rc_is_text_unicode',classification=dict(result=0,flags=0,encoding=1,next_wide=0),codepage=dict(page_argument=0,max_char_size=1,defined_fields=expected.hex(),padding='each caller retains its own2bytes',errors='preserved'),input_file=dict(remaining=0,buffer_bytes=512,profile='MSVCRT510 fseek resets buffer capacity'))
     return proof
+
+
+def line_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_read_wide_line'and len(config['accepted'])==16
+    a,b,proof=checkpoint(original,native,'rc_prefix_equal',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28765 and a['words'][1]==0x71c2156c and a['words'][2]==a['registers']['ebp']
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_prepare_input\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
+    first_line=source.split(b'\n',1)[0];assert b'\r'not in first_line and b'\t'not in first_line
+    expected=(first_line.decode('ascii')+'\0').encode('utf-16le')
+    assert raw_bytes(text,'line-prefix')==bytes.fromhex(arguments['prefix'])=='rcinclude\0'.encode('utf-16le')
+    assert raw_bytes(text,'line-text')==bytes.fromhex(arguments['text'])==expected
+    assert arguments['current_line']==0 and re.findall(r'^line-current-number (\d+)$',text,re.M)==['0']
+    assert (original/'globals.bin').read_bytes()[0x16ce8-0x14000:0x16ce8-0x14000+4]==b'\0'*4
+    assert re.findall(r'^line-local-allocate (\d+) (\d+)$',text,re.M)==[('64','4177')]
+    assert raw_bytes(text,'line-local-initial')==b'\0'*4177
+    final=first_line+b'\0'*(4177-len(first_line))
+    assert raw_bytes(text,'line-local-final')==final
+    pointers=re.findall(r'^line-local-pointer ([0-9a-f]+)$',text,re.M);assert len(pointers)==1 and int(pointers[0],16)>0
+    assert re.findall(r'^line-local-free-pointer ([0-9a-f]+)$',text,re.M)==pointers
+    assert re.findall(r'^line-local-free-result (\d+)$',text,re.M)==['0']
+    assert arguments['locals']==json.loads((native/'locals.json').read_text())and len(arguments['locals'])==2
+    allocated,freed=arguments['locals']
+    assert allocated['operation']=='allocate'and allocated['flags']==64 and allocated['bytes']==4177 and allocated['result']>0
+    assert bytes.fromhex(allocated['contents'])==b'\0'*4177
+    assert allocated['live']==[dict(pointer=allocated['result'],bytes=4177,flags=64)]
+    assert freed['operation']=='free'and freed['pointer']==allocated['result']and freed['result']==0 and freed['live']==[]
+    assert bytes.fromhex(freed['contents'])==final
+    assert re.findall(r'^line-ctype (\d+) (\d+)$',text,re.M)==[('35','8')]
+    assert re.findall(r'^line-ctype-result (\d+)$',text,re.M)==['0']
+    assert arguments['ctype']==json.loads((native/'ctype.json').read_text())==[dict(character=35,mask=8,result=0)]
+    old=struct.unpack('<8I',raw_bytes(text,'line-read-file-state'));new=struct.unpack('<8I',bytes.fromhex(arguments['file_state']))
+    consumed=len(first_line)+1
+    for state in [old,new]:
+        assert state[0]-state[2]==consumed and state[0]>state[2]>0
+        assert (state[1],state[3],state[5],state[6],state[7])==(512-consumed,9,0,4096,0)and state[4]>=3
+    assert raw_bytes(text,'line-read-file-buffer')==bytes.fromhex(arguments['file_buffer'])==source[:512]
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
+        pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
+        block=next(block for block in blocks if block['payload']+8==pointer)
+        assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    assert proof['application_trace'][-1]=='rc_read_wide_line'
+    proof.update(trial='rc_read_wide_line',first_line=dict(utf16=expected.hex(),input_bytes=consumed,line_number=0),local_allocation=dict(flags=64,bytes=4177,original_pointer=int(pointers[0],16),native_pointer=allocated['result'],freed=True),file=dict(remaining=512-consumed,meaningful_buffer_bytes=512,next_buffer_capacity=4096),ctype=dict(character=35,mask=8,result=0))
+    return proof

@@ -82,6 +82,17 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_prefix_equal':
+            def wide(pointer):
+                result=bytearray()
+                for i in range(4177):
+                    word=bytes(gdb.selected_inferior().read_memory(int(pointer)+2*i,2));result.extend(word)
+                    if word==b'\0\0':return result.hex()
+                raise AssertionError('unterminated native wide string')
+            parent=frame.older();assert parent.name()=='rc_prepare_input'
+            file=parent.read_var('input');state=file.dereference();start=int(state['_base']);size=int(state['_ptr'])-start+int(state['_cnt']);assert 0<size<=4096
+            arguments.update(file_state=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex(),file_buffer=bytes(gdb.selected_inferior().read_memory(start,size)).hex())
+            arguments.update(prefix=wide(frame.read_var('prefix')),text=wide(frame.read_var('text')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),locals=json.loads((output.parent/'locals.json').read_text()),ctype=json.loads((output.parent/'ctype.json').read_text()))
         if name=='rc_read_wide_line':
             file=frame.read_var('file')
             arguments.update(capacity=int(frame.read_var('capacity')),wide=int(frame.read_var('wide')),file_state=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex(),cpinfo=json.loads((output.parent/'cpinfo.json').read_text()),unicode_results=json.loads((output.parent/'unicode-results.json').read_text()))

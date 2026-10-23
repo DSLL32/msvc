@@ -3,13 +3,14 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import time
 from protocol import HERE, ROOT, candidate, sha, normalize_configuration
 from importlib.util import spec_from_file_location,module_from_spec
 
-ENGINE=ROOT/'tooling/graph-audit/target/release/graph-audit'
+ENGINE=Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit')))
 def prepare(config,out):
     config=normalize_configuration(config)
     trial=config.get('trial_function')
@@ -42,7 +43,7 @@ def run(config_path=None,out=None):
     command=[str(ENGINE),'--profile','link','--repo',str(ROOT),'--project',str(HERE),'--original',str(ROOT/'toolchains/5.10/bin/RCDLL.DLL'),'--rebuilt',str(HERE/'build/RCDLL.DLL'),'--map',str(HERE/'build/rcdll.map'),'--config',str(out/'graph-input.json'),'--runtime',str(out/'original-runtime.json'),'--rebuilt-runtime',str(out/'rebuilt-runtime.json'),'--metadata',str(out/'graph-metadata.json'),'--discovery','cfg','--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
     started=time.perf_counter();p=subprocess.run(command,capture_output=True,text=True);elapsed=time.perf_counter()-started
     (out/'graph-audit.stdout').write_text(p.stdout);(out/'graph-audit.stderr').write_text(p.stderr)
-    receipt=dict(command=command,status=p.returncode,elapsed_seconds=elapsed,functions=accepted,input_sha256=sha(config_path),candidate=candidate())
+    receipt=dict(engine_sha256=sha(ENGINE),command=command,status=p.returncode,elapsed_seconds=elapsed,functions=accepted,input_sha256=sha(config_path),candidate=candidate())
     if not p.returncode:
         report=json.loads(p.stdout)
         assert report['checked_functions']==len(accepted),'prefix-only audit omitted trial'
