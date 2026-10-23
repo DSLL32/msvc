@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "d2edbcd3da5260d334b3b7ba2f58596eedae4a6c9f693cdeafc3f904f12868ba",
+    "functions.json": "06712164218d510cdf18fbcb0684a576de04a463c025cfc7fa8a6c7cd735cfae",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "9f9e645dfc8f1617333fbaed83fb344b6c59fc7afe58c0fa3f8b45827ab49c21",
-    "cases/canonical-map.txt": "8967e3b97713e7086640c1dc90f76cb3264fa7ab44a5f41919291a315e40c648",
+    "cases/original-entry-references.json": "e206bd67b5a78c6938734ac81fac50ae14be6b69cc52531c6f92b3d9986bb25b",
+    "cases/canonical-map.txt": "56918c600cb1627b3b7c7ebc85b8c574fccd373defd5ff282eb6a6b5182db2a9",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/entry-reference/original-receipt.json": "7452edbbd8e9117a7e6e4c7494b2f899fcd7083f8f8ae400294d1b34b24cc4d6",
-    "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/entry-reference/original-events.txt": "3ad57d2a57bb1ba96ef814bc104561acaa55775a39ab34eb2dbc1d25b033375a",
-    "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/entry-reference/original-entries.plan": "29714b45ec8d4918aa52e8af2b6719fef3c27dfe44fdb62cbe9aa7c9fe98600a"
+    "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/entry-reference/original-receipt.json": "512403a4cf229d4ef00cca673b11d8c27b71b6ced41989d6450078a6d23e5472",
+    "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/entry-reference/original-events.txt": "a3ac5a3281118d00c73464d65e2defeee793c73b5318c237f3f09538dafd7103",
+    "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/entry-reference/original-entries.plan": "20b5414d90742600150193afdcf2dfeba134ab4ed3a8b68f3794071d8fc8371f"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1853,6 +1853,10 @@
       "logical": "_encode_literal_segment@12",
       "source": "src/literals.c"
     },
+    "encode_string_literal_name": {
+      "logical": "_encode_string_literal_name@16",
+      "source": "src/stubs.c"
+    },
     "encode_type_name": {
       "logical": "_encode_type_name@4",
       "source": "src/mangling.c"
@@ -3531,7 +3535,7 @@
     },
     "mangle_string_literal": {
       "logical": "_mangle_string_literal@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_symbol_encoding": {
       "logical": "_mangle_symbol_encoding@16",
@@ -6706,7 +6710,8 @@
     "decode_literal_escape",
     "concatenate_strings",
     "record_string_literal",
-    "materialize_string_literal"
+    "materialize_string_literal",
+    "mangle_string_literal"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10819,7 +10824,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1135,
+      "last": 1136,
       "seen": [
         "main",
         "message_text",
@@ -11863,12 +11868,13 @@
         "concatenate_strings",
         "record_string_literal",
         "materialize_string_literal",
-        "mangle_string_literal"
+        "mangle_string_literal",
+        "encode_string_literal_name"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_mangle_string_literal@8",
-        "native": "mangle_string_literal",
+        "logical": "_encode_string_literal_name@16",
+        "native": "encode_string_literal_name",
         "signal": 5
       }
     }

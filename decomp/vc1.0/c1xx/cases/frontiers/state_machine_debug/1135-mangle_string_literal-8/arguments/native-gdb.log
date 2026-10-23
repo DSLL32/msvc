@@ -1,0 +1,20 @@
+Breakpoint 1 at 0x50cad: file src/mangling.c, line 26.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, mangle_string_literal (literal=0x56637820, wide=0) at src/mangling.c:26
+26	    mangle_name_only = 0;
+#0  mangle_string_literal (literal=0x56637820, wide=0) at src/mangling.c:26
+#1  0x56597212 in materialize_string_literal (token=0x56637814) at src/literals.c:25
+#2  0x565aba2c in emit_expression_tree (expression=0x56637814) at src/expression-output.c:33
+#3  0x565ac127 in emit_expression_tree (expression=0x56637848) at src/expression-output.c:105
+#4  0x565ac151 in emit_expression_tree (expression=0x56637870) at src/expression-output.c:109
+#5  0x565ac288 in emit_expression_statement (expression=0x56637870) at src/expression-output.c:127
+#6  0x56586939 in initialize_lvalue (target=0x5663785c, value=0x56637870) at src/constructor-initializers.c:426
+#7  0x565926bb in emit_initializer_assignment (target=0x56637834, value=0x56637814) at src/object-initializers.c:421
+#8  0x56592103 in initialize_object_value (symbol=0x5664dda8, value=0x56637814) at src/object-initializers.c:303
+#9  0x56591e9e in initialize_object (symbol=0x5664dda8, value=0x56637814) at src/object-initializers.c:255
+#10 0x565b6029 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#11 0x5655dfff in compile_translation_unit () at src/frontend.c:73
+#12 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

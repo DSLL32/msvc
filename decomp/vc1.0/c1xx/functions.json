@@ -1139,7 +1139,8 @@
     "_decode_literal_escape@8",
     "_concatenate_strings@8",
     "_record_string_literal@4",
-    "_materialize_string_literal@4"
+    "_materialize_string_literal@4",
+    "_mangle_string_literal@8"
   ],
   "driver": [
     {
@@ -8281,12 +8282,17 @@
     {
       "name": "_mangle_string_literal@8",
       "start": 273056,
-      "end": 273057
+      "end": 273166
     },
     {
       "name": "_make_string_literal_object@12",
       "start": 379296,
       "end": 379297
+    },
+    {
+      "name": "_encode_string_literal_name@16",
+      "start": 279376,
+      "end": 279377
     }
   ],
   "cases": {
@@ -8487,7 +8493,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_mangle_string_literal@8",
+      "terminal": "_encode_string_literal_name@16",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8510,7 +8516,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8650,7 +8656,8 @@
         "cases/frontiers/state_machine_debug/1131-decode_literal_escape-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1132-concatenate_strings-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1133-record_string_literal-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1135-mangle_string_literal-8/frontier-extension.json"
       ]
     }
   },

@@ -15,6 +15,28 @@ unsigned mangle_error_sequence; /* original 0xa0a70 */
 typedef char DecoratedWorkspaceSizeMustBe992[
     (sizeof(decorated_name_workspace) == 992) ? 1 : -1];
 
+char *__stdcall encode_string_literal_name(char *cursor, unsigned char *text,
+    unsigned bytes, int wide);
+
+/* Original 0x42aa0..0x42b0e. String names use the same decoration
+   workspace and reset the same contextual reference caches as symbol names. */
+char *__stdcall mangle_string_literal(ParserValue *literal, int wide)
+{
+    char *end;
+    mangle_name_only = 0;
+    decorated_type_count = 0;
+    decorated_name_count = 0;
+    end = encode_string_literal_name(decorated_name_workspace,
+        (unsigned char *)literal->string.text, literal->string.length, wide);
+    if (!end) return 0;
+    if (end - decorated_name_workspace > DECORATED_NAME_LIMIT) {
+        fatal_error(66);
+        end = decorated_name_workspace + DECORATED_NAME_LIMIT;
+    }
+    *end = 0;
+    return decorated_name_workspace;
+}
+
 /* Original 0x442b0..0x442e5, stdcall 8. Tag type encodings end with
    a separate @ after the identifier and any enclosing scopes. */
 char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag)

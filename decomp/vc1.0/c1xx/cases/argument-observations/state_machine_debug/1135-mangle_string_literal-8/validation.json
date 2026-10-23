@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_mangle_string_literal@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1135,
+  "configuration_sha256": "e7e6ad7cf01a5b50810a19d2ee9ffe775da1257fa7ad7b9369e9e71fddc1faa0",
+  "native_entry": "mangle_string_literal",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "literal",
+      "stack_index": 0,
+      "native_field": "raw_literal",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 314337,
+        "original_owner_function": "_materialize_string_literal@4",
+        "native_owner_function": "materialize_string_literal",
+        "native_owner_field": "caller_literal",
+        "native_owner_local": "literal",
+        "identity": "Actual materializer ESIactualtoken, wideflagpush5cbd2/5cbd6, LEAEAX[ESI+12]5cbd8/PUSHEAX5cbdb/CALL5cbdc return5cbe1. Native actual literal local points to same typedembeddedParserValue, notinventedowner/staticprojection.",
+        "original_owner_value": 8364632,
+        "native_owner_value": 1449359392
+      },
+      "original_raw": 8364632,
+      "native_raw": 1449359392,
+      "result": "match"
+    },
+    {
+      "name": "wide",
+      "stack_index": 1,
+      "native_field": "raw_wide",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      273056,
+      273166
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole110B/no savedregisterframe:literalESP+4,wideESP+8,RET8/EAXnullableworkspacepointer. Resetsharedmangle_name_only98044/decorated_type_count97c30/decorated_name_count98040, pass actual literaltext/WORDlength to encode_string_literal_name44350..44451/RET16(cursor,text,bytes,wide). NULLpropagates; signedworkspaceenddistance>247 fatal66thenclip247,writeNULreturnexistingdecorated_name_workspace. No newdata/hiddenregisterinputs/unknownresult, exactsharedworkspaceownerreused.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "27a7499dfcaea32c57e5693b697d7b4bd9c198fbe315783728c273a64b39413d",
+  "capture_timing": {
+    "original_capture_seconds": 0.9171573212370276,
+    "native_capture_seconds": 0.19007891695946455,
+    "total_operation_seconds": 1.4097594572231174
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "347e36c78549bb19122a910859c1d12f9aab5d429ba612603db2f4b4d104d175",
+    "native-commands.gdb": "58b7e3e4d169b81da2fe85c67b2aed805b0607e8708e3b7488a2a7229f9c5526",
+    "native-gdb.log": "309940df6e033baa8febeef55daa8a5a3a7dafc85869fb665ed26beb3448c16a",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "df3a3c9da8e33e25e880f9f69a2f4e75c32a3beb3170f93c2f399839542e4922",
+    "original-configuration.json": "e7e6ad7cf01a5b50810a19d2ee9ffe775da1257fa7ad7b9369e9e71fddc1faa0",
+    "original-disassembly.txt": "06c683985d0cfab3b39be57921b90c6c87f30ab4e06522592b1e611e942f47cc",
+    "original-entries.plan": "72e62bd7e6fb78bd27345b6f9e5188f7952834cfb2e7abe13d98feea280d3af7",
+    "original-events.txt": "2e23a48c8af9d35b8d32e5a3ea555a811a7a7f05a8595685d65d71274ac5bdaa",
+    "original-ownership-caller-disassembly.txt": "8c620fd92b8ce5e9481aec14a2d7cc9a5178288973fdc5aa7395b485e8de741e",
+    "original-receipt.json": "b7c0cf5a78cfea2b515b8918b8451c48abd730c98baf61e8ed0d207e6a8d60a2",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d76f7d1c70641040a0ce3fc84b961b3aef90f7522e2b161dd3d2f52c9ff7d274"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
