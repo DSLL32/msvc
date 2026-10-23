@@ -1,0 +1,7 @@
+{
+  "scope": "Explicit module hash/RVA/size/native writable mainELF span registration; exact-base zero-size image-backed flush only",
+  "native_build_checks_seconds": {
+    "gcc": 2.0247926395386457,
+    "clang": 2.4793829461559653
+  }
+}

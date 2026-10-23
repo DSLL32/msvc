@@ -214,6 +214,10 @@ int recon_host_path(const char *,char *,size_t);
 void recon_unsupported(const char *);
 
 int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);
+typedef struct ReconModuleMemorySpec {
+ const char *sha256; DWORD original_rva,size;
+} ReconModuleMemorySpec;
+void recon_register_module_memory(HMODULE,const ReconModuleMemorySpec *,void *,size_t);
 void recon_load_module_resources(HMODULE,const char *);
 void recon_load_system_profile(const char *,const char *);
 

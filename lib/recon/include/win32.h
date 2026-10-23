@@ -200,6 +200,11 @@ typedef struct { DWORD VirtualAddress,SizeOfBlock; } IMAGE_BASE_RELOCATION;
 typedef struct { DWORD Characteristics,TimeDateStamp; WORD MajorVersion,MinorVersion,NumberOfNamedEntries,NumberOfIdEntries; } IMAGE_RESOURCE_DIRECTORY;
 typedef struct { DWORD Name,OffsetToData; } IMAGE_RESOURCE_DIRECTORY_ENTRY;
 typedef struct { DWORD OffsetToData,Size,CodePage,Reserved; } IMAGE_RESOURCE_DATA_ENTRY;
+typedef struct _IMAGE_EXPORT_DIRECTORY {
+ DWORD Characteristics,TimeDateStamp; WORD MajorVersion,MinorVersion;
+ DWORD Name,Base,NumberOfFunctions,NumberOfNames;
+ DWORD AddressOfFunctions,AddressOfNames,AddressOfNameOrdinals;
+} IMAGE_EXPORT_DIRECTORY,*PIMAGE_EXPORT_DIRECTORY;
 typedef struct { DWORD Characteristics,TimeDateStamp; WORD MajorVersion,MinorVersion; DWORD Type,SizeOfData,AddressOfRawData,PointerToRawData; } IMAGE_DEBUG_DIRECTORY;
 typedef struct { DWORD Characteristics,TimeDateStamp,ForwarderChain,Name,FirstThunk; } IMAGE_IMPORT_DESCRIPTOR;
 typedef struct { DWORD NumberOfSymbols,LvaToFirstSymbol,NumberOfLinenumbers,LvaToFirstLinenumber,RvaToFirstByteOfCode,RvaToLastByteOfCode,RvaToFirstByteOfData,RvaToLastByteOfData; } IMAGE_COFF_SYMBOLS_HEADER;

@@ -10,6 +10,7 @@
 #include <locale.h>
 #include <wctype.h>
 #include <sys/ioctl.h>
+#include <link.h>
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
 static DWORD last_error;
@@ -96,6 +97,52 @@ BOOL WINAPI recon_DisableThreadLibraryCalls(HMODULE handle)
     if (!module) { last_error=ERROR_MOD_NOT_FOUND; return FALSE; }
     module->thread_calls_disabled=TRUE;
     return TRUE;
+}
+
+/* Proven module data may live in a private native image segment rather than
+ * a mapped output file. Metadata is supplied outside the target graph. */
+typedef struct NativeModuleMemory {
+    NativeModule *module; void *address; DWORD original_rva,size;
+} NativeModuleMemory;
+static NativeModuleMemory native_module_memory[32];
+static unsigned module_memory_count;
+typedef struct NativeImageSpan { uintptr_t begin,end; int found; } NativeImageSpan;
+static int writable_image_span(struct dl_phdr_info *info,size_t size,void *context)
+{
+    NativeImageSpan *span=context; unsigned n; (void)size;
+    if (info->dlpi_name && *info->dlpi_name) return 0;
+    for (n=0;n<info->dlpi_phnum;++n) {
+        const ElfW(Phdr) *header=info->dlpi_phdr+n;
+        uintptr_t begin=(uintptr_t)info->dlpi_addr+header->p_vaddr;
+        if (header->p_type==PT_LOAD && (header->p_flags&PF_W) &&
+            span->begin>=begin && span->end>=span->begin &&
+            span->end-begin<=header->p_memsz) { span->found=1; return 1; }
+    }
+    return 0;
+}
+void recon_register_module_memory(HMODULE handle,const ReconModuleMemorySpec *proof,void *address,size_t bytes)
+{
+    NativeModule *module=recon_registered_module(handle); NativeImageSpan span;
+    NativeModuleMemory *entry; unsigned n; int saved_errno=errno; DWORD saved_error=last_error;
+    if (!module || !proof || !proof->sha256 || strcmp(module->sha256,proof->sha256) ||
+        !proof->original_rva || !proof->size || proof->size!=bytes ||
+        proof->original_rva>0xffffffffUL-proof->size || !address ||
+        (uintptr_t)address>UINTPTR_MAX-bytes || module_memory_count==32)
+        recon_unsupported("module memory proof identity/extent");
+    span.begin=(uintptr_t)address; span.end=span.begin+bytes; span.found=0;
+    dl_iterate_phdr(writable_image_span,&span);
+    if (!span.found) recon_unsupported("module memory is not writable main image");
+    for (n=0;n<module_memory_count;++n) {
+        entry=native_module_memory+n;
+        if (span.begin<(uintptr_t)entry->address+entry->size && span.end>(uintptr_t)entry->address)
+            recon_unsupported("module memory overlapping owner");
+        if (entry->module==module && proof->original_rva<entry->original_rva+entry->size &&
+            proof->original_rva+proof->size>entry->original_rva)
+            recon_unsupported("module memory overlapping original range");
+    }
+    entry=native_module_memory+module_memory_count++;
+    entry->module=module; entry->address=address; entry->original_rva=proof->original_rva; entry->size=bytes;
+    errno=saved_errno; last_error=saved_error;
 }
 
 /* Entries are supplied by a verified host adapter, never read from a PE here. */
@@ -520,10 +567,16 @@ LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD lo
 }
 BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
 {
-    View *view; int saved_errno=errno; DWORD saved_error=last_error;
+    View *view; unsigned n; int saved_errno=errno; DWORD saved_error=last_error;
     if (bytes) recon_unsupported("FlushViewOfFile whole view only");
     for (view=views;view && view->address!=address;view=view->next) ;
-    if (!view || msync(view->address,view->length,MS_SYNC))
+    if (!view) {
+        for (n=0;n<module_memory_count;++n) if (native_module_memory[n].address==address) {
+            errno=saved_errno; last_error=saved_error; return TRUE;
+        }
+        recon_unsupported("FlushViewOfFile unregistered image/view");
+    }
+    if (msync(view->address,view->length,MS_SYNC))
         recon_unsupported("FlushViewOfFile registered success");
     errno=saved_errno; last_error=saved_error; return TRUE;
 }

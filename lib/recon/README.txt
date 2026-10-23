@@ -465,3 +465,13 @@ explicitly unsupported; physical allocator capacity is not target-owned data.
 The same verified CP0/SBCS ASCII scope supports _mbsdec(start,current): return
 current-1 (including a leading NUL sentinel), or NULL at/before start. Preserve
 errors and reject null/non-ASCII/unknown-state inputs rather than guessing DBCS.
+
+A verified host can register encountered module data through
+ReconModuleMemorySpec {sha256,original_rva,size} and recon_register_module_memory
+(module,proof,native_base,native_size). Registration checks module identity, exact
+extent, nonoverlap and main ELF writable PT_LOAD membership. It lives outside
+the target graph and is bound to original .data/source evidence in the receipt.
+FlushViewOfFile accepts only the exact registered base with zero size, preserving
+observed errors without persisting private image memory. Other image pointers
+remain unsupported. This reproduces LINK's actual successful global-record flush;
+its earlier static invalid-address prediction was superseded by real evidence.
