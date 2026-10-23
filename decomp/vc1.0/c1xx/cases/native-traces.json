@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "8307a48a9831afaf83baf3ec7cce1e495991fe1d578b4d5890287a98f20de6da",
+    "functions.json": "c66b643e8e1a183c4f0698662a0b9649bcd763a07fad45d43f333e49f480dfee",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "e92e62973797a21a188d3d62433c202e53a94c050c86169c210f366b1abaa0fb",
-    "cases/canonical-map.txt": "7b683a7cdf07ab75b358e3b3287afe00e4fd786c0b96e515cd917288dccd404a",
+    "cases/original-entry-references.json": "df972421fd1666a3b863ed6964ef0106b87c9a6826aa86e56dc1c970141b718b",
+    "cases/canonical-map.txt": "114b12d3ebbc3526f083362ab0eae2fde90aa0a8566519408610b5724f82b647",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -31,9 +31,9 @@
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d",
-    "cases/frontiers/new_delete/0982-select_allocation_function-8/entry-reference/original-receipt.json": "0abf44563585539ebae2c7c97c1a658585ec8a7864fa92141b07eb039e4825b9",
-    "cases/frontiers/new_delete/0982-select_allocation_function-8/entry-reference/original-events.txt": "3a6ff468accfc50edb8597a407c641c2f51bd903648d97ce62ce02e813beb42e",
-    "cases/frontiers/new_delete/0982-select_allocation_function-8/entry-reference/original-entries.plan": "2347e4de2cdb888c9d67ac424ad262d95d994177ad40ce00b969ca0d8c1e3ee2"
+    "cases/frontiers/new_delete/0983-detach_new_array_bound-4/entry-reference/original-receipt.json": "86a28e94b035631e268fdc35c9fac8d25b7830d4a613142b400b3e39d3084463",
+    "cases/frontiers/new_delete/0983-detach_new_array_bound-4/entry-reference/original-events.txt": "438165b2e277763d334251c20b47c2ff9528d3f38e2e523543d41ff7f0c1ae97",
+    "cases/frontiers/new_delete/0983-detach_new_array_bound-4/entry-reference/original-entries.plan": "b1d7ecd41d1b9ab186be43e4d0d5bb8c2a2d5b83928cc96257795e6930cea3f3"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1430,7 +1430,7 @@
     },
     "detach_new_array_bound": {
       "logical": "_detach_new_array_bound@4",
-      "source": "src/stubs.c"
+      "source": "src/parser-state.c"
     },
     "diagnose_overload_failure": {
       "logical": "_diagnose_overload_failure@12",
@@ -6114,7 +6114,8 @@
     "transform_function_parameters",
     "mark_static_parameters",
     "diagnose_parameter_list_difference",
-    "select_allocation_function"
+    "select_allocation_function",
+    "detach_new_array_bound"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -9310,7 +9311,7 @@
     },
     "new_delete": {
       "first": 963,
-      "last": 983,
+      "last": 984,
       "seen": [
         "main",
         "message_text",
@@ -10203,12 +10204,13 @@
         "mark_static_parameters",
         "diagnose_parameter_list_difference",
         "select_allocation_function",
-        "detach_new_array_bound"
+        "detach_new_array_bound",
+        "last_type_shape"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_detach_new_array_bound@4",
-        "native": "detach_new_array_bound",
+        "logical": "_last_type_shape@4",
+        "native": "last_type_shape",
         "signal": 5
       }
     }

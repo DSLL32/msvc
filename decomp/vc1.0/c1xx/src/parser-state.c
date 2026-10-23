@@ -1,6 +1,7 @@
 /* Shared yacc state and its observed macro-workspace boundary aliases. */
 #include "parser.h"
 #include "parameter-scopes.h"
+#include "class-members.h"
 #include <recon.h>
 
 ParserStackStorage parser_stacks; /* original 0x94e44..0x956e4 */
@@ -93,4 +94,15 @@ void __stdcall finish_external_definition(int recovering)
     declaration_spec_flags[0] &= ~3;
     deferred_declarations[0] = 0;
     if (cpp_parser_flags & 8) flush_scanned_declaration(0);
+}
+
+/* Original 0x26710..0x2674d. The outermost new-array bound is
+   transported separately from the declarator's otherwise shared shape chain. */
+void __stdcall detach_new_array_bound(CppSymbol *type)
+{
+    TypeShape *shape = last_type_shape(type->type->related);
+    if (shape && (shape->flags & 0x1000)) {
+        new_array_bound = shape->data.word;
+        shape->data.word = 0;
+    } else new_array_bound = 0;
 }

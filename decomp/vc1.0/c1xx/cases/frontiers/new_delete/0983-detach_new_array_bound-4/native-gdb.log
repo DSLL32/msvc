@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559d88 in last_type_shape (shape=0x0) at src/stubs.c:328
+328	TypeShape *__stdcall last_type_shape(TypeShape *shape) { __asm { int 3 } return 0; }
+#0  0x56559d88 in last_type_shape (shape=0x0) at src/stubs.c:328
+#1  0x5656d6ca in detach_new_array_bound (type=0x566251b8) at src/parser-state.c:103
+#2  0x565adc09 in parse_translation_unit () at src/parser-allocation-actions.inc:62
+#3  0x5655e28f in compile_translation_unit () at src/frontend.c:73
+#4  0x56558886 in guarded_compile () at src/c1xx.c:28
+#5  0x56558854 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

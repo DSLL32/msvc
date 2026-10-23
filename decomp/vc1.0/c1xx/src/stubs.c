@@ -167,7 +167,7 @@ void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { 
 void __stdcall declare_nctag(char *name) { __asm { int 3 } }
 void __stdcall define_named_label(char *name) { __asm { int 3 } }
 IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expression, IrToken *bound, int is_array) { __asm { int 3 } return 0; }
-void __stdcall detach_new_array_bound(CppSymbol *type) { __asm { int 3 } }
+
 int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
