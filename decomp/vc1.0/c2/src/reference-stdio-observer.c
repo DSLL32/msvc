@@ -263,6 +263,14 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         }
         dump_bytes(process,"omf_directive_text_hex",text,bytes);
     }
+    if(!strcmp(call->name,"@omf_intern_name@8")) {
+        sprintf(line,"omf_name pointer %08lx output %08lx entry_sp %08lx next_index %lu\n",
+            call->args[0],call->args[1],context->Esp,read_word(process,image_base+0x75084));log_line(line);
+        dump_bytes(process,"omf_name_hex",call->args[0],string_bytes(process,call->args[0]));
+        dump_bytes(process,"omf_name_buckets_hex",image_base+0x6b890,16*4);
+        /* The caller's four-byte index local is write-only at this boundary.
+           Its prior uninitialized bytes are neither read nor compared. */
+    }
     if(!strcmp(call->name,"@omf_flush_record_type@4") ||
        !strcmp(call->name,"@omf_find_record@8") ||
        !strcmp(call->name,"@omf_allocate_record@8") ||

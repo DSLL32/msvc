@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x409c: file src/stubs.c, line 111.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_intern_name (name=0x565f47cd "", index=0xffffdafc) at src/stubs.c:111
+111	int __fastcall omf_intern_name(char *name, unsigned *index) { __asm int 3 }
+C2_OMF_NAME {"pointer": 1449084877, "output": 4294957820, "output_owner": 4294957820, "output_bytes": 4, "caller": "omf_name_index", "name_hex": "00", "next_index": 1, "buckets": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "column": 4294967295, "cw": 639, "sw": 0, "stdout": {"flags": 2, "count": 0, "fd": 1, "size": 0, "null": 1, "used": 0, "buffer_hex": ""}}

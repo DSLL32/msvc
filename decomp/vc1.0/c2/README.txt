@@ -547,3 +547,15 @@ shape proof under child mocks, no huge-copy execution claim. All15 native cases
 pass (14 complete), original graph/extent/ABI/data pass; next omf_name_index6a940.
 340337/399693 accepted extent bytes; app/support322037B and1151functions exclude5
 historical CRT bodies. Full timing/scope: cases/omf-directive-comment-checkpoint.json.
+
+Checkpoint1268 adds49-byte name-index wrapper and191-byte name interner.72+268
+whole original/canonical controls and6+10 actual ABI negatives pass. The actual
+empty name and4-byte write-only destination have proved caller-local ownership
+(original child entryESP+8, native &caller.index); prior uninitialized bytes are
+not read/dumped/seeded.16 typed BSS buckets and PE next-name1 match. Contextual
+12-byte name/index/next nodes preserve arena7 allocation/string copy, first-five-
+signed-byte hash, all16 buckets, chain/prefix equality, index wrap and post-child
+state reload. Old nodes/strings and output guards are checked. Original/W3 and
+full graph/extent/ABI/data pass;15 native cases pass (14 complete). Next segment
+definition6a890.340577/399693 accepted extent bytes; app/support322277B and1153
+functions exclude5 historical CRT bodies. Timings/scope: cases/omf-name-interner-checkpoint.json.

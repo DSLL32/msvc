@@ -1431,6 +1431,6 @@
       }
     }
   ],
-  "seconds": 1.501155560836196,
+  "seconds": 2.164525135420263,
   "scope": "Whole151-byte original serializer model: little-endian16 length,8-bit checksum, field counts/cursor/reset, all other pool bytes retained, exact fwrite size1/count/data/object_file pointer; bounded short-write stops at actual typed diagnostic55 and negative capacity at520, neither error is mocked as returning. Degenerate used0..2 are control observations, not actual valid frontend records. Actual THEADR15 bytes independently match frozen original object; native public FILE acceptance still separately required."
 }

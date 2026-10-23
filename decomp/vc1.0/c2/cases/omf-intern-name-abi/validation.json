@@ -1,0 +1,138 @@
+{
+  "matched": true,
+  "function": "@omf_intern_name@8",
+  "formals": [
+    {
+      "name": "name",
+      "location": "ECX",
+      "type": "char pointer",
+      "original": 525588,
+      "native": 1449084877
+    },
+    {
+      "name": "index",
+      "location": "EDX",
+      "type": "unsigned32 output pointer",
+      "original": 2752168,
+      "native": 4294957820
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6c540..6c5ff consumes ECX name and EDX4-byte output pointer, RET0; savedGPRs assigned internally, no incoming stack/x87/flags/extra registers or hidden pointer. Both successful returns write index before returning. Caller6a940 owns original output at entryESP+8, native pointer aliases live caller omf_name_index.index local sizeof4. Prior uninitialized output bytes are write-only and not read/seeded.",
+  "original": {
+    "pointer": 525588,
+    "output": 2752168,
+    "entry_sp": 2752160,
+    "next_index": 1,
+    "name_hex": "00",
+    "buckets": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "native": {
+    "pointer": 1449084877,
+    "output": 4294957820,
+    "output_owner": 4294957820,
+    "output_bytes": 4,
+    "caller": "omf_name_index",
+    "name_hex": "00",
+    "next_index": 1,
+    "buckets": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "stdout": {
+      "flags": 2,
+      "count": 0,
+      "fd": 1,
+      "size": 0,
+      "null": 1,
+      "used": 0,
+      "buffer_hex": ""
+    }
+  },
+  "output_contract": {
+    "bytes": 4,
+    "direction": "write-only",
+    "prior_bytes": "uninitialized, not input, not observed or seeded",
+    "original_owner": "omf_name_index local at interner entryESP+8",
+    "native_owner": "&omf_name_index.index",
+    "writes_before_each_return": [
+      "0x6c5e7",
+      "0x6c5f3"
+    ]
+  },
+  "binding": {
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+    "config_sha256": "35d099ce245989c10372e711263793ae57af254a051a794b8db42067fe255bcd",
+    "observer_source_sha256": "76e11d03400431875f330a7efa36066ee76ca423854068fe966e6bf0c197be5e",
+    "observer_sha256": "7465a25f050b62da8b1c26b8d9c5fcaad4d7ddbb375d6ba903c7ee5fbcddb0e0",
+    "files": {
+      "entry-plan.txt": "2ad66d881471bfc4d317be10a5e1c908ae8f56580919cf10f250871cb8250269",
+      "original.txt": "b0848c5040a51ea1a1c7c8f1b1c65f0b67b024fe87920206be2701fc6f93685a",
+      "original.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.events": "f4f27d76298d2b4e0ce9c4ee04b31856643da228a89521dc7729010ae8a5ff45",
+      "observer.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observer.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "original_state": {
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "fastcall": 1
+  },
+  "original_stdout": {
+    "flags": 2,
+    "count": 0,
+    "fd": 1,
+    "size": 0,
+    "null": 1,
+    "used": 0,
+    "position": 0,
+    "counter": 0,
+    "cursor": 0,
+    "value": 0,
+    "buffer_hex": ""
+  },
+  "native_executable_sha256": "b3902a94cd24640f85324aef3f2d63665842e4f90616df4585c36be1c4adb16e",
+  "original_execution_seconds": 1.6734683457762003,
+  "native_debug_seconds": 0.15951576828956604,
+  "total_seconds": 2.1049389857798815,
+  "scope": "Actual empty NUL name/output-address ownership,16 contextual null buckets and PE-initialized next index1. No uninitialized stack dump, child allocation behavior, nonempty/reuse chain or output-after-body claim."
+}

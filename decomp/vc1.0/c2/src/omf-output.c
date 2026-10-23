@@ -22,6 +22,17 @@ void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count)
 void __fastcall omf_write_record(OmfRecord *record);
 void omf_write_fixups(void);
 void __fastcall omf_write_comment(unsigned char kind, char *text);
+int __fastcall omf_intern_name(char *name, unsigned *index);
+/* Original name interner: hash first five signed bytes into16 buckets.
+   Nodes allocated at6c5ad have name/index/next at0/4/8 and size12. */
+typedef struct OmfName {
+    char *name;
+    unsigned index;
+    struct OmfName *next;
+} OmfName;
+typedef char OmfNameSizeCheck[sizeof(OmfName) == 12 ? 1 : -1];
+OmfName *omf_name_buckets[16]; /* 0007b890..0007b8d0, original BSS */
+unsigned omf_next_name = 1; /* 00085084, original PE initializer */
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -521,4 +532,43 @@ void __fastcall omf_write_comment(unsigned char kind, char *text)
     end = text;
     while (*end++) ;
     omf_append_bytes(record, text, (unsigned)(end - text) - 1);
+}
+/* Original [0006a940,0006a971). The interner always writes the returned
+   index; only a newly assigned name is appended to an LNAMES record. */
+unsigned __fastcall omf_name_index(char *name)
+{
+    unsigned index;
+    OmfRecord *record;
+    if (!omf_intern_name(name, &index)) {
+        record = omf_begin_record(0x96, NULL);
+        omf_append_string(record, name);
+    }
+    return index;
+}
+/* Original [0006c540,0006c5ff). Equality is inlined in the original;
+   keep the byte comparison here rather than adding a strcmp call edge. */
+int __fastcall omf_intern_name(char *name, unsigned *index)
+{
+    int hash = 0;
+    unsigned i;
+    OmfName **bucket, *entry;
+    unsigned char *left, *right;
+    for (i = 0; i < 5 && name[i]; ++i) hash += (signed char)name[i];
+    bucket = &omf_name_buckets[hash & 15];
+    for (entry = *bucket; entry; entry = entry->next) {
+        left = (unsigned char *)name;
+        right = (unsigned char *)entry->name;
+        while (*left == *right && *left) { ++left; ++right; }
+        if (*left == *right) {
+            *index = entry->index;
+            return 1;
+        }
+    }
+    entry = arena_alloc(7, sizeof(*entry));
+    entry->name = arena_strdup(name, 7);
+    entry->index = omf_next_name++;
+    entry->next = *bucket;
+    *bucket = entry;
+    *index = entry->index;
+    return 0;
 }

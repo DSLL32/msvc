@@ -1270,7 +1270,9 @@
     "@omf_flush_record@4",
     "@omf_write_record@4",
     "@omf_output_record@4",
-    "@omf_write_comment@8"
+    "@omf_write_comment@8",
+    "@omf_name_index@4",
+    "@omf_intern_name@8"
   ],
   "driver": [
     {
@@ -8514,8 +8516,21 @@
     {
       "name": "@omf_name_index@4",
       "start": 436544,
-      "end": 436545,
-      "provisional": true
+      "end": 436593,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "name",
+            "location": "ECX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-name-index-abi/validation.json",
+        "scope": "Actual nonnull empty NUL string observed; index destination is a local write-only child output, not an incoming formal or seed."
+      }
     },
     {
       "name": "@omf_write_segment_definition@4",
@@ -8800,6 +8815,30 @@
         "callee_stack_cleanup": 0,
         "entry_observation": "cases/omf-write-comment-abi/validation.json",
         "scope": "Actual lowCL classDF, full20-byte user string+NUL and current module-directive text owner observed; no other incoming ABI inputs."
+      }
+    },
+    {
+      "name": "@omf_intern_name@8",
+      "start": 443712,
+      "end": 443903,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "name",
+            "location": "ECX",
+            "type": "char pointer"
+          },
+          {
+            "name": "index",
+            "location": "EDX",
+            "type": "unsigned32 output pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-intern-name-abi/validation.json",
+        "scope": "Actual nonnull empty string,4-byte write-only output aliases caller index local,16 null typed buckets and PE next-name1 observed. Output prior uninitialized bytes are not input or seed; every return writes output."
       }
     }
   ],
