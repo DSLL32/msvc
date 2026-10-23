@@ -508,3 +508,35 @@ short __stdcall format_function_parameters(short text, FunctionParameters *param
     if (options.prototypes_only && (flags & 0x8000)) append_type_diagnostic(text, ",...");
     return text;
 }
+
+/* Original 0x682a0..0x683b7. Compose base qualifiers, primitive or
+   aggregate kind, and its qualified tag name. Hidden tag declarations record
+   the unsupported kind for the declaration printer's comment diagnostic. */
+short __stdcall format_declaration_base_type(short text, CType *type)
+{
+    unsigned short flags, attributes;
+    CppSymbol *tag;
+    if (!text) text = reserve_type_diagnostic();
+    if (!type) return text;
+    flags = type->flags;
+    attributes = type->attributes;
+    if (flags & 0x4000) prepend_type_diagnostic(text, "unsigned ");
+    if (flags & 0x8000) prepend_type_diagnostic(text, "signed ");
+    if (attributes & 0x1000) prepend_type_diagnostic(text, "const ");
+    if (attributes & 0x2000) prepend_type_diagnostic(text, "volatile ");
+    tag = type->field08 ? cpp_context_stack->items[type->field08] : 0;
+    if (!type->field08 || !(tag->detail.class_info->flags2 & 0x20)) {
+        append_type_diagnostic(text, type_kind_name(flags));
+        append_type_diagnostic_char(text, ' ');
+    }
+    if (type->field08) {
+        tag = cpp_context_stack->items[type->field08];
+        if (tag->flags & 0x80) {
+            declaration_print_error = type_kind_name(tag->type->flags);
+            return text;
+        }
+        format_diagnostic_symbol(text, tag);
+        append_type_diagnostic_char(text, ' ');
+    }
+    return text;
+}
