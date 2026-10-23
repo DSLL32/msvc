@@ -127,6 +127,10 @@ def main():
     if recursive_arena_pair.is_dir():
         from recursive_arena_checks import check as check_recursive_arena
         check_recursive_arena(recursive_arena_pair)
+    recursive_pointer_pair=BINARY/'cases/hello-debug-dll/evidence/0088-hash_referenced_type'
+    if recursive_pointer_pair.is_dir():
+        from recursive_pointer_checks import check as check_recursive_pointer
+        check_recursive_pointer(recursive_pointer_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

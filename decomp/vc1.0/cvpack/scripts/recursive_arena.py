@@ -24,6 +24,7 @@ def validate(config,pe,rebuilt=None,linked=None):
     data={r['name']:r for r in json.loads((BINARY/'data.json').read_text())}
     for name,address in(('recursive_type_slots',0x352b4),('recursive_type_cursor',0x352b8)):
         assert data[name]['original']==address and data[name]['size']==4 and data[name]['source']=='src/types.c','recursive pool contextual global owner differs'
+    if 'packed_type_frontier'in p:assert p['packed_type_frontier']==dict(original=0x19c20,published_types=[0x1047,0x1048,0x1049],input_types=[4209,4208,4199]),'unreviewed recursive pool extension'
     if rebuilt is not None:p['compiled']=compiled_provenance(rebuilt,linked)
     return p
 
@@ -69,7 +70,10 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_contex
         return
     assert p and buffer_context and not native.get('error'),'recursive slab observer failed'
     original=parse(events);assert len(original['allocations'])==len(native['allocations'])==1 and original['frontier']and native['frontier'],'missing/extra recursive slab lifetimes'
-    assert native['frontier']['name']=='hash_referenced_type','unsupported recursive slab consumer'
+    frontier=native['frontier']['name'];assert frontier in('hash_referenced_type','publish_packed_type'),'unsupported recursive slab consumer'
+    inputs=p['input_types'];published=p['published_types']
+    if frontier=='publish_packed_type':inputs=p['packed_type_frontier']['input_types'];published=p['packed_type_frontier']['published_types']
+    used=len(inputs)*12
     assert events.splitlines().count('recursive-hash-rearm 00019cb6 00019cb9')==1,'recursive slab allocation probe not rearmed'
     memory={}
     for line in events.splitlines():
@@ -82,24 +86,27 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_contex
         assert base and base%4==0 and a['size']==len(before)==len(after)==0x3000 and f['base']==base,'recursive slab actual extent differs'
         table=walks['local_type_records'][0];assert a['owner']==table['address']+(4209-0x1000)*28,'recursive slab constructor parent differs'
         slots=value(p['counter'])if side is original else f['remaining'];cursor=value(p['cursor'])if side is original else f['cursor']
-        assert slots==1023 and cursor==base+12,'recursive slab used prefix/cursor differs'
+        assert slots==1024-len(inputs)and cursor==base+used,'recursive slab used prefix/cursor differs'
         if side is native:assert state['globals']['recursive_type_slots']==slots.to_bytes(4,'little').hex()and state['globals']['recursive_type_cursor']['address']==cursor,'recursive slab live globals differ'
-        assert after[6:8]==before[6:8]and after[12:]==before[12:],'recursive slab reserved/unused bytes changed without a defining write'
+        assert all(after[i+6:i+8]==before[i+6:i+8]for i in range(0,used,12))and after[used:]==before[used:],'recursive slab reserved/unused bytes changed without a defining write'
         heads=bytes.fromhex(walks['name_hash_buckets'][0]['bytes']);counts=bytes.fromhex(walks['name_hash_counts'][0]['bytes']);assert len(heads)==16384 and len(counts)==8192
-        seen=set();nodes=[];payload=buffers['type_buffer_payload'][0];copy=buffer_context['comparison']['copies'][71]
-        assert copy['index']==4209 and copy['size']==36
+        seen=set();nodes=[];payload=buffers['type_buffer_payload'][0];copies=buffer_context['comparison']['copies']
         for bucket in range(4096):
             pointer=word(heads,bucket*4);count=0
             while pointer:
-                assert pointer==base and pointer not in seen,'recursive slab unowned/aliased/uninitialized node'
+                assert base<=pointer<base+used and (pointer-base)%12==0 and pointer not in seen,'recursive slab unowned/aliased/uninitialized node'
+                at=pointer-base;rank=at//12;input_type=inputs[rank];global_type=published[rank];copy=copies[71+rank]
+                assert copy['index']==input_type and copy['size']==(36,164,8)[rank],'recursive node actual copy ordinal differs'
                 seen.add(pointer);count+=1
-                assert word(after,4,2)==0x1047 and word(after,0)==payload['address']+copy['offset']and word(after,8)==0,'recursive node index/record/next differs'
-                record=bytes.fromhex(table['bytes'])[(4209-0x1000)*28:(4209-0x1000+1)*28]
-                assert word(record,10,2)==bucket and word(record,4,2)==0x1047 and word(record,0)==word(after,0),'recursive node hash/TypeRecord owner differs'
-                nodes.append(dict(bucket=bucket,index=0x1047,input_type=4209,data_offset=copy['offset'],next=None));pointer=word(after,8)
+                assert word(after,at+4,2)==global_type and word(after,at)==payload['address']+copy['offset'],'recursive node index/record differs'
+                following=word(after,at+8)
+                assert not following or(base<=following<base+used and (following-base)%12==0),'recursive node next lacks published owner'
+                record=bytes.fromhex(table['bytes'])[(input_type-0x1000)*28:(input_type-0x1000+1)*28]
+                assert word(record,10,2)==bucket and word(record,4,2)==global_type and word(record,0)==word(after,at),'recursive node hash/TypeRecord owner differs'
+                nodes.append(dict(bucket=bucket,index=global_type,input_type=input_type,data_offset=copy['offset'],next=published[(following-base)//12]if following else None));pointer=following
             assert word(counts,bucket*2,2)==count,'recursive node bucket count differs'
-        assert len(seen)==1,'missing actual recursive slab node'
+        assert len(seen)==len(inputs),'missing actual recursive slab node'
         assert all(not(base<address+size and address<base+0x3000)for address,size,identity in namespace(walks)+namespace(buffers)),'recursive slab overlaps another allocation owner'
         extras.append(dict(recursive_hash_storage=[dict(address=base,bytes=f['bytes'])]));logical.append(nodes)
     assert logical[0]==logical[1],'recursive slab logical state differs'
-    return dict(nodes=logical[0],defined_ranges=[[0,6],[8,12]],original_namespace=extras[0],native_namespace=extras[1],original=original,native=native)
+    return dict(nodes=logical[0],defined_ranges=[[at+a,at+b]for at in range(0,used,12)for a,b in((0,6),(8,12))],original_namespace=extras[0],native_namespace=extras[1],original=original,native=native)

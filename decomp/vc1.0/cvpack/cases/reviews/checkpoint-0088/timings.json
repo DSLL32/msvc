@@ -1,0 +1,39 @@
+{
+  "incremental-build": {
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "native",
+      "build/debug-run.exe",
+      "graph-identities",
+      "graph-audit-tool"
+    ],
+    "status": 0,
+    "elapsed": 0.4154717968776822
+  },
+  "audit": {
+    "command": [
+      "python3",
+      "scripts/audit.py"
+    ],
+    "status": 0,
+    "elapsed": 0.594510861672461
+  },
+  "negatives": {
+    "command": [
+      "python3",
+      "scripts/check-rejections.py"
+    ],
+    "status": 0,
+    "elapsed": 20.207525623962283
+  },
+  "fixtures": {
+    "command": [
+      "python3",
+      "scripts/check-native.py"
+    ],
+    "status": 0,
+    "elapsed": 0.4344358239322901
+  }
+}

@@ -1749,3 +1749,30 @@ void __fastcall publish_recursive_type(TypeRecord *entry)
     name_hash_buckets[hash] = node;
     ++name_hash_counts[hash];
 }
+
+unsigned short __fastcall hash_referenced_type(TypeRecord *entry, unsigned short number)
+{
+    unsigned short offset, type, relative, unused;
+    unsigned char *record = entry->data;
+    TypeRecord *referenced;
+#ifdef RECON_NATIVE_TEST
+    /* Expanded offset arrays need their own observed allocation ownership. */
+    if ((entry->flags & 0x100) || number >= entry->recursive_count) __asm { int 3 }
+#endif
+    offset = entry->flags & 0x100 ? entry->recursion.large.offsets[number] : entry->recursion.small[number];
+    type = *(unsigned short *)(record+offset);
+    if (type < first_user_type) return type;
+    relative = type-first_user_type;
+    if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+        referenced = empty_type;
+    else {
+#ifdef RECON_NATIVE_TEST
+        if (relative >= local_type_capacity) __asm { int 3 }
+#endif
+        referenced = local_type_records+relative;
+        if (referenced->flags & 0x1000)
+            referenced = get_type_record((unsigned short)(referenced->forward_index-0x1000), &unused);
+    }
+    if (referenced->flags & 4) return referenced->hash_value;
+    return (unsigned short)hash_recursive_type(referenced);
+}

@@ -1,0 +1,63 @@
+{
+  "application_functions": 88,
+  "application_bytes": 30835,
+  "next": "publish_packed_type",
+  "source": "hash_referenced_type1c880..1c953: inline/expanded recursive-offset selection, primitive return, special empty type, local record/forward resolver selection, already-pending cached recursive hash or nested hash. Native unknown expanded-offset ownership and invalid ordinal/table indices fail closed. Whole original/compiler graph and two-byte DX/AX ABI retained, exact unreachable ADD EAX0 padding identified.",
+  "ownership": "Actual shared recursive slab has3 published12-byte nodes owning copies4209/4208/4199 and indices1047/1048/1049. Every field/head/count/cursor/slot checked; each reserved pair and unused suffix remain OWN unchanged.74 actual copies2032 defined bytes and296 page-pointer bytes;71 ordinary hash nodes still fully required, only these3 exact pending ordinary indices.59 provider PDB writes;4208/4199 provider changes now proved through actual copy entries.",
+  "post_copy_write": "Last copied pointer4199.field6 was4209 at append return, then actual commit_recursive_type MOV word[EBP],AX1ecaf changes ONLY thatword to packedroot1047. Owner record, inlineoffset6/count1/mark80, root target/pointer/index, full before/after payload and original/native nested frames match. No changes to other defined bytes or own tail allowed; not a general post-copy mutation waiver.",
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 0.4154717968776822
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.594510861672461
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 20.207525623962283
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.4344358239322901
+    }
+  },
+  "rejection_controls": 559,
+  "new_controls": 15,
+  "native_acceptance_seconds": {
+    "setup": 0.21817361935973167,
+    "execution": 0.016843970865011215,
+    "debugging": 2.5988007793202996,
+    "checks": 0.018143567256629467,
+    "total": 2.851967836730182
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.2819152921438217,
+    "execution": 1.4220195962116122,
+    "total": 1.7282111020758748
+  },
+  "limitations": "Initial DLL case remains partial. No CRT/shared changes; four resolver returns retain exact previous inventory. Unsupported expanded recursion allocations remain native-guarded. New ordinary-node pool has not been reconstructed/allocated at frontier.",
+  "failed_attempts": "Bounded original discovery stopped with observer42 at unreviewed new frontier, retained; expanded capture then succeeds. First checker correctly rejected old pending-provider ownership once pointer4199 had been copied; checker now uses exact copied-record provider write and distinct post-copy output update, same complete raw original/native pair. No executed original or source change for this checker correction."
+}

@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "hash_referenced_type",
-    "native_function": "hash_referenced_type",
+    "logical": "publish_packed_type",
+    "native_function": "publish_packed_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -105,7 +105,8 @@
       "hash_recursive_type",
       "commit_recursive_type",
       "publish_recursive_type",
-      "hash_referenced_type"
+      "hash_referenced_type",
+      "publish_packed_type"
     ]
   },
   "complete_reference": {

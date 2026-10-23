@@ -108,7 +108,7 @@
     }
   ],
   "sources": {
-    "src/types.c": "321db512a6f7335924d65a7d8318b617d537cd89d7ddd7f8c130119005a743c1",
+    "src/types.c": "307423182c3bd7ac0b554fd9aa73ff7da273f833c3df01f1526f2b98ee972dd7",
     "src/types.h": "77c8609390e2e4f6f1530e2a32b5355b89bf80580ca4364bcbd41e8fa6b10b28",
     "src/image.h": "bbc8afde32fb7ec98e72ec04769ba3c7b38932f295146ad7e46d3a30cc0894f2"
   },
@@ -543,6 +543,27 @@
         "44": 156937,
         "46": 153648,
         "48": 151922
+      }
+    },
+    "publish_packed_type": {
+      "original": 105504,
+      "defined": 40,
+      "input_offset": 2227,
+      "return_address": 126244,
+      "allocation_esp_delta": 196,
+      "buffer_slot": 54,
+      "input_slot": 57,
+      "record_length": 24,
+      "callback_index": 27,
+      "kind": 4,
+      "nested_returns": {
+        "10": 126127,
+        "20": 126127,
+        "30": 109879,
+        "34": 159645,
+        "45": 156937,
+        "47": 153648,
+        "49": 151922
       }
     }
   }
