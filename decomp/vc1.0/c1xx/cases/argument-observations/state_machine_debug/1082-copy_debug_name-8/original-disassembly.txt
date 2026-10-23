@@ -1,0 +1,32 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00074500 <.text+0x5d500>:
+   74500:	56                   	push   esi
+   74501:	57                   	push   edi
+   74502:	8b 74 24 10          	mov    esi,DWORD PTR [esp+0x10]
+   74506:	8b fe                	mov    edi,esi
+   74508:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   7450d:	2b c0                	sub    eax,eax
+   7450f:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   74511:	f7 d1                	not    ecx
+   74513:	8d 51 ff             	lea    edx,[ecx-0x1]
+   74516:	81 fa ff 00 00 00    	cmp    edx,0xff
+   7451c:	76 05                	jbe    0x74523
+   7451e:	ba ff 00 00 00       	mov    edx,0xff
+   74523:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+   74527:	8b ca                	mov    ecx,edx
+   74529:	88 10                	mov    BYTE PTR [eax],dl
+   7452b:	8d 78 01             	lea    edi,[eax+0x1]
+   7452e:	c1 e9 02             	shr    ecx,0x2
+   74531:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   74533:	8b ca                	mov    ecx,edx
+   74535:	83 e1 03             	and    ecx,0x3
+   74538:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+   7453a:	8d 44 10 01          	lea    eax,[eax+edx*1+0x1]
+   7453e:	5f                   	pop    edi
+   7453f:	5e                   	pop    esi
+   74540:	c2 08 00             	ret    0x8

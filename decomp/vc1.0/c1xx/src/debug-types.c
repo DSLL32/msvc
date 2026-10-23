@@ -13,6 +13,18 @@ unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 
+/* Original 0x74500..0x74543. CodeView names carry a byte length and
+   at most255 bytes, without a trailing NUL. Return the next output byte. */
+unsigned char *__stdcall copy_debug_name(unsigned char *destination, char *name)
+{
+    unsigned length, i;
+    for (length = 0; name[length]; ++length) ;
+    if (length > 255) length = 255;
+    destination[0] = (unsigned char)length;
+    for (i = 0; i < length; ++i) destination[i + 1] = name[i];
+    return destination + length + 1;
+}
+
 /* Original 0x70320..0x70370. Short unsigned numeric leaves are their
    own value; larger ones carry an explicit unsigned-short or long tag. */
 unsigned __stdcall encode_debug_unsigned(unsigned char *destination, unsigned value)
