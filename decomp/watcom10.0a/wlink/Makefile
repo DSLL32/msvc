@@ -5,13 +5,13 @@ PYTHON ?= python3
 inspect:
 	$(PYTHON) scripts/inventory.py
 
-# Deliberate gates: no application function or Watcom register ABI has yet
-# been accepted. These targets must not produce a misleading reconstruction.
+# Deliberate gates: no application function or reached CRT boundary has yet
+# been accepted. Native GCC ABI is authorized; original builds retain Watcom ABI.
 native:
-	@echo 'HOLD: native i386 target awaits reviewed Watcom ABI and CRT boundary.' >&2
+	@echo 'HOLD: native i386 target awaits source/frontier and reached CRT boundary review.' >&2
 	@exit 2
 original:
-	@echo 'HOLD: original-toolchain target awaits reviewed compiler/stub invocation.' >&2
+	@echo 'HOLD: compiler probe passed; target link/source and startup boundaries await review.' >&2
 	@exit 2
 fixtures:
 	@echo 'HOLD: help reference and native reconstruction have not been captured.' >&2

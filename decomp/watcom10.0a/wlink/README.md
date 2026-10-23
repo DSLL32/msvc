@@ -29,15 +29,22 @@ The code section is `BEGTEXT`, not `.text`. Its entry jump is followed by inline
 CRT identification data. The appended resource overlay lies outside all mapped
 PE sections; preserve its identity when preparing masked reference copies.
 
-The compiler/build probe must establish the Watcom binnt WCC386 stub's embedded
-CF invocation, `-bt=nt` headers/library selection, and register-call convention
-before building target C. WLINK itself is the patched Win32 linker for explicit
-original builds. Native GCC/Clang must preserve the independently established
-application ABI through reviewed support; normal calls at a precisely declared
-Win32/CRT boundary may differ internally. Shared support belongs to the recon
-library maintainer, not this binary.
+The common WCC386 probe passed with `-bt=nt -3r -od -d2`; its receipt is under
+`~/.ai-tmp/msvc2/watcom10.0a/wcc386/abi-probe/`. Target headers, library selection,
+link and startup still need proof. WLINK itself is the patched Win32 linker for
+explicit original builds. By explicit user decision, native i386 C uses GCC's
+ABI; the original Win32 build must preserve and audit the actual Watcom ABI.
+Compare native semantic arguments and ownership rather than requiring the same
+raw argument registers. Do not add per-function assembly veneers or OMF transport.
+Shared host support belongs to the recon library maintainer, not this binary.
 
 The shipped `h/STDIO.H` declares a packed, 26-byte Watcom `FILE` on i386. Existing
 MSCRT `ShimFILE` is not layout-equivalent. Preserve original field accesses and
 prove reached buffer/position/error semantics before requesting a shared Watcom
 CRT profile; register-call transport is a separate proof obligation.
+
+`cases/help/architecture.json` records the proposed capture, masking, startup and
+build procedure. Static analysis identifies a main candidate at VA `0x4242e0`
+called with EAX=argc and EDX=argv by CRT code at `0x438199`. Its Spawn callback
+and cleanup tail differ from the later source; names/extents and any shared
+entry tails must be proved against this binary before acceptance.

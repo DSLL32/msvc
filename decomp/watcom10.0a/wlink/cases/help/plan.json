@@ -18,5 +18,7 @@
   "regression": "native i386 only, compare cached status/streams/artifacts and filtered application trace",
   "normalization": "none initially; only separately identified clock fields may be normalized",
   "acceptance": "fresh original/native frontier agreement plus graph and individual ABI checks",
+  "native_abi": "GCC i386 ABI authorized; compare actual semantic formals/ownership, not original raw argument registers",
+  "original_abi": "Watcom register/stack ABI preserved and audited on original-toolchain build",
   "timing": "record build/setup/execution/check elapsed times where measured"
 }
