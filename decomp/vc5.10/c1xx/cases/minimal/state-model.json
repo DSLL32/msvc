@@ -1,5 +1,5 @@
 {
-  "schema": 19,
+  "schema": 20,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -982,6 +982,42 @@
       "native_expression": "frontend_bss.pools[0].arena",
       "original_default": 0,
       "evidence": "389c8 ECX object; 10401035 cursor/remaining consumer and1ee29 minimum-page and arena consumer"
+    },
+    {
+      "name": "pool_02.cursor",
+      "class": "bss",
+      "original_address": 273413552,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[1].cursor",
+      "original_default": 0,
+      "evidence": "Second instance used by callback389eb; same actual thiscall member and four-field class"
+    },
+    {
+      "name": "pool_02.remaining",
+      "class": "bss",
+      "original_address": 273413556,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[1].remaining",
+      "original_default": 0,
+      "evidence": "Second instance used by callback389eb; same actual thiscall member and four-field class"
+    },
+    {
+      "name": "pool_02.minimum_pages",
+      "class": "bss",
+      "original_address": 273413560,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[1].minimum_pages",
+      "original_default": 0,
+      "evidence": "Second instance used by callback389eb; same actual thiscall member and four-field class"
+    },
+    {
+      "name": "pool_02.arena",
+      "class": "bss",
+      "original_address": 273413564,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[1].arena",
+      "original_default": 0,
+      "evidence": "Second instance used by callback389eb; same actual thiscall member and four-field class"
     }
   ],
   "initializers": [
@@ -1254,10 +1290,11 @@
     "count": 2
   },
   "pool_projection": {
-    "count": 1,
+    "count": 2,
     "native_size": 16,
     "original_bases": [
-      273418952
+      273418952,
+      273413552
     ],
     "types": [
       "pointer",

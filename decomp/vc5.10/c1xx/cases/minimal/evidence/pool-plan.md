@@ -34,3 +34,12 @@ A published shared CRT _access fix changed only the native build, so all
 three native captures were refreshed against the immutable original captures,
 with exact original-side execution/config/mask/helper equality checked.
 The Linux-only lifecycle regression remains 12ms warm, with no Wine calls.
+
+Callback25 `389eb..389f8` initializes a second genuine pool at `bf5b0`.
+Its four fields join typed BSS clearing and separate original/native storage
+maps. Both actual member entries now have per-instance native raw ABI
+observations and original ECX/stack observations; the first completed object
+stays unchanged while the second is initialized. Sixteen new instance checks
+and eighteen refreshed member-return controls pass. No new member credit or
+pointee modeling is claimed. The next callback26 has no incoming ABI inputs:
+it pushes a constant and loads its own receiver before the shared member call.

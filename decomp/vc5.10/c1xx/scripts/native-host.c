@@ -128,10 +128,12 @@ int main(void)
             frontend_bss.sentinel_token.value.integer = -7;
             frontend_bss.sentinel_token.kind = 165;
             frontend_bss.source_signature = 37;
-            frontend_bss.pools[0].cursor = (unsigned char *)frontend_bss.saved_state + 4;
-            frontend_bss.pools[0].remaining = 23;
-            frontend_bss.pools[0].minimum_pages = 37;
-            frontend_bss.pools[0].arena = (struct CompilerArena *)((unsigned char *)frontend_bss.saved_state + 8);
+            for (i = 0; i < sizeof(frontend_bss.pools) / sizeof(frontend_bss.pools[0]); ++i) {
+                frontend_bss.pools[i].cursor = (unsigned char *)frontend_bss.saved_state + 4;
+                frontend_bss.pools[i].remaining = 23;
+                frontend_bss.pools[i].minimum_pages = 37;
+                frontend_bss.pools[i].arena = (struct CompilerArena *)((unsigned char *)frontend_bss.saved_state + 8);
+            }
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

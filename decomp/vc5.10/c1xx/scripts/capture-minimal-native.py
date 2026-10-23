@@ -117,8 +117,10 @@ if gdb.lookup_global_symbol('output_pdb_context') is not None:
         value['frontend']['storage']['output_pdb_context.'+field]=[int(gdb.parse_and_eval('(unsigned int)&output_pdb_context.'+field)),4]
 if any(f.name=='pools' for f in gdb.lookup_type('FrontendBss').fields()):
     fields=('cursor','remaining','minimum_pages','arena')
-    value['frontend']['pools']=[{name:int(gdb.parse_and_eval('(unsigned int)frontend_bss.pools[0].'+name)) for name in fields}]
-    for name in fields:value['frontend']['storage']['pool_01.'+name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.pools[0].'+name)),4]
+    count=int(gdb.parse_and_eval('sizeof(frontend_bss.pools)/sizeof(frontend_bss.pools[0])'))
+    value['frontend']['pools']=[{name:int(gdb.parse_and_eval('(unsigned int)frontend_bss.pools[%d].'%i+name)) for name in fields} for i in range(count)]
+    for i in range(count):
+        for name in fields:value['frontend']['storage']['pool_%02d.'%(i+1)+name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.pools[%d].'%i+name)),4]
     value['frontend']['pool_native_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerPool)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerPool').fields()}}
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
@@ -208,6 +210,13 @@ end
         registration=output/('collect-'+stem+'-registration.gdb')
         registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'-registration.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-registration-argv.bin')))))
         observer+='break register_cleanup if frontend_bss.cleanup_count==%d\ncommands\nsilent\nsource '%(8+number)+str(registration)+'\ncontinue\nend\n'
+    if model['schema']>=20:
+        for i in range(model['pool_projection']['count']):
+            target=output/('collect-pool-entry-%02d.gdb'%(i+1))
+            target.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/('pool-entry-%02d.json'%(i+1))))).replace(repr(str(output/'native-argv.bin')),repr(str(output/('pool-entry-%02d-argv.bin'%(i+1))))))
+        dispatch=output/'observe-pool-entries.gdb'
+        dispatch.write_text('python\nimport gdb\nreceiver=int(gdb.parse_and_eval("(unsigned int)$ecx"))\nbases=[int(gdb.parse_and_eval("(unsigned int)&frontend_bss.pools[%d]"%i)) for i in range('+str(model['pool_projection']['count'])+')]\nif receiver not in bases:raise RuntimeError("unmodeled pool receiver")\nnumber=bases.index(receiver)+1\ngdb.execute("source "+'+repr(str(output))+'+"/collect-pool-entry-%02d.gdb"%number)\nend\n')
+        observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\nsource '+str(dispatch)+'\ncontinue\nend\n'
     if trial['trial']=='CompilerPool::Initialize':
         entry=output/'collect-pool-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pool-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pool-entry-argv.bin'))))
