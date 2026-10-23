@@ -66,6 +66,7 @@ int __stdcall rc_match_option(const WCHAR *,const WCHAR *);
 int __stdcall rc_option_number(WCHAR *);
 extern unsigned short rc_character_tokens[256];
 void __stdcall rc_set_character_token(unsigned short,unsigned short);
+unsigned short __stdcall rc_character_token(unsigned short);
 extern unsigned short rc_character_classes[257];
 void __stdcall rc_set_character_class(unsigned short,unsigned short);
 unsigned char __stdcall rc_hash_macro_name(const WCHAR *);

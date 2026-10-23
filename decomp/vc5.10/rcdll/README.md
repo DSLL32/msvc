@@ -306,3 +306,11 @@ position zero. Only the initialized written prefix is compared; unwritten
 allocator tail bytes are unclaimed. [Verification](cases/resources-rich-trailing-space/write-preprocessed-verification.json)
 records 12 fresh output/quote-frontier controls, hash-bound prefix reuse and
 timings. No shared fwrite change was required for this write.
+
+Filename quoting is accepted (69 bytes), reaching character classification
+with the actual 16-bit `S` argument, source/destination cursors and first two
+written WCHARs checked. [Verification](cases/resources-rich-trailing-space/quote-source-filename-verification.json)
+records nine fresh controls and the contextual 256-WORD token table. Its
+pristine original-compiler data matches the original, including the separate
+class[0] alias used by token index256. Other class defaults remain unknown
+storage placeholders; a static scope control verifies they are unclaimed.

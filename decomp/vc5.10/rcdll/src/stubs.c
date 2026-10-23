@@ -99,8 +99,9 @@ void __cdecl rc_scan_line_start(void)
     __asm int 3
 }
 
-WCHAR *__stdcall rc_quote_source_filename(WCHAR *destination,const WCHAR *path)
+
+unsigned short __stdcall rc_character_token(unsigned short character)
 {
     __asm int 3
-    return NULL;
+    return 0;
 }

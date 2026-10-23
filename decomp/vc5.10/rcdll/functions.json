@@ -41,7 +41,8 @@
     "rc_refill_source",
     "rc_duplicate_source_name",
     "rc_emit_source_line",
-    "rc_write_preprocessed"
+    "rc_write_preprocessed",
+    "rc_quote_source_filename"
   ],
   "functions": [
     {
@@ -893,6 +894,14 @@
       "end": "0x4240",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application"
+    },
+    {
+      "name": "rc_character_token",
+      "start": "0x2690",
+      "end": "0x26bb",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

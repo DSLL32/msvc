@@ -278,23 +278,6 @@ void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
     rc_open_source(input,1);
 }
 
-/* Only the five character entries encountered by setup are initialized here.
- * The remaining lexical entries are defined when their consumers are recovered. */
-unsigned short rc_character_tokens[256]={3,23,23,23,23};
-
-void __stdcall rc_set_character_token(unsigned short character,unsigned short token)
-{
-    if(character<=256) rc_character_tokens[(unsigned char)character]=token;
-}
-
-/* The dollar entry is the first class assigned by preprocessor setup. */
-unsigned short rc_character_classes[257];
-
-void __stdcall rc_set_character_class(unsigned short character,unsigned short flags)
-{
-    if(character<=256) rc_character_classes[character]=flags;
-}
-
 unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
 {
     unsigned char hash=0;

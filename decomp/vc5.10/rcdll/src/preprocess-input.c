@@ -169,3 +169,17 @@ void __stdcall rc_write_preprocessed(const void *data,unsigned size,unsigned cou
     if(fwrite(data,size,count,file)!=count)
         rc_fatal(rc_message(1122));
 }
+
+WCHAR *__stdcall rc_quote_source_filename(WCHAR *destination,const WCHAR *path)
+{
+    WCHAR *cursor=destination;
+    *cursor++=L'"';
+    while((*cursor=*path)!=0){
+        if(rc_character_token(*path)==3)
+            *++cursor=L'\\';
+        ++path;
+        ++cursor;
+    }
+    *cursor=L'"';
+    return cursor+1;
+}

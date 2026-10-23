@@ -276,7 +276,7 @@
       "name": "rc_character_tokens",
       "original_rva": "0x14010",
       "kind": "byte-buffer",
-      "bytes": 10
+      "bytes": 512
     },
     {
       "name": "rc_character_tokens[36]",
@@ -331,6 +331,12 @@
       "original_rva": "0x18e80",
       "kind": "source-stack",
       "bytes": 36864
+    },
+    {
+      "name": "rc_character_classes[0]",
+      "original_rva": "0x14210",
+      "kind": "byte-buffer",
+      "bytes": 2
     }
   ],
   "options": {
