@@ -41,10 +41,10 @@
           4
         ]
       },
-      "setup_seconds": 0.020140215754508972,
-      "execution_seconds": 0.006551062688231468,
-      "check_seconds": 0.001759466715157032,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2ugn8_dh/minimal"
+      "setup_seconds": 0.01951654814183712,
+      "execution_seconds": 0.006472691893577576,
+      "check_seconds": 0.0018058447167277336,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ue2dz3gg/minimal"
     },
     {
       "profile": "hello",
@@ -61,10 +61,10 @@
           4
         ]
       },
-      "setup_seconds": 0.016131973825395107,
-      "execution_seconds": 0.013941869139671326,
-      "check_seconds": 0.0018292050808668137,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2ugn8_dh/hello"
+      "setup_seconds": 0.01508402545005083,
+      "execution_seconds": 0.012468107044696808,
+      "check_seconds": 0.0018117651343345642,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ue2dz3gg/hello"
     },
     {
       "profile": "loops",
@@ -81,10 +81,22 @@
           4
         ]
       },
-      "setup_seconds": 0.013954184018075466,
-      "execution_seconds": 0.008477061986923218,
-      "check_seconds": 0.001346043311059475,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2ugn8_dh/loops"
+      "setup_seconds": 0.015918714925646782,
+      "execution_seconds": 0.008718098513782024,
+      "check_seconds": 0.0014479989185929298,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ue2dz3gg/loops"
+    },
+    {
+      "profile": "pressure",
+      "terminal": "@simple_constant_operation_sign@4",
+      "returncode": -5,
+      "application_entries": 1,
+      "seeded_entries": 834,
+      "output": null,
+      "setup_seconds": 0.014352481812238693,
+      "execution_seconds": 0.004898509010672569,
+      "check_seconds": 0.0009087985381484032,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ue2dz3gg/pressure"
     }
   ],
   "rejected": [
@@ -92,8 +104,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.26692726369947195,
-  "suite_setup_seconds": 0.14680608455091715,
-  "negative_check_seconds": 0.02590466756373644,
+  "fixture_seconds": 0.28385651484131813,
+  "suite_setup_seconds": 0.1435257252305746,
+  "negative_check_seconds": 0.02597347553819418,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }

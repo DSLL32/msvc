@@ -6723,6 +6723,12 @@
       "accepted_from": 840,
       "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json",
       "fixture_manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56"
+    },
+    "pressure": {
+      "arguments": "",
+      "accepted_from": 917,
+      "fixture_manifest": "../fixtures/c2-optimizer-register-pressure/manifest.json",
+      "fixture_manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90"
     }
   },
   "crt_defaults": {

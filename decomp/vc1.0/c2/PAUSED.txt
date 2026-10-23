@@ -1,7 +1,6 @@
-C2 ACTIVE: loop stress COMPLETE at917 acceptances/839 source graphs.
-Extent union246671/399693=61.7151163518%, not branch coverage.
-Minimal286, hello2289 and loops620-byte completed outputs match after timestamp only.
-Next approved case: independent original register-pressure capture; then aliasing and floating point.
-No new reconstruction frontier until registration.
-Canonical/W3, graph/mask/extent audits and all3 native cases pass.
-No shim requests. See cases/loops-completion.json and cases/queue.json.
+C2 ACTIVE: register-pressure stress at917 acceptances/839 source functions.
+Fresh matching frontier simple_constant_operation_sign56e80; BEFORE cases/pressure-initial.json.
+Loop stress620-byte output COMPLETE, plus minimal and hello completed objects exact.
+Accepted extent246671/399693=61.7151163518%, not branch coverage.
+Original captures and all4 native fixtures pass. Continue pressure, then aliasing/floating queue.
+No shim requests.

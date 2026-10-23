@@ -2293,3 +2293,12 @@ fixture outputs pass; four malformed completion receipts are rejected.
 Accepted extent union246671/399693=61.7151163518% (not branch coverage).
 See cases/loops-completion.json for evidence, limits and measured timing.
 The approved register-pressure capture follows; aliasing and floating point remain queued.
+
+Register-pressure stress registered
+-----------------------------------
+Original CL/C1/C2 independently captured source/pressure.c: twelve live integer
+values across two opaque calls, arithmetic and branches. Portable standalone
+original C2 matches879-byte pipeline output after timestamp only.
+Fresh original/native first frontier is simple_constant_operation_sign56e80.
+All4 native fixtures pass (three completed output oracles and this named trap).
+See cases/pressure-registration.json and ../fixtures/c2-optimizer-register-pressure.

@@ -22,9 +22,10 @@
       "case": "optimizer-register-pressure",
       "after": "optimizer-loops",
       "phase": "c2",
-      "status": "active; independent original capture next",
+      "status": "active; original capture and first native frontier verified",
       "description": "Many live integer values, calls and spills across scheduling/register allocation",
-      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
+      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
+      "fixture_manifest": "../fixtures/c2-optimizer-register-pressure/manifest.json"
     },
     {
       "case": "optimizer-aliasing",
