@@ -6,7 +6,9 @@
   "case": {
     "image": "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
     "sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
-    "argv": ["?"],
+    "argv": [
+      "?"
+    ],
     "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/help-reference/baseline-hqf5iigb/work",
     "host_environment": "reuse the exact baseline host-environment.json after matching its SHA256",
     "stdin": "DEVNULL, matching baseline",

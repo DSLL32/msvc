@@ -12,8 +12,10 @@ console/read behavior remains an observer obligation despite successful exit.
 patch, then reports PE metadata without running either file. `make -j4 native`
 builds the real i386 INT3 main scaffold and directly compiles the shared C at final
 link. GDB confirms SIGTRAP in main; this is not an accepted implementation.
-`original` has explicit Watcom compiler/patched-linker rules based on the common
-successful Win32 probe, but this target has not yet been invoked for WLINK.
+`original` uses the Watcom compiler and patched linker. Its INT3 scaffold compiles
+with zero warnings/errors and links successfully; the resulting PE has not been
+executed. Watcom's `#pragma aux reconstruction_trap = 0xcc;` emits the trap inline
+without a helper function. Both build checks are recorded in `cases/help/scaffold-build.json`.
 `fixtures` remains blocked until an actual reconstruction and trace exist.
 
 Source reference: `/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, commit
