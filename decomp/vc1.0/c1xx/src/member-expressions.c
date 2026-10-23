@@ -329,3 +329,17 @@ IrToken *__stdcall make_virtual_base_pointer(IrToken *object, CType *type,
     }
     return result;
 }
+
+/* Original 0x31630..0x3166e. Address the object's vbptr, load the
+   pointer, then select and load its signed integer displacement entry. */
+IrToken *__stdcall make_virtual_base_displacement(IrToken *object,
+    unsigned pointer_offset, unsigned table_offset, CType *pointer_type)
+{
+    IrToken *value;
+    CType *integer;
+    value = make_member_at_offset(object, pointer_offset, object->type);
+    value = new_typed_unary_expression(0x46, pointer_type, value);
+    value = make_member_at_offset(value, table_offset, pointer_type);
+    integer = builtin_integer_type();
+    return new_typed_unary_expression(0x46, integer, value);
+}

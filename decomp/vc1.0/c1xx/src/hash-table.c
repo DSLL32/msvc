@@ -160,3 +160,10 @@ void *__stdcall find_hash_value(HashTable *table, void *key)
     entry = find_hash_entry(table, key, bucket);
     return entry ? entry->value : 0;
 }
+
+/* Original 0x4ee30..0x4ee3f. Pointer-identity equality remains a
+   distinct cdecl callback returning a complete zero or one. */
+int __cdecl equal_pointer(void *left, void *right)
+{
+    return left == right ? 1 : 0;
+}

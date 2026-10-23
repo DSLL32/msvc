@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_type_has_base_relation@8",
+    "start": 423008,
+    "end": 423054
+  },
+  "distinct_direct_callees": [
+    "_tag_has_base_relation@8"
+  ],
+  "next_frontier": "_tag_has_base_relation@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4346453947946429,
+  "total_operation_seconds": 7.819517446681857,
+  "original_capture_seconds": 4.828061799518764
+}

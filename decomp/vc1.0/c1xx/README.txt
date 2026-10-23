@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 771 accepted frontiers, including 679 frontend
+PARTIAL binary reconstruction: 783 accepted frontiers, including 690 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1755,3 +1755,24 @@ recorded; recovery operation wall is explicitly unmeasured.
 Accepted extent union 218041/476418 bytes is 45.766743%, not branch coverage.
 The 334 CRT bytes are separate from application source coverage. virtual_diamond
 remains incomplete at clear_most_derived_argument 0x3b040.
+
+Vtordisp checkpoint: 783 accepted frontiers, 697 source functions. Ten whole
+functions beyond 42c2207 clear the base-subobject constructor's most-derived
+argument, construct the runtime/fixed vtordisp calculation and storage path,
+compare pointer keys, decode class-type relations, select class bindings and
+reject member-pointer arithmetic operands independently.
+
+The vtordisp storage path retains each inherited table hop, copies the original
+52-byte pointer-member descriptor into expression arena two, then assigns the
+negative integer-slot displacement and integer type. All field offsets and
+original helper boundaries remain intact. Newly encountered callees stay named
+traps until their own paired acceptance.
+
+All 0773 through 0782 acceptances match fresh original/native traps, four pending
+buffers, fourteen state fields, streams and visible files. Completed cpp_basic
+remains byte-exact. Full canonical graph/data/default/callback/grammar audits,
+both cached native cases and 30 boundary rejection checks pass in 4.940909
+seconds. Per-function build/reference/debug/fixture timings remain separate.
+
+Accepted extent union 218684/476418 bytes is 45.901708%, not branch coverage.
+virtual_diamond remains incomplete at convert_derived_initializer 0x662e0.

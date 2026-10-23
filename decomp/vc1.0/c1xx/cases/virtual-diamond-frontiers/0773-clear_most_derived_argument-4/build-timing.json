@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.3458796851336956,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-clear-most-derived-argument-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.298878218978643,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-clear-most-derived-argument-canonical.log"
+  }
+]

@@ -148,7 +148,6 @@ void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadS
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 void __stdcall register_temporary_destruction(IrToken *object, CType *type) { __asm { int 3 } }
-QualifierBinding *__stdcall find_named_class_binding(CppSymbol *tag, char *name, unsigned categories) { __asm { int 3 } return 0; }
 IrToken *__stdcall try_elide_copy_construction(CppSymbol *function, IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_type(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall resolve_function_style_cast(IrToken *expression) { __asm { int 3 } return 0; }
@@ -503,7 +502,6 @@ int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmet
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_operand_if_needed(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
-int __stdcall reject_member_pointer_arithmetic(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
@@ -530,9 +528,6 @@ void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { in
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
-IrToken *__stdcall clear_most_derived_argument(IrToken *call) { __asm { int 3 } return 0; }
-IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
-QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
@@ -544,7 +539,6 @@ unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape
 unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank) { __asm { int 3 } return 0; }
-int __stdcall type_has_base_relation(CType *derived, CType *base) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }
@@ -626,7 +620,6 @@ unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0
 unsigned __cdecl hash_word_triplet(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
-int __cdecl equal_pointer(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_symbol_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_first_words(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_four_word_keys(void *left, void *right) { __asm { int 3 } return 0; }

@@ -1084,3 +1084,22 @@ IrToken *__stdcall prepare_value_operand(unsigned char operation, IrToken *expre
     }
     return expression;
 }
+
+/* Original 0x5fd80..0x5fdcc. Diagnose each member-pointer operand
+   independently, even when the other operand has already been rejected. */
+int __stdcall reject_member_pointer_arithmetic(IrToken *expression)
+{
+    IrToken *left = expression->value.pointer;
+    TypeShape *shape = left->type->related;
+    int rejected = 0;
+    if (shape && (shape->flags & 0x30)) {
+        report_invalid_operand(expression->kind, 1);
+        rejected = 1;
+    }
+    shape = expression->tail.right->type->related;
+    if (shape && (shape->flags & 0x30)) {
+        report_invalid_operand(expression->kind, 2);
+        rejected = 1;
+    }
+    return rejected;
+}

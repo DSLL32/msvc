@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 782,
+  "accepted": "_reject_member_pointer_arithmetic@4",
+  "terminal": "_convert_derived_initializer@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-receipt.json",
+  "original_capture_sha256": "b49b1e76e771f5d55b7bdbce717d8d3e3750163140f7b7316bd9d56bc91bfe15",
+  "original_events": "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-events.txt",
+  "original_events_sha256": "e6388347b8e4db2e843c1d1c1d96fb266bd7bac2a3f46798d56148d0ac4ebd04",
+  "original_configuration": "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

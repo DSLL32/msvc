@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_pointer",
+    "start": 323120,
+    "end": 323136
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_type_has_base_relation@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.42874452751129866,
+  "total_operation_seconds": 7.471867103129625,
+  "original_capture_seconds": 4.426559128798544
+}

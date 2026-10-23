@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_named_class_binding@12",
+    "start": 492976,
+    "end": 493039
+  },
+  "distinct_direct_callees": [
+    "_find_class_name_paths@12"
+  ],
+  "next_frontier": "_reject_member_pointer_arithmetic@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4430623510852456,
+  "total_operation_seconds": 7.8036010935902596,
+  "original_capture_seconds": 4.677354927174747
+}

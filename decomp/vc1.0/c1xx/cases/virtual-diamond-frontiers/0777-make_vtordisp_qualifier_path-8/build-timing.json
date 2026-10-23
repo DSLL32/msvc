@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.2122496608644724,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-make-vtordisp-qualifier-path-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 6.0735538229346275,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-make-vtordisp-qualifier-path-canonical.log"
+  }
+]

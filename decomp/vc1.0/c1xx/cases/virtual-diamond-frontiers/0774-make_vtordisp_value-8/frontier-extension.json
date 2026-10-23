@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 774,
+  "accepted": "_make_vtordisp_value@8",
+  "terminal": "_make_virtual_base_displacement@16",
+  "original_capture": "cases/virtual-diamond-frontiers/0774-make_vtordisp_value-8/original-receipt.json",
+  "original_capture_sha256": "ead39c0c686121a9f0c635b7ffee54953695a8b7b360f6701a68f5b85d38aa15",
+  "original_events": "cases/virtual-diamond-frontiers/0774-make_vtordisp_value-8/original-events.txt",
+  "original_events_sha256": "138d16dd1b7e118336815fefb68d0186e115ff15473c26f7f74da043870897eb",
+  "original_configuration": "cases/virtual-diamond-frontiers/0774-make_vtordisp_value-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

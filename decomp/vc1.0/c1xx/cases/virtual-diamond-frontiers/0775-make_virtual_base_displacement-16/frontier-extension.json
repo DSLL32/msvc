@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 775,
+  "accepted": "_make_virtual_base_displacement@16",
+  "terminal": "_virtual_base_subobject_offset@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0775-make_virtual_base_displacement-16/original-receipt.json",
+  "original_capture_sha256": "3417f7ab4f4868ca8e3ecca7dfc0e98f5d6cec87e950a5b72e40aacd2b2cdc5f",
+  "original_events": "cases/virtual-diamond-frontiers/0775-make_virtual_base_displacement-16/original-events.txt",
+  "original_events_sha256": "401e9daeae89d5d8ad4d31bbd0825e10071974c18c7066f4107781be141695e1",
+  "original_configuration": "cases/virtual-diamond-frontiers/0775-make_virtual_base_displacement-16/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

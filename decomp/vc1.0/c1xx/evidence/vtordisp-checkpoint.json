@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.940908526070416,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/vtordisp-checkpoint.log",
+  "raw_log_sha256": "0769deea3298450558a86a3b5ebc70845d35d97ae0a11054ac06a8a1a8200487",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture measurements separate"
+}

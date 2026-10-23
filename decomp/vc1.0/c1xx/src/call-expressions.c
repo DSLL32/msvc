@@ -1000,3 +1000,13 @@ int __stdcall is_this_object_expression(IrToken *expression)
     if (((CppSymbol *)operand->value.pointer)->name != name_this) return 0;
     return 1;
 }
+
+/* Original 0x785b0..0x785ee. Prefer the restricted path search, then
+   relax one category flag. Each attempt retains its own original call edge. */
+QualifierBinding *__stdcall find_named_class_binding(CppSymbol *tag, char *name,
+    unsigned categories)
+{
+    QualifierResolution *resolution = find_class_name_paths(tag, name, categories | 12);
+    if (!resolution) resolution = find_class_name_paths(tag, name, categories | 8);
+    return resolution ? resolution->binding : 0;
+}

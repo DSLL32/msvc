@@ -1032,3 +1032,95 @@ IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attribu
     IrToken *object = adjusted_this_expression(0);
     return new_ir_expression(0x5c, object, offset, type);
 }
+
+/* Original 0x3b040..0x3b05c. A base-subobject constructor must not
+   initialize virtual bases again. Replace the existing hidden argument value
+   with zero, retaining its argument node and the enclosing call expression. */
+IrToken *__stdcall clear_most_derived_argument(IrToken *call)
+{
+    IrToken *callee = call->value.pointer;
+    IrToken *argument = callee->tail.right;
+    argument->value.pointer = make_integer_constant(0);
+    return call;
+}
+
+IrToken *__stdcall make_virtual_base_displacement(IrToken *object,
+    unsigned pointer_offset, unsigned table_offset, CType *pointer_type);
+unsigned __stdcall virtual_base_subobject_offset(CppSymbol *base, CppSymbol *derived);
+
+/* Original 0x7b7d0..0x7b838. The construction displacement is the
+   runtime vbtable entry minus the fixed base-to-vbptr displacement. */
+IrToken *__stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group)
+{
+    unsigned pointer_offset, table_offset, fixed_offset;
+    CType *pointer_type;
+    IrToken *object, *value, *constant;
+    query_virtual_base_pointer(group->tag, tag, &pointer_offset, &table_offset, &pointer_type);
+    object = adjusted_this_expression(0);
+    value = make_virtual_base_displacement(object, pointer_offset, table_offset, pointer_type);
+    fixed_offset = virtual_base_subobject_offset(group->tag, tag);
+    constant = make_integer_constant(fixed_offset - pointer_offset);
+    return new_left_typed_expression(0x4f, value, constant);
+}
+
+VirtualTableGroup *__stdcall find_virtual_base_group(CppSymbol *tag, Vector *groups);
+
+/* Original 0x7bde0..0x7bdfa. The caller has an established virtual-base
+   group; retain the original unchecked metadata lookup. */
+unsigned __stdcall virtual_base_subobject_offset(CppSymbol *base, CppSymbol *derived)
+{
+    VirtualTableGroup *group = find_virtual_base_group(base,
+        derived->detail.class_info->virtual_table_groups);
+    return group->object_offset;
+}
+
+unsigned virtual_base_entry_width(void);
+
+/* Original 0x7b840..0x7b8ed. Follow the group's first dispatch table to
+   its originating pointer member. A copied symbol at minus one integer slot
+   denotes the construction displacement stored immediately before that member. */
+QualifierBinding *__stdcall make_vtordisp_qualifier_path(CppSymbol *tag,
+    VirtualTableGroup *group)
+{
+    VirtualTable *table = first_vector_item(group->tables);
+    QualifierResolution *resolution;
+    ArenaPool *pool;
+    CppSymbol *member;
+    begin_qualification_allocation(2);
+    resolution = append_qualifier_reference(0, 0, tag);
+    while (table->inheritance_path) {
+        resolution = append_qualifier_reference(0, resolution->binding,
+            (CppSymbol *)table->inheritance_path);
+        table = table->source_table;
+    }
+    pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+    member = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    *member = *table->pointer;
+    member->detail.value = 0U - virtual_base_entry_width();
+    member->type = builtin_integer_type();
+    resolution = append_qualifier_reference(0, resolution->binding, member);
+    end_qualification_allocation();
+    return resolution->binding;
+}
+
+int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
+
+/* Original 0x67460..0x6748d. Decode the two signed class indices
+   independently, then retain the distinct tag-relation lookup entry. */
+int __stdcall type_has_base_relation(CType *derived, CType *base)
+{
+    CppSymbol *base_tag = cpp_context_stack->items[base->field08];
+    CppSymbol *derived_tag = cpp_context_stack->items[derived->field08];
+    return tag_has_base_relation(derived_tag, base_tag);
+}
+
+/* Original 0x67490..0x674ba. Identical class tags succeed directly;
+   otherwise class-name lookup searches base categories without a diagnostic. */
+int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base)
+{
+    if (base == derived) return 1;
+    return lookup_class_name(derived, base->name, 1, 0) ? 1 : 0;
+}

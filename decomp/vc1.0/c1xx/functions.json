@@ -777,7 +777,17 @@
     "_find_hash_value@8",
     "_skip_base_qualifier_path@4",
     "_virtual_base_access_level@8",
-    "_memcpy"
+    "_memcpy",
+    "_clear_most_derived_argument@4",
+    "_make_vtordisp_value@8",
+    "_make_virtual_base_displacement@16",
+    "_virtual_base_subobject_offset@8",
+    "_make_vtordisp_qualifier_path@8",
+    "_equal_pointer",
+    "_type_has_base_relation@8",
+    "_tag_has_base_relation@8",
+    "_find_named_class_binding@12",
+    "_reject_member_pointer_arithmetic@4"
   ],
   "driver": [
     {
@@ -4763,7 +4773,7 @@
     {
       "name": "_type_has_base_relation@8",
       "start": 423008,
-      "end": 423009
+      "end": 423054
     },
     {
       "name": "_convert_derived_initializer@8",
@@ -4824,7 +4834,7 @@
     {
       "name": "_reject_member_pointer_arithmetic@4",
       "start": 392576,
-      "end": 392577
+      "end": 392653
     },
     {
       "name": "_convert_binary_operands@4",
@@ -4951,12 +4961,12 @@
     {
       "name": "_make_vtordisp_value@8",
       "start": 505808,
-      "end": 505809
+      "end": 505913
     },
     {
       "name": "_make_vtordisp_qualifier_path@8",
       "start": 505920,
-      "end": 505921
+      "end": 506094
     },
     {
       "name": "_leave_compound_scope",
@@ -5582,7 +5592,7 @@
     {
       "name": "_clear_most_derived_argument@4",
       "start": 241728,
-      "end": 241729
+      "end": 241757
     },
     {
       "name": "_count_call_arguments@4",
@@ -5827,7 +5837,7 @@
     {
       "name": "_find_named_class_binding@12",
       "start": 492976,
-      "end": 492977
+      "end": 493039
     },
     {
       "name": "_create_initializer_temporary@8",
@@ -6202,7 +6212,7 @@
     {
       "name": "_equal_pointer",
       "start": 323120,
-      "end": 323121
+      "end": 323136
     },
     {
       "name": "_equal_symbol_indices",
@@ -6573,6 +6583,21 @@
       "name": "_compute_virtual_base_access@8",
       "start": 507712,
       "end": 507713
+    },
+    {
+      "name": "_make_virtual_base_displacement@16",
+      "start": 202288,
+      "end": 202351
+    },
+    {
+      "name": "_virtual_base_subobject_offset@8",
+      "start": 507360,
+      "end": 507387
+    },
+    {
+      "name": "_tag_has_base_relation@8",
+      "start": 423056,
+      "end": 423099
     }
   ],
   "cases": {
@@ -6698,7 +6723,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_clear_most_derived_argument@4",
+      "terminal": "_convert_derived_initializer@8",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6829,9 +6854,19 @@
         "cases/virtual-diamond-frontiers/0769-find_hash_value-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0770-skip_base_qualifier_path-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0771-virtual_base_access_level-8/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0772-memcpy/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0772-memcpy/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0773-clear_most_derived_argument-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0774-make_vtordisp_value-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0775-make_virtual_base_displacement-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0776-virtual_base_subobject_offset-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0777-make_vtordisp_qualifier_path-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0778-equal_pointer/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0779-type_has_base_relation-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0780-tag_has_base_relation-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0781-find_named_class_binding-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0772-memcpy/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

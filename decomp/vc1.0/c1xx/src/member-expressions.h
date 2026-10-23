@@ -14,4 +14,6 @@ IrToken *__stdcall make_member_at_offset(IrToken *object, unsigned displacement,
 IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displacement, CType *type);
 IrToken *__stdcall adjust_virtual_member_object(IrToken *object, QualifierBinding *binding,
     CType *type, unsigned displacement, int pointer_conversion);
+int __stdcall query_virtual_base_pointer(CppSymbol *base, CppSymbol *derived,
+    unsigned *pointer_offset, unsigned *table_offset, CType **pointer_type);
 #endif

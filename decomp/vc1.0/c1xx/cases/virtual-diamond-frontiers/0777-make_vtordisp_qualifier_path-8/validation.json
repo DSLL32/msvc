@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_vtordisp_qualifier_path@8",
+    "start": 505920,
+    "end": 506094
+  },
+  "distinct_direct_callees": [
+    "_append_qualifier_reference@12",
+    "_begin_qualification_allocation@4",
+    "_builtin_integer_type",
+    "_end_qualification_allocation",
+    "_first_vector_item@4",
+    "_refill_arena@8",
+    "_virtual_base_entry_width"
+  ],
+  "next_frontier": "_equal_pointer",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4153927965089679,
+  "total_operation_seconds": 7.832926643081009,
+  "original_capture_seconds": 4.726192904636264
+}
