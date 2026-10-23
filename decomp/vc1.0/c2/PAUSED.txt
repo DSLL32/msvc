@@ -1,8 +1,18 @@
-C2 ACTIVE: shared-prefix migration validated at1074 acceptances/995 source graphs.
-Current deep-x87 frontier @available_chain_operands@8; resume reconstruction here.
-Extent union296783/399693 =74.252739%, not branch coverage.
-Seven complete objects plus the matching deep-x87 trap pass native checks.
-Nine original pipelines and eight first-entry references now use shared R:/S:.
-Old own prefix/server retired after nonuse verification; shared server untouched.
-Next approved case after deep x87: /O2 /G4 floating stores/comparisons.
-Pause after both remaining selected cases complete. No shim request.
+C2 approved CPU/x87 queue complete; paused after checkpoint1089.
+
+All nine native cases exit0 with matching streams and full objects after only
+COFF timestamp4..7 normalization.1010 whole source graphs match original.
+Accepted code-extent union301239/399693 bytes=75.3675946289%; not branch coverage.
+Original compiler and /W3 changed-source checks pass. Independent15-function
+cleanup ABI audit and21 graph/extent safeguards pass. No shim request pending.
+No pending build/capture/debugger command. No incomplete reconstructed function.
+
+See cases/i486-completion.json and cases/x87-completion.json for durable original
+before/after pairs, native matching/complete-artifact evidence and stage timing.
+Interactive analysis time unmeasured; combined build totals explicitly unsplit.
+The rejected premature1080 GDB run is retained in cases/x87-store-reload.json.
+
+Resume only on user-selected cases; proposals in cases/queue.json target G3
+rematerialization, G5 x87 arrangement/exchange, and string/memory intrinsics.
+Do not start these unapproved proposals. Shared prefix fixedR/S remains intact;
+never remap drives or stop its server. Own old prefix was retired in migration.

@@ -1,0 +1,432 @@
+{
+  "method": "CFG traversal of original/canonical machine RET operands; jump-table data not decoded as instructions",
+  "checkpoint": 1089,
+  "accepted_slice": [
+    1074,
+    1089
+  ],
+  "checked": [
+    {
+      "name": "@available_chain_operands@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x5c943",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x5c948",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x313af",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@set_generated_intrinsic_call@16",
+      "callee_stack_bytes": 8,
+      "original": [
+        {
+          "address": "0x27b5d",
+          "stack_bytes": 8
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1b221",
+          "stack_bytes": 8
+        }
+      ]
+    },
+    {
+      "name": "@select_runtime_intrinsic@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x1d29e",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1d264",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1d301",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1d235",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1d0d2",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1d1fe",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1d1ae",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x3c67a",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@lookup_runtime_intrinsic_opcode@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x1b26a",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x3c6cb",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@can_keep_float_store@12",
+      "callee_stack_bytes": 4,
+      "original": [
+        {
+          "address": "0x3ee2a",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3f0d5",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3f119",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3f129",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3f10c",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3f0f7",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3f100",
+          "stack_bytes": 4
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x76511",
+          "stack_bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "@find_float_register_reload@12",
+      "callee_stack_bytes": 4,
+      "original": [
+        {
+          "address": "0x3e575",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3e5b6",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3e59c",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x3e5a5",
+          "stack_bytes": 4
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x7675f",
+          "stack_bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "@initializer_symbols_available@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x4ee0c",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x4ee1e",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x4ee12",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x540b3",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@is_boundary_flow_label@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x5aede",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x5aef9",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x5aeff",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x2aed2",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@rewrite_i486_float_pop@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x38ac6",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x38ad1",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x38add",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x7ae3c",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@register_precedes_lea@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x2c86b",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2c86f",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x58b39",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@register_follows_lea@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x2c80c",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2c811",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x58be5",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@stack_adjustment_between@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x2f206",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x7c951",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@find_generic_candidate@12",
+      "callee_stack_bytes": 4,
+      "original": [
+        {
+          "address": "0x406ce",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x406f5",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x40704",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x406da",
+          "stack_bytes": 4
+        },
+        {
+          "address": "0x40710",
+          "stack_bytes": 4
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x6e18d",
+          "stack_bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "@scheduler_instruction_cycles@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x3ff12",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff31",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff4e",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff5a",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff5f",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff83",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff88",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff69",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff64",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff8d",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ff94",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ffc3",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x3ffcb",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x6e407",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@swap_scheduled_address_registers@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x40ef8",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x40f1a",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x40f3c",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x40f50",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x40f5a",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x40f7d",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x6e51f",
+          "stack_bytes": 0
+        }
+      ]
+    }
+  ],
+  "seconds": 0.3331904150545597,
+  "return_width_evidence": "scheduler_instruction_cycles original defines AX; all reconstructed callers explicitly consume word/byte or receive its unsigned-short result"
+}

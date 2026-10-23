@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "physical-conflicts",
-      "seconds": 2.048939673230052,
+      "module": "scheduler",
+      "seconds": 1.968114847317338,
       "returncode": 0
     }
   ],
-  "seconds": 2.049156976863742
+  "seconds": 1.9683090150356293
 }

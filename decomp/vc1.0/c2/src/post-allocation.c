@@ -273,3 +273,32 @@ int __fastcall equivalent_stack_copy_operands(MachineInstruction *first, Machine
         stack_adjustment_between(first, last);
     return displacement == (unsigned)first_operand->value.address->first.displacement;
 }
+
+/* Original [0002f170,0002f207). Net stack depth over the open interval.
+   Only ordinary kind0 operations participate; PUSH/POP count four bytes
+   and calls remove their recorded argument bytes. Arithmetic wraps as
+   the original32-bit accumulator does. The caller supplies a linked end. */
+unsigned __fastcall stack_adjustment_between(MachineInstruction *first,
+    MachineInstruction *last)
+{
+    MachineInstruction *instruction;
+    unsigned adjustment = 0, operation;
+    for (instruction = first->next; instruction != last; instruction = instruction->next) {
+        if (instruction->opcode & 15) continue;
+        operation = (instruction->opcode >> 8) & 255;
+        switch (operation) {
+        case MC_POP: adjustment -= 4; break;
+        case MC_PUSH: adjustment += 4; break;
+        case MC_CALL: adjustment -= instruction->operands[1].value.call->argument_bytes; break;
+        case MC_ADD: case MC_SUB:
+            if ((instruction->operands[0].flags & 15) != OPERAND_REGISTER ||
+                instruction->operands[0].value.reg.words.number != REG_ESP) break;
+            if ((instruction->operands[1].flags & 15) != OPERAND_IMMEDIATE)
+                compiler_internal_error("@(#)color.c:1.101", 0xd5f);
+            if (operation == MC_SUB) adjustment += instruction->operands[1].value.constant;
+            else adjustment -= instruction->operands[1].value.constant;
+            break;
+        }
+    }
+    return adjustment;
+}

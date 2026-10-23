@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1085 accepted frontiers and1006 reconstructed source functions.
-Accepted original code extents cover300035/399693 bytes (75.066363%). This is
+Current checkpoint:1089 accepted frontiers and1010 reconstructed source functions.
+Accepted original code extents cover301239/399693 bytes (75.367595%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -15,9 +15,9 @@ check/replay and named-profile checks run native i386 -O0 -g only. They compare
 cached original first-entry traces, status, streams and complete object bytes.
 Unknown process dependencies fail; no fixture invokes Wine or refreshes original
 references. Only identified COFF timestamp bytes4..7 are normalized. The suite
-contains eight complete objects: minimal286, hello2289, loops620, pressure879,
-aliasing600, floating979, i386572 and deep x87947 bytes. The approved883-byte
-i486 case is active at matching stack_adjustment_between trap. See cases/queue.json and cases/native-all-validation.json.
+contains nine complete objects: minimal286, hello2289, loops620, pressure879,
+aliasing600, floating979, i386572, deep x87947 and i486883 bytes. The approved
+CPU/x87 queue is complete and reconstruction is paused. See cases/queue.json and cases/native-all-validation.json.
 
 Original builds and explicit captures use the repository shared prefix
 ~/.ai-tmp/vc1.0-capture/wine. Fixed drives are R:repo and S:~/.ai-tmp/msvc2.
@@ -80,3 +80,12 @@ suite wrapper took0.464s. Detailed nine-pipeline/eight-entry-capture and per-cas
 setup/execution/check timings, including known failures/unmeasured limits, are in
 cases/shared-prefix-validation.json. Original and native case timing ledgers
 are separate; analysis wall time was not measured.
+
+Final CPU/x87 queue checkpoint1089 preserves1010 whole source graphs and all
+nine exact object oracles. Fifteen original/canonical fastcall cleanup ABIs are
+independently checked in cases/resumed-frontier-abi-validation.json. The generic
+cycle helper returns AX; its declaration now records the unsigned-short ABI.
+The i486 register-pair helper provisional *_lea names actually test PUSH pairs;
+source comments preserve that distinction without altering cached identities.
+Completion evidence/timings and unstarted next-case proposals are recorded in
+cases/x87-completion.json, cases/i486-completion.json and cases/queue.json.

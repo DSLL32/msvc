@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "2815743478eee478ca658bd0b14de33dade5d3170d830a67aa771e1e51e12dab",
+    "functions.json": "02dcc2717deed0bcbae2e096629b5c12dc436d0bf4fea51e14c4e6a121554ea8",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -1568,7 +1568,7 @@
     },
     "find_generic_candidate": {
       "logical": "@find_generic_candidate@12",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "find_induction_initial_value": {
       "logical": "@find_induction_initial_value@4",
@@ -4320,7 +4320,7 @@
     },
     "scheduler_instruction_cycles": {
       "logical": "@scheduler_instruction_cycles@4",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "scheduler_move_conflict": {
       "logical": "@scheduler_move_conflict@16",
@@ -4600,7 +4600,7 @@
     },
     "stack_adjustment_between": {
       "logical": "@stack_adjustment_between@8",
-      "source": "src/stubs.c"
+      "source": "src/post-allocation.c"
     },
     "stack_copy_operand_changed": {
       "logical": "@stack_copy_operand_changed@16",
@@ -4668,7 +4668,7 @@
     },
     "swap_scheduled_address_registers": {
       "logical": "@swap_scheduled_address_registers@4",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "symbol_display_name": {
       "logical": "@symbol_display_name@4",
@@ -15033,6 +15033,407 @@
               "total_seconds": 1.5510783018544316
             }
           }
+        },
+        {
+          "accepted_function": "@stack_adjustment_between@8",
+          "accepted_kind": "application",
+          "previous_logical": "@stack_adjustment_between@8",
+          "original_extent": [
+            "0x2f170",
+            "0x2f207"
+          ],
+          "before": {
+            "path": "cases/i486-original-1085.json",
+            "sha256": "e0bd1a37be9f478c76111b70f55dc72c877bed01c2f638bbfa3bb6c6053172eb",
+            "capture": {
+              "label": "i486-original-1085",
+              "profile": "i486",
+              "accepted": 1085,
+              "events": "exception 80000003 rva 0001f170 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "f90100c8f976ebf087ee8916cb9631d1449448c9138b467341459a910b9584a2",
+              "config_sha256": "2815743478eee478ca658bd0b14de33dade5d3170d830a67aa771e1e51e12dab",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-iyvrgcfm",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@stack_adjustment_between@8",
+              "original_va": "0x2f170",
+              "setup_seconds": 0.22400812897831202,
+              "execution_seconds": 1.3005959084257483,
+              "check_seconds": 0.026473826728761196,
+              "total_seconds": 1.5510783018544316
+            }
+          },
+          "after": {
+            "path": "cases/i486-original-1086.json",
+            "sha256": "fc2e52440432ff5b79603edaf299b7bc0b07d39d9826f643fcfd4dd1473f6ff5",
+            "capture": {
+              "label": "i486-original-1086",
+              "profile": "i486",
+              "accepted": 1086,
+              "events": "exception 80000003 rva 000304f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "b9311282ad618cb8f2da8c52cff204b8985d8d995620d8a6bf10332a67aecf2c",
+              "config_sha256": "12843262607b84cf8973f04072a8a048d4a376774dea9b8f4687fab2ad458787",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-vcivtket",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@find_generic_candidate@12",
+              "original_va": "0x404f0",
+              "setup_seconds": 0.22607957385480404,
+              "execution_seconds": 1.6684873970225453,
+              "check_seconds": 0.026592924259603024,
+              "total_seconds": 1.9211602760478854
+            }
+          }
+        },
+        {
+          "accepted_function": "@find_generic_candidate@12",
+          "accepted_kind": "application",
+          "previous_logical": "@find_generic_candidate@12",
+          "original_extent": [
+            "0x404f0",
+            "0x40713"
+          ],
+          "before": {
+            "path": "cases/i486-original-1086.json",
+            "sha256": "fc2e52440432ff5b79603edaf299b7bc0b07d39d9826f643fcfd4dd1473f6ff5",
+            "capture": {
+              "label": "i486-original-1086",
+              "profile": "i486",
+              "accepted": 1086,
+              "events": "exception 80000003 rva 000304f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "b9311282ad618cb8f2da8c52cff204b8985d8d995620d8a6bf10332a67aecf2c",
+              "config_sha256": "12843262607b84cf8973f04072a8a048d4a376774dea9b8f4687fab2ad458787",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-vcivtket",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@find_generic_candidate@12",
+              "original_va": "0x404f0",
+              "setup_seconds": 0.22607957385480404,
+              "execution_seconds": 1.6684873970225453,
+              "check_seconds": 0.026592924259603024,
+              "total_seconds": 1.9211602760478854
+            }
+          },
+          "after": {
+            "path": "cases/i486-original-1087.json",
+            "sha256": "ffc6c125879c06904fafbd6192750d7a73768843125a3735eb2c09559faf7012",
+            "capture": {
+              "label": "i486-original-1087",
+              "profile": "i486",
+              "accepted": 1087,
+              "events": "exception 80000003 rva 0002fe70 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "28cde9ca7dbfdc873c92afefc7edc6732ef15101185b3c191f95398b250f7139",
+              "config_sha256": "38b69cf741e1d9f1a368b3f798508ba7ee262f31c2e11417ef2357a38068035d",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-84fww1mw",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@scheduler_instruction_cycles@4",
+              "original_va": "0x3fe70",
+              "setup_seconds": 0.22587528079748154,
+              "execution_seconds": 1.37067817337811,
+              "check_seconds": 0.02696331311017275,
+              "total_seconds": 1.623517183586955
+            }
+          }
+        },
+        {
+          "accepted_function": "@scheduler_instruction_cycles@4",
+          "accepted_kind": "application",
+          "previous_logical": "@scheduler_instruction_cycles@4",
+          "original_extent": [
+            "0x3fe70",
+            "0x3ffcc"
+          ],
+          "before": {
+            "path": "cases/i486-original-1087.json",
+            "sha256": "ffc6c125879c06904fafbd6192750d7a73768843125a3735eb2c09559faf7012",
+            "capture": {
+              "label": "i486-original-1087",
+              "profile": "i486",
+              "accepted": 1087,
+              "events": "exception 80000003 rva 0002fe70 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "28cde9ca7dbfdc873c92afefc7edc6732ef15101185b3c191f95398b250f7139",
+              "config_sha256": "38b69cf741e1d9f1a368b3f798508ba7ee262f31c2e11417ef2357a38068035d",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-84fww1mw",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@scheduler_instruction_cycles@4",
+              "original_va": "0x3fe70",
+              "setup_seconds": 0.22587528079748154,
+              "execution_seconds": 1.37067817337811,
+              "check_seconds": 0.02696331311017275,
+              "total_seconds": 1.623517183586955
+            }
+          },
+          "after": {
+            "path": "cases/i486-original-1088.json",
+            "sha256": "56b05cbfbb3048240c75043bde7e1a686ffe1bc5ff9ea035157e8501d833bce9",
+            "capture": {
+              "label": "i486-original-1088",
+              "profile": "i486",
+              "accepted": 1088,
+              "events": "exception 80000003 rva 00030ee0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "d0f9f21083d75ffbf94ece019f9dac24f985fe896cb70ea6fc28bd4a7f715180",
+              "config_sha256": "c9ff2b2abf34920d5e502fbe8c0605a84b4b06a33e12a8dfb573c8de1079df22",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-j40ri5w0",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@swap_scheduled_address_registers@4",
+              "original_va": "0x40ee0",
+              "setup_seconds": 0.22272529918700457,
+              "execution_seconds": 1.1498722722753882,
+              "check_seconds": 0.02671230211853981,
+              "total_seconds": 1.3993104128167033
+            }
+          }
+        },
+        {
+          "accepted_function": "@swap_scheduled_address_registers@4",
+          "accepted_kind": "application",
+          "previous_logical": "@swap_scheduled_address_registers@4",
+          "original_extent": [
+            "0x40ee0",
+            "0x40f7e"
+          ],
+          "before": {
+            "path": "cases/i486-original-1088.json",
+            "sha256": "56b05cbfbb3048240c75043bde7e1a686ffe1bc5ff9ea035157e8501d833bce9",
+            "capture": {
+              "label": "i486-original-1088",
+              "profile": "i486",
+              "accepted": 1088,
+              "events": "exception 80000003 rva 00030ee0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "d0f9f21083d75ffbf94ece019f9dac24f985fe896cb70ea6fc28bd4a7f715180",
+              "config_sha256": "c9ff2b2abf34920d5e502fbe8c0605a84b4b06a33e12a8dfb573c8de1079df22",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-j40ri5w0",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@swap_scheduled_address_registers@4",
+              "original_va": "0x40ee0",
+              "setup_seconds": 0.22272529918700457,
+              "execution_seconds": 1.1498722722753882,
+              "check_seconds": 0.02671230211853981,
+              "total_seconds": 1.3993104128167033
+            }
+          },
+          "after": {
+            "path": "cases/i486-original-1089.json",
+            "sha256": "45775f0b96239f6fc73b4726b2943b598bb9ea85ceb00e56ca28d51c2c99258e",
+            "capture": {
+              "label": "i486-original-1089",
+              "profile": "i486",
+              "accepted": 1089,
+              "events": "exit 0\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "1607c176293877317c4793ff1f1e21f736ce3cf97b1116ee1a96b84c91a0dda7",
+              "config_sha256": "02dcc2717deed0bcbae2e096629b5c12dc436d0bf4fea51e14c4e6a121554ea8",
+              "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "b2dd3610f7278ed28233738c2b758619eca08624d26af63357892d9ad56d2cc3",
+                "c2/irsy": "8699cce1ac58b6169c47459a9ee33d22210a0c0602843959c365b94c11890642",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "a75627684a2e574021467c5d303dff2bfcd3a592b1f8fe237adffc81c7eab9dd"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating486.c -W 1 -dos -Fofloating486.obj -ML -Gs4096 -Gy -G4 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-i486-tlqe1bvh",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "exit:0",
+              "original_va": null,
+              "outputs": [
+                {
+                  "path": "cases/i486-original-1089/floating486.obj",
+                  "name": "floating486.obj",
+                  "bytes": 883,
+                  "sha256": "b3f53d9e1bf354965061f310e78df33547d07c1e236764250c5cd8238d3559d9",
+                  "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e",
+                  "ignored_timestamp": [
+                    4,
+                    4
+                  ]
+                }
+              ],
+              "setup_seconds": 0.22495832107961178,
+              "execution_seconds": 1.111490761861205,
+              "check_seconds": 0.02750001661479473,
+              "total_seconds": 1.3639494869858027
+            }
+          }
         }
       ]
     }
@@ -21649,7 +22050,7 @@
     },
     "i486": {
       "first": 1081,
-      "last": 1085,
+      "last": 1089,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -22654,11 +23055,14 @@
         "rewrite_i486_float_pop",
         "register_precedes_lea",
         "register_follows_lea",
-        "stack_adjustment_between"
+        "stack_adjustment_between",
+        "find_generic_candidate",
+        "scheduler_instruction_cycles",
+        "swap_scheduled_address_registers"
       ],
-      "terminal": "@stack_adjustment_between@8",
-      "terminal_kind": "application",
-      "returncode": -5
+      "terminal": "exit:0",
+      "terminal_kind": "exit",
+      "returncode": 0
     }
   }
 }

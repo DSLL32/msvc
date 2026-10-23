@@ -136,7 +136,7 @@ int __fastcall scheduled_float_latency(MachineInstruction *instruction);
 void __fastcall remove_pentium_candidate_undo(MachineInstruction *instruction, SchedulerCandidate *candidate);
 void __cdecl apply_scheduler_undo(void);
 void __fastcall record_scheduled_register(unsigned short reg, MachineInstruction *instruction, unsigned char clobbered);
-int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction);
+unsigned short __fastcall scheduler_instruction_cycles(MachineInstruction *instruction);
 extern int scheduler_has_indirect_branch, scheduler_branch_pipe;
 void __fastcall set_scheduler_register_tracking(int enabled);
 void __fastcall schedule_pentium_branch_edge(MachineInstruction *branch, MachineInstruction *candidate, MachineInstruction *middle, int taken, int crossed_label);

@@ -1,0 +1,12 @@
+{
+  "logical": "@scheduler_instruction_cycles@4",
+  "matched": true,
+  "executable_sha256": "851f1de9c13352189bcef3a90880945f0cd2cc064d288920ae9e86a1158dccdb",
+  "config_sha256": "38b69cf741e1d9f1a368b3f798508ba7ee262f31c2e11417ef2357a38068035d",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+  "setup_seconds": 0.006087356247007847,
+  "execution_seconds": 0.13293240871280432,
+  "seconds": 0.14777809008955956,
+  "log_sha256": "c963b6ab6380276f9880a08a902d3de8a9e5d8c37745bfc18d702b2a3784682c",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/i486-gdb-d9wvbmbg"
+}

@@ -1,5 +1,5 @@
 {
-  "active": "i486-floating",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -172,7 +172,7 @@
       "case": "i486-floating",
       "after": "x87-stack",
       "phase": "c2",
-      "status": "active",
+      "status": "complete",
       "flags": [
         "/O2",
         "/G4"
@@ -259,7 +259,83 @@
       "exit": 0,
       "object_bytes": 947,
       "normalized_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1"
+    },
+    {
+      "case": "i486-floating",
+      "accepted_frontiers": 1089,
+      "reconstructed_functions": 1010,
+      "exit": 0,
+      "object_bytes": 883,
+      "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
     }
   ],
-  "status": "Active approved CPU/x87 queue; pause after all three complete"
+  "status": "Approved three-case CPU/x87 queue complete; paused pending user selection",
+  "next_case_proposals": [
+    {
+      "case": "i386 rematerialization/spill pressure",
+      "flags": [
+        "/O1",
+        "/G3"
+      ],
+      "purpose": "Many live integer constants/address calculations across nested calls, aiming to force rematerialization costs rather than only ordinary register allocation",
+      "targets": [
+        {
+          "name": "@i386_instruction_cost@4",
+          "start": "0x2d350",
+          "analysis_bytes": 720
+        },
+        {
+          "name": "@generic_instruction_size_cost@4",
+          "start": "0x42870",
+          "extent_bound_bytes": 176
+        }
+      ],
+      "limit": "Previous G3 case did not exercise these helpers; confirm original frontier when approved"
+    },
+    {
+      "case": "x87 stack permutations without clearing calls",
+      "flags": [
+        "/Oi",
+        "/O2",
+        "/G5"
+      ],
+      "purpose": "Interdependent noncommutative floating expressions, branch joins and nested inline intrinsics retaining multiple values instead of passing them all to an external sink",
+      "targets": [
+        {
+          "name": "@arrange_scheduled_float_inputs@4",
+          "start": "0x466f0",
+          "analysis_bytes": 792
+        },
+        {
+          "name": "@exchange_scheduled_float_stack@4",
+          "start": "0x46a10",
+          "analysis_bytes": 162
+        }
+      ],
+      "limit": "Both helpers remain unaccepted; exchange keeps original1..8 contract with explicit named slot8 aliases"
+    },
+    {
+      "case": "string/memory intrinsic selection",
+      "flags": [
+        "/Oi",
+        "/O2",
+        "/G4"
+      ],
+      "purpose": "strlen/strcpy/strcmp/memset with fixed and dynamic lengths, overlapping alignment conditions and returned pointers",
+      "targets": [
+        {
+          "name": "@select_intrinsic_string_length@12",
+          "start": "0x1ca50",
+          "extent_bound_bytes": 272
+        },
+        {
+          "name": "@select_intrinsic_a3_a4@8"
+        },
+        {
+          "name": "@select_intrinsic_aa_ab@8"
+        }
+      ],
+      "limit": "Extent bound is distance to next known entry, not an accepted function extent; other selectors remain named stubs"
+    }
+  ]
 }

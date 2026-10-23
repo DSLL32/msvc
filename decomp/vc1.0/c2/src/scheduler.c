@@ -2773,3 +2773,85 @@ void __fastcall select_generic_candidate(int count, SchedulerCandidate *candidat
     }
     candidates[0] = candidates[selected];
 }
+
+/* Original [000404f0,00040713). Search up to six ordinary candidates
+   in the requested direction, skipping metadata records and stopping at
+   scheduling barriers. Backward floating-latency filling starts at the
+   last floating instruction; other modes start at the current issue.
+   Interval scanning performs the actual legal instruction movement. */
+MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instruction,
+    int forward, int reason)
+{
+    MachineInstruction *scan, *anchor;
+    int examined = 0, movable = 0;
+    if (SCHEDULER_BARRIER(instruction)) return 0;
+    scheduler_address_penalty = reason;
+    anchor = scheduler_instruction;
+    scan = instruction;
+    if (!forward) anchor = scan = reason ? scheduler_instruction : scheduler_last_float;
+    do {
+        do { scan = forward ? scan->next : scan->previous; }
+        while (scan && !SCHEDULABLE_KIND(scan->opcode & 15) && !SCHEDULER_BARRIER(scan));
+        if (scan) {
+            if (SCHEDULER_BARRIER(scan)) return 0;
+            if (reason == 2 && instruction_accesses_memory(scan)) movable = 0;
+            else if (reason == 3 && (unsigned short)scheduler_instruction_cycles(scan) == 1)
+                movable = 0;
+            else movable = scan_schedule_interval(scan, anchor, forward, reason, 1, 1, 0);
+        }
+        ++examined;
+    } while (scan && !movable && examined <= 5);
+    if (!movable) return 0;
+    return anchor == scheduler_instruction ? scan : scheduler_instruction;
+}
+
+#define SCHEDULER_MEMORY(o) (((o)->flags & 15) == OPERAND_ABSOLUTE || \
+    ((o)->flags & 15) == OPERAND_BASED || ((o)->flags & 15) == OPERAND_INDEXED)
+/* Original [0003fe70,0003ffcc). The original result is AX, not a fully
+   defined EAX: all callers use its low word/byte. Coarse generic timing
+   distinguishes multiply/divide, stack transfers and memory arithmetic. */
+unsigned short __fastcall scheduler_instruction_cycles(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    int count;
+    switch (operation) {
+    case MC_MOV: case MC_LEA: return 1;
+    case MC_IMUL: case MC_MUL: case MC_IMUL3: case MC_IMUL2: return 13;
+    case MC_POP: case MC_PUSH: case MC_EPUSH:
+        return SCHEDULER_MEMORY(&instruction->operands[0]) ? 4 : 1;
+    case MC_DIV: case MC_IDIV: return 30;
+    case MC_ADC: case MC_ADD: case MC_AND: case MC_OR:
+    case MC_SBB: case MC_SUB: case MC_XOR:
+        return SCHEDULER_MEMORY(&instruction->operands[0]) ||
+            SCHEDULER_MEMORY(&instruction->operands[1]) ? 2 : 1;
+    }
+    count = machine_operand_counts[operation];
+    if (!count) return 1;
+    if (SCHEDULER_MEMORY(&instruction->operands[0])) return 3;
+    if (count == 1) return 1;
+    return SCHEDULER_MEMORY(&instruction->operands[1]) ? 3 : 1;
+}
+
+/* Original [00040ee0,00040f7e). An unscaled indexed address can exchange
+   its base/index numbers to avoid an i486 address dependency. The first
+   memory operand takes priority; retain both register annotation words. */
+int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction)
+{
+    MachineOperand *operand;
+    MachineAddress *address;
+    unsigned short number;
+    int count = machine_operand_counts[(instruction->opcode >> 8) & 255];
+    if (!count) return 0;
+    operand = &instruction->operands[0];
+    if (!SCHEDULER_MEMORY(operand)) {
+        if (count != 2) return 0;
+        operand = &instruction->operands[1];
+        if (!SCHEDULER_MEMORY(operand)) return 0;
+    }
+    if ((operand->flags & 15) != OPERAND_INDEXED || (operand->flags & 0x300)) return 0;
+    address = operand->value.address;
+    number = address->base.words.number;
+    address->base.words.number = address->index.words.number;
+    address->index.words.number = number;
+    return 1;
+}

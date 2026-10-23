@@ -60,7 +60,7 @@
   ],
   "evidence": {
     "references": "cases/i486-original-1081..1085.json and matching native receipts",
-    "data": "cases/float-peephole-data-validation.json",
+    "data": "cases/floating-peephole-data-validation.json",
     "fixtures": "cases/native-all-validation.json"
   },
   "timing": {

@@ -1089,7 +1089,11 @@
     "@is_boundary_flow_label@4",
     "@rewrite_i486_float_pop@4",
     "@register_precedes_lea@8",
-    "@register_follows_lea@8"
+    "@register_follows_lea@8",
+    "@stack_adjustment_between@8",
+    "@find_generic_candidate@12",
+    "@scheduler_instruction_cycles@4",
+    "@swap_scheduled_address_registers@4"
   ],
   "driver": [
     {
@@ -6088,8 +6092,7 @@
     {
       "name": "@scheduler_instruction_cycles@4",
       "start": 261744,
-      "end": 261745,
-      "provisional": true
+      "end": 262092
     },
     {
       "name": "@set_scheduler_register_tracking@4",
@@ -6602,8 +6605,7 @@
     {
       "name": "@stack_adjustment_between@8",
       "start": 192880,
-      "end": 192881,
-      "provisional": true
+      "end": 193031
     },
     {
       "name": "@assign_machine_operand@8",
@@ -7435,14 +7437,12 @@
     {
       "name": "@find_generic_candidate@12",
       "start": 263408,
-      "end": 263409,
-      "provisional": true
+      "end": 263955
     },
     {
       "name": "@swap_scheduled_address_registers@4",
       "start": 265952,
-      "end": 265953,
-      "provisional": true
+      "end": 266110
     },
     {
       "name": "@generic_instruction_size_cost@4",

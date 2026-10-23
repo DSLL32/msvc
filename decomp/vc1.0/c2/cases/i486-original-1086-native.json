@@ -1,0 +1,12 @@
+{
+  "logical": "@find_generic_candidate@12",
+  "matched": true,
+  "executable_sha256": "95663c5b11e8043d388aaaef79955baa0ed908de0bb4e8243290eb856622e174",
+  "config_sha256": "12843262607b84cf8973f04072a8a048d4a376774dea9b8f4687fab2ad458787",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+  "setup_seconds": 0.006105571053922176,
+  "execution_seconds": 0.13131369277834892,
+  "seconds": 0.14643028937280178,
+  "log_sha256": "c3268a5ba1497ea858690d43e2c93dd9e452c7c75b057a902e025ce6e989f6ef",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/i486-gdb-c7_imvl9"
+}

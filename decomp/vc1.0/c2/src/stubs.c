@@ -315,7 +315,6 @@ void __fastcall register_machine_label(MachineInstruction *instruction) { __asm 
 int __fastcall arrange_scheduled_float_inputs(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall exchange_scheduled_float_stack(int slot) { __asm int 3 }
 void __fastcall arrange_scheduled_float_operands(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
@@ -344,7 +343,6 @@ SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
 void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
     MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
-unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
@@ -378,7 +376,5 @@ int inherit_float_motion_uses(void) { __asm int 3 }
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 
 
-MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instruction, int forward, int reason) { __asm int 3 }
-int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction) { __asm int 3 }
 
 int __fastcall generic_instruction_size_cost(MachineInstruction *instruction) { __asm int 3 }
