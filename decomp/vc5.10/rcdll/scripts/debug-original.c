@@ -491,7 +491,7 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f||address==base+0x4da5||address==base+0xbee2||address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4||address==base+0x41fb||address==base+0x2690||address==base+0xc036||address==base+0x1205d||address==base+0x6345||address==base+0x12a9b||address==base+0x11b44||address==base+0x26d9||address==base+0x478b||address==base+0x30c1){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f||address==base+0x4da5||address==base+0xbee2||address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4||address==base+0x41fb||address==base+0x2690||address==base+0xc036||address==base+0x1205d||address==base+0x6345||address==base+0x12a9b||address==base+0x11b44||address==base+0x26d9||address==base+0x478b||address==base+0x30c1||address==base+0x12176){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
@@ -506,10 +506,10 @@ static int trap(HANDLE thread,DWORD address)
                 hexbytes("number-operand",words[1],wide_string_bytes(words[1]));
             }
             if(address==base+0x26bb||address==base+0x26f8)hexbytes("setup-forwarded",c.Esp+36,16);
-            if(address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4||address==base+0x41fb||address==base+0x2690||address==base+0xc036||address==base+0x1205d||address==base+0x6345||address==base+0x12a9b||address==base+0x11b44||address==base+0x26d9||address==base+0x478b||address==base+0x30c1){
+            if(address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4||address==base+0x41fb||address==base+0x2690||address==base+0xc036||address==base+0x1205d||address==base+0x6345||address==base+0x12a9b||address==base+0x11b44||address==base+0x26d9||address==base+0x478b||address==base+0x30c1||address==base+0x12176){
                 DWORD bucket,record,fields[4],count=0,pointer;char label[80];
                 if(address==base+0x3db4){hexbytes("setup-forwarded",c.Esp+36,16);hexbytes("source-open-input",words[1],wide_string_bytes(words[1]));}
-                else{DWORD parent[2],source_bp=c.Ebp;if(address==base+0x26d9)readmem(c.Esp+16,&source_bp,4);if(address==base+0x30c1)readmem(c.Esp+12,&source_bp,4);fprintf(events,"source-owner-bp %08lx\n",source_bp);readmem(source_bp+8,parent,8);hexbytes("setup-forwarded",source_bp+40,16);hexbytes("source-open-forwarded",source_bp+8,8);hexbytes("source-open-input",parent[0],wide_string_bytes(parent[0]));hexbytes("source-new-buffer",parent[1]-8,0x200e);readmem(base+0x21e88,&pointer,4);crt_file_state(pointer,"cpp-source",1);}
+                else{DWORD parent[2],source_bp=c.Ebp;if(address==base+0x26d9)readmem(c.Esp+16,&source_bp,4);if(address==base+0x30c1)readmem(c.Esp+12,&source_bp,4);if(address==base+0x12176)readmem(c.Esp+56,&source_bp,4);fprintf(events,"source-owner-bp %08lx\n",source_bp);readmem(source_bp+8,parent,8);hexbytes("setup-forwarded",source_bp+40,16);hexbytes("source-open-forwarded",source_bp+8,8);hexbytes("source-open-input",parent[0],wide_string_bytes(parent[0]));hexbytes("source-new-buffer",parent[1]-8,0x200e);readmem(base+0x21e88,&pointer,4);crt_file_state(pointer,"cpp-source",1);}
                 readmem(base+0x18e74,&pointer,4);if(pointer)crt_file_state(pointer,"cpp-output",0);else fprintf(events,"cpp-output-pointer 00000000\n");
                 for(bucket=0;bucket<256;++bucket){
                     readmem(base+0x21ea0+bucket*4,&record,4);

@@ -379,6 +379,12 @@
       "original_rva": "0x16cd0",
       "kind": "null-pointer",
       "bytes": 4
+    },
+    {
+      "name": "rc_number_buffer_active",
+      "original_rva": "0x21e90",
+      "kind": "integer",
+      "bytes": 4
     }
   ],
   "options": {

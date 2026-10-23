@@ -47,6 +47,9 @@ def prepare(config,out):
     if any(f['name']=='rc_directive_code'and not f.get('stub')for f in config['functions']):
         spec=spec_from_file_location('directive_table',HERE/'scripts/check-directive-table.py');module=module_from_spec(spec);spec.loader.exec_module(module)
         (out/'directive-table.json').write_text(json.dumps(module.verify(),indent=2)+'\n')
+    if any(f['name']=='rc_next_token'and not f.get('stub')for f in config['functions']):
+        spec=spec_from_file_location('token_info',HERE/'scripts/check-token-info.py');module=module_from_spec(spec);spec.loader.exec_module(module)
+        (out/'token-info.json').write_text(json.dumps(module.verify(),indent=2)+'\n')
     if (HERE/'src/characters.c').exists():
         spec=spec_from_file_location('character_tables',HERE/'scripts/check-characters.py');module=module_from_spec(spec);spec.loader.exec_module(module)
         (out/'character-tables.json').write_text(json.dumps(module.verify(),indent=2)+'\n')
@@ -61,7 +64,7 @@ def run(config_path=None,out=None):
     started=time.perf_counter();p=subprocess.run(command,capture_output=True,text=True);elapsed=time.perf_counter()-started
     (out/'graph-audit.stdout').write_text(p.stdout);(out/'graph-audit.stderr').write_text(p.stderr)
     receipt=dict(engine_sha256=sha(ENGINE),command=command,status=p.returncode,elapsed_seconds=elapsed,functions=accepted,input_sha256=sha(config_path),candidate=candidate())
-    receipt['audit_inputs']={name:sha(out/name)for name in ['graph-input.json','original-runtime.json','rebuilt-runtime.json','graph-metadata.json','compiler-support-identity.json','dispatcher-switch.json','copy-seh.json','character-tables.json','directive-table.json']if (out/name).is_file()}
+    receipt['audit_inputs']={name:sha(out/name)for name in ['graph-input.json','original-runtime.json','rebuilt-runtime.json','graph-metadata.json','compiler-support-identity.json','dispatcher-switch.json','copy-seh.json','character-tables.json','directive-table.json','token-info.json']if (out/name).is_file()}
     if not p.returncode:
         report=json.loads(p.stdout)
         assert report['checked_functions']==len(accepted),'prefix-only audit omitted trial'

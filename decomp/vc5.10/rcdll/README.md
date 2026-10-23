@@ -379,3 +379,15 @@ records ten fresh controls, an upper-EAX scope control and exact lexer entry
 inputs. Native high-character indices trap before unavailable adjacent data;
 the plain Linux probe links the production object. The next frontier is the
 zero-argument lexer, with prior token kind1, null token value and cleared modes.
+
+The lexer is accepted (2,831 bytes), reaching the number parser on the prepared
+`#line 1` marker. Its actual WCHAR49 argument, digit class29, cursor14 and
+inactive alternate numeric-buffer input match; the lexer has not returned yet.
+[Verification](cases/resources-rich-trailing-space/next-token-verification.json)
+records eight fresh controls and separate build/capture/audit/native times.
+The full body preserves operator, quote, comment, identifier and source-boundary
+paths behind named helpers. Only44 encountered descriptor rows are defined;
+their kind is one BYTE, and padding/other keyword rows remain unclaimed.
+A plain Linux guard probe links the production lexer object with an explicitly
+controlled number dependency and confirms unavailable descriptor128 traps in the
+lexer itself; descriptor7 returns94. This does not accept the number parser.

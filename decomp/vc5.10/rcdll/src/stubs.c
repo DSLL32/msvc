@@ -138,12 +138,6 @@ void __cdecl rc_parse_define(void)
     
 }
 
-void __cdecl rc_next_token(void)
-{
-    __asm int 3
-    
-}
-
 void __cdecl rc_skip_line(void)
 {
     __asm int 3
@@ -186,7 +180,69 @@ WCHAR __cdecl rc_get_logical_character(void)
     return 0;
 }
 
-void __cdecl rc_resume_input(void)
+int __cdecl rc_resume_input(void)
 {
     __asm int 3
+}
+
+void __cdecl rc_line_comment(void)
+{
+    __asm int 3
+}
+
+void __cdecl rc_block_comment(void)
+{
+    __asm int 3
+}
+
+int __cdecl rc_open_source_frame(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_copy_quoted(WCHAR delimiter)
+{
+    __asm int 3
+}
+
+unsigned char __cdecl rc_read_character_constant(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __cdecl rc_read_string(void)
+{
+    __asm int 3
+}
+
+unsigned char __stdcall rc_read_number(WCHAR first)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned char __stdcall rc_read_fraction(WCHAR *end)
+{
+    __asm int 3
+    return 0;
+}
+
+int __stdcall rc_match_logical_character(unsigned character)
+{
+    __asm int 3
+    return 0;
+}
+
+int __stdcall rc_read_macro_identifier(WCHAR first)
+{
+    __asm int 3
+    return 0;
+}
+
+int __stdcall rc_expand_macro(RcMacro *macro)
+{
+    __asm int 3
+    return 0;
 }

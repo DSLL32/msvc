@@ -49,7 +49,8 @@
     "rc_read_nonspace",
     "rc_read_identifier",
     "rc_character_class",
-    "rc_directive_code"
+    "rc_directive_code",
+    "rc_next_token"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

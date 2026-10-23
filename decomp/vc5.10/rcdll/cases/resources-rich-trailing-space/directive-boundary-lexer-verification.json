@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "kind": "directive",
+  "function": "rc_directive_code",
+  "scope": "Native source INT3 stops the declared unsupported input before its unavailable data read. Authentic Win32 body is unchanged; unavailable alias/data remains unclaimed.",
+  "plain_runs": [
+    {
+      "argument": "line",
+      "status": 0,
+      "stdout": "31300a",
+      "stderr": "",
+      "seconds": 0.003269241191446781
+    },
+    {
+      "argument": "unicode",
+      "status": -5,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0030150990933179855
+    }
+  ],
+  "gdb": {
+    "status": 0,
+    "target_exit": null,
+    "signal": "SIGTRAP",
+    "argument_value": 257,
+    "guard_offset": 76,
+    "seconds": 0.12433894723653793
+  },
+  "production_guard": {
+    "function": "0x4f70",
+    "offset": 76,
+    "same_compiled_object": true,
+    "guard_bytes": "0000837dec7a7604cc"
+  },
+  "files": {
+    "production-compiled-source.json": "023d4594cbbd1209ca513021c64d075d9b14cdde40624ff7fab95db9d0655d03",
+    "compiled-source.json": "9bea5c19cdf1615b2508c9b18480fd883d42d3eb1cdca845b7c2459118663bb6",
+    "gdb.stdout": "5ddf1cbc097436685a1b052ed000cd6b0099329528124168c3df13c1dea497d8",
+    "production.elf": "cbd9b254c5438c90ea2dd4565b9e34e6254a5157e3797def614fa243e080ca82",
+    "probe-disassembly.txt": "7c145b93e1856dcc754a56ae5429959f7b8ac19b048afb41f2f5eb11fb052c30",
+    "target.o": "a77413c11a0289d027f86a437019d21d0286020c812377d1dca81d1053b79446",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "probe.elf": "3eec8977d4372eff475eb5f7693e01f9b5301a89e91cd6f25b0779c47cd92aed"
+  },
+  "seconds": 0.2083239695057273,
+  "checker_sha256": "4368bdc7b30209661449e014ba400ffc0d197171de6db24a13897e8e1d2128bb"
+}

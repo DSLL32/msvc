@@ -50,7 +50,8 @@
     "rc_read_nonspace",
     "rc_read_identifier",
     "rc_character_class",
-    "rc_directive_code"
+    "rc_directive_code",
+    "rc_next_token"
   ],
   "functions": [
     {
@@ -1108,7 +1109,28 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x3bd0",
+          "0x3c80"
+        ],
+        [
+          "0x122c",
+          "0x122e"
+        ],
+        [
+          "0x1230",
+          "0x1234"
+        ],
+        [
+          "0x1238",
+          "0x123a"
+        ],
+        [
+          "0x123c",
+          "0x1240"
+        ]
+      ]
     },
     {
       "name": "rc_skip_line",
@@ -1179,6 +1201,105 @@
       "end": "0x624c",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_line_comment",
+      "start": "0x12908",
+      "end": "0x12974",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_block_comment",
+      "start": "0x12974",
+      "end": "0x12a02",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_open_source_frame",
+      "start": "0x401c",
+      "end": "0x4131",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_copy_quoted",
+      "start": "0x11cad",
+      "end": "0x11d86",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_character_constant",
+      "start": "0x11d86",
+      "end": "0x11f3b",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_string",
+      "start": "0x11f3b",
+      "end": "0x1205d",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_number",
+      "start": "0x12176",
+      "end": "0x12412",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_fraction",
+      "start": "0x12412",
+      "end": "0x125aa",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_match_logical_character",
+      "start": "0x128e9",
+      "end": "0x12908",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_macro_identifier",
+      "start": "0x3c80",
+      "end": "0x3db4",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_expand_macro",
+      "start": "0x52fa",
+      "end": "0x5693",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }
