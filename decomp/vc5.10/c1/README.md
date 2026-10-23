@@ -298,3 +298,8 @@ a provider. All changed transport/state controls passed with measured times;
 see `cases/minimal/PDB-CONTEXT.md`. Durable coverage is33 application functions /
 1436 bytes,2 CRT functions /451 bytes and the6-byte import thunk (1893 total).
 The cached native lifecycle fixture passed in5.65ms under concurrent checks.
+
+The second split PDB wrapper126af is accepted separately (21 original bytes).
+Fresh graph/ABI/state evidence reaches its named helper126b6. Four affected
+controls reran;45 unchanged generic controls reuse prior passing results with
+identical checker and field-contract hashes. Source functions36; owned bytes1914.

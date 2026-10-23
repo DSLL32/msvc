@@ -20,3 +20,14 @@ void __cdecl destroy_pdb_context_238dc(void)
 {
     __asm { int 3 }
 }
+
+int __cdecl initialize_pdb_context_126b6(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __cdecl destroy_pdb_context_238db(void)
+{
+    __asm { int 3 }
+}
