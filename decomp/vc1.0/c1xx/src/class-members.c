@@ -9,6 +9,13 @@ void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
 #define CLASS_CONTEXT (class_contexts[current_class_context])
 #define CLASS_TAG (CLASS_CONTEXT.symbol)
 
+/* Original 0x31f20..0x31f33. The key points at the owner-index word, which
+   is also the first word of a stored friendship record. */
+FriendRecord *__stdcall find_friend_record(unsigned *owner_index)
+{
+    return (FriendRecord *)find_hash_value(declaration_table, owner_index);
+}
+
 /* Original 0x31f40..0x31f77. Preserve insertion order within one owner's
    list, keeping the first record as the hash-table value. */
 void __stdcall append_friend_record(FriendRecord *record)

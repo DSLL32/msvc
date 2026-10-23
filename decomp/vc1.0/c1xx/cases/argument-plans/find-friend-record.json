@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_find_friend_record@4",
+  "native_entry": "find_friend_record",
+  "argument_words": 4,
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    204608,
+    204663
+  ],
+  "native_caller_locals": {
+    "caller_record": {
+      "frame": 1,
+      "function": "append_friend_record",
+      "local": "record"
+    }
+  },
+  "native_expressions": {
+    "raw_key": "(unsigned)owner_index"
+  },
+  "formals": [
+    {
+      "name": "owner_index",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 139083,
+        "original_owner_function": "_append_friend_record@4",
+        "native_owner_field": "caller_record",
+        "native_owner_function": "append_friend_record",
+        "native_owner_local": "record",
+        "identity": "first word of actual caller record; append_friend_record loads its stack formal to ESI at0x31f41 and pushes ESI at0x31f45/call0x31f46, return0x31f4b. FriendRecord.owner_index is offset0 by ABI assertion. Native immediate caller local record identifies the same object without reading its fields."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204576,
+      204595
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4], PUSH EAX; load global declaration_table then PUSH/CALL find_hash_value; RET4. No incoming register/hidden input. Caller ownership ESI anchor is separately observed metadata and equals actual stack key pointing at offset0 of its record."
+  }
+}

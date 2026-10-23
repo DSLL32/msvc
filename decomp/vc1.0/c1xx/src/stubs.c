@@ -306,7 +306,6 @@ int __stdcall query_inheritance_model(int *model) { __asm { int 3 } return 0; }
 int __stdcall infer_inheritance_model(CppSymbol *tag) { __asm { int 3 } return 0; }
 
 
-FriendRecord *__stdcall find_friend_record(unsigned *owner_index) { __asm { int 3 } return 0; }
 void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall validate_anonymous_aggregate(DeclarationType *type) { __asm { int 3 } }
 void __stdcall declare_anonymous_aggregate(CType *type) { __asm { int 3 } }

@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_find_friend_record@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1059,
+  "configuration_sha256": "7c66d99f048d2043075aca81b7bf6a5369aa8a2fa9f10257ca988d1b23aefea8",
+  "native_entry": "find_friend_record",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "owner_index",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 139083,
+        "original_owner_function": "_append_friend_record@4",
+        "native_owner_field": "caller_record",
+        "native_owner_function": "append_friend_record",
+        "native_owner_local": "record",
+        "identity": "first word of actual caller record; append_friend_record loads its stack formal to ESI at0x31f41 and pushes ESI at0x31f45/call0x31f46, return0x31f4b. FriendRecord.owner_index is offset0 by ABI assertion. Native immediate caller local record identifies the same object without reading its fields.",
+        "original_owner_value": 8303468,
+        "native_owner_value": 1449263980
+      },
+      "original_raw": 8303468,
+      "native_raw": 1449263980,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204576,
+      204595
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4], PUSH EAX; load global declaration_table then PUSH/CALL find_hash_value; RET4. No incoming register/hidden input. Caller ownership ESI anchor is separately observed metadata and equals actual stack key pointing at offset0 of its record.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "2020ba443165dbc4e8de25276ece0b07bf019360cd19bc0f94933eea704eca0c",
+  "capture_timing": {
+    "original_capture_seconds": 1.6683852886781096,
+    "native_capture_seconds": 0.18205899000167847,
+    "total_operation_seconds": 2.132709538564086
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "b41d42e6fbb10fc0d5b0872c96c950f2b8bcb3fa386dec1c388257bdb909aed7",
+    "native-commands.gdb": "e3975278d5fa5e3db0e51fc3c426a5fdb8d3e55bcdd82a56d40fd2b6526ba7f3",
+    "native-gdb.log": "7525801214d15cab8c90a5d4801a94f7e62390afcb937dfeb3f429d3bdfa763d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "2bf037948ed661674013e1cbcffc4fd759591d0d30a8dd390156fc2a892b8382",
+    "original-configuration.json": "7c66d99f048d2043075aca81b7bf6a5369aa8a2fa9f10257ca988d1b23aefea8",
+    "original-disassembly.txt": "5504c1ab786b7f9fb4d4ff6b0d2a80675809ffe5082ad36f788f64fef7312399",
+    "original-events.txt": "54a19ed93d69e941e951e81e552c67db119f4f78248eaa386b18607483290e6a",
+    "original-ownership-caller-disassembly.txt": "016edf1e2476ae8946ac44a4e51c1bd7134726752c78aefb7c2f65bb673dc28e",
+    "original-receipt.json": "99bd4bf49f9292a936bd2287fd692d135028db6865a1c308efa5d3c2ca6a1f15",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "ba92f0eb05e7394698f35d34f0394aca4672af74cd75954974e911d23eb23f68"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
