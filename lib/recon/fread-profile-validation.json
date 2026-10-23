@@ -1,0 +1,41 @@
+{
+  "scope": "Explicit VC5/MSVCRT510 fread buffer-drain/direct multiples/remainder/partial-item/EOF loop. VC1/default existing function body unchanged; no broader ReadFile/error changes.",
+  "canonical": {
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "extent": "public28cd5..28d0c, core28d0c..28e48",
+    "algorithm": "Cached capacity is FILE._bufsiz if buffering flags10c else4096. Consume pending FILEbytes; if remaining>=cached capacity, _read whole multiples directly to caller; smaller remainder calls _filbuf and refreshes capacity. Direct0/-1 sets EOF10/error20, result is floor(actual bytes/item size).",
+    "static_proof": "/root/.ai-tmp/msvc2/recon-maintenance/fread-profile/canonical-fread-asm.txt",
+    "static_proof_sha256": "c2ddc83b98fe9a213114d02e439cb7d8b52c2e3287868b0fbffc7b83ae68fe6d",
+    "original_probe": "tests/fread-profile-original.json",
+    "raw_receipt_sha256": "be859a7b8a67df04080951551aa854a7e3c52d4f8196b1b8507cc17fb0614489",
+    "original_build_seconds": 0.898683755658567,
+    "original_run_seconds": 0.41249874979257584
+  },
+  "checks": {
+    "gcc_clang": "Seven exact original states: direct short/EOF8196 request over6762B; exact1024 direct;513 direct+remainder triggering512\u21924096; itemsize3; existing511-byte buffer drained then direct/remainder/partial item; zero count;6761-byte odd final item. Compare all defined4096B FILEstorage,8300B caller/tails, flags/ptr/CNT/capacity/OSpos/errors/results and immutable inputs.",
+    "immutable_probes": {
+      "gcc-reviewed": "e4f3a3c39561c194eafc32963b7620dc361a041a20e419f68411fa980f601454",
+      "clang-reviewed": "c3415537526d627b02f23d5f54d08e99603828710c367ab4fc76addad105e311"
+    },
+    "actual_rcdll": {
+      "gate": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/refill-gate.json",
+      "gate_sha256": "cc3d070fa850bfe738755962538e8339a06a488b38f0b0479cca2c3bfe9cea37",
+      "result": "Worker independently matched retained original01 to native02 at filename-copy frontier: unchanged512-byte FILEbuffer/flag25/ptr0/cnt0/OSpos6762, complete8206-byte destination/3381chars/refill0;45 affected raw controls pass. No original recapture."
+    },
+    "affected": "Default shim, VC5 setvbuf, static-stdin/default ownership, read-prefetch512\u21924096/explicit buffers, close/reopen ownership and fsopen nine controls pass. Nine cached native CVTRES status/streams/artifacts/first-entry cases pass after ordinary-j4 rebuild, no Wine/reference recapture.",
+    "cvtres_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/fread-profile/cvtres-fixtures.json",
+    "cvtres_receipt_sha256": "f14f1237f1545dfd34415588014146b30812d5de3bb06e32997b28ffde84723f",
+    "independent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/fread-profile-orchestrator-review.json",
+      "sha256": "7b29d5dc336c0737667109302595b965282e3fb8bb8ddc9fb4be927b1c62d67d",
+      "result": "Parent reviewed complete explicit510 loop and unchanged VC1 branch; independently verified original/provider inventory and reran both GCC+Clang seven-state full byte/FILE/error/position proofs."
+    },
+    "vc1_consumer": "C1 independently reported final live-root all-object refresh7.224s with stable shared snapshot;48 public phases+15 direct units+74 public rejections+7 direct rejections/one unwritten positive control passed. VC1 fread branch unchanged."
+  },
+  "limits": [
+    "Explicit VC5 profile only; VC1 defaults unchanged.",
+    "Ordinary measured binary read states/error0; unobserved invalid arguments/I/O failures/other error environments remain unclaimed.",
+    "No host ReadFile or global error-preservation changes bundled.",
+    "Shared CRT behavior earns no application graph coverage."
+  ]
+}

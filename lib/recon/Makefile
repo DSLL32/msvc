@@ -386,3 +386,9 @@ build/spawn-state-probe: tests/spawn-state-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 spawn-state-check: build/spawn-state-probe
 	$(PYTHON) tests/check-spawn-state.py build/spawn-state-probe
+
+.PHONY: fread-profile-check
+build/fread-profile-probe: tests/fread-profile-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+fread-profile-check: build/fread-profile-probe
+	$(PYTHON) tests/check-fread-profile.py build/fread-profile-probe

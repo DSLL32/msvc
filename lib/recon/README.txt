@@ -780,3 +780,18 @@ Canonical _spawnvp65ba passes envpNULL through65d4/6612/66a6 to _cenvarg6709;
 uses the distinct cold construction path. The backend6946/6951 clears CRT errno
 and DOS before CreateProcess; actual parent proof binds0/2/2 ->0/0/2. The native
 implementation does not claim Win32 process creation or generic loader behavior.
+
+VC5 fread direct reads
+---------------------
+The explicit MSVCRT510 profile uses the encountered canonical fread loop:
+drain existing FILE bytes, read whole buffer-size multiples directly into the
+caller destination, then use _filbuf for smaller remainders. The loop caches
+capacity and refreshes it after _filbuf. Thus a seek's temporary512-byte
+capacity remains512 when the request takes only direct reads, including a short
+read followed by EOF. It changes to4096 only when the separately proved _filbuf
+refill succeeds. Actual written bytes include an incomplete final item; the
+return value counts only whole items. EOF/error flags follow the read result.
+VC1/default fread implementation is unchanged. The current proof binds ordinary
+binary file reads, owned/initialized FILE buffers, direct/buffered/remainder/EOF
+and partial-item behavior with zero entry errors; unobserved argument, I/O error
+and environment variants do not acquire a broader equality claim.

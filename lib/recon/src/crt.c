@@ -999,11 +999,43 @@ char *recon_fgets(char *dest,int size,ShimFILE *s)
 }
 WEAK size_t recon_fread(void *p,size_t size,size_t count,ShimFILE *s)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    size_t total=size*count,remaining=total,buffer_size,amount;
+    unsigned char *output=p;int got;
+    if (!total) return 0;
+    if (!p || !s || s->_bufsiz<0 || s->_cnt<0)
+        recon_unsupported("unreviewed VC5 fread buffer/argument state");
+    buffer_size=s->_flag&0x10c?(size_t)s->_bufsiz:4096;
+    while (remaining) {
+        if ((s->_flag&0x10c) && s->_cnt) {
+            amount=remaining<(size_t)s->_cnt?remaining:(size_t)s->_cnt;
+            memcpy(output,s->_ptr,amount);
+            s->_ptr+=amount;s->_cnt-=(int)amount;
+            output+=amount;remaining-=amount;
+        } else if (remaining>=buffer_size) {
+            /* Canonical fread bypasses FILE storage for whole-sized reads.
+             * A short read can be followed by another direct attempt at EOF;
+             * only _filbuf restores the temporary512-byte capacity to4096. */
+            amount=buffer_size?remaining-remaining%buffer_size:remaining;
+            got=recon_read(s->_file,output,(unsigned)amount);
+            if (got<=0) { s->_flag|=got?0x20:0x10;break; }
+            output+=got;remaining-=(size_t)got;
+        } else {
+            got=recon_filbuf(s);
+            if (got==EOF) break;
+            *output++=(unsigned char)got;--remaining;
+            buffer_size=(size_t)s->_bufsiz;
+        }
+    }
+    return (total-remaining)/size;
+#else
     size_t n,total=size*count; int c;
     if (!size) return 0;
     for (n=0;n<total;++n) { c=recon_fgetc(s); if (c==EOF) break; ((char *)p)[n]=c; }
     return n/size;
+#endif
 }
+
 size_t recon_fwrite(const void *p,size_t size,size_t count,ShimFILE *s)
 {
     size_t n,total=size*count;
