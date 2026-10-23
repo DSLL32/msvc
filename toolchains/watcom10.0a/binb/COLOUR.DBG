@@ -1,0 +1,27 @@
+rem ****** Colour DV colours ********
+
+paint all plain menu white on blue
+paint all standout menu bright white on blue
+paint all disabled menu grey on blue
+paint all active menu bright white on black
+paint all active standout menu yellow on black
+paint all frame menu yellow on blue
+paint all disabled title grey on bright white
+paint all active frame grey on cyan
+paint all disabled frame grey on bright white
+paint all icon bright white on red
+paint all active disabled menu grey on black
+paint all plain black on bright white
+paint all active bright white on black
+paint all selected bright white on red
+paint all standout red on bright white
+paint all button red on bright white
+paint all active standout bright red on black
+paint status bright white on blue
+paint dialog plain white on blue
+paint dialog frame blue on cyan
+paint dialog shadow black on blue
+paint dialog plain button blue on white
+paint dialog standout button bright white on white
+paint dialog active button blue on cyan
+paint dialog active standout button bright white on cyan

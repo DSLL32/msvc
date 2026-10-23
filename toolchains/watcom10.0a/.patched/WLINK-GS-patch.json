@@ -1,0 +1,34 @@
+{
+  "scope": "Exact user-authorized Wine GS compatibility patch; no new execution validation performed by this reproduction",
+  "original": "../binnt/WLINK.EXE",
+  "original_sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1",
+  "patched": "WLINK.EXE",
+  "patched_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+  "bytes": 209744,
+  "patches": [
+    {
+      "file_offset": "0x24bc1",
+      "before": "8e6d18",
+      "after": "909090"
+    },
+    {
+      "file_offset": "0x24be4",
+      "before": "65",
+      "after": "3e"
+    },
+    {
+      "file_offset": "0x24c03",
+      "before": "0fb55514",
+      "after": "8b551490"
+    },
+    {
+      "file_offset": "0x24c0b",
+      "before": "65",
+      "after": "3e"
+    }
+  ],
+  "changed_byte_count": 9,
+  "documentation": "GS.md",
+  "documentation_sha256": "f8f518c1cc41abc6f78fb5624a8864ad282ace36f39c979188dc05281d8c45ba",
+  "original_unchanged": true
+}

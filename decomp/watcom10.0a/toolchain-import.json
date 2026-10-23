@@ -1,0 +1,59 @@
+{
+  "toolchain": "watcom10.0a",
+  "copied_from": "/root/scbeta-decomp/tmp6/toolchains/watcom-10.0a",
+  "destination": "toolchains/watcom10.0a",
+  "copy_command": "cp -arv /root/scbeta-decomp/tmp6/toolchains/watcom-10.0a toolchains/watcom10.0a",
+  "source_files": 644,
+  "source_bytes": 52533631,
+  "all_source_files_verified_sha256": true,
+  "symlinks": [],
+  "selected_files": [
+    {
+      "path": "binb/WASM.EXE",
+      "bytes": 181668,
+      "sha256": "a79e0dc11a26b098728aa988cfc974113e7ac5d28c81baded1f077ed27be0513"
+    },
+    {
+      "path": "binb/WCC386.EXE",
+      "bytes": 541364,
+      "sha256": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b"
+    },
+    {
+      "path": "binb/WPP386.EXE",
+      "bytes": 810076,
+      "sha256": "647f4e754cd27fc76b3c44a47227ae3baa4ff2e2f253a8ec27216414653b1e6f"
+    },
+    {
+      "path": "binnt/WASM.EXE",
+      "bytes": 7704,
+      "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+    },
+    {
+      "path": "binnt/WCC386.EXE",
+      "bytes": 7704,
+      "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+    },
+    {
+      "path": "binnt/WLIB.EXE",
+      "bytes": 62738,
+      "sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3"
+    },
+    {
+      "path": "binnt/WLINK.EXE",
+      "bytes": 209744,
+      "sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1"
+    },
+    {
+      "path": "binnt/WPP386.EXE",
+      "bytes": 7704,
+      "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+    }
+  ],
+  "source_reference": {
+    "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "scratch_path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443",
+    "role": "Later released source reference; actual 1994 binary graph and behavior remain authoritative."
+  },
+  "patched_wlink_receipt": "../../toolchains/watcom10.0a/.patched/WLINK-GS-patch.json",
+  "original_execution_performed_by_this_import": false
+}
