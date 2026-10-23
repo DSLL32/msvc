@@ -146,7 +146,6 @@ void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int
 #include "frame.h"
 
 
-MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
 unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
 
@@ -381,9 +380,6 @@ int __cdecl minimum_extended(const Extended *left, const Extended *right, Extend
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
 const Extended *__fastcall floating_value_for_symbol(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineInstruction *store, MachineInstruction *first, MachineInstruction *last, int reversed, MachineInstruction *comparison) { __asm int 3 }
-int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruction *store) { __asm int 3 }
-int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 
 int __fastcall can_keep_float_store(MachineInstruction *instruction, unsigned short number, int use_summary) { __asm int 3 }

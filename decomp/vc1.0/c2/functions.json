@@ -1046,7 +1046,11 @@
     "@remove_resident_float_use@4",
     "@process_float_stream_call@4",
     "@next_float_context_after_call@4",
-    "_finish_float_stream_uses"
+    "_finish_float_stream_uses",
+    "@can_reuse_float_load@4",
+    "@can_split_float_transfer@8",
+    "@split_float_memory_transfer@24",
+    "@duplicate_operand@4"
   ],
   "driver": [
     {
@@ -3217,8 +3221,7 @@
     {
       "name": "@duplicate_operand@4",
       "start": 104096,
-      "end": 104097,
-      "provisional": true
+      "end": 104183
     },
     {
       "name": "@high_dword_operand@4",
@@ -6939,14 +6942,12 @@
     {
       "name": "@split_float_memory_transfer@24",
       "start": 227104,
-      "end": 227105,
-      "provisional": true
+      "end": 228247
     },
     {
       "name": "@can_split_float_transfer@8",
       "start": 228256,
-      "end": 228257,
-      "provisional": true
+      "end": 228565
     },
     {
       "name": "@previous_float_load@4",
@@ -6961,8 +6962,7 @@
     {
       "name": "@can_reuse_float_load@4",
       "start": 229168,
-      "end": 229169,
-      "provisional": true
+      "end": 229404
     },
     {
       "name": "@can_reuse_float_load_width@8",

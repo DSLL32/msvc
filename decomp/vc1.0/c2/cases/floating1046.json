@@ -1,0 +1,371 @@
+{
+  "checkpoint": 1046,
+  "base_commit": "2e08b12",
+  "status": "floating active",
+  "source_graphs": 967,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1046,
+    "accepted_code_bytes": 288176,
+    "original_code_bytes": 399693,
+    "percentage": 72.09933624056464,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 465
+  },
+  "frontier": "@fold_previous_float_load@8",
+  "accepted_functions": [
+    {
+      "name": "@duplicate_operand@4",
+      "start": 104096,
+      "end": 104183
+    },
+    {
+      "name": "@split_float_memory_transfer@24",
+      "start": 227104,
+      "end": 228247
+    },
+    {
+      "name": "@can_split_float_transfer@8",
+      "start": 228256,
+      "end": 228565
+    },
+    {
+      "name": "@can_reuse_float_load@4",
+      "start": 229168,
+      "end": 229404
+    }
+  ],
+  "accepted_libraries": [],
+  "reference_sequence": [
+    "cases/floating-original-1042.json",
+    "cases/floating-original-1043.json",
+    "cases/floating-original-1044.json",
+    "cases/floating-original-1045.json",
+    "cases/floating-original-1046.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "610b7c8c371ab8efab675b73d5e9fde66fca2a4a3f70cb0b7f6129b4136e1939",
+      "config_sha256": "90fac5656045dbd58415a35663cfb6b27e7fe173228b5f34d148a6e9c43c465d",
+      "seconds": 0.13830338418483734,
+      "logical": "@can_split_float_transfer@8",
+      "matched": true,
+      "log_sha256": "53e180a25051e861043424710d7f739eb3787313cb37eb349551b20c49d402e9",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-s4vyn1f8"
+    },
+    {
+      "executable_sha256": "3dd188a975c2cd96986a019b7612ccae824b91998cf6ea4e5ba67415f7eec8e0",
+      "config_sha256": "153393c06ada1bdaf9517c3e403a2d67a6879a49fc4febc8ea8bfb301d1fe50b",
+      "seconds": 0.13253215048462152,
+      "logical": "@split_float_memory_transfer@24",
+      "matched": true,
+      "log_sha256": "138a2f26f961824f23c672efea20a1c2d808dd140f9c311e2891275524a53df2",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-stzymxgl"
+    },
+    {
+      "executable_sha256": "1d0839fc3d107601bce67c90f09f750851f12a54f894da3f88b9f27455aa3fcb",
+      "config_sha256": "dd7d317a7f02e8c4959025511038b486bca819d6e6f3399837e50193046962c8",
+      "seconds": 0.13743156846612692,
+      "logical": "@duplicate_operand@4",
+      "matched": true,
+      "log_sha256": "184c0b480e80a150fe83805ed8b0cc24b71787e00323892602356df1916dc2a7",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-3temlle8"
+    },
+    {
+      "executable_sha256": "01b4ca12537a8ab2d639f00b6d912b8d431c450128a3b2af093e9642bd9baca7",
+      "config_sha256": "03a612da62fced2140b874a21cfd01f6051fe6ad04590ef91994ecf223e52858",
+      "seconds": 0.13688048906624317,
+      "logical": "@fold_previous_float_load@8",
+      "matched": true,
+      "log_sha256": "ce05dfe5eedb3d53bffa402d6ab52c89bb6f95258e34a220b05e577fb60fee42",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-k_1zg3st"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "b4cf3ce72427f261c0a88baaceb547ed7f413585a36f03530b21f932e8922e79",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "da1d8c5eac6cea60bc408cbfbf47d43ab1e5e1e807a794f5d1c10fe5dd971b6d",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "634b9cb6b2175e9d964a77dcc080a91b9f6c9cb29ce276903560180616b06500",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.017377479001879692,
+        "execution_seconds": 0.006554468534886837,
+        "check_seconds": 0.0014011003077030182,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.014116107486188412,
+        "execution_seconds": 0.010614120401442051,
+        "check_seconds": 0.001410159282386303,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 77,
+        "seeded_entries": 757,
+        "output": {
+          "name": "loops.obj",
+          "bytes": 620,
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013016125187277794,
+        "execution_seconds": 0.008032931946218014,
+        "check_seconds": 0.0012915879487991333,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/loops"
+      },
+      {
+        "profile": "pressure",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 8,
+        "seeded_entries": 834,
+        "output": {
+          "name": "pressure.obj",
+          "bytes": 879,
+          "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013209263794124126,
+        "execution_seconds": 0.008485853672027588,
+        "check_seconds": 0.0010256040841341019,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/pressure"
+      },
+      {
+        "profile": "aliasing",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 16,
+        "seeded_entries": 842,
+        "output": {
+          "name": "aliasing.obj",
+          "bytes": 600,
+          "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.011578756384551525,
+        "execution_seconds": 0.007901627570390701,
+        "check_seconds": 0.0010421136394143105,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/aliasing"
+      },
+      {
+        "profile": "floating",
+        "terminal": "@fold_previous_float_load@8",
+        "returncode": -5,
+        "application_entries": 105,
+        "seeded_entries": 858,
+        "output": null,
+        "setup_seconds": 0.011563043110072613,
+        "execution_seconds": 0.006074980832636356,
+        "check_seconds": 0.0007598511874675751,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/floating"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.3140092194080353,
+    "suite_setup_seconds": 0.14629898592829704,
+    "negative_check_seconds": 0.022058365866541862,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Whole1143-byte transfer splitter preserves high-word order, temporary register allocations and reversed-source flag updates",
+    "Transfer-safety initial frontier has adjacent load/store; whole instruction-motion body recovered without claiming exhaustive path execution",
+    "Operand duplication preserves original unchecked cursor and established3..7/12 address-ownership predicate; no new guard",
+    "Floating object incomplete; five completed exact objects pass"
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "floating1046-canonical-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.435475878417492,
+        "returncode": 0,
+        "log_sha256": "7f167afbee7fe0865fd4a2a9739ad861bcaedb9684f78ec619f359c52549ecb3"
+      },
+      "floating1044-canonical-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.552470149472356,
+        "returncode": 0,
+        "log_sha256": "dd5b9283b017c4af504e32e18ce2de6f0c3ddf52f231806cb87ad8c249f19bc4"
+      },
+      "floating1046-native-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.5784442387521267,
+        "returncode": 0,
+        "log_sha256": "e340a7445f146dd77dd802b83b7bd18e52b4df199968e2fbb6317daa6c0df905"
+      },
+      "floating1046-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.740906052291393,
+        "returncode": 0,
+        "log_sha256": "ae001266a4cd373c91d3eaaa72576c34410959934fd95a05744e4ecd4759df8b"
+      },
+      "floating1045-native-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.565240410156548,
+        "returncode": 0,
+        "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d"
+      },
+      "floating1044-native-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.547319432720542,
+        "returncode": 0,
+        "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d"
+      },
+      "floating1043-native-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.5485454583540559,
+        "returncode": 0,
+        "log_sha256": "9d7033b5c5012ddae089b0a8e0e2418e7f905c9d8f8efca4694e77e46406728d"
+      },
+      "floating1043-canonical-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.293891429901123,
+        "returncode": 0,
+        "log_sha256": "a9f79a71d5b9db061032f27d67b0bc95a4ad29ba27f0506de5cb7efff18f35e7"
+      },
+      "floating1045-canonical-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.554928987286985,
+        "returncode": 0,
+        "log_sha256": "57355fc2cc6cc46ff6fd3a0851ae85609c39717c5716ada0685de63489f36ba7"
+      },
+      "floating1046-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "float-peepholes",
+          "machine-operands"
+        ],
+        "seconds": 1.1056322818621993,
+        "returncode": 0,
+        "log_sha256": "1e2a66fc650864606a2bc28e0419f4538dcddd473a8fbedca7b2c92a8cc1be49"
+      },
+      "floating1046-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.4227087451145053,
+        "returncode": 0,
+        "log_sha256": "08d0a931977c9ff70d4f38791a0a62079b6a797bf617d973697faa11ced477a0"
+      }
+    }
+  }
+}

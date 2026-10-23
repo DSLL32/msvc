@@ -219,3 +219,18 @@ MachineOperand *__fastcall frame_temporary_operand(SymbolHeader *temporary, unsi
 {
     return new_operand(OPERAND_BASED, REG_EBP, offset, temporary);
 }
+
+/* Original [000196a0,000196f7). Unlike new_operand, this unchecked
+   shared-cursor copy clones an existing operand and its owned address.
+   Address-kind property bit0 uses the established3..7/12 predicate. */
+MachineOperand *__fastcall duplicate_operand(MachineOperand *operand)
+{
+    MachineOperand *copy = &temporary_operands[temporary_operand_count++];
+    unsigned kind = operand->flags & 15;
+    *copy = *operand;
+    if ((kind >= 3 && kind <= 7) || kind == 12) {
+        copy->value.address = new_machine_address();
+        *copy->value.address = *operand->value.address;
+    }
+    return copy;
+}

@@ -654,3 +654,134 @@ MachineInstruction *__fastcall previous_float_load(MachineInstruction *instructi
     }
     return 0;
 }
+
+/* Original [00037f30,0003801c). A following memory FSTP blocks keeping
+   a reused load; control-flow entries and calls end this local lookahead. */
+int __fastcall can_reuse_float_load(MachineInstruction *instruction)
+{
+    MachineInstruction *scan;
+    LabelSymbol *label;
+    for (scan = instruction->next; scan; scan = scan->next) {
+        if (FP_FLOAT(scan)) break;
+        if (FP_KIND(scan) == 1) {
+            label = (LabelSymbol *)scan->record.symbol;
+            if (!label || label->references || label->label_kind == 4) return 1;
+        }
+        if (FP_ELIGIBLE(scan) && (FP_OPERATION(scan) == MC_JCC || FP_OPERATION(scan) == MC_JMP || FP_OPERATION(scan) == MC_CALL)) return 1;
+    }
+    if (scan && FP_OPERATION(scan) == MC_FSTP && FP_MEMORY(&scan->operands[0])) return 0;
+    return 1;
+}
+
+/* Original [00037ba0,00037cd5). Move safe intervening integer records
+   before a load, preserving the floating sequence and both transfer operands. */
+int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruction *store)
+{
+    MachineInstruction *scan, *previous, *next;
+    int blocked = 0, changes_store;
+    for (scan = load->next; scan != store; scan = scan->next) {
+        if (!FP_ELIGIBLE(scan)) continue;
+        changes_store = operand_changed_between(scan->previous, scan->next, &store->operands[0], 4);
+        if (changes_store) {
+            if (blocked || operand_changed_between(scan->previous, scan->next, &load->operands[1], 4)) return 0;
+        } else if (FP_FLOAT(scan) || blocked || operand_changed_between(scan->previous, scan->next, &load->operands[1], 4)) {
+            blocked = 1;
+            continue;
+        }
+        previous = scan->previous;
+        next = scan->next;
+        scan->next = load;
+        scan->previous = load->previous;
+        load->previous = scan;
+        scan->previous->next = scan;
+        next->previous = previous;
+        previous->next = next;
+        scan = previous;
+    }
+    return 1;
+}
+
+/* These links are inlined in37720, rather than calls to the generic
+   insertion function. The address flags mark the last base/index uses. */
+#define FP_LINK_BEFORE(anchor,created) do { \
+    (anchor)->previous->next = (created); \
+    (created)->previous = (anchor)->previous; \
+    (created)->next = (anchor); \
+    (anchor)->previous = (created); \
+} while (0)
+#define FP_CLEAR_ADDRESS_LAST_USE(operand) do { \
+    if (((operand)->flags & 15) == OPERAND_BASED) (operand)->flags &= ~0x400U; \
+    else if (((operand)->flags & 15) == OPERAND_INDEXED) { \
+        (operand)->flags &= ~0x800U; \
+        if ((operand)->value.address->base.words.number != 27) (operand)->flags &= ~0x400U; \
+    } \
+} while (0)
+/* Original [00037720,00037b97). Replace an x87 memory transfer with
+   integer chunks. Preserve high-word ordering, temporary allocations and
+   the reversed comparison's distinct source-flag updates. */
+void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineInstruction *store,
+    MachineInstruction *first, MachineInstruction *last, int reversed, MachineInstruction *comparison)
+{
+    unsigned short number = new_value_register(0x100), low_number;
+    MachineOperand *reg = operand_for_register(number), *source, *destination;
+    MachineInstruction *created;
+    unsigned width = FP_WIDTH(load), offset, bytes;
+    reg->flags &= ~0x400U;
+    while (width == 10 || width == 8) {
+        offset = width == 10 ? 8 : 4;
+        bytes = width == 10 ? 2 : 4;
+        source = duplicate_operand(&load->operands[1]);
+        FP_CLEAR_ADDRESS_LAST_USE(source);
+        source->value.address->first.displacement += offset;
+        created = new_machine_instruction(0);
+        created->opcode |= 0x400000;
+        FP_SET_WIDTH(created, bytes);
+        FP_SET_OPERATION(created, MC_MOV);
+        created->operands[0] = *reg;
+        created->operands[1] = *source;
+        FP_LINK_BEFORE(first, created);
+        destination = duplicate_operand(&store->operands[0]);
+        FP_CLEAR_ADDRESS_LAST_USE(destination);
+        destination->value.address->first.displacement += offset;
+        created = new_machine_instruction(0);
+        created->opcode |= 0x400000;
+        FP_SET_WIDTH(created, bytes);
+        FP_SET_OPERATION(created, MC_MOV);
+        reg = operand_for_register(number);
+        reg->flags |= 0x400;
+        created->operands[0] = *destination;
+        created->operands[1] = *reg;
+        FP_LINK_BEFORE(last, created);
+        if (width != 10) break;
+        number = new_value_register(0x100);
+        reg = operand_for_register(number);
+        reg->flags &= ~0x400U;
+        width -= 2;
+    }
+    low_number = new_value_register(0x100);
+    reg = operand_for_register(low_number);
+    if (!reversed) {
+        reg->flags &= ~0x400U;
+        FP_SET_OPERATION(load, MC_MOV);
+        load->opcode |= 0x400000;
+        FP_SET_WIDTH(load, 4);
+        load->operands[0] = *reg;
+    } else {
+        source = duplicate_operand(&load->operands[1]);
+        FP_CLEAR_ADDRESS_LAST_USE(&load->operands[1]);
+        created = new_machine_instruction(0);
+        created->opcode |= 0x400000;
+        FP_SET_WIDTH(created, 4);
+        FP_SET_OPERATION(created, MC_MOV);
+        created->operands[0] = *reg;
+        created->operands[1] = *source;
+        FP_LINK_BEFORE(first, created);
+        FP_SET_OPERATION(comparison, MC_FCOM);
+    }
+    reg = operand_for_register(low_number);
+    reg->flags |= 0x400;
+    FP_SET_OPERATION(store, MC_MOV);
+    store->opcode |= 0x400000;
+    FP_SET_WIDTH(store, 4);
+    store->operands[1] = *reg;
+}

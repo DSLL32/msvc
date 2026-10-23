@@ -2596,3 +2596,9 @@ Floating call boundaries and motion pass completion: checkpoint1042
 @can_reuse_float_load@4. 963 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1042.json for extent union, limits and measured timings.
+
+Floating memory transfers lowered into integer chunks: checkpoint1046
+4 acceptances pass fresh original/native matching; current frontier
+@fold_previous_float_load@8. 967 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1046.json for extent union, limits and measured timings.
