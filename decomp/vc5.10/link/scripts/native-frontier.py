@@ -42,7 +42,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[],'free_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[],'free_calls':[],'link_string_calls':[]}
 def cpp_ownership():
     result=[];node=gdb.parse_and_eval('recon_cpp_allocations');seen=set()
     while int(node):
@@ -238,6 +238,16 @@ class ParserAllocationEntry(gdb.Breakpoint):
             ParserAllocationReturned(frame,int(gdb.parse_and_eval('((unsigned*)$esp)[1]')))
         return False
 ParserAllocationEntry('*allocate_memory',internal=True)
+class LinkStringReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(result=int(self.return_value),return_stack=int(gdb.parse_and_eval('$esp')))
+        state['link_string_calls'].append(self.record);return False
+class LinkStringEntry(gdb.Breakpoint):
+    def stop(self):
+        args=gdb.parse_and_eval('(unsigned*)$esp');address=int(args[1]);text=gdb.Value(address).cast(gdb.lookup_type('char').pointer()).string()
+        LinkStringReturned(gdb.newest_frame(),dict(input=address,text=text,entry_stack=int(gdb.parse_and_eval('$esp'))));return False
+LinkStringEntry('*duplicate_link_string',internal=True)
 class DuplicateReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,text,address):super().__init__(frame,internal=True);self.text=text;self.address=address
     def stop(self):
@@ -342,7 +352,7 @@ def stopped(event):
     while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
     full_frame=frame
     while full_frame and full_frame.name()!='LinkContext::FullLink':full_frame=full_frame.older()
-    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string'):
+    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools'):
         receiver=(full_frame.read_var('this')if full_frame else (configuration if configuration else frame).read_var('context'))
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
@@ -359,7 +369,7 @@ def stopped(event):
                 arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
                 record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
             state['context_heap'].append(record)
-        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string'):
+        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools'):
             state['validation_arguments']=dict(context=int(receiver))
             state['output_name_pointer']=int(gdb.parse_and_eval('output_file_name'))
             state['output_name']=gdb.parse_and_eval('output_file_name').string()
@@ -370,9 +380,14 @@ def stopped(event):
         if state['function']=='initialize_output_modules':
             module=frame.read_var('result')
             state['output_module_formals']=dict(module=int(module),destination_global=int(gdb.parse_and_eval('&output_module')),initial=int(module.dereference()))
-        if state['function']=='duplicate_link_string':
-            initializer=frame.older();module=initializer.read_var('module');library=initializer.read_var('library');result=initializer.read_var('result');text=frame.read_var('text')
-            state['argument_detail']=dict(address=int(text),text=text.string())
+        if state['function']in ('duplicate_link_string','initialize_contribution_pools'):
+            if state['function']=='duplicate_link_string':
+                initializer=frame.older();module=initializer.read_var('module');library=initializer.read_var('library');result=initializer.read_var('result');text=frame.read_var('text')
+                state['argument_detail']=dict(address=int(text),text=text.string())
+            else:
+                module=gdb.parse_and_eval('output_module');library=module.dereference()['library'];result=gdb.parse_and_eval('&output_module')
+                state['frontier_inputs']=dict(formals=[],hidden_register_inputs=[])
+                state['output_names']=[dict(address=int(v),bytes=gdb.selected_inferior().read_memory(int(v),len(v.string())+1).tobytes().hex())for v in (module.dereference()['name'],library.dereference()['name'])]
             state['module_constructor']=dict(result_slot=int(result),current=int(result.dereference()),global_slot=int(gdb.parse_and_eval('&output_module')),module=int(module),library=int(library),module_raw=gdb.selected_inferior().read_memory(int(module),156).tobytes().hex(),library_raw=gdb.selected_inferior().read_memory(int(library),68).tobytes().hex())
             state['output_module_arenas']=[]
             for name in ['output_module_arena','output_library_arena']:

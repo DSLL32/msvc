@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -298,11 +298,22 @@ if args.frontier=='_initialize_output_modules@4':
     negative('lost module output formal',lambda s:s['output_module_formals'].__setitem__('module',0))
     negative('lost module global alias',lambda s:s['output_module_formals'].__setitem__('destination_global',0))
     negative('wrong module initial value',lambda s:s['output_module_formals'].__setitem__('initial',1))
-if args.frontier=='_duplicate_link_string@4':
-    negative('wrong linker-owned name literal',lambda s:s['argument_detail'].__setitem__('text','linker defined module'))
-    negative('lost string formal pointer',lambda s:s['argument_detail'].__setitem__('address',0))
+if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'):
+    if args.frontier=='_initialize_contribution_pools':
+        negative('invented initializer formal',lambda s:s['frontier_inputs']['formals'].append(1))
+        negative('changed copied name',lambda s:s['output_names'][0].__setitem__('bytes','00'))
+        negative('lost name ownership',lambda s:s['output_names'][1].__setitem__('address',0))
+        negative('missing normal string return',lambda s:s['link_string_calls'].pop())
+        negative('wrong string stdcall return stack',lambda s:s['link_string_calls'][0].__setitem__('return_stack',0))
+        negative('wrong actual string input',lambda s:s['link_string_calls'][1].__setitem__('input',0))
+        negative('wrong string return pointer',lambda s:s['link_string_calls'][0].__setitem__('result',0))
+        negative('wrong returned string bytes',lambda s:s['link_string_calls'][1].__setitem__('text','other'))
+        negative('invented hidden initializer argument',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
+    else:
+        negative('wrong linker-owned name literal',lambda s:s['argument_detail'].__setitem__('text','linker defined module'))
+        negative('lost string formal pointer',lambda s:s['argument_detail'].__setitem__('address',0))
     negative('wrong constructor output slot',lambda s:s['module_constructor'].__setitem__('result_slot',0))
-    negative('premature output publication',lambda s:s['module_constructor'].__setitem__('current',1))
+    negative('wrong output publication',lambda s:s['module_constructor'].__setitem__('current',1))
     negative('lost module allocation owner',lambda s:s['module_constructor'].__setitem__('module',0))
     negative('lost library allocation owner',lambda s:s['module_constructor'].__setitem__('library',0))
     negative('wrong allocated module bytes',lambda s:s['module_constructor'].__setitem__('module_raw','01'+s['module_constructor']['module_raw'][2:]))

@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string')
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -140,7 +140,7 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert state['incremental_enabled']==0 and (original/'incremental-enabled.bin').read_bytes()==b'\0'
     assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
     source=state['duplicate_calls']
-    assert len(source)==5 and len(state['free_calls'])==3
+    assert len(source)==(7 if state['function']=='initialize_contribution_pools'else 5) and len(state['free_calls'])==3
     assert source[:2]==[
         dict(text='hello.obj',input=state['crt_argv_addresses'][4],result=canonical[0]['result']),
         dict(text=canonical[1]['text'],input=search['output'],result=canonical[1]['result'])]
@@ -168,7 +168,7 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
-    additional=compare_output_modules(original,state,trap,events)if state['function']=='duplicate_link_string'else []
+    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools')else []
     compare(original,state,trap,configuration_context=context,additional_arenas=additional)
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
@@ -198,23 +198,67 @@ def compare_configured(original,state,trap,events,canonical,search):
 
 def compare_output_modules(original,state,trap,events):
     """Actual new text argument plus two complete allocated records/pages."""
-    assert trap['argument_text']==state['argument_detail']['text']==' linker defined module'
-    assert trap['argument_pointer']==trap['stack'][1]==0x401854
-    assert state['argument_detail']['address']and state['argument_detail']['address']not in state['crt_argv_addresses']
+    completed=state['function']=='initialize_contribution_pools'
+    if completed:
+        assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[],hidden_register_inputs=[])
+    else:
+        assert trap['argument_text']==state['argument_detail']['text']==' linker defined module'
+        assert trap['argument_pointer']==trap['stack'][1]==0x401854
+        assert state['argument_detail']['address']and state['argument_detail']['address']not in state['crt_argv_addresses']
     left=trap['module_constructor'];right=state['module_constructor']
     entry,=[e for e in events if e['event']=='output_modules_entry']
     assert left['result_slot']==entry['result_slot']==0x47f028
-    assert left['initial']==entry['initial']==right['current']==0
-    assert (original/'output-module-global.bin').read_bytes()==bytes(4)
+    assert left['initial']==entry['initial']==0
+    assert right['current']==(right['module']if completed else 0)
+    assert struct.unpack('<I',(original/'output-module-global.bin').read_bytes())[0]==(left['module']if completed else 0)
     assert right['result_slot']==right['global_slot']and right['result_slot']
-    assert left['module']==trap['esi']and left['library']
+    assert left['module']and left['library']
+    if not completed:assert left['module']==trap['esi']
     module=bytearray((original/'output-module.bin').read_bytes());nmodule=bytearray.fromhex(right['module_raw'])
     assert len(module)==len(nmodule)==156
     assert struct.unpack_from('<I',module,100)[0]==left['library']
     assert struct.unpack_from('<I',nmodule,100)[0]==right['library']
+    library=bytearray((original/'output-library.bin').read_bytes());nlibrary=bytearray.fromhex(right['library_raw'])
+    assert len(library)==len(nlibrary)==68
+    if completed:
+        calls=[e for e in events if e['event']=='output_name_observation']
+        assert len(calls)==4 and len(state['link_string_calls'])==2
+        for index,(label,offset,raw,nraw,address)in enumerate([
+            ('module',4,module,nmodule,0x401854),('library',0,library,nlibrary,0x40183c)]):
+            text=' linker defined '+label;expected=text.encode()+b'\0'
+            original_name=trap['output_names'][index];native=state['output_names'][index]
+            assert struct.unpack_from('<I',raw,offset)[0]==original_name and original_name
+            assert struct.unpack_from('<I',nraw,offset)[0]==native['address']and native['address']
+            assert (original/('output-'+label+'-name.bin')).read_bytes()==bytes.fromhex(native['bytes'])==expected
+            before,after=calls[index*2:index*2+2]
+            assert before['kind']==after['kind']==index and before['before']==1 and after['before']==0
+            assert (before['site'],after['site'])==[(0x40e3f3,0x40e3f8),(0x40e400,0x40e405)][index]
+            assert before['argument']==after['argument']==address and before['text']==after['text']==text
+            assert before['stack']==before['entry_stack']==after['entry_stack']and after['stack']==before['stack']+4
+            assert after['eax']==original_name
+            wrapper=state['link_string_calls'][index]
+            assert wrapper['return_stack']==wrapper['entry_stack']+8 and wrapper['result']==native['address']
+            assert wrapper['text']==text
+            call=state['duplicate_calls'][5+index]
+            assert call['input']==wrapper['input']
+            assert call['result']==native['address']and call['text']==text and call['input']
+            assert call['input']not in state['crt_argv_addresses']and call['input']!=call['result']
+            raw[offset:offset+4]=nraw[offset:offset+4]=bytes(4)
+        assert trap['output_names'][0]!=trap['output_names'][1]
+        assert state['output_names'][0]['address']!=state['output_names'][1]['address']
+        for names in (trap['output_names'],[item['address']for item in state['output_names']]):
+            assert names[0]+23<=names[1]or names[1]+24<=names[0]
+        original_canonical=next(e for e in events if e['event']=='argument_list'and e['name']=='link_files')['nodes']
+        for index,name in enumerate(trap['output_names']):
+            for address,data in zip(trap['crt_argv_addresses'],trap['crt_argv']):assert name+23+index<=address or address+len(data)+1<=name
+            for node in original_canonical:
+                address=node['words'][0];assert name+23+index<=address or address+len(node['text'])+1<=name
+        for index,name in enumerate(state['output_names']):
+            for address,data in zip(state['crt_argv_addresses'],state['crt_argv']):assert name['address']+23+index<=address or address+len(data)+1<=name['address']
+            for node in state['canonicalized_arguments']:
+                assert name['address']+23+index<=node['result']or node['result']+len(node['text'])+1<=name['address']
     module[100:104]=nmodule[100:104]=bytes(4)
-    assert module==nmodule==bytes(156)
-    assert (original/'output-library.bin').read_bytes()==bytes.fromhex(right['library_raw'])==bytes(68)
+    assert module==nmodule==bytes(156)and library==nlibrary==bytes(68)
     assert len(state['output_module_arenas'])==2
     additional=[]
     for index,(name,size,slot) in enumerate([('module',156,0x467590),('library',68,0x46758c)]):
@@ -229,6 +273,13 @@ def compare_output_modules(original,state,trap,events):
             assert struct.unpack_from('<I',raw,100)[0]==left['library']
             assert struct.unpack_from('<I',nraw,100)[0]==right['library']
             raw[100:104]=nraw[100:104]=bytes(4)
+        if completed:
+            offset=0 if index else 4
+            assert struct.unpack_from('<I',raw,offset)[0]==trap['output_names'][index]
+            assert struct.unpack_from('<I',nraw,offset)[0]==state['output_names'][index]['address']
+            raw[offset:offset+4]=nraw[offset:offset+4]=bytes(4)
+            for name,size in zip(trap['output_names'],[23,24]):assert not arena[3]<=name<arena[3]+4096
+            for name in state['output_names']:assert not nheader[3]<=name['address']<nheader[3]+4096
         assert raw==nraw==bytes(4096)
         additional.append(dict(original_arena=original_arena,native_arena=native['address'],original_base=arena[3],native_base=nheader[3],bytes=4096))
     return additional

@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 51 application
-functions (27,646 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 52 application
+functions (27,731 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `duplicate_link_string`; hello-win32 has not completed.
+next frontier is `initialize_contribution_pools`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -247,3 +247,11 @@ audit0.831 s total (0.451 s command/check phase), with64 vertices/57 real RET AB
 Prospective FullLink counterpart addresses were refreshed without changing its
 original body/provider/closed-target semantics; each prior archive retains the
 actual earlier proof/checker/object bytes in full-link-proof/.
+
+The 85-byte duplicate_link_string wrapper is accepted with both allocation paths
+retained. The actual ordinary-link case observes both label inputs, normal returns
+and stdcall cleanup, disjoint copied names, complete module/library records and
+delayed output publication. Contribution-pool initialization is the next trap,
+with no formal or hidden register inputs. Both builds, 93 fresh semantic negatives
+and the strict 65-vertex/58-return audit pass. Detailed fixture and capture timing
+is in cases/hello-win32/frontiers/52-duplicate-link-string/timing.json.

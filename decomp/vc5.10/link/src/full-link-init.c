@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <string.h>
+#include "arguments.h"
 #include "full-link-functions.h"
 #include "memory.h"
 #include <recon.h>
@@ -22,8 +24,14 @@ void __stdcall initialize_output_modules(OutputModule **result)
     library->name=duplicate_link_string(" linker defined library");
     *result=module;
 }
+#pragma intrinsic(strlen,memcpy)
 char *__stdcall duplicate_link_string(const char *text)
 {
-    __asm { int 3 }
-    return NULL;
+    char *copy;
+    unsigned bytes;
+    if (!incremental_enabled) return duplicate_argument(text);
+    bytes=strlen(text)+1;
+    copy=(char *)allocate_incremental(bytes);
+    memcpy(copy,text,strlen(text)+1);
+    return copy;
 }
