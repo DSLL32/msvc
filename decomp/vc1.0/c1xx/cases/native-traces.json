@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "35a1a7b5a67718d953e419b2deb4636e026f35d2598535cc24ef0c7c8035e01d",
+    "functions.json": "95a30227adf7ec754b8540705cd9debd5d3911c8f86863aeadce349731be61f7",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "7894ea47f894b1ffa5caed67984ea67c243dca0ec8d29432662b98d251985159",
-    "cases/canonical-map.txt": "5f8b742b7bcb6f374f762e3f15a971f95239593af09bfc3d312b8894251c25be",
+    "cases/original-entry-references.json": "37bf3ae1a950e87c2090c8bda6264b5692efe1e5f149502f77fe4f52fae1e75c",
+    "cases/canonical-map.txt": "b1a2f0ee1909edb5975ddd7c5b43646e27957fed47244f58930fdf1d6a73a9f4",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1088-debug_calling_convention/entry-reference/original-receipt.json": "e07c18123c5f662f824e9ada13311a6a52a68c4fca33411380478498e42c6a78",
-    "cases/frontiers/state_machine_debug/1088-debug_calling_convention/entry-reference/original-events.txt": "d40edb3f7f74d91f35f739cfc7afce3962293f917cbdf9f8b472ab1016450519",
-    "cases/frontiers/state_machine_debug/1088-debug_calling_convention/entry-reference/original-entries.plan": "f2e9e44813f004c2ca98f19987fab58ef2076f06470b9cab5ec21ef6bfe761b4"
+    "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/entry-reference/original-receipt.json": "3f518e0b4afde5b0595bfd44b90ba03ceceaa4ca56fb82461a2570702e539f99",
+    "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/entry-reference/original-events.txt": "a2fde90fb7339ac365f5435668887315bc161e06625153b14bd7bd69f2d18207",
+    "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/entry-reference/original-entries.plan": "bad1250e5170af92d11706308c34e97ab0494753f7ebe2273224f8bebc045565"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1271,6 +1271,10 @@
       "logical": "_count_debug_methods@8",
       "source": "src/debug-types.c"
     },
+    "count_emitted_overloads": {
+      "logical": "_count_emitted_overloads@4",
+      "source": "src/stubs.c"
+    },
     "count_overload_functions": {
       "logical": "_count_overload_functions@4",
       "source": "src/call-expressions.c"
@@ -1318,6 +1322,10 @@
     "debug_calling_convention": {
       "logical": "_debug_calling_convention",
       "source": "src/debug-types.c"
+    },
+    "debug_member_name_length": {
+      "logical": "_debug_member_name_length@12",
+      "source": "src/stubs.c"
     },
     "debug_tag_type": {
       "logical": "_debug_tag_type@4",
@@ -1555,6 +1563,10 @@
       "logical": "_emit_debug_array_type@8",
       "source": "src/stubs.c"
     },
+    "emit_debug_base_fields": {
+      "logical": "_emit_debug_base_fields@12",
+      "source": "src/stubs.c"
+    },
     "emit_debug_bit_field": {
       "logical": "_emit_debug_bit_field@4",
       "source": "src/stubs.c"
@@ -1565,7 +1577,7 @@
     },
     "emit_debug_field_list": {
       "logical": "_emit_debug_field_list@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-fields.c"
     },
     "emit_debug_field_list_chunk": {
       "logical": "_emit_debug_field_list_chunk@12",
@@ -1781,6 +1793,10 @@
     },
     "encode_debug_based_symbol": {
       "logical": "_encode_debug_based_symbol@8",
+      "source": "src/stubs.c"
+    },
+    "encode_debug_signed": {
+      "logical": "_encode_debug_signed@8",
       "source": "src/stubs.c"
     },
     "encode_debug_unsigned": {
@@ -5123,6 +5139,10 @@
       "logical": "_special_member_model@4",
       "source": "src/special-members.c"
     },
+    "split_debug_field_record": {
+      "logical": "_split_debug_field_record",
+      "source": "src/stubs.c"
+    },
     "static_member_alias": {
       "logical": "_static_member_alias@4",
       "source": "src/symbol-output.c"
@@ -5446,6 +5466,10 @@
     "write_counted_ir": {
       "logical": "_write_counted_ir",
       "source": "src/ir-encoding.c"
+    },
+    "write_debug_member_name": {
+      "logical": "_write_debug_member_name@20",
+      "source": "src/stubs.c"
     },
     "write_debug_record": {
       "logical": "_write_debug_record",
@@ -6519,7 +6543,8 @@
     "emit_debug_qualified_type",
     "emit_debug_argument_list",
     "emit_debug_member_function_type",
-    "debug_calling_convention"
+    "debug_calling_convention",
+    "emit_debug_field_list"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10631,7 +10656,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1089,
+      "last": 1090,
       "seen": [
         "main",
         "message_text",
@@ -11630,12 +11655,13 @@
         "emit_debug_argument_list",
         "emit_debug_member_function_type",
         "debug_calling_convention",
-        "emit_debug_field_list"
+        "emit_debug_field_list",
+        "emit_debug_base_fields"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_emit_debug_field_list@12",
-        "native": "emit_debug_field_list",
+        "logical": "_emit_debug_base_fields@12",
+        "native": "emit_debug_base_fields",
         "signal": 5
       }
     }

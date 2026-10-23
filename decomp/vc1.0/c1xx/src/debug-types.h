@@ -25,6 +25,15 @@ typedef struct DebugTypeFixup {
 } DebugTypeFixup;
 typedef char DebugTypeFixupSizeMustBe16[(sizeof(DebugTypeFixup) == 16) ? 1 : -1];
 extern DebugTypeFixup *debug_type_fixups;
+extern unsigned debug_field_bytes;
+int __stdcall emit_debug_base_fields(CppSymbol *tag, unsigned *member_index, unsigned first_member);
+void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail);
+struct OverloadSet;
+unsigned __stdcall count_emitted_overloads(struct OverloadSet *overloads);
+unsigned __stdcall debug_member_name_length(CppSymbol *symbol, unsigned short *name_flags, int qualified);
+void __stdcall write_debug_member_name(unsigned char *destination, CppSymbol *symbol,
+    unsigned length, unsigned short name_flags, int qualified);
+unsigned __stdcall encode_debug_signed(unsigned char *destination, int value);
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes);
 unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol);
 unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum);
@@ -57,8 +66,8 @@ void __stdcall emit_debug_class(CppSymbol *tag, unsigned short field_count,
     unsigned short field_list);
 struct OverloadSet;
 void __stdcall emit_debug_method_list(struct OverloadSet *overloads);
-void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned field_count,
-    unsigned short continuation);
+void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned first_member,
+    unsigned short vshape_index);
 void __stdcall emit_debug_argument_list(FunctionParameters *parameters);
 void __stdcall emit_debug_vshape(CppSymbol *tag);
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit);

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1089,
+  "accepted": "_emit_debug_field_list@12",
+  "terminal": "_emit_debug_base_fields@12",
+  "original_capture": "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/original-receipt.json",
+  "original_capture_sha256": "3f518e0b4afde5b0595bfd44b90ba03ceceaa4ca56fb82461a2570702e539f99",
+  "original_events": "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/original-events.txt",
+  "original_events_sha256": "a2fde90fb7339ac365f5435668887315bc161e06625153b14bd7bd69f2d18207",
+  "original_configuration": "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

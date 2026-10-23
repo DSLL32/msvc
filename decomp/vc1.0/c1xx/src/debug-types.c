@@ -570,7 +570,8 @@ void flush_debug_types(void)
             }
             break;
         case 2:
-            emit_debug_field_list(record->subject.symbol, (unsigned)record->attributes,
+            symbol = record->subject.symbol;
+            emit_debug_field_list(symbol, (unsigned)record->attributes,
                 record->related_type);
             break;
         case 3:

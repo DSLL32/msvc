@@ -492,7 +492,6 @@ void __stdcall emit_debug_array_type(CType *type, unsigned short base_index) { _
 void __stdcall emit_debug_function_type(CType *type, unsigned short return_index, unsigned short argument_count) { __asm { int 3 } }
 void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
 void __stdcall emit_debug_method_list(struct OverloadSet *overloads) { __asm { int 3 } }
-void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned field_count, unsigned short continuation) { __asm { int 3 } }
 void __stdcall emit_debug_vshape(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 
@@ -624,3 +623,9 @@ int compare_debug_symbol_indices(const void *left, const void *right) { __asm { 
 unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum) { __asm { int 3 } return 0; }
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol) { __asm { int 3 } return 0; }
+int __stdcall emit_debug_base_fields(CppSymbol *tag, unsigned *member_index, unsigned first_member) { __asm { int 3 } return 0; }
+void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail) { __asm { int 3 } }
+unsigned __stdcall count_emitted_overloads(struct OverloadSet *overloads) { __asm { int 3 } return 0; }
+unsigned __stdcall debug_member_name_length(CppSymbol *symbol, unsigned short *name_flags, int qualified) { __asm { int 3 } return 0; }
+void __stdcall write_debug_member_name(unsigned char *destination, CppSymbol *symbol, unsigned length, unsigned short name_flags, int qualified) { __asm { int 3 } }
+unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }

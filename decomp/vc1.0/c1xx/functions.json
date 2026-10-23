@@ -1093,7 +1093,8 @@
     "_emit_debug_qualified_type@4",
     "_emit_debug_argument_list@4",
     "_emit_debug_member_function_type@20",
-    "_debug_calling_convention"
+    "_debug_calling_convention",
+    "_emit_debug_field_list@12"
   ],
   "driver": [
     {
@@ -7990,7 +7991,7 @@
     {
       "name": "_emit_debug_field_list@12",
       "start": 454224,
-      "end": 454225
+      "end": 455808
     },
     {
       "name": "_emit_debug_argument_list@4",
@@ -8076,6 +8077,36 @@
       "name": "_debug_calling_convention",
       "start": 457984,
       "end": 458118
+    },
+    {
+      "name": "_emit_debug_base_fields@12",
+      "start": 455808,
+      "end": 455809
+    },
+    {
+      "name": "_split_debug_field_record",
+      "start": 453024,
+      "end": 453025
+    },
+    {
+      "name": "_count_emitted_overloads@4",
+      "start": 199600,
+      "end": 199601
+    },
+    {
+      "name": "_debug_member_name_length@12",
+      "start": 453184,
+      "end": 453185
+    },
+    {
+      "name": "_write_debug_member_name@20",
+      "start": 453600,
+      "end": 453601
+    },
+    {
+      "name": "_encode_debug_signed@8",
+      "start": 459456,
+      "end": 459457
     }
   ],
   "cases": {
@@ -8276,7 +8307,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_emit_debug_field_list@12",
+      "terminal": "_emit_debug_base_fields@12",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8299,7 +8330,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1088-debug_calling_convention/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8393,7 +8424,8 @@
         "cases/frontiers/state_machine_debug/1085-emit_debug_qualified_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1086-emit_debug_argument_list-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1087-emit_debug_member_function_type-20/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1088-debug_calling_convention/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1088-debug_calling_convention/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1089-emit_debug_field_list-12/frontier-extension.json"
       ]
     }
   },
@@ -10826,6 +10858,18 @@
       "name": "_cv_pointer_models",
       "original": 665016,
       "bytes": 4
+    },
+    {
+      "kind": "state",
+      "name": "_debug_field_bytes",
+      "original": 576684,
+      "fields": [
+        {
+          "name": "_debug_field_bytes",
+          "original": 576684,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [

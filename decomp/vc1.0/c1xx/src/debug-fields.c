@@ -1,0 +1,135 @@
+/* CodeView field-list construction and continuation records. */
+#include "debug-types.h"
+#include "debug-info.h"
+#include "class-finalization.h"
+#include "cpp-context.h"
+#include <recon.h>
+
+unsigned debug_field_bytes; /* original0x8ccac */
+
+/* These operations were expanded inline in the original emitter. Keep
+   padding and room checks at each field, without adding helper vertices. */
+#define FIELD_SPACE(required_) do { \
+    padding = (-debug_field_bytes) & 3; \
+    for (i = 0; i < padding; ++i) \
+        debug_record_buffer[debug_field_bytes + 4 + i] = \
+            (unsigned char)(0xf0 + padding - i); \
+    debug_field_bytes += padding; \
+    if (debug_field_bytes + (required_) + 4 >= 0x109) { \
+        split_debug_field_record(2, tag, member_index, vshape_index); \
+        return; \
+    } \
+} while (0)
+
+#define NAME_BYTES(name_, length_) do { \
+    for ((length_) = 0; (name_)[length_]; ++(length_)) ; \
+    ++(length_); \
+} while (0)
+
+/* Original0x6ee50..0x6f480. Continue past already-emitted members,
+   filtering declarations without fields and reserving dependent type records. */
+void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned first_member,
+    unsigned short vshape_index)
+{
+    unsigned char *leaf = debug_record_buffer + 2, *field, *name;
+    CppSymbol *member, *functions;
+    unsigned member_index = 0, kind, length, name_length, count, record;
+    unsigned padding, i;
+    unsigned short name_flags;
+    int offset;
+    debug_field_bytes = 0;
+    *(unsigned short *)leaf = 0x204;
+    if (!tag->auxiliary.scope_members) {
+        emit_debug_type_record(2);
+        return;
+    }
+    if (!emit_debug_base_fields(tag, &member_index, first_member)) {
+        split_debug_field_record(2, tag, member_index, vshape_index);
+        return;
+    }
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        kind = member->kind & 31;
+        if (kind == 15 || kind == 5) continue;
+        if (!(kind == 4 && member->name == name_unnamed &&
+              (member->type->flags & 0x200))) {
+            if (!member->name || member->name == name_unnamed ||
+                member->name == name_alignment) continue;
+            if (kind >= 1 && kind <= 13 && kind != 5 && !member->type) continue;
+        }
+        if (kind == 17) {
+            if (member->name == name_vbase_dtor || member->name == name_delete_dtor ||
+                member->name == name_vector_delete_dtor ||
+                member->name == name_default_ctor_closure || tag->name == name_unnamed)
+                continue;
+        }
+        if (member->name == name_vbptr) continue;
+        if (first_member > member_index) {
+            ++member_index;
+            continue;
+        }
+        if (kind == 17) {
+            functions = ((OverloadSet *)member)->functions;
+            count = count_emitted_overloads((OverloadSet *)member);
+            if (functions && count) {
+                name_length = debug_member_name_length(functions, &name_flags, 0);
+                FIELD_SPACE(name_length + 7);
+                field = leaf + debug_field_bytes + 2;
+                *(unsigned short *)field = 0x408;
+                *(unsigned short *)(field + 2) = (unsigned short)count;
+                *(unsigned short *)(field + 4) = next_debug_type_index;
+                record = reserve_debug_type(1);
+                debug_types[record].subject.symbol = member;
+                write_debug_member_name(field + 6, functions, name_length, name_flags, 0);
+                debug_field_bytes += name_length + 7;
+            }
+        } else if (kind == 4 || (member->storage[0] & 7) == 7) {
+            NAME_BYTES(member->name, length);
+            FIELD_SPACE(length + 4);
+            field = leaf + debug_field_bytes + 2;
+            *(unsigned short *)field = 0x409;
+            *(unsigned short *)(field + 2) = member->type->debug_index;
+            name = field + 4;
+            debug_field_bytes += copy_debug_name(name, member->name) - name + 4;
+        } else if (member->name == name_vfptr) {
+            FIELD_SPACE(4);
+            field = leaf + debug_field_bytes + 2;
+            *(unsigned short *)field = 0x40a;
+            *(unsigned short *)(field + 2) = next_debug_type_index;
+            record = reserve_debug_type(0);
+            debug_types[record].subject.type = member->type;
+            debug_types[record].related_type = vshape_index;
+            debug_field_bytes += 4;
+        } else if ((member->storage[0] & 7) == 3) {
+            NAME_BYTES(member->name, length);
+            FIELD_SPACE(length + 6);
+            field = leaf + debug_field_bytes + 2;
+            *(unsigned short *)field = 0x407;
+            *(unsigned short *)(field + 2) = member->type->debug_index;
+            *(unsigned short *)(field + 4) =
+                (debug_field_properties & ~3) | (member->flags & 3);
+            name = field + 6;
+            debug_field_bytes += copy_debug_name(name, member->name) - name + 6;
+        } else {
+            NAME_BYTES(member->name, length);
+            FIELD_SPACE(length + 12);
+            field = leaf + debug_field_bytes + 2;
+            *(unsigned short *)field = 0x406;
+            *(unsigned short *)(field + 4) =
+                (debug_field_properties & ~3) | (member->flags & 3);
+            if (kind == 2) {
+                *(unsigned short *)(field + 2) = next_debug_type_index;
+                record = reserve_debug_type(1);
+                debug_types[record].subject.symbol = member;
+            } else *(unsigned short *)(field + 2) = member->type->debug_index;
+            offset = (int)member->detail.value;
+            if (offset >= 0) length = encode_debug_unsigned(field + 6, (unsigned)offset);
+            else length = encode_debug_signed(field + 6, offset);
+            name = field + 6 + length;
+            debug_field_bytes += copy_debug_name(name, member->name) - name + length + 6;
+        }
+        ++member_index;
+    }
+    emit_debug_type_record(debug_field_bytes + 2);
+}
+#undef NAME_BYTES
+#undef FIELD_SPACE
