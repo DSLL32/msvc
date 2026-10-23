@@ -1,0 +1,31 @@
+{
+  "build_seconds": 1.7915454972535372,
+  "execution_seconds": 0.23297643661499023,
+  "status": 0,
+  "source_sha256": "1765801f1ec7e0e7197e6e469cb53a220f67b503ba68774fb0999e0cfdc9fffd",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "scope": "explicit canonicalMSVCRT C0/ASCII API probe; targetcase must separately bind actualmbstate",
+  "native_build_checks_seconds": {
+    "gcc": 0.9813765119761229,
+    "clang": 1.2322747129946947
+  },
+  "original_target_mbstate": "/root/.ai-tmp/msvc2/vc5.10/cl/format-message-1-original/mb-state.bin",
+  "target_mbstate_sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+  "tests": [
+    "canonical mismatch-1/0/1",
+    "count0NULLinputs",
+    "advancepastNUL by1",
+    "copyonebyteincludingNUL/tailunchanged",
+    "errno123/LastError456 preserve",
+    "five nonASCII/codepage/locale controls"
+  ],
+  "body_review": {
+    "mbsncmp": "23fca..240c6;C0callsstrncmp1ae7d..1aeb5",
+    "mbsinc": "3234..324f +bb1a..bb20",
+    "mbccpy": "2380b..2382b"
+  },
+  "limits": [
+    "defaultC cp0/MB_CUR_MAX1/ASCIIleadbitclear only",
+    "_ismbcspace and_mbschr remainunsupported"
+  ]
+}

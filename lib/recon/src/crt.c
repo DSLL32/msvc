@@ -39,7 +39,7 @@ WEAK unsigned recon_nhandle=256;
 int recon_fmode=RECON_DEFAULT_FMODE,recon_commode,recon_cflush,recon_umaskval;
 unsigned long recon_doserrno,recon_lc_handle[6];
 unsigned recon_lc_codepage;
-int recon_mb_cur_max=1;
+int recon_mb_cur_max=1,recon_mb_codepage;
 static unsigned short character_flags[257];
 unsigned short *recon_pctype=character_flags+1;
 char *recon_pgmptr,*recon_aenvptr;
@@ -1264,13 +1264,38 @@ ReconSignalHandler recon_signal(int signo,ReconSignalHandler handler)
 
 WEAK int recon_unlink(const char *name) { return recon_remove(name); }
 
-/* Unvisited multibyte parser branches need SDK ABIs, not guessed DBCS rules. */
+/* Canonical default-C multibyte state: only encountered ASCII is supported. */
+static void ascii_multibyte_scope(void)
+{
+    if (recon_mb_codepage || recon_mb_cur_max!=1 || recon_lc_codepage || recon_lc_handle[2])
+        recon_unsupported("unreviewed multibyte codepage/locale");
+}
 WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size_t count)
-{ (void)left; (void)right; (void)count; recon_unsupported("unreviewed _mbsncmp"); return 0; }
+{
+    unsigned char a,b;
+    if (!count) return 0;
+    ascii_multibyte_scope();
+    if (!left || !right) recon_unsupported("null _mbsncmp input");
+    while (count--) {
+        a=*left++; b=*right++;
+        if (a>127 || b>127) recon_unsupported("non-ASCII _mbsncmp input");
+        if (a!=b) return a<b?-1:1;
+        if (!a) return 0;
+    }
+    return 0;
+}
 WEAK unsigned char *recon_mbsinc(const unsigned char *text)
-{ (void)text; recon_unsupported("unreviewed _mbsinc"); return NULL; }
+{
+    ascii_multibyte_scope();
+    if (!text || *text>127) recon_unsupported("non-ASCII/null _mbsinc input");
+    return (unsigned char *)text+1;
+}
 WEAK void recon_mbccpy(unsigned char *destination,const unsigned char *source)
-{ (void)destination; (void)source; recon_unsupported("unreviewed _mbccpy"); }
+{
+    ascii_multibyte_scope();
+    if (!destination || !source || *source>127) recon_unsupported("non-ASCII/null _mbccpy input");
+    *destination=*source;
+}
 WEAK int recon_ismbcspace(unsigned int value)
 { (void)value; recon_unsupported("unreviewed _ismbcspace"); return 0; }
 

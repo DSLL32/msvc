@@ -79,7 +79,7 @@ extern unsigned recon_nhandle;
 extern int recon_fmode,recon_commode,recon_cflush,recon_umaskval;
 extern unsigned long recon_doserrno,recon_lc_handle[6];
 extern unsigned recon_lc_codepage;
-extern int recon_mb_cur_max;
+extern int recon_mb_cur_max,recon_mb_codepage;
 extern unsigned short *recon_pctype;
 extern char *recon_pgmptr,*recon_aenvptr;
 extern long recon_timezone;

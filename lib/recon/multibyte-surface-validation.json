@@ -1,9 +1,9 @@
 {
   "scope": "unvisited CL parser multibyte SDK compile surfaces only",
   "sdk_evidence": "toolchains/5.10/include/MBSTRING.H _mbsncmp/_mbsinc/_mbccpy/_ismbcspace/_mbschr",
-  "tests": "all5 typed imports explicitly fail125; no DBCS implementation claim",
+  "tests": "three defaultC ASCII APIs pass;_ismbcspace/_mbschr fail125; allSDKsignatures compile",
   "native_build_checks_seconds": {
-    "gcc": 0.9902658797800541,
-    "clang": 1.2094743847846985
+    "gcc": 0.9813765119761229,
+    "clang": 1.2322747129946947
   }
 }

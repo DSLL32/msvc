@@ -416,3 +416,11 @@ ordinary relative filename with validated canonical cwd and sufficient output
 capacity, returning the length excluding NUL and a basename pointer into that
 output. Both preserve observed errno/LastError; native fixtures compare full
 cached original buffers. No target fallback or generic DLL loading is forced.
+
+Default-C ASCII multibyte calls now support `_mbsncmp`, `_mbsinc` and `_mbccpy`.
+Scope requires codepage0, MB_CUR_MAX1 and C LC_CTYPE; target evidence also verifies
+clear ASCII lead-byte bits. Comparisons return canonical-1/0/+1; count0 accepts
+NULL inputs. Advance includes NUL, copy changes exactly one byte including NUL.
+Unknown codepages/locales/non-ASCII fail explicitly. `_ismbcspace` and `_mbschr`
+remain unsupported. The separate `recon_mb_codepage` state is not LC_CTYPE's
+codepage and must be observed rather than inferred from MB_CUR_MAX alone.
