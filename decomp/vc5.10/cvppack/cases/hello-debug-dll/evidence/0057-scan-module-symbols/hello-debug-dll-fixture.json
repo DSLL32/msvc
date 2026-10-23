@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "terminal": "trap",
+  "native_only": true,
+  "native_sha256": "0db27fa53c6cbb41723de6232a9a4d4e2dcbd5df74cfb8ec04b5865ae9ebe141",
+  "reference_receipt_sha256": "b373c96489e0f0da3430eac3d731a5afe45a040224b6243807e5e1d655802903",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "prepared_widen": {
+    "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+    "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+    "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+    "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "instances": 21
+  },
+  "seconds": {
+    "preparation": 0.0027477936819195747,
+    "execution": 0.751131753437221,
+    "checks": 0.004419843666255474,
+    "total": 0.9534617820754647
+  }
+}

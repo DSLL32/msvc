@@ -59,7 +59,7 @@ int pack_module(unsigned short module)
             rewrite_legacy_lines(type_data, entry, current_module_buffer, current_module_info);
         } else {
             total_line_bytes += entry->size;
-            decode_new_lines(type_data, entry->size, &module_symbol_count, &module_reference_count);
+            scan_module_symbols(type_data, entry->size, &module_symbol_count, &module_reference_count);
             rewrite_new_lines(type_data, entry, current_module_info, &module_symbol_count, &module_reference_count);
         }
     }

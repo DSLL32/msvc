@@ -45,7 +45,11 @@ PublicSymbol *allocate_public_block(unsigned size);
 int insert_public_symbol(unsigned char *record, SymbolKeyProc key);
 void decode_legacy_lines(void *lines, unsigned size);
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info);
-void decode_new_lines(void *lines, unsigned size, unsigned short *symbols, unsigned short *references);
+extern unsigned short symbol_segment_count;
+void scan_module_symbols(void *lines, unsigned size, unsigned short *symbols, unsigned short *references);
+void add_symbol_segment(unsigned short segment, unsigned short *symbols);
+int has_symbol_segment(unsigned short segment);
+void read_type_database(const char *path);
 void rewrite_new_lines(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references);
 void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info);
 #endif

@@ -62,7 +62,8 @@
     "read_module_local_symbols",
     "read_module_source_lines",
     "map_type_index",
-    "compact_type_index"
+    "compact_type_index",
+    "scan_module_symbols"
   ],
   "functions": [
     {
@@ -1460,12 +1461,15 @@
       "parameters": []
     },
     {
-      "name": "decode_new_lines",
-      "symbol": "_decode_new_lines",
-      "native_symbol": "decode_new_lines",
+      "name": "scan_module_symbols",
+      "symbol": "_scan_module_symbols",
+      "native_symbol": "scan_module_symbols",
       "original": 4236160,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4236160,
+        4237076
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1501,7 +1505,14 @@
           ],
           "native_pointee_width": 2
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4237076,
+          4237096
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0057-scan-module-symbols/promotion.json"
     },
     {
       "name": "rewrite_new_lines",
@@ -2135,6 +2146,65 @@
       "extent": null,
       "ret": 12,
       "parameters": []
+    },
+    {
+      "name": "add_symbol_segment",
+      "symbol": "_add_symbol_segment",
+      "native_symbol": "add_symbol_segment",
+      "original": 4237104,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "segment",
+          "slot": 1,
+          "kind": "integer",
+          "native_width": 2
+        },
+        {
+          "name": "symbols",
+          "slot": 2,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "module_symbol_count"
+          ],
+          "native_pointee_width": 2
+        }
+      ]
+    },
+    {
+      "name": "has_symbol_segment",
+      "symbol": "_has_symbol_segment",
+      "native_symbol": "has_symbol_segment",
+      "original": 4251376,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "segment",
+          "slot": 1,
+          "kind": "integer",
+          "native_width": 2
+        }
+      ]
+    },
+    {
+      "name": "read_type_database",
+      "symbol": "_read_type_database",
+      "native_symbol": "read_type_database",
+      "original": 4241904,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "path",
+          "slot": 1,
+          "kind": "string"
+        }
+      ]
     }
   ],
   "support_unmasked": [
