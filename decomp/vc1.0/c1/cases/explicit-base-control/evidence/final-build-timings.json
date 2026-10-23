@@ -1,0 +1,23 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 0.019596668891608715,
+    "exit": 0
+  },
+  {
+    "name": "canonical-audits",
+    "command": [
+      "make",
+      "-j4",
+      "audit-win32"
+    ],
+    "seconds": 7.536483825184405,
+    "exit": 0
+  }
+]

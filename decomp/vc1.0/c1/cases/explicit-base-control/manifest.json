@@ -1,0 +1,78 @@
+{
+  "case": "Configurable explicit-base-control checksum",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f traverse.c -Ze -Zp8 -Gs -Fotraverse.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/traverse.c",
+          "bytes": 1461,
+          "sha256": "c6f66b9d4a42110f0cd98767eaa91d8e5727f8522fc9e557f62d295ca48ec42c"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 203,
+          "sha256": "16eb3d2914438e7bb5540e429e617403863974cb4fe3f1263b6b3ffe34116ab4",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 2062,
+          "sha256": "6afad1e3a52053e107b1795c203021eaae9ead1641fa7529e1b6437eeceacc7c",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 294,
+          "sha256": "f4753152f6760dbcbe86b5755c1710905e9af68ceb83dd278f7da503da7e731f",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 73,
+          "sha256": "5b1ea48e575884d5eb5412787e91e72ef78fef3a8fc96bb8886d6e643dceb10b",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 460,
+          "sha256": "b500f2f8b9434ba84e8557f7378cbccd30aca61a7b46cb2452aeb65da83e31bc",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "traverse.obj",
+        "traverse.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 traverse.c",
+      "transport_reference": "evidence/explicit-base.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate silent child streams from CL source banner."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original capture/build separate.",
+  "normalization": "None.",
+  "capture_policy": "Two actualCLchild transports,explicit moved bases/void-pointer null offset/named labels, five full rawIR files and silent streams/status/absent object/PDB. Relative temporary prefix alone becomes ir.",
+  "runtime": "Untouched draft3 full compile/link and checksum program exit0, silent."
+}

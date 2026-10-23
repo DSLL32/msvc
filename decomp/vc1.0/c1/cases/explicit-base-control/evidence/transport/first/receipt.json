@@ -1,0 +1,98 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /Od /G5 /W4 traverse.c",
+    "S:\\vc1.0\\c1\\transport\\explicit-base-control-first\\stdout",
+    "S:\\vc1.0\\c1\\transport\\explicit-base-control-first\\stderr",
+    "S:\\vc1.0\\c1\\transport\\explicit-base-control-first\\events",
+    "S:\\vc1.0\\c1\\explicit-base-control",
+    "S:\\vc1.0\\c1\\transport\\explicit-base-control-first\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\explicit-base-control-first"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 traverse.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\explicit-base-control",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 1.1661991141736507,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001028 -f traverse.c -Ze -Zp8 -Gs -Fotraverse.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001028 -f traverse.c -Gs4096 -dos -Fotraverse.obj -ML -Zi -G5 -W 4 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "traverse.c",
+        "bytes": 1461,
+        "sha256": "c6f66b9d4a42110f0cd98767eaa91d8e5727f8522fc9e557f62d295ca48ec42c",
+        "mtime_ns": 1792774616283134200
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001028db",
+        "bytes": 203,
+        "sha256": "16eb3d2914438e7bb5540e429e617403863974cb4fe3f1263b6b3ffe34116ab4",
+        "mtime_ns": 1792774617183116300
+      },
+      {
+        "name": "001028ex",
+        "bytes": 2062,
+        "sha256": "6afad1e3a52053e107b1795c203021eaae9ead1641fa7529e1b6437eeceacc7c",
+        "mtime_ns": 1792774617183116300
+      },
+      {
+        "name": "001028gl",
+        "bytes": 294,
+        "sha256": "f4753152f6760dbcbe86b5755c1710905e9af68ceb83dd278f7da503da7e731f",
+        "mtime_ns": 1792774617183116300
+      },
+      {
+        "name": "001028in",
+        "bytes": 73,
+        "sha256": "5b1ea48e575884d5eb5412787e91e72ef78fef3a8fc96bb8886d6e643dceb10b",
+        "mtime_ns": 1792774617183116300
+      },
+      {
+        "name": "001028sy",
+        "bytes": 460,
+        "sha256": "b500f2f8b9434ba84e8557f7378cbccd30aca61a7b46cb2452aeb65da83e31bc",
+        "mtime_ns": 1792774617183116300
+      },
+      {
+        "name": "traverse.c",
+        "bytes": 1461,
+        "sha256": "c6f66b9d4a42110f0cd98767eaa91d8e5727f8522fc9e557f62d295ca48ec42c",
+        "mtime_ns": 1792774616283134200
+      }
+    ]
+  }
+}

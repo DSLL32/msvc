@@ -919,7 +919,7 @@ read_action:
             scanner_flags &= ~0x80;
             break;
         case 210:
-            parser_value.node = make_member_expression(right[-2].node, right[0].name);
+            parser_value.node = make_based_address(right[-2].node, right[0].node);
             break;
         case 211:
             parser_value.node = make_identifier_expression(right[0].name);
@@ -1799,4 +1799,20 @@ void __stdcall report_parser_error(char *text)
         break;
     default: report_syntax_error(59,token_names[current_token_code]); break;
     }
+}
+
+/* Original 0x2c5b0..0x2c5fc, RET4. A label first encountered at
+   its definition is registered through the same reference machinery used
+   by goto; a previously defined label diagnoses its repeated name. */
+void __stdcall emit_named_label(char *name)
+{
+    FrontendSymbol *label = find_label(name);
+    if (!label) {
+        label = declare_label(name);
+        label->attributes |= 0x20;
+        reference_label(label);
+    } else if (label->flags & 1) {
+        report_syntax_error(45, name);
+    }
+    emit_code_label(make_ir_leaf(TOK_IDENTIFIER, label, 0));
 }

@@ -160,6 +160,10 @@
     "portability-diagnostics": {
       "receipt": "cases/portability-diagnostics/evidence/portability-complete-979.receipt.json",
       "sha256": "df5bfaaa6645cc8014105ef3cfac88c509d0817d5ea34a212cb4b602d2e91d67"
+    },
+    "explicit-base-control": {
+      "receipt": "cases/explicit-base-control/evidence/explicit-base-complete-982.receipt.json",
+      "sha256": "86d599b1550185113f7590dece610061c39ce6547777643e2d7955cb794237dd"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

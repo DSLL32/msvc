@@ -153,3 +153,82 @@ void __stdcall check_based_pointer_conversion(unsigned char operation,
     if ((source_model & 7) > 4) source_base = source->field08;
     if (target_base != source_base) compiler_warning(1, 119);
 }
+
+/* Original 0x3f820..0x3f94d, RET8. The public :> operator
+   supplies a base for a void-based offset or a preserved null constant.
+   Its IR children retain the original offset-first, base-second ordering. */
+IrToken *__stdcall make_based_address(IrToken *base, IrToken *offset)
+{
+    TypeShape *shape;
+    TypeDescription *description;
+    IrToken *result;
+    unsigned short attributes;
+    int invalid;
+    if (!base || !offset) return 0;
+    shape = offset->type->related;
+    if (!shape || ((shape->attributes & 7) != 4 && !(offset->flags & 0x80))) {
+        report_syntax_error(215);
+        return offset;
+    }
+    shape = base->type->related;
+    if (shape)
+        invalid = (shape->flags & 7) != 1 || (shape->attributes & 4);
+    else
+        invalid = !(base->type->flags & 0x800);
+    if (invalid) {
+        report_function_operand(TOK_SEGMENT_OFFSET, 1);
+        return offset;
+    }
+    result = make_typed_ir_expression(TOK_SEGMENT_OFFSET, offset, base, 0);
+    description = &type_description_stack[++type_description_depth];
+    description->flags = description->attributes = 0;
+    description->related = 0;
+    description->field08 = description->field0c = 0;
+    if (offset->flags & 0x80) result->flags |= 0x80;
+    *description = *offset->type;
+    attributes = normalize_type_attributes(1, 0);
+    result->type = replace_outer_type_shape(description, 1, attributes, 0);
+    --type_description_depth;
+    return result;
+}
+
+/* Original 0x26340..0x264c5, RET8. Compare only the recognized
+   base-expression forms; this is not general tree or type equivalence. */
+int __stdcall same_based_pointer_base(IrToken *left, IrToken *right)
+{
+    IrToken *left_base, *right_base;
+    if (left == right) return 1;
+    if (!left || !right) return 0;
+    if (left->flags != right->flags || left->kind != right->kind) return 0;
+    switch (left->kind) {
+    case TOK_SEGMENT:
+        left_base = left->value.pointer;
+        right_base = right->value.pointer;
+        if (!left_base || !right_base || left_base->kind != right_base->kind)
+            return 0;
+        if (left_base->kind == TOK_IDENTIFIER)
+            return left_base->value.pointer == right_base->value.pointer;
+        if (left_base->kind != TOK_DEREFERENCE) return 0;
+        left_base = left_base->value.pointer;
+        right_base = right_base->value.pointer;
+        if (!left_base || !right_base || left_base->kind != right_base->kind)
+            return 0;
+        return left_base->kind == TOK_IDENTIFIER &&
+            left_base->value.pointer == right_base->value.pointer;
+    case TOK_SEGNAME:
+        return left->value.pointer == right->value.pointer;
+    case TOK_DEREFERENCE:
+        left_base = left->value.pointer;
+        right_base = right->value.pointer;
+        if (!left_base || !right_base) return 0;
+        if ((left_base->flags & 7) != 4 || left_base->kind != TOK_IDENTIFIER)
+            return 0;
+        if ((right_base->flags & 7) != 4 || right_base->kind != TOK_IDENTIFIER)
+            return 0;
+        return left_base->value.pointer == right_base->value.pointer;
+    case TOK_SELF:
+        return 1;
+    default:
+        return 0;
+    }
+}

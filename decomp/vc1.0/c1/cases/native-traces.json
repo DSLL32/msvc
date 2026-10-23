@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "25bc2b0d817aa7b45c8485b9b2f4183e9d20c26d64af3e558af22435c48db8fc",
+    "functions.json": "bc71dc03d0ef7e5157fb9e9c3c680db8674a10c69c8c9ee81e45eb45b52501ad",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "15a07aa50ab73921f948a6a59c88bd76a776f370c6e6ba2061ae13effe8faaa5"
+    "sha256": "20a918ebe7c560ee7735ebde64f45c1b07f6b3e9811b0988a1653c4a576efc6d"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "644b48d89655535cbaa987f3903dca2384ff72f790b78bafeac6aaed931f6466"
+    "sha256": "0c073dcdab7f36309e196a9b78b81542a06c149a33f62e435af92d5d580449c4"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -1075,7 +1075,7 @@
     },
     "emit_named_label": {
       "logical": "_emit_named_label@4",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "emit_pdb_type": {
       "logical": "_emit_pdb_type",
@@ -1881,6 +1881,10 @@
       "logical": "_make_asm_symbol@4",
       "source": "src/asm-symbols.c"
     },
+    "make_based_address": {
+      "logical": "_make_based_address@8",
+      "source": "src/based-pointers.c"
+    },
     "make_based_pointer_base": {
       "logical": "_make_based_pointer_base@4",
       "source": "src/based-pointers.c"
@@ -1952,10 +1956,6 @@
     "make_ir_leaf": {
       "logical": "_make_ir_leaf@12",
       "source": "src/parser.c"
-    },
-    "make_member_expression": {
-      "logical": "_make_member_expression@8",
-      "source": "src/stubs.c"
     },
     "make_named_declarator": {
       "logical": "_make_named_declarator@4",
@@ -3163,7 +3163,7 @@
     },
     "same_based_pointer_base": {
       "logical": "_same_based_pointer_base@8",
-      "source": "src/stubs.c"
+      "source": "src/based-pointers.c"
     },
     "save_extended_constant": {
       "logical": "_save_extended_constant@4",
@@ -4485,7 +4485,10 @@
     "report_type_conflict",
     "report_declaration_error",
     "report_type_syntax_error",
-    "report_symbol_error"
+    "report_symbol_error",
+    "make_based_address",
+    "emit_named_label",
+    "same_based_pointer_base"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5907,6 +5910,20 @@
       "terminal": {
         "kind": "exit",
         "code": 6
+      }
+    },
+    "explicit-base-control": {
+      "first": 979,
+      "last": 982,
+      "seen_count": 839,
+      "expected": [
+        "make_based_address",
+        "emit_named_label",
+        "same_based_pointer_base"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

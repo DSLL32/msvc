@@ -1,0 +1,19 @@
+
+toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00027810 <.text+0x10810>:
+   27810:	66 b9 64 40          	mov    cx,0x4064
+   27814:	eb 04                	jmp    0x2781a
+   27816:	66 b9 44 40          	mov    cx,0x4044
+   2781a:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   2781e:	8b 00                	mov    eax,DWORD PTR [eax]
+   27820:	89 46 0c             	mov    DWORD PTR [esi+0xc],eax
+   27823:	0b c0                	or     eax,eax
+   27825:	75 0e                	jne    0x27835
+   27827:	80 4e 01 80          	or     BYTE PTR [esi+0x1],0x80
+   2782b:	eb 08                	jmp    0x27835
+   2782d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   27830:	66 8b 4c 24 06       	mov    cx,WORD PTR [esp+0x6]

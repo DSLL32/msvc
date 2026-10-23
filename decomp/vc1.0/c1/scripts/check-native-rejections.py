@@ -356,6 +356,29 @@ def main():
     rejects('portability-recovered-tail-browser-record', 'output bytes differ: audit.sbr',
             lambda:checker.validate_artifacts(portability,portability_fixture,portability_phase))
 
+    _, explicit_base = checker.run_case('explicit-base-control', executable, directory, (cache,filter_path))
+    explicit_fixture = checker.BINARY/'cases/explicit-base-control'
+    explicit_phase = json.loads((explicit_fixture/'manifest.json').read_text())['phases']['c1']
+    label_records = bytearray((explicit_base/'irsy').read_bytes())
+    assert label_records.count(b'again\0') == 1
+    label_records[label_records.index(b'again\0')] = ord('x')
+    (explicit_base/'irsy').write_bytes(label_records)
+    rejects('explicit-base-goto-label-symbol', 'output bytes differ: irsy',
+            lambda:checker.validate_artifacts(explicit_base,explicit_fixture,explicit_phase))
+    (explicit_base/'irsy').write_bytes((explicit_fixture/'expected/c1/irsy').read_bytes())
+    base_records = bytearray((explicit_base/'irgl').read_bytes())
+    assert base_records.count(b'arena_base\0') == 1
+    base_records[base_records.index(b'arena_base\0')] = ord('x')
+    (explicit_base/'irgl').write_bytes(base_records)
+    rejects('explicit-base-global-binding', 'output bytes differ: irgl',
+            lambda:checker.validate_artifacts(explicit_base,explicit_fixture,explicit_phase))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['explicit-base-control']['expected'][:2] = list(reversed(wrong['cases']['explicit-base-control']['expected'][:2]))
+    private_root = directory/'wrong-explicit-base-entry-order'
+    private_root.mkdir()
+    rejects('explicit-base-historical-entry-order', 'native trace explicit-base-control index 0: expected',
+            lambda:checker.run_case('explicit-base-control', executable, private_root, (wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

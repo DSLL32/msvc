@@ -1,14 +1,15 @@
 {
-  "authorization": "Root approved SINGLE bounded portability-header diagnostics/recovery /FR /Z7 /Od /G5 /W4, strict expectedfailure/fullpartialartifacts and real recoveredtail finish/browsermarker. No backend/runtime claim.",
-  "baseline_commit": "4f7c670439cf5a1da21f8de514496951ce9b826c",
-  "baseline_accepted_count": 971,
+  "authorization": "Root approved SINGLE explicit-base traversal/control-flow original preflight /Z7 /Od /G5 /W4. Full untouchedcompile/link/runtime0 required before freeze; preserve failures/no privateflag or unsupportedmodel forcing. Correct provisional semantic types/name by raw fixed-entry evidence before acceptance.",
+  "baseline_commit": "fcbb1dc98869bd7d42d0c2733cd1225446fca2dc",
+  "baseline_accepted_count": 979,
   "status": "complete",
   "cases": [
     {
-      "case": "portability-diagnostics",
+      "case": "explicit-base-control",
       "phase": "c1",
-      "status": "complete;971 through979, strictC1exit6/CLexit2, sixerrors/sevenwarnings/exactpartialfiles/recoveredtail"
+      "status": "complete;979 through982, originalruntime0/fiveexactIRfiles/silentstreams"
     }
   ],
-  "completion": "cases/portability-diagnostics/validation.json"
+  "preflight_refinement": "Nonzero and typed int* null rejectC2215. Existing raw conversion preserves marker onlyfor void* null; movedbase :> (void*)0 with outerint* cast compiles/runs0. Failed drafts/rawproof retained.",
+  "completion": "cases/explicit-base-control/validation.json"
 }

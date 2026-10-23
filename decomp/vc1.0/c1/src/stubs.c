@@ -228,7 +228,6 @@ unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 
 
 
 /* Original 0x2c5b0. */
-void __stdcall emit_named_label(char *name) { __asm { int 3 } }
 
 /* Original 0x2c600. */
 
@@ -339,7 +338,6 @@ void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 /* Original 0x3f420. */
 
 /* Original 0x3f820. */
-IrToken *__stdcall make_member_expression(IrToken *operand, char *member) { __asm { int 3 } return 0; }
 
 /* Original 0x3fb50. */
 TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
@@ -894,7 +892,6 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 int __stdcall name_has_text_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
 
 /* Original 0x26340. Compare normalized base expressions. */
-int __stdcall same_based_pointer_base(IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 
 /* Original 0x3f3b0. Symbol-typed value-bearing leaf wrapper. */
 IrToken *__stdcall make_symbol_ir_leaf(unsigned char kind, FrontendSymbol *symbol) { __asm { int 3 } return 0; }

@@ -983,7 +983,10 @@
     "_report_type_conflict@20",
     "_report_declaration_error@8",
     "_report_type_syntax_error@8",
-    "_report_symbol_error@8"
+    "_report_symbol_error@8",
+    "_make_based_address@8",
+    "_emit_named_label@4",
+    "_same_based_pointer_base@8"
   ],
   "driver": [
     {
@@ -2077,7 +2080,7 @@
     {
       "name": "_emit_named_label@4",
       "start": 181680,
-      "end": 181681
+      "end": 181756
     },
     {
       "name": "_make_internal_label@4",
@@ -2326,9 +2329,9 @@
       "end": 259306
     },
     {
-      "name": "_make_member_expression@8",
+      "name": "_make_based_address@8",
       "start": 260128,
-      "end": 260129
+      "end": 260429
     },
     {
       "name": "_append_type_shape@8",
@@ -5680,7 +5683,7 @@
     {
       "name": "_same_based_pointer_base@8",
       "start": 156480,
-      "end": 156481
+      "end": 156869
     },
     {
       "name": "_make_symbol_ir_leaf@8",
@@ -5907,6 +5910,10 @@
       "accepted_from": 971,
       "accepted_count": 979,
       "expected_exit": 6
+    },
+    "explicit-base-control": {
+      "accepted_from": 979,
+      "accepted_count": 982
     }
   },
   "buffered_streams": [

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "win32"
+  ],
+  "seconds": 19.441555006429553,
+  "exit": 0,
+  "scope": "Canonical rebuild after current unvisited semantic rename; preceding wrong-cwd make failed before any compile and is retained separately."
+}
