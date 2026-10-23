@@ -643,3 +643,26 @@ short __stdcall format_storage_spec(short text, StorageSpec storage)
     }
     return format_storage_extensions(text, storage);
 }
+
+/* Original 0x683c0..0x6846d. Build the extended storage keywords in
+   a separate centered string and emit __declspec(...) only when nonempty.
+   The temporary handle remains owned by the enclosing diagnostic level. */
+short __stdcall format_storage_extensions(short text, StorageSpec storage)
+{
+    short extensions = reserve_type_diagnostic();
+    char *spelling;
+    if ((storage.extended & 4) && !(storage.extended & 8))
+        append_type_diagnostic(extensions, "dllimport ");
+    if ((storage.extended & 4) && (storage.extended & 8))
+        append_type_diagnostic(extensions, "dllexport ");
+    if (storage.extended & 1) append_type_diagnostic(extensions, "naked ");
+    if (storage.extended & 2) append_type_diagnostic(extensions, "thread ");
+    spelling = type_diagnostic_text(extensions);
+    if (*spelling) {
+        append_type_diagnostic(text, token_spellings[205]);
+        append_type_diagnostic_char(text, '(');
+        append_type_diagnostic(text, spelling);
+        append_type_diagnostic(text, ") ");
+    }
+    return text;
+}

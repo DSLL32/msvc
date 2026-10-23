@@ -14,7 +14,6 @@ import shutil
 import subprocess
 import sys
 import time
-from case_paths import CAPTURE_ROOT
 
 BINARY = Path(__file__).resolve().parents[1]
 

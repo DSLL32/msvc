@@ -620,4 +620,3 @@ short __stdcall format_based_declaration(unsigned short attributes, void *base) 
 short __stdcall format_pointer_declarator(short text, TypeShape *shape) { __asm { int 3 } return 0; }
 void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm { int 3 } }
 void __stdcall prepend_type_diagnostic(short text, char *value) { __asm { int 3 } }
-short __stdcall format_storage_extensions(short text, StorageSpec storage) { __asm { int 3 } return 0; }

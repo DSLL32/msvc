@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_format_storage_extensions@8",
+    "start": 426944,
+    "end": 427117
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1055-format_storage_extensions-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_type_diagnostic@8",
+    "_append_type_diagnostic_char@8",
+    "_reserve_type_diagnostic",
+    "_type_diagnostic_text@4"
+  ],
+  "next_frontier": "_declare_friend_member@24",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4007538976147771,
+  "total_operation_seconds": 3.652856326662004,
+  "original_capture_seconds": 1.2172433733940125
+}
