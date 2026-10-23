@@ -1,3 +1,5 @@
-C2 active: G5 x87 joins complete at1107; proceeding to authorized G3 deeper-call rematerialization.
-Original G3 pipeline and standalone backend inputs/oracle already frozen.
-See cases/joins87-completion.json and cases/queue.json. No unrelated case started.
+C2 active: G5 joins and G3 deeper-call cases complete at1108.
+Root reviewed/authorized next single /O2 /Ob2 /G5 inliner/bitfield/dense-switch case.
+Draft/validate original inline eligibility before freezing; preserve hidden structure-return ABI.
+See cases/remat386-completion.json, remaining-code-inventory.json and queue.json.
+No unrelated case authorized.

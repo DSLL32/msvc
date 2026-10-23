@@ -340,7 +340,6 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
-int __fastcall i386_instruction_cost(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
 int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }

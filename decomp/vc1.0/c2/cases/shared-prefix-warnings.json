@@ -1,15 +1,10 @@
 {
   "modules": [
     {
-      "module": "scheduler",
-      "seconds": 2.6120458180084825,
-      "returncode": 0
-    },
-    {
-      "module": "float-machine",
-      "seconds": 2.3900971869006753,
+      "module": "physical-allocation",
+      "seconds": 1.1164313750341535,
       "returncode": 0
     }
   ],
-  "seconds": 5.002432718873024
+  "seconds": 1.1166367242112756
 }

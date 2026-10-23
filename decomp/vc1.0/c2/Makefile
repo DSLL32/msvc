@@ -50,6 +50,7 @@ audit-data: build/c2.exe native
 	$(PYTHON) scripts/check-runtime-intrinsic-data.py
 	$(PYTHON) scripts/check-conditional-opcodes.py
 	$(PYTHON) scripts/check-scheduler-stack-aliases.py
+	$(PYTHON) scripts/check-i386-costs.py
 
 
 hello-frontier hello-check hello-replay: native-trace

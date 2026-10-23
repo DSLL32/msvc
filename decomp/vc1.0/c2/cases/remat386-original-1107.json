@@ -1,0 +1,40 @@
+{
+  "label": "remat386-original-1107",
+  "profile": "remat386",
+  "accepted": 1107,
+  "events": "exception 80000003 rva 0001d350 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "ee70cfb47cca84b4af3c4abb523520e4570fb1b67562cfd385775ac5d2d6dbc2",
+  "config_sha256": "66ac2d6604fdde10d431c7e8631b2c6b59d12476d9e19bbb04cf03623fa18409",
+  "manifest_sha256": "516f773622e1c3739ee4355fc3939eddef2037a5c730bbbf2dd235fd69e191c1",
+  "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+  "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+  "inputs": {
+    "c2/irex": "87371d5c9593a6647c6d44e4bc0cde76854608073077171bec2420b4b24e2b5c",
+    "c2/irsy": "48b15bf07b32c5be081aef53138eb55fc24549bfac632d7d20b819739211a5b3",
+    "c2/irin": "4c193ad872da1889ad13b33daa98275d30803d44c1775640c09b8672e6493136",
+    "c2/irgl": "de2847ae1a5c11a8d6814d3ef25a0d951aa621654d3d76ec7ea697a46ff7dcef"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f remat386.c -W 1 -dos -Foremat386.obj -ML -Gs4096 -Gy -G3 "
+  },
+  "directory": "S:\\vc1.0\\c2\\original-remat386-gmnx9s7o",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\remat386",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "first_entry_projection": {
+    "expected": [],
+    "observed": [],
+    "seeded": [],
+    "entry_plan_sha256": null
+  },
+  "logical": "@i386_instruction_cost@4",
+  "original_va": "0x2d350",
+  "setup_seconds": 0.22878630738705397,
+  "execution_seconds": 0.9244147976860404,
+  "check_seconds": 0.026464924216270447,
+  "total_seconds": 1.1796664223074913
+}

@@ -1111,7 +1111,8 @@
     "@exchange_scheduled_float_stack@4",
     "@previous_float_is_load@4",
     "@arrange_scheduled_float_inputs@4",
-    "@arrange_scheduled_float_operands@4"
+    "@arrange_scheduled_float_operands@4",
+    "@i386_instruction_cost@4"
   ],
   "driver": [
     {
@@ -6846,8 +6847,7 @@
     {
       "name": "@i386_instruction_cost@4",
       "start": 185168,
-      "end": 185169,
-      "provisional": true
+      "end": 185876
     },
     {
       "name": "@later_x86_instruction_cost@4",
@@ -7552,6 +7552,12 @@
       "accepted_from": 1103,
       "fixture_manifest": "../fixtures/c2-g5-x87-joins/manifest.json",
       "fixture_manifest_sha256": "aa7b1d5bc47182b3e329318a846c718081fe860ae747171d652f511471bff8ae"
+    },
+    "remat386": {
+      "arguments": "",
+      "accepted_from": 1107,
+      "fixture_manifest": "../fixtures/c2-g3-deep-rematerialization/manifest.json",
+      "fixture_manifest_sha256": "516f773622e1c3739ee4355fc3939eddef2037a5c730bbbf2dd235fd69e191c1"
     }
   },
   "crt_defaults": {

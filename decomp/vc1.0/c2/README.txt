@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1107 accepted frontiers and1028 reconstructed source functions.
-Accepted original code extents cover305779/399693 bytes (76.503467%). This is
+Current checkpoint:1108 accepted frontiers and1029 reconstructed source functions.
+Accepted original code extents cover306487/399693 bytes (76.680602%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -15,9 +15,9 @@ check/replay and named-profile checks run native i386 -O0 -g only. They compare
 cached original first-entry traces, status, streams and complete object bytes.
 Unknown process dependencies fail; no fixture invokes Wine or refreshes original
 references. Only identified COFF timestamp bytes4..7 are normalized. The suite
-contains eleven complete objects: minimal286, hello2289, loops620, pressure879,
-aliasing600, floating979, i386572, deep x87947, i486883, combined2125 and G5 joins1972 bytes.
-The authorized G3 deeper-call rematerialization case is next. See cases/queue.json,
+contains twelve complete objects: minimal286, hello2289, loops620, pressure879,
+aliasing600, floating979, i386572, deep x87947, i486883, combined2125 and G5 joins1972 and G3 deep-call1009 bytes.
+Root reviewed the next single inliner/bitfield/dense-switch case. See cases/queue.json,
 cases/combined-completion.json and cases/native-all-validation.json.
 
 Original builds and explicit captures use the repository shared prefix
@@ -66,9 +66,9 @@ Source remains original-style Win32 C with individual ABIs and original-toolchai
 compilability. The documented raw80-bit x87 boundaries in extended.c retain narrow
 assembly bridges. No source/body/acceptance/ABI changes occurred during migration.
 Nine encountered math descriptors are typed and contextual; unknown IDs trap.
-Unvisited generated-call metadata, x87 input arrangement/exchange (including the
-original slot1..8 alias contract), and i386 rematerialization cost remain traps.
-The completed /O1 /G3 input did not reach that anticipated cost function.
+Scheduled x87 input/operand arrangement and exchange (including explicit
+slot1..8 aliases) are now recovered, as is i386 rematerialization cost.
+Other generated-call and inliner/debug/assembly families still contain traps.
 
 Additional cases require the orchestrating agent's review. Shared lib/recon/
 changes belong to its dedicated maintainer. See cases/shared-prefix-validation.json
@@ -120,3 +120,10 @@ input arrangement792 and ordinary operand arrangement199. All eleven whole
 objects pass; see cases/joins87-completion.json for timings and slot8 proof
 limits. Synthetic all-slot checking preserves named live aliases without C
 array overruns or a tighter diagnostic range.
+
+G3 deeper calls complete at1108 with the full708-byte i386 recreation-cost
+function and59136 independently matched opcode/operand forms. All twelve
+objects pass; cases/remat386-completion.json records complete timings,
+unsplit rebuilds, failures and proof scope. The remaining-code inventory
+separates provisional driver entries, library/import identities and unclassified
+code/data/alignment; it does not attribute unknown bytes to application C.

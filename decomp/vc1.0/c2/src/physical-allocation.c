@@ -520,6 +520,47 @@ int __fastcall later_x86_instruction_cost(MachineInstruction *instruction)
             (operation >= MC_FUCOM && operation <= MC_FCOS)) ? 50 : 0;
     }
 }
+/* Original [0002d350,0002d614), including the46-way DWORD dispatch
+   at2d55c..2d614. i386 recreation costs distinguish register, immediate
+   and memory forms; floating and expensive control/multiply forms cost50. */
+int __fastcall i386_instruction_cost(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    unsigned a = instruction->operands[0].flags & 15;
+    unsigned b = instruction->operands[1].flags & 15;
+    switch (operation) {
+    case MC_MOV:
+        return a == OPERAND_REGISTER && COST_SIMPLE_SOURCE(b) ? 2 : 4;
+    case MC_IMUL: case MC_CALL: case MC_JCC: case MC_DIV:
+    case MC_IDIV: case MC_MUL: case MC_IMUL2:
+        return 50;
+    case MC_PUSH:
+        return a == OPERAND_REGISTER ? 2 : 5;
+    case MC_LEA: case MC_CMC: case MC_CWD: case MC_CDQ:
+        return 2;
+    case MC_DEC: case MC_INC: case MC_NEG: case MC_NOT:
+        return a == OPERAND_REGISTER ? 2 : 6;
+    case MC_ROL: case MC_ROR: case MC_SAR: case MC_SHL: case MC_SHR:
+        return a == OPERAND_REGISTER ? 3 : 7;
+    case MC_ADD: case MC_AND: case MC_OR: case MC_SBB: case MC_SUB: case MC_XOR:
+        if (a == OPERAND_REGISTER) return COST_SIMPLE_SOURCE(b) ? 2 : 7;
+        return COST_IMMEDIATE_SOURCE(b) ? 7 : 6;
+    case MC_CMP:
+        if (a == OPERAND_REGISTER) return COST_SIMPLE_SOURCE(b) ? 2 : 6;
+        return 5;
+    case MC_TEST:
+        return a == OPERAND_REGISTER ? 2 : 5;
+    case MC_SAHF: case MC_CBW: case MC_CWDE:
+        return 3;
+    case MC_SCC:
+        return a == OPERAND_REGISTER ? 4 : 5;
+    case MC_MOVZX: case MC_MOVZXW: case MC_MOVSX: case MC_MOVSXW:
+        return b == OPERAND_REGISTER ? 3 : 6;
+    default:
+        return ((operation >= MC_FADD && operation <= MC_FLD1) ||
+            (operation >= MC_FUCOM && operation <= MC_FCOS)) ? 50 : 0;
+    }
+}
 #undef COST_SIMPLE_SOURCE
 #undef COST_IMMEDIATE_SOURCE
 #undef COST_DISPLACED_MEMORY

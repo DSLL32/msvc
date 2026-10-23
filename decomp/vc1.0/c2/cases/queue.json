@@ -1,5 +1,5 @@
 {
-  "active": "g3-deep-rematerialization",
+  "active": "inline-records",
   "queued": [
     {
       "case": "hello-win32",
@@ -250,7 +250,7 @@
     {
       "case": "g3-deep-rematerialization",
       "profile": "remat386",
-      "status": "queued",
+      "status": "complete",
       "flags": [
         "/O1",
         "/Ob0",
@@ -271,6 +271,16 @@
         ],
         "normalized_sha256": "8db2f39e2b4fc3d205ec8c92f622e175dc3b0c2f3ce66c3298f37097f6aab8d1"
       }
+    },
+    {
+      "case": "inline-records",
+      "status": "approved; source/original eligibility validation next",
+      "flags": [
+        "/O2",
+        "/Ob2",
+        "/G5"
+      ],
+      "description": "Small static scalar/pointer/struct-return helpers with nested repeated calls, side-effecting arguments, bitfield updates and dense switch; freeze only after original support/eligibility validation"
     }
   ],
   "completed": [
@@ -361,9 +371,17 @@
       "exit": 0,
       "object_bytes": 1972,
       "normalized_sha256": "8b2e931cded2afc72dce92f255151f4e00fe7c201d625115671723f5df70c223"
+    },
+    {
+      "case": "g3-deep-rematerialization",
+      "accepted_frontiers": 1108,
+      "reconstructed_functions": 1029,
+      "exit": 0,
+      "object_bytes": 1009,
+      "normalized_sha256": "8db2f39e2b4fc3d205ec8c92f622e175dc3b0c2f3ce66c3298f37097f6aab8d1"
     }
   ],
-  "status": "Authorized G5 branch joins first, then G3 deeper-call rematerialization; pause after both",
+  "status": "G5 joins and G3 deep-call cases complete; root reviewed next single inline-records case",
   "next_case_proposals": [
     {
       "case": "G3 rematerialization across deep calls",

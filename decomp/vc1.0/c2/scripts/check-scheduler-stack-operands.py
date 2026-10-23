@@ -15,7 +15,7 @@ p = PE('../../../toolchains/1.0-nt/bin/C23232.EXE')
 with tempfile.TemporaryDirectory(prefix='scheduler-st-',dir=C2_SCRATCH) as d:
     d = Path(d)
     probe = d/'probe.c'
-    probe.write_text('#include "'+str(Path('src/instruction-selection.h').resolve())+'"\n#undef write\nextern int write(int,const void*,unsigned);\n'+macro+'''
+    probe.write_text('#include "'+str(Path('src/instruction-selection.h').resolve())+'"\n#include \"'+str(Path('src/float-machine.h').resolve())+'\"\n#undef write\nextern int write(int,const void*,unsigned);\nunsigned float_motion_reset_word;\nFloatStreamUse *float_stream_uses;\n'+macro+'''
 int main(void) {
     MachineOperand operand;
     int slot;

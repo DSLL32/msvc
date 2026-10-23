@@ -1,0 +1,333 @@
+{
+  "status": "complete; proceeding to root-reviewed inliner/bitfield/dense-switch case",
+  "checkpoint": 1108,
+  "source_graphs": 1029,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1108,
+    "accepted_code_bytes": 306487,
+    "original_code_bytes": 399693,
+    "percentage": 76.68060236231308,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 513
+  },
+  "delta_from1107": {
+    "functions": 1,
+    "code_bytes": 708
+  },
+  "expected": {
+    "path": "cases/remat386-original-1108/remat386.obj",
+    "name": "remat386.obj",
+    "bytes": 1009,
+    "sha256": "2f7c6cd2b6edf364caa4733572431f28f88c6e75421a8dbfaf2514d54e47a541",
+    "normalized_sha256": "8db2f39e2b4fc3d205ec8c92f622e175dc3b0c2f3ce66c3298f37097f6aab8d1",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "functions": [
+    {
+      "name": "@i386_instruction_cost@4",
+      "start": 185168,
+      "end": 185876
+    }
+  ],
+  "evidence": {
+    "initial": "cases/remat386-original-1107.json",
+    "final": "cases/remat386-original-1108.json",
+    "abi": "cases/remat386-abi-validation.json",
+    "cost_forms": "cases/i386-cost-validation.json",
+    "native": "cases/native-all-validation.json",
+    "remaining_inventory": "cases/remaining-code-inventory.json"
+  },
+  "limits": [
+    "The intended i386 rematerialization cost routine now executes in the frozen deeper-call case.",
+    "Actual whole extent708 bytes includes46 bounded dispatch DWORDs; earlier720-byte estimate was the next known entry bound and includes12 alignment bytes now excluded.",
+    "Independent actual-C/native O0 versus isolated original x86 emulation checks all231 legal opcode IDs times16x16 operand classes:59136 results match. No helpers/callees are suppressed, because original routine has none. This analysis is separate from native fixtures and executes no Wine/full reference program.",
+    "All twelve complete object/stream/status/entry-projection oracles and native corruption/order/IR rejections pass. Original selected /W3, Rust graphs/ownership/whole and accepted extents, contextual data proofs and21+6 graph/ABI negatives pass.",
+    "No shared shim requests. Remaining inventory has205 unaccepted driver rows,199 entry placeholders, plus unclassified code/data/alignment; not only CRT remains."
+  ],
+  "timing": {
+    "frontier1108-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.236163075082004,
+      "returncode": 0,
+      "log_sha256": "b6671884322b1215981d81de9d788828777379d401c8adeaa9b5ea3d3a175009"
+    },
+    "frontier1108-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.2595387743785977,
+      "returncode": 0,
+      "log_sha256": "f7fd1dc98c2870e489aca285d979f01a0014e695fffe09762e93ddc682154ab7"
+    },
+    "frontier1108-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5799301210790873,
+      "returncode": 0,
+      "log_sha256": "80297a510eb519e477869056352d58ecf9564a981acb20b23a884054417a4f72"
+    },
+    "frontier1108-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "remat386",
+        "--receipt",
+        "cases/remat386-original-1108.json"
+      ],
+      "seconds": 1.720996675081551,
+      "returncode": 0,
+      "log_sha256": "720f56b51fd76575400309965924da1fde9680f34fabc7e185e4ea9c52aaebe1"
+    },
+    "frontier1108-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "physical-allocation"
+      ],
+      "seconds": 1.1639980394393206,
+      "returncode": 0,
+      "log_sha256": "b43d03100786dba0f09b5bc22f169326711576d941d6347691f79e090d4344ea"
+    },
+    "joins-remat-final-build-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native-trace",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 34.63100525829941,
+      "returncode": 0,
+      "log_sha256": "ef0b015582ad5ce012676ad163fdbf9784cec316b0b73ee36ffd2c46eec34e87"
+    },
+    "joins-remat-final-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.6092929085716605,
+      "returncode": 0,
+      "log_sha256": "dcce2a28b312f994f8536b2d3eb8dab592b5d8ca83d5b500d136a4942dddece0"
+    },
+    "joins-remat-final-data-corrected-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-data"
+      ],
+      "seconds": 5.21177492197603,
+      "returncode": 0,
+      "log_sha256": "673aea25c2ce2669bc574b3906e4f81e8c5367fa39a0a33745dcb7ad3e51f2cc"
+    },
+    "joins-remat-final-data-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-data"
+      ],
+      "seconds": 34.29024036321789,
+      "returncode": 2,
+      "log_sha256": "b084595c9d2247e36e386fa90c1b23f843d9c7d22d21722fb75f16e16e83091e"
+    },
+    "joins-remat-final-negatives-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit-negatives"
+      ],
+      "seconds": 15.978404060937464,
+      "returncode": 0,
+      "log_sha256": "ad0c538dbf24569fd9b3f7d207b23888b641221288bde7fe43fc1f02644d776e"
+    },
+    "remat386-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-g3-deep-rematerialization",
+        "--stem",
+        "remat386",
+        "--case",
+        "remat386",
+        "--flags",
+        "/O1",
+        "/Ob0",
+        "/G3"
+      ],
+      "seconds": 4.111324026249349,
+      "returncode": 0,
+      "log_sha256": "79e101f4dcb3aa805b16bca6400ec8c2ae6a98cfd245271abe18b48d690393ec"
+    },
+    "remat386-cost-data-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/check-i386-costs.py"
+      ],
+      "seconds": 3.060497982427478,
+      "returncode": 0,
+      "log_sha256": "546a7c4e68f9195770dabf7f1fd94062560bac23b601365bd1d274068bacc5c4"
+    },
+    "remat386-cost-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-i386-costs.py"
+      ],
+      "seconds": 0.42595562525093555,
+      "returncode": 1,
+      "log_sha256": "d56c07ac0036691ae88d16ea658ab914c8c023174a0cafc62a83c6cb07b00338"
+    },
+    "remat386-initial-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "remat386",
+        "--reference",
+        "cases/remat386-original-1107.json"
+      ],
+      "seconds": 0.21389413718134165,
+      "returncode": 0,
+      "log_sha256": "b886e2dec1c8779e60e08628f5745d66ad1b8f870f1cb01850c7ba2891bdefa9"
+    },
+    "remat386-initial-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "remat386",
+        "--receipt",
+        "cases/remat386-original-1107.json"
+      ],
+      "seconds": 1.2483276724815369,
+      "returncode": 0,
+      "log_sha256": "da922980559439b7202f91515d318db3012de89564e1398c4341ff640581f4b2"
+    }
+  },
+  "reference_phases": [
+    {
+      "path": "cases/remat386-original-1107.json",
+      "setup_seconds": 0.22878630738705397,
+      "execution_seconds": 0.9244147976860404,
+      "check_seconds": 0.026464924216270447,
+      "total_seconds": 1.1796664223074913
+    },
+    {
+      "path": "cases/remat386-original-1108.json",
+      "setup_seconds": 0.2307621417567134,
+      "execution_seconds": 1.3957093842327595,
+      "check_seconds": 0.02616256382316351,
+      "total_seconds": 1.6526345508173108
+    }
+  ],
+  "native_timing": {
+    "fixture_seconds": 0.5056620510295033,
+    "suite_setup_seconds": 0.1460890518501401,
+    "negative_check_seconds": 0.022105182521045208,
+    "cases": [
+      {
+        "profile": "minimal",
+        "setup_seconds": 0.020659050904214382,
+        "execution_seconds": 0.006979706697165966,
+        "check_seconds": 0.001827482134103775
+      },
+      {
+        "profile": "hello",
+        "setup_seconds": 0.01819466892629862,
+        "execution_seconds": 0.011843420565128326,
+        "check_seconds": 0.0018280129879713058
+      },
+      {
+        "profile": "loops",
+        "setup_seconds": 0.016741391271352768,
+        "execution_seconds": 0.009633533656597137,
+        "check_seconds": 0.0014125443994998932
+      },
+      {
+        "profile": "pressure",
+        "setup_seconds": 0.017067279666662216,
+        "execution_seconds": 0.010753140784800053,
+        "check_seconds": 0.001192294992506504
+      },
+      {
+        "profile": "aliasing",
+        "setup_seconds": 0.016286767087876797,
+        "execution_seconds": 0.008784877136349678,
+        "check_seconds": 0.0013685068115592003
+      },
+      {
+        "profile": "floating",
+        "setup_seconds": 0.01439016405493021,
+        "execution_seconds": 0.009011982940137386,
+        "check_seconds": 0.0013860240578651428
+      },
+      {
+        "profile": "i386",
+        "setup_seconds": 0.01500620972365141,
+        "execution_seconds": 0.00879770889878273,
+        "check_seconds": 0.0011958060786128044
+      },
+      {
+        "profile": "x87",
+        "setup_seconds": 0.01429852657020092,
+        "execution_seconds": 0.006459868513047695,
+        "check_seconds": 0.0012156609445810318
+      },
+      {
+        "profile": "i486",
+        "setup_seconds": 0.014352789148688316,
+        "execution_seconds": 0.006929074414074421,
+        "check_seconds": 0.0011679138988256454
+      },
+      {
+        "profile": "combined",
+        "setup_seconds": 0.014381836168467999,
+        "execution_seconds": 0.015630905516445637,
+        "check_seconds": 0.0011154860258102417
+      },
+      {
+        "profile": "joins87",
+        "setup_seconds": 0.013581173494458199,
+        "execution_seconds": 0.014316634275019169,
+        "check_seconds": 0.0011808760464191437
+      },
+      {
+        "profile": "remat386",
+        "setup_seconds": 0.013860688544809818,
+        "execution_seconds": 0.010810774751007557,
+        "check_seconds": 0.0011727102100849152
+      }
+    ]
+  },
+  "timing_limits": [
+    "No analysis/edit time measured. Build/native/audit combined commands are unsplit; wrapper and component timings overlap.",
+    "First cost proof incorrectly asserted seven dispatch targets instead of the actual eight; corrected proof passed. Failed0.426s and corrected3.060s timings retained. Reconstruction unchanged.",
+    "First final data audit failed in existing isolated scheduler operand probe because expanded alias macro requires declarations; added actual float-machine header and typed globals to the probe. The34.290s failure includes a dependency rebuild. Corrected data suite5.212s passed.",
+    "Final native-trace/audit/coverage34.631s also included dependency recompilation and must not be reported as pure graph-audit time. Incremental frontier1108 graph/coverage2.236s; final twelve-case wrapper0.609s."
+  ]
+}

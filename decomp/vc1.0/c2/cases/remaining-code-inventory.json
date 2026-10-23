@@ -1,0 +1,1593 @@
+{
+  "checkpoint": 1108,
+  "metric": "Index inventory, not recovered function/branch coverage; categories may overlap, so their separate union byte counts are not additive",
+  "application": {
+    "indexed_rows": 1234,
+    "accepted_rows": 1029,
+    "accepted_union_bytes": 296851,
+    "unaccepted_rows": 205,
+    "unaccepted_provisional_rows": 199,
+    "unaccepted_indexed_extent_bytes": 725
+  },
+  "crt": {
+    "indexed_rows": 194,
+    "accepted_rows": 63,
+    "accepted_union_bytes": 9540,
+    "unaccepted_rows": 131,
+    "unaccepted_provisional_rows": 0,
+    "unaccepted_indexed_extent_bytes": 14906
+  },
+  "import_thunks": {
+    "indexed_rows": 28,
+    "accepted_rows": 16,
+    "accepted_union_bytes": 96,
+    "unaccepted_rows": 12,
+    "unaccepted_provisional_rows": 0,
+    "unaccepted_indexed_extent_bytes": 72
+  },
+  "unclassified_code_union_bytes": 77519,
+  "unclassified_ranges": 629,
+  "largest_unclassified_ranges": [
+    {
+      "start": "0x29920",
+      "end": "0x2aa80",
+      "bytes": 4448
+    },
+    {
+      "start": "0x49231",
+      "end": "0x49f80",
+      "bytes": 3407
+    },
+    {
+      "start": "0x6951f",
+      "end": "0x6a100",
+      "bytes": 3041
+    },
+    {
+      "start": "0x6bd01",
+      "end": "0x6c820",
+      "bytes": 2847
+    },
+    {
+      "start": "0x28dc1",
+      "end": "0x29810",
+      "bytes": 2639
+    },
+    {
+      "start": "0x4a011",
+      "end": "0x4a8f0",
+      "bytes": 2271
+    },
+    {
+      "start": "0x1a971",
+      "end": "0x1b210",
+      "bytes": 2207
+    },
+    {
+      "start": "0x1bc01",
+      "end": "0x1c4a0",
+      "bytes": 2207
+    },
+    {
+      "start": "0x777a0",
+      "end": "0x77ec0",
+      "bytes": 1824
+    },
+    {
+      "start": "0x6a351",
+      "end": "0x6a9d0",
+      "bytes": 1663
+    },
+    {
+      "start": "0x656e1",
+      "end": "0x65d30",
+      "bytes": 1615
+    },
+    {
+      "start": "0x645c1",
+      "end": "0x64ba0",
+      "bytes": 1503
+    },
+    {
+      "start": "0x6f601",
+      "end": "0x6fb70",
+      "bytes": 1391
+    },
+    {
+      "start": "0x24741",
+      "end": "0x24c00",
+      "bytes": 1215
+    },
+    {
+      "start": "0x6ab21",
+      "end": "0x6afc0",
+      "bytes": 1183
+    },
+    {
+      "start": "0x321a1",
+      "end": "0x32630",
+      "bytes": 1167
+    },
+    {
+      "start": "0x6b861",
+      "end": "0x6bce0",
+      "bytes": 1151
+    },
+    {
+      "start": "0x650c0",
+      "end": "0x65520",
+      "bytes": 1120
+    },
+    {
+      "start": "0x6b2c1",
+      "end": "0x6b6a0",
+      "bytes": 991
+    },
+    {
+      "start": "0x1c681",
+      "end": "0x1ca50",
+      "bytes": 975
+    },
+    {
+      "start": "0x66091",
+      "end": "0x66450",
+      "bytes": 959
+    },
+    {
+      "start": "0x4ab41",
+      "end": "0x4aea0",
+      "bytes": 863
+    },
+    {
+      "start": "0x65d31",
+      "end": "0x66090",
+      "bytes": 863
+    },
+    {
+      "start": "0x38ae1",
+      "end": "0x38e20",
+      "bytes": 831
+    },
+    {
+      "start": "0x27531",
+      "end": "0x27850",
+      "bytes": 799
+    }
+  ],
+  "limits": [
+    "One-byte provisional rows identify known entry traps only; they do not measure unrecovered function bodies.",
+    "Unclassified code includes alignment, shared text data, undiscovered application routines and possibly unmatched library/support code; it is not all attributable to application C.",
+    "Accepted application rows include explicitly indexed support/boundary helpers; CRT/import classification follows independent runtime identities, not guessed names."
+  ],
+  "unaccepted_application": [
+    {
+      "name": "_compiler_control@4",
+      "start": 312672,
+      "end": 312704,
+      "extent_status": "indexed extent; not reconstructed"
+    },
+    {
+      "name": "_initialize_debugging",
+      "start": 455536,
+      "end": 455712,
+      "extent_status": "indexed extent; not reconstructed"
+    },
+    {
+      "name": "@compiler_internal_error@8",
+      "start": 457584,
+      "end": 457616,
+      "extent_status": "indexed extent; not reconstructed"
+    },
+    {
+      "name": "_compiler_report",
+      "start": 459360,
+      "end": 459440,
+      "extent_status": "indexed extent; not reconstructed"
+    },
+    {
+      "name": "@report_context_error@12",
+      "start": 460864,
+      "end": 460912,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@suffix_matches@12",
+      "start": 462768,
+      "end": 462864,
+      "extent_status": "indexed extent; not reconstructed"
+    },
+    {
+      "name": "@release_initializer@4",
+      "start": 321760,
+      "end": 321792,
+      "extent_status": "indexed extent; not reconstructed"
+    },
+    {
+      "name": "@format_function_name@4",
+      "start": 319344,
+      "end": 319345,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_ide_message",
+      "start": 455712,
+      "end": 455713,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@prepare_inline_function@4",
+      "start": 415456,
+      "end": 415457,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@finish_inline_function@4",
+      "start": 417072,
+      "end": 417073,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@read_qualified_symbol@8",
+      "start": 318064,
+      "end": 318065,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@clone_alias_symbol@4",
+      "start": 318768,
+      "end": 318769,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_compiler_warning",
+      "start": 459920,
+      "end": 459921,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@uppercase_name@4",
+      "start": 319312,
+      "end": 319344,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@emit_function_inline_data@4",
+      "start": 419040,
+      "end": 419041,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_output_noop_data",
+      "start": 429392,
+      "end": 429393,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_output_noop_function",
+      "start": 429424,
+      "end": 429425,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_output_noop_value",
+      "start": 429440,
+      "end": 429441,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@output_noop_relocation@12",
+      "start": 429472,
+      "end": 429473,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_output_noop_record",
+      "start": 429488,
+      "end": 429489,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_mark_unwritten_symbol",
+      "start": 430432,
+      "end": 430433,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_end_debug_function",
+      "start": 430672,
+      "end": 430673,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_begin_debug_function",
+      "start": 430608,
+      "end": 430609,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_finish_debug_module",
+      "start": 430464,
+      "end": 430465,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_coff_output_debug_pair",
+      "start": 447408,
+      "end": 447409,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_coff_output_debug_record",
+      "start": 447472,
+      "end": 447473,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_coff_output_value",
+      "start": 448000,
+      "end": 448001,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_coff_output_size",
+      "start": 448144,
+      "end": 448145,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_symbol",
+      "start": 440080,
+      "end": 440081,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_select_segment",
+      "start": 439968,
+      "end": 439969,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_data",
+      "start": 440000,
+      "end": 440001,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_debug_pair",
+      "start": 440112,
+      "end": 440113,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_debug_record",
+      "start": 440128,
+      "end": 440129,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_value",
+      "start": 441568,
+      "end": 441569,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_bytes",
+      "start": 438976,
+      "end": 438977,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_offset",
+      "start": 441584,
+      "end": 441585,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_size",
+      "start": 441600,
+      "end": 441601,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_finish_module",
+      "start": 436688,
+      "end": 436689,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@omf_output_relocation@12",
+      "start": 438208,
+      "end": 438209,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_output_record",
+      "start": 440416,
+      "end": 440417,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_mark_symbol",
+      "start": 437024,
+      "end": 437025,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_omf_open_module",
+      "start": 435024,
+      "end": 435025,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_initialize_codeview_output",
+      "start": 430336,
+      "end": 430337,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_error@12",
+      "start": 444768,
+      "end": 444769,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_write_comment@4",
+      "start": 454224,
+      "end": 454225,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_fill_bytes@8",
+      "start": 455104,
+      "end": 455105,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_segment_listing@8",
+      "start": 165136,
+      "end": 165137,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@close_segment_listing@4",
+      "start": 166112,
+      "end": 166113,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@listing_segment_name@4",
+      "start": 166096,
+      "end": 166097,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lookup_alias_target@4",
+      "start": 320240,
+      "end": 320241,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_public_listing@4",
+      "start": 167360,
+      "end": 167361,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_external_listing@4",
+      "start": 167104,
+      "end": 167105,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_common_listing@4",
+      "start": 166448,
+      "end": 166449,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@mark_listing_symbols@4",
+      "start": 166416,
+      "end": 166417,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_initializer_assembly@4",
+      "start": 170000,
+      "end": 170001,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@decode_inline_assembly@8",
+      "start": 108912,
+      "end": 108913,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@intern_typed_label@8",
+      "start": 326240,
+      "end": 326241,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_input_double_bits",
+      "start": 458640,
+      "end": 458641,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_extended_to_float",
+      "start": 463569,
+      "end": 463570,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_float_to_extended",
+      "start": 463665,
+      "end": 463666,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@input_counted_string@8",
+      "start": 458928,
+      "end": 458929,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@set_warning_override@8",
+      "start": 460320,
+      "end": 460321,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@rewrite_short_circuit@4",
+      "start": 336624,
+      "end": 336625,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@materialize_expression@4",
+      "start": 336320,
+      "end": 336321,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@extract_assembly_labels@4",
+      "start": 161872,
+      "end": 161873,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lower_bitfield_reference@4",
+      "start": 364720,
+      "end": 364721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lower_target_address@4",
+      "start": 456192,
+      "end": 456193,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lower_bitfield_assignment@4",
+      "start": 364944,
+      "end": 364945,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@new_storage_reference@4",
+      "start": 361920,
+      "end": 361921,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@simplify_short_circuit@8",
+      "start": 333168,
+      "end": 333169,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lift_left_sequence@4",
+      "start": 332672,
+      "end": 332673,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lift_right_sequence@4",
+      "start": 332704,
+      "end": 332705,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@aligned_value_size@4",
+      "start": 361584,
+      "end": 361585,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@assign_parameter_register@12",
+      "start": 162336,
+      "end": 162337,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@discard_sequence_tail@4",
+      "start": 337840,
+      "end": 337841,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@bind_inline_arguments@12",
+      "start": 413456,
+      "end": 413457,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@check_inline_argument_aliases@4",
+      "start": 413344,
+      "end": 413345,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@analyze_inline_returns@8",
+      "start": 413200,
+      "end": 413201,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@merge_inline_scope@8",
+      "start": 413632,
+      "end": 413633,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@new_inline_storage@8",
+      "start": 413152,
+      "end": 413153,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@find_inline_binding@8",
+      "start": 411024,
+      "end": 411025,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@inline_argument_prefix@4",
+      "start": 412992,
+      "end": 412993,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@materialize_inline_arguments@12",
+      "start": 412576,
+      "end": 412577,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@substitute_inline_body@24",
+      "start": 411072,
+      "end": 411073,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@recycle_inline_site@4",
+      "start": 410992,
+      "end": 410993,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@recycle_inline_binding@4",
+      "start": 411008,
+      "end": 411009,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@value_node_type@8",
+      "start": 363296,
+      "end": 363297,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@refresh_tree_references@4",
+      "start": 337120,
+      "end": 337121,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@new_inline_site@16",
+      "start": 415376,
+      "end": 415377,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@fold_floating_comparison@4",
+      "start": 358992,
+      "end": 358993,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@is_nonnegative_tree@4",
+      "start": 354992,
+      "end": 354993,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lower_far_pointer_cast@4",
+      "start": 456160,
+      "end": 456161,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@high_dword_operand@4",
+      "start": 104016,
+      "end": 104017,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@select_assembly_record@4",
+      "start": 113664,
+      "end": 113665,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@register_partial_write_safe@4",
+      "start": 187136,
+      "end": 187137,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@narrow_result_safe@4",
+      "start": 137312,
+      "end": 137313,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@narrow_comparison_condition@4",
+      "start": 138400,
+      "end": 138401,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@integer_sign_bit@4",
+      "start": 139200,
+      "end": 139201,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@integer_width_bits@4",
+      "start": 139296,
+      "end": 139297,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@append_embedded_record@4",
+      "start": 108880,
+      "end": 108881,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@assign_physical_register@12",
+      "start": 205216,
+      "end": 205217,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@expand_zero_extension@4",
+      "start": 149312,
+      "end": 149313,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_define_weak_symbol@28",
+      "start": 453408,
+      "end": 453409,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_define_aux_symbol@24",
+      "start": 453232,
+      "end": 453233,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@prepare_source_listing@4",
+      "start": 165504,
+      "end": 165505,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@open_listing_source@4",
+      "start": 163776,
+      "end": 163777,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_demangled_listing@8",
+      "start": 164128,
+      "end": 164129,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@pad_listing_column@4",
+      "start": 164192,
+      "end": 164193,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_listing_symbol@4",
+      "start": 164400,
+      "end": 164401,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_listing_comment@4",
+      "start": 164480,
+      "end": 164481,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_listing_line@4",
+      "start": 164672,
+      "end": 164673,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_listing_source@4",
+      "start": 164928,
+      "end": 164929,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_instruction_listing@8",
+      "start": 164720,
+      "end": 164721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@write_local_listing@4",
+      "start": 164560,
+      "end": 164561,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_compiler_error",
+      "start": 459280,
+      "end": 459281,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_begin_lines@16",
+      "start": 453792,
+      "end": 453793,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_line_marker@4",
+      "start": 454048,
+      "end": 454049,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_end_lines@8",
+      "start": 453344,
+      "end": 453345,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_write_lines@8",
+      "start": 454720,
+      "end": 454721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_input_float_bits",
+      "start": 458592,
+      "end": 458593,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_unsigned_integer_to_extended",
+      "start": 463793,
+      "end": 463794,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@push_unary_below_conversion@4",
+      "start": 348496,
+      "end": 348497,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@extract_complement@4",
+      "start": 355744,
+      "end": 355745,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@tail_argument_address@4",
+      "start": 362400,
+      "end": 362401,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@is_tail_call_position@8",
+      "start": 362512,
+      "end": 362513,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@refresh_region_entries@4",
+      "start": 369456,
+      "end": 369457,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@add_protected_flow_edge@8",
+      "start": 372544,
+      "end": 372545,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@visit_machine_symbols@12",
+      "start": 162080,
+      "end": 162081,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@reference_assembly_flow_symbol@8",
+      "start": 372656,
+      "end": 372657,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lookup_exception_scope@8",
+      "start": 418896,
+      "end": 418897,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@normalize_assembly_flow_symbol@8",
+      "start": 373200,
+      "end": 373201,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@forget_exception_label@8",
+      "start": 417936,
+      "end": 417937,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@equal_chain_value_ids@8",
+      "start": 384400,
+      "end": 384401,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@make_switch_pivot@4",
+      "start": 424720,
+      "end": 424721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@split_switch_ranges@24",
+      "start": 425232,
+      "end": 425233,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@emit_switch_table@16",
+      "start": 425296,
+      "end": 425297,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_compare_allocation_load_counts",
+      "start": 407056,
+      "end": 407057,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@allocation_use_dominates_backedges@4",
+      "start": 406544,
+      "end": 406545,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@restore_excluded_registers@4",
+      "start": 406928,
+      "end": 406929,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@mark_register_definition_ends@12",
+      "start": 398192,
+      "end": 398193,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@find_transfer_call_boundary@4",
+      "start": 146880,
+      "end": 146881,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@close_machine_region@8",
+      "start": 296496,
+      "end": 296497,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@process_special_machine_region_reference@8",
+      "start": 296848,
+      "end": 296849,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@prepare_machine_region_transform@4",
+      "start": 298528,
+      "end": 298529,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@prepare_region_insertion@4",
+      "start": 299568,
+      "end": 299569,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@replace_machine_definition@12",
+      "start": 303120,
+      "end": 303121,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@record_machine_definition_range@12",
+      "start": 305392,
+      "end": 305393,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@record_region_register@16",
+      "start": 305984,
+      "end": 305985,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_record_debug_register_locations",
+      "start": 176560,
+      "end": 176561,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@function_allows_frame_register@4",
+      "start": 193792,
+      "end": 193793,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@register_spill_homes_compatible@8",
+      "start": 184320,
+      "end": 184321,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@count_shared_register_conflicts@8",
+      "start": 189520,
+      "end": 189521,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@stack_copy_operand_changed@16",
+      "start": 192544,
+      "end": 192545,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@retarget_comparison_branch@16",
+      "start": 213856,
+      "end": 213857,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@register_machine_label@4",
+      "start": 429312,
+      "end": 429313,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@pair_pentium_fallthrough_jump@8",
+      "start": 294272,
+      "end": 294273,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@redirect_pentium_branch_labels@8",
+      "start": 292736,
+      "end": 292737,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_write_word@4",
+      "start": 454640,
+      "end": 454641,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_write_dword@4",
+      "start": 454672,
+      "end": 454673,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@coff_add_function_fixup@8",
+      "start": 453632,
+      "end": 453633,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@append_intrinsic_expression@4",
+      "start": 409376,
+      "end": 409377,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@adjust_factor_constant@12",
+      "start": 352592,
+      "end": 352593,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@push_unary_into_left@4",
+      "start": 348544,
+      "end": 348545,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_subtraction_overflows",
+      "start": 465466,
+      "end": 465467,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@is_subword_mask_pattern@8",
+      "start": 159056,
+      "end": 159057,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@next_numbered_work@4",
+      "start": 375312,
+      "end": 375313,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_remove_region_blocks",
+      "start": 390784,
+      "end": 390785,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@remove_region_block@4",
+      "start": 390656,
+      "end": 390657,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@insert_region_memory_operation@28",
+      "start": 161072,
+      "end": 161073,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@select_intrinsic_a6@4",
+      "start": 117600,
+      "end": 117601,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@select_intrinsic_aa_ab@8",
+      "start": 116352,
+      "end": 116353,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lookup_external_name@4",
+      "start": 320848,
+      "end": 320849,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@emit_explicit_block_transfer@20",
+      "start": 121488,
+      "end": 121489,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@transform_machine_region_blocks@4",
+      "start": 297760,
+      "end": 297761,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@pentium_flags_live_after@4",
+      "start": 294768,
+      "end": 294769,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@lift_right_unary@4",
+      "start": 355920,
+      "end": 355921,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@has_unblocked_derived_use@4",
+      "start": 395232,
+      "end": 395233,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@redirect_assembly_label@12",
+      "start": 162816,
+      "end": 162817,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@machine_region_is_ancestor@8",
+      "start": 307680,
+      "end": 307681,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@find_register_preservation_region@8",
+      "start": 307840,
+      "end": 307841,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@split_machine_region_exit@4",
+      "start": 298720,
+      "end": 298721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@mark_machine_region_split@20",
+      "start": 307952,
+      "end": 307953,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@diamond_register_constraint@16",
+      "start": 212480,
+      "end": 212481,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_fill_previous_pentium_gap",
+      "start": 290864,
+      "end": 290865,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@register_has_region_uses@8",
+      "start": 306848,
+      "end": 306849,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_multiply_extended",
+      "start": 463411,
+      "end": 463412,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_divide_extended",
+      "start": 463490,
+      "end": 463491,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_maximum_extended",
+      "start": 464122,
+      "end": 464123,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_minimum_extended",
+      "start": 464020,
+      "end": 464021,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_absolute_extended",
+      "start": 464224,
+      "end": 464225,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@save_float_machine_register@16",
+      "start": 254720,
+      "end": 254721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@rewrite_pentium_float_store@4",
+      "start": 232160,
+      "end": 232161,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@process_float_stream_protected_block@4",
+      "start": 234336,
+      "end": 234337,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@mark_float_branch_targets@4",
+      "start": 247392,
+      "end": 247393,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@can_merge_float_branch@12",
+      "start": 247696,
+      "end": 247697,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@can_reuse_float_branch_target@4",
+      "start": 248080,
+      "end": 248081,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_inherit_float_motion_uses",
+      "start": 243648,
+      "end": 243649,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@float_register_arithmetic_opcode@4",
+      "start": 245568,
+      "end": 245569,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@split_float_motion_branch@8",
+      "start": 244768,
+      "end": 244769,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@finish_float_motion_branch@8",
+      "start": 244720,
+      "end": 244721,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@include_register_block_use@8",
+      "start": 184384,
+      "end": 184385,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@widen_instruction_encoding@8",
+      "start": 208880,
+      "end": 208881,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@add_alignment_prefix@4",
+      "start": 209264,
+      "end": 209265,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "_multiplication_overflows",
+      "start": 465336,
+      "end": 465337,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    }
+  ]
+}
