@@ -1,0 +1,304 @@
+{
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "analysis_only": {
+    "@coff_write_comment@4": {
+      "end": "0x6ee8c",
+      "accepted": false,
+      "unmasked": false
+    }
+  },
+  "caller_sites": [
+    {
+      "address": "0x6ca3e",
+      "function": "@coff_select_segment@4"
+    },
+    {
+      "address": "0x6d998",
+      "function": "@coff_output_relocation@12"
+    },
+    {
+      "address": "0x6d914",
+      "function": "@coff_output_relocation@12"
+    },
+    {
+      "address": "0x6d75a",
+      "function": "@coff_output_relocation@12"
+    }
+  ],
+  "scope_constructor_sites": [
+    {
+      "address": "0x6db6f",
+      "function": "@coff_initialize@4"
+    },
+    {
+      "address": "0x6ee64",
+      "function": "@coff_write_comment@4"
+    },
+    {
+      "address": "0x6e689",
+      "function": "@coff_open_contribution@8"
+    }
+  ],
+  "configuration_site": [
+    {
+      "address": "0x6c8d9",
+      "function": "_coff_open_module"
+    }
+  ],
+  "global_operand_refs": {
+    "0x851a0": [
+      {
+        "address": "0x6dafc",
+        "field_address": 449277,
+        "function": "@coff_initialize@4",
+        "instruction": "mov dword ptr [0x851a0], eax",
+        "access": 2
+      },
+      {
+        "address": "0x6e834",
+        "field_address": 452662,
+        "function": "@coff_select_section@4",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6edd9",
+        "field_address": 454107,
+        "function": "@coff_section_position@4",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6ee08",
+        "field_address": 454154,
+        "function": "@coff_section_position@4",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6e515",
+        "field_address": 451863,
+        "function": "@coff_create_section@12",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6e5b8",
+        "field_address": 452026,
+        "function": "@coff_create_comdat_section@20",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6e5e3",
+        "field_address": 452069,
+        "function": "@coff_open_contribution@8",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6e8da",
+        "field_address": 452828,
+        "function": "@coff_define_symbol@20",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6e7db",
+        "field_address": 452573,
+        "function": "@coff_set_section_flags@8",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6e7f0",
+        "field_address": 452594,
+        "function": "_coff_close_all_sections",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6df30",
+        "field_address": 450354,
+        "function": "_coff_finalize",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6dd2a",
+        "field_address": 449836,
+        "function": "@coff_reserve_sections@4",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6dd5d",
+        "field_address": 449887,
+        "function": "@coff_reserve_sections@4",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      },
+      {
+        "address": "0x6eb68",
+        "field_address": 453482,
+        "function": "@coff_section_symbol@4",
+        "instruction": "mov ecx, dword ptr [0x851a0]",
+        "access": 1
+      }
+    ],
+    "0x851bc": [
+      {
+        "address": "0x6dbd4",
+        "field_address": 449494,
+        "function": "_coff_reset_scopes",
+        "instruction": "mov dword ptr [0x851bc], 0",
+        "access": 2
+      },
+      {
+        "address": "0x6ee6e",
+        "field_address": 454255,
+        "function": "@coff_write_comment@4",
+        "instruction": "mov dword ptr [0x851bc], eax",
+        "access": 2
+      },
+      {
+        "address": "0x6e87a",
+        "field_address": 452731,
+        "function": "@coff_select_section@4",
+        "instruction": "mov dword ptr [0x851bc], eax",
+        "access": 2
+      },
+      {
+        "address": "0x6f1c9",
+        "field_address": 455115,
+        "function": "@coff_fill_bytes@8",
+        "instruction": "mov ebx, dword ptr [0x851bc]",
+        "access": 1
+      },
+      {
+        "address": "0x6ee9b",
+        "field_address": 454301,
+        "function": "@coff_write_scope_data@8",
+        "instruction": "mov ebx, dword ptr [0x851bc]",
+        "access": 1
+      },
+      {
+        "address": "0x6e98b",
+        "field_address": 453005,
+        "function": "@coff_set_symbol_name@8",
+        "instruction": "mov esi, dword ptr [0x851bc]",
+        "access": 1
+      },
+      {
+        "address": "0x6e996",
+        "field_address": 453015,
+        "function": "@coff_set_symbol_name@8",
+        "instruction": "mov dword ptr [0x851bc], eax",
+        "access": 2
+      },
+      {
+        "address": "0x6e9a5",
+        "field_address": 453031,
+        "function": "@coff_set_symbol_name@8",
+        "instruction": "mov dword ptr [0x851bc], esi",
+        "access": 2
+      }
+    ]
+  },
+  "section_state_provenance": [
+    {
+      "address": "0x6e50b",
+      "function": "@coff_create_section@12",
+      "instruction": "or word ptr [ebx + 0x12], 8"
+    },
+    {
+      "address": "0x6e59b",
+      "function": "@coff_create_comdat_section@20",
+      "instruction": "or word ptr [ebx + 0x12], 8"
+    },
+    {
+      "address": "0x6e600",
+      "function": "@coff_open_contribution@8",
+      "instruction": "mov si, word ptr [edi + 0x12]"
+    },
+    {
+      "address": "0x6e67a",
+      "function": "@coff_open_contribution@8",
+      "instruction": "mov ax, si"
+    },
+    {
+      "address": "0x6e67d",
+      "function": "@coff_open_contribution@8",
+      "instruction": "and ax, 4"
+    },
+    {
+      "address": "0x6e681",
+      "function": "@coff_open_contribution@8",
+      "instruction": "cmp ax, 1"
+    },
+    {
+      "address": "0x6e685",
+      "function": "@coff_open_contribution@8",
+      "instruction": "sbb ecx, ecx"
+    },
+    {
+      "address": "0x6e687",
+      "function": "@coff_open_contribution@8",
+      "instruction": "neg ecx"
+    },
+    {
+      "address": "0x6e701",
+      "function": "@coff_open_contribution@8",
+      "instruction": "or si, 1"
+    },
+    {
+      "address": "0x6e705",
+      "function": "@coff_open_contribution@8",
+      "instruction": "mov word ptr [edi + 0x12], si"
+    },
+    {
+      "address": "0x6e709",
+      "function": "@coff_open_contribution@8",
+      "instruction": "or si, 2"
+    },
+    {
+      "address": "0x6e70d",
+      "function": "@coff_open_contribution@8",
+      "instruction": "mov word ptr [edi + 0x12], si"
+    },
+    {
+      "address": "0x6e806",
+      "function": "_coff_close_all_sections",
+      "instruction": "mov dx, word ptr [eax + 0x12]"
+    },
+    {
+      "address": "0x6e80a",
+      "function": "_coff_close_all_sections",
+      "instruction": "test dl, 2"
+    },
+    {
+      "address": "0x6e80f",
+      "function": "_coff_close_all_sections",
+      "instruction": "and dx, 0xfffd"
+    },
+    {
+      "address": "0x6e814",
+      "function": "_coff_close_all_sections",
+      "instruction": "mov word ptr [eax + 0x12], dx"
+    }
+  ],
+  "invariant": "For normally constructed private C2 COFF sections: arena7 allocator starts zeroed; constructors add8, open adds1/2, close clears2. No method introduces state4; contribution kind=(state&4)==0 is1. String/trailer scopes also have explicit kind1. Global addresses do not escape; indexed and displacement references are bound to true operands and all literal reference candidates are accounted for.",
+  "alias_review": "Section pointers are retained only by private section/contribution vectors and coff_current_section. Selected contributions supply active scopes; temporary name/trailer scopes restore or replace it with kind1. Allocator/error callbacks receive size or diagnostic arguments, not Section pointers. Source fields and original register/displacement def-use were reviewed; similarly numbered non-Section fields are not rewritten.",
+  "scratch": {
+    "original": "7e8d0..7e920",
+    "original_initializer": "20 DWORD REPSTOSD stores",
+    "native_size": 80,
+    "native_symbol": "coff_fill_scratch"
+  },
+  "direct_branch": "Original JA6f24f and JBE6f20b retain unsigned <=80. Typed80-byte scratch;102 independent original/native probes include mocked direct fwrite request shapes and fully defined buffered/count-only contents/counters.",
+  "limits": [
+    "No actual oversized direct-file read or adjacent bytes are represented or claimed matching. Mocked request proof stops at fwrite contract.",
+    "Invariant concerns C2 internal construction paths, not arbitrary malformed/corrupted caller-supplied object states or an external COFF library API. Failure callbacks remain named boundaries."
+  ],
+  "seconds": 3.3534254133701324
+}

@@ -486,3 +486,64 @@ unsigned __fastcall coff_section_symbol(unsigned short identifier)
     CoffSection *section = coff_vector_get(coff_sections, identifier);
     return section->last->symbol_index;
 }
+
+/* Original6eff0..6f00a; the incoming CX value is emitted little-endian. */
+void __fastcall coff_write_word(unsigned short value)
+{
+    coff_write_scope_data(&value, 2);
+}
+
+/* Original7e8d0..7e920: scratch for this writer's direct-file fill path. */
+static unsigned char coff_fill_scratch[80];
+/* Original6f1c0..6f36e. Contributions either count uninitialized space or
+   fill circular500-byte data blocks. The original direct-file branch uses
+   the surprising unsigned <=80 loop, retained literally here. C2 creates
+   buffered contribution scopes; see the caller/state-contract receipt. */
+void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes)
+{
+    CoffScope *scope = coff_active_scope;
+    CoffDataBlock *block;
+    unsigned count, i;
+    if (scope->value == 1) {
+        scope->buffered_bytes += bytes;
+        ++scope->write_count;
+        return;
+    }
+    if (!scope->kind) {
+        for (i = 0; i < 80; ++i) coff_fill_scratch[i] = value;
+        /* Preserve JA6f24f and JBE6f20b. Do not silently change the
+           original direct-file loop into the conventional >80 loop. */
+        while (bytes <= 80) {
+            if (fwrite(coff_fill_scratch, 80, 1, coff_file) != 1)
+                coff_error_handler(14, "d:\\usr\\cuda\\src\\P2\\coffemit.c", 0x8de);
+            scope->buffered_bytes += 80;
+            bytes -= 80;
+        }
+        if (bytes) {
+            if (fwrite(coff_fill_scratch, bytes, 1, coff_file) != 1)
+                coff_error_handler(14, "d:\\usr\\cuda\\src\\P2\\coffemit.c", 0x8e3);
+            scope->buffered_bytes += bytes;
+        }
+        ++scope->write_count;
+        return;
+    }
+    while (500 - scope->buffered_bytes < bytes) {
+        count = 500 - scope->buffered_bytes;
+        for (i = 0; i < count; ++i)
+            scope->block->bytes[scope->buffered_bytes + i] = value;
+        bytes -= count;
+        scope->buffered_bytes += count;
+        if (scope->buffered_bytes != 500)
+            compiler_internal_error("@(#)coffemit.c:1.10", 0x8ee);
+        block = coff_new_data_block();
+        block->next = scope->block->next;
+        scope->block->next = block;
+        scope->block = block;
+        scope->completed_bytes += scope->buffered_bytes;
+        scope->buffered_bytes = 0;
+    }
+    for (i = 0; i < bytes; ++i)
+        scope->block->bytes[scope->buffered_bytes + i] = value;
+    scope->buffered_bytes += bytes;
+    ++scope->write_count;
+}

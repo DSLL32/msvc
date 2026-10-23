@@ -1166,7 +1166,17 @@
     "_get_int_arg",
     "_write_multi_char",
     "_write_string",
-    "__ftbuf"
+    "__ftbuf",
+    "@write_segment_listing@8",
+    "@close_segment_listing@4",
+    "@listing_segment_name@4",
+    "@listing_alignment_name@4",
+    "@write_public_listing@4",
+    "@write_external_listing@4",
+    "@write_common_listing@4",
+    "@mark_listing_symbols@4",
+    "@coff_write_word@4",
+    "@coff_fill_bytes@8"
   ],
   "driver": [
     {
@@ -2239,8 +2249,7 @@
     {
       "name": "@coff_fill_bytes@8",
       "start": 455104,
-      "end": 455105,
-      "provisional": true
+      "end": 455534
     },
     {
       "name": "@coff_comdat_selection@4",
@@ -2290,20 +2299,17 @@
     {
       "name": "@write_segment_listing@8",
       "start": 165136,
-      "end": 165137,
-      "provisional": true
+      "end": 165492
     },
     {
       "name": "@close_segment_listing@4",
       "start": 166112,
-      "end": 166113,
-      "provisional": true
+      "end": 166170
     },
     {
       "name": "@listing_segment_name@4",
       "start": 166096,
-      "end": 166097,
-      "provisional": true
+      "end": 166106
     },
     {
       "name": "_collect_global_symbols",
@@ -2359,26 +2365,22 @@
     {
       "name": "@write_public_listing@4",
       "start": 167360,
-      "end": 167361,
-      "provisional": true
+      "end": 167575
     },
     {
       "name": "@write_external_listing@4",
       "start": 167104,
-      "end": 167105,
-      "provisional": true
+      "end": 167348
     },
     {
       "name": "@write_common_listing@4",
       "start": 166448,
-      "end": 166449,
-      "provisional": true
+      "end": 167104
     },
     {
       "name": "@mark_listing_symbols@4",
       "start": 166416,
-      "end": 166417,
-      "provisional": true
+      "end": 166433
     },
     {
       "name": "@find_initializer@4",
@@ -6169,8 +6171,7 @@
     {
       "name": "@coff_write_word@4",
       "start": 454640,
-      "end": 454641,
-      "provisional": true
+      "end": 454666
     },
     {
       "name": "@coff_write_dword@4",
@@ -7615,6 +7616,23 @@
       "name": "@copy_codeview_string@8",
       "start": 431392,
       "end": 431488
+    },
+    {
+      "name": "@listing_alignment_name@4",
+      "start": 169728,
+      "end": 169788
+    },
+    {
+      "name": "@listing_data_type@4",
+      "start": 170272,
+      "end": 170273,
+      "provisional": true
+    },
+    {
+      "name": "@listing_data_directive@4",
+      "start": 169104,
+      "end": 169105,
+      "provisional": true
     }
   ],
   "cases": {

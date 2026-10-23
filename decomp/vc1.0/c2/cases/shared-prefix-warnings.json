@@ -1,20 +1,15 @@
 {
   "modules": [
     {
-      "module": "codeview-output",
-      "seconds": 1.3227615533396602,
+      "module": "listing",
+      "seconds": 2.3251382494345307,
       "returncode": 0
     },
     {
-      "module": "coff-functions",
-      "seconds": 1.7532071024179459,
-      "returncode": 0
-    },
-    {
-      "module": "symbol-output",
-      "seconds": 0.9698158260434866,
+      "module": "coff-writer",
+      "seconds": 2.22105183172971,
       "returncode": 0
     }
   ],
-  "seconds": 4.046180406585336
+  "seconds": 4.546512089669704
 }

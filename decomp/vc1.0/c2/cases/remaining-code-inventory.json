@@ -1,14 +1,14 @@
 {
-  "checkpoint": 1162,
+  "checkpoint": 1172,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1254,
-    "accepted_rows": 1071,
-    "accepted_union_bytes": 304060,
-    "unaccepted_rows": 183,
-    "unaccepted_provisional_rows": 177,
-    "unaccepted_indexed_extent_bytes": 703,
+    "indexed_rows": 1257,
+    "accepted_rows": 1081,
+    "accepted_union_bytes": 306132,
+    "unaccepted_rows": 176,
+    "unaccepted_provisional_rows": 170,
+    "unaccepted_indexed_extent_bytes": 696,
     "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
@@ -30,13 +30,13 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 70332,
-  "unclassified_ranges": 642,
+  "unclassified_code_union_bytes": 68267,
+  "unclassified_ranges": 643,
   "largest_unclassified_ranges": [
     {
-      "start": "0x29920",
+      "start": "0x29921",
       "end": "0x2aa80",
-      "bytes": 4448
+      "bytes": 4447
     },
     {
       "start": "0x49231",
@@ -47,11 +47,6 @@
       "start": "0x6bd01",
       "end": "0x6c820",
       "bytes": 2847
-    },
-    {
-      "start": "0x28dc1",
-      "end": "0x29810",
-      "bytes": 2639
     },
     {
       "start": "0x4a011",
@@ -87,6 +82,11 @@
       "start": "0x656e1",
       "end": "0x65d30",
       "bytes": 1615
+    },
+    {
+      "start": "0x28e97",
+      "end": "0x29490",
+      "bytes": 1529
     },
     {
       "start": "0x6f621",
@@ -432,65 +432,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@coff_fill_bytes@8",
-      "start": 455104,
-      "end": 455105,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_segment_listing@8",
-      "start": 165136,
-      "end": 165137,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@close_segment_listing@4",
-      "start": 166112,
-      "end": 166113,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@listing_segment_name@4",
-      "start": 166096,
-      "end": 166097,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@lookup_alias_target@4",
       "start": 320240,
       "end": 320241,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_public_listing@4",
-      "start": 167360,
-      "end": 167361,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_external_listing@4",
-      "start": 167104,
-      "end": 167105,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_common_listing@4",
-      "start": 166448,
-      "end": 166449,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@mark_listing_symbols@4",
-      "start": 166416,
-      "end": 166417,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1062,13 +1006,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@coff_write_word@4",
-      "start": 454640,
-      "end": 454641,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@coff_write_dword@4",
       "start": 454672,
       "end": 454673,
@@ -1408,6 +1345,20 @@
       "name": "@inline_argument_has_global_load@4",
       "start": 414656,
       "end": 414657,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@listing_data_type@4",
+      "start": 170272,
+      "end": 170273,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@listing_data_directive@4",
+      "start": 169104,
+      "end": 169105,
       "provisional": true,
       "extent_status": "entry placeholder"
     }

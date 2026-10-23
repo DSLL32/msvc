@@ -1,0 +1,221 @@
+{
+  "checked": [
+    {
+      "name": "@write_segment_listing@8",
+      "original": [
+        {
+          "address": "0x285e1",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x28673",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x5730f",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@close_segment_listing@4",
+      "original": [
+        {
+          "address": "0x28919",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57377",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@listing_segment_name@4",
+      "original": [
+        {
+          "address": "0x288d9",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x573ab",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@listing_alignment_name@4",
+      "original": [
+        {
+          "address": "0x2971b",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2973b",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x29735",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x2972b",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x29725",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57432",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@write_public_listing@4",
+      "original": [
+        {
+          "address": "0x28e96",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57565",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@write_external_listing@4",
+      "original": [
+        {
+          "address": "0x28db3",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x576b7",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@write_common_listing@4",
+      "original": [
+        {
+          "address": "0x28b1e",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x28cbf",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x28b57",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x28bc0",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57a1f",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@mark_listing_symbols@4",
+      "original": [
+        {
+          "address": "0x28a20",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x57a56",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@coff_write_word@4",
+      "original": [
+        {
+          "address": "0x6f009",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x5588a",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    },
+    {
+      "name": "@coff_fill_bytes@8",
+      "original": [
+        {
+          "address": "0x6f28f",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x6f36d",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x6f35a",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x55ab3",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall register arguments; byte/word widths declared in the original prototypes"
+    }
+  ],
+  "seconds": 0.29004824720323086,
+  "accepted_slice": [
+    1162,
+    1172
+  ],
+  "word_argument": "coff_write_word original6eff3 storesCX; original/native frontier observed65529, source unsigned short parameter preserves low16 bits",
+  "fill_arguments": "coff_fill_bytes CL/EDX byte/count are independently exercised by original/native isolated fill probe"
+}

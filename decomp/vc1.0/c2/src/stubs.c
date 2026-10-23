@@ -114,18 +114,12 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 #include "coff-writer.h"
 void __fastcall coff_write_comment(char *text) { __asm int 3 }
 #include "coff-segments.h"
-void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes) { __asm int 3 }
 #include "listing.h"
-Segment *__fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
-Segment *__fastcall close_segment_listing(Segment *segment) { __asm int 3 }
-char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }
 #include "machine.h"
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
 #include "symbol-output.h"
-void __fastcall write_public_listing(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall write_external_listing(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall write_common_listing(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall mark_listing_symbols(SymbolHeader *symbol) { __asm int 3 }
+char *__fastcall listing_data_type(long bytes) { __asm int 3 }
+char *__fastcall listing_data_directive(long bytes) { __asm int 3 }
 void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
 #include "frame.h"
 
@@ -293,7 +287,6 @@ int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInst
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
-void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
 void __fastcall coff_write_dword(unsigned value) { __asm int 3 }
 void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
 

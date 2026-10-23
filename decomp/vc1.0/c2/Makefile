@@ -31,6 +31,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(GRAPH_AUDIT_BIN) --repo ../../.. --project . --profile c2 --discovery cfg --check-ownership --check-extents --check-accepted-extents --report build/graph-audit.json
 	$(PYTHON) scripts/check-frontier-abi.py
 	$(PYTHON) scripts/check-codeview-abi.py
+	$(PYTHON) scripts/check-listing-output-abi.py
 
 # Explicit Python compatibility/focused proofs remain available; fixtures do not
 # invoke a compiler, Cargo or Wine. Data checks retain their individual scope.
@@ -41,7 +42,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-audit-graph.py
 	$(PYTHON) scripts/check-rust-audit.py --binary $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-stdio-support.py
-audit-data: build/c2.exe native build/native/check-codeview-string
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -58,6 +59,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string
 	$(PYTHON) scripts/check-subtraction-overflow.py
 	$(PYTHON) scripts/check-debug-segment-storage.py
 	$(PYTHON) scripts/check-codeview-string.py
+	$(PYTHON) scripts/check-coff-fill.py
+	$(PYTHON) scripts/check-coff-fill-contract.py
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -157,3 +160,6 @@ build/reference-stdio-observer.exe: build/reference-stdio-observer.obj
 # Isolated native C helper test: discard unrelated output-writer sections.
 build/native/check-codeview-string: src/check-codeview-string.c src/codeview-output.c $(NATIVE_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-codeview-string.c src/codeview-output.c -Wl,--gc-sections -o $@
+
+build/native/check-coff-fill: src/check-coff-fill.c src/coff-writer.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-coff-fill.c src/coff-writer.c -Wl,--gc-sections -o $@
