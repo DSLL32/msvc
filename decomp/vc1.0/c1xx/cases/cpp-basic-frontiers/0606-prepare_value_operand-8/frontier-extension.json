@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 606,
+  "accepted": "_prepare_value_operand@8",
+  "terminal": "_collect_declaration_cleanup@12",
+  "original_capture": "cases/cpp-basic-frontiers/0606-prepare_value_operand-8/original-receipt.json",
+  "original_capture_sha256": "a9cf9c730ed74fa2ee3589cd6caf5150d2206ed6c2b474a14cb87153d7b842df",
+  "original_events": "cases/cpp-basic-frontiers/0606-prepare_value_operand-8/original-events.txt",
+  "original_events_sha256": "0682b9b7bf12e7df37c4f9507b36de0a169ee6d87f91279d7714ade59abf6d93",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

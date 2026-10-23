@@ -8,6 +8,7 @@ IrToken *__stdcall fold_symbol_constant(IrToken *expression);
 int __stdcall has_single_function(CppSymbol *symbol);
 CppSymbol *__stdcall find_expression_symbol(IrToken *expression);
 IrToken *__stdcall promote_arithmetic_expression(IrToken *expression);
+CType *__stdcall arithmetic_promotion_type(CType *type);
 void __stdcall type_warning(unsigned level, unsigned code, CType *type);
 int __stdcall requires_address_temporary(IrToken *expression);
 IrToken *__stdcall make_address_temporary(IrToken *expression);

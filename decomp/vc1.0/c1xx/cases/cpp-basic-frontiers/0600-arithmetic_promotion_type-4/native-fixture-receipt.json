@@ -1,0 +1,59 @@
+{
+  "measured_partial_phases": {
+    "setup_seconds": 0.002938278019428253,
+    "execution_seconds": 0.00967439915984869
+  },
+  "mode": "native cached references only",
+  "executable": "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE",
+  "executable_sha256": "a2373eb4d46a65b49d664abaec106cd3b4cb3d5b9c1becd31ab5398b4067ef33",
+  "trace_prepare_seconds": 0.13825107272714376,
+  "build_seconds": "separate target; unmeasured here",
+  "capture_seconds": "none; immutable prior evidence",
+  "cases": [
+    {
+      "case": "cpp_basic",
+      "status": "pass",
+      "terminal": {
+        "kind": "frontier",
+        "logical": "_convert_pointer_operands@12",
+        "native_signal": 5,
+        "original_exception": "80000003"
+      },
+      "native_status": -5,
+      "complete_frontend_case": false,
+      "setup_seconds": 0.002938278019428253,
+      "execution_seconds": 0.00967439915984869,
+      "oracle_seconds": 0.0010401513427495956,
+      "trace_check_seconds": 0.000291530042886734,
+      "total_seconds": 0.01433338038623333,
+      "application_trace_entries": 522,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+      "reference_manifest_sha256": "80575ba3691c243621d7e5b7eedf8f6d2fb191d608ca042de5647872ba7c1b2d"
+    }
+  ],
+  "status": "pass"
+}

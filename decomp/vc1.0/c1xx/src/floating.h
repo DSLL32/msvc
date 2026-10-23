@@ -10,4 +10,5 @@ typedef char ExtendedSizeMustBe12[(sizeof(Extended) == 12) ? 1 : -1];
 extern Extended extended_zero;
 int subtract_extended(const Extended *left, const Extended *right, Extended *result);
 Extended *__stdcall save_extended_constant(Extended *value);
+int compare_extended(unsigned short mask, const Extended *left, const Extended *right);
 #endif

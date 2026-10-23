@@ -352,3 +352,57 @@ void begin_return_expression(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
 }
+
+/* Original 0x3dac0..0x3dc2f. End a declaration initializer, retaining a
+   symbol record when construction or automatic destruction needs bookkeeping. */
+void __stdcall finish_object_initializer(CppSymbol *symbol)
+{
+    SymbolFrontendRecord record;
+    CppSymbol *tag;
+    unsigned char storage;
+    record.header.kind = 14;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.symbol = 0;
+    if (ir_records_suppressed) return;
+    if (symbol) {
+        record.header.kind |= (unsigned char)((symbol->attributes & 4) << 4);
+        if ((classify_incomplete_type(symbol->type) & 0x82) &&
+            (tag = cpp_context_stack->items[symbol->type->field08]) != 0 &&
+            (tag->kind & 31) == 4) {
+            if ((symbol->attributes & 4) || !(tag->detail.class_info->trivial_special_members & 1))
+                record.header.kind |= 0x40;
+            storage = symbol->storage[0] & 7;
+            if ((tag->declaration_flags & 0x2000) &&
+                !(tag->detail.class_info->trivial_special_members & 8) &&
+                (storage == 4 || storage == 5 || storage == 6)) record.header.kind |= 0x80;
+        }
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 13)
+        emit_nonnull_expression_statement(prepare_expression(0, 2));
+    if (record.header.kind & 0xc0) {
+        record.symbol = symbol;
+        append_frontend_record(&record.header, sizeof(record));
+    }
+    initializing_symbol = 0;
+    initializing_reference = 0;
+    initializer_list_started = 0;
+}
+
+/* Original 0x3f070..0x3f0b2. Unevaluated contexts suppress the boundary
+   that separates conditional and short-circuit expression record regions. */
+void mark_evaluation_boundary(void)
+{
+    FrontendRecord record;
+    if (allow_incomplete_class) return;
+    record.kind = 0x3a;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}

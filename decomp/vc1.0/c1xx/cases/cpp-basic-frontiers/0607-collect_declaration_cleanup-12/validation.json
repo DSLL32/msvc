@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_collect_declaration_cleanup@12",
+    "start": 268768,
+    "end": 268833
+  },
+  "distinct_direct_callees": [
+    "_append_symbol_destructor@8"
+  ],
+  "next_frontier": "_close_source_file",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.25076724868267775,
+  "total_operation_seconds": 5.838996095582843,
+  "original_capture_seconds": 4.82737787719816
+}

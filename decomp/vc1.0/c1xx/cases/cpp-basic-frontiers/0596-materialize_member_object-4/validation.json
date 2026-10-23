@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_materialize_member_object@4",
+    "start": 202640,
+    "end": 202701
+  },
+  "distinct_direct_callees": [
+    "_builtin_unary_expression@8",
+    "_materialize_member_object@4"
+  ],
+  "next_frontier": "_finish_call_expression@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2445314535871148,
+  "total_operation_seconds": 5.940417489036918,
+  "original_capture_seconds": 4.978660520166159
+}

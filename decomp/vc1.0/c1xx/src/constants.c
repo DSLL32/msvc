@@ -2,6 +2,9 @@
 #include "initialization.h"
 #include "lexer.h"
 #include "types.h"
+#include "binary-expressions.h"
+#include "numeric-conversion.h"
+#include "class-members.h"
 #include <recon.h>
 
 /* Original 0x2c600..0x2c71f; seven-way dispatch at 0x2c720..0x2c73c.
@@ -109,4 +112,138 @@ IrToken *__stdcall make_size_constant(unsigned value)
     IrToken *constant = make_integer_constant(value);
     constant->type = type_4064_first;
     return constant;
+}
+
+/* Original code 0x2c830..0x2cfd5, operation table 0x2cfd8..0x2d083.
+   Fold integral operations with the original target widths and signedness;
+   mixed floating operands use the separate extended-precision evaluator. */
+IrToken *__stdcall fold_binary_constant(IrToken *expression, IrToken *left, IrToken *right)
+{
+    unsigned short left_flags = left->type->flags, right_flags = right->type->flags;
+    unsigned short width, unsigned_arithmetic, folded_flags;
+    unsigned char operation;
+    unsigned value, lhs, rhs;
+    int long_result = 0, left_signed, right_signed;
+    CType *result_type = 0;
+    Extended left_value, right_value;
+
+    if (!expression) return 0;
+    operation = expression->kind;
+    left = fold_symbol_constant(left);
+    if ((left->flags & 7) != 3) return expression;
+    right = fold_symbol_constant(right);
+    if ((right->flags & 7) != 3) {
+        if (operation != 0x3b && operation != 0x58) return expression;
+        if (left_flags & 0x100) {
+            left_value = *(Extended *)left->value.pointer;
+            value = compare_extended(6, &left_value, &extended_zero);
+            unsigned_arithmetic = 0;
+        } else {
+            value = left->value.integer != 0;
+            unsigned_arithmetic = (left_flags & 0x4000) ||
+                (options.configuration.option_J &&
+                 ((left_flags & 0x2fdf) != 0x41 || !(left_flags & 0x8000)));
+        }
+        if ((operation == 0x3b) == value) return expression;
+        integer_constant_scratch = value;
+        return new_literal_constant(unsigned_arithmetic ? 9 : 7, &integer_constant_scratch);
+    }
+    if ((left_flags | right_flags) & 0x100) {
+        if (left_flags & 0x100) left_value = *(Extended *)left->value.pointer;
+        else if ((left_flags & 0x4000) ?
+                 unsigned_to_extended((unsigned long *)&left->value.integer, &left_value) :
+                 integer_to_extended((long *)&left->value.integer, &left_value)) compiler_warning(2, 0x38);
+        if (right_flags & 0x100) right_value = *(Extended *)right->value.pointer;
+        else if ((right_flags & 0x4000) ?
+                 unsigned_to_extended((unsigned long *)&right->value.integer, &right_value) :
+                 integer_to_extended((long *)&right->value.integer, &right_value)) compiler_warning(2, 0x38);
+        return fold_floating_binary(expression, &left_value, &right_value);
+    }
+    if (!left->type->related && !right->type->related) {
+        if ((left_flags & 15) == (right_flags & 15)) {
+            width = left_flags & 15;
+            unsigned_arithmetic = width != 1 && ((left_flags | right_flags) & 0x4000);
+            if (width < 5) width = 4;
+        } else if ((left_flags & 15) > (right_flags & 15)) {
+            width = left_flags & 15;
+            unsigned_arithmetic = left_flags & 0x4000;
+        } else {
+            width = right_flags & 15;
+            unsigned_arithmetic = right_flags & 0x4000;
+        }
+    } else {
+        unsigned_arithmetic = 1;
+        width = expression->type->flags & 15;
+    }
+    if (width == 4)
+        long_result = !((!(left_flags & 15) || (left_flags & 0x60) == 0x60) &&
+                        (!(right_flags & 15) || (right_flags & 0x60) == 0x60));
+    lhs = left->value.integer;
+    rhs = right->value.integer;
+    if (operation != 0x3b && operation != 0x4c && operation != 0x58 && operation != 0x61 &&
+        unsigned_arithmetic && operation != 0x3a && operation != 0x56 && operation != 0x64) {
+        folded_flags = left->type->flags;
+        left_signed = !(folded_flags & 0x4000) && (!options.configuration.option_J ||
+            ((folded_flags & 0x2fdf) == 0x41 && (folded_flags & 0x8000)));
+        folded_flags = right->type->flags;
+        right_signed = !(folded_flags & 0x4000) && (!options.configuration.option_J ||
+            ((folded_flags & 0x2fdf) == 0x41 && (folded_flags & 0x8000)));
+        if ((left_signed && (int)lhs < 0) || (right_signed && (int)rhs < 0))
+            compiler_warning(2, 0x134);
+    }
+    switch (operation) {
+    case 0x3a: value = lhs & rhs; break;
+    case 0x3b: value = lhs != 0 && rhs != 0; goto boolean_result;
+    case 0x42:
+        if (!rhs) { right->flags = 0x40; return right; }
+        value = unsigned_arithmetic ? lhs / rhs : (unsigned)((int)lhs / (int)rhs);
+        break;
+    case 0x44: value = lhs == rhs; goto boolean_result;
+    case 0x47: value = unsigned_arithmetic ? lhs > rhs : (int)lhs > (int)rhs; goto boolean_result;
+    case 0x48: value = unsigned_arithmetic ? lhs >= rhs : (int)lhs >= (int)rhs; goto boolean_result;
+    case 0x4c: value = lhs << (rhs & 31); result_type = expression->type; break;
+    case 0x4d: value = unsigned_arithmetic ? lhs < rhs : (int)lhs < (int)rhs; goto boolean_result;
+    case 0x4e: value = unsigned_arithmetic ? lhs <= rhs : (int)lhs <= (int)rhs; goto boolean_result;
+    case 0x4f:
+        value = lhs - rhs;
+        if (subtraction_overflows((int)lhs, (int)rhs, unsigned_arithmetic, width)) compiler_warning(2, 0x133);
+        break;
+    case 0x51:
+        if (!rhs) { right->flags = 0x40; return right; }
+        value = unsigned_arithmetic ? lhs % rhs : (unsigned)((int)lhs % (int)rhs);
+        break;
+    case 0x53:
+        value = lhs * rhs;
+        if (multiplication_overflows(lhs, rhs, unsigned_arithmetic, width)) compiler_warning(2, 0x133);
+        break;
+    case 0x55: value = lhs != rhs; goto boolean_result;
+    case 0x56: value = lhs | rhs; break;
+    case 0x58: value = lhs != 0 || rhs != 0; goto boolean_result;
+    case 0x5a: case 0x5c:
+        value = lhs + rhs;
+        if (addition_overflows((int)lhs, rhs, unsigned_arithmetic, width)) compiler_warning(2, 0x133);
+        break;
+    case 0x61:
+        value = unsigned_arithmetic ? lhs >> (rhs & 31) : (unsigned)((int)lhs >> (rhs & 31));
+        result_type = expression->type;
+        break;
+    case 0x64: value = lhs ^ rhs; break;
+    default: return expression;
+    }
+    goto make_result;
+boolean_result:
+    result_type = type_0064;
+    unsigned_arithmetic = 0;
+make_result:
+    if ((operation == 0x5a || operation == 0x4f) && expression->type->related &&
+        (expression->type->related->flags & 1)) {
+        left->value.integer = value;
+        return left;
+    }
+    if (result_type) {
+        folded_flags = result_type->flags;
+        long_result = (folded_flags & 15) == 4 && (folded_flags & 0x60) != 0x60;
+    }
+    integer_constant_scratch = value;
+    return new_literal_constant((unsigned_arithmetic ? 9 : 7) + long_result, &integer_constant_scratch);
 }

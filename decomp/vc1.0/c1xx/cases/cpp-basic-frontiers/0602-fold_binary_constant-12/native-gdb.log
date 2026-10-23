@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559984 in mark_evaluation_boundary () at src/stubs.c:244
+244	void mark_evaluation_boundary(void) { __asm { int 3 } }
+#0  0x56559984 in mark_evaluation_boundary () at src/stubs.c:244
+#1  0x56596d37 in parse_translation_unit () at src/parser-expression-actions.inc:106
+#2  0x5655da76 in compile_translation_unit () at src/frontend.c:75
+#3  0x565587c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558794 in main (argc=1, argv=0xffffd8c4, environment=0xffffd8cc) at src/c1xx.c:20

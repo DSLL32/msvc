@@ -1,0 +1,36 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_conditional_expression@12",
+    "start": 383696,
+    "end": 384553
+  },
+  "distinct_direct_callees": [
+    "_binary_expression@12",
+    "_browser_symbol_rollover",
+    "_classify_expression_conversion@16",
+    "_convert_class_condition@12",
+    "_convert_initializer@12",
+    "_convert_operand_if_needed@12",
+    "_fatal_error",
+    "_format_symbol_name@4",
+    "_indirect_storage_expression@4",
+    "_is_unqualified_class_type@4",
+    "_make_integer_constant@4",
+    "_new_cast_expression@8",
+    "_new_left_typed_expression@12",
+    "_new_right_typed_expression@12",
+    "_new_temporary_reference@8",
+    "_parameter_reference_type@4",
+    "_prepare_expression@8",
+    "_prepare_value_operand@8",
+    "_record_conditional_cleanup@4",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_prepare_value_operand@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.21836115419864655,
+  "total_operation_seconds": 4.0751357870176435,
+  "original_capture_seconds": 3.122766769491136
+}

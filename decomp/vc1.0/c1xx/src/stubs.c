@@ -173,7 +173,7 @@ void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm
 void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
 CppSymbol *__stdcall complete_declaration(DeclarationType *type, CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source) { __asm { int 3 } }
-IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, IrToken *if_false) { __asm { int 3 } return 0; }
+void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 } }
 IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
 IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
@@ -208,12 +208,11 @@ void end_switch_statement(void) { __asm { int 3 } }
 void end_while_statement(void) { __asm { int 3 } }
 unsigned __stdcall evaluate_integer_constant(IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
-IrToken *__stdcall finish_call_expression(IrToken *expression, unsigned short flags) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol *functions) { __asm { int 3 } return 0; }
 void finish_conditional_branch(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }
 
 void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) { __asm { int 3 } }
-void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
@@ -242,7 +241,6 @@ CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0;
 
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
-void mark_evaluation_boundary(void) { __asm { int 3 } }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier, IrToken *placement,
@@ -297,7 +295,7 @@ unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
 
 int skip_source_comment(void) { __asm { int 3 } return 0; }
 int consume_line_escape(void) { __asm { int 3 } return 0; }
-unsigned recover_trigraph(void) { __asm { int 3 } return 0; }
+void refill_source_or_error(void) { __asm { int 3 } }
 unsigned recover_special_character(void) { __asm { int 3 } return 0; }
 unsigned char close_source_file(void) { __asm { int 3 } return 0; }
 void finish_pch_output(void) { __asm { int 3 } }
@@ -539,12 +537,14 @@ int __stdcall report_operator_resolution_failure(unsigned char operation, unsign
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
 
 int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0; }
-IrToken *__stdcall promote_arithmetic_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken * __stdcall fold_binary_constant(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
+int __stdcall multiplication_overflows(unsigned left, unsigned right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
+int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
+int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken * __stdcall convert_pointer_operands(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+IrToken *__stdcall convert_operand_if_needed(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall reject_member_pointer_arithmetic(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
@@ -597,7 +597,6 @@ CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsig
 int __stdcall type_has_base_relation(CType *derived, CType *base) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall collect_declaration_cleanup(IrToken *expression, FrontendRecord *from, int mode) { __asm { int 3 } return 0; }
 void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }
 IrToken *__stdcall append_symbol_destructor(IrToken *expression, CppSymbol *symbol) { __asm { int 3 } return 0; }
 IrToken *__stdcall append_expression_destructor(IrToken *expression, IrToken *object) { __asm { int 3 } return 0; }
@@ -633,7 +632,6 @@ int format_integer(unsigned value, char *cursor, unsigned radix) { __asm { int 3
 
 IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall materialize_member_object(IrToken *object) { __asm { int 3 } return 0; }
 
 
 void report_denied_member_access(void) { __asm { int 3 } }
@@ -668,6 +666,5 @@ int float_to_extended(const float *value, Extended *result) { __asm { int 3 } re
 IrToken *__stdcall strip_function_designator(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference) { __asm { int 3 } return 0; }
 
-unsigned char __stdcall classify_radix_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }

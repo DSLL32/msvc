@@ -97,4 +97,5 @@ CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *
 void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type);
 IrToken *__stdcall materialize_call_result(IrToken *call);
 IrToken *__stdcall finish_constructor_result(IrToken *call, CppSymbol *tag);
+CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol *functions);
 #endif

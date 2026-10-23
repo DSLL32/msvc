@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 9.339337259531021,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-recover-trigraph-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 13.802356119267642,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-recover-trigraph-canonical.log"
+  }
+]

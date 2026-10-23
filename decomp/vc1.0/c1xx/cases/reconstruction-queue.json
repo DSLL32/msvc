@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "project": "vc1.0",
+  "toolchain": "1.0-nt",
+  "target": "C1XX3232.EXE",
+  "authorization": "User-selected autonomous queue; continue without routine confirmation",
+  "current": {
+    "case": "cpp_basic",
+    "fixture": "../fixtures/cpp-basic",
+    "status": "reconstruction in progress"
+  },
+  "pending": [
+    {
+      "family": "inheritance and virtual dispatch",
+      "intent": "Base/derived layouts and calls through a base pointer; include virtual bases where supported"
+    },
+    {
+      "family": "copy construction and assignment",
+      "intent": "Explicit copy constructor and assignment operator with observable field changes"
+    },
+    {
+      "family": "destruction and stack lifetime",
+      "intent": "Explicit destructors, nested automatic objects and return/scope cleanup"
+    },
+    {
+      "family": "new/delete and overloaded operators",
+      "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads"
+    }
+  ],
+  "requirements": [
+    "Verify each exact source/options with the original toolchain before registration",
+    "Persist complete phase inputs/environment/dependencies and raw original streams/artifacts",
+    "Use native cached fixtures and fresh original-only evidence when accepting functions",
+    "Do not assume newer C++ language features"
+  ],
+  "completion": "Finish existing cpp_basic first, then capture and reconstruct these families"
+}

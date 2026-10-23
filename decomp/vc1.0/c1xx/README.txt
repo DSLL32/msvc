@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 595 accepted frontiers, including 515 frontend
+PARTIAL reconstruction: 608 accepted frontiers, including 528 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _finish_object_initializer@4 at original VA 0x3dac0. The latest ordered replay is recorded in validation.json;
+trap is _close_source_file at original VA 0x1e990. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,9 +29,9 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 997 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 516 first
-entries: 515 accepted frontend functions plus finish_object_initializer, whose INT3
+projects that original history to all 1007 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 529 first
+entries: 528 accepted frontend functions plus close_source_file, whose INT3
 must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
 trial accepted initialize_object_value.
 
@@ -1205,3 +1205,26 @@ coverage. cpp_basic remains incomplete at finish_object_initializer (0x3dac0).
 No shared compatibility change was required. Checkpoint receipts are
 in evidence/call-result-checkpoint.{json,log}, call-result-native-check.json
 and call-result-rejections.json.
+
+Main-expression checkpoint:608 accepted frontiers,535 source functions.
+Object initializer completion and member-object addressing now lead through
+main's member call, integer promotion, numeric/pointer operand conversion,
+constant folding, evaluation boundaries and the conditional operator. The full
+constant folder includes all43 operation-dispatch entries and keeps floating
+and overflow helpers as named traps until reached. Conditional cleanup preserves
+its original right-alternative/left-alternative record processing order.
+
+Acceptances0595through0607 have fresh original/native matching of four pending
+buffers, fourteen state observations, raw streams and visible files, plus
+canonical candidate graphs and cached native traces. Full535-function graph,
+contextual-data/defaults, both grammar audits, native regression and6boundary
+rejections pass in4.718seconds combined parallel wall time. Per-function capture,
+build/debug and native fixture timings remain separate in each acceptance record;
+repeated builds are retained as initial-build-timing.json where applicable.
+Accepted extent union195525/476418bytes is41.040641%, not branch coverage.
+Main's return has completed and cpp_basic remains incomplete at close_source_file
+(0x1e990), before frontend teardown. No shared shim change was needed.
+Receipts: evidence/main-conditional-checkpoint.{json,log},
+main-conditional-native-check.json and main-conditional-rejections.json.
+The approved follow-on families and capture constraints are durable in
+cases/reconstruction-queue.json; capture starts after cpp_basic completes.

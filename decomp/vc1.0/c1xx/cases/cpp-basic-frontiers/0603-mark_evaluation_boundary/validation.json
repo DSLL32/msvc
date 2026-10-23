@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mark_evaluation_boundary",
+    "start": 258160,
+    "end": 258227
+  },
+  "distinct_direct_callees": [
+    "_append_frontend_record@8"
+  ],
+  "next_frontier": "_classify_radix_integer@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.33675626665353775,
+  "total_operation_seconds": 5.2091458681970835,
+  "original_capture_seconds": 4.024763097055256
+}

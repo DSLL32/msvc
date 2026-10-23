@@ -3,6 +3,8 @@
    the source switch below, rather than copied addresses or instructions. */
 #include "binary-expressions.h"
 #include "lexer.h"
+#include "return-statements.h"
+#include "numeric-conversion.h"
 #include <recon.h>
 
 unsigned integer_constant_scratch; /* original 0x912e8: shared constant payload */
@@ -886,4 +888,199 @@ CType *__stdcall common_binary_type(unsigned char operation, CType *left, CType 
     if ((left_flags ^ right_flags) & 15)
         return (right_flags & 15) < (left_flags & 15) ? left : right;
     return (left_flags & 0x4000) ? left : right;
+}
+
+/* Original 0x5d330..0x5d709. Choose a permitted direction of conversion
+   for comparison/assignment operands, or a common arithmetic type. */
+IrToken *__stdcall convert_pointer_operands(IrToken *expression, IrToken *left, IrToken *right)
+{
+    CType *left_type = left->type, *right_type = right->type;
+    CType *common, *left_element, *right_element;
+    /* The original leaves this stack slot unwritten on unsupported fallthrough
+       paths. Valid scalar pairs below select a type before using it. */
+    CType *unselected_type;
+    IrToken *converted_left, *converted_right;
+    unsigned to_right, to_left;
+    unsigned short left_flags, right_flags;
+    unsigned char operation = expression->kind;
+    int one_way = operation == 0x3d || operation == 0x7a ||
+        operation == 0x7e || operation == 0x87;
+
+    if (left_type == right_type) expression->type = left_type;
+    to_right = one_way ? 0x2000 : classify_expression_conversion(right_type, left, 0, 0);
+    to_left = classify_expression_conversion(left_type, right, 0, 0);
+    if ((int)to_right >= 0x400) {
+        if ((int)to_left >= 0x400) {
+            if ((to_right & 0x2000) && operation != 0x3d && left_type && right_type &&
+                left_type->related && (left_type->related->flags & 0x77) == 2 &&
+                right_type->related && (right_type->related->flags & 0x77) == 2) {
+                right_element = drop_first_type_shape(right_type);
+                left_element = drop_first_type_shape(left_type);
+                if (classify_type_conversion(left_element, right_element, 0, 0) == 1) {
+                    expression->type = left_type;
+                    return expression;
+                }
+            }
+            if (!one_way) report_type_conversion(0x1be, 0, operation, right_type, left_type);
+            else report_conversion_rank_failure(operation, to_left, left_type, right_type);
+            return 0;
+        }
+        goto convert_right;
+    }
+    if ((int)to_left >= 0x400) goto convert_left;
+    if ((int)to_right < (int)to_left) {
+        if ((int)to_right >= 0x400 || (int)to_right < 0x20) goto convert_left;
+    } else if ((int)to_left < (int)to_right) {
+        if ((int)to_left >= 0x400 || (int)to_left < 0x20) goto convert_right;
+    } else {
+        if (right->flags & 0x80) {
+            expression->tail.right = convert_initializer(operation, left_type, right);
+            expression->type = left_type;
+            return expression;
+        }
+        if (left->flags & 0x80) {
+            expression->value.pointer = convert_initializer(operation, right_type, left);
+            expression->type = right_type;
+            return expression;
+        }
+        if ((int)to_right >= 0x400 || (int)to_right < 0x20 || to_right == 0x100) {
+            expression->type = right_type;
+            return expression;
+        }
+    }
+    if (!left_type->related && !right_type->related) {
+        left_flags = left_type->flags;
+        right_flags = right_type->flags;
+        if ((left_flags & 0x340) && (right_flags & 0x340)) {
+            if (left_flags & 0x100) {
+                common = left_type;
+                if ((right_flags & 0x100) && (left_flags & 15) < (right_flags & 15))
+                    common = right_type;
+            } else if (right_flags & 0x100) common = right_type;
+            else if ((left_flags & 0x240) && (right_flags & 0x240))
+                common = common_binary_type(operation, left_type, right_type);
+            else common = unselected_type;
+        } else if (to_left == to_right) {
+            report_type_conversion(0x252, 0, operation, right_type, left_type);
+            return 0;
+        } else common = unselected_type;
+    } else {
+        if ((int)to_right < (int)to_left) goto convert_left;
+        if ((int)to_left < (int)to_right) goto convert_right;
+        common = unselected_type;
+    }
+    converted_left = convert_initializer(operation, common, left);
+    if (!converted_left) return 0;
+    converted_right = convert_initializer(operation, common, right);
+    if (!converted_right) return 0;
+    expression->value.pointer = converted_left;
+    expression->tail.right = converted_right;
+    expression->type = common;
+    return expression;
+
+convert_left:
+    expression->value.pointer = convert_operand_if_needed(operation, right_type, left);
+    expression->type = right_type;
+    return expression;
+convert_right:
+    expression->tail.right = convert_operand_if_needed(operation, left_type, right);
+    expression->type = left_type;
+    return expression;
+}
+
+/* Original 0x5dad0..0x5de28. Convert the alternative values, detach their
+   cleanup expressions, and conditionally select those cleanups through a
+   saved condition value before constructing the final conditional expression. */
+IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, IrToken *if_false)
+{
+    unsigned to_false = 0, to_true = 0, selection[4], index;
+    CType *condition_type;
+    IrToken *true_cleanup, *false_cleanup, *temporary, *cleanup, *pair, *result;
+    IrToken *true_value, *false_value, *zero;
+    if (!condition || !if_true || !if_false) return 0;
+    if (condition->kind == 0xa3) {
+        report_syntax_error(0x113, format_symbol_name(condition->value.pointer));
+        return 0;
+    }
+    if_true = prepare_value_operand(0x3f, if_true);
+    if_false = prepare_value_operand(0x3f, if_false);
+    if (if_true->type->related && (if_true->type->related->flags & 0x77) == 2)
+        if_true->type = parameter_reference_type(if_true);
+    if (if_false->type->related && (if_false->type->related->flags & 0x77) == 2)
+        if_false->type = parameter_reference_type(if_false);
+    if ((if_true && is_unqualified_class_type(if_true->type)) ||
+        (if_false && is_unqualified_class_type(if_false->type))) {
+        to_false = classify_expression_conversion(if_false->type, if_true, 0, 0);
+        to_true = classify_expression_conversion(if_true->type, if_false, 0, 0);
+        if ((int)to_false >= 0x400 && (int)to_true >= 0x400) to_false = to_true = 0;
+    }
+    if ((int)to_true < (int)to_false)
+        if_false = convert_operand_if_needed(0x3f, if_true->type, if_false);
+    else if (!to_false && !to_true && (if_false->flags & 0x80))
+        if_false = convert_initializer(0x3f, if_true->type, if_false);
+    false_cleanup = prepare_expression(0, 2);
+    if ((int)to_false < (int)to_true)
+        if_true = convert_operand_if_needed(0x3f, if_false->type, if_true);
+    else if (!to_false && !to_true && (if_true->flags & 0x80))
+        if_true = convert_initializer(0x3f, if_false->type, if_true);
+    true_cleanup = prepare_expression(0, 2);
+    if (condition) {
+        if (is_unqualified_class_type(condition->type))
+            condition = convert_class_condition(condition, 0, selection);
+        if (condition && is_unqualified_class_type(condition->type)) {
+            if (selection[0] & 0x2000)
+                report_syntax_error(0x1c3,
+                    ((CppSymbol *)cpp_context_stack->items[condition->type->field08])->name);
+            zero = make_integer_constant(0);
+            condition = new_right_typed_expression(0x40, condition, zero);
+            goto assemble_result;
+        }
+    }
+    if (true_cleanup || false_cleanup) {
+        condition_type = condition->type;
+        if (next_symbol_index >= 0x7fffffffUL) fatal_error(0x37);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+        index = next_symbol_index++;
+        temporary = new_temporary_reference(index, condition->type);
+        condition = new_left_typed_expression(0x3d, temporary, condition);
+        if (!true_cleanup) true_cleanup = make_integer_constant(0);
+        else if (!false_cleanup) false_cleanup = make_integer_constant(0);
+        temporary = new_temporary_reference(index, condition_type);
+        temporary = indirect_storage_expression(temporary);
+        cleanup = binary_expression(0x3f, true_cleanup, false_cleanup);
+        cleanup = binary_expression(0x5f, temporary, cleanup);
+        record_conditional_cleanup(cleanup);
+    }
+assemble_result:
+    pair = binary_expression(0x3f, if_true, if_false);
+    if (!pair) return 0;
+    true_value = pair->value.pointer;
+    false_value = pair->tail.right;
+    result = binary_expression(0x5f, condition, pair);
+    if (result && (true_value->type->flags & 0x2fdf) == 0x41 &&
+        false_value->type->flags == true_value->type->flags &&
+        !true_value->type->related && !false_value->type->related)
+        result = new_cast_expression(true_value->type, result);
+    return result;
+}
+
+/* Original 0x5da70..0x5daca. A value operand may be a constant symbol or
+   an unresolved overload, but a type designator cannot supply a value. */
+IrToken *__stdcall prepare_value_operand(unsigned char operation, IrToken *expression)
+{
+    IrToken *resolved;
+    expression = fold_symbol_constant(expression);
+    if (expression->kind == 0xa3) {
+        report_syntax_error(0x113, format_symbol_name(expression->value.pointer));
+        return 0;
+    }
+    if (!expression->type) {
+        resolved = resolve_assignment_operand(0, expression);
+        if (!resolved) {
+            report_expression_error(operation, expression);
+            return 0;
+        }
+        return resolved;
+    }
+    return expression;
 }

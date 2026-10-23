@@ -351,3 +351,15 @@ void finish_goto_cleanups(void)
         }
     }
 }
+
+/* Original 0x419e0..0x41a20. Only consecutive expression records belong
+   to this declaration's cleanup prefix; flagged records carry symbols. */
+IrToken *__stdcall collect_declaration_cleanup(IrToken *expression, FrontendRecord *from, int mode)
+{
+    while ((from->kind & 0x3f) == 13) {
+        if (mode == 2 && (from->kind & 0x40))
+            expression = append_symbol_destructor(expression, ((SymbolFrontendRecord *)from)->symbol);
+        from = from->previous;
+    }
+    return expression;
+}

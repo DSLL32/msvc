@@ -391,3 +391,28 @@ CppSymbol *__stdcall find_expression_symbol(IrToken *expression)
         }
     }
 }
+
+/* Original 0x5ccf0..0x5cd2c. Apply the integer promotion selected for an
+   expression's type; absent expressions and unresolved types propagate null. */
+IrToken *__stdcall promote_arithmetic_expression(IrToken *expression)
+{
+    CType *type;
+    if (!expression || !expression->type) return 0;
+    type = arithmetic_promotion_type(expression->type);
+    if (!type) return expression;
+    return convert_initializer(0x6e, type, expression);
+}
+
+/* Original 0x5cca0..0x5ccea. Enum and narrow integral values promote to
+   the canonical int type; pointer/array/function shapes do not promote. */
+CType *__stdcall arithmetic_promotion_type(CType *type)
+{
+    TypeShape *shape;
+    if (!(type->flags & 0x240)) return 0;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (shape) return 0;
+    if (type->flags & 0x200) return type_0064;
+    if ((type->flags & 15) < 4) return type_0064;
+    return 0;
+}

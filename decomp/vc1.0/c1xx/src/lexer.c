@@ -851,3 +851,51 @@ void __stdcall append_deferred_token(unsigned char token)
     if (deferred_token_end >= deferred_tokens + 200)
         token_allocation_flags |= 0x40000000UL;
 }
+
+/* Original 0x211e0..0x21376. A consumed question mark can begin a
+   trigraph across a source-window boundary. Failed recognition restores both
+   question marks and leaves the second one for the next scanner iteration. */
+unsigned recover_trigraph(void)
+{
+    unsigned char character;
+    char replacement;
+    character = (unsigned char)*source_text_cursor++;
+    while (character != '?') {
+        if (source_text_cursor[-1] || macro_expansion_active) {
+            --source_text_cursor;
+            return 0x40;
+        }
+        refill_source_or_error();
+        source_text_cursor[-1] = '?';
+        character = (unsigned char)*source_text_cursor++;
+    }
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character) {
+        case '!': replacement = '|'; break;
+        case '\'': replacement = '^'; break;
+        case '(': replacement = '['; break;
+        case ')': replacement = ']'; break;
+        case '-': replacement = '~'; break;
+        case '/': replacement = '\\'; break;
+        case '<': replacement = '{'; break;
+        case '=': replacement = '#'; break;
+        case '>': replacement = '}'; break;
+        case 0:
+            if (!macro_expansion_active) {
+                refill_source_or_error();
+                continue;
+            }
+            /* An active expansion terminator is not an input-window marker. */
+        default:
+            --source_text_cursor;
+            source_text_cursor[-1] = '?';
+            --source_text_cursor;
+            source_text_cursor[-1] = '?';
+            return 0x40;
+        }
+        source_text_cursor[-1] = replacement;
+        --source_text_cursor;
+        return 1;
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_call_expression@8",
+    "start": 325568,
+    "end": 325725
+  },
+  "distinct_direct_callees": [
+    "_drop_first_type_shape@4",
+    "_select_allocation_function@8",
+    "_strip_based_shape@4"
+  ],
+  "next_frontier": "_recover_trigraph",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2645472129806876,
+  "total_operation_seconds": 4.871382222510874,
+  "original_capture_seconds": 3.87386588845402
+}

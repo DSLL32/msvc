@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 605,
+  "accepted": "_conditional_expression@12",
+  "terminal": "_prepare_value_operand@8",
+  "original_capture": "cases/cpp-basic-frontiers/0605-conditional_expression-12/original-receipt.json",
+  "original_capture_sha256": "082affa7796ccdb98b948b6842bb9e53a86c1a08170556df28bdb7c0e0e9d080",
+  "original_events": "cases/cpp-basic-frontiers/0605-conditional_expression-12/original-events.txt",
+  "original_events_sha256": "7ea1faddcdebb2caa737c51b2ce44ded596a13187e117ed472bda0204a22e0f2",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -957,3 +957,34 @@ IrToken *__stdcall finish_constructor_result(IrToken *call, CppSymbol *tag)
     }
     return call;
 }
+
+/* Original 0x4f7c0..0x4f85c. Resolve an operator-new call's allocation
+   model while retaining the surrounding expression wrapper, when present. */
+IrToken *__stdcall finish_call_expression(IrToken *expression, unsigned short flags)
+{
+    IrToken *wrapper = 0, *callee;
+    CppSymbol *function;
+    if (!expression) return 0;
+    if (flags & 4) flags = 4;
+    if (expression->kind == 0x67) {
+        wrapper = expression;
+        expression = expression->value.pointer;
+    }
+    if (expression->kind == 0x7a) {
+        callee = expression->value.pointer;
+        if ((callee->flags & 7) == 4 &&
+            ((CppSymbol *)callee->value.pointer)->name == name_new) {
+            function = select_allocation_function(flags, callee->value.pointer);
+            if (function->declaration_flags & 0x200) expression->flags |= 8;
+            callee->value.pointer = function;
+            callee->type = strip_based_shape(function->type);
+            expression->type = drop_first_type_shape(callee->type);
+        }
+    }
+    if (wrapper) {
+        wrapper->value.pointer = expression;
+        wrapper->type = expression->type;
+        return wrapper;
+    }
+    return expression;
+}

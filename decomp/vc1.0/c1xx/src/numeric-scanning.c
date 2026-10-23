@@ -141,3 +141,10 @@ unsigned char __stdcall classify_decimal_integer(unsigned value)
 {
     return (value & 0x80000000UL) ? TOK_ULONG_CONSTANT : TOK_INT_CONSTANT;
 }
+
+/* Original 0x25860..0x25874. Unsuffixed octal/hexadecimal values use
+   unsigned int when the target's sign bit is set. */
+unsigned char __stdcall classify_radix_integer(unsigned value)
+{
+    return (value & 0x80000000UL) ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
+}

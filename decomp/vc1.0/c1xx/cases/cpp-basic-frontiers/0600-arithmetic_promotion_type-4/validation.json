@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_arithmetic_promotion_type@4",
+    "start": 380064,
+    "end": 380139
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_convert_pointer_operands@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23335391096770763,
+  "total_operation_seconds": 5.341804141178727,
+  "original_capture_seconds": 4.426399223506451
+}

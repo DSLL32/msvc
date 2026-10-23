@@ -93,6 +93,7 @@ int skip_source_comment(void);
 int consume_line_escape(void);
 unsigned char next_source_character(void);
 unsigned recover_trigraph(void);
+void refill_source_or_error(void);
 unsigned recover_special_character(void);
 unsigned char close_source_file(void);
 void finish_pch_output(void);

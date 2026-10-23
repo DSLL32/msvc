@@ -599,7 +599,20 @@
     "_simplify_trivial_member_call@12",
     "_defer_generated_member@4",
     "_finish_call_result@12",
-    "_finish_constructor_result@8"
+    "_finish_constructor_result@8",
+    "_finish_object_initializer@4",
+    "_materialize_member_object@4",
+    "_finish_call_expression@8",
+    "_recover_trigraph",
+    "_promote_arithmetic_expression@4",
+    "_arithmetic_promotion_type@4",
+    "_convert_pointer_operands@12",
+    "_fold_binary_constant@12",
+    "_mark_evaluation_boundary",
+    "_classify_radix_integer@4",
+    "_conditional_expression@12",
+    "_prepare_value_operand@8",
+    "_collect_declaration_cleanup@12"
   ],
   "driver": [
     {
@@ -2157,7 +2170,7 @@
     {
       "name": "_conditional_expression@12",
       "start": 383696,
-      "end": 383697
+      "end": 384553
     },
     {
       "name": "_prepare_reference_initializer@8",
@@ -2367,7 +2380,7 @@
     {
       "name": "_finish_call_expression@8",
       "start": 325568,
-      "end": 325569
+      "end": 325725
     },
     {
       "name": "_finish_conditional_branch",
@@ -2392,7 +2405,7 @@
     {
       "name": "_finish_object_initializer@4",
       "start": 252608,
-      "end": 252609
+      "end": 252976
     },
     {
       "name": "_has_cv_qualifiers@4",
@@ -2437,7 +2450,7 @@
     {
       "name": "_mark_evaluation_boundary",
       "start": 258160,
-      "end": 258161
+      "end": 258227
     },
     {
       "name": "_mark_initialized_symbol@4",
@@ -2772,7 +2785,7 @@
     {
       "name": "_recover_trigraph",
       "start": 135648,
-      "end": 135649
+      "end": 136055
     },
     {
       "name": "_recover_special_character",
@@ -4242,7 +4255,7 @@
     {
       "name": "_promote_arithmetic_expression@4",
       "start": 380144,
-      "end": 380145
+      "end": 380205
     },
     {
       "name": "_type_warning@12",
@@ -4626,7 +4639,7 @@
     {
       "name": "_fold_binary_constant@12",
       "start": 182320,
-      "end": 182321
+      "end": 184452
     },
     {
       "name": "_apply_member_pointer@4",
@@ -4636,7 +4649,7 @@
     {
       "name": "_convert_pointer_operands@12",
       "start": 381744,
-      "end": 381745
+      "end": 382730
     },
     {
       "name": "_common_binary_type@12",
@@ -4828,7 +4841,7 @@
     {
       "name": "_collect_declaration_cleanup@12",
       "start": 268768,
-      "end": 268769
+      "end": 268833
     },
     {
       "name": "_find_forward_frontend_record@12",
@@ -5024,7 +5037,7 @@
     {
       "name": "_materialize_member_object@4",
       "start": 202640,
-      "end": 202641
+      "end": 202701
     },
     {
       "name": "_adjust_qualified_member_object@20",
@@ -5189,7 +5202,7 @@
     {
       "name": "_classify_radix_integer@4",
       "start": 153696,
-      "end": 153697
+      "end": 153717
     },
     {
       "name": "_classify_long_integer@4",
@@ -5670,14 +5683,64 @@
       "name": "_finish_constructor_result@8",
       "start": 236464,
       "end": 236526
+    },
+    {
+      "name": "_select_allocation_function@8",
+      "start": 409952,
+      "end": 409953
+    },
+    {
+      "name": "_refill_source_or_error",
+      "start": 135568,
+      "end": 135569
+    },
+    {
+      "name": "_arithmetic_promotion_type@4",
+      "start": 380064,
+      "end": 380139
+    },
+    {
+      "name": "_convert_operand_if_needed@12",
+      "start": 419168,
+      "end": 419169
+    },
+    {
+      "name": "_fold_floating_binary@12",
+      "start": 184464,
+      "end": 184465
+    },
+    {
+      "name": "_multiplication_overflows@16",
+      "start": 477232,
+      "end": 477233
+    },
+    {
+      "name": "_subtraction_overflows@16",
+      "start": 477712,
+      "end": 477713
+    },
+    {
+      "name": "_compare_extended",
+      "start": 479167,
+      "end": 479168
+    },
+    {
+      "name": "_prepare_value_operand@8",
+      "start": 383600,
+      "end": 383691
+    },
+    {
+      "name": "_record_conditional_cleanup@4",
+      "start": 252976,
+      "end": 252977
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_finish_object_initializer@4",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/original-events.txt",
+      "terminal": "_close_source_file",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5739,7 +5802,20 @@
         "cases/cpp-basic-frontiers/0591-simplify_trivial_member_call-12/frontier-extension.json",
         "cases/cpp-basic-frontiers/0592-defer_generated_member-4/frontier-extension.json",
         "cases/cpp-basic-frontiers/0593-finish_call_result-12/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0595-finish_object_initializer-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0596-materialize_member_object-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0597-finish_call_expression-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0598-recover_trigraph/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0599-promote_arithmetic_expression-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0600-arithmetic_promotion_type-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0601-convert_pointer_operands-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0602-fold_binary_constant-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0603-mark_evaluation_boundary/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0604-classify_radix_integer-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0605-conditional_expression-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0606-prepare_value_operand-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0607-collect_declaration_cleanup-12/frontier-extension.json"
       ]
     }
   },

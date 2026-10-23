@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_recover_trigraph",
+    "start": 135648,
+    "end": 136055
+  },
+  "distinct_direct_callees": [
+    "_refill_source_or_error"
+  ],
+  "next_frontier": "_promote_arithmetic_expression@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2556516258046031,
+  "total_operation_seconds": 4.923658588901162,
+  "original_capture_seconds": 3.973980433307588
+}

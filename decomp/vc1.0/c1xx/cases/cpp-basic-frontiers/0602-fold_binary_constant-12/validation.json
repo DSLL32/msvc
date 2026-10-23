@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_fold_binary_constant@12",
+    "start": 182320,
+    "end": 184452
+  },
+  "distinct_direct_callees": [
+    "_addition_overflows@16",
+    "_compare_extended",
+    "_compiler_warning",
+    "_fold_floating_binary@12",
+    "_fold_symbol_constant@4",
+    "_integer_to_extended",
+    "_multiplication_overflows@16",
+    "_new_literal_constant@8",
+    "_subtraction_overflows@16",
+    "_unsigned_to_extended"
+  ],
+  "next_frontier": "_mark_evaluation_boundary",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.238958734087646,
+  "total_operation_seconds": 4.2841264344751835,
+  "original_capture_seconds": 3.3242692835628986
+}

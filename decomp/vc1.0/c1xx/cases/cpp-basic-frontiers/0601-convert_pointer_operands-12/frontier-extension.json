@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 601,
+  "accepted": "_convert_pointer_operands@12",
+  "terminal": "_fold_binary_constant@12",
+  "original_capture": "cases/cpp-basic-frontiers/0601-convert_pointer_operands-12/original-receipt.json",
+  "original_capture_sha256": "eff37a04faae83487f25d85aad5361920ed3abf2bb04bc0a8945b97158751172",
+  "original_events": "cases/cpp-basic-frontiers/0601-convert_pointer_operands-12/original-events.txt",
+  "original_events_sha256": "d4abc1bfe4fa3a1f5f5aaaac3a97008db2eb9820933b6986ea8f518c58f61bdb",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

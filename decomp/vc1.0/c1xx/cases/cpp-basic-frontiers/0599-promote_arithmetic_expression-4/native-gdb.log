@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ab78 in arithmetic_promotion_type (type=0x565e6760) at src/stubs.c:541
+541	CType *__stdcall arithmetic_promotion_type(CType *type) { __asm { int 3 } return 0; }
+#0  0x5655ab78 in arithmetic_promotion_type (type=0x565e6760) at src/stubs.c:541
+#1  0x5658c082 in promote_arithmetic_expression (expression=0x5660b8a4) at src/unary-expressions.c:401
+#2  0x56578fbc in builtin_binary_expression (operation=68 'D', left=0x5660b8a4, right=0x5660b950) at src/binary-expressions.c:65
+#3  0x5657c5a5 in binary_expression (operation=68 'D', left=0x5660b8a4, right=0x5660b950) at src/binary-expressions.c:863
+#4  0x56595a87 in parse_translation_unit () at src/parser-expression-actions.inc:88
+#5  0x5655da36 in compile_translation_unit () at src/frontend.c:75
+#6  0x565587c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558794 in main (argc=1, argv=0xffffd8c4, environment=0xffffd8cc) at src/c1xx.c:20

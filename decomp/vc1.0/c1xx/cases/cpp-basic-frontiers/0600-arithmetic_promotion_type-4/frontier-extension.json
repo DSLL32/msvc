@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 600,
+  "accepted": "_arithmetic_promotion_type@4",
+  "terminal": "_convert_pointer_operands@12",
+  "original_capture": "cases/cpp-basic-frontiers/0600-arithmetic_promotion_type-4/original-receipt.json",
+  "original_capture_sha256": "a504b66d5fd4f42655f9ef5c5496721eaa54f9e9eb2dc2a516819bb11e4c1c1c",
+  "original_events": "cases/cpp-basic-frontiers/0600-arithmetic_promotion_type-4/original-events.txt",
+  "original_events_sha256": "a15a67ab9ac8d93e5e13d50c6e97cf1d77162985e001fe1315a7d56c23de1c0f",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

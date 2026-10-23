@@ -225,3 +225,16 @@ IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object,
     if (!options.prototypes_only) report_syntax_error(27, tag->name);
     return 0;
 }
+
+/* Original 0x31790..0x317cc. Strip conversion wrappers and take the
+   member object's address, retaining a comma expression's preceding effects. */
+IrToken *__stdcall materialize_member_object(IrToken *object)
+{
+    while (object->kind == 0x6e || object->kind == 0x80) object = object->value.pointer;
+    if (object->kind == 0x40) {
+        object->tail.right = materialize_member_object(object->tail.right);
+        object->type = object->tail.right->type;
+        return object;
+    }
+    return builtin_unary_expression(0x3b, object);
+}

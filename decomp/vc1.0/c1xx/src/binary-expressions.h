@@ -35,4 +35,10 @@ IrToken *__stdcall make_conditional_lvalue(IrToken *expression);
 int __stdcall has_assignment_member_model(CType *type);
 void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned rank,
     CType *target, CType *source);
+IrToken *__stdcall convert_operand_if_needed(unsigned char operation, CType *type, IrToken *expression);
+IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right);
+int __stdcall multiplication_overflows(unsigned left, unsigned right, short unsigned_arithmetic, unsigned short bytes);
+int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes);
+IrToken *__stdcall prepare_value_operand(unsigned char operation, IrToken *expression);
+void __stdcall record_conditional_cleanup(IrToken *expression);
 #endif

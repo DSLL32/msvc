@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.1939398320391774,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-materialize-member-object-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 6.088561890646815,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-materialize-member-object-canonical.log"
+  }
+]
