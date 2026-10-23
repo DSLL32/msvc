@@ -1,0 +1,20 @@
+[
+  {
+    "test": "missing-offset",
+    "status": "rejected before original invocation",
+    "seconds": 0.09786079078912735,
+    "message": "AssertionError: actual original pointer differs from fresh global owner plus offset"
+  },
+  {
+    "test": "wrong-base",
+    "status": "rejected before original invocation",
+    "seconds": 0.10738398041576147,
+    "message": "AssertionError: fresh global buffer owner differs"
+  },
+  {
+    "test": "wrong-offset",
+    "status": "rejected before original invocation",
+    "seconds": 0.09985565021634102,
+    "message": "AssertionError: actual original pointer differs from fresh global owner plus offset"
+  }
+]

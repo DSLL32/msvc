@@ -82,8 +82,14 @@ def main():
             assert anchor['original'] == binding['original_anchor_address']
             binding['original_anchor_value'] = anchor['value']
             binding['native_anchor_value'] = checkpoint[binding['native_anchor_field']]
-            assert item['original_raw'] == binding['original_anchor_value']
-            assert item['native_raw'] == binding['native_anchor_value']
+            offset = binding.get('offset', 0)
+            if 'offset' in binding:
+                assert anchor['bytes']==anchor['read_bytes']==4 and anchor['read_succeeded'], 'missing readable global buffer owner'
+                assert binding['owner_bytes']==4096 and 0<=offset<binding['owner_bytes'], 'debug buffer offset outside owner span'
+                assert 0<binding['original_anchor_value']<=0xffffffff-binding['owner_bytes'], 'original buffer owner span wraps'
+                assert 0<binding['native_anchor_value']<=0xffffffff-binding['owner_bytes'], 'native buffer owner span wraps'
+            assert item['original_raw'] == binding['original_anchor_value'] + offset, 'actual original pointer differs from fresh global owner plus offset'
+            assert item['native_raw'] == binding['native_anchor_value'] + offset, 'actual native pointer differs from fresh global owner plus offset'
         elif binding['kind'] == 'caller-owned-pointer':
             registers = [row for row in receipt['ownership_register_observations'] if row['register'] == binding['original_register']]
             assert len(registers) == 1 and registers[0]['read_succeeded']

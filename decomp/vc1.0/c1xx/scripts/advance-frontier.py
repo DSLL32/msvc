@@ -103,8 +103,16 @@ def main():
         elif binding['kind']=='pointer-alias':
             anchor=anchors[binding['original_anchor_name']]
             assert anchor['original']==binding['original_anchor_address']
-            assert formal['original_raw']==binding['original_anchor_value']==anchor['value']
-            assert formal['native_raw']==binding['native_anchor_value']==entry_native[binding['native_anchor_field']]
+            assert binding['original_anchor_value']==anchor['value'], 'fresh global buffer owner differs'
+            assert binding['native_anchor_value']==entry_native[binding['native_anchor_field']], 'actual native global owner differs'
+            offset=binding.get('offset',0)
+            if 'offset' in binding:
+                assert anchor['bytes']==anchor['read_bytes']==4 and anchor['read_succeeded'], 'missing readable global buffer owner'
+                assert binding['owner_bytes']==4096 and 0<=offset<binding['owner_bytes'], 'debug buffer offset outside owner span'
+                assert 0<anchor['value']<=0xffffffff-binding['owner_bytes'], 'original buffer owner span wraps'
+                assert 0<binding['native_anchor_value']<=0xffffffff-binding['owner_bytes'], 'native buffer owner span wraps'
+            assert formal['original_raw']==anchor['value']+offset, 'actual original pointer differs from fresh global owner plus offset'
+            assert formal['native_raw']==binding['native_anchor_value']+offset, 'actual native pointer differs from fresh global owner plus offset'
         elif binding['kind']=='caller-owned-pointer':
             registers=[row for row in entry_original['ownership_register_observations'] if row['register']==binding['original_register']]
             assert len(registers)==1 and registers[0]['read_succeeded'], 'missing actual owner register anchor'

@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_encode_debug_unsigned@8",
+    "start": 459552,
+    "end": 459632
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1081-encode_debug_unsigned-8/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_copy_debug_name@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.406326106749475,
+  "total_operation_seconds": 3.5931184152141213,
+  "original_capture_seconds": 1.2677678214386106
+}

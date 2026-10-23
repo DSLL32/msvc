@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_encode_debug_unsigned@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1081,
+  "configuration_sha256": "7474ee8d23ea8153f57dfba6a36fc211544c5c3bdfc066631cb4f2c36f570247",
+  "native_entry": "encode_debug_unsigned",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "destination",
+      "stack_index": 0,
+      "native_field": "raw_destination",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "debug_buffer",
+        "original_anchor_address": 576692,
+        "native_anchor_field": "debug_buffer",
+        "offset": 14,
+        "owner_bytes": 4096,
+        "identity": "Actual output pointer into owned4096B debug_record_buffer, initialized in accepted begin_debug_info with checked_malloc4096. Caller leaf=buffer+2 then destination leaf+12. Fresh fixed-global pointer read; no stable heap address assumed. Both owner+4096 and owner+14 checked without wrap.",
+        "original_anchor_value": 8465420,
+        "native_anchor_value": 1449440896
+      },
+      "original_raw": 8465434,
+      "native_raw": 1449440910,
+      "result": "match"
+    },
+    {
+      "name": "value",
+      "stack_index": 1,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 12,
+      "native_raw": 12,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      459552,
+      459632
+    ],
+    "argument_bytes": 8,
+    "proof": "MOV ECX,[entryESP+8] is unsigned value; MOV EAX,[entryESP+4] destination on all paths. Unsigned thresholds8000/10000; writes exactly2,4,6B and returns matching EAX2,4,6 with RET8. No incoming register/hidden input. Current class size12 selects2B write, pointer buffer+14. Raw original caller0x6e962 pushes size then LEA EAX,[ESI+12]0x6e963; ESI=buffer+2, call0x6e967 return0x6e96c.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "bd5c4359885d4b384db19b5479cd251639b9d80246d7895df809cf26adbdcf11",
+  "capture_timing": {
+    "original_capture_seconds": 1.4684623824432492,
+    "native_capture_seconds": 0.19073719438165426,
+    "total_operation_seconds": 1.9423911003395915
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "5debba30f25f284fe0c7eada723100bdc5da1164ccc3354b39db61595d79cb71",
+    "native-commands.gdb": "98bb4f9a42aaae21686e50d7eb4f3eb5a89e8fcb85a767e9df79c214101df4ea",
+    "native-gdb.log": "1d17e4920d24ef51f6f4d0e71b3be2130fcc36f13f11c62b49a33c4ce30bf8eb",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4febfd32bbf929c291b9f5511af90b843ca34944c3271700a752467f1dfd8f48",
+    "original-configuration.json": "7474ee8d23ea8153f57dfba6a36fc211544c5c3bdfc066631cb4f2c36f570247",
+    "original-disassembly.txt": "230272fe4d92a4bcbf757ca4b0dc333473b784f2877946e4d5f5756ba7be45da",
+    "original-events.txt": "6a51f0e7492cb5b85af1e39bb2d1d1e470fd95432c4ccd89033d57147eba98ad",
+    "original-receipt.json": "581ff333f3a896e146e015e644feda6c8551a60220377e09fc7f2e9dcc7c9251",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "dcf524163dbe355aa578281eae967d67a754a291a9d8c4e738dbff014a9e2759"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

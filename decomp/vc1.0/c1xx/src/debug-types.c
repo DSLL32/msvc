@@ -13,6 +13,24 @@ unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 
+/* Original 0x70320..0x70370. Short unsigned numeric leaves are their
+   own value; larger ones carry an explicit unsigned-short or long tag. */
+unsigned __stdcall encode_debug_unsigned(unsigned char *destination, unsigned value)
+{
+    if (value < 0x8000) {
+        *(unsigned short *)destination = (unsigned short)value;
+        return 2;
+    }
+    if (value < 0x10000) {
+        *(unsigned short *)destination = 0x8002;
+        *(unsigned short *)(destination + 2) = (unsigned short)value;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8004;
+    *(unsigned *)(destination + 2) = value;
+    return 6;
+}
+
 /* Original 0x6e5e0..0x6e999. Write the class, union or enum leaf and
    enqueue field, enumerator and virtual-shape records as required. */
 void __stdcall emit_debug_class(CppSymbol *tag, unsigned short field_count,

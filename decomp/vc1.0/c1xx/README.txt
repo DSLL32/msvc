@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 1081 accepted frontiers, including 987 frontend
+PARTIAL binary reconstruction: 1082 accepted frontiers, including 988 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete.
-Active case state_machine_debug stops at _encode_debug_unsigned@8, original VA 0x70320.
+Active case state_machine_debug stops at _copy_debug_name@8, original VA 0x74500.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -44,7 +44,7 @@ equivalence claim; evidence/debug-class-domain holds raw and focused checks.
 All five selected C++ cases are complete, including new/delete/operators.
 cases/reconstruction-queue.json records completion and subsequent case review.
 
-Accepted original extents cover 276350 / 476418 code-section bytes (58.005785%).
+Accepted original extents cover 276430 / 476418 code-section bytes (58.022577%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -75,7 +75,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 1081-entry acceptance provenance and full original extents; the cache
+the ordered 1082-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 
@@ -117,6 +117,9 @@ acceptance. This supplements the older fixed-state proofs without relabeling the
 Explicit --observe-short reads exactly two initialized bytes for a queue WORD
 out-parameter; the default DWORD observer remains unchanged. Read width/success
 and the actual queue slot owner are checked, without reading adjacent padding.
+A debug-buffer alias may carry an explicit checked byte offset within its proven
+4096-byte allocation. The owner pointer is read freshly on each affected capture;
+heap addresses are never cached as identities. Default alias offsets remain zero.
 
 advance-frontier.py requires a fresh original entry-plan capture and persists its
 new reference only after the matching full oracle. The runtime-chain counterpart
