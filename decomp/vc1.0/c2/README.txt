@@ -2265,3 +2265,11 @@ Register coalescing and spill drivers: checkpoint909
 native fixtures pass. See cases/loops-spill-driver.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Spill operands and memory split selection: checkpoint912
+-----------------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@next_split_register_color@4. 834 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-memory-split.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

@@ -780,3 +780,175 @@ void __fastcall assign_machine_registers(MachineInstruction *instructions)
         if (remove) remove_machine_instruction(instruction);
     }
 }
+/* Original [0002fdf0,0003067a). Prefer an available cached memory value,
+   then a free color. If neither exists, preserve one region register in its
+   spill home and borrow its physical color across the transformed region. */
+int __fastcall choose_memory_split_register(MachineInstruction *instruction, unsigned short *number)
+{
+    MachineOperand *memory = &instruction->operands[0];
+    MachineOperand reg, home, copied_home, label;
+    PhysicalRegisterCache *cache;
+    PhysicalRegisterAlias *alias;
+    RegisterVariable *variable;
+    MachineFlowRegion *candidate, *selected = 0, *preservation;
+    MachineInstruction *record, *position, *move, *end_label;
+    MachineBlockHeader *entry_block = 0, *exit_block = 0;
+    unsigned kind, operation, color, index;
+    unsigned short saved_number = 0;
+    int bracket, mark_frame = 1;
+    if (!MEMORY_OPERAND(memory)) memory = &instruction->operands[1];
+    for (color = 0; color < 8; ++color) {
+        cache = &register_value_cache[color];
+        if (((cache->reference[0] && cache->operation == MC_MOV &&
+              cached_operands_equal(memory, cache->reference[0])) ||
+             (cache->reference[1] && cached_operands_equal(memory, cache->reference[1]))) &&
+            !(live_physical_registers & (1U << color)) &&
+            (((instruction->opcode & 0xf0) > 0x10) ||
+             byte_register_available((unsigned short)color))) {
+            *number = (unsigned short)color;
+            previous_rewrite_register = latest_rewrite_register;
+            latest_rewrite_register = *number;
+            if (*number == REG_EBP) *number = 24;
+            return 1;
+        }
+    }
+    if (register_value_region && (register_value_region->flags & 0x20) &&
+        latest_rewrite_register != register_value_region->split_color &&
+        (((instruction->opcode & 0xf0) > 0x10) ||
+         byte_register_available(register_value_region->split_color))) {
+        *number = register_value_region->split_color;
+        mark_frame = 0;
+        goto cache_value;
+    }
+    for (index = 0; index < 8; ++index) {
+        color = next_split_register_color(index);
+        if (!(live_physical_registers & (1U << (color & 31))) &&
+            (((instruction->opcode & 0xf0) > 0x10) ||
+             byte_register_available((unsigned short)color))) {
+            *number = (unsigned short)color;
+            goto cache_value;
+        }
+    }
+    if (!register_value_region) return 0;
+    for (color = 0; color < 8; ++color) {
+        if ((instruction->opcode & 0xf0) <= 0x10 &&
+            !byte_register_available((unsigned short)color)) continue;
+        alias = physical_register_aliases[color];
+        if (!alias || alias->next || !(alias->number & 0x4000)) continue;
+        candidate = find_evictable_machine_region(alias->number, register_value_region);
+        if (candidate && (!selected || machine_region_is_ancestor(candidate, selected))) {
+            selected = candidate;
+            saved_number = alias->number;
+        }
+    }
+    if (!selected) return 0;
+    initialize_operand(&reg, OPERAND_REGISTER, saved_number, 0, 0);
+    operand_for_spill(&home, saved_number, 1);
+    variable = lookup_register_variable(saved_number, 1);
+    preservation = find_register_preservation_region(saved_number, selected->parent);
+    if (!preservation) preservation = selected;
+    if (preservation->saved_split_register != saved_number) {
+        prepare_machine_region_transform(preservation);
+        move = new_machine_record(0, MC_MOV, variable->storage_bytes, &home, &reg);
+        move = insert_machine_after(preservation->first->previous, move);
+        record = move->previous;
+        while ((record->opcode & 15) != 7) record = record->previous;
+        if (!bitset_contains(((MachineBlockHeader *)record)->definitions, saved_number & 0x3fff))
+            ((MachineBlockHeader *)record)->uses = bitset_include(
+                ((MachineBlockHeader *)record)->uses, saved_number & 0x3fff);
+        preservation->saved_split_register = saved_number;
+    }
+    record = selected->last;
+    operation = (record->opcode >> 8) & 255;
+    if (operation != MC_JCC && operation != MC_JMP)
+        compiler_internal_error("@(#)color.c:1.101", 0x16e1);
+    if (operation != MC_JMP) {
+        position = record->next;
+        while ((position->opcode & 15) == 4) position = position->next;
+        if ((position->opcode & 15) != 7 ||
+            bitset_contains(((MachineBlockHeader *)position)->uses, saved_number & 0x3fff)) {
+            if ((position->opcode & 15) == 7) {
+                entry_block = (MachineBlockHeader *)position;
+                bitset_remove(entry_block->uses, saved_number & 0x3fff);
+                position = position->next;
+            }
+            copy_machine_operand(&home, &copied_home);
+            move = new_machine_record(0, MC_MOV, variable->storage_bytes, &reg, &copied_home);
+            insert_machine_after(position->previous, move);
+            if (!entry_block) {
+                record = position->previous;
+                while ((record->opcode & 15) != 7) record = record->previous;
+                entry_block = (MachineBlockHeader *)record;
+            }
+        }
+    }
+    if (selected->flags & 0x10) {
+        end_label = selected->exit_label;
+        position = end_label->previous;
+        record = position;
+        while ((record->opcode & 15) != 7) record = record->previous;
+        exit_block = (MachineBlockHeader *)record;
+        if ((entry_block && entry_block == exit_block) ||
+            bitset_contains(exit_block->uses, saved_number & 0x3fff)) {
+            kind = position->opcode & 15;
+            while (kind != 10 && kind != 8 && kind != 9 && kind != 0) {
+                position = position->previous;
+                kind = position->opcode & 15;
+            }
+            if ((((position->opcode >> 8) & 255) != MC_JMP ||
+                 (position->operands[0].flags & 15) != OPERAND_SYMBOL ||
+                 position->operands[0].value.symbol == end_label->record.symbol) &&
+                (preservation->flags & 0x10)) {
+                initialize_operand(&label, OPERAND_SYMBOL, 0, 0, end_label->record.symbol);
+                move = new_machine_record(0, MC_JMP, 0x104, &label);
+                insert_machine_after(position, move);
+                ++((LabelSymbol *)end_label->record.symbol)->references;
+            }
+            end_label = split_machine_region_exit(selected);
+            record = end_label->previous;
+            bracket = (record->opcode & 15) != 7;
+            while ((record->opcode & 15) == 4) record = record->previous;
+            if ((record->opcode & 15) == 7)
+                bitset_remove(((MachineBlockHeader *)record)->uses, saved_number & 0x3fff);
+            while ((record->opcode & 15) != 7) record = record->previous;
+            exit_block = (MachineBlockHeader *)record;
+            if (bracket) {
+                move = new_machine_record(10, MC_MOV, 0x104, &reg, &reg);
+                end_label = insert_machine_after(end_label, move);
+            }
+            copy_machine_operand(&home, &copied_home);
+            move = new_machine_record(0, MC_MOV, 0x104, &reg, &copied_home);
+            end_label = insert_machine_after(end_label, move);
+            if (bracket) {
+                move = new_machine_record(10, MC_MOV, 0x104, &reg, &reg);
+                end_label = insert_machine_after(end_label, move);
+            }
+            position = end_label->next;
+            while ((position->opcode & 15) == 4) position = position->next;
+            if ((position->opcode & 15) != 1)
+                exit_block->definitions = bitset_include(exit_block->definitions, saved_number & 0x3fff);
+        }
+    }
+    if (DIRECT_REGISTER_COLOR(saved_number)) *number = saved_number;
+    else {
+        variable = lookup_register_variable(saved_number, 1);
+        variable = lookup_register_variable(variable->representative, 1);
+        *number = (unsigned short)(variable->flags & 63);
+    }
+    live_physical_registers &= ~(1U << (*number & 31));
+    if (!entry_block) entry_block = exit_block;
+    mark_machine_region_split(selected, *number, saved_number, 1, entry_block);
+cache_value:
+    previous_rewrite_register = latest_rewrite_register;
+    latest_rewrite_register = *number;
+    cache = &register_value_cache[*number];
+    cache->reference[0] = &cache->saved[0];
+    copy_machine_operand(memory, cache->reference[0]);
+    cache->operation = MC_MOV;
+    cache->reference[1] = 0;
+    if (*number == REG_EBP) {
+        *number = 24;
+        if (mark_frame) frame_register_allocated = 1;
+    }
+    return 1;
+}

@@ -40,4 +40,10 @@ void __fastcall remove_physical_register_alias(unsigned short number);
 unsigned short __fastcall preferred_reuse_colors(MachineInstruction *instruction, unsigned short *second, int source);
 int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color);
 int __fastcall cached_operands_equal(MachineOperand *left, MachineOperand *right);
+unsigned __fastcall next_split_register_color(unsigned index);
+MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short number, MachineFlowRegion *region);
+int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region);
+MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region);
+MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region);
+void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block);
 #endif

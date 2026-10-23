@@ -347,7 +347,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 
 
 
-int __fastcall choose_memory_split_register(MachineInstruction *instruction, unsigned short *number) { __asm int 3 }
 
 
 int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color) { __asm int 3 }
@@ -411,5 +410,9 @@ unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineI
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall record_rematerialized_work_registers(WorkItem *work, MachineInstruction *definition, unsigned short number) { __asm int 3 }
-void __fastcall remove_spilled_work_registers(WorkItem *work, BitSet *spilled) { __asm int 3 }
-int __fastcall spill_instruction_variable(MachineInstruction *instruction, RegisterVariable *variable, int apply, unsigned *spill_bytes, WorkItem *work) { __asm int 3 }
+unsigned __fastcall next_split_register_color(unsigned index) { __asm int 3 }
+MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
+int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
+MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
+MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
+void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }

@@ -913,7 +913,10 @@
     "@remove_register_conflict@8",
     "@spill_register_variables@8",
     "@spill_variable_everywhere@4",
-    "@spill_variable_in_work@8"
+    "@spill_variable_in_work@8",
+    "@spill_instruction_variable@20",
+    "@remove_spilled_work_registers@8",
+    "@choose_memory_split_register@8"
   ],
   "driver": [
     {
@@ -5512,8 +5515,7 @@
     {
       "name": "@choose_memory_split_register@8",
       "start": 196080,
-      "end": 196081,
-      "provisional": true
+      "end": 198266
     },
     {
       "name": "@copy_machine_operand@8",
@@ -6634,13 +6636,47 @@
     {
       "name": "@remove_spilled_work_registers@8",
       "start": 182464,
-      "end": 182465,
-      "provisional": true
+      "end": 182509
     },
     {
       "name": "@spill_instruction_variable@20",
       "start": 183312,
-      "end": 183313,
+      "end": 183589
+    },
+    {
+      "name": "@next_split_register_color@4",
+      "start": 203008,
+      "end": 203009,
+      "provisional": true
+    },
+    {
+      "name": "@find_evictable_machine_region@8",
+      "start": 307728,
+      "end": 307729,
+      "provisional": true
+    },
+    {
+      "name": "@machine_region_is_ancestor@8",
+      "start": 307680,
+      "end": 307681,
+      "provisional": true
+    },
+    {
+      "name": "@find_register_preservation_region@8",
+      "start": 307840,
+      "end": 307841,
+      "provisional": true
+    },
+    {
+      "name": "@split_machine_region_exit@4",
+      "start": 298720,
+      "end": 298721,
+      "provisional": true
+    },
+    {
+      "name": "@mark_machine_region_split@20",
+      "start": 307952,
+      "end": 307953,
       "provisional": true
     }
   ],

@@ -350,3 +350,48 @@ int __fastcall spill_variable_in_work(WorkItem *work, RegisterVariable *variable
     }
     return total;
 }
+
+/* Original [0002cc10,0002cd25). Visit explicit operands in their original
+   order. An index and base each carry independent signed use annotations. */
+int __fastcall spill_instruction_variable(MachineInstruction *instruction,
+    RegisterVariable *variable, int apply, unsigned *spill_bytes, WorkItem *work)
+{
+    MachineOperand *operand;
+    MachineAddress *address;
+    unsigned short number = variable->number;
+    unsigned kind;
+    int index, cost, total = 0;
+    for (index = 0; index < machine_operand_counts[(instruction->opcode >> 8) & 255]; ++index) {
+        operand = &instruction->operands[index];
+        kind = operand->flags & 15;
+        if (kind == OPERAND_REGISTER) {
+            if (operand->value.reg.words.number == number) {
+                cost = allocation_operand_cost(instruction, variable,
+                    (short)operand->value.reg.words.flags, index, apply, spill_bytes, work);
+                total += cost;
+                if (cost < 0) return total;
+            }
+        } else if (kind == OPERAND_BASED || kind == OPERAND_INDEXED) {
+            address = operand->value.address;
+            if (kind == OPERAND_INDEXED && address->index.words.number == number)
+                total += allocation_operand_cost(instruction, variable,
+                    (short)address->index.words.flags, index, apply, spill_bytes, work);
+            /* Applying an index spill may replace the address in the operand. */
+            address = operand->value.address;
+            if (address->base.words.number == number)
+                total += allocation_operand_cost(instruction, variable,
+                    (short)address->base.words.flags, index, apply, spill_bytes, work);
+        }
+    }
+    return total;
+}
+
+/* Original [0002c8c0,0002c8ed). Selection liveness drops the spilled
+   tree-register numbers after all affected instructions have been rewritten. */
+void __fastcall remove_spilled_work_registers(WorkItem *work, BitSet *spilled)
+{
+    for (; work; work = work->next) {
+        work->pass.selection.uses = subtract_bitset(work->pass.selection.uses, spilled);
+        work->pass.selection.definitions = subtract_bitset(work->pass.selection.definitions, spilled);
+    }
+}

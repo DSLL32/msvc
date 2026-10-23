@@ -25,7 +25,10 @@ struct MachineFlowRegion {
     MachineRegionRegister *registers[8]; /*28..48: register number&7 chains*/
     int first_block, last_block;
     int pending_references, initial_references;
-    unsigned field58, flags;
+    union { unsigned field58;
+        struct { unsigned short split_color, saved_split_register; };
+    };
+    unsigned flags;
 };
 typedef char MachineFlowRegionSizeCheck[sizeof(MachineFlowRegion) == 96 ? 1 : -1];
 extern MachineFlowRegion *machine_region_root;
