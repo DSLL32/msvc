@@ -156,7 +156,7 @@ end
         registration=output/'collect-deferred-registration.gdb'
         registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'deferred-registration.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'deferred-registration-argv.bin'))))
         observer+='break register_cleanup if frontend_bss.cleanup_count==8\ncommands\nsilent\nsource '+str(registration)+'\ncontinue\nend\n'
-    if trial['trial']=='_initialize_frontend_18':
+    if model['schema']>=15:
         entry=output/'collect-value-copy-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'value-copy-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'value-copy-entry-argv.bin'))))
         seed=''
