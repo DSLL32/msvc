@@ -63,8 +63,8 @@ def parse(events):
             current[key]=raw;current[key+'_address']=address
     if 'frontier'in result:
         match=re.search(r'^exception 80000003 va ([0-9a-f]+) ',events,re.M)
-        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0,0x1e700),'unreviewed original type buffer frontier'
-        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else('record_derived_types'if int(match[1],16)==0x19770 else('convert_global_data32'if int(match[1],16)==0x256f0 else 'get_type_record')))))
+        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0,0x1e700,0x27b10),'unreviewed original type buffer frontier'
+        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else('record_derived_types'if int(match[1],16)==0x19770 else('convert_global_data32'if int(match[1],16)==0x256f0 else('get_type_record'if int(match[1],16)==0x1e700 else 'add_recursive_offset'))))))
     return result
 
 
@@ -76,9 +76,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     assert p and case=='hello-debug-dll'and not native.get('error'),'native buffer observer failed'
     old=parse(events);results=[];spaces=[]
     frontier=native['frontier']['name']
-    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record'),'unsupported type buffer consumer'
+    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset'),'unsupported type buffer consumer'
     indices=p['record_indices'];sizes=p['copy_sizes'];write_sites=[(1,10,4115,0x1000),(2,6,4133,0x1001)]
-    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record'):
+    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset'):
         assert p['extension']==dict(frontier=0x1ad40,record_indices=[4115,4133,4134,4193,4194,4195],copy_sizes=[8,12,8,16,12,8],pdb_writes=[dict(type_index=4194,field=10,before=4193,after=0x1003),dict(type_index=4195,field=6,before=4194,after=0x1004)]),'unreviewed type buffer extension'
         indices=p['extension']['record_indices'];sizes=p['extension']['copy_sizes']
         write_sites +=[(4,10,4193,0x1003),(5,6,4194,0x1004)]
@@ -94,6 +94,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     if frontier=='get_type_record':
         assert p['resolver_frontier']=={'frontier': 124672, 'record_indices': [4115, 4133, 4134, 4193, 4194, 4195, 4191, 4192, 4183, 4184, 4185, 4102, 4131, 4132, 4103, 4112, 4108, 4109, 4110, 4169, 4170, 4171, 4106, 4152, 4153, 4111, 4099, 4175, 4176, 4177, 4221, 4222, 4223, 4224, 4225], 'copy_sizes': [8, 12, 8, 16, 12, 8, 64, 24, 12, 108, 32, 16, 12, 8, 12, 8, 8, 12, 8, 12, 28, 32, 12, 12, 8, 8, 12, 12, 56, 32, 52, 32, 12, 68, 24], 'pdb_writes': [[1, 10, 4115, 4096], [2, 6, 4133, 4097], [4, 10, 4193, 4099], [5, 6, 4194, 4100], [7, 6, 4191, 4102], [9, 34, 4097, 4103], [9, 90, 4183, 4104], [10, 6, 4184, 4105], [12, 10, 4102, 4107], [13, 6, 4131, 4108], [14, 10, 4102, 4107], [15, 6, 4103, 4110], [17, 10, 4108, 4112], [18, 6, 4109, 4113], [20, 6, 4169, 4115], [21, 6, 4170, 4116], [23, 10, 4106, 4118], [24, 6, 4152, 4119], [28, 42, 4175, 4123], [29, 6, 4176, 4124], [31, 6, 4221, 4126], [33, 54, 4223, 4128], [34, 6, 4224, 4129]], 'pending_write': {'type_index': 4219, 'field': 6, 'before': 4217, 'after': 4130, 'converted_input_type': 4225}},'unreviewed pending resolver type copies'
         indices=p['resolver_frontier']['record_indices'];sizes=p['resolver_frontier']['copy_sizes'];write_sites=[tuple(r)for r in p['resolver_frontier']['pdb_writes']]
+    if frontier=='add_recursive_offset':
+        assert p['recursive_offset_frontier']=={'frontier': 162576, 'record_indices': [4115, 4133, 4134, 4193, 4194, 4195, 4191, 4192, 4183, 4184, 4185, 4102, 4131, 4132, 4103, 4112, 4108, 4109, 4110, 4169, 4170, 4171, 4106, 4152, 4153, 4111, 4099, 4175, 4176, 4177, 4221, 4222, 4223, 4224, 4225, 4219, 4220, 4211, 4212, 4213, 4145, 4119, 4121, 4122, 4123, 4124, 4146, 4147, 4148, 4214, 4215, 4216, 4126, 4127, 4128, 4129, 4130, 4172, 4173, 4174, 4163, 4164, 4165, 4166, 4167, 4168, 4196, 4197, 4113, 4114], 'copy_sizes': [8, 12, 8, 16, 12, 8, 64, 24, 12, 108, 32, 16, 12, 8, 12, 8, 8, 12, 8, 12, 28, 32, 12, 12, 8, 8, 12, 12, 56, 32, 52, 32, 12, 68, 24, 48, 40, 8, 252, 32, 8, 8, 8, 16, 12, 8, 8, 12, 8, 12, 52, 36, 8, 8, 16, 12, 8, 16, 12, 8, 16, 12, 8, 8, 12, 8, 28, 28, 204, 32], 'pdb_writes': [[14, 10, 4102, 4107], [17, 10, 4108, 4112], [18, 6, 4109, 4113], [15, 6, 4103, 4110], [68, 22, 4112, 4111], [69, 6, 4113, 4164], [41, 6, 4118, 4117], [42, 6, 4120, 4125], [43, 8, 4119, 4137], [43, 10, 4121, 4138], [44, 10, 4122, 4139], [45, 6, 4123, 4140], [52, 6, 4125, 4147], [53, 6, 4126, 4148], [54, 8, 4119, 4137], [54, 10, 4127, 4149], [55, 10, 4128, 4150], [56, 6, 4129, 4151], [12, 10, 4102, 4107], [13, 6, 4131, 4108], [1, 10, 4115, 4096], [2, 6, 4133, 4097], [40, 6, 4144, 4135], [46, 6, 4145, 4136], [47, 10, 4146, 4142], [48, 6, 4147, 4143], [23, 10, 4106, 4118], [24, 6, 4152, 4119], [61, 10, 4163, 4156], [62, 6, 4164, 4157], [64, 10, 4166, 4159], [65, 6, 4167, 4160], [20, 6, 4169, 4115], [21, 6, 4170, 4116], [57, 12, 4111, 4121], [58, 10, 4172, 4153], [59, 6, 4173, 4154], [28, 42, 4175, 4123], [29, 6, 4176, 4124], [9, 34, 4097, 4103], [9, 90, 4183, 4104], [10, 6, 4184, 4105], [7, 6, 4191, 4102], [4, 10, 4193, 4099], [5, 6, 4194, 4100], [67, 6, 4196, 4162], [37, 6, 4210, 4132], [38, 106, 4211, 4133], [39, 6, 4212, 4134], [50, 38, 4214, 4145], [51, 6, 4215, 4146], [35, 6, 4217, 4130], [35, 26, 4218, 4127], [36, 6, 4219, 4131], [31, 6, 4221, 4126], [33, 54, 4223, 4128], [34, 6, 4224, 4129]], 'pending_write': {'type_index': 4199, 'field': 6, 'before': 4198, 'after': 4209, 'target_type': 4209}},'unreviewed recursive offset type copies'
+        indices=p['recursive_offset_frontier']['record_indices'];sizes=p['recursive_offset_frontier']['copy_sizes'];write_sites=[tuple(r)for r in p['recursive_offset_frontier']['pdb_writes']]
     count=len(indices)
     for side,walks in((old,old_walks),(native,new_walks)):
         assert len(side['allocations'])==1 and len(side['entries'])==len(side['returns'])==count,'missing/extra type buffer copy lifetime'
@@ -121,6 +124,18 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
             assert 12<=start and offset+2<=start+word(expected,start-12,2)+2<=4152 and word(expected,start-10,2)==0x204,'pending member list extent/kind differs'
             assert word(expected,offset-12,2)==pending['before'],'pending member original preimage differs'
             assert indices[pending['after']-0x1000]==pending['converted_input_type'],'pending member lacks converted global type owner'
+            expected[offset-12:offset-10]=pending['after'].to_bytes(2,'little')
+            writes.append(dict(offset=offset,before=pending['before'].to_bytes(2,'little').hex(),after=pending['after'].to_bytes(2,'little').hex(),type_index=idx,field=pending['field']))
+        if frontier=='add_recursive_offset':
+            pending=p['recursive_offset_frontier']['pending_write'];idx=pending['type_index'];target=pending['target_type']
+            offsets=bytes.fromhex(walks['current_type_server'][0]['objects']['offsets']['bytes']);records=bytes.fromhex(table['bytes'])
+            record=records[(idx-0x1000)*28:(idx-0x1000+1)*28];target_record=records[(target-0x1000)*28:(target-0x1000+1)*28]
+            source=word(offsets,(idx-0x1000)*4)+2
+            assert word(record,0)==source and word(record,24,2)&0xc0==0xc0 and word(record,4,2)==target,'pending recursive pointer has different compaction owner/result'
+            assert word(target_record,24,2)&0x40 and target==4209,'pending recursive target is not the active parent type'
+            start=source-block['address'];offset=start+pending['field']
+            assert 12<=start and offset+2<=start+word(expected,start-12,2)+2<=4152 and word(expected,start-10,2)==2,'pending recursive pointer extent/kind differs'
+            assert word(expected,offset-12,2)==pending['before'],'pending recursive pointer preimage differs'
             expected[offset-12:offset-10]=pending['after'].to_bytes(2,'little')
             writes.append(dict(offset=offset,before=pending['before'].to_bytes(2,'little').hex(),after=pending['after'].to_bytes(2,'little').hex(),type_index=idx,field=pending['field']))
         assert defined[12:4152]==expected,'unexpected PDB in-place modification'

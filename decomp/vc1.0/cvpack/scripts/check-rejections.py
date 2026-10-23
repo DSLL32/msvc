@@ -103,6 +103,10 @@ def main():
         check_named_output(resolver_pair,function='get_type_record')
         from resolver_checks import check as check_resolver
         check_resolver(resolver_pair)
+    resolver_return_pair=BINARY/'cases/hello-debug-dll/evidence/0082-get_type_record'
+    if resolver_return_pair.is_dir():
+        from resolver_return_checks import check as check_resolver_returns
+        check_resolver_returns(resolver_return_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

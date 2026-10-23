@@ -2,7 +2,7 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "get_type_record"
+    "add_recursive_offset"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
@@ -18,8 +18,8 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "da2ea29cb22d2b38c3f0e513764500acbfbc03e426b2bf20e977944ae202ae50",
-    "src/types.c": "e8e80f53633c64aaa24266456a22f883e2b06fcd4b70ff94ca153ac4670ff9bf",
+    "src/stubs.c": "c6ef28d5711d4819fb3de32c22a93eb18ce845fee6e8ff71f87af54e0833681a",
+    "src/types.c": "ec75deaec3ca81f01035fe850c6af3710a94c521f02f4a7107fc8f7a8272c761",
     "src/types.h": "283cffd318196782b1fb9b60c5db7fd7c857c3f3bc2370d41f299225517c0f88"
   },
   "allocations": [
@@ -103,7 +103,7 @@
   "first_module_mode": "explicit_module_index",
   "allowed_module_boundaries": [
     {
-      "frontier": "get_type_record",
+      "frontier": "add_recursive_offset",
       "index": 2,
       "module": 3
     }

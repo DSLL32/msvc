@@ -226,6 +226,8 @@ def main():
     rebuilt=PE(args.rebuilt)
     assert original.base+original.entry==config['target']['entry']
     functions=config['functions']
+    from resolver_returns import validate as validate_resolver_returns
+    validate_resolver_returns(config,original)
     from buffer_storage import validate as validate_buffer_storage,compiled_provenance as buffer_provenance
     if validate_buffer_storage(config,original):buffer_provenance(rebuilt,linked)
     from global_type_cache import validate as validate_global_type_cache

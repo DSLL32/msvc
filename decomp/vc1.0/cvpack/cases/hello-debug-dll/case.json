@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "get_type_record",
-    "native_function": "get_type_record",
+    "logical": "add_recursive_offset",
+    "native_function": "add_recursive_offset",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -99,7 +99,8 @@
       "find_local_type",
       "record_derived_types",
       "convert_global_data32",
-      "get_type_record"
+      "get_type_record",
+      "add_recursive_offset"
     ]
   },
   "complete_reference": {

@@ -1,0 +1,2 @@
+82 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
+Accepted get_type_record as application function 82 ; next add_recursive_offset

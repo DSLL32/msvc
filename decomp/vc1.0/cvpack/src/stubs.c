@@ -74,7 +74,7 @@ int type_server_close(TypeServer *server) { __asm { int 3 } return 0; }
 void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
 TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, TypeServerRecord *next, unsigned char *record, unsigned short type) { __asm { int 3 } return NULL; }
 
-TypeRecord *get_type_record(unsigned short type, unsigned short *flag) { __asm { int 3 } return NULL; }
+
 
 void begin_symbol_block(void) { __asm { int 3 } }
 

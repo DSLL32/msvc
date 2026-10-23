@@ -1520,3 +1520,21 @@ void convert_global_data32(void)
         intern_global(symbol_input, hash_public);
     }
 }
+
+TypeRecord *get_type_record(unsigned short type, unsigned short *flag)
+{
+    TypeRecord *entry;
+    unsigned short unused;
+    *flag = 0;
+    if (!type_signature && type == (unsigned short)(0xffff-first_user_type))
+        return empty_type;
+#ifdef RECON_NATIVE_TEST
+    if (type >= local_type_capacity) __asm { int 3 }
+#endif
+    entry = &local_type_records[type];
+    if (entry->flags & 0x1000) {
+        *flag = entry->forward_index;
+        return get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+    }
+    return entry;
+}

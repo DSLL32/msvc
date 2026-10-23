@@ -738,6 +738,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     else if(frontier==0x1ad40 || frontier==0x1af10 || frontier==0x1ae40 || frontier==0x19770) { defined=40;offset=384; }
     else if(frontier==0x256f0) { defined=40;offset=966; }
     else if(frontier==0x1e700) { defined=40;offset=1321; }
+    else if(frontier==0x27b10) { defined=40;offset=2227; }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
@@ -793,7 +794,7 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD roots[120],bytes,written,i;int used;
     if(!type_page_base)return 1;
-    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700) ||
+    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700 && frontier!=0x27b10) ||
        !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
     for(i=1;i<120;++i)if(roots[i])return 0;
     if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;
@@ -1049,6 +1050,7 @@ static int dump_walks(HANDLE child, HANDLE log)
 }
 
 #include "buffer-observer.h"
+#include "resolver-observer.h"
 
 int main(int argc, char **argv)
 {
@@ -1093,6 +1095,7 @@ int main(int argc, char **argv)
     sprintf(command, "\"%s\" %s", program, argv[2]);
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_WATCH_SPAWN", program, sizeof(program)))
         watched_spawn = strtoul(program, 0, 16);
+    resolver_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_RESOLVER", program, sizeof(program)) != 0;
     buffer_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_BUFFER", program, sizeof(program)) != 0;
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_GUARD", program, sizeof(program))) {
         if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
@@ -1159,6 +1162,15 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if(resolver_enabled && resolver_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_resolver(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 39;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(resolver_enabled && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT) {
+                    restored=observe_resolver(child.hProcess,original,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId);
+                    if(restored<0)return 38;
+                    if(restored) { ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue; }
+                }
                 if(buffer_enabled && buffer_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
                     if(!rearm_buffer(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 36;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;

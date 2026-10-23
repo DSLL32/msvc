@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x6377: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xfffca054, environment=0xfffca068) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56597394 in add_recursive_offset (entry=0xf7c33c50, offset=54) at src/stubs.c:111
+111	void __fastcall add_recursive_offset(TypeRecord *entry, unsigned short offset) { __asm { int 3 } }

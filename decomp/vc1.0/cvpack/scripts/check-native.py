@@ -58,6 +58,7 @@ def run_case(name, directory, debug=False):
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_symbol_allocation_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(symbol_proof['native_allocation_line'])+')\nend\n'if symbol_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_type_page_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(page_proof['native_allocation_line'])+')\nend\n'if page_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/buffer-debug.py'))+')["install"]('+repr(str(BINARY/'src/types.c'))+','+str(buffer_proof['native_allocation_line'])+')\nend\n'if buffer_proof else '')+
+        ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/resolver-debug.py'))+')["install"]()\nend\n'if any(r['name']=='get_type_record'and r['status']!='stub'for r in config['functions'])else '')+
         'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
@@ -70,6 +71,8 @@ def run_case(name, directory, debug=False):
         'json.dump(pages,open('+repr(str(directory/'type-pages.json'))+',"w"))\n'
         'buffer_storage=runpy.run_path('+repr(str(BINARY/'scripts/buffer-debug.py'))+')["capture"]()\n'
         'json.dump(buffer_storage,open('+repr(str(directory/'buffer-storage.json'))+',"w"))\n'
+        'resolver=runpy.run_path('+repr(str(BINARY/'scripts/resolver-debug.py'))+')["capture"]()\n'
+        'json.dump(resolver,open('+repr(str(directory/'resolver-returns.json'))+',"w"))\n'
         'for symbol in current.block():\n'
         ' if symbol.is_argument:\n'
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'

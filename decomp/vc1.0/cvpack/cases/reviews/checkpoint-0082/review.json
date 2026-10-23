@@ -1,0 +1,63 @@
+{
+  "application_functions": 82,
+  "application_bytes": 28853,
+  "next": "add_recursive_offset",
+  "source": "Whole get_type_record1e700..1e780: outputflag clear, empty special type, direct relative table access and recursively resolved forward entry. Exact Win32 C recursion and ABI; native relative-capacity guard before unsupported table access.",
+  "return_observation": "Every reached original entry and caller return rearmed using exact3-byte instruction step with preserved TF/thread/address; raw type/outpointer/preword retained. All four reached calls126/124/117/120 return exact relative TypeRecord owner and newly defined flag0000 before callerADD. Native typed &compact_new_type::unused2-byte local and actual parent4218/4210/4144/4125 checked. Raw undefined prewords intentionally differ and gain no equality credit. Entire returned28-byte record equals owned observed table record.",
+  "ownership": "70 actual copies/1812 defined bytes,70 page pointers/280 bytes,11 fullcalloc16 named-cache nodes. Complete57 copied-record field changes plus exact pending4199.field6:4198=>4209 into active recursive parent4209; actual owner4199.index4209 flagsC0 and targetactive40 bound, no invented global packed-index claim. Full4140 PDB preimage otherwise exact. One32512 allocation only; own tails remain untouched.",
+  "abi": "Next add_recursive_offset fastcall ECX points exactly to local_type_records4208; EDXlow54 matches live compact_type_list recursive_offset54 and caller2792f. Parent LF_FIELDLIST4208/count6 nested under compact_new_type4209. Both formals observed and compared; native original nonempty TypeMatch/UAF guards remain scoped.",
+  "rejection_controls": 504,
+  "new_controls": 14,
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 1.5454935431480408
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5991254253312945
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 13.662431308068335
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.37754142936319113
+    }
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.16021620854735374,
+    "execution": 0.01482723094522953,
+    "debugging": 2.318126537837088,
+    "checks": 0.02383788302540779,
+    "total": 2.517015416175127
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.27052199095487595,
+    "execution": 2.1928776931017637,
+    "total": 2.486401403322816
+  },
+  "remaining": "Initial DLL case remains partial. Only actual direct resolver calls proved in this case; unknown callers/outcomes or missing invocation inventories fail. No shared shim or CRT expansion."
+}
