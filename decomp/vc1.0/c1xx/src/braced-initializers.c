@@ -3,6 +3,9 @@
 #include "lexer.h"
 #include "cpp-context.h"
 #include "constructor-initializers.h"
+#include "binary-expressions.h"
+#include "numeric-conversion.h"
+#include "type-sizes.h"
 #include <recon.h>
 
 int initializer_excess_reported; /* original 0x915a8 */
@@ -254,3 +257,138 @@ int __stdcall advance_braced_initializer(IrToken *value)
 }
 
 #undef INITIALIZER_ANONYMOUS_CHAIN
+
+/* A static bit-field unit accumulates adjacent members before emission. */
+unsigned initializer_bit_field_offset; /* original 0x9159c */
+unsigned initializer_bit_field_value; /* original 0x915a0 */
+int initializer_bit_field_pending; /* original 0x915a4 */
+
+/* Original 0x46700..0x46bcd. Initialize one braced element, preserving
+   the separately normalized value, static-to-runtime transition, packed
+   bit-field units, and the array/string cursor at the current nesting level. */
+void __stdcall initialize_element(IrToken *value, int mode)
+{
+    IrToken *normalized;
+    CppSymbol *symbol;
+    CType *type;
+    unsigned flags, width, bound;
+    long converted;
+    int string;
+    if (!value || braced_initializer_depth < 0 ||
+        (current_braced_initializer->flags & 0x20)) return;
+    value = fold_symbol_constant(value);
+    normalized = normalize_initializer_expression(value);
+    if (!select_braced_initializer(normalized)) {
+        if (!initializer_excess_reported) {
+            initializer_excess_reported = 1;
+            report_syntax_error(78);
+        }
+        return;
+    }
+    if (!value->type)
+        value = resolve_assignment_operand(current_braced_initializer->type, normalized);
+    if (!value) {
+        report_expression_error(0x7e, normalized);
+        return;
+    }
+    normalized = value;
+    if (!(token_allocation_flags & 0x200000) &&
+        !check_static_initializer(current_braced_initializer->symbol, &normalized)) {
+        if (initializer_storage_symbol->storage[2] & 2) {
+            report_syntax_error(482, format_symbol_name(initializer_storage_symbol));
+            return;
+        }
+        begin_runtime_initializer(initializer_storage_symbol);
+        initializer_runtime_override = 1;
+        initializer_runtime_start = initializer_offset;
+    }
+    symbol = current_braced_initializer->symbol;
+    if ((symbol->kind & 31) == 2) {
+        if (!initializer_bit_field_pending) {
+            initializer_bit_field_pending = 1;
+            initializer_bit_field_value = 0;
+            initializer_bit_field_offset = symbol->detail.value;
+        }
+        flags = normalized->type->flags;
+        if (!(flags & 0x140)) {
+            report_syntax_error(77, symbol->name);
+            finish_braced_initializer_element();
+            return;
+        }
+        if ((normalized->flags & 7) == 3) {
+            if (flags & 0x100) {
+                if (extended_to_integer(normalized->value.pointer, &converted))
+                    compiler_warning(2, 56);
+                normalized->value.integer = converted;
+            }
+            symbol = current_braced_initializer->symbol;
+            initializer_bit_field_value |=
+                (((1U << symbol->auxiliary.bit_field.width) - 1) &
+                  normalized->value.integer) << symbol->auxiliary.bit_field.offset;
+        } else if ((token_allocation_flags & 0x200000) &&
+                   (initializer_runtime_override || options.configuration.extensions_enabled))
+            emit_runtime_bit_field_initializer(value);
+        finish_braced_initializer_element();
+        return;
+    }
+    if (current_braced_initializer->flags & 0x10) {
+        value = prepare_constructor_arguments(
+            cpp_context_stack->items[symbol->type->field08], value);
+        type = current_braced_initializer->symbol->type;
+        if (!type->related) type->attributes &= ~0x3000;
+        type = strip_based_shape(current_braced_initializer->symbol->type);
+        emit_expression_statement(prepare_expression(make_object_constructor_call(
+            0, 0, 0, current_braced_initializer->symbol, value,
+            initializer_object_expression(make_pointer_to_type(0, type)), 0), 2));
+        initializer_offset += type_size(type);
+        current_braced_initializer->flags |= 2;
+        finish_braced_initializer_element();
+        return;
+    }
+    string = is_character_array_initializer(symbol, normalized);
+    if (string)
+        normalized->tail.string.length = fit_string_initializer(
+            current_braced_initializer->symbol, normalized);
+    if (token_allocation_flags & 0x200000)
+        emit_runtime_symbol_initializer(current_braced_initializer->symbol,
+            prepare_constant_initializer(current_braced_initializer->symbol, value));
+    else {
+        normalized = prepare_constant_initializer(current_braced_initializer->symbol, normalized);
+        write_initializer_value(current_braced_initializer->symbol, normalized, 0);
+    }
+    if (string) {
+        if (current_braced_initializer->offset) {
+            if (!current_braced_initializer->phase && options.configuration.extensions_enabled)
+                compiler_warning(4, 207);
+            else if (!initializer_excess_reported) {
+                initializer_excess_reported = 1;
+                report_syntax_error(78);
+            }
+        }
+        width = (normalized->tail.string.auxiliary_flags & 1) ? 2 : 1;
+        current_braced_initializer->offset += normalized->tail.string.length / width;
+        current_braced_initializer->phase = 1;
+        bound = current_braced_initializer->symbol->type->related->data.array_bound;
+        if (bound) {
+            if (current_braced_initializer->offset >= bound) {
+                current_braced_initializer->flags |= 2;
+                if (current_braced_initializer->offset > bound && !initializer_excess_reported) {
+                    initializer_excess_reported = 1;
+                    report_syntax_error(78);
+                }
+            } else {
+                width = (normalized->tail.string.auxiliary_flags & 1) ? 2 : 1;
+                integer_constant_scratch = width * (bound - current_braced_initializer->offset);
+                emit_initializer_constant(0);
+                current_braced_initializer->offset = bound;
+            }
+        }
+        if (!(token_allocation_flags & 0x200000))
+            initializer_offset += normalized->tail.string.length;
+    } else if (!(token_allocation_flags & 0x200000) && !mode) {
+        type = strip_based_shape(current_braced_initializer->symbol->type);
+        check_conversion_warning(0x7e, type, normalized);
+        initializer_offset += type_size(type);
+    }
+    finish_braced_initializer_element();
+}

@@ -23,4 +23,7 @@ CppSymbol *__stdcall find_next_initializer_member(CppSymbol *owner, CppSymbol *m
 int finish_braced_initializer_element(void);
 void __stdcall copy_initializer_symbol(CppSymbol *destination, ClassInfo *class_info, CppSymbol *source);
 typedef char InitializerCopiedClassInfoMustBe60[(sizeof(ClassInfo) == 60) ? 1 : -1];
+int __stdcall select_braced_initializer(IrToken *value);
+void __stdcall emit_runtime_bit_field_initializer(IrToken *value);
+IrToken *__stdcall initializer_object_expression(CType *type);
 #endif

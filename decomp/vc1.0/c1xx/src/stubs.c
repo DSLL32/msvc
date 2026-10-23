@@ -194,7 +194,7 @@ void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }
 
 
-void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
+
 
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
 
@@ -631,3 +631,7 @@ void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __a
 
 CppSymbol *__stdcall find_next_initializer_member(CppSymbol *owner, CppSymbol *member) { __asm { int 3 } return 0; }
 int finish_braced_initializer_element(void) { __asm { int 3 } return 0; }
+
+int __stdcall select_braced_initializer(IrToken *value) { __asm { int 3 } return 0; }
+void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
+IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } return 0; }
