@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "function": "_emit_debug_type_record@4",
+  "native_entry": "emit_debug_type_record",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_length": "length"
+  },
+  "formals": [
+    {
+      "name": "length",
+      "stack_index": 0,
+      "native_field": "raw_length",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      458704,
+      458979
+    ],
+    "argument_bytes": 4,
+    "proof": "Four saved registers; MOV ESI,[adjustedESP+20] sole stack formal, signed JLE comparison4096. Padding (-length-2)&3, descending f0+pad bytes; WORD length written, optional pch_separate_debug checksum aliases existing pragma_record_number global9f458. Current fixup head a25b0 beginsBSS0. Literal/symbol split transport matches exact raw callers of write_debug_record(3,2,11); RET4 at0x700e0. No incoming register/hidden input."
+  }
+}

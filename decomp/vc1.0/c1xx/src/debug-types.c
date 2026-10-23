@@ -3,6 +3,7 @@
 #include "debug-types.h"
 #include "symbol-output.h"
 #include "debug-info.h"
+#include "c1xx.h"
 #include "cpp-context.h"
 #include "class-finalization.h"
 #include <recon.h>
@@ -12,6 +13,36 @@ unsigned short next_debug_type_index = 0x1000; /* original 0x9f454 */
 unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
+DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
+
+/* Original 0x6ffd0..0x700e3. Align the leaf and serialize it, splitting
+   literal runs around any symbol fixups queued by the leaf writer. */
+void __stdcall emit_debug_type_record(int length)
+{
+    unsigned char *cursor = debug_record_buffer;
+    unsigned padding, i;
+    int run;
+    if (length > 4096) fatal_error(1, fatal_error_label, 0xa42);
+    padding = (-(length + 2)) & 3;
+    for (i = 0; i < padding; ++i)
+        debug_record_buffer[length + 2 + i] = (unsigned char)(0xf0 + padding - i);
+    length += padding;
+    *(unsigned short *)debug_record_buffer = (unsigned short)length;
+    if (pch_separate_debug)
+        pragma_record_number = update_checksum(debug_record_buffer, 3, pragma_record_number);
+    if (debug_type_fixups) {
+        do {
+            run = debug_type_fixups->offset - (cursor - debug_record_buffer);
+            if (run) write_debug_record(3, run, cursor);
+            write_debug_record(2, debug_type_fixups->symbol, debug_type_fixups->bytes);
+            cursor += run + debug_type_fixups->bytes;
+            debug_type_fixups = debug_type_fixups->next;
+        } while (debug_type_fixups);
+        run = debug_record_buffer - cursor + length + 2;
+        if (run) write_debug_record(3, run, cursor);
+    } else write_debug_record(11, cursor);
+    debug_stream_offset += length + 2;
+}
 
 /* Original 0x74500..0x74543. CodeView names carry a byte length and
    at most255 bytes, without a trailing NUL. Return the next output byte. */

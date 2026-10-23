@@ -15,6 +15,17 @@ typedef struct DebugTypeRecord {
 typedef char DebugTypeRecordSizeMustBe16[(sizeof(DebugTypeRecord) == 16) ? 1 : -1];
 typedef char DebugTypeRecordSubjectOffsetMustBe4[(offsetof(DebugTypeRecord, subject) == 4) ? 1 : -1];
 typedef char DebugTypeRecordRelatedOffsetMustBe8[(offsetof(DebugTypeRecord, related_type) == 8) ? 1 : -1];
+/* A substituted symbol reference splits the current serialized type leaf.
+   Offsets are relative to the live debug buffer. */
+typedef struct DebugTypeFixup {
+    CppSymbol *symbol;
+    unsigned offset;
+    unsigned bytes;
+    struct DebugTypeFixup *next;
+} DebugTypeFixup;
+typedef char DebugTypeFixupSizeMustBe16[(sizeof(DebugTypeFixup) == 16) ? 1 : -1];
+extern DebugTypeFixup *debug_type_fixups;
+unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum);
 extern DebugTypeRecord *debug_types;
 extern unsigned short next_debug_type_index;
 extern unsigned debug_type_count;
@@ -23,7 +34,7 @@ extern unsigned short debug_field_properties;
 int compare_debug_symbol_indices(const void *left, const void *right);
 unsigned __stdcall encode_debug_unsigned(unsigned char *destination, unsigned value);
 unsigned char *__stdcall copy_debug_name(unsigned char *destination, char *name);
-void __stdcall emit_debug_type_record(unsigned length);
+void __stdcall emit_debug_type_record(int length);
 unsigned __stdcall reserve_debug_type(unsigned char kind);
 unsigned short __stdcall primitive_pointer_debug_type(CType *type);
 unsigned short __stdcall base_debug_type(CType *type);

@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_debug_type_record@4",
+    "start": 458704,
+    "end": 458979
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1083-emit_debug_type_record-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_update_checksum@12",
+    "_write_debug_record"
+  ],
+  "next_frontier": "_emit_debug_pointer_type@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4305403186008334,
+  "total_operation_seconds": 3.835095160640776,
+  "original_capture_seconds": 1.368056558072567
+}

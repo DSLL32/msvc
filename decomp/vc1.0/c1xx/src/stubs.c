@@ -625,4 +625,4 @@ void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm {
 void __stdcall prepend_type_diagnostic(short text, char *value) { __asm { int 3 } }
 
 int compare_debug_symbol_indices(const void *left, const void *right) { __asm { int 3 } return 0; }
-void __stdcall emit_debug_type_record(unsigned length) { __asm { int 3 } }
+unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum) { __asm { int 3 } return 0; }
