@@ -111,11 +111,6 @@ int __cdecl rc_splice_line(void)
 }
 
 
-void __stdcall rc_read_identifier(WCHAR character)
-{
-    __asm int 3
-    
-}
 
 unsigned char __stdcall rc_directive_code(const WCHAR *word)
 {

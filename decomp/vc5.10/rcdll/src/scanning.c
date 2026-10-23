@@ -1,7 +1,12 @@
+#include <string.h>
 #include "command.h"
 #include "preprocess.h"
 #include "directives.h"
 #include <recon.h>
+
+#ifdef _MSC_VER
+#pragma intrinsic(strcpy)
+#endif
 
 WCHAR __cdecl rc_read_nonspace(void)
 {
@@ -26,4 +31,45 @@ WCHAR __cdecl rc_read_nonspace(void)
             if(!rc_splice_line()) return L'\\';
         }
     }
+}
+
+void __stdcall rc_read_identifier(WCHAR character)
+{
+    WCHAR *cursor=rc_macro_name+1;
+    unsigned hash=character&0x5f;
+
+    *rc_macro_name=character;
+    for(;;){
+        *cursor=*rc_source_cursor++;
+        if(rc_character_class(*cursor)&0x10){
+            hash+=*cursor++&0x5f;
+            continue;
+        }
+        if(!*cursor){
+            if(rc_refill_source()){
+                strcpy(rc_error_text,rc_message(1004));
+                rc_input_fatal(1004);
+            }
+            continue;
+        }
+        if(*cursor==L'\\' && rc_splice_line()) continue;
+        break;
+    }
+    --rc_source_cursor;
+    if(cursor>=rc_macro_name+512){
+        strcpy(rc_error_text,rc_message(1067));
+        rc_input_fatal(1067);
+    }
+    if(cursor-rc_macro_name<=31 || rc_cpp_active)
+        *cursor++=0;
+    else{
+        rc_macro_name[31]=0;
+        cursor=rc_macro_name+32;
+        hash=rc_hash_macro_name(rc_macro_name);
+        rc_error_template=rc_message(4011);
+        rc_format(rc_error_text,2048,rc_error_template,rc_macro_name);
+        rc_input_warning(4011);
+    }
+    rc_macro_name_length=cursor-rc_macro_name;
+    rc_macro_hash=(unsigned char)hash;
 }

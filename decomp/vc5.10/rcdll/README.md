@@ -354,3 +354,11 @@ on the 16-bit value, four-byte stack slot and advanced source cursor.
 [Verification](cases/resources-rich-trailing-space/read-nonspace-verification.json)
 records five fresh controls and separate build/capture/audit timings.
 Comment, splice and input-resumption helpers remain named traps.
+
+Identifier scanning is accepted (361 bytes), reaching character classification
+for `i` with partial scratch `li`, hash76 and exact source/destination cursors.
+[Verification](cases/resources-rich-trailing-space/read-identifier-verification.json)
+records nine fresh controls, the saved source-frame ABI and an independently
+reviewed contextual class table. All256 default WORDs match the original; setup's
+`$` assignment is checked separately. The class getter remains trapped, and its
+index256 alias into the adjacent `union` keyword remains unclaimed.

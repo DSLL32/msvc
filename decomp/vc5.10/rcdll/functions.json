@@ -47,7 +47,8 @@
     "rc_list_macro",
     "rc_scan_line_start",
     "rc_handle_directive",
-    "rc_read_nonspace"
+    "rc_read_nonspace",
+    "rc_read_identifier"
   ],
   "functions": [
     {
@@ -990,8 +991,7 @@
       "end": "0x11cad",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_directive_code",

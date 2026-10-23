@@ -52,11 +52,44 @@ unsigned short rc_character_tokens[256]={
 #undef I
 #undef X
 
-/* The token getter's index256 aliases this first class word in the image.
- * Only class[0] and setup's dollar assignment are currently known. The C-zeroed
- * remaining storage is a placeholder, not recovered default values; readers
- * of those entries stay trapped until their consumers/defaults are recovered. */
-unsigned short rc_character_classes[257]={0x80};
+/* The identifier, numeric and comment scanners share these WORD flags. */
+enum RcCharacterFlags {
+    RC_CF_BINARY=1,RC_CF_OCTAL=2,RC_CF_DECIMAL=4,RC_CF_HEX=8,
+    RC_CF_IDENTIFIER=16,RC_CF_RADIX_LETTER=32,
+    RC_CF_SPACE=64,RC_CF_COMMENT_BREAK=128
+};
+#define ID RC_CF_IDENTIFIER
+#define HX (ID|RC_CF_HEX)
+#define RX (ID|RC_CF_RADIX_LETTER)
+#define HR (HX|RC_CF_RADIX_LETTER)
+#define BN (ID|RC_CF_BINARY|RC_CF_OCTAL|RC_CF_DECIMAL|RC_CF_HEX)
+#define OC (ID|RC_CF_OCTAL|RC_CF_DECIMAL|RC_CF_HEX)
+#define DC (ID|RC_CF_DECIMAL|RC_CF_HEX)
+#define WS RC_CF_SPACE
+#define CB RC_CF_COMMENT_BREAK
+/* All256 default words are identified. The extra boundary word remains
+ * unavailable: the original class getter can alias the following union keyword
+ * there. Its literal/consumer relationship is separate from this table proof. */
+unsigned short rc_character_classes[257]={
+    /* 00..0f */ CB,0,0,0,0,0,0,0,0,WS,CB,WS,WS,0,0,0,
+    /* 10..1f */ 0,0,0,0,0,0,0,0,0,0,CB,0,0,0,0,0,
+    /* 20..2f */ WS,0,0,0,0,0,0,0,0,0,CB,0,0,0,0,0,
+    /* 30..3f */ BN,BN,OC,OC,OC,OC,OC,OC,DC,DC,0,0,0,0,0,0,
+    /* 40..4f */ 0,HX,HR,HX,HR,HX,HX,ID,RX,ID,ID,ID,ID,ID,ID,RX,
+    /* 50..5f */ ID,RX,ID,ID,ID,ID,ID,ID,ID,ID,ID,0,0,0,0,ID,
+    /* 60..6f */ 0,HX,HR,HX,HR,HX,HX,ID,RX,ID,ID,ID,ID,ID,ID,RX,
+    /* 70..7f */ ID,RX,ID,ID,ID,ID,ID,ID,ID,ID,ID,0,0,0,0,0
+    /* 80..ff: all identified flags are zero. Index256 is unclaimed storage. */
+};
+#undef ID
+#undef HX
+#undef RX
+#undef HR
+#undef BN
+#undef OC
+#undef DC
+#undef WS
+#undef CB
 
 void __stdcall rc_set_character_token(unsigned short character,unsigned short token)
 {
