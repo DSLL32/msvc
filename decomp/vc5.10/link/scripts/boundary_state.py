@@ -5,6 +5,7 @@ import struct
 # Which completed allocations and registrations may be consumed at each trap.
 # A pointer is compared by its observed allocation role, never host address.
 STAGES = {
+    '_end_section_enumerator':(None,3,4),
     '_next_output_section@4':(None,3,4),
     '_initialize_section_enumerator@8':(None,3,4),
     '_adjust_output_section_flags@12':(None,3,4),
@@ -30,7 +31,7 @@ STAGES = {
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
     '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4), '_initialize_hash_table@20':(None,3,4), '_hash_allocate@16':(None,3,4), '_reserve_memory@8':(None,3,4), '_create_memory_arena@4':(None,3,4), '_allocate_memory@4':(None,3,4), '_configure_link_options@12':(None,3,4), '_parse_switch@8':(None,3,4), '_duplicate_argument@4':(None,3,4), '_linker_usage':(None,3,4), '_print_logo':(None,3,4), '_close_timing':(None,3,4), '_free_buffer4':(None,3,4), '_free_buffer8':(None,3,4), '_free_buffer12':(None,3,4),
 }
-MEMORY_READY={ '_next_output_section@4','_initialize_section_enumerator@8','_adjust_output_section_flags@12','_find_matching_output_section@20','_create_output_section@20','LinkContext::InitializeSections','_initialize_comdats','_allocate_virtual_memory@16','_initialize_contribution_pools','_duplicate_link_string@4','_initialize_output_modules@4','?FullLink@LinkContext@@QAEHPAE@Z','_validate_debug_options@4','_release_memory@4','_search_library_paths@8','_canonicalize_argument@8','_run_linker@8','_initialize_repro','_collect_file_arguments@16',
+MEMORY_READY={ '_end_section_enumerator','_next_output_section@4','_initialize_section_enumerator@8','_adjust_output_section_flags@12','_find_matching_output_section@20','_create_output_section@20','LinkContext::InitializeSections','_initialize_comdats','_allocate_virtual_memory@16','_initialize_contribution_pools','_duplicate_link_string@4','_initialize_output_modules@4','?FullLink@LinkContext@@QAEHPAE@Z','_validate_debug_options@4','_release_memory@4','_search_library_paths@8','_canonicalize_argument@8','_run_linker@8','_initialize_repro','_collect_file_arguments@16',
                '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing','_free_buffer4','_free_buffer8','_free_buffer12' }
 OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing','_free_buffer4','_free_buffer8','_free_buffer12'}
 CACHE_READY=MEMORY_READY | {'_initialize_memory'}
@@ -85,7 +86,7 @@ def compare(name, original, native, original_state, native_state):
         pointer, remaining, capacity = struct.unpack('<3I', data)
         native_pointer, native_remaining, native_capacity = struct.unpack('<3I',native_data)
         assert pointer and native_pointer, 'allocation unexpectedly failed'
-        expected_remaining=0 if case=='hello-win32'and name in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_next_output_section@4','_initialize_section_enumerator@8','_adjust_output_section_flags@12','_find_matching_output_section@20','_create_output_section@20','LinkContext::InitializeSections','_initialize_comdats','_allocate_virtual_memory@16','_initialize_contribution_pools','_duplicate_link_string@4')and suffix=='4'else count
+        expected_remaining=0 if case=='hello-win32'and name in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_end_section_enumerator','_next_output_section@4','_initialize_section_enumerator@8','_adjust_output_section_flags@12','_find_matching_output_section@20','_create_output_section@20','LinkContext::InitializeSections','_initialize_comdats','_allocate_virtual_memory@16','_initialize_contribution_pools','_duplicate_link_string@4')and suffix=='4'else count
         assert (remaining,capacity)==(native_remaining,native_capacity)==(expected_remaining,count)
         call,returned=observations[index*2:index*2+2]
         assert (call['name'],call['site'],call['stack_top'])==('observe:new_call_'+suffix,address+5,size)
@@ -455,7 +456,7 @@ def compare(name, original, native, original_state, native_state):
             assert native_state['delete_calls'][index]==dict(argument=record['base'],normal_return=True,before=record,after=dict(record,live=0))
 
 
-    if name in ('_release_memory@4','_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_next_output_section@4','_initialize_section_enumerator@8','_adjust_output_section_flags@12','_find_matching_output_section@20','_create_output_section@20','LinkContext::InitializeSections','_initialize_comdats','_allocate_virtual_memory@16','_initialize_contribution_pools','_duplicate_link_string@4'):
+    if name in ('_release_memory@4','_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_end_section_enumerator','_next_output_section@4','_initialize_section_enumerator@8','_adjust_output_section_flags@12','_find_matching_output_section@20','_create_output_section@20','LinkContext::InitializeSections','_initialize_comdats','_allocate_virtual_memory@16','_initialize_contribution_pools','_duplicate_link_string@4'):
         assert case=='hello-win32'
         from hello_boundary import compare_release
         compare_release(original,native_state,original_state,completed_options=name!='_release_memory@4')

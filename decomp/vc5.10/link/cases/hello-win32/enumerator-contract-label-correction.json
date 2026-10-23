@@ -1,0 +1,7 @@
+{
+  "scope": "metadata label only; historical raw retained",
+  "affected_prior_frontier": "60-section-enum",
+  "historical_label": "uninitialized output record; no incoming bytes consumed",
+  "clarification": "This describes incoming bytes at the initializer, not at next_output_section. Frontier60 already required all16 output bytes, exact next/end callbacks, source first/current pointers and actual initializer normal RET8. Current next/end boundaries label their incoming record fully initialized.",
+  "raw_evidence_policy": "Do not rewrite old labels, receipts or snapshots. No acceptance credit or state-comparison relaxation."
+}

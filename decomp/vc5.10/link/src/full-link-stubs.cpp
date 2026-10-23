@@ -17,7 +17,6 @@ extern "C" void __stdcall merge_section_groups(OutputSection *source,OutputSecti
 extern "C" void __stdcall merge_output_section(OutputSection *source,OutputSection *destination) { __asm { int 3 } }
 extern "C" void __stdcall move_contribution_to_end(Contribution *contribution) { __asm { int 3 } }
 extern "C" void __stdcall move_group_to_end(ContributionGroup *group) { __asm { int 3 } }
-extern "C" BYTE __stdcall next_output_section(SectionEnumerator *enumerator) { __asm { int 3 } return 0; }
 extern "C" void __stdcall end_section_enumerator(SectionEnumerator *enumerator) { __asm { int 3 } }
 extern "C" void __stdcall initialize_pdb(BYTE mppc32_types,const char *name) { __asm { int 3 } }
 extern "C" void __cdecl close_pdb(void) { __asm { int 3 } }

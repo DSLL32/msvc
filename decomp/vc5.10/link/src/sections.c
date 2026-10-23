@@ -99,3 +99,10 @@ void __stdcall initialize_section_enumerator(SectionEnumerator *enumerator,Secti
     enumerator->current=NULL;
     enumerator->first=sections->first;
 }
+
+BYTE __stdcall next_output_section(SectionEnumerator *enumerator)
+{
+    if (enumerator->current) enumerator->current=enumerator->current->next;
+    else enumerator->current=enumerator->first;
+    return enumerator->current!=NULL;
+}

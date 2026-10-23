@@ -77,7 +77,8 @@
     "_create_output_section@20",
     "_find_matching_output_section@20",
     "_adjust_output_section_flags@12",
-    "_initialize_section_enumerator@8"
+    "_initialize_section_enumerator@8",
+    "_next_output_section@4"
   ],
   "driver": [
     {
@@ -1335,11 +1336,11 @@
     {
       "name": "_next_output_section@4",
       "start": 4258816,
-      "end": 4258817,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
+      "end": 4258866,
+      "source": "src/sections.c",
+      "status": "implemented",
       "abi": "stdcall BYTE(SectionEnumerator *enumerator); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "pending_extent": false,
       "native_symbol": "next_output_section"
     },
     {
