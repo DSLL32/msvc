@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "43f3bca094ee8df70237b5507e5f904645edf8c74f04a8285966113bc02bd1dc",
+    "functions.json": "ece1de16c74e44aed446f5622dc2947b0f94e931aab5ee00c236059d5ecff776",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "390c6b9b8362c576e8872a412e062f07e8fe0c5c4f6fc7b35a82d15a8343a80a",
-    "cases/canonical-map.txt": "60304910ead2784cd05e85f23ec1c8cf4a7f6314ae3547280e4325d93927fe1f",
+    "cases/original-entry-references.json": "f9940b051981e50031747705334dc02ca4896a0dc5fc7219da4fae235dd55f4b",
+    "cases/canonical-map.txt": "cf2621e472dd54da86b45bd4c38d71f3ba158dc2d15c47030ff07d49ff8fae19",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -31,9 +31,9 @@
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d",
-    "cases/frontiers/new_delete/0988-guard_allocation_result-8/entry-reference/original-receipt.json": "85671e0a368d6c9a1ac460f5ebd93046b411f462cd9c057ffed473f5a2398ea1",
-    "cases/frontiers/new_delete/0988-guard_allocation_result-8/entry-reference/original-events.txt": "e19f34ddbb0fd70118e272c30d2f80adcbf713efbf741c0554366e1abcb56a17",
-    "cases/frontiers/new_delete/0988-guard_allocation_result-8/entry-reference/original-entries.plan": "fcc28c0e3256ee719c5a37d0c72f4c618e1b12aa22a572381d5fbe300f2ccbe9"
+    "cases/frontiers/new_delete/0989-delete_expression-16/entry-reference/original-receipt.json": "76e03a67627643de202c86a472b76b3932cd5cc241d9047bf3864b134e0c2106",
+    "cases/frontiers/new_delete/0989-delete_expression-16/entry-reference/original-events.txt": "d9fad2fbf16dc234c23a338c2b5cecb7af4c123e807c362f440e4f1837225dc9",
+    "cases/frontiers/new_delete/0989-delete_expression-16/entry-reference/original-entries.plan": "c10487ac7bcd32dd689e8896a78b522bb9d00eccf26d328b5833de5892f19326"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1088,6 +1088,10 @@
       "logical": "_convert_deferred_type_token@8",
       "source": "src/lookahead.c"
     },
+    "convert_delete_operand_to_pointer": {
+      "logical": "_convert_delete_operand_to_pointer@4",
+      "source": "src/stubs.c"
+    },
     "convert_derived_initializer": {
       "logical": "_convert_derived_initializer@8",
       "source": "src/numeric-conversion.c"
@@ -1410,7 +1414,7 @@
     },
     "delete_expression": {
       "logical": "_delete_expression@16",
-      "source": "src/stubs.c"
+      "source": "src/allocation-expressions.c"
     },
     "dereference_pointer_type": {
       "logical": "_dereference_pointer_type@4",
@@ -6120,7 +6124,8 @@
     "has_cv_qualifiers",
     "new_expression",
     "capture_allocation_pointer",
-    "guard_allocation_result"
+    "guard_allocation_result",
+    "delete_expression"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -9316,7 +9321,7 @@
     },
     "new_delete": {
       "first": 963,
-      "last": 989,
+      "last": 990,
       "seen": [
         "main",
         "message_text",
@@ -10215,12 +10220,13 @@
         "new_expression",
         "capture_allocation_pointer",
         "guard_allocation_result",
-        "delete_expression"
+        "delete_expression",
+        "has_destructor_member_model"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_delete_expression@16",
-        "native": "delete_expression",
+        "logical": "_has_destructor_member_model@4",
+        "native": "has_destructor_member_model",
         "signal": 5
       }
     }

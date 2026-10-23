@@ -1,0 +1,36 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_delete_expression@16",
+    "start": 231328,
+    "end": 232217
+  },
+  "distinct_direct_callees": [
+    "_binary_expression@12",
+    "_browser_symbol_rollover",
+    "_compiler_warning",
+    "_convert_delete_operand_to_pointer@4",
+    "_emit_expression_statement@4",
+    "_fatal_error",
+    "_has_destructor_member_model@4",
+    "_indirect_storage_expression@4",
+    "_is_unqualified_class_type@4",
+    "_lookup_class_name@16",
+    "_lookup_destructor_member@4",
+    "_make_class_delete_call@12",
+    "_make_destructor_call@20",
+    "_make_global_delete_call@4",
+    "_make_integer_constant@4",
+    "_new_ir_expression@16",
+    "_new_left_typed_expression@12",
+    "_new_temporary_reference@8",
+    "_parameter_reference_type@4",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_has_destructor_member_model@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.41193372663110495,
+  "total_operation_seconds": 3.798134976066649,
+  "original_capture_seconds": 1.6689823772758245
+}

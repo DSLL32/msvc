@@ -30,6 +30,7 @@ IrToken *__stdcall prepare_constructor_arguments(CppSymbol *tag, IrToken *value)
 IrToken *__stdcall make_object_constructor_call(unsigned char mode, unsigned short attributes,
     IrToken *placement, CppSymbol *symbol, IrToken *arguments, IrToken *object, IrToken *array_bound);
 extern CppSymbol *allocation_base_symbol;
+IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression);
 CppSymbol *__stdcall lookup_destructor_member(CType *type);
 CppSymbol *__stdcall lookup_vector_delete_destructor(CType *type);
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer);

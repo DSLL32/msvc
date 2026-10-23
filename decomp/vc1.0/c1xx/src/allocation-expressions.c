@@ -10,6 +10,9 @@
 #include "expression-preparation.h"
 #include "return-statements.h"
 #include "unary-expressions.h"
+#include "constructor-initializers.h"
+#include "class-lookup.h"
+#include "cpp-context.h"
 #include <recon.h>
 
 CppSymbol *allocation_base_symbol; /* original 0xa0d18: based allocation context */
@@ -272,4 +275,107 @@ IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object)
     zero = make_integer_constant(0);
     alternatives = new_left_typed_expression(0x3f, object, zero);
     return new_ir_expression(0x5f, condition, alternatives, object->type);
+}
+
+/* Original 0x387a0..0x38b19. Validate the delete operand, capture its
+   value once, and select scalar/vector deleting destruction or a separate
+   deallocation call. Extension warnings retain their original ordering. */
+IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expression,
+    IrToken *bound, int is_array)
+{
+    CType *type;
+    TypeShape *shape, *element;
+    IrToken *assignment, *reference, *zero;
+    CppSymbol *tag, *destructor;
+    QualifiedDeclarator *deallocation;
+    unsigned index;
+    unsigned short attributes, kind;
+    int delete_with_destructor, virtual_destructor;
+
+    if (!expression) return 0;
+    type = expression->type;
+    if (!type) goto not_pointer;
+    shape = type->related;
+    if (!is_array && shape && ((shape->flags & 0x77) == 2 ||
+        (shape->related && (shape->related->flags & 0x77) == 2))) {
+        if (options.configuration.extensions_enabled) {
+            compiler_warning(2, 156);
+            is_array = 1;
+        } else compiler_warning(1, 155);
+    }
+    if (shape && (shape->flags & 0x77) == 2) {
+        compiler_warning(1, 154);
+        expression->type = type = parameter_reference_type(expression);
+        shape = type->related;
+    }
+    if (!shape) {
+        if (expression && is_unqualified_class_type(expression->type)) {
+            expression = convert_delete_operand_to_pointer(expression);
+            type = expression->type;
+            shape = type->related;
+        }
+        if (!shape) goto not_pointer;
+    }
+    if (!(shape->flags & 1)) goto not_pointer;
+    kind = shape->flags & 0x77;
+    if (kind == 4 || kind == 3) goto invalid_pointer;
+    element = shape->related;
+    if (element && (element->flags & 0x77) == 4) goto invalid_pointer;
+    attributes = element ? element->attributes : type->attributes;
+    if (attributes & 0x1000) {
+        report_syntax_error(710);
+        return 0;
+    }
+    if (bound) {
+        if (options.configuration.extensions_enabled) {
+            compiler_warning(4, 208);
+            emit_expression_statement(bound);
+        } else report_syntax_error(203);
+    }
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    reference = new_temporary_reference(index, type);
+    assignment = new_left_typed_expression(0x3d, reference, expression);
+    reference = indirect_storage_expression(new_temporary_reference(index, type));
+    expression = new_ir_expression(0x40, assignment, reference, type);
+    if (is_array) {
+        while (element && (element->flags & 0x77) == 2) {
+            zero = make_integer_constant(0);
+            expression = binary_expression(0x4a, expression, zero);
+            element = element->related;
+            type = expression->type;
+        }
+        operation = 2;
+    }
+    if ((type->flags & 0x400) && !element) {
+        tag = cpp_context_stack->items[type->field08];
+        deallocation = 0;
+        if (tag->flags & 4) {
+            if (operation != 2 && !is_array)
+                deallocation = lookup_class_name(tag, name_delete, 2, 0x181);
+            if (deallocation && (tag->detail.class_info->trivial_special_members & 8))
+                return make_class_delete_call(deallocation, expression, tag);
+            if (!(tag->detail.class_info->trivial_special_members & 8) &&
+                has_destructor_member_model(type)) {
+                delete_with_destructor = 1;
+                destructor = lookup_destructor_member(type);
+                virtual_destructor = (destructor->storage[1] & 2) != 0;
+                if (!is_array && operation == 2 && (virtual_destructor || deallocation))
+                    delete_with_destructor = 0;
+                expression = make_destructor_call(tag, expression, is_array ? 5 : 4,
+                    0, delete_with_destructor);
+                if (delete_with_destructor) return expression;
+            }
+        } else compiler_warning(2, 150, tag->name);
+    }
+    return make_global_delete_call(expression);
+
+invalid_pointer:
+    report_syntax_error(711);
+    return 0;
+not_pointer:
+    report_syntax_error(541);
+    return 0;
 }

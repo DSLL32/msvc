@@ -166,7 +166,7 @@ IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *ty
 void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { __asm { int 3 } }
 void __stdcall declare_nctag(char *name) { __asm { int 3 } }
 void __stdcall define_named_label(char *name) { __asm { int 3 } }
-IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expression, IrToken *bound, int is_array) { __asm { int 3 } return 0; }
+
 
 int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
@@ -617,3 +617,5 @@ int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) {
 int __stdcall builtin_operand_is_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigned index, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
