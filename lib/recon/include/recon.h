@@ -270,6 +270,18 @@ ReconSignalHandler recon_signal(int,ReconSignalHandler);
 int recon_watcom_heapchk(void),recon_watcom_nheapchk(void);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
 int recon_watcom_raise(int);
+/* Host binding requires independently proved first-main-call/no-target-ctor
+ * provenance. This is an empty target namespace check, not a glibc heap walk. */
+typedef struct ReconWatcomFirstMainHeap {
+ char reference_sha256[65];
+ unsigned bound,clean,calls,target_activity;
+} ReconWatcomFirstMainHeap;
+extern ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
+void recon_bind_watcom_wlib_first_main_heap(const char *);
+void *recon_watcom_malloc(size_t),*recon_watcom_calloc(size_t,size_t);
+void *recon_watcom_realloc(void *,size_t);
+void recon_watcom_free(void *);
+char *recon_watcom_strdup(const char *);
 int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
 void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
 int recon_isindst(struct tm *);
@@ -555,8 +567,16 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _ismbcspace recon_ismbcspace
 #define crt_operator_new recon_cpp_new
 #define crt_operator_delete recon_cpp_delete
+#if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#define malloc recon_watcom_malloc
+#define calloc recon_watcom_calloc
+#define free recon_watcom_free
+#define realloc recon_watcom_realloc
+#define strdup recon_watcom_strdup
+#else
 #define free recon_free
 #define realloc recon_realloc
+#endif
 #define system recon_system
 #define _spawnve recon_spawnve
 #define _spawnvpe recon_spawnvpe

@@ -6,10 +6,62 @@
 #include <sys/time.h>
 #include <recon.h>
 
-/* Build surfaces for the distinct Watcom CRT. No heap, signal delivery or
- * nonlocal-jump semantics have been established by a reached case yet. */
+/* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty
+ * target namespace heap check below has an established success contract. */
+ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
+void recon_bind_watcom_wlib_first_main_heap(const char *reference)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    unsigned n;
+    if (recon_watcom_first_main_heap.bound || recon_watcom_first_main_heap.calls ||
+        recon_watcom_first_main_heap.clean || recon_watcom_first_main_heap.target_activity ||
+        !reference || strlen(reference)!=64)
+        recon_unsupported("Watcom first-main heap binding prestate");
+    for(n=0;n<64;++n)
+        if(!((reference[n]>='0' && reference[n]<='9') || (reference[n]>='a' && reference[n]<='f')))
+            recon_unsupported("Watcom first-main heap reference SHA256");
+    memcpy(recon_watcom_first_main_heap.reference_sha256,reference,65);
+    recon_watcom_first_main_heap.bound=1;
+#else
+    (void)reference;recon_unsupported("Watcom first-main heap requires explicit profile");
+#endif
+}
+static void watcom_target_heap_activity(void)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    /* Sticky, including activity before binding: it cannot wrap back to empty.
+     * Host/internal allocations use libc directly and never enter here. */
+    recon_watcom_first_main_heap.target_activity=1;
+#else
+    recon_unsupported("Watcom target allocation requires explicit profile");
+#endif
+}
+void *recon_watcom_malloc(size_t size)
+{ watcom_target_heap_activity();return malloc(size); }
+void *recon_watcom_calloc(size_t count,size_t size)
+{ watcom_target_heap_activity();return calloc(count,size); }
+void *recon_watcom_realloc(void *pointer,size_t size)
+{ watcom_target_heap_activity();return recon_realloc(pointer,size); }
+void recon_watcom_free(void *pointer)
+{ watcom_target_heap_activity();recon_free(pointer); }
+char *recon_watcom_strdup(const char *text)
+{ watcom_target_heap_activity();return strdup(text); }
 int recon_watcom_heapchk(void)
-{ recon_unsupported("unreviewed Watcom _heapchk"); return 0; }
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if (recon_watcom_first_main_heap.bound!=1 || recon_watcom_first_main_heap.calls ||
+        recon_watcom_first_main_heap.clean || recon_watcom_first_main_heap.target_activity)
+        recon_unsupported("Watcom heap check outside first-main empty target namespace");
+    /* No target-owned allocation has entered this namespace. An empty heap
+     * satisfies the supported integrity predicate; this diagnoses no glibc
+     * corruption and represents no original CRT free-ring bytes. */
+    recon_watcom_first_main_heap.clean=1;
+    recon_watcom_first_main_heap.calls=1;
+    return 0; /* Watcom _HEAPOK */
+#else
+    recon_unsupported("unreviewed Watcom _heapchk");return 0;
+#endif
+}
 int recon_watcom_nheapchk(void)
 { recon_unsupported("unreviewed Watcom _nheapchk"); return 0; }
 ReconSignalHandler recon_watcom_signal(int number,ReconSignalHandler handler)

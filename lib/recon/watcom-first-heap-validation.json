@@ -1,0 +1,59 @@
+{
+  "rows": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 1.3387792240828276,
+      "check_seconds": 0.05442868825048208,
+      "exe_sha256": "36ece05c373e5f1bdb26725f05a2c1e0d42b29d87c1d2208da8722895f514722"
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.7817283924669027,
+      "check_seconds": 0.06140665244311094,
+      "exe_sha256": "c0fe2cd761275a0db3462ce328f7f1a243c68f1cc4f7c89ce56fb131b82957ff"
+    }
+  ],
+  "inputs": {
+    "src/compat.c": "7c8e3b110db78bf424de56eb79e9bcd2fa62d67f1e48b14e619737366f216a74",
+    "include/recon.h": "ffba274d4a4d3841c8a080490b675471ce81b60641b20b837faaff05996ce3b6",
+    "tests/watcom-first-heap-probe.c": "010ce6ba8450df3cb635a9047e84236207e7158ebe8c603a358ad6af43b13065",
+    "tests/check-watcom-first-heap.py": "28885574f62d9367195f4541a1534a2f3f7cb62c49ffba72dbcf9a9ca31e885a"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/watcom-first-heap-independent.json",
+    "sha256": "940cc2e44b79c84ec2e1f2c518e2c4a0a9376636efcc875acbbbc47fe6e5737f"
+  },
+  "actual_case_closure": {
+    "path": "decomp/watcom10.0a/wlib/cases/help/main-frontier/heap-bootstrap-reference.json",
+    "sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625"
+  },
+  "scope": "Explicit first-WLIB-main healthy empty TARGET allocation namespace only; no glibc integrity or populated/later heap claim",
+  "probe_reference": "Probe uses the actual events hash as syntactic reference input; binary adoption separately binds the complete actual case closure above",
+  "compiled_shared_inputs": {
+    "lib/recon/src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "lib/recon/src/crt.c": "0456e633ae5b7ab7d4d5f5e7fff7f445fbe741c50ba838d4704799ef3bf16a89",
+    "lib/recon/src/process.c": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+    "lib/recon/src/compat.c": "7c8e3b110db78bf424de56eb79e9bcd2fa62d67f1e48b14e619737366f216a74",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/win32.c": "4824c85b7503254bf4bf91ee78d5c7f80c4db838563ba2ccd2bfb6a5b2fc8ace",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "lib/recon/include/recon.h": "ffba274d4a4d3841c8a080490b675471ce81b60641b20b837faaff05996ce3b6",
+    "lib/recon/include/win32.h": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "lib/recon/native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "lib/recon/native/setjmp.h": "042e72bae39e6d5ae71483c71890e556f65678b2be895f1771afa365a6b82903",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "lib/recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+  }
+}

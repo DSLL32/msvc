@@ -881,3 +881,17 @@ FINIT/FLDCW127f chain. It preserves native status/tags, pointers/selectors and
 all register payloads; no captured transport bits or instruction pointers are
 installed. It does not implement target Watcom _control87 semantics or change
 default startup. The existing MSCRT53-bit-only option retains its behavior.
+
+One explicitly bound first-WLIB-main _heapchk path supersedes the build-only
+trap above. Host recon_bind_watcom_wlib_first_main_heap(reference_sha256) requires
+a verified closure proving no target constructors and that _heapchk is main's
+first application call. It binds clean0/calls0/empty target allocation namespace.
+Five profile-only malloc/calloc/realloc/free/strdup wrappers mark sticky target
+activity and delegate existing native functions; internal/RECON_SHIM_IMPL host
+allocations bypass them. The supported check requires bound1/clean0/calls0 and
+no activity, then derives_HEAPOK from the empty namespace and records clean1,
+calls1. Binding after activity, repeated/unbound checks and _nheapchk deny.
+The exposed recon_watcom_first_main_heap state supports independent observation.
+This diagnoses no glibc corruption, reconstructs no original free-ring headers
+and grants no populated/mutated/later heap semantics. Exact source/adoption and
+actual first-main state must be checked by the binary owner before enabling it.
