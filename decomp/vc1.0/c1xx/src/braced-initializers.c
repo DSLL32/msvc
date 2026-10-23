@@ -392,3 +392,15 @@ void __stdcall initialize_element(IrToken *value, int mode)
     }
     finish_braced_initializer_element();
 }
+
+/* Original 0x46bd0..0x46c32. Descend through implicit aggregate
+   levels until the value has a scalar, string, or constructor destination. */
+int __stdcall select_braced_initializer(IrToken *value)
+{
+    while (advance_braced_initializer(value)) {
+        if (is_scalar_initializer_symbol(current_braced_initializer->symbol) ||
+            is_character_array_initializer(current_braced_initializer->symbol, value) ||
+            (current_braced_initializer->flags & 0x10)) return 1;
+    }
+    return 0;
+}
