@@ -286,3 +286,8 @@ build/mb-clen-probe: tests/mb-clen-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mb-clen-check: build/mb-clen-probe
 	$(PYTHON) tests/check-mb-clen.py build/mb-clen-probe
+
+build/printf-Lg-x87-probe: tests/printf-Lg-x87-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+printf-Lg-x87-check: build/printf-Lg-x87-probe
+	$(PYTHON) tests/check-printf-Lg-x87.py build/printf-Lg-x87-probe

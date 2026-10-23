@@ -835,6 +835,7 @@ static int format_is_plain_g(const char *format)
     while (*format) {
         if (*format++!='%') continue;
         if (*format=='%') { ++format;continue; }
+        if (*format=='L') ++format;
         if (*format!='g') return 0;
         ++format;++conversions;
     }
@@ -846,8 +847,10 @@ static int format_plain_g(char **output,const char *format,va_list args)
     union { double number; uint32_t words[2]; } value;
     unsigned short control;
     char number[64],*exponent,*out,*start;
+    const char *conversion=format;
+    long double extended;
     size_t length;
-    int count;
+    int count,legacy_long=0;
     if (recon_lc_handle[2] || recon_lc_codepage)
         recon_unsupported("finite %g outside default-C locale");
     /* fnsave resets the scratch stack. Preserve incoming precision/rounding
@@ -857,7 +860,18 @@ static int format_plain_g(char **output,const char *format,va_list args)
     if (control!=0x027f && control!=0x037f)
         recon_unsupported("unreviewed finite %g x87 control");
     __asm__ volatile("fldcw %0" : : "m"(control));
-    value.number=va_arg(args,double);
+    while (*conversion) {
+        if (*conversion++!='%') continue;
+        if (*conversion=='%') { ++conversion;continue; }
+        legacy_long=*conversion=='L';break;
+    }
+    if (legacy_long) {
+        /* Original VC1 long double is8 bytes. Native C's explicit promotion
+         * transports that same double value in a12-byte vararg object. */
+        extended=va_arg(args,long double);value.number=(double)extended;
+        if ((long double)value.number!=extended)
+            recon_unsupported("unreviewed genuine80-bit %Lg value");
+    } else value.number=va_arg(args,double);
     if ((value.words[1]&0x7ff00000u)==0x7ff00000u)
         recon_unsupported("unreviewed nonfinite %g");
     count=snprintf(number,sizeof(number),"%g",value.number);
@@ -877,7 +891,7 @@ static int format_plain_g(char **output,const char *format,va_list args)
     while (*format) {
         if (*format!='%') *out++=*format++;
         else if (format[1]=='%') { *out++='%';format+=2; }
-        else { length=strlen(number);memcpy(out,number,length);out+=length;format+=2; }
+        else { length=strlen(number);memcpy(out,number,length);out+=length;format+=format[1]=='L'?3:2; }
     }
     *out=0;*output=start;count=(int)(out-start);
     __asm__ volatile("frstor %0" : : "m"(environment));

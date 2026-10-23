@@ -1,0 +1,7 @@
+{
+  "scope": "Separate VC1 literal+one%Lg path only for native12-byte longdouble vararg representing a finite exact double. Original VC1 longdouble is8 bytes; application promotes an original double value for host ABI. Genuine80-only/nonfinite/othercontrol/locale values denied.",
+  "original_probe": "tests/printf-Lg-x87-reference.c, explicit static original LIBC probe.28 calls under2controls/2stackstates/7finitevalues; output/counts match plain%g, all108 x87 bytes unchanged.",
+  "native_checks": "GCC/Clang28 output/count/fullenv cases plus5 unsupported controls including a genuine1+2^-63 value. Plain%g regression passes.",
+  "representation": "Read native va_arg(longdouble) and convert to double within saved scratchx87 environment; require exact numeric roundtrip. No native padding comparison or raw12-to8 copy. Reuse reviewed signedzero/exponent spelling.",
+  "actual_integration": "C2 width100a native reobservation required after handoff; no acceptance inferred from this focused probe."
+}
