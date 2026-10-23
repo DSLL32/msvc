@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "7d7ef962571e3c03273b45e564b7bce38d671357e4bd788b7d179ef08760509d",
+    "functions.json": "e6895dc3f2eb1f7eab0c041492a815ba740479fe4a74d023cd9b593d3d6c477b",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "51e31bfcc5aeb86b09044704e2b999dc50c296c8767c300f8b7231c50760d37a"
+    "replay-cases.json": "b6a4c58b687136b3eadd7cfa0efa7f0c107521ba12989e8c80c3f1ed990955df"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -1807,6 +1807,11 @@
       "logical": "_find_cached_file",
       "implementation": "C"
     },
+    "find_definition_attribute": {
+      "source": "src/definition-file.c",
+      "logical": "_find_definition_attribute",
+      "implementation": "C"
+    },
     "find_definition_keyword": {
       "source": "src/definition-file.c",
       "logical": "_find_definition_keyword",
@@ -2963,9 +2968,9 @@
       "implementation": "C"
     },
     "read_definition_imports": {
-      "source": "src/definition-stubs.c",
+      "source": "src/definition-file.c",
       "logical": "_read_definition_imports",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "read_definition_line": {
       "source": "src/definition-file.c",
@@ -2983,14 +2988,14 @@
       "implementation": "C"
     },
     "read_definition_sections": {
-      "source": "src/definition-stubs.c",
+      "source": "src/definition-file.c",
       "logical": "_read_definition_sections",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "read_definition_sizes": {
-      "source": "src/definition-stubs.c",
+      "source": "src/definition-file.c",
       "logical": "_read_definition_sizes",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "read_file": {
       "source": "src/files.c",
@@ -4329,7 +4334,11 @@
     "append_mac_jump_entry",
     "write_mac_far_jump",
     "apply_m68k_relocations",
-    "validate_mac_relocation_value"
+    "validate_mac_relocation_value",
+    "read_definition_sizes",
+    "read_definition_sections",
+    "find_definition_attribute",
+    "read_definition_imports"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4908,9 +4917,9 @@
       }
     },
     "library-list": {
-      "first": 740,
-      "last": 740,
-      "seen_count": 566,
+      "first": 744,
+      "last": 744,
+      "seen_count": 570,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4942,9 +4951,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 740,
-      "last": 740,
-      "seen_count": 566,
+      "first": 744,
+      "last": 744,
+      "seen_count": 570,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4978,9 +4987,9 @@
       }
     },
     "library-dump-object": {
-      "first": 740,
-      "last": 740,
-      "seen_count": 566,
+      "first": 744,
+      "last": 744,
+      "seen_count": 570,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5023,9 +5032,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 740,
-      "last": 740,
-      "seen_count": 566,
+      "first": 744,
+      "last": 744,
+      "seen_count": 570,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5321,6 +5330,21 @@
         "write_mac_far_jump",
         "apply_m68k_relocations",
         "validate_mac_relocation_value"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "definition-directives": {
+      "first": 740,
+      "last": 744,
+      "seen_count": 566,
+      "expected": [
+        "read_definition_sizes",
+        "read_definition_sections",
+        "find_definition_attribute",
+        "read_definition_imports"
       ],
       "terminal": {
         "kind": "exit",

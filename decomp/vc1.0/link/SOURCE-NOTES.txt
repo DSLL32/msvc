@@ -827,3 +827,15 @@ are dynamically claimed.39 Mac CFG bodies total13203 instruction/268 inline-data
 137 alignment bytes. Augmented partial accepted components:150529 native target,
 26904 CRT,192 imports,420 inline-data,353 alignment,38655 unclassified bytes.
 See cases/m68k-reloc-loader/{validation,body-inventory,components,remaining}.json.
+
+DEF handler checkpoint (744 frontiers)
+
+Read_definition_sizes retains the original unused text parameter and consumes
+shared definition_cursor. It supports reserve-only, comma-only commit and paired
+values, then clamps commit above reserve with the original warning. The selected
+case uses paired values. Read_definition_sections owns its native25-entry inline
+switch, recognizes quoted names/CLASS/overlay forms, and shares a contextual
+26-pointer attribute table with find_definition_attribute. IMPORTS is consumed
+without registering symbols, preserving the target's LNK4053 warning and token
+mutation. Allfour full bodies are C; no assembly exception was needed. Fresh
+masked-original/native GDB completion and all24 cached native cases pass.

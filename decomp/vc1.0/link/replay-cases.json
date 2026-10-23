@@ -216,6 +216,16 @@
         "code": 0
       },
       "reason": "Fresh masked-original/native GDB terminal, exact streams and full2MB artifact match; fixture uses native ELF and frozen references only."
+    },
+    {
+      "case": "definition-directives",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native GDB exit0 and exact streams/full archive+export-object comparison; native regression uses captured references only."
     }
   ]
 }

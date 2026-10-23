@@ -14,6 +14,7 @@ unsigned short read_definition_name(unsigned char library);
 unsigned short next_definition_keyword(void);
 unsigned short read_definition_description(char *text);
 unsigned short read_definition_sizes(const char *kind,char *text,unsigned long *reserve,unsigned long *commit);
+unsigned short find_definition_attribute(const char *text);
 unsigned short skip_definition_code(void);
 unsigned short skip_definition_data(void);
 unsigned short read_definition_sections(const char *kind,char *text);

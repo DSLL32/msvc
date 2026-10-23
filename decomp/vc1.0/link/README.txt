@@ -417,3 +417,19 @@ these partial inventories provide no whole-target body percentage.
 See cases/m68k-reloc-loader/validation.json,body-inventory.json and components.json.
 The authorized code disassembly, richer x86 and Macintosh stages are complete.
 No further case is running; remaining.json records suggestions for user selection.
+
+DEF directive checkpoint
+
+The approved next queue is cases/definition-mac-debug-queue.json. Its first family
+now closes through four C functions: HEAPSIZE/STACKSIZE parsing, SECTIONS/SEGMENTS,
+the shared attribute lookup and IMPORTS consumption. The old linker explicitly
+warns LNK4053 and ignores IMPORTS; no imported-symbol emission is claimed. Both
+full2MB library/export objects preserve the original emitted directives and match
+captured references after only structurally identified clock fields.
+
+All24 native cases pass with570 application first entries. The measured loop is
+1.508s with0.100s trace preparation; combined canonical/audit/native-trace build
+is16.786s. Coverage218415/281634=77.5528%,744 frontiers. Graph596,callback587,
+data450,boundary750 and38 ECX cleanup checks pass. See cases/definition-directives
+for frozen inputs, complete outputs, validation, CFG and partial component counts.
+The next approved family is original-validated Macintosh COFF debug and swapper.

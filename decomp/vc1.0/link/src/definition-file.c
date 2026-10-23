@@ -345,3 +345,157 @@ char *read_definition_ordinal(char *text,char *fallback,const char *context,
     }
     return token;
 }
+
+/* Original [0002a000,0002a0e3). The native body reads the shared cursor;
+   its text parameter is retained for the original four-argument ABI. */
+unsigned short read_definition_sizes(const char *kind,char *text,
+    unsigned long *reserve,unsigned long *commit)
+{
+    int fields,scanned;
+    if (definition_cursor && *definition_cursor) {
+        if (strchr(definition_cursor,',')) {
+            if (*definition_cursor==',') {
+                ++definition_cursor;
+                fields=1;
+                scanned=sscanf(definition_cursor,"%li",commit);
+            } else {
+                fields=2;
+                scanned=sscanf(definition_cursor,"%li,%li",reserve,commit);
+            }
+        } else {
+            fields=1;
+            scanned=sscanf(definition_cursor,"%li",reserve);
+        }
+        if (scanned!=fields) fatal_message(def_filename,0x15,kind);
+        if (*commit>*reserve) {
+            warning_message(def_filename,0x56,kind,*reserve);
+            *commit=*reserve;
+        }
+    }
+    return next_definition_keyword();
+}
+
+/* Original [0002a130,0002a45c), including the25-entry attribute switch. */
+unsigned short read_definition_sections(const char *kind,char *text)
+{
+    char directive[128],*name,*attribute,*quote;
+    unsigned short keyword;
+    unsigned long flags;
+    if (!text) definition_cursor=read_definition_line();
+    else {
+        while (*text==' ' || *text=='\t') ++text;
+        definition_cursor=text;
+    }
+    do {
+        if (*definition_cursor) {
+            if ((unsigned char)*definition_cursor==0x7f) return 0xffff;
+            name=strtok(definition_cursor,option_delimiters);
+            keyword=find_definition_keyword(name);
+            if (keyword!=0xffff) return keyword;
+            if (*name=='\'' || *name=='"') {
+                quote=strchr(name+1,*name);
+                ++name;
+                if (quote) *quote=0;
+            }
+            attribute=strtok(NULL,option_delimiters);
+            if (attribute && !_strcmpi(attribute,"CLASS")) {
+                strtok(NULL,option_delimiters);
+                attribute=strtok(NULL,option_delimiters);
+            }
+            flags=0;
+            while (attribute) {
+                if (!_strnicmp(attribute,"OVL:",4) ||
+                    !_strnicmp(attribute,"OVERLAY:",4))
+                    warning_message(def_filename,0x58,attribute,"");
+                else {
+                    switch (find_definition_attribute(attribute)) {
+                    case 0: case 20: flags|=0x20000000; break;
+                    case 1: flags|=0x60000000; break;
+                    case 2: case 21: flags|=0x40000000; break;
+                    case 3: flags|=0xc0000000; break;
+                    case 4: case 23: flags|=0x10000000; break;
+                    case 22: flags|=0x80000000; break;
+                    case 5: case 6: case 7: case 8: case 9: case 10:
+                    case 11: case 12: case 13: case 14: case 15: case 16:
+                    case 17: case 18: case 19: case 24: break;
+                    default: fatal_message(def_filename,0x15,kind);
+                    }
+                }
+                attribute=strtok(NULL,option_delimiters);
+            }
+            if (flags) {
+                strcpy(directive,"-SECTION:");
+                strcat(directive,name);
+                strcat(directive,",");
+                if (flags&0x20000000) strcat(directive,"E");
+                if (flags&0x40000000) strcat(directive,"R");
+                if (flags&0x80000000) strcat(directive,"W");
+                if (flags&0x10000000) strcat(directive,"S");
+                append_export_directive(directive);
+            }
+        }
+        definition_cursor=read_definition_line();
+    } while (definition_cursor);
+    return 0;
+}
+
+/* Native table [00079138,000791a0), including its empty sentinel. */
+const char *definition_attributes[]={"EXECUTEONLY","EXECUTEREAD","READONLY",
+    "READWRITE","SHARED","NONSHARED","CONFORMING","NONCONFORMING",
+    "DISCARDABLE","NONDISCARDABLE","NONE","SINGLE","MULTIPLE","IOPL",
+    "NOIOPL","PRELOAD","LOADONCALL","MOVEABLE","MOVABLE","FIXED",
+    "EXECUTE","READ","WRITE","PURE","IMPURE",""};
+
+/* Original [0002a970,0002a9b6). */
+unsigned short find_definition_attribute(const char *text)
+{
+    unsigned short index=0;
+    while (*definition_attributes[index]) {
+        if (!_strcmpi(definition_attributes[index],text)) return index;
+        ++index;
+    }
+    return 0xffff;
+}
+
+/* Original [0002a810,0002a90d). This version consumes IMPORTS syntax but
+   emits one unsupported-statement warning; it does not register imports. */
+unsigned short read_definition_imports(char *text)
+{
+    char *name,*end,*module,*dot;
+    unsigned char delimiter,warned=0;
+    unsigned short keyword;
+    if (!text) definition_cursor=read_definition_line();
+    else {
+        while (*text==' ' || *text=='\t') ++text;
+        definition_cursor=text;
+    }
+    do {
+        if (*definition_cursor) {
+            if ((unsigned char)*definition_cursor==0x7f) return 0xffff;
+            name=end=definition_cursor;
+            delimiter=(unsigned char)*name;
+            while (*end) {
+                if (*end=='\t' || *end==' ' || *end=='.' || *end=='=') {
+                    delimiter=(unsigned char)*end;
+                    *end=0;
+                } else ++end;
+            }
+            ++end;
+            if (delimiter) {
+                keyword=find_definition_keyword(name);
+                if (keyword!=0xffff) return keyword;
+            }
+            if (delimiter=='=') {
+                module=strtok(end,option_delimiters);
+                dot=strchr(module,'.');
+                *dot=0;
+            }
+            if (!warned) {
+                warning_message(def_filename,0x7c,"","");
+                warned=1;
+            }
+        }
+        definition_cursor=read_definition_line();
+    } while (definition_cursor);
+    return 0;
+}

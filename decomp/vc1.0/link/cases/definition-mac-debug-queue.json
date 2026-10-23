@@ -1,0 +1,26 @@
+{
+  "authorization": "User approved both remaining-code recommendations; parent dispatch2026-10-23.",
+  "baseline": {
+    "commit": "9778b28",
+    "accepted_frontiers": 740,
+    "accepted_extent_bytes": 217053,
+    "text_bytes": 281634,
+    "completed_native_cases": 23
+  },
+  "order": [
+    {
+      "family": "definition-directives",
+      "status": "complete",
+      "scope": "Original-valid DEF SECTIONS/SEGMENTS, IMPORTS, HEAPSIZE/STACKSIZE reserve+commit; reconstruct all reached native graph vertices.",
+      "case": "definition-directives",
+      "validation": "cases/definition-directives/validation.json"
+    },
+    {
+      "family": "macintosh-debug-swapper",
+      "status": "original-validation",
+      "scope": "Original-valid full COFF debug and ___InitSwapper resource paths using documented m68k COFF inputs."
+    }
+  ],
+  "method": "Native i386 -O0 -g/GDB and cached-only native fixtures; explicit original-only capture and masking diagnostics outside fixture execution; original-toolchain compilation and graph/ABI/data audits. Shared shims owned by root.",
+  "stop": "Pause after both approved families complete; report verified coverage and remaining application gaps."
+}

@@ -739,7 +739,11 @@
     "_append_mac_jump_entry",
     "_write_mac_far_jump",
     "_apply_m68k_relocations",
-    "_validate_mac_relocation_value"
+    "_validate_mac_relocation_value",
+    "_read_definition_sizes",
+    "_read_definition_sections",
+    "_find_definition_attribute",
+    "_read_definition_imports"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4443,10 +4447,11 @@
     {
       "name": "_read_definition_sizes",
       "start": 172032,
-      "end": 172033,
-      "implementation": "stub-C",
-      "source": "src/definition-stubs.c",
-      "abi": "cdecl unsigned short(const char *kind,char *text,unsigned long *reserve,unsigned long *commit)"
+      "end": 172259,
+      "implementation": "C",
+      "source": "src/definition-file.c",
+      "abi": "cdecl unsigned short(const char *kind,char *text,unsigned long *reserve,unsigned long *commit)",
+      "evidence": "Matched original2a000/native GDB HEAP entry; complete227-byte cdecl body retains unused text argument and reads shared cursor, one/two-field scans and original commit clamp. Fresh next original2a130/native read_definition_sections; exact partial streams."
     },
     {
       "name": "_skip_definition_code",
@@ -4467,10 +4472,18 @@
     {
       "name": "_read_definition_sections",
       "start": 172336,
-      "end": 172337,
-      "implementation": "stub-C",
-      "source": "src/definition-stubs.c",
-      "abi": "cdecl unsigned short(const char *kind,char *text)"
+      "end": 173148,
+      "implementation": "C",
+      "source": "src/definition-file.c",
+      "abi": "cdecl unsigned short(const char *kind,char *text)",
+      "text_data": [
+        {
+          "start": 173048,
+          "end": 173148,
+          "kind": "25-entry section attribute switch"
+        }
+      ],
+      "evidence": "Matched original2a130/native GDB SECTIONS entry. Complete section handler plus25-entry inline switch recovers quote/CLASS/overlay parsing and original attribute-to-directive reduction; named attribute helper remains trapped. Fresh next original2a970/native find_definition_attribute EXECUTE; partial streams match."
     },
     {
       "name": "_read_definition_exports",
@@ -4484,10 +4497,11 @@
     {
       "name": "_read_definition_imports",
       "start": 174096,
-      "end": 174097,
-      "implementation": "stub-C",
-      "source": "src/definition-stubs.c",
-      "abi": "cdecl unsigned short(char *text)"
+      "end": 174349,
+      "implementation": "C",
+      "source": "src/definition-file.c",
+      "abi": "cdecl unsigned short(char *text)",
+      "evidence": "Matched original2a810/native GDB IMPORTS entry. Complete253-byte cdecl consumer preserves delimiter mutation, alias module parsing and one unsupported warning per block. Fresh masked-original/native GDB exit0 with exact255-byte stdout/empty stderr and both full2MB artifacts identical to frozen references after only structural timestamps. Companion LINK.ERR is an explicit fixture input."
     },
     {
       "name": "_parse_definition_export",
@@ -7675,6 +7689,15 @@
       "source": "src/m68k-relocations.c",
       "abi": "cdecl void(unsigned char *,const char *,PIMAGE_SYMBOL,Contribution *,External *)",
       "evidence": "Named original relocation helper; body remains masked."
+    },
+    {
+      "name": "_find_definition_attribute",
+      "start": 174448,
+      "end": 174518,
+      "implementation": "C",
+      "source": "src/definition-file.c",
+      "abi": "cdecl unsigned short(const char *text)",
+      "evidence": "Matched original2a970/native GDB EXECUTE entry. Complete70-byte WORD case-insensitive lookup with contextual26-pointer attribute table. Fresh next original2a810/native read_definition_imports; exact partial streams and both SECTIONS/SEGMENTS directives reached."
     }
   ],
   "c_stub_references": [
@@ -8420,6 +8443,10 @@
     "m68k-reloc-loader",
     "m68k-reloc-loader",
     "m68k-reloc-loader",
-    "m68k-reloc-loader"
+    "m68k-reloc-loader",
+    "definition-directives",
+    "definition-directives",
+    "definition-directives",
+    "definition-directives"
   ]
 }

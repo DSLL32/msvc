@@ -4,7 +4,7 @@ from pathlib import Path
 import json,argparse
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=Path)
-parser.add_argument('--family',choices=('disassembler','macintosh'),default='disassembler')
+parser.add_argument('--family',choices=('disassembler','macintosh','definition'),default='disassembler')
 options=parser.parse_args()
 from indexes import indexes
 from binary import u32
@@ -13,6 +13,7 @@ from capstone.x86 import X86_OP_IMM,X86_OP_MEM
 original,_,cfg,records,_=indexes();cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
 accepted=set(cfg['accepted']);bodies={};total=set();unresolved=[];extent=set();data=set()
 sources={'disassembler':('src/disassembler.c','src/disassembly-output.c'),
+         'definition':('src/definition-file.c',),
          'macintosh':('src/mac-object.c','src/mac-sections.c','src/mac-fixups.c','src/m68k-relocations.c')}
 for r in cfg['driver']:
  if r['name'] not in accepted or r.get('source') not in sources[options.family]:continue
