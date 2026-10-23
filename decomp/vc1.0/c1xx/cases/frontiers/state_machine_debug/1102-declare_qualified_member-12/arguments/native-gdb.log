@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x123bf: file src/declaration-bind.c, line 95.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, declare_qualified_member (symbol=0x56624da4, qualifier=0x56625f30, member=0x56624d70) at src/declaration-bind.c:95
+95	    CppSymbol *alias = static_member_alias(member), *tag;
+#0  declare_qualified_member (symbol=0x56624da4, qualifier=0x56625f30, member=0x56624d70) at src/declaration-bind.c:95
+#1  0x56567ab5 in apply_declaration_type (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/declaration-bind.c:190
+#2  0x56567ecd in complete_declaration (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/declaration-bind.c:252
+#3  0x565b40a4 in parse_translation_unit () at src/parser-declaration-actions.inc:306
+#4  0x5655e0ef in compile_translation_unit () at src/frontend.c:73
+#5  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558884 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

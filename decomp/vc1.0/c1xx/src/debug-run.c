@@ -104,7 +104,8 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     if (ownership_register) {
         char *register_name;
         DWORD value;
-        unsigned selected = ownership_register == 7 ? 4 : (ownership_register == 9 ? 3 : ownership_register);
+        unsigned selected = ownership_register == 7 ? 4 :
+            (ownership_register == 9 ? 3 : (ownership_register == 10 ? 1 : ownership_register));
         for (;;) {
             switch (selected) {
             case 8: register_name = "edx"; value = context_read ? context.Edx : 0; break;
@@ -120,6 +121,8 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
             WriteFile(log, line, strlen(line), &written, 0);
             if (ownership_register == 7 && selected == 4) { selected = 6; continue; }
             if (ownership_register == 9 && selected == 3) { selected = 1; continue; }
+            if (ownership_register == 10 && selected == 1) { selected = 2; continue; }
+            if (ownership_register == 10 && selected == 2) { selected = 5; continue; }
             break;
         }
     }
@@ -159,7 +162,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "edi,esi")) ownership_register = 9;
+        if (!strcmp(ownership_option, "esi,ebx,ebp")) ownership_register = 10;
+        else if (!strcmp(ownership_option, "edi,esi")) ownership_register = 9;
         else if (!strcmp(ownership_option, "edx")) ownership_register = 8;
         else if (!strcmp(ownership_option, "eax,esp")) ownership_register = 7;
         else if (!strcmp(ownership_option, "esp")) ownership_register = 6;

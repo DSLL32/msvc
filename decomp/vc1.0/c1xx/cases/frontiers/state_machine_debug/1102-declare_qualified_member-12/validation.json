@@ -1,0 +1,28 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_declare_qualified_member@12",
+    "start": 334528,
+    "end": 334944
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_classify_incomplete_type@4",
+    "_defer_object_definition@4",
+    "_format_qualified_name@8",
+    "_has_class_initialization@4",
+    "_has_destructor_member_model@4",
+    "_initialize_zero_object@4",
+    "_report_syntax_error",
+    "_static_member_alias@4",
+    "_symbol_construction_class@4",
+    "_symbol_has_reference_shape@4",
+    "_type_qualifiers@4"
+  ],
+  "next_frontier": "_equal_inline_vectors",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5069111855700612,
+  "total_operation_seconds": 3.7095155883580446,
+  "original_capture_seconds": 1.0169167667627335
+}

@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "dde3a5f363dc31a65ac69f8e8aa5f7d98d3850c8c69bd80bbeed690af4c86e98",
+    "functions.json": "0a3eb697f025c49fb30a6b020fad52f1964e5ea0f2e6115c8264fff475cd32a4",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f4bff4b51a73157116c479751c3000c6e051d3af96a41603000414b915264a4e",
-    "cases/canonical-map.txt": "36643ec1016300849a1640e44e950738441a619f93a3003dfab2cad9e4440934",
+    "cases/original-entry-references.json": "35810f155a47421a6f2f314c93aeea5791233a98118778ee90b906c67c970985",
+    "cases/canonical-map.txt": "a11bcce1e00916cb98d47e23b574d9a9506d12d021012b6a062f702ea94a2e53",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1101-reconcile_typedef-8/entry-reference/original-receipt.json": "27093b0b9c166faa505ffe1ddf4c98d23f69136855d90e1e2f39533eb963f03e",
-    "cases/frontiers/state_machine_debug/1101-reconcile_typedef-8/entry-reference/original-events.txt": "3e1368e1f51a1766bac8f6e55fda1e7633946d2546f94e90011b3144329c6404",
-    "cases/frontiers/state_machine_debug/1101-reconcile_typedef-8/entry-reference/original-entries.plan": "147a88b663fc626d83bca9f516718ea81d45c96765b9cc6d391b7aa95907f71f"
+    "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/entry-reference/original-receipt.json": "a7a6dbadfbb7b098d0d1868abeaccc2ccf00e05f1a44346de89c9cb758bf0acf",
+    "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/entry-reference/original-events.txt": "157e7616efe8ae8583a37a02d31472948dc7dfadb6f5c657e7590b29094c3594",
+    "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/entry-reference/original-entries.plan": "3990cf0e299350e5e2c76f010ea0cc4f22b9e7ecad64dd073cd2583a599cecde"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1403,7 +1403,7 @@
     },
     "declare_qualified_member": {
       "logical": "_declare_qualified_member@12",
-      "source": "src/stubs.c"
+      "source": "src/declaration-bind.c"
     },
     "declare_runtime_function": {
       "logical": "_declare_runtime_function@20",
@@ -6581,7 +6581,8 @@
     "emit_debug_method_list",
     "reset_debug_type_records",
     "reference_tag_symbol",
-    "reconcile_typedef"
+    "reconcile_typedef",
+    "declare_qualified_member"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10694,7 +10695,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1102,
+      "last": 1103,
       "seen": [
         "main",
         "message_text",
@@ -11705,12 +11706,13 @@
         "reset_debug_type_records",
         "reference_tag_symbol",
         "reconcile_typedef",
-        "declare_qualified_member"
+        "declare_qualified_member",
+        "equal_inline_vectors"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_declare_qualified_member@12",
-        "native": "declare_qualified_member",
+        "logical": "_equal_inline_vectors",
+        "native": "equal_inline_vectors",
         "signal": 5
       }
     }

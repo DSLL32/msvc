@@ -5,6 +5,7 @@
 #include "work-list.h"
 #include "cpp-context.h"
 #include "function-definitions.h"
+#include "constructor-initializers.h"
 #include <recon.h>
 
 SegmentSymbol *default_data_segment; /* original 0x9f3e8 */
@@ -84,6 +85,52 @@ void __stdcall finalize_object_storage(CppSymbol *symbol)
         }
         report_syntax_error(133, symbol->name);
     }
+}
+
+/* Original 0x51ac0..0x51c60. An out-of-class static data member
+   defines its registered alias, retaining import, const and lifetime rules. */
+CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol,
+    QualifiedDeclarator *qualifier, CppSymbol *member)
+{
+    CppSymbol *alias = static_member_alias(member), *tag;
+    TypeShape *shape;
+    unsigned storage;
+    alias->storage[0] = (alias->storage[0] & ~5) | 2;
+    storage = alias->storage[0] & 7;
+    alias->storage[0] = declaration_storage[0];
+    alias->storage[1] = declaration_storage[1];
+    alias->storage[2] = declaration_storage[2];
+    alias->storage[0] = (alias->storage[0] & ~7) | storage;
+    if (member->storage[2] & 4) {
+        if (!(member->storage[2] & 8))
+            report_syntax_error(491,
+                format_qualified_name(qualifier->resolution->binding, 0), "static data member");
+        else alias->storage[2] |= 0xc;
+    }
+    if (member->storage[2] & 2) alias->storage[2] |= 2;
+    if (!(symbol->attributes & 4)) {
+        if (type_qualifiers(member->type) & 0x1000) {
+            if (!(classify_incomplete_type(symbol->type) & 0x82) ||
+                !(tag = cpp_context_stack->items[symbol->type->field08]) ||
+                (tag->kind & 31) != 4 || !has_class_initialization(symbol->type))
+                report_syntax_error(734,
+                    format_qualified_name(qualifier->resolution->binding, 0));
+        } else if (symbol_has_reference_shape(member) ||
+            ((member->attributes & 0x400) &&
+             (shape = member->type->related->related) && (shape->flags & 0x40)))
+            report_syntax_error(530,
+                format_qualified_name(qualifier->resolution->binding, 0));
+        if (alias->storage[2] & 2) initialize_zero_object(alias);
+    }
+    if (type_qualifiers(member->type) & 0x1000) alias->storage[1] |= 0x10;
+    alias->flags |= 4;
+    if (symbol_construction_class(alias) && has_destructor_member_model(alias->type)) {
+        tag = cpp_context_stack->items[alias->type->field08];
+        if (!(tag->detail.class_info->trivial_special_members & 8))
+            defer_object_definition(alias);
+    }
+    global_expression_scope_active = 1;
+    return alias;
 }
 
 /* Original 0x51c60..0x51fb2. Resolve a declaration, then apply the

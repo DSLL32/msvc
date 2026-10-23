@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "function": "_declare_qualified_member@12",
+  "native_entry": "declare_qualified_member",
+  "argument_words": 4,
+  "ownership_register": "esi,ebx,ebp",
+  "ownership_caller_extent": [
+    334944,
+    335794
+  ],
+  "native_caller_locals": {
+    "caller_symbol": {
+      "frame": 1,
+      "function": "apply_declaration_type",
+      "local": "symbol"
+    },
+    "caller_qualifier": {
+      "frame": 1,
+      "function": "apply_declaration_type",
+      "local": "qualifier"
+    },
+    "caller_reference": {
+      "frame": 1,
+      "function": "apply_declaration_type",
+      "local": "reference"
+    }
+  },
+  "native_expressions": {
+    "raw_symbol": "(unsigned)symbol",
+    "raw_qualifier": "(unsigned)qualifier",
+    "raw_member": "(unsigned)member"
+  },
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 270139,
+        "original_owner_function": "_apply_declaration_type@8",
+        "native_owner_function": "apply_declaration_type",
+        "native_owner_field": "caller_symbol",
+        "native_owner_local": "symbol",
+        "identity": "Actual qualified-static-member branch of accepted apply_declaration_type; originalESI symbol/EBX qualifier/EBP reference remain live across PUSH51f33..35/CALL51f36. Native immediate caller local/formal identifies same actual owner without frame/heap address equality."
+      }
+    },
+    {
+      "name": "qualifier",
+      "stack_index": 1,
+      "native_field": "raw_qualifier",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 270139,
+        "original_owner_function": "_apply_declaration_type@8",
+        "native_owner_function": "apply_declaration_type",
+        "native_owner_field": "caller_qualifier",
+        "native_owner_local": "qualifier",
+        "identity": "Actual qualified-static-member branch of accepted apply_declaration_type; originalESI symbol/EBX qualifier/EBP reference remain live across PUSH51f33..35/CALL51f36. Native immediate caller local/formal identifies same actual owner without frame/heap address equality."
+      }
+    },
+    {
+      "name": "member",
+      "stack_index": 2,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 270139,
+        "original_owner_function": "_apply_declaration_type@8",
+        "native_owner_function": "apply_declaration_type",
+        "native_owner_field": "caller_reference",
+        "native_owner_local": "reference",
+        "identity": "Actual qualified-static-member branch of accepted apply_declaration_type; originalESI symbol/EBX qualifier/EBP reference remain live across PUSH51f33..35/CALL51f36. Native immediate caller local/formal identifies same actual owner without frame/heap address equality."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      334528,
+      334944
+    ],
+    "argument_bytes": 12,
+    "proof": "Save4registers16B: symbolESP+20,qualifierESP+24,memberESP+28; RET12; returns registered aliasEAX. Full body preserves storageclass2 while copying declaration_storage3bytes, import/zero/const/reference checks, optional deferred destructor and global_expression_scope_active8ccb8 alias already defined/audited. All11 distinct directcallees independently mapped; ordinary static-data-member literal at originala0d3c kept at use. Native actual accepted caller symbol/qualifier/reference owners correspond ESI/EBX/EBP PUSHes51f35/34/33 andCALL51f36 return51f3b; same-context anchors only, no extra callee register/hiddeninput."
+  }
+}
