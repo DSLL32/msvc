@@ -450,7 +450,7 @@ void __stdcall print_declaration(CppSymbol *symbol, FILE *stream) { __asm { int 
 
 void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
 
-void write_counted_ir(short length, char *text) { __asm { int 3 } }
+
 
 int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }

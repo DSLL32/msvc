@@ -40,3 +40,11 @@ void write_ir_integer(int *value)
             putc(bytes[index], auxiliary_ir_stream);
     }
 }
+
+/* Original 0x741f0..0x74250. Write the short count before copying
+   its payload; retain the original decrement of the sixteen-bit formal. */
+void write_counted_ir(short length, char *text)
+{
+    write_ir_short(&length);
+    while (--length >= 0) putc(*text++, auxiliary_ir_stream);
+}
