@@ -2464,3 +2464,9 @@ Floating transfer search and call-result accounting: checkpoint980
 @require_external_symbol@4. 901 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-search.json for extent union, limits and measured timings.
+
+Runtime external symbols and x87 conversion accounting: checkpoint983
+3 acceptances pass fresh original/native matching; current frontier
+@prepare_float_machine_data@4. 904 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-runtime.json for extent union, limits and measured timings.

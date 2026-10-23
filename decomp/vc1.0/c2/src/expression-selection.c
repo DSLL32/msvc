@@ -251,3 +251,10 @@ void __fastcall select_expression(Node *node)
 done:
     temporary_operand_count = saved_operands;
 }
+
+/* Original [00019700,0001970c). Account for an x87 value consumed
+   by a return/conversion helper such as the __ftol call. */
+void emit_float_return(void)
+{
+    --x87_stack_depth;
+}

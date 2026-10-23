@@ -206,3 +206,47 @@ TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, lo
     }
     return temporary;
 }
+
+/* Original [0007e4a8,0007e6a8): module-lifetime external-name cache,
+   shared by variable/function requirement paths. No surrounding data copied. */
+enum { EXTERNAL_SYMBOL_BUCKETS = 128 };
+static SymbolHeader *external_symbols[EXTERNAL_SYMBOL_BUCKETS];
+unsigned __fastcall external_name_hash(char *name);
+/* Original [0004e620,0004e72d). Require an undecorated runtime function
+   once, preserving its global symbol serial, name ownership and debug queue. */
+SymbolHeader *__fastcall require_external_symbol(char *name)
+{
+    unsigned first = external_name_hash(name) & (EXTERNAL_SYMBOL_BUCKETS - 1);
+    unsigned bucket = first;
+    char *left, *right;
+    BackendSymbol *symbol;
+    while (external_symbols[bucket]) {
+        left = external_symbols[bucket]->name; right = name;
+        while (*left == *right && *left) { ++left; ++right; }
+        if (*left == *right) return external_symbols[bucket];
+        bucket = (bucket + 1) & (EXTERNAL_SYMBOL_BUCKETS - 1);
+        if (bucket == first) compiler_internal_error("@(#)p2symtab.c:1.89", 0x55c);
+    }
+    symbol = allocate_descriptor(4, 0);
+    external_symbols[bucket] = &symbol->symbol;
+    symbol->symbol.identifier = next_symbol_identifier();
+    symbol->symbol.name = arena_strdup(name, 0);
+    symbol->symbol.field0e = 0;
+    symbol->attributes = (symbol->attributes & ~8U) | 7;
+    symbol->output_flags &= ~1U;
+    symbol->output_flags &= ~2U;
+    symbol->attributes = (symbol->attributes & ~0xb0U) | 0x40;
+    queue_symbol_debug(&symbol->symbol);
+    symbol->attributes = (symbol->attributes & ~0x600U) | 0x100;
+    insert_symbol(&symbol->symbol, 0);
+    return &symbol->symbol;
+}
+
+/* Original [0004e530,0004e542). Sum signed input bytes modulo32;
+   the two runtime-name caches select a bucket from its low seven bits. */
+unsigned __fastcall external_name_hash(char *name)
+{
+    unsigned hash = 0;
+    while (*name) hash += (unsigned)(int)(signed char)*name++;
+    return hash;
+}

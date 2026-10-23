@@ -984,7 +984,10 @@
     "@can_reuse_float_load_width@8",
     "@find_float_transfer_match@4",
     "@previous_float_load@4",
-    "_mark_x87_call_result"
+    "_mark_x87_call_result",
+    "@require_external_symbol@4",
+    "@external_name_hash@4",
+    "_emit_float_return"
   ],
   "driver": [
     {
@@ -1705,8 +1708,7 @@
     {
       "name": "@require_external_symbol@4",
       "start": 321056,
-      "end": 321057,
-      "provisional": true
+      "end": 321325
     },
     {
       "name": "_output_noop",
@@ -3228,8 +3230,7 @@
     {
       "name": "_emit_float_return",
       "start": 104192,
-      "end": 104193,
-      "provisional": true
+      "end": 104204
     },
     {
       "name": "@emit_label@4",
@@ -6931,6 +6932,11 @@
       "start": 230976,
       "end": 230977,
       "provisional": true
+    },
+    {
+      "name": "@external_name_hash@4",
+      "start": 320816,
+      "end": 320834
     }
   ],
   "cases": {

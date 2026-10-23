@@ -94,7 +94,6 @@ void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
-SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
 #include "output.h"
 __declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
 __declspec(naked) void output_noop_function(void) { RECON_TRACE_NAKED_ENTRY(output_noop_function) __asm int 3 }
@@ -148,7 +147,6 @@ void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int
 
 MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
-void emit_float_return(void) { __asm int 3 }
 unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
 
 #include "register-use.h"
