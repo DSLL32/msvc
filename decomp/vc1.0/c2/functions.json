@@ -1234,7 +1234,10 @@
     "@write_listing_comment@4",
     "@listing_data_type@4",
     "@write_listing_displacement@8",
-    "@coff_output_debug_pair@4"
+    "@coff_output_debug_pair@4",
+    "@coff_begin_lines@16",
+    "@coff_output_debug_record@8",
+    "@coff_record_line@8"
   ],
   "driver": [
     {
@@ -2068,10 +2071,28 @@
       }
     },
     {
-      "name": "_coff_output_debug_record",
+      "name": "@coff_output_debug_record@8",
       "start": 447472,
-      "end": 447473,
-      "provisional": true
+      "end": 447537,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-coff-record-abi/validation.json",
+        "observed_legacy_logical": "_coff_output_debug_record"
+      }
     },
     {
       "name": "_coff_output_value",
@@ -4107,8 +4128,35 @@
     {
       "name": "@coff_begin_lines@16",
       "start": 453792,
-      "end": 453793,
-      "provisional": true
+      "end": 454045,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "handle",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "line",
+            "location": "EDX",
+            "type": "unsigned16"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "offset",
+            "location": "entryESP+8",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/dbglist-begin-lines-abi/validation.json"
+      }
     },
     {
       "name": "@coff_line_marker@4",
@@ -8040,6 +8088,29 @@
         "hidden_inputs": [],
         "callee_stack_cleanup": 0,
         "entry_observation": "cases/dbglist-displacement-abi/validation.json"
+      }
+    },
+    {
+      "name": "@coff_record_line@8",
+      "start": 453680,
+      "end": 453780,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "ECX",
+            "type": "unsigned16"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-record-line-abi/validation.json"
       }
     }
   ],

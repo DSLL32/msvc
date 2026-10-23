@@ -1,0 +1,135 @@
+{
+  "checked": [
+    {
+      "function": "@coff_begin_lines@16",
+      "formals": [
+        {
+          "name": "handle",
+          "location": "ECX",
+          "type": "unsigned32",
+          "value": 10
+        },
+        {
+          "name": "line",
+          "location": "EDX",
+          "type": "unsigned16",
+          "value": 24
+        },
+        {
+          "name": "bytes",
+          "location": "entryESP+4",
+          "type": "unsigned32",
+          "value": 185
+        },
+        {
+          "name": "offset",
+          "location": "entryESP+8",
+          "type": "unsigned32",
+          "value": 0
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6ed9a",
+            "cleanup": 8
+          }
+        ],
+        [
+          {
+            "site": "0x56ba0",
+            "cleanup": 8
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@coff_output_debug_record@8",
+      "formals": [
+        {
+          "name": "line",
+          "location": "ECX",
+          "type": "unsigned32",
+          "value": 24
+        },
+        {
+          "name": "offset",
+          "location": "EDX",
+          "type": "unsigned32",
+          "value": 0
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6d409",
+            "cleanup": 0
+          },
+          {
+            "site": "0x6d430",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x54783",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@coff_record_line@8",
+      "formals": [
+        {
+          "name": "line",
+          "location": "ECX",
+          "type": "unsigned16",
+          "value": 4
+        },
+        {
+          "name": "offset",
+          "location": "EDX",
+          "type": "unsigned32",
+          "value": 9
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6ec93",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x56a39",
+            "cleanup": 0
+          }
+        ]
+      ]
+    }
+  ],
+  "rejected": [
+    "@coff_begin_lines@16: missing formal",
+    "@coff_begin_lines@16: unknown hidden register",
+    "@coff_begin_lines@16: wrong input value",
+    "@coff_begin_lines@16: wrong input register",
+    "@coff_begin_lines@16: wrong width",
+    "@coff_begin_lines@16: wrong cleanup",
+    "@coff_output_debug_record@8: missing formal",
+    "@coff_output_debug_record@8: unknown hidden register",
+    "@coff_output_debug_record@8: wrong input value",
+    "@coff_output_debug_record@8: wrong input register",
+    "@coff_output_debug_record@8: wrong width",
+    "@coff_output_debug_record@8: wrong cleanup",
+    "@coff_record_line@8: missing formal",
+    "@coff_record_line@8: unknown hidden register",
+    "@coff_record_line@8: wrong input value",
+    "@coff_record_line@8: wrong input register",
+    "@coff_record_line@8: wrong width",
+    "@coff_record_line@8: wrong cleanup"
+  ],
+  "seconds": 0.2578070480376482,
+  "scope": "All actual scalar formals, no-hidden-input proof, immutable original raw binding and original/canonical CFG RET cleanup. Legacy logical spelling only allowed by explicit same-VA callback correction metadata. No blanket unvisited input equivalence."
+}

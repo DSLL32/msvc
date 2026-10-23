@@ -80,7 +80,7 @@ void initialize_output_callbacks(void)
     output_callbacks.mark_symbol = coff_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = coff_output_debug_pair;
-    output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))coff_output_debug_record;
+    output_callbacks.debug_record = coff_output_debug_record;
         } else {
     output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;

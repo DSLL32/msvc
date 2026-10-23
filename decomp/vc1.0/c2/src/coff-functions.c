@@ -53,6 +53,20 @@ void __fastcall coff_output_debug_pair(char *filename)
         coff_has_function_lines = 0;
     }
 }
+/* Original6d3f0..6d431. The first source position opens the function;
+   later entries encode a relative16-bit line, reserving7fff for zero. */
+void __fastcall coff_output_debug_record(unsigned line, unsigned offset)
+{
+    coff_last_function_line = line;
+    if (coff_emitted_function) {
+        coff_emitted_function = 0;
+        return;
+    }
+    line -= coff_function_line;
+    if (!line) line = 0x7fff;
+    coff_record_line((unsigned short)line, offset);
+    ++coff_has_function_lines;
+}
 /* Original [0006cac0,0006ccd0). Prepare the function symbol and optional
    per-function debug/FPO sections, then define its COFF entry. */
 void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int frame_metadata, unsigned line)

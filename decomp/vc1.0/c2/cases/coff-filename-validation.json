@@ -585,7 +585,7 @@
       ],
       "canonical": [
         {
-          "site": "0x546d7",
+          "site": "0x546d3",
           "mnemonic": "mov",
           "type": "memory",
           "width": 4
@@ -596,7 +596,7 @@
       "function": "@coff_output_function@4",
       "storage": "pending",
       "original_address": "0x7e8b4",
-      "canonical_address": "0x8d9b8",
+      "canonical_address": "0x8d9c0",
       "original": [
         {
           "site": "0x6d363",
@@ -607,13 +607,13 @@
       ],
       "canonical": [
         {
-          "site": "0x54688",
+          "site": "0x54684",
           "mnemonic": "movzx",
           "type": "memory",
           "width": 2
         },
         {
-          "site": "0x546b1",
+          "site": "0x546ad",
           "mnemonic": "mov",
           "type": "memory",
           "width": 2
@@ -635,7 +635,7 @@
       ],
       "canonical": [
         {
-          "site": "0x546f2",
+          "site": "0x546ee",
           "mnemonic": "cmp",
           "type": "memory",
           "width": 4
@@ -646,7 +646,7 @@
       "function": "@coff_output_debug_pair@4",
       "storage": "pending",
       "original_address": "0x7e8b4",
-      "canonical_address": "0x8d9b8",
+      "canonical_address": "0x8d9c0",
       "original": [
         {
           "site": "0x6d3ce",
@@ -663,14 +663,76 @@
       ],
       "canonical": [
         {
-          "site": "0x54719",
+          "site": "0x54715",
           "mnemonic": "mov",
           "type": "memory",
           "width": 2
         },
         {
-          "site": "0x5472e",
+          "site": "0x5472a",
           "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        }
+      ]
+    },
+    {
+      "function": "@coff_output_debug_record@8",
+      "storage": "emitted",
+      "original_address": "0x850c8",
+      "canonical_address": "0x9782c",
+      "original": [
+        {
+          "site": "0x6d3f6",
+          "mnemonic": "cmp",
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6d3ff",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x5474f",
+          "mnemonic": "cmp",
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x5475c",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@coff_output_debug_record@8",
+      "storage": "pending",
+      "original_address": "0x7e8b4",
+      "canonical_address": "0x8d9c0",
+      "original": [
+        {
+          "site": "0x6d422",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        },
+        {
+          "site": "0x6d42a",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x54790",
+          "mnemonic": "inc",
           "type": "memory",
           "width": 2
         }
@@ -682,6 +744,6 @@
     "missing accepted def-use binding",
     "widened pending-word store"
   ],
-  "seconds": 0.8451512949541211,
-  "scope": "Whole original6d3b0..6d3ec versus actual C for81 guard/WORD shapes with named line/filename child mocks. Original+canonical PE initializer1 and four accepted function/storage identities, including2-byte pending reads/writes, inspected through memory/address-construction operands. No whole-image arbitrary indirect-alias proof. Real first callback guard is false; child bodies/ABIs and cold execution are not accepted by these mocks."
+  "seconds": 0.952822252176702,
+  "scope": "Whole original6d3b0..6d3ec versus actual C for81 guard/WORD shapes with named line/filename child mocks. Original+canonical PE initializer1 and six accepted function/storage identities, including2-byte pending reads/writes, inspected through memory/address-construction operands. No whole-image arbitrary indirect-alias proof. Real first callback guard is false; child bodies/ABIs and cold execution are not accepted by these mocks."
 }

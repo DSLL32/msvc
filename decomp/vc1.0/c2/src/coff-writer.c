@@ -563,3 +563,72 @@ unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
     coff_vector_append(coff_symbol_entries, entry);
     return handle;
 }
+
+CoffLineAuxiliary *coff_previous_begin_auxiliary; /* 000851d0 */
+CoffFunctionAuxiliary *coff_previous_function_auxiliary; /* 000851d4 */
+/* Original6ec30..6ec94. Ordinary line positions are relative to the
+   logical section base. Full blocks reuse the writer's line free list. */
+void __fastcall coff_record_line(unsigned short line, unsigned offset)
+{
+    CoffSection *section = coff_current_section;
+    CoffContribution *contribution = section->last;
+    CoffLineBlock *block = contribution->lines, *next;
+    CoffLine *entry = &block->entries[block->count++];
+    entry->location = offset - section->base_offset;
+    entry->line = line;
+    ++contribution->line_count;
+    if ((int)block->count >= 50) {
+        if (coff_free_lines) {
+            next = coff_free_lines;
+            coff_free_lines = next->next;
+        } else next = coff_allocator(sizeof(CoffLineBlock));
+        next->count = 0;
+        next->next = block->next;
+        block->next = next;
+        contribution->lines = next;
+    }
+}
+/* Original6eca0..6ed9d, RET8. A line-zero entry identifies its function.
+   The last full block remains in the circular contribution list. Auxiliary
+   records are18 bytes; untouched reserved fields retain allocator contents. */
+void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
+    unsigned bytes, unsigned offset)
+{
+    CoffContribution *contribution = coff_current_section->last;
+    CoffLineBlock *block = contribution->lines, *next;
+    CoffLine *entry = &block->entries[block->count++];
+    CoffLineAuxiliary *begin;
+    CoffFunctionAuxiliary *function;
+    CoffSymbolEntry *symbol;
+    void *auxiliary;
+    unsigned begin_handle;
+    entry->location = handle;
+    entry->line = 0;
+    ++contribution->line_count;
+    if ((int)block->count >= 50) {
+        next = coff_allocator(sizeof(CoffLineBlock));
+        next->count = 0;
+        next->next = block->next;
+        block->next = next;
+        contribution->lines = next;
+    }
+    if (coff_debug & 1) {
+        begin_handle = coff_define_aux_symbol(".bf", coff_selected_section,
+            0x65, offset, 0, &auxiliary);
+        begin = auxiliary;
+        begin->line = line;
+        begin->next = 0;
+        if (coff_previous_begin_auxiliary)
+            coff_previous_begin_auxiliary->next = begin_handle;
+        coff_previous_begin_auxiliary = begin;
+        symbol = coff_vector_get(coff_symbol_entries, handle + 2);
+        function = symbol->data.auxiliary;
+        function->tag = begin_handle;
+        function->bytes = bytes;
+        function->line_offset = 0;
+        function->next = 0;
+        if (coff_previous_function_auxiliary)
+            coff_previous_function_auxiliary->next = handle;
+        coff_previous_function_auxiliary = function;
+    }
+}

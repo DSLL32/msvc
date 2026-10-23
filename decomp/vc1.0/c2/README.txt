@@ -312,3 +312,15 @@ this is PE data, not synthetic seeding. All14 native cases and canonical
 graph/extent/ABI/negatives pass;13 finish and dbglist stops at begin-lines.
 Coverage333620/399693=83.4691% is accepted code extent, not branch coverage.
 Canonical/W3 builds pass. No target-local CRT was added.
+
+Checkpoint1233 reconstructs the whole COFF begin-lines253-byte function,
+debug-record65-byte callback, and ordinary100-byte line recorder. Actual
+register/stack formals, original/canonical CFG cleanup, native first entries
+and named traps match.192/144/96 controlled original/canonical shapes cover
+block growth, free-list reuse, auxiliary chains, line-zero sentinel and WORD
+wrap; child mocks remain distinct from real child acceptance. All14 native
+cases pass; dbglist now stops at coff_line_marker.13 completed output cases
+remain exact. Coverage334038/399693=83.5736% code extent, not branch coverage.
+Data/ABI limits, original references and separate timing receipts are recorded
+in cases/dbglist-lines-checkpoint.json. The earlier informal begin-lines251
+count was arithmetic only; its accepted6eca0..6ed9d extent was always253.

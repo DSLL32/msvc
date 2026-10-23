@@ -1,0 +1,12 @@
+{
+  "logical": "@coff_line_marker@4",
+  "matched": true,
+  "executable_sha256": "bd6979f14686f364a7511aaea3c911a92f2912eaeaa9f1fa27c51b276e8796ab",
+  "config_sha256": "d4420f191fdbc76b7a27db6c965e08e29422000c18ebbd3ce20520a63aec5dad",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "setup_seconds": 0.007337233051657677,
+  "execution_seconds": 0.17843238916248083,
+  "seconds": 0.19632693473249674,
+  "log_sha256": "bdd5d53b951a8d2e4cd08bad927786925e39b348297f0f99cfeefb31d7d90af6",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/dbglist-gdb-l5024myn"
+}

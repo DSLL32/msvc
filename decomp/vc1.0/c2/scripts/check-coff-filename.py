@@ -44,12 +44,12 @@ def references(image,records,row,address):
             if value==address:refs.append(dict(site=hex(a),mnemonic=mn,type='memory'if operand.type==X86_OP_MEM else'address',width=operand.size))
     return refs
 bindings=[]
-for name in ['@coff_output_function@4','@coff_output_debug_pair@4']:
+for name in ['@coff_output_function@4','@coff_output_debug_pair@4','@coff_output_debug_record@8']:
     for label,a,b in [('emitted',0x850c8,flag),('pending',0x7e8b4,pending)]:
         original=references(pe,left,next(r for r in left if r['name']==name),a);rebuilt=references(canonical,right,next(r for r in right if r['name']==name),b)
         bindings.append(dict(function=name,storage=label,original_address=hex(a),canonical_address=hex(b),original=original,canonical=rebuilt))
 def validate_bindings(values):
-    assert len(values)==4
+    assert len(values)==6
     for b in values:
         assert b['original']and b['canonical']
         assert b['canonical_address']==hex(flag if b['storage']=='emitted'else pending)
@@ -60,4 +60,4 @@ for label,change in [('same-valued separate emitted storage',lambda r:r[2].updat
     try:validate_bindings(bad)
     except AssertionError:rejected.append(label)
     else:raise AssertionError('Accepted bad COFF storage identity: '+label)
-Path('cases/coff-filename-validation.json').write_text(json.dumps(dict(cases=rows,initial_emitted=1,bindings=bindings,rejected=rejected,seconds=time.perf_counter()-started,scope='Whole original6d3b0..6d3ec versus actual C for81 guard/WORD shapes with named line/filename child mocks. Original+canonical PE initializer1 and four accepted function/storage identities, including2-byte pending reads/writes, inspected through memory/address-construction operands. No whole-image arbitrary indirect-alias proof. Real first callback guard is false; child bodies/ABIs and cold execution are not accepted by these mocks.'),indent=2)+'\n');print('81 callback shapes, PE initializer1 and4 storage identities/3 negatives pass')
+Path('cases/coff-filename-validation.json').write_text(json.dumps(dict(cases=rows,initial_emitted=1,bindings=bindings,rejected=rejected,seconds=time.perf_counter()-started,scope='Whole original6d3b0..6d3ec versus actual C for81 guard/WORD shapes with named line/filename child mocks. Original+canonical PE initializer1 and six accepted function/storage identities, including2-byte pending reads/writes, inspected through memory/address-construction operands. No whole-image arbitrary indirect-alias proof. Real first callback guard is false; child bodies/ABIs and cold execution are not accepted by these mocks.'),indent=2)+'\n');print('81 callback shapes, PE initializer1 and6 storage identities/3 negatives pass')

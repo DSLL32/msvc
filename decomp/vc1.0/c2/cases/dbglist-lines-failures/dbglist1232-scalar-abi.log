@@ -1,0 +1,4 @@
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-coff-scalar-abi.py", line 23
+    bits=16 if p['type'].endswith('16')else32;v=receipt['original_raw_values'][i]&((1<<bits)-1)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: expected 'else' after 'if' expression

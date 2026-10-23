@@ -1,0 +1,2 @@
+usage: debug-frontier.py [-h] --profile PROFILE --reference REFERENCE
+debug-frontier.py: error: the following arguments are required: --profile

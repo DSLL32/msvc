@@ -34,6 +34,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-listing-output-abi.py
 	$(PYTHON) scripts/check-listing-entry-abi.py
 	$(PYTHON) scripts/check-coff-entry-abi.py
+	$(PYTHON) scripts/check-coff-scalar-abi.py
 	$(PYTHON) scripts/check-source-filename-storage.py
 
 # Explicit Python compatibility/focused proofs remain available; fixtures do not
@@ -49,6 +50,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-input-support.py
 	$(PYTHON) scripts/check-listing-entry-abi.py
 	$(PYTHON) scripts/check-coff-entry-abi.py
+	$(PYTHON) scripts/check-coff-scalar-abi.py
 	$(PYTHON) scripts/check-source-filename-storage.py
 audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes build/native/check-listing-special build/native/check-listing-mnemonic build/native/check-listing-operand build/native/check-listing-prefix build/native/check-register-names build/native/check-instruction-comment build/native/check-listing-comment-prefix build/native/check-listing-type
 	$(PYTHON) scripts/check-float-peephole-data.py
@@ -67,6 +69,9 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-subtraction-overflow.py
 	$(PYTHON) scripts/check-debug-segment-storage.py
 	$(PYTHON) scripts/check-codeview-string.py
+	$(PYTHON) scripts/check-coff-record-line.py
+	$(PYTHON) scripts/check-coff-debug-record.py
+	$(PYTHON) scripts/check-coff-begin-lines.py
 	$(PYTHON) scripts/check-coff-fill.py
 	$(PYTHON) scripts/check-coff-fill-contract.py
 	$(PYTHON) scripts/check-listing-directive.py

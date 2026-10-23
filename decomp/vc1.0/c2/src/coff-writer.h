@@ -65,6 +65,16 @@ typedef struct CoffLine {
     unsigned location;
     unsigned short line;
 } CoffLine;
+typedef struct CoffLineAuxiliary {
+    unsigned reserved0;
+    unsigned short line, reserved6;
+    unsigned reserved8, next;
+    unsigned short reserved16;
+} CoffLineAuxiliary;
+typedef struct CoffFunctionAuxiliary {
+    unsigned tag, bytes, line_offset, next;
+    unsigned short reserved16;
+} CoffFunctionAuxiliary;
 typedef struct CoffObjectSymbol {
     CoffName name;
     unsigned value;
@@ -91,6 +101,9 @@ typedef struct CoffLineBlock {
     struct CoffLineBlock *next;
     CoffLine entries[50];
 } CoffLineBlock;
+typedef char CoffLineBlockSizeCheck[sizeof(CoffLineBlock) == 308 ? 1 : -1];
+typedef char CoffLineAuxiliarySizeCheck[sizeof(CoffLineAuxiliary) == 18 ? 1 : -1];
+typedef char CoffFunctionAuxiliarySizeCheck[sizeof(CoffFunctionAuxiliary) == 18 ? 1 : -1];
 struct CoffContribution {
     CoffContribution *next;
     CoffSection *section;
@@ -168,6 +181,7 @@ unsigned __fastcall coff_data_position(CoffScope *scope);
 void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset);
 void __fastcall coff_line_marker(unsigned short marker);
+void __fastcall coff_record_line(unsigned short line, unsigned offset);
 void __fastcall coff_end_lines(unsigned short line, unsigned offset);
 void __fastcall coff_set_section_flags(unsigned short section, unsigned flags);
 void coff_close_all_sections(void);
