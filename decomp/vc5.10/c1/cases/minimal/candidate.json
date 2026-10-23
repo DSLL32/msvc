@@ -411,6 +411,16 @@
       "start_rva": 197889,
       "end_rva": 197904,
       "entry": 0
+    },
+    {
+      "start_rva": 76251,
+      "end_rva": 76312,
+      "entry": 1
+    },
+    {
+      "start_rva": 197904,
+      "end_rva": 197919,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1268,6 +1278,23 @@
         ]
       ],
       "source": "src/arenas.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_primary_arenas",
+      "native_symbol": "initialize_primary_arenas",
+      "role": "application",
+      "chunks": [
+        [
+          76251,
+          76312
+        ],
+        [
+          197904,
+          197919
+        ]
+      ],
+      "source": "src/arenas.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -1290,13 +1317,19 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76251,
-    "native_symbol": "initialize_primary_arenas",
-    "kind": "arena-initialization",
-    "native_args": [],
+    "rva": 76312,
+    "native_symbol": "CompilerArena::Initialize",
+    "native_linkage_symbol": "_ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv",
+    "kind": "arena-reservation",
+    "calling_convention": "thiscall-arena",
+    "native_args": [
+      "this",
+      "descriptor",
+      "address"
+    ],
     "caller": {
-      "native_symbol": "initialize_compiler_arenas",
-      "return_rva": 76193
+      "native_symbol": "initialize_primary_arenas",
+      "return_rva": 76303
     }
   },
   "imports": [
@@ -1567,7 +1600,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole arena wrapper candidate, independent arena entry after real GetSystemInfo then first named primary initializer frontier",
+  "staging_role": "sole primary arena initializer candidate; first real ECX arena/descriptor/NULL member entry, no allocation executed",
   "registered_cleanup": [
     {
       "original_rva": 145728,

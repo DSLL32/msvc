@@ -402,11 +402,58 @@ class ActualArenaEntry(gdb.Breakpoint):
         return False
 ActualArenaEntry('*0x%x')
 """%arena_address
-            main_probe+=work_probe+scanner_probe+empty_probe+arena_probe
+            primary_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_primary_arenas$',table,re.M)[1],16)
+            primary_probe="""primary_entries=[]
+class ActualPrimaryEntry(gdb.Breakpoint):
+    def stop(self):
+        esp=int(gdb.parse_and_eval('$esp'))
+        words=list(struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes()))
+        block=gdb.block_for_pc(int(gdb.parse_and_eval('$pc')))
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        assert formals==[]
+        crt_state={'win32_last_error':int(gdb.parse_and_eval('last_error')),'x87_control':int(gdb.parse_and_eval('$fctrl')),
+          'crt_attached':int(gdb.parse_and_eval('c1_crt_attached')),'raw_dllmain':int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain')),
+          'onexit_begin':int(gdb.parse_and_eval('(unsigned int)c1_onexit_begin')),'onexit_end':int(gdb.parse_and_eval('(unsigned int)c1_onexit_end')),
+          'onexit_first':int(gdb.parse_and_eval('(unsigned int)*c1_onexit_begin')),'crt_adjust_fdiv':int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),
+          'dll_instance':int(gdb.parse_and_eval('(unsigned int)c1_dll_instance')),'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
+        frame=gdb.newest_frame();caller=frame.older()
+        ancestor=frame
+        while ancestor and ancestor.name()!='InvokeCompilerPass':ancestor=ancestor.older()
+        assert ancestor
+        actual={key:int(ancestor.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv','mode')}
+        invocation={'symbol':ancestor.name(),'args':actual,'argv':[ancestor.read_var('argv')[i].string()for i in range(actual['argc'])],
+          'argv_pointers':[int(ancestor.read_var('argv')[i].cast(gdb.lookup_type('unsigned int')))for i in range(actual['argc'])],
+          'argv_terminator':int(ancestor.read_var('argv')[actual['argc']].cast(gdb.lookup_type('unsigned int')))}
+        primary_entries.append({'invocation':invocation,'crt_state':crt_state,'boundary_rva':0x129db,'symbol':block.function.name,'pc':int(gdb.parse_and_eval('$pc')),'esp':esp,'return':words[0],
+          'args':{},'formal_inventory':formals,'compiler_state':capture_modeled(),'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{}}})
+        return False
+ActualPrimaryEntry('*0x%x')
+"""%primary_address
+            member_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv$',table,re.M)[1],16)
+            member_probe="""arena_member_entries=[]
+class ActualArenaMemberEntry(gdb.Breakpoint):
+    def stop(self):
+        esp=int(gdb.parse_and_eval('(unsigned int)$esp'));pc=int(gdb.parse_and_eval('(unsigned int)$pc'))
+        words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(esp,12).tobytes()))
+        block=gdb.block_for_pc(pc)
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument]
+        arena_member_entries.append({'pc':pc,'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'esp':esp,'return':words[0],
+          'descriptor':words[1],'address':words[2],'formal_inventory':formals,'compiler_state':capture_modeled()})
+        return False
+ActualArenaMemberEntry('*0x%x')
+"""%member_address
+            main_probe+=member_probe
+            main_probe+=work_probe+scanner_probe+empty_probe+arena_probe+primary_probe
             allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(main_entries,indent=2)+'\\n')\n"%str(output/'main-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(work_entries,indent=2)+'\\n')\n"%str(output/'work-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_entries,indent=2)+'\\n')\n"%str(output/'arena-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(primary_entries,indent=2)+'\\n')\n"%str(output/'primary-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_member_entries,indent=2)+'\\n')\n"%str(output/'arena-member-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('allocation_observers'):
             table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
             api_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] recon_VirtualAlloc$',table,re.M)[1],16)

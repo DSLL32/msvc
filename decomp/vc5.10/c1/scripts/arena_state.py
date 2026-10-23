@@ -41,7 +41,8 @@ def boundary(original,native,state,sequence,module):
 
 def validate(original,native,fields,entry,state,entry_sequence,sequence,module,candidate,probe):
  expected_fields(fields);assert candidate['restore_probe']['arenas']==PLAN
- assert candidate['expected_frontier']==dict(rva=0x129db,native_symbol='initialize_primary_arenas',kind='arena-initialization',native_args=[],caller=dict(native_symbol='initialize_compiler_arenas',return_rva=0x129a1))
+ assert candidate['expected_frontier']['kind']in ('arena-initialization','arena-reservation')
+ assert state['symbol']in ('initialize_primary_arenas','initialize_primary_arenas()')
  assert state['compiler_state']==entry['compiler_state']
  assert state['args']=={} and state['formal_inventory']==[] and state['caller']['symbol']=='initialize_compiler_arenas'
  names=symbols(captured_native_binary(native))
@@ -71,3 +72,40 @@ def validate(original,native,fields,entry,state,entry_sequence,sequence,module,c
   at=int(re.findall(r'^trap seq=(\d+) rva=000122a5 ',events,re.M)[0]);bss=(original/('compiler-bss-%03d.bin'%at)).read_bytes();saved=struct.unpack_from('<I',bss,0x7818)[0]
   assert read(bss)==seed(saved)
   assert all(offset+5*4<6548 for offset in PLAN['pointer_offsets'])
+
+def primary_boundary(original,native,state,sequence,module):
+ events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=000129db .*stack=([0-9a-f,]+)\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M);assert len(rows)==1
+ at=int(rows[0][0]);assert at<sequence and int(rows[0][1].split(',')[0],16)==module+0x129a1
+ assert int(rows[0][2])==0 and int(rows[0][3],16)&0xffff==0x027f
+ entries=json.loads((native/'primary-entry-observations.json').read_text());assert len(entries)==1;entry=copy.deepcopy(entries[0]);names=symbols(captured_native_binary(native))
+ assert entry['pc']==names['initialize_primary_arenas'][0] and entry['boundary_rva']==0x129db
+ assert entry['args']=={} and entry['formal_inventory']==[] and entry['symbol']=='initialize_primary_arenas()'
+ assert entry['invocation']==state['invocation'] and entry['return']==entry['caller']['pc']
+ assert entry['caller']['symbol']=='initialize_compiler_arenas' and entry['caller']['args']=={}
+ call(captured_native_binary(native),entry['return'],entry['pc']);entry.update(entry['crt_state'])
+ return entry,at
+
+def validate_primary(original,native,entry,state,entry_sequence,sequence,module,candidate):
+ expected=candidate['expected_frontier'];assert (expected['rva'],expected['kind'],expected['calling_convention'])==(0x12a18,'arena-reservation','thiscall-arena')
+ assert expected['native_args']==['this','descriptor','address']
+ assert state['symbol']=='CompilerArena::Initialize' and state['caller']['symbol']=='initialize_primary_arenas'
+ names=symbols(captured_native_binary(native));method='_ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv'
+ assert state['args']=={'this':names['c1_bss'][0]+804,'descriptor':names['c1_arena_descriptors'][0],'address':0}
+ assert state['formal_inventory']==[dict(name='this',type='CompilerArena *'),dict(name='descriptor',type='CompilerArenaDescriptor *'),dict(name='address',type='void *')]
+ observations=json.loads((native/'arena-member-entry-observations.json').read_text());assert len(observations)==1;actual=observations[0]
+ assert actual['pc']==names[method][0] and actual['ecx']==state['args']['this']
+ assert actual['descriptor']==state['args']['descriptor'] and actual['address']==0
+ assert actual['formal_inventory']==state['formal_inventory']
+ assert actual['return']==state['caller']['pc'];call(captured_native_binary(native),actual['return'],actual['pc'])
+ assert actual['compiler_state']==state['compiler_state']==entry['compiler_state']
+ assert actual['esp'] and state['caller']['args']=={}
+ events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=%d rva=00012a18 esp=([0-9a-f]+) eax=[0-9a-f]+ ecx=([0-9a-f]+) stack=([0-9a-f,]+)$'%sequence,events,re.M);assert len(rows)==1
+ words=[int(x,16)for x in rows[0][2].split(',')];assert words[:3]==[module+0x12a0f,module+0x65780,0]
+ assert int(rows[0][1],16)==module+0x58fb0 and int(rows[0][0],16)
+ raw=(original/'relocated-text.bin').read_bytes();assert raw[0x12a05-0x1000:0x12a0f-0x1000]==b'\x6a\0\x56\x8b\xcf\xe8\x09\0\0\0'
+ # RET8 is ABI evidence for the still-masked member, not accepted body credit.
+ assert raw[0x12a77-0x1000:0x12a7a-0x1000]==b'\xc2\x08\0'
+ for region in ('compiler-data','compiler-bss','compiler-snapshot','state'):
+  assert(original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+ for key,value in entry['crt_state'].items():assert state[key]==value
+ assert RECORDS[0]['flags']&1 and all(not(record['flags']&1)for record in RECORDS[1:])

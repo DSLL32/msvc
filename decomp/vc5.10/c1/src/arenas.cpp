@@ -26,7 +26,13 @@ void __cdecl initialize_compiler_arenas(void)
 
 void __cdecl initialize_primary_arenas(void)
 {
-    __asm { int 3 }
+    unsigned index;
+    for (index = 0; index < 6; ++index) {
+        if (c1_arena_descriptors[index].flags & 1) {
+            if (!c1_bss.arenas[index].Initialize(&c1_arena_descriptors[index], NULL))
+                compiler_fatal(60);
+        }
+    }
 }
 
 int RECON_THISCALL CompilerArena::Initialize(CompilerArenaDescriptor *descriptor,

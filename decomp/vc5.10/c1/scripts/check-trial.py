@@ -141,7 +141,7 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
     scanner_argument=expected.get('kind')=='scanner-argument'
     post_internal=expected.get('kind')=='post-internal-switches'
     post_system=expected.get('kind')=='post-system-info'
-    arena_initialization=expected.get('kind')=='arena-initialization'
+    arena_initialization=expected.get('kind') in ('arena-initialization','arena-reservation')
     compiler_flow = arena_initialization or post_system or post_internal or scanner_argument or main_switches or work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
@@ -197,7 +197,8 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
             args=[int(value,16)for value in invocations[0][2].split(',')][1:4]
         if arena_initialization:
-            assert state['caller']['symbol']=='initialize_compiler_arenas' and state['args']=={}
+            assert state['caller']['symbol']==expected['caller']['native_symbol']
+            assert state['args']=={} if expected['kind']=='arena-initialization' else set(state['args'])=={'this','descriptor','address'}
             invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
             args=[int(value,16)for value in invocations[0][2].split(',')][1:4]
         if pass_initializer:

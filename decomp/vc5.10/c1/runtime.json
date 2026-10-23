@@ -119,13 +119,6 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "_initialize_primary_arenas",
-    "start": 274803163,
-    "end": 274803164,
-    "pending_extent": true,
-    "evidence": "actual arena initializer callee; named INT3 only"
-  },
-  {
     "name": "_initialize_default_pools",
     "start": 274803395,
     "end": 274803396,
