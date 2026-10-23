@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "ff8612a19ec4594003e93bf42adb5f6dbd120735f3784fe12cd0fe7938526086",
+    "functions.json": "c35defc76283670e1c3a69d38f56b2e891d25d1093475be7a871880c0668492b",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "95bb992414388f4f239baf8b23d3dcee0aa67cb904907e48b1f31680e070aba4",
-    "cases/canonical-map.txt": "961686845ae2eee7c633aedeaa263e1d85515e5a8e276915efd7621504d16528",
+    "cases/original-entry-references.json": "7b95b8004b5c333102dad88e044eaab555b73d5c54bfa5dec5c67579d3193f6d",
+    "cases/canonical-map.txt": "1747bc0aac3a464737d64143794ec2aec1fdedabebdecb9488d13ad61d710ca3",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
@@ -15,9 +15,9 @@
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-receipt.json": "95bec537e2dc9e24ed52278445c795650669f259c303b5fd623daeaa2ee1663a",
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-events.txt": "39da0c728c9a3cc0e550edff49d28f1d34b0b17f63f149b04e1cec24864b68b1",
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-entries.plan": "0f61dfc9058b40b2510dd9ad3b749aa500a68c1a04a9f80eef61b2b2c328cc94",
-    "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-receipt.json": "5aa30f4e889bccf01b9e6566be90bc65b65fea48ae6926da3c8ae7342add4e2d",
-    "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-events.txt": "2f8ff22997abb30f92b52884b0e70ccc617b589b77c100c5bc44b3f5a8f018a3",
-    "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-entries.plan": "e0188f81da9235dca2d229253318f25665e69b48d2b98c0dc8d5f38cf67a7326"
+    "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-receipt.json": "ee119d861d4b736aeb4b36b582cef985dddf4f1fc03eabf18d0b368c3eed26d2",
+    "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-events.txt": "9ee5f9b36d99bf23652ffec240a9a5a3cee55b31b276559d6416d5e14e36d46e",
+    "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-entries.plan": "4e951aa1b9879bc0ced3c4b5a1166204afe1ce2c4805c7ffdf6860e49ff6ebfb"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -470,11 +470,15 @@
     },
     "begin_while_body": {
       "logical": "_begin_while_body",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "begin_while_condition": {
       "logical": "_begin_while_condition",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
+    },
+    "begin_while_condition_region": {
+      "logical": "_begin_while_condition_region",
+      "source": "src/frontend-records.c"
     },
     "binary_expression": {
       "logical": "_binary_expression@12",
@@ -646,7 +650,7 @@
     },
     "cast_expression": {
       "logical": "_cast_expression@8",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "cast_to_reference": {
       "logical": "_cast_to_reference@8",
@@ -886,7 +890,7 @@
     },
     "clear_reference_cache": {
       "logical": "_clear_reference_cache@4",
-      "source": "src/stubs.c"
+      "source": "src/expression-copy.c"
     },
     "clone_class_virtual_group": {
       "logical": "_clone_class_virtual_group@8",
@@ -1446,7 +1450,7 @@
     },
     "emit_conditional_branch": {
       "logical": "_emit_conditional_branch@12",
-      "source": "src/stubs.c"
+      "source": "src/loop-output.c"
     },
     "emit_constructor_initializers": {
       "logical": "_emit_constructor_initializers@8",
@@ -1535,6 +1539,10 @@
     "emit_pending_runtime_functions": {
       "logical": "_emit_pending_runtime_functions",
       "source": "src/special-members.c"
+    },
+    "emit_qc_loop_control": {
+      "logical": "_emit_qc_loop_control@12",
+      "source": "src/stubs.c"
     },
     "emit_record_node": {
       "logical": "_emit_record_node@12",
@@ -1700,9 +1708,17 @@
       "logical": "_end_type_diagnostic",
       "source": "src/type-diagnostics.c"
     },
+    "end_while_body": {
+      "logical": "_end_while_body",
+      "source": "src/frontend-records.c"
+    },
+    "end_while_condition_region": {
+      "logical": "_end_while_condition_region",
+      "source": "src/frontend-records.c"
+    },
     "end_while_statement": {
       "logical": "_end_while_statement",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "enter_class_scope": {
       "logical": "_enter_class_scope@8",
@@ -2022,7 +2038,7 @@
     },
     "finish_conditional_branch": {
       "logical": "_finish_conditional_branch",
-      "source": "src/stubs.c"
+      "source": "src/loop-output.c"
     },
     "finish_constructor_result": {
       "logical": "_finish_constructor_result@8",
@@ -2114,6 +2130,10 @@
     },
     "finish_pch_output": {
       "logical": "_finish_pch_output",
+      "source": "src/stubs.c"
+    },
+    "finish_qc_loop": {
+      "logical": "_finish_qc_loop",
       "source": "src/stubs.c"
     },
     "finish_return_expression": {
@@ -3812,6 +3832,10 @@
       "logical": "_push_linkage@4",
       "source": "src/linkage.c"
     },
+    "push_loop_label": {
+      "logical": "_push_loop_label@8",
+      "source": "src/loop-output.c"
+    },
     "push_packing": {
       "logical": "_push_packing",
       "source": "src/packing.c"
@@ -4183,6 +4207,10 @@
     "replace_type_pointer_kind": {
       "logical": "_replace_type_pointer_kind@8",
       "source": "src/constructor-initializers.c"
+    },
+    "report_argument_conversion": {
+      "logical": "_report_argument_conversion@28",
+      "source": "src/stubs.c"
     },
     "report_call_argument_error": {
       "logical": "_report_call_argument_error@12",
@@ -4862,7 +4890,7 @@
     },
     "validate_call_arguments": {
       "logical": "_validate_call_arguments@16",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "validate_expression_symbol": {
       "logical": "_validate_expression_symbol@4",
@@ -5917,7 +5945,19 @@
     "make_array_destructor_call",
     "make_vector_destructor_call",
     "make_array_destructor_address",
-    "lookup_complete_object_destructor"
+    "lookup_complete_object_destructor",
+    "begin_while_condition",
+    "begin_while_condition_region",
+    "emit_conditional_branch",
+    "push_loop_label",
+    "begin_while_body",
+    "end_while_condition_region",
+    "clear_reference_cache",
+    "validate_call_arguments",
+    "cast_expression",
+    "end_while_statement",
+    "end_while_body",
+    "finish_conditional_branch"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -8229,7 +8269,7 @@
     },
     "stack_lifetime": {
       "first": 932,
-      "last": 949,
+      "last": 961,
       "seen": [
         "main",
         "message_text",
@@ -9089,12 +9129,24 @@
         "make_vector_destructor_call",
         "make_array_destructor_address",
         "lookup_complete_object_destructor",
-        "begin_while_condition"
+        "begin_while_condition",
+        "begin_while_condition_region",
+        "emit_conditional_branch",
+        "push_loop_label",
+        "begin_while_body",
+        "end_while_condition_region",
+        "clear_reference_cache",
+        "validate_call_arguments",
+        "cast_expression",
+        "end_while_statement",
+        "end_while_body",
+        "finish_conditional_branch",
+        "mangle_function_pointer_prefix"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_while_condition",
-        "native": "begin_while_condition",
+        "logical": "_mangle_function_pointer_prefix@8",
+        "native": "mangle_function_pointer_prefix",
         "signal": 5
       }
     }

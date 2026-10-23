@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 952,
+  "accepted": "_push_loop_label@8",
+  "terminal": "_begin_while_body",
+  "original_capture": "cases/frontiers/stack_lifetime/0952-push_loop_label-8/original-receipt.json",
+  "original_capture_sha256": "3295207cde64239f15b93a16d5821efbfcf8b6226d9a22e3e861ecdeca7ad213",
+  "original_events": "cases/frontiers/stack_lifetime/0952-push_loop_label-8/original-events.txt",
+  "original_events_sha256": "97d359e514e3b1c1a7b5c9d7fa9fdb69e30570f0ccd6ce6289f49a07ba628db3",
+  "original_configuration": "cases/frontiers/stack_lifetime/0952-push_loop_label-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

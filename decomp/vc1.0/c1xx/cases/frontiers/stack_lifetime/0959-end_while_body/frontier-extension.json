@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 959,
+  "accepted": "_end_while_body",
+  "terminal": "_finish_conditional_branch",
+  "original_capture": "cases/frontiers/stack_lifetime/0959-end_while_body/original-receipt.json",
+  "original_capture_sha256": "23d4c15ba55c743af1059a304ccc3b93af3fcd22bbea94683045d4afbba1316c",
+  "original_events": "cases/frontiers/stack_lifetime/0959-end_while_body/original-events.txt",
+  "original_events_sha256": "3100c55d4644d09ffd72fb08d8ecb483917f77ed2f335533f6fd0550d5d40fe4",
+  "original_configuration": "cases/frontiers/stack_lifetime/0959-end_while_body/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_conditional_branch",
+    "start": 284432,
+    "end": 284657
+  },
+  "distinct_direct_callees": [
+    "_emit_label@4",
+    "_finish_qc_loop",
+    "_record_line_information@4",
+    "_release_arena@4",
+    "_write_ir_record@8"
+  ],
+  "next_frontier": "_mangle_function_pointer_prefix@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2757997317239642,
+  "total_operation_seconds": 3.2868743017315865,
+  "original_capture_seconds": 1.368314447812736
+}

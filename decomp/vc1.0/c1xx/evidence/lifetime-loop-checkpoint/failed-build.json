@@ -1,0 +1,6 @@
+{
+  "status": "stopped-before-capture",
+  "cause": "Missing source-input.h declaration made original C compiler infer cdecl for stdcall record_line_information; native link alone did not reveal decoration mismatch. Added the proper existing header before retry.",
+  "canonical_raw_log": "missing-source-input-prototype-canonical.log",
+  "original_captures_from_failed_attempt": 0
+}

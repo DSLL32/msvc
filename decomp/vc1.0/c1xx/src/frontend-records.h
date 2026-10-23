@@ -42,6 +42,16 @@ typedef struct BranchBoundaryRecord {
     FrontendRecord header;
     unsigned goto_count;
 } BranchBoundaryRecord;
+/* Loop closure saves the detached condition/evaluation sequence at +16. */
+typedef struct LoopFrontendRecord {
+    FrontendRecord header;
+    FrontendRecord *condition_records;
+} LoopFrontendRecord;
+typedef char LoopFrontendRecordSizeMustBe20[(sizeof(LoopFrontendRecord) == 20) ? 1 : -1];
+typedef char LoopConditionRecordsOffsetMustBe16[(offsetof(LoopFrontendRecord, condition_records) == 16) ? 1 : -1];
+void begin_while_condition_region(void);
+void end_while_condition_region(void);
+void end_while_body(void);
 typedef char BranchBoundaryRecordSizeMustBe20[(sizeof(BranchBoundaryRecord) == 20) ? 1 : -1];
 typedef char BranchBoundaryGotoCountOffsetMustBe16[(offsetof(BranchBoundaryRecord, goto_count) == 16) ? 1 : -1];
 typedef char DeclarationFrontendRecordSizeMustBe24[(sizeof(DeclarationFrontendRecord) == 24) ? 1 : -1];

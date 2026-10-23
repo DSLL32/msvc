@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_while_body",
+    "start": 260208,
+    "end": 260280
+  },
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_end_while_condition_region"
+  ],
+  "next_frontier": "_end_while_condition_region",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2980805467814207,
+  "total_operation_seconds": 3.316396822221577,
+  "original_capture_seconds": 1.3687473135069013
+}

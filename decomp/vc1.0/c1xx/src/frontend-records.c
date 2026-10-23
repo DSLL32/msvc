@@ -17,6 +17,137 @@ FrontendRecord *function_ir_tail; /* original 0xa0a5c */
 int ir_function_error_count; /* original 0xa0a60 */
 int ir_records_suppressed; /* original 0xa0a64 */
 
+/* Original 0x3f7d0..0x3f809, cdecl. Condition temporaries have an
+   independent paired region even when the current loop has no body yet. */
+void begin_while_condition_region(void)
+{
+    FrontendRecord record;
+    record.kind = 0x1a;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3f810..0x3f868, cdecl. Collapse an empty condition
+   region; keep a closing delimiter when evaluation created cleanup records. */
+void end_while_condition_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x1a) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x1b;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3f870..0x3f8b7, cdecl. Complete condition temporaries
+   before opening the loop body; suppressed record output does neither. */
+void begin_while_body(void)
+{
+    FrontendRecord record;
+    if (ir_records_suppressed) return;
+    end_while_condition_region();
+    record.kind = 0x1c;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3f8c0..0x3f925, cdecl. Collapse an empty body or
+   close its cleanup sequence before emitting the remaining expression. */
+void end_while_body(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x1c) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x1d;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    emit_nonnull_expression_statement(process_expression_records(0));
+}
+
+/* Original 0x3f930..0x3fa5b, cdecl. Close the body and keep its
+   condition-evaluation chain behind the loop's closing record. Empty loops
+   disappear; constant conditions become flags on the opening loop record. */
+void end_while_statement(void)
+{
+    FrontendRecord record, *closing, *condition, *value;
+    LoopFrontendRecord *loop;
+    unsigned char kind;
+    jmp_buf recovery;
+    if (ir_records_suppressed) return;
+    end_while_body();
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x19) {
+        remove_last_frontend_record();
+        return;
+    }
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    record.kind = 0x1e;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    closing = ir_record_tail;
+    loop = (LoopFrontendRecord *)find_frontend_record(closing->previous, 0x19, 1);
+    condition = loop->header.next;
+    if ((condition->kind & 0x3f) == 0x1a) {
+        value = condition->next;
+        kind = value->kind & 0x3f;
+        if (kind == 0x3b || kind == 0x3c) {
+            loop->header.flags |= kind == 0x3b ? 4 : 8;
+            remove_frontend_record(value);
+        }
+    }
+    loop->condition_records = loop->header.next;
+    loop->header.next = closing;
+    closing->previous = &loop->header;
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
+}
+
+/* Original 0x3f770..0x3f7cd, cdecl. Begin a while-loop record before
+   its separate condition-evaluation region. All loop flags start clear. */
+void begin_while_condition(void)
+{
+    LoopFrontendRecord record;
+    record.header.kind = 0x19;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.condition_records = 0;
+    if (ir_records_suppressed) return;
+    append_frontend_record(&record.header, sizeof(record));
+    begin_while_condition_region();
+}
+
 /* Original 0x3f0e0..0x3f154, cdecl. Open an if's conditional cleanup
    context before opening its expression-evaluation region. */
 void begin_if_condition(void)

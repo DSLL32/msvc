@@ -512,6 +512,48 @@ void set_overload_phase(OverloadSearch *search, unsigned phase, ...)
     }
 }
 
+/* Original 0x654b0..0x654f9, stdcall 8. A parsed type-name keeps
+   object-distance qualifiers on its symbol until the explicit-cast boundary. */
+IrToken *__stdcall cast_expression(CppSymbol *declaration, IrToken *expression)
+{
+    CType *type;
+    if (!declaration || !expression) return 0;
+    type = declaration->type;
+    if (type->attributes & 15) {
+        normalize_symbol_distance(type->attributes, declaration);
+        type = remove_type_qualifiers(declaration->type, 7);
+    }
+    return cast_to_type(type, expression);
+}
+
+/* Original 0x77460..0x7755e, stdcall 16. Validate indirect-call arity
+   before ranking each explicit argument. Diagnostics retain the original
+   decreasing remaining-argument count and the argument wrapper's type. */
+unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function,
+    IrToken *arguments, unsigned count)
+{
+    unsigned rank = rank_call_argument_count(function, count), worst = 1;
+    CType **parameter;
+    if (rank & 0x2000) {
+        if ((rank & 0x1fff) == 14) report_type_error(0xc5, type);
+        else if ((rank & 0x1fff) == 15) report_type_error(0xc6, type);
+        return rank;
+    }
+    if (rank != 0x800) return rank;
+    parameter = function->data.parameters->declarations->types;
+    while (count) {
+        arguments = arguments->linkage.list_head;
+        rank = classify_expression_conversion(*parameter, arguments->value.pointer, 0, 0);
+        if (rank & 0x2000)
+            report_argument_conversion(0x298, 0, type, 0, count,
+                arguments->type, *parameter);
+        if (rank > worst) worst = rank;
+        ++parameter;
+        --count;
+    }
+    return worst;
+}
+
 /* Original 0x77560..0x775f9. Exact/defaulted arities rank above ellipsis;
    mismatch codes distinguish excess and missing explicit arguments. */
 unsigned __stdcall rank_call_argument_count(TypeShape *function, unsigned count)

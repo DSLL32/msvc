@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559314 in end_while_statement () at src/stubs.c:184
+184	void end_while_statement(void) { __asm { int 3 } }
+#0  0x56559314 in end_while_statement () at src/stubs.c:184
+#1  0x565a90cb in parse_translation_unit () at src/parser-statement-actions.inc:67
+#2  0x5655df0f in compile_translation_unit () at src/frontend.c:73
+#3  0x56558856 in guarded_compile () at src/c1xx.c:28
+#4  0x56558824 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_conditional_branch@12",
+    "start": 284160,
+    "end": 284430
+  },
+  "distinct_direct_callees": [
+    "_emit_condition_to_label@12",
+    "_emit_expression_statement@4",
+    "_emit_label@4",
+    "_emit_qc_loop_control@12",
+    "_prepare_expression@8",
+    "_push_loop_label@8",
+    "_push_work_list@8",
+    "_write_ir_record@8"
+  ],
+  "next_frontier": "_push_loop_label@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.27851541340351105,
+  "total_operation_seconds": 3.6033020419999957,
+  "original_capture_seconds": 1.7189410338178277
+}

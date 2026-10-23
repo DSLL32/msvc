@@ -10,6 +10,7 @@
 #include "constructor-initializers.h"
 #include "statement-scopes.h"
 #include "work-list.h"
+#include "loop-output.h"
 #include "cpp-context.h"
 #include "expression-records.h"
 #include "function-definitions.h"
@@ -136,8 +137,6 @@ void begin_seh_finally(void) { __asm { int 3 } }
 void begin_seh_try(void) { __asm { int 3 } }
 void __stdcall begin_switch_body(IrToken *expression) { __asm { int 3 } }
 void begin_switch_condition(void) { __asm { int 3 } }
-void begin_while_body(void) { __asm { int 3 } }
-void begin_while_condition(void) { __asm { int 3 } }
 void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
@@ -145,16 +144,15 @@ OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search
 IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
-unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
+void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
+    CType *function_type, char *name, unsigned argument, CType *source, CType *target) { __asm { int 3 } }
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }
 IrToken *__stdcall append_default_call_argument(IrToken *arguments, void *expression) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type) { __asm { int 3 } }
 IrToken *__stdcall materialize_call_result(IrToken *call) { __asm { int 3 } return 0; }
-IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
-void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source) { __asm { int 3 } }
 void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 } }
 CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
@@ -164,7 +162,7 @@ void __stdcall declare_nctag(char *name) { __asm { int 3 } }
 void __stdcall define_named_label(char *name) { __asm { int 3 } }
 IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expression, IrToken *bound, int is_array) { __asm { int 3 } return 0; }
 void __stdcall detach_new_array_bound(CppSymbol *type) { __asm { int 3 } }
-void __stdcall emit_conditional_branch(IrToken *first, IrToken *condition, IrToken *increment) { __asm { int 3 } }
+int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
 void emit_pending_function_cleanup(void) { __asm { int 3 } }
@@ -183,10 +181,9 @@ void end_seh_filter(void) { __asm { int 3 } }
 void end_seh_finally(void) { __asm { int 3 } }
 void end_seh_try(void) { __asm { int 3 } }
 void end_switch_statement(void) { __asm { int 3 } }
-void end_while_statement(void) { __asm { int 3 } }
 CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol *functions) { __asm { int 3 } return 0; }
-void finish_conditional_branch(void) { __asm { int 3 } }
+void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }
 
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }

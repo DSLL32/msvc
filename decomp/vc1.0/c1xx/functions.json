@@ -953,7 +953,19 @@
     "_make_array_destructor_call@4",
     "_make_vector_destructor_call@16",
     "_make_array_destructor_address@4",
-    "_lookup_complete_object_destructor@4"
+    "_lookup_complete_object_destructor@4",
+    "_begin_while_condition",
+    "_begin_while_condition_region",
+    "_emit_conditional_branch@12",
+    "_push_loop_label@8",
+    "_begin_while_body",
+    "_end_while_condition_region",
+    "_clear_reference_cache@4",
+    "_validate_call_arguments@16",
+    "_cast_expression@8",
+    "_end_while_statement",
+    "_end_while_body",
+    "_finish_conditional_branch"
   ],
   "driver": [
     {
@@ -2446,12 +2458,12 @@
     {
       "name": "_begin_while_body",
       "start": 260208,
-      "end": 260209
+      "end": 260280
     },
     {
       "name": "_begin_while_condition",
       "start": 259952,
-      "end": 259953
+      "end": 260046
     },
     {
       "name": "_binary_expression@12",
@@ -2476,7 +2488,7 @@
     {
       "name": "_cast_expression@8",
       "start": 414896,
-      "end": 414897
+      "end": 414970
     },
     {
       "name": "_check_class_specifier@4",
@@ -2496,7 +2508,7 @@
     {
       "name": "_clear_reference_cache@4",
       "start": 157264,
-      "end": 157265
+      "end": 157331
     },
     {
       "name": "_complete_declaration@8",
@@ -2576,7 +2588,7 @@
     {
       "name": "_emit_conditional_branch@12",
       "start": 284160,
-      "end": 284161
+      "end": 284430
     },
     {
       "name": "_emit_expression_statement@4",
@@ -2701,7 +2713,7 @@
     {
       "name": "_end_while_statement",
       "start": 260400,
-      "end": 260401
+      "end": 260700
     },
     {
       "name": "_evaluate_integer_constant@4",
@@ -2726,7 +2738,7 @@
     {
       "name": "_finish_conditional_branch",
       "start": 284432,
-      "end": 284433
+      "end": 284657
     },
     {
       "name": "_increment_expression_record_depth",
@@ -5809,7 +5821,7 @@
     {
       "name": "_validate_call_arguments@16",
       "start": 488544,
-      "end": 488545
+      "end": 488799
     },
     {
       "name": "_convert_call_arguments@16",
@@ -7351,6 +7363,41 @@
       "name": "_lookup_complete_object_destructor@4",
       "start": 231200,
       "end": 231251
+    },
+    {
+      "name": "_begin_while_condition_region",
+      "start": 260048,
+      "end": 260106
+    },
+    {
+      "name": "_push_loop_label@8",
+      "start": 329680,
+      "end": 329718
+    },
+    {
+      "name": "_emit_qc_loop_control@12",
+      "start": 283280,
+      "end": 283281
+    },
+    {
+      "name": "_end_while_condition_region",
+      "start": 260112,
+      "end": 260201
+    },
+    {
+      "name": "_report_argument_conversion@28",
+      "start": 380480,
+      "end": 380481
+    },
+    {
+      "name": "_end_while_body",
+      "start": 260288,
+      "end": 260390
+    },
+    {
+      "name": "_finish_qc_loop",
+      "start": 283968,
+      "end": 283969
     }
   ],
   "cases": {
@@ -7464,8 +7511,8 @@
       "native_reference": "cases/native-stack-lifetime",
       "frontiers": "cases/frontiers/stack_lifetime",
       "accepted_from": 932,
-      "terminal": "_begin_while_condition",
-      "terminal_evidence": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/original-events.txt",
+      "terminal": "_mangle_function_pointer_prefix@8",
+      "terminal_evidence": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/original-events.txt",
       "original_seed": "cases/stack_lifetime-seed",
       "frontier_extensions": [
         "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/frontier-extension.json",
@@ -7484,7 +7531,19 @@
         "cases/frontiers/stack_lifetime/0945-make_array_destructor_call-4/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0946-make_vector_destructor_call-16/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0947-make_array_destructor_address-4/frontier-extension.json",
-        "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/frontier-extension.json"
+        "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0949-begin_while_condition/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0950-begin_while_condition_region/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0951-emit_conditional_branch-12/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0952-push_loop_label-8/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0953-begin_while_body/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0954-end_while_condition_region/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0955-clear_reference_cache-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0956-validate_call_arguments-16/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0957-cast_expression-8/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0958-end_while_statement/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0959-end_while_body/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/frontier-extension.json"
       ]
     }
   },
@@ -9517,6 +9576,23 @@
       "count": 63,
       "domain": 213,
       "mask": 64
+    },
+    {
+      "name": "_qc_loop_markers",
+      "original": 596032,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_qc_loop_markers",
+          "original": 596032,
+          "bytes": 4
+        },
+        {
+          "name": "_qc_loop_analyses",
+          "original": 596036,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [

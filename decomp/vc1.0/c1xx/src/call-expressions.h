@@ -15,6 +15,8 @@ int __stdcall resolve_function_style_cast(IrToken *expression);
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix);
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function,
     IrToken *arguments, unsigned count);
+void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
+    CType *function_type, char *name, unsigned argument, CType *source, CType *target);
 IrToken *__stdcall convert_call_arguments(CppSymbol *function, FunctionParameters *parameters,
     IrToken *arguments, int count);
 IrToken *__stdcall finish_call_result(IrToken *call, CppSymbol *function, unsigned short flags);

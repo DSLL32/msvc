@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 954,
+  "accepted": "_end_while_condition_region",
+  "terminal": "_clear_reference_cache@4",
+  "original_capture": "cases/frontiers/stack_lifetime/0954-end_while_condition_region/original-receipt.json",
+  "original_capture_sha256": "940c99de39e73bb75b46b3bc6f92d9ad1a7ed2daa761c3b022c23d6dacadf20d",
+  "original_events": "cases/frontiers/stack_lifetime/0954-end_while_condition_region/original-events.txt",
+  "original_events_sha256": "a0d890ff3ab0853b5d9c6b28cf33d840f935b84e5e18889344f54f3c52e2aef0",
+  "original_configuration": "cases/frontiers/stack_lifetime/0954-end_while_condition_region/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

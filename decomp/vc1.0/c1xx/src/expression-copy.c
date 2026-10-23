@@ -9,6 +9,20 @@ Extended *__stdcall save_extended_in_arena(Extended value, int arena);
 void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken *expression);
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena);
 
+/* Original 0x26650..0x26692, stdcall 4. Reinterpreting a qualified
+   reference clears its cached member/reference groups before later reuse. */
+void __stdcall clear_reference_cache(IrToken *expression)
+{
+    if (!expression) return;
+    if (expression->kind == 0x46) {
+        if (expression->tail.word) expression->tail.word = 0;
+    } else if (expression->kind == 0x5c) {
+        expression = expression->tail.right;
+        if ((expression->flags & 7) == 4 && expression->tail.word)
+            expression->tail.word = 0;
+    }
+}
+
 /* Original 0x5cfe0..0x5d250. Mode six follows current expression
    allocation flags and retains the original type descriptor. Other modes
    intern the copied type/shape before recursively replacing owned operands.
