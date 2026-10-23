@@ -1,0 +1,109 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/storage-pragmas",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "accepted_count": 905,
+  "accepted_sha256": "072df348fefa7c808c93eadfde1a0334eb25c45e30c6509309af3c501b25cf45",
+  "executable_sha256": "08539e5b86cc701761610aaea3cfe69a65e6a8d423cfdb8ee918d0b7cdffbc58",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "1e991b685aec2f0a5e6d411180f09a258ecd4701237eba322480f344b55d8c47",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f storage.c -Ze -Zp8 -Fostorage.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\storage-entries-887\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/storage-entries-887/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05195742938667536,
+  "execution_seconds": 1.7183935083448887,
+  "total_seconds": 1.7703531682491302,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 311,
+      "sha256": "232351e77ecea570b6a3284f2c3e8a85b57860dd120085ffe0334405fa001d02"
+    },
+    {
+      "name": "irex",
+      "bytes": 1625,
+      "sha256": "44c91452fc70250ec9823daefad2c6a361c8e5eef02b9d46d83b1ab40fe65e25"
+    },
+    {
+      "name": "irgl",
+      "bytes": 312,
+      "sha256": "a6a1f561762a8af90302abcfbfd3862fd51da6fd1d2a1c2fa9cdc9a5fd8bd3b1"
+    },
+    {
+      "name": "irin",
+      "bytes": 50,
+      "sha256": "d9450359d82d0ea9b49dd46086085fa9ab83e6aec12687d056e315bba9082587"
+    },
+    {
+      "name": "irsy",
+      "bytes": 220,
+      "sha256": "605095aadcec5095baa7aa23db43854b4841baf2535470fb18b1f1c71b90c654"
+    },
+    {
+      "name": "storage.c",
+      "bytes": 1456,
+      "sha256": "cbd63175bc71b4431b7c5fe5bcf9950ccfe8f36d392e6d0988b38df14e8f934d"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 887,
+    "accepted_count": 905,
+    "expected": [
+      "_enable_intrinsic_function@4",
+      "_push_pragma_packing@8",
+      "_pop_pragma_packing@8",
+      "_pop_packing",
+      "_declare_named_entity@16",
+      "_find_named_entity@4",
+      "_new_named_entity@16",
+      "_assign_allocated_text@4",
+      "_assign_symbol_segment@8",
+      "_local_static_name@4",
+      "_format_local_static_name@8",
+      "_record_symbol_alias@8",
+      "_hash_symbol_index",
+      "_symbol_alias@4",
+      "_find_hash_value@8",
+      "_hash_symbol_indices_equal",
+      "_emit_runtime_initializer@4",
+      "_make_implicit_declaration@8"
+    ],
+    "observed": [
+      "_enable_intrinsic_function@4",
+      "_push_pragma_packing@8",
+      "_pop_pragma_packing@8",
+      "_pop_packing",
+      "_declare_named_entity@16",
+      "_find_named_entity@4",
+      "_new_named_entity@16",
+      "_assign_allocated_text@4",
+      "_assign_symbol_segment@8",
+      "_local_static_name@4",
+      "_format_local_static_name@8",
+      "_record_symbol_alias@8",
+      "_hash_symbol_index",
+      "_symbol_alias@4",
+      "_find_hash_value@8",
+      "_hash_symbol_indices_equal",
+      "_emit_runtime_initializer@4",
+      "_make_implicit_declaration@8"
+    ],
+    "seeded_prefix_sha256": "951cd929cf637bbd6fab56d264c40f8253edf93a06c18e6ddc67ca039c80f9c3",
+    "plan_sha256": "37eacd9645318c490e35749bd3a806a78d98d0b1bc74430f54a74ce56fbe5807",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

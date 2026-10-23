@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "ed63851259b376d3125a89f89a99efd1887ac20ae0a4d5fdf511cdce579aa344",
+    "functions.json": "37c1d772daab5af07ce6f7e9dbe7a673dd304eea6aad1554388b3a316816c584",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "da53c45922655fb8cab037b74f715293f21326a65c0e5479aff8d98ead583103"
+    "sha256": "c46f672383491a4321fad33fe29cb44679f7a59f49dd3c6b72d75435ff182df2"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "0085eafe0d06466663aeb4a8d622d45f398781dbca1bc198874ac8ed0d3d3ca4"
+    "sha256": "1705115d751bcb957132465780ae2d2c74d3db0216ebb055e66bbee8f6698fcb"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -247,7 +247,7 @@
     },
     "assign_allocated_text": {
       "logical": "_assign_allocated_text@4",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "assign_string_type": {
       "logical": "_assign_string_type@4",
@@ -255,7 +255,7 @@
     },
     "assign_symbol_segment": {
       "logical": "_assign_symbol_segment@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "assign_unpooled_literal_segment": {
       "logical": "_assign_unpooled_literal_segment@8",
@@ -867,7 +867,7 @@
     },
     "declare_named_entity": {
       "logical": "_declare_named_entity@16",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "declare_pch_debug_library": {
       "logical": "_declare_pch_debug_library",
@@ -1075,7 +1075,7 @@
     },
     "emit_runtime_initializer": {
       "logical": "_emit_runtime_initializer@4",
-      "source": "src/stubs.c"
+      "source": "src/initializers.c"
     },
     "emit_runtime_symbol_initializer": {
       "logical": "_emit_runtime_symbol_initializer@8",
@@ -1103,7 +1103,7 @@
     },
     "enable_intrinsic_function": {
       "logical": "_enable_intrinsic_function@4",
-      "source": "src/stubs.c"
+      "source": "src/builtins.c"
     },
     "enclosing_declaration_scope": {
       "logical": "_enclosing_declaration_scope",
@@ -1265,6 +1265,10 @@
       "logical": "_find_hash_entry@12",
       "source": "src/hash-table.c"
     },
+    "find_hash_value": {
+      "logical": "_find_hash_value@8",
+      "source": "src/hash-table.c"
+    },
     "find_identifier_symbol": {
       "logical": "_find_identifier_symbol@4",
       "source": "src/scopes.c"
@@ -1284,6 +1288,10 @@
     "find_macro_parameter": {
       "logical": "_find_macro_parameter@4",
       "source": "src/preprocessor-directives.c"
+    },
+    "find_named_entity": {
+      "logical": "_find_named_entity@4",
+      "source": "src/declarations.c"
     },
     "find_scope_declaration": {
       "logical": "_find_scope_declaration@12",
@@ -1465,6 +1473,10 @@
       "logical": "_format_integer",
       "source": "src/global-ir.c"
     },
+    "format_local_static_name": {
+      "logical": "_format_local_static_name@8",
+      "source": "src/literal-names.c"
+    },
     "format_text": {
       "logical": "_format_text",
       "source": "src/diagnostics.c"
@@ -1539,11 +1551,11 @@
     },
     "hash_symbol_index": {
       "logical": "_hash_symbol_index",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "hash_symbol_indices_equal": {
       "logical": "_hash_symbol_indices_equal",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "hash_table_count": {
       "logical": "_hash_table_count@4",
@@ -1767,7 +1779,7 @@
     },
     "local_static_name": {
       "logical": "_local_static_name@4",
-      "source": "src/stubs.c"
+      "source": "src/scopes.c"
     },
     "lookup_asm_symbol": {
       "logical": "_lookup_asm_symbol@8",
@@ -1887,7 +1899,7 @@
     },
     "make_implicit_declaration": {
       "logical": "_make_implicit_declaration@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "make_indirection": {
       "logical": "_make_indirection@4",
@@ -2169,6 +2181,10 @@
       "logical": "_multiply_extended",
       "source": "src/floating.c"
     },
+    "name_has_text_suffix": {
+      "logical": "_name_has_text_suffix@8",
+      "source": "src/stubs.c"
+    },
     "new_bitset": {
       "logical": "_new_bitset@4",
       "source": "src/memory.c"
@@ -2188,6 +2204,10 @@
     "new_integer_constant": {
       "logical": "_new_integer_constant@4",
       "source": "src/constants.c"
+    },
+    "new_named_entity": {
+      "logical": "_new_named_entity@16",
+      "source": "src/declarations.c"
     },
     "new_packing_stack": {
       "logical": "_new_packing_stack",
@@ -2521,9 +2541,13 @@
       "logical": "_pop_macro_frame",
       "source": "src/macro-expand.c"
     },
+    "pop_packing": {
+      "logical": "_pop_packing",
+      "source": "src/packing.c"
+    },
     "pop_pragma_packing": {
       "logical": "_pop_pragma_packing@8",
-      "source": "src/stubs.c"
+      "source": "src/packing.c"
     },
     "pop_symbol_scope": {
       "logical": "_pop_symbol_scope",
@@ -2711,7 +2735,7 @@
     },
     "push_pragma_packing": {
       "logical": "_push_pragma_packing@8",
-      "source": "src/stubs.c"
+      "source": "src/packing.c"
     },
     "push_symbol_scope": {
       "logical": "_push_symbol_scope@4",
@@ -2851,7 +2875,7 @@
     },
     "record_symbol_alias": {
       "logical": "_record_symbol_alias@8",
-      "source": "src/stubs.c"
+      "source": "src/scopes.c"
     },
     "recover_parser_token": {
       "logical": "_recover_parser_token",
@@ -3291,7 +3315,7 @@
     },
     "symbol_alias": {
       "logical": "_symbol_alias@4",
-      "source": "src/stubs.c"
+      "source": "src/scopes.c"
     },
     "symbol_element_size": {
       "logical": "_symbol_element_size@4",
@@ -4327,7 +4351,25 @@
     "evaluate_asm_binary",
     "asm_symbol_length",
     "normalize_asm_x87_operands",
-    "make_asm_stack_register"
+    "make_asm_stack_register",
+    "enable_intrinsic_function",
+    "push_pragma_packing",
+    "pop_pragma_packing",
+    "pop_packing",
+    "declare_named_entity",
+    "find_named_entity",
+    "new_named_entity",
+    "assign_allocated_text",
+    "assign_symbol_segment",
+    "local_static_name",
+    "format_local_static_name",
+    "record_symbol_alias",
+    "hash_symbol_index",
+    "symbol_alias",
+    "find_hash_value",
+    "hash_symbol_indices_equal",
+    "emit_runtime_initializer",
+    "make_implicit_declaration"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5488,6 +5530,35 @@
         "asm_symbol_length",
         "normalize_asm_x87_operands",
         "make_asm_stack_register"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "storage-pragmas": {
+      "first": 887,
+      "last": 905,
+      "seen_count": 749,
+      "expected": [
+        "enable_intrinsic_function",
+        "push_pragma_packing",
+        "pop_pragma_packing",
+        "pop_packing",
+        "declare_named_entity",
+        "find_named_entity",
+        "new_named_entity",
+        "assign_allocated_text",
+        "assign_symbol_segment",
+        "local_static_name",
+        "format_local_static_name",
+        "record_symbol_alias",
+        "hash_symbol_index",
+        "symbol_alias",
+        "find_hash_value",
+        "hash_symbol_indices_equal",
+        "emit_runtime_initializer",
+        "make_implicit_declaration"
       ],
       "terminal": {
         "kind": "exit",

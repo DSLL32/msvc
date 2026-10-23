@@ -1,6 +1,7 @@
 /* Arena-backed hash tables used by enum definitions and other symbol maps. */
 #include "options.h"
 #include "hash-table.h"
+#include "builtins.h"
 #include <recon.h>
 
 /* Original 0x328c0..0x32985. Both the header and its initially empty bucket
@@ -136,4 +137,28 @@ int __stdcall next_hash_entry(HashWalk *walk)
     walk->value = walk->entry->value;
     walk->entry = walk->entry->next;
     return 1;
+}
+
+/* Original0x363e0..0x363e7. Symbol index is stable across alias records. */
+unsigned hash_symbol_index(void *key)
+{
+    return ((FrontendSymbol *)key)->index;
+}
+
+/* Original0x32a10..0x32a46. Value lookup tolerates a missing root and
+   uses the same hash/equality callbacks as insertion. */
+void *__stdcall find_hash_value(HashTable *table, void *key)
+{
+    HashEntry *entry;
+    unsigned bucket;
+    if (!table) return 0;
+    bucket = hash_bucket_index(table,key);
+    entry = find_hash_entry(table,key,bucket);
+    return entry ? entry->value : 0;
+}
+
+/* Original0x363c0..0x363d5. Alias keys compare stable symbol indices. */
+int hash_symbol_indices_equal(void *left, void *right)
+{
+    return ((FrontendSymbol *)right)->index == ((FrontendSymbol *)left)->index;
 }

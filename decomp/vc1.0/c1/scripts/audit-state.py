@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_symbol_aliases",0x6ce74,4),
     ("_legacy_field_bytes",0x5b250,4),
     ("_legacy_pointer_models",0x6e078,4),
     ("_legacy_type_fixups",0x6e070,4),

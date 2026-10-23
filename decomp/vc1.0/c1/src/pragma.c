@@ -115,7 +115,7 @@ void process_pragma(void)
         record_context_symbol = declare_named_entity(current_token_value.identifier, name_unnamed, 0, 2);
         read_pragma_token();
         if (current_token_code != TOK_COMMA) PRAGMA_BAD_TOKEN(81);
-        scanner_flags |= 0x20000;
+        parser_flags |= 0x20000;
         visit_pragma_names(assign_allocated_text);
         break;
     case 6: /* same_seg */
@@ -560,7 +560,8 @@ void process_pack_pragma(void)
             read_pragma_token();
             if (current_token_code == TOK_RIGHT_PAREN) goto apply;
             if (current_token_code != TOK_COMMA) goto malformed;
-            if (read_pragma_token() != TOK_INT_CONSTANT) goto malformed;
+            read_pragma_token();
+            if (current_token_code != TOK_INT_CONSTANT) goto malformed;
             goto number;
         }
         if (current_token_code == TOK_INT_CONSTANT) goto number;
@@ -595,4 +596,32 @@ void __stdcall pragma_message(char *text)
     unsigned length;
     for (length = 0; text[length]; ++length) ;
     fwrite(text,length,1,stderr);
+}
+
+/* Original0x35d60..0x35e62. alloc_text and based-data section pragmas
+   assign the active named entity to a previously declared global symbol. */
+void __stdcall assign_allocated_text(char *name)
+{
+    FrontendSymbol *symbol = find_scope_declaration(global_scope,name,0);
+    unsigned kind;
+    if (!symbol) { report_syntax_error(157,name); return; }
+    if (symbol->attributes & 2) {
+        if ((FrontendSymbol *)symbol->type->related->field08 != record_context_symbol)
+            report_syntax_error(193,name);
+        return;
+    }
+    kind = symbol->kind & 31;
+    if (parser_flags & 0x20000) {
+        if (kind != 7) report_syntax_error(63,name);
+        else if (symbol->flags & 1) report_syntax_error(200,symbol->name);
+    } else {
+        if (kind != 9) { symbol->flags |= 0x80; report_syntax_error(158,name); return; }
+        if ((symbol->storage[0] & 7) != 1) {
+            symbol->flags |= 0x80;
+            report_syntax_error(178,name);
+            return;
+        }
+        if ((symbol->type->attributes & 7) == 1) { compiler_warning(1,104,name); return; }
+    }
+    assign_symbol_segment(symbol,record_context_symbol);
 }

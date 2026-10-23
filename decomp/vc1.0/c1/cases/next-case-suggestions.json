@@ -1,72 +1,82 @@
 {
-  "authorization": "Rich inline-assembly selected case is complete. Proposed next SINGLE case awaits root review; no extra case executed.",
-  "remaining_original_code_extent_bytes": 51572,
+  "authorization": "Storage/pragma/runtime-initialization case is complete. Next SINGLE diagnostic/recovery case is proposed for root review; not executed.",
+  "remaining_original_code_extent_bytes": 49395,
   "metric": "Remaining code-section bytes outside accepted extent union, including unknown application and runtime code; not branch coverage.",
   "suggestions": [
     {
-      "case": "One storage/pragma/runtime-initialization integration case",
+      "case": "One ordinary C diagnostic/recovery translation unit",
       "bundled_features": [
-        "Thread-local scalar/aggregate declarations through supported __declspec(thread).",
-        "Block-scope static state used across calls, plus automatic records with parameter-dependent bitfield values.",
-        "Named #pragma pack(push/pop), #pragma alloc_text for a declared function, and explicit #pragma intrinsic selection; ordinary /Z7 /O2 options if original validates them."
+        "Duplicate/malformed record or declaration; missing initializer/expression token and recoverable statement delimiters.",
+        "Undeclared object/function use and a mismatched function call/prototype after the earlier repair points.",
+        "A valid trailing function proves scanning/translation continues after recoverable errors."
       ],
       "candidate_routines": [
         {
-          "name": "initialize_thread_symbol",
-          "address": "0x33750",
-          "preliminary_body_bound_bytes": 174
+          "name": "report_syntax_error",
+          "address": "0x4a9d0",
+          "preliminary_body_bound_bytes": 19
         },
         {
-          "name": "declare_named_entity",
-          "address": "0x35aa0",
-          "preliminary_body_bound_bytes": 389
+          "name": "report_syntax_error_arguments",
+          "address": "0x4a9f0",
+          "preliminary_body_bound_bytes": 72
         },
         {
-          "name": "assign_allocated_text",
-          "address": "0x35d60",
-          "preliminary_body_bound_bytes": 259
+          "name": "report_error",
+          "address": "0x4aa40",
+          "preliminary_body_bound_bytes": 67
         },
         {
-          "name": "local_static_name",
-          "address": "0x363f0",
-          "preliminary_body_bound_bytes": 26
+          "name": "report_expected_token",
+          "address": "0x22b70",
+          "preliminary_body_bound_bytes": 342
         },
         {
-          "name": "record_symbol_alias",
-          "address": "0x36370",
-          "preliminary_body_bound_bytes": 46
+          "name": "recovery_token_value",
+          "address": "0x22cc6",
+          "preliminary_body_bound_bytes": 124
         },
         {
-          "name": "push_pragma_packing",
-          "address": "0x1e8b0",
-          "preliminary_body_bound_bytes": 54
+          "name": "report_parser_error",
+          "address": "0x22d42",
+          "preliminary_body_bound_bytes": 331
         },
         {
-          "name": "pop_pragma_packing",
-          "address": "0x1e8f0",
-          "preliminary_body_bound_bytes": 233
+          "name": "recover_parser_token",
+          "address": "0x22f72",
+          "preliminary_body_bound_bytes": 334
         },
         {
-          "name": "enable_intrinsic_function",
-          "address": "0x2dc60",
-          "preliminary_body_bound_bytes": 126
+          "name": "report_declaration_error",
+          "address": "0x2c3a0",
+          "preliminary_body_bound_bytes": 119
         },
         {
-          "name": "emit_runtime_initializer",
-          "address": "0x2fbc0",
-          "preliminary_body_bound_bytes": 282
+          "name": "report_type_syntax_error",
+          "address": "0x3c180",
+          "preliminary_body_bound_bytes": 45
+        },
+        {
+          "name": "recover_undeclared_identifier",
+          "address": "0x2d0e0",
+          "preliminary_body_bound_bytes": 101
+        },
+        {
+          "name": "declare_implicit_function",
+          "address": "0x2b5d0",
+          "preliminary_body_bound_bytes": 59
         }
       ],
-      "known_byte_scope": "Approximately1589 bytes in nine provisional original body bounds, derived by read-only disassembly/decompiler body ranges; gaps/tails need acceptance-time verification. No promise all nine are reached or that dependencies are limited to them.",
+      "known_byte_scope": "1613 bytes in eleven provisional body bounds (includes gaps; exact extents/reached subset require masked acceptance). Additional diagnostic/recovery callees are expected but not promised.",
       "public_reachability_evidence": [
-        "merge_storage_class recognizes modifier5 (thread), sets storage[2] bit2; global declaration path calls initialize_thread_symbol when that bit is present.",
-        "record_local_declaration calls local_static_name for a block-scope static object and record_symbol_alias for its persistent alias.",
-        "pragma dispatcher recognizes alloc_text and invokes declare_named_entity then assign_allocated_text; intrinsic uses enable_intrinsic_function unless option_qc.",
-        "process_pack_pragma recognizes named push/pop and directly dispatches corresponding helpers.",
-        "emit_initializer reaches emit_runtime_initializer for nonconstant bitfield values in an automatic aggregate when ordinary extensions are enabled."
+        "Every ordinary semantic error calls report_syntax_error; its original wrapper forwards va_list to report_syntax_error_arguments.",
+        "Parser repair-table branch calls report_expected_token and recovery_token_value; unresolved syntax-error branch calls report_parser_error and pops to an error-token transition.",
+        "Parser production recovery calls recover_parser_token with real delimiter/sentinel lists; declaration/type checks call report_declaration_error/report_type_syntax_error.",
+        "Ordinary unresolved identifiers and implicit function references expose their named recovery/implicit-declaration helpers."
       ],
-      "why_existing_cases_miss": "Current sources use globals/ordinary local scalars, simple pack(n), and existing intrinsic defaults; they do not explicitly combine TLS, local-static aliasing, named pack stacks, alloc_text and runtime bitfield initialization.",
-      "validation_plan": "Draft one coherent stateful checksum module, validate actual original public syntax/options and CL/C1 transport before freezing; link/run original program to verify static/TLS/layout/results; freeze full native-only dependency/oracle and expected first-entry metadata; reconstruct only reached whole functions through completion, preserving all25 current phases and strict original-compiler/Rust/data/grammar checks. Omit unsupported syntax rather than forcing state."
+      "why_existing_cases_miss": "All26 current phases intentionally compile successful valid sources (plus one ordinary precision warning). Most error accounting, parser repair/synchronization, declaration error descriptions and partial-file termination remain trapping.",
+      "validation_plan": "Draft ONE intentionally malformed but ordinary C translation unit; validate/freeze actual original CL/C1 environment, full diagnostics in original order and raw partial file inventories with observed nonzero child status. Retain source/probes and require recovery to reach a valid tail. Adapt owned terminal/fixture checkers to honor manifest expected_exit rather than hardcoding exit0; native regressions remain Wine-free. Reconstruct reached whole functions, then all26 successful cases plus new negative-status phase, graph/ABI/default/grammar audits. No patched flags, state injection, C1XX substitution or claim that every named routine is necessarily reached.",
+      "provisional_bound_total_bytes": 1613
     }
   ],
   "extent_estimate_policy": "Band estimates subtract the exact clipped accepted union from bounded frontend code regions containing the named original stubs. They include unverified gaps/shared text, are not accepted function extents, and do not promise every byte is reached by one case.",
@@ -98,9 +108,23 @@
       "new_functions": 12,
       "new_extent_bytes": 2594,
       "scope": "Scaled/member addressing, expression arithmetic, explicit sizes/OFFSET/LENGTH, x87 operand normalization. No errors forced; program exit0 and raw IR exact."
+    },
+    {
+      "case": "storage-pragmas",
+      "new_functions": 18,
+      "new_extent_bytes": 2177,
+      "scope": "Public intrinsic/pack/alloc_text, named entities, static aliases and runtime bitfield initialization; initialized TLS raw IR and original runtime behavior pass."
     }
   ],
   "internal_inline_gate_analysis": "Internal standalone MSC_CMD_FLAGS -qc -Ol entries exist and directly gate the pending inline-query family. CL generic /d1 forwarding is statically available, but an untouched successful full pipeline is not validated. Ordinary /Ob1-/Ob2 does not exercise this family.",
-  "remaining_outside_identified_CRT_import_bytes": 31874,
-  "remaining_classification": "31874 bytes lie outside accepted union and currently identified library/import extents. They include application code, unclassified support, tables and padding; this is not a complete linker map or a reachability claim."
+  "remaining_outside_identified_CRT_import_bytes": 29697,
+  "remaining_classification": "29697 bytes outside accepted union and currently identified library/import extents include application code, unclassified support, tables and padding. Not a complete linker map or reachability claim.",
+  "remaining_application_family_inventory": [
+    "Ordinary diagnostics/parser/declaration/type recovery (proposed next).",
+    "Uninitialized TLS zero-initializer path, based pointers and nondefault segment/data models.",
+    "PCH separate-debug-library /Yd and browser-PCH branches, subject to original switch validation.",
+    "Additional inline-assembler operators/directives/error recovery, and intrinsic fallback paths.",
+    "Internal quick-compiler/inlining/loop family gated by option_qc and normalized_Ol; ordinary /Ob1-/Ob2 does not reach it, no successful full CL pipeline validated.",
+    "Japanese/IDE-specific paths and any still-unclassified original bytes remain explicitly unresolved; none are labeled CRT merely from lacking an ordinary trigger."
+  ]
 }

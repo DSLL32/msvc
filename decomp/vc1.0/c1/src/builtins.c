@@ -156,3 +156,20 @@ void __stdcall make_intrinsic_external(FrontendSymbol *symbol)
     symbol->storage[1] = current_storage[1];
     symbol->storage[2] = current_storage[2];
 }
+
+/* Original0x2dc60..0x2dcdd. Explicit intrinsic selection can restore a
+   declaration previously made external by #pragma function. */
+void __stdcall enable_intrinsic_function(char *name)
+{
+    int index;
+    FrontendSymbol *symbol;
+    unsigned kind;
+    if (options.option_qc) return;
+    index = find_builtin_index(name);
+    if (index == -1) { compiler_warning(1,163,name); return; }
+    symbol = find_identifier_symbol(name);
+    if (!symbol) { compiler_warning(1,164,name); return; }
+    kind = symbol->kind & 31;
+    if (kind != 6 && kind != 7) { report_syntax_error(170,name); return; }
+    mark_builtin(symbol,index);
+}

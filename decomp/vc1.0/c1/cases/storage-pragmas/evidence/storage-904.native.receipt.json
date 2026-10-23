@@ -1,0 +1,46 @@
+{
+  "buffers": {
+    "expression_file": "004f1f800008a0244f20084f020a004f011d5353269d00462d9f004c4f11534f011e4f011f4f01204f012026a500338641002784060033a641073284124b4f012026a5003386410227840600269f0030864133a64101023284424b",
+    "symbol_file": "",
+    "line_file": "009a00000101040307009b0000010104000101040b0700a20000010104050700a40000010201020102040907",
+    "global_file": "1186032e1d30019700000000120a0073746f726167652e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "make_implicit_declaration",
+    "emit_runtime_initializer",
+    "emit_initializer",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "make_implicit_declaration",
+  "pc": 1448677083,
+  "label_stack_count": 0,
+  "scanner_flags": 2621440,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_make_implicit_declaration@8",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.0036583757027983665,
+  "execution_seconds": 0.14766026753932238,
+  "total_seconds": 0.15374252572655678,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f storage.c -Ze -Zp8 -Fostorage.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "executable_sha256": "c74aac81aedb5c89f92d78b8f4fdc8cb5aef94779bd74c0d9e2a357f400d29e4"
+}

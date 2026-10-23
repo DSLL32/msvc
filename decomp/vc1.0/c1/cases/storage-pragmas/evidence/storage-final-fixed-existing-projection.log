@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/native-traces.py", line 149, in <module>
+    cache = project(args.objects)
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/native-traces.py", line 99, in project
+    assert actual == {n:r['source'] for n,r in native.items()}, (
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('unresolved native application definitions', ['find_named_entity_chain'], [])

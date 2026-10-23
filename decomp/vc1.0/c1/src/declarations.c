@@ -2214,3 +2214,114 @@ FrontendSymbol *__stdcall declare_label(char *name)
     label->type = type_0000;
     return label;
 }
+
+/* Original0x35aa0..0x35c24. Segment declarations share a named global
+   entity and retain its class spelling and section kind. The fourth ABI
+   argument is unused in this original implementation. */
+FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias,
+    unsigned kind, int arena)
+{
+    FrontendSymbol *entity = find_named_entity(name);
+    unsigned index;
+    int data_kind, existing_data_kind;
+    kind = (unsigned char)kind;
+    if (!entity) {
+        if (kind == 8 && name_has_text_suffix(name,"_TEXT")) kind = 2;
+        if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+        index = next_symbol_index++;
+        return new_named_entity(name,alias,index,(unsigned char)kind);
+    }
+    if (kind != 8 && kind != entity->metadata.segment.kind) {
+        data_kind = kind == 0 || kind == 2;
+        existing_data_kind = entity->metadata.segment.kind == 0 || entity->metadata.segment.kind == 2;
+        if (data_kind != existing_data_kind) {
+            if (existing_data_kind && entity->index != 5) report_syntax_error(194,entity->name);
+            else if (kind != 1) report_syntax_error(195,entity->name);
+        }
+    }
+    if (alias && alias != name_unnamed) {
+        if (!entity->detail.text || entity->detail.text == name_unnamed) entity->detail.text = alias;
+        if (entity->detail.text != alias) compiler_warning(1,613,entity->name);
+    }
+    if (entity->index == 5 && (parser_flags & 0x80000) && (function_symbol->attributes & 2))
+        entity = (FrontendSymbol *)function_symbol->type->related->field08;
+    if (default_code_segment && entity->index == 5) entity = default_code_segment;
+    if (default_data_segment && entity->index == 2) entity = default_data_segment;
+    if (entity->metadata.segment.kind == 2 && kind == 0) entity->metadata.segment.kind = 0;
+    return entity;
+}
+
+/* Original0x35840..0x3588c. Entity names are limited in place before
+   searching the pending global chain, excluding the anonymous sentinel. */
+FrontendSymbol *__stdcall find_named_entity(char *name)
+{
+    char *end = name;
+    while (*end) ++end;
+    if ((unsigned)(end - name) > 127) name[127] = 0;
+    if (!pending_global_symbols || !name || name == name_unnamed) return 0;
+    return lookup_symbol_chain(pending_global_symbols,name);
+}
+
+/* Original0x358c0..0x3590b. Named section/entity nodes use the complete
+   44-byte declaration record and join the pending global chain. */
+FrontendSymbol *__stdcall new_named_entity(char *name, char *alias,
+    unsigned index, unsigned char kind)
+{
+    FrontendSymbol *entity = allocate_permanent(sizeof(FrontendSymbol));
+    entity->kind = 13;
+    entity->index = index;
+    entity->metadata.segment.kind = kind;
+    entity->detail.text = alias;
+    entity->name = name;
+    entity->type = type_0802;
+    if (name && name != name_unnamed) {
+        entity->next = pending_global_symbols;
+        pending_global_symbols = entity;
+    }
+    return entity;
+}
+
+/* Original0x404e0..0x4052a. A section-qualified type retains the symbol's
+   function attributes or the ordinary based-data model. */
+void __stdcall assign_symbol_segment(FrontendSymbol *symbol, FrontendSymbol *segment)
+{
+    FrontendSymbol *section = segment;
+    unsigned short attributes = 5;
+    symbol->attributes |= 2;
+    if ((symbol->kind & 31) == 7) attributes = symbol->type->attributes;
+    symbol->type = make_qualified_type(symbol->type,0x400,attributes,&section);
+}
+
+/* Original0x2cdf0..0x2cef2. Implicit objects include unnamed compiler
+   temporaries. Their lifetime and storage class follow the lookup depth. */
+FrontendSymbol *__stdcall make_implicit_declaration(char *name, unsigned char nesting)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    FrontendSymbol *symbol;
+    unsigned char storage;
+    if (!nesting) {
+        symbol = allocate_permanent(sizeof(FrontendSymbol));
+        symbol->storage[0] = (symbol->storage[0] & 0xf9) | 1;
+    } else {
+        if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena,pool);
+        symbol = (FrontendSymbol *)pool->next;
+        pool->remaining -= sizeof(FrontendSymbol);
+        pool->next += sizeof(FrontendSymbol);
+        symbol->storage[0] = (symbol->storage[0] & 0xfc) | 4;
+    }
+    storage = symbol->storage[0] & 7;
+    symbol->storage[0] = (current_storage[0] & ~7) | storage;
+    symbol->storage[1] = current_storage[1];
+    symbol->storage[2] = current_storage[2];
+    symbol->kind = 9;
+    symbol->name = name;
+    if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+    symbol->index = next_symbol_index++;
+    symbol->references = 0;
+    symbol->type = type_0064;
+    found_scope_depth = nesting;
+    insert_scope_symbol(nesting ? current_scope : global_scope,symbol);
+    return symbol;
+}

@@ -1,20 +1,20 @@
 {
-  "authorization": "User selected ONE substantial inline-assembly case with scaled/indexed and member addressing, operand sizes, OFFSET and x87 forms. Complete it, then propose the next substantial case to root for review.",
-  "baseline_accepted_count": 875,
+  "authorization": "Root approved one coherent storage/pragma/runtime-initialization checksum case. Complete its reached frontend paths, then propose the next substantial case for review.",
+  "baseline_accepted_count": 887,
   "baseline_coverage": {
-    "bytes": 223068,
+    "bytes": 225662,
     "total": 277234,
-    "percent": 80.46199239631503,
-    "metric": "Accepted original extent union; not branch coverage."
+    "percent": 81.39766406717791,
+    "metric": "Accepted extent union; not branch coverage."
   },
   "cases": [
     {
-      "case": "inline-asm-rich",
+      "case": "storage-pragmas",
       "phase": "c1",
-      "status": "complete at887; twelve new whole assembler functions; raw IR/status/streams/first-entry sequence exact"
+      "status": "complete at905; eighteen new functions; exact raw IR/status/streams/original entry order"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
   "status": "complete; next single case awaits root review",
-  "previous_completed_authorization": "User selected ONE debug-bearing PCH create/reuse workflow. Complete both phases, then pause."
+  "previous_completed_authorization": "User selected ONE substantial inline-assembly case with scaled/indexed and member addressing, operand sizes, OFFSET and x87 forms. Complete it, then propose the next substantial case to root for review."
 }

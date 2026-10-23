@@ -1,0 +1,47 @@
+{
+  "buffers": {
+    "expression_file": "004f1f800008a0244f20084f020a004f011d5353269d00462d9f004c4f11534f011e",
+    "symbol_file": "",
+    "line_file": "009a00000101040307009b0000010104000101040b07",
+    "global_file": "1186032e1d30019700000000120a0073746f726167652e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "symbol_alias",
+    "write_literal_initializer",
+    "finish_scalar_initializer",
+    "finish_initializer",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "symbol_alias",
+  "pc": 1449134376,
+  "label_stack_count": 0,
+  "scanner_flags": 524288,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_symbol_alias@4",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003598051145672798,
+  "execution_seconds": 0.1500047231093049,
+  "total_seconds": 0.15597446914762259,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f storage.c -Ze -Zp8 -Fostorage.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "executable_sha256": "62496c2cdb9d5b3c3466fc4e312d3c418a204fbe1e0412c155bf27e9db0a6b3a"
+}

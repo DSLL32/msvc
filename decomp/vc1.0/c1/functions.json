@@ -891,7 +891,25 @@
     "_evaluate_asm_binary@12",
     "_asm_symbol_length@4",
     "_normalize_asm_x87_operands",
-    "_make_asm_stack_register@8"
+    "_make_asm_stack_register@8",
+    "_enable_intrinsic_function@4",
+    "_push_pragma_packing@8",
+    "_pop_pragma_packing@8",
+    "_pop_packing",
+    "_declare_named_entity@16",
+    "_find_named_entity@4",
+    "_new_named_entity@16",
+    "_assign_allocated_text@4",
+    "_assign_symbol_segment@8",
+    "_local_static_name@4",
+    "_format_local_static_name@8",
+    "_record_symbol_alias@8",
+    "_hash_symbol_index",
+    "_symbol_alias@4",
+    "_find_hash_value@8",
+    "_hash_symbol_indices_equal",
+    "_emit_runtime_initializer@4",
+    "_make_implicit_declaration@8"
   ],
   "driver": [
     {
@@ -2191,7 +2209,7 @@
     {
       "name": "_declare_named_entity@16",
       "start": 219808,
-      "end": 219809
+      "end": 220197
     },
     {
       "name": "_begin_compound_statement",
@@ -2371,7 +2389,7 @@
     {
       "name": "_assign_symbol_segment@8",
       "start": 263392,
-      "end": 263393
+      "end": 263467
     },
     {
       "name": "_initialize_function_definition@4",
@@ -3213,7 +3231,7 @@
     {
       "name": "_enable_intrinsic_function@4",
       "start": 187488,
-      "end": 187489
+      "end": 187614
     },
     {
       "name": "_disable_intrinsic_function@4",
@@ -3223,7 +3241,7 @@
     {
       "name": "_assign_allocated_text@4",
       "start": 220512,
-      "end": 220513
+      "end": 220771
     },
     {
       "name": "_warn_expected_identifier",
@@ -3333,7 +3351,7 @@
     {
       "name": "_hash_symbol_index",
       "start": 222176,
-      "end": 222177
+      "end": 222184
     },
     {
       "name": "_hash_keys_equal",
@@ -3343,7 +3361,7 @@
     {
       "name": "_hash_symbol_indices_equal",
       "start": 222144,
-      "end": 222145
+      "end": 222166
     },
     {
       "name": "_hash_table_count@4",
@@ -3553,12 +3571,12 @@
     {
       "name": "_push_pragma_packing@8",
       "start": 125104,
-      "end": 125105
+      "end": 125158
     },
     {
       "name": "_pop_pragma_packing@8",
       "start": 125168,
-      "end": 125169
+      "end": 125401
     },
     {
       "name": "_activate_macro_argument@4",
@@ -3699,12 +3717,12 @@
     {
       "name": "_record_symbol_alias@8",
       "start": 222064,
-      "end": 222065
+      "end": 222110
     },
     {
       "name": "_local_static_name@4",
       "start": 222192,
-      "end": 222193
+      "end": 222218
     },
     {
       "name": "_recover_undeclared_identifier@4",
@@ -3714,7 +3732,7 @@
     {
       "name": "_make_implicit_declaration@8",
       "start": 183792,
-      "end": 183793
+      "end": 184051
     },
     {
       "name": "_reference_identifier_symbol@4",
@@ -3974,7 +3992,7 @@
     {
       "name": "_emit_runtime_initializer@4",
       "start": 195520,
-      "end": 195521
+      "end": 195802
     },
     {
       "name": "_fit_string_initializer@8",
@@ -5543,6 +5561,36 @@
       "name": "_asm_scale_encoding@4",
       "start": 327705,
       "end": 327759
+    },
+    {
+      "name": "_pop_packing",
+      "start": 124000,
+      "end": 124027
+    },
+    {
+      "name": "_find_named_entity@4",
+      "start": 219200,
+      "end": 219277
+    },
+    {
+      "name": "_new_named_entity@16",
+      "start": 219328,
+      "end": 219404
+    },
+    {
+      "name": "_name_has_text_suffix@8",
+      "start": 219696,
+      "end": 219697
+    },
+    {
+      "name": "_format_local_static_name@8",
+      "start": 189040,
+      "end": 189184
+    },
+    {
+      "name": "_find_hash_value@8",
+      "start": 207376,
+      "end": 207431
     }
   ],
   "cases": {
@@ -5659,6 +5707,10 @@
     "inline-asm-rich": {
       "accepted_from": 875,
       "accepted_count": 887
+    },
+    "storage-pragmas": {
+      "accepted_from": 887,
+      "accepted_count": 905
     }
   },
   "buffered_streams": [

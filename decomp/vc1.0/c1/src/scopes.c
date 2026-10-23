@@ -289,7 +289,7 @@ int __stdcall serialize_scope(SymbolScope *scope)
 
 /* Per-function alias map, original 0x6ce74. Its entries are allocated in
    the function arena, so finishing a function only discards the root. */
-static struct SymbolAliasTable *symbol_aliases;
+HashTable *symbol_aliases;
 
 /* Original 0x36360..0x3636b. */
 void clear_symbol_aliases(void)
@@ -406,4 +406,25 @@ void finish_pch_debug_symbols(void)
         serialize_scope(global_scope);
         finish_pch_type_records();
     }
+}
+
+/* Original0x363f0..0x36409. Intern the function-scope spelling so the
+   persistent local alias uses the ordinary symbol-table pointer keys. */
+char *__stdcall local_static_name(FrontendSymbol *symbol)
+{
+    return intern_identifier(format_local_static_name(symbol,function_scope_level));
+}
+
+/* Original0x36370..0x3639d. Static locals retain their global declaration
+   through an index-keyed function-arena alias map. */
+void __stdcall record_symbol_alias(FrontendSymbol *symbol, FrontendSymbol *alias)
+{
+    if (!symbol_aliases) symbol_aliases = new_hash_table(31,1,2,1);
+    insert_hash_value(symbol_aliases,symbol,alias);
+}
+
+/* Original0x363a0..0x363b2. Resolve a function's persistent local alias. */
+FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol)
+{
+    return (FrontendSymbol *)find_hash_value(symbol_aliases,symbol);
 }

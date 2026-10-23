@@ -533,7 +533,7 @@ void mark_pch_packing(void)
     PCH_MARK(packing_stack->active);
     for (entry = top_packing(packing_stack); entry; entry = entry->next) {
         PCH_MARK(entry->next);
-        if (entry->field08) PCH_MARK(entry->field08);
+        if (entry->label) PCH_MARK(entry->label);
     }
 }
 

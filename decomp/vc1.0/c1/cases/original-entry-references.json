@@ -100,6 +100,10 @@
     "inline-asm-rich": {
       "receipt": "cases/inline-asm-rich/evidence/asm-rich-entries-887.receipt.json",
       "sha256": "86dc033862612d2d26046ad534e186e6fc9f4752ae02525f57f0e80a89953d23"
+    },
+    "storage-pragmas": {
+      "receipt": "cases/storage-pragmas/evidence/storage-entries-887.receipt.json",
+      "sha256": "9a8e6ca06716e18be3e69b101b3b380d2253b4dfcdd2270fd4c5008eb97f036f"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

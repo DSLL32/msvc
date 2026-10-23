@@ -1,0 +1,19 @@
+entry _enable_intrinsic_function@4 rva 0001dc60 byte 56
+entry _push_pragma_packing@8 rva 0000e8b0 byte 56
+entry _pop_pragma_packing@8 rva 0000e8f0 byte 56
+entry _pop_packing rva 0000e460 byte 8b
+entry _declare_named_entity@16 rva 00025aa0 byte 53
+entry _find_named_entity@4 rva 00025840 byte 57
+entry _new_named_entity@16 rva 000258c0 byte 6a
+entry _assign_allocated_text@4 rva 00025d60 byte 56
+entry _assign_symbol_segment@8 rva 000304e0 byte 83
+entry _local_static_name@4 rva 000263f0 byte 66
+entry _format_local_static_name@8 rva 0001e270 byte 56
+entry _record_symbol_alias@8 rva 00026370 byte a1
+entry _hash_symbol_index rva 000263e0 byte 8b
+entry _symbol_alias@4 rva 000263a0 byte 8b
+entry _find_hash_value@8 rva 00022a10 byte 56
+entry _hash_symbol_indices_equal rva 000263c0 byte 8b
+entry _emit_runtime_initializer@4 rva 0001fbc0 byte 53
+entry _make_implicit_declaration@8 rva 0001cdf0 byte 53
+exit 0

@@ -104,7 +104,7 @@ void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
 
 void report_ide_source(void) { __asm { int 3 } }
 
@@ -323,7 +323,7 @@ void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 /* Original 0x355a0. */
 
 /* Original 0x35aa0. */
-FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned kind, int arena) { __asm { int 3 } return 0; }
+
 
 /* Original 0x35e70. */
 
@@ -375,7 +375,7 @@ void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { in
 
 
 void abort_function_definition(void) { __asm { int 3 } }
-void __stdcall assign_symbol_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
+
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 
@@ -512,12 +512,12 @@ int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { i
 /* Original 0x1e5d0. */
 
 /* Original 0x2dc60. */
-void __stdcall enable_intrinsic_function(char *name) { __asm { int 3 } }
+
 
 /* Original 0x2dce0. */
 
 /* Original 0x35d60. */
-void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
+
 
 /* Original 0x2d3a0. */
 void warn_expected_identifier(void) { __asm { int 3 } }
@@ -568,12 +568,12 @@ SymbolScope *enclosing_declaration_scope(void) { __asm { int 3 } return 0; }
 unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 
 /* Original 0x363e0. */
-unsigned hash_symbol_index(void *key) { __asm { int 3 } return 0; }
+
 
 /* Original 0x32ae0. */
 
 /* Original 0x363c0. */
-int hash_symbol_indices_equal(void *left, void *right) { __asm { int 3 } return 0; }
+
 
 /* Original 0x32ad0. */
 
@@ -617,8 +617,8 @@ int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; 
 
 
 
-void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
-void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }
+
+
 
 void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
 
@@ -650,14 +650,14 @@ int integer_to_extended(const int *value, Extended *number) { __asm { int 3 } re
 /* Original 0x32dd0. */
 
 /* Original 0x36370. */
-void __stdcall record_symbol_alias(FrontendSymbol *symbol, FrontendSymbol *alias) { __asm { int 3 } }
+
 /* Original 0x363f0. */
-char *__stdcall local_static_name(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
 
 /* Original 0x2d0e0. */
 FrontendSymbol * __stdcall recover_undeclared_identifier(char *name) { __asm { int 3 } return 0; }
 /* Original 0x2cdf0. */
-FrontendSymbol * __stdcall make_implicit_declaration(char *name, unsigned char nesting) { __asm { int 3 } return 0; }
+
 /* Original 0x2d180. */
 
 /* Original 0x2d2a0. */
@@ -704,7 +704,7 @@ unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { in
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
-void __stdcall emit_runtime_initializer(IrToken *value) { __asm { int 3 } }
+
 
 
 
@@ -908,3 +908,6 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 
 
 /* Original0x44e40. */
+
+/* Original0x35a30: unvisited _TEXT suffix classification. */
+int __stdcall name_has_text_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }

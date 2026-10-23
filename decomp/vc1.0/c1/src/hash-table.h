@@ -17,6 +17,7 @@ typedef struct HashTable {
 } HashTable;
 HashTable *__stdcall new_hash_table(unsigned short buckets, short arena,
                                   unsigned hash, unsigned compare);
+void *__stdcall find_hash_value(HashTable *table, void *key);
 HashEntry *__stdcall insert_hash_value(HashTable *table, void *key, void *value);
 unsigned __stdcall hash_bucket_index(HashTable *table, void *key);
 HashEntry *__stdcall find_hash_entry(HashTable *table, void *key, unsigned bucket);

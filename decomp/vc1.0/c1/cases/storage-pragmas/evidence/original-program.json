@@ -1,0 +1,29 @@
+{
+  "operations": [
+    {
+      "name": "original-link",
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/Festorage.exe",
+        "storage.obj"
+      ],
+      "seconds": 1.3182957135140896,
+      "exit": 0
+    },
+    {
+      "name": "original-run",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1\\storage-pragmas\\storage.exe"
+      ],
+      "seconds": 1.1678185053169727,
+      "exit": 0
+    }
+  ],
+  "source_sha256": "cbd63175bc71b4431b7c5fe5bcf9950ccfe8f36d392e6d0988b38df14e8f934d",
+  "object_sha256": "0805440f3f7c4f02f9e563b82732db9536e824d0ab38bff7ae263a193dadef85",
+  "exe_sha256": "0e31e08427e9b4e8ba0b5f4bb68601f702ea89bbebfeca6b5a8a0ab789012ffb",
+  "scope": "Original backend/link/program behavior only; backend reconstruction is not assigned."
+}

@@ -128,7 +128,8 @@ extern char database_path[256], pch_object_name[256];
 extern char **argument_vector_allocation;
 typedef struct PackingEntry {
     struct PackingEntry *next;
-    int alignment, field08;
+    int alignment;
+    char *label;
 } PackingEntry;
 typedef struct PackingStack {
     PackingEntry *active, *free;
@@ -165,6 +166,7 @@ extern int permanent_page_count;
 extern PackingStack *packing_stack;
 PackingStack *new_packing_stack(void);
 PackingEntry *push_packing(PackingStack *stack);
+void pop_packing(PackingStack *stack);
 unsigned __stdcall packing_padding(unsigned alignment, unsigned offset);
 void clear_packing(PackingEntry *entry);
 

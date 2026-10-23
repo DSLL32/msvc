@@ -117,3 +117,25 @@ char *__stdcall encode_name_character(char *destination, char value)
     }
     return destination;
 }
+
+/* Original0x2e270..0x2e2ff. Local statics share the decorated-name
+   workspace with literal names and include their function nesting level. */
+char *__stdcall format_local_static_name(FrontendSymbol *symbol, unsigned level)
+{
+    char *destination = symbol_name_buffer, *source;
+    *destination++ = '?';
+    source = symbol->name;
+    while (*source) *destination++ = *source++;
+    *destination++ = '@';
+    *destination++ = '?';
+    destination = encode_name_number(destination,level & 0xffff);
+    *destination++ = '?';
+    *destination++ = '?';
+    source = function_symbol->name;
+    if (symbol->name == source) *destination++ = '0';
+    else while (*source) *destination++ = *source++;
+    source = "@@9@9";
+    while (*source) *destination++ = *source++;
+    *destination = 0;
+    return symbol_name_buffer;
+}

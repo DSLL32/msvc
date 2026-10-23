@@ -926,3 +926,36 @@ void __stdcall emit_member_padding(FrontendSymbol *member)
     if (!(scanner_flags & 0x200000)) emit_initializer_constant(0);
     initializer_offset += constant_one;
 }
+
+/* Original0x2fbc0..0x2fcd9. Dynamic bitfields accumulate in a temporary
+   integer, which is initialized once for each shared storage unit. */
+void __stdcall emit_runtime_initializer(IrToken *value)
+{
+    unsigned char storage;
+    FrontendSymbol *field;
+    IrToken *zero, *target, *offset, *mask, *expression;
+    if (!initializer_temporary) {
+        initializer_temporary = make_implicit_declaration(0,
+            (parser_flags & 0x40) ? 2 : parameter_nesting);
+        initializer_temporary->type = type_0044;
+        initializer_temporary->storage[0] = (initializer_temporary->storage[0] & 0xfc) | 4;
+        storage = initializer_temporary->storage[0] & 7;
+        initializer_temporary->storage[0] = (current_storage[0] & ~7) | storage;
+        initializer_temporary->storage[1] = current_storage[1];
+        initializer_temporary->storage[2] = current_storage[2];
+        initializer_temporary_assigned = 1;
+    }
+    if (initializer_temporary_assigned) {
+        zero = make_integer_constant(0);
+        target = make_indirection(make_symbol_reference(initializer_temporary));
+        emit_expression_statement(make_binary_expression(TOK_INITIALIZING,target,zero));
+        initializer_temporary_assigned = 0;
+    }
+    field = initializer_frame->symbol;
+    offset = make_integer_constant(field->metadata.bitfield.offset);
+    mask = make_integer_constant((1U << (field->metadata.bitfield.width & 31)) - 1);
+    expression = make_binary_expression(TOK_BIT_AND,value,mask);
+    expression = make_binary_expression(TOK_LEFT_SHIFT,expression,offset);
+    target = make_indirection(make_symbol_reference(initializer_temporary));
+    emit_expression_statement(make_binary_expression(TOK_OR_ASSIGN,target,expression));
+}

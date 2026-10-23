@@ -11,7 +11,7 @@ void initialize_packing(void)
         entry->alignment = 8;
     else
         entry->alignment = options.option_Zp;
-    entry->field08 = 0;
+    entry->label = 0;
 }
 
 /* Original 0x1e4c0..0x1e4d5. */
@@ -69,4 +69,51 @@ int __stdcall validate_packing(int alignment)
     }
     compiler_warning(1, 86);
     return top_packing(packing_stack)->alignment;
+}
+
+/* Original0x1e8b0..0x1e8e5. Named pushes inherit the current alignment
+   when no replacement value was supplied. Labels are interned pointer keys. */
+void __stdcall push_pragma_packing(int alignment, char *label)
+{
+    PackingEntry *entry;
+    if (!alignment) alignment = top_packing(packing_stack)->alignment;
+    entry = push_packing(packing_stack);
+    entry->alignment = alignment;
+    entry->label = label;
+}
+
+/* Original0x1e8f0..0x1e9d8. Named pops search the legacy entry/free-list
+   linkage and retain its warning/default-alignment recovery behavior. */
+void __stdcall pop_pragma_packing(int alignment, char *label)
+{
+    PackingEntry *entry = top_packing(packing_stack);
+    if (!entry->next) {
+        compiler_warning(3,161);
+        if (!alignment) alignment = options.option_Zp == -1 ? 8 : options.option_Zp;
+    } else {
+        pop_packing(packing_stack);
+        while (entry->label != label) {
+            if (!label) { compiler_warning(3,159,entry->label); break; }
+            if (!entry->next) {
+                compiler_warning(3,160,label);
+                if (!alignment) alignment = options.option_Zp == -1 ? 8 : options.option_Zp;
+                break;
+            }
+            entry = top_packing(packing_stack);
+            pop_packing(packing_stack);
+        }
+    }
+    if (alignment) entry->alignment = alignment;
+}
+
+/* Original0x1e460..0x1e47a. Retired entries form a reusable free list. */
+void pop_packing(PackingStack *stack)
+{
+    PackingEntry *entry;
+    if (stack && stack->active) {
+        entry = stack->active;
+        stack->active = entry->next;
+        entry->next = stack->free;
+        stack->free = entry;
+    }
 }
