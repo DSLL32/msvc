@@ -1,0 +1,23 @@
+[
+  {
+    "case": "hello-debug-dll",
+    "terminal": "trap",
+    "status": -5,
+    "function": "build_symbol_name_hash",
+    "executable_sha256": "7ae61fc8e74752695ffef4ac7bc770eb21ec5ad09d93f5c766e334d6f6f24362",
+    "configuration_sha256": "5af55f757bb8bb0d46e48ffc68423ef21ca8359da9054c5037851c651abb2e77",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "5e71a75bf592afa3864117ee72b2893b21334bd2002438a3aa52a1fa77ae074c",
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.2760902186855674,
+      "execution": 0.01649562269449234,
+      "debugging": 0.6523333936929703,
+      "checks": 0.02568439580500126,
+      "total": 0.9706135168671608
+    }
+  }
+]

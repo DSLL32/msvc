@@ -293,4 +293,54 @@ void write_global_publics(CvDirectoryEntry *entry, unsigned long offset)
     if (padding != 4) OUTPUT_BYTES(&zero, padding);
     if (verbose == 1) printf("Public symbol size\t\t= %8.1ld\n", header.symbols);
 }
+
+unsigned long pad_symbols(void **buckets, unsigned long alignment)
+{
+    unsigned short position = 0, extra = (unsigned short)(alignment+4), padding;
+    unsigned long bucket, total = 0, i;
+    PublicSymbol *symbol, *previous, *node;
+
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        previous = NULL;
+        for (symbol = buckets[bucket]; symbol; symbol = symbol->next) {
+            if ((unsigned long)*(unsigned short *)symbol->record+extra+position+2 > 4096) {
+                padding = (unsigned short)(4096-position);
+                node = allocate_symbol((unsigned short)(padding+20));
+                node->hash = 0xffff;
+                node->name_offset = 0xffff;
+                node->segment = 0;
+                node->offset = 0;
+#ifdef RECON_NATIVE_TEST
+                if (padding < 4) __asm { int 3 }
+#endif
+                for (i = 0; i < padding; ++i) node->record[i] = 0;
+                *(unsigned short *)node->record = (unsigned short)(padding-2);
+                *(unsigned short *)(node->record+2) = 0x402;
+                node->next = symbol;
+                if (previous) previous->next = node;
+                else buckets[bucket] = node;
+                total += padding;
+                position = 0;
+            }
+            position += (unsigned short)(*(unsigned short *)symbol->record+2);
+            previous = symbol;
+        }
+        if (bucket == 4095 && alignment >= 4) {
+            node = allocate_symbol(28);
+            node->hash = 0xffff;
+            node->name_offset = 0xffff;
+            node->segment = 0;
+            node->offset = 0;
+            *(unsigned long *)node->record = 0xffffffff;
+            *(unsigned long *)(node->record+4) = 0xffffffff;
+            *(unsigned short *)node->record = 6;
+            *(unsigned short *)(node->record+2) = 0x402;
+            node->next = symbol;
+            if (previous) previous->next = node;
+            else buckets[bucket] = node;
+            total += 8;
+        }
+    }
+    return total;
+}
 #undef OUTPUT_BYTES

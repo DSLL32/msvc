@@ -21,7 +21,7 @@ void initialize_output(int);
 unsigned short write_output(const void *,unsigned short);
 unsigned short flush_output(int);
 void write_subsection(unsigned long);
-unsigned long pad_symbols(void **,unsigned short);
+unsigned long pad_symbols(void **,unsigned long);
 void build_symbol_name_hash(SymbolHash,unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **);
 void build_symbol_address_hash(unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **);
 BufferBlock *first_buffer_block(const GrowingBuffer *);

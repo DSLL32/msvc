@@ -114,10 +114,11 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' owner=current.older()\n'
         ' while owner and owner.name()!=proof["owner"]: owner=owner.older()\n'
         ' if not owner: raise RuntimeError("missing output owner")\n'
-        ' local=owner.read_var(proof["local"]); address=int(local)if proof.get("location")=="allocation"else int(local.address); size=int(local.type.target().sizeof)if proof.get("location")=="allocation"else int(local.type.sizeof); argument=parameters[description["name"]]\n'
+        ' local=owner.read_var(proof["local"]); local=local[proof["member"]]if proof.get("member")else local; address=int(local)if proof.get("location")=="allocation"else int(local.address); size=int(local.type.target().sizeof)if proof.get("location")=="allocation"else int(local.type.sizeof); argument=parameters[description["name"]]\n'
         ' if argument["address"]!=address+proof["offset"] or size!=proof["size"]: raise RuntimeError("wrong output local")\n'
         ' argument["local_address"]=address\n'
         ' argument["local"]=dict(owner=owner.name(),name=proof["local"],size=size,offset=proof["offset"])\n'
+        ' if proof.get("member"): argument["local"]["member"]=proof["member"]\n'
         ' argument["prebytes"]=bytes(gdb.selected_inferior().read_memory(argument["address"],proof["size"])).hex()\n'
         ' if proof.get("children")=="coff-function":\n'
         '  raw=bytes.fromhex(argument["prebytes"]);argument["children"]={}\n'
@@ -265,7 +266,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

@@ -110,6 +110,10 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='function':
+            callback=next(r for r in config['functions']if r['name']==item['target']);actual=state['parameters'][item['name']]
+            assert words[item['slot']]==item['original_target']==callback['original']and actual['function']==callback['native']and not actual['null'],'callback ABI identity differs'
+            parameters[item['name']]=dict(original_address=words[item['slot']],native_address=actual['address'],function=callback['name'])
         elif item['kind']=='global-owner':parameters[item['name']]=compare_global_owner(item,words,state['parameters'][item['name']],events)
         elif item['kind']in('directory-key','directory-output'):parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)

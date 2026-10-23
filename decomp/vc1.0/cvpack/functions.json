@@ -6987,13 +6987,16 @@
       "native": "pad_symbols",
       "symbol": "_pad_symbols",
       "original": 122336,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "unsigned long pad_symbols(void **,unsigned short)",
+      "status": "accepted",
+      "extent": [
+        122336,
+        122715
+      ],
+      "abi": "unsigned long pad_symbols(void **,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0132-pad_symbols/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7009,9 +7012,24 @@
           "name": "alignment",
           "slot": 2,
           "kind": "integer",
-          "bits": 16
+          "bits": 32
         }
-      ]
+      ],
+      "abi_note": "Whole body compares full DWORD alignment at1dee4; initial provisional ushort frontier refined. Actual old raw argument was00000004; current ABI compares full32 bits.",
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "build_symbol_name_hash",
@@ -7026,7 +7044,51 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "hash",
+          "slot": 1,
+          "kind": "function",
+          "target": "hash_public",
+          "original_target": 110560
+        },
+        {
+          "name": "kind",
+          "slot": 2,
+          "kind": "stack-output",
+          "evidence": "cases/abi/build-name-hash-kind-output.json",
+          "evidence_sha256": "9c9194474c93926767cfdb1e6edfbda3b94d74c659bbe0f23aa9bc5859585096"
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "stack-output",
+          "evidence": "cases/abi/build-name-hash-size-output.json",
+          "evidence_sha256": "3c15e718007d98852f6aca5c01e88926e20d81c500068ad15ed2d35675b64a8e"
+        },
+        {
+          "name": "buffer",
+          "slot": 4,
+          "kind": "stack-output",
+          "evidence": "cases/abi/build-name-hash-buffer-output.json",
+          "evidence_sha256": "96314e91c9cb766936dc30a882de03adcda242b81177fdf0f232dc1601564e14"
+        },
+        {
+          "name": "count",
+          "slot": 5,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "buckets",
+          "slot": 6,
+          "kind": "global-owner",
+          "root": "public_symbol_hash",
+          "original_root": 225660,
+          "requested_size": 16384
+        }
+      ]
     },
     {
       "name": "build_symbol_address_hash",
@@ -7884,6 +7946,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 131
+    },
+    {
+      "function": "pad_symbols",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 132
     }
   ],
   "support_unmasked": [
@@ -8494,7 +8562,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "69098b8936f18b74734b0ea23a22a8e9c9dcec6d42b2582c4540d0618c0dc329"
+    "evidence_sha256": "d4630fafb0831247c5719097cb80ba9e058c690f6f8b18e431ab22c497039768"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8570,6 +8638,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "8f0ea7f5d90ce87e8d142c2044c92e71542961ad42a5ef2912c1a4c6a34541c6"
+    "sha256": "80e8e3a1728f1c76ff3ffe8098f6a48d9c2726a4008c48bf09d6930b2711cbb9"
   }
 }

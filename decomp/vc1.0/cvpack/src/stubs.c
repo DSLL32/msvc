@@ -19,7 +19,7 @@ void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 unsigned short write_output(const void *buffer,unsigned short size) { __asm { int 3 } return 0; }
 unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
-unsigned long pad_symbols(void **buckets,unsigned short alignment) { __asm { int 3 } return 0; }
+
 void build_symbol_name_hash(SymbolHash hash,unsigned short *kind,unsigned long *size,GrowingBuffer *buffer,unsigned long count,void **buckets) { __asm { int 3 } }
 void build_symbol_address_hash(unsigned short *kind,unsigned long *size,GrowingBuffer *buffer,unsigned long count,void **buckets) { __asm { int 3 } }
 BufferBlock *first_buffer_block(const GrowingBuffer *buffer) { __asm { int 3 } return NULL; }

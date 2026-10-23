@@ -51,7 +51,9 @@ def compare(item,descriptions,words,parameters,events,pe):
         count=next(r for r in descriptions if r['name']==item['size_argument'])
         assert words[count['slot']]==parameters[count['name']]==proof['size'],'output count differs from declared local'
     assert actual['address']==actual['local_address']+proof['offset'],'native raw output address differs from local base'
-    assert not actual['null'] and actual['local']==dict(owner=proof['owner'],name=proof['local'],size=proof['size'],offset=proof['offset']),'native output pointer differs from typed caller local'
+    local=dict(owner=proof['owner'],name=proof['local'],size=proof['size'],offset=proof['offset'])
+    if proof.get('member'):local['member']=proof['member']
+    assert not actual['null'] and actual['local']==local,'native output pointer differs from typed caller local'
     label='input'if proof.get('mode')=='input'else 'output'
     match=re.search(r'^%s-buffer %08x ([0-9a-f]+)$'%(label,value),events,re.M)
     assert match and len(bytes.fromhex(match[1]))==proof['size']
