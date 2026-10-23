@@ -2281,3 +2281,15 @@ Diamond analysis and Pentium stall insertion: checkpoint916
 native fixtures pass. See cases/loops-pentium-gap.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Nested-loop stress complete: checkpoint917
+-----------------------------------------
+Original-only masked C2 and native reconstruction exit0 with empty streams.
+All620 object bytes agree except the established timestamp4..7, normalized
+SHA cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87.
+Whole Pentium gap search completes the case, with unvisited child traps retained.
+Canonical/W3, all839 source graph checks, mask/extent audits and three native
+fixture outputs pass; four malformed completion receipts are rejected.
+Accepted extent union246671/399693=61.7151163518% (not branch coverage).
+See cases/loops-completion.json for evidence, limits and measured timing.
+The approved register-pressure capture follows; aliasing and floating point remain queued.

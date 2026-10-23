@@ -144,4 +144,5 @@ int __fastcall scheduled_instruction_changes_register(MachineInstruction *instru
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction);
 void fill_previous_pentium_gap(void);
 int __fastcall move_instruction_into_pentium_gap(MachineInstruction *first, MachineInstruction *last, int mode, int probe);
+void __fastcall update_pentium_gap_history(MachineInstruction *last, MachineInstruction *first, MachineInstruction *second);
 #endif

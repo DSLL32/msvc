@@ -920,7 +920,8 @@
     "@next_split_register_color@4",
     "@byte_register_available@4",
     "@merge_jump_diamond@12",
-    "@insert_pentium_stall@4"
+    "@insert_pentium_stall@4",
+    "@move_instruction_into_pentium_gap@16"
   ],
   "driver": [
     {
@@ -6694,7 +6695,12 @@
     {
       "name": "@move_instruction_into_pentium_gap@16",
       "start": 289680,
-      "end": 289681,
+      "end": 290860
+    },
+    {
+      "name": "@update_pentium_gap_history@12",
+      "start": 290928,
+      "end": 290929,
       "provisional": true
     }
   ],

@@ -1,5 +1,5 @@
 {
-  "active": "optimizer-loops",
+  "active": "optimizer-register-pressure",
   "queued": [
     {
       "case": "hello-win32",
@@ -13,7 +13,7 @@
       "case": "optimizer-loops",
       "after": "hello-win32",
       "phase": "c2",
-      "status": "active; 904 accepted frontiers; machine-region simplification",
+      "status": "complete",
       "description": "Nested loops, branches, loop-carried integer values and optimizer induction/control flow",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
       "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json"
@@ -22,7 +22,7 @@
       "case": "optimizer-register-pressure",
       "after": "optimizer-loops",
       "phase": "c2",
-      "status": "approved; pending independent original capture after hello",
+      "status": "active; independent original capture next",
       "description": "Many live integer values, calls and spills across scheduling/register allocation",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
     },
@@ -59,6 +59,14 @@
       "exit": 0,
       "object_bytes": 2289,
       "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0"
+    },
+    {
+      "case": "optimizer-loops",
+      "accepted_frontiers": 917,
+      "reconstructed_functions": 839,
+      "exit": 0,
+      "object_bytes": 620,
+      "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87"
     }
   ]
 }

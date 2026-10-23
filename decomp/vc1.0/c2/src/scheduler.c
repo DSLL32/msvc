@@ -1958,3 +1958,77 @@ void __fastcall insert_pentium_stall(int reason)
     if (scan && !SCHEDULER_BARRIER(scan))
         move_instruction_into_pentium_gap(scan->previous, scan, 0, 0);
 }
+/* Original [00046b90,0004702c). Search at most six earlier operations
+   for a dependency-safe gap filler. Paired instructions move together with
+   separate undo chains and an optional cycle limit. */
+int __fastcall move_instruction_into_pentium_gap(MachineInstruction *first,
+    MachineInstruction *last, int mode, int probe)
+{
+    MachineInstruction *earlier, *slower;
+    SchedulerUndo *saved_undo, **link, *undo;
+    unsigned flags;
+    short first_cycles, earlier_cycles;
+    int count = 0;
+    while (count <= 5 && first) {
+        while (first && !SCHEDULABLE_KIND(first->opcode & 15) && !SCHEDULER_BARRIER(first))
+            first = first->previous;
+        if (!first || SCHEDULER_BARRIER(first)) return 0;
+        flags = first->record.scheduling->flags;
+        if (flags & 0x80) {
+            scheduler_undo = 0;
+            if (scan_schedule_interval(first, last, 0, 0, 0, 0, 0)) {
+                saved_undo = scheduler_undo;
+                scheduler_undo = 0;
+                earlier = first->previous;
+                while (earlier && !SCHEDULABLE_KIND(earlier->opcode & 15) && !SCHEDULER_BARRIER(earlier))
+                    earlier = earlier->previous;
+                if (!earlier || SCHEDULER_BARRIER(earlier)) {
+                    scheduler_undo = 0;
+                    return 0;
+                }
+                if (scan_schedule_interval(earlier, last, 0, 0, 0, 0, 1)) {
+                    if (mode) {
+                        first_cycles = scheduler_instruction_cycles(first);
+                        earlier_cycles = scheduler_instruction_cycles(earlier);
+                        slower = first_cycles < earlier_cycles ? earlier : first;
+                        if ((short)scheduler_instruction_cycles(slower) <= (short)mode)
+                            goto skip_pair;
+                    }
+                    for (link = &scheduler_undo; (undo = *link) != 0; link = &undo->next) {
+                        if (undo->owner == first) {
+                            *link = undo->next;
+                            break;
+                        }
+                    }
+                    place_scheduled_instruction(last, earlier);
+                    scheduler_undo = saved_undo;
+                    place_scheduled_instruction(earlier, first);
+                    scheduler_undo = 0;
+                    update_pentium_gap_history(last, earlier, first);
+                    return 1;
+                }
+            } else {
+                earlier = first->previous;
+                while (earlier && !SCHEDULABLE_KIND(earlier->opcode & 15) && !SCHEDULER_BARRIER(earlier))
+                    earlier = earlier->previous;
+                if (!earlier || SCHEDULER_BARRIER(earlier)) return 0;
+            }
+skip_pair:
+            first = earlier->previous;
+            count += 2;
+        } else if ((flags & 0x40) || SCHEDULER_FLOAT_OPERATION((first->opcode >> 8) & 255)) {
+            first = first->previous;
+        } else {
+            scheduler_undo = 0;
+            if (scan_schedule_interval(first, last, 0, 0, 0, 0, 0)) {
+                place_scheduled_instruction(last, first);
+                update_pentium_gap_history(last, first, 0);
+                return 1;
+            }
+            first = first->previous;
+            ++count;
+        }
+        if (probe) return 0;
+    }
+    return 0;
+}

@@ -1,0 +1,21 @@
+{
+  "profile": "loops",
+  "terminal": "exit:0",
+  "returncode": 0,
+  "application_entries": 77,
+  "seeded_entries": 757,
+  "output": {
+    "name": "loops.obj",
+    "bytes": 620,
+    "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "setup_seconds": 0.013956104405224323,
+  "execution_seconds": 0.008893563412129879,
+  "check_seconds": 0.0012013893574476242,
+  "directory": "/root/.ai-tmp/vc1.0-c2/loops-completion-i4bcm054/loops",
+  "seconds": 0.024293623864650726
+}

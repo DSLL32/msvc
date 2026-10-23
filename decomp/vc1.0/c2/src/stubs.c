@@ -414,4 +414,4 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
-int __fastcall move_instruction_into_pentium_gap(MachineInstruction *first, MachineInstruction *last, int mode, int probe) { __asm int 3 }
+void __fastcall update_pentium_gap_history(MachineInstruction *last, MachineInstruction *first, MachineInstruction *second) { __asm int 3 }
