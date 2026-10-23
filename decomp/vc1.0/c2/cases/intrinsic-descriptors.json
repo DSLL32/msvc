@@ -79,5 +79,32 @@
     "commands": "d",
     "runtime_name": "",
     "flags": 288
+  },
+  {
+    "id": 167,
+    "name": "string_length_intrinsic",
+    "original": "0x84448",
+    "result_type": 1028,
+    "commands": "vE0",
+    "runtime_name": "",
+    "flags": 64
+  },
+  {
+    "id": 164,
+    "name": "string_copy_intrinsic",
+    "original": "0x84418",
+    "result_type": 1028,
+    "commands": "nvyE0E1",
+    "runtime_name": "",
+    "flags": 64
+  },
+  {
+    "id": 165,
+    "name": "string_compare_intrinsic",
+    "original": "0x84428",
+    "result_type": 1028,
+    "commands": "vE0E1",
+    "runtime_name": "",
+    "flags": 64
   }
 ]

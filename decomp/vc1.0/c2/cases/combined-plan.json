@@ -1,0 +1,34 @@
+{
+  "status": "single original-validated frozen case",
+  "accepted_from": 1089,
+  "features": [
+    "Twelve loop-carried unsigned values and four pointer/address expressions across unknown external calls",
+    "Call-free floating arithmetic with noncommutative divisions and nested sin/cos/sqrt intrinsics",
+    "Coherent bounded strcpy/memcpy fallback, strlen/strcmp and variable memset operations"
+  ],
+  "flags": [
+    "/Oi",
+    "/O2",
+    "/Ob0",
+    "/G3"
+  ],
+  "original_validation": "Actual untouched CL/C1/C2 pipeline status0; no warnings; independently replayed standalone original C2 object matches except COFFtimestamp",
+  "expected": {
+    "path": "expected/combined.obj",
+    "bytes": 2125,
+    "sha256": "1bf48a30c42002acbd1722e5d4722bc6abff6cf8efae8027d2358dd4033d38f4",
+    "output_name": "combined.obj",
+    "ignored_fields": [
+      {
+        "offset": 4,
+        "bytes": 4,
+        "name": "COFF TimeDateStamp"
+      }
+    ],
+    "normalized_sha256": "b8b7867d8ca53daad37fb68781b9a5738ca2b4387691b7d265b3113de5924e56"
+  },
+  "limits": [
+    "One option set and one source only; G3 does not promise G5-only arrangement/exchange paths",
+    "Pause after this case completes; no follow-on case authorized"
+  ]
+}

@@ -81,6 +81,33 @@
         "0x88040"
       ],
       "extent_bytes": 16
+    },
+    {
+      "name": "string_length_intrinsic",
+      "id": 167,
+      "addresses": [
+        "0x84448",
+        "0x88100"
+      ],
+      "extent_bytes": 16
+    },
+    {
+      "name": "string_copy_intrinsic",
+      "id": 164,
+      "addresses": [
+        "0x84418",
+        "0x880e0"
+      ],
+      "extent_bytes": 16
+    },
+    {
+      "name": "string_compare_intrinsic",
+      "id": 165,
+      "addresses": [
+        "0x84428",
+        "0x880f0"
+      ],
+      "extent_bytes": 16
     }
   ],
   "operator_map": {
@@ -106,7 +133,7 @@
     ]
   },
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "rebuilt_sha256": "7ae207cce5fbdd06b464ff751bc741a88285084c92cb0e3192e504f2db6f1405",
+  "rebuilt_sha256": "5ae834b8fca03ae84a972f0269e8b5a250ccff1df41f6b119cd7242ce42386fa",
   "executes_wine": false,
   "address_identity": "Interpreter does not expose descriptor addresses or perform arithmetic between descriptors"
 }

@@ -1,18 +1,4 @@
-C2 approved CPU/x87 queue complete; paused after checkpoint1089.
-
-All nine native cases exit0 with matching streams and full objects after only
-COFF timestamp4..7 normalization.1010 whole source graphs match original.
-Accepted code-extent union301239/399693 bytes=75.3675946289%; not branch coverage.
-Original compiler and /W3 changed-source checks pass. Independent15-function
-cleanup ABI audit and21 graph/extent safeguards pass. No shim request pending.
-No pending build/capture/debugger command. No incomplete reconstructed function.
-
-See cases/i486-completion.json and cases/x87-completion.json for durable original
-before/after pairs, native matching/complete-artifact evidence and stage timing.
-Interactive analysis time unmeasured; combined build totals explicitly unsplit.
-The rejected premature1080 GDB run is retained in cases/x87-store-reload.json.
-
-Resume only on user-selected cases; proposals in cases/queue.json target G3
-rematerialization, G5 x87 arrangement/exchange, and string/memory intrinsics.
-Do not start these unapproved proposals. Shared prefix fixedR/S remains intact;
-never remap drives or stop its server. Own old prefix was retired in migration.
+C2 active: one approved combined optimizer case.
+Rust audit integration committedb2c67518.
+Previous CPU/x87 queue complete at1089; combined case begins from that frozen baseline.
+See cases/combined-plan.json and cases/queue.json. Pause after this case completes.

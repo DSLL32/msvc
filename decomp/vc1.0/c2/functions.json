@@ -1093,7 +1093,9 @@
     "@stack_adjustment_between@8",
     "@find_generic_candidate@12",
     "@scheduler_instruction_cycles@4",
-    "@swap_scheduled_address_registers@4"
+    "@swap_scheduled_address_registers@4",
+    "@exchange_float_machine_stack@8",
+    "@process_float_stream_return@4"
   ],
   "driver": [
     {
@@ -7089,8 +7091,7 @@
     {
       "name": "@exchange_float_machine_stack@8",
       "start": 255424,
-      "end": 255425,
-      "provisional": true
+      "end": 255503
     },
     {
       "name": "_push_float_machine_stack",
@@ -7147,8 +7148,7 @@
     {
       "name": "@process_float_stream_return@4",
       "start": 234064,
-      "end": 234065,
-      "provisional": true
+      "end": 234201
     },
     {
       "name": "@process_float_stream_operation@4",
@@ -7516,6 +7516,12 @@
       "accepted_from": 1081,
       "fixture_manifest": "../fixtures/c2-i486-floating/manifest.json",
       "fixture_manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387"
+    },
+    "combined": {
+      "arguments": "",
+      "accepted_from": 1089,
+      "fixture_manifest": "../fixtures/c2-combined-optimizer/manifest.json",
+      "fixture_manifest_sha256": "bec8250d3c2be0f64b6607221ea91745c3dece88531cecf5b36183be47b8a04b"
     }
   },
   "crt_defaults": {

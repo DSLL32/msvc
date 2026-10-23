@@ -4,6 +4,14 @@
 #include "work-prepare.h"
 #include <recon.h>
 extern int floating_frontend;
+enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
+    INTRINSIC_SIN_FLOAT = 106, INTRINSIC_SIN_DOUBLE = 107,
+    INTRINSIC_COS_FLOAT = 110, INTRINSIC_COS_DOUBLE = 111,
+    INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
+    INTRINSIC_STRING_COPY = 164, INTRINSIC_STRING_COMPARE = 165, INTRINSIC_STRING_LENGTH = 167,
+    INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
+    INTRINSIC_POWER_DOUBLE = 174 };
+
 Node *current_intrinsic; /* original0007b9b4 */
 /* Original83f98..83fb8: square root reached after binary power lowering. */
 const IntrinsicDescription root_float_intrinsic = { 0x1004, 0, "C", "sqrt", 0x120 };
@@ -35,6 +43,37 @@ const IntrinsicDescription power_double_intrinsic = { 0x1008, 0, "vb", "fexp\377
    arguments and retain both address expressions for aggregate copy. */
 const IntrinsicDescription aggregate_copy_intrinsic = { 0, 0, "nvyE0E1", "", 0x10 };
 const IntrinsicDescription aggregate_fill_intrinsic = { 0, 0, "vyE0", "", 0x10 };
+/* Original84418..84428: strcpy's scalar pointer argument recipe. */
+const IntrinsicDescription string_copy_intrinsic = { 0x404, 0, "nvyE0E1", "", 0x40 };
+/* Original84428..84438: strcmp retains both pointer argument trees. */
+const IntrinsicDescription string_compare_intrinsic = { 0x404, 0, "vE0E1", "", 0x40 };
+/* Original84448..84458: strlen's pointer argument normalization, reverse
+   argument-list recipe and retained first argument. Empty runtime name. */
+const IntrinsicDescription string_length_intrinsic = { 0x404, 0, "vE0", "", 0x40 };
+/* An explicit data frontier, not a substitute implementation for another
+   intrinsic. Inline INT3 is the intentional unreconstructed-data trap; keeping
+   this dispatch inline introduces no nonoriginal function/call edge. */
+#define SELECT_INTRINSIC_DESCRIPTION(id, description) do { \
+    switch (id) { \
+    case INTRINSIC_SQRT_FLOAT: (description) = &root_float_intrinsic; break; \
+    case INTRINSIC_SQRT_DOUBLE: (description) = &root_double_intrinsic; break; \
+    case INTRINSIC_SIN_FLOAT: (description) = &sine_float_intrinsic; break; \
+    case INTRINSIC_SIN_DOUBLE: (description) = &sine_double_intrinsic; break; \
+    case INTRINSIC_COS_FLOAT: (description) = &cosine_float_intrinsic; break; \
+    case INTRINSIC_COS_DOUBLE: (description) = &cosine_double_intrinsic; break; \
+    case INTRINSIC_ATAN2_FLOAT: (description) = &arctangent2_float_intrinsic; break; \
+    case INTRINSIC_ATAN2_DOUBLE: (description) = &arctangent2_double_intrinsic; break; \
+    case INTRINSIC_STRING_COMPARE: (description) = &string_compare_intrinsic; break; \
+    case INTRINSIC_STRING_COPY: (description) = &string_copy_intrinsic; break; \
+    case INTRINSIC_STRING_LENGTH: (description) = &string_length_intrinsic; break; \
+    case INTRINSIC_AGGREGATE_COPY: (description) = &aggregate_copy_intrinsic; break; \
+    case INTRINSIC_AGGREGATE_FILL: (description) = &aggregate_fill_intrinsic; break; \
+    case INTRINSIC_POWER_DOUBLE: (description) = &power_double_intrinsic; break; \
+    default: __asm { int 3 } \
+        (description) = 0; break; \
+    } \
+} while (0)
+
 /* Original [000638a0,00063cec), including12 character-dispatch words at
    63cbc..63cec and the intervening three alignment bytes. The second register
    argument is unused in this build but its fastcall ABI remains unchanged. */

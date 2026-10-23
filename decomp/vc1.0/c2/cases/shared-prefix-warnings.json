@@ -1,10 +1,15 @@
 {
   "modules": [
     {
-      "module": "scheduler",
-      "seconds": 1.968114847317338,
+      "module": "intrinsics",
+      "seconds": 2.032909383997321,
+      "returncode": 0
+    },
+    {
+      "module": "float-machine",
+      "seconds": 2.1154260030016303,
       "returncode": 0
     }
   ],
-  "seconds": 1.9683090150356293
+  "seconds": 4.1486397897824645
 }

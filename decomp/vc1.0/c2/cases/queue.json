@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "combined-optimizer",
   "queued": [
     {
       "case": "hello-win32",
@@ -193,6 +193,33 @@
         ],
         "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
       }
+    },
+    {
+      "case": "combined-optimizer",
+      "after": "i486-floating",
+      "phase": "c2",
+      "status": "active",
+      "flags": [
+        "/Oi",
+        "/O2",
+        "/Ob0",
+        "/G3"
+      ],
+      "fixture_manifest": "../fixtures/c2-combined-optimizer/manifest.json",
+      "expected_output": {
+        "path": "expected/combined.obj",
+        "bytes": 2125,
+        "sha256": "1bf48a30c42002acbd1722e5d4722bc6abff6cf8efae8027d2358dd4033d38f4",
+        "output_name": "combined.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "b8b7867d8ca53daad37fb68781b9a5738ca2b4387691b7d265b3113de5924e56"
+      }
     }
   ],
   "completed": [
@@ -269,7 +296,7 @@
       "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
     }
   ],
-  "status": "Approved three-case CPU/x87 queue complete; paused pending user selection",
+  "status": "One approved combined optimizer case active; pause after completion",
   "next_case_proposals": [
     {
       "case": "i386 rematerialization/spill pressure",

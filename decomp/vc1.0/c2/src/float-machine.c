@@ -2117,3 +2117,43 @@ int __fastcall find_float_register_reload(MachineInstruction *instruction,
     }
     return 0;
 }
+
+/* Original [0003e5c0,0003e60f). Exchange two physical x87 stack slots
+   and update the reciprocal positions of resident virtual values. The
+   caller supplies valid0..7 slots; only -1 denotes an absent value. */
+void __fastcall exchange_float_machine_stack(int first, int second)
+{
+    int first_value = float_machine_stack[first];
+    int second_value = float_machine_stack[second];
+    if (first_value != -1) float_machine_registers[first_value].stack_slot = second;
+    if (second_value != -1) float_machine_registers[second_value].stack_slot = first;
+    float_machine_stack[second] = first_value;
+    float_machine_stack[first] = second_value;
+}
+
+/* Original [00039250,000392d9). A return closes pending motion contexts.
+   An unbranched final range is analyzed back to its preceding block/label;
+   reaching the context boundary directly needs no replacement context. */
+void __fastcall process_float_stream_return(MachineInstruction *instruction)
+{
+    MemoryMotionContext *context = float_stream_context;
+    MachineInstruction *last;
+    if (instruction == context->boundary || context->branches) {
+        close_float_stream_context();
+        return;
+    }
+    if (!context->next) {
+        last = instruction;
+        while (FM_KIND(last) != 7 && FM_KIND(last) != 1 && last != context->boundary)
+            last = last->previous;
+        if (last == context->boundary) {
+            close_float_stream_context();
+            return;
+        }
+        context->last = last;
+        memory_motion_context = context;
+        analyze_float_motion_range(context->boundary, context->last, 1);
+    }
+    close_float_stream_context();
+    start_float_stream_context(instruction->next, 0);
+}
