@@ -33,9 +33,11 @@ def plan(accepted,case="help"):
     if '_initialize_section_enumerator@8'in accepted:
         result.extend([(0xf16e,'observe:section_enum_call'),(0xf173,'observe:section_enum_return')])
     if '_next_output_section@4'in accepted:
-        result.extend([(0xf178,'observe:section_next_call'),(0xf17d,'observe:section_next_return')])
+        result.extend([(0xf178,'observe:section_next_call'),(0xf17d,'observe:section_next_return'),(0xf1c8,'observe:section_next_continue_call'),(0xf1cd,'observe:section_next_continue_return')])
     if '_end_section_enumerator'in accepted:
         result.extend([(0xf1d6,'observe:section_end_call'),(0xf1db,'observe:section_end_return')])
+    if '_resolve_output_section@4'in accepted:
+        result.extend([(0xefac,'observe:section_lookup_call'),(0xefb1,'observe:section_lookup_return'),(0xefe2,'observe:section_name_call'),(0xefe7,'observe:section_name_return'),(0xf219,'observe:section_resolve_call'),(0xf21e,'observe:section_resolve_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

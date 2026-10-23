@@ -79,7 +79,8 @@
     "_adjust_output_section_flags@12",
     "_initialize_section_enumerator@8",
     "_next_output_section@4",
-    "_end_section_enumerator"
+    "_end_section_enumerator",
+    "_resolve_output_section@4"
   ],
   "driver": [
     {
@@ -2361,10 +2362,10 @@
     {
       "name": "_resolve_output_section@4",
       "start": 4253216,
-      "end": 4253217,
+      "end": 4253285,
       "source": "src/sections.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "resolve_output_section",
       "abi": "stdcall OutputSection *(OutputSection *section); one stack input, RET4; no hidden inputs"
     }

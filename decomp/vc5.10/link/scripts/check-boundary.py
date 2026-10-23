@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -390,5 +390,52 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
     negative('wrong module virtual protection',lambda s:s['virtual_alloc_calls'][4]['arguments'].__setitem__(3,0x40))
     negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
     negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
+if args.frontier=='_create_contribution_group@8':
+    for key in ('name','section'):
+        negative('lost actual group formal '+key,lambda s,k=key:s['section_group_formals'].__setitem__(k,0))
+    negative('wrong actual group name',lambda s:s['section_group_formals'].__setitem__('text','.data'))
+    negative('extra hidden group input',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
+    negative('wrong group initializer receiver',lambda s:s.__setitem__('section_initializer_this',0))
+    negative('missing completed section',lambda s:s['section_records'].pop())
+    negative('wrong section count',lambda s:s.__setitem__('output_section_count',7))
+    negative('wrong section-list tail owner',lambda s:s['section_list'].__setitem__(1,s['section_list'][0]))
+    negative('wrong section output global alias',lambda s:s['section_handles'].__setitem__(0,s['section_handles'][1]))
+    negative('premature group publication',lambda s:s['section_handles'].__setitem__(10,s['section_handles'][9]))
+    negative('missing section arena',lambda s:s['output_section_arena'].__setitem__('address',0))
+    negative('wrong arena descriptor',lambda s:s['output_section_arena'].__setitem__('raw','00'*16))
+    negative('changed section arena unused tail',lambda s:s['output_section_arena'].__setitem__('data',s['output_section_arena']['data'][:-2]+'01'))
+    def section_word(state,index,offset,value):
+        row=state['section_records'][index];data=bytearray.fromhex(row['raw']);struct.pack_into('<I',data,offset,value);row['raw']=data.hex()
+        page=bytearray.fromhex(state['output_section_arena']['data']);page[index*72:index*72+72]=data;state['output_section_arena']['data']=page.hex()
+        if offset==68:row['next']=value
+        if offset==0:row['name']=value
+    for index in range(8):
+        negative('coherent wrong section flags '+str(index),lambda s,i=index:section_word(s,i,32,1))
+    negative('coherent wrong original section flags',lambda s:section_word(s,5,36,0xc0300040))
+    negative('coherent section merge target',lambda s:section_word(s,2,60,s['section_records'][0]['address']))
+    negative('coherent reserved section bytes changed',lambda s:section_word(s,3,52,1))
+    negative('coherent skipped section link',lambda s:section_word(s,0,68,s['section_records'][2]['address']))
+    negative('coherent borrowed literal as name owner',lambda s:section_word(s,0,0,s['section_lookup_calls'][0]['arguments'][1]))
+    negative('changed copied section-name bytes',lambda s:s['section_records'][0].__setitem__('name_bytes','00'))
+    negative('missing copied name',lambda s:s['duplicate_calls'].pop())
+    negative('wrong duplicated section-name owner',lambda s:s['duplicate_calls'][7].__setitem__('result',0))
+    negative('missing eighth lookup',lambda s:s['section_lookup_calls'].pop())
+    negative('wrong lookup module input',lambda s:s['section_lookup_calls'][0]['arguments'].__setitem__(0,1))
+    negative('wrong lookup RET20',lambda s:s['section_lookup_calls'][7].__setitem__('return_stack',0))
+    negative('wrong created section return',lambda s:s['section_create_calls'][7].__setitem__('result',0))
+    negative('wrong created section RET20',lambda s:s['section_create_calls'][0].__setitem__('return_stack',0))
+    negative('wrong flag adjustment owner',lambda s:s['section_flag_calls'][3].__setitem__('owner_slot',0))
+    negative('wrong import alignment normalization',lambda s:s['section_flag_calls'][10].__setitem__('after',0xc0300040))
+    negative('wrong enumerator first pointer',lambda s:s['section_enum_calls'][1].__setitem__('after',s['section_enum_calls'][0]['after']))
+    negative('lost continuation step',lambda s:s['section_next_calls'].pop(3))
+    negative('wrong nonempty step result',lambda s:s['section_next_calls'][1].__setitem__('result',0))
+    negative('wrong continuation step bytes',lambda s:s['section_next_calls'][4].__setitem__('after',s['section_next_calls'][4]['before']))
+    negative('cleanup did not return',lambda s:s['section_end_calls'][2].__setitem__('normal_return',False))
+    negative('wrong actual resolver input',lambda s:s['section_resolve_calls'][3].__setitem__('section',1))
+    negative('wrong resolver result',lambda s:s['section_resolve_calls'][6].__setitem__('result',1))
+    negative('missing ninth allocation',lambda s:s['virtual_alloc_calls'].pop())
+    negative('wrong ninth allocation input',lambda s:s['virtual_alloc_calls'][8]['arguments'].__setitem__(1,8192))
+    negative('ninth allocation not initially zero',lambda s:s['virtual_alloc_calls'][8].__setitem__('initial','01'+s['virtual_alloc_calls'][8]['initial'][2:]))
+
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

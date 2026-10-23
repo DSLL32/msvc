@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 62 application
-functions (29,014 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 63 application
+functions (29,083 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `resolve_output_section`; hello-win32 has not completed.
+next frontier is `create_contribution_group`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -341,3 +341,14 @@ are checked. The next resolver receives NULL from the actual caller-current slot
 141 semantic negatives and the strict75-vertex/68-return audit pass. This is the
 first acceptance credit for cleanup, separate from the earlier ABI declaration
 correction. Evidence/timing are under frontiers/62-section-end.
+
+The 69-byte output-section resolver is accepted with its complete merge-chain and
+cycle-diagnostic logic. This case reaches the NULL path eight times, then traps
+at the first contribution-group creator with both actual formals recorded. The
+new boundary checks cover all eight complete 72-byte section records, their 19
+global aliases, ordered calls and a 576-byte used/zero-tailed 4 KiB arena. Fresh
+masked/native captures, 116 semantic negatives and the 76-vertex/69-RET strict
+audit pass; independent orchestrator review includes five focused negatives.
+The prior incomplete observer capture and stale native-build rejection remain
+recorded. Audit-only common-tool update reuses exact unchanged original/native
+evidence and retains the prior audit separately.

@@ -41,6 +41,8 @@ if validation['audit'].get('full_link_import_audit'):
         except ValueError:continue
         selected=(relative.as_posix()in {
             'scripts/full-link-preservation.py','scripts/member_pointers.py',
+            'scripts/accept.py','scripts/boundary_state.py','scripts/hello_boundary.py',
+            'scripts/context_heap.py','scripts/section_state.py','scripts/observers.py',
             'cases/hello-win32/full-link-import-preservation.json',
             'cases/hello-win32/full-link-closed-slot.json',
             'cases/hello-win32/full-link-audit-trial/metadata.json'}or

@@ -7,7 +7,7 @@ from member_pointers import CONTRACTS,project
 def words(data):return struct.unpack('<%dI'%(len(data)//4),data)
 
 
-def compare(original,state,trap,configuration_context=None,additional_arenas=(),additional_allocations=()):
+def compare(original,state,trap,configuration_context=None,additional_arenas=(),additional_allocations=(),later_arenas=(),extra_ranges=(),context_roles=None):
     context=trap['stack'][1] if configuration_context is None else configuration_context
     ncontext=state['context_this']
     assert context and ncontext==state['caller_context'] and ncontext
@@ -24,7 +24,7 @@ def compare(original,state,trap,configuration_context=None,additional_arenas=(),
     assert (original/'context-auxiliary.bin').read_bytes()==bytes.fromhex(state['context_auxiliary'])==bytes(44)
     roles[0x260]=(aux,naux)
     original_ranges=[(context,664),(aux,44)];native_ranges=[(ncontext,664),(naux,44)]
-    expected_virtual=[];original_bases=[]
+    expected_virtual=[];original_bases=[];expected_sites=[]
     for index,(buckets,capacity) in enumerate([(1024,128),(128,32)]):
         table=words((original/('table-%d.bin'%index)).read_bytes());nrecord=state['context_heap'][index]
         ntable=words(bytes.fromhex(nrecord['table_raw']))
@@ -53,7 +53,7 @@ def compare(original,state,trap,configuration_context=None,additional_arenas=(),
             native_ranges.extend([(nentry['address'],16),(narena[3],reserved)])
             page_bases.append(arena[3]);npage_bases.append(narena[3]);pages.append(page);npages.append(npage)
             expected_virtual.append(dict(arguments=[0,reserved,0x3000,4],result=narena[3],initial=bytes(reserved).hex()))
-            original_bases.append(arena[3])
+            original_bases.append(arena[3]);expected_sites.append([0x44f659,0x44f65f])
         assert header[10]==page_bases[0] and nheader[10]==npage_bases[0]
         original_directory=bytearray(pages[0]);native_directory=bytearray(npages[0]);cell=capacity*4
         for offset,expected,nexpected in [(0,page_bases[0]+cell,npage_bases[0]+cell),(cell,page_bases[1],npage_bases[1])]:
@@ -66,12 +66,22 @@ def compare(original,state,trap,configuration_context=None,additional_arenas=(),
         original_ranges.extend([(arena['original_arena'],16),(arena['original_base'],arena['bytes'])])
         native_ranges.extend([(arena['native_arena'],16),(arena['native_base'],arena['bytes'])])
         expected_virtual.append(dict(arguments=[0,arena['bytes'],0x3000,4],result=arena['native_base'],initial=bytes(arena['bytes']).hex()))
-        original_bases.append(arena['original_base'])
+        original_bases.append(arena['original_base']);expected_sites.append([0x44f659,0x44f65f])
     for allocation in additional_allocations:
         original_ranges.append((allocation['original_base'],allocation['bytes']))
         native_ranges.append((allocation['native_base'],allocation['bytes']))
         expected_virtual.append(dict(arguments=[0,allocation['bytes'],0x3000,4],result=allocation['native_base'],initial=bytes(allocation['bytes']).hex()))
-        original_bases.append(allocation['original_base'])
+        original_bases.append(allocation['original_base']);expected_sites.append(allocation['sites'])
+    for arena in later_arenas:
+        original_ranges.extend([(arena['original_arena'],16),(arena['original_base'],arena['bytes'])])
+        native_ranges.extend([(arena['native_arena'],16),(arena['native_base'],arena['bytes'])])
+        expected_virtual.append(dict(arguments=[0,arena['bytes'],0x3000,4],result=arena['native_base'],initial=bytes(arena['bytes']).hex()))
+        original_bases.append(arena['original_base']);expected_sites.append([0x44f659,0x44f65f])
+    for item in extra_ranges:
+        assert item['original_base']and item['native_base']and item['bytes']>0
+        original_ranges.append((item['original_base'],item['bytes']))
+        native_ranges.append((item['native_base'],item['bytes']))
+    roles.update(context_roles or {})
     for offset,(expected,nexpected) in roles.items():
         assert expected and nexpected
         assert struct.unpack_from('<I',data,offset)[0]==expected
@@ -95,9 +105,7 @@ def compare(original,state,trap,configuration_context=None,additional_arenas=(),
         assert len(observations)==2*len(expected_virtual)
         for index,(base,expected)in enumerate(zip(original_bases,expected_virtual)):
             call,returned=observations[2*index:2*index+2]
-            first_extra=len(expected_virtual)-len(additional_allocations)
-            sites=additional_allocations[index-first_extra]['sites']if index>=first_extra else [0x44f659,0x44f65f]
-            assert [call['site'],returned['site']]==sites
+            assert [call['site'],returned['site']]==expected_sites[index]
             assert call['index']==returned['index']==index
             assert call['arguments']==returned['arguments']==expected['arguments']
             assert returned['eax']==base

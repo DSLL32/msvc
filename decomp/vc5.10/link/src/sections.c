@@ -88,8 +88,13 @@ char *__stdcall format_module_name(OutputModule *module,char *name)
 }
 OutputSection *__stdcall resolve_output_section(OutputSection *section)
 {
-    __asm { int 3 }
-    return NULL;
+    OutputSection *resolved=section;
+    if (!section) return NULL;
+    while (resolved->merge_target) {
+        resolved=resolved->merge_target;
+        if (resolved==section) link_fatal(NULL,1145,section->name);
+    }
+    return resolved;
 }
 
 void __stdcall initialize_section_enumerator(SectionEnumerator *enumerator,SectionList *sections)

@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-23T21:15:58.223321+00:00",
+  "disposition": "PASS new typed8-section/arena/alias frontier contract; wholefunction promotion permitted after current static tool sidecar validation",
+  "manifest_sha256": "c8d45fa8362bea75d4e4b069d442947d66d85130097923a0bf2feb911402868b",
+  "typed_checker_sha256": "da973b25792f4bf2085fccea884b2afcfe10c802c5bdf0cfd9961b60b4ace28f",
+  "positive": true,
+  "fresh_focused_negatives": [
+    "coherent record/page flags",
+    "lost copied-name bytes",
+    "wrong owned name pointer",
+    "lost actual continuation-step",
+    "hidden group formal"
+  ],
+  "seconds": 0.021030892618000507,
+  "review": "Full8x72 records exactly zero-initialized except namedownedcopies/normalized flags/next;19handles/list-tail identities,576B used4096B zero-backedpage, all36next calls/8lookup/init/end/resolve/16flag sequences and ABIstack effects; actual name/section nextstub formals observed. Partial observer capture remains superseded, not relabeled. No native uninitialized name tails compared.",
+  "prior_worker_controls": {
+    "count": 116,
+    "receipt_sha256": "2053817fa1dc2d88143913b83cde504f17580ba37e8c486659af32bfa6ce9bf7"
+  },
+  "limits": "Case path resolves NULL8times; other merge/cycle branches validated by wholegraph/source, not claimed dynamically traversed. Review used immutable raw without target rerun."
+}
