@@ -502,3 +502,9 @@ build/wcschr-probe: tests/wcschr-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 wcschr-check: build/wcschr-probe
 	$(PYTHON) tests/check-wcschr.py build/wcschr-probe
+
+.PHONY: mapview-full-check
+build/mapview-full-probe: tests/mapview-full-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mapview-full-check: build/mapview-full-probe
+	$(PYTHON) tests/check-mapview-full.py build/mapview-full-probe

@@ -743,8 +743,13 @@ BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
 }
 LPVOID WINAPI recon_MapViewOfFileEx(HANDLE handle,DWORD access,DWORD high,DWORD low,DWORD bytes,LPVOID base)
 {
-    DWORD saved_error=last_error;int saved_errno=errno;LPVOID result;
-    if (base || high || low || bytes) recon_unsupported("MapViewOfFileEx fixed/partial view");
+    DWORD saved_error=last_error;int saved_errno=errno;LPVOID result;Mapping *mapping;
+    if (base || high || low) recon_unsupported("MapViewOfFileEx fixed/partial view");
+    if (bytes) {
+        for(mapping=mappings;mapping && (HANDLE)mapping!=handle;mapping=mapping->next) ;
+        if (!mapping || bytes!=mapping->length)
+            recon_unsupported("MapViewOfFileEx explicit length must cover full owned mapping");
+    }
     result=recon_MapViewOfFile(handle,access,high,low,bytes);
     if (result) {last_error=saved_error;errno=saved_errno;}
     return result;

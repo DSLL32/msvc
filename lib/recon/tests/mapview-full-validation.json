@@ -1,0 +1,83 @@
+{
+  "scope": "NULL-base zero-offset MapViewOfFileEx accepts bytes0 as before or explicit length equal registered full mapping length; delegates existing access/ownership/errors, no partial or fixed-address semantics.",
+  "proof": "/root/.ai-tmp/msvc2/recon-maintenance/mapview-full/receipt.json",
+  "actual": {
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-4jfzmrzf/receipt.json",
+    "sha256": "92ff4d0da5fd4647b308f36e133a40e57b05412c8b864f64c5f1b36ba74d954d",
+    "files": {
+      "created-mapping-view-00.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "created-mapping-view-07.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "created-mapping-view-06.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "created-mapping-view-01.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "events.jsonl": {
+        "bytes": 96322,
+        "sha256": "857f25ce0d77f7ca313c37af33c10765af3d778f3aa820ad06bfa6e1b7270baa"
+      },
+      "created-mapping-view-02.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "created-mapping-view-05.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "created-mapping-view-04.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "created-mapping-view-03.bin": {
+        "bytes": 65536,
+        "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+      },
+      "artifacts/hello.exe": {
+        "bytes": 524288,
+        "sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541"
+      }
+    }
+  },
+  "probes": [
+    {
+      "name": "gcc-default",
+      "sha256": "1be89a5ae3aee71ed02fa584b744ab0081439e5ee320f68cf999f3b942c15656",
+      "seconds": 1.4347053822129965,
+      "passed": true
+    },
+    {
+      "name": "gcc-510",
+      "sha256": "de71ea66a331689c3a728ced15d009ee1d0ba90e217efc56f849da531cccbc11",
+      "seconds": 1.5765762375667691,
+      "passed": true
+    },
+    {
+      "name": "clang-default",
+      "sha256": "1bc62ab4c5100586cd89286448deaa31d2c9f00cbe81431c866fa6d93c340e23",
+      "seconds": 1.623954115435481,
+      "passed": true
+    },
+    {
+      "name": "clang-510",
+      "sha256": "de472165c60d6b24ff8368679095469f51c0044a95f15b5b727b291536598f30",
+      "seconds": 1.6513847820460796,
+      "passed": true
+    }
+  ],
+  "compatibility": "Old canonical bytes0 2MB probe, mapped-file whole-view controls and default check pass. No original invocations.",
+  "limitations": "No arbitrary offset/base/partial sizes/access widening, no Windows address-order guarantee; observed file-backed view lifetime only.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mapview-full/orchestrator-review.json",
+    "sha256": "30a672872dd517bf0027ab858216d5ea7bbcd9f884b4552bf42fa53e0034d7d7"
+  },
+  "actual_native": "Native-only LINK actual retry remains required before application promotion; independent shared implementation/probe review released publication."
+}
