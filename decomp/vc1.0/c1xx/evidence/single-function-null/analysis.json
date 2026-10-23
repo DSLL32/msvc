@@ -1,0 +1,18 @@
+{
+  "status": "Original NULL cursor preserved; native NULL injection trapped at exact guard; normal allocation invocation accepted0995",
+  "function": "_has_single_function@4",
+  "original_extent": [
+    199840,
+    200012
+  ],
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "disassembly_sha256": "5da9787105b4cfff3438d64e69ca799235e3694af6a72356b5f190d42e7c1a08",
+  "source_error": "SUB ESP,12 at30ca0; NULL JZ30ca9 goes directly30cc7 to MOV EAX,[ESP+4], bypassing only store30cc3. Local slot is entryESP-8 and unwritten by this body on NULL input.",
+  "condition": "symbol == NULL",
+  "public_reachability": "UNKNOWN; no malformed-only or unreachable claim",
+  "normal_caller": "single_qualified_function passes the nonnull qualified delete overload set in unchanged allocation.cpp case",
+  "policy": "Faithful Win32 uninitialized local; exact native INT3 before read, no stack-byte equivalence claim",
+  "authorization": "Root explicitly approved this fourth guard and established equivalent exact-source-bug handling without repeated permission",
+  "native_guard": "native-guard/receipt.json",
+  "normal_frontier": "cases/frontiers/new_delete/0995-has_single_function-4/validation.json"
+}

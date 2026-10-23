@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x5c019: file src/unary-expressions.c, line 454.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, has_single_function (symbol=0x5662a654) at src/unary-expressions.c:454
+454	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565b106c in has_single_function (symbol=0x0) at src/unary-expressions.c:462
+462	    else { __asm { int 3 } }

@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 995,
-  "driver_functions": 901,
+  "accepted_frontiers": 996,
+  "driver_functions": 902,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 908,
-  "current_frontier": "_has_single_function@4",
-  "original_frontier_va": "0x30ca0",
+  "reconstructed_source_functions": 909,
+  "current_frontier": "_emit_vector_deleting_destructor_body@4",
+  "original_frontier_va": "0x38480",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_has_single_function@4",
-    "original_va": "0x30ca0"
+    "current_frontier": "_emit_vector_deleting_destructor_body@4",
+    "original_va": "0x38480"
   },
-  "current_native_application_entries": 32,
+  "current_native_application_entries": 33,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 257420,
+    "accepted_code_bytes": 257592,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 54.032383327246244,
-    "accepted_frontiers": 995,
-    "source_functions": 908,
-    "accepted_source_text_and_switch_bytes": 245537,
+    "accepted_code_percent": 54.06848607735224,
+    "accepted_frontiers": 996,
+    "source_functions": 909,
+    "accepted_source_text_and_switch_bytes": 245709,
     "section_ranges": [
       [
         94208,
@@ -71,16 +71,29 @@
         "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
         "evidence": "evidence/empty-include-directory/analysis.json",
         "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
+      },
+      {
+        "function": "_has_single_function@4",
+        "original": [
+          199840,
+          200012
+        ],
+        "condition": "symbol == NULL",
+        "behavior": "explicit native-only INT3 before the original unwritten declaration cursor read",
+        "win32": "original-style uninitialized cursor retained",
+        "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
+        "evidence": "evidence/single-function-null/analysis.json",
+        "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 257420,
+    "accepted_code_bytes": 257592,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 54.032383327246244,
-    "accepted_frontiers": 995,
-    "source_functions": 908,
-    "accepted_source_text_and_switch_bytes": 245537,
+    "accepted_code_percent": 54.06848607735224,
+    "accepted_frontiers": 996,
+    "source_functions": 909,
+    "accepted_source_text_and_switch_bytes": 245709,
     "section_ranges": [
       [
         94208,
@@ -126,13 +139,26 @@
         "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
         "evidence": "evidence/empty-include-directory/analysis.json",
         "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
+      },
+      {
+        "function": "_has_single_function@4",
+        "original": [
+          199840,
+          200012
+        ],
+        "condition": "symbol == NULL",
+        "behavior": "explicit native-only INT3 before the original unwritten declaration cursor read",
+        "win32": "original-style uninitialized cursor retained",
+        "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
+        "evidence": "evidence/single-function-null/analysis.json",
+        "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "new_delete",
   "status": "new_delete reconstruction in progress",
-  "latest_verification": "cases/frontiers/new_delete/0994-single_qualified_function-4/validation.json",
+  "latest_verification": "cases/frontiers/new_delete/0995-has_single_function-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -155,11 +181,11 @@
     },
     "new_delete": {
       "status": "partial",
-      "frontier": "_has_single_function@4",
-      "latest_verification": "cases/frontiers/new_delete/0994-single_qualified_function-4/validation.json"
+      "frontier": "_emit_vector_deleting_destructor_body@4",
+      "latest_verification": "cases/frontiers/new_delete/0995-has_single_function-4/validation.json"
     }
   },
-  "next_operation": "Continue _has_single_function@4 reconstruction",
+  "next_operation": "Continue _emit_vector_deleting_destructor_body@4 reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

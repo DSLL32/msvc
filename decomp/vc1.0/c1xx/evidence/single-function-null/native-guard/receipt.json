@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "0e989bbe7a83e83d42833b97bd4c52a28440f390cc2dc4373def16f1f5f6243f",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-new-delete/manifest.json": "bbc2b37a19fd7781b4c1f7c22c619c938894239790d40aa8a0f7ace18a290937",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "396f6cdb4c5267fef02e14da324ae333ca65b49661419cbcb9160b371af3fd26",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "749cdb3f5c5ac51ed4483eed457612af99d5e29ab2e9549832ce3fca62ffdf0d",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-new-delete/c1/allocation.cpp": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+  },
+  "observation": {
+    "status": "NULL-input native path rejected; public reachability unknown",
+    "function": "has_single_function",
+    "signal": 5,
+    "pc_offset": 108
+  },
+  "setup_seconds": 0.013288918882608414,
+  "debugger_seconds": 0.13912620767951012,
+  "check_seconds": 0.011334629729390144,
+  "total_seconds": 0.16375040728598833
+}

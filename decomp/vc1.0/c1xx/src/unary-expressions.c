@@ -445,3 +445,27 @@ CType *__stdcall arithmetic_promotion_type(CType *type)
     if ((type->flags & 15) < 4) return type_0064;
     return 0;
 }
+
+/* Original 0x30ca0..0x30d4c. Probe the first two ordinary function
+   declarations in a possibly wrapped overload list. NULL input leaves the
+   original iterator unwritten; preserve that Win32 bug and reject that exact
+   native path before its stale stack slot could be consumed. */
+int __stdcall has_single_function(CppSymbol *symbol)
+{
+    CppSymbol *cursor;
+    unsigned char kind;
+    if (symbol) {
+        kind = symbol->kind & 31;
+        cursor = kind == 16 || kind == 17 ? ((OverloadSet *)symbol)->functions : symbol;
+    }
+#ifdef RECON_NATIVE_TEST
+    else { __asm { int 3 } }
+#endif
+    if (!cursor) return 0;
+    kind = cursor->kind & 31;
+    if (kind != 6 && kind != 7) return 0;
+    cursor = cursor->next;
+    if (!cursor) return 1;
+    kind = cursor->kind & 31;
+    return kind != 6 && kind != 7;
+}

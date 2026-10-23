@@ -999,7 +999,8 @@
     "_lookup_destructor_member@4",
     "_add_array_declarator@8",
     "_make_class_delete_call@12",
-    "_single_qualified_function@4"
+    "_single_qualified_function@4",
+    "_has_single_function@4"
   ],
   "driver": [
     {
@@ -4639,7 +4640,7 @@
     {
       "name": "_has_single_function@4",
       "start": 199840,
-      "end": 199841
+      "end": 200012
     },
     {
       "name": "_find_expression_symbol@4",
@@ -7759,8 +7760,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_has_single_function@4",
-      "terminal_evidence": "cases/frontiers/new_delete/0994-single_qualified_function-4/original-events.txt",
+      "terminal": "_emit_vector_deleting_destructor_body@4",
+      "terminal_evidence": "cases/frontiers/new_delete/0995-has_single_function-4/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7794,7 +7795,8 @@
         "cases/frontiers/new_delete/0991-lookup_destructor_member-4/frontier-extension.json",
         "cases/frontiers/new_delete/0992-add_array_declarator-8/frontier-extension.json",
         "cases/frontiers/new_delete/0993-make_class_delete_call-12/frontier-extension.json",
-        "cases/frontiers/new_delete/0994-single_qualified_function-4/frontier-extension.json"
+        "cases/frontiers/new_delete/0994-single_qualified_function-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0995-has_single_function-4/frontier-extension.json"
       ]
     }
   },
@@ -10057,6 +10059,19 @@
       "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
       "evidence": "evidence/empty-include-directory/analysis.json",
       "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
+    },
+    {
+      "function": "_has_single_function@4",
+      "original": [
+        199840,
+        200012
+      ],
+      "condition": "symbol == NULL",
+      "behavior": "explicit native-only INT3 before the original unwritten declaration cursor read",
+      "win32": "original-style uninitialized cursor retained",
+      "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
+      "evidence": "evidence/single-function-null/analysis.json",
+      "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
     }
   ]
 }

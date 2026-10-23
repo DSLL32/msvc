@@ -455,7 +455,7 @@ void write_counted_ir(short length, char *text) { __asm { int 3 } }
 int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
 
-int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
