@@ -100,6 +100,7 @@ class ArenaApiEntry(gdb.Breakpoint):
     def stop(self):
         caller=gdb.newest_frame().older().name()
         if caller=='reserve_work_buffer':return False
+        if @@POOL_CYCLE@@ and caller=='CompilerArena::CommitExtent':return False
         if caller!='CompilerArena::Reserve':raise RuntimeError('unreviewed arena allocation caller')
         row=scaler_context();words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(row['esp'],20)));row.update(return_pc=words[0],args=words[1:],guard=scaler_guard())
         scaler_api_entries.append(row);ArenaApiReturn('*0x%x'%words[0],internal=True);return False
@@ -116,28 +117,36 @@ class ArenaCommitEntry(gdb.Breakpoint):
         block=gdb.block_for_pc(row["pc"])
         while block and not block.function:block=block.superblock
         row["formal_inventory"]=[{"name":item.name,"type":str(item.type)}for item in block if item.is_argument]
-        scaler_commit_entries.append(row);return False
+        scaler_commit_entries.append(row)
+        if @@POOL_CYCLE@@:PoolCycleReturn('commit',len(scaler_commit_entries)-1,row["return_pc"],row["esp"])
+        return False
 class ArenaPageEntry(gdb.Breakpoint):
     def stop(self):
         row=scaler_context();words=list(struct.unpack("<3I",gdb.selected_inferior().read_memory(row["esp"],12)));row.update(return_pc=words[0],args=words[1:],output_value=struct.unpack("<I",gdb.selected_inferior().read_memory(words[2],4))[0],guard=scaler_guard())
         block=gdb.block_for_pc(row["pc"])
         while block and not block.function:block=block.superblock
         row["formal_inventory"]=[{"name":item.name,"type":str(item.type)}for item in block if item.is_argument]
-        scaler_page_entries.append(row);return False
+        scaler_page_entries.append(row)
+        if @@POOL_CYCLE@@:PoolCycleReturn('allocate-pages',len(scaler_page_entries)-1,row["return_pc"],row["esp"])
+        return False
 class PoolRefillEntry(gdb.Breakpoint):
     def stop(self):
         row=scaler_context();words=list(struct.unpack("<2I",gdb.selected_inferior().read_memory(row["esp"],8)));row.update(return_pc=words[0],args=words[1:],guard=scaler_guard())
         block=gdb.block_for_pc(row["pc"])
         while block and not block.function:block=block.superblock
         row["formal_inventory"]=[{"name":item.name,"type":str(item.type)}for item in block if item.is_argument]
-        scaler_refill_entries.append(row);return False
+        scaler_refill_entries.append(row)
+        if @@POOL_CYCLE@@:PoolCycleReturn('refill',len(scaler_refill_entries)-1,row["return_pc"],row["esp"])
+        return False
 class PoolBindEntry(gdb.Breakpoint):
     def stop(self):
         row=scaler_context();words=list(struct.unpack("<2I",gdb.selected_inferior().read_memory(row["esp"],8)));row.update(return_pc=words[0],args=words[1:],guard=scaler_guard())
         block=gdb.block_for_pc(row["pc"])
         while block and not block.function:block=block.superblock
         row["formal_inventory"]=[{"name":item.name,"type":str(item.type)}for item in block if item.is_argument]
-        scaler_bind_entries.append(row);return False
+        scaler_bind_entries.append(row)
+        if @@POOL_CYCLE@@:PoolCycleReturn('bind',len(scaler_bind_entries)-1,row["return_pc"],row["esp"])
+        return False
 class ArenaMemberEntry(gdb.Breakpoint):
     def stop(self):
         row=scaler_context();words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(row['esp'],12)))
@@ -170,6 +179,10 @@ ArenaPoolEntry('*0x%x'%@@POOL@@,internal=True)
 end
 '''
     replace={'@@POOL@@':str(names['initialize_pool_arenas'][0]),'@@RESET_SEED@@':repr(bool(trial.get('test_arena_reset_seed'))),'@@RESET_ACCEPTED@@':repr('CompilerArena::Reset' in trial['accepted']),'@@MEMBER@@':str(names['_ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh'][0]),'@@EXTERNAL@@':repr(externals),'@@DISPLACEMENT@@':str(metadata['qword_ebp_displacement']),'@@RETURN_COLLECTOR@@':repr(str(output/'collect-scaler-return.gdb')),'@@RESET_COLLECTOR@@':repr(str(output/'collect-arena-reset-entry.gdb')),'@@INITIAL@@':str(names['_DllMainCRTStartup'][0]),'@@PROFILE@@':str(names['recon_apply_x87_empty_entry_profile'][0]),'@@ENTRY@@':str(metadata['start']),'@@API@@':str(names['recon_VirtualAlloc'][0]),'@@RESET@@':str(names['_ZN13CompilerArena5ResetEv'][0])}
+    replace['@@POOL_CYCLE@@']=repr(bool(trial.get('pool_cycle_observers')))
+    if trial.get('pool_cycle_observers'):
+        from pool_cycle_probe import definitions
+        body=body.replace("ScalerInitial('*0x%x'",definitions(binary,output)+"ScalerInitial('*0x%x'",1)
     for key,value in replace.items():body=body.replace(key,value)
     script=output/'observe-scaler.gdb';body=body[:-4]
     if '_initialize_pool_arenas' in trial['accepted']:body+="PoolBindEntry('*0x%x',internal=True)\n"%names['_ZN12CompilerPool9BindArenaEj'][0]
@@ -180,4 +193,7 @@ end
     body+='ScalerPoint(%d,"converted")\nend\n'%metadata['converted_pc'];script.write_text(body)
     finish='python\n'
     for name,variable in [('scaler-fpu','scaler_fp_records'),('scaler-entries','scaler_function_entries'),('scaler-returns','scaler_function_returns'),('scaler-initial','scaler_initial_entries'),('scaler-profile','scaler_profile_entries'),('arena-api-entries','scaler_api_entries'),('arena-api-returns','scaler_api_returns'),('arena-reset-entries','scaler_reset_entries'),('arena-reset-returns','scaler_reset_returns'),('arena-member-entries','scaler_member_entries'),('arena-pool-entries','scaler_pool_entries'),('pool-bind-entries','scaler_bind_entries'),('pool-refill-entries','scaler_refill_entries'),('arena-page-entries','scaler_page_entries'),('arena-commit-entries','scaler_commit_entries')]:finish+='open('+repr(str(output/(name+'.json')))+',"w").write(json.dumps('+variable+',indent=2)+"\\n")\n'
+    if trial.get('pool_cycle_observers'):
+        from pool_cycle_probe import finish as finish_cycle
+        finish+=finish_cycle(output)
     finish+='end\n';return 'source '+str(script)+'\n',finish

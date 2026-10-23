@@ -141,6 +141,8 @@ def main():
         if trial.get('scaler_observers'):environment['C1XX_OBSERVE_SCALER']='1'
         environment.pop('C1XX_OBSERVE_ARENA_RESET',None)
         if trial.get('arena_reset_observers'):environment['C1XX_OBSERVE_ARENA_RESET']='1'
+        environment.pop('C1XX_OBSERVE_POOL_CYCLE',None)
+        if trial.get('pool_cycle_observers'):environment['C1XX_OBSERVE_POOL_CYCLE']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

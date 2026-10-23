@@ -3,7 +3,7 @@ import re
 import subprocess
 
 
-def setup(output,binary,collector,allow_arena=False):
+def setup(output,binary,collector,allow_arena=False,allow_commit=False):
     table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
     def symbol(name):return int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] '+name+'$',table,re.M)[1],16)
     for role in ('entry','return'):
@@ -39,6 +39,7 @@ class AllocationApiEntry(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame()
         if @@ALLOW_ARENA@@ and frame.older().name()=='CompilerArena::Reserve':return False
+        if @@ALLOW_COMMIT@@ and frame.older().name()=='CompilerArena::CommitExtent':return False
         if frame.older().name()!='reserve_work_buffer':raise RuntimeError('unexpected VirtualAlloc caller')
         row=allocation_context();words=list(struct.unpack('<5I',bytes(gdb.selected_inferior().read_memory(row['esp'],20))))
         block=gdb.block_for_pc(row['pc'])
@@ -75,7 +76,7 @@ class AllocationHelperEntry(gdb.Breakpoint):
 AllocationApiEntry('*0x%x'%@@API@@,internal=True)
 AllocationHelperEntry('*0x%x'%@@HELPER@@,internal=True)
 end
-'''.replace('@@OUTPUT@@',repr(str(output))).replace('@@API@@',str(symbol('recon_VirtualAlloc'))).replace('@@HELPER@@',str(symbol('reserve_work_buffer'))).replace('@@ALLOW_ARENA@@',repr(allow_arena))
+'''.replace('@@OUTPUT@@',repr(str(output))).replace('@@API@@',str(symbol('recon_VirtualAlloc'))).replace('@@HELPER@@',str(symbol('reserve_work_buffer'))).replace('@@ALLOW_ARENA@@',repr(allow_arena)).replace('@@ALLOW_COMMIT@@',repr(allow_commit))
     script.write_text(body)
     finish='python\n'
     for name in ('api_entries','api_returns','helper_entries','helper_returns'):

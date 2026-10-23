@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **77 application functions (3,439 bytes)**, **two historical CRT
+Accepted code is **78 application functions (3,556 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 3,902 accepted code bytes are 0.5194% of the 751,216-byte code extent; this is not
+The 4,019 accepted code bytes are 0.5350% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the first real arena commit helper after nine arena reservations.
+stopping at actual options processing after all ten pool allocations return.
 
 ## Target and ABI
 
@@ -322,3 +322,17 @@ with current two-field writes validated separately. `cases/minimal/arena-page-tr
 records15.35s original/5.29s native and14.46ms native-only lifecycle fixture.
 No new data or support bodies are credited; the old-cursor return awaits the
 genuine commit helper returning.
+
+The117-byte CommitExtent member is accepted (87hot+two15-byte cold chunks).
+A fresh pair proves its real64KiB MEM_COMMIT/API/provider result, exact region
+protections, complete zero bytes and opaque remaining reservation. All ten
+pool binding/refill/allocation sequences now execute:31 method returns and64
+ordered entry/return events verify ECX/stack arguments, cleanup, nonvolatile
+registers, returned page pointers, FP/error state and complete neighbor guards.
+The next options-processing stub observes actual argc26 and the separate Invoke
+argv.21 affected controls pass in6.34s; earlier unchanged controls remain pinned.
+`cases/minimal/arena-commit-trial.json` records20.76s original,5.86s refreshed
+native GDB and2.41s lifecycle fixture including2.40s native rebuild (2.46ms
+execution). The original was reused unchanged across the reviewed shared-source
+rebuild; both immutable native executions remain available. No new fields or
+shared support were needed.

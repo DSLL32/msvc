@@ -459,7 +459,7 @@ end
     allocation_finish=''
     if trial.get('allocation_observers'):
         from allocation_probe import setup as setup_allocation
-        allocation_observer,allocation_finish=setup_allocation(output,binary,collector,allow_arena=bool(trial.get('scaler_observers')))
+        allocation_observer,allocation_finish=setup_allocation(output,binary,collector,allow_arena=bool(trial.get('scaler_observers')),allow_commit=bool(trial.get('pool_cycle_observers')))
         observer+=allocation_observer
     switch_finish=''
     if trial.get('early_switch_observers'):

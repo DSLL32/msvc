@@ -28,7 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -129,6 +129,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if 'CompilerPool::BindArena' in trial['accepted']:path.append(('CompilerPool::Refill',0x1ee29))
     if 'CompilerPool::Refill' in trial['accepted']:path.append(('CompilerArena::AllocatePages',0x1ee58))
     if 'CompilerArena::AllocatePages' in trial['accepted']:path.append(('CompilerArena::CommitExtent',0x1d738))
+    if 'CompilerArena::CommitExtent' in trial['accepted']:path += [('CompilerPool::BindArena',0x38f94),('CompilerPool::Refill',0x1ee29),('CompilerArena::AllocatePages',0x1ee58)]*9+[('process_compiler_options',0x38fad)]
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -142,7 +143,7 @@ def check(original,native,require_audit=True,audit_path=None):
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     if frontier=='c1xx_main':
         s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')

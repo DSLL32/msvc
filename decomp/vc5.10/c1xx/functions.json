@@ -86,7 +86,8 @@
     "_initialize_pool_arenas",
     "CompilerPool::BindArena",
     "CompilerPool::Refill",
-    "CompilerArena::AllocatePages"
+    "CompilerArena::AllocatePages",
+    "CompilerArena::CommitExtent"
   ],
   "driver": [
     {
@@ -989,12 +990,21 @@
     {
       "name": "CompilerArena::CommitExtent",
       "start": 272750392,
-      "end": 272750393,
+      "end": 272750479,
       "source": "src/arenas.cpp",
-      "pending_extent": true,
       "abi": "thiscall0",
       "symbol": "?CommitExtent@CompilerArena@@QAEXXZ",
-      "native_symbol": "_ZN13CompilerArena12CommitExtentEv"
+      "native_symbol": "_ZN13CompilerArena12CommitExtentEv",
+      "code_chunks": [
+        [
+          273030367,
+          273030382
+        ],
+        [
+          273030382,
+          273030397
+        ]
+      ]
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -4698,6 +4708,63 @@
         "original_seconds": 15.347942357882857,
         "native_seconds": 5.291189911775291
       }
+    },
+    {
+      "name": "CompilerArena::CommitExtent",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "d50d060284c9582802db48a6aeb3633232a2f2121599c389cfa408b7534bec55",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-cycle-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-cycle-native-2",
+      "original_receipt_sha256": "9aafa1fc5e16242ea8fba360619c55526a821439b5f96775f354c6bfb1d19355",
+      "native_receipt_sha256": "bb6ac1846a86b5d2bd72111366f6c5fd1164fb356a440694b1d9f107724c422f",
+      "trial_sha256": "1d90353ab0d9b0be68e2e03f1e1edce705db4f4cfe38e7bd04ff926064cba0b4",
+      "audit_sha256": "0c5cde18a863ba9687a126e62a2a4283744da6f4391db40643a4e9bd9e95da84",
+      "code_chunks": [
+        [
+          120632,
+          120719
+        ],
+        [
+          400607,
+          400622
+        ],
+        [
+          400622,
+          400637
+        ]
+      ],
+      "comparison": {
+        "trial": "CompilerArena::CommitExtent",
+        "frontier": "_process_compiler_options",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 20.756701645441353,
+        "native_seconds": 5.861977110616863
+      },
+      "native_trial_sha256": "34a884d4762384b325fd1ea9ea4c112d62caea873468c777b62f46bf5aaff3b8",
+      "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
     }
   ],
   "imports": [

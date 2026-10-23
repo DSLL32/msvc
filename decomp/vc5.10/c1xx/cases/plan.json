@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: real arena reservation member accepted; next x87 reservation-size calculator",
+  "state": "autonomous minimal C++ reconstruction: ten pool allocation/return sequence and CommitExtent accepted; next actual options-processing entry",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: AllocatePages accepted; first CommitExtent frontier",
+      "status": "active: CommitExtent accepted after ten full binding/refill/allocation returns; process_compiler_options frontier",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -54,7 +54,8 @@
       "pool_binding_wrapper_validation": "minimal/pool-binding-wrapper-trial.json",
       "pool_bind_member_validation": "minimal/pool-bind-member-trial.json",
       "pool_refill_validation": "minimal/pool-refill-trial.json",
-      "arena_page_validation": "minimal/arena-page-trial.json"
+      "arena_page_validation": "minimal/arena-page-trial.json",
+      "arena_commit_validation": "minimal/arena-commit-trial.json"
     },
     {
       "id": "cpp-basic",

@@ -133,6 +133,8 @@ def prepare():
     if 'CompilerArena::Reset' in accepted:
         trial['scaler_observers'].update(calls=9,scope='nine ordered actual descriptor/calculator/API/Reset calls; persistent observer points; no code or API mock')
         trial['arena_reset_observers']={'entry_rva':0x38f0a,'return_rva':0x38ec8,'calls':9,'receiver_rvas':[0xc6500+i*32 for i in range(9)],'return_semantics':'void; caller overwrites EAX','full_original_bss_guard':True}
+    if 'CompilerArena::CommitExtent' in accepted:
+        trial['pool_cycle_observers']={'rvas':[0x1d76e,0x1d774,0x1ee9f,0x1ee52,0x38faa]+[0x38f27+i*12 for i in range(10)],'pool_order':[9,8,0,1,3,4,5,2,6,7],'calls':10,'commit_API_calls':1,'committed_bytes':65536,'scope':'exact source-owned return/API observations; no extra unmask, helper mock or region-tail reads'}
     trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
     if trial['test_arena_reset_seed']:
         if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')

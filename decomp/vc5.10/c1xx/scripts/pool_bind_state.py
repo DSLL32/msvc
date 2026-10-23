@@ -5,6 +5,9 @@ from scaler_state import fp,semantic
 
 
 def check(s,d,original,native,trial,text,state,final,traps):
+    if 'CompilerArena::CommitExtent' in trial['accepted']:
+        from pool_cycle_state import check as check_cycle
+        return check_cycle(s,d,original,native,trial,text,state,final,traps)
     def require(value,message):s.require(value,'pool binding wrapper: '+message)
     names=symbols(native/'native-executable.elf');start,size=names['initialize_pool_arenas'];method,method_size=names['_ZN12CompilerPool9BindArenaEj']
     entries=json.loads((native/'pool-bind-entries.json').read_text());require(len(entries)==1,'not one actual first member frontier');entry=entries[0]

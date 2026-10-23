@@ -103,8 +103,16 @@ unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages,
     return result;
 }
 
-/* Pending: observes the actual arena, with no stack arguments. */
 void RECON_THISCALL CompilerArena::CommitExtent(void)
 {
-    __asm { int 3 }
+    unsigned bytes, unit;
+    if ((int)((unsigned)cursor - (unsigned)base) > (int)reserve_bytes)
+        report_compiler_error(76);
+    unit = descriptor->commit_unit;
+    bytes = ((unsigned)cursor - (unsigned)committed_limit + unit - 1) &
+            ~(unit - 1);
+    if (!VirtualAlloc(committed_limit, bytes, MEM_COMMIT, PAGE_READWRITE))
+        report_compiler_error(60);
+    committed_limit += bytes;
+    committed_bytes += bytes;
 }

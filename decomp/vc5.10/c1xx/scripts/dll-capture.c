@@ -34,6 +34,12 @@ static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
 static unsigned scaler_sequence, reset_sequence;
+static int pool_cycle_active, pool_cycle_pending = -1;
+static unsigned pool_cycle_sequence;
+static const DWORD pool_cycle_points[15] = {0x1d76e,0x1d774,0x1ee9f,0x1ee52,0x38faa,0x38f27,0x38f33,0x38f3f,0x38f4b,0x38f57,0x38f63,0x38f6f,0x38f7b,0x38f87,0x38f93};
+static const BYTE pool_cycle_opcodes[15] = {0xff,0x85,0xeb,0x89,0xc2,0x6a,0x6a,0x6a,0x6a,0x6a,0x6a,0x6a,0x6a,0x6a,0xc3};
+static BYTE pool_cycle_saved[15];
+static DWORD pool_commit_address, pool_commit_bytes, pool_commit_esp;
 static int reset_observers, scaler_pending = -1;
 static BYTE reset_return_byte;
 static int reset_return_active;
@@ -230,6 +236,19 @@ static void prepare_mask(void)
         reset_return_byte=snapshot[0x38ec8-code_rva];
         if (reset_observers && reset_return_byte!=0x5f) fail("Reset caller return opcode");
         fprintf(events,"scaler-observers points=8 one-shot=1 after-full-mask-readback=1 no-code-mock=1\n");
+    }
+    if (getenv("C1XX_OBSERVE_POOL_CYCLE") && !baseline) {
+        unsigned point,owner;
+        for(point=0;point<15;++point) {
+            for(owner=0;owner<count;++owner)
+                if(ranges[owner].first<=pool_cycle_points[point] && pool_cycle_points[point]<ranges[owner].last)break;
+            if(owner==count)fail("pool cycle observer outside restored source");
+            pool_cycle_saved[point]=snapshot[pool_cycle_points[point]-code_rva];
+            if(pool_cycle_saved[point]!=pool_cycle_opcodes[point])fail("pool cycle observer opcode");
+            patch(base+pool_cycle_points[point],0xcc);
+        }
+        pool_cycle_active=1;
+        fprintf(events,"pool-cycle-observers points=15 calls=10 after-mask-readback=1 no-code-mock=1\n");
     }
     if ((getenv("C1XX_TEST_INIT_RESTORE") || getenv("C1XX_OBSERVE_INIT_COPY")) && !baseline) {
         restore_observer_byte = snapshot[0x385be - code_rva];
@@ -737,6 +756,18 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
         save_blob(floating_name, &context->FloatSave, sizeof(context->FloatSave));
     }
     save_state();
+    if(pool_cycle_active) {
+        fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad) {
+            BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
+            if(!blob)fail("pool entry full BSS observation");
+            readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
+            if(address==base+0x38fad) {
+                readmem(base+0xc6508,&committed,4);readmem(committed,blob,0x10000);save_blob("pool-final-committed.bin",blob,0x10000);
+            }
+            free(blob);
+        }
+    }
     if (address == base + 0x384d4) invocation_arguments(context);
     if (address == base + entry_rva) {
         if (return_active) fail("nested target DLL entry unsupported");
@@ -864,7 +895,11 @@ int main(int argc, char **argv)
             if (!thread) fail("unknown debug thread");
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
-            if (code == EXCEPTION_SINGLE_STEP && scaler_pending >= 0) {
+            if (code == EXCEPTION_SINGLE_STEP && pool_cycle_pending >= 0) {
+                patch(base+pool_cycle_points[pool_cycle_pending],0xcc);pool_cycle_pending=-1;
+                context.EFlags &= ~0x100;
+                if(!SetThreadContext(thread,&context))fail("pool cycle single step");
+            } else if (code == EXCEPTION_SINGLE_STEP && scaler_pending >= 0) {
                 patch(base+scaler_points[scaler_pending],0xcc);scaler_pending=-1;
                 context.EFlags &= ~0x100;
                 if (!SetThreadContext(thread,&context))fail("persistent scaler step context");
@@ -872,6 +907,37 @@ int main(int argc, char **argv)
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && pool_cycle_active &&
+                    (address==base+0x1d76e || address==base+0x1d774 || address==base+0x1ee9f || address==base+0x1ee52 || address==base+0x38faa ||
+                    (address>=base+0x38f27 && address<=base+0x38f93 && (address-base-0x38f27)%12==0))) {
+                DWORD words[5],owned,provider;BYTE *blob;unsigned point;char name[80];
+                for(point=0;point<15;++point)if(address==base+pool_cycle_points[point])break;
+                if(point==15)fail("pool cycle point identity");
+                readmem(context.Esp,words,sizeof(words));
+                fprintf(events,"pool-cycle point=%u sample=%u seq=%u rva=%08lx esp=%08lx eax=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx error=%lu stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",point,pool_cycle_sequence,sequence,address-base,context.Esp,context.Eax,context.Ecx,context.Ebx,context.Esi,context.Edi,context.Ebp,thread_error(&context,thread),words[0],words[1],words[2],words[3],words[4]);
+                blob=(BYTE *)malloc(0x10000);if(!blob)fail("pool cycle state allocation");
+                readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-cycle-bss-%03u.bin",pool_cycle_sequence);save_blob(name,blob,0xf69c);
+                readmem(base+0xcc000,blob,8520);sprintf(name,"pool-cycle-data-%03u.bin",pool_cycle_sequence);save_blob(name,blob,8520);
+                readmem(base+0xc4d50,&owned,4);readmem(owned,blob,8520);sprintf(name,"pool-cycle-saved-%03u.bin",pool_cycle_sequence);save_blob(name,blob,8520);
+                readmem(base+0xcb000,blob,0xa4);sprintf(name,"pool-cycle-support-%03u.bin",pool_cycle_sequence);save_blob(name,blob,0xa4);
+                sprintf(name,"pool-cycle-fp-%03u.bin",pool_cycle_sequence);save_blob(name,&context.FloatSave,sizeof(context.FloatSave));
+                if(point==0) {
+                    pool_commit_address=words[0];pool_commit_bytes=words[1];pool_commit_esp=context.Esp;
+                    readmem(base+0xc9204,&provider,4);
+                    fprintf(events,"pool-commit-before address=%08lx bytes=%08lx kind=%08lx protection=%08lx provider=%08lx esp=%08lx error=%lu\n",words[0],words[1],words[2],words[3],provider,context.Esp,thread_error(&context,thread));
+                } else if(point==1) {
+                    MEMORY_BASIC_INFORMATION region;DWORD cursor,reserve;unsigned part;
+                    if(!pool_commit_address || context.Eax!=pool_commit_address || pool_commit_bytes!=0x10000 || context.Esp!=pool_commit_esp+16)fail("pool commit actual success/size/RET16");
+                    cursor=pool_commit_address;readmem(base+0xc6514,&reserve,4);
+                    for(part=0;part<2;++part) {
+                        if(VirtualQueryEx(child,(LPVOID)cursor,&region,sizeof(region))!=sizeof(region))fail("pool commit region query");
+                        sprintf(name,"pool-commit-region-%u.bin",part);save_blob(name,&region,sizeof(region));cursor+=region.RegionSize;
+                    }
+                    if(cursor!=pool_commit_address+reserve)fail("pool commit opaque-tail extent closure");
+                    readmem(pool_commit_address,blob,0x10000);save_blob("pool-committed.bin",blob,0x10000);
+                }
+                free(blob);++pool_cycle_sequence;patch(address,pool_cycle_saved[point]);pool_cycle_pending=point;
+                context.EFlags|=0x100;context.Eip=address;if(!SetThreadContext(thread,&context))fail("pool cycle observer context");
             } else if (code == EXCEPTION_BREAKPOINT && reset_return_active && address==base+0x38ec8) {
                 BYTE *blob;char name[80];DWORD saved_state;
                 blob=(BYTE *)malloc(0xf69c);if(!blob)fail("Reset return observation allocation");
