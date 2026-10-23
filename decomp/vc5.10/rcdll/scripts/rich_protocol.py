@@ -425,7 +425,7 @@ def prefix_trial(original,native):
 
 
 
-def prepared_case_state(original,native,b,argv):
+def prepared_case_state(original,native,b,argv,extra_blocks=0):
     text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
     assert arguments['count']==20 and arguments['argv']==argv
     assert arguments['prepared_lines']==len(source.splitlines())==126 and arguments['current_line']==0
@@ -442,7 +442,7 @@ def prepared_case_state(original,native,b,argv):
     assert artifact==dict(bytes=6762,sha256='3e1e06b1f0652c2ad397213fcd2a2d91f940a865d1dda5633330b2c096e6f8ed')
     assert (original/'source'/temporary).read_bytes().startswith('#line 1"resources.rc"\r\n'.encode('utf-16le'))
     assert output_temporary.rsplit('\\',1)[-1]not in receipt['case_files']
-    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3+extra_blocks
     for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
         pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
         block=next(block for block in blocks if block['payload']+8==pointer)
@@ -485,4 +485,55 @@ def preprocess_trial(original,native):
     prepared=prepared_case_state(original,native,b,argv)
     assert proof['application_trace'][-1]=='rc_preprocess'
     proof.update(trial='rc_preprocess',prepared=prepared,forwarded=dict(count=20,argv=argv,original_pointer=0x71c45590,native_pointer=frames[0],unused_outer_slot=0,callee='rc_widen_arguments'))
+    return proof
+
+
+def widen_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_widen_arguments'and len(config['accepted'])==20
+    a,b,proof=checkpoint(original,native,'rc_preprocessor_main',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28b89 and a['words'][1]==20 and a['words'][2]!=0
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocess\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();arguments=b['arguments']
+    assert re.findall(r'^wide-args (\d+) ([0-9a-f]+)$',text,re.M)==[('20','%08x'%a['words'][2])]
+    # The previously accepted forwarding boundary records this exact case's
+    # ANSI vector. Only its two actual temporary paths vary between captures.
+    expected=json.loads((HERE/'cases/resources-rich/acceptance-0020.json').read_text())['proof']['forwarded']['argv'][:]
+    expected[4]=raw_bytes(text,'input-temporary')[:-1].decode('ascii');expected[6]=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
+    assert len(expected)==20 and all(value.isascii()for value in expected)
+    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1)
+    original_pointer=a['words'][2];native_pointer=arguments['vector_pointer'];assert native_pointer>0
+    vector=arguments['wide_vector'];assert len(vector)==20 and arguments['wide_terminator']==0
+    assert re.findall(r'^wide-terminator ([0-9a-f]+)$',text,re.M)==['00000000']
+    old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)];assert len(old_pointers)==20
+    wanted=[(value+'\0').encode('utf-16le')for value in expected]
+    size=8+4*21+sum(len(value)for value in wanted)
+    original_block=raw_bytes(text,'wide-argument-block');assert len(original_block)==size and original_block[:8]==b'\0'*8
+    identity=b['heap_identity'];block=next(row for row in identity['blocks']if row['payload']+8==native_pointer)
+    assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+    native_block=bytes.fromhex(block['contents']);assert len(native_block)==size and native_block[:8]==b'\0'*8
+    cursor=4*21
+    for index,value in enumerate(wanted):
+        assert old_pointers[index]==original_pointer+cursor
+        assert vector[index]['pointer']==native_pointer+cursor
+        assert struct.unpack_from('<I',original_block,8+4*index)[0]==old_pointers[index]
+        assert struct.unpack_from('<I',native_block,8+4*index)[0]==vector[index]['pointer']
+        assert raw_bytes(text,'wide-argv-%d'%index)==bytes.fromhex(vector[index]['bytes'])==value
+        assert original_block[8+cursor:8+cursor+len(value)]==native_block[8+cursor:8+cursor+len(value)]==value
+        cursor+=len(value)
+    assert 8+cursor==size
+    assert original_block[8+4*20:8+4*21]==native_block[8+4*20:8+4*21]==b'\0'*4
+    requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
+    results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
+    payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
+    assert len(requests)==len(results)==len(payloads)==5
+    assert int(requests[-1][2])==size and requests[-1][1]=='9'and requests[-1][3]=='00000000'
+    assert int(results[-1][0],16)+8==original_pointer and results[-1][1]=='00000000'
+    assert int(payloads[-1][0])==size and bytes.fromhex(payloads[-1][1])==b'\0'*size
+    raw=(original/'globals.bin').read_bytes();assert int(requests[-1][0],16)==struct.unpack_from('<I',raw,0x25f54-0x14000)[0]
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==5
+    last=allocations[-1];assert last['heap']==identity['handle']and last['flags']==9 and last['bytes']==size and last['result']+8==native_pointer
+    assert bytes.fromhex(last['payload'])==b'\0'*size and last['last_error_before']==last['last_error_after']==0
+    assert proof['application_trace'][-1]=='rc_widen_arguments'
+    proof.update(trial='rc_widen_arguments',prepared=prepared,widened=dict(count=20,argv=expected,allocation_bytes=size,header_bytes=8,pointer_array_bytes=84,original_base=original_pointer,native_base=native_pointer,terminator=0,normalization='only pointers into the one owned packed allocation; UTF16 bytes exact'),ansi_reference=dict(path='cases/resources-rich/acceptance-0020.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0020.json'),transport_slots=[4,6]))
     return proof

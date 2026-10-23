@@ -31,6 +31,7 @@ def main():
     else:env.pop('RCDLL_NEGATIVE_MODULE_SHA',None)
     for k in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH','RECON_RC_ENVIRONMENT']:env.pop(k,None)
     cwd=HERE;target_args=[];actual=None
+    env['RCDLL_NATIVE_HEAP_LIMIT']='1'
     if a.reference:
         reference=a.reference.resolve();manifest=json.loads((reference/'manifest.json').read_text())
         assert manifest['case']=='resources-rich'
@@ -38,6 +39,8 @@ def main():
         for name,info in manifest['source_inputs'].items():assert sha(HERE/'cases/resources-rich/source'/name)==info['sha256'],name
         if a.original_inputs:
             actual=json.loads((a.original_inputs/'receipt.json').read_text())
+            limit=actual['observation_limits']['heap'];assert 0<=limit<=8192
+            env['RCDLL_NATIVE_HEAP_LIMIT']=str(limit)
             assert actual['case']=='resources-rich' and actual['args']==manifest['args']
             for name,info in manifest['source_inputs'].items():assert actual['case_files'][name]==info,name
             manifest=dict(manifest,child_cwd=actual['child_cwd'],argv0=actual['argv0'])

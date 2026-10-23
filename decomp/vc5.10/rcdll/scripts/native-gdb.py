@@ -82,10 +82,21 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments']:
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main']:
             count=int(frame.read_var('count'));preprocess_vector=frame.read_var('arguments');assert 0<count<=256
-            arguments.update(count=count,argv=[preprocess_vector[i].string()for i in range(count)],prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
+            arguments.update(count=count,argv=[]if name=='rc_preprocessor_main'else[preprocess_vector[i].string()for i in range(count)],prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
             if name=='rc_preprocess':arguments['unused']=int(frame.read_var('unused'))
+            if name=='rc_preprocessor_main':
+                wide_vector=[]
+                for index in range(count):
+                    pointer=int(preprocess_vector[index]);data=bytearray()
+                    for offset in range(4177):
+                        word=bytes(gdb.selected_inferior().read_memory(pointer+2*offset,2));data.extend(word)
+                        if word==b'\0\0':break
+                    else:raise AssertionError('unterminated wide argument')
+                    wide_vector.append(dict(pointer=pointer,bytes=data.hex()))
+                arguments.update(wide_vector=wide_vector,wide_terminator=int(preprocess_vector[count]),vector_pointer=int(preprocess_vector))
+                arguments['argv']=[bytes.fromhex(value['bytes']).decode('utf-16le')[:-1]for value in wide_vector]
             frees=json.loads((output.parent/'locals.json').read_text());assert frees[-1]['operation']=='free'
             # Revisit the actual FILE pointer observed at the first line read;
             # descriptor numbers and CRT array slots need not equal Wine's.

@@ -66,11 +66,6 @@ void __stdcall rc_input_warning(unsigned code)
     __asm int 3
 }
 
-WCHAR **__stdcall rc_widen_arguments(int count,char **arguments)
-{
-    __asm int 3
-    return NULL;
-}
 int __cdecl rc_preprocessor_main(int count,WCHAR **arguments)
 {
     __asm int 3

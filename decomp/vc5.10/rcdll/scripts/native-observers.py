@@ -50,6 +50,10 @@ class HeapEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();caller=frame.older()
         expected='rc_initialize' if self.operation=='create' else 'rc_allocate'
         if caller is None or caller.name()!=expected:return False
+        limit=1 if self.operation=='create'else int(os.environ.get('RCDLL_NATIVE_HEAP_LIMIT','1'))
+        seen=sum(record['operation']==self.operation for record in heaps)
+        if seen>=limit:self.enabled=False;return False
+        if seen+1>=limit:self.enabled=False
         entry=dict(operation=self.operation,caller=caller.name(),last_error_before=int(gdb.parse_and_eval('last_error')))
         fields=['flags','initial','maximum'] if self.operation=='create' else ['heap','flags','bytes']
         formals=['options','initial','maximum'] if self.operation=='create' else ['handle','flags','size']

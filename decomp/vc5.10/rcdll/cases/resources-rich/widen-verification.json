@@ -1,0 +1,62 @@
+{
+  "function": "rc_widen_arguments",
+  "original_start": "0x10913",
+  "original_end": "0x109b2",
+  "original_code_bytes": 159,
+  "abi": "stdcall2/ret8; WCHAR** packed allocation",
+  "accepted_application_functions": 19,
+  "accepted_application_bytes": 7599,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 11.462402896146013,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_preprocessor_main",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/widen-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/widen-trial-native-01",
+  "builds": {
+    "original": {
+      "seconds": 3.283742197789252,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.6033234931528568,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.367895271629095,
+  "native_gdb_seconds": 0.8509522397071123,
+  "audit_seconds": 0.0625445069745183,
+  "audit_engine_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+  "negative_controls": 25,
+  "gate_sha256": "41abd0eb480f2b1f88a6e26b341af8188d02aaf6b04cbfdf8cafec64c44b6ef0",
+  "graph_audit_record": "audit-0021.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.0038407184183597565,
+      "execution": 0.002546383999288082,
+      "checks": 0.0011825701221823692,
+      "total": 0.008220426738262177
+    },
+    "native_sha256": "d9753fdbaab60a5648dfcaa40da82e5fe5b998f1f3140432f0ac260fad80c26c",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Twenty exact UTF16 strings,all packed-pointer offsets and nullterminator match within one owned566-byte private allocation.",
+    "Initial full566-byte allocation is zeroed and uses observed heap/flags9; eight reserved leading bytes remain zero.",
+    "ANSI values come from the previously verified forwarding boundary,with only actual temporary-path transport slots4/6 substituted; historical raw evidence unchanged.",
+    "Native allocation observation count is now explicitly bounded by the retained original observation_limits,not an unbounded census.",
+    "No new shared API behavior was added; codepage0 conversion uses existing support under the captured ACP1252 profile."
+  ]
+}

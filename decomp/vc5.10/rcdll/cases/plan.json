@@ -22,7 +22,8 @@
     "rc_read_wide_line",
     "rc_prefix_equal",
     "rc_notify_progress",
-    "rc_preprocess"
+    "rc_preprocess",
+    "rc_widen_arguments"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

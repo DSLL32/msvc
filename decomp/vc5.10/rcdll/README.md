@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighteen application functions (7,440 original code bytes), two embedded CRT functions
+Nineteen application functions (7,599 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_widen_arguments`.
+currently matches at the next named trap, `rc_preprocessor_main`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 11.22% (18 functions). This denominator
+bytes. Current accepted application extent coverage is 11.46% (19 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -185,3 +185,10 @@ interface forwards the same count and vector to the argument-widening helper,
 then returns the named preprocessor body's result. [Verification](cases/resources-rich/preprocess-verification.json)
 retains the unchanged intermediate artifact, typed forwarding proof and 24
 rejection controls.
+
+Argument widening is accepted (159 bytes). All 20 UTF-16 strings, pointer offsets,
+terminator and exact owned-allocation contents match at the preprocessor body.
+[Verification](cases/resources-rich/widen-verification.json) records the 566-byte
+allocation, bounded original/native observation counts, 25 rejection controls
+and separate timings. Historical ANSI arguments retain their raw identities;
+only the two current temporary-path slots are mapped explicitly for this case.

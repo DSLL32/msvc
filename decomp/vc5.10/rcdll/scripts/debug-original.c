@@ -370,6 +370,15 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
+        if(address==base+0xbc80){
+            DWORD pointer,total=4*(words[1]+1),length;char label[80];
+            if(words[1]!=20||!words[2])fail("wide-preprocessor-scope");
+            fprintf(events,"wide-args %lu %08lx\n",words[1],words[2]);
+            for(n=0;n<words[1];++n){readmem(words[2]+4*n,&pointer,4);length=wide_string_bytes(pointer);total+=length;sprintf(label,"wide-argv-%u",n);hexbytes(label,pointer,length);fprintf(events,"wide-pointer %u %08lx\n",n,pointer);}
+            readmem(words[2]+4*words[1],&pointer,4);fprintf(events,"wide-terminator %08lx\n",pointer);
+            if(total>1048576)fail("wide-preprocessor-buffer-size");hexbytes("wide-argument-block",words[2]-8,total+8);
+            hexbytes("prepared-closed-input",line_file,32);readmem(base+0x149c4,&pointer,4);hexbytes("prepared-filename",pointer,514);
+        }
         if(address==base+0x10913){
             DWORD pointer;char label[80];
             if(words[1]!=20||words[2]!=base+0x25590)fail("widen-call-scope");
