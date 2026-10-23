@@ -12,11 +12,11 @@ STAGES = {
     '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
     '_register_buffer4_cleanup': (3,3,2),
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
-    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4), '_initialize_hash_table@20':(None,3,4), '_hash_allocate@16':(None,3,4), '_reserve_memory@8':(None,3,4), '_create_memory_arena@4':(None,3,4), '_allocate_memory@4':(None,3,4), '_configure_link_options@12':(None,3,4), '_parse_switch@8':(None,3,4),
+    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4), '_initialize_hash_table@20':(None,3,4), '_hash_allocate@16':(None,3,4), '_reserve_memory@8':(None,3,4), '_create_memory_arena@4':(None,3,4), '_allocate_memory@4':(None,3,4), '_configure_link_options@12':(None,3,4), '_parse_switch@8':(None,3,4), '_duplicate_argument@4':(None,3,4),
 }
 MEMORY_READY={ '_run_linker@8','_initialize_repro','_collect_file_arguments@16',
-               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8' }
-OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8'}
+               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4' }
+OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4'}
 CACHE_READY=MEMORY_READY | {'_initialize_memory'}
 DEBUG_READY=CACHE_READY | {'_get_debug_flag@4','_zero_allocate@4','_new_file_record'}
 
@@ -346,13 +346,33 @@ def compare(name, original, native, original_state, native_state):
         from context_heap import compare as compare_context_heap
         compare_context_heap(original,native_state,original_state)
 
-    if name=='_parse_switch@8':
-        assert original_state['stack'][1]==native_state['argument_detail']['file']==0
+    if name in ('_parse_switch@8','_duplicate_argument@4'):
         assert original_state['argument_text']==native_state['argument_detail']['text']=='?'
         assert original_state['argument_pointer']==original_state['crt_first_argument_pointer']+1
         assert native_state['argument_detail']['address']==native_state['crt_first_argument_address']+1
+        if name=='_parse_switch@8':
+            assert original_state['stack'][1]==native_state['argument_detail']['file']==0
+        else:
+            assert original_state['stack'][1]==original_state['argument_pointer']
         context=original_state['configuration_context']
         observations=[event for event in events if event['event']=='configuration_arguments']
         assert observations==[dict(event='configuration_arguments',context=context,module=0,file=0)]
         from context_heap import compare as compare_context_heap
         compare_context_heap(original,native_state,original_state,configuration_context=context)
+    if name=='_duplicate_argument@4':
+        observations=[event for event in events if event['event']=='parser_allocation']
+        allocation=original_state['ebp']
+        nallocation=native_state['parsed_switch_address']
+        assert allocation and nallocation
+        assert observations==[dict(event='parser_allocation',name='observe:parser_alloc_call',site=0x40d149,bytes=10,result=0),dict(event='parser_allocation',name='observe:parser_alloc_return',site=0x40d14e,bytes=10,result=allocation)]
+        assert native_state['parser_allocations']==[dict(bytes=10,result=nallocation)]
+        data=(original/'parsed-switch.bin').read_bytes()
+        ndata=bytes.fromhex(native_state['parsed_switch'])
+        assert len(data)==len(ndata)==10
+        assert struct.unpack_from('<I',data)[0]==allocation+8
+        assert struct.unpack_from('<I',ndata)[0]==nallocation+8
+        assert struct.unpack_from('<H',data,4)[0]==struct.unpack_from('<H',ndata,4)[0]==0
+        assert data[8:]==ndata[8:]==b'?\0'
+        # WORD6..7 is uninitialized and unconsumed on this path. Its raw bytes
+        # remain in both captures; neither byte is asserted to be zero.
+        assert allocation!=original_state['argument_pointer'] and nallocation!=native_state['argument_detail']['address']

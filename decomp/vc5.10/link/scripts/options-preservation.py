@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import re
 from binary import PE, u16, u32
 
 BINARY = Path(__file__).resolve().parents[1]
@@ -15,9 +16,10 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def check(original, packet=None):
+def check(original, packet=None, required=None):
     """Bind the provider/SDK review; no unrelated helper snapshots are consumed."""
     packet = json.loads(PACKET.read_text()) if packet is None else packet
+    required=REQUIRED if required is None else required
     assert packet['schema'] == 1
     assert packet['original_sha256'] == sha(original.data), 'stale ABI witness original'
     provider = packet['canonical_provider']
@@ -42,8 +44,8 @@ def check(original, packet=None):
         name = pe.string(pe.base+u32(pe.read(pe.base+names+4*index,4),0))
         ordinal = u16(pe.read(pe.base+ordinals+2*index,2),0)
         exports[name] = dict(ordinal=base+ordinal,rva=u32(pe.read(pe.base+functions+4*ordinal,4),0))
-    assert {i['identity'] for i in packet['imports']} == {'msvcrt.dll!'+name for name in REQUIRED}
-    assert len(packet['imports']) == 6
+    assert {i['identity'] for i in packet['imports']} == {'msvcrt.dll!'+name for name in required}
+    assert len(packet['imports']) == len(required)
     for imported in packet['imports']:
         name = imported['identity'].split('!',1)[1]
         assert imported['provider_export'] == exports[name], 'ABI import identity changed'
@@ -54,7 +56,7 @@ def check(original, packet=None):
             assert sha(data) == declaration['sha256'], 'ABI SDK header changed'
             line = data.decode('latin1').splitlines()[declaration['line']-1].strip()
             assert line == declaration['declaration'] and '__cdecl' in line
-    return dict(packet_sha256=sha(PACKET.read_bytes()),qualified_import_contracts=6,application_helper_contracts=0,
+    return dict(qualified_import_contracts=len(required),application_helper_contracts=0,
         qualification='Only required canonical-provider/SDK ABI witnesses. Unknown application calls remain barriers; no helper source/object snapshots or target CFG/dataflow walk.')
 
 
@@ -67,10 +69,17 @@ def check_resolution(report, rebuilt):
     assert bound['rebuilt_sha256'] == sha(rebuilt.data)
     contracts = bound['preservation_contracts']
     expected = {i['identity'] for i in packet['imports']}
-    assert len(contracts) == 6
-    assert {c['target']['import']['dll']+'!'+c['target']['import']['name'] for c in contracts} == expected
+    parser_checked='_parse_switch@8' in report['functions']
+    if parser_checked:expected.add('msvcrt.dll!strchr')
+    assert len(contracts) == len(expected)+(1 if parser_checked else 0)
+    assert {c['target']['function']for c in contracts if 'function'in c['target']}==({'_link_fatal'}if parser_checked else set())
+    assert {c['target']['import']['dll']+'!'+c['target']['import']['name'] for c in contracts if 'import' in c['target']} == expected
     evidence = dict(path='cases/help/options-import-preservation.json',sha256=sha(PACKET.read_bytes()))
-    assert all(c['evidence']==evidence and c['preserves']==['ebx','esi','edi'] for c in contracts)
+    parser_path=BINARY/'cases/help/parser-import-preservation.json'
+    parser_evidence=dict(path='cases/help/parser-import-preservation.json',sha256=sha(parser_path.read_bytes())) if parser_checked else None
+    for contract in contracts:
+        required_evidence=parser_evidence if 'function' in contract['target'] or contract['target']['import']['name']=='strchr' else evidence
+        assert contract['evidence']==required_evidence and contract['preserves']==['ebx','esi','edi']
     function = report['functions']['_configure_link_options@12']
     sites = function['register_imports']
     for side in ['original','rebuilt']:
@@ -87,4 +96,32 @@ def check_resolution(report, rebuilt):
     expected = set(packet['declared_imports'])
     assert {i['dll']+'!'+i['name'] for i in function['imports']} == expected
     assert {i['dll']+'!'+i['name'] for i in sites['rebuilt']['direct_import_calls'].values()} == expected
-    return dict(original_register_calls=147,original_direct_calls=50,rebuilt_direct_calls=197,qualified_imports=19,required_preservation_contracts=6,application_helper_contracts=0,unresolved=0)
+    parser_inventory=None
+    if parser_checked:
+        parser_packet=json.loads(parser_path.read_text())
+        parser_function=report['functions']['_parse_switch@8']
+        parser_sites=parser_function['register_imports']
+        assert parser_sites['original']['resolved_register_calls']=={str(site):dict(dll='msvcrt.dll',name='strchr')for site in parser_packet['register_sites']}
+        assert not parser_sites['original']['direct_import_calls']
+        for side in ['original','rebuilt']:
+            assert parser_sites[side]['unresolved_register_calls']==[] and parser_sites[side]['other_unresolved_calls']==[]
+        assert not parser_sites['rebuilt']['resolved_register_calls']
+        assert len(parser_sites['rebuilt']['direct_import_calls'])==5
+        assert all(i==dict(dll='msvcrt.dll',name='strchr')for i in parser_sites['rebuilt']['direct_import_calls'].values())
+        parser_inventory=dict(original_register_calls=5,rebuilt_direct_calls=5,qualified_imports=1)
+    return dict(parser=parser_inventory,original_register_calls=147,original_direct_calls=50,rebuilt_direct_calls=197,qualified_imports=19,required_preservation_contracts=7 if parser_checked else 6,application_helper_contracts=1 if parser_checked else 0,unresolved=0)
+
+
+def check_parser_helper(original,rebuilt,map_text):
+    packet=json.loads((BINARY/'cases/help/parser-import-preservation.json').read_text())
+    function=packet['function_contract']
+    assert function['name']=='_link_fatal'
+    assert sha(original.read(function['original_begin'],function['original_end']-function['original_begin']))==function['original_body_sha256']
+    assert all(not function['preservation'][register]['writes']for register in ['ebx','esi','edi'])
+    assert function['standard_abi']=='cdecl, ret '
+    symbol=function['rebuilt_named_stub']['symbol']
+    addresses=[int(address,16)for name,address in re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',map_text,re.M)if name==symbol]
+    assert len(addresses)==1
+    data=bytes.fromhex(function['rebuilt_named_stub']['bytes'])
+    assert rebuilt.read(addresses[0],len(data))==data,'named stub changed; refresh actual callee ABI review'
+    return dict(function='_link_fatal',classification='needed parser-only ordinary callee preservation; no body acceptance')

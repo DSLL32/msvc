@@ -1,0 +1,39 @@
+{
+  "status": "accepted",
+  "function": "_parse_switch@8",
+  "application_functions": 38,
+  "application_extent_bytes": 19255,
+  "original_function_extent_bytes": 381,
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/masked-bw774eg9",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-vpkxmaj5",
+  "record_bytes": 10,
+  "name_pointer": "owned allocation+8",
+  "value_count": 0,
+  "copied_text_hex": "3f00",
+  "unconsumed_reserved_word": "raw retained; never initialized/read on this help path",
+  "common_imports": {
+    "parser": {
+      "original_register_calls": 5,
+      "rebuilt_direct_calls": 5,
+      "qualified_imports": 1
+    },
+    "original_register_calls": 147,
+    "original_direct_calls": 50,
+    "rebuilt_direct_calls": 197,
+    "qualified_imports": 19,
+    "required_preservation_contracts": 7,
+    "application_helper_contracts": 1,
+    "unresolved": 0
+  },
+  "required_helper": "_link_fatal previously reviewed normal-return cdecl ABI, now genuinely crossed by live EDI cache",
+  "ablation": "cases/help/parser-import-ablation.json",
+  "typed_negative_count": 90,
+  "timing_seconds": {
+    "parallel_original_native_build": 1.4713387517258525,
+    "additional_native_refresh": 1.8069380912929773,
+    "original_reference": 0.9046212071552873,
+    "native_capture": 0.23180510476231575,
+    "whole_audit": 0.31394000817090273
+  },
+  "acceptance": "cases/help/frontiers/38-parse-switch/validation.json"
+}

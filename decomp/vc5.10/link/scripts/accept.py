@@ -132,8 +132,9 @@ def audit_trial(path):
     inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
-    register_candidate='_configure_link_options@12' in trial['accepted']
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and not(register_candidate and name=='_configure_link_options@12')]
+    register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8']if name in trial['accepted']]
+    register_candidate=bool(register_candidates)
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -148,16 +149,26 @@ def audit_trial(path):
         register_packet_check=witness.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'))
         packet=json.loads(witness.PACKET.read_text())
         register_config=copy.deepcopy(trial)
-        register_config['accepted']=['_configure_link_options@12']
+        register_config['accepted']=register_candidates
         register_config_path=path.parent/'register-import-config.json'
         register_config_path.write_text(json.dumps(register_config,indent=2)+'\n')
         register_metadata=json.loads((BINARY/'build/graph.json').read_text())
-        register_metadata['functions'].setdefault('_configure_link_options@12',{})['register_imports']={'require_all_register_calls_resolved':True}
+        for name in register_candidates:
+            register_metadata['functions'].setdefault(name,{})['register_imports']={'require_all_register_calls_resolved':True}
         contracts=[]
         for imported_api in packet['imports']:
             dll,name=imported_api['identity'].split('!',1)
             contracts.append({'target':{'import':{'dll':dll,'name':name}}})
             contracts[-1].update(preserves=['ebx','esi','edi'],evidence=dict(path='cases/help/options-import-preservation.json',sha256=sha(witness.PACKET.read_bytes())))
+        if '_parse_switch@8' in register_candidates:
+            parser_path=BINARY/'cases/help/parser-import-preservation.json'
+            parser_packet=json.loads(parser_path.read_text())
+            witness.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),parser_packet,{'strchr'})
+            contracts.append({'target':{'import':{'dll':'msvcrt.dll','name':'strchr'}},'preserves':['ebx','esi','edi'],'evidence':{'path':'cases/help/parser-import-preservation.json','sha256':sha(parser_path.read_bytes())}})
+            witness.check_parser_helper(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text())
+            contracts.append({'target':{'function':'_link_fatal'},'preserves':['ebx','esi','edi'],'evidence':{'path':'cases/help/parser-import-preservation.json','sha256':sha(parser_path.read_bytes())}})
+            inputs.append(parser_path)
+            inputs += [ROOT/d['path']for api in parser_packet['imports']for d in api['declarations']]
         register_metadata['register_imports']={'preservation_contracts':contracts}
         register_metadata_path=path.parent/'register-import-metadata.json'
         register_metadata_path.write_text(json.dumps(register_metadata,indent=2)+'\n')
@@ -200,7 +211,7 @@ def audit_trial(path):
     if register_command:
         resolved=subprocess.run(register_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
         register_report=json.loads(resolved.stdout)
-        assert set(register_report['functions'])=={'_configure_link_options@12'}
+        assert set(register_report['functions'])==set(register_candidates)
         from binary import PE
         register_audit=dict(command=register_command,packet_binding=register_packet_check,
             inventory=witness.check_resolution(register_report,PE(BINARY/'build/link.exe')),

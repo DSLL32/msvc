@@ -140,7 +140,7 @@ if args.frontier in ('_create_memory_arena@4','_allocate_memory@4'):
     negative('wrong rounded arena size',lambda s:s.__setitem__('arena_creation_bytes',512))
 if args.frontier=='_allocate_memory@4':
     negative('wrong arena-descriptor size',lambda s:s.__setitem__('allocation_bytes',8))
-if args.frontier in ('_configure_link_options@12','_parse_switch@8'):
+if args.frontier in ('_configure_link_options@12','_parse_switch@8','_duplicate_argument@4'):
     def patch(state,key,offset,value):
         data=bytearray.fromhex(state[key]);data[offset:offset+4]=struct.pack('<I',value);state[key]=data.hex()
     negative('wrong configuration receiver',lambda s:s['configuration_arguments'].__setitem__('context',0))
@@ -178,5 +178,14 @@ if args.frontier=='_parse_switch@8':
     negative('wrong parser diagnostic file',lambda s:s['argument_detail'].__setitem__('file',1))
     negative('wrong parser option text',lambda s:s['argument_detail'].__setitem__('text','help'))
     negative('lost parser slash-stripped alias',lambda s:s['argument_detail'].__setitem__('address',0))
+if args.frontier=='_duplicate_argument@4':
+    negative('wrong duplicated input',lambda s:s['argument_detail'].__setitem__('text','help'))
+    negative('lost duplicated argv alias',lambda s:s['argument_detail'].__setitem__('address',0))
+    negative('wrong parser allocation bytes',lambda s:s['parser_allocations'][0].__setitem__('bytes',9))
+    negative('wrong parser allocation result',lambda s:s['parser_allocations'][0].__setitem__('result',0))
+    negative('lost parser record ownership',lambda s:s.__setitem__('parsed_switch_address',0))
+    negative('wrong parser name pointer',lambda s:s.__setitem__('parsed_switch','00000000'+s['parsed_switch'][8:]))
+    negative('wrong parser count',lambda s:s.__setitem__('parsed_switch',s['parsed_switch'][:8]+'0100'+s['parsed_switch'][12:]))
+    negative('wrong parser copied text',lambda s:s.__setitem__('parsed_switch',s['parsed_switch'][:16]+'2100'))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

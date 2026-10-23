@@ -5,6 +5,8 @@
 #include "link.h"
 #include "files.h"
 #include "arguments.h"
+#include "memory.h"
+#include "options.h"
 #include <recon.h>
 
 BYTE input_prepass;
@@ -26,10 +28,48 @@ void __stdcall collect_file_arguments(int argc,char **argv,
         argument = argument->next;
     }
 }
+#pragma intrinsic(strlen,strcpy)
 SwitchInfo *__stdcall parse_switch(const char *file,const char *text)
 {
-    __asm { int 3 }
-    return NULL;
+    const char *colon;
+    char *storage,*value,*next,*equals;
+    SwitchInfo *info;
+    WORD count,index;
+    colon=strchr(text,':');
+    count=0;
+    if (colon) {
+        if (!colon[1]) link_fatal(file,1146,text);
+        count=1;
+        for (next=strchr(colon+1,',');next;next=strchr(next+1,',')) ++count;
+    }
+    info=(SwitchInfo *)allocate_memory(strlen(text)+9+8*count);
+    storage=(char *)&info->values[count];
+    strcpy(storage,text);
+    info->name=storage;
+    value=(char *)text;
+    if (colon) {
+        value=storage+(colon-text);
+        *value++=0;
+    }
+    if (!*info->name) link_fatal(file,1117,text);
+    for (index=0;index<count;++index) {
+        next=strchr(value,',');
+        if (next) *next++=0;
+        else next=value+strlen(value);
+        equals=strchr(value,'=');
+        if (equals) {
+            *equals=0;
+            info->values[index].name=value;
+            info->values[index].text=equals+1;
+        } else {
+            info->values[index].name=NULL;
+            info->values[index].text=value;
+        }
+        value=next;
+    }
+    info->value_count=count;
+    /* The adjacent reserved WORD is not initialized by this function. */
+    return info;
 }
 
 InputArgument *argument_tail;

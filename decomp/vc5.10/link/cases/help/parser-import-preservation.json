@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "abi_basis": {
+    "url": "https://learn.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170",
+    "rule": "Microsoft x86 compiler-generated prologues and epilogues preserve used EBX, ESI and EDI. Apply only to these explicitly named, inspected ordinary Win32 callees.",
+    "qualification": "No custom/naked/register-clobber ABI is registered. Unknown targets must kill cached facts. RET cleanup remains independently checked."
+  },
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "canonical_provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "actual_loaded_receipt": "/root/.ai-tmp/msvc2/vc5.10/link/masked-drdwkhmv/receipt.json",
+    "actual_loaded_receipt_sha256": "4acc6424bce0f5b3b123ebcf4c71c2a140517c6afc7e7cd895626fb0b92b4b02",
+    "owned_receipt": "cases/help/options-provider/receipt.json",
+    "owned_hfile_copies": [
+      {
+        "path": "cases/help/options-provider/module-006.bin",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    ]
+  },
+  "scope": "Only the canonical strchr nonvolatile preservation contract needed by five cached calls in parse_switch; no application-helper contracts.",
+  "imports": [
+    {
+      "identity": "msvcrt.dll!strchr",
+      "provider_export": {
+        "ordinal": 693,
+        "rva": 22036
+      },
+      "entry_bytes": "33c08a442408538bd8c1e0088b542408",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 140,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP char *  __cdecl strchr(const char *, int);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    }
+  ],
+  "register_sites": [
+    4247764,
+    4247823,
+    4247845,
+    4248017,
+    4248053
+  ],
+  "function_contract": {
+    "name": "_link_fatal",
+    "original_begin": 4391472,
+    "original_end": 4391497,
+    "original_body_sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255",
+    "standard_abi": "cdecl, ret ",
+    "preservation": {
+      "ebx": {
+        "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+        "writes": []
+      },
+      "esi": {
+        "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+        "writes": []
+      },
+      "edi": {
+        "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+        "writes": []
+      }
+    },
+    "original_normal_returns": [
+      {
+        "address": 4391496,
+        "bytes": "c3",
+        "instruction": "ret "
+      }
+    ],
+    "rebuilt_named_stub": {
+      "symbol": "_link_fatal",
+      "bytes": "558bec535657cc5f5e5b5dc3",
+      "reason": "Ordinary original-compiler extern-C cdecl trapping stub; function body bytes are checked independently of unrelated source/object changes."
+    }
+  }
+}

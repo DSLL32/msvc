@@ -53,7 +53,8 @@
     "_reserve_memory@8",
     "_create_memory_arena@4",
     "_allocate_memory@4",
-    "_configure_link_options@12"
+    "_configure_link_options@12",
+    "_parse_switch@8"
   ],
   "driver": [
     {
@@ -565,7 +566,7 @@
       "end": 4248125,
       "pending_extent": false,
       "source": "src/arguments.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "parse_switch",
       "abi": "stdcall SwitchInfo*(const char*file,const char*text); stack8/RET8"
     },

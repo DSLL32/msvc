@@ -46,7 +46,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -145,6 +145,19 @@ class VirtualEntry(gdb.Breakpoint):
         VirtualReturned(gdb.newest_frame(),arguments)
         return False
 VirtualEntry('*recon_VirtualAlloc',internal=True)
+class ParserAllocationReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,size):super().__init__(frame,internal=True);self.size=size
+    def stop(self):
+        state['parser_allocations'].append(dict(bytes=self.size,result=int(self.return_value)))
+        return False
+class ParserAllocationEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame()
+        if frame.older() and frame.older().name()=='parse_switch':
+            ParserAllocationReturned(frame,int(gdb.parse_and_eval('((unsigned*)$esp)[1]')))
+        return False
+ParserAllocationEntry('*allocate_memory',internal=True)
+
 def callback_names(begin,count):
     result=[]
     for index in range(count):
@@ -197,7 +210,7 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
-    if state['function'] in ('configure_link_options','parse_switch'):
+    if state['function'] in ('configure_link_options','parse_switch','duplicate_argument'):
         configuration=frame
         while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
         assert configuration
@@ -269,6 +282,12 @@ def stopped(event):
     if state['option_arguments'][0]:state['option_node']=gdb.selected_inferior().read_memory(state['option_arguments'][0],24).tobytes().hex()
     if state['function']=='has_switch':state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')))
     if state['function']=='parse_switch':state['argument_detail']=dict(file=int(frame.read_var('file')),text=frame.read_var('text').string(),address=int(frame.read_var('text')))
+    if state['function']=='duplicate_argument':
+        state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))
+        info=configuration.read_var('info')
+        state['parsed_switch_address']=int(info)
+        state['parsed_switch']=gdb.selected_inferior().read_memory(int(info),10).tobytes().hex()
+
     if state['function']=='allocate_link_memory':state['allocation_arguments']=dict(count=int(frame.read_var('count')),size=int(frame.read_var('size')))
     state['logo_pending']=int(gdb.parse_and_eval('logo_pending'))
     state['incremental_enabled']=int(gdb.parse_and_eval('incremental_enabled'))

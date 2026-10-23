@@ -12,7 +12,7 @@ static unsigned char *mask;
 typedef struct Entry { DWORD rva; unsigned byte, seen; char name[128]; } Entry;
 static Entry entries[2048];
 static unsigned entry_count;
-static DWORD crt_base, main_frame_base, configuration_context, virtual_arguments[4];
+static DWORD crt_base, main_frame_base, configuration_context, parser_allocation_bytes, parser_allocation, virtual_arguments[4];
 typedef struct StateRequest { char scope[16], name[128]; DWORD rva, size; } StateRequest;
 static StateRequest requests[64];
 static unsigned request_count;
@@ -166,6 +166,7 @@ static int snapshot(DWORD address)
     switch(address-base) {
     case 0x5c780: /* parse_argument(text, source) */
     case 0x5c750: /* is_libpath(text) */
+    case 0x4fed0: /* duplicate_argument(text) */
     case 0x44f20: /* has_switch(name) */
         argument_index=1; break;
     case 0xd0c0: /* parse_switch(file, text) */
@@ -230,9 +231,12 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || (address==base+0xd0c0 && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0xd0c0 || address==base+0x4fed0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
+    }
+    if(address==base+0x4fed0) {
+        if(!parser_allocation || context.Ebp!=parser_allocation || !save_memory(parser_allocation,parser_allocation_bytes,"parsed-switch.bin"))return 0;
     }
     fflush(events);
     return 1;
@@ -374,6 +378,12 @@ int main(int argc, char **argv)
                             fprintf(events,",\"requested\":");quoted(requested);
                         }
                         fprintf(events,"}\n");
+                    } else if(!strncmp(entries[index].name,"observe:parser_alloc_",21)) {
+                        DWORD got;
+                        if(!strcmp(entries[index].name,"observe:parser_alloc_call")) {
+                            if(!ReadProcessMemory(process,(void *)context.Esp,&parser_allocation_bytes,4,&got)||got!=4){failed=6;break;}
+                        } else parser_allocation=context.Eax;
+                        fprintf(events,"{\"event\":\"parser_allocation\",\"name\":\"%s\",\"site\":%lu,\"bytes\":%lu,\"result\":%lu}\n",entries[index].name,site,parser_allocation_bytes,parser_allocation);
                     } else if(!strncmp(entries[index].name,"observe:virtual_",16)) {
                         DWORD got;
                         if(!strcmp(entries[index].name,"observe:virtual_call")) {
