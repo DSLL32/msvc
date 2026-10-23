@@ -74,7 +74,7 @@ void generate_inline_queries(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 
 /* Original 0x4a9d0. */
-void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
+
 
 /* Original 0x46e30. */
 
@@ -150,7 +150,7 @@ void __stdcall report_expected_token(unsigned char actual, int expected) { __asm
 ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
 
 /* Original 0x22d42. */
-void __stdcall report_parser_error(char *text) { __asm { int 3 } }
+
 
 /* Original 0x22e8d. */
 
@@ -379,7 +379,7 @@ void abort_function_definition(void) { __asm { int 3 } }
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 
-void report_syntax_error_arguments(unsigned code, char *arguments) { __asm { int 3 } }
+
 
 void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 
@@ -501,11 +501,9 @@ void browser_macro_end(void) { __asm { int 3 } }
 
 /* Original 0x1c4b0. */
 
-/* Original 0x1e650. */
-int __stdcall read_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
 
-/* Original 0x1e5b0. */
-int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
+
+
 
 /* Original 0x1e570. */
 
@@ -655,7 +653,7 @@ int integer_to_extended(const int *value, Extended *number) { __asm { int 3 } re
 
 
 /* Original 0x2d0e0. */
-FrontendSymbol * __stdcall recover_undeclared_identifier(char *name) { __asm { int 3 } return 0; }
+
 /* Original 0x2cdf0. */
 
 /* Original 0x2d180. */
@@ -669,8 +667,7 @@ FrontendSymbol * __stdcall recover_undeclared_identifier(char *name) { __asm { i
 
 /* Original 0x41c90. */
 
-/* Original 0x2b5d0. */
-FrontendSymbol *__stdcall declare_implicit_function(char *name) { __asm { int 3 } return 0; }
+
 
 /* Original 0x402b0. */
 CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 0; }

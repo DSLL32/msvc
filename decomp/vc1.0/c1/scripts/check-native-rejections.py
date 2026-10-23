@@ -130,6 +130,32 @@ def main():
     rejects('rich-assembler-expression-byte', 'output bytes differ: irex',
             lambda: checker.validate_artifacts(assembly, assembly_fixture, assembly_phase))
 
+    _, recovery = checker.run_case('diagnostic-recovery', executable, directory, (cache,filter_path))
+    recovery_fixture = checker.BINARY/'cases/diagnostic-recovery'
+    recovery_phase = json.loads((recovery_fixture/'manifest.json').read_text())['phases']['c1']
+    recovery_stdout = (recovery.parent/'stdout').read_bytes()
+    assert recovery_phase['expected_exit'] == 6
+    for code in [0,7]:
+        rejects('diagnostic-wrong-status-'+str(code), 'native status',
+                lambda code=code:checker.validate_result('diagnostic-recovery',code,recovery_stdout,b'',recovery_phase))
+    lines = recovery_stdout.splitlines(keepends=True)
+    lines[0],lines[1] = lines[1],lines[0]
+    rejects('diagnostic-order', 'stdout differs',
+            lambda:checker.validate_result('diagnostic-recovery',6,b''.join(lines),b'',recovery_phase))
+    rejects('missing-recovery-tail-marker', 'stdout differs',
+            lambda:checker.validate_result('diagnostic-recovery',6,recovery_stdout.replace(b'RECOVERY_TAIL_REACHED\r\n',b''),b'',recovery_phase))
+    (recovery/'recovery.obj').write_bytes(b'')
+    rejects('diagnostic-forbidden-object', 'forbidden output exists: recovery.obj',
+            lambda:checker.validate_artifacts(recovery,recovery_fixture,recovery_phase))
+    (recovery/'recovery.obj').unlink()
+    partial = bytearray((recovery/'irex').read_bytes())
+    partial[-1] ^= 1
+    (recovery/'irex').write_bytes(partial)
+    rejects('diagnostic-partial-file-byte', 'output bytes differ: irex',
+            lambda:checker.validate_artifacts(recovery,recovery_fixture,recovery_phase))
+    rejects('success-case-still-requires-zero', 'native status',
+            lambda:checker.validate_result('minimal',6,b'',b'',phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

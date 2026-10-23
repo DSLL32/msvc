@@ -104,6 +104,10 @@
     "storage-pragmas": {
       "receipt": "cases/storage-pragmas/evidence/storage-entries-887.receipt.json",
       "sha256": "9a8e6ca06716e18be3e69b101b3b380d2253b4dfcdd2270fd4c5008eb97f036f"
+    },
+    "diagnostic-recovery": {
+      "receipt": "cases/diagnostic-recovery/evidence/recovery-complete-913.receipt.json",
+      "sha256": "67a82501ca641d4433823cbecf58330d4945e0a1a3d38923064bffc06c4f4489"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

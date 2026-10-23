@@ -1,0 +1,31 @@
+python3 scripts/dependencies.py
+python3 scripts/wine-tool.py --init
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/pragma.obj src/pragma.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/expressions.obj src/expressions.c
+src/expressions.c
+src/stubs.c
+src/pragma.c
+src/expressions.c(168) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(240) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(402) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(528) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(584) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(652) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(652) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(669) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(700) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(700) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(813) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(847) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(1166) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(1174) : warning C4761: integral size mismatch in argument; conversion supplied
+src/expressions.c(1414) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:build/c1.exe build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/option-state.obj build/packing.obj build/memory.obj build/hash-table.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/preprocessor-directives.obj build/pch.obj build/pch-auto.obj build/pch-files.obj build/pch-relocate.obj build/pch-reader.obj build/pp-expression.obj build/pragma.obj build/keywords.obj build/floating.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/parameters.obj build/builtins.obj build/builtin-data.obj build/macros.obj build/macro-expand.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/lexer.obj build/token-data.obj build/parser.obj build/asm.obj build/asm-lexer.obj build/asm-mnemonics.obj build/asm-instructions.obj build/asm-registers.obj build/asm-symbols.obj build/asm-validation.obj build/asm-output.obj build/asm-numbers.obj build/asm-expressions.obj build/asm-parser.obj build/asm-grammar.obj build/asm-stubs.obj build/seh.obj build/parser-grammar.obj build/declarations.obj build/declaration-text.obj build/control-ir.obj build/control-formats.obj build/expression-records.obj build/conversions.obj build/expressions.obj build/calls.obj build/literal-names.obj build/initializer-records.obj build/initializers.obj build/debug-info.obj build/debug-legacy.obj build/browser.obj build/browser-stubs.obj build/program-database.obj ../../../toolchains/1.0-nt/lib/BINMODE.OBJ
+LIBC.lib(UNLINK.OBJ) : warning LNK4006: __unlink already defined in build/runtime.obj; second definition ignored
+LIBC.lib(OPEN.OBJ) : warning LNK4006: __sopen already defined in build/runtime.obj; second definition ignored
+python3 scripts/identify-runtime.py build/c1.exe build/runtime.json
+242 runtime functions identified, 37141 bytes
+"/root/msvc2/tooling/graph-audit/target/release/graph-audit" --profile c1 --project . --repo ../../.. --discovery cfg --check-ret --check-references --check-ownership --check-extents
+graph-audit: _recover_undeclared_identifier@4 call graph differs: original {"_browser_symbol_definition@4", "_make_implicit_declaration@8", "_report_syntax_error"}; reconstruction {"_browser_symbol_reference@4", "_make_implicit_declaration@8", "_report_syntax_error"}
+make: *** [Makefile:22: audit-win32] Error 1

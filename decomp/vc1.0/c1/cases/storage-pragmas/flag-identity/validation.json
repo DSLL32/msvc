@@ -1,0 +1,225 @@
+{
+  "status": "pass",
+  "baseline_commit": "91c249f3202a0008ae82cc02b04f11eb44d085ef",
+  "correction": "Original scanner_flags0x6bb44 and parser_flags0x6bb48 are distinct DWORDs. Fixed four storage-word selections and six pre-existing0x08000000 masks to0x00080000. No function credit for these repairs.",
+  "prior_receipts": "Existing storage matching-output receipts are retained as historical output evidence only; a shared caller/callee error made them insufficient to establish internal flag identity.",
+  "raw_identity": "All-access audit derives original word addresses and widths from raw instruction operands, including+2 WORD accesses; canonical variable names are separately resolved from the compiler map.",
+  "comparisons": [
+    {
+      "function": "_assign_allocated_text@4",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/assign/original-receipt.json",
+        "sha256": "4badf98c6b26acada35b15973e99d6b16ff90d3e62432c31811bd714c4917fe9"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/assign/original.events",
+        "sha256": "1460bbfe86bdbacb9e2c95b77358476dacb79d4346f4deb5d4b1a7d4fc2527d3"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/assign/native-receipt.json",
+        "sha256": "19c03bdd1eb515d48ad3fc9d29942a247f22342bac9cbfdad70e35be7e112e73"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/assign/native.jsonl",
+        "sha256": "c1c1493888509eb086d20d5190826454a07057db5327053f3484f85bdf841a4b"
+      },
+      "boundaries": 2
+    },
+    {
+      "function": "_declare_named_entity@16",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/declare/original-receipt.json",
+        "sha256": "8972843f863dc8d5d6ab7b0b167d2b825c7f9cd83c37b9f617395572a5ae1ce0"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/declare/original.events",
+        "sha256": "912c1869f04e3971bc6bd88f230d02ebbc033b267ea5bbfc0b894979026d0369"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/declare/native-receipt.json",
+        "sha256": "2378704a530694beaea0ed2aa9ac062e30a5c6ba0ad154974dd580d703c49ff1"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/declare/native.jsonl",
+        "sha256": "9da4919263bd04d6e88c4175e8611ac29f53616a372c54a1c4edb3457808f7b7"
+      },
+      "boundaries": 2
+    },
+    {
+      "function": "_emit_runtime_initializer@4",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/initializer/original-receipt.json",
+        "sha256": "bfdba627ad4f4b10af58cfcdd6352ed7864eda80d0c16cd5a0074f9525ac568a"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/initializer/original.events",
+        "sha256": "0a855a3cf8025137b1fb4d1686536b61c3374e4fe53c38bf305edcb254b618a5"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/initializer/native-receipt.json",
+        "sha256": "6740900d5fa991a489ab98347088da5df9aa1d0c7b823063aa9da075660fb739"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/initializer/native.jsonl",
+        "sha256": "7fa18d3f5bef2bd977e0093abdb56a6af7fe0ff21c77c52f0474b78a0e8b5691"
+      },
+      "boundaries": 4
+    },
+    {
+      "function": "_begin_tag_definition@12",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/begin_tag_definition/original-receipt.json",
+        "sha256": "4b4021a8a451ebdc6ebb467506a318385d98a74ec617b8af2256f6c6b10c8ca9"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/begin_tag_definition/original.events",
+        "sha256": "89d6ce2cf6c31d89ef65db4b63dfb4f3b89a41d09f9a74dcfa332c9d5f5afb19"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/begin_tag_definition/native-receipt.json",
+        "sha256": "d137550001c688fba22e0d11700c525d6f073a48baa09058962456d75c2f8aef"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/begin_tag_definition/native.jsonl",
+        "sha256": "56d5a65cd0b50bec45a5c2cb98bccbd90299dd264ba3cf21eb736e3ba1d38985"
+      },
+      "boundaries": 6
+    },
+    {
+      "function": "_create_tag@16",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/create_tag/original-receipt.json",
+        "sha256": "aceb57a909f9d6cc92b6c22ce12cd8398dab62cb2e39d5e628a58dfc5e6d7b38"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/create_tag/original.events",
+        "sha256": "89d6ce2cf6c31d89ef65db4b63dfb4f3b89a41d09f9a74dcfa332c9d5f5afb19"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/create_tag/native-receipt.json",
+        "sha256": "565cbe1760b3b58171b47c1592aaba1613ed59595847fa4b8c92c7bc43d00be6"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/create_tag/native.jsonl",
+        "sha256": "56d5a65cd0b50bec45a5c2cb98bccbd90299dd264ba3cf21eb736e3ba1d38985"
+      },
+      "boundaries": 6
+    },
+    {
+      "function": "_allocate_frontend_symbol@4",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/allocate_frontend_symbol/original-receipt.json",
+        "sha256": "ad0a87123f957c90e02bfc0d3722bc4337d57a3bced2e4dd09831a8a4b612953"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/allocate_frontend_symbol/original.events",
+        "sha256": "89d6ce2cf6c31d89ef65db4b63dfb4f3b89a41d09f9a74dcfa332c9d5f5afb19"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/allocate_frontend_symbol/native-receipt.json",
+        "sha256": "76e3aa8e476d2cf7526752e6afc11c706a855180b11a7314c8bb30a95a61ffb6"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/allocate_frontend_symbol/native.jsonl",
+        "sha256": "56d5a65cd0b50bec45a5c2cb98bccbd90299dd264ba3cf21eb736e3ba1d38985"
+      },
+      "boundaries": 6
+    },
+    {
+      "function": "_apply_declarator_type@8",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/apply_declarator_type/original-receipt.json",
+        "sha256": "fb362117791aa96d005f353e61d444a9f5636ddde5ba96db968e61699addcc86"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/apply_declarator_type/original.events",
+        "sha256": "ff88abf5464e9e45d4b44877c16e728fd3a582bde6cf6ebf495891c048ecbb4f"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/apply_declarator_type/native-receipt.json",
+        "sha256": "fcd686aa7c45c55f0d2d040b9d60b6bc754a05c1de4a3cdb49d38a6c258a8fd5"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/apply_declarator_type/native.jsonl",
+        "sha256": "0806a5067b2209a0fd0e46428fffc7265a59bc24e677db652dc290061ff80e8b"
+      },
+      "boundaries": 22
+    },
+    {
+      "function": "_process_pragma",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/process_pragma/original-receipt.json",
+        "sha256": "05a3efbd1fbb46e783b53de61de14bd3f39dddea889e733f86fb16cd7f0a0bb6"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/process_pragma/original.events",
+        "sha256": "c6c853d590092a9ac968d42a74751a3ba4cea785c4214d3c571a53f7c7194c47"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/process_pragma/native-receipt.json",
+        "sha256": "59e2e6de976c21c7751c01201d2ecef31b41e58ab98964188b7c6f6318c44258"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/process_pragma/native.jsonl",
+        "sha256": "00c04d8a35f7bd3f3a8ba4886935e551a37d1c0264b5820631e43c2f797d702b"
+      },
+      "boundaries": 14
+    },
+    {
+      "function": "_add_enumerator@12",
+      "original": {
+        "path": "cases/storage-pragmas/flag-identity/add-enumerator/original-receipt.json",
+        "sha256": "7512f3abd0982f237431627a22464d03f185421489751abd6ac2946079d251a7"
+      },
+      "events": {
+        "path": "cases/storage-pragmas/flag-identity/add-enumerator/original.events",
+        "sha256": "ba3f93228727842c205eb2d8fb7e658de0c8116cde8036aa4e3be9fa6450d748"
+      },
+      "native": {
+        "path": "cases/storage-pragmas/flag-identity/add-enumerator/native-receipt.json",
+        "sha256": "c1eae786966dba1aaa6fc69d70e635d6a21f1b4e852dade01e6a9fd28f8a121b"
+      },
+      "trace": {
+        "path": "cases/storage-pragmas/flag-identity/add-enumerator/native.jsonl",
+        "sha256": "173a135066b80bcbaa67b66880d94579cd21165f31a72f0457677632368e98e3"
+      },
+      "boundaries": 10
+    }
+  ],
+  "checks": {
+    "all-access-audit": {
+      "path": "cases/storage-pragmas/flag-identity/all-access-audit.json",
+      "sha256": "98dfde07e7c2f0f7b78a8e27c60ac696ab4e99da14f24d7b86769be471069773"
+    },
+    "native-suite": {
+      "path": "cases/storage-pragmas/flag-identity/native-suite.json",
+      "sha256": "1c3c6572b62836e58a4b2ca9ba4941cf94f7d17842ba163f1d890a03f425eb6b"
+    },
+    "negative-masks": {
+      "path": "cases/storage-pragmas/flag-identity/negative-masks.json",
+      "sha256": "01cb09fdeb46c464f5a534bcc531f1b49b73ce248aea7b72b6b05c649f97b75c"
+    },
+    "native-negatives": {
+      "path": "cases/storage-pragmas/flag-identity/native-negatives.json",
+      "sha256": "3ee759f9f22d99a0347b6f91a499488fe45aa1fc6f8e7f3786de777ea1b24424"
+    },
+    "canonical-build": {
+      "path": "cases/storage-pragmas/flag-identity/canonical-build.log",
+      "sha256": "6d192c6541a9e538bcfec476c4d4999742ea816166790ff9164922cc6dfab84e"
+    }
+  },
+  "accepted_count": 909,
+  "timing_scope": "Per-capture setup/run and per-native-debug setup/run are recorded in the individual receipts. Fullsuite includes its own measured breakdown. Analysis/manual investigation and earlier builds were not completely wall-clock measured.",
+  "failed_probe": {
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/flags-add_enumerator",
+    "reason": "Storage source has no enum; original debugger correctly rejected zero observed calls. Used existing combined-types-literals for the enum proof instead."
+  },
+  "metadata_sources": {
+    "scripts/audit-flag-words.py": "af1df7d4bd8eb6224c3ec3f08b79d806be6bd848a490a553c0028b9019ee3a30",
+    "scripts/check-flag-words.py": "ca90ebe62db00b5bb4b380cb8b2c30d1a57e38a3aa1b0c211b0f71240995470a",
+    "scripts/capture-frontier.py": "df3af552d43dcd1a7b79d94287f4f1ce40a26a3a79f3bcf1ddd505771c52c6fb",
+    "scripts/debug-frontier.py": "6b3be6da7f8fe25e62ac3fe5d0b370452db7ca3eea588a213b45e6a5a53e4b94",
+    "src/capture-original.c": "f1d42d807a9995156d3e8378a6cb526b575f434bf42c8e13f3bafd61e062dec0",
+    "src/pch-format.h": "18e00f17c7686d507f25239921f6d056d1106ab3bc2fe31f297c62d1a80bfc5b"
+  }
+}

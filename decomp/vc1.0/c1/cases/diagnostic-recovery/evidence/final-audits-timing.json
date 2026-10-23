@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "audit-win32"
+  ],
+  "seconds": 5.506234054453671,
+  "exit": 0,
+  "notes": "Final up-to-date canonical compile/link check plus all static audits; earlier actual compilation costs recorded where separately measured."
+}

@@ -21,8 +21,13 @@ def main():
     parser.add_argument('--phase', default='c1')
     parser.add_argument('--directory', required=True, type=Path)
     parser.add_argument('--reference', type=Path)
+    parser.add_argument('--trace-flags',help='Logical function to observe at entry/return')
+    parser.add_argument('--trace-function-finishes',action='store_true')
     parser.add_argument('--trace-enum-callbacks', action='store_true')
     options = parser.parse_args()
+    if options.trace_function_finishes:
+        assert options.trace_flags is None
+        options.trace_flags = '_finish_function_definition'
     start = time.perf_counter()
     case = options.case.resolve()
     directory = options.directory.resolve()
@@ -92,13 +97,55 @@ end
 continue
 end
 ''' % str(directory/'enum-callbacks.jsonl')
+    flag_commands = ''
+    if options.trace_flags:
+        probe_name = re.sub(r'@\d+$','',options.trace_flags[1:])
+        assert options.trace_flags in config['accepted']
+        flag_commands = """python
+import gdb,json
+flag_count = 0
+def record_flag_words(count,boundary):
+    row=[count,boundary,int(gdb.parse_and_eval('scanner_flags')),int(gdb.parse_and_eval('parser_flags'))]
+    with open(%r,'a') as log:log.write(json.dumps(row)+'\\n')
+    if %r:
+        symbol=gdb.parse_and_eval('function_symbol')
+        if not int(symbol):row=[count,boundary,None]
+        else:
+            value=symbol.dereference()
+            row=[count,boundary,int(value['kind']),int(value['flags']),int(value['index']),int(value['attributes']),value['name'].string()]
+        with open(%r,'a') as log:log.write(json.dumps(row)+'\\n')
+class FlagFinish(gdb.FinishBreakpoint):
+    def __init__(self,count):
+        super().__init__(gdb.newest_frame(),internal=True)
+        self.count=count
+    def stop(self):
+        record_flag_words(self.count,'finish')
+        return False
+class FlagEntry(gdb.Breakpoint):
+    def stop(self):
+        global flag_count
+        record_flag_words(flag_count,'entry')
+        FlagFinish(flag_count)
+        flag_count+=1
+        return False
+FlagEntry(%r,internal=True)
+end
+""" % (str(directory/'flag-words.jsonl'),options.trace_function_finishes,str(directory/'function-symbols.jsonl'),probe_name)
     script = '''set pagination off
 set confirm off
 set disable-randomization off
-%srun %s
+%spython
+import gdb
+native_exit = None
+def record_native_exit(event):
+    global native_exit
+    native_exit = getattr(event,'exit_code',None)
+gdb.events.exited.connect(record_native_exit)
+end
+run %s
 python
 import gdb,json,struct
-state={'buffers':{},'frames':[]}
+state={'buffers':{},'frames':[],'exit':native_exit}
 if gdb.selected_inferior().pid:
     frame=gdb.selected_frame()
     state['frontier']=frame.name()
@@ -128,7 +175,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break+callback_commands,redirection,names,str(directory/'state.json'))
+''' % (runtime_break+callback_commands+flag_commands,redirection,names,str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -158,13 +205,32 @@ end
                 expected = None if tail[2]=='unopened' else tail[3]
                 assert state['buffers'][name] == expected, ('pending buffer differs',name)
         else:
-            terminal_lines = [line for line in events.splitlines() if not (options.trace_enum_callbacks and line.startswith('enum-callback '))]
-            assert terminal_lines == ['exit 0'] and state['frontier'] is None,(events,state)
+            terminal_lines = [line for line in events.splitlines() if not ((options.trace_enum_callbacks and line.startswith('enum-callback ')) or (options.trace_flags and line.startswith('flag-words ')) or (options.trace_function_finishes and line.startswith('function-symbol ')))]
+            assert terminal_lines == ['exit '+str(phase['expected_exit'])] and state['frontier'] is None,(events,state)
+            assert state['exit'] == phase['expected_exit'], ('native terminal status differs',state['exit'],phase['expected_exit'])
         if options.trace_enum_callbacks:
             actual = [json.loads(line) for line in (directory/'enum-callbacks.jsonl').read_text().splitlines()]
             observed = [[int(value,16) for value in row[1:]] for row in re.findall(r'^enum-callback (\d+) ([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+)$',events,re.M)]
             assert actual == observed and actual, ('enum callback operand order differs',observed,actual)
             state['enum_callback_operands'] = actual
+        if options.trace_flags:
+            actual = [json.loads(line) for line in (directory/'flag-words.jsonl').read_text().splitlines()]
+            observed = [[int(n),boundary,int(scanner,16),int(parser,16)] for n,boundary,scanner,parser in re.findall(r'^flag-words (\d+) (entry|finish) ([0-9a-f]+) ([0-9a-f]+)$',events,re.M)]
+            assert actual == observed and actual, ('complete flag words differ at boundary',observed,actual)
+            assert [r[1] for r in actual] == ['entry','finish']*(len(actual)//2)
+            state['flag_word_boundaries'] = dict(function=options.trace_flags,observed=actual)
+        if options.trace_function_finishes:
+            actual = [json.loads(line) for line in (directory/'function-symbols.jsonl').read_text().splitlines()]
+            observed=[]
+            for line in events.splitlines():
+                if not line.startswith('function-symbol '):continue
+                fields=line.split()
+                if fields[3]=='absent':observed.append([int(fields[1]),fields[2],None])
+                else:observed.append([int(fields[1]),fields[2],*[int(v,16) for v in fields[3:7]],fields[7]])
+            assert actual == observed and actual, ('function finish symbol differs',observed,actual)
+            assert [r[-1] for r in actual if r[1]=='entry']==['broken_initializer','implicit_call','recovered_tail']
+            assert all(r[2] is None for r in actual if r[1]=='finish')
+            state['function_finish_symbols']=actual
         original_receipt = json.loads((reference/'receipt.json').read_text())
         reference_work = reference/original_receipt.get('working_directory_snapshot','work')
         originals = {p.name:p.read_bytes() for p in reference_work.iterdir()}

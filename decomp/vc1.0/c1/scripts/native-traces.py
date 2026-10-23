@@ -53,6 +53,8 @@ def original_entry_references(config, cases):
         prefix = config['accepted'][:case['first']]
         assert hashlib.sha256(json.dumps(prefix).encode()).hexdigest() == proof['seeded_prefix_sha256']
         assert receipt['original_sha256'] == config['target']['sha256']
+        if case['terminal']['code'] or 'terminal_exit' in receipt:
+            assert receipt.get('terminal_exit') == case['terminal']['code'], 'original terminal status differs: '+name
     return dict(path='cases/original-entry-references.json',sha256=sha(path))
 
 
@@ -117,7 +119,7 @@ def project(directory):
         cases[name] = dict(first=first, last=last,
                            seen_count=len(projected(accepted[:first])),
                            expected=projected(accepted[first:last]),
-                           terminal=dict(kind='exit', code=0))
+                           terminal=dict(kind='exit', code=case.get('expected_exit',0)))
     return dict(schema=1, description='Original-backed first-entry projection; no execution or recapture',
                 metadata_sha256={'functions.json':sha(config_path), 'runtime.json':sha(runtime_path)},
                 source_map_provenance=dict(path='build/c1.map', sha256=sha(map_path)),

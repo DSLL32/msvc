@@ -20,6 +20,7 @@ build/runtime.json: build/c1.exe scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/c1.exe $@
 audit-win32: win32 $(GRAPH_AUDIT_BIN)
 	"$(GRAPH_AUDIT_BIN)" --profile c1 --project . --repo ../../.. --discovery cfg --check-ret --check-references --check-ownership --check-extents
+	$(PYTHON) scripts/audit-flag-words.py
 	$(PYTHON) scripts/audit-text-masks.py
 	$(PYTHON) scripts/audit-state.py
 	$(PYTHON) scripts/audit-grammar.py

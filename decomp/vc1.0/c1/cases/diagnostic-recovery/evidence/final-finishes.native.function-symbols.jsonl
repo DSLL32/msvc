@@ -1,0 +1,6 @@
+[0, "entry", 7, 1, 112, 128, "broken_initializer"]
+[0, "finish", null]
+[1, "entry", 7, 1, 117, 128, "implicit_call"]
+[1, "finish", null]
+[2, "entry", 7, 1, 121, 128, "recovered_tail"]
+[2, "finish", null]

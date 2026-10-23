@@ -449,3 +449,10 @@ char *read_browser_string(void)
         while (getc(browser_output) != 0) ;
     return browser_read_name;
 }
+
+/* Original0x27570..0x27585. Even non-browser builds retain this error
+   boundary; active browser output receives its generic error marker. */
+void note_browser_error(void)
+{
+    if (browser_filename) write_browser_record(255,0);
+}

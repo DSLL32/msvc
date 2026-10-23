@@ -1,0 +1,78 @@
+{
+  "case": "diagnostic-recovery",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f recovery.c -Ze -Zp8 -Gs -Forecovery.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/recovery.c",
+          "bytes": 596,
+          "sha256": "e01eb538acaeb187d64657302c5e4abc14484d175dc0b25be4795c8bb4aeac54"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 968,
+          "sha256": "db2dfc31dbb20ababaefa302787957d41f962bf97fbe809366bc58d338bce024",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 26,
+          "sha256": "d1b65a256c801e2a2cbd75e901f182f7926cdb65414674e93b46ea47b1ac0680",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 9,
+          "sha256": "464c4342514f3580d796fd19a74f18cc7b6fdab93da758d959154ea79182b73a",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 3,
+          "sha256": "56a42ea06e5f6c892189b3cb763c725f7265743ec82b994e6cefddb930710aea",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 6,
+      "expected_stdout": "recovery.c(3) : error C2020: 'member' : 'struct' member redefinition\r\nrecovery.c(6) : error C2118: negative subscript or subscript is too large\r\nrecovery.c(8) : error C2371: 'conflicting_declaration' : redefinition; different basic types\r\nrecovery.c(13) : error C2059: syntax error : ';'\r\nrecovery.c(14) : error C2065: 'missing_object' : undeclared identifier\r\nrecovery.c(15) : error C2198: 'declared_call' : too few actual parameters\r\nrecovery.c(20) : warning C4013: 'missing_function' undefined; assuming extern returning int\r\nRECOVERY_TAIL_REACHED\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "recovery.obj",
+        "recovery.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 recovery.c",
+      "transport_reference": "evidence/recovery.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn return captures stdout offsets12..564 and child exit6. The12-byte CL source banner is outside C1 invocation."
+      }
+    }
+  },
+  "execution": "Native-only fixture; original capture explicit and separate.",
+  "normalization": "None.",
+  "capture_policy": "Actual original CL child transport, complete before/after inventories and stdout/err handle offsets. Relative temporary prefix alone replaced with ir; strict complete raw partial files/nonzero C1 exit/diagnostic order required.",
+  "recovery_proof": "Post-tail pragma marker proves processing continues; separate original/native function-finish observations will verify semantic completion of the valid recovered_tail body."
+}

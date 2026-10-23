@@ -1286,5 +1286,9 @@
     "Initial source draft had a checksum assertion119; corrected to121 before freezing the registered input. Original syntax had passed both drafts; no failed runtime probe is claimed.",
     "The final manifest drops an unrelated quick_compiler explanation copied from an older case; phase inputs/options/oracles are unchanged. Native cache/full26-phase suite were refreshed afterward and bind the final manifest hash; earlier run timing remains recorded."
   ],
-  "timing_limits": "Build/capture/debug/setup/execution/oracle operations and failed attempts are measured separately. Interactive/Ghidra analysis and evidence assembly were not independently timed; no complete session wall-clock claim."
+  "timing_limits": "Build/capture/debug/setup/execution/oracle operations and failed attempts are measured separately. Interactive/Ghidra analysis and evidence assembly were not independently timed; no complete session wall-clock claim.",
+  "later_internal_identity_correction": {
+    "receipt": "cases/storage-pragmas/flag-identity/validation.json",
+    "note": "This receipt remains historical matching-output evidence. Its alloc_text parser_flags statement is wrong: raw operands prove scanner_flags. Caller and callee shared the same incorrect word, so output matching alone did not establish internal identity. The later proof repairs four storage selections and six older masks, compares both full words at entry/return, checks all accepted accesses and reruns all native phases. No new function credit."
+  }
 }

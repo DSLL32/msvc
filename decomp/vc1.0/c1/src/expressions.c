@@ -528,6 +528,21 @@ IrToken *__stdcall fold_binary_constants(IrToken *expression, IrToken *left, IrT
                                         (is_unsigned ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT), &constant_one);
 }
 
+/* Original 0x2d0e0..0x2d145. Recover a missing object using the
+   language mode's implicit declaration lifetime and preserve browser lookup. */
+FrontendSymbol *__stdcall recover_undeclared_identifier(char *name)
+{
+    FrontendSymbol *symbol;
+    unsigned char nesting;
+    if (scanner_flags & 0x80) return 0;
+    report_syntax_error(65, name);
+    nesting = options.extensions_enabled ? 0 : parameter_nesting;
+    symbol = make_implicit_declaration(name, nesting);
+    if (browser_filename && (!found_scope_depth || options.option_FR))
+        browser_symbol_definition(symbol);
+    return symbol;
+}
+
 /* Original 0x2d150..0x2d17b. Missing names take the diagnostic/implicit
    declaration route before the common identifier-reference wrapper. */
 IrToken *__stdcall make_identifier_expression(char *name)
@@ -645,6 +660,19 @@ unsigned __stdcall convert_integer_constant(unsigned char operation, IrToken *no
     }
 }
 #undef INTEGER_CONVERSION_WARNING
+
+/* Original 0x2b5d0..0x2b60b. An implicit call declares an int-returning
+   function, retaining the extension mode's global or function-local lifetime. */
+FrontendSymbol *__stdcall declare_implicit_function(char *name)
+{
+    FrontendSymbol *symbol;
+    symbol = make_implicit_declaration(name, options.extensions_enabled ? 0 : 2);
+    symbol->kind = 7;
+    symbol->type = type_implicit_int_function;
+    symbol->attributes |= 0x80;
+    symbol->storage[0] = (symbol->storage[0] & 0xf9) | 1;
+    return symbol;
+}
 
 /* Original 0x2b7c0..0x2b8ea. Resolve a named call before argument
    parsing, supplying an implicit int-returning declaration if necessary. */

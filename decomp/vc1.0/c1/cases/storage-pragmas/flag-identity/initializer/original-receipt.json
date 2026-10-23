@@ -1,0 +1,65 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/storage-pragmas",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "flag_word_probe": "_emit_runtime_initializer@4",
+  "accepted_count": 909,
+  "accepted_sha256": "6779eb29d29d070fc209110d3e22ec6e9b85c178890ecaf013628470c0f59a6f",
+  "executable_sha256": "9b2e37593c3ccebdfcf55136ef63ccf7a1c415cd08edbbe8cb62a5296250b9d3",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "58c5d771574c2531953210cf3ba3878cf7b7ffbe698107e026d0849e5a27dc88",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f storage.c -Ze -Zp8 -Fostorage.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\flags-initializer\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/flags-initializer/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.06145943980664015,
+  "execution_seconds": 1.496850241906941,
+  "total_seconds": 1.5583126991987228,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 311,
+      "sha256": "232351e77ecea570b6a3284f2c3e8a85b57860dd120085ffe0334405fa001d02"
+    },
+    {
+      "name": "irex",
+      "bytes": 1625,
+      "sha256": "44c91452fc70250ec9823daefad2c6a361c8e5eef02b9d46d83b1ab40fe65e25"
+    },
+    {
+      "name": "irgl",
+      "bytes": 312,
+      "sha256": "a6a1f561762a8af90302abcfbfd3862fd51da6fd1d2a1c2fa9cdc9a5fd8bd3b1"
+    },
+    {
+      "name": "irin",
+      "bytes": 50,
+      "sha256": "d9450359d82d0ea9b49dd46086085fa9ab83e6aec12687d056e315bba9082587"
+    },
+    {
+      "name": "irsy",
+      "bytes": 220,
+      "sha256": "605095aadcec5095baa7aa23db43854b4841baf2535470fb18b1f1c71b90c654"
+    },
+    {
+      "name": "storage.c",
+      "bytes": 1456,
+      "sha256": "cbd63175bc71b4431b7c5fe5bcf9950ccfe8f36d392e6d0988b38df14e8f934d"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+flag-words 0 entry 00280000 00008000
+function-symbol 0 entry 07 01 00000070 00000080 broken_initializer
+flag-words 0 finish 00200000 00008000
+function-symbol 0 finish absent
+flag-words 1 entry 00280000 00008000
+function-symbol 1 entry 07 01 00000075 00000080 implicit_call
+flag-words 1 finish 00200000 00008000
+function-symbol 1 finish absent
+flag-words 2 entry 00280000 00008000
+function-symbol 2 entry 07 01 00000079 00000080 recovered_tail
+flag-words 2 finish 00200000 00008000
+function-symbol 2 finish absent
+exit 6

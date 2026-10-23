@@ -1,0 +1,107 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 6,
+  "frontier": null,
+  "flag_word_boundaries": {
+    "function": "_finish_function_definition",
+    "observed": [
+      [
+        0,
+        "entry",
+        2621440,
+        32768
+      ],
+      [
+        0,
+        "finish",
+        2097152,
+        32768
+      ],
+      [
+        1,
+        "entry",
+        2621440,
+        32768
+      ],
+      [
+        1,
+        "finish",
+        2097152,
+        32768
+      ],
+      [
+        2,
+        "entry",
+        2621440,
+        32768
+      ],
+      [
+        2,
+        "finish",
+        2097152,
+        32768
+      ]
+    ]
+  },
+  "function_finish_symbols": [
+    [
+      0,
+      "entry",
+      7,
+      1,
+      112,
+      128,
+      "broken_initializer"
+    ],
+    [
+      0,
+      "finish",
+      null
+    ],
+    [
+      1,
+      "entry",
+      7,
+      1,
+      117,
+      128,
+      "implicit_call"
+    ],
+    [
+      1,
+      "finish",
+      null
+    ],
+    [
+      2,
+      "entry",
+      7,
+      1,
+      121,
+      128,
+      "recovered_tail"
+    ],
+    [
+      2,
+      "finish",
+      null
+    ]
+  ],
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003746745176613331,
+  "execution_seconds": 0.15402875654399395,
+  "total_seconds": 0.1606584908440709,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f recovery.c -Ze -Zp8 -Gs -Forecovery.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual spawn return captures stdout offsets12..564 and child exit6. The12-byte CL source banner is outside C1 invocation."
+  },
+  "executable_sha256": "de1cdccb9ec4e6fe7c6a471d5130f0792bb0c5b35146f85195c0081324f35929"
+}

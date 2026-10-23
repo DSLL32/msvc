@@ -5,6 +5,7 @@
 #include "source-input.h"
 #include "global-ir.h"
 #include "expressions.h"
+#include "declaration-text.h"
 #include <recon.h>
 
 ParserValue parser_value; /* original 0x5b1f0 */
@@ -1767,4 +1768,35 @@ IrToken *__stdcall make_ir_leaf(unsigned char kind, void *value, CType *type)
     node->value.pointer = value;
     node->type = type;
     return node;
+}
+
+/* Original0x22d42..0x22e8c. Syntax diagnostics describe the current raw
+   token, resolving identifier/type spellings before ordinary recovery. */
+void __stdcall report_parser_error(char *text)
+{
+    unsigned char category;
+    short handle;
+    char *description;
+    if (parser_flags & 0x2000) return;
+    if (*text == 'y') fatal_error(26);
+    category = token_categories[current_token_code];
+    switch (category) {
+    case 0: report_syntax_error(60); break;
+    case TOK_IDENTIFIER:
+        if (current_token_value.identifier) report_syntax_error(61,current_token_value.identifier);
+        else report_syntax_error(132);
+        break;
+    case 138:
+        if (last_lookup_symbol) report_syntax_error(226,last_lookup_symbol->name);
+        else {
+            begin_declaration_text();
+            handle = new_declaration_text();
+            append_type_text(handle,(CType *)current_token_value.words.high);
+            description = declaration_text_value(handle);
+            report_syntax_error(62,description);
+            end_declaration_text();
+        }
+        break;
+    default: report_syntax_error(59,token_names[current_token_code]); break;
+    }
 }

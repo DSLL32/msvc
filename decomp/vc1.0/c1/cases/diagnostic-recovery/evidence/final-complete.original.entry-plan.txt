@@ -1,0 +1,8 @@
+3a9d0 8d _report_syntax_error
+3a9f0 56 _report_syntax_error_arguments
+17570 83 _note_browser_error
+12d42 55 _report_parser_error@4
+1d0e0 56 _recover_undeclared_identifier@4
+1b5d0 83 _declare_implicit_function@4
+e5b0 e8 _read_parenthesized_pragma_argument@4
+e650 83 _read_pragma_argument@4

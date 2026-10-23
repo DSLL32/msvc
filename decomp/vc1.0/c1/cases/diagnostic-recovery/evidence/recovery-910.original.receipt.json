@@ -1,0 +1,65 @@
+{
+  "terminal_exit": 99,
+  "expected_exit": 6,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/diagnostic-recovery",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "flag_word_probe": null,
+  "accepted_count": 910,
+  "accepted_sha256": "1862db079c831970cf374618eaf3b44bcf3b31d7e970f30aed263d578f2b7827",
+  "executable_sha256": "0c0816cf6f43a980655d47b8d84b740c0100f7f1ca48d2501c59e251e574990f",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "58c5d771574c2531953210cf3ba3878cf7b7ffbe698107e026d0849e5a27dc88",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f recovery.c -Ze -Zp8 -Gs -Forecovery.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\recovery-910\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual spawn return captures stdout offsets12..564 and child exit6. The12-byte CL source banner is outside C1 invocation."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/recovery-910/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.04991143476217985,
+  "execution_seconds": 1.673915158957243,
+  "total_seconds": 1.7238309141248465,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recovery.c",
+      "bytes": 596,
+      "sha256": "e01eb538acaeb187d64657302c5e4abc14484d175dc0b25be4795c8bb4aeac54"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f010c53534f11534f010d4f010e4f010f413a71004f011054024f01102971004f1247540154004f1f80000080244f020a004f011353534f11534f0114",
+    "symbol_file": "06",
+    "line_file": "097000",
+    "global_file": "1186032e1d30016900000000120a007265636f766572792e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "declare_implicit_function",
+    "prepare_named_function_call",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "declare_implicit_function",
+  "pc": 1449340584,
+  "label_stack_count": 0,
+  "scanner_flags": 2621440,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

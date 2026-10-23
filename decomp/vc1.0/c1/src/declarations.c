@@ -875,7 +875,7 @@ FrontendSymbol *__stdcall begin_tag_definition(char *name, unsigned short kind,
     description->field08 = (unsigned)tag;
     type = intern_type(description);
     --type_description_depth;
-    if (((scanner_flags & 0x08000000) && !(scanner_flags & 0x40)) || aggregate_depth >= 0)
+    if (((scanner_flags & 0x00080000) && !(scanner_flags & 0x40)) || aggregate_depth >= 0)
         tag->metadata.value |= 0x02000000;
     else tag->metadata.value &= ~0x02000000;
     if (kind == 0x200) {
@@ -921,7 +921,7 @@ FrontendSymbol *__stdcall create_tag(char *name, unsigned short kind,
     description->flags = kind;
     if (kind & 0x200) {
         description->flags |= 4;
-        tag->associated.enumerators = new_hash_table(4, (short)((scanner_flags & 0x08000000) != 0), 0, 0);
+        tag->associated.enumerators = new_hash_table(4, (short)((scanner_flags & 0x00080000) != 0), 0, 0);
     }
     description->field08 = (unsigned)tag;
     tag->type = intern_type(description);
@@ -960,7 +960,7 @@ FrontendSymbol *__stdcall allocate_frontend_symbol(int arena)
         pool->remaining -= sizeof(FrontendSymbol);
         pool->next += sizeof(FrontendSymbol);
     }
-    if (!(scanner_flags & 0x08000000) && !pch_separate_debug) symbol->flags |= 2;
+    if (!(scanner_flags & 0x00080000) && !pch_separate_debug) symbol->flags |= 2;
     else symbol->flags &= ~2;
     return symbol;
 }
@@ -1023,7 +1023,7 @@ void __stdcall add_enumerator(char *name, CType *context, unsigned value)
     ArenaPool *pool;
     HashTable *names;
     if (!context) return;
-    if ((declaration_depth > 0 && !(scanner_flags & 0x08000000)) || !parameter_nesting)
+    if ((declaration_depth > 0 && !(scanner_flags & 0x00080000)) || !parameter_nesting)
         enumerator = allocate_permanent(sizeof(EnumeratorSymbol));
     else {
         pool = &compiler_arena.pools[1];
@@ -1035,7 +1035,7 @@ void __stdcall add_enumerator(char *name, CType *context, unsigned value)
     enumerator->kind = 5;
     enumerator->name = name;
     enumerator->type = context;
-    if (!(scanner_flags & 0x08000000) && !pch_separate_debug && !(current_enum_tag->flags & 0x20))
+    if (!(scanner_flags & 0x00080000) && !pch_separate_debug && !(current_enum_tag->flags & 0x20))
         enumerator->flags |= 2;
     else enumerator->flags &= ~2;
     symbol = (FrontendSymbol *)enumerator;
@@ -1107,7 +1107,7 @@ FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, Fr
     if (!external && !((symbol->storage[2] & 4) && !(symbol->storage[2] & 8))) symbol->flags |= 1;
     if ((symbol->storage[2] & 4) && !(symbol->storage[2] & 8) &&
         ((symbol->flags & 1) || (symbol->attributes & 4))) {
-        if (!((scanner_flags & 0x08000000) && (function_symbol->storage[2] & 4) &&
+        if (!((scanner_flags & 0x00080000) && (function_symbol->storage[2] & 4) &&
               !(function_symbol->storage[2] & 8) && (function_symbol->storage[1] & 1)))
             report_syntax_error(491, symbol->name, "data");
     }
@@ -2244,7 +2244,7 @@ FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias,
         if (!entity->detail.text || entity->detail.text == name_unnamed) entity->detail.text = alias;
         if (entity->detail.text != alias) compiler_warning(1,613,entity->name);
     }
-    if (entity->index == 5 && (parser_flags & 0x80000) && (function_symbol->attributes & 2))
+    if (entity->index == 5 && (scanner_flags & 0x80000) && (function_symbol->attributes & 2))
         entity = (FrontendSymbol *)function_symbol->type->related->field08;
     if (default_code_segment && entity->index == 5) entity = default_code_segment;
     if (default_data_segment && entity->index == 2) entity = default_data_segment;

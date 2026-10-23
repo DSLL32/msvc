@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import time
 import shutil
+import re
 import fcntl
 from case_paths import SCRATCH, canonical_parts
 from binary import PE
@@ -30,9 +31,14 @@ def main():
                         help='Explicit original-only Win32 debugger executable')
     parser.add_argument('--unmasked', action='store_true')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
+    parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
+    parser.add_argument('--trace-function-finishes',action='store_true',help='Observe current function symbol at finish entry and caller return')
     parser.add_argument('--entry-from', type=int)
     parser.add_argument('--entry-to', type=int)
     options = parser.parse_args()
+    if options.trace_function_finishes:
+        assert options.trace_flags is None
+        options.trace_flags = '_finish_function_definition'
     start = time.perf_counter()
     spec = importlib.util.spec_from_file_location('c1_original_tool',Path(__file__).with_name('wine-tool.py'))
     wt = importlib.util.module_from_spec(spec)
@@ -118,6 +124,17 @@ def main():
         command.append(wt.windows(plan))
     host_environment = wt.environment()
     host_environment.pop('C1_ENUM_CALLBACK_RVA',None)
+    host_environment.pop('C1_FLAG_PROBE_RVAS',None)
+    host_environment.pop('C1_FUNCTION_SYMBOL_RVA',None)
+    if options.trace_function_finishes:
+        assert original.read(0x2b148,10)==bytes.fromhex('c70540b1050000000000')
+        host_environment['C1_FUNCTION_SYMBOL_RVA'] = '%x' % (0x5b140-original.base)
+    if options.trace_flags:
+        assert not entry_mode and not options.trace_enum_callbacks
+        probe = next(r for r in config['driver'] if r['name']==options.trace_flags)
+        assert probe['name'] in config['accepted']
+        # Identity derived and checked against raw operand bytes by audit-flags.py.
+        host_environment['C1_FLAG_PROBE_RVAS'] = '%x,%x,%x' % (probe['start']-original.base,0x6bb44-original.base,0x6bb48-original.base)
     if options.trace_enum_callbacks:
         assert not entry_mode
         callback = next(r for r in config['driver'] if r['name']=='_compare_legacy_enumerators')
@@ -133,6 +150,11 @@ def main():
         execution_seconds=time.perf_counter()-run_start,total_seconds=time.perf_counter()-start,
         wine_prefix=str(wt.PREFIX),target_sha256=sha(target)),indent=2)+'\n')
     assert result.returncode == 0, (directory/'host-stderr').read_text(encoding='latin1')
+    events = (directory/'events').read_text()
+    terminal = re.search(r'^exit ([0-9]+)$',events,re.M)
+    terminal_exit = int(terminal[1]) if terminal else None
+    if options.unmasked or entry_mode:
+        assert terminal_exit == phase['expected_exit'], ('original terminal status differs',terminal_exit,phase['expected_exit'])
     if entry_mode:
         events = (directory/'events').read_text()
         entries = [line.split()[1] for line in events.splitlines() if line.startswith('entry ')]
@@ -140,8 +162,8 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(case=str(case), phase=options.phase, unmasked=options.unmasked,
-                   enum_callback_trace=options.trace_enum_callbacks,
+    receipt = dict(terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+                   enum_callback_trace=options.trace_enum_callbacks,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
                    executable_sha256=sha(target), original_sha256=phase['sha256'],

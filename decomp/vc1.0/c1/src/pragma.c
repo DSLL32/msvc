@@ -115,7 +115,7 @@ void process_pragma(void)
         record_context_symbol = declare_named_entity(current_token_value.identifier, name_unnamed, 0, 2);
         read_pragma_token();
         if (current_token_code != TOK_COMMA) PRAGMA_BAD_TOKEN(81);
-        parser_flags |= 0x20000;
+        scanner_flags |= 0x20000;
         visit_pragma_names(assign_allocated_text);
         break;
     case 6: /* same_seg */
@@ -184,7 +184,7 @@ void process_pragma(void)
         break;
     case 18: /* message */
         if (read_parenthesized_pragma_argument(TOK_STRING)) pragma_message(pragma_argument.text);
-        pragma_message("\\n");
+        pragma_message("\n");
         break;
     case 19: /* comment */
         if (!pragma_open_parenthesis()) return;
@@ -611,7 +611,7 @@ void __stdcall assign_allocated_text(char *name)
         return;
     }
     kind = symbol->kind & 31;
-    if (parser_flags & 0x20000) {
+    if (scanner_flags & 0x20000) {
         if (kind != 7) report_syntax_error(63,name);
         else if (symbol->flags & 1) report_syntax_error(200,symbol->name);
     } else {
@@ -624,4 +624,77 @@ void __stdcall assign_allocated_text(char *name)
         if ((symbol->type->attributes & 7) == 1) { compiler_warning(1,104,name); return; }
     }
     assign_symbol_segment(symbol,record_context_symbol);
+}
+
+/* Original 0x1e5b0..0x1e5cd. Keep the shared opening-parenthesis check
+   separate from the directive argument conversion. */
+int __stdcall read_parenthesized_pragma_argument(unsigned char kind)
+{
+    if (!pragma_open_parenthesis()) return 0;
+    return read_pragma_argument(kind);
+}
+
+/* Original 0x1e650..0x1e810. Convert the shared scalar/string pragma
+   argument, then consume the closing delimiter or issue one trailing warning. */
+int __stdcall read_pragma_argument(unsigned char kind)
+{
+    int valid = 1;
+    char *name;
+    StringToken string;
+    read_pragma_token();
+    switch (current_token_code) {
+    case TOK_IDENTIFIER:
+        name = current_token_value.identifier;
+        if (kind == 200) {
+            if (name[0] == 'o' && name[1] == 'n' && !name[2])
+                pragma_argument.integer = 1;
+            else if (name[0] == 'o' && name[1] == 'f' && name[2] == 'f' && !name[3])
+                pragma_argument.integer = 0;
+            else {
+                compiler_warning(1, 85);
+                valid = 0;
+            }
+        } else if (kind == TOK_IDENTIFIER) pragma_argument.text = name;
+        else {
+            compiler_warning(1, 109, name);
+            valid = 0;
+        }
+        break;
+    case TOK_STRING:
+        if (kind == TOK_STRING) {
+            string = current_token_value.string;
+            while (read_pragma_token() == TOK_STRING)
+                concatenate_string_literals(&string, &current_token_value.string);
+            pragma_argument.text = (char *)string.text;
+            text_work_cursor = string.text;
+            if (current_token_code == TOK_RIGHT_PAREN) return 1;
+            goto trailing_token;
+        }
+        compiler_warning(1, 110, token_names[TOK_STRING]);
+        valid = 0;
+        break;
+    case TOK_INT_CONSTANT:
+        if (kind == TOK_INT_CONSTANT)
+            pragma_argument.integer = current_token_value.literal->value.integer;
+        else {
+            compiler_warning(1, 110, token_names[TOK_INT_CONSTANT]);
+            valid = 0;
+        }
+        break;
+    case TOK_RIGHT_PAREN:
+        return 0;
+    default:
+        warn_ignored_token();
+        valid = 0;
+        break;
+    }
+    do {
+        read_pragma_token();
+        if (current_token_code == TOK_RIGHT_PAREN) break;
+trailing_token:
+        /* The original writes the unused descriptor tail instead of its
+           warning-suppression cell, so each trailing token is diagnosed. */
+        compiler_warning(1, 95, token_names[current_token_code]);
+    } while (current_token_code != TOK_NEWLINE);
+    return valid;
 }

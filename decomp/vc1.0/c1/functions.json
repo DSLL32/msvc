@@ -909,7 +909,15 @@
     "_find_hash_value@8",
     "_hash_symbol_indices_equal",
     "_emit_runtime_initializer@4",
-    "_make_implicit_declaration@8"
+    "_make_implicit_declaration@8",
+    "_report_syntax_error",
+    "_report_syntax_error_arguments",
+    "_note_browser_error",
+    "_report_parser_error@4",
+    "_recover_undeclared_identifier@4",
+    "_declare_implicit_function@4",
+    "_read_parenthesized_pragma_argument@4",
+    "_read_pragma_argument@4"
   ],
   "driver": [
     {
@@ -1208,7 +1216,7 @@
     {
       "name": "_report_syntax_error",
       "start": 305616,
-      "end": 305617
+      "end": 305635
     },
     {
       "name": "_cleanup_precompiled_files",
@@ -1827,7 +1835,7 @@
     {
       "name": "_report_parser_error@4",
       "start": 142658,
-      "end": 142659
+      "end": 142989
     },
     {
       "name": "_skip_declaration_tokens",
@@ -3211,12 +3219,12 @@
     {
       "name": "_read_pragma_argument@4",
       "start": 124496,
-      "end": 124497
+      "end": 124944
     },
     {
       "name": "_read_parenthesized_pragma_argument@4",
       "start": 124336,
-      "end": 124337
+      "end": 124365
     },
     {
       "name": "_pragma_open_parenthesis",
@@ -3727,7 +3735,7 @@
     {
       "name": "_recover_undeclared_identifier@4",
       "start": 184544,
-      "end": 184545
+      "end": 184645
     },
     {
       "name": "_make_implicit_declaration@8",
@@ -3767,7 +3775,7 @@
     {
       "name": "_declare_implicit_function@4",
       "start": 177616,
-      "end": 177617
+      "end": 177675
     },
     {
       "name": "_function_designator_type@4",
@@ -5449,7 +5457,7 @@
     {
       "name": "_report_syntax_error_arguments",
       "start": 305648,
-      "end": 305649
+      "end": 305720
     },
     {
       "name": "_effective_warning_level",
@@ -5591,6 +5599,11 @@
       "name": "_find_hash_value@8",
       "start": 207376,
       "end": 207431
+    },
+    {
+      "name": "_note_browser_error",
+      "start": 161136,
+      "end": 161158
     }
   ],
   "cases": {
@@ -5711,6 +5724,11 @@
     "storage-pragmas": {
       "accepted_from": 887,
       "accepted_count": 905
+    },
+    "diagnostic-recovery": {
+      "accepted_from": 905,
+      "accepted_count": 913,
+      "expected_exit": 6
     }
   },
   "buffered_streams": [

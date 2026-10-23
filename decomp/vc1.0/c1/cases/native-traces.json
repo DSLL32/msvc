@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "37c1d772daab5af07ce6f7e9dbe7a673dd304eea6aad1554388b3a316816c584",
+    "functions.json": "f1326118dfa10363e004f159ebd99d93a7efcf8a2999f1c1c71bbf1d8f06e8a5",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "c46f672383491a4321fad33fe29cb44679f7a59f49dd3c6b72d75435ff182df2"
+    "sha256": "8fba749f32a66b99f7c6cf9856713be93caa4848f7bb8cbe2bf1d8fc07535ade"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "1705115d751bcb957132465780ae2d2c74d3db0216ebb055e66bbee8f6698fcb"
+    "sha256": "15601618c1e9db6b4389fc8282bf812979a113f92e5148e4623aea808e7a1a05"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -855,7 +855,7 @@
     },
     "declare_implicit_function": {
       "logical": "_declare_implicit_function@4",
-      "source": "src/stubs.c"
+      "source": "src/expressions.c"
     },
     "declare_initialized_symbol": {
       "logical": "_declare_initialized_symbol@4",
@@ -2277,6 +2277,10 @@
       "logical": "_normalize_type_attributes@8",
       "source": "src/types.c"
     },
+    "note_browser_error": {
+      "logical": "_note_browser_error",
+      "source": "src/browser.c"
+    },
     "open_expression_intermediate": {
       "logical": "_open_expression_intermediate",
       "source": "src/intermediate.c"
@@ -2819,7 +2823,7 @@
     },
     "read_parenthesized_pragma_argument": {
       "logical": "_read_parenthesized_pragma_argument@4",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "read_parser_token": {
       "logical": "_read_parser_token",
@@ -2835,7 +2839,7 @@
     },
     "read_pragma_argument": {
       "logical": "_read_pragma_argument@4",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "read_pragma_token": {
       "logical": "_read_pragma_token",
@@ -2891,7 +2895,7 @@
     },
     "recover_undeclared_identifier": {
       "logical": "_recover_undeclared_identifier@4",
-      "source": "src/stubs.c"
+      "source": "src/expressions.c"
     },
     "recovery_token_value": {
       "logical": "_recovery_token_value@4",
@@ -3031,7 +3035,7 @@
     },
     "report_parser_error": {
       "logical": "_report_parser_error@4",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "report_symbol_error": {
       "logical": "_report_symbol_error@8",
@@ -3039,11 +3043,11 @@
     },
     "report_syntax_error": {
       "logical": "_report_syntax_error",
-      "source": "src/stubs.c"
+      "source": "src/diagnostics.c"
     },
     "report_syntax_error_arguments": {
       "logical": "_report_syntax_error_arguments",
-      "source": "src/stubs.c"
+      "source": "src/diagnostics.c"
     },
     "report_type_conflict": {
       "logical": "_report_type_conflict@20",
@@ -4369,7 +4373,15 @@
     "find_hash_value",
     "hash_symbol_indices_equal",
     "emit_runtime_initializer",
-    "make_implicit_declaration"
+    "make_implicit_declaration",
+    "report_syntax_error",
+    "report_syntax_error_arguments",
+    "note_browser_error",
+    "report_parser_error",
+    "recover_undeclared_identifier",
+    "declare_implicit_function",
+    "read_parenthesized_pragma_argument",
+    "read_pragma_argument"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5563,6 +5575,25 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "diagnostic-recovery": {
+      "first": 905,
+      "last": 913,
+      "seen_count": 767,
+      "expected": [
+        "report_syntax_error",
+        "report_syntax_error_arguments",
+        "note_browser_error",
+        "report_parser_error",
+        "recover_undeclared_identifier",
+        "declare_implicit_function",
+        "read_parenthesized_pragma_argument",
+        "read_pragma_argument"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 6
       }
     }
   }

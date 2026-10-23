@@ -28,7 +28,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'debug-pch-create':('debug-pch','c1-create'),
          'debug-pch-use':('debug-pch','c1-use'),
          'inline-asm-rich':('inline-asm-rich','c1'),
-         'storage-pragmas':('storage-pragmas','c1')}
+         'storage-pragmas':('storage-pragmas','c1'),
+         'diagnostic-recovery':('diagnostic-recovery','c1')}
 
 
 CASE_DEPENDENCIES = {
@@ -93,6 +94,9 @@ def cross_outputs(work, phase):
 
 
 def validate_artifacts(work, fixture, phase):
+    for name in phase.get('expected_absent_outputs', []):
+        assert Path(name).name == name, 'invalid absent output name'
+        assert not (work/name).exists(), 'forbidden output exists: '+name
     expected_files = {Path(i['path']).name for i in phase['inputs']} | {i['output_name'] for i in phase['outputs']}
     assert {p.name for p in work.iterdir()} == expected_files, 'complete file set differs'
     cross_outputs(work, phase)  # Raw equality must precede timestamp normalization.
@@ -106,6 +110,12 @@ def validate_artifacts(work, fixture, phase):
         assert sha(expected) == item.get('normalized_sha256',item['sha256'])
         outputs.append(dict(name=item['output_name'],bytes=len(actual),sha256=sha(actual)))
     return outputs
+
+
+def validate_result(name, returncode, stdout, stderr, phase):
+    assert returncode == phase['expected_exit'], ('native status',name,returncode)
+    assert stdout == phase['expected_stdout'].encode('latin1'), 'stdout differs: '+name
+    assert stderr == phase['expected_stderr'].encode('latin1'), 'stderr differs: '+name
 
 
 def run_case(name, executable, directory, traces=None, dependency=None):
@@ -200,9 +210,7 @@ def run_case(name, executable, directory, traces=None, dependency=None):
             assert a == b, 'native trace %s index %d: expected %s, actual %s' % (name,index,a,b)
         state.update(application_entries=len(actual), accepted_prefix=len(seen),
                      trace_sha256=sha(raw), shared_state_bytes=32+len(cache['application_definitions']))
-    assert result.returncode == phase['expected_exit'], ('native status',name,result.returncode)
-    assert result.stdout == phase['expected_stdout'].encode('latin1'), 'stdout differs: '+name
-    assert result.stderr == phase['expected_stderr'].encode('latin1'), 'stderr differs: '+name
+    validate_result(name,result.returncode,result.stdout,result.stderr,phase)
     outputs = validate_artifacts(work, fixture, phase)
     state.update(status='pass', manifest=str(manifest.relative_to(ROOT)),
                  manifest_sha256=sha(manifest.read_bytes()), outputs=outputs,

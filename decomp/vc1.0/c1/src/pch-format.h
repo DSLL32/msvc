@@ -231,6 +231,8 @@ typedef struct PchCompilerImage {
     unsigned scanner_flags, parser_flags;
 } PchCompilerImage;
 typedef char PchCompilerImage_size[sizeof(PchCompilerImage) == 1308 ? 1 : -1];
+typedef char PchCompilerImage_scanner_offset[offsetof(PchCompilerImage, scanner_flags) == 1300 ? 1 : -1];
+typedef char PchCompilerImage_parser_offset[offsetof(PchCompilerImage, parser_flags) == 1304 ? 1 : -1];
 
 /* Signature and stream extents precede the settings image at offset zero. */
 typedef struct PchHeader {

@@ -1,20 +1,22 @@
 {
-  "authorization": "Root approved one coherent storage/pragma/runtime-initialization checksum case. Complete its reached frontend paths, then propose the next substantial case for review.",
-  "baseline_accepted_count": 887,
+  "authorization": "Root approved one substantial ordinary malformed-C diagnostic/recovery unit. Preserve exact nonzero C1 status, ordered streams and complete partial/absent outputs; verify the valid tail.",
+  "baseline_accepted_count": 905,
   "baseline_coverage": {
-    "bytes": 225662,
+    "bytes": 227839,
     "total": 277234,
-    "percent": 81.39766406717791,
+    "percent": 82.18292128671087,
     "metric": "Accepted extent union; not branch coverage."
   },
   "cases": [
     {
-      "case": "storage-pragmas",
+      "case": "diagnostic-recovery",
       "phase": "c1",
-      "status": "complete at905; eighteen new functions; exact raw IR/status/streams/original entry order"
+      "status": "complete: exact six-error status6, ordered streams and all partial/absent files; original/native recovered_tail semantic finish proved",
+      "accepted_from": 905,
+      "accepted_count": 913
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "complete; next single case awaits root review",
-  "previous_completed_authorization": "User selected ONE substantial inline-assembly case with scaled/indexed and member addressing, operand sizes, OFFSET and x87 forms. Complete it, then propose the next substantial case to root for review."
+  "status": "completed; awaiting root review of the next substantial single case",
+  "previous_completed_authorization": "Root approved one coherent storage/pragma/runtime-initialization checksum case. Complete its reached frontend paths, then propose the next substantial case for review."
 }

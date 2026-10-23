@@ -1,0 +1,3 @@
+recovery.c(3) : error C2020: 'member' : 'struct' member redefinition
+recovery.c(6) : error C2118: negative subscript or subscript is too large
+recovery.c(8) : error C2371: 'conflicting_declaration' : redefinition; different basic types

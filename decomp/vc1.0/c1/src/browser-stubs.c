@@ -10,3 +10,5 @@ void browser_error_record(void) { __asm { int 3 } }
 /* Original0x26910. */
 
 /* Original0x26890. */
+
+/* Original0x27570. */

@@ -6,6 +6,7 @@
 #include "pragma.h"
 #include "source-input.h"
 #include "global-ir.h"
+#include "browser.h"
 #include <recon.h>
 
 typedef struct MessageText {
@@ -327,4 +328,25 @@ int effective_warning_level(unsigned level, unsigned code)
     case 14: return 1;
     default: return 0;
     }
+}
+
+/* Original0x4a9d0..0x4a9e2. Preserve the ordinary cdecl variadic entry
+   and pass its argument vector to the shared diagnostic/error counter. */
+void report_syntax_error(unsigned code, ...)
+{
+    va_list arguments;
+    va_start(arguments,code);
+    report_syntax_error_arguments(code,arguments);
+    va_end(arguments);
+}
+
+/* Original0x4a9f0..0x4aa37. Errors have unconditional browser/error
+   accounting, unlike the selectable warning levels. */
+void report_syntax_error_arguments(unsigned code, char *arguments)
+{
+    char *format = diagnostic_format(code + 2000);
+    emit_diagnostic(2000,code,format,arguments);
+    note_browser_error();
+    ++error_count;
+    if (error_count > 100) fatal_error(3,100);
 }

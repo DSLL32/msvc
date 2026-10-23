@@ -936,7 +936,7 @@ void __stdcall emit_runtime_initializer(IrToken *value)
     IrToken *zero, *target, *offset, *mask, *expression;
     if (!initializer_temporary) {
         initializer_temporary = make_implicit_declaration(0,
-            (parser_flags & 0x40) ? 2 : parameter_nesting);
+            (scanner_flags & 0x40) ? 2 : parameter_nesting);
         initializer_temporary->type = type_0044;
         initializer_temporary->storage[0] = (initializer_temporary->storage[0] & 0xfc) | 4;
         storage = initializer_temporary->storage[0] & 7;

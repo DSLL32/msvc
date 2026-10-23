@@ -1,18 +1,18 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Twenty-six native phases are complete: minimal C, optimized Win32 hello, DLL,
+Twenty-seven native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 /O2 /Ob1 plus /Ob2 small functions with early returns, and the combined
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
-automatic-bitfield checksum case.
+automatic-bitfield checksum case, and the deliberate diagnostic/recovery unit.
 
-There are778 accepted source functions and905 accepted original entries.
-Accepted original extents cover227839/277234 code-section bytes (82.182921%):
-208072 frontend bytes,19587 CRT bytes and180 import-thunk bytes. This is a
+There are 786 accepted source functions and 913 accepted original entries.
+Accepted original extents cover 228920/277234 code-section bytes (82.572845%):
+209153 frontend bytes, 19587 CRT bytes and 180 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -34,12 +34,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds26 completed phase histories to fresh
-shared-prefix original first-entry captures. All767 accepted application entries
+cases/original-entry-references.json binds 27 completed phase histories to fresh
+shared-prefix original first-entry captures. All 775 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all26 regression receipts are in cases/storage-pragmas/validation.json.
+current all 27 regression receipts are in cases/diagnostic-recovery/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -188,3 +188,21 @@ entry order, buffers, streams and five raw IR files match with no normalization.
 All26 native phases,11 oracle/dependency rejections, six strict graph/ABI/mask
 checks,287 state defaults/aliases and both grammar/table suites pass. No shared
 shim change was required. Further work awaits the next root-reviewed case.
+
+Flag-word identity audit
+-----------------------
+The original scanner word is 0x6bb44 and the separate parser word is 0x6bb48.
+Their upper WORDs are 0x6bb46 and0x6bb4a. scripts/audit-flag-words.py
+(Python capstone 5.x) checks raw original operand bytes independently of the
+source address annotations, inventories every accepted direct access on both
+sides and compares normalized per-function bit masks. It also checks the
+PCH serialized block's final DWORD slots and their portable C offsets.
+The normal audit-win32 target includes this check. For deliberate private
+word/mask/offset mutations run scripts/check-flag-words.py --directory PATH.
+
+cases/storage-pragmas/flag-identity/ contains the correction evidence.
+The earlier storage matching-output receipts are retained, but are insufficient
+to establish these two internal word identities: their caller and callee shared
+the wrong parser/scanner choice. The corrected reconstruction additionally
+compares both complete 32-bit words at actual original/native function entry
+and caller-return boundaries. This correction earns no new-function credit.
