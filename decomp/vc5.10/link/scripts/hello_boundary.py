@@ -122,7 +122,9 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    assert context==trap['stack'][1]==trap['configuration_context']
+    full_link=state['function']=='LinkContext::FullLink'
+    assert context==trap['configuration_context']
+    if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
     assert trap['output_name']=='hello.exe'==state['output_name']
     assert trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
@@ -131,7 +133,7 @@ def compare_configured(original,state,trap,events,canonical,search):
         ('incremental_requested','incremental-requested.bin',1,0),
         ('incremental_switch_set','incremental-switch-set.bin',1,1),
         ('debug_formats','debug-formats.bin',4,0),
-        ('pdb_enabled','pdb-enabled.bin',1,1),
+        ('pdb_enabled','pdb-enabled.bin',1,0 if full_link else 1),
         ('debug_option_present','debug-option-present.bin',1,0)]:
         data=(original/filename).read_bytes()
         assert len(data)==size and int.from_bytes(data,'little')==state['option_globals'][key]==expected
@@ -167,3 +169,15 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
     compare(original,state,trap,configuration_context=context)
+    if full_link:
+        formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
+        assert formals['this']==trap['ecx']==trap['stack'][5]==context
+        assert formals['pack_requested']==trap['stack'][1]==trap['esp']+28
+        assert (original/'pack-requested-before.bin').read_bytes()==bytes([formals['pack_requested_initial']])
+        assert formals['initial_value_contract']=='uninitialized caller local; no cross-platform value equality'
+        assert native['this']==entry['this']==state['context_this']
+        assert native['pack_requested']==native['caller_output']==entry['pack_requested']
+        assert native['initial']==entry['initial'] and len(bytes.fromhex(native['initial']))==1
+        assert native['pack_requested'] and not state['context_this']<=native['pack_requested']<state['context_this']+664
+        # The caller has not initialized this out-byte. Both raw values stay
+        # recorded; only its real pointer/owner/ABI is a boundary invariant.

@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier=='_validate_debug_options@4':
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -281,11 +281,18 @@ if args.frontier=='_validate_debug_options@4':
     negative('wrong incremental request',lambda s:s['option_globals'].__setitem__('incremental_requested',1))
     negative('missing explicit incremental switch',lambda s:s['option_globals'].__setitem__('incremental_switch_set',0))
     negative('wrong debug formats',lambda s:s['option_globals'].__setitem__('debug_formats',2))
-    negative('wrong initial PDB flag',lambda s:s['option_globals'].__setitem__('pdb_enabled',0))
+    negative('wrong PDB flag',lambda s:s['option_globals'].__setitem__('pdb_enabled',1-s['option_globals']['pdb_enabled']))
     negative('invented debug option',lambda s:s['option_globals'].__setitem__('debug_option_present',1))
     negative('lost output option effect',lambda s:s.__setitem__('link_context',s['link_context'][:0x248]+'00'+s['link_context'][0x24a:]))
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
+if args.frontier=='?FullLink@LinkContext@@QAEHPAE@Z':
+    negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
+    negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
+    negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
+    negative('lost caller out-byte alias',lambda s:s['full_link_formals'].__setitem__('caller_output',0))
+    negative('wrong raw thiscall stack argument',lambda s:s['full_link_entry'].__setitem__('pack_requested',0))
+    negative('changed own uninitialized out byte before callee',lambda s:s['full_link_formals'].__setitem__('initial','ff'if s['full_link_formals']['initial']!='ff'else'fe'))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

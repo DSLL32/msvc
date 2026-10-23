@@ -10,6 +10,8 @@
 #include <recon.h>
 
 extern "C" {
+extern BYTE incremental_requested, incremental_switch_set;
+extern const char *output_file_name;
 unsigned char pdb_enabled = 1, debug_option_present;
 unsigned char incremental_enabled, incremental_reuse, incremental_failed;
 unsigned char reference_optimization_specified;
@@ -28,6 +30,7 @@ void __cdecl link_warning(const char *,unsigned,...);
 void __cdecl link_fatal(const char *,unsigned,...);
 void __cdecl link_error(const char *,unsigned,...);
 void __stdcall validate_debug_options(LinkContext *);
+BYTE __stdcall supports_incremental(LinkContext *);
 void __stdcall load_incremental_state(LinkContext **);
 void __cdecl initialize_incremental_inputs(void);
 int __stdcall incremental_link(LinkContext **);
@@ -320,7 +323,74 @@ void __cdecl linker_usage(void)
 void __cdecl link_warning(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_fatal(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_error(const char *file,unsigned message,...) { __asm { int 3 }  }
-void __stdcall validate_debug_options(LinkContext *context) { __asm { int 3 }  }
+void __stdcall validate_debug_options(LinkContext *context)
+{
+    const char *reason;
+    incremental_enabled=incremental_requested;
+    /* The /RE option requires an output name and forces incremental use. */
+    if (context->options.order) {
+        if (!output_file_name) link_fatal(NULL,1220,"/RE");
+        incremental_enabled=1;
+        return;
+    }
+    if (context->is_vxd) {
+        if (!incremental_requested) return;
+        reason="VXD";
+        goto incompatible_option;
+    }
+    if (context->options.profile) {
+        if (incremental_requested) {
+            link_warning(NULL,4075,"INCREMENTAL","PROFILE");
+            incremental_enabled=0;
+        }
+        context->options.write_map=1;
+        context->options.map_fixups=1;
+        return;
+    }
+    if (pdb_enabled && debug_formats!=2 && debug_formats &&
+        context->options.debug_level) {
+        if (!incremental_requested) return;
+        reason="DEBUGTYPE";
+        goto incompatible_option;
+    }
+    if (!incremental_switch_set)
+        incremental_enabled=context->options.debug_level!=0;
+    if (!incremental_enabled) return;
+    if (!pdb_enabled && context->options.debug_level) {
+        if (!incremental_switch_set) goto disable_incremental;
+        reason="PDB:NONE";
+        goto incompatible_option;
+    }
+    if ((debug_option_present && context->options.effective_reference_opt) ||
+        ((context->specified_switches & 0x400000) &&
+         context->options.fold_identical_comdats)) {
+        if (!incremental_switch_set) goto disable_incremental;
+        reason="OPT";
+        goto incompatible_option;
+    }
+    if (context->options.order_file) {
+        if (!incremental_switch_set) goto disable_incremental;
+        reason="ORDER";
+        goto incompatible_option;
+    }
+    if (context->options.checksum_enabled) {
+        if (!incremental_switch_set) goto disable_incremental;
+        reason="RELEASE";
+        goto incompatible_option;
+    }
+    if (context->options.force) {
+        if (!incremental_switch_set) goto disable_incremental;
+        reason="FORCE";
+        goto incompatible_option;
+    }
+    if (!supports_incremental(context)) goto disable_incremental;
+    return;
+incompatible_option:
+    link_warning(NULL,4075,"INCREMENTAL",reason);
+disable_incremental:
+    incremental_enabled=0;
+}
+BYTE __stdcall supports_incremental(LinkContext *context) { __asm { int 3 } return 0; }
 void __stdcall load_incremental_state(LinkContext **context) { __asm { int 3 }  }
 void __cdecl initialize_incremental_inputs(void) { __asm { int 3 }  }
 int __stdcall incremental_link(LinkContext **context) { __asm { int 3 } return 0; }

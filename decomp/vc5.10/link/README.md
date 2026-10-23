@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 48 application
-functions (20,222 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 49 application
+functions (20,657 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `validate_debug_options`; hello-win32 has not completed.
+next frontier is `LinkContext::FullLink`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -195,3 +195,11 @@ is retained as raw evidence and is not a caller-visible preserved parameter.
 A failed observer that incorrectly assumed slot preservation remains in scratch.
 Native-only retries bind the unchanged original receipt/mask/inputs explicitly
 when unrelated shared-header changes require a native rebuild.
+
+The 435-byte option validator is accepted with all original branches retained.
+The normal hello case disables PDB/incremental operation and reaches FullLink.
+Its hidden ECX receiver and one stack out-pointer are captured explicitly;
+the latter aliases the real caller local. The initial out-byte is uninitialized
+and recorded on each side without cross-platform value equality. All context,
+filename/option queues and option effects match, including the intentional
+reset of buffer4 remaining count before full linking. 70 focused negatives pass.

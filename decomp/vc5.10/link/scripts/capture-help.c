@@ -279,11 +279,16 @@ static int snapshot(DWORD address)
         }
         fprintf(events,"}");
     }
-    if(address==base+0x48630) {
+    if(address==base+0x48630 || address==base+0x42f50) {
         DWORD output;
         if(!ReadProcessMemory(process,(void *)(base+0x7efa4),&output,4,&got)||got!=4||
            !remote_string(output,value,sizeof(value)))return 0;
-        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",stack[1],output);quoted(value);
+        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",address==base+0x42f50?context.Ecx:stack[1],output);quoted(value);
+        if(address==base+0x42f50) {
+            unsigned char initial;
+            if(!ReadProcessMemory(process,(void *)stack[1],&initial,1,&got)||got!=1||!save_memory(stack[1],1,"pack-requested-before.bin"))return 0;
+            fprintf(events,",\"full_link_formals\":{\"this\":%lu,\"pack_requested\":%lu,\"pack_requested_initial\":%u,\"initial_value_contract\":\"uninitialized caller local; no cross-platform value equality\"}",context.Ecx,stack[1],initial);
+        }
     }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
@@ -339,7 +344,7 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || ((address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0x42f50 || address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
