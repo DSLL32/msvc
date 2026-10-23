@@ -312,3 +312,10 @@ core controls reuse explicitly identified prior results. Durable coverage is
 35 application functions /1500 bytes plus2 CRT functions /451 bytes and the
 6-byte import thunk (1957 total). The next callback begins the genuine thiscall
 pool initialization sequence.
+
+The first pool wrapper126ef is accepted (13 bytes), stopping at genuine
+thiscall member126fc. Actual receiver/stack/return-call and RET4 evidence is
+bound to both targets; four typed pool fields have zero-default and nonzero
+BSS-reset proofs. Original object extent remains unknown. Durable coverage:
+36 application functions /1513 bytes,2 CRT functions /451 bytes and6 import
+bytes (1970 total,38 source functions). See `cases/minimal/POOL-INITIALIZERS.md`.
