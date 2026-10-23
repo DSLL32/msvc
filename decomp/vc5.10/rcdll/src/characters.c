@@ -12,7 +12,7 @@ enum RcCharacterToken {
     RC_T_COLON=26, RC_T_COMMA=27, RC_T_RIGHT_PAREN=28,
     RC_T_DIGIT=29, RC_T_LEFT_BRACE=30, RC_T_LEFT_BRACKET=31,
     RC_T_LEFT_PAREN=32, RC_T_QUESTION=33, RC_T_SEMICOLON=34,
-    RC_T_TILDE=35, RC_T_IDENTIFIER=40, RC_T_AT=41, RC_T_BAD_PUNCTUATION=43
+    RC_T_TILDE=35, RC_T_IDENTIFIER=40, RC_T_AT=41, RC_T_BAD_PUNCTUATION=43, RC_T_BOM=44
 };
 
 #define X RC_T_INVALID
@@ -66,4 +66,13 @@ void __stdcall rc_set_character_token(unsigned short character,unsigned short to
 void __stdcall rc_set_character_class(unsigned short character,unsigned short flags)
 {
     if(character<=256) rc_character_classes[character]=flags;
+}
+
+unsigned short __stdcall rc_character_token(unsigned short character)
+{
+    if(character==0xfeff) return RC_T_BOM;
+    if(character>256) return RC_T_IDENTIFIER;
+    /* This boundary word belongs to the adjacent class table in the image. */
+    if(character==256) return rc_character_classes[0];
+    return rc_character_tokens[character];
 }

@@ -42,7 +42,8 @@
     "rc_duplicate_source_name",
     "rc_emit_source_line",
     "rc_write_preprocessed",
-    "rc_quote_source_filename"
+    "rc_quote_source_filename",
+    "rc_character_token"
   ],
   "functions": [
     {
@@ -902,8 +903,7 @@
       "end": "0x26bb",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     }
   ],
   "loader_text_metadata": [

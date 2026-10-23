@@ -100,8 +100,3 @@ void __cdecl rc_scan_line_start(void)
 }
 
 
-unsigned short __stdcall rc_character_token(unsigned short character)
-{
-    __asm int 3
-    return 0;
-}

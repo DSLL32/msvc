@@ -1,0 +1,1190 @@
+{
+  "engine_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+  "command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "link",
+    "--repo",
+    "/root/msvc2",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/rcdll",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/RCDLL.DLL",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/rcdll/build/RCDLL.DLL",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/rcdll/build/rcdll.map",
+    "--config",
+    "/root/msvc2/decomp/vc5.10/rcdll/build/graph-input.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/rcdll/build/original-runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/rcdll/build/rebuilt-runtime.json",
+    "--metadata",
+    "/root/msvc2/decomp/vc5.10/rcdll/build/graph-metadata.json",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents",
+    "--check-accepted-extents"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.09472100250422955,
+  "functions": [
+    "_DllMainCRTStartup",
+    "_CRT_INIT",
+    "DllMain",
+    "RC",
+    "main",
+    "rc_initialize",
+    "rc_allocate",
+    "rc_is_option",
+    "rc_emit",
+    "rc_message",
+    "rc_format",
+    "rc_release",
+    "rc_prepare_input",
+    "rc_write_bytes",
+    "rc_detect_encoding",
+    "rc_is_text_unicode",
+    "rc_read_wide_line",
+    "rc_prefix_equal",
+    "rc_notify_progress",
+    "rc_preprocess",
+    "rc_widen_arguments",
+    "rc_preprocessor_main",
+    "rc_next_argument",
+    "rc_scan_options",
+    "rc_apply_option",
+    "rc_option_number",
+    "rc_open_preprocessor",
+    "rc_set_character_token",
+    "rc_set_character_class",
+    "rc_hash_macro_name",
+    "rc_define_macro",
+    "rc_find_macro",
+    "rc_copy_macro_text",
+    "rc_open_source",
+    "rc_refill_source",
+    "rc_duplicate_source_name",
+    "rc_emit_source_line",
+    "rc_write_preprocessed",
+    "rc_quote_source_filename",
+    "rc_character_token"
+  ],
+  "input_sha256": "7e74fad22fa6845bbb7b52b63b614db5de874b2007c6468d7e997547ff193e83",
+  "candidate": {
+    "schema": 2,
+    "files": {
+      "decomp/vc5.10/rcdll/functions.json": "7e74fad22fa6845bbb7b52b63b614db5de874b2007c6468d7e997547ff193e83",
+      "decomp/vc5.10/rcdll/build/RCDLL.DLL": "b78b743930f4fd02d062f7f65b9b8da7ecf524c1a77d2cea6c9a011f4017a3d0",
+      "decomp/vc5.10/rcdll/build/rcdll.map": "7d08ef801f3b69a66c5bf1c84dc3c541ce2d652c33b891c7caf9bf7d5cd3be92",
+      "decomp/vc5.10/rcdll/build/native/rcdll-host": "31b954ed323e34e177965fe9c445dbc2657d7aa19329073f7e3b81a484c89a76",
+      "decomp/vc5.10/rcdll/build/debug-original.exe": "2451b685da40611e0a86e2a89088d585fd9752a28ee1c02a33d90d620ee1826e",
+      "decomp/vc5.10/rcdll/build/help-resources.bin": "c481eb7ab20aa484b67df877eef1ad06f247f78f7d00ee69c9358f62d2dffd9c",
+      "toolchains/5.10/bin/RCDLL.DLL": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+      "toolchains/5.10/bin/MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "toolchains/5.10/bin/RC.EXE": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399"
+    }
+  },
+  "audit_inputs": {
+    "graph-input.json": "20e74eef78c61458bd92fb5658650538df4c9499bea7c8fa1e601e45e2c05102",
+    "original-runtime.json": "d3e53fc80673b5b2669ca2222044f04f39c7568cf39f96f8ad1eeebb5773b847",
+    "rebuilt-runtime.json": "a66e8016da1f54ac2090414c55fc86dc33ddd0f22b32dca81dd07fd84c092d85",
+    "graph-metadata.json": "24745f3c24946c91df8b27ae275e9b97d586f5042d2e6316a02f18289a8584d9",
+    "compiler-support-identity.json": "22c14d315becfc54562031eac93ab776fbd096429270c4148f9ebb97b5c744e6",
+    "dispatcher-switch.json": "7e2901de7a6a552fb6eb56e00e6badffc8181a3af9ecd5d791ed2966ba48ddec",
+    "copy-seh.json": "470161dba685a8e8f08702dc7a9c1a8a29a524de8a7f338e986528b06e68bb9f",
+    "character-tables.json": "72f27cef74e3543313f344e7d477f9627c705236082302f5ab608052ea4ee113"
+  },
+  "report": {
+    "checked_accepted_extents": {
+      "original": 42,
+      "rebuilt": 42
+    },
+    "checked_functions": 40,
+    "checked_unique_accepted_extents": {
+      "original": 42,
+      "rebuilt": 42
+    },
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries",
+      "accepted_index_extents"
+    ],
+    "discovery": "cfg",
+    "functions": {
+      "DllMain": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "RC": {
+        "edges": [
+          "main"
+        ]
+      },
+      "_CRT_INIT": {
+        "edges": [
+          "import:_initterm",
+          "indirect"
+        ]
+      },
+      "_DllMainCRTStartup": {
+        "edges": [
+          "DllMain",
+          "_CRT_INIT",
+          "indirect"
+        ]
+      },
+      "main": {
+        "edges": [
+          "import:_setjmp3",
+          "indirect",
+          "rc_align_output",
+          "rc_allocate",
+          "rc_cleanup",
+          "rc_emit",
+          "rc_fatal",
+          "rc_flush_resources",
+          "rc_format",
+          "rc_initialize",
+          "rc_initialize_input",
+          "rc_initialize_resource",
+          "rc_is_option",
+          "rc_message",
+          "rc_parse_resources",
+          "rc_prepare_input",
+          "rc_preprocess",
+          "rc_release",
+          "rc_seek"
+        ]
+      },
+      "rc_allocate": {
+        "edges": [
+          "indirect",
+          "rc_fatal",
+          "rc_format",
+          "rc_message"
+        ]
+      },
+      "rc_apply_option": {
+        "edges": [
+          "indirect",
+          "rc_format",
+          "rc_input_fatal",
+          "rc_message",
+          "rc_option_number"
+        ]
+      },
+      "rc_character_token": {
+        "edges": []
+      },
+      "rc_copy_macro_text": {
+        "edges": [
+          "rc_allocate",
+          "rc_input_error",
+          "rc_message"
+        ]
+      },
+      "rc_define_macro": {
+        "edges": [
+          "indirect",
+          "rc_allocate",
+          "rc_copy_macro_text",
+          "rc_find_macro",
+          "rc_format",
+          "rc_input_error",
+          "rc_input_warning",
+          "rc_list_macro",
+          "rc_macro_text_differs",
+          "rc_message"
+        ]
+      },
+      "rc_detect_encoding": {
+        "edges": [
+          "indirect",
+          "rc_is_text_unicode"
+        ]
+      },
+      "rc_duplicate_source_name": {
+        "edges": [
+          "indirect",
+          "rc_allocate"
+        ]
+      },
+      "rc_emit": {
+        "edges": [
+          "indirect",
+          "rc_fatal"
+        ]
+      },
+      "rc_emit_source_line": {
+        "edges": [
+          "indirect",
+          "rc_quote_source_filename",
+          "rc_write_preprocessed"
+        ]
+      },
+      "rc_find_macro": {
+        "edges": []
+      },
+      "rc_format": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_hash_macro_name": {
+        "edges": []
+      },
+      "rc_initialize": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_is_option": {
+        "edges": []
+      },
+      "rc_is_text_unicode": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_message": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_next_argument": {
+        "edges": []
+      },
+      "rc_notify_progress": {
+        "edges": [
+          "indirect",
+          "rc_fatal"
+        ]
+      },
+      "rc_open_preprocessor": {
+        "edges": [
+          "indirect",
+          "rc_define_macro",
+          "rc_format",
+          "rc_hash_macro_name",
+          "rc_input_fatal",
+          "rc_message",
+          "rc_open_source",
+          "rc_set_character_class",
+          "rc_set_character_token",
+          "rc_undefine_macro"
+        ]
+      },
+      "rc_open_source": {
+        "edges": [
+          "indirect",
+          "rc_allocate",
+          "rc_detect_encoding",
+          "rc_duplicate_source_name",
+          "rc_emit_source_line",
+          "rc_format",
+          "rc_input_fatal",
+          "rc_input_warning",
+          "rc_list_macro",
+          "rc_message",
+          "rc_refill_source",
+          "rc_scan_line_start",
+          "rc_write_preprocessed"
+        ]
+      },
+      "rc_option_number": {
+        "edges": [
+          "indirect",
+          "rc_format",
+          "rc_input_fatal",
+          "rc_message"
+        ]
+      },
+      "rc_prefix_equal": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_prepare_input": {
+        "edges": [
+          "__chkstk",
+          "indirect",
+          "rc_detect_encoding",
+          "rc_format",
+          "rc_input_error",
+          "rc_input_fatal",
+          "rc_input_warning",
+          "rc_message",
+          "rc_notify_progress",
+          "rc_prefix_equal",
+          "rc_read_wide_line",
+          "rc_skip_white",
+          "rc_write_bytes"
+        ]
+      },
+      "rc_preprocess": {
+        "edges": [
+          "rc_preprocessor_main",
+          "rc_widen_arguments"
+        ]
+      },
+      "rc_preprocessor_main": {
+        "edges": [
+          "indirect",
+          "rc_close_preprocessor",
+          "rc_format",
+          "rc_input_fatal",
+          "rc_message",
+          "rc_next_argument",
+          "rc_open_preprocessor",
+          "rc_run_preprocessor",
+          "rc_scan_options"
+        ]
+      },
+      "rc_quote_source_filename": {
+        "edges": [
+          "rc_character_token"
+        ]
+      },
+      "rc_read_wide_line": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_refill_source": {
+        "edges": [
+          "indirect",
+          "rc_allocate",
+          "rc_input_fatal",
+          "rc_message",
+          "rc_release"
+        ]
+      },
+      "rc_release": {
+        "edges": [
+          "indirect"
+        ]
+      },
+      "rc_scan_options": {
+        "edges": [
+          "indirect",
+          "rc_apply_option",
+          "rc_match_option"
+        ]
+      },
+      "rc_set_character_class": {
+        "edges": []
+      },
+      "rc_set_character_token": {
+        "edges": []
+      },
+      "rc_widen_arguments": {
+        "edges": [
+          "indirect",
+          "rc_allocate"
+        ]
+      },
+      "rc_write_bytes": {
+        "edges": [
+          "indirect",
+          "rc_fatal"
+        ]
+      },
+      "rc_write_preprocessed": {
+        "edges": [
+          "indirect",
+          "rc_fatal",
+          "rc_message"
+        ]
+      }
+    },
+    "original_accepted_graphs": {
+      "DllMain": {
+        "calls": [],
+        "references": [
+          1,
+          12
+        ]
+      },
+      "RC": {
+        "calls": [
+          1908569155
+        ],
+        "references": [
+          24
+        ]
+      },
+      "_CRT_INIT": {
+        "calls": [
+          1908616742
+        ],
+        "references": [
+          0,
+          1,
+          3,
+          4,
+          8,
+          12,
+          128,
+          8192,
+          1908621312,
+          1908621316,
+          2147483648
+        ]
+      },
+      "_DllMainCRTStartup": {
+        "calls": [
+          1908575017,
+          1908616112
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          12
+        ]
+      },
+      "import:_initterm": {
+        "calls": [],
+        "references": []
+      },
+      "import:_setjmp3": {
+        "calls": [],
+        "references": []
+      },
+      "main": {
+        "calls": [
+          1908550756,
+          1908550808,
+          1908573380,
+          1908573548,
+          1908574691,
+          1908574890,
+          1908575090,
+          1908575181,
+          1908576725,
+          1908584969,
+          1908607410,
+          1908607485,
+          1908607664,
+          1908607719,
+          1908608076,
+          1908608927,
+          1908609370,
+          1908616672
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          8,
+          9,
+          10,
+          12,
+          16,
+          20,
+          27,
+          33,
+          37,
+          44,
+          45,
+          47,
+          58,
+          59,
+          79,
+          82,
+          100,
+          256,
+          257,
+          260,
+          520,
+          1101,
+          1102,
+          1103,
+          1104,
+          1105,
+          1106,
+          1107,
+          1109,
+          1116,
+          1120,
+          1201,
+          1202,
+          1203,
+          1204,
+          1205,
+          1206,
+          1207,
+          1208,
+          1209,
+          1210,
+          1211,
+          1212,
+          1213,
+          1472,
+          2048,
+          2140,
+          2180,
+          10001,
+          10002,
+          10102,
+          20001,
+          22103,
+          22204,
+          32767,
+          16777216,
+          1908543996,
+          1908544024,
+          1908544068,
+          1908544100,
+          1908544488,
+          1908544492,
+          1908544528,
+          1908544532,
+          1908544536,
+          1908544540,
+          1908544544,
+          1908544548,
+          1908544556,
+          1908544560,
+          1908544564,
+          1908544572,
+          1908544584,
+          1908544592,
+          1908544612,
+          1908544628,
+          1908544632,
+          1908544636,
+          1908544640,
+          1908544648,
+          1908544660,
+          1908544672,
+          1908544680,
+          1908544688,
+          1908544692,
+          1908544700,
+          1908544704,
+          1908544708,
+          1908544712,
+          1908544744,
+          1908544756,
+          1908544760,
+          1908544772,
+          1908624824,
+          1908639328,
+          1908681784,
+          1908682304,
+          1908690768,
+          1908692368,
+          1908692400,
+          1908692404,
+          1908693400,
+          1908694072,
+          1908694344,
+          4294967233,
+          4294967295
+        ]
+      },
+      "rc_allocate": {
+        "calls": [
+          1908550756,
+          1908550808,
+          1908574691
+        ],
+        "references": [
+          4,
+          8,
+          9,
+          16,
+          1120,
+          2048,
+          1908639328
+        ]
+      },
+      "rc_apply_option": {
+        "calls": [
+          1908549479,
+          1908550532,
+          1908550756,
+          1908550808
+        ],
+        "references": [
+          0,
+          1,
+          4,
+          12,
+          20,
+          29,
+          1000,
+          1047,
+          1048,
+          2048,
+          1908639328
+        ]
+      },
+      "rc_character_token": {
+        "calls": [],
+        "references": [
+          4,
+          40,
+          44,
+          256,
+          65279
+        ]
+      },
+      "rc_copy_macro_text": {
+        "calls": [
+          1908549398,
+          1908550756,
+          1908607410
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          8,
+          1002,
+          1908547104,
+          1908616736,
+          1908639328,
+          4294967295
+        ]
+      },
+      "rc_define_macro": {
+        "calls": [
+          1908549398,
+          1908549508,
+          1908550756,
+          1908550808,
+          1908559269,
+          1908559327,
+          1908588258,
+          1908588598,
+          1908607410
+        ],
+        "references": [
+          0,
+          2,
+          3,
+          12,
+          16,
+          20,
+          68,
+          254,
+          1002,
+          2048,
+          4005,
+          4117,
+          1908544260,
+          1908544268,
+          1908637992,
+          1908639328,
+          4294967294,
+          4294967295
+        ]
+      },
+      "rc_detect_encoding": {
+        "calls": [
+          1908575390
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          12,
+          16,
+          128,
+          250,
+          256,
+          65535
+        ]
+      },
+      "rc_duplicate_source_name": {
+        "calls": [
+          1908607410
+        ],
+        "references": [
+          4
+        ]
+      },
+      "rc_emit": {
+        "calls": [
+          1908574691
+        ],
+        "references": [
+          0,
+          4,
+          1049,
+          1908543996,
+          4294967295
+        ]
+      },
+      "rc_emit_source_line": {
+        "calls": [
+          1908556283,
+          1908576676
+        ],
+        "references": [
+          1,
+          12,
+          1908544080,
+          1908637992
+        ]
+      },
+      "rc_find_macro": {
+        "calls": [],
+        "references": [
+          1908637992
+        ]
+      },
+      "rc_format": {
+        "calls": [],
+        "references": [
+          0,
+          1024
+        ]
+      },
+      "rc_hash_macro_name": {
+        "calls": [],
+        "references": [
+          0,
+          4,
+          95
+        ]
+      },
+      "rc_initialize": {
+        "calls": [],
+        "references": [
+          1,
+          128
+        ]
+      },
+      "rc_is_option": {
+        "calls": [],
+        "references": [
+          1,
+          4,
+          45,
+          47
+        ]
+      },
+      "rc_is_text_unicode": {
+        "calls": [],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          15,
+          16,
+          26,
+          32,
+          40,
+          64,
+          108,
+          127,
+          128,
+          240,
+          255,
+          256,
+          512,
+          1024,
+          2304,
+          2560,
+          2573,
+          3328,
+          4055,
+          8192,
+          8232,
+          52991,
+          65279,
+          65534,
+          4294967294
+        ]
+      },
+      "rc_message": {
+        "calls": [],
+        "references": [
+          0,
+          4,
+          2560,
+          4096,
+          1908544024,
+          1908628640
+        ]
+      },
+      "rc_next_argument": {
+        "calls": [],
+        "references": [
+          4
+        ]
+      },
+      "rc_notify_progress": {
+        "calls": [
+          1908574691
+        ],
+        "references": [
+          8,
+          1056,
+          1908543996
+        ]
+      },
+      "rc_open_preprocessor": {
+        "calls": [
+          1908549307,
+          1908549368,
+          1908549479,
+          1908550756,
+          1908550808,
+          1908555188,
+          1908557808,
+          1908558895,
+          1908611882
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          8,
+          16,
+          36,
+          37,
+          38,
+          39,
+          40,
+          61,
+          100,
+          257,
+          1023,
+          2048,
+          1908544100,
+          1908544104,
+          1908637992,
+          1908639040,
+          1908639328,
+          4294967294,
+          4294967295
+        ]
+      },
+      "rc_open_source": {
+        "calls": [
+          1908549479,
+          1908549508,
+          1908550756,
+          1908550808,
+          1908556352,
+          1908556440,
+          1908576676,
+          1908588221,
+          1908588598,
+          1908607100,
+          1908607410,
+          1908613213
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          8,
+          12,
+          16,
+          257,
+          1002,
+          1005,
+          1014,
+          1024,
+          2048,
+          4098,
+          4413,
+          8198,
+          1908544048,
+          1908544068,
+          1908544072,
+          1908544076,
+          1908632824,
+          1908637448,
+          1908639040,
+          1908639328,
+          4294967295
+        ]
+      },
+      "rc_option_number": {
+        "calls": [
+          1908549479,
+          1908550756,
+          1908550808
+        ],
+        "references": [
+          0,
+          4,
+          8,
+          10,
+          12,
+          16,
+          1049,
+          2048,
+          65535,
+          1908639328
+        ]
+      },
+      "rc_prefix_equal": {
+        "calls": [],
+        "references": [
+          0,
+          8,
+          4294967295
+        ]
+      },
+      "rc_prepare_input": {
+        "calls": [
+          1908549398,
+          1908549479,
+          1908549508,
+          1908550756,
+          1908550808,
+          1908573458,
+          1908575344,
+          1908576321,
+          1908607100,
+          1908607620,
+          1908607951,
+          1908616688
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6,
+          8,
+          12,
+          14,
+          16,
+          18,
+          20,
+          40,
+          41,
+          63,
+          92,
+          257,
+          1110,
+          1200,
+          2048,
+          2180,
+          4090,
+          4177,
+          4210,
+          4211,
+          4212,
+          4213,
+          4214,
+          17092,
+          65279,
+          1908544048,
+          1908544068,
+          1908544100,
+          1908544444,
+          1908544776,
+          1908544800,
+          1908544816,
+          1908544836,
+          1908544852,
+          1908544876,
+          1908544896,
+          1908544904,
+          1908639328,
+          4294967295
+        ]
+      },
+      "rc_preprocess": {
+        "calls": [
+          1908587648,
+          1908607251
+        ],
+        "references": [
+          12
+        ]
+      },
+      "rc_preprocessor_main": {
+        "calls": [
+          1908549479,
+          1908549950,
+          1908550756,
+          1908550808,
+          1908557053,
+          1908557679,
+          1908587617,
+          1908588097
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          12,
+          20,
+          128,
+          1002,
+          1007,
+          1008,
+          1010,
+          1022,
+          2048,
+          1908547096,
+          1908622584,
+          1908622992,
+          1908625040,
+          1908639328,
+          4294967295
+        ]
+      },
+      "rc_quote_source_filename": {
+        "calls": [
+          1908549264
+        ],
+        "references": [
+          3,
+          8,
+          34,
+          92
+        ]
+      },
+      "rc_read_wide_line": {
+        "calls": [],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          7,
+          8,
+          9,
+          10,
+          13,
+          16,
+          64,
+          2097184,
+          538976288,
+          4294967295
+        ]
+      },
+      "rc_refill_source": {
+        "calls": [
+          1908549479,
+          1908550756,
+          1908607410,
+          1908607485
+        ],
+        "references": [
+          0,
+          1,
+          2,
+          3,
+          12,
+          16,
+          26,
+          1002,
+          1908639328,
+          4294967295
+        ]
+      },
+      "rc_release": {
+        "calls": [],
+        "references": [
+          1,
+          4,
+          4294967288
+        ]
+      },
+      "rc_scan_options": {
+        "calls": [
+          1908550127,
+          1908550667
+        ],
+        "references": [
+          12,
+          16,
+          32,
+          35,
+          42,
+          45
+        ]
+      },
+      "rc_set_character_class": {
+        "calls": [],
+        "references": [
+          8,
+          256
+        ]
+      },
+      "rc_set_character_token": {
+        "calls": [],
+        "references": [
+          8,
+          256
+        ]
+      },
+      "rc_widen_arguments": {
+        "calls": [
+          1908607410
+        ],
+        "references": [
+          0,
+          1,
+          4,
+          8,
+          4294967295
+        ]
+      },
+      "rc_write_bytes": {
+        "calls": [
+          1908574691
+        ],
+        "references": [
+          1,
+          12,
+          16,
+          1908547488
+        ]
+      },
+      "rc_write_preprocessed": {
+        "calls": [
+          1908550756,
+          1908574691
+        ],
+        "references": [
+          16,
+          1122
+        ]
+      }
+    },
+    "profile": "link"
+  }
+}
