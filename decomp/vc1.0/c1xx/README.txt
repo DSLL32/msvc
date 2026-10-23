@@ -1406,3 +1406,25 @@ No new semantic divergence or shared compatibility change occurred.
 
 Accepted extent union203249/476418bytes is42.661906%, not branch coverage.
 The active virtual_diamond case is incomplete at new_virtual_table0x78950.
+
+Virtual-entry storage checkpoint:664 accepted frontiers,581 source functions.
+Thirteen whole functions beyond d4a4c33 construct the zeroed table, grow arena
+vectors, record explicit special members, walk override candidates, select the
+primary table, initialize entries/this adjustments, grow heap entry storage and
+reserve a virtual slot's byte offset. The reached generic vector accessor is
+now named first_vector_item. grow_vector returns its original Vector pointer;
+all original stack slots, signed-short growth and diagnostic varargs remain.
+
+The 16-byte VirtualEntry now contains an 8-byte VirtualAdjustment at+4 and a
+single flag byte at+12. Original reserved bytes and high flag bits are retained.
+Special-member model -1 accesses shift words within its 28-byte record.
+Every0651through0663 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible bytes. cpp_basic's completed
+exit and four final intermediate outputs remain exact throughout. Full581-function
+graph, contextual defaults/data, both grammars, both native cases and21rejection
+checks pass in4.679seconds combined wall. Per-function build/capture/debug/fixture
+times remain separate in the ordered acceptance directories. No mismatch or
+shared compatibility change was needed in this group.
+
+Accepted extent union204114/476418bytes is42.843469%, not branch coverage.
+virtual_diamond remains incomplete at matches_virtual_override0x7a880.

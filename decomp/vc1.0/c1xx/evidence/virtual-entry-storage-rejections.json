@@ -1,0 +1,133 @@
+{
+  "status": "pass",
+  "scope": "native regression-boundary fault injection; no original execution",
+  "negative_helper_build_seconds": 0.324244418181479,
+  "checks": [
+    {
+      "name": "wrong-entry",
+      "status": "pass",
+      "rejected_because": "application entry 0",
+      "seconds": 0.266284242272377
+    },
+    {
+      "name": "missing-definition",
+      "status": "pass",
+      "rejected_because": "unresolved native application definition",
+      "seconds": 0.26453286688774824
+    },
+    {
+      "name": "reject-terminal",
+      "status": "pass",
+      "rejected_because": "expected completed frontend exit status",
+      "seconds": 0.0849387114867568
+    },
+    {
+      "name": "reject-stdout",
+      "status": "pass",
+      "rejected_because": "stdout differs",
+      "seconds": 0.08245601877570152
+    },
+    {
+      "name": "reject-artifact",
+      "status": "pass",
+      "rejected_because": "irex: visible bytes differ",
+      "seconds": 0.09393846336752176
+    },
+    {
+      "name": "unknown-dependency",
+      "status": "pass",
+      "rejected_because": "unexpected C1XX external dependency: unknown.exe",
+      "seconds": "not separately measured"
+    },
+    {
+      "name": "close-return",
+      "status": "pass",
+      "rejected_because": "close boundary differs",
+      "seconds": 0.001780543476343155
+    },
+    {
+      "name": "close-failed-both",
+      "status": "pass",
+      "rejected_because": "close did not close the observed source descriptor",
+      "seconds": 0.0016826214268803596
+    },
+    {
+      "name": "close-descriptor",
+      "status": "pass",
+      "rejected_because": "observation bytes contradict claimed descriptor",
+      "seconds": 0.07919363491237164
+    },
+    {
+      "name": "close-order",
+      "status": "pass",
+      "rejected_because": "unobserved runtime boundary",
+      "seconds": 0.001839466392993927
+    },
+    {
+      "name": "close-library",
+      "status": "pass",
+      "rejected_because": "CRT library/import identity changed",
+      "seconds": 0.0764162139967084
+    },
+    {
+      "name": "close-observation",
+      "status": "pass",
+      "rejected_because": "runtime observation evidence changed",
+      "seconds": 0.07633226364850998
+    },
+    {
+      "name": "fflush-write-bit",
+      "status": "pass",
+      "rejected_because": "fflush boundary differs",
+      "seconds": 0.001901940442621708
+    },
+    {
+      "name": "fflush-stale-both",
+      "status": "pass",
+      "rejected_because": "fflush stream transition differs",
+      "seconds": 0.0018204078078269958
+    },
+    {
+      "name": "fflush-failed-both",
+      "status": "pass",
+      "rejected_because": "fflush did not successfully drain buffer",
+      "seconds": 0.0017738491296768188
+    },
+    {
+      "name": "fflush-library",
+      "status": "pass",
+      "rejected_because": "fflush library identity changed",
+      "seconds": 0.07363808806985617
+    },
+    {
+      "name": "exit-runtime-order",
+      "status": "pass",
+      "rejected_because": "unobserved termination sequence",
+      "seconds": 0.0020061368122696877
+    },
+    {
+      "name": "exit-library",
+      "status": "pass",
+      "rejected_because": "termination library identity changed",
+      "seconds": 0.08537533599883318
+    },
+    {
+      "name": "exit-observation",
+      "status": "pass",
+      "rejected_because": "termination evidence changed",
+      "seconds": 0.08497179113328457
+    },
+    {
+      "name": "missing-case-prefix",
+      "status": "pass",
+      "rejected_because": "application entry 0",
+      "seconds": 0.29671824257820845
+    },
+    {
+      "name": "partial-case-wrong-exit",
+      "status": "pass",
+      "rejected_because": "expected named frontier SIGTRAP",
+      "seconds": 0.07737892773002386
+    }
+  ]
+}
