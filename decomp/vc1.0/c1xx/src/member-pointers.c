@@ -22,6 +22,15 @@ IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset
 IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset,
     int vbptr_offset, IrToken *vbtable_offset);
 
+/* Original 0x4dfe0..0x4dff9. An optional leading qualifier precedes
+   the member-pointer shape whose data holds the owner class. */
+CppSymbol *__stdcall member_pointer_owner_class(CType *type)
+{
+    TypeShape *shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return shape->data.tag_symbol;
+}
+
 /* Original 0x49e10..0x49e23. Resolve the class embedded in the
    member-pointer type and obtain its fixed inheritance representation. */
 unsigned __stdcall member_pointer_inheritance_model(CType *type)

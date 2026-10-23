@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "scope": "native-only synthetic callee-return injection, no original invalid-model equivalence or app coverage credit",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "1e87123c9ed65a0ca9bfdc48e6b3e6e87c77de5c56442ee5267cf41ddd0f78e1",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/manifest.json": "64ad1ef1efc1ac2aed43efd018b125723647699424f2adb48372e439043b84ee",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "7804b315d99038e5c45c94d2fb27a1d053d6e7f96df8a9019b653a90c71da49a",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "8659dfde0ceeab4b97b9b062dfb85662bde65856abdf999daec86667b6d65efe",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-state-machine-debug/c1/state-machine.cpp": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+  },
+  "observations": [
+    {
+      "branch": "method",
+      "injected_model": 0,
+      "helper_was_unaccepted_stub": false,
+      "stopped_function": "member_pointer_expression",
+      "status": "pass",
+      "debugger_seconds": 0.15498679131269455
+    },
+    {
+      "branch": "method",
+      "injected_model": 1,
+      "helper_was_unaccepted_stub": false,
+      "stopped_function": "make_compact_method_pointer",
+      "status": "pass",
+      "debugger_seconds": 0.1415503229945898
+    },
+    {
+      "branch": "data",
+      "injected_model": 0,
+      "helper_was_unaccepted_stub": false,
+      "stopped_function": "member_pointer_expression",
+      "status": "pass",
+      "debugger_seconds": 0.14341173879802227
+    },
+    {
+      "branch": "data",
+      "injected_model": 1,
+      "helper_was_unaccepted_stub": false,
+      "stopped_function": "new_integer_constant",
+      "status": "pass",
+      "debugger_seconds": 0.14892472699284554
+    }
+  ],
+  "debugger_seconds": 0.5888735800981522,
+  "total_seconds": 0.6278287507593632,
+  "setup_and_checks_seconds": 0.038955170661211014
+}

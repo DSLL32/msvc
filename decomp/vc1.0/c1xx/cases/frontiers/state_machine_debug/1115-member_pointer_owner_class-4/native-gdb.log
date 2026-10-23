@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655abae in make_compact_method_pointer (type=0x5662932c, function=0x56636270, adjustment=0x56636284) at src/stubs.c:619
+619	IrToken * __stdcall make_compact_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }
+#0  0x5655abae in make_compact_method_pointer (type=0x5662932c, function=0x56636270, adjustment=0x56636284) at src/stubs.c:619
+#1  0x565a4a13 in member_pointer_expression (qualifier=0x5664c998) at src/member-pointers.c:108
+#2  0x565ac03d in builtin_unary_expression (operation=58 ':', operand=0x56636250) at src/unary-expressions.c:160
+#3  0x565abc8f in unary_expression (operation=58 ':', expression=0x56636250) at src/unary-expressions.c:86
+#4  0x565b844e in parse_translation_unit () at src/parser-expression-actions.inc:141
+#5  0x5655e0ef in compile_translation_unit () at src/frontend.c:73
+#6  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558884 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

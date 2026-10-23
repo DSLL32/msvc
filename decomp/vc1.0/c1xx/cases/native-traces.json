@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "19800f9ef8d62688c7c84e25cfb4156a2ebd3d4ad1433e1d5b25e1ea871d1fed",
+    "functions.json": "7804b315d99038e5c45c94d2fb27a1d053d6e7f96df8a9019b653a90c71da49a",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "d661b7d6483a6caf8d806da5d3be89b89cd58994844276504db97f4e5d903539",
-    "cases/canonical-map.txt": "8a877136fa8279a070d7353e700d71e541cb88cbd67d9d012a759ceb303c07a8",
+    "cases/original-entry-references.json": "66ee9110fbdf48b61b9cb156261a08a97eeac1837f5fdc64d0f31d6efb85361e",
+    "cases/canonical-map.txt": "4c912facbe95853d02cae8673161c869aad582ab766a15f303d00a11f82bf300",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1114-member_pointer_inheritance_model-4/entry-reference/original-receipt.json": "1dada382ca613de08fe3d990f8ab66385824b5b0b36b3992c31e9985947a226e",
-    "cases/frontiers/state_machine_debug/1114-member_pointer_inheritance_model-4/entry-reference/original-events.txt": "67f0359be82c54dd8c863cabedad157f2c13e7066561e29491f120abced9e77c",
-    "cases/frontiers/state_machine_debug/1114-member_pointer_inheritance_model-4/entry-reference/original-entries.plan": "a3651cce9b3f8c0f3f50c77c2ab072edeb3cee43edf0ef9bee7263c2d31c3875"
+    "cases/frontiers/state_machine_debug/1115-member_pointer_owner_class-4/entry-reference/original-receipt.json": "3fdeb23b597106cc298026f2619490bd3dbeabbde5a4d29485c762b41e2f0f5c",
+    "cases/frontiers/state_machine_debug/1115-member_pointer_owner_class-4/entry-reference/original-events.txt": "ec2887aea6725c757a43f0257fa385061f2df9271ff131962748ce57e762a772",
+    "cases/frontiers/state_machine_debug/1115-member_pointer_owner_class-4/entry-reference/original-entries.plan": "1a37086dc421803ff13a0fe47e7743d985ceaf017b0039c010517bfbeebc3be2"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3627,7 +3627,7 @@
     },
     "member_pointer_owner_class": {
       "logical": "_member_pointer_owner_class@4",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_virtual_function": {
       "logical": "_member_pointer_virtual_function@4",
@@ -6642,7 +6642,8 @@
     "infer_inheritance_model",
     "class_has_zero_base_offsets",
     "member_pointer_expression",
-    "member_pointer_inheritance_model"
+    "member_pointer_inheritance_model",
+    "member_pointer_owner_class"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10755,7 +10756,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1115,
+      "last": 1116,
       "seen": [
         "main",
         "message_text",
@@ -11779,12 +11780,13 @@
         "class_has_zero_base_offsets",
         "member_pointer_expression",
         "member_pointer_inheritance_model",
-        "member_pointer_owner_class"
+        "member_pointer_owner_class",
+        "make_compact_method_pointer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_owner_class@4",
-        "native": "member_pointer_owner_class",
+        "logical": "_make_compact_method_pointer@12",
+        "native": "make_compact_method_pointer",
         "signal": 5
       }
     }

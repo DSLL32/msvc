@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_member_pointer_owner_class@4",
+    "start": 319456,
+    "end": 319481
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1115-member_pointer_owner_class-4/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_make_compact_method_pointer@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5221665911376476,
+  "total_operation_seconds": 3.9188752621412277,
+  "original_capture_seconds": 1.3176266551017761
+}

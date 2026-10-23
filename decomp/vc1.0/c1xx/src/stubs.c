@@ -614,7 +614,6 @@ void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
 CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
 int __stdcall resolve_member_pointer_path(QualifierBinding *path, BaseClassLink **virtual_base, int *displacement) { __asm { int 3 } return 0; }
-CppSymbol * __stdcall member_pointer_owner_class(CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall class_virtual_base_pointer_offset(CppSymbol *tag) { __asm { int 3 } return 0; }
 CppSymbol * __stdcall member_pointer_virtual_function(CppSymbol *member) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_compact_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }

@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_member_pointer_owner_class@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1115,
+  "configuration_sha256": "fcf1cc9cd2e28a5d353d413262a1af2c18fc99d80aa710d47af80f9121970280",
+  "native_entry": "member_pointer_owner_class",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 237082,
+        "original_owner_function": "_member_pointer_inheritance_model@4",
+        "native_owner_function": "member_pointer_inheritance_model",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted caller loads type argument to EAX49e10, PUSHEAX49e14/CALL49e15 return49e1a. Native real type formal is same owner; register anchors ownership only.",
+        "original_owner_value": 8311596,
+        "native_owner_value": 1449300780
+      },
+      "original_raw": 8311596,
+      "native_raw": 1449300780,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319456,
+      319481
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole25B loads typeESP+4 then type.related+4; if shape nonnull and !(flags&0x77), advance shape.related+4. Return actual shape.data.tag_symbol+8 in EAX, RET4, no callees/hidden/register semantic inputs. Original NULL final shape would dereference; no invented NULL handling added.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "11c522588ef30d5060a1f19319cb5d7f0beaeb129d27e0b0ea6c34514160cfd8",
+  "capture_timing": {
+    "original_capture_seconds": 1.2176924385130405,
+    "native_capture_seconds": 0.18132085539400578,
+    "total_operation_seconds": 1.6805945821106434
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "ada11dcb35b001c13320097dcf772be7e80a7521d24df5a217082941d55d5241",
+    "native-commands.gdb": "75d3740cf075d5b4d641f4fcbe67bc799a0ae951501dde10851b5cd3e4dfe363",
+    "native-gdb.log": "dd2d0e019797b1c955ae30c3d2b28f05369fa9aa58f35f36bf1d9a290643b92d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "0ba1a160691dcfcb42e64a4baafdec3e03defa64275641bd58800f42589bd039",
+    "original-configuration.json": "fcf1cc9cd2e28a5d353d413262a1af2c18fc99d80aa710d47af80f9121970280",
+    "original-disassembly.txt": "06d757933df05171a1548d47a797c8b4aba0fe4bb698b321f7181909740b4714",
+    "original-entries.plan": "b9f633374e6de34abfa906cf2b52aa9e7ac8e77b78e72c343462cf5021626966",
+    "original-events.txt": "dd9d31e603299abe447d8260c9a07f9869f8cbcbfa36251bdf96420605f028c1",
+    "original-ownership-caller-disassembly.txt": "5fe20ad3efbd22d07e9f60540544bfddc73f9ca5f415f51f2d9724332ce633db",
+    "original-receipt.json": "d9198ff6d43c272b06dbfe2aa4422807e69f2d909b437b26565810150b4880f3",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "773f6c13e5d7d5f2578e805b1499b135534dcbce6eb34afb08f876230aa0a51e"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
