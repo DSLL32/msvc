@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_member_pointer_class_kind@4",
+  "native_entry": "member_pointer_class_kind",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_tag": "(unsigned)class_symbol"
+  },
+  "formals": [
+    {
+      "name": "class_symbol",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 232341,
+        "original_owner_function": "_merge_declaration_type@12",
+        "native_owner_function": "merge_declaration_type",
+        "native_owner_field": "caller_tag",
+        "native_owner_local": "tag",
+        "identity": "Actual caller loads work fromESP+20 at48b84, then work.data.tag_symbol+8 intoEAX48b8c, PUSH48b8f/CALL48b90 return48b95. Native existing tag local now names precisely this source expression before call. No assumed class-slot retention or invented static owner."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      302640,
+      302798
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP4/save3registers12B: class_symbolESP+20, RET4; semantic unsignedchar returnAL low3class model bits. Cached8bit bypass else configured query49cb0 or completedclass flags2bit10 infer49ed0; incomplete class report644/generalmodel4 plusflag10; setcached8 andcheck49f00. All four directcallees independently mapped, no hidden/registerinput. Query output model is consumed only on successful return. Current actualCounter tag is bound to caller work.data.tag_symbol resultEAX and native current tag local; a stale class_contexts[0] alias draft was rejected and is not used."
+  },
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    297860,
+    297893
+  ],
+  "native_caller_locals": {
+    "caller_tag": {
+      "frame": 1,
+      "function": "merge_declaration_type",
+      "local": "tag"
+    }
+  }
+}

@@ -18,6 +18,36 @@ CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
     return symbol;
 }
 
+/* Original 0x49e30..0x49ece. Fix the member-pointer representation
+   once a class is first used, then verify it against the known inheritance. */
+unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol)
+{
+    ClassInfo *info = class_symbol->detail.class_info;
+    int model;
+    unsigned char prior;
+    if (!(info->inheritance_model & 8)) {
+        if (query_inheritance_model(&model)) {
+            info = class_symbol->detail.class_info;
+            info->inheritance_model = (info->inheritance_model & ~7) | (model & 7);
+        } else {
+            info = class_symbol->detail.class_info;
+            if (info->flags2 & 0x10) {
+                prior = info->inheritance_model;
+                model = infer_inheritance_model(class_symbol);
+                info->inheritance_model = (prior & ~7) | (model & 7);
+            } else {
+                report_syntax_error(644, class_symbol->name);
+                info = class_symbol->detail.class_info;
+                info->inheritance_model = (info->inheritance_model & ~3) | 4;
+                class_symbol->detail.class_info->inheritance_model |= 0x10;
+            }
+        }
+        class_symbol->detail.class_info->inheritance_model |= 8;
+        check_inheritance_model(class_symbol);
+    }
+    return class_symbol->detail.class_info->inheritance_model & 7;
+}
+
 /* Original 0xa0b20: shared by inheritance-model diagnostics. */
 static char *inheritance_model_names[] = {
     "unknown", "single", "multiple", "virtual", "virtual", 0

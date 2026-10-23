@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 1109 accepted frontiers, including 1014 frontend
+PARTIAL binary reconstruction: 1110 accepted frontiers, including 1015 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete.
-Active case state_machine_debug stops at _member_pointer_class_kind@4, original VA 0x49e30.
+Active case state_machine_debug stops at _query_inheritance_model@4, original VA 0x49cb0.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -56,7 +56,7 @@ focused injected rejection. No initialization or malformed-only claim is added.
 All five selected C++ cases are complete, including new/delete/operators.
 cases/reconstruction-queue.json records completion and subsequent case review.
 
-Accepted original extents cover 283897 / 476418 code-section bytes (59.589898%).
+Accepted original extents cover 284055 / 476418 code-section bytes (59.623062%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -87,7 +87,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 1109-entry acceptance provenance and full original extents; the cache
+the ordered 1110-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 

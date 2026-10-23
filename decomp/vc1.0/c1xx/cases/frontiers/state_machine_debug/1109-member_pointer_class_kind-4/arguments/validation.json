@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_member_pointer_class_kind@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1109,
+  "configuration_sha256": "8de5a50cb685c27775421ae3e94b9763becf63d94e032d8cb811fc5e36f6fce3",
+  "native_entry": "member_pointer_class_kind",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "class_symbol",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 232341,
+        "original_owner_function": "_merge_declaration_type@12",
+        "native_owner_function": "merge_declaration_type",
+        "native_owner_field": "caller_tag",
+        "native_owner_local": "tag",
+        "identity": "Actual caller loads work fromESP+20 at48b84, then work.data.tag_symbol+8 intoEAX48b8c, PUSH48b8f/CALL48b90 return48b95. Native existing tag local now names precisely this source expression before call. No assumed class-slot retention or invented static owner.",
+        "original_owner_value": 8301700,
+        "native_owner_value": 1449282692
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449282692,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      302640,
+      302798
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP4/save3registers12B: class_symbolESP+20, RET4; semantic unsignedchar returnAL low3class model bits. Cached8bit bypass else configured query49cb0 or completedclass flags2bit10 infer49ed0; incomplete class report644/generalmodel4 plusflag10; setcached8 andcheck49f00. All four directcallees independently mapped, no hidden/registerinput. Query output model is consumed only on successful return. Current actualCounter tag is bound to caller work.data.tag_symbol resultEAX and native current tag local; a stale class_contexts[0] alias draft was rejected and is not used.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "bbee3d2ab65793a14d3585bd69f416cfd4b85edba9be3d72e5e280a8bfec1757",
+  "capture_timing": {
+    "original_capture_seconds": 1.8197855120524764,
+    "native_capture_seconds": 0.18811413925141096,
+    "total_operation_seconds": 2.302813529036939
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "f4f4dfabd9cd7607a0a21f98dea7138b0c010bab40e2dd7cafd6b88a6e6917f0",
+    "native-commands.gdb": "56d063d5cdfe8506fa013fa60f1b7a1f50df8a9a51637a49fe8c8a508fd87171",
+    "native-gdb.log": "2ebed309b411e7624ba7bf0b53647eb365f1016af4b15a31567d9e163f430659",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "5010a73f31bcb86de98a254bb0f4c09f8e8b0ed595842eb7287a769f82f6eaea",
+    "original-configuration.json": "8de5a50cb685c27775421ae3e94b9763becf63d94e032d8cb811fc5e36f6fce3",
+    "original-disassembly.txt": "df99f0a13e28b1d502cb5388148781b9cf5746da8ee5c28d02d1fb4bae996428",
+    "original-entries.plan": "87629d0602c68d9fdbcacb51826ae44feb7bfda7744013195fad0a27794906fc",
+    "original-events.txt": "c75b7605b1264e335014d0c1aba5c1ca28ff7c2f9e16ac41f7c9e2f3cacd2f69",
+    "original-ownership-caller-disassembly.txt": "6556867cde3bfe8aa1b1fccc0fd6a90269c88ea3079f7492b4fca92363bddf61",
+    "original-receipt.json": "dacbb36fb6e75cf4d4047a2e0e08daf4a474292065e6cb722eb620b3fe08635a",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "2a46464fee42d16faa375785f4dbff33872bd3e77cb7a20faed0e334fca4a77f"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

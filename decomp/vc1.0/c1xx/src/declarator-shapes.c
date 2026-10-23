@@ -119,7 +119,8 @@ void __stdcall merge_declaration_type(CppSymbol *symbol, CType *base, int is_typ
                 work = current.shape;
                 break;
             case 0x10:
-                member_pointer_class_kind(work->data.tag_symbol);
+                tag = work->data.tag_symbol;
+                member_pointer_class_kind(tag);
                 if ((inner.flags & 0x77) == 4) {
                     current.flags = (current.flags & ~0x57) | 0x20;
                     current.flags |= inner.flags & 0xc800;
