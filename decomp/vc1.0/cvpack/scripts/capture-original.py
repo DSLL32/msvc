@@ -179,6 +179,7 @@ def main():
         selected=[r for r in walks if r['name']in record['current'].get('observed_walks',[])]
         if selected:
             env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x:%d:%d:%d'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0),r.get('count_size',4),r.get('count_limit',r['limit']),int(r.get('zero_allocation',False)))for r in selected)
+            env['CVPACK_CAPTURE_STRINGS']=','.join('%x:%d'%(r['original'],offset)for r in selected for offset in r.get('string_fields',[]))
         env['CVPACK_CAPTURE_OUTPUTS']=output_spec
     if args.candidate!=['create_symbol_reference'] and args.entry_progress_only:env['CVPACK_CAPTURE_SCALAR_PROGRESS']='1'
     if args.scalar_completion:env['CVPACK_CAPTURE_SCALAR_COMPLETION']='1'

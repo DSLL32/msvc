@@ -589,5 +589,20 @@
     "count_native": "strip_file_header.NumberOfSections",
     "count_limit": 1024,
     "scope": "Actual requested NumberOfSections*4 allocation; all scalar VirtualAddress entries written by initialize_strip_sections before read_coff_symbol. Count bound is transport limit, not expected case identity."
+  },
+  {
+    "name": "strip_file_names",
+    "original": 230188,
+    "size": 12,
+    "next": 8,
+    "limit": 64,
+    "pointer_fields": [
+      4,
+      8
+    ],
+    "string_fields": [
+      4
+    ],
+    "scope": "Only newly consumed COFF file-name chain; all12 nodebytes and NUL-terminated filename bytes defined by initializer, with actual symbol indices and typed next/name ownership. Bounded traversal, not a fullheap/all-prefix replay."
   }
 ]

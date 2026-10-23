@@ -217,7 +217,7 @@ unsigned short collect_strip_records(void)
                     if (symbol.section < 1 || symbol.section > strip_file_header.NumberOfSections)
                         __asm { int 3 }
 #endif
-                    set_coff_function_end(record, function_aux.total_size
+                    set_coff_function_end(record, function_aux.misc.total_size
                         -strip_section_rvas[symbol.section-1]+symbol.value-1);
                     previous = NULL;
                     if (!has_lines) { free(record->name); free(record); }
@@ -254,5 +254,32 @@ unsigned short read_coff_auxiliary(CoffAuxiliary *auxiliary)
     if (end <= (unsigned long)strip_read_offset) return 0;
     read_file(strip_handle, auxiliary, sizeof(*auxiliary));
     strip_read_offset += sizeof(*auxiliary);
+    return 1;
+}
+
+unsigned short fill_coff_function(CoffFunction *record, const CoffSymbol *symbol,
+                                 const CoffAuxiliary *auxiliary,
+                                 unsigned long index)
+{
+    char filename[260];
+    CoffSymbol block;
+    CoffAuxiliary block_aux;
+    unsigned long block_index, offset, i;
+    unsigned char *clear = (unsigned char *)record;
+
+    for (i = 0; i < sizeof(*record); ++i) clear[i] = 0;
+#ifdef RECON_NATIVE_TEST
+    if (symbol->section < 1 || symbol->section > strip_file_header.NumberOfSections)
+        __asm { int 3 }
+#endif
+    offset = symbol->value-strip_section_rvas[symbol->section-1];
+    if (!read_coff_file_name(filename, index)) fatal_error(37, NULL, NULL);
+    set_coff_function_name(record, filename);
+    assign_coff_function_module(record, symbol->section, offset);
+    if (!read_coff_function_block(auxiliary, &block, &block_aux, &block_index))
+        return 0;
+    set_coff_function_section(record, symbol->section);
+    set_coff_function_line(record, block_aux.misc.line.number);
+    set_coff_function_offset(record, offset);
     return 1;
 }

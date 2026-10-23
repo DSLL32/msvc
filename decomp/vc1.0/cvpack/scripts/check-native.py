@@ -100,7 +100,8 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
         '  if kind==gdb.TYPE_CODE_PTR:\n'
         '   parameters[symbol.name]=dict(null=int(value)==0,address=int(value))\n'
-        '   if int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.strip_typedefs().target().strip_typedefs().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
+        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
+        '   if not output and int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.strip_typedefs().target().strip_typedefs().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
         '   for item in '+repr(data)+':\n'
         '    address=int(gdb.parse_and_eval("&"+item["name"]))\n'
         '    if address<=int(value)<address+item["size"]: parameters[symbol.name]["global"]=dict(name=item["name"],offset=int(value)-address)\n'
@@ -237,7 +238,8 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'
         # Reuse the ordinary debugger's formal/typed caller-local extraction.
         begin=text.index('for symbol in current.block():\n');end=text.index('for description in frontier.get("parameters",[]):\n if description["kind"]!="transient-pointer": continue\n',begin)
-        prefix+='current=f;parameters={}\n'+text[begin:end]
+        formals=text[begin:end].replace(repr(config['functions']),repr([frontier]))
+        prefix+='current=f;parameters={}\n'+formals
 
         prefix+='globals={r["name"]:bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval("&"+r["name"])),r["size"])).hex()for r in '+repr(observed)+'}\n'
         selected=[r for r in walks if r['name']in expected.get('observed_walks',[])]
