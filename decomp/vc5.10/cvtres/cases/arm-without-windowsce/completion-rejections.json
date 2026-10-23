@@ -1,0 +1,20 @@
+{
+  "scope": "Actual completed raw pair copies; both wrong sides must fail untouched canonical reference",
+  "cases": [
+    {
+      "name": "both-wrong-COFF",
+      "rejected": true,
+      "reason": "completed artifact differs: arm.obj"
+    },
+    {
+      "name": "both-wrong-stdout",
+      "rejected": true,
+      "reason": "completed output differs from untouched canonical master"
+    },
+    {
+      "name": "both-wrong-status",
+      "rejected": true,
+      "reason": "unexpected completed case status"
+    }
+  ]
+}

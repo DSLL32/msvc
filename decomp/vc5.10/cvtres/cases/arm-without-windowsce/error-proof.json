@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "function": "error",
+  "comparison": {
+    "kind": "exit",
+    "status": 0,
+    "candidate_entry": {
+      "function": "error",
+      "original_entry": 16784309,
+      "native_entry": "error",
+      "contextual_ranges": 39,
+      "crt_ranges": 4
+    },
+    "resource_observations": {
+      "ids": [
+        8001,
+        1109
+      ],
+      "callback": "LoadStringA(NULL,id,message_buffer,1024)",
+      "actual_module": "USER32.DLL",
+      "callbacks": 2,
+      "buffer_bytes": 1024
+    },
+    "vprintf_observations": {
+      "function": "error",
+      "arguments": 2,
+      "va_list": "first cdecl variadic slot after WORD code in its4-byte ABI slot",
+      "format": "target machine \"%s\" requires \"%s\"",
+      "return_value": 42,
+      "stdout_file_state": "complete before/after FILE32 and pending bytes match"
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/error-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/error-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/error-audit"
+}

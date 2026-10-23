@@ -74,7 +74,9 @@ def rebuilt_import_calls(rebuilt,objbytes,maptext,function_symbol):
  publics={name:int(address,16) for name,address in re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',maptext,re.M)}
  obj=COFF(objbytes);main=next(v for v in obj.symbols.values() if v['name']==function_symbol)
  section=obj.sections[main['section']-1];rebuilt_imports=import_addresses(rebuilt);seen=set();calls=[]
+ end=min([s['value'] for s in obj.symbols.values() if s['section']==main['section'] and s['type']==32 and s['value']>main['value']]+[len(section['data'])])
  for offset,symbol,kind in section['relocs']:
+  if not main['value']<=offset<end:continue
   if not symbol['name'].startswith('__imp_'):continue
   assert kind==6 and offset>=2 and section['data'][offset-2:offset]==b'\xff\x15','unresolved rebuilt imported pointer use'
   pc=publics[function_symbol]+offset-main['value']-2
@@ -175,6 +177,32 @@ def check_bitmap(original,rebuilt,objbytes,maptext):
  seen,rebuilt_calls=rebuilt_import_calls(rebuilt,objbytes,maptext,'_convert_ce_image@20')
  assert imports==seen=={'msvcrt.dll!fwrite','msvcrt.dll!printf','msvcrt.dll!fprintf','msvcrt.dll!__p__iob'},'bitmap qualified import set differs'
  return dict(original_cached=certified,original_direct=direct,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(imports),scope='Two fixed fwrite intervals and one exact error-only push/jmp bypass, no independent CFG traversal.')
+
+def check_diagnostic(original,rebuilt,objbytes,maptext,name):
+ cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
+ if name=='warning':start,end,load_pc,live_end,calls=0x1001bf7,0x1001c39,0x1001c0a,0x1001c34,[0x1001c11,0x1001c32]
+ else:
+  assert name=='error'
+  start,end,load_pc,live_end,calls=0x1001bb5,0x1001bf7,0x1001bc8,0x1001bf2,[0x1001bcf,0x1001bf0]
+ instructions=list(cs.disasm(original.read(start,end-start),start));assert sum(i.size for i in instructions)==end-start
+ catalog=import_addresses(original);by_pc={i.address:i for i in instructions};load=by_pc[load_pc];ops=load.operands
+ assert load.mnemonic=='mov' and ops[0].type==X86_OP_REG and load.reg_name(ops[0].reg)=='esi'
+ assert ops[1].type==X86_OP_MEM and not ops[1].mem.base and not ops[1].mem.index
+ slot=ops[1].mem.disp&0xffffffff;assert qualified(catalog,slot)=='msvcrt.dll!printf','diagnostic cached IAT slot swapped'
+ actual={(i.address,i.reg_name(i.operands[0].reg)) for i in instructions if i.mnemonic=='call' and i.operands[0].type==X86_OP_REG}
+ assert actual=={(pc,'esi') for pc in calls},'diagnostic cached callsite set changed'
+ for instruction in instructions:
+  assert not instruction.group(CS_GRP_JUMP),'diagnostic straight-line certificate has a branch'
+  if load_pc<instruction.address<live_end:
+   assert not ALIASES['esi'].intersection(instruction.regs_access()[1]),'diagnostic cached register overwritten'
+ imports={'msvcrt.dll!printf'};direct=[]
+ for instruction in instructions:
+  if instruction.mnemonic!='call' or instruction.operands[0].type!=X86_OP_MEM:continue
+  memory=instruction.operands[0].mem;assert not memory.base and not memory.index
+  identity=qualified(catalog,memory.disp&0xffffffff);imports.add(identity);direct.append(dict(pc=instruction.address,import_identity=identity))
+ seen,rebuilt_calls=rebuilt_import_calls(rebuilt,objbytes,maptext,'_'+name)
+ assert imports==seen=={'msvcrt.dll!printf','msvcrt.dll!vprintf'},'diagnostic qualified import set differs'
+ return dict(original_cached=dict(import_identity='msvcrt.dll!printf',slot=slot,load=load_pc,live_end=live_end,calls=calls),original_direct=direct,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(imports),scope='One exact straight-line callee-saved ESI interval, no branch/CFG inference.')
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True,type=Path);a=p.parse_args()

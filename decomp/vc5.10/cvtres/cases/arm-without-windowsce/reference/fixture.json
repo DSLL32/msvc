@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "case": "arm-without-windowsce",
+  "arguments": [
+    "/nologo",
+    "/machine:ARM",
+    "/readonly",
+    "/out:arm.obj",
+    "rich.res"
+  ],
+  "argv0": "R:\\toolchains\\5.10\\bin\\CVTRES.EXE",
+  "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "reference": {
+    "status": 0,
+    "stdout_size": 74,
+    "stderr_size": 0,
+    "stdout_sha256": "665377e85e7d223e76dc5dea1bdb54cff21c44433a0c9943aec3641157a5119f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "1c9c5c000223405bc2500e101f03ab7bfcabe9785191fbaef6c63d22ce0dc014",
+    "artifacts": {
+      "arm.obj": {
+        "sha256": "9a74768eba4d26be8f2a8b4db07289d0643f0e8156c3d6ef34376cda3c4a97b3",
+        "bytes": 5080
+      }
+    },
+    "normalization": []
+  },
+  "inputs": [
+    {
+      "name": "rich.res",
+      "path": "cases/resources-rich/input/rich.res",
+      "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+    }
+  ],
+  "trace_sha256": "fce2e947ecb41422635af0036c7a362e3a877cba24e036cd0cb4bb6a2c027f9d",
+  "trace_source_events_sha256": "e02416218aaa025d3dac2b83b3cbb07df6b58128572e0b93700a8322b4c195db",
+  "trace_source_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/error-original",
+  "required_accepted": [
+    "main",
+    "error",
+    "load_message",
+    "seek_file",
+    "tell_file",
+    "convert_resources",
+    "read_bytes",
+    "allocate_block",
+    "read_identifier",
+    "insert_resource",
+    "init_directory",
+    "init_data_entry",
+    "write_bytes",
+    "copy_bytes"
+  ]
+}

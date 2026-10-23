@@ -1,2 +1,3 @@
 #include "messages.rc"
 #include "ce-messages.rc"
+#include "diagnostic-messages.rc"

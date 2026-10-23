@@ -266,6 +266,11 @@ def compare_parameters(config,function,text,state,original,native,prefix=''):
     words=[int(x,16) for x in words[1].split()]
     for index,item in enumerate(function['parameters']):
         record=state['parameters'][str(index)]
+        if item['kind']=='cstring':
+            observed=re.search(r'^'+re.escape(prefix)+r'argument-string '+str(index)+r' pointer ([0-9a-f]+) raw ([0-9a-f]*) terminated 1$',text,re.M)
+            assert observed and int(observed[1],16)==words[index+1] and record['pointer'],'missing diagnostic string argument'
+            assert observed[2]==record['bytes_hex'],'diagnostic string argument differs'
+            continue
         if item['kind'] in ('pixel-palette','row-input','row-output','pixel-input','pixel-output'):
             if item['kind'] in ('pixel-input','pixel-output'):
                 index_value=words[item['index_arg']+1]
@@ -381,3 +386,36 @@ def compare_resource_observations(config,original,native):
         assert returned['id']==id and returned['return_value']==returned['globals']['message_buffer']['address'],'resource function return pointer differs'
         compare_context(config,after,returned,prefix='observation-')
     return dict(ids=ids,callback='LoadStringA(NULL,id,message_buffer,1024)',actual_module='USER32.DLL',callbacks=len(ids),buffer_bytes=1024)
+
+
+def compare_vprintf_observations(config,original,native):
+    """Bind the original/native va_list to the real cdecl variadic argument slot."""
+    spec=config['vprintf_observations'];text=(original/'events.txt').read_text();state=json.loads((native/'state.json').read_text())
+    def block(address):
+        matches=re.findall(r'^observation '+format(address,'08x')+r'\n(.*?)(?=^observation |^entry |^exit |\Z)',text,re.M|re.S)
+        assert len(matches)==1,'missing/ambiguous actual vprintf call/return'
+        return matches[0]
+    before=block(spec['call']);after=block(spec['returned'])
+    assert len(state.get('vprintf_calls',[]))==len(state.get('vprintf_returns',[]))==1,'missing actual native vprintf call/return'
+    call=state['vprintf_calls'][0];returned=state['vprintf_returns'][0]
+    function=next(f for f in config['functions'] if f['start']<=spec['call']<f['end'])
+    entry=re.search(r'^entry '+format(function['start'],'08x')+r'\n(.*?)(?=^entry |^trap |\Z)',text,re.M|re.S);assert entry
+    original_sp=int(re.search(r'^entry-trap .*? esp ([0-9a-f]+)',entry[1],re.M)[1],16)
+    words=[int(v,16) for v in re.search(r'^entry-stack ([0-9a-f ]+)$',entry[1],re.M)[1].split()]
+    native_entry=next(e for e in state['entries'] if e['function']==function['native'])
+    va=int(re.search(r'^observation-vprintf-va-list ([0-9a-f]+)$',before,re.M)[1],16)
+    assert va==original_sp+8 and call['args_pointer']==native_entry['abi_arguments_base']+4,'va_list is not first variadic cdecl slot'
+    strings={int(index):(int(pointer,16),raw) for index,pointer,raw in re.findall(r'^observation-argument-string ([0-9]+) pointer ([0-9a-f]+) raw ([0-9a-f]*) terminated 1$',before,re.M)}
+    assert set(strings)==set(range(spec['arguments']+1)),'missing actual vprintf format/arguments'
+    assert strings[0][0]==0x100457c and call['format_pointer']==call['globals']['message_buffer']['address'],'vprintf format is not target message buffer'
+    assert strings[0][1]==call['format_hex'],'vprintf format differs'
+    assert len(call['arguments'])==spec['arguments']
+    for i,argument in enumerate(call['arguments'],1):
+        assert strings[i][0]==words[i+1] and argument['pointer']==native_entry['parameters'][str(i)]['pointer'],'vprintf argument alias differs'
+        assert strings[i][1]==argument['bytes_hex']==native_entry['parameters'][str(i)]['bytes_hex'],'vprintf argument bytes differ'
+    result=int(re.search(r'^observation-trap .*? eax ([0-9a-f]+)',after,re.M)[1],16)
+    assert returned['return_value']==result,'vprintf return value differs'
+    assert int(re.search(r'^observation-vprintf-va-list ([0-9a-f]+)$',after,re.M)[1],16)==va,'original va_list pointer changed'
+    compare_context(config,before,call,prefix='observation-')
+    compare_context(config,after,returned,prefix='observation-')
+    return dict(function=function['name'],arguments=spec['arguments'],va_list='first cdecl variadic slot after WORD code in its4-byte ABI slot',format=bytes.fromhex(call['format_hex']).decode('latin1'),return_value=result,stdout_file_state='complete before/after FILE32 and pending bytes match')

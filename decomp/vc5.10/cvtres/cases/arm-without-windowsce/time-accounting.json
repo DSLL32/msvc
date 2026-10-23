@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": "seconds",
+  "original_capture": {
+    "setup": 0.045142725110054016,
+    "execution": 1.9002675600349903,
+    "total": 1.9679699381813407
+  },
+  "native_gdb": {
+    "build": 0.005790530703961849,
+    "setup": 0.06540859024971724,
+    "execution": 0.2286310838535428,
+    "total": 0.30579037219285965
+  },
+  "static_audit": {
+    "engine": 0.08954828325659037,
+    "total": 0.27057957742363214
+  },
+  "frozen_verification": 0.26896988321095705,
+  "native_fixture": {
+    "setup": 0.05821232497692108,
+    "execution": 0.0029080919921398163,
+    "checks": 0.0015559643507003784
+  },
+  "suite": {
+    "build": 0.004722364246845245,
+    "total": 0.3207401856780052
+  },
+  "note": "Original-toolchain build recorded separately in cases/final-validation.json. Native fixtures never use Wine; cached original remains unchanged across shared/tool edits."
+}

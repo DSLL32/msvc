@@ -1,12 +1,18 @@
 {
   "schema": 1,
-  "state": "ce-complete-diagnostics-authorized",
+  "state": "authorized-five-cases-complete",
   "target": "toolchains/5.10/bin/CVTRES.EXE",
   "release_conditions": [
     "All VC5 workers authorized to resume first substantive cases"
   ],
-  "accepted_functions": 20,
-  "coverage": null,
+  "accepted_functions": 22,
+  "coverage": {
+    "metric": "Identified application extent bytes",
+    "accepted": 7445,
+    "total": 7445,
+    "percent": 100,
+    "qualification": "Not branch, input, API, resource or whole-.text coverage"
+  },
   "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
   "scratch_namespace": "S:\\vc5.10\\cvtres",
   "cases": [
@@ -85,6 +91,33 @@
       "payload_observation": "resources-rich-ce/payload-observation.json",
       "completion": "resources-rich-ce/completion.json",
       "acceptance_reference": "resources-rich-ce/reference/fixture.json"
+    },
+    {
+      "id": "default-machine",
+      "argv": [
+        "/nologo",
+        "/readonly",
+        "/out:default.obj",
+        "rich.res"
+      ],
+      "purpose": "Actual default-IX86 warning4001",
+      "state": "complete",
+      "completion": "default-machine/completion.json",
+      "acceptance_reference": "default-machine/reference/fixture.json"
+    },
+    {
+      "id": "arm-without-windowsce",
+      "argv": [
+        "/nologo",
+        "/machine:ARM",
+        "/readonly",
+        "/out:arm.obj",
+        "rich.res"
+      ],
+      "purpose": "Actual missing /windowsce error1109",
+      "state": "complete",
+      "completion": "arm-without-windowsce/completion.json",
+      "acceptance_reference": "arm-without-windowsce/reference/fixture.json"
     }
   ],
   "proposed_followups": [
@@ -121,28 +154,12 @@
     "status": "Static child evidence; standalone resource conversion complete. LINK child fixture integration remains sibling-owned.",
     "followup": "Match actual machine buffer, optional switches, quoting and generated COFF naming in explicit original LINK capture after release"
   },
-  "accepted_extent_bytes": 7313,
-  "authorized_next_cases": [
-    {
-      "id": "default-machine",
-      "argv": [
-        "/nologo",
-        "/readonly",
-        "/out:default.obj",
-        "rich.res"
-      ],
-      "purpose": "Actual default-IX86 warning4001"
-    },
-    {
-      "id": "arm-without-windowsce",
-      "argv": [
-        "/nologo",
-        "/machine:ARM",
-        "/readonly",
-        "/out:arm.obj",
-        "rich.res"
-      ],
-      "purpose": "Actual missing /windowsce error1109"
-    }
+  "accepted_extent_bytes": 7445,
+  "inventory": "code-extent-inventory.json",
+  "fixture_times": "fixture-times.json",
+  "remaining_validation": [
+    "Only seven encountered message IDs are provided; unknown resource IDs fail closed.",
+    "Valid bitmap1/2/4/8/24bpp paths are reconstructed, but the case exercises24bpp input/2bpp output; malformed depths have no defined C return and remain unvalidated.",
+    "Other option, malformed/duplicate resource, large-file and error branches/API slices remain untested."
   ]
 }

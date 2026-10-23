@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "scope": "Pure Linux validation of copied bytes; no original execution or modified toolchain files.",
+  "checker_sha256": "2446d6b11da30624860624955af91fd0dab00ebcb9f0372df398ea3bc441d94e",
+  "original_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "rebuilt_sha256": "2a3c695577fcd9c5907ff789ffd71efbfbec927ec60e54d2f12f7c5c7535d3f0",
+  "function": "warning",
+  "object_sha256": "1dc81c09d0f764daba32357a3042fd68e798f961b5c1ddda86b503751cbd5313",
+  "cases": [
+    {
+      "name": "swapped-IAT-slot",
+      "rejected": true,
+      "reason": "diagnostic cached IAT slot swapped",
+      "address": 16784396,
+      "mutated_sha256": "a8c62dabbe80536ad70dec9b19f6822d9dfe7e4e1d0d213f3e177154fbdb33ca"
+    },
+    {
+      "name": "changed-register-call",
+      "rejected": true,
+      "reason": "diagnostic cached callsite set changed",
+      "address": 16784401,
+      "mutated_sha256": "44e770db3b379045986e8a9515b5ea4c4acf86bf3aba4b5b17eabbbf85a3dd46"
+    },
+    {
+      "name": "overwritten-cached-register",
+      "rejected": true,
+      "reason": "diagnostic cached register overwritten",
+      "address": 16784403,
+      "mutated_sha256": "1141c85cccbaa0063a0d19384c40a351dbc6ab26be722d9b9e2a885c8d385abc"
+    }
+  ]
+}

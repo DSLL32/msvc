@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef DWORD (WINAPI *PathFromHandle)(HANDLE, char *, DWORD, DWORD);
@@ -165,6 +166,18 @@ static void resource_heap(FILE *log, HANDLE child, const char *prefix)
     fputc('\n', log);
 }
 
+static void argument_string(FILE *log,HANDLE child,DWORD pointer,const char *prefix,unsigned index)
+{
+    DWORD i,got;unsigned char ch=1;
+    fprintf(log,"%sargument-string %u pointer %08lx raw ",prefix,index,pointer);
+    for (i=0;pointer && i<4096;++i) {
+        if (!ReadProcessMemory(child,(void *)(pointer+i),&ch,1,&got) || got!=1) break;
+        if (!ch) break;
+        fprintf(log,"%02x",ch);
+    }
+    fprintf(log," terminated %d\n",pointer && i<4096 && ch==0);
+}
+
 static void bitmap_buffer(FILE *log, HANDLE child, unsigned index, DWORD cursor,
                           DWORD pointer, DWORD size, const char *prefix)
 {
@@ -316,6 +329,22 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
                 }
                 request = strchr(request, ','); if (request) ++request;
             }
+        }
+        {
+            char *request=getenv("CVTRES_STRING_ARGUMENTS");DWORD function,index;
+            while (request && *request) {
+                if (sscanf(request,"%lx:%lu",&function,&index)!=2 || index>=19) break;
+                if (function==address) argument_string(log,child,words[index+1],prefix,index);
+                request=strchr(request,',');if (request) ++request;
+            }
+        }
+        if (address==0x1001c27 || address==0x1001c2d || address==0x1001be5 || address==0x1001beb) {
+            char *request=getenv("CVTRES_VPRINTF_ARGUMENT_COUNT");DWORD n=request?atoi(request):0,pointer,got;
+            fprintf(log,"%svprintf-va-list %08lx\n",prefix,words[1]);
+            argument_string(log,child,words[0],prefix,0);
+            for (i=0;i<n && n<=8;++i)
+                if (ReadProcessMemory(child,(void *)(words[1]+4*i),&pointer,4,&got) && got==4)
+                    argument_string(log,child,pointer,prefix,i+1);
         }
         if (address == 0x100209d || address == 0x1002147) {
             DWORD bits, enabled, got, size;

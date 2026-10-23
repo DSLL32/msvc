@@ -61,7 +61,7 @@
   "proof": "write-pixel-proof.json",
   "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-original",
   "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-native",
-  "audit": "build/ce-write-pixel-audit",
+  "audit": "build/ce-review-audit-03",
   "pinned": {
     "original": {
       "configuration.json": "d6dae696ec2bf9e159d566b56b194e1d1bd1f68129fb9d913959e41046b6507f",
@@ -82,5 +82,10 @@
       "rebuilt.exe": "97ae2d665b5565a45c7f81738dbd49a42b6d27c0b3a690ec259c7b9967b020c3",
       "rebuilt.map": "3961f12b2e6baacdb4adbf791104c23b9e76458945744296dc43ad4ec5f5806a"
     }
-  }
+  },
+  "audit_history": [
+    "build/ce-write-pixel-audit",
+    "build/ce-review-audit-02"
+  ],
+  "static_refresh": "Current approved Rust tool and finite import checker; same pinned original/native/compiled artifacts, no execution recapture"
 }

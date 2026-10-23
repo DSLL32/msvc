@@ -1,0 +1,30 @@
+{
+  "scope": "Actual original/native cdecl and CRT FILE observations, semantic guard controls",
+  "cases": [
+    {
+      "name": "wrong-va-list-slot",
+      "rejected": true,
+      "reason": "va_list is not first variadic cdecl slot"
+    },
+    {
+      "name": "wrong-format",
+      "rejected": true,
+      "reason": "vprintf format differs"
+    },
+    {
+      "name": "wrong-argument-alias",
+      "rejected": true,
+      "reason": "vprintf argument alias differs"
+    },
+    {
+      "name": "wrong-return",
+      "rejected": true,
+      "reason": "vprintf return value differs"
+    },
+    {
+      "name": "wrong-pending-stdout",
+      "rejected": true,
+      "reason": "CRT pending buffer differs"
+    }
+  ]
+}

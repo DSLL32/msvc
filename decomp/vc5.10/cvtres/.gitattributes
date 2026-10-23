@@ -10,3 +10,10 @@ cases/resources-rich-ce/reference/*.bin binary
 cases/resources-rich-ce/reference/*events.txt binary
 cases/resources-rich-ce/reference/*.obj binary
 cases/resources-rich-ce/resources/*.res binary
+cases/default-machine/reference/*.bin binary
+cases/default-machine/reference/*events.txt binary
+cases/default-machine/reference/*.obj binary
+cases/arm-without-windowsce/reference/*.bin binary
+cases/arm-without-windowsce/reference/*events.txt binary
+cases/arm-without-windowsce/reference/*.obj binary
+cases/diagnostic-resources/*.res binary

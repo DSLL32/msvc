@@ -70,6 +70,8 @@ def import_residual(config,artifacts=None):
     if any(f['name']=='usage' and f['status'] in ('accepted','candidate') for f in config['functions']):result['usage']=module.check_usage(original,rebuilt,(directory/'usage.obj').read_bytes(),maptext)
     if any(f['name']=='insert_resource' and f['status'] in ('accepted','candidate') for f in config['functions']):result['insert_resource']=module.check_insert(original,rebuilt,(directory/'tree.obj').read_bytes(),maptext)
     if any(f['name']=='convert_ce_image' and f['status'] in ('accepted','candidate') for f in config['functions']):result['convert_ce_image']=module.check_bitmap(original,rebuilt,(directory/'bitmap.obj').read_bytes(),maptext)
+    for name in ('warning','error'):
+        if any(f['name']==name and f['status'] in ('accepted','candidate') for f in config['functions']):result[name]=module.check_diagnostic(original,rebuilt,(directory/'diagnostics.obj').read_bytes(),maptext,name)
     return result
 
 def audit_paths(config,out):
@@ -86,10 +88,11 @@ def audit_paths(config,out):
     if any(f['name']=='insert_resource' and f['status'] in ('accepted','candidate') for f in config['functions']):paths['tree_object']=BINARY/'build/tree.obj'
     if any(f['name']=='convert_ce_image' and f['status'] in ('accepted','candidate') for f in config['functions']):paths['bitmap_object']=BINARY/'build/bitmap.obj'
     if any(f['name']=='read_pixel' and f['status'] in ('accepted','candidate') for f in config['functions']):paths.update(pixels_object=BINARY/'build/pixels.obj',rebuilt_data_checker=BINARY/'scripts/rebuilt_data.py',rebuilt_data_proof=out/'rebuilt-data.json')
+    if any(f['name'] in ('warning','error') and f['status'] in ('accepted','candidate') for f in config['functions']):paths['diagnostics_object']=BINARY/'build/diagnostics.obj'
     for index,path in enumerate(config.get('additional_resources',[])):
         manifest=BINARY/path;proof=json.loads(manifest.read_text())
         paths.update({f'resource_extra_{index}_manifest':manifest,f'resource_extra_{index}_blob':manifest.parent/'messages.res',f'resource_extra_{index}_source':BINARY/proof['source_path']})
-    for key,name in [('native','native.elf'),('rebuilt','rebuilt.exe'),('map','rebuilt.map'),('main_object','main.obj'),('usage_object','usage.obj'),('tree_object','tree.obj'),('bitmap_object','bitmap.obj'),('pixels_object','pixels.obj')]:
+    for key,name in [('native','native.elf'),('rebuilt','rebuilt.exe'),('map','rebuilt.map'),('main_object','main.obj'),('usage_object','usage.obj'),('tree_object','tree.obj'),('bitmap_object','bitmap.obj'),('pixels_object','pixels.obj'),('diagnostics_object','diagnostics.obj')]:
         if (out/name).exists() and key in paths:paths[key]=out/name
     return paths
 
@@ -102,7 +105,7 @@ def audit_command(config,out):
        '--metadata',str(paths['metadata']),'--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
 
 def strict_import_functions(config):
-    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage','insert_resource','convert_ce_image') and not f.get('import_certificate')]
+    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage','insert_resource','convert_ce_image','warning','error') and not f.get('import_certificate')]
 
 def strict_import_command(config,out):
     if not strict_import_functions(config):return None
@@ -113,19 +116,19 @@ def strict_import_command(config,out):
 def audit_hashes(config,out):
     return {name:dict(path=str(path),sha256=sha(path.read_bytes())) for name,path in audit_paths(config,out).items()}
 
-def graph(config,out):
+def graph(config,out,artifacts=None):
     import time
     start=time.perf_counter()
     out.mkdir(parents=True,exist_ok=False)
-    cfg,metadata=projection(config)
+    files=[(BINARY/'build/native/inputs.json','native-build.json'),(BINARY/'build/original-inputs.json','original-build.json'),(BINARY/'build/native/CVTRES','native.elf'),(BINARY/'build/CVTRES.EXE','rebuilt.exe'),(BINARY/'build/cvtres.map','rebuilt.map')]+[(BINARY/('build/'+name+'.obj'),name+'.obj') for name in ('main','usage','tree','bitmap','pixels','diagnostics')]
+    for current,name in files:
+        source=(artifacts/name) if artifacts else current
+        if source.exists():shutil.copyfile(source,out/name)
+    cfg,metadata=projection(config,out)
     (out/'trial.json').write_text(json.dumps(config,indent=2)+'\n')
     (out/'graph-config.json').write_text(json.dumps(cfg,indent=2)+'\n')
     (out/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
     (out/'runtime.json').write_text('[]\n')
-    shutil.copyfile(BINARY/'build/native/inputs.json',out/'native-build.json')
-    shutil.copyfile(BINARY/'build/original-inputs.json',out/'original-build.json')
-    for source,name in [(BINARY/'build/native/CVTRES','native.elf'),(BINARY/'build/CVTRES.EXE','rebuilt.exe'),(BINARY/'build/cvtres.map','rebuilt.map')]+[(BINARY/('build/'+name+'.obj'),name+'.obj') for name in ('main','usage','tree','bitmap','pixels')]:
-        if source.exists():shutil.copyfile(source,out/name)
     if any(f['name']=='read_pixel' and f['status'] in ('accepted','candidate') for f in config['functions']):
         from rebuilt_data import read_pixel_switch
         _,proof=read_pixel_switch(PE(out/'rebuilt.exe'),(out/'pixels.obj').read_bytes(),(out/'rebuilt.map').read_text())
@@ -159,10 +162,10 @@ def graph(config,out):
          seconds=dict(engine=engine_seconds,total=time.perf_counter()-start))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--trial',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--trial',type=Path);p.add_argument('--artifacts',type=Path,help='explicit immutable prior audit compiled artifacts, no build/capture');a=p.parse_args()
     config=json.loads(a.trial.read_text()) if a.trial else load()[0]
-    runtime=check_source(config)
-    result=graph(config,a.output.resolve())
+    runtime=check_source(config,json.loads((a.artifacts/'native-build.json').read_text()) if a.artifacts else None)
+    result=graph(config,a.output.resolve(),a.artifacts.resolve() if a.artifacts else None)
     result['runtime_identity_count']=len(runtime['functions'])
     (a.output/'receipt.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result['report'],indent=2))

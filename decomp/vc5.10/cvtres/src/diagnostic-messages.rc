@@ -1,0 +1,10 @@
+#include <windows.h>
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STRINGTABLE DISCARDABLE
+BEGIN
+    1109 "target machine ""%s"" requires ""%s"""
+    4001 "machine type not specified; assumed %s"
+    8001 "CVTRES : fatal error CVT%04d:%c"
+    8002 "CVTRES : warning CVT%04d:%c"
+END

@@ -26,7 +26,9 @@
     "_convert_rows@28",
     "_read_pixel@12",
     "_color_to_gray@4",
-    "_write_pixel@12"
+    "_write_pixel@12",
+    "_warning",
+    "_error"
   ],
   "functions": [
     {
@@ -207,8 +209,35 @@
       "end": 16784375,
       "cleanup": 0,
       "abi": "void __cdecl error(unsigned short,...)",
-      "status": "stub",
-      "source": "src/stubs.c"
+      "status": "accepted",
+      "source": "src/diagnostics.c",
+      "parameters": [
+        {
+          "name": "code",
+          "kind": "word"
+        },
+        {
+          "name": "argument1",
+          "kind": "cstring",
+          "stack_after": "code",
+          "stack_slot": 1,
+          "variadic": true
+        },
+        {
+          "name": "argument2",
+          "kind": "cstring",
+          "stack_after": "code",
+          "stack_slot": 2,
+          "variadic": true
+        }
+      ],
+      "text_data": [
+        [
+          16782036,
+          16782038
+        ]
+      ],
+      "evidence": "cases/arm-without-windowsce/error-proof.json"
     },
     {
       "name": "warning",
@@ -218,8 +247,28 @@
       "end": 16784441,
       "cleanup": 0,
       "abi": "void __cdecl warning(unsigned short,...)",
-      "status": "stub",
-      "source": "src/stubs.c"
+      "status": "accepted",
+      "source": "src/diagnostics.c",
+      "parameters": [
+        {
+          "name": "code",
+          "kind": "word"
+        },
+        {
+          "name": "argument1",
+          "kind": "cstring",
+          "stack_after": "code",
+          "stack_slot": 1,
+          "variadic": true
+        }
+      ],
+      "text_data": [
+        [
+          16782036,
+          16782038
+        ]
+      ],
+      "evidence": "cases/default-machine/warning-proof.json"
     },
     {
       "name": "seek_file",
@@ -1024,13 +1073,12 @@
     }
   ],
   "case": {
-    "id": "resources-rich-ce",
+    "id": "arm-without-windowsce",
     "arguments": [
       "/nologo",
       "/machine:ARM",
-      "/windowsce",
       "/readonly",
-      "/out:rich-ce.obj",
+      "/out:arm.obj",
       "rich.res"
     ],
     "inputs": [
@@ -1041,21 +1089,21 @@
       }
     ],
     "artifacts": [
-      "rich-ce.obj"
+      "arm.obj"
     ],
     "canonical_reference": {
       "status": 0,
-      "stdout_size": 40,
+      "stdout_size": 74,
       "stderr_size": 0,
-      "stdout_sha256": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
+      "stdout_sha256": "665377e85e7d223e76dc5dea1bdb54cff21c44433a0c9943aec3641157a5119f",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
       "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-      "capture_receipt_sha256": "590e812dfe8ba8d21d728f18de099fd57cb07acdde79f4b2e775eaf97b8955c4",
+      "capture_receipt_sha256": "1c9c5c000223405bc2500e101f03ab7bfcabe9785191fbaef6c63d22ce0dc014",
       "artifacts": {
-        "rich-ce.obj": {
-          "sha256": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff",
-          "bytes": 4912
+        "arm.obj": {
+          "sha256": "9a74768eba4d26be8f2a8b4db07289d0643f0e8156c3d6ef34376cda3c4a97b3",
+          "bytes": 5080
         }
       },
       "normalization": []
@@ -1107,13 +1155,28 @@
     {
       "address": 16789871,
       "purpose": "encountered LoadStringA return buffer"
+    },
+    {
+      "address": 16784357,
+      "purpose": "actual error vprintf call"
+    },
+    {
+      "address": 16784363,
+      "purpose": "actual error vprintf return"
     }
   ],
   "heap_state": true,
   "additional_resources": [
-    "cases/resources-rich-ce/resources/manifest.json"
+    "cases/resources-rich-ce/resources/manifest.json",
+    "cases/diagnostic-resources/manifest.json"
   ],
   "resource_observations": [
-    5007
-  ]
+    8001,
+    1109
+  ],
+  "vprintf_observations": {
+    "arguments": 2,
+    "call": 16784357,
+    "returned": 16784363
+  }
 }

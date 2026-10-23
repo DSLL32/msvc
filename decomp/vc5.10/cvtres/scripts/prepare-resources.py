@@ -30,7 +30,7 @@ assert {e['id'] for e in entries}=={8003,8004}
 for path in config.get('additional_resources',[]):
  manifest=BINARY/path;extra=json.loads(manifest.read_text());source=(BINARY/extra['source_path']).read_bytes();res=(manifest.parent/'messages.res').read_bytes()
  assert extra['target_sha256']==proof['target_sha256'] and sha(source)==extra['source_sha256'] and sha(res)==extra['res_sha256'] and len(res)==extra['res_size']
- literals={int(id):json.loads('"'+text+'"') for id,text in re.findall(r'^\s*([0-9]+) "(.*)"$',source.decode(),re.M)}
+ literals={int(id):json.loads('"'+text.replace('""',r'\"')+'"') for id,text in re.findall(r'^\s*([0-9]+) "(.*)"$',source.decode(),re.M)}
  assert set(literals)=={row['id'] for row in extra['entries']}
  for row in extra['entries']:
   offset=row['res_offset'];length=row['utf16_units'];raw=res[offset:offset+2+2*length]

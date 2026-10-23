@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "case": "arm-without-windowsce",
+  "state": "complete",
+  "argv": [
+    "/nologo",
+    "/machine:ARM",
+    "/readonly",
+    "/out:arm.obj",
+    "rich.res"
+  ],
+  "inputs": [
+    {
+      "name": "rich.res",
+      "path": "cases/resources-rich/input/rich.res",
+      "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+    }
+  ],
+  "reference": {
+    "status": 0,
+    "stdout_size": 74,
+    "stderr_size": 0,
+    "stdout_sha256": "665377e85e7d223e76dc5dea1bdb54cff21c44433a0c9943aec3641157a5119f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "1c9c5c000223405bc2500e101f03ab7bfcabe9785191fbaef6c63d22ce0dc014",
+    "artifacts": {
+      "arm.obj": {
+        "sha256": "9a74768eba4d26be8f2a8b4db07289d0643f0e8156c3d6ef34376cda3c4a97b3",
+        "bytes": 5080
+      }
+    },
+    "normalization": []
+  },
+  "proof": "error-proof.json",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/error-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/error-native",
+  "audit": "build/error-review-audit",
+  "audit_history": [
+    "build/error-audit"
+  ],
+  "comparison": {
+    "kind": "exit",
+    "status": 0,
+    "candidate_entry": {
+      "function": "error",
+      "original_entry": 16784309,
+      "native_entry": "error",
+      "contextual_ranges": 39,
+      "crt_ranges": 4
+    },
+    "resource_observations": {
+      "ids": [
+        8001,
+        1109
+      ],
+      "callback": "LoadStringA(NULL,id,message_buffer,1024)",
+      "actual_module": "USER32.DLL",
+      "callbacks": 2,
+      "buffer_bytes": 1024
+    },
+    "vprintf_observations": {
+      "function": "error",
+      "arguments": 2,
+      "va_list": "first cdecl variadic slot after WORD code in its4-byte ABI slot",
+      "format": "target machine \"%s\" requires \"%s\"",
+      "return_value": 42,
+      "stdout_file_state": "complete before/after FILE32 and pending bytes match"
+    }
+  },
+  "application_functions": 22,
+  "application_extent_bytes": 7445,
+  "qualification": "Acceptance extent count at this completion; overall current inventory is22 functions/7445 bytes. Not branch, input, resource or API completeness.",
+  "normalization": [],
+  "pinned": {
+    "original": {
+      "configuration.json": "4f5e958045204b84cf51ced599546474ead9a0876b344421c96c7d8c1fe16b67",
+      "receipt.json": "964e6e9bdeb6267a95dc52585f157be198661ca945569a3e46bb871fb1ae43c2",
+      "stdout.bin": "665377e85e7d223e76dc5dea1bdb54cff21c44433a0c9943aec3641157a5119f",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native": {
+      "configuration.json": "4f5e958045204b84cf51ced599546474ead9a0876b344421c96c7d8c1fe16b67",
+      "receipt.json": "7940d3254c8c24cbcf82c2a9b80341b3d2385e627346a0f4082e209573c79d0c",
+      "stdout.bin": "665377e85e7d223e76dc5dea1bdb54cff21c44433a0c9943aec3641157a5119f",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "audit": {
+      "receipt.json": "72753ecb9f90b5a9f6325212cca69d14077758106180f1d9bb5b7690cf23c8b6",
+      "native.elf": "2e17ecd69bd9307d24257affb5a14d89394a3ffbcb458fb9e182327a18ffa316",
+      "rebuilt.exe": "2a3c695577fcd9c5907ff789ffd71efbfbec927ec60e54d2f12f7c5c7535d3f0",
+      "rebuilt.map": "a37bd98d927910bca75da1f4d970409c1d693bef8ab3e3e97b82718a85de6e09",
+      "native-build.json": "8a99b57a92ea6610fa91beed2c61cc4b9d5ef1c9736cdf1732cbb9cead117a65",
+      "original-build.json": "e999ce7a7dd076866a71130275d7fdd920cd3fbd812a9b573f34d098b710b3be"
+    }
+  },
+  "static_refresh": "Same immutable actual pair and compiled artifacts, current approved Rust tool/checker; no execution recapture"
+}

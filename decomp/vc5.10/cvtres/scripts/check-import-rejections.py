@@ -10,10 +10,11 @@ from layout import import_addresses
 from mask import BINARY,ROOT,sha
 spec=importlib.util.spec_from_file_location('residual',BINARY/'scripts/import-residual.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
-p=argparse.ArgumentParser();p.add_argument('--function',choices=['main','insert_resource','convert_ce_image'],default='main');p.add_argument('--output',required=True,type=Path);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--function',choices=['main','insert_resource','convert_ce_image','warning','error'],default='main');p.add_argument('--output',required=True,type=Path);a=p.parse_args()
 original=PE(ROOT/'toolchains/5.10/bin/CVTRES.EXE');rebuilt=PE(BINARY/'build/CVTRES.EXE')
-obj=(BINARY/('build/'+{'main':'main','insert_resource':'tree','convert_ce_image':'bitmap'}[a.function]+'.obj')).read_bytes();maptext=(BINARY/'build/cvtres.map').read_text()
-check={'main':m.check,'insert_resource':m.check_insert,'convert_ce_image':m.check_bitmap}[a.function]
+obj=(BINARY/('build/'+{'main':'main','insert_resource':'tree','convert_ce_image':'bitmap','warning':'diagnostics','error':'diagnostics'}[a.function]+'.obj')).read_bytes();maptext=(BINARY/'build/cvtres.map').read_text()
+check={'main':m.check,'insert_resource':m.check_insert,'convert_ce_image':m.check_bitmap}.get(a.function)
+if a.function in ('warning','error'):check=lambda original,rebuilt,obj,maptext:m.check_diagnostic(original,rebuilt,obj,maptext,a.function)
 check(original,rebuilt,obj,maptext)
 printf=next(slot for slot,(_,name) in import_addresses(original).items() if name=='printf')
 tests=[('swapped-IAT-slot',0x10014e7,struct.pack('<I',printf),'cached IAT slot swapped'),
@@ -34,6 +35,12 @@ if a.function=='convert_ce_image':
  ('branch-bypassing-load',0x1002392,bytes([0x10023e2-0x1002393]),'bypasses cached load'),
  ('error-branch-enters-call',0x1002593,struct.pack('<i',0x10023c6-0x1002597),'bypasses cached load'),
  ('error-stub-enters-call',0x10023d6,struct.pack('<i',0x10023e2-0x10023da),'error-only jump changed')]
+if a.function in ('warning','error'):
+ puts=next(slot for slot,(_,name) in import_addresses(original).items() if name=='puts')
+ load,call,overwrite=(0x1001c0a,0x1001c11,0x1001c13) if a.function=='warning' else (0x1001bc8,0x1001bcf,0x1001bd1)
+ tests=[('swapped-IAT-slot',load+2,struct.pack('<I',puts),'slot swapped'),
+ ('changed-register-call',call,b'\xff\xd7','callsite set changed'),
+ ('overwritten-cached-register',overwrite,b'\x31\xf6\x90','register overwritten')]
 results=[]
 for name,pc,data,reason in tests:
  mutated=PE(ROOT/'toolchains/5.10/bin/CVTRES.EXE');raw=bytearray(mutated.data);offset=mutated.offset(pc);raw[offset:offset+len(data)]=data;mutated.data=bytes(raw)

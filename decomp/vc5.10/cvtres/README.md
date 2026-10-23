@@ -1,54 +1,60 @@
 # CVTRES 5.00.1668.1
 
-Three cases are complete: `/help` returns 1 with 360 stdout bytes; rich x86 resource
-conversion returns 0 with empty streams and an exact 5,080-byte COFF file. The ARM/Windows CE case returns 0 with its conversion line and an exact
-4,912-byte COFF bitmap conversion. All match untouched originals without
-normalization. Twenty functions totaling 7,313 bytes of 7,445 declared application
-extent bytes are accepted (98.23% of this inventory, not branch coverage). Only
-the two 66-byte diagnostic routines remain in that inventory; whole-binary
-code/data classification remains pending. Eight identified CRT support functions total 424 bytes separately.
-Imports and verified data do not count as reconstructed application code.
+Five cases match untouched original status, complete streams/artifacts and
+application first-entry traces without normalization:
 
-`make -j4 native` builds i386 Linux. `make -j4 fixtures` checks all three cached cases:
-status, complete streams/artifacts, immutable inputs and application first-entry
-traces. It never launches Wine or a PE helper. Latest three-case time is recorded
-in `cases/resources-rich-ce/fixture-times.json`, split into build/setup/execution/
-checks. Resource-provider preparation consumes verified cached strings only.
+| Case | Status | Stdout bytes | COFF bytes |
+| --- | ---: | ---: | ---: |
+| `/help` | 1 | 360 | — |
+| rich x86 resources | 0 | 0 | 5,080 |
+| rich ARM/Windows CE bitmap conversion | 0 | 40 | 4,912 |
+| default-machine warning 4001 | 0 | 68 | 5,084 |
+| ARM without `/windowsce`, error 1109 | 0 | 74 | 5,080 |
+
+The last case really returns 0 and writes an object despite its “fatal error”
+message. The CE case converts the same input bitmap from 24bpp to 2bpp.
+All 22 identified application functions, totaling 7,445 bytes, are accepted.
+`cases/code-extent-inventory.json` partitions all 9,694 virtual `.text` bytes:
+7,445 application code; 400 exact shipped CRT code; 24 import thunks; 756 encountered
+application data; 851 loader data; 12 CRT scope data; 84 stale debug records;
+107 zero padding;15 INT3 padding. The 34-byte raw alignment tail is zero.
+Orphaned debug records remain masked; the report records their exact fields,
+stale/unbacked payload offsets and constant-reference scope.
+
+This is extent coverage, not branch/input/API/resource completeness. Only seven
+encountered message IDs are provided; unknown IDs fail closed. Valid bitmap
+1/2/4/8/24bpp paths are recovered, but the cases exercise 24bpp input and 2bpp
+output. The original has no defined C result for unsupported depths; that path,
+other resource formats and unexercised option/error branches remain unvalidated.
+
+`make -j4 native` builds i386 Linux; `make -j4 fixtures` checks all five cached
+cases without Wine or PE helpers. Latest warm suite: 0.321s including 4.72ms
+incremental build check and 13.23ms combined ELF execution. Per-case setup,
+execution and checks are in `cases/fixture-times.json`.
 `make -j4 original` explicitly compiles Win32 C/resources with the shipped 5.10
 compiler and shared Wine prefix; fixtures do not depend on that target.
 
-Fresh function acceptance uses `scripts/capture.py --candidate NAME --output
-NEW_DIR` (original-only), `capture-native.py --original ORIGINAL_DIR --output
-NEW_DIR` (Linux/GDB), `audit.py --output NEW_DIR`, then `accept.py`. Evidence binds
-actual entered candidates, exact masks/configurations, immutable compiled-source
-snapshots, typed state and either an actual ELF INT3 or canonical completion.
-Unchanged originals can be reused explicitly with native-only captures after
-shared shim changes; old raw receipts remain immutable.
+Fresh acceptance uses `scripts/capture.py --candidate NAME --output NEW_DIR`
+(original only), `capture-native.py --original ORIGINAL_DIR --output NEW_DIR`
+(Linux/GDB), `audit.py --output NEW_DIR`, then `accept.py`. It binds actual
+candidate entry, exact mask/config, immutable compiled-source/binary snapshots,
+typed state and either a real ELF INT3 or canonical completion. Shared shim or
+validator changes do not force unchanged original captures to run again.
+Static refresh uses `audit.py --trial ORIGINAL_DIR/configuration.json
+--artifacts PRIOR_AUDIT_DIR --output NEW_AUDIT_DIR`; old packets stay immutable.
 
 The shared Rust tool checks full candidate CFG calls, RET cleanup, references
 and extent ownership/boundaries. Strict imports cover supported direct calls.
-`import-residual.py` proves eight fixed cached-register live intervals in main,
-usage, duplicate-resource diagnostics and bitmap output using exact IAT slots, calls, writes,
-bypass branches and rebuilt COFF relocations; it performs no CFG discovery.
-Typed debugger checks cover FILE32/buffers/OS flags/physical positions, resource
-identifier/header fields, bounded resource-tree pointer aliases and relative
-directory contents. Negative checks reject changed fields, aliasing, imports,
-and both-sides-wrong completed artifacts/status/streams.
+`import-residual.py` proves ten fixed cached-register intervals by exact IAT
+slots, callsites, writes, bypass branches and rebuilt COFF relocations; it does
+no CFG discovery. Typed checks include FILE32/buffers/physical positions,
+resource identifier/tree aliases, bitmap buffers, full 1024-byte LoadStringA
+callbacks and cdecl va_list/vprintf state. Rejection controls mutate these fields,
+switch/classmap data, imports and both-sides-wrong completed outputs.
 
-Original captures require the actual loaded provided 277,776-byte MSVCRT.DLL,
+Original captures verify the actual loaded 277,776-byte provided MSVCRT.DLL,
 SHA256 `e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210`.
-The native build opts into its reviewed VC5 CRT profile. `src/messages.rc`, its
-cached `.res` and encountered UTF16 entries are cross-checked before shared
-resource encoding. The target is a fixed-base i386 EXE at `0x01000000`, entry
-`0x01003180`, without TLS/exports. Its 9,694-byte virtual `.text` also contains
-loader data/literals and is not a code-coverage denominator.
-
-See `cases/help/`, `cases/resources-rich/` and `cases/resources-rich-ce/` for
-completion/proof/timing records.
-PE/ELF/build artifacts and immutable captures remain in build/shared scratch.
-The ARM case uses the same fresh VC5 RC input and converts its bitmap from
-24bpp to 2bpp. Actual callback/return observations bind message5007 to the target
-module, its full buffer and the shared provider. Rebuilt switch data has an
-explicit classmap/table/COFF relocation certificate alongside Rust CFG checks.
-The authorized next cases exercise default-machine and missing-WindowsCE
-warning/error diagnostics with original-validated inputs/outputs.
+Native builds use its reviewed VC5 CRT profile. Encountered `.rc` entries,
+cached `.res` bytes and source hashes are checked before shared resource encoding.
+See each `cases/*/completion.json` and `time-accounting.json` for frozen proofs
+and measured phases. PE/ELF/build artifacts remain in build/shared scratch.

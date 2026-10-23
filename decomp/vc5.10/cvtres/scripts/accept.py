@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 from mask import BINARY,load,sha
-from evidence import bind,compare_frontier,original_raw,compare_candidate_entry,compare_message_observations,compare_resource_observations
+from evidence import bind,compare_frontier,original_raw,compare_candidate_entry,compare_message_observations,compare_resource_observations,compare_vprintf_observations
 from audit import check_source,projection,audit_hashes,audit_command,import_residual,strict_import_command,strict_import_functions
 from inputs import fingerprints
 
@@ -22,6 +22,7 @@ def verify(config,function,original,native,audit,frozen=False):
     result['candidate_entry']=entry
     if function=='load_message':result['message_observations']=compare_message_observations(config,original,native)
     if config.get('resource_observations'):result['resource_observations']=compare_resource_observations(config,original,native)
+    if config.get('vprintf_observations'):result['vprintf_observations']=compare_vprintf_observations(config,original,native)
     bind_audit(config,new,audit)
     return result
 

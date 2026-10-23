@@ -67,9 +67,21 @@ def crt_state():
    else:record["buffer_hex"]=""
   values[item["name"]]=record
  return values
+def cstring_hex(pointer):
+ assert pointer
+ data=bytearray()
+ for offset in range(4096):
+  ch=bytes(gdb.selected_inferior().read_memory(pointer+offset,1))[0]
+  if ch==0:return data.hex()
+  data.append(ch)
+ raise AssertionError("unterminated diagnostic string")
 def parameters(frame):
  values={}
  for index,item in enumerate(PARAMETERS.get(frame.name(),[])):
+  if item["kind"]=="cstring":
+   slot=int(frame.read_register("ebp"))+8+item["stack_slot"]*4
+   pointer=struct.unpack("<I",bytes(gdb.selected_inferior().read_memory(slot,4)))[0]
+   values[str(index)]={"kind":"cstring","pointer":pointer,"slot":slot,"bytes_hex":cstring_hex(pointer)};continue
   value=frame.read_var(item["name"])
   if item["kind"] in ("pixel-palette","row-input","row-output","pixel-input","pixel-output"):
    pointer=int(value);cursor=0
@@ -133,6 +145,19 @@ class ResourceCall(gdb.Breakpoint):
   CallbackReturn(frame,internal=True)
   result.setdefault("resource_calls",[]).append({"handle":int(frame.read_var("handle")),"id":int(frame.read_var("id")),"output":int(frame.read_var("output")),"capacity":int(frame.read_var("capacity")),"expected_loader":int(gdb.parse_and_eval("&recon_LoadStringA")),"globals":globals_state(),"crt":crt_state()})
   return False
+class VPrintfReturn(gdb.FinishBreakpoint):
+ def stop(self):
+  result.setdefault("vprintf_returns",[]).append({"return_value":int(self.return_value)&0xffffffff,"globals":globals_state(),"crt":crt_state()})
+  return False
+class VPrintfCall(gdb.Breakpoint):
+ def stop(self):
+  frame=gdb.newest_frame();fmt=int(frame.read_var("format"));args=int(frame.read_var("args"));arguments=[]
+  for index in range(VPRINTF["arguments"]):
+   pointer=struct.unpack("<I",bytes(gdb.selected_inferior().read_memory(args+4*index,4)))[0]
+   arguments.append({"pointer":pointer,"bytes_hex":cstring_hex(pointer)})
+  result.setdefault("vprintf_calls",[]).append({"format_pointer":fmt,"format_hex":cstring_hex(fmt),"args_pointer":args,"arguments":arguments,"globals":globals_state(),"crt":crt_state()})
+  VPrintfReturn(frame,internal=True)
+  return False
 class Entry(gdb.Breakpoint):
  def __init__(self,name):
   self.name=name
@@ -140,6 +165,7 @@ class Entry(gdb.Breakpoint):
  def stop(self):
   if not (self.name=="load_message" and OBSERVE):self.enabled=False
   frame=gdb.newest_frame();record={"function":self.name,"globals":globals_state(),"crt":crt_state(),"parameters":parameters(frame)}
+  if self.name in ("warning","error"):record["abi_arguments_base"]=int(frame.read_register("ebp"))+8
   if self.name=="main":
    record["argc"]=int(frame.read_var("argc"));argv=frame.read_var("argv")
    record["argv"]=[argv[i].string() for i in range(record["argc"])]
@@ -152,6 +178,7 @@ class Entry(gdb.Breakpoint):
   return False
 for name in ENTRY_NAMES:Entry(name)
 if OBSERVE:ResourceCall("recon_LoadStringA",internal=True)
+if VPRINTF:VPrintfCall("recon_vprintf",internal=True)
 gdb.execute("run")
 result["info_program"]=gdb.execute("info program",to_string=True)
 try:
@@ -177,7 +204,7 @@ except gdb.error as error:result["frame_error"]=str(error)
 open(OUTPUT,"w").write(json.dumps(result,indent=2)+"\\n")
 '''
 config=json.loads((out/'configuration.json').read_text())
-script='SCRIPT_DIR='+repr(str(BINARY/'scripts'))+'\nHEAP_STATE='+repr(config.get('heap_state',False))+'\nOUTPUT='+repr(str(out/'state.json'))+'\nDATA='+repr(config.get('data',[]))+'\nCRT='+repr(config.get('crt_data',[]))+'\nOBSERVE='+repr(bool(config.get('observations')))+'\nPARAMETERS='+repr({f['native']:f.get('parameters',[]) for f in config['functions']})+'\nENTRY_NAMES='+repr([f['native'] for f in config['functions'] if f['status']!='stub'])+'\n'+script
+script='VPRINTF='+repr(config.get('vprintf_observations'))+'\nSCRIPT_DIR='+repr(str(BINARY/'scripts'))+'\nHEAP_STATE='+repr(config.get('heap_state',False))+'\nOUTPUT='+repr(str(out/'state.json'))+'\nDATA='+repr(config.get('data',[]))+'\nCRT='+repr(config.get('crt_data',[]))+'\nOBSERVE='+repr(bool(config.get('observations')))+'\nPARAMETERS='+repr({f['native']:f.get('parameters',[]) for f in config['functions']})+'\nENTRY_NAMES='+repr([f['native'] for f in config['functions'] if f['status']!='stub'])+'\n'+script
 (out/'observe.py').write_text(script)
 for item in config['case'].get('inputs',[]):
  source=BINARY/item['path'];assert hashlib.sha256(source.read_bytes()).hexdigest()==item['sha256']
