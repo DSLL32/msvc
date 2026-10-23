@@ -40,6 +40,10 @@ def compare_integer(item,descriptions,words,parameters):
     assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
     return None
 
+def compare_null_pointer(value,actual):
+    assert value==0 and actual['null']and actual['address']==0,'non-NULL pointer outside observed NULL-only frontier'
+    return dict(original_address=value,native_address=actual['address'],null_only=True)
+
 def compare_literal(item,value,actual,pe):
     raw=bytes.fromhex(item['bytes'])
     assert value==item['original'] and pe.read(value,len(raw))==raw,'literal argument origin differs'
@@ -61,6 +65,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='pointer'and item.get('null_only'):parameters[item['name']]=compare_null_pointer(words[item['slot']],state['parameters'][item['name']])
         elif item['kind']in('stack-output','stack-input','allocation-output'):
             from stack_output import compare as compare_output
             parameters[item['name']]=compare_output(item,frontier['parameters'],words,state['parameters'],events,pe)

@@ -5917,7 +5917,35 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/read-coff-lines-record-input.json",
+          "evidence_sha256": "629b910e2db1c5e81c14135d51e206d12ebf25ee969d9a12512b9ca2f392e9ab"
+        },
+        {
+          "name": "previous",
+          "slot": 2,
+          "kind": "pointer",
+          "null_only": true
+        },
+        {
+          "name": "offset",
+          "slot": 3,
+          "kind": "stack-input",
+          "evidence": "cases/abi/read-coff-lines-offset-input.json",
+          "evidence_sha256": "86176bcdaa6ba44cd3c127c1d13bdad1c0e6e8c9a31d9bc71d169c6cc18f5efd"
+        },
+        {
+          "name": "count",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     },
     {
       "name": "set_coff_function_end",
@@ -6237,13 +6265,16 @@
       "native": "set_coff_function_offset",
       "symbol": "_set_coff_function_offset",
       "original": 166592,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        166592,
+        166604
+      ],
       "abi": "void set_coff_function_offset(CoffFunction *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0114-set_coff_function_offset/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -6260,7 +6291,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -6965,6 +7010,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 113
+    },
+    {
+      "function": "set_coff_function_offset",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 114
     }
   ],
   "support_unmasked": [
@@ -7563,7 +7614,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "89654d523497e61c3cfd9055d8bf2532d8600bdc15ce5979474805295713017f"
+    "evidence_sha256": "3ae104bfabfc6355d8acf8a2c5ff2cbf57edc8d53326769f301789b21476109f"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7639,6 +7690,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "b594edbc7c645d7e21d278de59e6330cbd88939ccc011220e21108392ccc05af"
+    "sha256": "95df7e3cef2dfb50c6934426781b1c4051aecb32a6d51437ac7da34c1967fbfb"
   }
 }

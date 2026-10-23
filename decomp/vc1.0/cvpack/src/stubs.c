@@ -131,10 +131,3 @@ void read_coff_function_lines(CoffFunction *record,CoffFunction *previous,unsign
 { __asm { int 3 } }
 void set_coff_function_end(CoffFunction *record,unsigned long end) { __asm { int 3 } }
 CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } return NULL; }
-
-
-
-
-
-
-void set_coff_function_offset(CoffFunction *record,unsigned long offset) { __asm { int 3 } }

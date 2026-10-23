@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "set_coff_function_offset",
-    "native_function": "set_coff_function_offset",
+    "logical": "read_coff_function_lines",
+    "native_function": "read_coff_function_lines",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -131,7 +131,8 @@
       "read_coff_function_block",
       "set_coff_function_section",
       "set_coff_function_line",
-      "set_coff_function_offset"
+      "set_coff_function_offset",
+      "read_coff_function_lines"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",

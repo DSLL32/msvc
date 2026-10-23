@@ -371,3 +371,8 @@ void set_coff_function_line(CoffFunction *record, unsigned short line)
 {
     record->first_line = line;
 }
+
+void set_coff_function_offset(CoffFunction *record, unsigned long offset)
+{
+    record->offset = offset;
+}

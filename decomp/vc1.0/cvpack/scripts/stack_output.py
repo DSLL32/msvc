@@ -8,7 +8,7 @@ def validate(item,pe):
     assert hashlib.sha256(evidence.read_bytes()).hexdigest()==item['evidence_sha256'],'changed stack-output proof'
     proof=json.loads(evidence.read_text())
     assert 0<proof['size']<=1024 and proof['offset']==0
-    for part in ('callsite','frame',*(['wrapper']if 'wrapper'in proof else [])):
+    for part in ('callsite','frame',*(['wrapper']if 'wrapper'in proof else []),*(['consumed_callee']if 'consumed_callee'in proof else [])):
         r=proof[part];assert hashlib.sha256(pe.read(r['start'],r['end']-r['start'])).hexdigest()==r['sha256'],'changed stack-output instruction evidence'
     if proof.get('location')=='allocation':
         a=proof['allocation']
@@ -17,7 +17,9 @@ def validate(item,pe):
         assert pe.read(a['argument'],2)==b'\x6a\x1c'and pe.read(a['carrier'],2)==b'\x8b\xd8','allocation size/carrier def-use changed'
         assert pe.read(a['call'],1)==b'\xe8'and a['returned']+int.from_bytes(pe.read(a['call']+1,4),'little',signed=True)==a['callee'],'allocation callee changed'
         if proof['base_register']=='ebx':
-            assert proof['return_slots']==[dict(slot=0,address=0x2848c)],'unreviewed allocation constructor caller'
+            if proof['return_slots']!=[dict(slot=0,address=0x2848c)]:
+                assert proof['return_slots']==[dict(slot=0,address=0x28521)]and proof['mode']=='input'and proof['consumed_ranges']==[[8,12],[24,26]],'unreviewed allocation consumer'
+                assert proof['consumed_callee']['start']==0x28b90 and proof['consumed_callee']['end']==0x28cab,'unreviewed allocation consumed fields'
         else:
             assert proof['base_register']=='esi','unreviewed allocation carrier'
             contexts={0x28d16:(82,0x28d10,'input'),0x28d25:(83,0x28d1f,'output'),0x28d64:(82,0x28d5e,'output'),0x28d73:(82,0x28d6d,'output'),0x28d7d:(82,0x28d77,'output')}
@@ -53,7 +55,11 @@ def compare(item,descriptions,words,parameters,events,pe):
     defined=None
     if proof.get('mode')=='input':
         old=bytes.fromhex(match[1]);new=bytes.fromhex(actual['prebytes'])
-        if proof.get('defined_cstring'):
+        if 'consumed_ranges'in proof:
+            ranges=proof['consumed_ranges'];assert all(0<=a<b<=proof['size']for a,b in ranges),'consumed field exceeds allocation'
+            assert all(old[a:b]==new[a:b]for a,b in ranges),'consumed allocation field differs'
+            defined=actual_length=sum(b-a for a,b in ranges)
+        elif proof.get('defined_cstring'):
             assert b'\0'in old and b'\0'in new,'unterminated typed string input'
             defined=old.index(0)+1;actual_length=new.index(0)+1
         elif 'defined_bytes'in proof:
@@ -62,5 +68,5 @@ def compare(item,descriptions,words,parameters,events,pe):
             r=proof['defined_length'];defined=int.from_bytes(old[r['offset']:r['offset']+r['width']],'little')+r['bias']
             actual_length=int.from_bytes(new[r['offset']:r['offset']+r['width']],'little')+r['bias']
         assert defined==actual_length and 1<=defined<=proof['size'],'invalid defined stack input length'
-        assert old[:defined]==new[:defined],'defined stack input bytes differ'
+        if 'consumed_ranges'not in proof:assert old[:defined]==new[:defined],'defined stack input bytes differ'
     return dict(defined_input_bytes=defined,original_address=value,native_address=actual['address'],typed_local=actual['local'],original_undefined_bytes=match[1],native_undefined_bytes=actual['prebytes'])
