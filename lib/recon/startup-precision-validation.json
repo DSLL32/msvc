@@ -1,0 +1,14 @@
+{
+  "scope": "Explicit direct-main native host startup53 precision via RECON_NATIVE_STARTUP_CONTROLFP_53. Existing recon_controlfp; no application-source call/global default change.",
+  "original_proof": "decomp/vc1.0/c2/cases/dbglist-fp-entry/validation.json",
+  "proof_sha256": "0eb0c649a7b1d198f413e54f714d6e71f6a9ff3623707a07e6f470f68d9aa6d7",
+  "original_main": "0x4c100",
+  "original_control_word": 639,
+  "original_status_word": 0,
+  "startup_chain": [
+    "__cinit72470 loads86648=71cb0",
+    "__fpmath71cb0 (LIBC fpinit.obj) calls conversion-pointer initialization71cd0 then tail-jumps74360",
+    "74360 pushes mask0x30000/value0x10000 and calls_controlfp72630, selecting53-bit precision"
+  ],
+  "native_checks": "GCC/Clang default and opted-in main-entry raw hardware checks: default037f/status0; opt-in027f/status0"
+}

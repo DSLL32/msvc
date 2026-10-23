@@ -264,3 +264,10 @@ build/vprintf-probe: tests/vprintf-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 vprintf-check: build/vprintf-probe
 	$(PYTHON) tests/check-vprintf.py build/vprintf-probe
+
+build/startup-precision-default: tests/startup-precision.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/startup-precision-53: tests/startup-precision.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $< $(SOURCES) -o $@
+startup-precision-check: build/startup-precision-default build/startup-precision-53
+	$(PYTHON) tests/check-startup-precision.py build/startup-precision-default build/startup-precision-53

@@ -1,3 +1,13 @@
+/* Proven original CRT precision initialization for native direct-main hosts. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__) && defined(RECON_NATIVE_STARTUP_CONTROLFP_53)
+#define RECON_SHIM_IMPL
+#include <recon.h>
+static void __attribute__((constructor(103))) initialize_direct_main_precision(void)
+{
+    (void)recon_controlfp(0x10000,0x30000);
+}
+#endif
+
 /* Optional native host entry for programs whose PE CRT startup is separate. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__) && defined(RECON_NATIVE_ENTRY)
 #define RECON_SHIM_IMPL
