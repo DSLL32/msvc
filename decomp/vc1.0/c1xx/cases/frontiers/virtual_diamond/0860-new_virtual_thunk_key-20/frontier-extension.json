@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 860,
+  "accepted": "_new_virtual_thunk_key@20",
+  "terminal": "_hash_virtual_thunk_key",
+  "original_capture": "cases/frontiers/virtual_diamond/0860-new_virtual_thunk_key-20/original-receipt.json",
+  "original_capture_sha256": "1e1e6cb3ca6cefb361547bcd9bbdc974f6908f7f933a639be3760cfa3f3644fd",
+  "original_events": "cases/frontiers/virtual_diamond/0860-new_virtual_thunk_key-20/original-events.txt",
+  "original_events_sha256": "820b9571125cfa6d5c778e41be0001ea3b3008139408fd3a2ff01a375c656fa9",
+  "original_configuration": "cases/frontiers/virtual_diamond/0860-new_virtual_thunk_key-20/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

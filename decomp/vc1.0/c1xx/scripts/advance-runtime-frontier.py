@@ -148,7 +148,10 @@ def main():
         current.update(status=args.case+' case complete; binary partial',complete_frontend_case=True)
     current['active_case']=args.case
     current.setdefault('cases',{})[args.case]=dict(status='complete' if complete else 'partial',frontier=terminal,latest_verification=relative(base_record/'validation.json'))
+    current['next_operation']='Continue '+current['current_frontier']+' reconstruction'
     current_path.write_text(json.dumps(current,indent=2)+'\n')
+    from status_documentation import refresh
+    refresh()
     print(' -> '.join(names+[terminal]));print(base_record/'validation.json')
 
 if __name__=='__main__':main()

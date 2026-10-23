@@ -1,14 +1,14 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 855 accepted frontiers, including 762 frontend
+PARTIAL binary reconstruction: 862 accepted frontiers, including 769 frontend
 functions and seven older CRT functions reconstructed as source. cpp_basic is
-complete. virtual_diamond currently stops at _normalize_initializer_expression@4,
-original VA 0x47dc0. All unimplemented callees remain meaningful named INT3 stubs.
+complete. virtual_diamond currently stops at _emit_virtual_adjustment_thunk@4,
+original VA 0x7bbf0. All unimplemented callees remain meaningful named INT3 stubs.
 The approved copy/assignment, stack-lifetime/destruction and new/delete/operator
 cases follow virtual_diamond; cases/reconstruction-queue.json records the queue.
 
-Accepted original extents cover 233719 / 476418 code-section bytes (49.057550%).
+Accepted original extents cover 234483 / 476418 code-section bytes (49.217914%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -32,7 +32,7 @@ terminal status, raw stdout/stderr, complete file sets and all four frontend
 intermediates. Unknown definitions, modified references and external processes
 fail. No fixture invokes Wine or refreshes an oracle. cpp_basic expects 553
 application first entries and exit 0. virtual_diamond seeds that accepted prefix,
-then expects 209 new application entries plus its named terminal trap.
+then expects 216 new application entries plus its named terminal trap.
 
 cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,

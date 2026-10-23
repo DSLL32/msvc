@@ -2,16 +2,16 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "761f8e63cbfce8275342ba67e6b36dfdf0e078e4c09cc474b416a5200e2b4881",
+    "functions.json": "84ef831023296069d4340f960880246f0cea466964ea84d857ec7fc6bfca25f7",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "7d400d2ba2da7f2dc7245e3d233d4a1479f5645695d0dcdb77b63b5fb2e2abb0",
-    "cases/canonical-map.txt": "07a989b163f63a3f61554953c5e7a1935060d527e9e4b7453f73377b6e6f1153",
+    "cases/original-entry-references.json": "84f74521655480337b5370164407c1fd8e3949b326eaa55eec1b3323dcb9945c",
+    "cases/canonical-map.txt": "348ad47ea2c678aef7dfeb9c2de89bcae8b1448e4a4e1df5edce75abd16f948c",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
-    "cases/shared-reference/virtual_diamond/original-receipt.json": "6a28966fc9f184ac95ec2567ae4fba2f5b7087208a2523c50d4c1be955f21a87",
-    "cases/shared-reference/virtual_diamond/original-events.txt": "05faa5c3089f992f86752bfe48200a066f941e316021eecc51952c0fd7848ce0",
-    "cases/shared-reference/virtual_diamond/original-entries.plan": "04e72228827c39ec588744791441974ee04bbecc33a7827868b8511aa9114526"
+    "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-receipt.json": "8a734a764af34fd2ad0f453382aa15d4ce307066655bc55a9e583121046747c8",
+    "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-events.txt": "2d2a4f017c2e0449f633c4e4f740b67f4ceaff6f124d6fe30f905fbd2bd0fbb5",
+    "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-entries.plan": "04b8e6dcd8d335c14e744bc2ec12d3e8dbf8a5da4d86d479a99d55faff8ec09d"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1126,6 +1126,10 @@
       "logical": "_copy_virtual_table_element@8",
       "source": "src/class-finalization.c"
     },
+    "copy_virtual_thunk_key": {
+      "logical": "_copy_virtual_thunk_key@8",
+      "source": "src/stubs.c"
+    },
     "count_builtin_operator_candidates": {
       "logical": "_count_builtin_operator_candidates@12",
       "source": "src/operators.c"
@@ -1522,6 +1526,10 @@
       "logical": "_emit_vector_deleting_destructor_body@4",
       "source": "src/stubs.c"
     },
+    "emit_virtual_adjustment_thunk": {
+      "logical": "_emit_virtual_adjustment_thunk@4",
+      "source": "src/stubs.c"
+    },
     "emit_virtual_base_destructors": {
       "logical": "_emit_virtual_base_destructors@8",
       "source": "src/constructor-initializers.c"
@@ -1662,10 +1670,6 @@
       "logical": "_equal_first_words",
       "source": "src/stubs.c"
     },
-    "equal_four_word_keys": {
-      "logical": "_equal_four_word_keys",
-      "source": "src/stubs.c"
-    },
     "equal_inline_vectors": {
       "logical": "_equal_inline_vectors",
       "source": "src/stubs.c"
@@ -1689,6 +1693,10 @@
     "equal_vectors": {
       "logical": "_equal_vectors@8",
       "source": "src/vectors.c"
+    },
+    "equal_virtual_thunk_keys": {
+      "logical": "_equal_virtual_thunk_keys",
+      "source": "src/stubs.c"
     },
     "equal_word_pairs": {
       "logical": "_equal_word_pairs",
@@ -2088,7 +2096,7 @@
     },
     "flush_initializer_records": {
       "logical": "_flush_initializer_records",
-      "source": "src/stubs.c"
+      "source": "src/initializer-records.c"
     },
     "flush_scanned_declaration": {
       "logical": "_flush_scanned_declaration@4",
@@ -2200,7 +2208,7 @@
     },
     "get_virtual_adjustment_thunk": {
       "logical": "_get_virtual_adjustment_thunk@16",
-      "source": "src/stubs.c"
+      "source": "src/virtual-table-output.c"
     },
     "global_declaration_type": {
       "logical": "_global_declaration_type@4",
@@ -2306,10 +2314,6 @@
       "logical": "_hash_first_word",
       "source": "src/stubs.c"
     },
-    "hash_four_word_key": {
-      "logical": "_hash_four_word_key",
-      "source": "src/stubs.c"
-    },
     "hash_low_pointer_bits": {
       "logical": "_hash_low_pointer_bits",
       "source": "src/stubs.c"
@@ -2329,6 +2333,10 @@
     "hash_tail_word_pair": {
       "logical": "_hash_tail_word_pair",
       "source": "src/stubs.c"
+    },
+    "hash_virtual_thunk_key": {
+      "logical": "_hash_virtual_thunk_key",
+      "source": "src/virtual-table-output.c"
     },
     "hash_word_pair": {
       "logical": "_hash_word_pair",
@@ -3192,7 +3200,7 @@
     },
     "method_alias": {
       "logical": "_method_alias@4",
-      "source": "src/stubs.c"
+      "source": "src/symbol-output.c"
     },
     "minimum_unsigned": {
       "logical": "_minimum_unsigned@8",
@@ -3330,6 +3338,10 @@
       "logical": "_new_virtual_table@16",
       "source": "src/class-finalization.c"
     },
+    "new_virtual_thunk_key": {
+      "logical": "_new_virtual_thunk_key@20",
+      "source": "src/virtual-table-output.c"
+    },
     "next_argument": {
       "logical": "_next_argument",
       "source": "src/arguments.c"
@@ -3388,7 +3400,7 @@
     },
     "normalize_initializer_expression": {
       "logical": "_normalize_initializer_expression@4",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "normalize_input_name": {
       "logical": "_normalize_input_name",
@@ -4344,7 +4356,7 @@
     },
     "seek_work_stack": {
       "logical": "_seek_work_stack@12",
-      "source": "src/stubs.c"
+      "source": "src/vectors.c"
     },
     "segment_offset_expression": {
       "logical": "_segment_offset_expression@8",
@@ -5589,7 +5601,14 @@
     "function_designator_type",
     "make_expression_qualified_type",
     "change_function_reference_kind",
-    "find_initializer_address"
+    "find_initializer_address",
+    "normalize_initializer_expression",
+    "method_alias",
+    "flush_initializer_records",
+    "seek_work_stack",
+    "get_virtual_adjustment_thunk",
+    "new_virtual_thunk_key",
+    "hash_virtual_thunk_key"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6258,7 +6277,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 855,
+      "last": 862,
       "seen": [
         "main",
         "message_text",
@@ -7024,12 +7043,19 @@
         "make_expression_qualified_type",
         "change_function_reference_kind",
         "find_initializer_address",
-        "normalize_initializer_expression"
+        "normalize_initializer_expression",
+        "method_alias",
+        "flush_initializer_records",
+        "seek_work_stack",
+        "get_virtual_adjustment_thunk",
+        "new_virtual_thunk_key",
+        "hash_virtual_thunk_key",
+        "emit_virtual_adjustment_thunk"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_normalize_initializer_expression@4",
-        "native": "normalize_initializer_expression",
+        "logical": "_emit_virtual_adjustment_thunk@4",
+        "native": "emit_virtual_adjustment_thunk",
         "signal": 5
       }
     }

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 858,
+  "accepted": "_seek_work_stack@12",
+  "terminal": "_get_virtual_adjustment_thunk@16",
+  "original_capture": "cases/frontiers/virtual_diamond/0858-seek_work_stack-12/original-receipt.json",
+  "original_capture_sha256": "59e084d5bcc6964cf44c3127c2d20ad84967cbfa958327e6801edd9d7652c119",
+  "original_events": "cases/frontiers/virtual_diamond/0858-seek_work_stack-12/original-events.txt",
+  "original_events_sha256": "c9d094756f4f69c4977e86ade250b8a6ff2271188649359c5c9f84fbc72a5387",
+  "original_configuration": "cases/frontiers/virtual_diamond/0858-seek_work_stack-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

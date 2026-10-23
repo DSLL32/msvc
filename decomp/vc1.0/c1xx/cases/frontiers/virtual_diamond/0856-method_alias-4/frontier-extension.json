@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 856,
+  "accepted": "_method_alias@4",
+  "terminal": "_flush_initializer_records",
+  "original_capture": "cases/frontiers/virtual_diamond/0856-method_alias-4/original-receipt.json",
+  "original_capture_sha256": "fe3e0eaf1464055c2daf27b4663e987481cfdd8e5ad4f2f8f7d853d224573117",
+  "original_events": "cases/frontiers/virtual_diamond/0856-method_alias-4/original-events.txt",
+  "original_events_sha256": "0ef1045d686a7ca297df5021fcfb5cb7a9e31a630408e44feaedb79f46cae874",
+  "original_configuration": "cases/frontiers/virtual_diamond/0856-method_alias-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

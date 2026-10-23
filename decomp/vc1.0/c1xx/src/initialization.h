@@ -52,6 +52,7 @@ extern CType *type_indirect_0080_2, *type_indirect_0080_1, *type_4041_q1;
 
 void __stdcall initialize_work_stack(WorkingStack **stack);
 void __stdcall reset_work_stack(WorkingStack *stack);
+void __stdcall finish_work_stack(WorkingStack *stack);
 void initialize_preprocessor(void);
 void initialize_keyword_table(void);
 void initialize_floating_point(void);

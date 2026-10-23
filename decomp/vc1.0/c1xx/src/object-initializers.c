@@ -394,3 +394,43 @@ void __stdcall finish_initializer_symbol(CppSymbol *symbol)
         flush_initializer_records();
     }
 }
+
+/* Original 0x47dc0..0x47e4b, stdcall4. Discard conversion wrappers
+   and based-pointer adjustments which do not contribute an address. */
+IrToken *__stdcall normalize_initializer_expression(IrToken *value)
+{
+    IrToken *left, *base;
+    CppSymbol *symbol;
+    TypeShape *shape;
+    for (;;) {
+        switch (value->kind) {
+        case 0x6e:
+            value = value->value.pointer;
+            continue;
+        case 0x67:
+            base = value->tail.right;
+            left = value->value.pointer;
+            if (!base) {
+                value = left;
+                continue;
+            }
+            if ((left->type->related->attributes & 7) != 5) return value;
+            if (token_categories[base->kind] == 0x46)
+                base = base->value.pointer;
+            symbol = base->value.pointer;
+            shape = symbol->type->related;
+            if (shape && !(shape->flags & 0x77)) shape = shape->related;
+            if (shape) return value;
+            value = left;
+            continue;
+        case 0x1a:
+            left = value->value.pointer;
+            if (left->flags & 0x80) {
+                value = left;
+                continue;
+            }
+            break;
+        }
+        return value;
+    }
+}

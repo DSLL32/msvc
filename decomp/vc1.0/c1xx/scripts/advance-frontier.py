@@ -145,6 +145,7 @@ def main():
     coverage=json.loads(subprocess.check_output([sys.executable,str(BINARY/'scripts/coverage.py')],cwd=BINARY,text=True))
     current['coverage']=coverage
     current['accepted_extent_coverage']=coverage
+    current['next_operation']='Continue '+current['current_frontier']+' reconstruction'
     current_path.write_text(json.dumps(current,indent=2)+'\n')
     readme_path=BINARY/'README.txt'
     readme=readme_path.read_text()
@@ -156,6 +157,8 @@ def main():
     readme=re.sub(r'case expects \d+ first\nentries: \d+ accepted frontend functions plus [A-Za-z_0-9]+',
         'case expects %d first\nentries: %d accepted frontend functions plus %s'%(len(cache['cases'][args.case]['expected']),application_count,trace.native_name(original['terminal'])),readme,count=1)
     readme_path.write_text(readme)
+    from status_documentation import refresh
+    refresh()
     print(args.candidate+' -> '+original['terminal'])
     print(record/'validation.json')
 

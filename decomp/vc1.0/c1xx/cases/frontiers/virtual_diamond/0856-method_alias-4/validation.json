@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_method_alias@4",
+    "start": 352704,
+    "end": 352723
+  },
+  "distinct_direct_callees": [
+    "_find_hash_value@8"
+  ],
+  "next_frontier": "_flush_initializer_records",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.25627326779067516,
+  "total_operation_seconds": 2.174158774316311,
+  "original_capture_seconds": 1.3181271441280842
+}

@@ -5,6 +5,7 @@
 #include "numeric-conversion.h"
 #include "control-ir.h"
 #include "operators.h"
+#include "source-input.h"
 #include <recon.h>
 
 /* These fields choose the ordinary FILE encoder or retained work-stack
@@ -336,4 +337,29 @@ int __stdcall find_initializer_address(IrToken *value, CppSymbol **symbol,
             return 0;
         }
     }
+}
+
+/* Original 0x91358: shared byte emitted after a complete initializer block. */
+unsigned char initializer_record_marker;
+
+/* Original 0x5ba40..0x5bb20, cdecl. Drain the segmented initializer stack
+   into line records in payload-sized blocks, then restore its empty writer. */
+void flush_initializer_records(void)
+{
+    char buffer[2040];
+    unsigned bytes;
+    if (!(cpp_parser_flags & 0x20000000UL)) {
+        finish_work_stack(initializer_record_stack);
+        seek_work_stack(initializer_record_stack, 0, 0);
+        while ((bytes = read_work_stack(initializer_record_stack, buffer,
+                sizeof(buffer))) == sizeof(buffer))
+            fwrite(buffer, sizeof(buffer), 1, line_file);
+        fwrite(buffer, bytes, 1, line_file);
+        if (!(cpp_parser_flags & 0x20000000UL)) {
+            auxiliary_ir_stream = line_file;
+            initializer_record_marker = 7;
+            putc((signed char)initializer_record_marker, auxiliary_ir_stream);
+        }
+    }
+    initialize_work_stack(&initializer_record_stack);
 }

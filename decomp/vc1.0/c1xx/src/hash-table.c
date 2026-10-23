@@ -77,7 +77,7 @@ unsigned __cdecl hash_aligned_pointer(void *key);
 unsigned __cdecl hash_low_pointer_bits(void *key);
 unsigned __cdecl hash_symbol_index(void *key);
 unsigned __cdecl hash_first_word(void *key);
-unsigned __cdecl hash_four_word_key(void *key);
+unsigned __cdecl hash_virtual_thunk_key(void *key);
 unsigned __cdecl hash_tail_word_pair(void *key);
 unsigned __cdecl hash_declaration_index(void *key);
 unsigned __cdecl hash_resolved_declaration(void *key);
@@ -88,7 +88,7 @@ HashKey hash_functions[] = {
     hash_low_pointer_bits,
     hash_symbol_index,
     hash_first_word,
-    hash_four_word_key,
+    hash_virtual_thunk_key,
     hash_tail_word_pair,
     hash_declaration_index,
     hash_resolved_declaration,
@@ -117,7 +117,7 @@ typedef int (__cdecl *EqualKeys)(void *left, void *right);
 int __cdecl equal_pointer(void *left, void *right);
 int __cdecl equal_symbol_indices(void *left, void *right);
 int __cdecl equal_first_words(void *left, void *right);
-int __cdecl equal_four_word_keys(void *left, void *right);
+int __cdecl equal_virtual_thunk_keys(void *left, void *right);
 int __cdecl equal_tail_word_pairs(void *left, void *right);
 int __cdecl equal_declaration_indices(void *left, void *right);
 int __cdecl equal_resolved_declarations(void *left, void *right);
@@ -127,7 +127,7 @@ EqualKeys equality_functions[] = {
     equal_pointer,
     equal_symbol_indices,
     equal_first_words,
-    equal_four_word_keys,
+    equal_virtual_thunk_keys,
     equal_tail_word_pairs,
     equal_declaration_indices,
     equal_resolved_declarations,

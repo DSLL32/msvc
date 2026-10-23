@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_flush_initializer_records",
+    "start": 375360,
+    "end": 375585
+  },
+  "distinct_direct_callees": [
+    "__flsbuf",
+    "_finish_work_stack@4",
+    "_fwrite",
+    "_initialize_work_stack@4",
+    "_read_work_stack@12",
+    "_seek_work_stack@12"
+  ],
+  "next_frontier": "_seek_work_stack@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23137460462749004,
+  "total_operation_seconds": 2.675108889117837,
+  "original_capture_seconds": 1.6685566566884518
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.106304557994008,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-seek-work-stack-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 1.9158078469336033,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-seek-work-stack-canonical.log"
+  }
+]

@@ -119,3 +119,59 @@ unsigned __stdcall virtual_adjustment_offset(VirtualAdjustment *adjustment,
             (int)adjustment->virtual_base_class], tag);
     return adjustment->displacement + virtual_offset;
 }
+
+HashTable *virtual_adjustment_thunks; /* original 0x9f330 */
+
+/* Original 0x7bb40..0x7bbaf, stdcall16. Temporary lookup descriptors
+   use arena2; a generated thunk retains its own permanent copied key. */
+CppSymbol *__stdcall get_virtual_adjustment_thunk(unsigned kind,
+    CppSymbol *function, int displacement, int virtual_displacement)
+{
+    VirtualThunkKey *key, *stored;
+    CppSymbol *thunk;
+    key = new_virtual_thunk_key(kind, function, displacement,
+        virtual_displacement, 2);
+    if (!virtual_adjustment_thunks)
+        virtual_adjustment_thunks = new_hash_table(32, 0, 4, 3);
+    thunk = find_hash_value(virtual_adjustment_thunks, key);
+    if (!thunk) {
+        thunk = emit_virtual_adjustment_thunk(key);
+        stored = copy_virtual_thunk_key(key, 0);
+        set_hash_value(virtual_adjustment_thunks, stored, thunk);
+    }
+    return thunk;
+}
+
+/* Original 0x7ba30..0x7ba8d, stdcall20. Arena0 requests permanent
+   storage; -1 selects the compiler's arena0 rather than permanent storage. */
+VirtualThunkKey *__stdcall new_virtual_thunk_key(unsigned kind,
+    CppSymbol *function, int displacement, int virtual_displacement, int arena)
+{
+    VirtualThunkKey *key;
+    ArenaPool *pool;
+    if (!arena)
+        key = allocate_permanent(sizeof(VirtualThunkKey));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(VirtualThunkKey))
+            refill_arena(&compiler_arena, pool);
+        key = (VirtualThunkKey *)pool->next;
+        pool->remaining -= sizeof(VirtualThunkKey);
+        pool->next += sizeof(VirtualThunkKey);
+    }
+    key->kind = kind;
+    key->function = function;
+    key->displacement = displacement;
+    key->virtual_displacement = virtual_displacement;
+    return key;
+}
+
+/* Original 0x7baf0..0x7bb0c, cdecl callback. Pointer contribution
+   uses the aligned low-page bits; all additions wrap as unsigned words. */
+unsigned __cdecl hash_virtual_thunk_key(void *value)
+{
+    VirtualThunkKey *key = value;
+    return (((unsigned)key->function & 0xffc) >> 2) +
+        (unsigned)key->displacement + (unsigned)key->virtual_displacement + key->kind;
+}

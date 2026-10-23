@@ -77,13 +77,11 @@ int __stdcall pch_record_macro(char *name, char *replacement, int parameter_coun
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall method_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 int __stdcall symbol_element_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
-long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return 0; }
 void report_ide_source(void) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
@@ -212,8 +210,6 @@ unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *valu
 int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value) { __asm { int 3 } return 0; }
 void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
-void flush_initializer_records(void) { __asm { int 3 } }
-IrToken *__stdcall normalize_initializer_expression(IrToken *value) { __asm { int 3 } return 0; }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 void __stdcall emit_initializer_constant(IrToken *target) { __asm { int 3 } }
@@ -576,7 +572,6 @@ char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } 
 unsigned __cdecl hash_low_pointer_bits(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_symbol_index(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_first_word(void *key) { __asm { int 3 } return 0; }
-unsigned __cdecl hash_four_word_key(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_tail_word_pair(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_declaration_index(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0; }
@@ -585,7 +580,7 @@ unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
 int __cdecl equal_symbol_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_first_words(void *left, void *right) { __asm { int 3 } return 0; }
-int __cdecl equal_four_word_keys(void *left, void *right) { __asm { int 3 } return 0; }
+int __cdecl equal_virtual_thunk_keys(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_tail_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
@@ -635,7 +630,6 @@ IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrTo
 IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
 int __stdcall virtual_base_table_entry_offset(VirtualBaseEntry *entry, CppSymbol *tag, VirtualTable *table) { __asm { int 3 } return 0; }
 
-CppSymbol *__stdcall get_virtual_adjustment_thunk(unsigned kind, CppSymbol *function, int displacement, int virtual_displacement) { __asm { int 3 } return 0; }
 
 void write_ir_integer(int *value) { __asm { int 3 } }
 
@@ -643,3 +637,6 @@ unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 }
 void write_ir_short(short *value) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
+
+VirtualThunkKey *__stdcall copy_virtual_thunk_key(VirtualThunkKey *key, int arena) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall emit_virtual_adjustment_thunk(VirtualThunkKey *key) { __asm { int 3 } return 0; }

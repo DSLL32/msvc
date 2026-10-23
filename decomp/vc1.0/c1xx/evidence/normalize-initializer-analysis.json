@@ -1,0 +1,17 @@
+{
+  "function": "_normalize_initializer_expression@4",
+  "extent": [
+    294336,
+    294476
+  ],
+  "bytes": 140,
+  "ABI": "stdcall, one IrToken pointer, RET 4 at 0x47e49",
+  "calls": [],
+  "kind_0x6e": "Repeatedly strip conversion operand at +12",
+  "kind_0x67": "Absent base strips left; nonnull base strips only for left type shape attributes&7==5 and scalar referenced symbol type after one optional modifier shape",
+  "based_symbol_layout": "right category 0x46 unwraps one IrToken; +12 then holds CppSymbol; CppSymbol.type is +12; CType.related is +4",
+  "kind_0x1a": "Strip only if operand flags byte+1 has bit0x80",
+  "canonical_graph": "zero direct/indirect callees on both sides",
+  "acceptance": "cases/frontiers/virtual_diamond/0855-normalize_initializer_expression-4/validation.json",
+  "branch_limit": "Dynamic case establishes matching downstream method_alias trap and all pending buffers/state/files/streams; it does not establish dynamic coverage of every normalization branch"
+}

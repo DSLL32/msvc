@@ -8,11 +8,11 @@
     "plan_sha256": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07"
   },
   "virtual_diamond": {
-    "receipt": "cases/shared-reference/virtual_diamond/original-receipt.json",
-    "receipt_sha256": "6a28966fc9f184ac95ec2567ae4fba2f5b7087208a2523c50d4c1be955f21a87",
-    "events": "cases/shared-reference/virtual_diamond/original-events.txt",
-    "events_sha256": "05faa5c3089f992f86752bfe48200a066f941e316021eecc51952c0fd7848ce0",
-    "plan": "cases/shared-reference/virtual_diamond/original-entries.plan",
-    "plan_sha256": "04e72228827c39ec588744791441974ee04bbecc33a7827868b8511aa9114526"
+    "receipt": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-receipt.json",
+    "receipt_sha256": "8a734a764af34fd2ad0f453382aa15d4ce307066655bc55a9e583121046747c8",
+    "events": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-events.txt",
+    "events_sha256": "2d2a4f017c2e0449f633c4e4f740b67f4ceaff6f124d6fe30f905fbd2bd0fbb5",
+    "plan": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/entry-reference/original-entries.plan",
+    "plan_sha256": "04b8e6dcd8d335c14e744bc2ec12d3e8dbf8a5da4d86d479a99d55faff8ec09d"
   }
 }

@@ -168,3 +168,10 @@ void __stdcall record_method_alias(CppSymbol *symbol, CppSymbol *alias)
     if (!method_aliases) method_aliases = new_hash_table(31, 0, 0, 0);
     set_hash_value(method_aliases, symbol, alias);
 }
+
+/* Original 0x561c0..0x561d2, stdcall4. The table owns deleting-destructor
+   substitutions; lookup keeps the generic hash routine's null-table behavior. */
+CppSymbol *__stdcall method_alias(CppSymbol *symbol)
+{
+    return find_hash_value(method_aliases, symbol);
+}

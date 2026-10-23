@@ -1,0 +1,38 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.1246164981275797,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-method-alias-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 171.09420355502516,
+    "status": 2,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-method-alias-canonical.log"
+  },
+  {
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "seconds": 5.475672645494342,
+    "status": 0,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/method-alias-canonical-retry.log",
+    "phase": "canonical retry after root shared-prefix health all-clear"
+  }
+]

@@ -3,6 +3,7 @@
 #include "initialization.h"
 #include "lexer.h"
 #include "parser-state.h"
+#include "source-input.h"
 #include <recon.h>
 
 /* Original 0x4e810..0x4e8cd. */
@@ -346,4 +347,32 @@ int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
         }
     } while (page);
     return (int)total;
+}
+
+/* Original 0x329a0..0x32a30, stdcall12. Only absolute seeks are
+   supported. Final-page bounds and the offset comparison are signed;
+   the original does not reject a negative absolute offset. */
+long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin)
+{
+    unsigned char *page;
+    long remaining = offset;
+    int available;
+    if (origin || !stack) return -1;
+    reset_work_stack(stack);
+    page = stack->read;
+    while (page) {
+        available = *(int *)(page + 2044);
+        if (available) {
+            if (available <= remaining) return -1;
+            break;
+        }
+        if (remaining < 2040) break;
+        page = *(unsigned char **)(page + 2040);
+        stack->read = page;
+        remaining -= 2040;
+    }
+    if (!page) return -1;
+    stack->count = (unsigned)remaining;
+    stack->next = page + remaining;
+    return offset;
 }

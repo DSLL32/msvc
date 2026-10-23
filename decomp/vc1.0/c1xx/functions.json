@@ -859,7 +859,14 @@
     "_function_designator_type@4",
     "_make_expression_qualified_type@16",
     "_change_function_reference_kind@8",
-    "_find_initializer_address@12"
+    "_find_initializer_address@12",
+    "_normalize_initializer_expression@4",
+    "_method_alias@4",
+    "_flush_initializer_records",
+    "_seek_work_stack@12",
+    "_get_virtual_adjustment_thunk@16",
+    "_new_virtual_thunk_key@20",
+    "_hash_virtual_thunk_key"
   ],
   "driver": [
     {
@@ -5555,7 +5562,7 @@
     {
       "name": "_normalize_initializer_expression@4",
       "start": 294336,
-      "end": 294337
+      "end": 294476
     },
     {
       "name": "_write_literal_initializer@12",
@@ -6258,9 +6265,9 @@
       "end": 204529
     },
     {
-      "name": "_hash_four_word_key",
+      "name": "_hash_virtual_thunk_key",
       "start": 506608,
-      "end": 506609
+      "end": 506637
     },
     {
       "name": "_hash_tail_word_pair",
@@ -6303,7 +6310,7 @@
       "end": 204497
     },
     {
-      "name": "_equal_four_word_keys",
+      "name": "_equal_virtual_thunk_keys",
       "start": 506640,
       "end": 506641
     },
@@ -6750,7 +6757,7 @@
     {
       "name": "_flush_initializer_records",
       "start": 375360,
-      "end": 375361
+      "end": 375585
     },
     {
       "name": "_format_text",
@@ -6931,7 +6938,7 @@
     {
       "name": "_get_virtual_adjustment_thunk@16",
       "start": 506688,
-      "end": 506689
+      "end": 506800
     },
     {
       "name": "_virtual_adjustment_offset@8",
@@ -6972,6 +6979,21 @@
       "name": "_write_ir_double",
       "start": 475440,
       "end": 475441
+    },
+    {
+      "name": "_new_virtual_thunk_key@20",
+      "start": 506416,
+      "end": 506510
+    },
+    {
+      "name": "_copy_virtual_thunk_key@8",
+      "start": 506512,
+      "end": 506513
+    },
+    {
+      "name": "_emit_virtual_adjustment_thunk@4",
+      "start": 506864,
+      "end": 506865
     }
   ],
   "cases": {
@@ -6987,7 +7009,17 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/frontiers/virtual_diamond",
       "accepted_from": 643,
-      "terminal": "_normalize_initializer_expression@4"
+      "terminal": "_emit_virtual_adjustment_thunk@4",
+      "terminal_evidence": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/original-events.txt",
+      "frontier_extensions": [
+        "cases/frontiers/virtual_diamond/0855-normalize_initializer_expression-4/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0856-method_alias-4/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0857-flush_initializer_records/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0858-seek_work_stack-12/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0859-get_virtual_adjustment_thunk-16/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0860-new_virtual_thunk_key-20/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/frontier-extension.json"
+      ]
     }
   },
   "runtime_data": [
@@ -8878,7 +8910,7 @@
         "_hash_low_pointer_bits",
         "_hash_symbol_index",
         "_hash_first_word",
-        "_hash_four_word_key",
+        "_hash_virtual_thunk_key",
         "_hash_tail_word_pair",
         "_hash_declaration_index",
         "_hash_resolved_declaration",
@@ -8895,7 +8927,7 @@
         "_equal_pointer",
         "_equal_symbol_indices",
         "_equal_first_words",
-        "_equal_four_word_keys",
+        "_equal_virtual_thunk_keys",
         "_equal_tail_word_pairs",
         "_equal_declaration_indices",
         "_equal_resolved_declarations",
@@ -8985,6 +9017,30 @@
           "name": "_literal_workspace",
           "original": 574468,
           "bytes": 2056
+        }
+      ]
+    },
+    {
+      "name": "_initializer_record_marker",
+      "original": 594776,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_record_marker",
+          "original": 594776,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "name": "_virtual_adjustment_thunks",
+      "original": 652080,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_virtual_adjustment_thunks",
+          "original": 652080,
+          "bytes": 4
         }
       ]
     }

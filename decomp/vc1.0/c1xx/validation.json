@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 855,
-  "driver_functions": 762,
+  "accepted_frontiers": 862,
+  "driver_functions": 769,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 769,
-  "current_frontier": "_normalize_initializer_expression@4",
-  "original_frontier_va": "0x47dc0",
+  "reconstructed_source_functions": 776,
+  "current_frontier": "_emit_virtual_adjustment_thunk@4",
+  "original_frontier_va": "0x7bbf0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_normalize_initializer_expression@4",
-    "original_va": "0x47dc0"
+    "current_frontier": "_emit_virtual_adjustment_thunk@4",
+    "original_va": "0x7bbf0"
   },
-  "current_native_application_entries": 210,
+  "current_native_application_entries": 217,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 233719,
+    "accepted_code_bytes": 234483,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 49.05755030246548,
-    "accepted_frontiers": 855,
-    "source_functions": 769,
-    "accepted_source_text_and_switch_bytes": 221874,
+    "accepted_code_percent": 49.217913680843296,
+    "accepted_frontiers": 862,
+    "source_functions": 776,
+    "accepted_source_text_and_switch_bytes": 222638,
     "section_ranges": [
       [
         94208,
@@ -34,12 +34,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 233719,
+    "accepted_code_bytes": 234483,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 49.05755030246548,
-    "accepted_frontiers": 855,
-    "source_functions": 769,
-    "accepted_source_text_and_switch_bytes": 221874,
+    "accepted_code_percent": 49.217913680843296,
+    "accepted_frontiers": 862,
+    "source_functions": 776,
+    "accepted_source_text_and_switch_bytes": 222638,
     "section_ranges": [
       [
         94208,
@@ -49,8 +49,8 @@
   },
   "complete_frontend_case": false,
   "active_case": "virtual_diamond",
-  "status": "virtual_diamond reconstruction in progress; shared-prefix migration verified",
-  "latest_verification": "cases/shared-prefix-validation.json",
+  "status": "virtual_diamond reconstruction in progress",
+  "latest_verification": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -58,8 +58,10 @@
     },
     "virtual_diamond": {
       "status": "partial",
-      "frontier": "_normalize_initializer_expression@4"
+      "frontier": "_emit_virtual_adjustment_thunk@4",
+      "latest_verification": "cases/frontiers/virtual_diamond/0861-hash_virtual_thunk_key/validation.json"
     }
   },
-  "next_operation": "Resume normalize_initializer_expression at original 0x47dc0"
+  "next_operation": "Reconstruct emit_virtual_adjustment_thunk at original0x7bbf0",
+  "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json"
 }

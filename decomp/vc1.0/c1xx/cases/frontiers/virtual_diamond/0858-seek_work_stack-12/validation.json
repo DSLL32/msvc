@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_seek_work_stack@12",
+    "start": 207264,
+    "end": 207409
+  },
+  "distinct_direct_callees": [
+    "_reset_work_stack@4"
+  ],
+  "next_frontier": "_get_virtual_adjustment_thunk@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24527175072580576,
+  "total_operation_seconds": 0.836858001537621,
+  "original_capture_seconds": 1.318720867857337
+}
