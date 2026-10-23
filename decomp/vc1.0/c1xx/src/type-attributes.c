@@ -209,3 +209,10 @@ TypeShape *__stdcall last_type_shape(TypeShape *shape)
         while (shape->related) shape = shape->related;
     return shape;
 }
+
+/* Original 0x3b250..0x3b277. Test declaration-level const/volatile
+   after the type's outer shape has supplied its effective flags. */
+int __stdcall has_cv_qualifiers(CppSymbol *symbol)
+{
+    return symbol ? (type_qualifiers(symbol->type) & 0x3000) != 0 : 0;
+}

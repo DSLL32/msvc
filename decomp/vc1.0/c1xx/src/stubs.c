@@ -192,7 +192,7 @@ CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
 void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }
 
-int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }

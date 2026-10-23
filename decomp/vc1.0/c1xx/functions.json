@@ -989,7 +989,8 @@
     "_diagnose_parameter_list_difference@8",
     "_select_allocation_function@8",
     "_detach_new_array_bound@4",
-    "_last_type_shape@4"
+    "_last_type_shape@4",
+    "_has_cv_qualifiers@4"
   ],
   "driver": [
     {
@@ -2787,7 +2788,7 @@
     {
       "name": "_has_cv_qualifiers@4",
       "start": 242256,
-      "end": 242257
+      "end": 242295
     },
     {
       "name": "_identifier_expression@4",
@@ -7739,8 +7740,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_has_cv_qualifiers@4",
-      "terminal_evidence": "cases/frontiers/new_delete/0984-last_type_shape-4/original-events.txt",
+      "terminal": "_new_expression@24",
+      "terminal_evidence": "cases/frontiers/new_delete/0985-has_cv_qualifiers-4/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7764,7 +7765,8 @@
         "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/frontier-extension.json",
         "cases/frontiers/new_delete/0982-select_allocation_function-8/frontier-extension.json",
         "cases/frontiers/new_delete/0983-detach_new_array_bound-4/frontier-extension.json",
-        "cases/frontiers/new_delete/0984-last_type_shape-4/frontier-extension.json"
+        "cases/frontiers/new_delete/0984-last_type_shape-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0985-has_cv_qualifiers-4/frontier-extension.json"
       ]
     }
   },

@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_has_cv_qualifiers@4",
+    "start": 242256,
+    "end": 242295
+  },
+  "distinct_direct_callees": [
+    "_type_qualifiers@4"
+  ],
+  "next_frontier": "_new_expression@24",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3749445639550686,
+  "total_operation_seconds": 2.7908662976697087,
+  "original_capture_seconds": 0.7161036124452949
+}
