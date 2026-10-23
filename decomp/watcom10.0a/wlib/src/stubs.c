@@ -3,12 +3,6 @@
 #include "wlib.h"
 #include <recon.h>
 
-int InitMsg( const char *image_name )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
-
 void HandleSignal( int signal_number )
 {
     WLIB_FRONTIER();
@@ -31,6 +25,24 @@ void FiniToolState( void )
 }
 
 int FiniMsg( void )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int OpenResFile( HANDLE_INFO *instance )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int FindResources( HANDLE_INFO *instance )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int InitResources( HANDLE_INFO *instance )
 {
     WLIB_FRONTIER();
     return( 0 );

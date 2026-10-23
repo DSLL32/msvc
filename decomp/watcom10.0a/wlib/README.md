@@ -1,5 +1,12 @@
 # Watcom 10.0a WLIB
 
+Application reconstruction is paused by user instruction. `messages.c` is
+unaccepted InitMsg WIP: original compile/static graph checks passed, but it has
+no original or native runtime capture and no native build. `make fixtures`
+holds explicitly while that WIP is present. The last accepted fixture snapshot
+is commit `fd15744cb`; accepted counts remain two functions and 143 bytes.
+See `cases/help/initmsg-frontier/WIP.json` for the exact preserved state.
+
 `src/main.c` reconstructs the actual 142-byte application entry, with named
 trapping application/support callees. Main and the empty `CheckMemoryHook` are accepted: two application functions,
 143 original bytes, through the matching `InitMsg` frontier. Later application

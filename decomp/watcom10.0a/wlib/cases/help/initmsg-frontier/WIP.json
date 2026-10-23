@@ -1,0 +1,45 @@
+{
+  "status": "PAUSED by user; unaccepted application InitMsg WIP only",
+  "accepted": {
+    "functions": 2,
+    "original_bytes": 143,
+    "last_accepted_commit": "fd15744cb",
+    "names": [
+      "main",
+      "CheckMemoryHook"
+    ]
+  },
+  "pending": {
+    "name": "InitMsg",
+    "original_start": 4279294,
+    "original_end_exclusive": 4279399,
+    "original_bytes": 105,
+    "native_or_original_runtime_capture": false,
+    "function_acceptance": false
+  },
+  "source_sha256": {
+    "src/messages.c": "1b881ecdf47f100b69ecb47e4812a368c079790349b05ece8711b73c07c57e47",
+    "src/wlib.h": "38f9ebb161f0516def5474cd670927b5db90bbb46924ccf76cc576abca895649",
+    "src/stubs.c": "524d9fdc68234f4fac1b6721ea7f82043215628389ab644ee0c2b972c9a0edcc"
+  },
+  "original_compiler": "Watcom10.0a build passes zero warnings/errors; originalbuiltPE notexecuted",
+  "original_build_PE_sha256": "a294754aa13d74730997dfcad0d54eb3cd415846be9964b78db27fd08f932238",
+  "original_build_MAP_sha256": "db3e18ee996664a43cf557844a823d2a8ed3015cdc442fbcc724248ddea18943",
+  "static_graph": "canonicalRust validates candidate3function graph/RET/references/ownership/extents; static selection is not runtime acceptance",
+  "static_graph_sha256": "4bc47f98ac611c980971bda88908fe778085c01cc1c6f9785f6b6c24278dfaf9",
+  "native_binary": {
+    "sha256": "317f3053be48620a0e7acf6ba829b8c96bf69d8277f96e27736b513ebde5c51a",
+    "meaning": "previous accepted hook-stage binary; InitMsg WIP was neither built natively nor run"
+  },
+  "prepared_helper": {
+    "source_path": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-12-initmsg-prefix/diagnose-startup.c",
+    "source_sha256": "45efc82805ace478808c37a4ea803fefaf38697a5965b97f70b68d9e5d5b5e38",
+    "binary_path": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-12-initmsg-prefix/diagnose-startup.exe",
+    "binary_sha256": "7496f4c975d3c2e335adf5aad897d8d9c894a52894690d1bd6ed37cff0065c8d",
+    "built_before_stop_completed_after_stop": true,
+    "original_or_native_application_invocations": 0,
+    "proposal_approved_or_run": false,
+    "source_diff_sha256": "31c57e3650d6f492e1da49f404fe3faf0cc80acc398ea7b4e16aee34d098094d"
+  },
+  "policy": "No autonomous reconstruction/case selection/application acceptance. User will review plumbing and issue cases. No further app work until explicitly resumed."
+}

@@ -12,7 +12,8 @@ config = sys.argv[2] if len(sys.argv) > 2 else 'cases/help/main-frontier/audit-m
 report = sys.argv[3] if len(sys.argv) > 3 else 'build/main-static-graph.json'
 drivers = json.loads((root / config).read_text())['driver']
 implemented = {driver.get('symbol',driver['name']) for driver in drivers}
-pins = [pin for pin in json.loads((metadata / 'main-original-pins.json').read_text())
+runtime = root / sys.argv[4] if len(sys.argv)>4 else metadata / 'main-original-pins.json'
+pins = [pin for pin in json.loads(runtime.read_text())
         if pin['name'] not in implemented]
 (root / 'build/original-runtime-pins.json').write_text(json.dumps(pins, indent=2) + '\n')
 publics = {}

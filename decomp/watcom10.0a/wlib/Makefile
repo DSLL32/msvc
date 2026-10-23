@@ -42,8 +42,9 @@ check:
 	$(PYTHON) scripts/metadata.py --check binary.json
 
 # Current accepted prefix; later application callees remain INT3 frontiers.
-fixtures: native
-	@$(PYTHON) scripts/check-main-prefix.py --hook
+fixtures:
+	@printf "%s\n" "HOLD: user paused application reconstruction; InitMsg is unaccepted WIP. Accepted fixture snapshot: fd15744cb." >&2
+	@exit 2
 
 include ../../../tooling/graph-audit/graph-audit.mk
 
@@ -54,3 +55,6 @@ audit-main-candidate: reference-build $(GRAPH_AUDIT_BIN)
 # The next candidate's driver pins must replace their pending runtime entries.
 audit-hook-candidate: reference-build $(GRAPH_AUDIT_BIN)
 	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)" cases/help/hook-frontier/audit-candidate.json build/hook-static-graph.json
+
+audit-initmsg-candidate: reference-build $(GRAPH_AUDIT_BIN)
+	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)" cases/help/initmsg-frontier/audit-candidate.json build/initmsg-static-graph.json cases/help/initmsg-frontier/runtime-pins.json

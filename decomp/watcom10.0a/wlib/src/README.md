@@ -9,3 +9,7 @@ semantic formal values and owned data, without per-function veneers or raw
 register equivalence. Include `<recon.h>` last in every reconstructed C/header
 include list. Preserve binary-proven names, signatures and function edges;
 the newer Open Watcom source is a reference, not proof of the 1994 graph.
+
+User-paused WIP: `messages.c` contains unaccepted InitMsg source. Its original
+compiler/static graph checks pass; no InitMsg original/native prefix was run.
+Accepted counts remain two functions and 143 original bytes.

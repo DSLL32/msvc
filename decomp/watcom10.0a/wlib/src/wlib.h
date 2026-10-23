@@ -11,6 +11,16 @@ typedef char WlibJumpBufferSize[(sizeof(jmp_buf) == 52) ? 1 : -1];
 extern jmp_buf Env;                 /* Original VA 0x430014. */
 extern unsigned long ToolFlags;     /* Original VA 0x4302b8. */
 
+typedef struct handle_info {
+    int handle;
+    const char *filename;
+} HANDLE_INFO;
+typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
+
+int OpenResFile( HANDLE_INFO *instance );
+int FindResources( HANDLE_INFO *instance );
+int InitResources( HANDLE_INFO *instance );
+
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */
 int InitMsg( const char *image_name );
 void HandleSignal( int signal_number );
