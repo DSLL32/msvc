@@ -45,6 +45,7 @@ typedef struct CompilerBss {
     CompilerValue literal;
     CompilerValue saved_literal;
     unsigned char saved_literal_available;
+    unsigned long pdb_signature;
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;

@@ -28,6 +28,8 @@ static BufferProbe buffer_probes[16];
 static unsigned buffer_probe_count;
 static DWORD value_words[9];
 static int value_probe, value_seeded;
+static DWORD signature_words[2];
+static int signature_probe, signature_seeded;
 
 static void fail(const char *message)
 {
@@ -313,6 +315,25 @@ static void seed_value(DWORD rva, unsigned start)
             rva, value_words[start + 1], value_words[start], value_words[start + 3], value_words[start + 2], (unsigned)flag);
 }
 
+/* One unsigned rolling signature, not an opaque data block. */
+static void read_signature_probe(void)
+{
+    FILE *file;
+    DWORD extra;
+    file = fopen("signature-probe.txt", "r");
+    if (!file) return;
+    if (fscanf(file, "%lx %lx", &signature_words[0], &signature_words[1]) != 2 ||
+            fscanf(file, "%lx", &extra) != EOF) fail("invalid signature probe");
+    fclose(file);
+    signature_probe = 1;
+}
+
+static void seed_signature(DWORD rva, unsigned index)
+{
+    write_mem(base + 0x54de0, signature_words + index, 4);
+    fprintf(events, "signature-seed rva=%08lx value=%08lx\n", rva, signature_words[index]);
+}
+
 static void seed_output_buffer(unsigned index, DWORD rva)
 {
     DWORD saved, start, object, values[7], descriptor;
@@ -368,6 +389,7 @@ static void seed_restore_state(void)
     }
     for (index = 0; index < buffer_probe_count; ++index) seed_output_buffer(index, 0x122a5);
     if (value_probe) seed_value(0x122a5, 0);
+    if (signature_probe) seed_signature(0x122a5, 0);
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -494,7 +516,7 @@ int main(int argc, char **argv)
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
     if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
     restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
-    if (restore_probe) { read_buffer_probes(); read_value_probe(); }
+    if (restore_probe) { read_buffer_probes(); read_value_probe(); read_signature_probe(); }
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;
@@ -568,6 +590,9 @@ int main(int argc, char **argv)
                 }
                 if (restore_probe && value_probe && !value_seeded && address == base + 0x12646) {
                     seed_value(0x12646, 4); value_seeded = 1;
+                }
+                if (restore_probe && signature_probe && !signature_seeded && address == base + 0x12664) {
+                    seed_signature(0x12664, 1); signature_seeded = 1;
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

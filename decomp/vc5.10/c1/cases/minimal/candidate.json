@@ -236,6 +236,11 @@
       "start_rva": 75363,
       "end_rva": 75364,
       "entry": 1
+    },
+    {
+      "start_rva": 75364,
+      "end_rva": 75375,
+      "entry": 1
     }
   ],
   "functions": [
@@ -709,6 +714,19 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12664",
+      "native_symbol": "initialize_state_12664",
+      "role": "application",
+      "chunks": [
+        [
+          75364,
+          75375
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -724,8 +742,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75364,
-    "native_symbol": "initialize_state_12664",
+    "rva": 75375,
+    "native_symbol": "initialize_state_1266f",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -866,9 +884,16 @@
       "flag_after": 1,
       "entry_rva": 75334,
       "normal_case": false
+    },
+    "pdb_signature": {
+      "before_clear": 324478056,
+      "before_callback": 610800471,
+      "result": 4294967295,
+      "entry_rva": 75364,
+      "normal_case": false
     }
   },
-  "staging_role": "Empty callback12663 is sole new candidate; accepted value-copy tail remains UNMODELED",
+  "staging_role": "Signature callback12664 is sole new candidate",
   "registered_cleanup": [
     {
       "original_rva": 145728,

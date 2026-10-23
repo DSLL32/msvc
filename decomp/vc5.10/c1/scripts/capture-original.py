@@ -91,6 +91,9 @@ def main():
                       plan["negative_source" if args.negative_value else "positive_source"], plan["cached_before_copy"]]
             words = [word for value in values for word in (value & 0xffffffff, (value >> 32) & 0xffffffff)]
             (output / "value-probe.txt").write_text(" ".join("%x" % word for word in words + [plan["flag_before"]]) + "\n")
+        if args.restore_probe and field_map.get("pdb_signature"):
+            plan = candidate["restore_probe"]["pdb_signature"]
+            (output / "signature-probe.txt").write_text("%x %x\n" % (plan["before_clear"], plan["before_callback"]))
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

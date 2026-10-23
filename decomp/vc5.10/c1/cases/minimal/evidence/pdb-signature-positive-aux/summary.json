@@ -1,0 +1,39 @@
+{
+  "accepted_new_function": "_initialize_state_12664",
+  "new_original_bytes": 11,
+  "source_functions": 33,
+  "application_functions": 31,
+  "application_bytes": 1372,
+  "CRT_functions": 2,
+  "CRT_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes": 1829,
+  "modeled_original_BSS_bytes": 517,
+  "native_BSS_bytes": 544,
+  "native_padding_bytes": 27,
+  "original_seconds": 1.4177759196609259,
+  "native_gdb_seconds": 0.589717828668654,
+  "audit_seconds": 0.01670240703970194,
+  "fresh_controls": {
+    "generic": 100,
+    "numeric_value": 28,
+    "new_signature": 18
+  },
+  "reused_controls": 0,
+  "why_generic_reran": "This stage changed typed field layout and capture transport; historical unaffected controls are retained but were not used instead of these fresh runs.",
+  "checker_hashes": {
+    "scripts/check-trial.py": "bb043a51efba875e7770b8e0a92c02db2f39586280332bd7b5a960820504b8f5",
+    "scripts/compiler_state.py": "ba957bf054eeb70515f6177b21501c32595b68151f7838591ddfff6756e4ce56",
+    "scripts/buffer_state.py": "f6a07f59a4584c9ce3d80179476014988bab21642380f79525bcab6cb5723728",
+    "scripts/value_state.py": "1dc35e5f6046edf27676661a83a2b9645b6c0c7f3a930a2ecb477a5f5275ee30",
+    "scripts/signature_state.py": "4062c94afcfadfb6fdd23526b4dcba30f76d05ca5213b2bd1dfb16b84349aafc",
+    "scripts/check-state-negative.py": "199469c2b80f967fdf5702215d3fd9c8a2073d5fe44417edbb1fe184860b3d5a",
+    "scripts/check-value-negative.py": "b95c83ec0216ee350cebcc142da6130c1095b7be2c1889d970c1c27c23ceed1b",
+    "scripts/check-signature-negative.py": "bf5b3301b9775e5d83aa1bc9ae0cdf47c05bd6577448b31a95b6ed6c35c9c860",
+    "scripts/provenance.py": "20e1e8a8747daf98c6f0faeaa1ae74140c53f510d70342a0cf72988b67cac056"
+  },
+  "input_receipts": {
+    "original": "f2ec9c94f02b71c225d2bc9e3897d7bc4b5bdce1fac695fda86c376db9703f22",
+    "native": "937e2738de04a4d04a054f78977217165ab61d194187dcbd3271cd1d0456b029"
+  }
+}

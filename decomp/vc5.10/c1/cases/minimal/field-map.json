@@ -844,6 +844,16 @@
       "native_offset": 536,
       "default": 0,
       "default_proof": "actual first loaded BSS snapshot, checked fieldwise; no surrounding-byte default assumed"
+    },
+    {
+      "name": "pdb_signature",
+      "original_rva": 347616,
+      "bytes": 4,
+      "native_offset": 540,
+      "native_field": "c1_bss.pdb_signature",
+      "default": 0,
+      "type": "unsigned long rolling PDB signature",
+      "default_proof": "loaded initial BSS snapshot; actual initializer12664 storesffffffff; callers12c1e/130ce feed value to imported SigForPbCb"
     }
   ],
   "outside_bss": [
@@ -1245,7 +1255,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 540,
+    "native_bss_size": 544,
     "source_writer_rvas": [
       [
         12576,
@@ -1256,7 +1266,25 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75364,
+    "hard_frontier_rva": 75375,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
+  },
+  "pdb_signature": {
+    "original_rva": 347616,
+    "native_offset": 540,
+    "bytes": 4,
+    "default": 0,
+    "initialized": 4294967295,
+    "writer_consumer_rvas": [
+      [
+        76830,
+        76857
+      ],
+      [
+        78030,
+        78121
+      ]
+    ],
+    "provider": "MSPDB50 SigForPbCb; not called in current prefix"
   }
 }

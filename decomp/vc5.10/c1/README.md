@@ -274,3 +274,12 @@ Empty callback12663 is accepted separately, reaching12664. Its fresh candidate
 pair and17 affected value-boundary controls pass;47 unchanged generic controls
 reuse explicitly identified prior results. Durable coverage is32 source
 functions /1818 original bytes.
+
+The PDB rolling-signature initializer12664 (11 bytes) is accepted, reaching
+callback1266f. Its unsigned32-bit field has loaded zero-default evidence and
+independent nonzero BSS-clear/callback checks; actual consumers pass it to the
+imported SigForPbCb routine, which is not reached yet. Fresh normal/positive/
+negative pairs and all changed transport/state controls pass. Durable coverage
+is31 application functions /1372 bytes plus2 CRT functions /451 bytes and the
+6-byte import thunk:1829 owned bytes. The517 modeled BSS bytes occupy544 native
+bytes including27 padding bytes. Numerical value tails remain UNMODELED.

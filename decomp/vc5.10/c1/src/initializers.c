@@ -101,7 +101,7 @@ void __cdecl initialize_state_12663(void)
 
 void __cdecl initialize_state_12664(void)
 {
-    __asm { int 3 }
+    c1_bss.pdb_signature = 0xffffffffUL;
 }
 
 void __cdecl initialize_state_1266f(void)
