@@ -70,7 +70,8 @@
     "_initialize_frontend_42",
     "_main",
     "_initialize_work_buffers",
-    "_reserve_work_buffer"
+    "_reserve_work_buffer",
+    "_initialize_intermediate_files"
   ],
   "trial": null,
   "ranges": [
@@ -601,7 +602,19 @@
       "start_rva": 467082,
       "end_rva": 467112,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_intermediate_files",
+      "start_rva": 232711,
+      "end_rva": 232790,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_intermediate_files",
+      "start_rva": 467112,
+      "end_rva": 467196,
+      "entry": 0
     }
   ],
-  "stage": "_reserve_work_buffer accepted; next frontier _initialize_intermediate_files"
+  "stage": "_initialize_intermediate_files accepted; next frontier _process_early_option"
 }

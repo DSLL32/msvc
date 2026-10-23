@@ -73,7 +73,8 @@
     "_initialize_frontend_42",
     "_main",
     "_initialize_work_buffers",
-    "_reserve_work_buffer"
+    "_reserve_work_buffer",
+    "_initialize_intermediate_files"
   ],
   "driver": [
     {
@@ -786,10 +787,15 @@
     {
       "name": "_initialize_intermediate_files",
       "start": 272862471,
-      "end": 272862472,
+      "end": 272862550,
       "source": "src/frontend.c",
-      "pending_extent": true,
-      "abi": "cdecl4"
+      "abi": "cdecl4",
+      "code_chunks": [
+        [
+          273096872,
+          273096956
+        ]
+      ]
     },
     {
       "name": "_initialize_frontend_hook",
@@ -843,6 +849,22 @@
           273096872
         ]
       ]
+    },
+    {
+      "name": "_process_early_option",
+      "start": 272862550,
+      "end": 272862551,
+      "source": "src/frontend.c",
+      "pending_extent": true,
+      "abi": "cdecl8"
+    },
+    {
+      "name": "_read_command_argument",
+      "start": 273220088,
+      "end": 273220089,
+      "source": "src/frontend.c",
+      "pending_extent": true,
+      "abi": "cdecl12"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -3894,6 +3916,57 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 5.27313342038542,
         "native_seconds": 3.994810964912176
+      }
+    },
+    {
+      "name": "_initialize_intermediate_files",
+      "classification": "application source",
+      "source": "src/frontend.c",
+      "source_sha256": "0a198868e1272294d2e2f479be6259f41c4d9e27b6473053151a77ee920eaf1c",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-early-options-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-early-options-native-1",
+      "original_receipt_sha256": "1d95dac4b0905615ee53db1997d839910e6537a2d5632911e112cbf0d91bc3de",
+      "native_receipt_sha256": "90e55176ad8380b5a17adff8a2b0f197c44c38777126af3ccc0c22f8093aeb8c",
+      "trial_sha256": "bc052349cb56385e9637a894be8098e06d720fb792ff7b864628a2307ae0b52e",
+      "audit_sha256": "f25d31fbad6829f8590d6a080818aa470078114d8cf5ee92c2926789578729dd",
+      "code_chunks": [
+        [
+          232711,
+          232790
+        ],
+        [
+          467112,
+          467196
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_intermediate_files",
+        "frontier": "_process_early_option",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8383,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 5.47608326561749,
+        "native_seconds": 4.043632188811898
       }
     }
   ],

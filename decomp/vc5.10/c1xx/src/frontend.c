@@ -177,7 +177,35 @@ BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes)
 
 void initialize_intermediate_files(char **argv)
 {
+    char option[514];
+    char *environment;
+    int state = 0;
+
+    while (*++argv)
+        state = process_early_option(*argv, state);
+
+    environment = getenv("MSC_CMD_FLAGS");
+    state = 0;
+    if (environment) {
+        for (;;) {
+            environment = read_command_argument(environment, option, sizeof(option));
+            if (!*option)
+                break;
+            state = process_early_option(option, state);
+        }
+    }
+}
+
+int process_early_option(char *argument, int state)
+{
     __asm { int 3 }
+    return 0;
+}
+
+char *read_command_argument(char *source, char *argument, unsigned capacity)
+{
+    __asm { int 3 }
+    return NULL;
 }
 
 void initialize_frontend_hook(void)

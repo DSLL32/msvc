@@ -45,6 +45,14 @@ while block is not None and not block.is_global and not block.is_static:
 if frame.name()=='reserve_work_buffer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&reserve_work_buffer')):
     value['args']={'reserve_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)')),'commit_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+8)'))}
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['reserve_bytes'],value['args']['commit_bytes']]}
+if frame.name() in ('initialize_intermediate_files','process_early_option') and value['pc']==int(gdb.parse_and_eval('(unsigned int)&'+frame.name())):
+    names=['argv'] if frame.name()=='initialize_intermediate_files' else ['argument','state']
+    values=[int(gdb.parse_and_eval('*(unsigned int *)($esp+%d)'%(4+4*i))) for i in range(len(names))]
+    value['args']=dict(zip(names,values))
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':values}
+    formal_block=gdb.block_for_pc(value['pc'])
+    while formal_block and not formal_block.function:formal_block=formal_block.superblock
+    value['formal_inventory']=[{'name':item.name,'type':str(item.type)} for item in formal_block if item.is_argument] if formal_block else []
 if frame.name()=='initialize_work_buffers':
     value['caller_return_pc']=int(frame.older().pc())
 if frame.name()=='c1xx_main' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&c1xx_main')):
@@ -315,6 +323,11 @@ end
         entry=output/'collect-work-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'work-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'work-entry-argv.bin'))))
         observer+='break *initialize_work_buffers\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
+    if '_initialize_intermediate_files' in trial['accepted']:
+        for symbol,stem in [('initialize_intermediate_files','early-options-entry'),('process_early_option','early-option-entry')]:
+            entry=output/('collect-'+stem+'.gdb')
+            entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-argv.bin')))))
+            observer+='break *'+symbol+'\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
     if model['schema']>=28:
         entry=output/'collect-main-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'main-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'main-entry-argv.bin'))))

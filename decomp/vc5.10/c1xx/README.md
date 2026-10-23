@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **65 application functions (2,452 bytes)**, **two historical CRT
+Accepted code is **66 application functions (2,615 bytes)**, **two historical CRT
 support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 2,909 accepted bytes are 0.3872% of the 751,216-byte code extent; this is not
+The 3,072 accepted bytes are 0.4089% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the command-line/intermediate-file helper.
+stopping in the first internal-switch parser.
 
 ## Target and ABI
 
@@ -196,3 +196,9 @@ main continuation. The next helper's real argv formal is observed. The packet is
 `cases/minimal/allocation-trials.json`:43 targeted controls plus two necessary
 cached-import-contract ablations. Original captures took5.27–5.67s; native GDB
 observations3.99–4.18s. These are capture costs, separate from lifecycle fixtures.
+
+The163-byte split early-option scanner is accepted with no new data. Its first
+real parser call is the captured argv[1] string "-il" and state0. The caller/argv
+identity, formals and unchanged original/native state pass17 fresh controls in
+`cases/minimal/early-options-trial.json`. Getenv and environment tokenization are
+unexecuted beyond this frontier; tokenizer/table consumers remain pending.

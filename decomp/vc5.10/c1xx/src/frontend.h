@@ -138,6 +138,8 @@ void initialize_work_buffers(void);
 BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes);
 void initialize_intermediate_files(char **argv);
 void initialize_frontend_hook(void);
+int process_early_option(char *argument, int state);
+char *read_command_argument(char *source, char *argument, unsigned capacity);
 void initialize_compiler_environment(void);
 void process_compiler_options(int argc, char **argv);
 int compile_translation_unit(void);

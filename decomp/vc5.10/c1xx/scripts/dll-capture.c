@@ -856,6 +856,11 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, allocation_bss, sizeof(allocation_bss));
                     save_blob("allocation-final-bss.bin", allocation_bss, sizeof(allocation_bss));
                 }
+                if (address == base + 0x38d56) {
+                    BYTE options_bss[0xf69c];
+                    readmem(base + 0xb9000, options_bss, sizeof(options_bss));
+                    save_blob("early-options-final-bss.bin", options_bss, sizeof(options_bss));
+                }
                 if (address == base + 0x38bfd || address == base + 0x38c86) {
                     BYTE main_bss[0xf69c];
                     readmem(base + 0xb9000, main_bss, sizeof(main_bss));

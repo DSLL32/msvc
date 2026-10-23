@@ -10,6 +10,10 @@ import allocation_imports
 def check(s,d,original,native,trial,text,state,final,symbols,traps):
     def require(value,message):s.require(value,'allocation: '+message)
     def read(name):return json.loads((native/name).read_text())
+    if '_initialize_intermediate_files' in trial['accepted']:
+        state=read('early-options-entry.json')
+        traps=traps[:next(i for i,row in enumerate(traps) if row[1]=='00038d07')+1]
+        final='%03d'%int(traps[-1][0])
     def symbol(name):return tuple(int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+name+'$',symbols,re.M).groups())
     def call(return_pc,destination):
         code=bytes(d.elf_byte(native,return_pc-5+i) for i in range(5));require(code[0]==0xe8 and return_pc+struct.unpack_from('<i',code,1)[0]==destination,'not actual native caller CALL')
