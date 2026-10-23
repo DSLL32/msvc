@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Fifty-nine application functions (19,632 original code bytes), two embedded CRT functions
+Sixty application functions (19,663 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_match_logical_character`.
+currently matches at the next named trap, `rc_skip_block_comment`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -521,3 +521,9 @@ records ten affected controls; unchanged source/FILE/SEH controls are reused by
 exact prior hashes. Both builds and native help pass (8.54ms total). The
 dispatcher has not yet returned; neither comment scanning nor rich output is
 claimed complete.
+
+Logical-character matching is accepted (31 bytes): the whole32-bit argument is
+compared with the decoded WCHAR; a match returns1/ret4 and advances the cursor
+from2 to4. [Verification](cases/resources-rich-trailing-space/character-match-verification.json)
+records eight affected controls, the actual typed return, and the next
+block-comment scanner at plus43. Both builds and cached native help pass.

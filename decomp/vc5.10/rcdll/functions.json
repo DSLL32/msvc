@@ -64,7 +64,8 @@
     "rc_equal_type",
     "rc_parse_angle_name",
     "rc_search_include_directories",
-    "rc_scan_comment"
+    "rc_scan_comment",
+    "rc_match_logical_character"
   ],
   "functions": [
     {
@@ -1468,6 +1469,5 @@
       "entry_eax": "0x42c4",
       "return_esp": "entry_esp+4-entry_eax"
     }
-  ],
-  "trial_function": "rc_match_logical_character"
+  ]
 }
