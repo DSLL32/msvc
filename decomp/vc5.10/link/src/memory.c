@@ -66,3 +66,9 @@ MemoryArena *__stdcall create_memory_arena(unsigned bytes)
     arena->previous=NULL;
     return arena;
 }
+
+void *__stdcall allocate_virtual_memory(void *address,unsigned bytes,DWORD flags,DWORD protection)
+{
+    __asm { int 3 }
+    return NULL;
+}

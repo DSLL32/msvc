@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 52 application
-functions (27,731 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 53 application
+functions (27,797 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_contribution_pools`; hello-win32 has not completed.
+next frontier is `allocate_virtual_memory`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -255,3 +255,9 @@ delayed output publication. Contribution-pool initialization is the next trap,
 with no formal or hidden register inputs. Both builds, 93 fresh semantic negatives
 and the strict 65-vertex/58-return audit pass. Detailed fixture and capture timing
 is in cases/hello-win32/frontiers/52-duplicate-link-string/timing.json.
+
+The 66-byte contribution-pool initializer is accepted. The first newly reached
+allocator has all four actual formals captured as NULL,4000,0x3000,4, and no hidden
+register inputs. Both pool pointers, capacity and ready flag remain zero at this
+call. Both builds,100 fresh semantic negatives and the strict66-vertex/59-return
+audit pass. Timing and exact raw evidence are under frontiers/53-contribution-pools.

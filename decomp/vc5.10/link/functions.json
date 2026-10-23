@@ -69,7 +69,8 @@
     "_validate_debug_options@4",
     "?FullLink@LinkContext@@QAEHPAE@Z",
     "_initialize_output_modules@4",
-    "_duplicate_link_string@4"
+    "_duplicate_link_string@4",
+    "_initialize_contribution_pools"
   ],
   "driver": [
     {
@@ -1227,11 +1228,11 @@
     {
       "name": "_initialize_contribution_pools",
       "start": 4252512,
-      "end": 4252513,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
+      "end": 4252578,
+      "source": "src/full-link-init.c",
+      "status": "implemented",
       "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "pending_extent": false,
       "native_symbol": "initialize_contribution_pools"
     },
     {
@@ -2286,6 +2287,16 @@
       "pending_extent": false,
       "native_symbol": "duplicate_link_string",
       "abi": "stdcall char *(const char *text); one stack input, actual RET4 paths; no hidden/register input observed in caller/callee"
+    },
+    {
+      "name": "_allocate_virtual_memory@16",
+      "start": 4519344,
+      "end": 4519345,
+      "source": "src/memory.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "allocate_virtual_memory",
+      "abi": "stdcall void *(void *address,unsigned bytes,DWORD flags,DWORD protection); four actual stack inputs, RET16; no hidden/register inputs"
     }
   ],
   "text_data": [

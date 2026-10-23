@@ -35,3 +35,20 @@ char *__stdcall duplicate_link_string(const char *text)
     memcpy(copy,text,strlen(text)+1);
     return copy;
 }
+
+/* The module reader fills one eight-byte map entry and one COFF section
+   header per section. These reusable buffers initially hold 500 sections. */
+BYTE *module_section_map;
+IMAGE_SECTION_HEADER *module_section_headers;
+unsigned module_section_capacity;
+BYTE module_section_pools_ready;
+typedef char ModuleSectionHeaderSize[(sizeof(IMAGE_SECTION_HEADER)==40)?1:-1];
+void __cdecl initialize_contribution_pools(void)
+{
+    module_section_map=(BYTE *)allocate_virtual_memory(NULL,500*8,
+        MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+    module_section_headers=(IMAGE_SECTION_HEADER *)allocate_virtual_memory(NULL,
+        500*sizeof(IMAGE_SECTION_HEADER),MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+    module_section_capacity=500;
+    module_section_pools_ready=1;
+}

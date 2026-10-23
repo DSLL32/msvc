@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -298,9 +298,9 @@ if args.frontier=='_initialize_output_modules@4':
     negative('lost module output formal',lambda s:s['output_module_formals'].__setitem__('module',0))
     negative('lost module global alias',lambda s:s['output_module_formals'].__setitem__('destination_global',0))
     negative('wrong module initial value',lambda s:s['output_module_formals'].__setitem__('initial',1))
-if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'):
-    if args.frontier=='_initialize_contribution_pools':
-        negative('invented initializer formal',lambda s:s['frontier_inputs']['formals'].append(1))
+if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16'):
+    if args.frontier in ('_initialize_contribution_pools','_allocate_virtual_memory@16'):
+        negative('changed initializer formal list',lambda s:s['frontier_inputs']['formals'].append(1))
         negative('changed copied name',lambda s:s['output_names'][0].__setitem__('bytes','00'))
         negative('lost name ownership',lambda s:s['output_names'][1].__setitem__('address',0))
         negative('missing normal string return',lambda s:s['link_string_calls'].pop())
@@ -309,6 +309,11 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
         negative('wrong string return pointer',lambda s:s['link_string_calls'][0].__setitem__('result',0))
         negative('wrong returned string bytes',lambda s:s['link_string_calls'][1].__setitem__('text','other'))
         negative('invented hidden initializer argument',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
+        if args.frontier=='_allocate_virtual_memory@16':
+            for index in range(4):negative('wrong virtual-memory formal '+str(index),lambda s,i=index:s['frontier_inputs']['formals'].__setitem__(i,1))
+            negative('premature pool publication',lambda s:s['module_section_pools'].__setitem__('module_section_map',1))
+            negative('premature pool capacity',lambda s:s['module_section_pools'].__setitem__('module_section_capacity',500))
+            negative('premature pool initialized',lambda s:s['module_section_pools'].__setitem__('module_section_pools_ready',1))
     else:
         negative('wrong linker-owned name literal',lambda s:s['argument_detail'].__setitem__('text','linker defined module'))
         negative('lost string formal pointer',lambda s:s['argument_detail'].__setitem__('address',0))

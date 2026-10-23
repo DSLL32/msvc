@@ -13,6 +13,7 @@ typedef struct MemoryArena {
 } MemoryArena;
 void *__stdcall allocate_link_memory(unsigned,unsigned);
 void *__stdcall allocate_memory(unsigned);
+void *__stdcall allocate_virtual_memory(void *,unsigned,DWORD,DWORD);
 void *__stdcall allocate_incremental(unsigned);
 void *__stdcall reserve_memory(MemoryArena **,unsigned);
 MemoryArena *__stdcall create_memory_arena(unsigned);

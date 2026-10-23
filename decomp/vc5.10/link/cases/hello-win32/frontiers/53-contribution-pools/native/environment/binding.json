@@ -1,0 +1,9 @@
+{
+  "source": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-yhnvgoxv",
+  "reference_sha256": "ff22970d6af12b839503cbda0ec820931592b2581df750fe53aa767e54ac900d",
+  "consumed_fields": {
+    "SYSTEM_INFO.dwPageSize": 4096,
+    "MEMORYSTATUS.dwTotalPhys": 2147483647
+  },
+  "volatile_fields": "Full captured sample replayed exactly; no other target consumption is approved."
+}
