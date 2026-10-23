@@ -441,3 +441,103 @@ int __stdcall is_initializer_data_member(CppSymbol *symbol)
         (symbol->attributes & 0x40)) return 0;
     return 1;
 }
+
+/* The cursor is allowed to retain the original one-slot-before-root
+   address once depth becomes -1; no symbol is read at that depth. */
+#define POP_BRACED_INITIALIZER() \
+    (--braced_initializer_depth, \
+     current_braced_initializer = braced_initializers + braced_initializer_depth)
+#define INITIALIZER_DECLARATION(symbol_) \
+    (((symbol_)->kind & 31) >= 1 && ((symbol_)->kind & 31) <= 13 && \
+     ((symbol_)->kind & 31) != 5)
+
+/* Original 0x47000..0x47310, including its shared final member block
+   at 0x472d0. Finish implicit levels until an explicit brace, next element,
+   or exhausted root is reached. */
+int finish_braced_initializer_element(void)
+{
+    CppSymbol *symbol, *member, *next, *tag;
+    unsigned kind, bound;
+    int nesting;
+    for (;;) {
+        if (braced_initializer_depth < 0) return 0;
+        if (current_braced_initializer->flags & 0x20) {
+            if (braced_initializer_depth >= 0) POP_BRACED_INITIALIZER();
+            return 1;
+        }
+        if (current_braced_initializer->flags & 1) {
+            current_braced_initializer->flags |= 8;
+            return 0;
+        }
+        if (braced_initializer_depth >= 0) POP_BRACED_INITIALIZER();
+        if (braced_initializer_depth < 0) return 0;
+        symbol = current_braced_initializer->symbol;
+        if (symbol->attributes & 0x400) {
+            if (current_braced_initializer->phase && !initializer_excess_reported) {
+                initializer_excess_reported = 1;
+                report_syntax_error(78);
+            }
+            ++current_braced_initializer->offset;
+            bound = current_braced_initializer->symbol->type->related->data.array_bound;
+            if (bound == current_braced_initializer->offset) {
+                current_braced_initializer->flags |= 2;
+                if (!(current_braced_initializer->flags & 1)) continue;
+            }
+            return 1;
+        }
+        kind = symbol->type->flags & 0x2fdf;
+        if (kind == 0x402 || kind == 0x408) {
+            member = symbol->auxiliary.scope_members;
+            if (INITIALIZER_DECLARATION(member) && (member->attributes & 0x800)) {
+                nesting = 1;
+                do {
+                    member = member->next;
+                    if (INITIALIZER_DECLARATION(member) && member->name == name_unnamed) {
+                        if (member->attributes & 0x800) ++nesting;
+                        else if (member->attributes & 0x1000) --nesting;
+                    }
+                } while (nesting);
+            }
+            next = find_next_initializer_member(member, member->next);
+            if (next) {
+                if (initializer_bit_field_pending &&
+                    next->detail.value != initializer_bit_field_offset) {
+                    integer_constant_scratch = initializer_bit_field_value;
+                    emit_initializer_constant(member);
+                    initializer_bit_field_pending = 0;
+                }
+                current_braced_initializer->symbol->auxiliary.scope_members = next;
+                return 1;
+            }
+            if (initializer_bit_field_pending) {
+                integer_constant_scratch = initializer_bit_field_value;
+                emit_initializer_constant(member);
+                initializer_bit_field_pending = 0;
+            }
+            continue;
+        }
+        if (kind == 0x404) {
+            if (braced_initializer_depth >= 0) POP_BRACED_INITIALIZER();
+            if (initializer_bit_field_pending) {
+                integer_constant_scratch = initializer_bit_field_value;
+                emit_initializer_constant(current_braced_initializer->symbol->auxiliary.scope_members);
+                initializer_bit_field_pending = 0;
+            }
+            tag = cpp_context_stack->items[current_braced_initializer->symbol->type->field08];
+            integer_constant_scratch = type_size(current_braced_initializer->symbol->type) -
+                type_size(tag->auxiliary.scope_members->type);
+            if (integer_constant_scratch) emit_initializer_constant(0);
+            if (!(current_braced_initializer->flags & 1)) continue;
+            current_braced_initializer->flags |= 2;
+            return 1;
+        }
+        if (kind == 0x412 || kind == 0x418) {
+            if (!(current_braced_initializer->flags & 1)) continue;
+            current_braced_initializer->flags |= 2;
+            return 1;
+        }
+        return 1;
+    }
+}
+#undef INITIALIZER_DECLARATION
+#undef POP_BRACED_INITIALIZER

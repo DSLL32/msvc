@@ -1,0 +1,13 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565593c7 in emit_initializer_constant (target=0x5661b3e0) at src/stubs.c:209
+209	void __stdcall emit_initializer_constant(CppSymbol *target) { __asm { int 3 } }
+#0  0x565593c7 in emit_initializer_constant (target=0x5661b3e0) at src/stubs.c:209
+#1  0x5658b6f0 in finish_braced_initializer_element () at src/braced-initializers.c:506
+#2  0x5658bc42 in initialize_element (value=0x5662b180, mode=0) at src/braced-initializers.c:331
+#3  0x565ad2b8 in parse_translation_unit () at src/parser-declaration-actions.inc:359
+#4  0x5655e1ef in compile_translation_unit () at src/frontend.c:73
+#5  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

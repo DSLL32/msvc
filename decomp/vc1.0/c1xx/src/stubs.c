@@ -629,7 +629,6 @@ void begin_line_record_debug_info(void) { __asm { int 3 } }
 
 void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __asm { int 3 } }
 
-int finish_braced_initializer_element(void) { __asm { int 3 } return 0; }
 
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
 IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } return 0; }
