@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_12",
+  "trials": [
+    {
+      "seed": null,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback12-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback12-native-1",
+      "original_receipt_sha256": "c1613be811cd6186dd8ddd1b01288e4123fc804f88a9644d82247d444e1465f5",
+      "native_receipt_sha256": "b33bc51ba1ab66a5f79cdc7e2b7fd9f4721c21aaf0eecb7f2e6d01d869fedff1",
+      "audit": "build/audits/ff215511a19175d13b2e4d0bb9fde6acc7c56ea05c278a04b8ed29ef9b95cb78.json",
+      "comparison": {
+        "trial": "_initialize_frontend_12",
+        "frontier": "_initialize_output_buffer_05",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 408,
+        "native_bss_size": 420,
+        "native_c_padding_bytes": 12,
+        "output_constructor_fields_checked": 36,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.467851024121046,
+        "native_seconds": 0.699696590192616
+      }
+    }
+  ]
+}
