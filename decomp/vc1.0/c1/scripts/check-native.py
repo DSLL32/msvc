@@ -48,10 +48,13 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'generated-header-missing':('generated-header-failures','c1-missing'),
          'generated-header-incomplete':('generated-header-failures','c1-incomplete'),
          'protocol-parser-repair':('protocol-parser-repair','c1'),
-         'asm-parser-repair':('asm-parser-repair','c1')}
+         'asm-parser-repair':('asm-parser-repair','c1'),
+         'hdrstop-create':('pragma-hdrstop-pch','c1-create'),
+         'hdrstop-use':('pragma-hdrstop-pch','c1-use')}
 
 
 CASE_DEPENDENCIES = {
+    'hdrstop-use':('hdrstop-create','hdrstop.pch'),
     'browser-pch-use':('browser-pch-create','api.pch'),
     'pdb-pch-binding-use':('pdb-pch-binding-create','binding.pch'),
     'pch-use':('pch-create','state.pch'),
@@ -120,6 +123,9 @@ def validate_artifacts(work, fixture, phase):
         assert not (work/name).exists(), 'forbidden output exists: '+name
     expected_files = {Path(i['path']).name for i in phase['inputs']} | {i['output_name'] for i in phase['outputs']}
     assert {p.name for p in work.iterdir()} == expected_files, 'complete file set differs'
+    for name in phase.get('immutable_input_names',[]):
+        item=next(i for i in phase['inputs']if Path(i['path']).name==name)
+        assert (work/name).read_bytes()==captured(fixture/item['path'],item), 'immutable input bytes differ: '+name
     cross_outputs(work, phase)  # Raw equality must precede timestamp normalization.
     outputs = []
     for item in phase['outputs']:

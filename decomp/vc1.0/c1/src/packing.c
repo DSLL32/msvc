@@ -117,3 +117,12 @@ void pop_packing(PackingStack *stack)
         stack->free = entry;
     }
 }
+
+/* Original0x1e810..0x1e829, cdecl. Reusing a retired packing entry
+   clears its complete twelve-byte record before the caller fills it again. */
+void clear_packing(PackingEntry *entry)
+{
+    entry->next = 0;
+    entry->alignment = 0;
+    entry->label = 0;
+}

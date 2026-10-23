@@ -1,0 +1,105 @@
+{
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/pragma-hdrstop-pch",
+  "phase": "c1-use",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1004,
+  "accepted_sha256": "e29e959b6556ae9e79a456b4aab39785fde5f70169a90040f4717c8cbf2b8dc8",
+  "executable_sha256": "87ec9a240455dd26b5f42e560b894a6db419696d793c5be778208dc1b9f58ec3",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "cf421ca7189024c2a7a8bcca7b597eb07da79d80797df195246c067fd406defc",
+  "debugger_memory_request": "4b024:4,4b148:1,4b228:4,5bb44:4",
+  "debugger_string_request": "5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yu -FR consumer.sbr -Fphdrstop.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\pragma-hdrstop-pch",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pragma-hdrstop-pch",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05430481117218733,
+  "execution_seconds": 1.8831277079880238,
+  "total_seconds": 1.937435595318675,
+  "files": [
+    {
+      "name": "api.h",
+      "bytes": 356,
+      "sha256": "7b64ec634a3c536c3d0b44f33455cbb6f9aeef012a3d6e783f16c163a22a0591"
+    },
+    {
+      "name": "consumer.c",
+      "bytes": 309,
+      "sha256": "3b36120cc5ab1f1e513a3be61c9e0bb3e04b15561088fe2742c4ec8ed9c05b86"
+    },
+    {
+      "name": "consumer.sbr",
+      "bytes": 178,
+      "sha256": "7f5af13da9b00415fd5aa19e1fb652452d7d95536bacdd1f40752db8fa0b2826"
+    },
+    {
+      "name": "hdrstop.pch",
+      "bytes": 38101,
+      "sha256": "d3ca21ba17570561711184667637ca6004609b7d9e7fde89633fd0fce19100d2"
+    },
+    {
+      "name": "irdb",
+      "bytes": 79,
+      "sha256": "c5593426fa63ae55c17268c18152860fc9c378675a7dea4f7426f57459b67e75"
+    },
+    {
+      "name": "irex",
+      "bytes": 1080,
+      "sha256": "6def64cf3065bebe872f2954c203908d0eed64c43256d5c0efa93f2efc460caa"
+    },
+    {
+      "name": "irgl",
+      "bytes": 98,
+      "sha256": "bcea7f54e3ea444bcc489736248a28e1158d0919efd0607b39f4f1b70ac9a707"
+    },
+    {
+      "name": "irin",
+      "bytes": 3,
+      "sha256": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91"
+    },
+    {
+      "name": "irsy",
+      "bytes": 84,
+      "sha256": "e11a4f101e9d4b60f7e11be93ecd44b5d2f0a0a5d58f9211d239813947058038"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 578,
+      "sha256": "f045918a7e6162d0fa29a64b2dc1f80cc8db666baf34c50a3aac87964bc2cfd8"
+    },
+    {
+      "name": "producer.obj",
+      "bytes": 1031,
+      "sha256": "9c2a5214ac9b26be4120571640ca456f31a4bf93deb66c28655fe306914b2e21"
+    },
+    {
+      "name": "producer.sbr",
+      "bytes": 768,
+      "sha256": "cd781ad7e328e3da62898ece6e23c9a02567fdc11f15b82fbba7145ef2df0852"
+    }
+  ]
+}

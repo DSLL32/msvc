@@ -26,7 +26,6 @@ void compiler_signal(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 
 
-void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
 
 
@@ -522,7 +521,6 @@ void browser_macro_end(void) { __asm { int 3 } }
 /* Original 0x1e530. */
 
 /* Original 0x1ffc0. */
-void synchronize_pch_pragma(void) { __asm { int 3 } }
 
 /* Original 0x28a10. */
 

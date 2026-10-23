@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "31309beed14ef8c05c81feec07ccda91de8d6dbf39ae37ed8473d3b41b86dbaf",
+    "functions.json": "355944e683922462d3e6a64d84e0d8e999d6359f3497b4b136802134bb71f025",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "ae3544fe2d6983d588b9177c145381416dbb681db1dd82e4cd6b906907d8f25d"
+    "sha256": "325e1aa01797d64a7d867d831d40739372730fa6ef8962ecdc4c17863131d5e4"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "fcc05366f3e8c6da7808cf373dc8182345e2f9d5e0ff38864d27403d8ba85f2d"
+    "sha256": "01917034e55cc8716e916d5e2696c7f6bdb20c3555e38e87ae061dd2f523f343"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -607,7 +607,7 @@
     },
     "clear_packing": {
       "logical": "_clear_packing",
-      "source": "src/stubs.c"
+      "source": "src/packing.c"
     },
     "clear_symbol_aliases": {
       "logical": "_clear_symbol_aliases",
@@ -3371,7 +3371,7 @@
     },
     "synchronize_pch_pragma": {
       "logical": "_synchronize_pch_pragma",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "top_packing": {
       "logical": "_top_packing",
@@ -4516,7 +4516,9 @@
     "report_asm_operand_error",
     "make_asm_segment_value",
     "report_asm_expected_token",
-    "asm_recovery_value"
+    "asm_recovery_value",
+    "synchronize_pch_pragma",
+    "clear_packing"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4629,7 +4631,10 @@
       "_shortsort",
       "_swap",
       "__fstat",
-      "__strerror"
+      "__strerror",
+      "__strdup",
+      "_strlen",
+      "_strcpy"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -6022,6 +6027,29 @@
       "terminal": {
         "kind": "exit",
         "code": 5
+      }
+    },
+    "hdrstop-create": {
+      "first": 999,
+      "last": 1004,
+      "seen_count": 858,
+      "expected": [
+        "synchronize_pch_pragma",
+        "clear_packing"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "hdrstop-use": {
+      "first": 1004,
+      "last": 1004,
+      "seen_count": 860,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

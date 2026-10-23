@@ -1003,7 +1003,12 @@
     "_report_asm_operand_error@8",
     "_make_asm_segment_value@4",
     "_report_asm_expected_token@8",
-    "_asm_recovery_value@4"
+    "_asm_recovery_value@4",
+    "_synchronize_pch_pragma",
+    "__strdup",
+    "_strlen",
+    "_strcpy",
+    "_clear_packing"
   ],
   "driver": [
     {
@@ -1120,7 +1125,16 @@
     {
       "name": "_clear_packing",
       "start": 124944,
-      "end": 124969
+      "end": 124969,
+      "abi_inputs": [
+        {
+          "name": "entry",
+          "formal": "entry",
+          "stack_slot": 1,
+          "kind": "pointer_identity"
+        }
+      ],
+      "abi_contract": "cdeclRET0; one owned PackingEntry outputpointer. Original1e810..1e829 reads only pointer slot, writes literalzero to offsets0/4/8 (all12bytes), does not read prior object payload."
     },
     {
       "name": "_mark_lead_byte_ranges",
@@ -3429,7 +3443,23 @@
     {
       "name": "_synchronize_pch_pragma",
       "start": 131008,
-      "end": 131009
+      "end": 131201,
+      "abi_inputs": [],
+      "abi_contract": "void/no stack or hidden register formals: native1ffc0 prologue savesESI/EDI then obtains all arguments from global scanner/options state",
+      "abi_globals": [
+        {
+          "name": "scanner_flags",
+          "original": 441156,
+          "bytes": 4
+        }
+      ],
+      "abi_strings": [
+        {
+          "name": "options.option_Fp",
+          "original": 441960,
+          "maximum": 256
+        }
+      ]
     },
     {
       "name": "_lookup_or_declare_tag@12",
@@ -6104,6 +6134,16 @@
       "accepted_from": 995,
       "accepted_count": 997,
       "expected_exit": 5
+    },
+    "hdrstop-create": {
+      "accepted_from": 999,
+      "accepted_count": 1004,
+      "expected_exit": 0
+    },
+    "hdrstop-use": {
+      "accepted_from": 1004,
+      "accepted_count": 1004,
+      "expected_exit": 0
     }
   },
   "buffered_streams": [

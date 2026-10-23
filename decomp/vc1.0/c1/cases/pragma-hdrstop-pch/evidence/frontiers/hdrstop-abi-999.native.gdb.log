@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4ae3: file src/stubs.c, line 525.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, synchronize_pch_pragma () at src/stubs.c:525
+525	void synchronize_pch_pragma(void) { __asm { int 3 } }

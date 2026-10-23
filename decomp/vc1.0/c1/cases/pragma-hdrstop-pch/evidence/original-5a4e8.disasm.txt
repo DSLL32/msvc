@@ -1,0 +1,40 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0005a4e8 <.text+0x434e8>:
+   5a4e8:	8b 54 24 04          	mov    edx,DWORD PTR [esp+0x4]
+   5a4ec:	8b ca                	mov    ecx,edx
+   5a4ee:	33 c0                	xor    eax,eax
+   5a4f0:	f7 c2 01 00 00 00    	test   edx,0x1
+   5a4f6:	74 05                	je     0x5a4fd
+   5a4f8:	3a 02                	cmp    al,BYTE PTR [edx]
+   5a4fa:	74 34                	je     0x5a530
+   5a4fc:	42                   	inc    edx
+   5a4fd:	f7 c2 02 00 00 00    	test   edx,0x2
+   5a503:	74 0b                	je     0x5a510
+   5a505:	3a 02                	cmp    al,BYTE PTR [edx]
+   5a507:	74 27                	je     0x5a530
+   5a509:	42                   	inc    edx
+   5a50a:	3a 02                	cmp    al,BYTE PTR [edx]
+   5a50c:	74 22                	je     0x5a530
+   5a50e:	42                   	inc    edx
+   5a50f:	90                   	nop
+   5a510:	8b 02                	mov    eax,DWORD PTR [edx]
+   5a512:	0a c0                	or     al,al
+   5a514:	74 1a                	je     0x5a530
+   5a516:	0a e4                	or     ah,ah
+   5a518:	74 15                	je     0x5a52f
+   5a51a:	a9 00 00 ff 00       	test   eax,0xff0000
+   5a51f:	74 0d                	je     0x5a52e
+   5a521:	83 c2 04             	add    edx,0x4
+   5a524:	a9 00 00 00 ff       	test   eax,0xff000000
+   5a529:	75 e5                	jne    0x5a510
+   5a52b:	83 ea 03             	sub    edx,0x3
+   5a52e:	42                   	inc    edx
+   5a52f:	42                   	inc    edx
+   5a530:	8b c2                	mov    eax,edx
+   5a532:	2b c1                	sub    eax,ecx
+   5a534:	c3                   	ret

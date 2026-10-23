@@ -1,0 +1,14 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x1b677: file src/pragma.c, line 745.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, synchronize_pch_pragma () at src/pragma.c:745
+745	    unsigned char token = read_pragma_token();
+Breakpoint 2 at 0xf7d99cd0
+
+Breakpoint 2, 0xf7d99cd0 in strdup () from /lib/i386-linux-gnu/libc.so.6
+Temporary breakpoint 3 at 0x565eb728: file src/pragma.c, line 757.
+
+Temporary breakpoint 3, 0x565eb728 in synchronize_pch_pragma () at src/pragma.c:757
+757	        name = _strdup((char *)text_work_cursor);

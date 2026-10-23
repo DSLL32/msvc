@@ -1,5 +1,7 @@
 /* Pragma dispatch and state shared with listing, segment and option readers. */
+#include <ctype.h>
 #include <locale.h>
+#include <string.h>
 #include "pragma.h"
 #include "preprocessor.h"
 #include "lexer.h"
@@ -733,4 +735,31 @@ void warn_bad_pragma(void)
 {
     compiler_warning(1, 612);
     skip_source_line();
+}
+
+/* Original0x1ffc0..0x20081. An optional hdrstop filename is scanned as
+   a string with the pragma quoting flag, then stripped of surrounding space.
+   An explicit /Fp takes precedence; the original retains the copied text. */
+void synchronize_pch_pragma(void)
+{
+    unsigned char token = read_pragma_token();
+    int valid;
+    char *name;
+    if (token == TOK_LEFT_PAREN) {
+        scanner_flags |= 0x4000;
+        valid = read_pragma_argument(TOK_STRING);
+        scanner_flags &= ~0x4000;
+        if (!valid) {
+            report_syntax_error(854);
+            skip_source_line();
+            return;
+        }
+        name = _strdup((char *)text_work_cursor);
+        while (isspace((unsigned char)*name)) ++name;
+        *trim_filename_space(name,0) = 0;
+        if (!options.option_Fp) options.option_Fp = name;
+    } else if (token != TOK_NEWLINE) {
+        report_syntax_error(854);
+        skip_source_line();
+    }
 }

@@ -1,14 +1,17 @@
 {
-  "authorization": "Root approved separately named direct assembler-callback code-level workflow; never claim public reachability. Real initialized marker, separate debugger-only call stack, unchanged repair table; observe input ownership/definedness and complete return/nonvolatile/global/output effects.",
-  "baseline_commit": "a54dabad3e15300236a5be88a3818a3ad7fa153f",
-  "baseline_accepted_count": 997,
+  "authorization": "Root approved SINGLE public pragma-hdrstop bareYc/Yu PCH producer/consumer checksum, posthdrstop namedpack reuse. Originalfullcompile/link/runtime0 plus actualtransport/PCH/path/mtime beforefreeze. Optionalfilename/browser only if supported. No retiredpackingpointer workaround/privateflags.",
+  "baseline_commit": "ff5df66c3b54b2ef89e6a1643255fcdea18a0b23",
+  "baseline_accepted_count": 999,
   "status": "complete",
   "cases": [
     {
-      "case": "asm-direct-callbacks",
-      "kind": "direct support callback validation",
-      "status": "complete;997 through999;15directunits, no public reachability"
+      "case": "pragma-hdrstop-pch",
+      "phases": [
+        "c1-create",
+        "c1-use"
+      ],
+      "status": "complete;999 through1004; two frontend bodies218B + originalLIBC261B, bothphases exact"
     }
   ],
-  "completion": "cases/asm-direct-callbacks/validation.json"
+  "completion": "cases/pragma-hdrstop-pch/validation.json"
 }

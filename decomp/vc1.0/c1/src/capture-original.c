@@ -72,6 +72,35 @@ static void dump_requested_memory(HANDLE process, HANDLE log, DWORD base)
     }
 }
 
+/* Optional ABI string objects: observe the pointer owner and exact NUL
+   terminated bytes without changing target storage or path spelling. */
+static void dump_requested_strings(HANDLE process, HANDLE log, DWORD base)
+{
+    char *request=getenv("C1_READ_STRINGS"), *next, line[1100];
+    unsigned char byte;
+    static char digits[]="0123456789abcdef";
+    DWORD rva, maximum, pointer, got, written, index, length;
+    if (!request) return;
+    while (*request) {
+        rva=strtoul(request,&next,16);
+        if (next==request || *next!=':') return;
+        maximum=strtoul(next+1,&next,16);
+        if (!maximum || maximum>512 ||
+            !ReadProcessMemory(process,(void *)(base+rva),&pointer,4,&got) || got!=4) return;
+        length=sprintf(line,"string %08lx %08lx ",rva,pointer);
+        if (pointer) {
+            for(index=0;index<maximum;++index) {
+                if (!ReadProcessMemory(process,(void *)(pointer+index),&byte,1,&got) || got!=1) return;
+                line[length++]=digits[byte>>4]; line[length++]=digits[byte&15];
+                if (!byte) break;
+            }
+            if (index==maximum) return;
+        }
+        line[length++]='\n'; WriteFile(log,line,length,&written,0);
+        request=*next==','?next+1:next;
+    }
+}
+
 /* Independent raw offsets from505ba..5061c and4eb15..4eb41. These
    observations are debugger-only and never target reconstruction data. */
 static void dump_asm_operand(HANDLE process, HANDLE log, DWORD base, const char *boundary)
@@ -103,6 +132,22 @@ static void dump_asm_operand(HANDLE process, HANDLE log, DWORD base, const char 
     WriteFile(log,line,length,&written,0);
     length=sprintf(line,"asm-name %s %s\n",boundary,name);
     WriteFile(log,line,length,&written,0);
+}
+
+static void dump_pointer_text(HANDLE process, HANDLE log, const char *label, DWORD pointer)
+{
+    unsigned char value;
+    DWORD got, written, index, length;
+    char line[1100];
+    static char digits[]="0123456789abcdef";
+    length=sprintf(line,"pointer-text %s %08lx ",label,pointer);
+    for(index=0;pointer && index<512;++index) {
+        if (!ReadProcessMemory(process,(void *)(pointer+index),&value,1,&got) || got!=1) return;
+        line[length++]=digits[value>>4]; line[length++]=digits[value&15];
+        if (!value) break;
+    }
+    if (index==512) return;
+    line[length++]='\n'; WriteFile(log,line,length,&written,0);
 }
 
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
@@ -184,7 +229,7 @@ static int dump_function_symbol(HANDLE process, HANDLE log, const char *boundary
     }
     return WriteFile(log,line,strlen(line),&written,0);
 }
-static int return8_probe, segment_probe;
+static int return8_probe, segment_probe, strdup_probe;
 
 static int dump_flag_words(HANDLE process, HANDLE log, const char *boundary)
 {
@@ -215,10 +260,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
         if (segment_probe) dump_asm_operand(process,log,base,"entry");
-        if (return8_probe || segment_probe) {
+        if (return8_probe || segment_probe || strdup_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
-            sprintf(line,"%s-entry %u %08lx %08lx\n",segment_probe?"segment":"return8",flag_count,context.Esp,arguments[1]);
+            sprintf(line,"%s-entry %u %08lx %08lx\n",strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,arguments[1]);
             if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
+            if (strdup_probe) dump_pointer_text(process,log,"entry",arguments[1]);
         }
         if (timestamp_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
@@ -235,9 +281,10 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         context.EFlags |= 0x100;
     } else {
         if (segment_probe) dump_asm_operand(process,log,base,"finish");
-        if (return8_probe || segment_probe) {
-            sprintf(line,"%s-finish %u %08lx %08lx %08lx\n",segment_probe?"segment":"return8",flag_count,context.Esp,context.Eax,context.Edx);
+        if (return8_probe || segment_probe || strdup_probe) {
+            sprintf(line,"%s-finish %u %08lx %08lx %08lx\n",strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,context.Eax,context.Edx);
             if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
+            if (strdup_probe) dump_pointer_text(process,log,"finish",context.Eax);
         }
         if (timestamp_probe) {
             if (!ReadProcessMemory(process,(void *)timestamp_pointer,&timestamp,4,&got) || got != 4) return -1;
@@ -364,6 +411,8 @@ int main(int argc, char **argv)
     flag_option = getenv("C1_FUNCTION_SYMBOL_RVA");
     if (flag_option) flag_symbol_rva = strtoul(flag_option,0,16);
     if (flag_symbol_rva && !flag_entry_rva) return 2;
+    strdup_probe = getenv("C1_STRDUP_PROBE") != 0;
+    if (strdup_probe && !flag_entry_rva) return 2;
     segment_probe = getenv("C1_ASM_SEGMENT_PROBE") != 0;
     if (segment_probe && !flag_entry_rva) return 2;
     return8_probe = getenv("C1_RETURN8_PROBE") != 0;
@@ -508,6 +557,7 @@ int main(int argc, char **argv)
                 WriteFile(log, line, strlen(line), &written, 0);
                 dump_context(pi.hProcess, pi.hThread, log);
                 dump_requested_memory(pi.hProcess,log,base);
+                dump_requested_strings(pi.hProcess,log,base);
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);

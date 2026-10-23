@@ -36,6 +36,7 @@ def main():
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
+    parser.add_argument('--trace-strdup',action='store_true',help='Explicit original-only strdup input/returned copied text')
     parser.add_argument('--trace-asm-segment',action='store_true',help='Explicit original-only segment operand entry/return ABI/state')
     parser.add_argument('--trace-return8',action='store_true',help='Explicit original-only recovery-value register/stack observation')
     parser.add_argument('--trace-timestamps',action='store_true',help='Observe source descriptor metadata adapter return and output timestamp')
@@ -55,6 +56,9 @@ def main():
     if options.trace_return8:
         assert options.unmasked and options.trace_flags is None
         options.trace_flags = '_recovery_token_value@4'
+    if options.trace_strdup:
+        assert options.unmasked and options.trace_flags is None
+        options.trace_flags='__strdup'
     if options.trace_asm_segment:
         assert options.unmasked and options.trace_flags is None
         options.trace_flags = '_make_asm_segment_value@4'
@@ -169,6 +173,8 @@ def main():
     host_environment.pop('C1_RETURN8_PROBE',None)
     host_environment.pop('C1_ASM_SEGMENT_PROBE',None)
     host_environment.pop('C1_DIRECT_CALL',None)
+    host_environment.pop('C1_STRDUP_PROBE',None)
+    if options.trace_strdup:host_environment['C1_STRDUP_PROBE']='1'
     if direct:
         args = options.direct_arguments + [0]*(2-len(options.direct_arguments))
         host_environment['C1_DIRECT_CALL'] = '%x,%x,%d,%x,%x'%(probe['start']-original.base,direct['start']-original.base,len(options.direct_arguments),*args)
@@ -178,6 +184,9 @@ def main():
         host_environment['C1_ASM_SEGMENT_PROBE']='1'
         host_environment['C1_ASM_OPERAND_PROBE']='1'
     if options.trace_return8:host_environment['C1_RETURN8_PROBE']='1'
+    abi_strings = {item['original']:item for record in config['driver'] for item in record.get('abi_strings',[])}
+    if abi_strings:
+        host_environment['C1_READ_STRINGS'] = ','.join('%x:%x'%(address-original.base,item['maximum'])for address,item in sorted(abi_strings.items()))
     abi_globals = {item['original']:item for record in config['driver'] for item in record.get('abi_globals',[])}
     if abi_globals:
         extra = ','.join('%x:%x'%(address-original.base,item['bytes'])for address,item in sorted(abi_globals.items()))
@@ -189,8 +198,8 @@ def main():
         host_environment['C1_FUNCTION_SYMBOL_RVA'] = '%x' % (0x5b140-original.base)
     if options.trace_flags:
         assert not entry_mode and not options.trace_enum_callbacks
-        probe = next(r for r in config['driver'] if r['name']==options.trace_flags)
-        assert probe['name'] in config['accepted'] or ((options.trace_return8 or options.trace_asm_segment) and options.unmasked)
+        probe = next(r for r in config['driver']+json.loads((BINARY/'runtime.json').read_text()) if r['name']==options.trace_flags)
+        assert probe['name'] in config['accepted'] or ((options.trace_return8 or options.trace_asm_segment or options.trace_strdup) and options.unmasked)
         # Identity derived and checked against raw operand bytes by audit-flags.py.
         host_environment['C1_FLAG_PROBE_RVAS'] = '%x,%x,%x' % (probe['start']-original.base,0x6bb44-original.base,0x6bb48-original.base)
     if options.trace_enum_callbacks:
@@ -220,12 +229,12 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
                    executable_sha256=sha(target), original_sha256=phase['sha256'],
-                   debugger_sha256=sha(options.debugger), debugger_memory_request=host_environment.get("C1_READ_MEMORY"), child_arguments=[],
+                   debugger_sha256=sha(options.debugger), debugger_memory_request=host_environment.get("C1_READ_MEMORY"),debugger_string_request=host_environment.get("C1_READ_STRINGS"), child_arguments=[],
                    child_environment={'MSC_CMD_FLAGS':flags},
                    child_working_directory=canonical or wt.windows(work),
                    child_stdio=phase.get('stdio', {'stderr_to_stdout':False}),

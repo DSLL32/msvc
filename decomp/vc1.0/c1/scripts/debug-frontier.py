@@ -108,6 +108,7 @@ def main():
 
     abi_inputs = expected_record.get('abi_inputs',[]) if expected_record else []
     abi_globals = expected_record.get('abi_globals',[]) if expected_record else []
+    abi_strings = expected_record.get('abi_strings',[]) if expected_record else []
     alias_stderr = phase.get('stdio', {}).get('stderr_to_stdout', False)
     redirection = '>'+shlex.quote(str(directory/'stdout'))
     if alias_stderr:
@@ -209,6 +210,12 @@ if gdb.selected_inferior().pid:
     for item in %r:
         value=int(gdb.parse_and_eval(item['name'])) & ((1 << (8*item['bytes']))-1)
         state['abi_globals'].append(dict(name=item['name'],original=item['original'],bytes=item['bytes'],value=value))
+    state['abi_strings']=[]
+    for item in %r:
+        pointer=int(gdb.parse_and_eval(item['name'])) & 0xffffffff
+        value=None if not pointer else gdb.parse_and_eval(item['name']).string(encoding='latin1')
+        assert value is None or len(value)+1<=item['maximum']
+        state['abi_strings'].append(dict(name=item['name'],original=item['original'],pointer=pointer,value=value))
     while frame and len(state['frames'])<12:
         state['frames'].append(frame.name())
         frame=frame.older()
@@ -238,7 +245,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),str(directory/'state.json'))
+''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,abi_strings,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -270,6 +277,15 @@ end
                 raw=next(line.split()[3]for line in events.splitlines()if line.startswith('memory %08x '%(item['original']-original_base)))
                 assert int.from_bytes(bytes.fromhex(raw),'little')==item['value'],('ABI global differs',item)
             if abi_globals: state['abi_globals_original_match']=True
+            for item in state['abi_strings']:
+                line=next(line for line in events.splitlines()if line.startswith('string %08x '%(item['original']-original_base)))
+                fields=line.split();pointer=int(fields[2],16)
+                raw=bytes.fromhex(fields[3])if pointer else None
+                assert raw is None or raw.endswith(b'\0')
+                value=None if raw is None else raw[:-1].decode('latin1')
+                assert item['value']==value,('ABI string differs',item,value)
+                item['original_pointer']=pointer
+            if abi_strings: state['abi_strings_original_match']=True
             if 'asm_operand_state' in state:
                 row=next(line for line in events.splitlines()if line.startswith('asm-state stop '))
                 assert state['asm_operand_state']==[int(x)for x in row.split()[2:]],('asm operand state differs',state['asm_operand_state'],row)

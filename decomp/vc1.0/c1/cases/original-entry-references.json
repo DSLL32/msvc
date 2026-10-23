@@ -184,6 +184,14 @@
     "asm-parser-repair": {
       "receipt": "cases/asm-parser-repair/evidence/asm-parser-complete-997.receipt.json",
       "sha256": "e146ed7bb277a2409815dcb4cf3f5bd061e1d0a2ca806bbf4d509cc0b6168f55"
+    },
+    "hdrstop-create": {
+      "receipt": "cases/pragma-hdrstop-pch/evidence/hdrstop-create-entries-1004.receipt.json",
+      "sha256": "4908bf59f5fc74c1af6371bc3e904429217e9f51e22174d818fe8f7d1f6f1e54"
+    },
+    "hdrstop-use": {
+      "receipt": "cases/pragma-hdrstop-pch/evidence/hdrstop-use-entries-1004.receipt.json",
+      "sha256": "df97b3d3482f499267cacedd21066d8cb6bdf647f2a7cc6ad17765fb75f8fc49"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

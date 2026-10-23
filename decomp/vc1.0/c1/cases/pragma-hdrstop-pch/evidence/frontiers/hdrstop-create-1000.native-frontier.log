@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 354, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 106, in main
+    expected_native = native_boundaries[expected_record['name']]
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: '__strdup'

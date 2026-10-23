@@ -1,0 +1,24 @@
+{
+  "before": {
+    "esp": 4287137084,
+    "return_address": 1449047848,
+    "argument": 1449600144,
+    "text": "hdrstop.pch",
+    "registers": {
+      "ebx": 1449529332,
+      "esi": 1449587625,
+      "edi": 1459617824,
+      "ebp": 4287137128
+    }
+  },
+  "esp": 4287137088,
+  "eax": 1473896448,
+  "text": "hdrstop.pch",
+  "caller": "synchronize_pch_pragma",
+  "registers": {
+    "ebx": 1449529332,
+    "esi": 1449587625,
+    "edi": 1459617824,
+    "ebp": 4287137128
+  }
+}

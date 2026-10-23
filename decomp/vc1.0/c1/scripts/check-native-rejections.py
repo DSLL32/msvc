@@ -472,6 +472,39 @@ def main():
     rejects('asm-repair-historical-entry-order', 'native trace asm-parser-repair index 0: expected',
             lambda:checker.run_case('asm-parser-repair',executable,private_root,(wrong,filter_path)))
 
+    _, hdrstop = checker.run_case('hdrstop-create',executable,directory,(cache,filter_path))
+    hdrstop_fixture = checker.BINARY/'cases/pragma-hdrstop-pch'
+    hdrstop_manifest = json.loads((hdrstop_fixture/'manifest.json').read_text())
+    hdrstop_phase = hdrstop_manifest['phases']['c1-create']
+    rejects('hdrstop-unexpected-warning','stdout differs',
+            lambda:checker.validate_result('hdrstop-create',0,b'warning C4081\r\n',b'',hdrstop_phase))
+    pch = bytearray((hdrstop/'hdrstop.pch').read_bytes())
+    pch[-1] ^= 1
+    (hdrstop/'hdrstop.pch').write_bytes(pch)
+    rejects('hdrstop-actual-producer-input-contract','output bytes differ: hdrstop.pch',
+            lambda:checker.run_case('hdrstop-use',executable,directory,(cache,filter_path),hdrstop/'hdrstop.pch'))
+    (hdrstop/'hdrstop.pch').write_bytes((hdrstop_fixture/'expected/c1-create/hdrstop.pch').read_bytes())
+    expression = bytearray((hdrstop/'irex').read_bytes())
+    expression[-1] ^= 1
+    (hdrstop/'irex').write_bytes(expression)
+    rejects('hdrstop-postboundary-packing-ir','output bytes differ: irex',
+            lambda:checker.validate_artifacts(hdrstop,hdrstop_fixture,hdrstop_phase))
+    (hdrstop/'irex').write_bytes((hdrstop_fixture/'expected/c1-create/irex').read_bytes())
+    private_root = directory/'hdrstop-valid-use'
+    private_root.mkdir()
+    _, used = checker.run_case('hdrstop-use',executable,private_root,(cache,filter_path),hdrstop/'hdrstop.pch')
+    original_object=bytearray((used/'producer.obj').read_bytes())
+    original_object[-1] ^= 1
+    (used/'producer.obj').write_bytes(original_object)
+    rejects('hdrstop-frozen-backend-object-immutable','immutable input bytes differ: producer.obj',
+            lambda:checker.validate_artifacts(used,hdrstop_fixture,hdrstop_manifest['phases']['c1-use']))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['hdrstop-create']['expected'] = list(reversed(wrong['cases']['hdrstop-create']['expected']))
+    private_root = directory/'wrong-hdrstop-order'
+    private_root.mkdir()
+    rejects('hdrstop-historical-entry-order','native trace hdrstop-create index 0: expected',
+            lambda:checker.run_case('hdrstop-create',executable,private_root,(wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

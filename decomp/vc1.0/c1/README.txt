@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Forty-six native phases are complete: minimal C, optimized Win32 hello, DLL,
+Forty-eight native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -11,11 +11,11 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
 
-There are 869 accepted source functions and 999 accepted original entries.
-Accepted original extents cover 239321/277234 code-section bytes (86.324549%):
-218668 frontend bytes, 20467 CRT bytes and 186 import-thunk bytes. This is a
+There are 871 accepted source functions and 1004 accepted original entries.
+Accepted original extents cover 239800/277234 code-section bytes (86.497327%):
+218886 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Of this union,239135bytes have public-case evidence and
+not branch coverage. Of this union,239614bytes have public-case evidence and
 186bytes are separately direct-tested unreachable assembler support. Unvisited
 functions retain named trapping stubs.
 
@@ -37,13 +37,13 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 46 completed phase histories to fresh
-shared-prefix original first-entry captures. All 856 publicly reached accepted application entries
+cases/original-entry-references.json binds 48 completed phase histories to fresh
+shared-prefix original first-entry captures. All 858 publicly reached accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current46 public plus15direct regression receipts are in
-cases/asm-direct-callbacks/validation.json.
+current48 public plus15direct regression receipts are in
+cases/pragma-hdrstop-pch/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -384,3 +384,13 @@ data add186bytes to direct-inclusive extent only; public extent is unchanged.
 Original-defined word masks and pointer owners are proved independently.
 Normal check includes these Wine-free units; native-adoption-check includes
 seven rejection controls and an original-unwritten-word positive control.
+
+Public hdrstop PCH workflow
+---------------------------
+cases/pragma-hdrstop-pch adds bare /Yc-/Yu create/reuse with an explicit
+hdrstop pragma filename and postboundary namedpacking reuse. Two frontend
+bodies add218bytes, plus261bytes of identified original LIBC support.
+Actual native producer PCH/browser/IR contract precedes frozen backend-object
+input to consumer. No backend is executed by fixtures; all PCH/IR/browser
+bytes and immutable dependencies match. Final live-root native rebuild and
+48public/15direct units plus rejection/static checks pass.

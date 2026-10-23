@@ -1,0 +1,51 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "RECON=/root/.ai-tmp/msvc2/vc1.0/c1/shared-inputs/hdrstop/lib/recon",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 2.1647292049601674,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/hdrstop-create-1000-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "7a714a583892a3089de8bdd9ca1952f84a8939809cff28a6fd4ed80a3f084aa9",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/pragma-hdrstop-pch",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/hdrstop-create-1000",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.1439433991909027,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/pragma-hdrstop-pch",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/hdrstop-create-1000",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/hdrstop-create-1000"
+    ],
+    "seconds": 0.0948034655302763,
+    "exit": 1
+  }
+]

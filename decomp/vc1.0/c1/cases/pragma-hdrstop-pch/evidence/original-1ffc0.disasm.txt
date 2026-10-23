@@ -1,0 +1,72 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0001ffc0 <.text+0x8fc0>:
+   1ffc0:	56                   	push   esi
+   1ffc1:	57                   	push   edi
+   1ffc2:	e8 89 e5 ff ff       	call   0x1e550
+   1ffc7:	3c 78                	cmp    al,0x78
+   1ffc9:	0f 85 99 00 00 00    	jne    0x20068
+   1ffcf:	66 81 0d 44 bb 06 00 	or     WORD PTR ds:0x6bb44,0x4000
+   1ffd6:	00 40 
+   1ffd8:	6a 03                	push   0x3
+   1ffda:	e8 71 e6 ff ff       	call   0x1e650
+   1ffdf:	66 81 25 44 bb 06 00 	and    WORD PTR ds:0x6bb44,0xbfff
+   1ffe6:	ff bf 
+   1ffe8:	0b c0                	or     eax,eax
+   1ffea:	75 15                	jne    0x20001
+   1ffec:	68 56 03 00 00       	push   0x356
+   1fff1:	e8 da a9 02 00       	call   0x4a9d0
+   1fff6:	83 c4 04             	add    esp,0x4
+   1fff9:	e8 92 12 00 00       	call   0x21290
+   1fffe:	5f                   	pop    edi
+   1ffff:	5e                   	pop    esi
+   20000:	c3                   	ret
+   20001:	a1 f8 bf 06 00       	mov    eax,ds:0x6bff8
+   20006:	50                   	push   eax
+   20007:	e8 14 97 03 00       	call   0x59720
+   2000c:	83 c4 04             	add    esp,0x4
+   2000f:	8b f0                	mov    esi,eax
+   20011:	bf 01 00 00 00       	mov    edi,0x1
+   20016:	39 3d dc 37 07 00    	cmp    DWORD PTR ds:0x737dc,edi
+   2001c:	7e 12                	jle    0x20030
+   2001e:	6a 08                	push   0x8
+   20020:	33 c0                	xor    eax,eax
+   20022:	8a 06                	mov    al,BYTE PTR [esi]
+   20024:	50                   	push   eax
+   20025:	e8 26 19 03 00       	call   0x51950
+   2002a:	83 c4 08             	add    esp,0x8
+   2002d:	eb 12                	jmp    0x20041
+   2002f:	90                   	nop
+   20030:	33 c0                	xor    eax,eax
+   20032:	8b 0d d0 35 07 00    	mov    ecx,DWORD PTR ds:0x735d0
+   20038:	8a 06                	mov    al,BYTE PTR [esi]
+   2003a:	66 8b 04 41          	mov    ax,WORD PTR [ecx+eax*2]
+   2003e:	83 e0 08             	and    eax,0x8
+   20041:	0b c0                	or     eax,eax
+   20043:	74 03                	je     0x20048
+   20045:	46                   	inc    esi
+   20046:	eb ce                	jmp    0x20016
+   20048:	6a 00                	push   0x0
+   2004a:	56                   	push   esi
+   2004b:	e8 10 13 00 00       	call   0x21360
+   20050:	83 c4 08             	add    esp,0x8
+   20053:	c6 00 00             	mov    BYTE PTR [eax],0x0
+   20056:	83 3d 68 be 06 00 00 	cmp    DWORD PTR ds:0x6be68,0x0
+   2005d:	75 1f                	jne    0x2007e
+   2005f:	89 35 68 be 06 00    	mov    DWORD PTR ds:0x6be68,esi
+   20065:	5f                   	pop    edi
+   20066:	5e                   	pop    esi
+   20067:	c3                   	ret
+   20068:	3c 01                	cmp    al,0x1
+   2006a:	74 12                	je     0x2007e
+   2006c:	68 56 03 00 00       	push   0x356
+   20071:	e8 5a a9 02 00       	call   0x4a9d0
+   20076:	83 c4 04             	add    esp,0x4
+   20079:	e8 12 12 00 00       	call   0x21290
+   2007e:	5f                   	pop    edi
+   2007f:	5e                   	pop    esi
+   20080:	c3                   	ret
