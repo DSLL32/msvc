@@ -17,6 +17,18 @@ void __stdcall begin_virtual_entries(VirtualEntryIterator *iterator, VirtualTabl
     iterator->index = 0;
 }
 
+/* Original 0x7c030..0x7c05a. Only a successful advance publishes
+   a member; the original signed count comparison is retained. */
+int __stdcall next_virtual_entry(VirtualEntryIterator *iterator)
+{
+    if (iterator->index < iterator->table->entry_count) {
+        iterator->member = iterator->table->entries[iterator->index].dispatch.function;
+        ++iterator->index;
+        return 1;
+    }
+    return 0;
+}
+
 /* Original 0x7c0e0..0x7c0f3. Keep the original signed-short vector count. */
 short __stdcall class_virtual_table_group_count(CppSymbol *tag)
 {

@@ -6,6 +6,12 @@ def validate(function, formal, anchors, native, words):
     assert formal['name'] == 'table' and formal['stack_index'] == 1
     binding = formal['binding']
     assert binding['kind'] == 'class-first-virtual-table'
+    original_table, native_table = validate_path(binding, anchors, native)
+    assert words[1] == original_table, 'actual original table argument differs from class owner'
+    assert formal['native_raw'] == native_table, 'actual native table argument differs from class owner'
+
+
+def validate_path(binding, anchors, native):
     assert binding['root_address'] == 0x8c1fc
     names = ['class_root', 'class_info', 'virtual_tables', 'table_items', 'first_table']
     assert binding['path'] == names and binding['offsets'] == [32, 8, 8, 0]
@@ -23,5 +29,18 @@ def validate(function, formal, anchors, native, words):
             assert item['original'] == original_previous + offset, 'original ownership pointer link differs'
             assert native[name+'_address'] == native_previous + offset, 'native ownership pointer link differs'
         original_previous, native_previous = item['value'], native[name]
-    assert words[1] == original_previous, 'actual original table argument differs from class owner'
-    assert formal['native_raw'] == native_previous, 'actual native table argument differs from class owner'
+    return original_previous, native_previous
+
+
+def validate_iterator(function, formal, anchors, native, words):
+    assert function == '_next_virtual_entry@4'
+    assert formal['name'] == 'iterator' and formal['stack_index'] == 0
+    binding = formal['binding']['virtual_iterator_prestate']
+    original_table, native_table = validate_path(binding, anchors, native)
+    for name, offset in [('iterator_table', 0), ('iterator_index', 4)]:
+        field = anchors[name]
+        assert field['bytes'] == field['read_bytes'] == 4 and field['read_succeeded'], 'missing initialized iterator DWORD'
+        assert field['original'] == words[0] + offset, 'iterator prestate owner differs'
+    assert anchors['iterator_table']['value'] == original_table
+    assert native['iterator_table'] == native_table
+    assert anchors['iterator_index']['value'] == native['iterator_index'] == 0, 'current initialized iterator index differs'

@@ -1,0 +1,55 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006fc70 <.text+0x58c70>:
+   6fc70:	83 ec 0c             	sub    esp,0xc
+   6fc73:	53                   	push   ebx
+   6fc74:	56                   	push   esi
+   6fc75:	57                   	push   edi
+   6fc76:	8b 35 b4 cc 08 00    	mov    esi,DWORD PTR ds:0x8ccb4
+   6fc7c:	83 c6 02             	add    esi,0x2
+   6fc7f:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   6fc83:	66 c7 06 0a 00       	mov    WORD PTR [esi],0xa
+   6fc88:	8b 40 20             	mov    eax,DWORD PTR [eax+0x20]
+   6fc8b:	2b ff                	sub    edi,edi
+   6fc8d:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   6fc90:	50                   	push   eax
+   6fc91:	e8 ba ee fd ff       	call   0x4eb50
+   6fc96:	50                   	push   eax
+   6fc97:	8d 44 24 10          	lea    eax,[esp+0x10]
+   6fc9b:	50                   	push   eax
+   6fc9c:	e8 6f c3 00 00       	call   0x7c010
+   6fca1:	8d 44 24 0c          	lea    eax,[esp+0xc]
+   6fca5:	50                   	push   eax
+   6fca6:	e8 85 c3 00 00       	call   0x7c030
+   6fcab:	3b c7                	cmp    eax,edi
+   6fcad:	74 2d                	je     0x6fcdc
+   6fcaf:	bb 05 00 00 00       	mov    ebx,0x5
+   6fcb4:	f7 c7 01 00 00 00    	test   edi,0x1
+   6fcba:	8b c7                	mov    eax,edi
+   6fcbc:	74 08                	je     0x6fcc6
+   6fcbe:	d1 f8                	sar    eax,1
+   6fcc0:	08 5c 06 04          	or     BYTE PTR [esi+eax*1+0x4],bl
+   6fcc4:	eb 07                	jmp    0x6fccd
+   6fcc6:	d1 f8                	sar    eax,1
+   6fcc8:	c6 44 06 04 50       	mov    BYTE PTR [esi+eax*1+0x4],0x50
+   6fccd:	47                   	inc    edi
+   6fcce:	8d 44 24 0c          	lea    eax,[esp+0xc]
+   6fcd2:	50                   	push   eax
+   6fcd3:	e8 58 c3 00 00       	call   0x7c030
+   6fcd8:	0b c0                	or     eax,eax
+   6fcda:	75 d8                	jne    0x6fcb4
+   6fcdc:	66 89 7e 02          	mov    WORD PTR [esi+0x2],di
+   6fce0:	47                   	inc    edi
+   6fce1:	d1 ff                	sar    edi,1
+   6fce3:	83 c7 04             	add    edi,0x4
+   6fce6:	57                   	push   edi
+   6fce7:	e8 e4 02 00 00       	call   0x6ffd0
+   6fcec:	5f                   	pop    edi
+   6fced:	5e                   	pop    esi
+   6fcee:	5b                   	pop    ebx
+   6fcef:	83 c4 0c             	add    esp,0xc
+   6fcf2:	c2 04 00             	ret    0x4

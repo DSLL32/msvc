@@ -4,7 +4,7 @@ Reconstruction/reference operation only: never imported or run by fixtures.
 Requires a completed canonical/native build and a reviewed complete extent.
 """
 import argparse
-from virtual_table_owner import validate as validate_virtual_table_owner
+from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
 from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
 import importlib.util
@@ -153,6 +153,8 @@ def main():
                     assert word['bytes']==word['read_bytes']==4 and word['read_succeeded'], 'missing readable caller counter prestate'
                     assert word['original']==formal['original_raw'], 'caller counter observation address differs'
                     assert word['value']==owner['value']==entry_native[binding['native_pointee_field']]==0, 'defined caller counter prestate differs'
+            if binding.get('virtual_iterator_prestate'):
+                validate_virtual_iterator(args.candidate, formal, anchors, entry_native, words)
         elif binding['kind']=='pointee-word':
             anchor=anchors[binding['original_observation_name']]
             assert formal['original_raw']+binding.get('word_offset',0)==anchor['original']==binding['original_pointee_address'], 'actual argument no longer names observed word'

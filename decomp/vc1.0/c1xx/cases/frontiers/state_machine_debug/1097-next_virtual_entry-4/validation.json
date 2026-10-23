@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_next_virtual_entry@4",
+    "start": 507952,
+    "end": 507994
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1097-next_virtual_entry-4/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_debug_method_list@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5174433467909694,
+  "total_operation_seconds": 4.026341130957007,
+  "original_capture_seconds": 1.4180672820657492
+}

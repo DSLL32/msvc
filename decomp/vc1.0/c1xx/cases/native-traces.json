@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4d25425beb96433b6f3d967d6ca0ef515e180f1f466dd58473f91436afa6fd97",
+    "functions.json": "c7509810ed2c8a21741a0972f3344d5e906fd5d66c46d59a776f4129e9f13317",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "b4f61f9baf22c1a2bcc95c4cc7d16d9f5a4e7d9f6fc7d5f3a97bcf0617a1ff96",
-    "cases/canonical-map.txt": "19951c728628db05f74ba3e417165adb98ea1f03bd7352202ae63f23d0a4e26e",
+    "cases/original-entry-references.json": "8a434a986a4f02d268ac7904ab4494959c8c2b0b82a2c2b8131d4270894a59ac",
+    "cases/canonical-map.txt": "be3394f2bd10f08b0c5d94c4f79784e94005a3d226d697d428020050f47a0255",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1096-begin_virtual_entries-8/entry-reference/original-receipt.json": "7c4fbe361e852b7010fdcf6688385d586c666c9724084a43fcfa9ac0e71df481",
-    "cases/frontiers/state_machine_debug/1096-begin_virtual_entries-8/entry-reference/original-events.txt": "7875794f2a836741ff962524673c1bb3926a4381b0f0e01af156c270f9c8aac4",
-    "cases/frontiers/state_machine_debug/1096-begin_virtual_entries-8/entry-reference/original-entries.plan": "b40302ba77db466f1e9edd3dab4b7dcccf7fe4cfe2775458902f80d5e8d1564e"
+    "cases/frontiers/state_machine_debug/1097-next_virtual_entry-4/entry-reference/original-receipt.json": "0f51504ed596d3422c1923cfaa89150b61687d028246febc86f40a8b107db20c",
+    "cases/frontiers/state_machine_debug/1097-next_virtual_entry-4/entry-reference/original-events.txt": "be5b12f7fc6e167456e36d81c43d69474fb02cdf69302e053631dab1b4eb4c4d",
+    "cases/frontiers/state_machine_debug/1097-next_virtual_entry-4/entry-reference/original-entries.plan": "b20f1d301c149651554ebcb8cbf7923f608c6380071ff06efbff0354e3daaf21"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3863,7 +3863,7 @@
     },
     "next_virtual_entry": {
       "logical": "_next_virtual_entry@4",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "node_alignment": {
       "logical": "_node_alignment@4",
@@ -6572,7 +6572,8 @@
     "debug_member_name_length",
     "write_debug_member_name",
     "emit_debug_vshape",
-    "begin_virtual_entries"
+    "begin_virtual_entries",
+    "next_virtual_entry"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10685,7 +10686,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1097,
+      "last": 1098,
       "seen": [
         "main",
         "message_text",
@@ -11691,12 +11692,13 @@
         "write_debug_member_name",
         "emit_debug_vshape",
         "begin_virtual_entries",
-        "next_virtual_entry"
+        "next_virtual_entry",
+        "emit_debug_method_list"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_next_virtual_entry@4",
-        "native": "next_virtual_entry",
+        "logical": "_emit_debug_method_list@4",
+        "native": "emit_debug_method_list",
         "signal": 5
       }
     }

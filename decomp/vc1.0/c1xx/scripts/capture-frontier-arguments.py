@@ -5,7 +5,7 @@ The original observer defaults to four words, with an explicit six-word option.
 Unsupported transport holds rather than guessing registers or dumping objects.
 """
 import argparse
-from virtual_table_owner import validate as validate_virtual_table_owner
+from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
 from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
 import importlib.util
@@ -126,6 +126,8 @@ def main():
                     assert word['bytes']==word['read_bytes']==4 and word['read_succeeded'], 'missing readable caller counter prestate'
                     assert word['original']==item['original_raw'], 'caller counter observation address differs'
                     assert word['value']==owner['value']==checkpoint[binding['native_pointee_field']]==0, 'defined caller counter prestate differs'
+            if binding.get('virtual_iterator_prestate'):
+                validate_virtual_iterator(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'pointee-word':
             anchor = anchors[binding['original_observation_name']]
             assert item['original_raw'] + binding.get('word_offset', 0) == anchor['original'] == binding['original_pointee_address'], 'actual argument no longer names observed word'

@@ -1,0 +1,18 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a2a7 in emit_debug_method_list (overloads=0x56623fcc) at src/stubs.c:494
+494	void __stdcall emit_debug_method_list(struct OverloadSet *overloads) { __asm { int 3 } }
+#0  0x5655a2a7 in emit_debug_method_list (overloads=0x56623fcc) at src/stubs.c:494
+#1  0x5658ee19 in flush_debug_types () at src/debug-types.c:588
+#2  0x565a62a2 in prepare_symbol_debug_type (symbol=0x5664a044) at src/symbol-output.c:15
+#3  0x565a69e3 in emit_symbol_declaration (symbol=0x5664a044) at src/symbol-output.c:148
+#4  0x565a7309 in serialize_scope (scope=0x5664a0c0) at src/function-finalization.c:137
+#5  0x565a70ed in finish_function_output () at src/function-finalization.c:92
+#6  0x565a6ee2 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#7  0x565a6ce4 in end_function_definition () at src/function-finalization.c:22
+#8  0x565b24e4 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#9  0x5655e15f in compile_translation_unit () at src/frontend.c:73
+#10 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558884 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
