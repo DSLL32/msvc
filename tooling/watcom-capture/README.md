@@ -37,5 +37,13 @@ trap/TF behavior, thread/event closure and actual owned-child marker negatives.
 The detailed proposed protocol is
 `decomp/watcom10.0a/wcc386/cases/help/capture-plan.md`.
 
+`ipc.py` supplies the bounded native x86 shared-map channel. Run
+`python3 check-ipc.py --output /path/to/receipt.json` for its authored Linux
+i386 peer controls: publication, message bounds, stale sequences, controller
+death and independent lease/deadline handling. The checked-in
+`ipc-independent-review.json` binds the reviewed source and measured costs.
+This proves neither Win32 mapping visibility nor debug-event transport; see
+`WIN32-TRANSPORT.md` for the gated next step.
+
 Capstone 5.0.7 is the tested decoder (`requirements.txt`). Its indirect FF /3
 and FF /5 presentation is explicitly guarded as far-call/jump machine encodings.
