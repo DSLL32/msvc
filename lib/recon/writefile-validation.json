@@ -1,0 +1,7 @@
+{
+  "scope": "Successful regular-file WriteFile preserves errno/LastError; bytes/count unchanged",
+  "reference": "tests/writefile-original.json",
+  "actual_divergence": "VC5 CL main LastError2 became0 at banner recon_WriteFile before strict mktemp; native watchpoint proved source",
+  "native_checks": "GCC regular-file original bytes/count/errors +stdio ownership/profile/onexit; Clang regular-file proof",
+  "combined_build_and_check_seconds": 2.329
+}

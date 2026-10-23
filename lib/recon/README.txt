@@ -552,3 +552,7 @@ Unconfigured legacy mktemp behavior remains unchanged.
 
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.
+
+Successful WriteFile on a regular disk file preserves errno and LastError,
+as actual Win32 sentinel probes and CL's banner-to-mktemp state demonstrate.
+The correction does not seed application errors or broaden pipe/console scope.

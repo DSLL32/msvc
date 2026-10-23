@@ -202,3 +202,8 @@ build/check-errno: tests/check-errno.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 errno-check: build/check-errno
 	./build/check-errno
+
+build/writefile-probe: tests/writefile-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+writefile-check: build/writefile-probe
+	$(PYTHON) tests/check-writefile.py build/writefile-probe

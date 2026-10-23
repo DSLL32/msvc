@@ -428,14 +428,18 @@ BOOL WINAPI recon_ReadFile(HANDLE handle,LPVOID buffer,DWORD count,LPDWORD got,L
 }
 BOOL WINAPI recon_WriteFile(HANDLE handle,LPCVOID buffer,DWORD count,LPDWORD written,LPVOID overlap)
 {
-    int fd=handle_fd(handle); ssize_t n;
+    int saved_errno=errno,fd=handle_fd(handle),regular; ssize_t n; struct stat info;
     if (written) *written=0;
     if (overlap) { last_error=ERROR_NOT_SUPPORTED; return FALSE; }
     if (fd<0) return FALSE;
+    regular=!fstat(fd,&info) && S_ISREG(info.st_mode);
     do n=write(fd,buffer,count); while (n<0 && errno==EINTR);
     if (n<0) { last_error=error_code(errno); return FALSE; }
     if (written) *written=n;
-    last_error=0; return TRUE;
+    /* Actual disk-file API probes preserve both independent error slots.
+     * Other handle kinds keep their prior contract pending reached evidence. */
+    if (regular) errno=saved_errno; else last_error=0;
+    return TRUE;
 }
 BOOL WINAPI recon_FlushFileBuffers(HANDLE handle)
 {
