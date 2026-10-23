@@ -3,10 +3,11 @@ import json,re,struct,subprocess
 from provenance import captured_native_binary
 FIELDS={'literal.integer':(0x518a0,8,520),'saved_literal.integer':(0x55108,8,528),'saved_literal_available':(0x55100,1,536)}
 PLAN=dict(before_clear_source=-0x223344556677889,before_clear_cached=0x3344556677881122,positive_source=0x1122334455667788,negative_source=-0x112233445566778,cached_before_copy=0x5566778811223344,flag_before=165,flag_after=1,entry_rva=0x12646,normal_case=False)
-def expected_fields(fields):
+def expected_fields(fields,frontier=None):
  m=fields['value_copy']
- wanted=dict(original_source_rva=0x518a0,original_destination_rva=0x55108,original_record_bytes=24,modeled_integer_bytes=8,unmodeled_tail_bytes=16,flag_rva=0x55100,native_literal_offset=520,native_saved_offset=528,native_flag_offset=536,native_value_size=8,native_bss_size=540,hard_frontier_rva=0x12663)
+ wanted=dict(original_source_rva=0x518a0,original_destination_rva=0x55108,original_record_bytes=24,modeled_integer_bytes=8,unmodeled_tail_bytes=16,flag_rva=0x55100,native_literal_offset=520,native_saved_offset=528,native_flag_offset=536,native_value_size=8,native_bss_size=540)
  assert {k:m[k] for k in wanted}==wanted
+ if frontier is not None:assert m['hard_frontier_rva']==frontier
  rows={r['name']:r for r in fields['modeled_bss']}
  for name in FIELDS:
   assert rows[name]['default']==0 and rows[name]['native_field']=='c1_bss.'+name
@@ -20,20 +21,22 @@ def pair_at(original,seq,n,wanted):
  return raw
 
 def validate(original,native,fields,state,sequence,probe,candidate,project):
- expected_fields(fields)
+ expected_fields(fields,candidate['expected_frontier']['rva'])
  assert read((original/'compiler-bss-000.bin').read_bytes())==(0,0,0)
  sign=json.loads((native/'receipt.json').read_text()).get('value_copy_sign')
  plan=candidate['restore_probe']['value_copy'];assert plan==PLAN
- assert candidate['expected_frontier']['rva']==0x12663
  value=plan['negative_source' if sign=='negative' else 'positive_source'] if probe=='restore' else 0
  raw=pair_at(original,sequence,state['compiler_state'],(value,value,1))
  events=(original/'events.txt').read_text()
  entries=re.findall(r'^trap seq=(\d+) rva=00012646 ',events,re.M)
  assert len(entries)==1 and int(entries[0])<sequence
  before=(original/('compiler-bss-%03d.bin'%int(entries[0]))).read_bytes()
+ post_entries=re.findall(r'^trap seq=(\d+) rva=00012663 ',events,re.M)
+ assert len(post_entries)==1 and int(entries[0])<int(post_entries[0])<=sequence
+ copied=(original/('compiler-bss-%03d.bin'%int(post_entries[0]))).read_bytes()
  # Entire-record comparison is ORIGINAL-to-ORIGINAL only; native has 8 known bytes.
- assert raw[0x18a0:0x18b8]==before[0x18a0:0x18b8]
- assert raw[0x5108:0x5120]==before[0x18a0:0x18b8]
+ assert copied[0x18a0:0x18b8]==before[0x18a0:0x18b8]
+ assert copied[0x5108:0x5120]==before[0x18a0:0x18b8]
  if probe=='normal':
   assert sign is None and read(before)==(0,0,0)
   assert not re.findall(r'^value-seed ',events,re.M)

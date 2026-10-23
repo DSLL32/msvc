@@ -97,7 +97,6 @@ void __cdecl initialize_state_12646(void)
 
 void __cdecl initialize_state_12663(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl initialize_state_12664(void)

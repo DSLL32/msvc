@@ -23,7 +23,7 @@ def main():
     field=json.loads((trial.PROJECT/'cases/minimal/field-map.json').read_text())
     key,value={'field-tail-equivalence':('modeled_integer_bytes',24),'field-size':('native_value_size',24),'field-frontier':('hard_frontier_rva',0x127a7)}[test]
     field['value_copy'][key]=value
-    try:value_state.expected_fields(field)
+    try:value_state.expected_fields(field,json.loads((o/'candidate.json').read_text())['expected_frontier']['rva'])
     except AssertionError:continue
     raise AssertionError('accepted '+test)
    if test=='wrong-sign':
@@ -36,6 +36,7 @@ def main():
    elif test.startswith('original-'):
     events=(o/'events.txt').read_text();seq=int(re.findall(r'^trap seq=(\d+)',events,re.M)[-1])
     if test=='original-default-value':seq=0
+    elif test=='original-copy-tail':seq=int(re.findall(r'^trap seq=(\d+) rva=00012663 ',events,re.M)[0])
     f=o/('compiler-bss-%03d.bin'%seq);raw=bytearray(f.read_bytes())
     offset={'original-source-low':0x18a0,'original-source-high':0x18a4,'original-destination-high':0x510c,'original-flag':0x5100,'original-default-value':0x18a0,'original-copy-tail':0x5114}[test]
     raw[offset]^=1;f.write_bytes(raw);rehash(o,f.name)

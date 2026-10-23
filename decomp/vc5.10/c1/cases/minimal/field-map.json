@@ -1256,7 +1256,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75363,
-    "policy": "root permits this specific internal transfer subject to concrete source/paired packet review before promotion; tail stays UNMODELED"
+    "hard_frontier_rva": 75364,
+    "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   }
 }

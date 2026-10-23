@@ -269,3 +269,8 @@ positive and negative auxiliary pairs match callback12663, with actual original
 claim. See `cases/minimal/VALUE-COPY-REVIEW.md`. The candidate-inclusive audit
 passes31 source functions /1817 bytes; `functions.json` now includes that31-function
 accepted prefix. Cached native lifecycle fixtures still execute in about4ms.
+
+Empty callback12663 is accepted separately, reaching12664. Its fresh candidate
+pair and17 affected value-boundary controls pass;47 unchanged generic controls
+reuse explicitly identified prior results. Durable coverage is32 source
+functions /1818 original bytes.

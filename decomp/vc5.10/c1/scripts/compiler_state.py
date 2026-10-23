@@ -18,7 +18,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']}=={'first_call':(0x5f530,4,0)}
  expected_bss={'saved_data':(0x57818,4,0),'cleanup_count':(0x5781c,4,4),'cleanup_callbacks':(0x57820,128,8),'context':(0x518c8,12,136),'current_context':(0x518b8,12,148),'contexts':(0x51858,72,160)}
  expected_bss.update(buffer_state.expected_fields(fields))
- expected_bss.update(value_state.expected_fields(fields))
+ expected_bss.update(value_state.expected_fields(fields,expected['rva']))
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}==expected_bss
  first=fields['modeled_initialized'][0]
  assert first['snapshot_original_offset']==first['original_rva']-fields['original_initialized_region_rva'][0]==0x1530

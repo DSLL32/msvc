@@ -1,0 +1,22 @@
+{
+  "fresh_affected_controls": 17,
+  "fresh_result": "dde9547a4a615a3375befffefdceb85bfbb9562290e68084fffd77a6528b765e",
+  "reused_generic_controls": 47,
+  "prior_result": "cases/minimal/evidence/value-copy-normal/negatives.json",
+  "prior_result_sha256": "b112cd23514efbbc26200cb6708f57240aca72e80460d6d121b423e378e56ba4",
+  "prior_original_receipt_sha256": "7a06008468eae4f1a29ade650f48b438b4ea3433ce9c8d9810faef88c3802336",
+  "prior_native_receipt_sha256": "80e1231736eb7b6cadf07ade8ec99d561ec296a3fd66f71379203850feacff86",
+  "premise": "Empty new callback changes no state or transport. Generic controller/ABI/context/buffer checks are unchanged; changed value-boundary checks reran fresh. This is reuse of prior results, not a rerun.",
+  "checkers": {
+    "scripts/check-state-negative.py": "199469c2b80f967fdf5702215d3fd9c8a2073d5fe44417edbb1fe184860b3d5a",
+    "scripts/check-value-negative.py": "b95c83ec0216ee350cebcc142da6130c1095b7be2c1889d970c1c27c23ceed1b",
+    "scripts/check-trial.py": "bb043a51efba875e7770b8e0a92c02db2f39586280332bd7b5a960820504b8f5",
+    "scripts/compiler_state.py": "fdc55abd6019d634d42173c9c2fe3b32dd19a4fac767910ced6eac9daa1751f6",
+    "scripts/value_state.py": "4448cceb770665e32b00c97d3bdd9f26d350e334ef55316b04d6ac5d762c9ad4"
+  },
+  "current_contract": {
+    "cases/minimal/candidate.json": "8cd769ae3d9d5526a9d268df1f363fbaddc1949c328a63d26adb8d9f94d90ab8",
+    "cases/minimal/field-map.json": "b1cd20a6886258c52954e5bb4c667841350e509b9e2e89e50aeae8cd2f340b8d",
+    "cases/minimal/trial.json": "023de7916d0bfa9e8e657468c4c231daa1212cd95745ec37d83a15d229c7b98b"
+  }
+}

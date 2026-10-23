@@ -231,6 +231,11 @@
       "start_rva": 75334,
       "end_rva": 75363,
       "entry": 1
+    },
+    {
+      "start_rva": 75363,
+      "end_rva": 75364,
+      "entry": 1
     }
   ],
   "functions": [
@@ -691,7 +696,20 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "held-for-value-projection-review"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12663",
+      "native_symbol": "initialize_state_12663",
+      "role": "application",
+      "chunks": [
+        [
+          75363,
+          75364
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "sole-new-candidate"
     }
   ],
   "text_data": [],
@@ -706,8 +724,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75363,
-    "native_symbol": "initialize_state_12663",
+    "rva": 75364,
+    "native_symbol": "initialize_state_12664",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -850,7 +868,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "Value-copy callback is sole trial candidate; promotion held for concrete root/orchestrator review",
+  "staging_role": "Empty callback12663 is sole new candidate; accepted value-copy tail remains UNMODELED",
   "registered_cleanup": [
     {
       "original_rva": 145728,
