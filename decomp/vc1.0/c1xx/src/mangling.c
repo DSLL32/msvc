@@ -4,6 +4,7 @@
 #include "operators.h"
 #include "keywords.h"
 #include "cpp-context.h"
+#include "ir.h"
 #include <recon.h>
 
 char decorated_name_workspace[DECORATED_NAME_WORKSPACE_BYTES]; /* original 0x97c38 */
@@ -15,6 +16,45 @@ unsigned mangle_error_sequence; /* original 0xa0a70 */
 typedef char DecoratedWorkspaceSizeMustBe992[
     (sizeof(decorated_name_workspace) == 992) ? 1 : -1];
 
+char *__stdcall encode_literal_name_byte(char *cursor, signed char character);
+unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum);
+
+/* Original 0x44350..0x44451. Literal names carry their byte count,
+   checksum and a bounded content prefix when pooling or inline rules permit. */
+char *__stdcall encode_string_literal_name(char *cursor, unsigned char *text,
+    unsigned bytes, int wide)
+{
+    unsigned count, word;
+    if (!options.option_Gf) {
+        if (!function_symbol || !(function_symbol->storage[1] & 1)) return 0;
+        if ((function_symbol->storage[0] & 7) == 3 &&
+            !(function_symbol->declaration_flags & 0x400)) return 0;
+    }
+    *cursor++ = '?'; *cursor++ = '?'; *cursor++ = '_';
+    *cursor++ = 'C'; *cursor++ = '@'; *cursor++ = '_';
+    *cursor++ = wide ? '1' : '0';
+    cursor = mangle_number(cursor, bytes);
+    cursor = mangle_number(cursor, update_checksum(text, bytes, 0));
+    if (wide) {
+        /* The original uses the byte count as a WORD iteration count.
+           Keep that loop. This unvisited wide path has no span/equality proof;
+           a reached wide case must establish the actual defined owner span. */
+        count = bytes > 20 ? 20 : bytes;
+        while (count--) {
+            word = *(unsigned short *)text;
+            text += 2;
+            cursor = encode_literal_name_byte(cursor, (signed char)(word >> 8));
+            cursor = encode_literal_name_byte(cursor, (signed char)word);
+        }
+    } else {
+        count = bytes > 32 ? 32 : bytes;
+        while (count--)
+            cursor = encode_literal_name_byte(cursor, (signed char)*text++);
+    }
+    *cursor++ = '@';
+    return cursor;
+}
+
 char *__stdcall encode_string_literal_name(char *cursor, unsigned char *text,
     unsigned bytes, int wide);
 
@@ -23,11 +63,13 @@ char *__stdcall encode_string_literal_name(char *cursor, unsigned char *text,
 char *__stdcall mangle_string_literal(ParserValue *literal, int wide)
 {
     char *end;
+    unsigned char *text;
     mangle_name_only = 0;
     decorated_type_count = 0;
     decorated_name_count = 0;
+    text = (unsigned char *)literal->string.text;
     end = encode_string_literal_name(decorated_name_workspace,
-        (unsigned char *)literal->string.text, literal->string.length, wide);
+        text, literal->string.length, wide);
     if (!end) return 0;
     if (end - decorated_name_workspace > DECORATED_NAME_LIMIT) {
         fatal_error(66);

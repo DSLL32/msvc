@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_encode_string_literal_name@16",
+    "start": 279376,
+    "end": 279633
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_encode_literal_name_byte@8",
+    "_mangle_number@8",
+    "_update_checksum@12"
+  ],
+  "next_frontier": "_make_string_literal_object@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5395910479128361,
+  "total_operation_seconds": 4.591468073427677,
+  "original_capture_seconds": 1.8192040519788861
+}
