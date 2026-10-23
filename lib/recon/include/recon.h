@@ -182,6 +182,7 @@ int recon_spawnlp(int,const char *,const char *,...);
 int recon_cenvarg(const char *const *,const char *const *,char **,char **,const char *);
 time_t recon_time(time_t *);
 void recon_exit(int);
+void recon_record_terminal_status(uint32_t);
 /* Resolve DOS paths with explicit RECON_DRIVE_X mappings (Z defaults to /).
  * No Wine prefix or executable discovery is performed. */
 int recon_host_path(const char *,char *,size_t);

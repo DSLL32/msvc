@@ -316,3 +316,20 @@ insert tokens. Both preserve LastError, errno and untouched output tails.
 Unknown entries/modes fail explicitly. USER32's LoadStringA can be resolved by
 LoadLibraryA/GetProcAddress; unrelated Wine loader LastError side effects are not
 synthesized. Resources remain local to their registered owner.
+
+Full terminal status
+--------------------
+Fixtures needing a full Win32 DWORD status can use `status.TerminalStatus()`.
+Pass its `environment()` overlay and `fd` with subprocess `pass_fds`; after wait,
+`read(child_pid, posix_returncode)` validates owner, complete receipt and low8
+consistency, returning the full DWORD. Missing/malformed receipts fail. Compare
+that value to the frozen original independently of stdout and entry traces.
+
+`RECON_STATUS_FD` names a regular read/write file initially containing24zero
+bytes. The shim writes six little-endian DWORDs: magic0x31535452, version1,
+ownerPID, ready1, code, reserved0. The initial process owns the slot; synchronous
+fork/exec children cannot publish into it. Duplicate publication fails.
+`exit`, ExitProcess and the optional native entry wrapper publish automatically.
+Custom native host entry adapters which return normally must call
+`recon_record_terminal_status((uint32_t)result)` once before returning, or mirror
+the original CRT exit call. An unset descriptor leaves ordinary behavior intact.

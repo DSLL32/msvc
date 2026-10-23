@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 #include <elf.h>
 #include <dirent.h>
+#include <sys/mman.h>
 
 /* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
 #define WEAK __attribute__((weak))
@@ -117,6 +118,36 @@ void recon_unsupported(const char *operation)
 {
     dprintf(2,"recon: unsupported native operation: %s\n",operation);
     _exit(125);
+}
+
+/* Opt-in host-only terminal receipt. Fork/exec children inherit the descriptor
+ * but cannot publish into their parent's PID-owned slot. */
+static uint32_t *terminal_status;
+static void __attribute__((constructor(102))) initialize_terminal_status(void)
+{
+    const char *value=getenv("RECON_STATUS_FD"); char *end; long fd;
+    struct stat st; int saved=errno,flags;
+    if (!value) return;
+    errno=0; fd=strtol(value,&end,10);
+    if (!*value || *end || errno || fd<0 || fd>INT_MAX)
+        recon_unsupported("invalid RECON_STATUS_FD");
+    flags=fcntl((int)fd,F_GETFL);
+    if (flags<0 || (flags&O_ACCMODE)!=O_RDWR || fstat((int)fd,&st)<0 || !S_ISREG(st.st_mode) || st.st_size!=24)
+        recon_unsupported("terminal status descriptor");
+    terminal_status=mmap(NULL,24,PROT_READ|PROT_WRITE,MAP_SHARED,(int)fd,0);
+    if (terminal_status==MAP_FAILED) recon_unsupported("terminal status mapping");
+    if (!terminal_status[0] && !terminal_status[1] && !terminal_status[2] &&
+        !terminal_status[3] && !terminal_status[4] && !terminal_status[5]) {
+        terminal_status[0]=0x31535452; terminal_status[1]=1; terminal_status[2]=(uint32_t)getpid();
+    } else if (terminal_status[0]!=0x31535452 || terminal_status[1]!=1 || !terminal_status[2] ||
+               terminal_status[3]>1 || terminal_status[5]) recon_unsupported("terminal status header");
+    errno=saved;
+}
+void recon_record_terminal_status(uint32_t code)
+{
+    if (!terminal_status || terminal_status[2]!=(uint32_t)getpid()) return;
+    if (terminal_status[3]) recon_unsupported("duplicate terminal status");
+    terminal_status[4]=code; __sync_synchronize(); terminal_status[3]=1;
 }
 
 static int existing_spelling(char *path,size_t capacity)
@@ -738,7 +769,7 @@ void recon_rewind(ShimFILE *s) { recon_fseek(s,0,SEEK_SET); recon_clearerr(s); }
 int recon_fileno(ShimFILE *s) { return s->_file; }
 void recon_endstdio(void) { recon_fflush(NULL); }
 void recon_rmtmp(void) { }
-void recon_exit(int code) { recon_fflush(NULL); exit(code); }
+void recon_exit(int code) { recon_fflush(NULL); recon_record_terminal_status((uint32_t)code); exit(code); }
 
 void recon_splitpath(const char *path,char *drive,char *directory,char *name,char *extension)
 {

@@ -1,0 +1,13 @@
+{
+  "scope": "opt-in exact32bit terminal receipt independent of stdout/trace",
+  "tests": [
+    "return, CRT exit and Win32 ExitProcess values0/1100/FFFFFFFF",
+    "fork/exec children cannot publish parent status",
+    "unset returns low8 unchanged",
+    "missing/duplicate/malformed controls"
+  ],
+  "clang_build_checks_seconds": 1.2571742851287127,
+  "gcc_checks": "passed",
+  "original_evidence": "decomp/vc5.10/link/cases/help logical exit1100",
+  "protocol": "RECON_STATUS_FD regular24byte read/writefile, sixLEu32 magic31535452/version1/ownerPID/ready1/code/reserved0"
+}

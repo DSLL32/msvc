@@ -11,9 +11,9 @@ extern char **environ;
 #endif
 #if defined(RECON_NATIVE_ENTRY_TWO_ARGS)
 extern int RECON_NATIVE_ENTRY(int,char **);
-int main(int argc,char **argv) { RECON_ENTRY_INITIALIZE(); return RECON_NATIVE_ENTRY(argc,argv); }
+int main(int argc,char **argv) { int result; RECON_ENTRY_INITIALIZE(); result=RECON_NATIVE_ENTRY(argc,argv); recon_record_terminal_status((uint32_t)result); return result; }
 #else
 extern int RECON_NATIVE_ENTRY(int,char **,char **);
-int main(int argc,char **argv) { RECON_ENTRY_INITIALIZE(); return RECON_NATIVE_ENTRY(argc,argv,environ); }
+int main(int argc,char **argv) { int result; RECON_ENTRY_INITIALIZE(); result=RECON_NATIVE_ENTRY(argc,argv,environ); recon_record_terminal_status((uint32_t)result); return result; }
 #endif
 #endif

@@ -465,7 +465,7 @@ void WINAPI recon_GetLocalTime(SYSTEMTIME *out)
     out->wYear=tm.tm_year+1900; out->wMonth=tm.tm_mon+1; out->wDay=tm.tm_mday; out->wDayOfWeek=tm.tm_wday;
     out->wHour=tm.tm_hour; out->wMinute=tm.tm_min; out->wSecond=tm.tm_sec;
 }
-void WINAPI recon_ExitProcess(UINT code) { _exit(code); }
+void WINAPI recon_ExitProcess(UINT code) { recon_record_terminal_status(code); _exit(code); }
 LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD protection)
 {
     View *v; void *result; int flags=MAP_PRIVATE|MAP_ANONYMOUS,prot;
