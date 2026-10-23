@@ -4,6 +4,12 @@ Reconstruct `binb/WCC386.EXE`, `binb/WPP386.EXE`, `binb/WASM.EXE`,
 `binnt/WLIB.EXE`, and `binnt/WLINK.EXE` in the corresponding binary folders.
 `toolchain-import.json` records the copied originals and selected hashes.
 
+Application reconstruction is paused for the user's plumbing review and explicit
+case assignments. Do not select cases, reconstruct further application functions,
+or accept pending candidates autonomously. Only the already agreed stopped-loader
+CF capture/gate and minimal normal-setjmp compatibility work may finish before
+that review. Existing accepted functions and pending source remain distinct.
+
 The initial Open Watcom source release is available read-only at
 `/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, commit
 `6b9cb4438959d845a2b4dd4bf19f7908ecd608e9` (2002-05-15). It may supply source,
