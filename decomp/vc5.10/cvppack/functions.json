@@ -71,7 +71,8 @@
     "rewrite_object_name_symbol",
     "rewrite_procedure32_symbol",
     "module_contains_address",
-    "compact_type_list"
+    "compact_type_list",
+    "intern_type"
   ],
   "functions": [
     {
@@ -2055,8 +2056,11 @@
       "source_name": "intern_type",
       "native_symbol": "intern_type",
       "original": 4239888,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4239888,
+        4240303
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2067,7 +2071,14 @@
           "count": "type_record_count",
           "native_pointee_width": 32
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4240304,
+          4240320
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0066-intern-type/promotion.json"
     },
     {
       "name": "compact_type_index",
@@ -2586,6 +2597,97 @@
       "extent": null,
       "ret": 0,
       "parameters": []
+    },
+    {
+      "name": "hash_type_record",
+      "symbol": "@hash_type_record@4",
+      "source_name": "hash_type_record",
+      "native_symbol": "hash_type_record",
+      "original": 4252064,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "data",
+          "register": "ecx",
+          "kind": "type-record-data",
+          "native_pointee_width": 1
+        }
+      ]
+    },
+    {
+      "name": "lookup_named_type",
+      "symbol": "_lookup_named_type",
+      "source_name": "lookup_named_type",
+      "native_symbol": "lookup_named_type",
+      "original": 4247152,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "allocate_global_type",
+      "symbol": "@allocate_global_type@4",
+      "source_name": "allocate_global_type",
+      "native_symbol": "allocate_global_type",
+      "original": 4240528,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "type-record-pointer",
+          "root": "type_records",
+          "count": "type_record_count",
+          "native_pointee_width": 32
+        }
+      ]
+    },
+    {
+      "name": "record_base_classes",
+      "symbol": "_record_base_classes",
+      "source_name": "record_base_classes",
+      "native_symbol": "record_base_classes",
+      "original": 4240320,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "list",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ]
+    },
+    {
+      "name": "release_type_payload",
+      "symbol": "_release_type_payload",
+      "source_name": "release_type_payload",
+      "native_symbol": "release_type_payload",
+      "original": 4253904,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "type-record-pointer",
+          "root": "type_records",
+          "count": "type_record_count",
+          "native_pointee_width": 32
+        }
+      ]
     }
   ],
   "support_unmasked": [

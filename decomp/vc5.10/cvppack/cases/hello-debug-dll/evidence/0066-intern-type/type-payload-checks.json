@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 10,
+  "rejected": [
+    {
+      "name": "wrong-payload-segment-offset",
+      "diagnostic": "('typed ABI arguments differ', {'data': {'segment': 0, 'offset': 604, 'record_indices': [12], 'bytes': '160001120400000003040000750000007500000012000000'}}, {'data': {'segment': 0, 'offset': 605, 'record_indices': [12], 'bytes': '160001120400000003040000750000007500000012000000'}})"
+    },
+    {
+      "name": "wrong-payload-record-owner",
+      "diagnostic": "('typed ABI arguments differ', {'data': {'segment': 0, 'offset': 604, 'record_indices': [12], 'bytes': '160001120400000003040000750000007500000012000000'}}, {'data': {'segment': 0, 'offset': 604, 'record_indices': [13], 'bytes': '160001120400000003040000750000007500000012000000'}})"
+    },
+    {
+      "name": "changed-complete-payload-argument",
+      "diagnostic": "('typed ABI arguments differ', {'data': {'segment': 0, 'offset': 604, 'record_indices': [12], 'bytes': '160001120400000003040000750000007500000012000000'}}, {'data': {'segment': 0, 'offset': 604, 'record_indices': [12], 'bytes': '000000000000000000000000000000000000000000000000'}})"
+    },
+    {
+      "name": "incomplete-payload-argument",
+      "diagnostic": "('typed ABI arguments differ', {'data': {'segment': 0, 'offset': 604, 'record_indices': [12], 'bytes': '160001120400000003040000750000007500000012000000'}}, {'data': {'segment': 0, 'offset': 604, 'record_indices': [12], 'bytes': '1600011204000000030400007500000075000000120000'}})"
+    },
+    {
+      "name": "wrong-actual-byte-pointee",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "payload-pointer-disagrees-with-owner",
+      "diagnostic": "type record segment/payload offset alias differs"
+    },
+    {
+      "name": "changed-owned-segment-payload",
+      "diagnostic": "initialized type segment bytes differ"
+    },
+    {
+      "name": "unowned-original-payload-interior",
+      "diagnostic": "original type payload has no observed local-record/segment owner"
+    },
+    {
+      "name": "missing-free-ESI-preservation",
+      "diagnostic": "graph-audit: original @intern_type@4 register imports: unresolved register import calls: {4240286}\n"
+    }
+  ],
+  "actual_gdb_byte_rejection": {
+    "returncode": 1,
+    "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565a11c8 in hash_type_record (data=0x57bd31cc \"\\026\") at src/stubs.c:65\n65\tunsigned short __fastcall hash_type_record(const unsigned char *data) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-payload-byte-abi-wjr4j4jm/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+    "bad_config_sha256": "33b7d02c3587e52ea6ed59d5b0919f02c9e99f6533e3007934b057a7f2a41518",
+    "observer_sha256": "ac5bfe17b9e833950e629ce6dd731a9ad3c94e6cafa243987c39e1dcab0b1672"
+  },
+  "payload": {
+    "segment": 0,
+    "offset": 604,
+    "record_indices": [
+      12
+    ],
+    "bytes": "160001120400000003040000750000007500000012000000"
+  },
+  "cached_free_sites": [
+    4240277,
+    4240286
+  ],
+  "no_unknown_register_calls": true,
+  "original_receipt_sha256": "3c842481877a049ad9e40bb1cea90feebb2871f5536f1679b7dfed15aeba8ea0",
+  "native_receipt_sha256": "8ffa4ba1bc526f949064b1f8c9ffa5fc54bfd4ac68565353286907c8c67ed9b3",
+  "checker_sha256": "fc9635bd6839b3abce3435c14f456f5f70540164e1ce0b3c178997f6c0491eef",
+  "decoder_sha256": "15803721ac94d4e713dc45b90dd9061c080d4fc8dd57b0b3c3635d33b1dc94aa",
+  "seconds": 2.0815885001793504
+}

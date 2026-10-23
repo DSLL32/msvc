@@ -11,7 +11,14 @@ typedef struct TypeRecord {
     unsigned char *data;
     unsigned mapped_index, global_index;
     unsigned short reference_count, reserved;
-    unsigned char reference_offsets[12];
+    union {
+        unsigned char reference_offsets[12];
+        struct {
+            unsigned short *extended_references;
+            unsigned reserved_reference;
+            unsigned char *reference_flags;
+        };
+    };
     union {
         unsigned short status;
         struct { unsigned char low_flags, flags; };
@@ -64,6 +71,16 @@ void __fastcall add_type_reference(TypeRecord *record, unsigned short offset);
 void append_type_field_list(unsigned char *field, TypeRecord *record);
 unsigned resolve_recursive_type(TypeRecord *record, unsigned index);
 void __fastcall intern_type(TypeRecord *record);
+typedef struct InternedType {
+    unsigned index;
+    unsigned char *data;
+    struct InternedType *next;
+} InternedType;
+unsigned short __fastcall hash_type_record(const unsigned char *data);
+int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match);
+void __fastcall allocate_global_type(TypeRecord *record);
+void record_base_classes(unsigned index, unsigned list);
+void release_type_payload(TypeRecord *record);
 unsigned __fastcall compact_legacy_index(unsigned index);
 void flush_type_stack(void);
 void *allocate_cleared(unsigned size);

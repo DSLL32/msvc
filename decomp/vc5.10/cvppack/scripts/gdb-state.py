@@ -221,6 +221,16 @@ def capture(configuration,data_file,output):
             root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
             assert root<=address<root+count*32 and (address-root)%32==0,'argument is not an owned local type record'
             parameters[item['name']]=dict(root=item['root'],index=(address-root)//32)
+        elif item['kind']=='type-record-data':
+            address=int(value);base=int(gdb.parse_and_eval('type_segments[0]'))
+            capacity=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)
+            count=int(gdb.parse_and_eval('type_record_count'));root=int(gdb.parse_and_eval('type_records'))
+            records=bytes(inferior.read_memory(root,count*32))
+            indices=[i for i in range(count) if int.from_bytes(records[i*32:i*32+4],'little')==address]
+            assert indices and base<=address<=base+capacity-4,'type payload has no observed local-record/segment owner'
+            length=int.from_bytes(bytes(inferior.read_memory(address,2)),'little')+2
+            assert 4<=length<=base+capacity-address,'type payload exceeds segment capacity'
+            parameters[item['name']]=dict(segment=0,offset=address-base,record_indices=indices,bytes=bytes(inferior.read_memory(address,length)).hex())
         elif item['kind']=='output-buffer':
             owner=frame.older()
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()

@@ -98,6 +98,8 @@ def prepare(checked,destination,available=None):
     for name in ('_parse_options','_print_banner','_fatal_error','_read_image_debug','_create_mapping'):
         if any(row['symbol']==name for row in checked):
             metadata['functions'][name]=dict(register_imports=dict(require_all_register_calls_resolved=True))
+    if any(row['name']=='intern_type' for row in checked):
+        metadata['functions']['@intern_type@4']=dict(register_imports=dict(require_all_register_calls_resolved=True))
     metadata['functions']['_main']=dict(register_imports=dict(require_all_register_calls_resolved=False))
     if any(row['name']=='pack_module' for row in checked):
         path=BINARY/'build/pack.obj';obj=COFF(path.read_bytes())

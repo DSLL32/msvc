@@ -1,0 +1,89 @@
+#ifndef CV510_TYPES_H
+#define CV510_TYPES_H
+#include "cvpack.h"
+#include <recon.h>
+
+typedef struct TypeArena {
+    unsigned capacity;
+    unsigned fields[5];
+} TypeArena;
+typedef struct TypeRecord {
+    unsigned char *data;
+    unsigned mapped_index, global_index;
+    unsigned short reference_count, reserved;
+    union {
+        unsigned char reference_offsets[12];
+        struct {
+            unsigned short *extended_references;
+            unsigned reserved_reference;
+            unsigned char *reference_flags;
+        };
+    };
+    union {
+        unsigned short status;
+        struct { unsigned char low_flags, flags; };
+    };
+    unsigned short tail;
+} TypeRecord;
+extern unsigned char *type_table_primary, *type_table_primary_counts;
+extern unsigned char *type_table_secondary, *type_table_secondary_counts;
+extern unsigned char *type_table_local, *type_table_global;
+extern unsigned char *type_table_forward, *type_table_pending;
+extern unsigned char *type_hash_buckets, *type_references, *type_positions;
+extern unsigned short type_table_limit;
+extern unsigned type_table_used;
+extern TypeArena type_arena, type_large_arena;
+extern TypeRecord *empty_type_record;
+/* Cached counted type names; nodes are retained when their contents reset. */
+typedef struct CachedTypeName {
+    unsigned char *name, *record;
+    unsigned type_index, reserved;
+    struct CachedTypeName *next;
+} CachedTypeName;
+typedef struct TypePatch {
+    unsigned reserved0;
+    unsigned char *data;
+    unsigned reserved8;
+    unsigned char flags, reserved_tail[3];
+} TypePatch;
+typedef struct PendingType {
+    unsigned index;
+    TypePatch *patch;
+    struct PendingType *next;
+} PendingType;
+extern PendingType *pending_types_head, *pending_types_tail;
+unsigned __fastcall compact_type_index(unsigned index);
+extern unsigned type_record_count, module_type_base;
+extern TypeRecord *type_records;
+extern unsigned short recursive_type_pending, type_recursion_depth;
+extern unsigned type_recursion_chain, type_recursion_stack[256];
+extern int discard_types;
+unsigned map_primitive_type(unsigned index);
+TypeRecord *lookup_global_type(unsigned index, unsigned char *from_global);
+void convert_legacy_record(unsigned index);
+unsigned char __fastcall compact_legacy_pointer(TypeRecord *record);
+int __fastcall match_forward_type(TypeRecord *record, TypeRecord **match, int insert);
+void __fastcall associate_forward_type(unsigned index, TypeRecord *record);
+unsigned __fastcall compact_type_list(unsigned index, unsigned count);
+typedef unsigned (__fastcall *TypeIndexMapper)(unsigned index);
+extern TypeIndexMapper type_index_mappers[3];
+void __fastcall add_type_reference(TypeRecord *record, unsigned short offset);
+void append_type_field_list(unsigned char *field, TypeRecord *record);
+unsigned resolve_recursive_type(TypeRecord *record, unsigned index);
+void __fastcall intern_type(TypeRecord *record);
+typedef struct InternedType {
+    unsigned index;
+    unsigned char *data;
+    struct InternedType *next;
+} InternedType;
+unsigned short __fastcall hash_type_record(const unsigned char *data);
+int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match);
+void __fastcall allocate_global_type(TypeRecord *record);
+void record_base_classes(unsigned index, unsigned list);
+void release_type_payload(TypeRecord *record);
+unsigned __fastcall compact_legacy_index(unsigned index);
+void flush_type_stack(void);
+void *allocate_cleared(unsigned size);
+void *allocate_bytes(unsigned size);
+void initialize_arena(TypeArena *arena, unsigned capacity);
+#endif

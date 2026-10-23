@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "candidate": "intern_type",
+  "accepted_functions": 66,
+  "application_extent_bytes": 20957,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 33.44451182534869,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4239888,
+    4240303
+  ],
+  "associated_text_data": [
+    [
+      4240304,
+      4240320
+    ]
+  ],
+  "source_review": [
+    "Search12Bhash nodes using existing-record length and intrinsic memcmp.",
+    "On reuse mark2/set mapped index, release owned payload according to0x38, and free extended references on0x100 without clearing stale pointer values.",
+    "For class/union/enum locate counted name, substitute matching named global record using actual imported memmove or allocate a new global type.",
+    "Insert12Bnode and increment16-bit bucket count; record nonforward class bases.",
+    "TypeRecord union preserves32B layout for inline versus extended reference storage."
+  ],
+  "executed_scope": "Entry-to-hash for the completed local arglist. Allocation/hash bucket insertion and reuse branches reconstructed and audited, not executed-branch credit.",
+  "fresh_pair": true,
+  "next_frontier": "hash_type_record",
+  "fresh_payload_contract": {
+    "segment": 0,
+    "offset": 604,
+    "record_indices": [
+      12
+    ],
+    "bytes": "160001120400000003040000750000007500000012000000"
+  },
+  "fresh_negative_count": 10,
+  "strict_cached_free_sites": [
+    4240277,
+    4240286
+  ],
+  "no_unknown_register_calls": true,
+  "affected_controls": {
+    "read-state-checks.json": {
+      "path": "read-state-checks.json",
+      "sha256": "6f6ef4e1f1c9e9a8e5172e6e75897cfac5780293c61730780bbc400995766958"
+    },
+    "initialized-storage-checks.json": {
+      "path": "initialized-storage-checks.json",
+      "sha256": "913271d4e2978498ebcc19a33dc0a446c8059b6b3e41251009cafe1cc1f2319b"
+    },
+    "type-record-state-checks.json": {
+      "path": "type-record-state-checks.json",
+      "sha256": "60a77826df3e05bcb61593173f85893a2581b1f2ca0de4e6370a5ee60af87a26"
+    },
+    "abi-state-checks.json": {
+      "path": "abi-state-checks.json",
+      "sha256": "bcb79919f6b34fb1b7bc007563e4c0d4a20691715f4d13a57b2fd2c1451cda53"
+    }
+  },
+  "reused_protocol": {
+    "path": "cases/hello-debug-dll/evidence/0065-compact-type-list/help-protocol-report.json",
+    "sha256": "d8de9236e6b7999588075f6dca54a58df3edccedca02fc9820861f847e169eff",
+    "reason": "Acceptance controller unchanged; new candidate-inclusive audit, raw pair and affected decoder/DWARF/preservation controls fresh."
+  },
+  "seconds": {
+    "trial": {
+      "original_build": 4.993877866305411,
+      "native_build": 2.5893738195300102,
+      "graph_tool_build": 0.04261935222893953,
+      "original_capture": 6.946364937350154,
+      "native_capture": 0.7398136276751757,
+      "pair_check": 0.582766399718821
+    },
+    "controls": 2.0815885001793504,
+    "fixtures": {
+      "hello-debug-dll": {
+        "schema": 1,
+        "case": "hello-debug-dll",
+        "terminal": "trap",
+        "native_only": true,
+        "native_sha256": "3a2bc94f4ea8322e6013a10676a6774cea448be97523e8b5d701ed7f87d92d03",
+        "reference_receipt_sha256": "3c842481877a049ad9e40bb1cea90feebb2871f5536f1679b7dfed15aeba8ea0",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": {
+          "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+          "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+          "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+          "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+          "instances": 21
+        },
+        "seconds": {
+          "preparation": 0.0024453019723296165,
+          "execution": 0.707296721637249,
+          "checks": 0.005495348945260048,
+          "total": 0.9643937284126878
+        }
+      },
+      "help": {
+        "schema": 1,
+        "case": "help",
+        "terminal": "exit",
+        "native_only": true,
+        "native_sha256": "3a2bc94f4ea8322e6013a10676a6774cea448be97523e8b5d701ed7f87d92d03",
+        "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": null,
+        "seconds": {
+          "preparation": 0.0025236690416932106,
+          "execution": 0.0039667608216404915,
+          "checks": 0.002699322998523712,
+          "total": 0.014113267883658409
+        }
+      }
+    }
+  }
+}

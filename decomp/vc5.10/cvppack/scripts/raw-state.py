@@ -180,6 +180,18 @@ def compare(config,data,events,native,artifacts=None,views=None):
             row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
             assert root<=value<root+count*32 and (value-root)%32==0,'argument is not an owned original local type record'
             parameters[item['name']]=dict(root=item['root'],index=(value-root)//32)
+        elif item['kind']=='type-record-data':
+            def observed(name):
+                row=next(row for row in data if row['name']==name)
+                return int.from_bytes(original['memory'][row['original']],'little')
+            base=int.from_bytes(original['memory'][observed('type_segments')][:4],'little')
+            segment=original['memory'][base];root=observed('type_records');count=observed('type_record_count')
+            records=original['memory'][root]
+            indices=[i for i in range(count) if int.from_bytes(records[i*32:i*32+4],'little')==value]
+            assert indices and base<=value<=base+len(segment)-4,'original type payload has no observed local-record/segment owner'
+            offset=value-base;length=int.from_bytes(segment[offset:offset+2],'little')+2
+            assert 4<=length<=len(segment)-offset,'original type payload exceeds segment capacity'
+            parameters[item['name']]=dict(segment=0,offset=offset,record_indices=indices,bytes=segment[offset:offset+length].hex())
         elif item['kind']=='output-buffer':
             assert original['stack'][item['owner_return_slot']]==item['owner_return'],'output buffer original caller site differs'
             assert value==original['esp']+item['original_delta'],'output buffer original stack-local identity differs'
