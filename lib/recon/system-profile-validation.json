@@ -1,0 +1,7 @@
+{
+  "scope": "Explicit captured Win32 system profile, preserved errors and exact observed write coverage; no Linux hardware fallback",
+  "native_build_checks_seconds": {
+    "gcc": 1.067980789579451,
+    "clang": 1.2425850676372647
+  }
+}

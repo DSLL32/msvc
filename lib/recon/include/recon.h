@@ -214,6 +214,7 @@ void recon_unsupported(const char *);
 
 int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);
 void recon_load_module_resources(HMODULE,const char *);
+void recon_load_system_profile(const char *,const char *);
 
 #define RECON_WIN32_FUNCTIONS(X) \
  X(HANDLE,CreateFileA,(LPCSTR,DWORD,DWORD,LPSECURITY_ATTRIBUTES,DWORD,DWORD,HANDLE)) \
@@ -231,6 +232,7 @@ void recon_load_module_resources(HMODULE,const char *);
  X(BOOL,SetConsoleCtrlHandler,(BOOL (WINAPI *)(DWORD),BOOL)) \
  X(USHORT *,LdrProcessRelocationBlock,(LPVOID,DWORD,USHORT *,LONG)) \
  X(DWORD,GetFullPathNameA,(LPCSTR,DWORD,LPSTR,LPSTR *)) \
+ X(void,GetSystemInfo,(LPSYSTEM_INFO)) X(void,GlobalMemoryStatus,(LPMEMORYSTATUS)) \
  X(DWORD,GetTickCount,(void)) \
  X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
  X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) \
@@ -454,6 +456,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define SetConsoleCtrlHandler recon_SetConsoleCtrlHandler
 #define LdrProcessRelocationBlock recon_LdrProcessRelocationBlock
 #define GetFullPathNameA recon_GetFullPathNameA
+#define GetSystemInfo recon_GetSystemInfo
+#define GlobalMemoryStatus recon_GlobalMemoryStatus
 #define GetTickCount recon_GetTickCount
 #define GetModuleFileNameA recon_GetModuleFileNameA
 #define GetVersion recon_GetVersion

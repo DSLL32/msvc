@@ -1,0 +1,48 @@
+{
+  "scope": "Explicit target sample; only page size and total physical memory are consumed by current caller. Volatile remaining fields are not invariant.",
+  "probe": {
+    "build_seconds": 1.9251745315268636,
+    "execution_seconds": 0.4777143597602844,
+    "status": 0,
+    "source_sha256": "f09507fa9d2f83709e7df58d9dfedd866332d15183c37cac9cb921803674a575",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "writes": {
+      "system": {
+        "bytes": 36,
+        "all_bytes_observed_written": true,
+        "samples_sha256": [
+          "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+          "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+          "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+          "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57"
+        ]
+      },
+      "memory": {
+        "bytes": 32,
+        "all_bytes_observed_written": true,
+        "samples_sha256": [
+          "01e1c5d0b684cc54cf382cf0979492a35264fc785cb9f3a30b4cb7a3f7591c01",
+          "01e1c5d0b684cc54cf382cf0979492a35264fc785cb9f3a30b4cb7a3f7591c01",
+          "01e1c5d0b684cc54cf382cf0979492a35264fc785cb9f3a30b4cb7a3f7591c01",
+          "01e1c5d0b684cc54cf382cf0979492a35264fc785cb9f3a30b4cb7a3f7591c01"
+        ]
+      }
+    },
+    "scope": "original API preservation/writecoverage only; nativeuses actualtargetcapturedprofile, notthese volatilememorysamples"
+  },
+  "probe_stdout": "system 0 0 0\r\nmemory 0 0 0\r\nsystem 1 0 305419896\r\nmemory 1 0 305419896\r\nsystem 2 111 0\r\nmemory 2 111 0\r\nsystem 3 111 305419896\r\nmemory 3 111 305419896\r\n",
+  "probe_outputs": {
+    "system-0": "000000000010000000000100fffffe7fffffffff300000004a020000000001000600043e",
+    "system-1": "000000000010000000000100fffffe7fffffffff300000004a020000000001000600043e",
+    "system-2": "000000000010000000000100fffffe7fffffffff300000004a020000000001000600043e",
+    "system-3": "000000000010000000000100fffffe7fffffffff300000004a020000000001000600043e",
+    "memory-0": "2000000008000000ffffff7fffffff7ffffff7ffffffffff0000fe7f0080ac7f",
+    "memory-1": "2000000008000000ffffff7fffffff7ffffff7ffffffffff0000fe7f0080ac7f",
+    "memory-2": "2000000008000000ffffff7fffffff7ffffff7ffffffffff0000fe7f0080ac7f",
+    "memory-3": "2000000008000000ffffff7fffffff7ffffff7ffffffffff0000fe7f0080ac7f"
+  },
+  "target_capture": "/root/.ai-tmp/msvc2/vc5.10/link/masked-nd_jnvo4",
+  "target_system": "000000000010000000000100fffffe7fffffffff300000004a020000000001000600043e",
+  "target_memory": "2000000008000000ffffff7fffffff7ffffff7ffffffffff0000fe7f0020a17f",
+  "target_events_sha256": "7af1b3cdd63effb1433dfa13492faf531bdd23805b7922a73f9daa21cefad6d3"
+}

@@ -42,6 +42,16 @@ typedef void (WINAPI *FARPROC)(void);
 typedef struct { DWORD nLength; LPVOID lpSecurityDescriptor; BOOL bInheritHandle; } SECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
 typedef struct { WORD wYear,wMonth,wDayOfWeek,wDay,wHour,wMinute,wSecond,wMilliseconds; } SYSTEMTIME;
 typedef struct { DWORD dwLowDateTime,dwHighDateTime; } FILETIME;
+typedef struct _SYSTEM_INFO {
+ union { DWORD dwOemId; struct { WORD wProcessorArchitecture,wReserved; }; };
+ DWORD dwPageSize; LPVOID lpMinimumApplicationAddress,lpMaximumApplicationAddress;
+ DWORD dwActiveProcessorMask,dwNumberOfProcessors,dwProcessorType,dwAllocationGranularity;
+ WORD wProcessorLevel,wProcessorRevision;
+} SYSTEM_INFO,*LPSYSTEM_INFO;
+typedef struct _MEMORYSTATUS {
+ DWORD dwLength,dwMemoryLoad,dwTotalPhys,dwAvailPhys,dwTotalPageFile,dwAvailPageFile;
+ DWORD dwTotalVirtual,dwAvailVirtual;
+} MEMORYSTATUS,*LPMEMORYSTATUS;
 typedef struct _cpinfo {
  UINT MaxCharSize; BYTE DefaultChar[2]; BYTE LeadByte[12];
 } CPINFO, *LPCPINFO;

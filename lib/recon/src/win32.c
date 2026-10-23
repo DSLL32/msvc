@@ -137,6 +137,52 @@ void recon_load_module_resources(HMODULE handle,const char *filename)
     errno=saved_errno; last_error=saved_error;
 }
 
+/* A case-bound captured environment, not a guess from Linux hardware. */
+typedef struct NativeSystemProfile {
+    char reference_sha256[65];
+    SYSTEM_INFO system; MEMORYSTATUS memory;
+    unsigned bound,system_calls,memory_calls;
+} NativeSystemProfile;
+static NativeSystemProfile native_system_profile;
+
+void recon_load_system_profile(const char *filename,const char *reference_sha256)
+{
+    unsigned char bytes[136]; struct stat st; int fd,saved_errno=errno;
+    DWORD saved_error=last_error; size_t n; ssize_t count;
+    if (native_system_profile.bound || !filename || !reference_sha256 || strlen(reference_sha256)!=64)
+        recon_unsupported("system profile identity");
+    for (n=0;n<64;++n) if (!((reference_sha256[n]>='0' && reference_sha256[n]<='9') ||
+        (reference_sha256[n]>='a' && reference_sha256[n]<='f'))) recon_unsupported("system profile SHA256");
+    fd=open(filename,O_RDONLY|O_CLOEXEC);
+    if (fd<0 || fstat(fd,&st) || st.st_size!=sizeof(bytes)) recon_unsupported("system profile file");
+    count=read(fd,bytes,sizeof(bytes)); close(fd);
+    if (count!=sizeof(bytes) || memcmp(bytes,"RSE1",4) || memcmp(bytes+4,reference_sha256,64))
+        recon_unsupported("system profile reference");
+    memcpy(&native_system_profile.system,bytes+68,36);
+    memcpy(&native_system_profile.memory,bytes+104,32);
+    if (!native_system_profile.system.dwPageSize ||
+        (native_system_profile.system.dwPageSize&(native_system_profile.system.dwPageSize-1)) ||
+        native_system_profile.memory.dwLength!=32) recon_unsupported("system profile shape");
+    memcpy(native_system_profile.reference_sha256,reference_sha256,65);
+    native_system_profile.bound=1; errno=saved_errno; last_error=saved_error;
+}
+
+void WINAPI recon_GetSystemInfo(LPSYSTEM_INFO output)
+{
+    if (!output || !native_system_profile.bound || native_system_profile.system_calls ||
+        native_system_profile.memory_calls) recon_unsupported("GetSystemInfo captured inventory");
+    memcpy(output,&native_system_profile.system,sizeof(*output));
+    ++native_system_profile.system_calls;
+}
+
+void WINAPI recon_GlobalMemoryStatus(LPMEMORYSTATUS output)
+{
+    if (!output || !native_system_profile.bound || native_system_profile.system_calls!=1 ||
+        native_system_profile.memory_calls) recon_unsupported("GlobalMemoryStatus captured inventory");
+    memcpy(output,&native_system_profile.memory,sizeof(*output));
+    ++native_system_profile.memory_calls;
+}
+
 static NativeResource *resource_entry(HMODULE handle,DWORD kind,DWORD id,DWORD language)
 {
     NativeModule *module=handle?recon_registered_module(handle):primary_module;

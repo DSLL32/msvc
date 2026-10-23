@@ -430,3 +430,12 @@ implementations remain C. RECON_THISCALL is empty for VC5 (implicit member ABI)
 and explicitly selects i386 thiscall natively. Compile these narrow units with
 -nostdinc++ -fno-exceptions -fno-rtti, then link through the C compiler alongside
 shared C sources; no host C++ runtime is needed for this surface.
+
+GetSystemInfo/GlobalMemoryStatus use an explicit RSE1 captured environment, loaded
+by host recon_load_system_profile(path, reference_sha256). Prepare through shared
+system_profile.write_profile using the verified capture/environment receipt SHA
+and exact 36/32-byte results. Calls must match the observed one system query then
+one memory query; unbound, repeated or unsupported inventories fail. SDK layouts
+and all observed writes/errors are preserved. No Linux RAM query is substituted.
+Only page size/total physical RAM are currently consumed; other volatile fields
+are a captured sample, not invariants. New field consumption requires fresh proof.
