@@ -82,6 +82,9 @@ Creation time follows the Linux Wine capture environment's mtime fallback;
 POSIX inode-change time is not a Windows creation time. Integer scanning wraps at 32 bits as
 the old CRT does. qsort preserves the VC1 pivot/shortsort tie ordering because
 equal-key ordering affects LINK's serialized import tables.
+`mbtowc` writes 16-bit wide characters and preserves the original C-locale byte
+mapping and zero-length/no-source behavior. Nondefault LC_CTYPE conversion
+explicitly fails pending codepage-specific support.
 
 Native builds do not implement Windows SEH: ordinary __try bodies execute, but
 faults/traps fail the process rather than entering the reconstructed __except

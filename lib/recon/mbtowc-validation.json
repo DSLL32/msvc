@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "scope": "Reached C1XX source API dependency; whole caller wide branch is currently unexercised. C-locale 16-bit mbtowc only; nondefault conversion explicitly unsupported.",
+  "original": {
+    "target": "toolchains/1.0-nt/bin/C1XX3232.EXE",
+    "sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+    "code_extent": [
+      "0x823a0",
+      "0x8249d"
+    ],
+    "library": "LIBC.LIB: convert\\obj\\i386\\MBTOWC.OBJ",
+    "worker_identity_evidence": "decomp/vc1.0/c1xx/evidence/mbtowc-original-identity.json",
+    "probe_source": "lib/recon/tests/mbtowc-probe.c",
+    "probe_source_sha256": "fba3e89e8fb03fceea3a1e5d23f8354425f8968e2f8cd0efd9dada35c58b5e70",
+    "capture": {
+      "build_seconds": 3.804558364674449,
+      "execution_seconds": 3.460194035433233,
+      "stdout_sha256": "6fdc4ea70fefaa3d40cfef4ca76f1c9f2826c736429f796ddae0fd79686bef73",
+      "executable_sha256": "52c6cf722448692fbf1cf54c31281ad7fcd7e7d6119e10d27e090c072f67b7de"
+    },
+    "rows": 514
+  },
+  "behavior": {
+    "default_lc_ctype_index": 2,
+    "nonnull_bytes": "All unsigned byte values0..255; exactly WORD writes, adjacent0xccdd unchanged, no errno change. Return0 for NUL otherwise1.",
+    "no_output": "NULL source or capacity0 returns0, leaves destination and errno unchanged. NULL destination counts conversion without writing.",
+    "nondefault": "Only NUL/no-source/zero-capacity paths supported; nonzero-byte conversion fails explicitly rather than using host wchar_t32 or an unverified codepage."
+  },
+  "native": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 0.7541088908910751,
+      "execution_seconds": 0.0027144066989421844,
+      "exact_original_rows": 514
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.0821732012555003,
+      "execution_seconds": 0.0022244667634367943,
+      "exact_original_rows": 514
+    }
+  ],
+  "unit_checks": "GCC and Clang i386 checks pass; all256 values, NULL destinations, no-op paths, original WORD bounds, errno and nondefault-locale NUL ordering.",
+  "reference_lines_sample": [
+    "byte 0 0 0 52445 33",
+    "null-destination 0 0 33",
+    "byte 1 1 1 52445 33",
+    "null-destination 1 1 33",
+    "byte 255 1 255 52445 33",
+    "null-destination 255 1 33",
+    "null-source 0 43707 52445 33",
+    "zero-capacity 0 43707 52445 33"
+  ],
+  "nondefault_rejection": {
+    "exit": 125,
+    "stderr": "recon: unsupported native operation: mbtowc nondefault LC_CTYPE\n"
+  }
+}

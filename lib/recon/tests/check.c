@@ -29,6 +29,27 @@ int main(void)
     assert(sizeof(IMAGE_SECTION_HEADER)==40);
     assert(sizeof(IMAGE_SYMBOL)==18 && sizeof(IMAGE_AUX_SYMBOL)==18);
     assert(sizeof(IMAGE_RELOCATION)==10 && sizeof(IMAGE_LINENUMBER)==6);
+    {
+        WCHAR wide_result[2];
+        unsigned char character;
+        int value;
+        for (value=0;value<256;++value) {
+            character=(unsigned char)value;
+            wide_result[0]=0xaabb; wide_result[1]=0xccdd; errno=EDOM;
+            assert(mbtowc(wide_result,(char *)&character,1)==(value?1:0));
+            assert(wide_result[0]==value && wide_result[1]==0xccdd && errno==EDOM);
+            assert(mbtowc(NULL,(char *)&character,1)==(value?1:0) && errno==EDOM);
+        }
+        wide_result[0]=0xaabb;
+        assert(mbtowc(wide_result,NULL,1)==0 && wide_result[0]==0xaabb && errno==EDOM);
+        assert(mbtowc(wide_result,"x",0)==0 && wide_result[0]==0xaabb && errno==EDOM);
+        /* These no-op/NUL paths precede even the nondefault-locale branch. */
+        recon_lc_handle[2]=1;
+        assert(mbtowc(wide_result,NULL,1)==0 && wide_result[0]==0xaabb);
+        assert(mbtowc(wide_result,"",0)==0 && wide_result[0]==0xaabb);
+        assert(mbtowc(wide_result,"",1)==0 && wide_result[0]==0 && errno==EDOM);
+        recon_lc_handle[2]=0;
+    }
     /* Original VC1 bounded formatting: all ten bytes, including untouched
      * sentinels, were independently probed for capacities zero through six. */
     {

@@ -18,6 +18,17 @@ WEAK char *recon_strcpy(char *destination,const char *source)
     while ((*destination++=*source++)!=0) {}
     return result;
 }
+/* The Win32 CRT writes a 16-bit wchar_t. The C locale maps all unsigned
+ * bytes directly; source==NULL or n==0 is a no-op, not a host EILSEQ. */
+WEAK int recon_mbtowc(WCHAR *destination,const char *source,size_t count)
+{
+    unsigned char value;
+    if (!source || !count) return 0;
+    value=(unsigned char)*source;
+    if (value && recon_lc_handle[2]) recon_unsupported("mbtowc nondefault LC_CTYPE");
+    if (destination) *destination=value;
+    return value?1:0;
+}
 ShimFILE recon_iob[20];
 WEAK unsigned char recon_osfile[256];
 WEAK unsigned recon_nhandle=256;

@@ -110,6 +110,7 @@ int recon_fputs(const char *,ShimFILE *),recon_puts(const char *);
 int recon_fprintf(ShimFILE *,const char *,...),recon_printf(const char *,...);
 int recon_vfprintf(ShimFILE *,const char *,va_list);
 int recon_snprintf(char *,size_t,const char *,...);
+int recon_mbtowc(WCHAR *,const char *,size_t);
 int recon_sscanf(const char *,const char *,...);
 void recon_qsort(void *,size_t,size_t,int (*)(const void *,const void *));
 int recon_ungetc(int,ShimFILE *),recon_ferror(ShimFILE *),recon_feof(ShimFILE *);
@@ -255,6 +256,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define printf recon_printf
 #define vfprintf recon_vfprintf
 #define _snprintf recon_snprintf
+#define mbtowc recon_mbtowc
 #define sscanf recon_sscanf
 #define qsort recon_qsort
 #define ungetc recon_ungetc
