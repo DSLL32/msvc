@@ -2686,3 +2686,14 @@ The anticipated i386 rematerialization-cost function was not reached and remains
 a named trap; candidate ranking takes its count1 early return. See
 cases/i386-complete.json for strict trace/output evidence, limits and measured
 retry accounting. Continue the approved deep x87 case, then i486 floating.
+
+Deep x87 intrinsic preparation: checkpoint1072
+Recovered the whole560-byte generated-intrinsic helper, including its96-byte
+inline switch. Seven individually encountered sine/cosine/atan2/power descriptor
+records now live beside the interpreter, with independent canonical/original
+field/string/table checks. Unknown IDs still trap. Current inline-floating
+operations return through the supported-operation guard; the generated-runtime
+call child remains unvisited. Fresh matching reaches release_intrinsic_operands;
+993 graphs, eight native fixtures (seven complete objects), canonical/W3 and
+extent checks pass. See cases/x87-intrinsic-preparation.json for evidence,
+initial data-frontier failures and measured retries. No shared shim needed.

@@ -5,6 +5,24 @@
 #include <recon.h>
 extern int floating_frontend;
 Node *current_intrinsic; /* original0007b9b4 */
+/* Original84078..84098: the encountered double sine descriptor redirects
+   by command 'd' to the preceding scalar descriptor. Commands839c0/839c4
+   and runtime name84d38 are introduced only for these two reached records. */
+const IntrinsicDescription sine_float_intrinsic = { 0x1004, 0, "C", "sin", 0x420 };
+const IntrinsicDescription sine_double_intrinsic = { 0x1008, 0, "d", "", 0x20 };
+/* Original840b8..840d8: cosine pair reached after sine in the x87 case. */
+const IntrinsicDescription cosine_float_intrinsic = { 0x1004, 0, "C", "cos", 0x420 };
+const IntrinsicDescription cosine_double_intrinsic = { 0x1008, 0, "d", "", 0x20 };
+/* Original84218..84238: two-argument arctangent reached after cosine. */
+const IntrinsicDescription arctangent2_float_intrinsic = { 0x1004, 0, "wC", "atan2", 0xa20 };
+const IntrinsicDescription arctangent2_double_intrinsic = { 0x1008, 0, "d", "", 0x20 };
+/* Original844b8..844c8: power reverses its arguments before lowering to
+   a binary tree; the runtime alternatives retain their original FF separator. */
+const IntrinsicDescription power_double_intrinsic = { 0x1008, 0, "vb", "fexp\377pow", 0xb20 };
+
+
+
+
 /* ID173 is encountered in WinMain's aggregate-zero initialization. Original
    descriptor844a8..844b8: no scalar result-type override, recipe84c08 "vyE0",
    empty runtime-name string, flag10 selects a distinct argument-type record.
@@ -218,4 +236,67 @@ unsigned short __fastcall intrinsic_argument_width(Node *node, int skip_first)
         if (bytes > width) width = bytes;
     }
     return (unsigned short)width;
+}
+
+extern int optimize_global, optimize_precision, optimize_speed;
+SymbolHeader *__fastcall require_external_symbol(char *name);
+/* Original [00063cf0,00063f20), including24 dispatch words63ec0..63f20.
+   Keep supported floating operations inline; other entries name their generated
+   runtime and describe its floating arguments/results to the call selector. */
+void __fastcall prepare_generated_intrinsic(Node *node, int mode)
+{
+    unsigned intrinsic = node->left.node->left.value;
+    const IntrinsicDescription *description;
+    const unsigned char *runtime;
+    char name[20], *out;
+    unsigned char value, call_flags;
+    unsigned short result = 0, arguments = 0;
+    Node *argument;
+    FunctionSymbol *symbol;
+    if ((node->attributes.words.type & 0xff00) == 0x1000 &&
+        ((optimize_global && !optimize_precision) || intrinsic == 0x47)) {
+        switch (intrinsic) {
+        case 0x47: case 0x5c: case 0x5d: case 0x64: case 0x65:
+        case 0x68: case 0x69: case 0x6a: case 0x6b:
+        case 0x6e: case 0x6f: case 0x72: case 0x73:
+        case 0x82: case 0x83: case 0x84: case 0x85:
+            return;
+        case 0x60: case 0x61:
+            if (optimize_speed) return;
+            break;
+        }
+    }
+    SELECT_INTRINSIC_DESCRIPTION(intrinsic, description);
+    runtime = (const unsigned char *)description->runtime_name;
+    name[0] = '_'; name[1] = '_';
+    name[2] = floating_frontend ? 'F' : 'C';
+    name[3] = 'I';
+    out = name + 4;
+    if (mode) {
+        if (floating_frontend) {
+            while (*runtime != 255) *out++ = (char)*runtime++;
+            *out = 0;
+        } else {
+            while (*runtime != 255) ++runtime;
+            ++runtime;
+            do { value = *runtime++; *out++ = (char)value; } while (value);
+        }
+    } else {
+        do { value = *runtime++; *out++ = (char)value; } while (value);
+    }
+    node->left.node = intern_leaf(0x26, 0, require_external_symbol(name), intrinsic);
+    if (node->opcode != 0x7a) return;
+    call_flags = (unsigned char)(description->flags >> 8);
+    if (call_flags & 8) result = 1;
+    if (call_flags & 0x10) result = 2;
+    if (node->attributes.words.type & 0x3000) {
+        symbol = (FunctionSymbol *)node->left.node->right.symbol;
+        symbol->field24 = (symbol->field24 & ~15U) |
+            (node_type_kind(node->attributes.words.type) & 15);
+        for (argument = node->second.node; argument->opcode != 0x4c;
+             argument = argument->second.node)
+            if (argument->left.node->attributes.words.type & 0x1000) ++arguments;
+    }
+    symbol = (FunctionSymbol *)node->left.node->right.symbol;
+    set_generated_intrinsic_call(symbol, (unsigned short)(call_flags & 7), result, arguments);
 }

@@ -1,0 +1,286 @@
+{
+  "checkpoint": 1072,
+  "base_commit": "c27d93c",
+  "status": "deep x87 active",
+  "source_graphs": 993,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1072,
+    "accepted_code_bytes": 296702,
+    "original_code_bytes": 399693,
+    "percentage": 74.23247342335242,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 486
+  },
+  "accepted_functions": [
+    {
+      "name": "@prepare_generated_intrinsic@8",
+      "start": "0x63cf0",
+      "end": "0x63f20",
+      "bytes": 560,
+      "inline_switch_bytes": 96
+    }
+  ],
+  "frontier": "@release_intrinsic_operands@4",
+  "reference_sequence": [
+    "cases/x87-initial.json",
+    "cases/x87-original-1072.json"
+  ],
+  "native_matches": [
+    "cases/x87-initial-native.json",
+    "cases/x87-original-1072-native.json"
+  ],
+  "data_records": "cases/intrinsic-descriptors.json",
+  "data_validation": "cases/intrinsic-descriptor-validation.json",
+  "fixture_validation": "cases/native-all-validation.json",
+  "data_frontier_observations": [
+    {
+      "encountered": 107,
+      "redirected": 106,
+      "meaning": "sine"
+    },
+    {
+      "encountered": 111,
+      "redirected": 110,
+      "meaning": "cosine"
+    },
+    {
+      "encountered": 133,
+      "redirected": 132,
+      "meaning": "two-argument arctangent"
+    },
+    {
+      "encountered": 174,
+      "meaning": "power; no redirected descriptor"
+    }
+  ],
+  "limits": [
+    "Initial deliberate data-frontier traps in accepted lower_intrinsic were investigated and filled before fresh function acceptance was validated; no accepted range was widened for them",
+    "Seven encountered16-byte typed descriptors, their exact short recipe/name strings and24-entry inline-floating switch independently match original and canonical images; no adjacent data copied",
+    "Sine/cosine/atan2 use the native-floating early-return guard here; generated runtime-name/call-metadata path is recovered but not executed",
+    "New set_generated_intrinsic_call child remains an unaccepted named trap",
+    "Seven complete objects and deep-x87 matching named trap pass; slot8 exchange remains unvisited/unmodified",
+    "Initial new helper compile had an integral narrowing warning; explicit unsigned-short cast fixed it before final clean /W3 check",
+    "Failed native match attempts at deliberate descriptor traps have no saved per-attempt elapsed time; measured data-debug/build retries are retained"
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured except explicitly wrapped diagnostic inspections",
+    "measurements": {
+      "x87-atan2-data-canonical-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.7652104375883937,
+        "returncode": 0,
+        "log_sha256": "f71dd802749160f101c3c9380d2beba30135a281b5f3735b9205c5727c425db3"
+      },
+      "x87-atan2-data-native-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 9.28087850753218,
+        "returncode": 0,
+        "log_sha256": "2dba184578e43997fd9456972c9d3f42e5110885912409532eaf4ac40b0f33d1"
+      },
+      "x87-cosine-data-canonical-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.7149149384349585,
+        "returncode": 0,
+        "log_sha256": "f71dd802749160f101c3c9380d2beba30135a281b5f3735b9205c5727c425db3"
+      },
+      "x87-cosine-data-native-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 9.276501784101129,
+        "returncode": 0,
+        "log_sha256": "ee72496e2ad34ed93ae6d10e7c70c32eef3319643ee23820205144a2302235fd"
+      },
+      "x87-initial-reference-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "x87",
+          "--receipt",
+          "cases/x87-initial.json"
+        ],
+        "seconds": 1.646075651049614,
+        "returncode": 0,
+        "log_sha256": "a55a242aa364b45bc1e4471e22e258216cdb177c710e5c511f8e4e06cec9cff9"
+      },
+      "x87-next-data-inspect-timing.json": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/inspect-intrinsic.py"
+        ],
+        "seconds": 0.18841711804270744,
+        "returncode": 0,
+        "log_sha256": "bd2c67857480dd7b75df121ce7ef20b3f6f73e0bce8a6694644a0e22fc7f839b"
+      },
+      "x87-power-data-canonical-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.876816388219595,
+        "returncode": 0,
+        "log_sha256": "f71dd802749160f101c3c9380d2beba30135a281b5f3735b9205c5727c425db3"
+      },
+      "x87-power-data-inspect-timing.json": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/inspect-intrinsic.py"
+        ],
+        "seconds": 0.194220669567585,
+        "returncode": 0,
+        "log_sha256": "37c6bbc9985922b7f6ff1039ab159a55523d61d8e1bbdcc725c7e308f67468c8"
+      },
+      "x87-power-data-native-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 9.179747128859162,
+        "returncode": 0,
+        "log_sha256": "d4ae17379201662dee684157dbec4b00f831d26a2f60fb08dcb082e776b8e838"
+      },
+      "x87-sine-data-canonical-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.78556546010077,
+        "returncode": 0,
+        "log_sha256": "1eb4791e4885cfa6a619b5386345f72ead6a1862c8138fbbefbd2401822f6a60"
+      },
+      "x87-sine-data-native-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 9.230745481327176,
+        "returncode": 0,
+        "log_sha256": "a93e14aa10a285cf5e4ee21f84c95add13f7eefb8aa9c2ca90ea2a66be85aa15"
+      },
+      "x87-stack-capture-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-stress.py",
+          "--fixture",
+          "../fixtures/c2-x87-stack",
+          "--stem",
+          "stack87",
+          "--flags",
+          "/Oi",
+          "/O2",
+          "/G5"
+        ],
+        "seconds": 6.946635042317212,
+        "returncode": 0,
+        "log_sha256": "9175e833f3bb74c65178329305833bd21bdea9e2d72a15ae3ccc433ca8b7136f"
+      },
+      "x871072-audit-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.85932485666126,
+        "returncode": 0,
+        "log_sha256": "14e548c5111aa3d8d7ec6b4cfd38cb94ecfc0c3b4b70bb6bc8011a3c5e846bb2"
+      },
+      "x871072-canonical-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 1.912866703234613,
+        "returncode": 0,
+        "log_sha256": "5c071ec44a426ea2a22f407c07e4455e6b81414b564d537d20b73809b3930dfe"
+      },
+      "x871072-check-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.46138980705291033,
+        "returncode": 0,
+        "log_sha256": "bb2de845bcc069274056ca644a8b6b024386344243ac7a79a202e06f9e153f21"
+      },
+      "x871072-descriptor-proof-timing.json": {
+        "command": [
+          "python3",
+          "scripts/check-intrinsic-descriptors.py"
+        ],
+        "seconds": 0.09064529649913311,
+        "returncode": 0,
+        "log_sha256": "9695f7b20390b9c4601a418fba6af11816301504cefd42b58331eb2e3574f3f7"
+      },
+      "x871072-native-build-timing.json": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 9.299291253089905,
+        "returncode": 0,
+        "log_sha256": "816e56eba1c23ad9424407d195356c9fde0de4bc5e20093addaab250b1820269"
+      },
+      "x871072-reference-timing.json": {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "x87",
+          "--receipt",
+          "cases/x87-original-1072.json"
+        ],
+        "seconds": 0.931976793333888,
+        "returncode": 0,
+        "log_sha256": "fb46a8c90e2d172b4f629c00f6259ff44f313eee58e76ac9a633a9faf41ec27c"
+      },
+      "x871072-warnings-timing.json": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "intrinsics"
+        ],
+        "seconds": 2.0900990730151534,
+        "returncode": 0,
+        "log_sha256": "a850664d0f81c73dc0b4617e6c151721eef7fee1e39163f358aff65ddffa9cc4"
+      }
+    }
+  }
+}

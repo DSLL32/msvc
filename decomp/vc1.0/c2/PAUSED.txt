@@ -1,6 +1,7 @@
-C2 ACTIVE at1071 acceptances/992 source graphs.
-Selected i386 case complete; all seven complete native object oracles pass.
-Next approved deep x87 stack/calls/intrinsics, then i486 floating.
-All three original captures are durable. Do not add another unapproved case.
-Anticipated i386 rematerialization-cost function remained unvisited.
-Pause after the remaining two selected cases complete.
+C2 ACTIVE at1072 acceptances/993 matching source graphs.
+Current deep x87 frontier @release_intrinsic_operands@4.
+Whole generated-intrinsic helper and seven encountered descriptors verified.
+Seven complete objects plus deep-x87 named-trap native fixture pass.
+Canonical/W3, graph/extent and independent contextual data checks pass.
+Next i486 case remains queued; preserve unvisited slot8 alias semantics.
+Pause after both selected remaining cases complete. No shim request.

@@ -1075,7 +1075,8 @@
     "@schedule_generic_instruction@4",
     "@choose_generic_instruction@4",
     "@gather_generic_candidates@8",
-    "@select_generic_candidate@8"
+    "@select_generic_candidate@8",
+    "@prepare_generated_intrinsic@8"
   ],
   "driver": [
     {
@@ -3169,8 +3170,7 @@
     {
       "name": "@prepare_generated_intrinsic@8",
       "start": 408816,
-      "end": 408817,
-      "provisional": true
+      "end": 409376
     },
     {
       "name": "@new_machine_instruction@4",
@@ -7447,6 +7447,12 @@
       "start": 272496,
       "end": 272497,
       "provisional": true
+    },
+    {
+      "name": "@set_generated_intrinsic_call@16",
+      "start": 162608,
+      "end": 162609,
+      "provisional": true
     }
   ],
   "cases": {
@@ -7492,6 +7498,12 @@
       "accepted_from": 1061,
       "fixture_manifest": "../fixtures/c2-i386-integer/manifest.json",
       "fixture_manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29"
+    },
+    "x87": {
+      "arguments": "",
+      "accepted_from": 1071,
+      "fixture_manifest": "../fixtures/c2-x87-stack/manifest.json",
+      "fixture_manifest_sha256": "d7c22a912e6591839698fd1707d121ac42722ace61eb23d617681308c9e34ca8"
     }
   },
   "crt_defaults": {

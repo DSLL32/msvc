@@ -87,7 +87,6 @@ int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
-void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
@@ -394,3 +393,5 @@ MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instru
 int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction) { __asm int 3 }
 
 int __fastcall generic_instruction_size_cost(MachineInstruction *instruction) { __asm int 3 }
+
+void __fastcall set_generated_intrinsic_call(FunctionSymbol *symbol, unsigned short convention, unsigned short result, unsigned short arguments) { __asm int 3 }

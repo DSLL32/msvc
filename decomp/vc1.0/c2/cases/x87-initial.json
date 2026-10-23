@@ -1,0 +1,26 @@
+{
+  "label": "x87-initial",
+  "profile": "x87",
+  "accepted": 1071,
+  "events": "exception 80000003 rva 00053cf0 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "ae1dc8c6102b56a587f457014d8976debc78a5554ae723ce3252b5ef4f56e99f",
+  "config_sha256": "eb2a555d804503542fa6ffeaebcf9b99a1bd1ab4574fb2c4aee4b51854bd3311",
+  "manifest_sha256": "d7c22a912e6591839698fd1707d121ac42722ace61eb23d617681308c9e34ca8",
+  "inputs": {
+    "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+    "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+    "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+    "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-x87-ik55meen",
+  "logical": "@prepare_generated_intrinsic@8",
+  "original_va": "0x63cf0",
+  "setup_seconds": 0.2170489663258195,
+  "execution_seconds": 1.3541332697495818,
+  "check_seconds": 0.006232701241970062,
+  "total_seconds": 1.5774154355749488
+}
