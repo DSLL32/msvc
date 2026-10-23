@@ -41,6 +41,7 @@ Node *__fastcall canonicalize_return_value(Function *function, Node *node);
 int __fastcall is_constant_value(Node *node, int value);
 Node *__fastcall new_storage_reference(unsigned bytes);
 int __fastcall can_repeat_tree(Node *node);
+void __fastcall inspect_tree_repeatability(Node *node);
 Node *__fastcall prepare_target_tree(Node *node);
 Node *__fastcall canonicalize_node(Function *function, Node *node, Node *parent);
 Node *__fastcall canonicalize_before_children(Function *function, Node *node, Node *parent);

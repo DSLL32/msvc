@@ -1882,3 +1882,19 @@ See cases/hello-first-function-emitted.json and scripts/gdb-first-function.py.
 Canonical build, two modules/W3,654 graph/extent checks and native fixtures pass.
 Extent union is205128/399693=51.3213891662 percent, not
 branch coverage. Timing and ordered captures are in cases/hello-frame-output.json.
+
+Intrinsic lowering: checkpoint738
+---------------------------------
+WinMain's zero-initialized WNDCLASS reaches the whole intrinsic interpreter,
+fixed-argument preparation and argument-type lookup. Named typed descriptor173
+(aggregate fill, commands vyE0) and its fixed signature are defined beside their
+consumer. Other IDs trap explicitly; no bulk table or zero placeholders. The
+interpreter's other command branches retain named child traps where unreached.
+The repeatability wrapper and recursive walk are recovered. Its operator
+properties exactly match semantic NODE_SIDE_EFFECT/NODE_HAS_SECOND across182
+original table entries; numeric packed flags are not applied to our shape table.
+Original/native agree at lower_comma52180.660 graph/extent checks, native cases
+and original compiler/W3 pass. Extent union206701/399693=51.7149412174%, not
+branch coverage. Full object remains incomplete; prior exact first-function
+contribution proof remains valid. See cases/hello-intrinsic-lowering.json for
+ordered references, limits, data extents, timings and failed/repeated attempts.

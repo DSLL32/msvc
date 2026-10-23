@@ -1,9 +1,8 @@
-C2 ACTIVE: finish /O2 /G5 hello, then original-captured optimizer stress.
-Verified732 logical acceptances/654 source graphs. HelloWindowProc complete;
-all four first-function COFF contribution payloads and nine relocations exactly
-match captured original object (no normalization). Full hello object incomplete.
-Current frontier is_function_reference0x27310 in next function canonicalization.
-Extent union205128/399693=51.32138916618505 percent, not branch
-coverage. Canonical/W3, graph/extent/mask and native fixtures pass.
-See cases/hello-frame-output.json and hello-first-function-emitted.json.
-Continue queue; no shim requests. Shared Git index lock for scoped checkpoints.
+C2 ACTIVE: finish /O2 /G5 hello, then approved optimizer queue in cases/queue.json.
+Verified738 acceptances/660 source graphs; current lower_comma0x52180.
+Intrinsic173 aggregate initialization lowered; other descriptor IDs deliberately
+trap until introduced. All command logic reconstructed; only vyE0 exercised.
+Extent union206701/399693=51.7149412174%, not branch coverage.
+Canonical/W3, graph/extent/mask and native fixtures pass. Full hello incomplete.
+See cases/hello-intrinsic-lowering.json for evidence, data provenance and timing.
+Continue lower_comma; no shim requests. Use shared Git lock for checkpoints.

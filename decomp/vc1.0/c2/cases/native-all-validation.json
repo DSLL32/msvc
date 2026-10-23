@@ -1,12 +1,13 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "374a57c37ad6c1c53a621022a121e01547a668276c5e697369dec68b5d03d010",
+  "executable_sha256": "82c3d816ecbd27f44e0ede8f017160dd079691bca9a8c049ff9a4a8a08856680",
   "trace_enabled": true,
   "shared_hashes": {
-    "lib/recon/include/recon.h": "5fa1a22f52d82aea4837ed72229f0513f3a374a2948e23d85cfa4d24e02b6df6",
+    "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
     "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
     "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+    "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
     "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
     "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
     "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
@@ -17,7 +18,7 @@
     "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
     "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
     "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
-    "lib/recon/src/crt.c": "53a660e8675b68b43527d9d10fa9d95ce56f796dc969fca1789719fbc0010c26",
+    "lib/recon/src/crt.c": "4be31e907a70597b1281f38a56b05ccf594106b401ae98982fd7015a1cae5879",
     "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
     "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
     "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
@@ -40,22 +41,22 @@
           4
         ]
       },
-      "setup_seconds": 0.014740673825144768,
-      "execution_seconds": 0.005268004722893238,
-      "check_seconds": 0.0014470480382442474,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-u150wwow/minimal"
+      "setup_seconds": 0.012509513646364212,
+      "execution_seconds": 0.005331514403223991,
+      "check_seconds": 0.0013311626389622688,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-yqgrulgx/minimal"
     },
     {
       "profile": "hello",
-      "terminal": "@is_function_reference@4",
+      "terminal": "@lower_comma@8",
       "returncode": -5,
-      "application_entries": 380,
+      "application_entries": 386,
       "seeded_entries": 270,
       "output": null,
-      "setup_seconds": 0.0108905965462327,
-      "execution_seconds": 0.006934791803359985,
-      "check_seconds": 0.0008676135912537575,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-u150wwow/hello"
+      "setup_seconds": 0.010555229149758816,
+      "execution_seconds": 0.006929533556103706,
+      "check_seconds": 0.000858544372022152,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-yqgrulgx/hello"
     }
   ],
   "rejected": [
@@ -63,8 +64,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.19580858387053013,
-  "suite_setup_seconds": 0.1277624797075987,
-  "negative_check_seconds": 0.01977395825088024,
+  "fixture_seconds": 0.1805372191593051,
+  "suite_setup_seconds": 0.11572547163814306,
+  "negative_check_seconds": 0.019243520684540272,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }

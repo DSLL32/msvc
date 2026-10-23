@@ -57,7 +57,6 @@ void __fastcall set_warning_override(short number, signed char level) { __asm in
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
 int __fastcall is_constant_value(Node *node, int value) { __asm int 3 }
 Node *__fastcall new_storage_reference(unsigned bytes) { __asm int 3 }
-int __fastcall can_repeat_tree(Node *node) { __asm int 3 }
 Node *__fastcall make_truth_test(Node *node) { __asm int 3 }
 Node *__fastcall negate_condition(Node *node) { __asm int 3 }
 Node *__fastcall materialize_boolean(Node *node, Node *parent) { __asm int 3 }
@@ -67,11 +66,9 @@ Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
 Node *__fastcall canonicalize_conditional(Node *node) { __asm int 3 }
 Node *__fastcall integer_node(unsigned value, unsigned type) { __asm int 3 }
 unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
-Node *__fastcall lower_intrinsic(Node *node, Node *parent) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode) { __asm int 3 }
-int __fastcall is_function_reference(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 int __fastcall can_keep_conditional(Node *node) { __asm int 3 }
 Node *__fastcall lower_conditional(Node *node, Node *container) { __asm int 3 }
@@ -472,3 +469,9 @@ void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
 void __fastcall coff_write_dword(unsigned value) { __asm int 3 }
 void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
 unsigned __fastcall coff_section_symbol(unsigned short identifier) { __asm int 3 }
+
+#include "intrinsics.h"
+void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
+void __fastcall release_intrinsic_operands(Node *node) { __asm int 3 }
+unsigned __fastcall intrinsic_operator(unsigned intrinsic) { __asm int 3 }
+unsigned short __fastcall intrinsic_argument_width(Node *node, int skip_first) { __asm int 3 }

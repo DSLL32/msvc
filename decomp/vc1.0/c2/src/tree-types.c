@@ -353,3 +353,37 @@ unsigned short __fastcall common_node_type(unsigned short left, unsigned short r
         type = (unsigned short)(expression_integer_bytes | 0x100);
     return type;
 }
+
+/* Original [00027310,0002732e). A symbol-address leaf denotes a code
+   pointer only when its symbol descriptor is a function (kind4). */
+int __fastcall is_function_reference(Node *node)
+{
+    return node->opcode == 0x26 && node->right.symbol && node->right.symbol->kind == 4;
+}
+
+int tree_repeatable; /* 000836f0: result shared by the recursive inspection. */
+
+/* Original [000586d0,000586e5). Reset the result for each independent tree. */
+int __fastcall can_repeat_tree(Node *node)
+{
+    tree_repeatable = 1;
+    inspect_tree_repeatability(node);
+    return tree_repeatable;
+}
+
+/* Original [00058660,000586c9). A repeatable expression has neither a
+   side-effecting operator nor a volatile access anywhere in its operands.
+   These semantic shape properties correspond to original bits 0200/2000,
+   rather than those numeric masks in the reconstructed classification. */
+void __fastcall inspect_tree_repeatability(Node *node)
+{
+    for (;;) {
+        if (node_shapes[node->opcode] & NODE_SIDE_EFFECT) break;
+        if (node->attributes.words.flags & 0x800) break;
+        if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+        inspect_tree_repeatability(node->left.node);
+        if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return;
+        node = node->second.node;
+    }
+    tree_repeatable = 0;
+}

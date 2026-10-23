@@ -8,6 +8,38 @@
       "phase": "c2",
       "description": "Original CL /O2 /G5 hello.c backend invocation",
       "status": "in progress"
+    },
+    {
+      "case": "optimizer-loops",
+      "after": "hello-win32",
+      "phase": "c2",
+      "status": "approved; pending independent original capture after hello",
+      "description": "Nested loops, branches, loop-carried integer values and optimizer induction/control flow",
+      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
+    },
+    {
+      "case": "optimizer-register-pressure",
+      "after": "optimizer-loops",
+      "phase": "c2",
+      "status": "approved; pending independent original capture after hello",
+      "description": "Many live integer values, calls and spills across scheduling/register allocation",
+      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
+    },
+    {
+      "case": "optimizer-aliasing",
+      "after": "optimizer-register-pressure",
+      "phase": "c2",
+      "status": "approved; pending independent original capture after hello",
+      "description": "Pointer aliasing, overlapping accesses and structure copies",
+      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
+    },
+    {
+      "case": "optimizer-floating-point",
+      "after": "optimizer-aliasing",
+      "phase": "c2",
+      "status": "approved; pending independent original capture after hello",
+      "description": "x87 conversions and arithmetic, floating scheduling and late store movement",
+      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
     }
   ],
   "completed": [
