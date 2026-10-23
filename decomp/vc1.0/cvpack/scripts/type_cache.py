@@ -119,7 +119,7 @@ def compare(left,right,a,b,original,native,buffer_context=None):
                 if word(entry,0)!=typ:
                     assert buffer_context,'missing stored primary-cache type lifetime'
                     copies=buffer_context['comparison']['copies'];matches=[(i,r)for i,r in enumerate(copies)if r['index']==index]
-                    assert len(matches)==1 and index in(4192,4185,4171),'unreviewed primary-cache copied type'
+                    assert len(matches)==1 and index in(4192,4185,4171,4177,4222,4225),'unreviewed primary-cache copied type'
                     rank,copy=matches[0];side='original_namespace'if walks is original else 'native_namespace'
                     payload=buffer_context[side]['type_buffer_payload'][0]
                     assert word(entry,0)==payload['address']+copy['offset']and word(entry,4,2)==0x1000+rank,'primary-cache current record does not own copied type'

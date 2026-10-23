@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "convert_global_data32",
-    "native_function": "convert_global_data32",
+    "logical": "get_type_record",
+    "native_function": "get_type_record",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -98,7 +98,8 @@
       "find_global_type",
       "find_local_type",
       "record_derived_types",
-      "convert_global_data32"
+      "convert_global_data32",
+      "get_type_record"
     ]
   },
   "complete_reference": {

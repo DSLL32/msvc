@@ -63,8 +63,8 @@ def parse(events):
             current[key]=raw;current[key+'_address']=address
     if 'frontier'in result:
         match=re.search(r'^exception 80000003 va ([0-9a-f]+) ',events,re.M)
-        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0),'unreviewed original type buffer frontier'
-        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else('record_derived_types'if int(match[1],16)==0x19770 else 'convert_global_data32'))))
+        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0,0x1e700),'unreviewed original type buffer frontier'
+        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else('record_derived_types'if int(match[1],16)==0x19770 else('convert_global_data32'if int(match[1],16)==0x256f0 else 'get_type_record')))))
     return result
 
 
@@ -76,9 +76,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     assert p and case=='hello-debug-dll'and not native.get('error'),'native buffer observer failed'
     old=parse(events);results=[];spaces=[]
     frontier=native['frontier']['name']
-    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32'),'unsupported type buffer consumer'
+    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record'),'unsupported type buffer consumer'
     indices=p['record_indices'];sizes=p['copy_sizes'];write_sites=[(1,10,4115,0x1000),(2,6,4133,0x1001)]
-    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32'):
+    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record'):
         assert p['extension']==dict(frontier=0x1ad40,record_indices=[4115,4133,4134,4193,4194,4195],copy_sizes=[8,12,8,16,12,8],pdb_writes=[dict(type_index=4194,field=10,before=4193,after=0x1003),dict(type_index=4195,field=6,before=4194,after=0x1004)]),'unreviewed type buffer extension'
         indices=p['extension']['record_indices'];sizes=p['extension']['copy_sizes']
         write_sites +=[(4,10,4193,0x1003),(5,6,4194,0x1004)]
@@ -91,6 +91,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     if frontier=='convert_global_data32':
         assert p['global_data_frontier']=={'frontier': 153328, 'record_indices': [4115, 4133, 4134, 4193, 4194, 4195, 4191, 4192, 4183, 4184, 4185, 4102, 4131, 4132, 4103, 4112, 4108, 4109, 4110, 4169, 4170, 4171, 4106, 4152, 4153, 4111], 'copy_sizes': [8, 12, 8, 16, 12, 8, 64, 24, 12, 108, 32, 16, 12, 8, 12, 8, 8, 12, 8, 12, 28, 32, 12, 12, 8, 8], 'pdb_writes': [[1, 10, 4115, 4096], [2, 6, 4133, 4097], [4, 10, 4193, 4099], [5, 6, 4194, 4100], [7, 6, 4191, 4102], [9, 34, 4097, 4103], [9, 90, 4183, 4104], [10, 6, 4184, 4105], [12, 10, 4102, 4107], [13, 6, 4131, 4108], [14, 10, 4102, 4107], [15, 6, 4103, 4110], [17, 10, 4108, 4112], [18, 6, 4109, 4113], [20, 6, 4169, 4115], [21, 6, 4170, 4116], [23, 10, 4106, 4118], [24, 6, 4152, 4119]]},'unreviewed completed module type copies'
         indices=p['global_data_frontier']['record_indices'];sizes=p['global_data_frontier']['copy_sizes'];write_sites=[tuple(r)for r in p['global_data_frontier']['pdb_writes']]
+    if frontier=='get_type_record':
+        assert p['resolver_frontier']=={'frontier': 124672, 'record_indices': [4115, 4133, 4134, 4193, 4194, 4195, 4191, 4192, 4183, 4184, 4185, 4102, 4131, 4132, 4103, 4112, 4108, 4109, 4110, 4169, 4170, 4171, 4106, 4152, 4153, 4111, 4099, 4175, 4176, 4177, 4221, 4222, 4223, 4224, 4225], 'copy_sizes': [8, 12, 8, 16, 12, 8, 64, 24, 12, 108, 32, 16, 12, 8, 12, 8, 8, 12, 8, 12, 28, 32, 12, 12, 8, 8, 12, 12, 56, 32, 52, 32, 12, 68, 24], 'pdb_writes': [[1, 10, 4115, 4096], [2, 6, 4133, 4097], [4, 10, 4193, 4099], [5, 6, 4194, 4100], [7, 6, 4191, 4102], [9, 34, 4097, 4103], [9, 90, 4183, 4104], [10, 6, 4184, 4105], [12, 10, 4102, 4107], [13, 6, 4131, 4108], [14, 10, 4102, 4107], [15, 6, 4103, 4110], [17, 10, 4108, 4112], [18, 6, 4109, 4113], [20, 6, 4169, 4115], [21, 6, 4170, 4116], [23, 10, 4106, 4118], [24, 6, 4152, 4119], [28, 42, 4175, 4123], [29, 6, 4176, 4124], [31, 6, 4221, 4126], [33, 54, 4223, 4128], [34, 6, 4224, 4129]], 'pending_write': {'type_index': 4219, 'field': 6, 'before': 4217, 'after': 4130, 'converted_input_type': 4225}},'unreviewed pending resolver type copies'
+        indices=p['resolver_frontier']['record_indices'];sizes=p['resolver_frontier']['copy_sizes'];write_sites=[tuple(r)for r in p['resolver_frontier']['pdb_writes']]
     count=len(indices)
     for side,walks in((old,old_walks),(native,new_walks)):
         assert len(side['allocations'])==1 and len(side['entries'])==len(side['returns'])==count,'missing/extra type buffer copy lifetime'
@@ -108,6 +111,18 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
             assert 12<=offset<=4150 and word(expected,offset-12,2)==prior,'PDB conversion field/preimage differs'
             expected[offset-12:offset-10]=replacement.to_bytes(2,'little')
             writes.append(dict(offset=offset,before=prior.to_bytes(2,'little').hex(),after=replacement.to_bytes(2,'little').hex(),type_index=indices[rank],field=field))
+        if frontier=='get_type_record':
+            pending=p['resolver_frontier']['pending_write'];idx=pending['type_index']
+            offsets=bytes.fromhex(walks['current_type_server'][0]['objects']['offsets']['bytes'])
+            record=bytes.fromhex(table['bytes'])[(idx-0x1000)*28:(idx-0x1000+1)*28]
+            source=word(offsets,(idx-0x1000)*4)+2
+            assert word(record,0)==source and word(record,24,2)&0x40,'pending member list does not own active provider record'
+            start=source-block['address'];offset=start+pending['field']
+            assert 12<=start and offset+2<=start+word(expected,start-12,2)+2<=4152 and word(expected,start-10,2)==0x204,'pending member list extent/kind differs'
+            assert word(expected,offset-12,2)==pending['before'],'pending member original preimage differs'
+            assert indices[pending['after']-0x1000]==pending['converted_input_type'],'pending member lacks converted global type owner'
+            expected[offset-12:offset-10]=pending['after'].to_bytes(2,'little')
+            writes.append(dict(offset=offset,before=pending['before'].to_bytes(2,'little').hex(),after=pending['after'].to_bytes(2,'little').hex(),type_index=idx,field=pending['field']))
         assert defined[12:4152]==expected,'unexpected PDB in-place modification'
         before=bytes.fromhex(a['before']);used=0;copies=[];last=before
         for i,(entry,returned,index,size)in enumerate(zip(side['entries'],side['returns'],indices,sizes)):

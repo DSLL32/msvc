@@ -1509,3 +1509,14 @@ void record_derived_types(unsigned short type, unsigned short list)
         }
     } while (scanning == 1);
 }
+
+void convert_global_data32(void)
+{
+    unsigned short *type;
+    if (suppressed_symbol_depth) *(unsigned short *)(symbol_input+2) = 8;
+    if (!suppressed_symbol_depth) {
+        type = (unsigned short *)(symbol_input+10);
+        *type = convert_new_type(*type);
+        intern_global(symbol_input, hash_public);
+    }
+}

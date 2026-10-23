@@ -2,7 +2,7 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "convert_global_data32"
+    "get_type_record"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
@@ -18,8 +18,8 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "dbd5eb00c1456f60c0a8a34cafd2fe4dd70fffd82b18b4d601e99fdf1b116d02",
-    "src/types.c": "fea009d073b31650894d47e65f1e9340a56119679d96f814b593aa870ffa678b",
+    "src/stubs.c": "da2ea29cb22d2b38c3f0e513764500acbfbc03e426b2bf20e977944ae202ae50",
+    "src/types.c": "e8e80f53633c64aaa24266456a22f883e2b06fcd4b70ff94ca153ac4670ff9bf",
     "src/types.h": "283cffd318196782b1fb9b60c5db7fd7c857c3f3bc2370d41f299225517c0f88"
   },
   "allocations": [
@@ -103,7 +103,7 @@
   "first_module_mode": "explicit_module_index",
   "allowed_module_boundaries": [
     {
-      "frontier": "convert_global_data32",
+      "frontier": "get_type_record",
       "index": 2,
       "module": 3
     }

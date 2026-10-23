@@ -98,6 +98,11 @@ def main():
     if module_type_pair.is_dir():
         from module_type_checks import check as check_module_types
         check_module_types(module_type_pair)
+    resolver_pair=BINARY/'cases/hello-debug-dll/evidence/0081-convert_global_data32'
+    if resolver_pair.is_dir():
+        check_named_output(resolver_pair,function='get_type_record')
+        from resolver_checks import check as check_resolver
+        check_resolver(resolver_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

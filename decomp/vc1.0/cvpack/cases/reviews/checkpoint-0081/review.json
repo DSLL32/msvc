@@ -1,0 +1,62 @@
+{
+  "application_functions": 81,
+  "application_bytes": 28725,
+  "next": "get_type_record",
+  "source": "Whole convert_global_data32 256f0..25735: suppressed symbol handling, type conversion at offset10 and global interning through original hash_public function pointer. No formal or hidden-register parameters; current input record/global state observed.",
+  "ownership": "35 actual copies /800 defined bytes in existing32512-byte allocation,35 exact page slots/140 bytes;6 fully defined calloc16 global-name nodes. Exact24 PDB-word modifications include pending4219.field6:4217=>4130, owned by active LF_MEMBER list and same actual converted GUID copy4225/global1022; exact call/reload/store277d0..277ec bound. Full remaining4140 provider bytes match frozen preimage.",
+  "abi": "Next get_type_record has actual ushort126 plus flag pointing exactly to closest compact_new_type::unused2-byte local. Original LEA/call265ac..265c5 +frame16 prove calleeESP+32; native closest frame type4218 and exact &unused/sizeof2 are checked. All raw undefined entry bytes retained without cross-side equality; output parameters never omitted.",
+  "rejection_controls": 490,
+  "new_controls": 13,
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 0.3861696822568774
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5705194855108857
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 12.401671086438
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.380421313457191
+    }
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.17514250334352255,
+    "execution": 0.015594433061778545,
+    "debugging": 2.1096570594236255,
+    "checks": 0.035194965079426765,
+    "total": 2.3355973763391376
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.25744133070111275,
+    "execution": 1.9129346292465925,
+    "total": 2.193303883075714
+  },
+  "remaining": "Initial DLL case remains partial. No new CRT or shared shim behavior. Existing native-only guards and Win32 ordering retained."
+}

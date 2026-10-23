@@ -27,12 +27,13 @@ def validate(config,pe):
            'find_global_type':(0x1af10,40,384,0x1ae37,84,26,29),
            'find_local_type':(0x1ae40,40,384,0x1ae0e,172,48,51),
            'record_derived_types':(0x19770,40,384,0x19759,168,47,50),
-           'convert_global_data32':(0x256f0,40,966,0x25172,0,5,8)}
+           'convert_global_data32':(0x256f0,40,966,0x25172,0,5,8),
+           'get_type_record':(0x1e700,40,1321,0x265c5,144,41,44)}
     assert p.get('frontiers'),'missing packed symbol frontier contracts'
     for name,site in p['frontiers'].items():
         assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
         if name!='write_search_symbol':
-            assert (site['kind'],site['record_length'],site['callback_index'])==((0x202,43,12)if name=='convert_global_data32'else(4,21,27)if name in('find_named_type','find_global_type','find_local_type','record_derived_types')else((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(4,34,27)))),'unreviewed packed symbol callback selection'
+            assert (site['kind'],site['record_length'],site['callback_index'])==((4,29,27)if name=='get_type_record'else(0x202,43,12)if name=='convert_global_data32'else(4,21,27)if name in('find_named_type','find_global_type','find_local_type','record_derived_types')else((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(4,34,27)))),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
     for source,digest in p['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'packed symbol source changed'
@@ -78,15 +79,24 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     old_cursor=int.from_bytes(bytes(memory[0x335f0+i]for i in range(4)),'little')
     assert old_cursor==post['cursor']and native_state['globals']['symbol_output']['address']==b['cursor'],'packed symbol observed cursor differs from actual global'
     assert old_input==a['input']+site['input_offset']and native_state['globals']['symbol_input']['address']==b['input']+site['input_offset'],'wrong actual packed symbol source cursor'
-    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32'):
+    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record'):
         registers=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(registers[::2],registers[1::2])}
-        length_slot={'compact_pointer':1,'compact_type_list':16,'store_type':28,'hash_type':34,'save_type':34,'append_buffer':44,'find_named_type':2,'find_global_type':9,'find_local_type':31,'record_derived_types':30}.get(name)
+        length_slot={'compact_pointer':1,'compact_type_list':16,'store_type':28,'hash_type':34,'save_type':34,'append_buffer':44,'find_named_type':2,'find_global_type':9,'find_local_type':31,'record_derived_types':30,'get_type_record':24}.get(name)
         length=words[length_slot]if length_slot is not None else registers['ebp']
         assert length&0xffff==site['record_length'],'wrong original callback record length'
         if name=='intern_global':
             assert site['nested_return_slot']==2 and site['nested_return_address']==0x25172 and words[2]==0x25172,'wrong original nested symbol frame'
             assert registers['edx']==0x1afe0 and registers['ecx']==old_input,'wrong original nested symbol callback arguments'
             assert b['nested_caller']=='convert_udt_symbol','wrong native nested symbol frame'
+        elif name=='get_type_record':
+            expected={'11':0x277d8,'23':0x26b1e,'32':0x26509,'34':0x25830,'36':0x25172}
+            assert site['nested_returns']==expected and all(words[int(k)]==v for k,v in expected.items()),'wrong pending resolver nested frames'
+            assert b['nested_callers']==['compact_new_type','compact_type_list','compact_new_type','convert_new_type','convert_udt_symbol']and b['type_index']==4218,'wrong pending resolver owner path'
+            old_table,new_table=old_walks['local_type_records'][0],new_walks['local_type_records'][0];offset=(4218-0x1000)*28
+            assert registers['ebp']&0xffff==4218 and b['type_record']==new_table['address']+offset,'wrong pending resolver parent record'
+            old_record=bytes.fromhex(old_table['bytes'])[offset:offset+28];new_record=bytes.fromhex(new_table['bytes'])[offset:offset+28]
+            assert int.from_bytes(old_record[6:8],'little')==int.from_bytes(new_record[6:8],'little')==4222 and old_record[24]&0x40 and int.from_bytes(old_record[24:26],'little')&0x1000,'wrong actual resolved forward index/state'
+            assert words[1]&0xffff==126,'wrong actual resolver relative input'
         elif name=='record_derived_types':
             expected={'8':0x2706c,'17':0x277d8,'29':0x26b1e,'38':0x26509,'40':0x25830,'42':0x25172}
             assert site['nested_returns']==expected and all(words[int(k)]==v for k,v in expected.items()),'wrong derived type nested frames'

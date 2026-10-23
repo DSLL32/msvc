@@ -3465,8 +3465,10 @@
         {
           "name": "flag",
           "slot": 2,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "stack-output",
+          "bits": 32,
+          "evidence": "cases/abi/get-type-output.json",
+          "evidence_sha256": "3a2429f6c308f2b689aca12fa73b31a6f61a87d61214d3c1f599823f60e8841f"
         }
       ]
     },
@@ -3742,16 +3744,37 @@
       "native": "convert_global_data32",
       "symbol": "_convert_global_data32",
       "original": 153328,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        153328,
+        153397
+      ],
       "abi": "void convert_global_data32(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0081-convert_global_data32/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_procedure16",
@@ -5275,6 +5298,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 80
+    },
+    {
+      "function": "convert_global_data32",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 81
     }
   ],
   "support_unmasked": [
@@ -5869,11 +5898,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "086ec9f1643efbcdcce03650dc316830930dc5a0d423c732a792e971ad2f179d"
+    "evidence_sha256": "14729e6788591a349484d4f4f42297fcb906dc8391405c547baa72329c528791"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "ae455dfa2b99bc84f0ed4199a9b821d075fde366c045d7fe5f40a9c3f7051530"
+    "evidence_sha256": "8e4df2394b1cdfcc3efd89da0d8485ebb1b79e9ea98cb68eef3ddf71dea8df8c"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5905,22 +5934,22 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "e66425c9b001310a118358bce82f0cee65a7cf46d2a39dcf1fcbd89a1e76f1f5"
+    "evidence_sha256": "c8b3b584f1d71718ca7ec0fc8377d2e224b46f567224ef41f37b9df7eb011642"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "7f22ce9170f5aae1b5ef48a36bb7b3e9aff3acd5794fe58138db4a3e03401bb4"
+    "evidence_sha256": "75eed6937814bbe63daa94163645876e8f076b0d18a7fbda6f7d46b32a7887ef"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "9f49e511a015fe7a4e7737bdaa2542bf6ece6545d0601a396c943b6d137ac0d1"
+    "evidence_sha256": "92c53218da1014f52223cb3e0ce2c5662585f0e669cc7022a35471893f83e565"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "6c9765f17b9ebf66cb46f3e1ae0873e6dc053d3a6285e59189f6889a8e0ccdd5"
+    "evidence_sha256": "bbc526286a293e56a385fb9b245e26ce8b731502ee55f336c725b11402ac04ff"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "425a2def2b89f1decce5aed8ae94a2b7b0790cc21025ca23b33406bf2c021c91"
+    "evidence_sha256": "bd63fdcb8ac8ad91add78edf015c0fcbf39136c2d83a61423ff742d0ba7bbe1d"
   }
 }
