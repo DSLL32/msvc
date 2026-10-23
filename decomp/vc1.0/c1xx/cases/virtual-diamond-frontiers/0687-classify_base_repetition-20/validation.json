@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_classify_base_repetition@20",
+    "start": 197648,
+    "end": 197903
+  },
+  "distinct_direct_callees": [
+    "_classify_base_repetition@20"
+  ],
+  "next_frontier": "_compatible_override_return@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.31519691180437803,
+  "total_operation_seconds": 6.936254269443452,
+  "original_capture_seconds": 4.5279462188482285
+}

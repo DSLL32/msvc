@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 9.044314245693386,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-add-base-class-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 19.852100076153874,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-add-base-class-canonical.log"
+  }
+]

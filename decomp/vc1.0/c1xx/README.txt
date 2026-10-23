@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 683 accepted frontiers, including 591 frontend
+PARTIAL binary reconstruction: 688 accepted frontiers, including 596 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1501,3 +1501,28 @@ Combined measured wall: 4.750118seconds.
 Accepted extent union206186/476418bytes is43.278382%, not branch coverage.
 virtual_diamond has completed Base's class declaration and is incomplete at
 add_named_base while beginning Left's inheritance declaration.
+
+Virtual-base insertion checkpoint:688 accepted frontiers,603 source functions.
+Five whole functions beyond f029b81 resolve a named base/tag and class-path leaf,
+validate/allocate the base record, and classify repeated bases recursively in
+both directions. All diagnostic branches and argument order are retained;
+ambiguous-path diagnostics continue recovery while duplicate direct bases do
+not insert. The lookup's tag_declaration_seen object remains shared with tag
+allocation and class completion.
+
+Original access arguments are full32-bit stack words, compared against zero
+before only their low bits are stored. Corrected the earlier provisional byte
+parameter in both parser entry declarations and base forwarding. The reached
+allocation proves BaseClassLink is24bytes with its char*name at+8; compile-time
+layout checks cover both original/native builds. Source preserves declaration
+arena choice, access defaults, virtual inheritance flags and browser call edge.
+
+Every0683through0687 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible files. Completed cpp_basic
+remains exact. Full603-function graph, contextual data/defaults, both grammars,
+both cached native cases and25negative checks pass. Combined measured wall:
+4.762676seconds.
+
+Accepted extent union207634/476418bytes is43.582316%, not branch coverage.
+virtual_diamond has inserted Left's virtual Base and remains incomplete at
+compatible_override_return0x798f0 while examining inherited virtual methods.

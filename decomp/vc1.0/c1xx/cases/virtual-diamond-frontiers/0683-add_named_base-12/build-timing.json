@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.1687945052981377,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-add-named-base-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.683647405356169,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-add-named-base-canonical.log"
+  }
+]

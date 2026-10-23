@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558f1d in add_base_class (recon_access=3 '\003', is_virtual=-1, tag=0x565ed0ec) at src/stubs.c:125
+125	void __stdcall add_base_class(unsigned char access, int is_virtual, CppSymbol *tag) { __asm { int 3 } }
+#0  0x56558f1d in add_base_class (recon_access=3 '\003', is_virtual=-1, tag=0x565ed0ec) at src/stubs.c:125
+#1  0x565a8414 in add_named_base (recon_access=3 '\003', is_virtual=-1, name=0x565e6a4d "Base") at src/class-members.c:767
+#2  0x5659654e in parse_translation_unit () at src/parser-declaration-actions.inc:189
+#3  0x5655de66 in compile_translation_unit () at src/frontend.c:75
+#4  0x565587d6 in guarded_compile () at src/c1xx.c:28
+#5  0x565587a4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

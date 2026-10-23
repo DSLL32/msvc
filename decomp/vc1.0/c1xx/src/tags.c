@@ -492,3 +492,36 @@ void __stdcall check_empty_declaration(DeclarationType *type)
     }
     if (!tag->type->attributes) inherit_class_pointer_attributes(tag);
 }
+
+/* Original 0x2d4c0..0x2d568. A class-path wrapper remains the lookup
+   result while its leaf is resolved to an actual tag. The shared seen flag
+   also records whether an ordinary lookup came from the current scope mode. */
+CppSymbol *__stdcall lookup_tag_name(char *name)
+{
+    CppSymbol *symbol = lookup_scoped_name(name, 0x100), *tag;
+    QualifiedDeclarator *qualified;
+    if (!symbol) {
+        tag_declaration_seen = 0;
+        return 0;
+    }
+    tag = symbol;
+    if ((symbol->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)symbol;
+        tag = (CppSymbol *)qualified->resolution->binding->target;
+        tag_declaration_seen = 1;
+    } else tag_declaration_seen = (unsigned char)current_scope->flags == symbol_scope_mode;
+    if (!(tag->flags & 0x10)) {
+        tag = find_tag_declaration(tag);
+        if (!tag) {
+            tag_declaration_seen = 0;
+            return 0;
+        }
+        if ((symbol->kind & 31) == 18) {
+            qualified = (QualifiedDeclarator *)symbol;
+            qualified->resolution->binding->target = (ClassReference *)tag;
+            return symbol;
+        }
+        return tag;
+    }
+    return symbol;
+}

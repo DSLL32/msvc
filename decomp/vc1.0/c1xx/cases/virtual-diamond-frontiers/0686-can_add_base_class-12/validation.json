@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_can_add_base_class@12",
+    "start": 197904,
+    "end": 198100
+  },
+  "distinct_direct_callees": [
+    "_classify_base_repetition@20",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_classify_base_repetition@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.33427545335143805,
+  "total_operation_seconds": 6.97141713835299,
+  "original_capture_seconds": 4.525811716914177
+}

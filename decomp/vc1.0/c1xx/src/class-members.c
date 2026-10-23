@@ -742,3 +742,156 @@ int __stdcall next_class_member(ClassMemberIterator *iterator)
     iterator->next = iterator->member->next;
     return 1;
 }
+
+void __stdcall add_base_class(unsigned access, int is_virtual, CppSymbol *tag);
+
+/* Original 0x305e0..0x30669. Microsoft extensions admit an unqualified
+   typedef naming a class as a base, with both spellings in warning 97. */
+void __stdcall add_named_base(unsigned access, int is_virtual, char *name)
+{
+    CppSymbol *tag = lookup_tag_name(name), *symbol, *alias;
+    if (options.configuration.extensions_enabled && !tag) {
+        symbol = find_outer_name(name);
+        if (symbol && !symbol->type->related) {
+            alias = cpp_context_stack->items[symbol->type->field08];
+            if (alias && (alias->kind & 31) == 4) {
+                compiler_warning(3, 97, name, alias->name);
+                tag = alias;
+            }
+        }
+    }
+    if (!tag) {
+        report_syntax_error(505, name);
+        return;
+    }
+    add_base_class(access, is_virtual, tag);
+}
+
+int __stdcall can_add_base_class(int is_virtual, CppSymbol *base, CppSymbol *derived);
+void __stdcall browser_base_class(BaseClassLink *base);
+
+/* Original 0x306a0..0x30951. Validate the class before allocating the
+   24-byte base-list record. Access occupies a full original stack word: a
+   zero word selects the class/struct default, then only its low bits are stored. */
+void __stdcall add_base_class(unsigned access, int is_virtual, CppSymbol *tag)
+{
+    CppSymbol *alias;
+    BaseClassLink *base;
+    ArenaPool *pool;
+    unsigned short flags;
+    unsigned arena;
+    char *base_kind, *base_name, *owner_kind, *owner_name;
+    if (options.configuration.extensions_enabled && !(tag->type->flags & 0x400) &&
+        !tag->type->related) {
+        alias = cpp_context_stack->items[tag->type->field08];
+        if (alias && (alias->kind & 31) == 4) {
+            compiler_warning(3, 97, tag->name, alias->name);
+            tag = alias;
+        }
+    }
+    if (!(tag->type->flags & 0x400)) {
+        report_syntax_error(505, tag->name);
+        return;
+    }
+    if (!(tag->flags & 4)) {
+        report_syntax_error(504, tag->name);
+        return;
+    }
+    if (!(CLASS_CONTEXT.flags & 0x10)) {
+        report_syntax_error(570, CLASS_TAG->name);
+        return;
+    }
+    if (is_current_class(tag)) {
+        report_syntax_error(730, tag->name);
+        return;
+    }
+    flags = tag->type->flags;
+    if ((flags & 0x404) == 0x404) {
+        report_syntax_error(569, tag->name);
+        return;
+    }
+    if (tag->attributes & 0x100) {
+        report_syntax_error(503, tag->name);
+        return;
+    }
+    if ((CLASS_TAG->detail.class_info->flags2 & 4) &&
+        !(tag->detail.class_info->flags2 & 5)) {
+        owner_name = CLASS_TAG->name;
+        owner_kind = type_kind_name(CLASS_TAG->type->flags);
+        base_name = tag->name;
+        base_kind = type_kind_name(flags);
+        compiler_warning(2, 275, base_kind, base_name, owner_kind, owner_name);
+    }
+    if (!can_add_base_class(is_virtual, tag, CLASS_TAG)) return;
+    if (!access) access = (CLASS_TAG->type->flags & 0x408) == 0x408 ? 1 : 3;
+    arena = declaration_mode != 0;
+    if (!arena) base = allocate_permanent(sizeof(BaseClassLink));
+    else {
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(BaseClassLink)) refill_arena(&compiler_arena, pool);
+        base = (BaseClassLink *)pool->next;
+        pool->remaining -= sizeof(BaseClassLink);
+        pool->next += sizeof(BaseClassLink);
+    }
+    base->kind = 15;
+    base->name = tag->name;
+    base->flags = (base->flags & ~3) | (access & 3);
+    base->state = (base->state & ~1) | ((unsigned)is_virtual & 1);
+    base->context_index = tag->detail.class_info->type_index;
+    if (is_virtual || (tag->detail.class_info->flags & 0x10))
+        CLASS_TAG->detail.class_info->flags |= 0x10;
+    base->displacement = 0;
+    insert_class_member((CppSymbol *)base);
+    if (browser_filename && (!declaration_mode || options.option_FR) &&
+        !(CLASS_TAG->flags & 0x80)) browser_base_class(base);
+}
+
+int __stdcall classify_base_repetition(int is_virtual, CppSymbol *base,
+    CppSymbol *derived, int direct, CppSymbol **conflict);
+
+/* Original 0x30510..0x305d3. A duplicate direct base stops insertion;
+   the two ambiguous paths diagnose in different name order but still insert
+   the record so the compiler can continue recovering the class declaration. */
+int __stdcall can_add_base_class(int is_virtual, CppSymbol *base, CppSymbol *derived)
+{
+    CppSymbol *conflict;
+    int status = classify_base_repetition(is_virtual, base, derived, 1, &conflict);
+    switch (status) {
+    case 0:
+        return 1;
+    case 1:
+        report_syntax_error(500, derived->name, base->name);
+        return 0;
+    case 2:
+        report_syntax_error(584, derived->name, base->name, conflict->name);
+        return 1;
+    case 3:
+        report_syntax_error(584, derived->name, conflict->name, base->name);
+        return 1;
+    }
+    return 0;
+}
+
+/* Original 0x30410..0x3050e. Compare visible base chains in both
+   directions for a direct insertion. Virtual matches collapse only below
+   the initial level; the two recursive findings retain distinct statuses. */
+int __stdcall classify_base_repetition(int is_virtual, CppSymbol *base,
+    CppSymbol *derived, int direct, CppSymbol **conflict)
+{
+    BaseClassLink *link = (BaseClassLink *)derived->auxiliary.scope_members, *next;
+    CppSymbol *inherited;
+    unsigned char state;
+    while (link) {
+        next = (BaseClassLink *)link->next;
+        if ((link->kind & 31) == 15 && !(link->flags & 0x80)) {
+            inherited = cpp_context_stack->items[link->context_index];
+            state = link->state;
+            if (conflict) *conflict = inherited;
+            if (inherited == base && (!is_virtual || direct || !(state & 1))) return 1;
+            if (classify_base_repetition(is_virtual, base, inherited, 0, 0)) return 2;
+            if (direct && classify_base_repetition(state & 1, inherited, base, 0, 0)) return 3;
+        }
+        link = next;
+    }
+    return 0;
+}

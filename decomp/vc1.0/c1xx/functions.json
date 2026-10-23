@@ -687,7 +687,12 @@
     "_set_hash_value@12",
     "_hash_table_bucket@8",
     "_hash_aligned_pointer",
-    "_find_hash_entry@12"
+    "_find_hash_entry@12",
+    "_add_named_base@12",
+    "_lookup_tag_name@4",
+    "_add_base_class@12",
+    "_can_add_base_class@12",
+    "_classify_base_repetition@20"
   ],
   "driver": [
     {
@@ -2015,7 +2020,7 @@
     {
       "name": "_add_named_base@12",
       "start": 198112,
-      "end": 198113
+      "end": 198250
     },
     {
       "name": "_add_qualified_base@12",
@@ -3980,7 +3985,7 @@
     {
       "name": "_lookup_tag_name@4",
       "start": 185536,
-      "end": 185537
+      "end": 185705
     },
     {
       "name": "_attach_qualifier_parent@8",
@@ -6153,6 +6158,26 @@
       "name": "_equal_word_pairs",
       "start": 317440,
       "end": 317441
+    },
+    {
+      "name": "_add_base_class@12",
+      "start": 198304,
+      "end": 198994
+    },
+    {
+      "name": "_can_add_base_class@12",
+      "start": 197904,
+      "end": 198100
+    },
+    {
+      "name": "_browser_base_class@4",
+      "start": 181248,
+      "end": 181249
+    },
+    {
+      "name": "_classify_base_repetition@20",
+      "start": 197648,
+      "end": 197903
     }
   ],
   "cases": {
@@ -6278,7 +6303,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_add_named_base@12",
+      "terminal": "_compatible_override_return@8",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6319,9 +6344,14 @@
         "cases/virtual-diamond-frontiers/0679-set_hash_value-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0680-hash_table_bucket-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0681-hash_aligned_pointer/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0683-add_named_base-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0684-lookup_tag_name-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0685-add_base_class-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0686-can_add_base_class-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0687-classify_base_repetition-20/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0682-find_hash_entry-12/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0687-classify_base_repetition-20/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

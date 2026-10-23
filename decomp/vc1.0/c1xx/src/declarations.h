@@ -12,12 +12,14 @@ typedef struct BaseClassLink {
     unsigned char kind, flags;
     unsigned short attributes;
     CppSymbol *next;
-    unsigned field08;
+    char *name;
     short context_index;
     unsigned short field0e;
     unsigned displacement;
     unsigned char state;
 } BaseClassLink;
+typedef char BaseClassLinkSizeMustBe24[(sizeof(BaseClassLink) == 24) ? 1 : -1];
+typedef char BaseClassLinkNameOffsetMustBe8[(offsetof(BaseClassLink, name) == 8) ? 1 : -1];
 typedef char BaseClassLinkStateOffsetMustBe20[(offsetof(BaseClassLink, state) == 20) ? 1 : -1];
 
 /* Encountered virtual-dispatch record prefixes. Unused words retain their

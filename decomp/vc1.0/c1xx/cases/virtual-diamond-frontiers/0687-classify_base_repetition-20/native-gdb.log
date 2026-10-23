@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a3db in compatible_override_return (member=0x565ee920, inherited=0x565ee2fc) at src/stubs.c:389
+389	int __stdcall compatible_override_return(CType *member, CType *inherited) { __asm { int 3 } return 0; }
+#0  0x5655a3db in compatible_override_return (member=0x565ee920, inherited=0x565ee2fc) at src/stubs.c:389
+#1  0x565a808a in overrides_virtual_member (member=0x565ee8e8, owner=0x565ee74c, diagnose=1) at src/class-members.c:633
+#2  0x565a69ec in configure_member_function (storage=..., member=0x565ee8e8, pure=0) at src/class-members.c:527
+#3  0x565a5f43 in declare_class_member (context=0x565dd4e0 <declaration_spec_storage+8>, member=0x565ee8e8) at src/class-members.c:176
+#4  0x56596be3 in parse_translation_unit () at src/parser-declaration-actions.inc:274
+#5  0x5655de56 in compile_translation_unit () at src/frontend.c:75
+#6  0x565587d6 in guarded_compile () at src/c1xx.c:28
+#7  0x565587a4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

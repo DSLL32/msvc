@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_lookup_tag_name@4",
+    "start": 185536,
+    "end": 185705
+  },
+  "distinct_direct_callees": [
+    "_find_tag_declaration@4",
+    "_lookup_scoped_name@8"
+  ],
+  "next_frontier": "_add_base_class@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.32094199303537607,
+  "total_operation_seconds": 7.106417529284954,
+  "original_capture_seconds": 4.6764019979164
+}

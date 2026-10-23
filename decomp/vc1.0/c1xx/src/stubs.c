@@ -122,8 +122,8 @@ void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned
 /* Complete yacc semantic callees, still unaccepted. */
 void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound) { __asm { int 3 } }
 void __stdcall add_case_label(IrToken *expression) { __asm { int 3 } }
-void __stdcall add_named_base(unsigned char access, int is_virtual, char *name) { __asm { int 3 } }
-void __stdcall add_qualified_base(unsigned char access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
+void __stdcall browser_base_class(BaseClassLink *base) { __asm { int 3 } }
+void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape) { __asm { int 3 } }
 CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration, TypeShape *modifier) { __asm { int 3 } return 0; }
@@ -462,7 +462,6 @@ void __stdcall finish_work_stack(WorkingStack *stack) { __asm { int 3 } }
 
 void __stdcall declare_anonymous_aggregate_object(DeclarationType *type) { __asm { int 3 } }
 
-CppSymbol *__stdcall lookup_tag_name(char *name) { __asm { int 3 } return 0; }
 
 void *__stdcall find_hash_value(HashTable *table, void *key) { __asm { int 3 } return 0; }
 
