@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "omf-typed-debug",
   "queued": [
     {
       "case": "hello-win32",
@@ -297,6 +297,14 @@
         ],
         "normalized_sha256": "cf8da121524ed69c6564373078cc43e866ad4d93fc5e74dc679a844eac03256a"
       }
+    },
+    {
+      "case": "omf-typed-debug",
+      "after": "debug-asm-listing",
+      "status": "active",
+      "fixture_manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
+      "description": "Derived standalone original C2 -omf invocation, not emitted by CL; five actual original frontend IR/source dependencies, exact2594-byte OMF object with no normalization.",
+      "capture_evidence": "../fixtures/c2-omf-typed-debug/capture/independent.json"
     }
   ],
   "completed": [
@@ -416,28 +424,8 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "All14 registered cases complete; next OMF single-case proposal pending root review.",
-  "next_case_proposals": [
-    {
-      "case": "omf-typed-debug",
-      "status": "pending root review",
-      "flags": [
-        "/omf",
-        "/c",
-        "/Od",
-        "/G3",
-        "/Z7"
-      ],
-      "purpose": "Broad OMF serializer, relocatable typed data and CodeView output through externally observable functions/static pointer data/typed local scopes/inlineasm local labels.",
-      "analysis_envelope": {
-        "start": "0x6a350",
-        "end": "0x6bd10",
-        "bytes": 6592,
-        "status": "Envelope only; body extents/reachability not proved"
-      },
-      "validation": "Untouched original CL support and actual child transport first; standalone original C2 must reproduce full object/streams/status and complete artifact inventory before freezing. No new acceptance credited by proposal."
-    }
-  ],
+  "status": "Approved derived standalone OMF case frozen: actual original CL frontend IR/baseline env plus explicitly supported C2 -omf; reconstruct initial named frontier.",
+  "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
     {

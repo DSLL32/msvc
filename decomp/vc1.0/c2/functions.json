@@ -8513,6 +8513,12 @@
       "accepted_from": 1146,
       "fixture_manifest": "../fixtures/c2-debug-asm-listing/manifest.json",
       "fixture_manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6"
+    },
+    "omf": {
+      "arguments": "",
+      "accepted_from": 1251,
+      "fixture_manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
+      "fixture_manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13"
     }
   },
   "crt_defaults": {

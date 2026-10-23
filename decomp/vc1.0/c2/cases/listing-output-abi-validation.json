@@ -1388,7 +1388,7 @@
       "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
     }
   ],
-  "seconds": 0.5266808243468404,
+  "seconds": 0.5276822885498405,
   "accepted_slices": [
     [
       1162,

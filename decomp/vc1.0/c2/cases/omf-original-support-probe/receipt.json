@@ -1,0 +1,29 @@
+{
+  "command": [
+    "wine",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo",
+    "/c",
+    "/omf",
+    "/Od",
+    "/G3",
+    "/Z7",
+    "omftypes.c"
+  ],
+  "source_sha256": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac",
+  "cwd": "S:\\vc1.0\\c2\\omftypes",
+  "returncode": 0,
+  "seconds": 0.9619202958419919,
+  "files": [
+    {
+      "name": "omftypes.obj",
+      "bytes": 3239,
+      "sha256": "ee0e1f5e162f31e205480e30e6d95e5bc247c459a15fbca01f638bf4393774e2"
+    },
+    {
+      "name": "omftypes.c",
+      "bytes": 2235,
+      "sha256": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac"
+    }
+  ]
+}

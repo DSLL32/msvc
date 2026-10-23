@@ -1,0 +1,26 @@
+{
+  "method": "Synthetic native-only oracle checks, no original execution",
+  "positive_bytes": 2594,
+  "positive_records": 39,
+  "ignored_fields": [],
+  "rejected": [
+    "OMF bytes4..7 treated as clock",
+    "corrupt record 0xa1",
+    "corrupt record 0x9d",
+    "corrupt record 0x96",
+    "corrupt record 0x99",
+    "unproved COFF clock exemption on OMF",
+    "unexpected debug artifact",
+    "changed irex",
+    "changed irsy",
+    "changed irin",
+    "changed irgl",
+    "changed irdb",
+    "changed omftypes.c",
+    "truncated MODEND",
+    "trailing data",
+    "bad checksum"
+  ],
+  "seconds": 0.007957476191222668,
+  "scope": "Exact whole OMF bytes/checksums, no COFF timestamp exemption, all5 IR inputs+source hash and artifact absence. Shape parser is a bounded container/checksum check, not an OMF semantic implementation."
+}

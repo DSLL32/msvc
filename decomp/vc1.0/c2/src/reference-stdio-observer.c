@@ -219,6 +219,9 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         }while(block);
         if(block!=last)exit(280);
     }
+    if(!strcmp(call->name,"_omf_open_module")) {
+        sprintf(line,"omf_entry coff_object %lu\n",read_word(process,image_base+0x706f4));log_line(line);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

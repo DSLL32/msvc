@@ -1,0 +1,21 @@
+{
+  "matched": true,
+  "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+  "setup_seconds": 0.003375100903213024,
+  "execution_seconds": 1.627200348302722,
+  "check_seconds": 0.0008319318294525146,
+  "outputs": [
+    {
+      "name": "omftypes.obj",
+      "bytes": 2594,
+      "normalized_sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9",
+      "ignored_timestamp": []
+    }
+  ],
+  "files": {
+    "independent.events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+    "independent.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "independent.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Independent original full stream/status/artifact/inventory check with distinct child and supervisor paths. Earlier capture helper result logs overlapped child stream paths; those raw files are retained but are not stream evidence. This independent proof supplies actual untouched original C2 stdout/stderr."
+}

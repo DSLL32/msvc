@@ -1,0 +1,15 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559014 in omf_open_module () at src/stubs.c:106
+106	void omf_open_module(void) { __asm int 3 }
+#0  0x56559014 in omf_open_module () at src/stubs.c:106
+#1  0x565a2a6b in initialize_output_callbacks () at src/output.c:117
+#2  0x5659d821 in emit_backend_work () at src/backend-flow.c:22
+#3  0x5655deb4 in compile_functions () at src/functions.c:22
+#4  0x56558a47 in main (argc=1, argv=0xffffdcc4, envp=0xffffdccc) at src/c2.c:56
+C2_FRONTIER_PC=0x56559014 ENTRY=0x56559010
+
+{'logical': '_omf_open_module', 'matched': True, 'executable_sha256': 'cf5d57aaa9112d3116948a473bdf0ccfac46d42226a4438bb8e7784b5865de03', 'config_sha256': '4575b1d4d872f621cfd5357f668e2915ff13722afcf7a1f5e78ce95b0da66980', 'canonical_working_directory': 'S:\\vc1.0\\c2\\omftypes', 'setup_seconds': 0.007428010925650597, 'execution_seconds': 0.1394492033869028, 'seconds': 0.157230531796813, 'log_sha256': '75a8a1e9338e9af50a154bb20a7de18c63c7db385f5bb9c5ba31ed854c8d328a', 'directory': '/root/.ai-tmp/msvc2/vc1.0/c2/omf-gdb-jpf06yju'}

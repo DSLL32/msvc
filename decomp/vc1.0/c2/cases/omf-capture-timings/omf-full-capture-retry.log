@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/capture-omf-debug.py", line 102, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/capture-omf-debug.py", line 63, in main
+    assert '-omf ' in portable and '-Zi ' in portable, portable
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: -ef {bin}\c23.err -il ir -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi 

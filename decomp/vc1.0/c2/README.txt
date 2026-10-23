@@ -409,3 +409,16 @@ compiler/W3,1141 app graphs and extent/ABI/storage checks pass. Coverage is
 failed helper invocation and split timing: cases/dbglist-completion-checkpoint.json.
 Remaining inventory keeps154 pending app/support rows and54544 unclassified
 bytes separate from proven CRT; next single-case proposal is pending review.
+
+The fifteenth case, omf-typed-debug, is a derived standalone original C2 case.
+Ordinary original CL /omf and /Bd /omf silently omit this internal-default
+option; both genuine COFF transports are retained as rejected OMF probes.
+Actual baseline CL /Od /G3 /Z7 frontend IR is unchanged; only supported backend
+-omf is appended to the actual MSC_CMD_FLAGS. Untouched C2 reaches the OMF
+module opener with coff_object0 and produces a repeat-exact2594-byte object,
+all OMF checksums valid, no normalization/PDB/side artifacts. A separate exact
+stream/inventory capture repairs an initial helper log-path overlap without
+relabeling old raw evidence. Native matches omf_open_module;14 complete cases
+remain exact. OMF artifact/input negatives reject false COFF clock exemptions.
+No new function accepted: cases/omf-capture-checkpoint.json records provenance,
+all failed probes, original/native observations and measured timings.

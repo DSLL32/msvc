@@ -23,6 +23,7 @@ build/runtime.json: build/c2.exe scripts/identify-runtime.py scripts/binary.py s
 
 check replay: native-trace-check
 	$(PYTHON) scripts/check-artifacts.py
+	$(PYTHON) scripts/check-omf-artifacts.py
 
 frontier: native-trace
 	$(PYTHON) scripts/check-native.py --profile minimal

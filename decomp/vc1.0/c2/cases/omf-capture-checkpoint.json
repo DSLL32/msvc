@@ -1,0 +1,216 @@
+{
+  "checkpoint": 1251,
+  "status": "New original-validated derived case at matching application frontier; no new reconstructed function",
+  "fixture_manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
+  "fixture_manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+  "original_derived_object_bytes": 2594,
+  "original_derived_object_sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9",
+  "normalization": "None; all OMF bytes exact",
+  "original_state_evidence": "../fixtures/c2-omf-typed-debug/capture/omf-entry.txt",
+  "original_full_stream_artifact_evidence": "../fixtures/c2-omf-typed-debug/capture/independent.json",
+  "baseline_frontend": "Original CL /nologo /c /Od /G3 /Z7 omftypes.c actual5 IR inputs/source; baseline output COFF retained separately",
+  "derivation": "Append only original C2 -omf option to actual baseline MSC_CMD_FLAGS template; same exe-only argv, explicit one-variable environment, relativeIRprefix, source and fixedcwd. Not claimed actualCL-emitted OMF transport.",
+  "option_proof": {
+    "string_address": "0x80b00",
+    "row_address": "0x80aa0",
+    "destination": "0x806f4 coff_object",
+    "result": 1,
+    "action": 5,
+    "meaning": "Existing original apply_option action5 stores0; untouched original reaches omf_open_module with coff_object0. No private global patch/injected calls."
+  },
+  "failed_cl_probes": [
+    "cases/omf-original-support-probe/receipt.json",
+    "cases/omf-normal-mode-transport/receipt.json",
+    "cases/omf-Bd-mode-transport/receipt.json"
+  ],
+  "cl_gate": "^omf only recognized while internal option gate is1 during compiled-in defaults; main resets gate0 before user/IDE/environment arguments. /Bd enables verbose child commands but not this gate. Both actual failed transports retained, never relabeled OMF.",
+  "original_frontier": {
+    "label": "omf-original-1251",
+    "profile": "omf",
+    "accepted": 1251,
+    "events": "exception 80000003 rva 0005a350 base 00010000 first 1\nexit 99\n",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "masked_sha256": "fbe873ab4af1ec95f082d361fddeaf9adf0808ee6d346226a7ee1e07447e261b",
+    "config_sha256": "4575b1d4d872f621cfd5357f668e2915ff13722afcf7a1f5e78ce95b0da66980",
+    "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+    "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+    "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+    "inputs": {
+      "c2/irex": "395e786de6a26030afcc441d1d11d04a8f85b8abab38060604f1dd49dea3c5aa",
+      "c2/irsy": "0b3a799be0db2972db58e90fd2ec1520efab2e35bb955c2c765a95a21394f05c",
+      "c2/irin": "82b22309d925a3a85e272bef0458d4039dc0ce28a8070bf457e482f4491d4d73",
+      "c2/irgl": "52031f9a3c6340e0a25da1c4d53010087ffa3085f0ee39a85193508927ba165d",
+      "c2/irdb": "d3c0534748ace8f53ef6674f5167c9fcffb1a743b84e9bf2daf05d04c01f4b7a",
+      "c2/omftypes.c": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac"
+    },
+    "environment": {
+      "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi -omf "
+    },
+    "directory": "S:\\vc1.0\\c2\\original-omf-ehm3rw9q",
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
+    },
+    "first_entry_projection": {
+      "expected": [],
+      "observed": [],
+      "seeded": [],
+      "entry_plan_sha256": null
+    },
+    "logical": "_omf_open_module",
+    "original_va": "0x6a350",
+    "setup_seconds": 0.23706976883113384,
+    "execution_seconds": 1.5222959127277136,
+    "check_seconds": 0.023926165886223316,
+    "total_seconds": 1.7832923382520676
+  },
+  "native_validation_sha256": "0c95b414ae857dc6e84604f5830c9a757ac424bfbc7503f40c6e751aa129af8b",
+  "native_cases": {
+    "total": 15,
+    "complete": 14,
+    "named_trap": "_omf_open_module"
+  },
+  "oracle_negatives": "cases/omf-artifact-validation.json",
+  "timings": {
+    "omf-capture-helper-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/capture-cl.exe"
+      ],
+      "seconds": 2.002810638397932,
+      "returncode": 0,
+      "log_sha256": "98aee63cb12dd2f8cb2f5d7d2d796177b452cdc1892f3ce16d0d429b5912116a"
+    },
+    "omf-derived-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-omf-debug.py"
+      ],
+      "seconds": 4.541158373467624,
+      "returncode": 0,
+      "log_sha256": "6e2e808f4a8f2f107af6e9083d16ce667e76da1e1568166e37195b40d3128b3a"
+    },
+    "omf-full-capture-retry-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-omf-debug.py"
+      ],
+      "seconds": 2.0815587751567364,
+      "returncode": 1,
+      "log_sha256": "4af463169d51f1199b74ed88b6efa276c400c3d79f1ad287d249f6232873c298"
+    },
+    "omf-full-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-omf-debug.py"
+      ],
+      "seconds": 0.07629148382693529,
+      "returncode": 1,
+      "log_sha256": "8e6d726d2e4ea27039bae595ba6e729a970d10fe4e039fff2af12c661ceee376"
+    },
+    "omf-gated-full-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-omf-debug.py"
+      ],
+      "seconds": 2.627579174004495,
+      "returncode": 1,
+      "log_sha256": "e0bdbd9c62ffc1aa737aabc5022a6b0e4f402c29363ce734dcda54238dcf2da1"
+    },
+    "omf-independent-validation-timing": {
+      "command": [
+        "python3",
+        "scripts/validate-omf-capture.py"
+      ],
+      "seconds": 1.6978582739830017,
+      "returncode": 0,
+      "log_sha256": "9bd9aedf959277c98dad992aac9967749b385a56c06f6820bf4f1004ba3625fb"
+    },
+    "omf-initial-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 12.7614620430395,
+      "returncode": 0,
+      "log_sha256": "3c82f73cba259c5fccf77362bf750f68f39c924f658811f18ef7ac4e9a3b3765"
+    },
+    "omf-initial-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--begin-profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1251.json"
+      ],
+      "seconds": 0.33041186071932316,
+      "returncode": 0,
+      "log_sha256": "29b07fd40bed1fc9edbb33e84588fc51bd240c7aec4d5862840ca674d4cca603"
+    },
+    "omf-initial-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 2.391607624478638,
+      "returncode": 0,
+      "log_sha256": "3631248da7b320dcca2f24d017f30ca0421c0a293853e8b067ed8ea285cd1f3c"
+    },
+    "omf-initial-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1251.json"
+      ],
+      "seconds": 0.22193806525319815,
+      "returncode": 0,
+      "log_sha256": "2d9849af28eef34e4b558460c3d1774cac09c41e6311ad0570c1dea9bacc4084"
+    },
+    "omf-initial-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1251.json"
+      ],
+      "seconds": 1.8566183364018798,
+      "returncode": 0,
+      "log_sha256": "fab841c0d496d3f766b23176bdeb763d9a7be1c1579c5f0a69aa0fa47dd4477a"
+    },
+    "omf-oracle-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 2.5143064884468913,
+      "returncode": 0,
+      "log_sha256": "7fb9e77a12bcfb9effc8ee46868f5e271648268cedb15889091a03c7d80c0444"
+    },
+    "omf-state-helper-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.262631173245609,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    }
+  },
+  "failed_harness_attempts": "First adapted capture had stale prior-variable copy loop and stopped before launching original. Second and third captures correctly rejected absent backend -omf/COFF magic. Initial successful derived capture overlapped child/supervisor stream filenames; immutable raw attempt retained, independent complete original stream/artifact proof supersedes stream claim only. No acceptance/credit until strict checks.",
+  "limits": "6592-byte OMF analysis envelope was proposal only. All reached child functions remain explicit named traps; this checkpoint accepts no application function or CRT. Actual native ABI/pointees will be observed before each new function. No Wine in fixture checks; fresh original capture remains explicit outside fixtures.",
+  "unmeasured": "Analysis/edit times unmeasured; helper builds and complete capture phases measured; initial /omf support probe .891s outer command includes preparation, receipt records execution separately. Independent original receipt splits setup/run/check. No size-based schema/archive changes or dependency/tool bundling."
+}

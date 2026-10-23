@@ -1,0 +1,6 @@
+enter _omf_open_module eax 007b2bb4 args
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_entry coff_object 0
+entry_end

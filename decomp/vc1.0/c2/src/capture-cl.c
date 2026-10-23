@@ -91,9 +91,13 @@ int main(int argc,char **argv)
                             sprintf(source,"%sdb",prefix);
                             sprintf(dest,"%s\\c2-input.db",argv[3]);
                             if(!CopyFileA(source,dest,FALSE)) return 23;
-                            sprintf(source,"%s\\%s",argv[4],argv[7]);
-                            sprintf(dest,"%s\\c2-dependency-before.bin",argv[3]);
-                            if(!CopyFileA(source,dest,FALSE)) return 22;
+                            /* '-' observes the actual db channel without
+                               asserting a separate named file dependency. */
+                            if(strcmp(argv[7],"-")) {
+                                sprintf(source,"%s\\%s",argv[4],argv[7]);
+                                sprintf(dest,"%s\\c2-dependency-before.bin",argv[3]);
+                                if(!CopyFileA(source,dest,FALSE)) return 22;
+                            }
                         }
                     }
                 }

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/capture-omf-debug.py"
+  ],
+  "seconds": 0.07629148382693529,
+  "returncode": 1,
+  "log_sha256": "8e6d726d2e4ea27039bae595ba6e729a970d10fe4e039fff2af12c661ceee376"
+}

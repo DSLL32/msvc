@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "check"
+  ],
+  "seconds": 2.391607624478638,
+  "returncode": 0,
+  "log_sha256": "3631248da7b320dcca2f24d017f30ca0421c0a293853e8b067ed8ea285cd1f3c"
+}

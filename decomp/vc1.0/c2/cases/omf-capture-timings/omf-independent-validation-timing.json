@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/validate-omf-capture.py"
+  ],
+  "seconds": 1.6978582739830017,
+  "returncode": 0,
+  "log_sha256": "9bd9aedf959277c98dad992aac9967749b385a56c06f6820bf4f1004ba3625fb"
+}

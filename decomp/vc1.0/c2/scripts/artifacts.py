@@ -13,6 +13,7 @@ def normalize(data, record):
         assert name.lower().endswith('.obj'), 'Clock exemption is only proven for COFF objects'
         assert len(fields)==1 and (fields[0]['offset'],fields[0]['bytes'])==(4,4), 'Unknown clock exemption'
         assert len(data)>=8
+        assert len(data)>=20 and bytes(data[:2])==b'\x4c\x01', 'Clock exemption requires an actual i386 COFF header'
     value=bytearray(data)
     for field in fields:value[field['offset']:field['offset']+field['bytes']]=b'\0'*field['bytes']
     return bytes(value)

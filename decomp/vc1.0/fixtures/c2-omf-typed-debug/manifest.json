@@ -1,0 +1,138 @@
+{
+  "project": "vc1.0",
+  "case": "c2-omf-typed-debug",
+  "description": "Derived original C2 OMF typed-data/CodeView case from actual CL /nologo /c /Od /G3 /Z7 omftypes.c",
+  "source": {
+    "path": "source/omftypes.c",
+    "bytes": 2235,
+    "sha256": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac"
+  },
+  "capture": {
+    "helper": "decomp/vc1.0/c2/src/capture-cl.c",
+    "helper_sha256": "073d1d57e15ec8744d0815242814ff770b25172d70d9805ef3270e2c37b121df",
+    "helper_executable_sha256": "8d21c2f08f69da2573661651e0a61734d3fbb2dba2726a39c3635abf8fc95389",
+    "cl_arguments": [
+      "/nologo",
+      "/c",
+      "/Od",
+      "/G3",
+      "/Z7",
+      "omftypes.c"
+    ],
+    "environment": {
+      "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+      "LIB": "R:\\toolchains\\1.0-nt\\lib",
+      "WINEPATH": "R:\\toolchains\\1.0-nt\\bin"
+    },
+    "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+    "temporary_directory": "S:\\vc1.0\\c2\\omftypes",
+    "frontend": {
+      "application": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "command_line": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "environment_hex": "4d53435f434d445f464c4147533d2d656620523a5c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c20533a5c7663312e305c63325c6f6d6674797065735c303031383234202d66206f6d6674797065732e63202d572031202d5a65202d5a7038202d4773202d466f6f6d6674797065732e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4f6230202d4f74202d445f4d5f495838363d333030202d4733202d5a37202d4920523a5c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
+      "cwd_parameter": ""
+    },
+    "dependencies": [
+      {
+        "path": "toolchains/1.0-nt/bin/CL.EXE",
+        "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/CL.ERR",
+        "sha256": "d7afe911a26595833f979275965e562bf4b82e4b94056cc5c122f78306e1e8ab"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C13232.EXE",
+        "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C23232.EXE",
+        "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C1.ERR",
+        "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C23.ERR",
+        "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5"
+      }
+    ],
+    "observer_source_sha256": "f0b0b4ec6cc1dd5feeec83c488e36328f6cfa46fceb92e92f1da008a82eeb133",
+    "observer_sha256": "e31fe565914828412da9f5d38c5424883adf9281f087435e2b85ac4dd55284bf"
+  },
+  "phases": {
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi -omf "
+      },
+      "environment_inheritance": false,
+      "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+      "working_directory": "c2",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c2\\omftypes\\001824 -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 1780,
+          "sha256": "395e786de6a26030afcc441d1d11d04a8f85b8abab38060604f1dd49dea3c5aa"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 361,
+          "sha256": "0b3a799be0db2972db58e90fd2ec1520efab2e35bb955c2c765a95a21394f05c"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 184,
+          "sha256": "82b22309d925a3a85e272bef0458d4039dc0ce28a8070bf457e482f4491d4d73"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 441,
+          "sha256": "52031f9a3c6340e0a25da1c4d53010087ffa3085f0ee39a85193508927ba165d"
+        },
+        {
+          "path": "c2/irdb",
+          "bytes": 407,
+          "sha256": "d3c0534748ace8f53ef6674f5167c9fcffb1a743b84e9bf2daf05d04c01f4b7a"
+        },
+        {
+          "path": "c2/omftypes.c",
+          "bytes": 2235,
+          "sha256": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/omftypes.obj",
+          "bytes": 2594,
+          "sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9",
+          "output_name": "omftypes.obj",
+          "ignored_fields": [],
+          "normalized_sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9"
+        }
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C23.ERR",
+          "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5"
+        }
+      ],
+      "invocation_derivation": {
+        "baseline_environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi "
+        },
+        "appended_option": "-omf ",
+        "reason": "Original CL gates ^omf to compiled-in default parsing; user argv /omf and /Bd /omf ignored. Original C2 accepts its own -omf option. Frontend IR/source unchanged; derived standalone invocation, never claimed emitted by CL."
+      }
+    }
+  }
+}
