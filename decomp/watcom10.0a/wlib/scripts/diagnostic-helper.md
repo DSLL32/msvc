@@ -93,3 +93,11 @@ ContinueDebugEvent result or a signaled handle; those receipts claim only the
 observed events. Any future cleanup hardening is versioned separately.
 `capture-reviewed-help.py` and `repeat-reviewed-case.py` are explicit original-only
 reference tools, never fixture dependencies or authorization to recapture.
+
+
+The subsequent normal-exit cleanup checks ContinueDebugEvent success, then waits
+at most 1,000 ms for the owned process handle and verifies GetExitCodeProcess
+matches the exit event before logging normal completion. Authored positive and
+wrong-selector controls passed; ordinary receipts and compressed raw logs are
+in `cases/help/guard-probes/normal-exit-cleanup/`. Earlier references remain
+bound to their old frozen helper and their narrower observed-exit claims.

@@ -712,15 +712,24 @@ int main(int argc, char **argv)
             else if (guard_mode) return fail_owned(146);
             else status = DBG_EXCEPTION_NOT_HANDLED;
         } else if (event.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {
+            DWORD continued, signaled, actual_exit = STILL_ACTIVE;
             target_status = event.u.ExitProcess.dwExitCode;
             if (guard_mode && (!final_exit_seen || guard_state.owner || guard_state.reader || guard_state.step ||
                 owner_return_break.active || reader_return_break.active)) {
                 fprintf(events, "guard-incomplete-exit-held calls=%lu\n", guard_state.calls);
                 return fail_owned(147);
             }
-            fprintf(events, "exit status=%lu\n", target_status);
-            ContinueDebugEvent(event.dwProcessId, event.dwThreadId, status);
+            continued = ContinueDebugEvent(event.dwProcessId, event.dwThreadId, status);
+            fprintf(events, "normal-exit-continue result=%lu error=%lu\n", continued,
+                    continued ? 0 : GetLastError());
+            if (!continued) return fail_owned(150);
             event_pending = 0;
+            signaled = WaitForSingleObject(child, 1000);
+            if (!GetExitCodeProcess(child, &actual_exit)) return fail_owned(150);
+            fprintf(events, "normal-owned-exit signaled=%d wait-result=%08lx actual-status=%lu event-status=%lu\n",
+                    signaled == WAIT_OBJECT_0, signaled, actual_exit, target_status);
+            if (signaled != WAIT_OBJECT_0 || actual_exit != target_status) return fail_owned(150);
+            fprintf(events, "exit status=%lu\n", target_status);
             break;
         }
         fflush(events);
