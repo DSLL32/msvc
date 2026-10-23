@@ -912,7 +912,13 @@
     "_next_conversion_type@4",
     "_type_set_contains",
     "_find_source_conversion_function@8",
-    "_lookup_source_conversion_function@8"
+    "_lookup_source_conversion_function@8",
+    "_try_elide_copy_construction@12",
+    "_find_constructor_result_reference@8",
+    "_cancel_temporary_cleanup@4",
+    "_temporary_reference_matches@8",
+    "_remove_frontend_record@4",
+    "_replace_temporary_reference@12"
   ],
   "driver": [
     {
@@ -5943,7 +5949,7 @@
     {
       "name": "_try_elide_copy_construction@12",
       "start": 236688,
-      "end": 236689
+      "end": 236835
     },
     {
       "name": "_simplify_trivial_member_call@12",
@@ -6648,12 +6654,12 @@
     {
       "name": "_find_constructor_result_reference@8",
       "start": 236848,
-      "end": 236849
+      "end": 236986
     },
     {
       "name": "_cancel_temporary_cleanup@4",
       "start": 253520,
-      "end": 253521
+      "end": 253628
     },
     {
       "name": "_convert_class_pointer@16",
@@ -7099,7 +7105,7 @@
     {
       "name": "_remove_frontend_record@4",
       "start": 265808,
-      "end": 265809
+      "end": 265902
     },
     {
       "name": "_reference_requires_temporary@12",
@@ -7175,6 +7181,26 @@
       "name": "_lookup_source_conversion_function@8",
       "start": 408016,
       "end": 408219
+    },
+    {
+      "name": "_replace_temporary_reference@12",
+      "start": 382736,
+      "end": 382965
+    },
+    {
+      "name": "_class_tag_for_result_type@4",
+      "start": 211232,
+      "end": 211233
+    },
+    {
+      "name": "_temporary_reference_matches@8",
+      "start": 253632,
+      "end": 253693
+    },
+    {
+      "name": "_temporary_cleanup_is_suppressed@8",
+      "start": 253696,
+      "end": 253697
     }
   ],
   "cases": {
@@ -7216,8 +7242,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_try_elide_copy_construction@12",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/original-events.txt",
+      "terminal": "_append_builtin_operator_candidates@20",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7256,7 +7282,13 @@
         "cases/frontiers/copy_assignment/0904-next_conversion_type-4/frontier-extension.json",
         "cases/frontiers/copy_assignment/0905-type_set_contains/frontier-extension.json",
         "cases/frontiers/copy_assignment/0906-find_source_conversion_function-8/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0908-try_elide_copy_construction-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0909-find_constructor_result_reference-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0910-cancel_temporary_cleanup-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0911-temporary_reference_matches-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0912-remove_frontend_record-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/frontier-extension.json"
       ]
     }
   },

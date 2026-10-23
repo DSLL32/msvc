@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 908 accepted frontiers, including 815 frontend
+PARTIAL binary reconstruction: 914 accepted frontiers, including 821 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond.
-Active case copy_assignment stops at _try_elide_copy_construction@12, original VA 0x39c90.
+Active case copy_assignment stops at _append_builtin_operator_candidates@20, original VA 0x76d60.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -14,7 +14,7 @@ the instruction, grammar repair counterexample, last writer and original probe.
 The approved copy/assignment, stack-lifetime/destruction and new/delete/operator
 cases follow virtual_diamond; cases/reconstruction-queue.json records the queue.
 
-Accepted original extents cover 241624 / 476418 code-section bytes (50.716808%).
+Accepted original extents cover 242401 / 476418 code-section bytes (50.879900%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -43,7 +43,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 908-entry acceptance provenance and full original extents; the cache
+the ordered 914-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 
@@ -131,3 +131,20 @@ evidence/function-analysis and recovered-implementation-notes.txt retain context
 function findings. historical-analysis-index.json binds retained bytes to their
 original paths. historical-replay-timings.json retains old measurements without an
 alternate runner/oracle dependency. Current migration timings are separate.
+
+Explicit build provenance
+-------------------------
+scripts/build-frontier.py LABEL records native and original-toolchain builds
+separately. Each phase archives the encountered shared C/header sources under
+evidence/shared-build-inputs, keyed by the manifest hash, and verifies that the
+shared inputs did not change during compilation. Setup/hash failures stop before
+the dependent phase or acceptance capture. --native-only supports infrastructure
+revalidation without another original invocation. Snapshot setup time is separate
+from compilation where measured. Historical receipts refer to their immutable
+archives; they do not require later shared worktrees to retain the same hash.
+
+evidence/native-build-sigbus preserves the Clang SIGBUS/invalid-UTF8 crash,
+intermediate and stable retry accounting, and a native-only revalidation against
+unchanged original0910 inputs/outputs. The crash cause is unestablished. Its
+revalidation.json binds compiled shared contents and native artifact hashes to
+the original evidence; the earlier setup failure remains explicitly recorded.

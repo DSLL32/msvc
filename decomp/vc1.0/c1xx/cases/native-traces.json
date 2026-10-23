@@ -2,19 +2,19 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "54cf173b024160686f537a12f3f560e4fdcb9bab126452a372a5530ddeb26d5f",
+    "functions.json": "cf8d070c1d976db3d2d0837c387c9cf0dcc331caff6430a2e0bf65e45e96efaf",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "91c5cbec0bf1a0ecb59b12a196488e0bf7d231e6bce7fa6e7615371ae4685b11",
-    "cases/canonical-map.txt": "228142ff1ddd8203dccd7298d536c2e4a571edda085996572722933fc2792dbb",
+    "cases/original-entry-references.json": "2a0e35c6f41944f0bee6e3ff5c7f955d1125fd7ca544ffd5759f7b9238d6288f",
+    "cases/canonical-map.txt": "849429f1b133be2368602951cda541ee4d414c99f12377fbd75d25a62ac5e66a",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f",
-    "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/entry-reference/original-receipt.json": "80f356b7bd23ed0f649e57109512c589469b71494c66831b46bf44c0db150cc7",
-    "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/entry-reference/original-events.txt": "203dea2a50c1c3b0c6b30e10498e92f4e2b4903e04b5bcf1fa36aeff94c62c45",
-    "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/entry-reference/original-entries.plan": "0ce07a8fdf497ddc1730a19bda11d92377247824f7edfb1ca2a5324c04c77a88"
+    "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/entry-reference/original-receipt.json": "99a5c10aa3c9bbc52c06c681f844b645fe6f1f85c8b52eeb1237730ccbae1858",
+    "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/entry-reference/original-events.txt": "459d944f7a0bd57e5b2fcfb81448d8efef292924525f2c8fd8d9d54a4f570723",
+    "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/entry-reference/original-entries.plan": "811a4df25ab076679f4688ada02ff72cf666322a04f8955b429d8e38f507a637"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -599,7 +599,7 @@
     },
     "cancel_temporary_cleanup": {
       "logical": "_cancel_temporary_cleanup@4",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "candidate_argument_rank": {
       "logical": "_candidate_argument_rank@12",
@@ -744,6 +744,10 @@
     "class_member_hash_bits": {
       "logical": "_class_member_hash_bits",
       "source": "src/class-finalization.c"
+    },
+    "class_tag_for_result_type": {
+      "logical": "_class_tag_for_result_type@4",
+      "source": "src/stubs.c"
     },
     "class_tag_for_type": {
       "logical": "_class_tag_for_type@4",
@@ -1835,7 +1839,7 @@
     },
     "find_constructor_result_reference": {
       "logical": "_find_constructor_result_reference@8",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "find_copy_constructor": {
       "logical": "_find_copy_constructor@4",
@@ -4059,7 +4063,7 @@
     },
     "remove_frontend_record": {
       "logical": "_remove_frontend_record@4",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "remove_last_frontend_record": {
       "logical": "_remove_last_frontend_record",
@@ -4080,6 +4084,10 @@
     "replace_first_type_shape": {
       "logical": "_replace_first_type_shape@16",
       "source": "src/types.c"
+    },
+    "replace_temporary_reference": {
+      "logical": "_replace_temporary_reference@12",
+      "source": "src/expression-copy.c"
     },
     "replace_type_pointer_kind": {
       "logical": "_replace_type_pointer_kind@8",
@@ -4649,6 +4657,14 @@
       "logical": "_take_member_initializer@8",
       "source": "src/constructor-initializers.c"
     },
+    "temporary_cleanup_is_suppressed": {
+      "logical": "_temporary_cleanup_is_suppressed@8",
+      "source": "src/stubs.c"
+    },
+    "temporary_reference_matches": {
+      "logical": "_temporary_reference_matches@8",
+      "source": "src/frontend-records.c"
+    },
     "this_pointer_expression": {
       "logical": "_this_pointer_expression@4",
       "source": "src/function-definitions.c"
@@ -4671,7 +4687,7 @@
     },
     "try_elide_copy_construction": {
       "logical": "_try_elide_copy_construction@12",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "try_user_defined_conversion": {
       "logical": "_try_user_defined_conversion@12",
@@ -5765,7 +5781,13 @@
     "next_conversion_type",
     "type_set_contains",
     "find_source_conversion_function",
-    "lookup_source_conversion_function"
+    "lookup_source_conversion_function",
+    "try_elide_copy_construction",
+    "find_constructor_result_reference",
+    "cancel_temporary_cleanup",
+    "temporary_reference_matches",
+    "remove_frontend_record",
+    "replace_temporary_reference"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7225,7 +7247,7 @@
     },
     "copy_assignment": {
       "first": 871,
-      "last": 908,
+      "last": 914,
       "seen": [
         "main",
         "message_text",
@@ -8044,12 +8066,18 @@
         "type_set_contains",
         "find_source_conversion_function",
         "lookup_source_conversion_function",
-        "try_elide_copy_construction"
+        "try_elide_copy_construction",
+        "find_constructor_result_reference",
+        "cancel_temporary_cleanup",
+        "temporary_reference_matches",
+        "remove_frontend_record",
+        "replace_temporary_reference",
+        "append_builtin_operator_candidates"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_try_elide_copy_construction@12",
-        "native": "try_elide_copy_construction",
+        "logical": "_append_builtin_operator_candidates@20",
+        "native": "append_builtin_operator_candidates",
         "signal": 5
       }
     }

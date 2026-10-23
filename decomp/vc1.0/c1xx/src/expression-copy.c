@@ -109,3 +109,45 @@ IrToken *__stdcall clone_expression(IrToken *expression, int arena)
     }
     return copy;
 }
+
+/* Original 0x5d710..0x5d7f4, stdcall 12. Copy the expression tree,
+   replacing one temporary index and rebuilding each child's parent link. */
+IrToken *__stdcall replace_temporary_reference(IrToken *expression, unsigned index,
+    IrToken *replacement)
+{
+    IrToken *copy, *operand;
+    ArenaPool *pool;
+    unsigned form;
+    if (expression->kind == 0xa7 && expression->value.integer == index)
+        copy = clone_expression(replacement, 0);
+    else {
+        if (token_allocation_flags & 0x20000020UL)
+            copy = allocate_permanent(sizeof(IrToken));
+        else {
+            pool = &compiler_arena.pools[2];
+            if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+            copy = (IrToken *)pool->next;
+            pool->remaining -= sizeof(IrToken);
+            pool->next += sizeof(IrToken);
+        }
+        *copy = *expression;
+    }
+    form = expression->flags & 7;
+    if (form == 2) {
+        if (expression->value.pointer) {
+            operand = replace_temporary_reference(expression->value.pointer, index, replacement);
+            copy->value.pointer = operand;
+            operand->linkage.list_head = copy;
+        }
+        if (expression->tail.right) {
+            operand = replace_temporary_reference(expression->tail.right, index, replacement);
+            copy->tail.right = operand;
+            operand->linkage.list_head = copy;
+        }
+    } else if (form == 1) {
+        operand = replace_temporary_reference(expression->value.pointer, index, replacement);
+        copy->value.pointer = operand;
+        operand->linkage.list_head = copy;
+    }
+    return copy;
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.208841148763895,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-remove-frontend-record-native.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/8b2bb008d03d0d87a6420a3330afa4cfd10a2d63cb34f8c8ce4c17951279b985.json",
+      "manifest_sha256": "8b2bb008d03d0d87a6420a3330afa4cfd10a2d63cb34f8c8ce4c17951279b985",
+      "archive": "evidence/shared-build-inputs/8b2bb008d03d0d87a6420a3330afa4cfd10a2d63cb34f8c8ce4c17951279b985.tar.gz",
+      "archive_sha256": "96a42b1fe614b218f4d2d4e80ec10e9815fc4b73310a7e7a9b778b927a445772",
+      "files": 23
+    },
+    "shared_input_setup_seconds": 0.009186167269945145,
+    "shared_inputs_unchanged_during_build": true
+  },
+  {
+    "phase": "canonical",
+    "seconds": 2.8271190095692873,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json",
+      "graph-audit-tool",
+      "build/graph-metadata.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-remove-frontend-record-canonical.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/8b2bb008d03d0d87a6420a3330afa4cfd10a2d63cb34f8c8ce4c17951279b985.json",
+      "manifest_sha256": "8b2bb008d03d0d87a6420a3330afa4cfd10a2d63cb34f8c8ce4c17951279b985",
+      "archive": "evidence/shared-build-inputs/8b2bb008d03d0d87a6420a3330afa4cfd10a2d63cb34f8c8ce4c17951279b985.tar.gz",
+      "archive_sha256": "96a42b1fe614b218f4d2d4e80ec10e9815fc4b73310a7e7a9b778b927a445772",
+      "files": 23
+    },
+    "shared_input_setup_seconds": 0.007976703345775604,
+    "shared_inputs_unchanged_during_build": true
+  }
+]

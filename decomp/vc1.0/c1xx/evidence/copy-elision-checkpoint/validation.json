@@ -1,0 +1,42 @@
+{
+  "status": 0,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "check",
+    "native-rejections"
+  ],
+  "seconds": 5.00987253524363,
+  "coverage": {
+    "accepted_code_bytes": 242401,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 50.879899583978776,
+    "accepted_frontiers": 914,
+    "source_functions": 828,
+    "accepted_source_text_and_switch_bytes": 230556,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      }
+    ]
+  },
+  "scope": "Six accepted functions0908..0913; full original/native buffers14state/files/streams and three cached native cases; compiler-crash native-only recovery separately bound to immutable compiled inputs."
+}

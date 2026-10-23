@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_remove_frontend_record@4",
+    "start": 265808,
+    "end": 265902
+  },
+  "distinct_direct_callees": [
+    "_remove_last_frontend_record"
+  ],
+  "next_frontier": "_replace_temporary_reference@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.27559194155037403,
+  "total_operation_seconds": 3.5007678596302867,
+  "original_capture_seconds": 1.6189623698592186
+}

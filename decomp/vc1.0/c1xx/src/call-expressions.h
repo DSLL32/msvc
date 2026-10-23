@@ -88,6 +88,9 @@ void *__stdcall first_vector_item(Vector *functions);
 void __stdcall register_temporary_destruction(IrToken *object, CType *type);
 IrToken *__stdcall prepare_member_call_object(IrToken *object, CppSymbol *function,
     CppSymbol *qualified, CppSymbol **dispatch_class);
+CppSymbol *__stdcall class_tag_for_result_type(CType *type);
+int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference);
+void __stdcall cancel_temporary_cleanup(unsigned index);
 IrToken *__stdcall try_elide_copy_construction(CppSymbol *function, IrToken *object, IrToken *arguments);
 IrToken *__stdcall simplify_trivial_member_call(CppSymbol *function, IrToken *object, IrToken *arguments);
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index);

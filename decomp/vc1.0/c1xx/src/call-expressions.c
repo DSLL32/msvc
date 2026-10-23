@@ -1060,3 +1060,55 @@ void __stdcall register_temporary_destruction(IrToken *object, CType *type)
     record.object = object;
     append_frontend_record(&record.header, sizeof(record));
 }
+
+typedef char ElisionParameterDefaultCountOffsetMustBe4[
+    (offsetof(FunctionParameters, default_count) == 4) ? 1 : -1];
+/* Original 0x39c90..0x39d22, stdcall 12. Reuse a constructor's
+   temporary storage only when the destination expression is repeatable and
+   the constructor has no default arguments. */
+IrToken *__stdcall try_elide_copy_construction(CppSymbol *function, IrToken *object,
+    IrToken *arguments)
+{
+    IrToken *call = arguments->value.pointer;
+    IrToken *reference, *result;
+    TypeShape *shape;
+    CppSymbol *tag;
+    if (!expression_can_be_repeated(object)) return 0;
+    shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (shape->data.parameters->default_count) return 0;
+    if (!find_constructor_result_reference(call, &reference)) return 0;
+    cancel_temporary_cleanup(reference->value.integer);
+    result = replace_temporary_reference(call, reference->value.integer, object);
+    tag = cpp_context_stack->items[function->auxiliary.declaring_class];
+    return new_typed_unary_expression(OP_DEREFERENCE, tag->type, result);
+}
+
+/* Original 0x39d30..0x39db9, stdcall 8. Constructors carry their
+   object in the member designator; class-valued functions carry result storage
+   at the argument ring's saved tail. */
+int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference)
+{
+    IrToken *callee, *symbol_reference, *argument, *temporary;
+    CppSymbol *function;
+    if (!call || call->kind != 0x7a) return 0;
+    callee = call->value.pointer;
+    if (callee->kind == 0xa4) {
+        symbol_reference = callee->value.pointer;
+        if (symbol_reference->kind == 2) {
+            function = symbol_reference->value.pointer;
+            if ((function->kind & 31) == 7 && (function->declaration_flags & 0x1000)) {
+                argument = callee->tail.right;
+                goto found_argument;
+            }
+        }
+    }
+    if (!class_tag_for_result_type(drop_first_type_shape(strip_based_shape(callee->type))))
+        return 0;
+    argument = call->tail.right->linkage.list_head;
+found_argument:
+    temporary = argument->value.pointer;
+    if (temporary->kind != 0xa7) return 0;
+    *reference = temporary;
+    return 1;
+}

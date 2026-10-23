@@ -141,7 +141,6 @@ void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
-IrToken *__stdcall try_elide_copy_construction(CppSymbol *function, IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_type(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
@@ -175,7 +174,6 @@ void end_else_statement(void) { __asm { int 3 } }
 CType * end_enum_specifier(void) { __asm { int 3 } return 0; }
 void end_for_statement(void) { __asm { int 3 } }
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
-void __stdcall remove_frontend_record(FrontendRecord *record) { __asm { int 3 } }
 void end_nested_initializer(void) { __asm { int 3 } }
 void end_qc_control(void) { __asm { int 3 } }
 void end_seh_except(void) { __asm { int 3 } }
@@ -572,8 +570,6 @@ IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expr
 void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type) { __asm { int 3 } }
 IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression, CType *type) { __asm { int 3 } return 0; }
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
-int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference) { __asm { int 3 } return 0; }
-void __stdcall cancel_temporary_cleanup(CppSymbol *symbol) { __asm { int 3 } }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
 Extended *__stdcall save_extended_in_arena(Extended value, int arena) { __asm { int 3 } return 0; }
@@ -623,3 +619,5 @@ char *__stdcall mangle_pointee_shape(char *cursor, CType *type) { __asm { int 3 
 IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall reference_source_is_array(CType *type) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall class_tag_for_result_type(CType *type) { __asm { int 3 } return 0; }
+int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }

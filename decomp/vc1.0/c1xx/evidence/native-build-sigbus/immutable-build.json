@@ -1,0 +1,22 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.898404704406857,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-cancel-cleanup-immutable-native.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/541bb9c26c4916091ec0b707a94ea7321e02b7dbbeaa08bf5fd32759c9289855.json",
+      "manifest_sha256": "541bb9c26c4916091ec0b707a94ea7321e02b7dbbeaa08bf5fd32759c9289855",
+      "archive": "evidence/shared-build-inputs/541bb9c26c4916091ec0b707a94ea7321e02b7dbbeaa08bf5fd32759c9289855.tar.gz",
+      "archive_sha256": "d5ddb5deb7f4eb103db7ca3c2fd3812ecb486bc247bd869d2e15ffc59a7c6ace",
+      "files": 23
+    },
+    "shared_inputs_unchanged_during_build": true
+  }
+]

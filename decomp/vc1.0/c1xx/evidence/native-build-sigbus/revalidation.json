@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "scope": "Native-only revalidation against unchanged original raw acceptance evidence; no original recovery rerun",
+  "original_events": "cases/frontiers/copy_assignment/0910-cancel_temporary_cleanup-4/original-events.txt",
+  "original_events_sha256": "ede13b14d4d4a93136418783278e85d64212addc262de4e1d97d3df71135011f",
+  "original_receipt_sha256": "5678d35071157f2a05701184f97af47089323336d238c954a2745f59e5d24101",
+  "original_configuration_sha256": "5562677d8c1ec31960af4e816cc0c1f58c0f1a319351e69e2e7c0e4b965383b5",
+  "native_executable_sha256": "9a61b0dc1fda4fc99f109a38b1032c1b145792d858014325b5aa72a888f60921",
+  "trace_executable_sha256": "d0394d304634abd2c4841179567175cf6883c79a5c4198a138db76097a984f95",
+  "compiled_shared_inputs": {
+    "manifest": "evidence/shared-build-inputs/541bb9c26c4916091ec0b707a94ea7321e02b7dbbeaa08bf5fd32759c9289855.json",
+    "manifest_sha256": "541bb9c26c4916091ec0b707a94ea7321e02b7dbbeaa08bf5fd32759c9289855",
+    "archive": "evidence/shared-build-inputs/541bb9c26c4916091ec0b707a94ea7321e02b7dbbeaa08bf5fd32759c9289855.tar.gz",
+    "archive_sha256": "d5ddb5deb7f4eb103db7ca3c2fd3812ecb486bc247bd869d2e15ffc59a7c6ace",
+    "files": 23
+  },
+  "shared_inputs_unchanged_during_build": true,
+  "native_debug_timing": {
+    "setup_seconds": 0.0045511675998568535,
+    "debugger_seconds": 0.17425783909857273,
+    "total_seconds": 0.1788094649091363,
+    "returncode": 0
+  },
+  "fixture_seconds": 0.2711860463023186,
+  "buffers": 4,
+  "state_fields": 14,
+  "files": 5,
+  "setup_note": "Earlier hash assertion did not gate the following normal comparison because they were separate shell lines. That observed comparison remains preserved; dependent setup failures now stop the explicit build driver. This derived pass binds the immutable compiled inputs/current native artifacts to the unchanged original.",
+  "shared_snapshot_setup_timing": "not separately measured for the initial recovery archive; subsequent explicit build rows record setup separately"
+}

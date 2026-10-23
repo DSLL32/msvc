@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565592c7 in remove_frontend_record (record=0x5662d7e8) at src/stubs.c:177
+177	void __stdcall remove_frontend_record(FrontendRecord *record) { __asm { int 3 } }
+#0  0x565592c7 in remove_frontend_record (record=0x5662d7e8) at src/stubs.c:177
+#1  0x565a03fb in cancel_temporary_cleanup (index=157) at src/frontend-records.c:613
+#2  0x5659021f in try_elide_copy_construction (function=0x566082e4, object=0x566185b0, arguments=0x566185c4) at src/call-expressions.c:1081
+#3  0x5658def4 in make_resolved_call (symbol=0x566082e4, object=0x566185b0, arguments=0x566185c4, count=1, qualified=0x0) at src/call-expressions.c:692
+#4  0x5658d6bd in build_call_expression (expression=0x56618624, arguments=0x566185c4) at src/call-expressions.c:151
+#5  0x565824a4 in make_constructor_call (tag=0x56608154, object=0x566185b0, arguments=0x566185c4, emit=0, member_subobject=1) at src/constructor-initializers.c:735
+#6  0x56599b02 in emit_return_statement (expression=0x566185b0, mode=2) at src/return-statements.c:95
+#7  0x565a645f in parse_translation_unit () at src/parser-statement-actions.inc:182
+#8  0x5655e0cf in compile_translation_unit () at src/frontend.c:73
+#9  0x56558846 in guarded_compile () at src/c1xx.c:28
+#10 0x56558814 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

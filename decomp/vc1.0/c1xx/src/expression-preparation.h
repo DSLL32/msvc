@@ -9,4 +9,5 @@ IrToken *__stdcall indirect_storage_expression(IrToken *reference);
 void __stdcall emit_nonnull_expression_statement(IrToken *expression);
 int __stdcall expression_can_be_repeated(IrToken *expression);
 IrToken *__stdcall clone_expression(IrToken *expression, int arena);
+IrToken *__stdcall replace_temporary_reference(IrToken *expression, unsigned index, IrToken *replacement);
 #endif

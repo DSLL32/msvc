@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_constructor_result_reference@8",
+    "start": 236848,
+    "end": 236986
+  },
+  "distinct_direct_callees": [
+    "_class_tag_for_result_type@4",
+    "_drop_first_type_shape@4",
+    "_strip_based_shape@4"
+  ],
+  "next_frontier": "_cancel_temporary_cleanup@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.275626128539443,
+  "total_operation_seconds": 3.4357121996581554,
+  "original_capture_seconds": 1.6187950437888503
+}

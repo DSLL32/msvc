@@ -1,0 +1,126 @@
+{
+  "status": "clean native rebuild and three cached fixtures passed; header hashes unchanged",
+  "timestamp_log_mtime_utc": "2026-10-23T11:46:25.152332+00:00",
+  "command": "clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/inline-capture.c -o build/native-trace/inline-capture.o",
+  "build_timing": [
+    {
+      "phase": "native",
+      "seconds": 9.156900537200272,
+      "status": 2,
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-cancel-temporary-cleanup-native.log"
+    }
+  ],
+  "failure": "Clang exit135 SIGBUS after spurious host stdio.h invalid-UTF8 diagnostics",
+  "cause": "Unestablished. Shared maintainer confirmed headers were edited in this interval; truncation of a mapped input is a hypothesis, not demonstrated. Host stdio.h currently valid and unchanged packaged mtime.",
+  "shared_commit": "cc1f20b4",
+  "retry_before_header_hashes": {
+    "../../../lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "../../../lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "../../../lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "../../../lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "../../../lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "../../../lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "../../../lib/recon/native/setjmp.h": "4e1f6298d24463a5de27b71282a7475aa636f60c15dccc2b039990cb203ca408",
+    "../../../lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "../../../lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "../../../lib/recon/include/recon.h": "bdd8e69ab3746310839c6e632ad8053e8836fb5e03ab22ae936d9aa0ee39306d",
+    "../../../lib/recon/include/win32.h": "f2c1c60d086549035cd75b6ae10ee5db29ecbda3f3f38df6b63f7a3cf7088743",
+    "../../../lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "../../../lib/recon/native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "../../../lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+  },
+  "retry_policy": "Remove only own native objects to avoid reusing in-flight header products, then one build with before/after header hashes. No original capture retry.",
+  "first_retry_timing": [
+    {
+      "phase": "native",
+      "seconds": 8.735488845966756,
+      "status": 0,
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-cancel-temporary-cleanup-stable-native.log"
+    },
+    {
+      "phase": "canonical",
+      "seconds": 2.81244735699147,
+      "status": 0,
+      "command": [
+        "make",
+        "-j4",
+        "build/c1xx.exe",
+        "build/runtime.json",
+        "graph-audit-tool",
+        "build/graph-metadata.json"
+      ],
+      "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-cancel-temporary-cleanup-stable-canonical.log"
+    }
+  ],
+  "first_retry_header_hashes_unchanged": false,
+  "first_retry_header_change": "recon.h added wsprintfA/HeapDestroy declarations/remaps; no C1XX source uses either API",
+  "first_retry_acceptance": "Normal next-frontier capture/comparison passed; no original capture repeated solely for compiler failure.",
+  "stable_retry_before_header_hashes": {
+    "../../../lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "../../../lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "../../../lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "../../../lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "../../../lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "../../../lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "../../../lib/recon/native/setjmp.h": "4e1f6298d24463a5de27b71282a7475aa636f60c15dccc2b039990cb203ca408",
+    "../../../lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "../../../lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "../../../lib/recon/include/recon.h": "a5f9df3007014765aa576ce4bf8e10b5c4b048387acc07ad786d3a21f62a072a",
+    "../../../lib/recon/include/win32.h": "f2c1c60d086549035cd75b6ae10ee5db29ecbda3f3f38df6b63f7a3cf7088743",
+    "../../../lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "../../../lib/recon/native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "../../../lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+  },
+  "stable_retry_after_header_hashes": {
+    "../../../lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "../../../lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "../../../lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "../../../lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "../../../lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "../../../lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "../../../lib/recon/native/setjmp.h": "4e1f6298d24463a5de27b71282a7475aa636f60c15dccc2b039990cb203ca408",
+    "../../../lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "../../../lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "../../../lib/recon/include/recon.h": "a5f9df3007014765aa576ce4bf8e10b5c4b048387acc07ad786d3a21f62a072a",
+    "../../../lib/recon/include/win32.h": "f2c1c60d086549035cd75b6ae10ee5db29ecbda3f3f38df6b63f7a3cf7088743",
+    "../../../lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "../../../lib/recon/native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "../../../lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+  },
+  "stable_retry_timings": [
+    {
+      "phase": "stable_native_build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "status": 0,
+      "seconds": 8.847139975056052
+    },
+    {
+      "phase": "cached_native_check",
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "status": 0,
+      "seconds": 0.2872076565399766
+    }
+  ],
+  "stable_retry_header_hashes_unchanged": true
+}

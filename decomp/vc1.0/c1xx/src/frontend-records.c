@@ -592,3 +592,58 @@ void mark_evaluation_boundary(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
 }
+
+int __stdcall temporary_reference_matches(IrToken *object, unsigned index);
+int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index);
+/* Original 0x3de50..0x3debb, stdcall 4. Search only the current
+   expression's temporary-cleanup suffix and remove its matching index. */
+void __stdcall cancel_temporary_cleanup(unsigned index)
+{
+    FrontendRecord *record;
+    IrToken *object;
+    unsigned char kind;
+    if (ir_records_suppressed || allow_incomplete_class) return;
+    for (record = ir_record_tail; record; record = record->previous) {
+        kind = record->kind & 0x3f;
+        if (kind != 13 && kind != 0x3a) return;
+        if (kind != 13 || (record->kind & 0x40)) continue;
+        object = ((TemporaryFrontendRecord *)record)->object;
+        if (!(record->kind & 0x80)) {
+            if (temporary_reference_matches(object, index)) {
+                remove_frontend_record(record);
+                return;
+            }
+        } else if (temporary_cleanup_is_suppressed(object, index)) return;
+    }
+}
+
+/* Original 0x3dec0..0x3defc, stdcall 8. A cast wrapper does not
+   change the numeric identity of the temporary it encloses. */
+int __stdcall temporary_reference_matches(IrToken *object, unsigned index)
+{
+    if (allow_incomplete_class) return 0;
+    if ((object->flags & 7) == 1 && object->kind == 0x6e)
+        object = object->value.pointer;
+    return object->value.integer == index ? 1 : 0;
+}
+
+/* Original 0x40e50..0x40ead, stdcall 4. Detached records enter the
+   same doubly linked free list used by tail removal. */
+void __stdcall remove_frontend_record(FrontendRecord *record)
+{
+    FrontendRecord *next = record->next;
+    if (!next) {
+        remove_last_frontend_record();
+        return;
+    }
+    if (!record->previous) {
+        /* The original updates both globals on this head-removal path. */
+        ir_record_tail = next;
+        ir_record_head = next;
+    } else record->previous->next = next;
+    record->next->previous = record->previous;
+    record->previous = ir_free_records;
+    record->next = 0;
+    if (ir_free_records) ir_free_records->next = record;
+    ir_free_records = record;
+}
