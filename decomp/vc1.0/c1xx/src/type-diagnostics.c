@@ -540,3 +540,31 @@ short __stdcall format_declaration_base_type(short text, CType *type)
     }
     return text;
 }
+
+/* Original 0x678e0..0x67a01. Select the source spelling of a primitive
+   or tagged base kind. Keep exact floating-kind comparisons and the original
+   precedence of class/struct/union bits rather than normalizing invalid flags. */
+char *__stdcall type_kind_name(unsigned short kind)
+{
+    if (kind & 0x40) {
+        if (kind & 0x20) return "int";
+        switch (kind & 15) {
+        case 1: return "char";
+        case 2: return "short";
+        case 4: return "long";
+        }
+    } else if (kind & 0x100) {
+        switch (kind) {
+        case 0x104: return "float";
+        case 0x108: return "double";
+        case 0x128: return "long double";
+        }
+    } else if (kind & 0x400) {
+        if ((kind & 0x408) == 0x408) return "class";
+        if ((kind & 0x402) == 0x402) return "struct";
+        if ((kind & 0x404) == 0x404) return "union";
+    } else if (kind & 0x200) return "enum";
+    else if (kind & 0x80) return "void";
+    else if (kind & 0x800) return "__segment";
+    return "";
+}
