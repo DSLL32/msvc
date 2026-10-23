@@ -1,0 +1,42 @@
+{
+  "status": 0,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "check",
+    "native-rejections"
+  ],
+  "seconds": 4.996040651574731,
+  "coverage": {
+    "accepted_code_bytes": 241624,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 50.716807509372025,
+    "accepted_frontiers": 908,
+    "source_functions": 822,
+    "accepted_source_text_and_switch_bytes": 229779,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      }
+    ]
+  },
+  "scope": "Fresh acceptance receipts0897..0907 preserve split builds/original captures/native debug/fixtures; final combined command is measured here."
+}

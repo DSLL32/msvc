@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_source_conversion_function@8",
+    "start": 407952,
+    "end": 408001
+  },
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_lookup_source_conversion_function@8"
+  ],
+  "next_frontier": "_lookup_source_conversion_function@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24043420981615782,
+  "total_operation_seconds": 2.4197503365576267,
+  "original_capture_seconds": 0.666084660217166
+}

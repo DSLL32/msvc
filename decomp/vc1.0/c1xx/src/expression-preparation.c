@@ -216,3 +216,25 @@ int __stdcall has_deferred_expression_symbols(unsigned mode)
     }
     return 0;
 }
+
+/* Original 0x67060..0x670be, stdcall 8. A temporary reference records
+   its symbol index directly instead of allocating a declaration symbol. */
+IrToken *__stdcall new_temporary_reference(unsigned index, CType *type)
+{
+    ArenaPool *pool;
+    IrToken *reference;
+    if (token_allocation_flags & 0x20000020UL)
+        reference = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        reference = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    reference->flags = 4;
+    reference->kind = 0xa7;
+    reference->value.integer = index;
+    reference->type = type;
+    return reference;
+}

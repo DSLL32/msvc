@@ -1,0 +1,28 @@
+[
+  {
+    "phase": "native",
+    "seconds": 9.279673925600946,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-rank-source-conversion-functions-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 3.235402597114444,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json",
+      "graph-audit-tool",
+      "build/graph-metadata.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-rank-source-conversion-functions-canonical.log"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_register_temporary_destruction@8",
+    "start": 253104,
+    "end": 253295
+  },
+  "distinct_direct_callees": [
+    "_append_frontend_record@8"
+  ],
+  "next_frontier": "_find_source_conversion@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2512202812358737,
+  "total_operation_seconds": 3.630090022459626,
+  "original_capture_seconds": 1.8689728174358606
+}

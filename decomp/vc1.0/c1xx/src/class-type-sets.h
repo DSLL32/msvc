@@ -11,6 +11,18 @@ typedef struct TypeSetIterator {
     unsigned short reserved;
     CType *type;
 } TypeSetIterator;
+typedef struct ConversionTypeIterator {
+    TypeSet *ambiguous_types;
+    TypeSetIterator types;
+    CType *type;
+    int ambiguous;
+} ConversionTypeIterator;
+typedef char ConversionTypeIteratorSizeMustBe24[(sizeof(ConversionTypeIterator) == 24) ? 1 : -1];
+typedef char ConversionTypeIteratorTypesOffsetMustBe4[(offsetof(ConversionTypeIterator, types) == 4) ? 1 : -1];
+typedef char ConversionTypeIteratorTypeOffsetMustBe16[(offsetof(ConversionTypeIterator, type) == 16) ? 1 : -1];
+typedef char ConversionTypeIteratorAmbiguousOffsetMustBe20[(offsetof(ConversionTypeIterator, ambiguous) == 20) ? 1 : -1];
+void __stdcall begin_conversion_types(ConversionTypeIterator *iterator, CppSymbol *tag);
+int __stdcall next_conversion_type(ConversionTypeIterator *iterator);
 typedef struct ConversionIterator {
     CppSymbol *next;
     unsigned char kind, reserved[3];

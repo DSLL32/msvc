@@ -1317,3 +1317,81 @@ void __stdcall emit_virtual_base_destructors(CppSymbol *tag, IrToken *object)
     for (; index >= 0; --index) emit_expression_statement(calls->items[index]);
     release_inline_vector(calls);
 }
+
+/* Original 0x63cb0..0x63d61, stdcall 12. The original 16-byte
+   search seed at 0xa1e40 is {0x2000, 0, NULL, 0}. */
+CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank)
+{
+    SourceConversionSearch search;
+    search.rank = 0x2000;
+    search.count = 0;
+    search.type = 0;
+    search.ambiguous = 0;
+    rank_source_conversion_functions(tag, target, &search);
+    if (search.rank & 0x2000) {
+        *rank = 0x2000;
+        return 0;
+    }
+    if (search.count != 1 || search.ambiguous) {
+        *rank = 0x3000;
+        return 0;
+    }
+    *rank = search.rank | 0x200;
+    return find_source_conversion_function(search.type, tag);
+}
+
+/* Original 0x63aa0..0x63b56, stdcall 12. Prefer exact and promotion
+   ranks before general conversions; equal-ranked alternatives remain ambiguous. */
+void __stdcall rank_source_conversion_functions(CppSymbol *tag, CType *target,
+    SourceConversionSearch *search)
+{
+    ConversionTypeIterator iterator;
+    unsigned rank, best;
+    begin_conversion_types(&iterator, tag);
+    while (next_conversion_type(&iterator)) {
+        rank = classify_type_conversion(target, strip_based_shape(iterator.type), 1, 0);
+        best = search->rank;
+        if ((rank == 1 && best != 1) || (rank < 3 && best > 2) ||
+            (rank < 0x400 && (best & 0x2000))) {
+            search->rank = rank;
+            search->count = 1;
+            search->type = iterator.type;
+            search->ambiguous = iterator.ambiguous;
+        } else if ((best != 1 || rank == 1) && (best > 2 || rank < 3) &&
+                   (best >= 0x400 || !(rank & 0x2000))) {
+            ++search->count;
+        }
+    }
+}
+
+/* Original 0x63990..0x639c0, stdcall 8. A selected conversion type
+   must resolve back to a declaration in the source class hierarchy. */
+CppSymbol *__stdcall find_source_conversion_function(CType *type, CppSymbol *tag)
+{
+    CppSymbol *function = lookup_source_conversion_function(type, tag);
+    if (!function) fatal_error(1, pch_diagnostic_name, 159);
+    return function;
+}
+
+typedef char ConversionBaseIndexOffsetMustBe12[
+    (offsetof(BaseClassLink, context_index) == 12) ? 1 : -1];
+/* Original 0x639d0..0x63a9a, stdcall 8. Search local conversion
+   declarations first, then visible base-class links in source order. */
+CppSymbol *__stdcall lookup_source_conversion_function(CType *type, CppSymbol *tag)
+{
+    ConversionIterator iterator;
+    CppSymbol *member, *function;
+    BaseClassLink *base;
+    if (!type_set_contains(tag->detail.class_info->conversion_types, type)) return 0;
+    begin_conversion_functions(&iterator, tag);
+    while (next_conversion_function(&iterator))
+        if (iterator.type == type) return iterator.target;
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        if ((member->kind & 31) != 15 || (member->flags & 0x80)) continue;
+        base = (BaseClassLink *)member;
+        function = lookup_source_conversion_function(type,
+            cpp_context_stack->items[base->context_index]);
+        if (function) return function;
+    }
+    return 0;
+}

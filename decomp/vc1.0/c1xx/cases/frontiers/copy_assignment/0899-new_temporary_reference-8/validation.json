@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_new_temporary_reference@8",
+    "start": 421984,
+    "end": 422079
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_register_temporary_destruction@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23233835864812136,
+  "total_operation_seconds": 2.4605819899588823,
+  "original_capture_seconds": 0.6659205853939056
+}

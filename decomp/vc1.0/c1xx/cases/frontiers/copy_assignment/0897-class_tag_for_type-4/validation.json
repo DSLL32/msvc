@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_class_tag_for_type@4",
+    "start": 211184,
+    "end": 211223
+  },
+  "distinct_direct_callees": [
+    "_is_unqualified_class_type@4"
+  ],
+  "next_frontier": "_resolve_function_style_cast@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2725920071825385,
+  "total_operation_seconds": 3.5922079952433705,
+  "original_capture_seconds": 1.7698465883731842
+}

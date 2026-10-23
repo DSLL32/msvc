@@ -73,6 +73,16 @@ IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group
 QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group);
 IrToken *__stdcall clear_most_derived_argument(IrToken *call);
 int __stdcall based_pointer_has_indirect_base(TypeShape *shape);
+typedef struct SourceConversionSearch {
+    unsigned rank, count;
+    CType *type;
+    int ambiguous;
+} SourceConversionSearch;
+typedef char SourceConversionSearchSizeMustBe16[(sizeof(SourceConversionSearch) == 16) ? 1 : -1];
+typedef char SourceConversionSearchTypeOffsetMustBe8[(offsetof(SourceConversionSearch, type) == 8) ? 1 : -1];
+void __stdcall rank_source_conversion_functions(CppSymbol *tag, CType *target, SourceConversionSearch *search);
+CppSymbol *__stdcall find_source_conversion_function(CType *type, CppSymbol *tag);
+CppSymbol *__stdcall lookup_source_conversion_function(CType *type, CppSymbol *tag);
 CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank);
 void __stdcall record_user_conversion(OverloadCandidate *context, CppSymbol *conversion,
     CType *target, unsigned rank);

@@ -112,3 +112,31 @@ int next_type_set(TypeSetIterator *iterator)
     }
     return 0;
 }
+
+/* Original 0x669b0..0x669ee, stdcall 8. A null ambiguous-set
+   pointer also serves as the iterator's inactive sentinel. */
+void __stdcall begin_conversion_types(ConversionTypeIterator *iterator, CppSymbol *tag)
+{
+    if (!tag->detail.class_info->conversion_types) {
+        iterator->ambiguous_types = 0;
+        return;
+    }
+    iterator->ambiguous_types = tag->detail.class_info->ambiguous_conversion_types;
+    begin_type_set(&iterator->types, tag->detail.class_info->conversion_types);
+}
+
+/* Original 0x669f0..0x66a35, stdcall 4. */
+int __stdcall next_conversion_type(ConversionTypeIterator *iterator)
+{
+    if (!iterator->ambiguous_types) return 0;
+    if (!next_type_set(&iterator->types)) return 0;
+    iterator->type = iterator->types.type;
+    iterator->ambiguous = type_set_contains(iterator->ambiguous_types, iterator->type);
+    return 1;
+}
+
+/* Original 0x4e530..0x4e544, cdecl. */
+int type_set_contains(TypeSet *set, CType *type)
+{
+    return locate_inline_pointer(set, type, 0);
+}

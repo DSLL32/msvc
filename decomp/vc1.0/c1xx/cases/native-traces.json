@@ -2,19 +2,19 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "64e234bf4081f33850989e920568dc813f85cee9f239636d05e6169f8ee15499",
+    "functions.json": "54cf173b024160686f537a12f3f560e4fdcb9bab126452a372a5530ddeb26d5f",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "44a075f1103165e53fcc85b5a19fd169e3909ea7ebd303e86ba9e0cedf3dbc3a",
-    "cases/canonical-map.txt": "9d7f34ca191427c27b2113fc4eb646a644a7f9518e479290ff27e977b65b0dc0",
+    "cases/original-entry-references.json": "91c5cbec0bf1a0ecb59b12a196488e0bf7d231e6bce7fa6e7615371ae4685b11",
+    "cases/canonical-map.txt": "228142ff1ddd8203dccd7298d536c2e4a571edda085996572722933fc2792dbb",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f",
-    "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-receipt.json": "8b856ced4ac56e42447e89ebfb083a1657e1590107232af0ed50ab34c7217b4c",
-    "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-events.txt": "94ed761fb03542ff4f836feba13528580d4179756b381f9a7ce3992da1fb75ee",
-    "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-entries.plan": "8551a3c159c0517647eec58670b938f1535c8ec83d9a02208b51f8fe9d02de44"
+    "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/entry-reference/original-receipt.json": "80f356b7bd23ed0f649e57109512c589469b71494c66831b46bf44c0db150cc7",
+    "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/entry-reference/original-events.txt": "203dea2a50c1c3b0c6b30e10498e92f4e2b4903e04b5bcf1fa36aeff94c62c45",
+    "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/entry-reference/original-entries.plan": "0ce07a8fdf497ddc1730a19bda11d92377247824f7edfb1ca2a5324c04c77a88"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -299,6 +299,10 @@
     },
     "begin_conversion_functions": {
       "logical": "_begin_conversion_functions@8",
+      "source": "src/class-type-sets.c"
+    },
+    "begin_conversion_types": {
+      "logical": "_begin_conversion_types@8",
       "source": "src/class-type-sets.c"
     },
     "begin_debug_info": {
@@ -743,7 +747,7 @@
     },
     "class_tag_for_type": {
       "logical": "_class_tag_for_type@4",
-      "source": "src/stubs.c"
+      "source": "src/function-definitions.c"
     },
     "class_type_of_member": {
       "logical": "_class_type_of_member@4",
@@ -1915,7 +1919,11 @@
     },
     "find_source_conversion": {
       "logical": "_find_source_conversion@12",
-      "source": "src/stubs.c"
+      "source": "src/constructor-initializers.c"
+    },
+    "find_source_conversion_function": {
+      "logical": "_find_source_conversion_function@8",
+      "source": "src/constructor-initializers.c"
     },
     "find_special_member_model": {
       "logical": "_find_special_member_model@12",
@@ -2801,6 +2809,10 @@
       "logical": "_lookup_segment_symbol@16",
       "source": "src/stubs.c"
     },
+    "lookup_source_conversion_function": {
+      "logical": "_lookup_source_conversion_function@8",
+      "source": "src/constructor-initializers.c"
+    },
     "lookup_special_member": {
       "logical": "_lookup_special_member@12",
       "source": "src/special-member-lookup.c"
@@ -3355,7 +3367,7 @@
     },
     "new_temporary_reference": {
       "logical": "_new_temporary_reference@8",
-      "source": "src/stubs.c"
+      "source": "src/expression-preparation.c"
     },
     "new_type_set": {
       "logical": "_new_type_set",
@@ -3399,6 +3411,10 @@
     },
     "next_conversion_function": {
       "logical": "_next_conversion_function@4",
+      "source": "src/class-type-sets.c"
+    },
+    "next_conversion_type": {
+      "logical": "_next_conversion_type@4",
       "source": "src/class-type-sets.c"
     },
     "next_directive_character": {
@@ -3769,6 +3785,10 @@
       "logical": "_rank_reference_attributes@12",
       "source": "src/constructor-initializers.c"
     },
+    "rank_source_conversion_functions": {
+      "logical": "_rank_source_conversion_functions@12",
+      "source": "src/constructor-initializers.c"
+    },
     "read_declspec_attributes": {
       "logical": "_read_declspec_attributes",
       "source": "src/stubs.c"
@@ -3991,7 +4011,7 @@
     },
     "register_temporary_destruction": {
       "logical": "_register_temporary_destruction@8",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "reject_function_initializer": {
       "logical": "_reject_function_initializer@4",
@@ -4251,7 +4271,7 @@
     },
     "resolve_function_style_cast": {
       "logical": "_resolve_function_style_cast@4",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "resolve_function_virtual_overrides": {
       "logical": "_resolve_function_virtual_overrides@8",
@@ -4683,7 +4703,7 @@
     },
     "type_set_contains": {
       "logical": "_type_set_contains",
-      "source": "src/stubs.c"
+      "source": "src/class-type-sets.c"
     },
     "type_size": {
       "logical": "_type_size@4",
@@ -5734,7 +5754,18 @@
     "reference_tag_compatible",
     "reference_lvalue_bindable",
     "reference_lvalue_needs_extension",
-    "bind_reference_lvalue"
+    "bind_reference_lvalue",
+    "class_tag_for_type",
+    "resolve_function_style_cast",
+    "new_temporary_reference",
+    "register_temporary_destruction",
+    "find_source_conversion",
+    "rank_source_conversion_functions",
+    "begin_conversion_types",
+    "next_conversion_type",
+    "type_set_contains",
+    "find_source_conversion_function",
+    "lookup_source_conversion_function"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7194,7 +7225,7 @@
     },
     "copy_assignment": {
       "first": 871,
-      "last": 897,
+      "last": 908,
       "seen": [
         "main",
         "message_text",
@@ -8002,12 +8033,23 @@
         "reference_lvalue_bindable",
         "reference_lvalue_needs_extension",
         "bind_reference_lvalue",
-        "class_tag_for_type"
+        "class_tag_for_type",
+        "resolve_function_style_cast",
+        "new_temporary_reference",
+        "register_temporary_destruction",
+        "find_source_conversion",
+        "rank_source_conversion_functions",
+        "begin_conversion_types",
+        "next_conversion_type",
+        "type_set_contains",
+        "find_source_conversion_function",
+        "lookup_source_conversion_function",
+        "try_elide_copy_construction"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_class_tag_for_type@4",
-        "native": "class_tag_for_type",
+        "logical": "_try_elide_copy_construction@12",
+        "native": "try_elide_copy_construction",
         "signal": 5
       }
     }

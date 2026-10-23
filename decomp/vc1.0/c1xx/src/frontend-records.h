@@ -22,6 +22,14 @@ typedef struct DeclarationFrontendRecord {
     CppSymbol *symbol;
     unsigned field14;
 } DeclarationFrontendRecord;
+/* Temporary cleanup records carry an expression rather than a symbol. */
+typedef struct TemporaryFrontendRecord {
+    FrontendRecord header;
+    IrToken *object;
+    unsigned field14;
+} TemporaryFrontendRecord;
+typedef char TemporaryFrontendRecordSizeMustBe24[(sizeof(TemporaryFrontendRecord) == 24) ? 1 : -1];
+typedef char TemporaryFrontendRecordObjectOffsetMustBe16[(offsetof(TemporaryFrontendRecord, object) == 16) ? 1 : -1];
 /* Conditional records retain links to their two statement regions. */
 typedef struct ConditionalFrontendRecord {
     FrontendRecord header;

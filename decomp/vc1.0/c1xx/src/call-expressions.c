@@ -1010,3 +1010,53 @@ QualifierBinding *__stdcall find_named_class_binding(CppSymbol *tag, char *name,
     if (!resolution) resolution = find_class_name_paths(tag, name, categories | 8);
     return resolution ? resolution->binding : 0;
 }
+
+/* Original 0x38ee0..0x38f7d, stdcall 4. Resolve the class name
+   to its constructor overload set while retaining an explicit qualifier. */
+int __stdcall resolve_function_style_cast(IrToken *expression)
+{
+    CppSymbol *symbol = expression->value.pointer;
+    CppSymbol *constructors;
+    QualifiedDeclarator *qualified = 0;
+    if ((symbol->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)symbol;
+        symbol = (CppSymbol *)qualified->resolution->binding->target;
+    }
+    if ((symbol->storage[0] & 7) == 7 && is_unqualified_class_type(symbol->type))
+        symbol = cpp_context_stack->items[symbol->type->field08];
+    if (!(symbol->declaration_flags & 0x1000)) {
+        report_syntax_error(514, symbol->name);
+        return 0;
+    }
+    expression->kind = 2;
+    constructors = find_constructor_overloads(symbol);
+    if (qualified)
+        qualified->resolution = append_qualifier_reference(0,
+            qualified->resolution->binding, constructors);
+    else expression->value.pointer = constructors;
+    return 1;
+}
+
+/* Original 0x3dcb0..0x3dd6e, stdcall 8. Nontrivial class-result
+   temporaries receive an expression-owned destruction record. */
+void __stdcall register_temporary_destruction(IrToken *object, CType *type)
+{
+    TemporaryFrontendRecord record;
+    CppSymbol *tag;
+    record.header.kind = 13;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = record.header.previous = 0;
+    record.object = 0;
+    record.field14 = 0;
+    if (ir_records_suppressed || !declaration_mode || allow_incomplete_class || !type)
+        return;
+    tag = cpp_context_stack->items[type->field08];
+    if ((tag->kind & 31) != 4 || !(tag->declaration_flags & 0x2000) ||
+        (tag->detail.class_info->trivial_special_members & 8)) return;
+    record.header.kind &= ~0x40;
+    record.header.kind &= ~0x80;
+    record.object = object;
+    append_frontend_record(&record.header, sizeof(record));
+}

@@ -141,10 +141,8 @@ void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
-void __stdcall register_temporary_destruction(IrToken *object, CType *type) { __asm { int 3 } }
 IrToken *__stdcall try_elide_copy_construction(CppSymbol *function, IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_type(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
-int __stdcall resolve_function_style_cast(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }
@@ -353,7 +351,6 @@ void browser_end_tag(void) { __asm { int 3 } }
 
 void emit_deferred_class_terminator(void) { __asm { int 3 } }
 
-int type_set_contains(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
@@ -409,7 +406,6 @@ int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden
 
 void discard_function_definition(void) { __asm { int 3 } }
 void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-CppSymbol *__stdcall class_tag_for_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment) { __asm { int 3 } }
 
 void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
@@ -485,13 +481,11 @@ void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } 
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
-IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }

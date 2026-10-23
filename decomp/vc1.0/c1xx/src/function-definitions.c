@@ -412,3 +412,11 @@ void __stdcall emit_parameter_declaration(CppSymbol *parameter)
     push_work_list(&scope_cleanup_stack, 1);
     scope_cleanup_stack->value.word = 1;
 }
+
+/* Original 0x338f0..0x33916, stdcall 4. Context indices are signed
+   shorts in the type descriptor, not pointers to class-reference nodes. */
+CppSymbol *__stdcall class_tag_for_type(CType *type)
+{
+    if (!is_unqualified_class_type(type)) return 0;
+    return cpp_context_stack->items[type->field08];
+}

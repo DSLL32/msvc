@@ -901,7 +901,18 @@
     "_reference_tag_compatible@8",
     "_reference_lvalue_bindable@8",
     "_reference_lvalue_needs_extension@4",
-    "_bind_reference_lvalue@12"
+    "_bind_reference_lvalue@12",
+    "_class_tag_for_type@4",
+    "_resolve_function_style_cast@4",
+    "_new_temporary_reference@8",
+    "_register_temporary_destruction@8",
+    "_find_source_conversion@12",
+    "_rank_source_conversion_functions@12",
+    "_begin_conversion_types@8",
+    "_next_conversion_type@4",
+    "_type_set_contains",
+    "_find_source_conversion_function@8",
+    "_lookup_source_conversion_function@8"
   ],
   "driver": [
     {
@@ -3825,7 +3836,7 @@
     {
       "name": "_type_set_contains",
       "start": 320816,
-      "end": 320817
+      "end": 320837
     },
     {
       "name": "_add_inline_pointer",
@@ -4255,7 +4266,7 @@
     {
       "name": "_class_tag_for_type@4",
       "start": 211184,
-      "end": 211185
+      "end": 211223
     },
     {
       "name": "_assign_symbol_segment@8",
@@ -4777,7 +4788,7 @@
     {
       "name": "_new_temporary_reference@8",
       "start": 421984,
-      "end": 421985
+      "end": 422079
     },
     {
       "name": "_process_expression_records@4",
@@ -5742,7 +5753,7 @@
     {
       "name": "_resolve_function_style_cast@4",
       "start": 233184,
-      "end": 233185
+      "end": 233342
     },
     {
       "name": "_find_class_conversion@12",
@@ -5852,7 +5863,7 @@
     {
       "name": "_find_source_conversion@12",
       "start": 408752,
-      "end": 408753
+      "end": 408930
     },
     {
       "name": "_record_user_conversion@16",
@@ -5922,7 +5933,7 @@
     {
       "name": "_register_temporary_destruction@8",
       "start": 253104,
-      "end": 253105
+      "end": 253295
     },
     {
       "name": "_prepare_member_call_object@16",
@@ -7139,6 +7150,31 @@
       "name": "_reference_lvalue_needs_extension@4",
       "start": 422592,
       "end": 422728
+    },
+    {
+      "name": "_rank_source_conversion_functions@12",
+      "start": 408224,
+      "end": 408407
+    },
+    {
+      "name": "_find_source_conversion_function@8",
+      "start": 407952,
+      "end": 408001
+    },
+    {
+      "name": "_begin_conversion_types@8",
+      "start": 420272,
+      "end": 420335
+    },
+    {
+      "name": "_next_conversion_type@4",
+      "start": 420336,
+      "end": 420406
+    },
+    {
+      "name": "_lookup_source_conversion_function@8",
+      "start": 408016,
+      "end": 408219
     }
   ],
   "cases": {
@@ -7180,8 +7216,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_class_tag_for_type@4",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/original-events.txt",
+      "terminal": "_try_elide_copy_construction@12",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7209,7 +7245,18 @@
         "cases/frontiers/copy_assignment/0893-reference_tag_compatible-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0894-reference_lvalue_bindable-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0895-reference_lvalue_needs_extension-4/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0897-class_tag_for_type-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0898-resolve_function_style_cast-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0899-new_temporary_reference-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0900-register_temporary_destruction-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0901-find_source_conversion-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0902-rank_source_conversion_functions-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0903-begin_conversion_types-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0904-next_conversion_type-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0905-type_set_contains/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0906-find_source_conversion_function-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/frontier-extension.json"
       ]
     }
   },

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 899,
+  "accepted": "_new_temporary_reference@8",
+  "terminal": "_register_temporary_destruction@8",
+  "original_capture": "cases/frontiers/copy_assignment/0899-new_temporary_reference-8/original-receipt.json",
+  "original_capture_sha256": "706f810407c8342fa75c2855e7dec9f98ac69846b37cafa88989f42456894388",
+  "original_events": "cases/frontiers/copy_assignment/0899-new_temporary_reference-8/original-events.txt",
+  "original_events_sha256": "93e3cfd9fda22242ffbbf30937b0d6bff7925b156c91211dee7791d32a10a6b7",
+  "original_configuration": "cases/frontiers/copy_assignment/0899-new_temporary_reference-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

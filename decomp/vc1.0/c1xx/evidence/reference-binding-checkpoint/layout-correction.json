@@ -1,0 +1,7 @@
+{
+  "function": "_resolve_function_style_cast@4",
+  "original_instruction": "38efe: 8a 43 1a  mov al,BYTE PTR [ebx+0x1a]",
+  "layout": "CppSymbol.storage starts at26 (0x1a), established by CppSymbolStorageOffsetMustBe26",
+  "correction": "The typedef-storage test is storage[0], not storage[2]. Corrected the initially unexercised typedef branch before the next acceptance/checkpoint.",
+  "dynamic_scope": "Current valid copy case took ordinary class-name paths; their earlier exact comparisons did not exercise this typedef-storage test as true. No claim of original/native typedef-branch runtime coverage."
+}

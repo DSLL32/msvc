@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 907,
+  "accepted": "_lookup_source_conversion_function@8",
+  "terminal": "_try_elide_copy_construction@12",
+  "original_capture": "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/original-receipt.json",
+  "original_capture_sha256": "80f356b7bd23ed0f649e57109512c589469b71494c66831b46bf44c0db150cc7",
+  "original_events": "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/original-events.txt",
+  "original_events_sha256": "203dea2a50c1c3b0c6b30e10498e92f4e2b4903e04b5bcf1fa36aeff94c62c45",
+  "original_configuration": "cases/frontiers/copy_assignment/0907-lookup_source_conversion_function-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}
