@@ -752,7 +752,24 @@ fn register_analysis(
         &catalog,
         std::path::Path::new(env!("CARGO_MANIFEST_DIR")),
     )?;
-    resolve(&mut g, &catalog, &c, strict)
+    let owner = crate::index::Record {
+        name: "_caller".into(),
+        start: 0x401000,
+        end: 0x401000 + code.len() as u32,
+        shared: vec![],
+        code_chunks: vec![],
+        evidence: serde_json::Value::Null,
+        pending_extent: false,
+    };
+    resolve(
+        &mut g,
+        &catalog,
+        &c,
+        strict,
+        &owner,
+        &p,
+        crate::register_imports::Side::Original,
+    )
 }
 fn preserve_first() -> serde_json::Value {
     serde_json::json!({"register_imports":{"preservation_contracts":[{"target":{"import":{"dll":"msvcrt.dll","name":"first"}},"preserves":["ebx","esi","edi"],"evidence":{"path":"fixtures/register-preservation.json","sha256":crate::index::hash(include_bytes!("../fixtures/register-preservation.json"))}}]}})

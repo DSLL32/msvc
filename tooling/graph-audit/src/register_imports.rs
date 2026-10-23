@@ -5,6 +5,7 @@ use crate::{
     flow::Graph,
     imports::{Catalog, Identity},
     index::Record,
+    pe::Pe,
 };
 use anyhow::{Context, Result, ensure};
 use capstone::arch::x86::X86Reg::*;
@@ -67,16 +68,115 @@ struct Contract {
     preserves: Vec<String>,
     evidence: Evidence,
 }
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct CallbackLocation {
+    site: u32,
+    slot: u32,
+}
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct CallbackContract {
+    owner: String,
+    original: CallbackLocation,
+    rebuilt: CallbackLocation,
+    preserves: Vec<String>,
+    evidence: Evidence,
+}
+#[derive(Clone, Copy)]
+pub enum Side {
+    Original,
+    Rebuilt,
+}
+impl CallbackContract {
+    fn location(&self, side: Side) -> &CallbackLocation {
+        match side {
+            Side::Original => &self.original,
+            Side::Rebuilt => &self.rebuilt,
+        }
+    }
+}
+#[derive(Clone, Serialize)]
+pub struct CallbackReport {
+    slot: u32,
+    preserves: Vec<String>,
+    evidence: Evidence,
+}
+fn preservation_mask(preserves: &[String]) -> Result<[bool; 4]> {
+    ensure!(!preserves.is_empty(), "empty preservation contract");
+    let mut mask = [false; 4];
+    for r in preserves {
+        let n = NAMES
+            .iter()
+            .position(|v| v == r)
+            .context("only ebx/esi/edi/ebp preservation is supported")?;
+        ensure!(!mask[n], "duplicate preservation register");
+        mask[n] = true;
+    }
+    Ok(mask)
+}
+struct EvidenceFiles {
+    base: std::path::PathBuf,
+    hashes: BTreeMap<std::path::PathBuf, String>,
+}
+impl EvidenceFiles {
+    fn new(project: &std::path::Path) -> Result<Self> {
+        Ok(Self {
+            base: project
+                .canonicalize()
+                .context("resolve preservation evidence project")?,
+            hashes: BTreeMap::new(),
+        })
+    }
+    fn verify(&mut self, evidence: &Evidence) -> Result<()> {
+        ensure!(
+            !evidence.path.is_absolute(),
+            "preservation evidence must be project-relative"
+        );
+        let path = self
+            .base
+            .join(&evidence.path)
+            .canonicalize()
+            .context("resolve preservation evidence file")?;
+        ensure!(
+            path.starts_with(&self.base) && path.is_file(),
+            "preservation evidence escapes project or is not a file"
+        );
+        ensure!(
+            evidence.sha256.len() == 64
+                && evidence
+                    .sha256
+                    .bytes()
+                    .all(|v| v.is_ascii_digit() || (b'a'..=b'f').contains(&v)),
+            "invalid preservation evidence SHA256"
+        );
+        let actual = if let Some(hash) = self.hashes.get(&path) {
+            hash
+        } else {
+            let hash = crate::index::hash(&std::fs::read(&path)?);
+            self.hashes.entry(path).or_insert(hash)
+        };
+        ensure!(
+            *actual == evidence.sha256,
+            "stale preservation evidence SHA256: {}",
+            evidence.path.display()
+        );
+        Ok(())
+    }
+}
 #[derive(Default, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Configuration {
     #[serde(default)]
     preservation_contracts: Vec<Contract>,
+    #[serde(default)]
+    callback_preservation_contracts: Vec<CallbackContract>,
 }
 #[derive(Default)]
 pub struct Contracts {
     functions: BTreeMap<u32, [bool; 4]>,
     imports: BTreeMap<Identity, [bool; 4]>,
+    callbacks: BTreeMap<String, Vec<CallbackContract>>,
 }
 impl Contracts {
     pub fn parse(
@@ -90,60 +190,17 @@ impl Contracts {
             Configuration::default()
         } else {
             serde_json::from_value::<Configuration>(configuration.clone())?
-        }
-        .preservation_contracts;
+        };
         let mut out = Self::default();
         let mut targets = BTreeSet::new();
-        let base = project
-            .canonicalize()
-            .context("resolve preservation evidence project")?;
-        let mut evidence_hashes = BTreeMap::new();
-        for c in records {
-            ensure!(
-                !c.evidence.path.is_absolute(),
-                "preservation evidence must be project-relative"
-            );
-            let path = base
-                .join(&c.evidence.path)
-                .canonicalize()
-                .context("resolve preservation evidence file")?;
-            ensure!(
-                path.starts_with(&base) && path.is_file(),
-                "preservation evidence escapes project or is not a file"
-            );
-            ensure!(
-                c.evidence.sha256.len() == 64
-                    && c.evidence
-                        .sha256
-                        .bytes()
-                        .all(|v| v.is_ascii_digit() || (b'a'..=b'f').contains(&v)),
-                "invalid preservation evidence SHA256"
-            );
-            let actual = if let Some(hash) = evidence_hashes.get(&path) {
-                hash
-            } else {
-                let hash = crate::index::hash(&std::fs::read(&path)?);
-                evidence_hashes.entry(path.clone()).or_insert(hash)
-            };
-            ensure!(
-                *actual == c.evidence.sha256,
-                "stale preservation evidence SHA256: {}",
-                c.evidence.path.display()
-            );
+        let mut evidence_files = EvidenceFiles::new(project)?;
+        for c in records.preservation_contracts {
+            evidence_files.verify(&c.evidence)?;
             ensure!(
                 c.target.function.is_some() != c.target.import.is_some(),
                 "preservation target must name exactly one function/import"
             );
-            let mut mask = [false; 4];
-            ensure!(!c.preserves.is_empty(), "empty preservation contract");
-            for r in &c.preserves {
-                let n = NAMES
-                    .iter()
-                    .position(|v| v == r)
-                    .context("only ebx/esi/edi/ebp preservation is supported")?;
-                ensure!(!mask[n], "duplicate preservation register");
-                mask[n] = true;
-            }
+            let mask = preservation_mask(&c.preserves)?;
             let key = serde_json::to_string(&c.target)?;
             ensure!(targets.insert(key), "duplicate preservation target");
             if let Some(name) = c.target.function {
@@ -173,9 +230,110 @@ impl Contracts {
                 out.imports.insert(id, mask);
             }
         }
+        let mut original_sites = BTreeSet::new();
+        let mut rebuilt_sites = BTreeSet::new();
+        for c in records.callback_preservation_contracts {
+            evidence_files.verify(&c.evidence)?;
+            preservation_mask(&c.preserves)?;
+            ensure!(
+                index.iter().any(|r| r.name == c.owner),
+                "callback preservation owner missing from verified index: {}",
+                c.owner
+            );
+            ensure!(
+                original_sites.insert(c.original.site) && rebuilt_sites.insert(c.rebuilt.site),
+                "duplicate callback preservation site/owner"
+            );
+            out.callbacks.entry(c.owner.clone()).or_default().push(c);
+        }
         Ok(out)
     }
-    fn mask(&self, i: &Inst, g: &Graph, before: &State) -> [bool; 4] {
+    pub fn validate_callback_owners(&self, selected: &BTreeSet<String>) -> Result<()> {
+        for owner in self.callbacks.keys() {
+            ensure!(
+                selected.contains(owner),
+                "callback preservation owner is not audited: {owner}"
+            );
+        }
+        Ok(())
+    }
+    fn callback_reports(
+        &self,
+        owner: &Record,
+        g: &Graph,
+        catalog: &Catalog,
+        pe: &Pe,
+        side: Side,
+    ) -> Result<BTreeMap<u32, CallbackReport>> {
+        let mut reports = BTreeMap::new();
+        for contract in self.callbacks.get(&owner.name).into_iter().flatten() {
+            let loc = contract.location(side);
+            ensure!(
+                owner.contains_code(loc.site),
+                "callback preservation site outside owner: {}",
+                owner.name
+            );
+            let i = g
+                .instructions
+                .get(&loc.site)
+                .context("callback preservation site absent from discovered owner CFG")?;
+            ensure!(
+                g.indirect_calls.contains(&loc.site),
+                "callback preservation site is not an opaque indirect call"
+            );
+            ensure!(
+                i.m == "call"
+                    && i.bytes.len() == 6
+                    && i.bytes[..2] == [0xff, 0x15]
+                    && i.address_size == 4,
+                "callback preservation requires exact unprefixed absolute32 CALL"
+            );
+            let [(Op::Mem(m), 4)] = i.ops.as_slice() else {
+                anyhow::bail!("callback preservation requires absolute32 memory CALL");
+            };
+            ensure!(
+                m.segment == 0 && m.base == 0 && m.index == 0 && m.disp == loc.slot,
+                "callback preservation slot/operand differs"
+            );
+            let end = loc
+                .slot
+                .checked_add(4)
+                .context("callback preservation slot overflow")?;
+            ensure!(
+                pe.sections.iter().any(|s| s.flags & 0x40000000 != 0
+                    && s.start <= loc.slot
+                    && s.start
+                        .checked_add(s.virtual_size)
+                        .is_some_and(|limit| end <= limit)),
+                "callback preservation slot is not fully mapped readable memory"
+            );
+            // Reject any overlap, including misaligned references into a known IAT slot.
+            ensure!(
+                !catalog
+                    .slots
+                    .keys()
+                    .any(|slot| u64::from(*slot) < u64::from(end)
+                        && u64::from(loc.slot) < u64::from(*slot) + 4),
+                "callback preservation slot overlaps verified IAT"
+            );
+            reports.insert(
+                loc.site,
+                CallbackReport {
+                    slot: loc.slot,
+                    preserves: contract.preserves.clone(),
+                    evidence: contract.evidence.clone(),
+                },
+            );
+        }
+        Ok(reports)
+    }
+    fn mask(
+        &self,
+        i: &Inst,
+        g: &Graph,
+        before: &State,
+        callbacks: &BTreeMap<u32, CallbackReport>,
+    ) -> [bool; 4] {
         if let Some(id) = g.import_calls.get(&i.a) {
             self.imports.get(id).copied().unwrap_or_default()
         } else if let Some(a) = i.imm() {
@@ -186,6 +344,10 @@ impl Contracts {
                 .and_then(|id| self.imports.get(id))
                 .copied()
                 .unwrap_or_default()
+        } else if let Some(c) = callbacks.get(&i.a) {
+            // Validated above: only retain existing must-values. This call remains
+            // opaque and contributes no callee/import identity or value seed.
+            preservation_mask(&c.preserves).expect("validated callback mask")
         } else {
             [false; 4]
         }
@@ -198,6 +360,8 @@ pub struct Report {
     pub other_unresolved_calls: BTreeSet<u32>,
     pub direct_import_calls: BTreeMap<u32, Identity>,
     pub roots: BTreeSet<u32>,
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub callback_preservation: BTreeMap<u32, CallbackReport>,
 }
 fn is_call(i: &Inst) -> bool {
     i.m.split_whitespace()
@@ -210,6 +374,7 @@ fn transfer(
     g: &Graph,
     catalog: &Catalog,
     contracts: &Contracts,
+    callbacks: &BTreeMap<u32, CallbackReport>,
 ) -> State {
     let mut out = before.clone();
     for r in &i.writes {
@@ -235,7 +400,7 @@ fn transfer(
         };
     }
     if is_call(i) {
-        let mask = contracts.mask(i, g, before);
+        let mask = contracts.mask(i, g, before, callbacks);
         for n in 0..4 {
             if !mask[n] {
                 out[n] = None;
@@ -253,7 +418,11 @@ pub fn resolve(
     catalog: &Catalog,
     contracts: &Contracts,
     require_all: bool,
+    owner: &Record,
+    pe: &Pe,
+    side: Side,
 ) -> Result<Report> {
+    let callbacks = contracts.callback_reports(owner, g, catalog, pe, side)?;
     let mut incoming = BTreeMap::<u32, State>::new();
     let mut pending = VecDeque::new();
     for &root in &g.roots {
@@ -265,7 +434,7 @@ pub fn resolve(
             .instructions
             .get(&a)
             .context("dataflow root/edge absent from discovered instructions")?;
-        let state = transfer(i, &incoming[&a], g, catalog, contracts);
+        let state = transfer(i, &incoming[&a], g, catalog, contracts, &callbacks);
         for &to in g.successors.get(&a).into_iter().flatten() {
             ensure!(
                 g.instructions.contains_key(&to),
@@ -299,6 +468,7 @@ pub fn resolve(
         other_unresolved_calls: BTreeSet::new(),
         direct_import_calls: g.import_calls.clone(),
         roots: g.roots.clone(),
+        callback_preservation: callbacks,
     };
     for &a in &g.indirect_calls {
         let i = &g.instructions[&a];

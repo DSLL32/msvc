@@ -183,6 +183,38 @@ remain the target checker's responsibility; the graph tool validates the packet
 bytes rather than interpreting arbitrary proof formats. Unknown/custom ABI calls
 need a separately justified preservation proof; otherwise they are barriers.
 
+A separately proven, closed absolute callback slot may have an exact site contract:
+
+```json
+{
+  "register_imports": {
+    "callback_preservation_contracts": [{
+      "owner": "?FullLink@LinkContext@@QAEHPAE@Z",
+      "original": {"site": 4474773, "slot": 4714192},
+      "rebuilt": {"site": 4238927, "slot": 4252440},
+      "preserves": ["edi"],
+      "evidence": {"path": "cases/callback-preservation.json", "sha256": "<64 lowercase hex digits>"}
+    }]
+  }
+}
+```
+
+This only lets **existing** must-values survive that call. It never seeds a
+value, resolves the callback, or changes its graph edge: the call stays opaque
+in `other_unresolved_calls`. Both sides must identify an actual discovered,
+exact unprefixed `FF 15` absolute32 memory CALL in the named audited owner. Each
+physical site may have only one contract. The complete four-byte slot must lie
+in a mapped readable PE section (zero-filled BSS is valid), cannot overflow the
+32-bit address space, and cannot overlap a verified IAT slot. Register-relative,
+indexed, segmented, prefixed and unresolved register calls are unsupported here.
+The contained hash-bound witness must independently prove slot closure and the
+claimed preservation for every possible actual target; the common tool checks
+its bytes and site binding, not its arbitrary semantic proof format. Unknown
+callbacks remain barriers unless such a contract is present. Per-side
+`callback_preservation` report maps bind each applied site to slot, register mask
+and evidence digest; the top-level input binding includes both side declarations.
+These fields are absent when no callback contracts are supplied.
+
 Per-function `register_imports` reports both sides' resolved and unresolved
 register callsites, other unresolved calls, direct import callsites and CFG roots.
 Top-level `register_import_inputs` binds PE and metadata hashes plus the verified

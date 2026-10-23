@@ -855,6 +855,15 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     } else {
         None
     };
+    if let Some((left, right)) = &register_contracts {
+        let selected = progress
+            .iter()
+            .filter(|f| x.accepted.contains(&f.name))
+            .map(|f| f.name.clone())
+            .collect();
+        left.validate_callback_owners(&selected)?;
+        right.validate_callback_owners(&selected)?;
+    }
     for f in &progress {
         if !x.accepted.contains(&f.name) {
             continue;
@@ -918,10 +927,26 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             let (left_contracts, right_contracts) = register_contracts
                 .as_ref()
                 .context("missing preservation contracts")?;
-            let left = crate::register_imports::resolve(&mut l, oc, left_contracts, strict)
-                .with_context(|| format!("original {} register imports", f.name))?;
-            let right = crate::register_imports::resolve(&mut r, rc, right_contracts, strict)
-                .with_context(|| format!("rebuilt {} register imports", f.name))?;
+            let left = crate::register_imports::resolve(
+                &mut l,
+                oc,
+                left_contracts,
+                strict,
+                f,
+                &x.o,
+                crate::register_imports::Side::Original,
+            )
+            .with_context(|| format!("original {} register imports", f.name))?;
+            let right = crate::register_imports::resolve(
+                &mut r,
+                rc,
+                right_contracts,
+                strict,
+                other,
+                &x.r,
+                crate::register_imports::Side::Rebuilt,
+            )
+            .with_context(|| format!("rebuilt {} register imports", f.name))?;
             Some(
                 json!({"original":left,"rebuilt":right,"require_all_register_calls_resolved":strict}),
             )
@@ -1049,6 +1074,14 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     }
     if a.resolve_register_imports {
         result["register_import_inputs"] = json!({"original_sha256":crate::index::hash(&x.o.data),"rebuilt_sha256":crate::index::hash(&x.r.data),"metadata_sha256":crate::index::hash(&serde_json::to_vec(&metadata)?),"preservation_contracts":metadata["register_imports"]["preservation_contracts"]});
+    }
+    if a.resolve_register_imports
+        && metadata["register_imports"]["callback_preservation_contracts"]
+            .as_array()
+            .is_some_and(|v| !v.is_empty())
+    {
+        result["register_import_inputs"]["callback_preservation_contracts"] =
+            metadata["register_imports"]["callback_preservation_contracts"].clone();
     }
     if x.oi.iter().chain(&x.ri).any(|r| !r.code_chunks.is_empty()) {
         let mut domains = BTreeMap::new();
