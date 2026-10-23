@@ -15,15 +15,20 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "new_page",
-    "native_function": "new_page",
+    "logical": "move_file_slot",
+    "native_function": "move_file_slot",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
       "main",
       "parse_options",
       "files_initialize",
-      "new_page"
+      "new_page",
+      "new_file_slot",
+      "open_file",
+      "find_cached_file",
+      "acquire_file_slot",
+      "move_file_slot"
     ]
   },
   "complete_reference": {

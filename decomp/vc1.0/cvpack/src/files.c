@@ -1,17 +1,36 @@
 /* Cached page/file pools. Callback installation intentionally follows allocation,
    as in the original; allocation failures before that point have no handler. */
+#include <stdarg.h>
 #include "files.h"
 #include <recon.h>
 
 Page *free_pages;
 FileSlot *free_files;
 FileSlot **file_slots;
+FileSlot *active_files, *closed_files, *closed_files_tail;
+int closed_file_count;
 int file_count, page_count, file_limit, open_limit, page_limit;
 unsigned char mapped_files;
 void (*file_failure)(int,const char *,const char *);
 CreateMapping mapping_create;
 MapFileView mapping_map;
 UnmapFileView mapping_unmap;
+
+Page *new_page(void)
+{
+    Page *page = calloc(1, sizeof(*page));
+    if (!page) file_failure(13, NULL, NULL);
+    page->handle = -1;
+    return page;
+}
+
+FileSlot *new_file_slot(void)
+{
+    FileSlot *slot = calloc(1, sizeof(*slot));
+    if (!slot) file_failure(13, NULL, NULL);
+    ++file_count;
+    return slot;
+}
 
 void files_initialize(int pages, int mapped_limit, int mapped_open,
                       int normal_limit, int normal_open, unsigned char mapped,
@@ -57,4 +76,68 @@ void files_initialize(int pages, int mapped_limit, int mapped_open,
     page_limit = opens;
     file_failure = error;
     mapped_files = mapped;
+}
+
+int open_file(const char *name, int mode, ...)
+{
+    va_list arguments;
+    int permission = 0, result = -1;
+    unsigned char created = 0;
+    FileSlot *slot;
+    /* The original reads the optional word for any nonzero mode, even when
+       no create bit is set; only the create path actually consumes it. */
+    if (mode) {
+        va_start(arguments, mode);
+        permission = va_arg(arguments, int);
+        va_end(arguments);
+    }
+    slot = find_cached_file(name);
+    if (!slot) {
+        slot = acquire_file_slot();
+        created = 1;
+        slot->name = _strdup(name);
+        if (!slot->name) file_failure(13, NULL, NULL);
+        if (!(mode & 15) || (mode & 2)) slot->flags |= 1;
+        if ((mode & 1) || (mode & 2)) slot->flags |= 2;
+        if (mode & 0x100) slot->flags |= 16;
+    }
+    if (mapped_files) result = open_mapped_file(slot, mode, created);
+    if (result == -1) open_buffered_file(slot, mode, permission, created);
+    return slot->handle;
+}
+
+FileSlot *find_cached_file(const char *name)
+{
+    FileSlot *slot;
+    const char *left, *right;
+    for (slot = closed_files; slot; slot = slot->next) {
+        left = slot->name;
+        right = name;
+        while (*left == *right) {
+            if (!*left) break;
+            ++left;
+            ++right;
+        }
+        if (*left == *right) {
+            --closed_file_count;
+            move_file_slot(slot, &closed_files, &closed_files_tail, &active_files, NULL, 0);
+            slot->flags &= ~4UL;
+            return slot;
+        }
+    }
+    return NULL;
+}
+
+FileSlot *acquire_file_slot(void)
+{
+    FileSlot *slot;
+    if (!free_files) {
+        slot = closed_files;
+        --closed_file_count;
+        move_file_slot(slot, &closed_files, &closed_files_tail, &free_files, NULL, 0);
+        release_file_slot(slot);
+    }
+    slot = free_files;
+    move_file_slot(slot, &free_files, NULL, &active_files, NULL, 0);
+    return slot;
 }

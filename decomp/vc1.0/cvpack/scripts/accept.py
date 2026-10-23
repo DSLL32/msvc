@@ -7,6 +7,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from state import BINARY,load,sha
+from objects import original_walks,compare_walks,pointer_identity
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -53,6 +54,10 @@ def main():
             start=int(a,16)
             memory.update((start+i,byte)for i,byte in enumerate(bytes.fromhex(value)))
     matched={}
+    object_proof={}
+    if not completed and (BINARY/'walks.json').exists():
+        specifications=json.loads((BINARY/'walks.json').read_text())
+        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'])
     for item in ([] if completed else json.loads((BINARY/'data.json').read_text())):
         raw=bytes(memory[item['original']+i]for i in range(item['size']))
         actual=state['globals'][item['name']]
@@ -78,11 +83,25 @@ def main():
         if kind=='integer':
             mask=(1<<item.get('bits',32))-1
             assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
-        elif kind=='pointer':assert actual['null']==(value==0)
+        elif kind in ('pointer','cstring'):
+            assert actual['null']==(value==0)
+            if value:
+                context=json.loads((BINARY/'data.json').read_text())
+                owners=[dict(name=r['name'],offset=value-r['original']) for r in context if r['original']<=value<r['original']+r['size']]
+                if owners:
+                    assert len(owners)==1 and actual.get('global')==owners[0],('mismatched global pointer argument',item['name'],value,actual)
+                else:
+                    old_pointer=pointer_identity(original_walks(events,specifications),value)
+                    new_pointer=pointer_identity(state['walks'],actual['address'])
+                    assert old_pointer==new_pointer,('mismatched pool pointer argument',item['name'],old_pointer,new_pointer)
+                if kind=='cstring':
+                    text=[];pointer=value
+                    while memory[pointer]:text.append(memory[pointer]);pointer+=1
+                    assert bytes(text).hex()==actual['string'],('string argument differs',item['name'])
         elif kind=='argv':assert not actual['null']
         elif kind=='function':
             target=next(r for r in config['functions'] if r['original']==value)
-            assert actual==dict(null=False,function=target['native'])
+            assert not actual['null'] and actual['function']==target['native']
         else:raise AssertionError('unsupported ABI proof kind: '+kind)
     for stream in ('stdout','stderr'):
         assert (original/stream).read_bytes()==(native/args.case/stream).read_bytes(),stream+' mismatch'
@@ -122,6 +141,7 @@ def main():
         original_frontier=address,native_frontier=frontier['native'] if frontier else 'exit',application_entries=entries,
         argc=state['argc'],argv=argv,matched_application_globals=matched,
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,
+        observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',
         seconds=native_receipt['seconds'])

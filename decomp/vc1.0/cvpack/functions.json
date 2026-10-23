@@ -251,15 +251,31 @@
       "native": "open_file",
       "symbol": "_open_file",
       "original": 171248,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        171248,
+        171435
+      ],
       "abi": "int open_file(const char *,int,...)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0008-open_file/proof.json",
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "cstring"
+        },
+        {
+          "name": "mode",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     },
     {
       "name": "close_file",
@@ -401,13 +417,16 @@
       "native": "new_page",
       "symbol": "_new_page",
       "original": 174304,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        174304,
+        174351
+      ],
       "abi": "Page *new_page(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0006-new_page/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": []
@@ -417,11 +436,159 @@
       "native": "new_file_slot",
       "symbol": "_new_file_slot",
       "original": 170512,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        170512,
+        170561
+      ],
+      "abi": "FileSlot *new_file_slot(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0007-new_file_slot/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "find_cached_file",
+      "native": "find_cached_file",
+      "symbol": "_find_cached_file",
+      "original": 170784,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        170784,
+        170907
+      ],
+      "abi": "FileSlot *find_cached_file(const char *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0009-find_cached_file/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "cstring"
+        }
+      ]
+    },
+    {
+      "name": "acquire_file_slot",
+      "native": "acquire_file_slot",
+      "symbol": "_acquire_file_slot",
+      "original": 170688,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        170688,
+        170782
+      ],
+      "abi": "FileSlot *acquire_file_slot(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0010-acquire_file_slot/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "open_mapped_file",
+      "native": "open_mapped_file",
+      "symbol": "_open_mapped_file",
+      "original": 174640,
       "source": "src/stubs.c",
       "kind": "application",
       "status": "stub",
       "extent": null,
-      "abi": "FileSlot *new_file_slot(void)",
+      "abi": "int open_mapped_file(FileSlot *,int,unsigned char)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "open_buffered_file",
+      "native": "open_buffered_file",
+      "symbol": "_open_buffered_file",
+      "original": 171440,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int open_buffered_file(FileSlot *,int,int,unsigned char)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "move_file_slot",
+      "native": "move_file_slot",
+      "symbol": "_move_file_slot",
+      "original": 174480,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,unsigned char)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "from",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "from_tail",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "to",
+          "slot": 4,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "to_tail",
+          "slot": 5,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "append",
+          "slot": 6,
+          "kind": "integer",
+          "bits": 8
+        }
+      ]
+    },
+    {
+      "name": "release_file_slot",
+      "native": "release_file_slot",
+      "symbol": "_release_file_slot",
+      "original": 171856,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int release_file_slot(FileSlot *)",
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
@@ -434,7 +601,14 @@
     "application_gates": [
       10,
       50
-    ]
+    ],
+    "ten": {
+      "status": "awaiting orchestrator review",
+      "receipt": "cases/reviews/0010/review.json",
+      "application_functions": 10,
+      "next_stub": "move_file_slot",
+      "further_reconstruction_paused": true
+    }
   },
   "accepted_order": [
     {
@@ -466,6 +640,36 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 5
+    },
+    {
+      "function": "new_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 6
+    },
+    {
+      "function": "new_file_slot",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 7
+    },
+    {
+      "function": "open_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 8
+    },
+    {
+      "function": "find_cached_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 9
+    },
+    {
+      "function": "acquire_file_slot",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 10
     }
   ],
   "support_unmasked": [
@@ -858,6 +1062,30 @@
       "start": 183712,
       "end": 183779,
       "evidence": "cases/hello-debug-dll/evidence/0005-files_initialize/proof.json"
+    },
+    {
+      "name": "_calloc",
+      "start": 186176,
+      "end": 186240,
+      "evidence": "cases/hello-debug-dll/evidence/0006-new_page/proof.json"
+    },
+    {
+      "name": "__splitpath",
+      "start": 182896,
+      "end": 183248,
+      "evidence": "cases/hello-debug-dll/evidence/0007-new_file_slot/proof.json"
+    },
+    {
+      "name": "_strncpy",
+      "start": 186088,
+      "end": 186125,
+      "evidence": "cases/hello-debug-dll/evidence/0007-new_file_slot/proof.json"
+    },
+    {
+      "name": "__makepath",
+      "start": 182736,
+      "end": 182896,
+      "evidence": "cases/hello-debug-dll/evidence/0007-new_file_slot/proof.json"
     }
   ]
 }

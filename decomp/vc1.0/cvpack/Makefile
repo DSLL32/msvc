@@ -2,7 +2,7 @@ PYTHON ?= python3
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
 SOURCES = $(filter-out src/debug-run.c,$(wildcard src/*.c))
-HEADERS = $(wildcard src/*.h) $(RECON)/include/recon.h
+HEADERS = src/cvpack.h $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
@@ -25,6 +25,11 @@ build build/native:
 
 build/%.obj: src/%.c $(HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
+
+build/debug-run.obj: src/debug-run.c $(RECON)/include/recon.h | build
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
+
+build/files.obj build/stubs.obj build/native/files.o build/native/stubs.o: src/files.h
 
 build/CVPACK.EXE: $(OBJECTS) Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:$@ $(OBJECTS)

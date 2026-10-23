@@ -24,6 +24,7 @@ def run_case(name, directory, debug=False):
     expected = record['current']
     debug=debug and expected['terminal']=='trap'
     data=json.loads((BINARY/'data.json').read_text())
+    walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
     canonical='Z:'+str(ROOT/config['target']['path']).replace('/','\\')
     script.write_text('set pagination off\nset confirm off\nset startup-with-shell on\n'
         'set disable-randomization off\nset args '+' '.join(map(shlex.quote,record['argv']))+'\n'
@@ -35,7 +36,11 @@ def run_case(name, directory, debug=False):
         ' if symbol.is_argument:\n'
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
         '  if kind==gdb.TYPE_CODE_PTR:\n'
-        '   parameters[symbol.name]=dict(null=int(value)==0)\n'
+        '   parameters[symbol.name]=dict(null=int(value)==0,address=int(value))\n'
+        '   if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.target().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
+        '   for item in '+repr(data)+':\n'
+        '    address=int(gdb.parse_and_eval("&"+item["name"]))\n'
+        '    if address<=int(value)<address+item["size"]: parameters[symbol.name]["global"]=dict(name=item["name"],offset=int(value)-address)\n'
         '   if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: parameters[symbol.name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
         '  else: parameters[symbol.name]=int(value)\n'
         'frames=[]\nf=gdb.newest_frame()\n'
@@ -55,7 +60,16 @@ def run_case(name, directory, debug=False):
         ' value=gdb.parse_and_eval(name)\n'
         ' if item.get("kind")=="string-pointer-array": globals[name]=[value[i].string(encoding="latin1").encode("latin1").hex() for i in range(item["size"]//4)]\n'
         ' else: globals[name]=dict(null=int(value)==0) if value.type.strip_typedefs().code==gdb.TYPE_CODE_PTR else bytes(gdb.selected_inferior().read_memory(value.address,value.type.sizeof)).hex()\n'
-        'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state,parameters=parameters,globals=globals),open('+repr(str(report))+',"w"))\n'
+        'walks={}\n'
+        'for item in '+repr(walks)+':\n'
+        ' name=item["name"];pointer=int(gdb.parse_and_eval(name));nodes=[]\n'
+        ' size=item["size"]*(int(gdb.parse_and_eval(item["count_native"])) if item.get("count_native") else 1)\n'
+        ' while pointer and len(nodes)<item["limit"]:\n'
+        '  raw=bytes(gdb.selected_inferior().read_memory(pointer,size));nodes.append(dict(address=pointer,bytes=raw.hex()))\n'
+        '  pointer=0 if item["next"]==0xffffffff else int.from_bytes(raw[item["next"]:item["next"]+4],"little")\n'
+        ' if pointer: raise RuntimeError("unterminated object walk: "+name)\n'
+        ' walks[name]=nodes\n'
+        'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state,parameters=parameters,globals=globals,walks=walks),open('+repr(str(report))+',"w"))\n'
         'end\nquit\n')
     env = os.environ.copy()
     for variable in list(env):

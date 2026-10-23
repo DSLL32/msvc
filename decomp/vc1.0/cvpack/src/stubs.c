@@ -2,9 +2,14 @@
 #include <recon.h>
 
 void warning(int code, const char *first, const char *second) { __asm { int 3 } }
-Page *new_page(void) { __asm { int 3 } return 0; }
-FileSlot *new_file_slot(void) { __asm { int 3 } return 0; }
-int open_file(const char *name, int mode, ...) { __asm { int 3 } return 0; }
+void move_file_slot(FileSlot *slot, FileSlot **from, FileSlot **from_tail,
+                    FileSlot **to, FileSlot **to_tail, unsigned char append)
+{ __asm { int 3 } }
+int release_file_slot(FileSlot *slot) { __asm { int 3 } return 0; }
+int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
+{ __asm { int 3 } return 0; }
+int open_buffered_file(FileSlot *slot, int mode, int permission, unsigned char created)
+{ __asm { int 3 } return 0; }
 int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
 void read_debug_directory(void) { __asm { int 3 } }
 void compact_types(void) { __asm { int 3 } }

@@ -73,6 +73,8 @@ def main():
     env.pop('_MSC_IDE_FLAGS',None)
     env['CVPACK_CAPTURE_ARGV0']=tool.windows(ROOT/config['target']['path'])
     env['CVPACK_CAPTURE_INSPECT']=','.join(args.inspect)
+    walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
+    env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0)) for r in walks)
     if args.inspect_context:
         context=json.loads((BINARY/'data.json').read_text())
         requests=[*args.inspect,*['%x:%d'%(r['original'],r['size']) for r in context]]

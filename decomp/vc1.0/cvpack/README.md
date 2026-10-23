@@ -8,11 +8,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Five application functions are accepted; the independent DLL case
-currently stops at the named `new_page` stub. CRT startup has a
+empty stderr. Ten application functions are accepted; reconstruction is paused for the first
+orchestrator review. The independent DLL case stops at the named
+`move_file_slot` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and thirteen negative probes.
+roots, contextual initial data, library relocations, and seventeen negative probes.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
 original-only operation after `make build/debug-run.exe`. It creates an entirely
@@ -49,3 +50,9 @@ checks required before acceptance; those checks are now implemented. Stop for or
 at 10 and 50 application functions, counting CRT/support separately. After both
 initial cases, inspect remaining application code and propose further cases to
 the orchestrator before starting them. Shared shim changes belong to root.
+
+The ten-function review and measured build/fixture/audit receipts are in
+`cases/reviews/0010/`. Forced full builds: original 6.82 s, native 1.34 s;
+audits 0.53 s, rejection checks 1.55 s. Native case totals sum to 0.043 s
+(0.116 s including Python runner startup). Function-ten acceptance with fresh
+GDB state took 0.240 s natively; explicit masked-original capture took 5.72 s.

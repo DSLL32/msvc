@@ -38,6 +38,8 @@ typedef char FileSlotLinkOffset[(offsetof(FileSlot,next)==36)?1:-1];
 extern Page *free_pages;
 extern FileSlot *free_files;
 extern FileSlot **file_slots;
+extern FileSlot *active_files, *closed_files, *closed_files_tail;
+extern int closed_file_count;
 extern int file_count, page_count, file_limit, open_limit, page_limit;
 extern unsigned char mapped_files;
 extern void (*file_failure)(int,const char *,const char *);
@@ -47,5 +49,11 @@ extern UnmapFileView mapping_unmap;
 
 Page *new_page(void);
 FileSlot *new_file_slot(void);
+FileSlot *find_cached_file(const char *);
+FileSlot *acquire_file_slot(void);
+int open_mapped_file(FileSlot *,int,unsigned char);
+int open_buffered_file(FileSlot *,int,int,unsigned char);
+void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,unsigned char);
+int release_file_slot(FileSlot *);
 
 #endif

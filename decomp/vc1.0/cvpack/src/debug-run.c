@@ -12,6 +12,7 @@ typedef struct RuntimeRange {
 static RuntimeRange ranges[512];
 static unsigned range_count;
 static unsigned char original_bytes[65536];
+static char object_line[131200];
 static DWORD watched_spawn, spawn_return;
 static unsigned char spawn_return_byte;
 
@@ -179,6 +180,51 @@ static void dump_process_arguments(HANDLE child, HANDLE log)
     dump_arguments(child, log, arguments, 3);
 }
 
+static int dump_walks(HANDLE child, HANDLE log)
+{
+    char specifications[4096], *cursor;
+    const char *digits = "0123456789abcdef";
+    DWORD root, size, next, limit, count_address, pointer, bytes, written, i, j, elements;
+    int consumed, used;
+    if (!GetEnvironmentVariableA("CVPACK_CAPTURE_WALKS", specifications, sizeof(specifications)))
+        return 1;
+    cursor = specifications;
+    while (*cursor) {
+        if (sscanf(cursor, "%lx:%lu:%lu:%lu:%lx%n", &root, &size, &next, &limit,
+                   &count_address, &consumed) != 5) return 0;
+        if (count_address) {
+            if (!ReadProcessMemory(child, (void *)count_address, &elements, 4, &bytes) ||
+                bytes != 4 || elements > limit) return 0;
+            size *= elements;
+        }
+        if (!ReadProcessMemory(child, (void *)root, &pointer, 4, &bytes) || bytes != 4) return 0;
+        if ((!size && pointer) || size > sizeof(original_bytes) || !limit || limit > 256) return 0;
+        for (i = 0; pointer && i < limit; ++i) {
+            if (!ReadProcessMemory(child, (void *)pointer, original_bytes, size, &bytes) || bytes != size)
+                return 0;
+            used = sprintf(object_line, "node %08lx %lu %08lx ", root, i, pointer);
+            for (j = 0; j < size; ++j) {
+                object_line[used++] = digits[original_bytes[j] >> 4];
+                object_line[used++] = digits[original_bytes[j] & 15];
+            }
+            object_line[used++] = '\n';
+            if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            if (next == 0xffffffff) pointer = 0;
+            else {
+                if (next+4 > size) return 0;
+                memcpy(&pointer, original_bytes+next, 4);
+            }
+        }
+        used = sprintf(object_line, "walk-end %08lx %lu %08lx\n", root, i, pointer);
+        WriteFile(log, object_line, used, &written, 0);
+        if (pointer) return 0;
+        cursor += consumed;
+        if (*cursor == ',') ++cursor;
+        else if (*cursor) return 0;
+    }
+    return 1;
+}
+
 int main(int argc, char **argv)
 {
     STARTUPINFOA startup;
@@ -294,6 +340,7 @@ int main(int argc, char **argv)
                 }
                 dump_process_arguments(child.hProcess, log);
                 dump_inspections(child.hProcess, log);
+                if (!dump_walks(child.hProcess, log)) return 13;
                 TerminateProcess(child.hProcess, 99);
             }
         } else if (event.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {

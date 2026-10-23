@@ -9,6 +9,7 @@ from binary import PE
 from audit import publics
 from capstone import Cs,CS_ARCH_X86,CS_MODE_32
 from pathlib import Path
+from objects import compare_walks,original_walks
 import struct
 import subprocess
 import tempfile
@@ -43,6 +44,17 @@ def main():
     assert any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in good['functions'])
     assert not any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in bad['functions'])
     print('rejected: CRT startup with incorrect relocated application target')
+    specifications=[dict(name='pool',original=0x4000,pointer_fields=[4])]
+    left={'pool':[dict(address=0x1000,bytes=struct.pack('<III',7,0x1010,11).hex()),dict(address=0x1010,bytes=struct.pack('<III',9,0,13).hex())]}
+    right={'pool':[dict(address=0x9000,bytes=struct.pack('<III',7,0x9010,11).hex()),dict(address=0x9010,bytes=struct.pack('<III',9,0,13).hex())]}
+    compare_walks(specifications,left,right)
+    changed={'pool':[dict(address=0x9000,bytes=struct.pack('<III',8,0x9010,11).hex()),right['pool'][1]]}
+    reject('changed observed object byte',lambda:compare_walks(specifications,left,changed))
+    changed={'pool':[dict(address=0x9000,bytes=struct.pack('<III',7,0x9000,11).hex()),right['pool'][1]]}
+    reject('wrong observed object pointer identity',lambda:compare_walks(specifications,left,changed))
+    changed={'pool':[dict(address=0x9000,bytes=struct.pack('<III',7,0xffff,11).hex()),right['pool'][1]]}
+    reject('unresolved observed object pointer',lambda:compare_walks(specifications,left,changed))
+    reject('unterminated original object list',lambda:original_walks('walk-end 00004000 0 00001000\n',specifications))
     anchors=good['callee_identity_anchors']
     if anchors:
         scratch=Path.home()/'.ai-tmp/vc1.0-cvpack'

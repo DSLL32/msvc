@@ -252,5 +252,33 @@
     "original": 232684,
     "size": 4,
     "source": "src/files.c"
+  },
+  {
+    "name": "active_files",
+    "symbol": "_active_files",
+    "original": 232728,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "closed_files",
+    "symbol": "_closed_files",
+    "original": 232732,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "closed_files_tail",
+    "symbol": "_closed_files_tail",
+    "original": 232736,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "closed_file_count",
+    "symbol": "_closed_file_count",
+    "original": 232712,
+    "size": 4,
+    "source": "src/files.c"
   }
 ]

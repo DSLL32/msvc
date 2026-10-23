@@ -1,0 +1,53 @@
+{
+  "case": "hello-debug-dll",
+  "unmasked": false,
+  "command": [
+    "wine",
+    "/root/msvc2/decomp/vc1.0/cvpack/build/debug-run.exe",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\find-cached-original\\CVPACK.EXE",
+    "/nologo /cvnew hello-debug.dll",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\find-cached-original\\stdout",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\find-cached-original\\stderr",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\find-cached-original\\events",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\find-cached-original\\work",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\find-cached-original\\runtime-plan",
+    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE"
+  ],
+  "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+  "executable_sha256": "b35ee39231af5f36295dc80771cc8f100e9caa3d0cd80e0bc9b6696a4467d8e2",
+  "debugger_sha256": "0347e8ad91a2b67e41ff930a71ba2351e8717a258500c97592a4cc5138118664",
+  "configuration_sha256": "7ce3a7b75c54fc885fbb3d7dc8c23ca8973de30cd73cfac8a2e344bfdd5dfb34",
+  "discover_runtime": true,
+  "canonical_argv0": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE",
+  "candidates": [
+    "find_cached_file"
+  ],
+  "stop_at": null,
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "PATH": "",
+    "_MSC_IDE_FLAGS": null
+  },
+  "accepted": [
+    "cvpack_main",
+    "parse_options",
+    "print_banner",
+    "fatal_error",
+    "files_initialize",
+    "open_file",
+    "new_page",
+    "new_file_slot"
+  ],
+  "seconds": {
+    "setup": 0.1405326146632433,
+    "execution": 0.6624372517690063,
+    "total": 0.8213840955868363
+  },
+  "artifacts": [
+    {
+      "name": "hello-debug.dll",
+      "bytes": 2097152,
+      "sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"
+    }
+  ]
+}

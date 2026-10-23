@@ -1,0 +1,17 @@
+rejected: truncated RET cleanup
+rejected: truncated immediate
+rejected: missing terminal
+rejected: branch into operand
+rejected: undeclared indirect jump
+rejected: conditional outside function
+rejected: branch into text data
+rejected: unresolved application call
+rejected: CRT startup with incorrect relocated application target
+rejected: changed observed object byte
+rejected: wrong observed object pointer identity
+rejected: unresolved observed object pointer
+rejected: unterminated original object list
+rejected: reviewed variant unmask through exact runtime closure
+rejected: redirected application callee
+rejected: changed callee stack cleanup
+rejected: changed contextual global initializer
