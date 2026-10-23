@@ -1347,7 +1347,21 @@ WEAK unsigned char *recon_mbsrchr(const unsigned char *text,unsigned int value)
     return (unsigned char *)last;
 }
 WEAK int recon_mbsnbicmp(const unsigned char *left,const unsigned char *right,size_t bytes)
-{ (void)left; (void)right; (void)bytes; recon_unsupported("unreviewed _mbsnbicmp"); return 0; }
+{
+    unsigned char a,b;
+    if (!bytes) return 0;
+    ascii_multibyte_scope();
+    if (!left || !right) recon_unsupported("null _mbsnbicmp input");
+    while (bytes--) {
+        a=*left++; b=*right++;
+        if (a>127 || b>127) recon_unsupported("non-ASCII _mbsnbicmp input");
+        if (a>='A' && a<='Z') a+='a'-'A';
+        if (b>='A' && b<='Z') b+='a'-'A';
+        if (a!=b) return a<b?-1:1;
+        if (!a) return 0;
+    }
+    return 0;
+}
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)
 { (void)text; (void)accept; recon_unsupported("unreviewed _mbspbrk"); return NULL; }
 WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)

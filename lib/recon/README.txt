@@ -489,4 +489,6 @@ compare original UTC/epoch/leap conversions and actual last-write file metadata.
 Default-C ASCII _mbsrchr scans through NUL and returns the last matching byte,
 including the terminating NUL or NULL when absent. It preserves errors and uses
 the existing strict codepage/locale guard. _mbspbrk and _mbsnbicmp currently have
-SDK-typed unsupported surfaces until their actual encountered contracts land.
+SDK-typed surfaces; _mbspbrk remains unsupported. _mbsnbicmp now supports
+the verified CP0/SBCS/C-locale ASCII path, folding A..Z and returning normalized
+-1/0/+1 within bytecount/NUL bounds (count0 returns0 before dereferencing).

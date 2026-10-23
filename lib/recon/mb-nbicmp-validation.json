@@ -1,0 +1,7 @@
+{
+  "scope": "CP0/SBCS/C-locale ASCII _mbsnbicmp normalized -1/0/+1 with bytecount and NUL bounds; actual LINK questionmark/libpath result-1",
+  "native_build_checks_seconds": {
+    "gcc": 1.0572400940582156,
+    "clang": 1.2847409071400762
+  }
+}
