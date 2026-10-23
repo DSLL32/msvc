@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "d83068bf59be66547f49c862527b0f67bb1ce3668262dba66807d130df3032fb",
+    "functions.json": "140b50e5b0f88c2dbf0e069fc295e301fcc4fce3fb4814fea620258851971c06",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "af58949db5db362b295f13c4a77d87be22dcde814a36009768e46645eb729c1f",
-    "cases/canonical-map.txt": "d78d3fc1c44a6c14b0e6752aad74cd335acb7f52f81af1fb78e9611670e9f3c6",
+    "cases/original-entry-references.json": "7572d5ac350fca04222de77f7dc2487d94192fb122b2e4467290337cb75bdbac",
+    "cases/canonical-map.txt": "7d21ae6d9ddc309b6ad9efb2b907469c50cac6167f5e50b19b823b773c155133",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1010-begin_braced_initializer-4/entry-reference/original-receipt.json": "83b1902a398009b17bc75ab7dac6178ecdfb8dc1c216cabd0ef87e881e7c46ec",
-    "cases/frontiers/state_machine_debug/1010-begin_braced_initializer-4/entry-reference/original-events.txt": "611fadcd018f733b60c5e7e0fab27d13e978fbf079f0eab782c925243283420d",
-    "cases/frontiers/state_machine_debug/1010-begin_braced_initializer-4/entry-reference/original-entries.plan": "17dc428166f5acb76a9524a0b6ad8ac83bba64eddf101dacddebc84b7d336f09"
+    "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/entry-reference/original-receipt.json": "1ad0b09cbcad59133471a493f64b5fe82cc012e99aed65765c34e41416a29d3d",
+    "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/entry-reference/original-events.txt": "e856020413fc9cef3e57078135ee0d55c4c7adaa31904c1e13551c3dfa8666d1",
+    "cases/frontiers/state_machine_debug/1011-push_braced_initializer-4/entry-reference/original-entries.plan": "9fa5b95f716aaa019ac4ce1293ffd4b4fcd436b145e76c9ac830c48df1f44bd9"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1158,6 +1158,10 @@
     "copy_inherited_virtual_group": {
       "logical": "_copy_inherited_virtual_group@12",
       "source": "src/class-finalization.c"
+    },
+    "copy_initializer_symbol": {
+      "logical": "_copy_initializer_symbol@12",
+      "source": "src/stubs.c"
     },
     "copy_macro_literal": {
       "logical": "_copy_macro_literal@12",
@@ -3893,7 +3897,7 @@
     },
     "push_braced_initializer": {
       "logical": "_push_braced_initializer@4",
-      "source": "src/stubs.c"
+      "source": "src/braced-initializers.c"
     },
     "push_conditional_state": {
       "logical": "_push_conditional_state",
@@ -6165,7 +6169,8 @@
     "next_enumerator_value",
     "end_enum_specifier",
     "layout_bit_field",
-    "begin_braced_initializer"
+    "begin_braced_initializer",
+    "push_braced_initializer"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10277,7 +10282,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1011,
+      "last": 1012,
       "seen": [
         "main",
         "message_text",
@@ -11198,12 +11203,13 @@
         "end_enum_specifier",
         "layout_bit_field",
         "begin_braced_initializer",
-        "push_braced_initializer"
+        "push_braced_initializer",
+        "copy_initializer_symbol"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_push_braced_initializer@4",
-        "native": "push_braced_initializer",
+        "logical": "_copy_initializer_symbol@12",
+        "native": "copy_initializer_symbol",
         "signal": 5
       }
     }

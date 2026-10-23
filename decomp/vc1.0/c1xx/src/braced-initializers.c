@@ -53,3 +53,34 @@ void __stdcall begin_braced_initializer(CppSymbol *symbol)
     }
     token_allocation_flags &= ~0x00100000UL;
 }
+
+/* Original 0x47480..0x475a2. Reuse each nesting slot's owned symbol,
+   class-info and type copies, then reset its element cursor and state flags. */
+void __stdcall push_braced_initializer(CppSymbol *symbol)
+{
+    unsigned char kind;
+    ++braced_initializer_depth;
+    current_braced_initializer = &braced_initializers[braced_initializer_depth];
+    if (braced_initializer_depth >= 32) fatal_error(54);
+    if (!current_braced_initializer->symbol) {
+        current_braced_initializer->symbol = allocate_permanent(sizeof(CppSymbol));
+        current_braced_initializer->class_info = allocate_permanent(sizeof(ClassInfo));
+    }
+    copy_initializer_symbol(current_braced_initializer->symbol,
+        current_braced_initializer->class_info, symbol);
+    if (!current_braced_initializer->type)
+        current_braced_initializer->type = allocate_permanent(sizeof(CType));
+    *current_braced_initializer->type = *symbol->type;
+    current_braced_initializer->symbol->type = current_braced_initializer->type;
+    if (symbol->attributes & 2) {
+        current_braced_initializer->symbol->type->related =
+            current_braced_initializer->symbol->type->related->related;
+        current_braced_initializer->symbol->attributes &= ~2U;
+    }
+    current_braced_initializer->phase = 0;
+    current_braced_initializer->offset = 0;
+    current_braced_initializer->flags = 0;
+    kind = symbol->kind & 31;
+    if ((kind == 2 || kind == 3) && (symbol->flags & 3) != 3)
+        report_syntax_error(557, symbol->name);
+}

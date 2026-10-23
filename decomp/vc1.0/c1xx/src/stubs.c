@@ -36,6 +36,7 @@
 #include "parser.h"
 #include "lexer.h"
 #include "class-members.h"
+#include "braced-initializers.h"
 #include "class-finalization.h"
 #include "class-type-sets.h"
 #include "special-members.h"
@@ -623,4 +624,6 @@ IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __as
 
 void begin_line_record_debug_info(void) { __asm { int 3 } }
 
-void __stdcall push_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
+
+
+void __stdcall copy_initializer_symbol(CppSymbol *destination, ClassInfo *class_info, CppSymbol *source) { __asm { int 3 } }
