@@ -1,12 +1,14 @@
-# VC 5.10 first-case reconstruction
+# VC 5.10 reconstruction
 
-The first-case trial is released. Each of the nine workers may reconstruct only
-its case in `first-cases.json`, then must pause and report evidence and timings.
+All nine workers may continue beyond their first cases. `next-cases.json` records
+the initial substantial queues and shared resource-artifact ownership. Preserve
+each completed case's evidence, native fixture, timings and commit before moving
+on. `first-cases.json` retains the initial workflow trials and canonical CRT
+provider; the original first-case pause was lifted by explicit user instruction.
+
 The Rust integration and root AGENTS advisory prerequisites are complete. These
 folders also retain the target inventories and original-only groundwork records.
 
-`first-cases.json` records the released scope and canonical CRT provider. Each
-worker must complete only its first case and pause with timings and evidence.
 C1/C1XX start with DLL attach, export presence
 and detach; their compiler-pass exports remain trapping stubs. Other targets
 start with help, an observed usage diagnostic or a faithful exported help call.
@@ -106,7 +108,7 @@ does not certify them. Review this metadata policy before integration.
   shared maintainer. PDB and C++ disassembler interfaces need separate evidence.
 - Supply and verify VC 5.10 graph metadata, including noncontiguous code chunks
   when the original has hot/cold partitions.
-- Stop after the released first case. Second cases require a further release.
+- Continue through the authorized queues, reporting completed cases and proposing useful follow-on coverage.
 
 Successful original observations include CL 11.00.7022 help and minimal C
 compilation, RC help, CVPACK help, CVTRES help and C2's unsupported-help

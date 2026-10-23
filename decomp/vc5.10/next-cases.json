@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "project": "vc5.10",
+  "state": "autonomous continuation authorized",
+  "authorization": "User: for the vc5.10 team, workers may proceed after the first case.",
+  "coordination": "One substantial next case per worker initially; propose further meaningful cases on completion. First-case completion evidence remains separate.",
+  "shared_resource_owner": "/root/vc510_orchestrator/rcdll",
+  "policy": [
+    "Native fixtures, debugging and dependency handling never invoke Wine or PE helpers.",
+    "Wine only for original-toolchain builds, explicit original references and fresh masked acceptance.",
+    "Use shared repo Wine prefix and fixed R/S drives; reuse provenance-bound original captures when execution inputs are unchanged.",
+    "Shared shim changes belong to /root/recon_lib_maintenance; dependency-binary reconstruction requires scope review."
+  ],
+  "workers": [
+    {
+      "binary": "c1",
+      "agent": "/root/vc510_orchestrator/c1",
+      "next_case": "minimal-c",
+      "case": "Real C1 DLL attach/Invoke/detach compilation of minimal C source, no system headers or debug/PDB switches.",
+      "contract": "Fresh actual CL pass argc/argv/BOOL/environment and source/IL inputs/outputs; static native host.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "c1xx",
+      "agent": "/root/vc510_orchestrator/c1xx",
+      "next_case": "minimal-cpp",
+      "case": "Real C1XX DLL attach/Invoke/detach compilation of existing minimal.cpp seed without headers or PDB.",
+      "contract": "Fresh actual CL pass contract; no invented DLL CLI or reused VC1 IR.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "c2",
+      "agent": "/root/vc510_orchestrator/c2",
+      "next_case": "numeric-control-flow",
+      "case": "Numeric, loops, aliasing and floating-point source compiled with /O2 /G5 after help diagnostic completion.",
+      "contract": "Fresh original 5.10 frontend IL and MSC_CMD_FLAGS; exact emitted COFF master.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "cl",
+      "agent": "/root/vc510_orchestrator/cl",
+      "next_case": "minimal-c-driver",
+      "case": "Simple C compile after help completion; identify actual compiler-DLL and C2 child contracts first.",
+      "contract": "Strict captured native dependency contracts; driver-only response-file/options case may proceed if a shared boundary is unresolved.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "cvppack",
+      "agent": "/root/vc510_orchestrator/cvppack",
+      "next_case": "hello-debug-dll",
+      "case": "Pack genuine original 5.10 embedded-CodeView debug DLL; validate supported producer options.",
+      "contract": "CVPACK worker owns explicit original input preparation. Prefer supported no-PDB input; unresolved PDB contracts require review.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "cvtres",
+      "agent": "/root/vc510_orchestrator/cvtres",
+      "next_case": "resources-rich-coff",
+      "case": "Convert the shared rich-resource .res to COFF with verified machine/read-only/output options.",
+      "contract": "Reuse immutable fresh original RC .res and producer provenance owned by RCDLL worker.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "link",
+      "agent": "/root/vc510_orchestrator/link",
+      "next_case": "hello-win32",
+      "case": "Link genuine original 5.10 Win32 hello objects after help completion, then consider hello DLL.",
+      "contract": "Fresh original input/master output; dependency contracts remain native-only and fail closed.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "rcdll",
+      "agent": "/root/vc510_orchestrator/rcdll",
+      "next_case": "resources-rich",
+      "case": "Compile rich .rc source with includes/macros/conditionals and diverse resource types through real RC export.",
+      "contract": "Own shared source and fresh original RC .res preparation for RC/CVTRES; preserve lifecycle/callback/file effects.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    },
+    {
+      "binary": "rc",
+      "agent": "/root/vc510_orchestrator/rc",
+      "next_case": "resources-rich-driver",
+      "case": "Compile same rich-resource source through RC driver with include/define/output options.",
+      "contract": "Reuse producer input receipts; freeze actual full RCDLL invocation, callbacks, output artifacts and status for strict native replay.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+    }
+  ]
+}

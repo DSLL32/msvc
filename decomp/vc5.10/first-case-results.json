@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "project": "vc5.10",
+  "purpose": "Preserve first-case workflow trial results separately from ongoing autonomous reconstruction.",
+  "completed_first_cases": 7,
+  "total_first_cases": 9,
+  "native_policy": "All measured fixtures execute native i386 ELF only, with cached original references.",
+  "results": [
+    {
+      "binary": "c1",
+      "first_case": "DLL lifecycle/exports",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#c1",
+      "application_functions": 1,
+      "application_extent_bytes": 35,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT code denominator has not been established; counts describe the accepted case paths.",
+      "completion_proof": "c1/cases/lifecycle/evidence/completion/final-checks.json",
+      "independently_verified": true,
+      "crt_source_bytes": 451,
+      "import_thunk_bytes": 6,
+      "independent_fixture_seconds": 0.004144427366554737,
+      "commits": [
+        "02a4d81f"
+      ],
+      "scope_qualification": "Lifecycle/export-presence only; this first case did not invoke the compiler exports."
+    },
+    {
+      "binary": "c1xx",
+      "first_case": "DLL lifecycle/exports",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#c1xx",
+      "application_functions": 1,
+      "application_extent_bytes": 35,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT code denominator has not been established; counts describe the accepted case paths.",
+      "completion_proof": "c1xx/cases/lifecycle/validation.json",
+      "independently_verified": true,
+      "crt_source_bytes": 451,
+      "import_thunk_bytes": 6,
+      "independent_execution_seconds": 0.002073281444609165,
+      "commits": [
+        "01723b69"
+      ],
+      "scope_qualification": "Lifecycle/export-presence only; this first case did not invoke the compiler exports."
+    },
+    {
+      "binary": "c2",
+      "first_case": "/? unsupported diagnostic",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#c2",
+      "application_functions": 19,
+      "application_extent_bytes": 3402,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT code denominator has not been established; counts describe the accepted case paths.",
+      "completion_proof": "c2/cases/first-case-result.json",
+      "independently_verified": true,
+      "crt_source_bytes": 438,
+      "import_thunk_bytes": 24,
+      "independent_fixture_seconds": 0.009170946665108204,
+      "independent_execution_seconds": 0.002441869117319584,
+      "commits": [
+        "41dd9f9c"
+      ]
+    },
+    {
+      "binary": "cl",
+      "first_case": "/?",
+      "first_case_complete": false,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#cl",
+      "state": "First case still in progress; completion not claimed."
+    },
+    {
+      "binary": "cvppack",
+      "first_case": "/help",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#cvppack",
+      "application_functions": 6,
+      "application_extent_bytes": 1269,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT code denominator has not been established; counts describe the accepted case paths.",
+      "completion_proof": "cvppack/cases/help/completion.json",
+      "independently_verified": true,
+      "independent_fixture_seconds": 0.01340804435312748,
+      "commits": [
+        "4571016f"
+      ],
+      "crt_source_bytes": 384,
+      "import_thunk_bytes": 12
+    },
+    {
+      "binary": "cvtres",
+      "first_case": "/help",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#cvtres",
+      "application_functions": 3,
+      "application_extent_bytes": 1623,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT code denominator has not been established; counts describe the accepted case paths.",
+      "completion_proof": "cvtres/cases/help/completion.json",
+      "independently_verified": true,
+      "crt_source_bytes": 424,
+      "independent_fixture_seconds": 0.07027233019471169,
+      "independent_execution_seconds": 0.0018364377319812775,
+      "commits": [
+        "013af03a"
+      ]
+    },
+    {
+      "binary": "link",
+      "first_case": "/?",
+      "first_case_complete": false,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#link",
+      "state": "First case still in progress; completion not claimed."
+    },
+    {
+      "binary": "rcdll",
+      "first_case": "RC export /help",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#rcdll",
+      "application_functions": 9,
+      "application_extent_bytes": 4626,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT code denominator has not been established; counts describe the accepted case paths.",
+      "completion_proof": "rcdll/cases/help/verification.json",
+      "independently_verified": true,
+      "crt_source_bytes": 555,
+      "import_thunk_bytes": 12,
+      "independent_fixture_seconds": 0.00788224395364523,
+      "independent_execution_seconds": 0.0024714618921279907,
+      "commits": [
+        "755c4602",
+        "42f9d374"
+      ]
+    },
+    {
+      "binary": "rc",
+      "first_case": "/help",
+      "first_case_complete": true,
+      "worker_paused": false,
+      "ongoing_queue": "next-cases.json#rc",
+      "application_functions": 2,
+      "application_extent_bytes": 277,
+      "application_coverage_percent": null,
+      "coverage_qualification": "All277 identified RC-driver application bytes are accepted; this does not count RCDLL implementation.",
+      "completion_proof": "rc/cases/help/evidence/summary.json",
+      "independently_verified": true,
+      "crt_source_bytes": 350,
+      "import_thunk_bytes": 18,
+      "independent_execution_seconds": 0.002078504301607609,
+      "commits": [
+        "f66ea865",
+        "e6420f0f"
+      ]
+    }
+  ]
+}

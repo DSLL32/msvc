@@ -1,9 +1,8 @@
 {
   "schema": 1,
   "project": "vc5.10",
-  "state": "released for exactly one first case per worker; pause after completion",
+  "state": "First-case trials remain recorded; user authorized autonomous continuation beyond them.",
   "reconstruction_enabled": true,
-  "first_case_limit_per_worker": 1,
   "gates": [
     "Rust tool finished",
     "All vc1.0 workers integrated and reported common fixes or documented Python fallbacks",
@@ -209,7 +208,7 @@
     }
   ],
   "report_after_first_case": [
-    "Pause after completing this one case; do not start queued second cases.",
+    "Complete and preserve validation, fixture, timings and commit for this case before proceeding to the next.",
     "Report actual case invocation and result, accepted application functions/code extents with denominator definition, and CRT/import support counted separately.",
     "Report native build, original build, audits, explicit original capture/acceptance and native fixture elapsed times separately where measured.",
     "Identify native-only fixture evidence, graph/ABI/export checks, outstanding gaps and any Python fallback.",
@@ -221,7 +220,8 @@
       "rust_tool_and_eight_vc1_integrations": true,
       "root_agents_advisory_commit": "47f7dc9a"
     },
-    "scope": "Only the nine listed first cases; no second cases."
+    "scope": "First-case pause lifted by subsequent explicit user authorization; autonomous continuation is recorded in next-cases.json.",
+    "historical_scope": "Only the nine listed first cases; no second cases."
   },
   "canonical_original_crt": {
     "path": "toolchains/5.10/bin/MSVCRT.DLL",
@@ -229,5 +229,12 @@
     "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
     "selection": "WINEDLLOVERRIDES=msvcrt=n plus verified adjacent copy for S:-resident original hosts when needed; record actual loaded module-file hash.",
     "failure_policy": "Preserve and report shipped-provider failure before changing baseline; earlier builtin observations stay separate."
+  },
+  "historical_first_case_limit_per_worker": 1,
+  "continuation": {
+    "authorized_by": "user via root",
+    "instruction": "for the vc5.10 team, workers may proceed after the first case",
+    "plan": "next-cases.json",
+    "first_case_proofs": "Retain immutable completion evidence and report it separately from ongoing progress."
   }
 }
