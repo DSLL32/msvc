@@ -1002,7 +1002,8 @@
     "_single_qualified_function@4",
     "_has_single_function@4",
     "_emit_vector_deleting_destructor_body@4",
-    "_begin_debug_info"
+    "_begin_debug_info",
+    "_write_debug_record"
   ],
   "driver": [
     {
@@ -7611,7 +7612,13 @@
     {
       "name": "_write_debug_record",
       "start": 459936,
-      "end": 459937
+      "end": 460414,
+      "shared": [
+        [
+          460416,
+          460516
+        ]
+      ]
     },
     {
       "name": "_begin_line_record_debug_info",
@@ -7817,7 +7824,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_write_debug_record",
+      "terminal": "_write_ir_integer",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7840,10 +7847,11 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/0997-begin_debug_info/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/0998-write_debug_record/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
-        "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/0998-write_debug_record/frontier-extension.json"
       ]
     }
   },
@@ -10004,6 +10012,14 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "schemas",
+      "name": "_debug_record_formats",
+      "original": 668328,
+      "count": 13,
+      "original_stride": 8,
+      "rebuilt_stride": 4
     }
   ],
   "buffered_streams": [

@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655acc7 in write_ir_integer (value=0xffffd6b8) at src/stubs.c:604
+604	void write_ir_integer(int *value) { __asm { int 3 } }
+#0  0x5655acc7 in write_ir_integer (value=0xffffd6b8) at src/stubs.c:604
+#1  0x56589ba4 in write_debug_record (record=10) at src/debug-info.c:77
+#2  0x565899d5 in begin_debug_info () at src/debug-info.c:22
+#3  0x5655e0c6 in compile_translation_unit () at src/frontend.c:64
+#4  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

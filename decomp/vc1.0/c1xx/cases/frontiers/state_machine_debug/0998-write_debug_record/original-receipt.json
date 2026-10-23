@@ -1,0 +1,53 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 998,
+  "terminal": "_write_ir_integer",
+  "candidate": "_write_debug_record",
+  "pending_accepted": [],
+  "configuration_sha256": "e1c883876ff8dd7d14572021471a31e497a5775d999d35420f32d48d9085b07f",
+  "capture_seconds": 1.769134403206408,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 3831,
+      "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-debug",
+  "first_entry_projection": {
+    "accepted_first": 997,
+    "accepted_last": 999,
+    "accepted_prefix_sha256": "1c80060803da467a087b0d0025acb4e93fa4f0d1291a65c3418202a8ba52adb3",
+    "expected": [
+      "_begin_debug_info",
+      "_write_debug_record"
+    ],
+    "observed": [
+      "_begin_debug_info",
+      "_write_debug_record"
+    ],
+    "events_sha256": "ed4def1590bbc740aece6f14f7775a8be4b5c9b2e091c08498c1c856fdccfbdc",
+    "plan_sha256": "78f2277fe17b4b79a28d5f07331b7475a66fb232e399e83de1cf4aa19d595829"
+  }
+}

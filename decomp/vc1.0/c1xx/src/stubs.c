@@ -620,5 +620,5 @@ int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 
 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 
-void write_debug_record(unsigned record, ...) { __asm { int 3 } }
+
 void begin_line_record_debug_info(void) { __asm { int 3 } }
