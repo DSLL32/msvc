@@ -122,7 +122,6 @@ void __stdcall browser_base_class(BaseClassLink *base) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape) { __asm { int 3 } }
-CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration, TypeShape *modifier) { __asm { int 3 } return 0; }
 void __stdcall begin_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
 void begin_do_condition(void) { __asm { int 3 } }
 void begin_do_statement(void) { __asm { int 3 } }
@@ -223,7 +222,6 @@ CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0;
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier, IrToken *placement,
     CppSymbol *type, IrToken *initializer, unsigned bound) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall new_label(char *name) { __asm { int 3 } return 0; }
@@ -500,7 +498,6 @@ int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } retur
 
 
 unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }
-void __stdcall emit_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
@@ -509,7 +506,6 @@ void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
-unsigned __stdcall classify_null_pointer_shape(unsigned rank, TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
 int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
 unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source) { __asm { int 3 } return 0; }
@@ -527,7 +523,6 @@ unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop
 
 
 
-void __stdcall emit_vbase_destructor_epilogue(CppSymbol *tag) { __asm { int 3 } }
 
 void finish_inline_function(void) { __asm { int 3 } }
 
@@ -637,3 +632,6 @@ void warn_ident_requires_string(void) { __asm { int 3 } }
 
 void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
 unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }
+
+
+IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrToken *object, CppSymbol *tag) { __asm { int 3 } return 0; }

@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_apply_declarator_modifier@8",
+    "start": 246096,
+    "end": 246231
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_emit_vbase_destructor_epilogue@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5051425602287054,
+  "total_operation_seconds": 7.954185315407813,
+  "original_capture_seconds": 4.575642781332135
+}

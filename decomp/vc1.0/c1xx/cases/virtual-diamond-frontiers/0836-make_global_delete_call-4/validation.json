@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_global_delete_call@4",
+    "start": 230400,
+    "end": 230524
+  },
+  "distinct_direct_callees": [
+    "_append_expression@12",
+    "_build_call_expression@8",
+    "_find_scope_symbol@12",
+    "_symbol_reference@4"
+  ],
+  "next_frontier": "_classify_null_pointer_shape@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5048199994489551,
+  "total_operation_seconds": 8.069720420986414,
+  "original_capture_seconds": 4.727436245419085
+}

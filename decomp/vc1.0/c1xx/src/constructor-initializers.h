@@ -25,6 +25,10 @@ IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object,
     int kind, int direct, int flags);
 IrToken *__stdcall make_array_destructor_call(IrToken *object);
 void __stdcall require_deleting_destructor(CppSymbol *tag);
+void __stdcall emit_scalar_deleting_cleanup(CppSymbol *tag);
+void __stdcall emit_virtual_base_destructors(CppSymbol *tag, IrToken *object);
+IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrToken *object, CppSymbol *tag);
+IrToken *__stdcall make_global_delete_call(IrToken *object);
 void __stdcall require_class_member_definitions(CppSymbol *tag, char *name);
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols);
 IrToken *__stdcall adjusted_this_expression(CppSymbol *parameter);

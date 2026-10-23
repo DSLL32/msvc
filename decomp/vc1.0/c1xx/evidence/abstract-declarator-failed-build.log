@@ -1,0 +1,11 @@
+python3 scripts/dependencies.py
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/declarations.c -o build/native/declarations.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/constructor-initializers.c -o build/native/constructor-initializers.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/stubs.c -o build/native-trace/stubs.o
+src/declarations.c:404:12: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'CppSymbol *' (aka 'struct CppSymbol *') [-Wint-conversion]
+  404 |     return apply_declarator_modifier(declaration, shape);
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [Makefile:93: build/native/declarations.o] Error 1
+make: *** Waiting for unfinished jobs....

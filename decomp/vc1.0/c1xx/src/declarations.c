@@ -1,5 +1,6 @@
 /* Declaration lookup uses the first word of its declaration records as a key. */
 #include "declarations.h"
+#include "parser.h"
 #include "global-ir.h"
 #include "cpp-context.h"
 #include "parameters.h"
@@ -365,4 +366,71 @@ CppSymbol *__stdcall new_symbol(char *name, unsigned char scope)
     symbol_scope_mode = scope;
     insert_scope_symbol(scope ? current_scope : global_scope, symbol);
     return symbol;
+}
+
+/* Original 0x3c1e0..0x3c2a1, stdcall4. Abstract declarators use the
+   shared cast name and an arena selected by implicit-member suppression.
+   Keep both original allocation dispatches, including permanent/-1 cases. */
+CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape)
+{
+    unsigned arena = (suppress_implicit_member <= 0) + 1;
+    CppSymbol *declaration;
+    ArenaPool *pool;
+    if (!arena)
+        declaration = allocate_permanent(sizeof(CppSymbol));
+    else {
+        if (arena == (unsigned)-1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(CppSymbol))
+            refill_arena(&compiler_arena, pool);
+        declaration = (CppSymbol *)pool->next;
+        pool->remaining -= sizeof(CppSymbol);
+        pool->next += sizeof(CppSymbol);
+    }
+    declaration->kind = 12;
+    declaration->name = name_cast;
+    arena = (suppress_implicit_member <= 0) + 1;
+    if (!arena)
+        declaration->type = allocate_permanent(sizeof(CType));
+    else {
+        if (arena == (unsigned)-1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(CType))
+            refill_arena(&compiler_arena, pool);
+        declaration->type = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    }
+    if (!shape) shape = new_type_shape(0, 0, 0);
+    return apply_declarator_modifier(declaration, shape);
+}
+
+/* Original 0x3c150..0x3c1d6, stdcall8. Distance/based modifiers gain
+   their own outer shape and copied mutable type; ordinary qualifiers update
+   the existing type's attribute word directly. */
+CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration,
+    TypeShape *modifier)
+{
+    CType *type;
+    ArenaPool *pool;
+    if (modifier->attributes & 12) {
+        declaration->attributes |= 2;
+        if (token_allocation_flags & 0x20)
+            type = allocate_permanent(sizeof(CType));
+        else {
+            pool = &compiler_arena.pools[2];
+            if (pool->remaining < (int)sizeof(CType))
+                refill_arena(&compiler_arena, pool);
+            type = (CType *)pool->next;
+            pool->remaining -= sizeof(CType);
+            pool->next += sizeof(CType);
+        }
+        *type = *declaration->type;
+        modifier->related = type->related;
+        type->related = modifier;
+        declaration->type = type;
+    } else {
+        declaration->type->attributes = modifier->attributes;
+    }
+    return declaration;
 }

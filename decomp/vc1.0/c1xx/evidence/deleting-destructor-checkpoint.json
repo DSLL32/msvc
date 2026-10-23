@@ -1,0 +1,16 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "status": 0,
+  "seconds": 5.093322510831058,
+  "log": "evidence/deleting-destructor-checkpoint.log",
+  "raw_log": "evidence/deleting-destructor-checkpoint.raw.log.gz",
+  "raw_sha256": "1adee5f1b508da0e8d1c6e0542d83cfc8c01914196f573a59447a1a6a5fddf2c",
+  "log_format": "display CRLF to LF; raw bytes preserved in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture measurements separate"
+}

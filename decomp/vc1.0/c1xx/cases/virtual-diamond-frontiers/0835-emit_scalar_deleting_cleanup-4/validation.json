@@ -1,0 +1,28 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_scalar_deleting_cleanup@4",
+    "start": 230144,
+    "end": 230285
+  },
+  "distinct_direct_callees": [
+    "_adjusted_this_expression@4",
+    "_builtin_binary_expression@12",
+    "_emit_condition_to_label@12",
+    "_emit_expression_statement@4",
+    "_emit_label@4",
+    "_identifier_expression@4",
+    "_lookup_class_name@16",
+    "_make_class_delete_call@12",
+    "_make_destructor_call@20",
+    "_make_global_delete_call@4",
+    "_make_integer_constant@4",
+    "_new_branch_label@4"
+  ],
+  "next_frontier": "_make_global_delete_call@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.518588924780488,
+  "total_operation_seconds": 7.9526322185993195,
+  "original_capture_seconds": 4.627440365962684
+}

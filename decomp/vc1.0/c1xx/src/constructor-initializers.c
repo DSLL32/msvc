@@ -1190,3 +1190,106 @@ IrToken *__stdcall make_destructor_arguments(int kind, int flags)
     argument = make_integer_constant(value);
     return append_expression(0, argument, 2);
 }
+
+/* Original 0x382d0..0x382f4, stdcall4. A scalar deleting destructor
+   performs its cleanup and returns the same adjusted object pointer. */
+void __stdcall emit_deleting_destructor_body(CppSymbol *tag)
+{
+    IrToken *object = adjusted_this_expression(0);
+    emit_scalar_deleting_cleanup(tag);
+    begin_return_expression();
+    emit_return_statement(object, 2);
+}
+
+/* Original 0x38300..0x3838c, stdcall4. Always destroy the object;
+   bit zero of __flags controls class-specific or global deallocation. */
+void __stdcall emit_scalar_deleting_cleanup(CppSymbol *tag)
+{
+    IrToken *object = adjusted_this_expression(0);
+    IrToken *flags = identifier_expression(name_flags);
+    IrToken *end_label = new_branch_label(0x1e);
+    IrToken *call;
+    QualifiedDeclarator *deallocation;
+    emit_expression_statement(make_destructor_call(tag, object, 3, 1, 0));
+    emit_condition_to_label(builtin_binary_expression(OP_BIT_AND, flags,
+        make_integer_constant(1)), end_label, 0);
+    deallocation = lookup_class_name(tag, name_delete, 2, 0x181);
+    if (deallocation)
+        call = make_class_delete_call(deallocation, object, tag);
+    else
+        call = make_global_delete_call(object);
+    emit_expression_statement(call);
+    emit_label(end_label);
+}
+
+/* Original 0x38400..0x3847b, stdcall4. Global delete accepts the object
+   address, with an explicit segment argument for a based pointer. The
+   original changes that shared pointer shape from attribute5 to4 in place. */
+IrToken *__stdcall make_global_delete_call(IrToken *object)
+{
+    CppSymbol *deallocator = find_scope_symbol(global_scope, name_delete, 0);
+    IrToken *arguments = 0, *segment;
+    TypeShape *shape;
+    if (object->type && (shape = object->type->related) != 0 &&
+        shape->attributes == 5) {
+        segment = symbol_reference((CppSymbol *)shape->data.based_symbol);
+        segment->type = type_0802;
+        arguments = append_expression(0, segment, 2);
+        object->type->related->attributes = 4;
+    }
+    arguments = append_expression(arguments, object, 2);
+    return build_call_expression(symbol_reference(deallocator), arguments);
+}
+
+/* Original 0x642e0..0x64316, stdcall12. A source shape converted to a
+   single pointer shape receives this distinct conversion rank. */
+unsigned __stdcall classify_null_pointer_shape(unsigned rank,
+    TypeShape *target, TypeShape *source)
+{
+    if (source && !target->related && (target->flags & 0x77) == 1)
+        return 0x100;
+    return rank;
+}
+
+/* Original 0x38190..0x381cb, stdcall4. The virtual-base wrapper first
+   destroys the ordinary subobject, then emits the virtual-base cleanup. */
+void __stdcall emit_vbase_destructor_epilogue(CppSymbol *tag)
+{
+    IrToken *object = adjusted_this_expression(0);
+    emit_expression_statement(make_destructor_call(tag, object, 1, 1, 0));
+    set_base_initialization_access(1);
+    emit_virtual_base_destructors(tag, object);
+    set_base_initialization_access(0);
+}
+
+/* Original 0x381d0..0x382c5, stdcall8. Build each nontrivial virtual
+   base's destruction using its object displacement, then emit in reverse
+   virtual-base order and return the temporary vector to its shared pool. */
+void __stdcall emit_virtual_base_destructors(CppSymbol *tag, IrToken *object)
+{
+    InlineVector *calls = new_type_set();
+    VirtualBaseSearch bases;
+    CType *pointer_type;
+    IrToken *offset, *base_object, *call;
+    short index;
+    begin_virtual_base_search(&bases, tag);
+    while (next_virtual_base_search(&bases)) {
+        if (!(bases.tag->detail.class_info->trivial_special_members & 8)) {
+            pointer_type = make_class_pointer_type(bases.tag,
+                (unsigned short)(object->type->related->attributes & 7));
+            offset = make_integer_constant(bases.field14);
+            base_object = clone_expression(object, 0);
+            base_object = new_ir_expression(OP_ADD, base_object, offset, pointer_type);
+            call = make_destructor_call(bases.tag, base_object, 1, 1, 0);
+            if (call) {
+                if (calls->capacity == calls->count) calls = grow_inline_vector(calls);
+                calls->items[calls->count] = call;
+                ++calls->count;
+            }
+        }
+    }
+    index = -1;
+    if (calls) index = (short)(calls->count - 1);
+    for (; index >= 0; --index) emit_expression_statement(calls->items[index]);
+    release_inline_vector(calls);
+}

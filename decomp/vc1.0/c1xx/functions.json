@@ -838,7 +838,15 @@
     "_check_literal_cursor@4",
     "_encode_literal_segment@12",
     "_finish_directive@4",
-    "_next_directive_character"
+    "_next_directive_character",
+    "_emit_deleting_destructor_body@4",
+    "_emit_scalar_deleting_cleanup@4",
+    "_make_global_delete_call@4",
+    "_classify_null_pointer_shape@12",
+    "_new_abstract_declarator@4",
+    "_apply_declarator_modifier@8",
+    "_emit_vbase_destructor_epilogue@4",
+    "_emit_virtual_base_destructors@8"
   ],
   "driver": [
     {
@@ -2206,7 +2214,7 @@
     {
       "name": "_apply_declarator_modifier@8",
       "start": 246096,
-      "end": 246097
+      "end": 246231
     },
     {
       "name": "_begin_braced_initializer@4",
@@ -2696,7 +2704,7 @@
     {
       "name": "_new_abstract_declarator@4",
       "start": 246240,
-      "end": 246241
+      "end": 246434
     },
     {
       "name": "_new_branch_label@4",
@@ -4619,7 +4627,7 @@
     {
       "name": "_emit_deleting_destructor_body@4",
       "start": 230096,
-      "end": 230097
+      "end": 230133
     },
     {
       "name": "_emit_vector_deleting_destructor_body@4",
@@ -4795,7 +4803,7 @@
     {
       "name": "_classify_null_pointer_shape@12",
       "start": 410336,
-      "end": 410337
+      "end": 410391
     },
     {
       "name": "_rank_pointer_attributes@16",
@@ -5148,7 +5156,7 @@
     {
       "name": "_emit_vbase_destructor_epilogue@4",
       "start": 229776,
-      "end": 229777
+      "end": 229836
     },
     {
       "name": "_finish_function_output",
@@ -6850,6 +6858,26 @@
       "name": "_decode_literal_escape@8",
       "start": 153856,
       "end": 153857
+    },
+    {
+      "name": "_emit_scalar_deleting_cleanup@4",
+      "start": 230144,
+      "end": 230285
+    },
+    {
+      "name": "_make_class_delete_call@12",
+      "start": 230288,
+      "end": 230289
+    },
+    {
+      "name": "_make_global_delete_call@4",
+      "start": 230400,
+      "end": 230524
+    },
+    {
+      "name": "_emit_virtual_base_destructors@8",
+      "start": 229840,
+      "end": 230086
     }
   ],
   "cases": {
@@ -6975,7 +7003,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_emit_deleting_destructor_body@4",
+      "terminal": "_emit_class_virtual_table@8",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -7167,9 +7195,17 @@
         "cases/virtual-diamond-frontiers/0830-check_literal_cursor-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0831-encode_literal_segment-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0832-finish_directive-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0833-next_directive_character/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0833-next_directive_character/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0834-emit_deleting_destructor_body-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0835-emit_scalar_deleting_cleanup-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0836-make_global_delete_call-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0837-classify_null_pointer_shape-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0838-new_abstract_declarator-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0839-apply_declarator_modifier-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0840-emit_vbase_destructor_epilogue-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0841-emit_virtual_base_destructors-8/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0833-next_directive_character/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0841-emit_virtual_base_destructors-8/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

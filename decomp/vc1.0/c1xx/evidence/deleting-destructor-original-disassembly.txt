@@ -1,0 +1,250 @@
+
+Original 000382d0..000382f5
+000382d0 push       esi
+000382d1 push       0
+000382d3 call       0x347b0
+000382d8 mov        esi, eax
+000382da mov        eax, dword ptr [esp + 8]
+000382de push       eax
+000382df call       0x38300
+000382e4 call       0x3e380
+000382e9 push       2
+000382eb push       esi
+000382ec call       0x50250
+000382f1 pop        esi
+000382f2 ret        4
+
+Original 00038300..0003838d
+00038300 push       ebx
+00038301 push       esi
+00038302 push       edi
+00038303 push       ebp
+00038304 push       0
+00038306 call       0x347b0
+0003830b mov        edi, eax
+0003830d mov        eax, dword ptr [0x9f364]
+00038312 push       eax
+00038313 call       0x3c330
+00038318 mov        ebp, eax
+0003831a push       0x1e
+0003831c call       0x3b540
+00038321 push       0
+00038323 push       1
+00038325 push       3
+00038327 push       edi
+00038328 mov        ebx, eax
+0003832a mov        esi, dword ptr [esp + 0x24]
+0003832e push       esi
+0003832f call       0x3ae00
+00038334 push       eax
+00038335 call       0x59ae0
+0003833a push       0
+0003833c push       ebx
+0003833d push       1
+0003833f call       0x2c7b0
+00038344 push       eax
+00038345 push       ebp
+00038346 push       0x3a
+00038348 call       0x5e040
+0003834d push       eax
+0003834e call       0x5a690
+00038353 push       0x181
+00038358 push       2
+0003835a mov        eax, dword ptr [0x9f35c]
+0003835f push       eax
+00038360 push       esi
+00038361 call       0x78420
+00038366 or         eax, eax
+00038368 je         0x38374
+0003836a push       esi
+0003836b push       edi
+0003836c push       eax
+0003836d call       0x38390
+00038372 jmp        0x3837a
+00038374 push       edi
+00038375 call       0x38400
+0003837a push       eax
+0003837b call       0x59ae0
+00038380 push       ebx
+00038381 call       0x5a840
+00038386 pop        ebp
+00038387 pop        edi
+00038388 pop        esi
+00038389 pop        ebx
+0003838a ret        4
+
+Original 00038400..0003847c
+00038400 push       esi
+00038401 push       edi
+00038402 push       0
+00038404 mov        eax, dword ptr [0x9f35c]
+00038409 push       eax
+0003840a mov        eax, dword ptr [0x9f2c8]
+0003840f push       eax
+00038410 call       0x53570
+00038415 mov        esi, dword ptr [esp + 0xc]
+00038419 mov        edi, eax
+0003841b mov        eax, dword ptr [esi + 4]
+0003841e or         eax, eax
+00038420 je         0x38460
+00038422 mov        eax, dword ptr [eax + 4]
+00038425 or         eax, eax
+00038427 je         0x38460
+00038429 cmp        word ptr [eax + 2], 5
+0003842e jne        0x38460
+00038430 mov        eax, dword ptr [eax + 8]
+00038433 push       eax
+00038434 call       0x61380
+00038439 mov        ecx, dword ptr [0x9f284]
+0003843f mov        dword ptr [eax + 4], ecx
+00038442 push       2
+00038444 push       eax
+00038445 push       0
+00038447 call       0x39dc0
+0003844c mov        ecx, dword ptr [esi + 4]
+0003844f push       2
+00038451 mov        ecx, dword ptr [ecx + 4]
+00038454 push       esi
+00038455 mov        word ptr [ecx + 2], 4
+0003845b push       eax
+0003845c jmp        0x38465
+0003845e mov        edi, edi
+00038460 push       2
+00038462 push       esi
+00038463 push       0
+00038465 call       0x39dc0
+0003846a push       eax
+0003846b push       edi
+0003846c call       0x61380
+00038471 push       eax
+00038472 call       0x39050
+00038477 pop        edi
+00038478 pop        esi
+00038479 ret        4
+
+Original 00069501..00069521
+00069501 mov        word ptr [esi], 0x108
+00069506 push       esi
+00069507 call       0x62080
+0006950c mov        dword ptr [0x9f270], eax
+00069511 mov        word ptr [esi], 0x802
+00069516 push       esi
+00069517 call       0x62080
+0006951c mov        dword ptr [0x9f284], eax
+
+Original 00038190..000381cc
+00038190 push       esi
+00038191 push       edi
+00038192 push       0
+00038194 call       0x347b0
+00038199 mov        edi, eax
+0003819b push       0
+0003819d push       1
+0003819f push       1
+000381a1 mov        esi, dword ptr [esp + 0x18]
+000381a5 push       edi
+000381a6 push       esi
+000381a7 call       0x3ae00
+000381ac push       eax
+000381ad call       0x59ae0
+000381b2 push       1
+000381b4 call       0x32070
+000381b9 push       edi
+000381ba push       esi
+000381bb call       0x381d0
+000381c0 push       0
+000381c2 call       0x32070
+000381c7 pop        edi
+000381c8 pop        esi
+000381c9 ret        4
+
+Original 000381d0..000382c6
+000381d0 sub        esp, 0x18
+000381d3 push       ebx
+000381d4 push       esi
+000381d5 push       edi
+000381d6 push       ebp
+000381d7 call       0x4e370
+000381dc mov        esi, eax
+000381de mov        eax, dword ptr [esp + 0x2c]
+000381e2 push       eax
+000381e3 lea        eax, [esp + 0x14]
+000381e7 push       eax
+000381e8 call       0x7c060
+000381ed lea        eax, [esp + 0x10]
+000381f1 push       eax
+000381f2 call       0x7c0a0
+000381f7 or         eax, eax
+000381f9 je         0x38290
+000381ff mov        edi, dword ptr [esp + 0x30]
+00038203 mov        ebx, 8
+00038208 mov        eax, dword ptr [esp + 0x20]
+0003820c mov        eax, dword ptr [eax + 0x20]
+0003820f test       byte ptr [eax + 0x36], bl
+00038212 jne        0x3827e
+00038214 mov        eax, dword ptr [edi + 4]
+00038217 mov        eax, dword ptr [eax + 4]
+0003821a mov        ax, word ptr [eax + 2]
+0003821e and        ax, 7
+00038222 push       eax
+00038223 mov        eax, dword ptr [esp + 0x24]
+00038227 push       eax
+00038228 call       0x33180
+0003822d push       eax
+0003822e mov        eax, dword ptr [esp + 0x28]
+00038232 push       eax
+00038233 call       0x2c7b0
+00038238 push       eax
+00038239 push       0
+0003823b push       edi
+0003823c call       0x5cfe0
+00038241 push       eax
+00038242 push       0x5a
+00038244 call       0x61280
+00038249 push       0
+0003824b push       1
+0003824d push       1
+0003824f push       eax
+00038250 mov        eax, dword ptr [esp + 0x30]
+00038254 push       eax
+00038255 call       0x3ae00
+0003825a mov        ebp, eax
+0003825c or         ebp, ebp
+0003825e je         0x3827e
+00038260 mov        ax, word ptr [esi]
+00038263 cmp        word ptr [esi + 2], ax
+00038267 jne        0x38274
+00038269 push       esi
+0003826a call       0x4e3d0
+0003826f add        esp, 4
+00038272 mov        esi, eax
+00038274 movsx      eax, word ptr [esi]
+00038277 mov        dword ptr [esi + eax*4 + 4], ebp
+0003827b inc        word ptr [esi]
+0003827e lea        eax, [esp + 0x10]
+00038282 push       eax
+00038283 call       0x7c0a0
+00038288 or         eax, eax
+0003828a jne        0x38208
+00038290 or         esi, esi
+00038292 mov        di, 0xffff
+00038296 je         0x3829d
+00038298 mov        di, word ptr [esi]
+0003829b dec        di
+0003829d or         di, di
+000382a0 jl         0x382b3
+000382a2 movsx      eax, di
+000382a5 mov        eax, dword ptr [esi + eax*4 + 4]
+000382a9 push       eax
+000382aa call       0x59ae0
+000382af dec        di
+000382b1 jns        0x382a2
+000382b3 push       esi
+000382b4 call       0x4e410
+000382b9 add        esp, 4
+000382bc pop        ebp
+000382bd pop        edi
+000382be pop        esi
+000382bf pop        ebx
+000382c0 add        esp, 0x18
+000382c3 ret        8

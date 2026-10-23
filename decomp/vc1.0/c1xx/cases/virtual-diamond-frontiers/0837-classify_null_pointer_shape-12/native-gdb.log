@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559768 in new_abstract_declarator (shape=0x0) at src/stubs.c:226
+226	CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
+#0  0x56559768 in new_abstract_declarator (shape=0x0) at src/stubs.c:226
+#1  0x5659f9a6 in parse_translation_unit () at src/parser-declarator-actions.inc:366
+#2  0x5655e26f in compile_translation_unit () at src/frontend.c:73
+#3  0x56558816 in guarded_compile () at src/c1xx.c:28
+#4  0x565587e4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

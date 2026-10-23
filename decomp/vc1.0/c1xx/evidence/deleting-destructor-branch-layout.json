@@ -1,0 +1,31 @@
+{
+  "special_names": {
+    "original_special_identifier_table": "0x9d9e0",
+    "row9": {
+      "target": "0x9f364",
+      "name": "__flags"
+    },
+    "row17": {
+      "target": "0x9f35c",
+      "name": "delete"
+    },
+    "row30": {
+      "target": "0x9f220",
+      "name": "cast"
+    }
+  },
+  "global_delete": {
+    "find_scope_symbol_arguments": [
+      "global_scope at0x9f2c8",
+      "name_delete at0x9f35c",
+      0
+    ],
+    "based_pointer": "object.type+4 -> TypeShape; attributes ushort+2 equals5; based_symbol at+8",
+    "segment_type": "original init0x69511..0x6951c creates flags0x802 and stores to0x9f284: existing type_0802",
+    "mutation": "Reload object.type.related after argument creation and set shared attributes from5to4; preserve original mutation and argument ordering"
+  },
+  "scalar_cleanup": "Destroy kind3 directly, branch past deallocation when (__flags &1)==0, class lookup categories2/diagnostic385, class/global call graph branches retained",
+  "virtual_cleanup": "Kind1 ordinary destruction, set base-access1, iterate nontrivial virtual bases, clone adjusted this+raw byte displacement, collect calls, reverse signed-short loop, release vector, set base-access0",
+  "raw": "evidence/deleting-destructor-original-disassembly.txt",
+  "scope": "Whole-source/static branch evidence; only reached branches dynamically validated by current fixture"
+}

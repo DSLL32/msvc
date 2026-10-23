@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 834 accepted frontiers, including 741 frontend
+PARTIAL binary reconstruction: 842 accepted frontiers, including 749 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1949,3 +1949,30 @@ canonical graph/state/default/alias/callback/data/vocabulary/grammar audits, bot
 cached native cases and 32 boundary rejections pass in 5.094780 seconds. Individual
 build/reference/debug/fixture costs remain separate in the acceptance receipts.
 Accepted extent union 228093/476418 bytes is 47.876655%, not branch coverage.
+
+Deleting-destructor checkpoint: 842 accepted frontiers, 756 source functions.
+Eight whole functions beyond febde90 recover scalar deleting-destructor output,
+its cleanup dispatcher and global delete call construction, pointer conversion
+ranking, abstract declarator creation/modification, and virtual-base destruction.
+Virtual-diamond now reaches emit_class_virtual_table at original 0x7b5a0.
+
+The scalar body always destroys the object, then tests __flags bit0 before
+class-specific/global deallocation. Global delete preserves the based-pointer
+segment argument and the original shared shape attribute change from5to4.
+Virtual bases are collected in their original order and destroyed in reverse,
+with explicit access-mode entry/exit. Raw instructions and special-name/type
+provenance remain in evidence/deleting-destructor-branch-layout.json and its
+companion disassembly. Unreached class-delete helpers remain named traps.
+
+Abstract declarators retain the original two arena dispatches, shared cast name,
+and modifier attachment. Twelve-byte copied types preserve their outer shape
+and qualifier behavior. The first native build caught a missing internal pointer
+prototype; its log/timing and the header correction are retained. The corrected
+original-toolchain build and fresh canonical call graphs pass.
+
+Every new acceptance matches the fresh original trap, four pending buffers,
+fourteen state fields, streams and visible files. Both cached native cases remain
+exact. Full graph/state/default/alias/callback/data/vocabulary/grammar audits and
+32 boundary rejections pass in 5.093323 seconds. Separate per-function compiler,
+reference capture, debugger and fixture costs remain in each receipt. Accepted
+extent union 229085/476418 bytes is 48.084875%, not branch coverage.
