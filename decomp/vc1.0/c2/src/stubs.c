@@ -322,9 +322,9 @@ void __fastcall register_machine_label(MachineInstruction *instruction) { __asm 
 int __fastcall scheduler_call_float_arguments(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
-int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall arrange_scheduled_float_inputs(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall exchange_scheduled_float_stack(int slot) { __asm int 3 }
+void __fastcall arrange_scheduled_float_operands(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }

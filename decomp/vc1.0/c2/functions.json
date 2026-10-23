@@ -1058,7 +1058,11 @@
     "@prepare_float_schedule@4",
     "@push_scheduled_float_stack@4",
     "@pop_scheduled_float_stack@4",
-    "@scheduled_float_conflict@12"
+    "@scheduled_float_conflict@12",
+    "@instruction_float_not_ready@4",
+    "@apply_scheduled_float@4",
+    "@scheduled_float_needs_exchange@4",
+    "@scheduled_float_latency@4"
   ],
   "driver": [
     {
@@ -5928,8 +5932,7 @@
     {
       "name": "@instruction_float_not_ready@4",
       "start": 282512,
-      "end": 282513,
-      "provisional": true
+      "end": 283359
     },
     {
       "name": "@scheduler_move_conflict@16",
@@ -5954,8 +5957,7 @@
     {
       "name": "@apply_scheduled_float@4",
       "start": 284976,
-      "end": 284977,
-      "provisional": true
+      "end": 286289
     },
     {
       "name": "@prune_pentium_candidate_undos@8",
@@ -6050,8 +6052,7 @@
     {
       "name": "@scheduled_float_latency@4",
       "start": 281968,
-      "end": 281969,
-      "provisional": true
+      "end": 282356
     },
     {
       "name": "@remove_pentium_candidate_undo@8",
@@ -7368,6 +7369,29 @@
       "name": "@scheduler_call_float_arguments@4",
       "start": 288464,
       "end": 288465,
+      "provisional": true
+    },
+    {
+      "name": "@scheduled_float_needs_exchange@4",
+      "start": 284368,
+      "end": 284662
+    },
+    {
+      "name": "@arrange_scheduled_float_inputs@4",
+      "start": 288496,
+      "end": 288497,
+      "provisional": true
+    },
+    {
+      "name": "@exchange_scheduled_float_stack@4",
+      "start": 289296,
+      "end": 289297,
+      "provisional": true
+    },
+    {
+      "name": "@arrange_scheduled_float_operands@4",
+      "start": 289472,
+      "end": 289473,
       "provisional": true
     }
   ],
