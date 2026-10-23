@@ -1,0 +1,43 @@
+{
+  "status": "unaccepted #76 finite import support review",
+  "files": [
+    {
+      "source": "/root/msvc2/decomp/vc5.10/link/scripts/mapping-preservation.py",
+      "snapshot": "/root/.ai-tmp/msvc2/vc5.10/link/mapping-import-review/mapping-preservation.py",
+      "sha256": "3ccb79932c7ca0ddb158fd201b8a2eddae3744d77cba2733110b0d4d63f423c0"
+    },
+    {
+      "source": "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/mapping-import-preservation.json",
+      "snapshot": "/root/.ai-tmp/msvc2/vc5.10/link/mapping-import-review/mapping-import-preservation.json",
+      "sha256": "6feadef91ea50ca883150fb3a6e05ba3c5e20a8112cdf352a38d420fa82e7610"
+    },
+    {
+      "source": "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+      "snapshot": "/root/.ai-tmp/msvc2/vc5.10/link/mapping-import-review/rebuilt.exe",
+      "sha256": "4bf6cf6ac86ffb606bf9d3d18533b3e3293df771ab4c7b13f3575505d2279180"
+    },
+    {
+      "source": "/root/msvc2/decomp/vc5.10/link/build/link.map",
+      "snapshot": "/root/.ai-tmp/msvc2/vc5.10/link/mapping-import-review/rebuilt.map",
+      "sha256": "6f5fc1198d526d82bc365d9cb69304ded57a3d843998831289f7b4800c0915f5"
+    }
+  ],
+  "original": {
+    "path": "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+    "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+  },
+  "provider": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-4jfzmrzf/module-002.bin",
+    "bytes": 2008819,
+    "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-4jfzmrzf/receipt.json",
+    "receipt_sha256": "92ff4d0da5fd4647b308f36e133a40e57b05412c8b864f64c5f1b36ba74d954d",
+    "module_index": 2,
+    "dll_name": "KERNEL32.dll",
+    "export_ordinal": 184,
+    "export_rva": 44764,
+    "entry_bytes": "8bff558bec5dff25e82e857b90909090",
+    "forwarder": null
+  },
+  "inventory": "2cached+9direct \u219411direct; only EDI normalABI CloseHandle, removecontract loses exactly40cdbb"
+}

@@ -1,0 +1,16 @@
+{
+  "previous_review": "/root/.ai-tmp/msvc2/vc5.10/link/mapping-import-review/orchestrator-review.json",
+  "previous_review_sha256": "9fa1780e1f30ca0bc0c286770090fed71c4598c5185c3a8a08e905574afe10df",
+  "correction": "Live canonical provider/receipt now refer to existing identical owned files; historical currentcapture and originalfrozensemanticpacket retained separately. Derived common-tool metadata/report rebound to corrected evidence digest; no original/native execution for this metadata-only step.",
+  "files": {
+    "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "without-contract.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.json": "c6b3182cdf06cf54e92ef013e6590f6287774b8c9e234acc2ac2c9ad870556fc",
+    "metadata.json": "b63dfbcc949ffd50b1664cad570c56ed869623fddf02fc28b9304e2eb341e8d2",
+    "without-contract.json": "fc4cef0d06c98bc2670e8fff32c0c7f1843ff2bf5e5cc461ea0aed7e516fa5df",
+    "validation.json": "e8802a9702e9f06a68f8ececdd6b4adb838fee158129f3624feeccc34eb13b20",
+    "mapping-preservation.py": "84e866a964f69fe83a97467fd10c92a1cda05309d74d2fac75c8d4f3b2d7627b",
+    "mapping-import-preservation.json": "c702bf9c528d4194fe110fa03526682ee3fdb8a38081d22c700f9680dd0cf82a",
+    "without-contract.stderr": "66323df7e94e0f68e35cc9d228963e99814d042b52efd9d1f38d520ea82edca4"
+  }
+}

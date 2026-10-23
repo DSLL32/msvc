@@ -35,12 +35,17 @@ def compare_created(original,state,trap,events,name,newname,oslots,nslots):
     assert state['mapped_file_slots']==[nslots[15]]+[0]*15
     assert bytes.fromhex(state['mapped_file_slots_bytes'])==struct.pack('<16I',*state['mapped_file_slots'])
     assert state['mapped_file_slots_address'] # Bound to real BSS symbol in the enclosing compare.
+    completed=state['function']=='create_library'
     current=trap['mapping_formals'];ncurrent=state['mapping_formals'];physical=state['mapping_entry']
     assert physical['hidden_inputs']==[]and physical['raw_formals']==[nslots[15],0,state['mapped_open_formals']['size']]
     assert current==dict(record=oslots[15],resize=0,raw_resize_word=0,error=trap['mapped_open_formals']['size'],initial_error=0)
     assert ncurrent==dict(record=nslots[15],resize=0,raw_resize_word=0,error=state['mapped_open_formals']['size'],initial_error=0)
-    assert trap['stack'][1:4]==[current['record'],0,current['error']]
-    for metadata,formals in ((trap,current),(state,ncurrent)):
-        assert metadata['frontier_inputs']==dict(formals=[formals['record'],0,formals['error']],hidden_register_inputs=[])
-    assert trap['ebp']==current['error']
+    if completed:
+        observed,=[e for e in events if e['event']=='mapping_entry']
+        assert observed['hidden_inputs']==[]and observed['raw_formals']==[current['record'],0,current['error']]
+    else:assert trap['stack'][1:4]==[current['record'],0,current['error']]
+    if not completed:
+        for metadata,formals in ((trap,current),(state,ncurrent)):
+            assert metadata['frontier_inputs']==dict(formals=[formals['record'],0,formals['error']],hidden_register_inputs=[])
+        assert trap['ebp']==current['error']
     return handle,nhandle

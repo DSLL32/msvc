@@ -92,7 +92,8 @@
     "_find_cached_file@4",
     "_get_available_file_record",
     "_move_file_record@24",
-    "_open_mapped_file@16"
+    "_open_mapped_file@16",
+    "_initialize_file_mapping@12"
   ],
   "driver": [
     {
@@ -2679,10 +2680,9 @@
     {
       "name": "_initialize_file_mapping@12",
       "start": 4246768,
-      "end": 4246769,
+      "end": 4247023,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "initialize_file_mapping",
       "abi": "stdcall BYTE(FileRecord *record,BYTE resize,DWORD *error); three physical DWORD stack slots,RET12; only low byte of resize consumed; no hidden inputs; observed when reached"
     }

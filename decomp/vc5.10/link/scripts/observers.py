@@ -70,4 +70,6 @@ def plan(accepted,case="help"):
         result += [(0x4fe35,"observe:free_call"),(0x4fe3b,"observe:free_return")]
     if '_open_mapped_file@16'in accepted:
         result.extend([(0xc914,'observe:mapped_create_call'),(0xc91a,'observe:mapped_create_return')])
+    if '_initialize_file_mapping@12'in accepted:
+        result.extend([(0xc9cf,'observe:mapping_function_return'),(0xb84a,'observe:mapped_open_return'),(0x4b8e5,'observe:output_open_return'),(0xcd44,'observe:mapping_create_call'),(0xcd4a,'observe:mapping_create_return'),(0xcd95,'observe:mapping_view_call'),(0xcd9b,'observe:mapping_view_return'),(0xcdc9,'observe:mapping_close_call'),(0xcdcf,'observe:mapping_close_return')])
     return result

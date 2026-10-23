@@ -24,7 +24,8 @@ def records(slots,post=False,name=0):
 
 def compare(original,state,trap,events,native_directory=None):
     verify()
-    mapping=state['function']=='initialize_file_mapping'
+    completed=state['function']=='create_library'
+    mapping=state['function']in ('initialize_file_mapping','create_library')
     assert native_directory is not None
     receipt=json.loads((native_directory/'receipt.json').read_text())
     symbols=slot_symbols(str(native_directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
@@ -62,7 +63,7 @@ def compare(original,state,trap,events,native_directory=None):
     assert entry['formals']==expected and nentry['formals']==nexpected
     assert entry['hidden_inputs']==nentry['hidden_inputs']==acquire['hidden_inputs']==nacquire['hidden_inputs']==[]
     assert acquire['stack_pointer']==entry['stack_pointer']-44
-    assert trap['esp']==entry['stack_pointer']-(76 if mapping else 44)and trap['stack'][0]==(0x40c9cf if mapping else 0x40b84a)
+    assert trap['esp']==entry['stack_pointer']-(0 if completed else 76 if mapping else 44)and trap['stack'][0]==(0x44b906 if completed else 0x40c9cf if mapping else 0x40b84a)
     assert obefore['stack']==acquire['stack_pointer']-44
     if not mapping:assert trap['ebp']==0xffffffff
     current=trap['file_record_formals'];ncurrent=state['file_record_formals']
@@ -114,8 +115,13 @@ def compare(original,state,trap,events,native_directory=None):
         from file_mapping_state import compare_created,mapping_symbol
         assert state['mapped_file_slots_address']==mapping_symbol(str(native_directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
         handle,nhandle=compare_created(original,state,trap,events,name,newname,oslots,nslots)
+        if completed:
+            from mapping_completion_state import compare as compare_mapping
+            view,nview=compare_mapping(original,state,trap,events,oslots,nslots,handle,nhandle,native_directory)
         for pool,value in ((final_records,handle),(native_records,nhandle)):
-            last=list(pool[15]);last[4]=value;last[6]=0x80000;pool[15]=tuple(last)
+            last=list(pool[15]);last[4]=value;last[6]=0x80000
+            if completed:last[1]=0x1b;last[5]=view if pool is final_records else nview
+            pool[15]=tuple(last)
     assert [words((original/('file-record-%02u.bin'%i)).read_bytes())for i in range(16)]==final_records
     assert [words(bytes.fromhex(r))for r in state['file_records']]==native_records
     assert trap['file_cache_lists']=={k:v for k,v in cache(oslots,True).items()if k!='file_newest'}
@@ -141,5 +147,6 @@ def compare(original,state,trap,events,native_directory=None):
     # Return the newly relevant owned allocations to the existing whole-context
     # disjointness checker: table, all complete records and the copied name.
     ranges=[dict(original_base=a,native_base=b,bytes=40)for a,b in zip(oslots,nslots)]
+    if completed:ranges.append(dict(original_base=view,native_base=nview,bytes=0x80000))
     ranges.extend([dict(original_base=struct.unpack('<I',(original/'file-pointers.bin').read_bytes()[:4])[0],native_base=state['file_globals']['file_slots'],bytes=64),dict(original_base=name,native_base=newname,bytes=10)])
     return ranges

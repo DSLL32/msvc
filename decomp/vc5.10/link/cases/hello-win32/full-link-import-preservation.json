@@ -1633,7 +1633,7 @@
       "rebuilt": {
         "symbol": "_release_memory@4",
         "classification": "accepted free wrapper",
-        "bytes": "558bec8b450850ff1534e0400083c4045dc20400",
+        "bytes": "558bec8b450850ff154ce0400083c4045dc20400",
         "own_writes": []
       },
       "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."

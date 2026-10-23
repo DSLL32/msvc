@@ -186,7 +186,7 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapping_completion_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
     inputs.append(BINARY/'cases/hello-win32/mapped-open-byte-input.json')
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
@@ -195,7 +195,8 @@ def audit_trial(path):
     full_link_candidate='?FullLink@LinkContext@@QAEHPAE@Z' in trial['accepted']
     pass_one_candidate='LinkContext::PassOne'in trial['accepted']
     collision_candidate='_check_output_input_collision@8'in trial['accepted']
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')]
+    mapping_candidate='_initialize_file_mapping@12'in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')and not(mapping_candidate and name=='_initialize_file_mapping@12')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -337,6 +338,25 @@ def audit_trial(path):
         inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
         inputs += [BINARY/item['path']for item in provider['owned_hfile_copies']]
         inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
+    mapping_command=None
+    mapping_witness=None
+    if mapping_candidate:
+        import importlib
+        from binary import PE
+        mapping_checker=importlib.import_module('mapping-preservation')
+        mapping_witness=mapping_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'))
+        mapping_config=copy.deepcopy(trial);mapping_config['accepted']=[mapping_checker.OWNER]
+        mapping_config_path=path.parent/'mapping-import-config.json';mapping_config_path.write_text(json.dumps(mapping_config,indent=2)+'\n')
+        mapping_metadata=json.loads((BINARY/'build/graph.json').read_text())
+        mapping_metadata['functions'].setdefault(mapping_checker.OWNER,{})['register_imports']={'require_all_register_calls_resolved':True}
+        mapping_metadata['register_imports']={'preservation_contracts':mapping_checker.contracts()}
+        mapping_metadata_path=path.parent/'mapping-import-metadata.json';mapping_metadata_path.write_text(json.dumps(mapping_metadata,indent=2)+'\n')
+        mapping_command=command.copy();mapping_command[mapping_command.index('--config')+1]=str(mapping_config_path);mapping_command[mapping_command.index('--metadata')+1]=str(mapping_metadata_path)
+        mapping_command+=['--check-imports','--resolve-register-imports']
+        inputs += [mapping_config_path,mapping_metadata_path,mapping_checker.PACKET,BINARY/'scripts/mapping-preservation.py']
+        packet=json.loads(mapping_checker.PACKET.read_text());provider=packet['provider']
+        inputs += [BINARY/provider['path'],BINARY/provider['receipt']]
+        inputs += [ROOT/d['path'] for d in packet['declarations']]
     delete_support=None
     if 'import:??3@YAXPAX@Z' in trial['accepted']:
         import importlib
@@ -400,6 +420,12 @@ def audit_trial(path):
         collision_report=json.loads(resolved.stdout)
         collision_audit=dict(command=collision_command,witness_binding=collision_witness,
             inventory=collision_checker.check_resolution(collision_report),report=collision_report,stderr=resolved.stderr.decode())
+    mapping_audit=None
+    if mapping_command:
+        resolved=subprocess.run(mapping_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        mapping_report=json.loads(resolved.stdout)
+        mapping_audit=dict(command=mapping_command,witness_binding=mapping_witness,
+            inventory=mapping_checker.check_resolution(mapping_report,PE(BINARY/'build/link.exe')),report=mapping_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -416,7 +442,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,mapping_import_audit=mapping_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

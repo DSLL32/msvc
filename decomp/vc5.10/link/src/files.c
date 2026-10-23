@@ -180,7 +180,38 @@ FileRecord *__cdecl get_available_file_record(void)
 int __stdcall close_buffered_file(FileRecord *record) { __asm { int 3 } return -1; }
 BOOL __stdcall close_mapped_file(FileRecord *record) { __asm { int 3 } return 0; }
 long __stdcall seek_mapped_file(FileRecord *record,long offset,int origin,DWORD *error) { __asm { int 3 } return -1; }
-unsigned char __stdcall initialize_file_mapping(FileRecord *record,unsigned char resize,DWORD *error) { __asm { int 3 } return 0; }
+unsigned char __stdcall initialize_file_mapping(FileRecord *record,unsigned char resize,DWORD *error)
+{
+    HANDLE mapping;
+    if ((record->flags & 2) && resize) {
+        if (SetFilePointer(record->file,record->mapping_size,NULL,FILE_BEGIN)!=
+            (DWORD)record->mapping_size || !SetEndOfFile(record->file)) goto failed;
+    }
+    mapping=CreateFileMappingA(record->file,NULL,
+        (record->flags & 2)?PAGE_READWRITE:PAGE_READONLY,0,record->mapping_size,NULL);
+    if (!mapping) {
+failed:
+        *error=GetLastError();
+        CloseHandle(record->file);
+        record->file=NULL;
+        return 0;
+    }
+    if (record->flags & 0x20) record->base=NULL;
+    record->view=MapViewOfFileEx(mapping,(record->flags & 2)?FILE_MAP_ALL_ACCESS:FILE_MAP_READ,
+        0,0,record->mapping_size,record->base);
+    if (!record->view) {
+        *error=GetLastError();
+        CloseHandle(mapping);
+        CloseHandle(record->file);
+        record->file=NULL;
+        return 0;
+    }
+    if (!CloseHandle(mapping)) {
+        *error=GetLastError();
+        return 0;
+    }
+    return 1;
+}
 
 int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *error)
 {
