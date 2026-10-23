@@ -59,7 +59,8 @@
     "@append_section@4",
     "@initialize_section_defaults@4",
     "_c2_initialize_codegen",
-    "@read_symbols@4"
+    "@read_symbols@4",
+    "@read_symbol@4"
   ],
   "driver": [
     {
@@ -202,17 +203,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4210780,
+            "slot": 4214876,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "b479ffad960a3f0b44432bc2701a7041de03254254bd9b37bed065fb17f2fbaf",
+            "lifetime_sha256": "cab69d277072a0792bb0df80dfea0515e8a8224fe49311114cc78c5d449e2d85",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d5c404000894df4"
+                "bytes": "8b0d5c504000894df4"
               },
               {
                 "offset": 243,
@@ -374,17 +375,17 @@
             "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
           },
           "rebuilt": {
-            "slot": 4210784,
+            "slot": 4214880,
             "holder": "[EBP-0x4]",
             "lifetime": [
               42,
               191
             ],
-            "lifetime_sha256": "a5d47a3d736ea201727d3fc54cc88cad96530adf9f3e773f93f83915eaa0e64c",
+            "lifetime_sha256": "08f395174ae29721b4b9e9c799f824d77df04601714136e6183228851e0530f7",
             "instructions": [
               {
                 "offset": 42,
-                "bytes": "a1604040008945fc"
+                "bytes": "a1605040008945fc"
               },
               {
                 "offset": 104,
@@ -456,17 +457,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4210820,
+            "slot": 4214916,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "850ae992e83bd6fc9370991f934e0cfbdf4f0c8c16a156e841d99e87b9c0be42",
+            "lifetime_sha256": "82d77919de0a7f7accea3bf4f9941859094bc0ae63adee64a17260686479d521",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d84404000894df8"
+                "bytes": "8b0d84504000894df8"
               },
               {
                 "offset": 509,
@@ -605,17 +606,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4210824,
+            "slot": 4214904,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "4d07fdd836bc19c505966b0195369663c24c33df23da7171435b57e4683cc0c5",
+            "lifetime_sha256": "15dc30491d679ac8dda332ab7a3faddb5051aa9bb20edcb02cb6b39357117197",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a1884040008945f8"
+                "bytes": "a1785040008945f8"
               },
               {
                 "offset": 110,
@@ -666,17 +667,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4210812,
+            "slot": 4214908,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "87e4dcd9dae6db71389aaa3c7bed4b9aee3f34f8aa6515ff2d20fd42934cce28",
+            "lifetime_sha256": "710a5806378dbd5a348688ccd22b39e11d1d7784fa65d1f717385f9c9cece3a0",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d7c404000894dfc"
+                "bytes": "8b0d7c504000894dfc"
               },
               {
                 "offset": 89,
@@ -886,12 +887,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4210772,
+            "slot": 4214900,
             "holder": "[EBP-0x14]",
             "instructions": [
               {
                 "offset": 15,
-                "bytes": "8b0d54404000894dec"
+                "bytes": "8b0d74504000894dec"
               },
               {
                 "offset": 44,
@@ -903,16 +904,16 @@
               15,
               98
             ],
-            "lifetime_sha256": "668a57453e93dbfc516e9d4e293c2c82a78ad0b18dc967e1104987aa4c6edf09",
+            "lifetime_sha256": "e23e0686f9a2b98937556bfd6a18d3e0a81933e27f5503e4e88a4c13253d4fce",
             "accessed_data": [
               {
-                "slot": 4210764,
+                "slot": 4214896,
                 "dll": "MSVCRT.dll",
                 "symbol": "__mb_cur_max",
                 "abi": "imported 32-bit int variable"
               },
               {
-                "slot": 4210796,
+                "slot": 4214892,
                 "dll": "MSVCRT.dll",
                 "symbol": "_pctype",
                 "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
@@ -949,12 +950,12 @@
             "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
           },
           "rebuilt": {
-            "slot": 4210792,
+            "slot": 4214888,
             "holder": "[EBP-0x10]",
             "instructions": [
               {
                 "offset": 98,
-                "bytes": "a1684040008945f0"
+                "bytes": "a1685040008945f0"
               },
               {
                 "offset": 106,
@@ -970,7 +971,7 @@
               98,
               140
             ],
-            "lifetime_sha256": "5fd28f80767c777097dd799bd5693c637c5bf0d605d8633a08600bc029a31ef8"
+            "lifetime_sha256": "f3cd9d3a9878e28f0c71b63ead798e734bc724cb3c325df3c2b0937a3aedb46f"
           }
         }
       ]
@@ -1429,12 +1430,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4210808,
+            "slot": 4214872,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1784040008945f8"
+                "bytes": "a1585040008945f8"
               },
               {
                 "offset": 89,
@@ -1450,7 +1451,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "0e56c6bf85f6693518d79f874c4291f2e2784f8169862907a7a8a2833a6672c7"
+            "lifetime_sha256": "2971e5e1fd91f17a85ee68c14c843db3e47f4ab6782a18431e8dddc6c62bdbed"
           }
         }
       ]
@@ -1611,12 +1612,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4210808,
+            "slot": 4214872,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1784040008945f8"
+                "bytes": "a1585040008945f8"
               },
               {
                 "offset": 89,
@@ -1640,7 +1641,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "a48c9bcfff820164d9a9e19eb4752d7390251d96bb26a7b83b2fa508c0d823e7"
+            "lifetime_sha256": "393e9b9c0749597817afd2dbc9d4a96de6fcc015a443feed66894f074c50aa26"
           }
         }
       ]
@@ -3655,133 +3656,13 @@
           1163
         ]
       ]
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_initialize_registers",
-      "native": "c2_initialize_registers",
-      "start": 4535034,
-      "end": 4535035,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_initialize_optimizer",
-      "native": "c2_initialize_optimizer",
-      "start": 4535045,
-      "end": 4535046,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_compile_unit",
-      "native": "c2_compile_unit",
-      "start": 4538855,
-      "end": 4538856,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_finalize_output",
-      "native": "c2_finalize_output",
-      "start": 4541174,
-      "end": 4541175,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_flush_debug",
-      "native": "c2_flush_debug",
-      "start": 4766214,
-      "end": 4766215,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_console_handler@4",
-      "native": "c2_console_handler",
-      "start": 4737491,
-      "end": 4737492,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "stdcall, DWORD control event; RET4"
-    },
-    {
-      "name": "@c2_report_internal@8",
-      "native": "c2_report_internal",
-      "start": 4746044,
-      "end": 4746068,
-      "pending_extent": false,
-      "kind": "application",
-      "abi": "fastcall, ECX source path EDX line",
-      "extent_known_for_tail_abi": true,
-      "extent_evidence": "cases/analysis/node-size-disassembly.txt: complete486b3c..486b54 reports fatal internal source/line then RET0; still application INT3/no credit"
-    },
-    {
-      "name": "@c2_system_fatal@12",
-      "native": "c2_system_fatal",
-      "start": 4765320,
-      "end": 4765358,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
-    },
-    {
-      "name": "@resolve_diagnostic_location@8",
-      "native": "resolve_diagnostic_location",
-      "start": 4413704,
-      "end": 4413705,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX location EDX output filename"
-    },
-    {
-      "name": "@c2_open_pdb@8",
-      "native": "c2_open_pdb",
-      "start": 4765792,
-      "end": 4765793,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
-    },
-    {
-      "name": "@function_retains_symbols@8",
-      "native": "function_retains_symbols",
-      "start": 4347234,
-      "end": 4347235,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall functionECX conditionalEDX; int result RET0"
     },
     {
       "name": "@read_symbol@4",
       "native": "read_symbol",
       "start": 4327095,
-      "end": 4327096,
-      "pending_extent": true,
+      "end": 4328984,
+      "pending_extent": false,
       "kind": "application",
       "abi": "fastcall retain_localsECX; symbol pointerEAX RET0",
       "state_policy": "symbol-record",
@@ -3922,7 +3803,148 @@
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
-      ]
+      ],
+      "code_chunks": [
+        [
+          4628851,
+          4629740
+        ]
+      ],
+      "shared": [
+        [
+          4328984,
+          4329076
+        ]
+      ],
+      "evidence": "cases/analysis/read-symbol-disassembly.txt; cases/analysis/read-symbol-layout.json",
+      "rebuilt_dispatch_table_offsets": [
+        [
+          3306,
+          3398
+        ]
+      ],
+      "record_model": "cases/analysis/read-symbol-layout.json",
+      "record_model_sha256": "fbd8d9436da019518ddb3b53044e0aa59ea7f5c4428166daa4cfc3c82ed0f642"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_initialize_registers",
+      "native": "c2_initialize_registers",
+      "start": 4535034,
+      "end": 4535035,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_initialize_optimizer",
+      "native": "c2_initialize_optimizer",
+      "start": 4535045,
+      "end": 4535046,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_compile_unit",
+      "native": "c2_compile_unit",
+      "start": 4538855,
+      "end": 4538856,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_finalize_output",
+      "native": "c2_finalize_output",
+      "start": 4541174,
+      "end": 4541175,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_flush_debug",
+      "native": "c2_flush_debug",
+      "start": 4766214,
+      "end": 4766215,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_console_handler@4",
+      "native": "c2_console_handler",
+      "start": 4737491,
+      "end": 4737492,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "stdcall, DWORD control event; RET4"
+    },
+    {
+      "name": "@c2_report_internal@8",
+      "native": "c2_report_internal",
+      "start": 4746044,
+      "end": 4746068,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall, ECX source path EDX line",
+      "extent_known_for_tail_abi": true,
+      "extent_evidence": "cases/analysis/node-size-disassembly.txt: complete486b3c..486b54 reports fatal internal source/line then RET0; still application INT3/no credit"
+    },
+    {
+      "name": "@c2_system_fatal@12",
+      "native": "c2_system_fatal",
+      "start": 4765320,
+      "end": 4765358,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
+    },
+    {
+      "name": "@resolve_diagnostic_location@8",
+      "native": "resolve_diagnostic_location",
+      "start": 4413704,
+      "end": 4413705,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX location EDX output filename"
+    },
+    {
+      "name": "@c2_open_pdb@8",
+      "native": "c2_open_pdb",
+      "start": 4765792,
+      "end": 4765793,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
+    },
+    {
+      "name": "@function_retains_symbols@8",
+      "native": "function_retains_symbols",
+      "start": 4347234,
+      "end": 4347235,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall functionECX conditionalEDX; int result RET0"
     },
     {
       "name": "@lookup_symbol@8",
@@ -3977,6 +3999,312 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall symbolECX; result ignored by reachedcaller; RET0"
+    },
+    {
+      "name": "_input_compact_signed",
+      "native": "input_compact_signed",
+      "start": 4325621,
+      "end": 4325622,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, signed longEAX RET0"
+    },
+    {
+      "name": "_input_compact_short",
+      "native": "input_compact_short",
+      "start": 4325829,
+      "end": 4325830,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, signed shortAX RET0"
+    },
+    {
+      "name": "_input_varuint",
+      "native": "input_varuint",
+      "start": 4325968,
+      "end": 4325969,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, unsignedEAX RET0",
+      "state_policy": "symbol-serial-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4973d4",
+          "native": "(unsigned long)pending_functions"
+        },
+        {
+          "original": "0x4973f0",
+          "native": "(unsigned long)pending_insertion"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ]
+    },
+    {
+      "name": "_input_extended_flags",
+      "native": "input_extended_flags",
+      "start": 4763693,
+      "end": 4763694,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, flagsEAX RET0"
+    },
+    {
+      "name": "@input_string@8",
+      "native": "input_string",
+      "start": 4329076,
+      "end": 4329077,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall char*bufferECX unsignedcapacityEDX; RET0"
+    },
+    {
+      "name": "@copy_symbol_type@4",
+      "native": "copy_symbol_type",
+      "start": 4359092,
+      "end": 4359093,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; result ignored by decoder; RET0"
+    },
+    {
+      "name": "@intern_symbol_name@12",
+      "native": "intern_symbol_name",
+      "start": 4329147,
+      "end": 4329148,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX nameEDX poolstack; char*EAX RET4"
+    },
+    {
+      "name": "@arena_strdup@8",
+      "native": "arena_strdup",
+      "start": 4326224,
+      "end": 4326225,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall nameECX poolEDX; char*EAX RET0"
+    },
+    {
+      "name": "@lookup_global_symbol@4",
+      "native": "lookup_global_symbol",
+      "start": 4322387,
+      "end": 4322388,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall serialECX; symbol*EAX RET0"
+    },
+    {
+      "name": "@clone_alias_symbol@4",
+      "native": "clone_alias_symbol",
+      "start": 4553883,
+      "end": 4553884,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; result ignored by decoder; RET0"
+    },
+    {
+      "name": "@read_qualified_symbol@8",
+      "native": "read_qualified_symbol",
+      "start": 4745531,
+      "end": 4745532,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX poolEDX; result ignored by decoder; RET0"
+    },
+    {
+      "name": "_compiler_warning",
+      "native": "compiler_warning",
+      "start": 4508034,
+      "end": 4508035,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl level,code,varargs; caller cleanup20 at reached callsite"
+    },
+    {
+      "name": "@read_module_directive@4",
+      "native": "read_module_directive",
+      "start": 4562073,
+      "end": 4562074,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall signed kindECX; result ignored by decoder; RET0"
+    },
+    {
+      "name": "@register_source_file@4",
+      "native": "register_source_file",
+      "start": 4766336,
+      "end": 4766337,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall char*nameECX; tested intEAX RET0"
+    },
+    {
+      "name": "@lookup_source_file@8",
+      "native": "lookup_source_file",
+      "start": 4766384,
+      "end": 4766385,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall nameECX unsigned*bytesEDX; char*EAX RET0"
     }
   ],
   "text_data": [
@@ -4051,6 +4379,14 @@
       "owner": "@read_symbols@4",
       "kind": "switch-classes",
       "evidence": "cases/analysis/read-symbols-disassembly.txt"
+    },
+    {
+      "name": "read-symbol-record-dispatch",
+      "start": 4328984,
+      "end": 4329076,
+      "owner": "@read_symbol@4",
+      "kind": "switch-targets",
+      "evidence": "cases/analysis/read-symbol-disassembly.txt: signed kind1..23 indexes23 DWORD targets"
     }
   ],
   "support": [

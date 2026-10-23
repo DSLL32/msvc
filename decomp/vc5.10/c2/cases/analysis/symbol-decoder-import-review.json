@@ -1,0 +1,143 @@
+{
+  "previous": "cases/acceptance/0049-symbol-records",
+  "diff": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/symbol-decoder-import-diff.txt",
+  "diff_sha256": "b8e1d6b905c37cfa3e2ef29d52619c41151d4ca674a10e3424478047339bfc81",
+  "review": "Manually inspected all nine complete bounded disassembly diffs. Instruction offsets/opcodes/holders/calls/cleanup and relative branches remain identical. Only PE relocated IAT slots, named globals and same literal addresses changed; actual catalog identities and existing logical MAP names checked. New record decoder directfree/strncmp calls are independently covered by common import audit.",
+  "entries": [
+    {
+      "function": "_c2_initialize_options",
+      "symbol": "strpbrk",
+      "old_slot": 4210780,
+      "new_slot": 4214876,
+      "ranges": [
+        [
+          212,
+          312
+        ]
+      ],
+      "sha256": [
+        "cab69d277072a0792bb0df80dfea0515e8a8224fe49311114cc78c5d449e2d85"
+      ]
+    },
+    {
+      "function": "_initialize_messages",
+      "symbol": "_strdup",
+      "old_slot": 4210784,
+      "new_slot": 4214880,
+      "ranges": [
+        [
+          42,
+          191
+        ]
+      ],
+      "sha256": [
+        "08f395174ae29721b4b9e9c799f824d77df04601714136e6183228851e0530f7"
+      ]
+    },
+    {
+      "function": "_emit_diagnostic",
+      "symbol": "fwrite",
+      "old_slot": 4210820,
+      "new_slot": 4214916,
+      "ranges": [
+        [
+          462,
+          540
+        ]
+      ],
+      "sha256": [
+        "82d77919de0a7f7accea3bf4f9941859094bc0ae63adee64a17260686479d521"
+      ]
+    },
+    {
+      "function": "_c2_cleanup",
+      "symbol": "remove",
+      "old_slot": 4210824,
+      "new_slot": 4214904,
+      "ranges": [
+        [
+          38,
+          154
+        ]
+      ],
+      "sha256": [
+        "15dc30491d679ac8dda332ab7a3faddb5051aa9bb20edcb02cb6b39357117197"
+      ]
+    },
+    {
+      "function": "_c2_cleanup",
+      "symbol": "fclose",
+      "old_slot": 4210812,
+      "new_slot": 4214908,
+      "ranges": [
+        [
+          46,
+          154
+        ]
+      ],
+      "sha256": [
+        "710a5806378dbd5a348688ccd22b39e11d1d7784fa65d1f717385f9c9cece3a0"
+      ]
+    },
+    {
+      "function": "@parse_option_integer@4",
+      "symbol": "_isctype",
+      "old_slot": 4210772,
+      "new_slot": 4214900,
+      "ranges": [
+        [
+          15,
+          98
+        ]
+      ],
+      "sha256": [
+        "e23e0686f9a2b98937556bfd6a18d3e0a81933e27f5503e4e88a4c13253d4fce"
+      ]
+    },
+    {
+      "function": "@parse_option_integer@4",
+      "symbol": "_errno",
+      "old_slot": 4210792,
+      "new_slot": 4214888,
+      "ranges": [
+        [
+          98,
+          140
+        ]
+      ],
+      "sha256": [
+        "f3cd9d3a9878e28f0c71b63ead798e734bc724cb3c325df3c2b0937a3aedb46f"
+      ]
+    },
+    {
+      "function": "_c2_read_il_word",
+      "symbol": "_filbuf",
+      "old_slot": 4210808,
+      "new_slot": 4214872,
+      "ranges": [
+        [
+          6,
+          198
+        ]
+      ],
+      "sha256": [
+        "2971e5e1fd91f17a85ee68c14c843db3e47f4ab6782a18431e8dddc6c62bdbed"
+      ]
+    },
+    {
+      "function": "_c2_read_il_long",
+      "symbol": "_filbuf",
+      "old_slot": 4210808,
+      "new_slot": 4214872,
+      "ranges": [
+        [
+          6,
+          377
+        ]
+      ],
+      "sha256": [
+        "393e9b9c0749597817afd2dbc9d4a96de6fcc015a443feed66894f074c50aa26"
+      ]
+    }
+  ]
+}

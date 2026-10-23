@@ -36,7 +36,7 @@ def load_bias(binary,maps,mapped_path=None):
 def verify(binary,maps,raw,state,config,mapped_path=None):
     table=symbols(binary);bias=load_bias(binary,maps,mapped_path)
     name=state['function'];assert name in table,'frontier name has no ELF function'
-    start,size=table[name];assert size>0
+    start,frontier_size=table[name];assert frontier_size>0
     registers=re.findall(r'^eip\s+(0x[0-9a-f]+)\b',raw,re.M)
     assert len(registers)==1 and int(registers[0],16)==state['pc'],'raw GDB EIP differs from state'
     assert 'SIGTRAP' in raw,'raw GDB did not observe SIGTRAP'
@@ -44,7 +44,7 @@ def verify(binary,maps,raw,state,config,mapped_path=None):
     decoded=subprocess.check_output(['objdump','-d','-Mintel','--disassemble='+name,str(binary)],text=True)
     traps={int(a,16)for a in re.findall(r'^\s*([0-9a-f]+):\s+cc\s+int3\s*$',decoded,re.M)}
     static_pc=state['pc']-bias
-    assert any(start<=at<start+size and static_pc in (at,at+1)for at in traps),'native PC is not the named ELF INT3'
+    assert any(start<=at<start+frontier_size and static_pc in (at,at+1)for at in traps),'native PC is not the named ELF INT3'
     entries=re.findall(r'^C2-SOURCE-ENTRY (\S+) (0x[0-9a-f]+)$',raw,re.M)
     indexed={r['name']:r.get('native',r['name'].lstrip('_'))for r in config['driver']+config['support']if r['name']in config['accepted']and r.get('kind')!='import'}
     for logical,address in entries:
@@ -52,7 +52,7 @@ def verify(binary,maps,raw,state,config,mapped_path=None):
         entry,size=table[indexed[logical]];actual=int(address,16)-bias
         assert size>0 and entry<=actual<entry+size,'raw entry is outside its named ELF function'
     assert [n for n,_ in entries]==state['trace'],'raw GDB entry order differs from derived state'
-    return {'load_bias':hex(bias),'frontier_symbol':name,'symbol_start':hex(start),'symbol_size':size,'static_pc':hex(static_pc),'int3_sites':[hex(n)for n in sorted(traps)]}
+    return {'load_bias':hex(bias),'frontier_symbol':name,'symbol_start':hex(start),'symbol_size':frontier_size,'static_pc':hex(static_pc),'int3_sites':[hex(n)for n in sorted(traps)]}
 
 def verify_completion(binary,maps,raw,state,config,status=1,mapped_path=None):
     import json

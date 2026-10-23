@@ -76,6 +76,26 @@ def verify(config):
                     assert cstring(read,source)==r'E:\utc\src\\P2\p2symtab.c','node-size invalid-kind source differs'
             node_sizes.append({'side':side,'table':table,'sha256':sha(read(table,64)),'cases':sizes})
     symbol_dispatch=[]
+    record_dispatch=[]
+    if '@read_symbol@4'in config['accepted']:
+        record=next(r for r in config['driver']if r['name']=='@read_symbol@4')
+        raw=(BINARY/record['record_model']).read_bytes();assert sha(raw)==record['record_model_sha256'],'decoder layout model differs'
+        layout=json.loads(raw)
+        assert layout['target_sha256']==sha(TARGET.read_bytes())
+        for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
+            read=reader(path);start=0x4206b7 if side=='original'else maps['@read_symbol@4']
+            table=0x420e18 if side=='original'else start+0xcea
+            targets=struct.unpack('<23I',read(table,92))
+            expected=layout['dispatch']['original_targets']if side=='original'else[start+n for n in layout['dispatch']['rebuilt_offsets']]
+            assert list(targets)==expected,'symbol record dispatch identities differ'
+            for original,name,size in [(0x497308,'symbol_template',64),(0x496a00,'symbol_name',2058),(0x48e020,'c2_pools',60),
+                                       (0x49739c,'last_section_serial',4),(0x4973b0,'il_option_flags',4),
+                                       (0x4973a0,'auxiliary_prefix',4),(0x497390,'aux_expression_file',4),
+                                       (0x497380,'aux_symbol_file',4),(0x497c6c,'c2_constant_strings',4),
+                                       (0x4973c0,'c2_omit_frame_pointer',4),(0x495f1c,'current_symbol',4)]:
+                address=original if side=='original'else maps['_'+name]
+                assert read(address,size)==bytes(size),'symbol decoder initial contextual object differs: '+name
+            record_dispatch.append({'side':side,'table':table,'sha256':sha(read(table,92)),'kinds':23,'contextual_initial_objects':11,'layout_sha256':sha(raw)})
     if '@read_symbols@4'in config['accepted']:
         classes=bytes([0,10,1,2,3,10,4,4,5,10,6,10,7,10,10,10,10,8,10,10,10,9,9])
         original_targets=[0x420415,0x4204df,0x4204c1,0x4204df,0x4204df,0x4203f0,0x42058f,0x4205ae,0x420611,0x420506,0x46a15f]
@@ -122,7 +142,7 @@ def verify(config):
             else:assert cstring(read,actual)==cstring(original_read,row['initial'])
     return {'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
             'selector_records':sum(len(t['entries'])for t in value['selectors']),
-            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'symbol_dispatch':symbol_dispatch,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
+            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'symbol_dispatch':symbol_dispatch,'record_dispatch':record_dispatch,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
             'checks':['pattern text','destination logical aliases','result/kind/record ABI','selector contents','initial scalar/string values']}
 
 

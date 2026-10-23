@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 44 application functions (6666 bytes) and five CRT
+Current reconstruction has 45 application functions (9444 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-has initialized all five no-debug output sections and now stops at decoding the first symbol record. Four import thunks (24 bytes) and contextual
-text tables (347 bytes) remain separate. The 7104 source bytes are 1.239% of
+has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; it now stops at the first unsigned serial reader. Four import thunks (24 bytes) and contextual
+text tables (439 bytes) remain separate. The 9882 source bytes are 1.724% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -114,3 +114,12 @@ The context at original49e300 is still UNMODELED; an approved incomplete-type
 address anchor has no payload/extent/data credit and must be replaced before
 any pointee use. Full107-control checkpoint time is recorded separately from
 build, audit and original/native execution in its acceptance timing receipt.
+
+The symbol-input checkpoint recovers variant fields, the64-byte transient record,
+2058-byte name scratch, and the fifth source-name allocation pool. It reuses
+existing option identities for constant-string blocks and frame-pointer flags.
+The next unsigned reader has no formal parameters, verified from the actual
+stopped ELF's DWARF; its caller state and complete transient storage match the
+fresh original. The strict common audit includes all50 source vertices. This
+checkpoint ran34 fresh rejection controls and reused87 reviewed controls; its
+receipt also records the earlier33-control run separately.

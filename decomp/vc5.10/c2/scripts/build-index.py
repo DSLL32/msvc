@@ -69,9 +69,10 @@ def main():
             function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]
             start=symbols[record.get('symbol',record['name'])]
             intervals=[[start+a,start+b]for a,b in record['rebuilt_dispatch_table_offsets']]
-            assert len(intervals)==1 and intervals[0][1]-intervals[0][0]==64
-            assert read(intervals[0][0]-1,1)==b'\xc3','node-size table must follow final RET'
-            assert all(start<=target<intervals[0][0]for target in struct.unpack('<16I',read(intervals[0][0],64)))
+            count={'@c2_node_size@4':16,'@read_symbol@4':23}[record['name']]
+            assert len(intervals)==1 and intervals[0][1]-intervals[0][0]==4*count
+            assert read(intervals[0][0]-1,1)==b'\xc3','dispatch table must follow final RET'
+            assert all(start<=target<intervals[0][0]for target in struct.unpack('<%dI'%count,read(intervals[0][0],4*count)))
             function.setdefault('rebuilt',{})['text_data']=intervals
         if record.get('rebuilt_text_data_offsets'):
             function=metadata['functions'].setdefault(record['name'],{})

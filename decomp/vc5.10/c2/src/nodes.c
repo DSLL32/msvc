@@ -8,7 +8,7 @@ typedef struct C2NodeHeader {
 } C2NodeHeader;
 
 unsigned long c2_node_bytes[4];
-C2Pool c2_pools[4];
+C2Pool c2_pools[5];
 C2PoolBlock *c2_free_blocks;
 
 void *__fastcall c2_pool_allocate(int pool, unsigned bytes)

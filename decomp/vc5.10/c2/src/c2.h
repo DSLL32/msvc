@@ -117,7 +117,8 @@ typedef struct C2Pool {
     unsigned char *cursor;
     int remaining;
 } C2Pool;
-extern C2Pool c2_pools[4];
+/* Pool4 is used directly for retained source-file names, not node accounting. */
+extern C2Pool c2_pools[5];
 extern C2PoolBlock *c2_free_blocks;
 extern void *c2_types;
 typedef struct C2Real {
@@ -155,13 +156,18 @@ typedef struct C2SymbolScope C2SymbolScope;
 struct C2Symbol {
     C2Symbol *hash_next;
     signed char kind;
-    unsigned char pending05[15];
+    unsigned char pending05[7];
+    long parameter_offset, value;
     unsigned flags;
     char *name;
     unsigned char pending1c[8];
-    C2SectionContext *context;
+    union {
+        C2SectionContext *context;
+        unsigned section_serial;
+    } association;
     unsigned serial;
-    unsigned char pending2c[6];
+    long source_line;
+    unsigned char source_kind, pending31;
 };
 struct C2ScopeHash {
     C2ScopeHash *previous;
@@ -194,6 +200,36 @@ typedef struct C2FunctionSymbol {
     struct C2FunctionSymbol *pending_next;
     unsigned pending6a;
 } C2FunctionSymbol;
+/* The decoder's common variable/function record. Its kind selects overlapping
+ * fields: local lifetime at3c, an alias target at3e, or flags/scope at3e/3f. */
+typedef struct C2InputSymbol {
+    C2Symbol symbol;
+    unsigned pending32, attributes;
+    union {
+        long frame_size;
+        struct { unsigned short pending3a; signed char lifetime; unsigned char pending3d; } local;
+    } storage;
+    union {
+        struct {
+            unsigned char flags;
+            signed char scope_line;
+            long auxiliary;
+            unsigned char pending44[18];
+        } variable;
+        struct { C2Symbol *target; unsigned char pending42[20]; } alias;
+    } detail;
+    long input_order;
+    unsigned source_file, pending5e;
+    unsigned short field62, field64;
+    C2FunctionSymbol *pending_next;
+    unsigned additional_flags;
+} C2InputSymbol;
+typedef struct C2BlockSymbol {
+    C2Symbol symbol;
+    unsigned char pending32[12];
+    unsigned char flags;
+    signed char scope_line;
+} C2BlockSymbol;
 typedef struct C2DebugLink {
     struct C2DebugLink *next;
     C2Symbol *symbol;
@@ -218,6 +254,10 @@ struct C2SymbolScope {
 };
 #pragma pack()
 typedef char C2FunctionSymbolSizeCheck[sizeof(C2FunctionSymbol) == 110 ? 1 : -1];
+typedef char C2InputSymbolSizeCheck[sizeof(C2InputSymbol) == 110 ? 1 : -1];
+typedef char C2InputSymbolDetailCheck[offsetof(C2InputSymbol, detail) == 0x3e ? 1 : -1];
+typedef char C2InputSymbolExtraCheck[offsetof(C2InputSymbol, additional_flags) == 0x6a ? 1 : -1];
+typedef char C2BlockSymbolSizeCheck[sizeof(C2BlockSymbol) == 64 ? 1 : -1];
 typedef char C2FunctionSymbolOrderCheck[offsetof(C2FunctionSymbol, input_order) == 0x56 ? 1 : -1];
 typedef char C2FunctionSymbolNextCheck[offsetof(C2FunctionSymbol, pending_next) == 0x66 ? 1 : -1];
 typedef char C2DebugScopeSizeCheck[sizeof(C2DebugScope) == 24 ? 1 : -1];
@@ -243,6 +283,21 @@ void read_global_symbols(void);
 void __fastcall read_symbols(C2SymbolScope *scope);
 int __fastcall function_retains_symbols(C2FunctionSymbol *symbol, int conditional);
 C2Symbol *__fastcall read_symbol(int retain_locals);
+long input_compact_signed(void);
+short input_compact_short(void);
+unsigned input_varuint(void);
+unsigned input_extended_flags(void);
+void __fastcall input_string(char *buffer, unsigned capacity);
+void __fastcall copy_symbol_type(C2Symbol *symbol);
+char *__fastcall intern_symbol_name(C2Symbol *symbol, char *name, int pool);
+char *__fastcall arena_strdup(char *name, int pool);
+C2Symbol *__fastcall lookup_global_symbol(unsigned serial);
+void __fastcall clone_alias_symbol(C2Symbol *symbol);
+void __fastcall read_qualified_symbol(C2Symbol *symbol, int pool);
+void compiler_warning(int level, int code, ...);
+void __fastcall read_module_directive(int kind);
+int __fastcall register_source_file(char *name);
+char *__fastcall lookup_source_file(char *name, unsigned *bytes);
 C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial);
 C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol);
 void __fastcall queue_symbol_debug(C2Symbol *symbol);

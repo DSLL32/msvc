@@ -53,7 +53,7 @@ void initialize_sections(void)
         section = create_section("$$SYMBOLS", "DEBSYM", 7);
         section->alignment = 1;
         section->combine = 0;
-        section->symbol.context = section_context;
+        section->symbol.association.context = section_context;
         section->attribute = 1;
         section->section_kind = 0x13;
         debug_symbols_section = section;
@@ -62,7 +62,7 @@ void initialize_sections(void)
         section = create_section("$$TYPES", "DEBTYP", 8);
         section->alignment = 1;
         section->combine = 0;
-        section->symbol.context = section_context;
+        section->symbol.association.context = section_context;
         section->attribute = 1;
         section->section_kind = 0x14;
         debug_types_section = section;
@@ -108,6 +108,6 @@ C2Section *__fastcall initialize_section_defaults(C2Section *section)
 {
     section->alignment = default_section_alignment;
     section->combine = 2;
-    section->symbol.context = section_context;
+    section->symbol.association.context = section_context;
     return section;
 }

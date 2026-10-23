@@ -108,14 +108,6 @@
     "evidence": null
   },
   {
-    "name": "@read_symbol@4",
-    "start": 4327095,
-    "end": 4327096,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@lookup_symbol@8",
     "start": 4350333,
     "end": 4350334,
@@ -159,6 +151,126 @@
     "name": "@record_filename@4",
     "start": 4534992,
     "end": 4534993,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_compact_signed",
+    "start": 4325621,
+    "end": 4325622,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_compact_short",
+    "start": 4325829,
+    "end": 4325830,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_varuint",
+    "start": 4325968,
+    "end": 4325969,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_extended_flags",
+    "start": 4763693,
+    "end": 4763694,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@input_string@8",
+    "start": 4329076,
+    "end": 4329077,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@copy_symbol_type@4",
+    "start": 4359092,
+    "end": 4359093,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@intern_symbol_name@12",
+    "start": 4329147,
+    "end": 4329148,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@arena_strdup@8",
+    "start": 4326224,
+    "end": 4326225,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_global_symbol@4",
+    "start": 4322387,
+    "end": 4322388,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@clone_alias_symbol@4",
+    "start": 4553883,
+    "end": 4553884,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_qualified_symbol@8",
+    "start": 4745531,
+    "end": 4745532,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_compiler_warning",
+    "start": 4508034,
+    "end": 4508035,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_module_directive@4",
+    "start": 4562073,
+    "end": 4562074,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@register_source_file@4",
+    "start": 4766336,
+    "end": 4766337,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_source_file@8",
+    "start": 4766384,
+    "end": 4766385,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

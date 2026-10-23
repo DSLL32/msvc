@@ -123,6 +123,35 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'symbol_serial_input'in current_state:
+        def changed_serial_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_serial_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            # Rebind the matching raw JSON too, so semantic guards themselves
+            # must reject this control rather than only the duplicate view.
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-SYMBOL-SERIAL-INPUT .*$',lambda m:'C2-SYMBOL-SERIAL-INPUT '+json.dumps(state['symbol_serial_input'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_serial_byte(root,name,index):
+            path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        def missing_serial_observation(root):
+            path=root/'n/gdb.stdout';path.write_text(re.sub(r'^C2-SYMBOL-SERIAL-INPUT .*\n','',path.read_text(),flags=re.M))
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_record_dispatch(root):
+            path=audit_directory(root)/'data-evidence.json';data=json_at(path);data['record_dispatch'][0]['kinds']=22;write_json(path,data)
+            path=audit_path(root);receipt=json_at(path);receipt['data_evidence_sha256']=sha((audit_directory(root)/'data-evidence.json').read_bytes());write_json(path,receipt);bind_audit(root)
+        mutations += [('unsigned reader invents actual formal parameter',lambda r:changed_serial_input(r,'formals',[{'name':'extra','type':'int'}])),
+                      ('unsigned reader caller record kind differs',lambda r:changed_serial_input(r,'kind',17)),
+                      ('unsigned reader caller retain-locals differs',lambda r:changed_serial_input(r,'retain_locals',1)),
+                      ('unsigned reader template size differs',lambda r:changed_serial_input(r,'source_template_size',63)),
+                      ('unsigned reader template kind differs',lambda r:changed_serial_input(r,'template_bytes','00'*64)),
+                      ('unsigned reader native name buffer tail differs',lambda r:changed_serial_input(r,'name_bytes','00'*2057+'01')),
+                      ('unsigned reader native fifth pool differs',lambda r:changed_serial_input(r,'fifth_pool','01'+'00'*11)),
+                      ('unsigned reader raw template kind differs',lambda r:changed_serial_byte(r,'symbol-template.bin',4)),
+                      ('unsigned reader raw untouched template tail differs',lambda r:changed_serial_byte(r,'symbol-template.bin',63)),
+                      ('unsigned reader raw name scratch tail differs',lambda r:changed_serial_byte(r,'symbol-name.bin',2057)),
+                      ('unsigned reader raw fifth pool tail differs',lambda r:changed_serial_byte(r,'source-name-pool.bin',11)),
+                      ('record decoder existing frame-pointer flag alias differs',lambda r:changed_machine_value(r,'0x4973c0',0)),
+                      ('unsigned reader missing actual GDB observation',missing_serial_observation),
+                      ('record decoder dispatch content proof differs with rebound hash',changed_record_dispatch)]
     if 'symbol_record_input'in current_state:
         def changed_record_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['symbol_record_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
