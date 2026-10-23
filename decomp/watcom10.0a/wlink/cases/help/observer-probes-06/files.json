@@ -1,0 +1,582 @@
+{
+  "purpose": "actual authored observer proof, no original WLINK execution",
+  "private_host_environment": "not copied; hash/path remain bound in scratch run plan",
+  "files": [
+    {
+      "case": "guarded-positive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive/events.txt",
+      "file": "guarded-positive.events.txt.gz",
+      "raw_bytes": 40439,
+      "raw_sha256": "1787277b88c6e262898570b66f2138ae14c53e3d6b420c2d4de8c646603a15b6",
+      "stored_sha256": "1df063c46d18fe2813f64c8091338b5ed457ec95ea6035dc80a6750e18342d34",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-positive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive/stdout.bin",
+      "file": "guarded-positive.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive/stderr.bin",
+      "file": "guarded-positive.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive/launcher.stdout.bin",
+      "file": "guarded-positive.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive/launcher.stderr.bin",
+      "file": "guarded-positive.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive/completion.bin",
+      "file": "guarded-positive.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38",
+      "stored_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/01-unguarded-bad-return/stdout.bin",
+      "file": "unguarded-bad-return.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/01-unguarded-bad-return/stderr.bin",
+      "file": "unguarded-bad-return.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/01-unguarded-bad-return/completion.bin",
+      "file": "unguarded-bad-return.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "f0bfe3b5787e212bf8c31854d8e42c90d440e496d8b7f3046f8afee73d74082d",
+      "stored_sha256": "f0bfe3b5787e212bf8c31854d8e42c90d440e496d8b7f3046f8afee73d74082d",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/02-unguarded-return-overlap/stdout.bin",
+      "file": "unguarded-return-overlap.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/02-unguarded-return-overlap/stderr.bin",
+      "file": "unguarded-return-overlap.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/02-unguarded-return-overlap/completion.bin",
+      "file": "unguarded-return-overlap.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "07e8c6e02fce741cd9091e5fefe76926baae9b64f1bf9f492dbb25fd21ead0e1",
+      "stored_sha256": "07e8c6e02fce741cd9091e5fefe76926baae9b64f1bf9f492dbb25fd21ead0e1",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/03-unguarded-recursive/stdout.bin",
+      "file": "unguarded-recursive.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/03-unguarded-recursive/stderr.bin",
+      "file": "unguarded-recursive.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/03-unguarded-recursive/completion.bin",
+      "file": "unguarded-recursive.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "44e66e420bec04e1eba4c815106e0ed859e4f287ebea58ec49d7f786576c7967",
+      "stored_sha256": "44e66e420bec04e1eba4c815106e0ed859e4f287ebea58ec49d7f786576c7967",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/04-unguarded-thread/stdout.bin",
+      "file": "unguarded-thread.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/04-unguarded-thread/stderr.bin",
+      "file": "unguarded-thread.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/04-unguarded-thread/completion.bin",
+      "file": "unguarded-thread.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "5141491c9226816a75810f5eea3754879497e2c0b6e04147a122cc61783f8a60",
+      "stored_sha256": "5141491c9226816a75810f5eea3754879497e2c0b6e04147a122cc61783f8a60",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/05-unguarded-trap/stdout.bin",
+      "file": "unguarded-trap.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/05-unguarded-trap/stderr.bin",
+      "file": "unguarded-trap.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/05-unguarded-trap/completion.bin",
+      "file": "unguarded-trap.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38",
+      "stored_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/06-unguarded-timeout/stdout.bin",
+      "file": "unguarded-timeout.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/06-unguarded-timeout/stderr.bin",
+      "file": "unguarded-timeout.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "unguarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/06-unguarded-timeout/completion.bin",
+      "file": "unguarded-timeout.completion.bin",
+      "raw_bytes": 24,
+      "raw_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38",
+      "stored_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/07-guarded-bad-return/events.txt",
+      "file": "guarded-bad-return.events.txt.gz",
+      "raw_bytes": 29190,
+      "raw_sha256": "1f4ac31e7f51bdd3dccabea9f455dc7c57e67b9c37cdfcef3f3c76f623211deb",
+      "stored_sha256": "6103a656d8917caa36cc94f7c93566a0e01eef541ab92e02713dd64144431fae",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/07-guarded-bad-return/stdout.bin",
+      "file": "guarded-bad-return.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/07-guarded-bad-return/stderr.bin",
+      "file": "guarded-bad-return.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/07-guarded-bad-return/launcher.stdout.bin",
+      "file": "guarded-bad-return.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-bad-return",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/07-guarded-bad-return/launcher.stderr.bin",
+      "file": "guarded-bad-return.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/08-guarded-return-overlap/events.txt",
+      "file": "guarded-return-overlap.events.txt.gz",
+      "raw_bytes": 28158,
+      "raw_sha256": "64c66b44e96ac9ddd14e995b3dbb5f4a64eddd63acd3579bd1dcd9bd27dc1653",
+      "stored_sha256": "e2bf2e9573a1d91b3ad964a686e93d5e7747d4b16349882f1110ec250467943e",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/08-guarded-return-overlap/stdout.bin",
+      "file": "guarded-return-overlap.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/08-guarded-return-overlap/stderr.bin",
+      "file": "guarded-return-overlap.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/08-guarded-return-overlap/launcher.stdout.bin",
+      "file": "guarded-return-overlap.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-return-overlap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/08-guarded-return-overlap/launcher.stderr.bin",
+      "file": "guarded-return-overlap.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/09-guarded-recursive/events.txt",
+      "file": "guarded-recursive.events.txt.gz",
+      "raw_bytes": 28850,
+      "raw_sha256": "c99d6d8d9e550f708aa3054fc162051b20c2a044d7f8ffe7c69e6327958093b1",
+      "stored_sha256": "745e4781d0af27ce286022a511c455138961f056e7ddbccace85fc8a2944b201",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/09-guarded-recursive/stdout.bin",
+      "file": "guarded-recursive.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/09-guarded-recursive/stderr.bin",
+      "file": "guarded-recursive.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/09-guarded-recursive/launcher.stdout.bin",
+      "file": "guarded-recursive.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-recursive",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/09-guarded-recursive/launcher.stderr.bin",
+      "file": "guarded-recursive.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/10-guarded-thread/events.txt",
+      "file": "guarded-thread.events.txt.gz",
+      "raw_bytes": 27583,
+      "raw_sha256": "7817de9ab4080f282abee649f71843039585320d1d92ea15ffcd5ca64b1e5306",
+      "stored_sha256": "7619a961d96971116a9f98f52f9e21fc28ec8dfe73903fbfd970da1e24e1bf67",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/10-guarded-thread/stdout.bin",
+      "file": "guarded-thread.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/10-guarded-thread/stderr.bin",
+      "file": "guarded-thread.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/10-guarded-thread/launcher.stdout.bin",
+      "file": "guarded-thread.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-thread",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/10-guarded-thread/launcher.stderr.bin",
+      "file": "guarded-thread.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/11-guarded-trap/events.txt",
+      "file": "guarded-trap.events.txt.gz",
+      "raw_bytes": 27572,
+      "raw_sha256": "5e228fe6b99616496ee6606078718bebe47c11b4fd9ef8c21f88c3dee6de29fa",
+      "stored_sha256": "ce7b261721a05206373c5710d69bb8bd8fd6de91ba0ff66a213e0f372107d80c",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/11-guarded-trap/stdout.bin",
+      "file": "guarded-trap.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/11-guarded-trap/stderr.bin",
+      "file": "guarded-trap.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/11-guarded-trap/launcher.stdout.bin",
+      "file": "guarded-trap.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-trap",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/11-guarded-trap/launcher.stderr.bin",
+      "file": "guarded-trap.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/12-guarded-timeout/events.txt",
+      "file": "guarded-timeout.events.txt.gz",
+      "raw_bytes": 27627,
+      "raw_sha256": "829fd50330290cd68cb485646388ea2baffeab39234b2c2451b102f18245ba8c",
+      "stored_sha256": "43a5a9899e2b75bbccc0ada41b49280e098244b8d2ddbde7dc3e98d03997e738",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/12-guarded-timeout/stdout.bin",
+      "file": "guarded-timeout.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/12-guarded-timeout/stderr.bin",
+      "file": "guarded-timeout.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/12-guarded-timeout/launcher.stdout.bin",
+      "file": "guarded-timeout.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-timeout",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/12-guarded-timeout/launcher.stderr.bin",
+      "file": "guarded-timeout.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault1",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/13-guarded-positive-fault1/events.txt",
+      "file": "guarded-positive-fault1.events.txt.gz",
+      "raw_bytes": 28764,
+      "raw_sha256": "a83925874e1de71a7380f6dac70405927c62624510d47696b3344bbf6076c920",
+      "stored_sha256": "ac9e71a075e596b2c8b7c10db70daec53805604682d8109901709fcc5e275e1f",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-positive-fault1",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/13-guarded-positive-fault1/stdout.bin",
+      "file": "guarded-positive-fault1.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault1",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/13-guarded-positive-fault1/stderr.bin",
+      "file": "guarded-positive-fault1.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault1",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/13-guarded-positive-fault1/launcher.stdout.bin",
+      "file": "guarded-positive-fault1.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault1",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/13-guarded-positive-fault1/launcher.stderr.bin",
+      "file": "guarded-positive-fault1.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault2",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/14-guarded-positive-fault2/events.txt",
+      "file": "guarded-positive-fault2.events.txt.gz",
+      "raw_bytes": 28700,
+      "raw_sha256": "fac8bfea65be956c47bef5a5fd8733db105a1314e51a996f91955ac712d3b5a8",
+      "stored_sha256": "58f6b98b594a7e31762101c63d148b93425821d37ac1551a0eb2fa6dd4cc0c66",
+      "encoding": "gzip"
+    },
+    {
+      "case": "guarded-positive-fault2",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/14-guarded-positive-fault2/stdout.bin",
+      "file": "guarded-positive-fault2.stdout.bin",
+      "raw_bytes": 12,
+      "raw_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "stored_sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault2",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/14-guarded-positive-fault2/stderr.bin",
+      "file": "guarded-positive-fault2.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault2",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/14-guarded-positive-fault2/launcher.stdout.bin",
+      "file": "guarded-positive-fault2.launcher.stdout.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    },
+    {
+      "case": "guarded-positive-fault2",
+      "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/14-guarded-positive-fault2/launcher.stderr.bin",
+      "file": "guarded-positive-fault2.launcher.stderr.bin",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "raw"
+    }
+  ]
+}

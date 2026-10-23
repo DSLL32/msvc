@@ -1,0 +1,1286 @@
+{
+  "status": "all fifteen authored observer probes passed; original WLINK not executed",
+  "plan_sha256": "4cfe00fd8379944621157cba8828f270d6b99abf7e76d0f57925f804176f5619",
+  "results": [
+    {
+      "label": "guarded-positive",
+      "guarded": true,
+      "mode": "positive",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/00-guarded-positive",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/positive",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/positive/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "positive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\00-guarded-positive\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\00-guarded-positive\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\00-guarded-positive\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "positive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\00-guarded-positive\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\00-guarded-positive\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\00-guarded-positive\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812126,
+      "execution_seconds": 1.0674426313489676,
+      "launcher_status": 0,
+      "completion_values": [
+        99,
+        0,
+        2,
+        0,
+        0
+      ],
+      "completion_present": true,
+      "actual_counters": {
+        "fixture_stage": 99,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 2,
+        "fixture_bad_return_entries": 0
+      },
+      "entries": 19,
+      "returns": 18,
+      "rearms": 19,
+      "positive_debug_loop_ms": 124,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0006182212382555008,
+        "execution": 1.0674426313489676,
+        "checks": 0.012017400935292244
+      },
+      "artifacts": {
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 40439,
+          "sha256": "1787277b88c6e262898570b66f2138ae14c53e3d6b420c2d4de8c646603a15b6"
+        }
+      },
+      "marker_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38"
+    },
+    {
+      "label": "unguarded-bad-return",
+      "guarded": false,
+      "mode": "bad-return",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/01-unguarded-bad-return",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/bad-return",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/bad-return/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "bad-return",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\bad-return\\marker.bin"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "bad-return",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\bad-return\\marker.bin"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812129,
+      "execution_seconds": 0.6670350320637226,
+      "launcher_status": 0,
+      "completion_values": [
+        99,
+        0,
+        2,
+        1,
+        0
+      ],
+      "completion_present": true,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "f0bfe3b5787e212bf8c31854d8e42c90d440e496d8b7f3046f8afee73d74082d"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008301390334963799,
+        "execution": 0.6670350320637226,
+        "checks": 0.001597365364432335
+      },
+      "artifacts": {
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        }
+      },
+      "marker_sha256": "f0bfe3b5787e212bf8c31854d8e42c90d440e496d8b7f3046f8afee73d74082d"
+    },
+    {
+      "label": "unguarded-return-overlap",
+      "guarded": false,
+      "mode": "return-overlap",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/02-unguarded-return-overlap",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/return-overlap",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/return-overlap/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "return-overlap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\return-overlap\\marker.bin"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "return-overlap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\return-overlap\\marker.bin"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812130,
+      "execution_seconds": 0.5668277647346258,
+      "launcher_status": 0,
+      "completion_values": [
+        51,
+        0,
+        1,
+        0,
+        0
+      ],
+      "completion_present": true,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "07e8c6e02fce741cd9091e5fefe76926baae9b64f1bf9f492dbb25fd21ead0e1"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0009404448792338371,
+        "execution": 0.5668277647346258,
+        "checks": 0.001517060212790966
+      },
+      "artifacts": {
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "marker_sha256": "07e8c6e02fce741cd9091e5fefe76926baae9b64f1bf9f492dbb25fd21ead0e1"
+    },
+    {
+      "label": "unguarded-recursive",
+      "guarded": false,
+      "mode": "recursive",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/03-unguarded-recursive",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/recursive",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/recursive/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "recursive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\recursive\\marker.bin"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "recursive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\recursive\\marker.bin"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812131,
+      "execution_seconds": 0.566806560382247,
+      "launcher_status": 0,
+      "completion_values": [
+        99,
+        1,
+        4,
+        0,
+        0
+      ],
+      "completion_present": true,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "44e66e420bec04e1eba4c815106e0ed859e4f287ebea58ec49d7f786576c7967"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.000872085802257061,
+        "execution": 0.566806560382247,
+        "checks": 0.0013852883130311966
+      },
+      "artifacts": {
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        }
+      },
+      "marker_sha256": "44e66e420bec04e1eba4c815106e0ed859e4f287ebea58ec49d7f786576c7967"
+    },
+    {
+      "label": "unguarded-thread",
+      "guarded": false,
+      "mode": "thread",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/04-unguarded-thread",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/thread",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/thread/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "thread",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\thread\\marker.bin"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "thread",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\thread\\marker.bin"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812132,
+      "execution_seconds": 0.6167494710534811,
+      "launcher_status": 0,
+      "completion_values": [
+        99,
+        0,
+        2,
+        0,
+        1
+      ],
+      "completion_present": true,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "5141491c9226816a75810f5eea3754879497e2c0b6e04147a122cc61783f8a60"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008400548249483109,
+        "execution": 0.6167494710534811,
+        "checks": 0.001527366228401661
+      },
+      "artifacts": {
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        }
+      },
+      "marker_sha256": "5141491c9226816a75810f5eea3754879497e2c0b6e04147a122cc61783f8a60"
+    },
+    {
+      "label": "unguarded-trap",
+      "guarded": false,
+      "mode": "trap",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/05-unguarded-trap",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/trap",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/trap/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "trap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\trap\\marker.bin"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "trap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\trap\\marker.bin"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812134,
+      "execution_seconds": 0.46651401929557323,
+      "launcher_status": 0,
+      "completion_values": [
+        99,
+        0,
+        2,
+        0,
+        0
+      ],
+      "completion_present": true,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008546235039830208,
+        "execution": 0.46651401929557323,
+        "checks": 0.001292238011956215
+      },
+      "artifacts": {
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "marker_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38"
+    },
+    {
+      "label": "unguarded-timeout",
+      "guarded": false,
+      "mode": "timeout",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/06-unguarded-timeout",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/timeout",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/timeout/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "timeout",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\timeout\\marker.bin"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "timeout",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\timeout\\marker.bin"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812135,
+      "execution_seconds": 5.2760958364233375,
+      "launcher_status": 0,
+      "completion_values": [
+        99,
+        0,
+        2,
+        0,
+        0
+      ],
+      "completion_present": true,
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        {
+          "path": "marker.bin",
+          "sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008443929255008698,
+        "execution": 5.2760958364233375,
+        "checks": 0.0015524663031101227
+      },
+      "artifacts": {
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "marker_sha256": "ef7806e76aaffa0264f0386cb85d96d8c7acd2162c6af8d08c32f102b505ad38"
+    },
+    {
+      "label": "guarded-bad-return",
+      "guarded": true,
+      "mode": "bad-return",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/07-guarded-bad-return",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/bad-return",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/bad-return/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "bad-return \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\bad-return\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\bad-return",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\07-guarded-bad-return\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\07-guarded-bad-return\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\07-guarded-bad-return\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "bad-return \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\bad-return\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\bad-return",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\07-guarded-bad-return\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\07-guarded-bad-return\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\07-guarded-bad-return\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812186,
+      "execution_seconds": 1.318824267014861,
+      "launcher_status": 135,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 40,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 1
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008852491155266762,
+        "execution": 1.318824267014861,
+        "checks": 0.003053097054362297
+      },
+      "artifacts": {
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 29190,
+          "sha256": "1f4ac31e7f51bdd3dccabea9f455dc7c57e67b9c37cdfcef3f3c76f623211deb"
+        }
+      }
+    },
+    {
+      "label": "guarded-return-overlap",
+      "guarded": true,
+      "mode": "return-overlap",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/08-guarded-return-overlap",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/return-overlap",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/return-overlap/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "return-overlap \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\return-overlap\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\return-overlap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\08-guarded-return-overlap\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\08-guarded-return-overlap\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\08-guarded-return-overlap\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "return-overlap \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\return-overlap\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\return-overlap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\08-guarded-return-overlap\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\08-guarded-return-overlap\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\08-guarded-return-overlap\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812189,
+      "execution_seconds": 1.318657610565424,
+      "launcher_status": 136,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 50,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 0
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0009286617860198021,
+        "execution": 1.318657610565424,
+        "checks": 0.002864616923034191
+      },
+      "artifacts": {
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 28158,
+          "sha256": "64c66b44e96ac9ddd14e995b3dbb5f4a64eddd63acd3579bd1dcd9bd27dc1653"
+        }
+      }
+    },
+    {
+      "label": "guarded-recursive",
+      "guarded": true,
+      "mode": "recursive",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/09-guarded-recursive",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/recursive",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/recursive/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "recursive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\recursive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\recursive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\09-guarded-recursive\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\09-guarded-recursive\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\09-guarded-recursive\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "recursive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\recursive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\recursive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\09-guarded-recursive\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\09-guarded-recursive\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\09-guarded-recursive\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812193,
+      "execution_seconds": 1.3185276528820395,
+      "launcher_status": 136,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 31,
+        "fixture_callback_entries": 1,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 1,
+        "fixture_bad_return_entries": 0
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008653402328491211,
+        "execution": 1.3185276528820395,
+        "checks": 0.0026218481361865997
+      },
+      "artifacts": {
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 28850,
+          "sha256": "c99d6d8d9e550f708aa3054fc162051b20c2a044d7f8ffe7c69e6327958093b1"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "label": "guarded-thread",
+      "guarded": true,
+      "mode": "thread",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/10-guarded-thread",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/thread",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/thread/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "thread \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\thread\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\thread",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\10-guarded-thread\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\10-guarded-thread\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\10-guarded-thread\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "thread \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\thread\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\thread",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\10-guarded-thread\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\10-guarded-thread\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\10-guarded-thread\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812203,
+      "execution_seconds": 0.9676533518359065,
+      "launcher_status": 126,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 70,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 0
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008736597374081612,
+        "execution": 0.9676533518359065,
+        "checks": 0.002245895564556122
+      },
+      "artifacts": {
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 27583,
+          "sha256": "7817de9ab4080f282abee649f71843039585320d1d92ea15ffcd5ca64b1e5306"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        }
+      }
+    },
+    {
+      "label": "guarded-trap",
+      "guarded": true,
+      "mode": "trap",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/11-guarded-trap",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/trap",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/trap/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "trap \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\trap\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\trap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\11-guarded-trap\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\11-guarded-trap\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\11-guarded-trap\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "trap \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\trap\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\trap",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\11-guarded-trap\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\11-guarded-trap\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\11-guarded-trap\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812235,
+      "execution_seconds": 1.4187699649482965,
+      "launcher_status": 137,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 60,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 0
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0009214291349053383,
+        "execution": 1.4187699649482965,
+        "checks": 0.0022029774263501167
+      },
+      "artifacts": {
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 27572,
+          "sha256": "5e228fe6b99616496ee6606078718bebe47c11b4fd9ef8c21f88c3dee6de29fa"
+        },
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "label": "guarded-timeout",
+      "guarded": true,
+      "mode": "timeout",
+      "fault": 0,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/12-guarded-timeout",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/timeout",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/timeout/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "timeout \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\timeout\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\timeout",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\12-guarded-timeout\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\12-guarded-timeout\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\12-guarded-timeout\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "ADAPTIVE_POSITIVE_ELAPSED_PLUS_500_AT_MOST_4000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "timeout \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\timeout\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\timeout",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\12-guarded-timeout\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\12-guarded-timeout\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\12-guarded-timeout\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\sites.txt",
+        "624",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812248,
+      "execution_seconds": 1.8699832865968347,
+      "launcher_status": 124,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 80,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 0
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.000888545997440815,
+        "execution": 1.8699832865968347,
+        "checks": 0.0030234800651669502
+      },
+      "artifacts": {
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "events.txt": {
+          "bytes": 27627,
+          "sha256": "829fd50330290cd68cb485646388ea2baffeab39234b2c2451b102f18245ba8c"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "label": "guarded-positive-fault1",
+      "guarded": true,
+      "mode": "positive",
+      "fault": 1,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/13-guarded-positive-fault1",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/positive",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/positive/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "positive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\13-guarded-positive-fault1\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\13-guarded-positive-fault1\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\13-guarded-positive-fault1\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\fault-1.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "positive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\13-guarded-positive-fault1\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\13-guarded-positive-fault1\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\13-guarded-positive-fault1\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\fault-1.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812251,
+      "execution_seconds": 1.4184554740786552,
+      "launcher_status": 132,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 90,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 0
+      },
+      "fault_arm_context": {
+        "thread": "1028",
+        "eip": "0040158a",
+        "esp": "0031feb4",
+        "eax": "00000000",
+        "ebx": "3fff1000",
+        "ecx": "00406096",
+        "edx": "00ca01f0",
+        "esi": "00000000",
+        "edi": "00000000",
+        "ebp": "0031ff10",
+        "flags": "00000346",
+        "cs": "0023",
+        "ss": "002b",
+        "ds": "002b",
+        "es": "002b",
+        "fs": "006b",
+        "gs": "0063"
+      },
+      "fault_delivered_context": {
+        "thread": "1028",
+        "eip": "7bb8bd70",
+        "esp": "0031feb4",
+        "eax": "00000000",
+        "ebx": "3fff1000",
+        "ecx": "00406096",
+        "edx": "00ca01f0",
+        "esi": "00000000",
+        "edi": "00000000",
+        "ebp": "0031ff10",
+        "flags": "00000246",
+        "cs": "0023",
+        "ss": "002b",
+        "ds": "002b",
+        "es": "002b",
+        "fs": "006b",
+        "gs": "0063"
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0008880225941538811,
+        "execution": 1.4184554740786552,
+        "checks": 0.0021106060594320297
+      },
+      "artifacts": {
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "events.txt": {
+          "bytes": 28764,
+          "sha256": "a83925874e1de71a7380f6dac70405927c62624510d47696b3344bbf6076c920"
+        },
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "label": "guarded-positive-fault2",
+      "guarded": true,
+      "mode": "positive",
+      "fault": 2,
+      "case": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/runs/14-guarded-positive-fault2",
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/positive",
+      "marker": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/flows/positive/marker.bin",
+      "command_template": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "positive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\14-guarded-positive-fault2\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\14-guarded-positive-fault2\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\14-guarded-positive-fault2\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\fault-2.txt",
+        "8000",
+        "NUL"
+      ],
+      "command": [
+        "wine",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "positive \"S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive\\marker.bin\"",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\flows\\positive",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\14-guarded-positive-fault2\\stdout.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\14-guarded-positive-fault2\\stderr.bin",
+        "S:\\watcom10.0a\\wlink\\observer-probes-06\\runs\\14-guarded-positive-fault2\\events.txt",
+        "S:\\watcom10.0a\\wlink\\observer-probe-config-06\\fault-2.txt",
+        "8000",
+        "NUL"
+      ],
+      "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+      "before_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "launcher_unix_pid": 1812254,
+      "execution_seconds": 1.217330440878868,
+      "launcher_status": 132,
+      "completion_values": null,
+      "completion_present": false,
+      "actual_counters": {
+        "fixture_stage": 90,
+        "fixture_callback_entries": 0,
+        "fixture_thread_entries": 0,
+        "fixture_dll_entries": 0,
+        "fixture_bad_return_entries": 0
+      },
+      "fault_arm_context": {
+        "thread": "1048",
+        "eip": "0040158a",
+        "esp": "0031feb4",
+        "eax": "00000000",
+        "ebx": "3fff1000",
+        "ecx": "00406096",
+        "edx": "00ca01f0",
+        "esi": "00000000",
+        "edi": "00000000",
+        "ebp": "0031ff10",
+        "flags": "00000346",
+        "cs": "0023",
+        "ss": "002b",
+        "ds": "002b",
+        "es": "002b",
+        "fs": "006b",
+        "gs": "0063"
+      },
+      "fault_delivered_context": {
+        "thread": "1048",
+        "eip": "7bb8bd70",
+        "esp": "0031feb4",
+        "eax": "00000000",
+        "ebx": "3fff1000",
+        "ecx": "00406096",
+        "edx": "00ca01f0",
+        "esi": "00000000",
+        "edi": "00000000",
+        "ebp": "0031ff10",
+        "flags": "00000246",
+        "cs": "0023",
+        "ss": "002b",
+        "ds": "002b",
+        "es": "002b",
+        "fs": "006b",
+        "gs": "0063"
+      },
+      "after_files": [
+        {
+          "path": "input.bin",
+          "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        }
+      ],
+      "passed": true,
+      "timing_seconds": {
+        "setup": 0.0003990223631262779,
+        "execution": 1.217330440878868,
+        "checks": 0.003389962948858738
+      },
+      "artifacts": {
+        "stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "events.txt": {
+          "bytes": 28700,
+          "sha256": "fac8bfea65be956c47bef5a5fd8733db105a1314e51a996f91955ac712d3b5a8"
+        },
+        "stdout.bin": {
+          "bytes": 12,
+          "sha256": "08dd47bb2bf388f4edf4fdd8f1d2ad5f8406a5d43cd668c1d3e132e3ac10f14a"
+        },
+        "launcher.stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "launcher.stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ],
+  "execution_seconds": 20.07567336410284
+}
