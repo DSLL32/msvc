@@ -1043,7 +1043,10 @@
     "@process_float_motion_branch@8",
     "@label_in_float_context_chain@8",
     "@finish_float_context_motion@4",
-    "@remove_resident_float_use@4"
+    "@remove_resident_float_use@4",
+    "@process_float_stream_call@4",
+    "@next_float_context_after_call@4",
+    "_finish_float_stream_uses"
   ],
   "driver": [
     {
@@ -7107,8 +7110,7 @@
     {
       "name": "_finish_float_stream_uses",
       "start": 233440,
-      "end": 233441,
-      "provisional": true
+      "end": 233461
     },
     {
       "name": "@process_float_stream_label@4",
@@ -7124,8 +7126,7 @@
     {
       "name": "@process_float_stream_call@4",
       "start": 234208,
-      "end": 234209,
-      "provisional": true
+      "end": 234334
     },
     {
       "name": "@process_float_stream_branch@4",
@@ -7345,6 +7346,11 @@
       "start": 184384,
       "end": 184385,
       "provisional": true
+    },
+    {
+      "name": "@next_float_context_after_call@4",
+      "start": 237520,
+      "end": 237616
     }
   ],
   "cases": {

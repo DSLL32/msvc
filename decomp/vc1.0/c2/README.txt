@@ -2590,3 +2590,9 @@ Floating context exits and resident value cleanup: checkpoint1039
 @process_float_stream_call@4. 960 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1039.json for extent union, limits and measured timings.
+
+Floating call boundaries and motion pass completion: checkpoint1042
+3 acceptances pass fresh original/native matching; current frontier
+@can_reuse_float_load@4. 963 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1042.json for extent union, limits and measured timings.

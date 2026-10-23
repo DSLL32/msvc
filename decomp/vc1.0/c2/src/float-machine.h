@@ -105,6 +105,7 @@ void finish_float_stream_uses(void);
 void __fastcall process_float_stream_label(MachineInstruction *instruction);
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction);
 void __fastcall process_float_stream_call(MachineInstruction *instruction);
+MachineInstruction *__fastcall next_float_context_after_call(MachineInstruction *instruction);
 void __fastcall process_float_stream_branch(MachineInstruction *instruction);
 void __fastcall process_float_stream_return(MachineInstruction *instruction);
 void __fastcall process_float_stream_operation(MachineInstruction *instruction);

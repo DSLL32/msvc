@@ -1894,7 +1894,7 @@ int __fastcall label_in_float_context_chain(MemoryMotionContext *context, Machin
     LabelSymbol *label = (LabelSymbol *)instruction->record.symbol;
     if (!context) return 0;
     for (branch = context->branches; branch; branch = branch->next)
-        if (branch->label == label) return label->references == branch->references;
+        if (branch->label == label) return (unsigned)label->references == branch->references;
     return 0;
 }
 
@@ -1998,4 +1998,50 @@ void __fastcall remove_resident_float_use(FloatStreamUse *use)
         }
         current = current->hash_next;
     }
+}
+
+/* Original [000392e0,0003935e). Known stack-preserving calls remain in
+   the current range; ordinary calls close motion and establish a new range. */
+void __fastcall process_float_stream_call(MachineInstruction *instruction)
+{
+    MemoryMotionContext *context;
+    MachineInstruction *boundary;
+    if (call_preserves_float_stack(instruction)) {
+        process_float_stream_operation(instruction);
+        return;
+    }
+    context = float_stream_context;
+    if (context->boundary != instruction && !context->branches && !context->next) {
+        context->last = instruction->previous;
+        memory_motion_context = context;
+        analyze_float_motion_range(context->boundary, context->last, 1);
+    }
+    close_float_stream_context();
+    boundary = next_float_context_after_call(instruction);
+    start_float_stream_context(boundary, 0);
+}
+
+/* Original [00039fd0,0003a030). Skip the floating result's consumer
+   region up to a label/branch, retaining the outer scan's next cursor. */
+MachineInstruction *__fastcall next_float_context_after_call(MachineInstruction *instruction)
+{
+    MachineInstruction *scan;
+    int results = call_float_result_count(instruction);
+    scan = instruction->next;
+    if (results) {
+        while (scan) {
+            if ((FM_ELIGIBLE(scan) && (FM_OPERATION(scan) == MC_JCC || FM_OPERATION(scan) == MC_JMP)) || FM_KIND(scan) == 1) break;
+            scan = scan->next;
+            float_stream_next = scan;
+        }
+    } else scan = scan->next;
+    return scan ? scan->previous : 0;
+}
+
+/* Original [00038fe0,00038ff5). Release the indexed register map and
+   the context/use arena after all stream-motion rewrites are complete. */
+void finish_float_stream_uses(void)
+{
+    float_register_heap_release(float_stream_register_uses);
+    reset_arena(4);
 }

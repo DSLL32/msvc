@@ -393,9 +393,7 @@ void __fastcall save_float_machine_register(MachineInstruction *instruction, Flo
 void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction) { __asm int 3 }
-void finish_float_stream_uses(void) { __asm int 3 }
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall process_float_stream_call(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_return(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
