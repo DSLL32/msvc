@@ -1,0 +1,20 @@
+{
+  "scope": "Weak legacy_strerror(NULL/empty) at errnoENOENT only. Shared static128-byte result, exact No such file or directory newline NUL; laterbytes untouched, no allocation/errorstate changes. Unknown errno/nonempty prefix denied.",
+  "target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "whole_body": "C13232.EXE VA54490..5456a, RET54569; exactCRT publicextent throughpadding54570. Inlinecopies only, staticbuffer68950.",
+  "data_proof": {
+    "separator": "VA73a24 : space NUL",
+    "newline": "VA73a28 LF NUL",
+    "sys_nerr": 43,
+    "sys_errlist_2": "VA772a4 No such file or directory",
+    "sys_errlist_43": "Unknown error, notimplemented"
+  },
+  "actual_call": {
+    "events": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-strerror-entry-986/events",
+    "sha256": "9471199f3163ea8fd05ae35baf3518c9ce45224bb2cfa96fec50dd0914b24991",
+    "argument": 0,
+    "errno": 2,
+    "initial_static128": "allzero"
+  },
+  "native_checks": "GCC/Clang exactmessage/newline/staticpointeralias/errorpreservation and2 unknownscope denials. Callerfatal_error finaltext integration pendingC1."
+}

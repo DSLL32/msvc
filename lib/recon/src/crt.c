@@ -1954,3 +1954,12 @@ WEAK int recon_putenv(const char *assignment)
 {
     (void)assignment;recon_unsupported("unreviewed target CRT/OS environment mutation");return -1;
 }
+
+WEAK char *recon_strerror(const char *prefix)
+{
+    static char text[128];
+    if (errno!=ENOENT || (prefix && *prefix))
+        recon_unsupported("unreviewed legacy _strerror errno/prefix");
+    memcpy(text,"No such file or directory\n",sizeof("No such file or directory\n"));
+    return text;
+}

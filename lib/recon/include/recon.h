@@ -141,6 +141,7 @@ char *recon_getenv(const char *);
 int recon_putenv(const char *);
 char *recon_host_getenv(const char *);
 int *recon_errno(void);
+char *recon_strerror(const char *);
 ShimFILE *recon_freopen(const char *,const char *,ShimFILE *);
 void recon_setbuf(ShimFILE *,char *);
 int recon_flushall(void),recon_fcloseall(void),recon_flsbuf(int,ShimFILE *);
@@ -356,6 +357,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define getenv recon_getenv
 #define _putenv recon_putenv
 #define _errno recon_errno
+#define _strerror recon_strerror
 #define freopen recon_freopen
 #define setbuf recon_setbuf
 #define flushall recon_flushall

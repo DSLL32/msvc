@@ -323,3 +323,8 @@ build/mb-pbrk-probe: tests/mb-pbrk-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mb-pbrk-check: build/mb-pbrk-probe
 	$(PYTHON) tests/check-mb-pbrk.py build/mb-pbrk-probe
+
+build/check-strerror: tests/check-strerror.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+strerror-check: build/check-strerror
+	$(PYTHON) tests/check-strerror.py build/check-strerror
