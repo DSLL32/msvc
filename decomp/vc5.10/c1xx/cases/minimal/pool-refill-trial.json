@@ -5,7 +5,7 @@
   "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-refill-native-1",
   "original_receipt_sha256": "4371f3b9b3389ab758f96e84bf3251b20315a30a433deb6f6b27c55bff4624ea",
   "native_receipt_sha256": "26b4e582813d3ca6fea0a8f156a8181adfa87730a6a848b3aa0766728175af5e",
-  "status": "unpromoted: fresh pair/10 controls passed; auditor publication hold then static-only re-audit required",
+  "status": "accepted after explicitREADYcd5375ce and static-only re-audit; no new execution",
   "code_bytes": 54,
   "code_chunks": [
     [
@@ -87,5 +87,15 @@
     "sha256": "628e294da0a5c8504163097ed658eadc082e6477508814cc357ab3dc272b86a2",
     "exit": 1,
     "reason": "auditor changed; no ledger mutation"
+  },
+  "promotion": {
+    "actual_accept_command_exit": 0,
+    "durable_accepted_count": 80,
+    "trial": "CompilerPool::Refill",
+    "audit_path": "build/audits/df1f53cd0ace431f2ce522e354c3218f2d3d98de25126004492d57940c5fef4e.json",
+    "audit_sha256": "df1f53cd0ace431f2ce522e354c3218f2d3d98de25126004492d57940c5fef4e",
+    "auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+    "audit_seconds": 0.10041267424821854,
+    "repeated_original_or_native_execution": false
   }
 }

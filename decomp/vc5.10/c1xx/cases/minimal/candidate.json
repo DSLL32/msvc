@@ -81,9 +81,10 @@
     "import:_ftol",
     "CompilerArena::Reset",
     "_initialize_pool_arenas",
-    "CompilerPool::BindArena"
+    "CompilerPool::BindArena",
+    "CompilerPool::Refill"
   ],
-  "trial": "CompilerPool::Refill",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -735,5 +736,5 @@
       "entry": 0
     }
   ],
-  "stage": "ceil/max page count to real arena AllocatePages with remaining-byte output"
+  "stage": "CompilerPool::Refill accepted; next frontier CompilerArena::AllocatePages"
 }

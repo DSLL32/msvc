@@ -84,7 +84,8 @@
     "import:_ftol",
     "CompilerArena::Reset",
     "_initialize_pool_arenas",
-    "CompilerPool::BindArena"
+    "CompilerPool::BindArena",
+    "CompilerPool::Refill"
   ],
   "driver": [
     {
@@ -4589,6 +4590,57 @@
       },
       "native_trial_sha256": "ffa89dcd9e52314d6b7c2e2ae7627a7e8cc6f368bb4ecc2f04d46ed85e8978ab",
       "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
+    },
+    {
+      "name": "CompilerPool::Refill",
+      "classification": "application source",
+      "source": "src/pools.cpp",
+      "source_sha256": "3ddeb98e2e56b5677c630f0e91a3fde8aee31285859cebcf92ba38c1e51c384e",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-refill-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-refill-native-1",
+      "original_receipt_sha256": "4371f3b9b3389ab758f96e84bf3251b20315a30a433deb6f6b27c55bff4624ea",
+      "native_receipt_sha256": "26b4e582813d3ca6fea0a8f156a8181adfa87730a6a848b3aa0766728175af5e",
+      "trial_sha256": "7603ec8f8e704ae34a5600dc1b6a9c1104e9640f5ebe065601417ce376b178fd",
+      "audit_sha256": "df1f53cd0ace431f2ce522e354c3218f2d3d98de25126004492d57940c5fef4e",
+      "code_chunks": [
+        [
+          126505,
+          126552
+        ],
+        [
+          402451,
+          402458
+        ]
+      ],
+      "comparison": {
+        "trial": "CompilerPool::Refill",
+        "frontier": "CompilerArena::AllocatePages",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 16.051647054962814,
+        "native_seconds": 5.590714649297297
+      }
     }
   ],
   "imports": [
