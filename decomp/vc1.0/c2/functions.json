@@ -935,7 +935,11 @@
     "@choose_derived_induction_representative@16",
     "@region_assignment_precedes@8",
     "@reduce_assignment_operator@16",
-    "@try_select_assignment@4"
+    "@try_select_assignment@4",
+    "@rematerialization_is_cheap@4",
+    "@machine_sequence_cost@4",
+    "@later_x86_instruction_cost@4",
+    "@set_register_rematerialization@8"
   ],
   "driver": [
     {
@@ -5338,8 +5342,7 @@
     {
       "name": "@machine_sequence_cost@4",
       "start": 185088,
-      "end": 185089,
-      "provisional": true
+      "end": 185165
     },
     {
       "name": "@initialize_allocation_live_registers@4",
@@ -6730,14 +6733,23 @@
     {
       "name": "@rematerialization_is_cheap@4",
       "start": 186784,
-      "end": 186785,
-      "provisional": true
+      "end": 186841
     },
     {
       "name": "@set_register_rematerialization@8",
       "start": 187104,
-      "end": 187105,
+      "end": 187122
+    },
+    {
+      "name": "@i386_instruction_cost@4",
+      "start": 185168,
+      "end": 185169,
       "provisional": true
+    },
+    {
+      "name": "@later_x86_instruction_cost@4",
+      "start": 185888,
+      "end": 186784
     }
   ],
   "cases": {

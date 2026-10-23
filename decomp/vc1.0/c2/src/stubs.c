@@ -333,7 +333,6 @@ void __fastcall record_machine_definition_range(unsigned short number, MachineIn
 void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }
 void record_debug_register_locations(void) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
-int __fastcall machine_sequence_cost(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
 int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
 void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstruction *instruction) { __asm int 3 }
@@ -404,5 +403,4 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
-int __fastcall rematerialization_is_cheap(MachineInstruction *instructions) { __asm int 3 }
-void __fastcall set_register_rematerialization(unsigned short number, MachineBlockHeader *block) { __asm int 3 }
+int __fastcall i386_instruction_cost(MachineInstruction *instruction) { __asm int 3 }

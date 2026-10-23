@@ -103,3 +103,10 @@ struct MachineBlockHeader *__fastcall register_rematerialization(unsigned short 
 {
     return lookup_register_variable(number, 1)->rematerialization;
 }
+
+/* Original [0002dae0,0002daf2). Keep the selected deferred block on the
+   required existing variable; the getter shares this exact pointer. */
+void __fastcall set_register_rematerialization(unsigned short number, MachineBlockHeader *block)
+{
+    lookup_register_variable(number, 1)->rematerialization = block;
+}

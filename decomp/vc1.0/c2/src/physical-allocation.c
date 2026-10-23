@@ -447,3 +447,79 @@ void __fastcall assign_operand_registers(MachineInstruction *instruction, Machin
         address->base.words.number = (unsigned short)(variable->flags & 63);
     }
 }
+
+/* Original [0002d9a0,0002d9d9). The i386/default or size policy permits
+   a four-cost sequence; other CPU/cost combinations require at most two. */
+int __fastcall rematerialization_is_cheap(MachineInstruction *instructions)
+{
+    int limit = ((cpu_model == 3 && !optimization_cost) || optimization_cost == 3) ? 4 : 2;
+    return machine_sequence_cost(instructions) <= limit;
+}
+
+/* Original [0002d300,0002d34d). Only ordinary instruction records count;
+   block markers and implicit records terminate a deferred sequence. */
+int __fastcall machine_sequence_cost(MachineInstruction *instruction)
+{
+    int total = 0;
+    while (!(instruction->opcode & 15)) {
+        if ((cpu_model == 3 && !optimization_cost) || optimization_cost == 3)
+            total += i386_instruction_cost(instruction);
+        else total += later_x86_instruction_cost(instruction);
+        instruction = instruction->next;
+    }
+    return total;
+}
+
+#define COST_SIMPLE_SOURCE(k) ((k) == OPERAND_REGISTER || (k) == OPERAND_IMMEDIATE || (k) == 6 || (k) == 7)
+#define COST_IMMEDIATE_SOURCE(k) ((k) == OPERAND_IMMEDIATE || (k) == 6 || (k) == 7)
+#define COST_DISPLACED_MEMORY(p,k) \
+    (((k) == OPERAND_ABSOLUTE || (k) == OPERAND_BASED || (k) == OPERAND_INDEXED) && \
+     ((p)->value.address->symbol || (p)->value.address->first.displacement))
+/* Original [0002d620,0002d9a0), including46 dispatch entries2d8e8..2d9a0.
+   Later x86 cost policy accounts for displaced immediate memory forms;
+   expensive control/multiply and floating operations discourage recreation. */
+int __fastcall later_x86_instruction_cost(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    MachineOperand *left = &instruction->operands[0];
+    unsigned a = left->flags & 15, b = instruction->operands[1].flags & 15;
+    switch (operation) {
+    case MC_MOV:
+        if (a == OPERAND_REGISTER) return 2;
+        if (COST_DISPLACED_MEMORY(left, a) && COST_IMMEDIATE_SOURCE(b)) return 4;
+        return 2;
+    case MC_IMUL: case MC_CALL: case MC_JCC: case MC_DIV:
+    case MC_IDIV: case MC_MUL: case MC_IMUL2:
+        return 50;
+    case MC_PUSH:
+        return COST_SIMPLE_SOURCE(a) ? 2 : 8;
+    case MC_LEA:
+        return 2;
+    case MC_DEC: case MC_INC: case MC_NEG: case MC_NOT:
+        return a == OPERAND_REGISTER ? 2 : 6;
+    case MC_ROL: case MC_ROR: case MC_SAR: case MC_SHL: case MC_SHR:
+        if (a == OPERAND_REGISTER) return COST_IMMEDIATE_SOURCE(b) ? 4 : 6;
+        return 8;
+    case MC_ADD: case MC_AND: case MC_OR: case MC_SBB: case MC_SUB: case MC_XOR:
+        if (a == OPERAND_REGISTER) return COST_SIMPLE_SOURCE(b) ? 2 : 4;
+        if (COST_DISPLACED_MEMORY(left, a) && COST_IMMEDIATE_SOURCE(b)) return 8;
+        return 6;
+    case MC_CMP: case MC_TEST:
+        if (a == OPERAND_REGISTER) return COST_SIMPLE_SOURCE(b) ? 2 : 4;
+        if (COST_DISPLACED_MEMORY(left, a) && COST_IMMEDIATE_SOURCE(b)) return 6;
+        return 4;
+    case MC_CBW: case MC_CWDE: case MC_CWD: case MC_CDQ: case MC_SCC:
+    case MC_MOVZX: case MC_MOVZXW: case MC_MOVSX: case MC_MOVSXW:
+        return 6;
+    case MC_CMC: case MC_SAHF:
+        return 4;
+    default:
+        /* Original raw property1 matches exactly these two x87 ranges;
+           all231 rows were checked in loops-float-property-proof.json. */
+        return ((operation >= MC_FADD && operation <= MC_FLD1) ||
+            (operation >= MC_FUCOM && operation <= MC_FCOS)) ? 50 : 0;
+    }
+}
+#undef COST_SIMPLE_SOURCE
+#undef COST_IMMEDIATE_SOURCE
+#undef COST_DISPLACED_MEMORY

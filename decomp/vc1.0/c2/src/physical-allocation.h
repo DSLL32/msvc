@@ -101,4 +101,6 @@ void __fastcall record_rematerialized_work_registers(WorkItem *work, MachineInst
 int __fastcall spill_variable_in_work(WorkItem *work, RegisterVariable *variable);
 void __fastcall remove_spilled_work_registers(WorkItem *work, BitSet *spilled);
 int __fastcall spill_instruction_variable(MachineInstruction *instruction, RegisterVariable *variable, int apply, unsigned *spill_bytes, WorkItem *work);
+int __fastcall i386_instruction_cost(MachineInstruction *instruction);
+int __fastcall later_x86_instruction_cost(MachineInstruction *instruction);
 #endif

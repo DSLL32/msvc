@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "d74311cfe39c68d5fb36a3e083d07f1d87c1d46249268c3a979f041f78c0413d",
+  "config_sha256": "c27d49b423aab0d31b579f5db1d8d431a51e940ad953be279e0111a50bcd73af",
+  "seconds": 0.14066232554614544,
+  "logical": "@record_rematerialized_work_registers@12",
+  "matched": true,
+  "log_sha256": "59e7d2421040f93378e8a84cb419e22b0278200c7b0b81c21849bbe15729c4df",
+  "directory": "/root/.ai-tmp/vc1.0-c2/aliasing-gdb-ypngwerz"
+}

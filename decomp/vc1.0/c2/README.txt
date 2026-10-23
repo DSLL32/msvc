@@ -2355,3 +2355,11 @@ Assignment ordering and deferred selection: checkpoint931
 native fixtures pass. See cases/aliasing-rematerialization.json for extent union, limits
 and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
 aliasing600-byte final object is incomplete.
+
+Deferred value cost and register attachment: checkpoint935
+-------------------------------------------
+4 whole functions pass fresh original/native matching; current frontier
+@record_rematerialized_work_registers@12. 857 graph checks, canonical/native/W3 and all five
+native fixtures pass. See cases/aliasing-costs.json for extent union, limits
+and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
+aliasing600-byte final object is incomplete.
