@@ -18,6 +18,8 @@ def main():
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot);(output/'configuration.json').write_bytes(snapshot)
     executable=BINARY/'build/native/c2'
+    if config.get('data_model'):
+        (output/'data-model.json').write_bytes((BINARY/config['data_model']).read_bytes())
     prefix_program="""import gdb,json
 trace=[]
 class Entered(gdb.Breakpoint):
@@ -52,7 +54,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -81,6 +83,38 @@ if len(records)==1:
                       'x87_control':int(gdb.parse_and_eval('$fctrl'))}
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
+    if config.get('data_model'):
+        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option'):
+    if records[0]['state_policy']=='wildcard-match':
+        info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
+                      'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
+    if records[0]['state_policy']=='apply-option':
+        info['apply']={'option':int(gdb.parse_and_eval('option')),'value':gdb.parse_and_eval('value').string(),
+                       'mode':int(gdb.parse_and_eval('mode')),'current_alias':int(gdb.parse_and_eval('c2_current_option == value'))}
+    if records[0]['state_policy']=='fatal-option':
+        arguments=gdb.parse_and_eval('(char **)((char *)&message+4)')
+        info['fatal']={'message':int(gdb.parse_and_eval('message')),'argument':arguments[0].string(),'phase':arguments[1].string(),
+                       'current_alias':int(arguments[0]==gdb.parse_and_eval('c2_current_option')),
+                       'unexpected_alias':int(arguments[0]==gdb.parse_and_eval('c2_unexpected_argument')),
+                       'argument_pointer':int(arguments[0])}
+    model=json.loads(Path(%r).read_text())
+    table=gdb.parse_and_eval('c2_options');options=[];selectors={};objects={}
+    for i in range(len(model['options'])+1):
+        row=table[i]
+        options.append({'pattern':row['pattern'].string()if int(row['pattern'])else None,'value':int(row['value']),
+                        'result':int(row['result']),'kind':int(row['kind']),'reserved':int(row['reserved'])})
+    for item in model['selectors']:
+        rows=[];table=gdb.parse_and_eval(item['native'])
+        for i in range(len(item['entries'])+1):
+            row=table[i];rows.append({'selector':int(row['selector']),'kind':int(row['kind']),'value':int(row['value'])})
+        selectors[item['native']]=rows
+    for item in model['objects']:
+        if item['kind']=='selector':continue
+        value=gdb.parse_and_eval(item['native'])
+        objects[item['native']]=(value.string()if int(value)else None)if item['kind']=='string'else int(value)&0xffffffff
+    info['data_state']={'options':options,'selectors':selectors,'objects':objects}
+""" % str(output/'data-model.json')
+        program=program.replace('open(',data_program+'open(',1)
     (output/'gdb-state.py').write_text(program)
     command=['/usr/bin/gdb','-nx','-batch','-ex','set pagination off','-ex','set confirm off',
              '-ex','source '+str(output/'gdb-prefix.py'),
@@ -102,12 +136,12 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     shutil.copyfile(provenance,output/'compiled-inputs.json')
     shutil.copytree(build_inputs['snapshot'],output/'compiled-inputs')
     assert sha(resources.read_bytes())==resource_sha256,'prepared resources changed during capture'
-    receipt=dict(resource_sha256=resource_sha256,kind='native-linux-gdb',command=command,candidates=config['trial'],base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),
+    receipt=dict(data_model_sha256=sha((output/'data-model.json').read_bytes())if config.get('data_model')else None,resource_sha256=resource_sha256,kind='native-linux-gdb',command=command,candidates=config['trial'],base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),
                  target_sha256=sha(TARGET.read_bytes()),native_sha256=sha(executable.read_bytes()),
                  rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                  audit_inputs=audit_input_hashes(),source_hashes=source_hashes(),state_sha256=sha((output/'state.json').read_bytes())if(output/'state.json').exists()else None,
                  provenance_sha256=sha((output/'compiled-inputs.json').read_bytes()),
-                 gdb_inputs={name:sha((output/name).read_bytes())for name in ('gdb-prefix.py','gdb-state.py')},
+                 gdb_inputs={name:sha((output/name).read_bytes())for name in (('gdb-prefix.py','gdb-state.py','data-model.json')if config.get('data_model')else('gdb-prefix.py','gdb-state.py'))},
                  gdb_outputs={name:sha((output/name).read_bytes())for name in ('gdb.stdout','gdb.stderr','native-maps.txt')},
                  environment={'MSC_CMD_FLAGS':None},helper_status=result.returncode,
                  seconds={'execution':execution,'total':time.monotonic()-begin})

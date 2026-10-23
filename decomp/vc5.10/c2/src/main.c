@@ -8,7 +8,7 @@ char *c2_intermediate_base = "";
 FILE *c2_input, *c2_globals_input;
 void *c2_types;
 
-int c2_main(int argc, char **argv, char **environment)
+int main(int argc, char **argv, char **environment)
 {
     int fault;
     __try {

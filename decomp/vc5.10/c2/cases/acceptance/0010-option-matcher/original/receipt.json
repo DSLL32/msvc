@@ -1,0 +1,74 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "22470d7ab2be2ec6c2ea01e32008180258816ca7b61bfb6121d6d9e23bb5f36f",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\original",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "@c2_match_option@16"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "R:\\decomp\\vc5.10\\c2\\build\\debug-run.exe",
+    "S:\\vc5.10\\c2\\firstcase\\matcher-original\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "/?",
+    "S:\\vc5.10\\c2\\firstcase\\matcher-original\\plan.txt"
+  ],
+  "base_configuration_sha256": "61c59d1e6dee19b3bbbbcbc8fd9291692aa3470384b252113e7f23fd52982b35",
+  "configuration_sha256": "2e60f0b4f9b936b615d5ed35bcfead9e4dc73ca77f71a8f070d9507f367300b3",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "c24f20b7d7806b93483568a1ec5dc3387ff432b5c2770dfca5f97eddc1c9aebd",
+  "debugger_sha256": "47cad8c673750e4176c99e445eb77b24bf1bb5a08c62528b271b5e730d565577",
+  "audit_receipt_sha256": "a9e8744aae929812b8437145be1339314b9bead44c37ac4293168a080b0872db",
+  "rebuilt_sha256": "43821e1690f352e4e13ba80de0e77d798d15e68571a309b92c7d7f8ff45f772c",
+  "audit_inputs": {
+    "runtime.json": "c9f5108c88d8540a0694d8c7c327e8a11655c4b52f7a077528d6da5ef71b7788",
+    "build/runtime.json": "79fc9e0f74e86880f04f1f346e34f0454cda369874d98af3dfdd7bd78bfc795b",
+    "build/c2.map": "8ff384eb767e2330110751e908d3e7a84263c4bd129aa8143c4acc5cec77b10e",
+    "build/graph-metadata.json": "963bc407ff37abc2d6eba156d5b2de4702e4ff0d651e6f255629f40cc8695a0d",
+    "graph-audit": "825d547079ceb9fa8558b250e67fe43bc5a1e0a46afa1d8a08012a3aebe51d83"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "f96c645be97c49d241c340509681a2da386ce271769c8069a3cf0fdb5309266a",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "ce4a42a37e86c9bbb7fece7d4d32f2765773a0bbe51fd76a70cab8389fde4c38",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "29259d2b3aff8144aa41bf930be324b68d1bfbcceea130ce9c6bc70e483372f4",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "864dea1042951d2b9f2ac49984329e3570530fb44c6eb754a147764898f305de",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "c8ee152c9cc1f74d9c87c78641aa41200644da73c9f57baa86f696b00abc2019",
+    "src/stubs.c": "ec29a6cfaeca60c86e231cffe2a072545b7965ef4c311b83851596b659728d54"
+  },
+  "events_sha256": "c88048844b7541ebcfcce352a00a4c3e186dca66fcc454e802f014b16a5b7ecd",
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "5af92f3ecb814199dade3b84c5806644d1ed852cfc77ae92a8114f67d2419f5a",
+    "child-command-input.bin": "af66cdb043ff166573fb3ae7515ebae2f8b8ce1999bf98f21616894003a0bc93",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.09403763245791197,
+    "execution": 1.109235960058868,
+    "total": 1.2401959458366036
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

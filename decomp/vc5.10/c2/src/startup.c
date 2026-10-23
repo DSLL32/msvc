@@ -13,7 +13,7 @@ int c2_wildcards;
 C2Initializer c2_c_initializers[1];
 C2Initializer c2_cpp_initializers[1];
 
-void c2_crt_startup(void)
+void mainCRTStartup(void)
 {
     int argc, result, fault_code;
     struct _startupinfo info;
@@ -35,7 +35,7 @@ void c2_crt_startup(void)
         __getmainargs(&argc, &argv, &environment, c2_wildcards, &info);
         _initterm(c2_cpp_initializers, c2_cpp_initializers + 1);
         *__p___initenv() = environment;
-        result = c2_main(argc, argv, environment);
+        result = main(argc, argv, environment);
         exit(result);
     }
     __except (_XcptFilter(fault_code = GetExceptionCode(), GetExceptionInformation())) {

@@ -18,6 +18,10 @@ def compare(original,native,validation=None):
             data=(path/(stream+'.bin')).read_bytes()
             assert receipt[stream]=={'bytes':len(data),'sha256':sha(data)},'stream evidence changed'
         receipts.append(receipt)
+    if config.get('data_model'):
+        model_bytes=(BINARY/config['data_model']).read_bytes()
+        assert all(r['data_model_sha256']==sha(model_bytes)for r in receipts)
+        assert all((p/'data-model.json').read_bytes()==model_bytes for p in (original,native))
     assert receipts[1]['resource_sha256']==sha((BINARY/'build/messages.rmr').read_bytes()),'prepared native resources changed'
     assert receipts[0]['candidates']==receipts[1]['candidates']==config['trial'],'different candidate sets'
     if validation is None:
@@ -34,6 +38,10 @@ def compare(original,native,validation=None):
     for name,digest in win_provenance['inputs'].items():
         assert sha((report_file.parent/'win32-inputs'/name).read_bytes())==digest,'immutable Win32 compiler input changed'
     graph=json.loads(report_file.read_text())
+    from data_evidence import verify as verify_data
+    data_file=report_file.parent/'data-evidence.json'
+    assert sha(data_file.read_bytes())==audit['data_evidence_sha256']
+    assert json.loads(data_file.read_text())==verify_data(config),'contextual static data proof differs'
     from import_evidence import verify
     residual_file=report_file.parent/'import-residuals.json'
     assert sha(residual_file.read_bytes())==audit['import_residuals_sha256']
@@ -78,7 +86,7 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     for group in ('gdb_inputs','gdb_outputs'):
@@ -110,7 +118,7 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
@@ -122,6 +130,34 @@ def compare(original,native,validation=None):
         assert state['command_state']=={'argc':2-consumed,'argv':[v.decode()for v in strings]}
         if expected['state_policy']=='environment-flags':
             assert int(values[0][2],16)==0 and state['flags']is None,'absent MSC_CMD_FLAGS input is not NULL'
+    original_overrides=native_overrides=None
+    if expected.get('state_policy')=='fatal-option':
+        raw=re.findall(r'^fatal-option message=(\d+) argument=([0-9a-f]+) phase=([0-9a-f]+) current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
+        assert len(raw)==1 and int(raw[0][0])==7 and raw[0][1]==raw[0][3]==raw[0][4],'fatal message/argument aliases differ'
+        assert (original/'fatal-argument.bin').read_bytes()==b'/?\0'and(original/'fatal-phase.bin').read_bytes()==b'p2\0'
+        pointer=state['fatal']['argument_pointer']
+        assert state['fatal']=={'message':7,'argument':'/?','phase':'p2','current_alias':1,'unexpected_alias':1,'argument_pointer':pointer},'fatal varargs differ'
+        assert pointer>0
+        original_overrides={'c2_unexpected_argument':int(raw[0][1],16)}
+        native_overrides={'c2_unexpected_argument':'/?'}
+    if expected.get('state_policy')=='apply-option':
+        raw=re.findall(r'^apply-state option=([0-9a-f]+) value=([0-9a-f]+) mode=(\d+) current=([0-9a-f]+)$',text,re.M)
+        assert len(raw)==1 and int(raw[0][0],16)==0x4999d0 and raw[0][1]==raw[0][3]and int(raw[0][2])==0
+        assert (original/'option-value.bin').read_bytes()==b'/?\0'
+        table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
+        assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option'):
+        from data_evidence import model,plan,verify_original_state,verify_native_state
+        data_model=model(config)
+        assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))
+        assert sha((original/'data-state.bin').read_bytes())==receipts[0]['data_state_sha256']
+        verify_original_state(data_model,(original/'data-state.bin').read_bytes(),original_overrides)
+        verify_native_state(data_model,state['data_state'],int(native_proof['load_bias'],16),proof.symbols(BINARY/'build/native/c2',data=True),native_overrides)
+    if expected.get('state_policy')=='wildcard-match':
+        raw=re.findall(r'^wildcard-state pattern=([0-9a-f]+) input=([0-9a-f]+) kind=(\d+) current=([0-9a-f]+)$',text,re.M)
+        assert len(raw)==1 and raw[0][1]==raw[0][3]and int(raw[0][2])==34
+        assert (original/'wildcard-pattern.bin').read_bytes()==b'*\0' and(original/'wildcard-input.bin').read_bytes()==b'/?\0'
+        assert state['wildcard']=={'pattern':'*','input':'/?','kind':34,'current_alias':1},'wildcard ABI inputs differ'
     if expected.get('state_policy')=='match-option':
         raw=re.findall(r'^matcher-state table=([0-9a-f]+) input=([0-9a-f]+) callback=([0-9a-f]+) mode=(\d+)$',text,re.M)
         assert len(raw)==1

@@ -91,6 +91,36 @@ def main():
     if json_at(source_audit/'import-residuals.json'):
         mutations.append(('changed cached-import evidence with matching receipt hash',changed_residual))
     current_state=json_at(a.native/'state.json')
+    if 'data_state'in current_state:
+        def changed_native_table(root):
+            path=root/'n/state.json';state=json_at(path);state['data_state']['options'][0]['kind']^=1;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_native_alias(root):
+            path=root/'n/state.json';state=json_at(path);state['data_state']['options'][0]['value']+=4;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_native_default(root):
+            path=root/'n/state.json';state=json_at(path);state['data_state']['objects']['c2_cpu_generation']=3;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_original_data(root):
+            path=root/'o/data-state.bin';data=bytearray(path.read_bytes());data[8]^=1;path.write_bytes(data)
+            path=root/'o/receipt.json';r=json_at(path);r['data_state_sha256']=sha((root/'o/data-state.bin').read_bytes());write_json(path,r)
+        def changed_data_receipt(root):
+            path=audit_directory(root)/'data-evidence.json';data=json_at(path);data['option_records']-=1;write_json(path,data)
+            apath=audit_path(root);r=json_at(apath);r['data_evidence_sha256']=sha(path.read_bytes());write_json(apath,r);bind_audit(root)
+        mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
+                      ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
+                      ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'apply'in current_state:
+        def changed_apply(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['apply'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('wrong option-action table row',lambda r:changed_apply(r,'option',current_state['apply']['option']-12)),
+                      ('wrong option-action copy mode',lambda r:changed_apply(r,'mode',1)),
+                      ('lost current-input alias',lambda r:changed_apply(r,'current_alias',0))]
+    if 'fatal'in current_state:
+        def changed_fatal(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['fatal'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('different fatal message',lambda r:changed_fatal(r,'message',8)),
+                      ('different fatal argument',lambda r:changed_fatal(r,'argument','different')),
+                      ('different fatal phase',lambda r:changed_fatal(r,'phase','p1')),
+                      ('fatal argument loses current-input alias',lambda r:changed_fatal(r,'current_alias',0)),
+                      ('fatal argument loses stored-pointer alias',lambda r:changed_fatal(r,'unexpected_alias',0))]
     if 'flags'in current_state:
         mutations.append(('NULL environment flags changed to empty string',lambda r:mutate_state(r,'flags','')))
     if 'command_state'in current_state:

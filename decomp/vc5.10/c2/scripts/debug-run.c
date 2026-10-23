@@ -77,6 +77,29 @@ static void save_vector(DWORD address, const char *name)
     }
     fputc(0, file); fclose(file);
 }
+static void save_string(DWORD address, const char *name)
+{
+    FILE *file=fopen(name,"wb");
+    DWORD i; char value;
+    if (!file) ExitProcess(156);
+    for (i=0;i<4096;++i) {
+        if (!read_memory(address+i,&value,1)) ExitProcess(157);
+        fputc(value,file); if (!value) break;
+    }
+    fclose(file); if (i==4096) ExitProcess(158);
+}
+static void save_contextual_data(void)
+{
+    FILE *plan=fopen("data-plan.txt","r"), *output;
+    DWORD address,size; BYTE bytes[4096];
+    if (!plan) ExitProcess(159);
+    output=fopen("data-state.bin","wb");if (!output) ExitProcess(160);
+    while (fscanf(plan,"%lx %lu",&address,&size)==2) {
+        if (!size || size>sizeof(bytes) || !read_memory(address,bytes,size)) ExitProcess(161);
+        if (fwrite(bytes,1,size,output)!=size) ExitProcess(162);
+    }
+    fclose(plan);fclose(output);
+}
 static void observe(CONTEXT *context, DWORD address)
 {
     DWORD stack[16], value, i, pointer;
@@ -92,6 +115,29 @@ static void observe(CONTEXT *context, DWORD address)
     for (i=0;i<sizeof(globals)/sizeof(globals[0]);++i)
         if (read_memory(globals[i],&value,4)) fprintf(events,"global %08lx %08lx\n",globals[i],value);
     fprintf(events,"x87-control %08lx\n", context->FloatSave.ControlWord);
+    if (address == 0x48b367) {
+        DWORD current, unexpected;
+        if (!read_memory(context->Esp,stack,sizeof(stack)) || !read_memory(0x49968c,&current,4) || !read_memory(0x49e284,&unexpected,4)) ExitProcess(165);
+        fprintf(events,"fatal-option message=%lu argument=%08lx phase=%08lx current=%08lx unexpected=%08lx\n",stack[1],stack[2],stack[3],current,unexpected);
+        save_string(stack[2],"fatal-argument.bin");
+        save_string(stack[3],"fatal-phase.bin");
+        save_contextual_data();
+    }
+    if (address == 0x452cfe) {
+        DWORD current;
+        if (!read_memory(context->Esp,stack,sizeof(stack)) || !read_memory(0x49968c,&current,4)) ExitProcess(164);
+        fprintf(events,"apply-state option=%08lx value=%08lx mode=%lu current=%08lx\n",context->Ecx,context->Edx,stack[1],current);
+        save_string(context->Edx,"option-value.bin");
+        save_contextual_data();
+    }
+    if (address == 0x48b7f8) {
+        DWORD current;
+        if (!read_memory(context->Esp,stack,sizeof(stack)) || !read_memory(0x49968c,&current,4)) ExitProcess(163);
+        fprintf(events,"wildcard-state pattern=%08lx input=%08lx kind=%lu current=%08lx\n",context->Ecx,context->Edx,stack[1],current);
+        save_string(context->Ecx,"wildcard-pattern.bin");
+        save_string(context->Edx,"wildcard-input.bin");
+        save_contextual_data();
+    }
     if (address == 0x452bd9) {
         char value;
         FILE *file;
@@ -104,7 +150,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
         fclose(file);if(i==4096)ExitProcess(155);
     }
-    if (address == 0x452a22 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9) {
+    if (address == 0x452a22 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);

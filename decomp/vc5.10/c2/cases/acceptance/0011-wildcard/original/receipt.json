@@ -1,0 +1,74 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "22470d7ab2be2ec6c2ea01e32008180258816ca7b61bfb6121d6d9e23bb5f36f",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\original",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "@c2_wildcard_match@12"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "R:\\decomp\\vc5.10\\c2\\build\\debug-run.exe",
+    "S:\\vc5.10\\c2\\firstcase\\wildcard-original\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "/?",
+    "S:\\vc5.10\\c2\\firstcase\\wildcard-original\\plan.txt"
+  ],
+  "base_configuration_sha256": "93e7270f4a2b4558b0b4d2bd4c4b331cebd79054c34d584254f3b0ebf3963337",
+  "configuration_sha256": "0f1ba5932485ba3f03ed058b2e0df4be8d2aed5197a6a30c6552aeba5ea583fb",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "45b93a88f5e13ef69490c195e46ccdd744b50353d20c762457857f8ba6c3026b",
+  "debugger_sha256": "47cad8c673750e4176c99e445eb77b24bf1bb5a08c62528b271b5e730d565577",
+  "audit_receipt_sha256": "4591dc3a028d94e0b1b619df4136edcf9e06d9fc08d534f4fc4c5a0f2c366745",
+  "rebuilt_sha256": "ee572048271788143c940cd13a537b9f2a8da15a558eafe021a46fc2c9539ed4",
+  "audit_inputs": {
+    "runtime.json": "b9105a9471c1abf2a203137f88f870c0ce7243cfbde16f58a1f4634df200b2e3",
+    "build/runtime.json": "c4032a6e96092dc7be1f227dc0972334232f88632de67b12911f9160db03686a",
+    "build/c2.map": "0c980c6f0b5c9069d88c6b736aa08e4ed790813648a57e9e06571863c926da78",
+    "build/graph-metadata.json": "e62e4fde693d703e1c7ea2c09acf4de913139bd9f87b18b66bb178b598036758",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "f46b5e576bfcfbac079bef09c0f2c77275105ad4a82f2967a0d0180be22d0746",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "7642cb4c3d5a1e92f2cf5ef597d9e074f2528e9ba8847f4e8894b4cf7934018f",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "3f70112c72a8fba254cf5ebe567b5acad46e77da54baf1c0df80fdd495e056da"
+  },
+  "events_sha256": "1db925baffa9f27c27057dee29eee6be2985bac81fe5ed522e91c6a52742bdb6",
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "5af92f3ecb814199dade3b84c5806644d1ed852cfc77ae92a8114f67d2419f5a",
+    "child-command-input.bin": "af66cdb043ff166573fb3ae7515ebae2f8b8ce1999bf98f21616894003a0bc93",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.09760208427906036,
+    "execution": 0.9029821045696735,
+    "total": 1.0376777993515134
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

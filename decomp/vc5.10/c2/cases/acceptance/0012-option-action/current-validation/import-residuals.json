@@ -1,0 +1,67 @@
+[
+  {
+    "function": "_c2_initialize_options",
+    "identity": {
+      "dll": "msvcrt.dll",
+      "name": "strpbrk"
+    },
+    "abi": "cdecl char *(const char *,const char *); each caller cleanup8",
+    "original": {
+      "slot": 4771984,
+      "holder": "ESI",
+      "lifetime": [
+        137991,
+        138068
+      ],
+      "lifetime_sha256": "aece40cc323fea71e1c911d05854c02d55e131cfea3d834e3df553e8fa5b34fb",
+      "instructions": [
+        {
+          "offset": 137991,
+          "bytes": "8b3590d04800"
+        },
+        {
+          "offset": 138009,
+          "bytes": "ffd683c408"
+        },
+        {
+          "offset": 138036,
+          "bytes": "ffd683c408"
+        },
+        {
+          "offset": 138063,
+          "bytes": "ffd683c408"
+        }
+      ],
+      "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
+    },
+    "rebuilt": {
+      "slot": 4202576,
+      "holder": "[EBP-0xc]",
+      "lifetime": [
+        212,
+        312
+      ],
+      "lifetime_sha256": "b97712d02e0063e073ab472aa6cc6c7fb392fa065c51e6ca5d29f9c8ddf33522",
+      "instructions": [
+        {
+          "offset": 212,
+          "bytes": "8b0d50204000894df4"
+        },
+        {
+          "offset": 243,
+          "bytes": "ff55f483c408"
+        },
+        {
+          "offset": 274,
+          "bytes": "ff55f483c408"
+        },
+        {
+          "offset": 306,
+          "bytes": "ff55f483c408"
+        }
+      ],
+      "review": "Full100-byte401744..4017a8 re-reviewed after new option handler; only ordinary globals relocated, one ECX\u2192[EBP-0xc] assignment, three calls+cleanup8, no holder overwrite/escape."
+    },
+    "scope": "Qualified slot/load/calls and manually reviewed complete live interval; Rust generic indirect edge is not import identity proof"
+  }
+]

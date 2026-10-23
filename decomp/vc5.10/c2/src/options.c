@@ -1,12 +1,9 @@
 #include "c2.h"
 #include <recon.h>
 
-/* Named deferred table storage: the unknown matcher traps before reading it.
- * Its 53 rows and terminator must be reconstructed before matcher acceptance. */
-C2Option c2_options[54];
 char *c2_debug_file, *c2_offset_file, *c2_unexpected_argument;
 char *c2_output_name, *c2_assembly_flags, *c2_listing_file, *c2_assembly_file;
-int c2_alignment;
+char *c2_alignment_options;
 int c2_identifier_limit = 2058;
 int c2_object_output, c2_assembly_enabled, c2_mixed_assembly;
 int c2_assembly_source, c2_assembly_bytes, c2_extra_listing;
@@ -29,7 +26,7 @@ void c2_initialize_options(void)
             old_offset = c2_offset_file;
         result = c2_match_option(c2_options, c2_next_argument(), c2_next_argument, 0);
     }
-    c2_validate_alignment(c2_alignment);
+    c2_validate_alignment(c2_alignment_options);
     if (c2_output_name)
         c2_object_output = 1;
     if (c2_identifier_limit > 2058)

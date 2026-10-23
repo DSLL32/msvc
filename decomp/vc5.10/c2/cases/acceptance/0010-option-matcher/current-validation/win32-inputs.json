@@ -1,0 +1,24 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "3392144883a67ddb078e06b3d638bf00f32c773c27d019a7444f8ff705ea0aee",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "ce4a42a37e86c9bbb7fece7d4d32f2765773a0bbe51fd76a70cab8389fde4c38",
+    "decomp/vc5.10/c2/src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "decomp/vc5.10/c2/src/main.c": "29259d2b3aff8144aa41bf930be324b68d1bfbcceea130ce9c6bc70e483372f4",
+    "decomp/vc5.10/c2/src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "decomp/vc5.10/c2/src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "decomp/vc5.10/c2/src/option-match.c": "864dea1042951d2b9f2ac49984329e3570530fb44c6eb754a147764898f305de",
+    "decomp/vc5.10/c2/src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "decomp/vc5.10/c2/src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "decomp/vc5.10/c2/src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "decomp/vc5.10/c2/src/startup.c": "c8ee152c9cc1f74d9c87c78641aa41200644da73c9f57baa86f696b00abc2019",
+    "decomp/vc5.10/c2/src/stubs.c": "ec29a6cfaeca60c86e231cffe2a072545b7965ef4c311b83851596b659728d54",
+    "lib/recon/include/recon.h": "a9732c43614f0d84036794b517fdeb15373359519f1095055cc9858275e3deb8",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "42af0859c7f51503827c85cc596cfa0a1bf5ed2dee30414f1c634f73098d2d4f"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/a2a8efd6c95d22962d32b51d8a62408796b7c713b5ef25429ad79561bf333711",
+  "input_set_sha256": "a2a8efd6c95d22962d32b51d8a62408796b7c713b5ef25429ad79561bf333711",
+  "binary_sha256": "43821e1690f352e4e13ba80de0e77d798d15e68571a309b92c7d7f8ff45f772c"
+}

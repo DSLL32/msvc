@@ -30,7 +30,7 @@ def main():
     addresses=sorted(set(symbols.values()))
     rebuilt=[]
     for record in config['stubs']:
-        start=symbols[record['name']]
+        start=symbols[record.get('symbol',record['name'])]
         end=next(p for p in addresses if p>start)
         rebuilt.append({'name':record['name'],'start':start,'end':end,'pending_extent':True,
                         'kind':'named-target-stub','evidence':None})
@@ -42,7 +42,7 @@ def main():
             table=record['seh_table']
             enclosing,flt,handler=struct.unpack('<III',original[offset(inventory,table,12):offset(inventory,table,12)+12])
             assert enclosing==0xffffffff
-            start=symbols[record['name']]
+            start=symbols[record.get('symbol',record['name'])]
             prefix=read(start,16)
             assert prefix[:6]==bytes.fromhex('558bec6aff68')and prefix[10]==0x68,'unexpected rebuilt SEH prologue'
             rebuilt_table=struct.unpack_from('<I',prefix,6)[0]
@@ -50,6 +50,22 @@ def main():
             metadata['functions'][record['name']]={'original':{'roots':[flt,handler]},'rebuilt':{'roots':[rf,rh]},
                 'evidence':{'original_scope_table':hex(table),'rebuilt_scope_table':hex(rebuilt_table),
                             'source':'explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables'}}
+    for record in config['driver']:
+        if record.get('rebuilt_text_data_offsets'):
+            function=metadata['functions'].setdefault(record['name'],{})
+            function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]
+            start=symbols[record.get('symbol',record['name'])]
+            intervals=[[start+a,start+b]for a,b in record['rebuilt_text_data_offsets']]
+            matcher=record['name']=='@c2_match_option@16'
+            cleanup=8 if matcher else 4
+            assert read(intervals[0][0]-3,3)==b'\xc2'+struct.pack('<H',cleanup),'expected final RET immediately precedes dispatch data'
+            count=5 if matcher else 8
+            targets=struct.unpack('<%dI'%count,read(intervals[0][0],4*count))
+            assert all(start<=address<intervals[0][0]for address in targets)
+            original_classes=0x452cd0 if matcher else 0x452e00
+            size=46 if matcher else 39
+            assert read(intervals[1][0],size)==original[offset(inventory,original_classes,size):offset(inventory,original_classes,size)+size]
+            function.setdefault('rebuilt',{})['text_data']=intervals
     (BINARY/'build/graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
 
 if __name__=='__main__':main()

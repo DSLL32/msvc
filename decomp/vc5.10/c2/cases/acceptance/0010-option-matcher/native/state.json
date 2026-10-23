@@ -1,0 +1,651 @@
+{
+  "function": "c2_wildcard_match",
+  "pc": 1448443828,
+  "signal": "Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1150667)).\n\tUsing the running image of child process 1150667.\nProgram stopped at 0x56557fb3.\nIt stopped with signal SIGTRAP, Trace/breakpoint trap.\n",
+  "backtrace": "#0  0x56557fb4 in c2_wildcard_match (pattern=0x5656b15b \"*\", input=0xffffdb37 \"/?\", kind=34) at src/stubs.c:134\n#1  0x56558c33 in c2_match_option (table=0x56571588 <c2_options+624>, input=0xffffdb37 \"/?\", next=0x56558a10 <c2_next_argument>, mode=0) at src/option-match.c:37\n#2  0x56558799 in c2_initialize_options () at src/options.c:19\n#3  0x56558397 in c2_main (argc=2, argv=0xffffd964, environment=0x56578b70) at src/main.c:20\n#4  0x565581a8 in c2_crt_startup () at src/startup.c:38\n#5  0x56558e21 in main (argc=2, argv=0xffffd964) at scripts/native-host.c:55\n",
+  "trace": [
+    "_c2_crt_startup",
+    "_c2_set_argv",
+    "_c2_set_default_precision",
+    "_c2_main",
+    "_c2_register_exit",
+    "_c2_register_onexit",
+    "@c2_read_environment@4",
+    "_c2_initialize_options",
+    "_c2_next_argument",
+    "@c2_match_option@16"
+  ],
+  "globals": {
+    "0x499708": 4294967295,
+    "0x4996d4": 4294967295,
+    "0x49975c": 32768,
+    "0x4980d4": 0,
+    "0x499718": 0,
+    "0x499694": 1,
+    "0x4980d0": 0,
+    "0x4980cc": 0,
+    "0x7803fa88": 32768,
+    "0x7803fa94": 0,
+    "0x7803f928": 0,
+    "0x7803fa90": 1,
+    "0x7803f198": 0
+  },
+  "arguments": [
+    "/?"
+  ],
+  "MSC_CMD_FLAGS": null,
+  "command_state": {
+    "argc": 1,
+    "argv": [
+      "/?"
+    ]
+  },
+  "wildcard": {
+    "pattern": "*",
+    "input": "/?",
+    "kind": 34,
+    "current_alias": 1
+  },
+  "data_state": {
+    "options": [
+      {
+        "pattern": "-cbstring",
+        "value": 1448548088,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Gs#",
+        "value": 1448546708,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Gt#",
+        "value": 1448546712,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-G#",
+        "value": 1448546748,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-A#",
+        "value": 1448547980,
+        "result": 1,
+        "kind": 39,
+        "reserved": 0
+      },
+      {
+        "pattern": "-O#",
+        "value": 1448546916,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-W#",
+        "value": 1448547012,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-db#",
+        "value": 1448547972,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-off#",
+        "value": 1448547968,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ef#",
+        "value": 1448548092,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-f#",
+        "value": 1448548096,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fd#",
+        "value": 1448548100,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QIf",
+        "value": 1448548104,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ide",
+        "value": 1448547940,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-isize#",
+        "value": 1448546716,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-il#",
+        "value": 1448546700,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-vol#",
+        "value": 1448546720,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Inl#",
+        "value": 1448548108,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-EHs",
+        "value": 1448548060,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-EHa",
+        "value": 1448548060,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Loop#",
+        "value": 1448546724,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-loopopt",
+        "value": 1448548112,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MLd",
+        "value": 1448548116,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MDd",
+        "value": 1448548120,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MTd",
+        "value": 1448548124,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ML",
+        "value": 1448548128,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MD",
+        "value": 1448548132,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MT",
+        "value": 1448548136,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-nogen",
+        "value": 1448548140,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-basic",
+        "value": 1448548144,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-bzalign",
+        "value": 1448548148,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ehopt",
+        "value": 1448548152,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-noehopt",
+        "value": 1448548152,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-nolock",
+        "value": 1448548156,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-noblend",
+        "value": 1448546728,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-p6gj",
+        "value": 1448548160,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QIfdiv",
+        "value": 1448548164,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QI0f",
+        "value": 1448548168,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-pr",
+        "value": 1448548172,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-FA#",
+        "value": 1448547992,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fa#",
+        "value": 1448548020,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fs#",
+        "value": 1448548012,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Bd",
+        "value": 1448547964,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Brepro",
+        "value": 1448548176,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zi",
+        "value": 1448548180,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zd",
+        "value": 1448548184,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Za",
+        "value": 1448548188,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zl",
+        "value": 1448546732,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-H#",
+        "value": 1448546704,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fo#",
+        "value": 1448547984,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-dos",
+        "value": 1448548192,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-S",
+        "value": 1448547996,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "*",
+        "value": 1448547976,
+        "result": 6,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": null,
+        "value": 0,
+        "result": 0,
+        "kind": 0,
+        "reserved": 0
+      }
+    ],
+    "selectors": {
+      "c2_machine_selectors": [
+        {
+          "selector": 119,
+          "kind": 1,
+          "value": 1448548032
+        },
+        {
+          "selector": 104,
+          "kind": 1,
+          "value": 1448548036
+        },
+        {
+          "selector": 105,
+          "kind": 1,
+          "value": 1448548028
+        },
+        {
+          "selector": 102,
+          "kind": 1,
+          "value": 1448548040
+        },
+        {
+          "selector": 51,
+          "kind": 36,
+          "value": 1448546736
+        },
+        {
+          "selector": 52,
+          "kind": 36,
+          "value": 1448546736
+        },
+        {
+          "selector": 53,
+          "kind": 36,
+          "value": 1448546736
+        },
+        {
+          "selector": 54,
+          "kind": 36,
+          "value": 1448546736
+        },
+        {
+          "selector": 121,
+          "kind": 1,
+          "value": 1448548044
+        },
+        {
+          "selector": 65,
+          "kind": 1,
+          "value": 1448548048
+        },
+        {
+          "selector": 68,
+          "kind": 1,
+          "value": 1448548052
+        },
+        {
+          "selector": 84,
+          "kind": 1,
+          "value": 1448548056
+        },
+        {
+          "selector": 88,
+          "kind": 1,
+          "value": 1448548060
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ],
+      "c2_optimizer_selectors": [
+        {
+          "selector": 97,
+          "kind": 1,
+          "value": 1448548064
+        },
+        {
+          "selector": 119,
+          "kind": 1,
+          "value": 1448548068
+        },
+        {
+          "selector": 115,
+          "kind": 5,
+          "value": 1448546740
+        },
+        {
+          "selector": 116,
+          "kind": 1,
+          "value": 1448546740
+        },
+        {
+          "selector": 103,
+          "kind": 1,
+          "value": 1448548072
+        },
+        {
+          "selector": 112,
+          "kind": 1,
+          "value": 1448548076
+        },
+        {
+          "selector": 121,
+          "kind": 1,
+          "value": 1448548080
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ],
+      "c2_warning_selectors": [
+        {
+          "selector": 48,
+          "kind": 36,
+          "value": 1448546744
+        },
+        {
+          "selector": 49,
+          "kind": 36,
+          "value": 1448546744
+        },
+        {
+          "selector": 50,
+          "kind": 36,
+          "value": 1448546744
+        },
+        {
+          "selector": 51,
+          "kind": 36,
+          "value": 1448546744
+        },
+        {
+          "selector": 52,
+          "kind": 36,
+          "value": 1448546744
+        },
+        {
+          "selector": 88,
+          "kind": 1,
+          "value": 1448548084
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ]
+    },
+    "objects": {
+      "c2_constant_strings": 0,
+      "c2_stack_probe_limit": 4096,
+      "c2_data_threshold": 32767,
+      "c2_alignment_options": null,
+      "c2_debug_file": null,
+      "c2_offset_file": null,
+      "c2_error_file": null,
+      "c2_source_name": null,
+      "c2_pdb_name": null,
+      "c2_force_inline_float": 0,
+      "c2_trace_enabled": 0,
+      "c2_integer_size": 4,
+      "c2_intermediate_base": "",
+      "c2_volatile_mode": 3,
+      "c2_inline_limit": 0,
+      "c2_exception_mode": 0,
+      "c2_loop_limit": 100,
+      "c2_loop_optimization": 0,
+      "c2_runtime_ml_debug": 0,
+      "c2_runtime_md_debug": 0,
+      "c2_runtime_mt_debug": 0,
+      "c2_runtime_ml": 0,
+      "c2_runtime_md": 0,
+      "c2_runtime_mt": 0,
+      "c2_no_codegen": 0,
+      "c2_basic_mode": 0,
+      "c2_zero_alignment": 0,
+      "c2_exception_optimization": 0,
+      "c2_no_lock": 0,
+      "c2_blend": 1,
+      "c2_p6_mode": 0,
+      "c2_fdiv_fix": 0,
+      "c2_no_float_inline": 0,
+      "c2_profile": 0,
+      "c2_assembly_flags": null,
+      "c2_assembly_file": null,
+      "c2_listing_file": null,
+      "c2_internal_error_active": 0,
+      "c2_reproducible": 0,
+      "c2_codeview_types": 0,
+      "c2_line_numbers": 0,
+      "c2_strict_ansi": 0,
+      "c2_default_library": 1,
+      "c2_identifier_limit": 2058,
+      "c2_output_name": null,
+      "c2_dos_messages": 0,
+      "c2_assembly_enabled": 0,
+      "c2_unexpected_argument": null,
+      "c2_windows_calling": 0,
+      "c2_entry_hooks": 0,
+      "c2_internal_listing": 0,
+      "c2_float_calls": 0,
+      "c2_cpu_generation": 5,
+      "c2_omit_frame_pointer": 0,
+      "c2_calling_cdecl": 0,
+      "c2_calling_stdcall": 0,
+      "c2_calling_fastcall": 0,
+      "c2_alias_optimization": 0,
+      "c2_global_optimization": 0,
+      "c2_favor_speed": 1,
+      "c2_global_optimize": 0,
+      "c2_float_precision": 0,
+      "c2_frame_optimization": 0,
+      "c2_warning_level": 1,
+      "c2_warnings_as_errors": 0
+    }
+  }
+}

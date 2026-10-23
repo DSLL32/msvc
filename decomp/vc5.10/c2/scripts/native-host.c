@@ -33,7 +33,7 @@ static char **read_environment(const char *path)
     return vector;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **host_environment)
 {
     ReconModuleSpec module;
     HMODULE instance;
@@ -52,6 +52,6 @@ int main(int argc, char **argv)
     recon_load_module_resources(instance, getenv("C2_RESOURCE_FILE"));
     /* Canonical MSVCRT DLL initialization precedes the target EXE startup. */
     recon_controlfp(0x10000, 0x30000);
-    c2_crt_startup();
+    mainCRTStartup();
     return 0;
 }

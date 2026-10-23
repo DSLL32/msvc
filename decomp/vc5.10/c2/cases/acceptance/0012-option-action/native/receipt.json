@@ -1,0 +1,79 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "resource_sha256": "bba673f819e7f365e1914b6e261a33993611fa172aaf4308ae1ea330996198d8",
+  "kind": "native-linux-gdb",
+  "command": [
+    "/usr/bin/gdb",
+    "-nx",
+    "-batch",
+    "-ex",
+    "set pagination off",
+    "-ex",
+    "set confirm off",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/action-native2/gdb-prefix.py",
+    "-ex",
+    "run /? > /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/action-native2/stdout.bin 2> /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/action-native2/stderr.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/action-native2/gdb-state.py",
+    "/root/msvc2/decomp/vc5.10/c2/build/native/c2"
+  ],
+  "candidates": [
+    "@c2_apply_option@12"
+  ],
+  "base_configuration_sha256": "eaffd3fdf46690f9bec9c4c79d11a956bc40c9f3ecea2219da99f4cd74f08160",
+  "configuration_sha256": "581c3b678994f196cdcf6d999c986f29ad3f7d0360bdd31ea4865a4c2a8089e8",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "native_sha256": "18f6bdb4a8c8b99b8ea50fb83435aef2bd36fac747be760f939911459038b057",
+  "rebuilt_sha256": "cb74380a2ecb5a8b58ff47597d1127803d1a15da02e23353461f3af29ff20098",
+  "audit_inputs": {
+    "runtime.json": "cbe07e5206122486eba5d4a96377f842ea2f9e676d307941e3ed44784e39ef6f",
+    "build/runtime.json": "b3ce22871219c9d86d98a4d9a74a22c47fca32e79bd5b478d11d4f6d802bc978",
+    "build/c2.map": "c5115353dc6bb187d50cc4ea71a73eee976598d17614af031cacf3874d3fd3f9",
+    "build/graph-metadata.json": "c0bf87d5f90b1a1c9f18482973b142a7e746d4d980493210134991d229a12552",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "1494d796af4f1aa86b9cbd825754bd91a5c8afad40d9f6acf2902da7528425b9",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "7b671048adbef0455ba49d0078cac69200c818ea8c1bde4ac316a6a09427abb9"
+  },
+  "state_sha256": "fc11728fc4be9c57fdc5fc34e8e9ef1ec5808c30c597697caebc7297d365fe74",
+  "provenance_sha256": "14e09880cf2ee4b35ce39d544251c265bcfd1629aee7adc9d545e0776ff3b5ab",
+  "gdb_inputs": {
+    "gdb-prefix.py": "e86e176e4d50997a685b0c12c302bfd0fdb872cf5995a4fdc3dd2ab0b7cf79cc",
+    "gdb-state.py": "de5effb19410f0a01924996569548327706de9db24a4d9d249a6bd0a15ed41d6",
+    "data-model.json": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425"
+  },
+  "gdb_outputs": {
+    "gdb.stdout": "6647f911681e3439a11c131edd938243e64884145e16a5c4f15a165cc23224b5",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-maps.txt": "c3649a801aa690f0183af92e45c5115ae0720c2c9892ba6ae150871044e63f94"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "helper_status": 0,
+  "seconds": {
+    "execution": 0.1680071884766221,
+    "total": 0.2524933619424701
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

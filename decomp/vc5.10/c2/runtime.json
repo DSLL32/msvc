@@ -168,14 +168,6 @@
     "evidence": null
   },
   {
-    "name": "@c2_match_option@16",
-    "start": 4533209,
-    "end": 4533210,
-    "kind": "named-target-stub",
-    "pending_extent": true,
-    "evidence": null
-  },
-  {
     "name": "@c2_validate_alignment@4",
     "start": 4533915,
     "end": 4533924,
@@ -197,6 +189,14 @@
     "end": 4765358,
     "kind": "named-target-stub",
     "pending_extent": true,
+    "evidence": null
+  },
+  {
+    "name": "@parse_option_integer@4",
+    "start": 4533799,
+    "end": 4533800,
+    "pending_extent": true,
+    "kind": "named-target-stub",
     "evidence": null
   }
 ]

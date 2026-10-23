@@ -2,9 +2,12 @@
 
 Only the first case is released: `/?`, an unsupported-option diagnostic (status
 1, empty stdout, 51 stderr bytes). The minimal intermediate-input case remains
-queued and unauthorized. Four application functions (1133 bytes) and five CRT helpers (438 bytes) are
-accepted; four identified import thunks are tracked separately. The current
-frontier is the option matcher, whose structured table remains explicitly pending.
+queued and unauthorized. Seven application functions (2044 bytes) and five CRT helpers (438 bytes) are
+accepted; four identified import thunks are tracked separately. The structured
+53-row option table and its selector tables are defined at their point of use.
+The option matcher, wildcard leaf and complete option-action handler are accepted
+with their structured dispatch/classification data. The current frontier is
+`fatal(7, "/?", "p2")`; 37 negative controls verify fail-closed acceptance.
 
 `make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
@@ -41,7 +44,7 @@ and all import names. Direct imports are:
 The toolchain includes `CL.EXE`, C1/C1XX DLL frontends, headers, `LIBC.LIB`,
 `MSVCRT.LIB` and `MSPDB50.DLL`. Original compiler execution/actual frontend
 inputs are being investigated with the CL/C1 workers. Startup source and named child stubs compile with the original toolchain;
-only the CRT startup currently has acceptance credit.
+application and CRT acceptance are tracked separately in `functions.json`.
 
 ## Proposed cases and actual-input capture
 
@@ -81,3 +84,8 @@ ctype and locale state, but this binary's imported MSVCRT layouts and actual
 calls must be proved before reuse. These are investigation items, not requests
 for speculative compatibility code. Debug/PDB cases may need additional
 shared support after a minimal no-debug standalone case is captured.
+
+Source entry names are `main` and `mainCRTStartup`. Explicit driver `symbol`
+aliases preserve earlier logical graph/trace names without modifying historical
+captures. Only target native translation units alias `main` to `c2_main`; the
+Linux host retains its own `main`. See `cases/analysis/naming-aliases.json`.

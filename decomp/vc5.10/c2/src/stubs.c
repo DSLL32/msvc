@@ -112,13 +112,8 @@ char **c2_copy_arguments(void)
     __asm { int 3 }
     return NULL;
 }
-int __fastcall c2_match_option(C2Option *table, char *input, char *(__cdecl *next)(void), int mode)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-void __fastcall c2_validate_alignment(int alignment)
+void __fastcall c2_validate_alignment(char *alignment)
 {
     __asm { int 3 }
 }
@@ -132,4 +127,10 @@ char *__fastcall c2_get_diagnostic_string(int message)
 void __fastcall c2_system_fatal(int message, char *prefix, char *filename)
 {
     __asm { int 3 }
+}
+
+int __fastcall parse_option_integer(char *value)
+{
+    __asm { int 3 }
+    return 0;
 }
