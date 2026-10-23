@@ -1,0 +1,215 @@
+{
+  "case": "CL.EXE /nologo /Od copy.cpp",
+  "toolchain": "1.0-nt",
+  "capture": {
+    "method": "Debugger breakpoint at original CL CreateProcessA import thunk, VA 0x21000 / RVA 0x11000",
+    "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": "/nologo /Od copy.cpp",
+    "downstream_capture_arguments": "/nologo /Od copy.cpp",
+    "snapshot": "Intermediate files copied before C2 launch; object and response copied before LINK launch",
+    "child_current_directory_parameter": null,
+    "inherited_working_directory": "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/c1xx-copy-assignment",
+    "stdin": "closed",
+    "compiler_environment_keys": [
+      "MSC_CMD_FLAGS"
+    ],
+    "source_sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5",
+    "raw_boundary_files": "capture/",
+    "program": {
+      "status": 0,
+      "seconds": 5.264412161894143,
+      "stdout": "",
+      "stderr": ""
+    },
+    "timing_receipt": "capture/driver-receipt.json"
+  },
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C1XX3232.EXE",
+      "sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f copy.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Focopy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I {include} "
+      },
+      "working_directory": "c1",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-copy-assignment\\000292 -f copy.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Focopy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c1/copy.cpp",
+          "bytes": 959,
+          "sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 2164,
+          "sha256": "dbb2d7749e299f15c311c8fc3103713a8726241afec4876460c6affae6dbfccf",
+          "output_name": "irex"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 406,
+          "sha256": "aa5029e37b8976d8907572f2ac4d0ad1ac91574c64d1b8f037810d38549ebd58",
+          "output_name": "irsy"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 21,
+          "sha256": "18a37b1c5a9852e501b30acf5dd2a81cdb21d80036cec369dfe5d5b6e7e9cb67",
+          "output_name": "irin"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 395,
+          "sha256": "81018870a5d5d8650935d79ec6ca5ed8cdfcd9420f6d280dfd27eb8d602254fc",
+          "output_name": "irgl"
+        }
+      ],
+      "command_line_template": "{bin}\\c1xx3232.exe",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775",
+          "cached_path": "dependencies/C1.ERR"
+        }
+      ]
+    },
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f copy.cpp -W 1 -G4 -Gs4096 -dos -Focopy.obj -ML "
+      },
+      "working_directory": "c2",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-copy-assignment\\000292 -f copy.cpp -W 1 -G4 -Gs4096 -dos -Focopy.obj -ML ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 2164,
+          "sha256": "dbb2d7749e299f15c311c8fc3103713a8726241afec4876460c6affae6dbfccf"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 406,
+          "sha256": "aa5029e37b8976d8907572f2ac4d0ad1ac91574c64d1b8f037810d38549ebd58"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 21,
+          "sha256": "18a37b1c5a9852e501b30acf5dd2a81cdb21d80036cec369dfe5d5b6e7e9cb67"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 395,
+          "sha256": "81018870a5d5d8650935d79ec6ca5ed8cdfcd9420f6d280dfd27eb8d602254fc"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/copy.obj",
+          "bytes": 1446,
+          "sha256": "2f212ad4f7e23bc777b65b1ecaed3731303cbd81dd77cf43b397c04a21600070",
+          "output_name": "copy.obj",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "cea3a0c526797ef05f1068b98309e9e747579f67f3199f7e44d2534e31bbc94b"
+        }
+      ],
+      "command_line_template": "{bin}\\c23232.exe",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C23.ERR",
+          "bytes": 6019,
+          "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5",
+          "cached_path": "dependencies/C23.ERR"
+        }
+      ]
+    },
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "@link.rsp"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "environment_inheritance": true,
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS"
+      ],
+      "working_directory": "link",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-copy-assignment\\000292lk",
+      "captured_environment_parameter": null,
+      "captured_LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "link/copy.obj",
+          "bytes": 1446,
+          "sha256": "2f212ad4f7e23bc777b65b1ecaed3731303cbd81dd77cf43b397c04a21600070"
+        },
+        {
+          "path": "link/link.rsp",
+          "bytes": 47,
+          "sha256": "19b8a74bf398d603174a8c531ec18cbb82faee683070579e7710671d22540e33"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/copy.exe",
+          "bytes": 2097152,
+          "sha256": "14b5be879bbfb66aa51b56f9562cf302c54c1f7e7da57aa139887fa1230e8fcd",
+          "output_name": "copy.exe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "e8d9bb138a694c3331385c0238753df9c77bfc166d57d267bb3bd623e199cd51"
+        }
+      ],
+      "generated_program": {
+        "path": "copy.exe",
+        "exit_status": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/lib/LIBC.LIB",
+          "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334"
+        }
+      ],
+      "command_line_template": "{bin}\\link.exe -link @link.rsp"
+    }
+  }
+}

@@ -13,19 +13,35 @@
   "pending": [
     {
       "family": "inheritance and virtual dispatch",
-      "intent": "Base/derived layouts and calls through a base pointer; include virtual bases where supported"
+      "intent": "Base/derived layouts and calls through a base pointer; include virtual bases where supported",
+      "fixture": "../fixtures/c1xx-virtual-diamond",
+      "status": "original phases independently verified; reconstruction pending",
+      "manifest": "../fixtures/c1xx-virtual-diamond/manifest.json",
+      "validation": "../fixtures/c1xx-virtual-diamond/validation.json"
     },
     {
       "family": "copy construction and assignment",
-      "intent": "Explicit copy constructor and assignment operator with observable field changes"
+      "intent": "Explicit copy constructor and assignment operator with observable field changes",
+      "fixture": "../fixtures/c1xx-copy-assignment",
+      "status": "original phases independently verified; reconstruction pending",
+      "manifest": "../fixtures/c1xx-copy-assignment/manifest.json",
+      "validation": "../fixtures/c1xx-copy-assignment/validation.json"
     },
     {
       "family": "destruction and stack lifetime",
-      "intent": "Explicit destructors, nested automatic objects and return/scope cleanup"
+      "intent": "Explicit destructors, nested automatic objects and return/scope cleanup",
+      "fixture": "../fixtures/c1xx-stack-lifetime",
+      "status": "original phases independently verified; reconstruction pending",
+      "manifest": "../fixtures/c1xx-stack-lifetime/manifest.json",
+      "validation": "../fixtures/c1xx-stack-lifetime/validation.json"
     },
     {
       "family": "new/delete and overloaded operators",
-      "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads"
+      "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads",
+      "fixture": "../fixtures/c1xx-new-delete",
+      "status": "original phases independently verified; reconstruction pending",
+      "manifest": "../fixtures/c1xx-new-delete/manifest.json",
+      "validation": "../fixtures/c1xx-new-delete/validation.json"
     }
   ],
   "requirements": [
@@ -34,5 +50,6 @@
     "Use native cached fixtures and fresh original-only evidence when accepting functions",
     "Do not assume newer C++ language features"
   ],
-  "completion": "Finish existing cpp_basic first, then capture and reconstruct these families"
+  "completion": "Finish existing cpp_basic first, then capture and reconstruct these families",
+  "next_case": "virtual_diamond"
 }

@@ -1,0 +1,4 @@
+-out:lifetime.exe
+-debug:none
+-nologo
+lifetime.obj

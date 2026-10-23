@@ -1355,3 +1355,16 @@ evidence/cpp-basic-completion-timing.json. Native fixtures execute no original.
 Accepted extent union201713/476418bytes is42.339500%, not branch coverage.
 This completes the starting case; the binary remains partial and the approved
 follow-on C++ queue remains active.
+
+Approved follow-on references are now captured and independently verified under
+../fixtures/c1xx-virtual-diamond, c1xx-copy-assignment, c1xx-stack-lifetime and
+c1xx-new-delete. They cover a shared virtual-base diamond and virtual dispatch,
+copy/assignment/conversion/value return, nested/temporary/array destructor order,
+and scalar/array allocation with class allocation and subscript operators.
+Every original CL compilation and linked program succeeds with empty program
+streams and exit0. Actual child argv0/environment transport, intermediate inputs,
+object/response, source/header/error-file dependencies and exact hashes are durable.
+Independent C1XX/C2/LINK replay passes all four; only demonstrated downstream
+COFF/PE timestamps are excluded. Reference registration is an explicit script
+operation, separate from native fixtures. Native per-case seed integration is
+next; these captures have not yet been claimed reconstructed.

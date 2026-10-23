@@ -1,0 +1,4 @@
+-out:copy.exe
+-debug:none
+-nologo
+copy.obj

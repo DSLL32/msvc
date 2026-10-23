@@ -1,0 +1,113 @@
+{
+  "c1": {
+    "status": 0,
+    "seconds": 5.3004962066188455,
+    "command": [
+      "wine",
+      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C1XX3232.EXE",
+      "",
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe"
+    ],
+    "outputs": [
+      {
+        "file": "irex",
+        "bytes": 2702,
+        "actual_sha256": "f6d948cbc517c3566f13a1df9b2451054257df16f2bfbb18566ea1eb2808f838",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irsy",
+        "bytes": 592,
+        "actual_sha256": "9b65adedb5f6dae204b82477e7269995e2dc92d5606a20dd1bef2074acccd27e",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irin",
+        "bytes": 36,
+        "actual_sha256": "e98ddae89eb4e1b96a3856c5b501c21d4a14c237cf4a3a95388d683b0da3b41b",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irgl",
+        "bytes": 479,
+        "actual_sha256": "2cebb29f1ed21fe211610ab5f527549d492847ec9bfa1feeea360d769db3e033",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      }
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  "c2": {
+    "status": 0,
+    "seconds": 5.640630543231964,
+    "command": [
+      "wine",
+      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+      "",
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+    ],
+    "outputs": [
+      {
+        "file": "lifetime.obj",
+        "bytes": 2167,
+        "actual_sha256": "b3ff7c3fe664ed8c11950286de03453a6923db8bd7aeb7ae5950cca2ea39eff8",
+        "differing_byte_offsets": [
+          4,
+          5
+        ],
+        "permitted_volatile_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ]
+      }
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  "link": {
+    "status": 0,
+    "seconds": 4.982492158189416,
+    "command": [
+      "wine",
+      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+      "-link @link.rsp",
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @link.rsp"
+    ],
+    "outputs": [
+      {
+        "file": "lifetime.exe",
+        "bytes": 2097152,
+        "actual_sha256": "c5b09f8cd34ad69e4aef6e888d7d5e2e0569258808536bd5c6a08a004c534a8a",
+        "differing_byte_offsets": [
+          136,
+          137
+        ],
+        "permitted_volatile_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          }
+        ]
+      }
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  "program": {
+    "status": 0,
+    "seconds": 4.832598336040974,
+    "stdout": "",
+    "stderr": ""
+  }
+}

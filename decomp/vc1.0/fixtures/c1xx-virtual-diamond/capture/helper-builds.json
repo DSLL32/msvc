@@ -1,0 +1,36 @@
+[
+  {
+    "name": "capture-driver",
+    "source": "/root/msvc2/decomp/vc1.0/fixtures/minimal-c/capture-cl.c",
+    "source_sha256": "426c17badcff72f4bb2dd15494bf528b6ca321e215f549567a482e3063532f12",
+    "command": [
+      "wine",
+      "/root/msvc2/toolchains/1.0-nt/bin/CL.EXE",
+      "/nologo",
+      "/Od",
+      "/G3",
+      "/FoZ:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\capture-driver.obj",
+      "/FeZ:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\capture-driver.exe",
+      "Z:\\root\\msvc2\\decomp\\vc1.0\\fixtures\\minimal-c\\capture-cl.c"
+    ],
+    "seconds": 6.806774167343974,
+    "status": 0
+  },
+  {
+    "name": "run-phase",
+    "source": "/root/msvc2/decomp/vc1.0/fixtures/cpp-basic/run-phase.c",
+    "source_sha256": "c9767dc13a89390a2a288de8afbc1e0281d9fff607c7f0eee64164c8cbfc3c38",
+    "command": [
+      "wine",
+      "/root/msvc2/toolchains/1.0-nt/bin/CL.EXE",
+      "/nologo",
+      "/Od",
+      "/G3",
+      "/FoZ:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\run-phase.obj",
+      "/FeZ:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\run-phase.exe",
+      "Z:\\root\\msvc2\\decomp\\vc1.0\\fixtures\\cpp-basic\\run-phase.c"
+    ],
+    "seconds": 6.408664925023913,
+    "status": 0
+  }
+]

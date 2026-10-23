@@ -1,0 +1,1 @@
+Z:\root\msvc2\toolchains\1.0-nt\bin\link.exe -link @Z:\root\.ai-tmp\vc1.0-c1xx\follow-on-capture\c1xx-copy-assignment\000292lk

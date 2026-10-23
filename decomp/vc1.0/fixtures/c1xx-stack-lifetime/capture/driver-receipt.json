@@ -1,0 +1,21 @@
+{
+  "command": [
+    "wine",
+    "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/capture-driver.exe",
+    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "11000",
+    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-stack-lifetime\\capture",
+    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-stack-lifetime",
+    "/nologo /Od lifetime.cpp",
+    "lifetime.obj"
+  ],
+  "source_sha256": "84d31216f585ba33ed70036832830c1c7f912fa891f8a673664b7f15c1f41310",
+  "seconds": 6.814878375269473,
+  "status": 0,
+  "program": {
+    "status": 0,
+    "seconds": 5.02828327845782,
+    "stdout": "",
+    "stderr": ""
+  }
+}

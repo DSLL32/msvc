@@ -1,0 +1,21 @@
+{
+  "command": [
+    "wine",
+    "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/capture-driver.exe",
+    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "11000",
+    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete\\capture",
+    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete",
+    "/nologo /Od allocation.cpp",
+    "allocation.obj"
+  ],
+  "source_sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8",
+  "seconds": 5.871796161867678,
+  "status": 0,
+  "program": {
+    "status": 0,
+    "seconds": 3.6478869253769517,
+    "stdout": "",
+    "stderr": ""
+  }
+}
