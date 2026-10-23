@@ -79,7 +79,9 @@
     "_initialize_frontend_hook",
     "_initialize_compiler_environment",
     "_initialize_default_arena",
-    "CompilerArena::Reserve"
+    "CompilerArena::Reserve",
+    "_calculate_arena_reservation",
+    "import:_ftol"
   ],
   "driver": [
     {
@@ -4308,6 +4310,107 @@
         "original_seconds": 10.83586094994098,
         "native_seconds": 4.954751420766115
       }
+    },
+    {
+      "name": "_calculate_arena_reservation",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "73959cbf80d9ec3c29ca3d12ce34925bd5ae999737009da8eb6429e6a5a2d374",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-original-2",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-native-2",
+      "original_receipt_sha256": "0adf68a4e5e9279a368ee997d938912558e49e751a0156cea70e27b3b324fc94",
+      "native_receipt_sha256": "ced77cce36c27f47d403bf4f73ee51eadecdf07566ec7ed8bde05e90697a5dfa",
+      "trial_sha256": "e1cb77db58474bb4c7e20e0f5f2c43bfe1256f87b28b4be380dfc7e7ff668d9c",
+      "audit_sha256": "7ef0c3822d8da1ddbc8c4664730ac653fd5d221d4bafd82ae6d36585ab82c267",
+      "code_chunks": [
+        [
+          233170,
+          233220
+        ],
+        [
+          467315,
+          467322
+        ]
+      ],
+      "comparison": {
+        "trial": "_calculate_arena_reservation",
+        "frontier": "CompilerArena::Reset",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 9.688177387230098,
+        "native_seconds": 5.181566121056676
+      }
+    },
+    {
+      "name": "import:_ftol",
+      "classification": "compiler-generated public CRT import thunk; zero application credit",
+      "source": "src/arenas.cpp",
+      "source_sha256": "73959cbf80d9ec3c29ca3d12ce34925bd5ae999737009da8eb6429e6a5a2d374",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-original-2",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-native-2",
+      "original_receipt_sha256": "0adf68a4e5e9279a368ee997d938912558e49e751a0156cea70e27b3b324fc94",
+      "native_receipt_sha256": "ced77cce36c27f47d403bf4f73ee51eadecdf07566ec7ed8bde05e90697a5dfa",
+      "trial_sha256": "e1cb77db58474bb4c7e20e0f5f2c43bfe1256f87b28b4be380dfc7e7ff668d9c",
+      "audit_sha256": "7ef0c3822d8da1ddbc8c4664730ac653fd5d221d4bafd82ae6d36585ab82c267",
+      "code_chunks": [
+        [
+          233220,
+          233226
+        ]
+      ],
+      "comparison": {
+        "trial": "_calculate_arena_reservation",
+        "frontier": "CompilerArena::Reset",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 9.688177387230098,
+        "native_seconds": 5.181566121056676
+      },
+      "application_code_credit": 0,
+      "application_function_credit": 0,
+      "source_projection": "automatic original compiler/linker import; ordinary native signed64 cast"
     }
   ],
   "imports": [

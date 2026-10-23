@@ -76,9 +76,11 @@
     "_initialize_frontend_hook",
     "_initialize_compiler_environment",
     "_initialize_default_arena",
-    "CompilerArena::Reserve"
+    "CompilerArena::Reserve",
+    "_calculate_arena_reservation",
+    "import:_ftol"
   ],
-  "trial": "_calculate_arena_reservation",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -700,8 +702,5 @@
       "entry": 1
     }
   ],
-  "stage": "CompilerArena::Reserve accepted; next frontier _calculate_arena_reservation",
-  "support_imports": [
-    "import:_ftol"
-  ]
+  "stage": "_calculate_arena_reservation accepted; next frontier CompilerArena::Reset"
 }

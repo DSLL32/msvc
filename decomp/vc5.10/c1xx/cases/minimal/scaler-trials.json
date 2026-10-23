@@ -269,11 +269,20 @@
       "total": 0.013464972376823425
     }
   },
-  "status": "all three fresh pairs/current strict graph and28 FP controls+8 support-scope controls passed; calculator unpromoted pending concrete packet review",
+  "status": "accepted after independent concrete review; first-call scope only",
   "current_audit": {
     "trial": "_calculate_arena_reservation",
     "trial_sha256": "e1cb77db58474bb4c7e20e0f5f2c43bfe1256f87b28b4be380dfc7e7ff668d9c",
     "auditor_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
     "seconds": 0.1038997583091259
+  },
+  "final_review": {
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/scaler-final-orchestrator-review.json",
+    "sha256": "e63a89ee11f20ff47d7a8f41d75a69233e8a1a4beee3aef0ca7cb84bd8769eb6",
+    "application_functions_added": 1,
+    "application_code_bytes_added": 57,
+    "generated_import_functions_added": 1,
+    "generated_import_code_bytes_added": 6,
+    "import_application_credit": 0
   }
 }

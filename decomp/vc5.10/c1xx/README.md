@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **71 application functions (3,092 bytes)**, **two historical CRT
-support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 3,549 accepted code bytes are 0.4724% of the 751,216-byte code extent; this is not
+Accepted code is **72 application functions (3,149 bytes)**, **two historical CRT
+support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
+The 3,612 accepted code bytes are 0.4808% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the real reservation-size calculator after one descriptor-pointer store.
+stopping in CompilerArena::Reset after the first real arena reservation.
 
 ## Target and ABI
 
@@ -255,3 +255,14 @@ versus current nativeSW0 is an explicit baseline limitation; the independently
 reviewed shared empty-entry profile will be applied before lifecycle when the
 next calculator candidate consumes floating-point state. No reseeding at a
 calculator frontier or full IP/DP/empty-register-payload equivalence is claimed.
+
+The57-byte signed64 reservation calculator is accepted after independent review,
+with its automatic6-byte public _ftol import recorded separately with zero app
+credit. Three paired proofs cover the actual9 native x87 operations, live80-bit
+values, QWORD conversion, truncating/control-word restoration, rounded result
+and real TOP_DOWN reservation ownership/API through Reset. The once-before-DLL
+empty x87 entry profile is bound to our own original context, not seeded at the
+calculator.28 new FP/state/ABI controls plus8 support-scope controls pass;
+`cases/minimal/scaler-trials.json` retains the exact finite first-call scope.
+Captures took9.48–9.74s original and5.18–5.36s native GDB; the separate completed
+lifecycle fixture took13.46ms total/1.90ms execution with no Wine.
