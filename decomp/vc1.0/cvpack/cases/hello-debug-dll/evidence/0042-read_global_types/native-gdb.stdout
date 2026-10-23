@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x5ec7: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffcd6bc4, environment=0xffcd6bd8) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565cbe25 in read_new_global_types (size=72, precompiled=0) at src/stubs.c:76
+76	void read_new_global_types(unsigned long size, int precompiled) { __asm { int 3 } }

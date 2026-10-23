@@ -22,13 +22,13 @@ def validate(config,pe):
         assert allocation['defined_ranges']==[], 'unreviewed scratch definedness'
     return proof
 
-def context(config,pe,events,state,frontier,case):
+def context(config,pe,events,state,frontier,case,native_reads=None):
     proof=validate(config,pe)
     if not proof:return {}
     assert case==proof['allowed_case'],'unreviewed scratch case'
     assert frontier and frontier['name']in proof['allowed_frontiers'],'scratch lifetime reached an unreviewed consumer'
     assert state['frames'][0]==frontier['native']
-    if proof.get('first_module_only'):
+    if proof.get('first_module_only')and proof.get('first_module_mode')!='current_module_index0':
         word=int(re.search(r'^stack 1 ([0-9a-f]+)$',events,re.M)[1],16)
         assert word&0xffff==state['parameters']['module']==0,'scratch lifetime is not first module entry'
     memory={}
@@ -36,6 +36,25 @@ def context(config,pe,events,state,frontier,case):
         if line.startswith('memory '):
             _,address,raw=line.split();memory.update((int(address,16)+i,v)for i,v in enumerate(bytes.fromhex(raw)))
     globals={r['name']:r for r in json.loads((BINARY/'data.json').read_text())}
+    if proof.get('first_module_mode')=='current_module_index0':
+        from objects import original_walks
+        walks=original_walks(events,json.loads((BINARY/'walks.json').read_text()))
+        old=int.from_bytes(bytes.fromhex(walks['module_index'][0]['bytes'])[8:12],'little')
+        new=int.from_bytes(bytes.fromhex(state['walks']['module_index'][0]['bytes'])[8:12],'little')
+        address=globals['current_module']['original']
+        assert int.from_bytes(bytes(memory[address+i]for i in range(4)),'little')==old and state['globals']['current_module']['address']==new and old and new,'scratch lifetime is not first module'
+    if proof.get('first_module_mode')=='explicit_module_index':
+        from objects import original_walks
+        walks=original_walks(events,json.loads((BINARY/'walks.json').read_text()))
+        allowed=[r for r in proof['allowed_module_boundaries']if r['frontier']==frontier['name']]
+        assert len(allowed)==1,'unreviewed scratch module boundary'
+        r=allowed[0];index=r['index']*12
+        def owner(raw):
+            raw=bytes.fromhex(raw);assert int.from_bytes(raw[index:index+2],'little')==r['module'],'scratch module number differs'
+            return int.from_bytes(raw[index+8:index+12],'little')
+        old=owner(walks['module_index'][0]['bytes']);new=owner(state['walks']['module_index'][0]['bytes'])
+        address=globals['current_module']['original']
+        assert int.from_bytes(bytes(memory[address+i]for i in range(4)),'little')==old and state['globals']['current_module']['address']==new and old and new,'scratch current module identity differs'
     result={}
     for item in proof['allocations']:
         owner=globals[item['size_global']]
@@ -45,14 +64,47 @@ def context(config,pe,events,state,frontier,case):
         count*=item.get('element_size',1)
         if 'maximum'in item:count=min(count,item['maximum'])
         assert count<=65536
-        result[item['name']]=dict(size=count,defined_ranges=item['defined_ranges'],original_callsite=item['original_callsite'],lifetime=item['lifetime'])
+        from reads import original as original_reads
+        if item['name']=='global_symbol_block0':
+            old_address=walks['global_symbol_blocks'][0]['arrays']['0']['address']
+            new_address=state['walks']['global_symbol_blocks'][0]['arrays']['0']['address']
+        else:
+            base=globals[item['name']]['original']
+            old_address=int.from_bytes(bytes(memory[base+i]for i in range(4)),'little')
+            new_address=state['globals'][item['name']]['address']
+        ranges=[];writes=[]
+        for a,b in zip(original_reads(events),native_reads or []):
+            inside_old=old_address<=a['address']<old_address+count
+            inside_new=new_address<=b['address']<new_address+count
+            assert inside_old==inside_new,'scratch write allocation identity differs'
+            if not inside_old:continue
+            assert a['site']in item.get('allowed_write_sites',[]),'unreviewed scratch write site'
+            offset=a['address']-old_address
+            assert offset==b['address']-new_address,'scratch write allocation-relative pointer differs'
+            assert 'returned'in a and 'returned'in b and a['returned']==b['returned'],'incomplete scratch defining write'
+            length=max(a['returned'],0)
+            assert 0<=offset<=offset+length<=count,'scratch defining write exceeds allocation'
+            ranges.append((offset,offset+length));writes.append(dict(site=a['site'],offset=offset,length=length))
+        merged=[]
+        for lo,hi in sorted(ranges):
+            if merged and lo<=merged[-1][1]:merged[-1][1]=max(merged[-1][1],hi)
+            else:merged.append([lo,hi])
+        for lo,hi in item.get('required_defined',[]):
+            assert any(a<=lo<hi<=b for a,b in merged),'scratch consumer reads before initialization'
+        result[item['name']]=dict(size=count,defined_ranges=merged,write_evidence=writes,original_callsite=item['original_callsite'],lifetime=item['lifetime'])
     return result
 
 def mask_undefined(name,left,right,definitions):
     proof=definitions[name]
     assert len(left)==len(right)==proof['size'],'scratch allocation extent differs'
-    assert proof['defined_ranges']==[],'unreviewed defined scratch ranges'
+    ranges=proof['defined_ranges']
+    assert all(0<=lo<hi<=len(left)for lo,hi in ranges),'defined scratch range exceeds allocation'
+    assert all(a[1]<b[0]for a,b in zip(ranges,ranges[1:])),'defined scratch ranges overlap'
+    known_left,known_right=bytearray(len(left)),bytearray(len(right))
+    for lo,hi in ranges:
+        assert left[lo:hi]==right[lo:hi],'defined scratch bytes differ'
+        known_left[lo:hi]=left[lo:hi];known_right[lo:hi]=right[lo:hi]
     # Raw bytes remain in original events/native GDB receipts. A zero comparison
-    # mask here is valid solely in the reviewed pre-consumer lifetime above.
-    left[:]=right[:]=b'\0'*len(left)
+    # mask covers only bytes that lack a proven defining write in this lifetime.
+    left[:]=known_left;right[:]=known_right
     return proof

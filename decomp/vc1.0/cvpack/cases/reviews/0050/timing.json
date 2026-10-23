@@ -1,0 +1,41 @@
+{
+  "incremental-build": {
+    "argv": [
+      "make",
+      "-j4",
+      "all",
+      "native",
+      "graph-identities",
+      "graph-audit-tool"
+    ],
+    "seconds": 0.37118012364953756,
+    "status": 0
+  },
+  "native-fixtures": {
+    "argv": [
+      "python3",
+      "scripts/check-native.py",
+      "--output",
+      "/root/.ai-tmp/vc1.0-cvpack/0050-final-native-checkpoint"
+    ],
+    "seconds": 0.33282340690493584,
+    "status": 0
+  },
+  "audit": {
+    "argv": [
+      "python3",
+      "scripts/audit.py"
+    ],
+    "seconds": 0.4084964273497462,
+    "status": 0
+  },
+  "rejections": {
+    "argv": [
+      "python3",
+      "scripts/check-rejections.py"
+    ],
+    "seconds": 2.7729109739884734,
+    "status": 0
+  },
+  "note": "Incremental build timing from preceding unchanged function50 build; final audit/native fixtures/rejections above measured concurrently after whitespace-only header EOF cleanup and proof rebinding. No function body changed. All original builds passed; no additional original capture for review."
+}

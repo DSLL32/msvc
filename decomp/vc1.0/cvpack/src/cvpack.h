@@ -16,7 +16,7 @@ extern unsigned short module_count, statistics_enabled;
 extern int verbose, strip_symbols, minimum_types;
 extern char *debug_filename;
 extern char executable_name[260];
-extern void *directory_data, *module_data, *type_data, *symbol_data, *line_data;
+extern void *directory_data, *module_data, *type_data, *symbol_data, *global_type_data;
 
 void parse_options(int, char **);
 void print_banner(void);

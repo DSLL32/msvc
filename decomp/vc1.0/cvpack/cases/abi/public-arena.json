@@ -1,0 +1,28 @@
+{
+  "capacity": 8100,
+  "reserved": [
+    [
+      6,
+      8
+    ]
+  ],
+  "allocation": "allocate_symbol truncates size to16 bits and calls checked_alloc(8100) on exhaustion; one currently live block, no unsupported previous block ownership.",
+  "initialized": "Completed intern_public writes next/name_offset,hash/offset/segment and full record including explicit pad bytes. Reserved header bytes6..7 and allocation suffix2 bytes remain undefined; retain their raw evidence.",
+  "sources": {
+    "src/modules.c": "ad28d7fb9548e4a4ce3ecbf8c04da13a4d9a6cb9992f1ffcba219afeae2dacdb",
+    "src/image.h": "8d6612c22ac7c5896e4dcdf2b8c2923060819a2db43592f1a7dccf0b0c902519"
+  },
+  "instructions": [
+    {
+      "start": 103728,
+      "end": 103795,
+      "sha256": "186ff090570ba596de968f99f140aa4c0555a9f38e6629ab1eafb1b27a2e5fb4"
+    },
+    {
+      "start": 111376,
+      "end": 111872,
+      "sha256": "715c1d561ecdbff7d4fe921dc569764181fe4091a13e837b5b8aa618dea69949"
+    }
+  ],
+  "review": "Root approved narrow typed block design, bounded cursor arithmetic, initialized-only comparison, fail on unowned/overlapping/incomplete/second block; zero CRT exemption."
+}

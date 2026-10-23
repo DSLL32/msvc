@@ -36,7 +36,7 @@ typedef char TypeDerivationSize[(sizeof(TypeDerivation)==12)?1:-1];
 
 extern void **name_hash_buckets, **type_hash_buckets;
 extern unsigned short *name_hash_counts, *type_hash_counts;
-extern void **type_hash_extra_a, **type_hash_extra_b, **type_hash_extra_c, **type_hash_extra_d;
+extern void **type_hash_extra_a, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
 extern TypeDerivation *derived_types;
 extern unsigned short derived_type_capacity, type_page_count;
 extern unsigned char *type_work_a, *type_work_b;
@@ -46,4 +46,12 @@ extern TypeRecord *empty_type;
 void *checked_zero(unsigned long);
 void *checked_alloc(unsigned long);
 void initialize_buffer(GrowingBuffer *,unsigned long);
+extern int type_recursion_error;
+unsigned short map_primitive(unsigned short);
+unsigned short __fastcall compact_old_type(unsigned short);
+void finish_recursive_types(void);
+extern TypeRecord *local_type_records;
+extern unsigned short local_type_capacity;
+extern unsigned long total_local_type_bytes;
+extern unsigned short type_module_count;
 #endif

@@ -23,7 +23,16 @@ def validate(config,pe,runtime,record):
     assert record['classification']=='reviewed-case-specific-CRT-variant'
     assert record['application_coverage'] is False and record['unconditionally_unmask'] is False
     assert record['case']=='hello-debug-dll' and record['name']=='__sopen'
-    assert record['guard']==dict(mode=0x8002,share=0x40,name='hello-debug.dll',every_invocation=True)
+    guard=record['guard']
+    if guard['name']=='hello-debug.dll':
+        assert guard==dict(mode=0x8002,share=0x40,name='hello-debug.dll',every_invocation=True)
+        access=0xc0000000
+    else:
+        proof=json.loads((BINARY/'cases/abi/pdb-input.json').read_text())['inputs'][0]
+        assert guard==dict(mode=0x8000,share=0x40,name=proof['windows'],every_invocation=True),'unapproved PDB guard'
+        assert record['input']==dict(path='decomp/vc1.0/cvpack/'+proof['owned'],name=proof['windows'],bytes=proof['bytes'],sha256=proof['sha256'])
+        access=0x80000000
+    assert record['access']==access and record['guard_version']==2,'conditional access policy differs'
     assert record['start']==0x2dcb0 and record['end']==0x2e0a0
     assert record['target_sha256']==config['target']['sha256']
     assert hashlib.sha256(pe.read(record['start'],record['end']-record['start'])).hexdigest()==record['body_sha256'],'changed conditional CRT body'
@@ -54,21 +63,18 @@ def approved(config,pe,runtime,case=None):
     return [r for r in result if case is None or r['case']==case]
 
 
-def compare_returns(events,native,records):
-    expected={r['start']:r for r in records}
-    original=[]
-    current=None
+def compare_returns(events,native,records,required=None):
+    original=[];current=None;policy=None
     for line in events.splitlines():
         if not line.startswith('crt-'):continue
-        fields=line.split()
-        operation,address=fields[0],int(fields[1],16)
-        assert address in expected,'unapproved conditional runtime entry'
-        policy=expected[address]
+        fields=line.split();operation,address=fields[0],int(fields[1],16)
         if operation=='crt-entry':
             assert current is None,'nested conditional runtime entry'
             mode,share,permission=(int(value,16)for value in fields[2:5])
             name=bytes.fromhex(fields[5]).decode('latin1')
-            assert dict(mode=mode,share=share,name=name,every_invocation=True)==policy['guard']
+            matches=[r for r in records if r['start']==address and r['guard']==dict(mode=mode,share=share,name=name,every_invocation=True)]
+            assert len(matches)==1,'unapproved conditional runtime invocation'
+            policy=matches[0]
             current=dict(mode=mode,share=share,name=name,permission=permission,stage='entry')
         elif operation=='crt-restored':
             assert current and current['stage']=='entry' and int(fields[2],16)==policy['end']
@@ -76,15 +82,26 @@ def compare_returns(events,native,records):
         elif operation=='crt-rearm':
             assert current and current['stage']=='restored' and int(fields[2],16)==address+3
             current['stage']='rearmed'
-        elif operation=='crt-return':
+        elif operation=='crt-createfile':
             assert current and current['stage']=='rearmed'
-            match=re.fullmatch(r'crt-return [0-9a-f]+ fd (\d+) errno (\d+) osfile ([0-9a-f]+) type (\d+) position (\d+) owned (\d+) input (\d+)',line)
+            match=re.fullmatch(r'crt-createfile [0-9a-f]+ access ([0-9a-f]+) share (\d+) disposition (\d+) attrs (\d+) inherit (\d+) name ([0-9a-f]+)',line)
+            assert match,'invalid actual CreateFile argument proof'
+            call=dict(access=int(match[1],16),share=int(match[2]),disposition=int(match[3]),attrs=int(match[4]),inherit=bool(int(match[5])),name=bytes.fromhex(match[6]).decode('latin1'))
+            assert call==dict(access=policy['access'],share=3,disposition=3,attrs=128,inherit=True,name=current['name']),'original actual CreateFile args differ'
+            current['createfile']=call;current['stage']='createfile'
+        elif operation=='crt-createfile-rearm':
+            assert current and current['stage']=='createfile' and fields[2]=='0002be52'
+            current['stage']='createfile-rearmed'
+        elif operation=='crt-return':
+            assert current and current['stage']=='createfile-rearmed'
+            match=re.fullmatch(r'crt-return [0-9a-f]+ fd (\d+) errno (\d+) osfile ([0-9a-f]+) type (\d+) position (\d+) owned (\d+) input (\d+) last_error (\d+)',line)
             assert match,'invalid conditional runtime return proof'
-            current['return']=dict(descriptor=int(match[1]),errno=int(match[2]),osfile=int(match[3],16),type=int(match[4]),position=int(match[5]),owned=bool(int(match[6])),input_matches=bool(int(match[7])))
-            del current['stage']
-            original.append(current);current=None
+            current['return']=dict(descriptor=int(match[1]),errno=int(match[2]),osfile=int(match[3],16),type=int(match[4]),position=int(match[5]),owned=bool(int(match[6])),input_matches=bool(int(match[7])),last_error=int(match[8]))
+            del current['stage'];original.append(current);current=None
         else:raise AssertionError('rejected/unknown conditional runtime event: '+line)
     assert current is None and len(original)==len(native),'incomplete conditional runtime proof'
+    if required is not None:
+        assert [{key:r[key]for key in ('name','mode','share')}for r in original]==required,'mandatory conditional CRT invocation inventory differs'
     proof=[]
     for old,new in zip(original,native):
         assert not new.get('error'),new
@@ -92,8 +109,11 @@ def compare_returns(events,native,records):
         assert old['return']=={key:new['return'][key]for key in old['return']},('conditional CRT return state differs',old,new)
         assert old['return']['osfile']==1 and old['return']['type']==1 and old['return']['position']==0 and old['return']['owned'] and old['return']['input_matches']
         policy=next(r for r in records if r['guard']['name']==old['name'] and r['guard']['mode']==old['mode'] and r['guard']['share']==old['share'])
+        call=dict(old['createfile']);call['inherit']=False
+        assert new['createfile']==call,'native actual CreateFile args differ'
+        assert new['return']['access_mode']==(0 if old['mode']==0x8000 else 2),'native file access differs'
         assert new['return']['input_sha256']==policy['input']['sha256'],'conditional CRT input hash differs'
-        proof.append(dict(original=old,native=new,permission='inactive for mode0x8002; both raw words retained; original actual-body proof in cases/abi/open-permission.json',descriptor_identity='logical CRT fd; host HANDLE/fd values mapped to owned case input, never numerically compared'))
+        proof.append(dict(original=old,native=new,permission='inactive with exact binary existing modes8000/8002; both raw words retained',descriptor_identity='logical CRT fd; host HANDLE/fd mapped to full owned case input',inheritance='originalTRUE/nativeFALSE is retained; approved singleprocess/nochild scope only'))
     return proof
 
 
@@ -102,7 +122,8 @@ def check_guard_references():
     base=BINARY/'cases/runtime-variants/sopen-guard-tests'
     manifest=json.loads((base/'manifest.json').read_text())
     assert sha(BINARY/manifest['source']['path'])==manifest['source']['sha256']
-    assert guard_source_digest((BINARY/'src/debug-run.c').read_text())==manifest['guard_source']['sha256'],'guard implementation changed since original controls'
+    previous=BINARY/'cases/runtime-variants/sopen-guard-tests-v2/previous-guard.c'
+    assert guard_source_digest(previous.read_text(),version=1)==manifest['guard_source']['sha256'],'historical guard source differs'
     for record in manifest['cases']:
         directory=base/record['name']
         receipt=json.loads((directory/'receipt.json').read_text())
@@ -126,11 +147,38 @@ def check_guard_references():
             assert (directory/'events').read_text().splitlines()[-1]=='exit 3'
             print('verified: original guard rearmed across two successful calls')
 
+    current=BINARY/'cases/runtime-variants/sopen-guard-tests-v2'
+    manifest=json.loads((current/'manifest.json').read_text())
+    assert manifest['guard_sha256']==guard_source_digest((BINARY/'scripts/debug-run.c').read_text()),'current guard changed since explicit controls'
+    for source in manifest['source']:assert sha(BINARY/source['path'])==source['sha256'],'guard controller source changed'
+    pdb=json.loads((BINARY/'cases/abi/pdb-input.json').read_text())['inputs'][0]
+    for item in manifest['cases']:
+        directory=current/item['name'];receipt=json.loads((directory/'receipt.json').read_text())
+        assert receipt['guard_probe']==item['name']and receipt['helper_status']==item['helper_status']
+        assert sha(directory/'configuration.json')==receipt['configuration_sha256']and sha(directory/'runtime-support.json')==receipt['conditional_support_sha256']
+        lines=[line for line in (directory/'events').read_text().splitlines()if line.startswith('crt-')]
+        expected=['crt-entry','crt-restored','crt-rearm','crt-createfile','crt-createfile-rearm','crt-return']*item['restored']
+        if item['denied']:expected+=['crt-entry','crt-denied']
+        assert [line.split()[0]for line in lines]==expected,'guard restored unsupported body after denial'
+        entries=[line.split()for line in lines if line.startswith('crt-entry ')]
+        mode=0x8000 if item['name'].startswith('pdb-')else 0x8002
+        name=pdb['windows']if mode==0x8000 else'hello-debug.dll'
+        for entry in entries[:item['restored']]:assert entry[2:4]==['%08x'%mode,'00000040']and bytes.fromhex(entry[5]).decode('latin1')==name
+        if item['denied']:
+            assert lines[-1]=='crt-denied 0002dcb0 '+item['denied']
+            print('rejected: current guard '+item['name']+' before unsupported body execution')
+        else:assert (directory/'events').read_text().splitlines()[-1]=='exit 3'
 
-def guard_source_digest(text):
+
+def guard_source_digest(text,version=2):
     parts=[]
-    for name in ('identical_files','denied_sopen','begin_sopen','rearm_sopen','finish_sopen'):
+    names=['identical_files','denied_sopen','begin_sopen','rearm_sopen','finish_sopen']
+    if version==2:names+=['begin_sopen_create','rearm_sopen_create']
+    for name in names:
         start=text.index('static int '+name+'(')
         end=text.index('\n}\n',start)+3
         parts.append(name+'\0'+text[start:end])
+    if version==2:
+        a=text.index('static DWORD sopen_start');b=text.index('static int identical_files',a);parts.append(text[a:b])
+        a=text.index('    if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_GUARD"');b=text.index('    if (GetEnvironmentVariableA("CVPACK_CAPTURE_READS"',a);parts.append(text[a:b])
     return hashlib.sha256('\0'.join(parts).encode()).hexdigest()

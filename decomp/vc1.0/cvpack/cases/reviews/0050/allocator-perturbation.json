@@ -1,0 +1,12 @@
+{
+  "environment": {
+    "MALLOC_PERTURB_": "165"
+  },
+  "expected": "Fixture rejects actual changed uninitialized incremental input by alternate named type_server_fill_alloc frontier; no observer initialization or masked branch.",
+  "observed": {
+    "expected_frontier": "type_server_signature",
+    "actual_frontier": "type_server_fill_alloc",
+    "fixture_status": "rejected"
+  },
+  "note": "Control ran at function48 candidate; immutable candidate configuration and trace retained. Historical native binary was not retained; source and observer evidence remain in acceptance48. This is a regression counterexample, not independent acceptance evidence."
+}

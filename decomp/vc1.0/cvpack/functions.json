@@ -334,13 +334,16 @@
       "native": "pack_module",
       "symbol": "_pack_module",
       "original": 95984,
-      "source": "src/stubs.c",
+      "source": "src/modules.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        95984,
+        97116
+      ],
       "abi": "int pack_module(unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0033-pack_module/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1569,6 +1572,1408 @@
           "bits": 32
         }
       ]
+    },
+    {
+      "name": "read_old_module",
+      "native": "read_old_module",
+      "symbol": "_read_old_module",
+      "original": 98448,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_old_module(unsigned long,ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "directory",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_module",
+      "native": "read_module",
+      "symbol": "_read_module",
+      "original": 98256,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        98256,
+        98441
+      ],
+      "abi": "void read_module(CvDirectoryEntry *,ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0034-read_module/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "module_name",
+      "native": "module_name",
+      "symbol": "_module_name",
+      "original": 126624,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "const char *module_name(ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "module",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_symbols",
+      "native": "read_symbols",
+      "symbol": "_read_symbols",
+      "original": 97520,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_symbols(unsigned long,const CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "directory",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_global_types",
+      "native": "read_global_types",
+      "symbol": "_read_global_types",
+      "original": 97120,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        97120,
+        97505
+      ],
+      "abi": "void read_global_types(const CvDirectoryEntry *,int)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0042-read_global_types/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "precompiled",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_types",
+      "native": "read_types",
+      "symbol": "_read_types",
+      "original": 97664,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_types(unsigned long,const CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "directory",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_lines",
+      "native": "read_lines",
+      "symbol": "_read_lines",
+      "original": 97968,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_lines(unsigned long,const CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "directory",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_publics",
+      "native": "read_publics",
+      "symbol": "_read_publics",
+      "original": 97824,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        97824,
+        97960
+      ],
+      "abi": "void read_publics(unsigned long,const CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0035-read_publics/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "directory",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_source_module",
+      "native": "read_source_module",
+      "symbol": "_read_source_module",
+      "original": 98112,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_source_module(unsigned long,const CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "directory",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "save_precompiled",
+      "native": "save_precompiled",
+      "symbol": "_save_precompiled",
+      "original": 155840,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void save_precompiled(ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "module",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "prepare_symbols",
+      "native": "prepare_symbols",
+      "symbol": "_prepare_symbols",
+      "original": 144416,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void prepare_symbols(void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "pack_new_symbols",
+      "native": "pack_new_symbols",
+      "symbol": "_pack_new_symbols",
+      "original": 150112,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void pack_new_symbols(void *,CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "pack_public_symbols",
+      "native": "pack_public_symbols",
+      "symbol": "_pack_public_symbols",
+      "original": 152224,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        152224,
+        152647
+      ],
+      "abi": "void pack_public_symbols(void *,CvDirectoryEntry *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0036-pack_public_symbols/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ],
+      "alignment_padding": [
+        [
+          152539,
+          152544
+        ],
+        [
+          152555,
+          152560
+        ],
+        [
+          152587,
+          152592
+        ]
+      ]
+    },
+    {
+      "name": "prepare_old_types",
+      "native": "prepare_old_types",
+      "symbol": "_prepare_old_types",
+      "original": 143616,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void prepare_old_types(void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "types",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "pack_old_types",
+      "native": "pack_old_types",
+      "symbol": "_pack_old_types",
+      "original": 144576,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void pack_old_types(void *,CvDirectoryEntry *,void *,ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "types",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module_record",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 4,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "index_new_types",
+      "native": "index_new_types",
+      "symbol": "_index_new_types",
+      "original": 150720,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void index_new_types(void *,unsigned long,unsigned short *,unsigned short *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "types",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "base",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "count",
+          "slot": 4,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "pack_new_types",
+      "native": "pack_new_types",
+      "symbol": "_pack_new_types",
+      "original": 151552,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void pack_new_types(void *,CvDirectoryEntry *,ModuleInfo *,unsigned short *,unsigned short *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "types",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "base",
+          "slot": 4,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "count",
+          "slot": 5,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "pack_new_lines",
+      "native": "pack_new_lines",
+      "symbol": "_pack_new_lines",
+      "original": 99376,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void pack_new_lines(void *,CvDirectoryEntry *,ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "lines",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "pack_old_lines",
+      "native": "pack_old_lines",
+      "symbol": "_pack_old_lines",
+      "original": 99264,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void pack_old_lines(void *,CvDirectoryEntry *,ModuleInfo *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "lines",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "convert_old_type",
+      "native": "convert_old_type",
+      "symbol": "@convert_old_type@4",
+      "original": 153984,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        153984,
+        154035
+      ],
+      "abi": "unsigned short __fastcall convert_old_type(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0037-convert_old_type/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "register": "ecx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "convert_new_type",
+      "native": "convert_new_type",
+      "symbol": "@convert_new_type@4",
+      "original": 156896,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall convert_new_type(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "register": "ecx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "intern_public",
+      "native": "intern_public",
+      "symbol": "_intern_public",
+      "original": 111376,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        111376,
+        111872
+      ],
+      "abi": "int intern_public(unsigned char *,SymbolHash)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0039-intern_public/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/public-record-input.json",
+          "evidence_sha256": "e318a7ff3e9c61467c5198477188620f16f58e59535ac02a88de8105024c00e6"
+        },
+        {
+          "name": "hash",
+          "slot": 2,
+          "kind": "function"
+        }
+      ]
+    },
+    {
+      "name": "hash_public",
+      "native": "hash_public",
+      "symbol": "_hash_public",
+      "original": 110560,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        110560,
+        111037
+      ],
+      "abi": "unsigned short __cdecl hash_public(const unsigned char *,unsigned long *,unsigned short *,unsigned short *,unsigned long *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0040-hash_public/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/hash-record-input.json",
+          "evidence_sha256": "255cb28996dc7587813ac9c63a96236b21dc7e970cd8ef33fcdb8584be8dba3d"
+        },
+        {
+          "name": "hash",
+          "slot": 2,
+          "kind": "stack-output",
+          "evidence": "cases/abi/hash-output-hash.json",
+          "evidence_sha256": "8331a586e78c59dbdb1e62bad49ab60a37ef5122b5aa9587310b6cc95955119d"
+        },
+        {
+          "name": "name_offset",
+          "slot": 3,
+          "kind": "stack-output",
+          "evidence": "cases/abi/hash-output-name_offset.json",
+          "evidence_sha256": "4cbe8282b01c9653d3f8b99ace675900d797a48288001aed2546c824241bf9f0"
+        },
+        {
+          "name": "segment",
+          "slot": 4,
+          "kind": "stack-output",
+          "evidence": "cases/abi/hash-output-segment.json",
+          "evidence_sha256": "2b87e6e37de528916fb8241c3dd5a4f5cb6a3358e673d9583a2c836f9e014c68"
+        },
+        {
+          "name": "offset",
+          "slot": 5,
+          "kind": "stack-output",
+          "evidence": "cases/abi/hash-output-offset.json",
+          "evidence_sha256": "3814beeaa04fe50570424df238bd9f3f03bd849758f0300a21b16bf7ed7810b8"
+        },
+        {
+          "name": "buckets",
+          "slot": 6,
+          "kind": "integer",
+          "bits": 16
+        }
+      ],
+      "alignment_padding": [
+        [
+          110827,
+          110832
+        ]
+      ],
+      "rebuilt_extra_roots": [
+        347
+      ],
+      "compiler_root_explanation": "Original CL emits an unreachable duplicate switch break JMP immediately after default return; it targets the common hash block and is audited as a real compiler instruction root."
+    },
+    {
+      "name": "map_primitive",
+      "native": "map_primitive",
+      "symbol": "_map_primitive",
+      "original": 163200,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        163200,
+        163246
+      ],
+      "abi": "unsigned short map_primitive(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0038-map_primitive/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "compact_old_type",
+      "native": "compact_old_type",
+      "symbol": "@compact_old_type@4",
+      "original": 154048,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall compact_old_type(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "register": "ecx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "finish_recursive_types",
+      "native": "finish_recursive_types",
+      "symbol": "_finish_recursive_types",
+      "original": 156368,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void finish_recursive_types(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "allocate_symbol",
+      "native": "allocate_symbol",
+      "symbol": "_allocate_symbol",
+      "original": 103728,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        103728,
+        103795
+      ],
+      "abi": "void *allocate_symbol(unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0041-allocate_symbol/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "numeric_leaf_size",
+      "native": "numeric_leaf_size",
+      "symbol": "_numeric_leaf_size",
+      "original": 127440,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short numeric_leaf_size(const unsigned char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "leaf",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ]
+    },
+    {
+      "name": "read_old_global_types",
+      "native": "read_old_global_types",
+      "symbol": "_read_old_global_types",
+      "original": 107008,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_old_global_types(void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "types",
+          "slot": 1,
+          "kind": "pointer"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_new_global_types",
+      "native": "read_new_global_types",
+      "symbol": "_read_new_global_types",
+      "original": 106064,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        106064,
+        107000
+      ],
+      "abi": "void read_new_global_types(unsigned long,int)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0043-read_new_global_types/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "precompiled",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ],
+      "alignment_padding": [
+        [
+          106651,
+          106656
+        ]
+      ]
+    },
+    {
+      "name": "reset_type_hash",
+      "native": "reset_type_hash",
+      "symbol": "_reset_type_hash",
+      "original": 107184,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void reset_type_hash(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "reset_local_types",
+      "native": "reset_local_types",
+      "symbol": "_reset_local_types",
+      "original": 107120,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        107120,
+        107180
+      ],
+      "abi": "void reset_local_types(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0044-reset_local_types/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "load_precompiled_types",
+      "native": "load_precompiled_types",
+      "symbol": "_load_precompiled_types",
+      "original": 107232,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void load_precompiled_types(const unsigned char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ]
+    },
+    {
+      "name": "import_type_server",
+      "native": "import_type_server",
+      "symbol": "_import_type_server",
+      "original": 107728,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        107728,
+        108905
+      ],
+      "abi": "void import_type_server(const unsigned char *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0045-import_type_server/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ],
+      "alignment_padding": [
+        [
+          108571,
+          108576
+        ]
+      ]
+    },
+    {
+      "name": "add_old_type",
+      "native": "add_old_type",
+      "symbol": "@add_old_type@20",
+      "original": 124208,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall add_old_type(const unsigned char *,int,int,int,unsigned short)",
+      "stack_cleanup": 12,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "pointer"
+        },
+        {
+          "name": "is_new",
+          "register": "edx",
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "flag",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "extra",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "skip",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "type_server_open",
+      "native": "type_server_open",
+      "symbol": "_type_server_open",
+      "original": 178536,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        178536,
+        178890
+      ],
+      "abi": "TypeServer *type_server_open(const char *,const char *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0046-type_server_open/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "cstring"
+        },
+        {
+          "name": "mode",
+          "slot": 2,
+          "kind": "literal-string",
+          "original": 227340,
+          "bytes": "726300"
+        }
+      ]
+    },
+    {
+      "name": "type_server_close",
+      "native": "type_server_close",
+      "symbol": "_type_server_close",
+      "original": 179176,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int type_server_close(TypeServer *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ]
+    },
+    {
+      "name": "type_server_signature",
+      "native": "type_server_signature",
+      "symbol": "_type_server_signature",
+      "original": 179368,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        179368,
+        179379
+      ],
+      "abi": "unsigned long type_server_signature(TypeServer *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0049-type_server_signature/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "required_pdb_record_proof": true
+    },
+    {
+      "name": "type_server_age",
+      "native": "type_server_age",
+      "symbol": "_type_server_age",
+      "original": 179380,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        179380,
+        179391
+      ],
+      "abi": "unsigned long type_server_age(TypeServer *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0050-type_server_age/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "required_pdb_record_proof": true
+    },
+    {
+      "name": "load_type_server_records",
+      "native": "load_type_server_records",
+      "symbol": "_load_type_server_records",
+      "original": 108912,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void load_type_server_records(const char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "cstring"
+        }
+      ]
+    },
+    {
+      "name": "type_server_open_file",
+      "native": "type_server_open_file",
+      "symbol": "_type_server_open_file@12",
+      "original": 175856,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        175856,
+        176246
+      ],
+      "abi": "int __stdcall type_server_open_file(TypeServer *,const char *,const char *)",
+      "stack_cleanup": 12,
+      "evidence": "cases/hello-debug-dll/evidence/0047-type_server_open_file/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "transient-pointer",
+          "evidence": "cases/abi/type-server-constructor.json",
+          "evidence_sha256": "7e774f169ba314e517cce7849fb250c4b24e26d1ca3336df3ae4143e3c87f87b"
+        },
+        {
+          "name": "name",
+          "slot": 2,
+          "kind": "cstring"
+        },
+        {
+          "name": "mode",
+          "slot": 3,
+          "kind": "literal-string",
+          "original": 227340,
+          "bytes": "726300"
+        }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
+    },
+    {
+      "name": "type_server_read_records",
+      "native": "type_server_read_records",
+      "symbol": "_type_server_read_records@4",
+      "original": 176460,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        176460,
+        177157
+      ],
+      "abi": "int __stdcall type_server_read_records(TypeServer *)",
+      "stack_cleanup": 4,
+      "evidence": "cases/hello-debug-dll/evidence/0048-type_server_read_records/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "transient-pointer",
+          "evidence": "cases/abi/type-server-header.json",
+          "evidence_sha256": "83f5923a49a8da113e758c5694f0e113267b1dae3e0125e5830773784e98d639"
+        }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "required_pdb_record_proof": true
+    },
+    {
+      "name": "type_server_fill_alloc",
+      "native": "type_server_fill_alloc",
+      "symbol": "_type_server_fill_alloc",
+      "original": 179488,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void *type_server_fill_alloc(unsigned long,unsigned char)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "value",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 8
+        }
+      ]
+    },
+    {
+      "name": "type_server_record_init",
+      "native": "type_server_record_init",
+      "symbol": "_type_server_record_init@16",
+      "original": 179456,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *,TypeServerRecord *,unsigned char *,unsigned short)",
+      "stack_cleanup": 16,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "node",
+          "slot": 1,
+          "kind": "pointer"
+        },
+        {
+          "name": "next",
+          "slot": 2,
+          "kind": "pointer"
+        },
+        {
+          "name": "record",
+          "slot": 3,
+          "kind": "pointer"
+        },
+        {
+          "name": "type",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     }
   ],
   "review": {
@@ -1584,6 +2989,13 @@
       "next_stub": "move_file_slot",
       "further_reconstruction_paused": false,
       "approval": "Root independently read all source/layouts/proofs and reran native build, both fixtures, whole graph/ABI/data audit and32 negatives; all passed."
+    },
+    "fifty": {
+      "status": "awaiting root review; reconstruction paused",
+      "receipt": "cases/reviews/0050/review.json",
+      "application_functions": 50,
+      "next_stub": "load_type_server_records",
+      "further_reconstruction_paused": true
     }
   },
   "accepted_order": [
@@ -1778,6 +3190,114 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 32
+    },
+    {
+      "function": "pack_module",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 33
+    },
+    {
+      "function": "read_module",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 34
+    },
+    {
+      "function": "read_publics",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 35
+    },
+    {
+      "function": "pack_public_symbols",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 36
+    },
+    {
+      "function": "convert_old_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 37
+    },
+    {
+      "function": "map_primitive",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 38
+    },
+    {
+      "function": "intern_public",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 39
+    },
+    {
+      "function": "hash_public",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 40
+    },
+    {
+      "function": "allocate_symbol",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 41
+    },
+    {
+      "function": "read_global_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 42
+    },
+    {
+      "function": "read_new_global_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 43
+    },
+    {
+      "function": "reset_local_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 44
+    },
+    {
+      "function": "import_type_server",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 45
+    },
+    {
+      "function": "type_server_open",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 46
+    },
+    {
+      "function": "type_server_open_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 47
+    },
+    {
+      "function": "type_server_read_records",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 48
+    },
+    {
+      "function": "type_server_signature",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 49
+    },
+    {
+      "function": "type_server_age",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 50
     }
   ],
   "support_unmasked": [
@@ -2350,14 +3870,52 @@
       "start": 185216,
       "end": 185312,
       "evidence": "cases/hello-debug-dll/evidence/0029-compare_directory/proof.json"
+    },
+    {
+      "name": "__close",
+      "start": 187280,
+      "end": 187440,
+      "evidence": "cases/hello-debug-dll/evidence/0048-type_server_read_records/proof.json"
+    },
+    {
+      "name": "import:CloseHandle",
+      "start": 179800,
+      "end": 179806,
+      "evidence": "cases/hello-debug-dll/evidence/0048-type_server_read_records/proof.json"
+    },
+    {
+      "name": "__free_osfhnd",
+      "start": 189104,
+      "end": 189216,
+      "evidence": "cases/hello-debug-dll/evidence/0048-type_server_read_records/proof.json"
     }
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "fc2d803f7a21a05a4823b7dfc97b34cd83d6cf49b8c8b06731fe0ce73090607d"
+    "evidence_sha256": "a60cf3d892f7b17dda85e7855295e712ad510e26c741fd8e17cb7f26a9ee1d13"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "90354811114229e64270a56bab123a92e07b35c042b71c35d2d53f1af06f81b9"
+    "evidence_sha256": "c044e2d4ffb290b5dd20c8a5db03498de7d9d0488667fb3180873e0a138c3679"
+  },
+  "public_arena_observations": {
+    "evidence": "cases/abi/public-arena.json",
+    "evidence_sha256": "c1e6545da657fafa70b4cda1b27d6c5327ba62d731c3df1f4b14d62cc7f1101b"
+  },
+  "external_inputs": {
+    "evidence": "cases/abi/pdb-input.json",
+    "evidence_sha256": "e6aa3f9bba2fef35aa4315c23e1419db8a07f05c06b3efa842c266d05bd2586b"
+  },
+  "pdb_read_observations": {
+    "evidence": "cases/abi/pdb-header-read.json",
+    "evidence_sha256": "b2d436fcc64732f7c6cbf738e268edc8155a94ccca96f288fb59b84e9e10c065"
+  },
+  "pdb_object_observations": {
+    "evidence": "cases/abi/pdb-objects.json",
+    "evidence_sha256": "b7d5ab19d65b476720ae5080295f96d0064f35169365638b606e694a4d841526"
+  },
+  "pdb_consumed_observations": {
+    "evidence": "cases/abi/pdb-consumed.json",
+    "evidence_sha256": "d32b4891bfce6f373bdd79ec5d40427cc534ed05ca705a9349abe602254e6ca9"
   }
 }

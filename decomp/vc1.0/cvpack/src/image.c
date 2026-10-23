@@ -3,7 +3,7 @@
 #include "types.h"
 #include <recon.h>
 
-unsigned long debug_bytes_read;
+unsigned long cv_read_offset;
 long optional_header_offset;
 long section_header_offset;
 long original_file_size;
@@ -41,7 +41,7 @@ void read_image_debug(void)
     char buffer[4096], *source, *destination;
     int output, bytes;
 
-    debug_bytes_read = 0;
+    cv_read_offset = 0;
     if (seek_file(input_file, 0, 0) == -1 ||
         read_file(input_file, &dos, sizeof(dos)) != sizeof(dos))
         fatal_error(17, NULL, NULL);
@@ -373,7 +373,7 @@ void read_subsection(const CvDirectoryEntry *entry, unsigned char **data, unsign
         fatal_error(13, NULL, NULL);
         if (!buffer) fatal_error(13, NULL, NULL);
     }
-    seek_file(input_file, cv_file_offset+entry->offset, 0);
+    seek_file(input_file, cv_file_offset+entry->location.offset, 0);
     if (read_file(input_file, buffer, (unsigned short)entry->size) != entry->size)
         fatal_error(17, NULL, NULL);
     *data = buffer;

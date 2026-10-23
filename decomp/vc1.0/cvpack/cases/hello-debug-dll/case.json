@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "pack_module",
-    "native_function": "pack_module",
+    "logical": "load_type_server_records",
+    "native_function": "load_type_server_records",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -50,7 +50,25 @@
       "initialize_modules",
       "read_subsection",
       "find_module",
-      "pack_module"
+      "pack_module",
+      "read_module",
+      "read_publics",
+      "pack_public_symbols",
+      "convert_old_type",
+      "map_primitive",
+      "intern_public",
+      "hash_public",
+      "allocate_symbol",
+      "read_global_types",
+      "read_new_global_types",
+      "reset_local_types",
+      "import_type_server",
+      "type_server_open",
+      "type_server_open_file",
+      "type_server_read_records",
+      "type_server_signature",
+      "type_server_age",
+      "load_type_server_records"
     ]
   },
   "complete_reference": {

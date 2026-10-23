@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x5ef7: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffade564, environment=0xffade578) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565b0202 in load_type_server_records (name=0x565c9b04 <type_server_name> "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb") at src/stubs.c:82
+82	void load_type_server_records(const char *name) { __asm { int 3 } }

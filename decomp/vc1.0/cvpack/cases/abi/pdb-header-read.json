@@ -1,0 +1,10 @@
+{
+  "call": 175948,
+  "size": 64,
+  "source_sha256": "e078adef8067c6cac898d8ecfe3c590fd6e9aaf4e9f6d15b0da4c3209be48e8b",
+  "scope": "Exact successful binary header read to constructor-owned116-byte object; observe full64definedbytes and result/descriptor/errno/LastError/type/input/position at2af51 BEFOREmagiccomparison2af59; eachreturntrap TF-rearmed. Short/failure read is unsupported and fails. No uninitialized equality credit. Payload4140 is observed at2b299 before record parsing, with exact typed12300-byte pool allocation. Unknown sizes, short reads and failures stop.",
+  "return": 175953,
+  "payload_call": 176788,
+  "payload_return": 176793,
+  "payload_size": 4140
+}

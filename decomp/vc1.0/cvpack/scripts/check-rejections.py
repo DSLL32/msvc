@@ -65,6 +65,8 @@ def main():
     changed=copy.deepcopy(new_binary);changed['record'][0]['arrays']['0']['bytes']='0600'
     reject('binary record truncated after embedded NUL',lambda:compare_walks(binary_spec,old_binary,changed))
     config,original=load()
+    from pdb_checks import check as pdb_checks
+    pdb_checks(config,original,reject)
     from stack_output import compare as compare_output,validate as validate_output
     outputs=next(r for r in config['functions']if r['name']=='read_file')['parameters']
     output=next(r for r in outputs if r['name']=='buffer')
@@ -107,13 +109,28 @@ def main():
     conditional=approved(config,original,good)
     if conditional:check_guard_references()
     for record in conditional:
-        sample='crt-entry 0002dcb0 00008002 00000040 00000000 '+b'hello-debug.dll'.hex()+'\ncrt-restored 0002dcb0 0002e0a0\ncrt-rearm 0002dcb0 0002dcb3\ncrt-return 0002dcb0 fd 3 errno 0 osfile 01 type 1 position 0 owned 1 input 1\n'
-        observed=[dict(name='hello-debug.dll',mode=0x8002,share=0x40,permission=438,**{'return':dict(descriptor=3,errno=0,osfile=1,type=1,position=0,owned=True,input_matches=True,input_sha256=record['input']['sha256'])})]
+        name=record['guard']['name'];mode=record['guard']['mode'];access=record['access'];hexname=name.encode('latin1').hex()
+        sample=('crt-entry 0002dcb0 %08x 00000040 00000000 %s\n'%(mode,hexname)+
+            'crt-restored 0002dcb0 0002e0a0\ncrt-rearm 0002dcb0 0002dcb3\n'+
+            'crt-createfile 0002dcb0 access %08x share 3 disposition 3 attrs 128 inherit 1 name %s\n'%(access,hexname)+
+            'crt-createfile-rearm 0002dcb0 0002be52\ncrt-return 0002dcb0 fd 3 errno 0 osfile 01 type 1 position 0 owned 1 input 1 last_error 0\n')
+        observed=[dict(name=name,mode=mode,share=0x40,permission=438,
+            createfile=dict(access=access,share=3,disposition=3,attrs=128,inherit=False,name=name),
+            **{'return':dict(descriptor=3,errno=0,last_error=0,osfile=1,type=1,position=0,owned=True,input_matches=True,input_sha256=record['input']['sha256'],access_mode=0 if mode==0x8000 else 2)})]
         compare_returns(sample,observed,[record])
         changed=copy.deepcopy(observed);changed[0]['return']['input_matches']=False
         reject('both conditional CRT input observations false',lambda:compare_returns(sample.replace('input 1','input 0'),changed,[record]))
         changed=copy.deepcopy(observed);changed[0]['return']['input_sha256']='0'*64
         reject('conditional CRT native input hash mismatch',lambda:compare_returns(sample,changed,[record]))
+        changed=copy.deepcopy(observed);changed[0]['return']['last_error']=1
+        reject('conditional CRT LastError differs',lambda:compare_returns(sample,changed,[record]))
+        changed=copy.deepcopy(observed);changed[0]['createfile']['access']^=0x40000000
+        reject('conditional CRT actual access differs',lambda:compare_returns(sample,changed,[record]))
+        changed=copy.deepcopy(observed);changed[0]['createfile']['disposition']=2
+        reject('conditional CRT actual open disposition differs',lambda:compare_returns(sample,changed,[record]))
+        changed=copy.deepcopy(observed);changed[0]['return']['access_mode']=1
+        reject('conditional CRT native descriptor access differs',lambda:compare_returns(sample,changed,[record]))
+        reject('conditional CRT missing actual CreateFile observation',lambda:compare_returns('\n'.join(line for line in sample.splitlines()if not line.startswith('crt-createfile')),observed,[record]))
         for label,field,value in [('conditional CRT text mode','mode',0x4002),('conditional CRT other share','share',0x10)]:
             changed=copy.deepcopy(record);changed['guard'][field]=value
             reject(label,lambda changed=changed:validate_seam(config,original,good,changed))
@@ -257,6 +274,148 @@ def main():
             changed=copy.deepcopy(proof);changed['allocations'][0]['original_callsite']['sha256']='0'*64;evidence.write_text(json.dumps(changed))
             modified=copy.deepcopy(config);modified['allocation_observations']=dict(evidence=str(evidence),evidence_sha256=sha(evidence))
             reject('scratch allocation changed creation instructions',lambda:validate_allocations(modified,original))
+    from objects import resident_module_fields
+    def resident():
+        raw=bytearray(48);struct.pack_into('<H',raw,0,1);struct.pack_into('<II',raw,12,0x3000,24)
+        return {'module_index':[dict(address=0x1000,bytes=struct.pack('<HHII',1,0,0,0x2000).hex())],
+            'module_list':[dict(address=0x2000,bytes=raw.hex())],
+            'directory_entries':[dict(address=0x4000,bytes=struct.pack('<HHII',0x120,1,0x3000,24).hex())]}
+    assert resident_module_fields(resident())==[4]
+    changed=resident();raw=bytearray.fromhex(changed['directory_entries'][0]['bytes']);struct.pack_into('<H',raw,0,0x121);changed['directory_entries'][0]['bytes']=raw.hex()
+    reject('resident directory unknown union mode',lambda:resident_module_fields(changed))
+    changed=resident();raw=bytearray.fromhex(changed['directory_entries'][0]['bytes']);struct.pack_into('<I',raw,4,0x3004);changed['directory_entries'][0]['bytes']=raw.hex()
+    reject('resident directory wrong module record owner',lambda:resident_module_fields(changed))
+    changed=resident();raw=bytearray.fromhex(changed['module_list'][0]['bytes']);struct.pack_into('<H',raw,0,2);changed['module_list'][0]['bytes']=raw.hex()
+    reject('resident directory wrong module number',lambda:resident_module_fields(changed))
+    register=dict(name='type',register='ecx',kind='integer',bits=16)
+    assert compare_integer(register,[register],{'ecx':0xdead0040},{'type':0x40})is None
+    reject('fastcall argument lowword differs',lambda:compare_integer(register,[register],{'ecx':0xdead0040},{'type':0x41}))
+    from allocations import mask_undefined
+    scratch_mask={'scratch':dict(size=4,defined_ranges=[[0,2]])}
+    left,right=bytearray(b'\x01\x02aa'),bytearray(b'\x01\x02bb');mask_undefined('scratch',left,right,scratch_mask);assert left==right==b'\x01\x02\0\0'
+    reject('defined scratch payload byte differs',lambda:mask_undefined('scratch',bytearray(b'\x01\x02aa'),bytearray(b'\x01\x03bb'),scratch_mask))
+    reject('defined scratch write exceeds allocation',lambda:mask_undefined('scratch',bytearray(4),bytearray(4),{'scratch':dict(size=4,defined_ranges=[[3,5]])}))
+    inputs=next(r for r in config['functions']if r['name']=='intern_public')['parameters']if any(r['name']=='intern_public'for r in config['functions'])else []
+    input_buffer=next((r for r in inputs if r.get('kind')=='stack-input'),None)
+    if input_buffer:
+        from stack_output import compare as compare_buffer
+        proof=json.loads((BINARY/input_buffer['evidence']).read_text());words={0:proof['return_slots'][0]['address'],1:0x1000+proof['esp_offset']}
+        raw='02000300'+'aa'*508
+        events='registers eax 00000000 esp 00001000 eip 0001b311\ninput-buffer %08x '%words[1]+raw+'\n'
+        arguments={'record':dict(null=False,address=0x5000,local_address=0x5000,local=dict(owner=proof['owner'],name=proof['local'],size=512,offset=0),prebytes='02000300'+'bb'*508)}
+        compare_buffer(input_buffer,inputs,words,arguments,events,original)
+        changed=copy.deepcopy(arguments);changed['record']['prebytes']='02000400'+'bb'*508
+        reject('defined caller stack input byte differs',lambda:compare_buffer(input_buffer,inputs,words,changed,events,original))
+        changed=copy.deepcopy(arguments);changed['record']['prebytes']='ff7f0300'+'bb'*508
+        reject('caller stack input length exceeds object',lambda:compare_buffer(input_buffer,inputs,words,changed,events,original))
+    from public_arena import layout as arena_layout,comparison as arena_compare,validate as validate_arena
+    arena=bytearray(8100);struct.pack_into('<IHHIIH',arena,0,0,12,0,0x1234,17,1)
+    struct.pack_into('<HH',arena,18,30,0x203);arena[30]=3;arena[31:34]=b'foo'
+    heads=bytearray(16384);struct.pack_into('<I',heads,0x234*4,0x1000)
+    arena_layout(arena,0x1000,8048,heads,1,32)
+    def arena_reject(label,offset,value,width=4):
+        changed=bytearray(arena);changed[offset:offset+width]=value.to_bytes(width,'little')
+        reject(label,lambda:arena_layout(changed,0x1000,8048,heads,1,32))
+    arena_reject('public arena cyclic node',0,0x1000)
+    arena_reject('public arena outside node ownership',0,0x3000)
+    arena_reject('public arena truncated record extent',18,200,2)
+    arena_reject('public arena invalid name offset',4,100,2)
+    arena_reject('public arena wrong bucket hash',8,0x1235)
+    reject('public arena incomplete used allocation',lambda:arena_layout(arena,0x1000,8044,heads,1,32))
+    reject('public arena negative available bytes',lambda:arena_layout(arena,0x1000,-1,heads,1,32))
+    reject('public arena count differs',lambda:arena_layout(arena,0x1000,8048,heads,2,32))
+    reject('public arena byte total differs',lambda:arena_layout(arena,0x1000,8048,heads,1,33))
+    changed_heads=bytearray(heads);struct.pack_into('<I',changed_heads,0x235*4,0x1000)
+    reject('public arena duplicate bucket ownership',lambda:arena_layout(arena,0x1000,8048,changed_heads,1,32))
+    # Uninitialized reserved/tail bytes remain raw evidence; defined payload bytes
+    # are still compared after masking and typed pointer normalization.
+    changed=bytearray(arena);changed[6:8]=b'xy';changed[50:52]=b'zz';changed[100:103]=b'uvw'
+    context=dict(original_available=8048,native_available=8048,original_heads=heads,native_heads=heads,count=1,total=32)
+    left,right=bytearray(arena),bytearray(changed)
+    arena_compare(left,right,dict(address=0x1000,bytes=arena.hex()),dict(address=0x1000,bytes=changed.hex()),context);assert left==right
+    def compare_arena_bytes(a,b):
+        left,right=bytearray(a),bytearray(b)
+        arena_compare(left,right,dict(address=0x1000,bytes=a.hex()),dict(address=0x1000,bytes=b.hex()),context)
+        assert left==right,'defined public record differs'
+    changed[31]^=1
+    reject('public arena defined record differs',lambda:compare_arena_bytes(arena,changed))
+    changed=copy.deepcopy(config);changed['public_arena_observations']['evidence_sha256']='0'*64
+    reject('public arena stale source/creation proof',lambda:validate_arena(changed,original))
+    from transient import compare as compare_transient,validate as validate_transient
+    constructor=next(r for r in config['functions']if r['name']=='type_server_open_file')['parameters'][0]
+    def transient_state(base,fill):
+        raw=bytearray([fill]*116)
+        raw[64:96]=b'\0'*32;raw[100:104]=b'\xff'*4
+        children={}
+        for offset,child in [(72,base+0x1000),(84,base+0x2000)]:
+            struct.pack_into('<II',raw,offset,child,child)
+            children[str(offset)]=dict(address=child,bytes=struct.pack('<III',0,child+12,0).hex())
+        return dict(null=False,address=base,owner_pointer=base,owner=dict(function='type_server_open',local='server',size=116),prebytes=raw.hex(),children=children)
+    old,new=transient_state(0x1000,0xaa),transient_state(0x5000,0xbb)
+    events='input-buffer %08x %s\n'%(old['address'],old['prebytes'])
+    for offset,child in old['children'].items():events+='transient-child %08x %s %08x %s\n'%(old['address'],offset,child['address'],child['bytes'])
+    words={0:0x2ba39,1:old['address'],'esi':old['address']}
+    compare_transient(constructor,words,dict(server=new),events,original)
+    changed=copy.deepcopy(new);changed['owner_pointer']+=4
+    reject('transient object differs from constructor local',lambda:compare_transient(constructor,words,dict(server=changed),events,original))
+    changed=copy.deepcopy(new);changed['owner']['size']=120
+    reject('transient object requested size differs',lambda:compare_transient(constructor,words,dict(server=changed),events,original))
+    changed=copy.deepcopy(new);raw=bytearray.fromhex(changed['prebytes']);raw[64]=1;changed['prebytes']=raw.hex()
+    reject('transient initialized null field differs',lambda:compare_transient(constructor,words,dict(server=changed),events,original))
+    changed=copy.deepcopy(new);changed['children']['72']['bytes']=struct.pack('<III',0,0x600d,0).hex()
+    reject('transient child cursor exceeds explicit self end',lambda:compare_transient(constructor,words,dict(server=changed),events,original))
+    changed=copy.deepcopy(new);changed['children']['72']['address']=new['address']
+    reject('transient child aliases parent allocation',lambda:compare_transient(constructor,words,dict(server=changed),events,original))
+    changed=copy.deepcopy(new);changed['children']['84']=copy.deepcopy(changed['children']['72'])
+    reject('transient children alias distinct creations',lambda:compare_transient(constructor,words,dict(server=changed),events,original))
+    changed=dict(words);changed[0]+=1
+    reject('transient object unknown caller return',lambda:compare_transient(constructor,changed,dict(server=new),events,original))
+    changed=dict(words);changed['esi']+=4
+    reject('transient original constructor register differs',lambda:compare_transient(constructor,changed,dict(server=new),events,original))
+    changed=copy.deepcopy(constructor);changed['evidence_sha256']='0'*64
+    reject('transient constructor source proof stale',lambda:validate_transient(changed,original))
+    required=next(r for r in config['functions']if r['name']=='type_server_open_file')['required_conditional_calls_by_case']['hello-debug-dll']
+    reject('both sides omit all mandatory PDB CRT invocations',lambda:compare_returns('',[],conditional,required))
+    # Reuse the first actual successful DLL invocation from the new frozen controls
+    # and its matching native record, then remove only the PDB pair.
+    pair=BINARY/'cases/hello-debug-dll/evidence/0047-type_server_open_file'
+    old=(pair/'original-events').read_text()
+    records=json.loads((pair/'native-crt-returns.json').read_text())
+    lines=[];seen=0
+    for line in old.splitlines():
+        if line.startswith('crt-entry '):seen+=1
+        if line.startswith('crt-')and seen==1:lines.append(line)
+    reject('both sides omit only mandatory PDB CRT invocation',lambda:compare_returns('\n'.join(lines),records[:1],conditional,required))
+    from inputs import prepare as prepare_extra,verify as verify_extra,environment as extra_environment
+    record=json.loads((BINARY/'cases/hello-debug-dll/case.json').read_text())
+    with tempfile.TemporaryDirectory(prefix='ancillary-rejections-',dir=Path.home()/'.ai-tmp/vc1.0-cvpack')as directory:
+        work=Path(directory)/'work';work.mkdir();prepare_extra(record,work);env={};extra_environment(record,work,env)
+        files=list(Path(env['RECON_DRIVE_Z']).rglob('msvc.pdb'));assert len(files)==1
+        files[0].write_bytes(files[0].read_bytes()+b'x')
+        reject('ancillary frozen PDB altered after preparation',lambda:verify_extra(record,work))
+        files[0].unlink()
+        reject('ancillary frozen PDB missing',lambda:verify_extra(record,work))
+    from accept import compare_literal
+    literal=dict(original=0x3780c,bytes='726300');actual=dict(null=False,string='7263')
+    compare_literal(literal,0x3780c,actual,original)
+    reject('literal ABI points to different original object',lambda:compare_literal(literal,0x3781c,actual,original))
+    reject('literal ABI native bytes differ',lambda:compare_literal(literal,0x3780c,dict(null=False,string='7763'),original))
+    segment=next(r for r in next(f for f in config['functions']if f['name']=='hash_public')['parameters']if r['name']=='segment')
+    proof=json.loads((BINARY/segment['evidence']).read_text());words={0:0x1b348,4:0x1000+proof['esp_offset']}
+    arguments=dict(segment=dict(null=False,address=0x4000,local_address=0x4000,local=dict(owner='intern_public',name='segment',size=2,offset=0),prebytes='0100'))
+    events='registers eax 00000000 esp 00001000 eip 0001afe1\noutput-buffer %08x 0100\n'%words[4]
+    reject('both initialized stack output values differ from actual zero write',lambda:compare_output(segment,[segment],words,arguments,events,original))
+    pair=BINARY/'cases/hello-debug-dll/evidence/0050-type_server_age'
+    events=(pair/'original-events').read_text()
+    state=json.loads((pair/'native-gdb.json').read_text());native_reads=json.loads((pair/'native-read-returns.json').read_text())
+    filtered='\n'.join(line for line in events.splitlines()if not(line.startswith(('read-entry 00017e69 ','read-return 00017e69 ','read-rearm 00017e69 ','read-rearm 00017e6e '))))
+    from allocations import context as allocation_context
+    frontier=next(r for r in config['functions']if r['name']=='load_type_server_records')
+    allocation_context(config,original,events,state,frontier,'hello-debug-dll',native_reads)
+    try:allocation_context(config,original,filtered,state,frontier,'hello-debug-dll',[r for r in native_reads if r['site']!=0x17e69])
+    except AssertionError as error:assert str(error)=='scratch consumer reads before initialization',error
+    else:raise AssertionError('accepted missing actual defining public read')
+    print('rejected: scratch consumer has no defining public read on either side')
     # Buffered FileSlot unions: capacity is an integer, the page table contains
     # explicit unloaded-page tag1, and name pointers own exact bounded strings.
     description=dict(name='files',original=0x4000,pointer_fields=[0,20,32,36],string_fields=[0],

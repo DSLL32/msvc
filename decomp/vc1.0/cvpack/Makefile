@@ -2,8 +2,8 @@ PYTHON ?= python3
 include ../../../tooling/graph-audit/graph-audit.mk
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
-SOURCES = $(filter-out src/debug-run.c,$(wildcard src/*.c))
-HEADERS = src/cvpack.h src/image.h $(RECON)/include/recon.h
+SOURCES = $(wildcard src/*.c)
+HEADERS = $(wildcard src/*.h) $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
@@ -34,7 +34,7 @@ build build/native:
 build/%.obj: src/%.c $(HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
 
-build/debug-run.obj: src/debug-run.c $(RECON)/include/recon.h | build
+build/debug-run.obj: scripts/debug-run.c $(RECON)/include/recon.h | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
 
 build/files.obj build/stubs.obj build/native/files.o build/native/stubs.o: src/files.h
@@ -48,6 +48,9 @@ build/debug-run.exe: build/debug-run.obj
 
 # Explicit original-only analysis probe; excluded from every fixture dependency.
 build/sopen-guard-probe.obj: scripts/sopen-guard-probe.c $(RECON)/include/recon.h | build
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
+
+build/sopen-pdb-guard-probe.obj: scripts/sopen-pdb-guard-probe.c $(RECON)/include/recon.h | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
 
 build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native

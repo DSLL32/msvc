@@ -6,6 +6,8 @@ def namespace(walks):
     for name,nodes in walks.items():
         for index,node in enumerate(nodes):
             result.append((node['address'],len(bytes.fromhex(node['bytes'])),(name,index)))
+            for key,obj in node.get('objects',{}).items():
+                result.append((obj['address'],len(bytes.fromhex(obj['bytes'])),(name,index,'object',key)))
             for field,kind in (('strings','string'),('arrays','array')):
                 for offset,pointee in node.get(field,{}).items():
                     if pointee['address']:result.append((pointee['address'],len(bytes.fromhex(pointee['bytes'])),(name,index,kind,int(offset))))
@@ -28,6 +30,11 @@ def original_walks(events,specifications):
             nodes=walks[item['name']]
             assert int(index)==len(nodes)
             nodes.append(dict(address=int(address,16),bytes=raw))
+        elif line.startswith('node-object '):
+            _,root,index,key,address,raw=line.split()
+            node=walks[by_root[int(root,16)]['name']][int(index)]
+            objects=node.setdefault('objects',{});assert key not in objects,'duplicate PDB object'
+            objects[key]=dict(address=int(address,16),bytes=raw)
         elif line.startswith(('node-string ','node-array ')):
             fields=line.split()
             kind,root,index,offset,address=fields[:5]
@@ -51,7 +58,31 @@ def original_walks(events,specifications):
     assert ended==set(walks),'missing original object walk'
     return walks
 
-def compare_walks(specifications,original,native,definitions=None):
+def resident_module_fields(walks):
+    """A loaded module entry's union points to its ModuleInfo-owned record."""
+    if not walks['module_index']:return []
+    indices=bytes.fromhex(walks['module_index'][0]['bytes'])
+    directories=bytes.fromhex(walks['directory_entries'][0]['bytes'])
+    modules={r['address']:r for r in walks['module_list']}
+    fields=[]
+    for offset in range(0,len(indices),12):
+        number=int.from_bytes(indices[offset:offset+2],'little')
+        directory=int.from_bytes(indices[offset+4:offset+8],'little')
+        info=int.from_bytes(indices[offset+8:offset+12],'little')
+        if not info:continue
+        module=modules[info];raw=bytes.fromhex(module['bytes'])
+        assert int.from_bytes(raw[:2],'little')==number,'module index owner differs'
+        record=int.from_bytes(raw[12:16],'little')
+        if not record:continue
+        entry=directories[directory*12:(directory+1)*12]
+        assert len(entry)==12 and int.from_bytes(entry[:2],'little')==0x120,'unreviewed resident module union'
+        assert int.from_bytes(entry[2:4],'little')==number
+        assert int.from_bytes(entry[4:8],'little')==record,'resident directory does not point to its module record'
+        fields.append(directory*12+4)
+    assert len(fields)==len(set(fields)),'duplicate resident module directory'
+    return sorted(fields)
+
+def compare_walks(specifications,original,native,definitions=None,public_arena=None,pdb_consumed=None):
     definitions=definitions or {}
     assert set(original)==set(native)=={item['name']for item in specifications}
     original_names,native_names=namespace(original),namespace(native)
@@ -118,8 +149,20 @@ def compare_walks(specifications,original,native,definitions=None):
                     entries.append(identities[0])
                 arrays[str(offset)]=entries
             fields=list(range(0,len(left),4)) if item.get('pointer_array') else item.get('pointer_fields',[])
+            if item.get('resident_modules'):
+                fields=resident_module_fields(original)
+                assert fields==resident_module_fields(native),'resident module union modes differ'
             if item.get('pointer_stride'):
                 stride=item['pointer_stride'];fields=list(range(stride['start'],len(left),stride['stride']))
+            pdb_evidence=None
+            if item.get('pdb_graph'):
+                from pdb_objects import compare_node
+                pdb_evidence=compare_node(left,right,a,b,logical,original_names,native_names,pdb_consumed)
+            arena_evidence=None
+            if item.get('public_arena'):
+                from public_arena import comparison
+                assert public_arena,'missing public arena lifetime proof'
+                fields,arena_evidence=comparison(left,right,a,b,public_arena)
             pointers={}
             for offset in fields:
                 old=int.from_bytes(left[offset:offset+4],'little')
@@ -133,6 +176,6 @@ def compare_walks(specifications,original,native,definitions=None):
                 from allocations import mask_undefined
                 allocation=mask_undefined(item['allocation_name'],left,right,definitions)
             assert left==right,('observed object bytes differ',name,index)
-            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{}),allocation=allocation))
+            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{}),allocation=allocation,public_arena=arena_evidence,pdb_graph=pdb_evidence))
         receipt[name]=nodes
     return receipt

@@ -9,6 +9,8 @@ def validate(config,pe):
     assert hashlib.sha256(path.read_bytes()).hexdigest()==record['evidence_sha256'],'stale read observation proof'
     proof=json.loads(path.read_text())
     assert hashlib.sha256((BINARY/proof['source']).read_bytes()).hexdigest()==proof['source_sha256'],'changed read consumer source'
+    for source,digest in proof.get('additional_sources',{}).items():
+        assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'changed additional read consumer source'
     owner=next(r for r in config['functions']if r['name']==proof['owner'])
     callee=next(r for r in config['functions']if r['name']==proof['callee'])
     assert owner['status']!='stub'

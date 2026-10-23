@@ -44,3 +44,6 @@ def prepare(record, work):
         assert sha(source) == item['sha256'], 'changed input: ' + str(source)
         assert Path(item['name']).name == item['name']
         (work / item['name']).write_bytes(source.read_bytes())
+
+    from inputs import prepare as prepare_extra
+    prepare_extra(record,work)

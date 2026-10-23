@@ -1,0 +1,23 @@
+{
+  "case": "hello-debug-dll",
+  "parent_size": 116,
+  "payload": 4140,
+  "block_capacity": 12288,
+  "sources": {
+    "src/pdb.c": "e078adef8067c6cac898d8ecfe3c590fd6e9aaf4e9f6d15b0da4c3209be48e8b",
+    "src/pdb.h": "ae83b990fc54c36cbe8768a23536c57237184e41a0e87ddeba4fea9a8d09ff6d"
+  },
+  "instructions": [
+    [
+      178536,
+      178745,
+      "d47034f217a541a1ed0ec3cd66536387222ce46e04c8103f301c16d6f4e6e87d"
+    ],
+    [
+      176460,
+      177157,
+      "6eabaaeed48b2694c3a608e54c71aa1c901255ae5444e293b5b01faee234ff7d"
+    ]
+  ],
+  "scope": "One published116-byte type server, constructor12-byte storage sentinel+12-byte index sentinel, freshly allocated544-byte fully written offset table, and one malloc12300-byte storage block. All object headers and4140read payload bytes compared before/after consumers; unused8148payload bytes retained raw without equality credit. TypeServer.incremental is compared as actual consumed uninitialized input, never called defined or synthesized; only observed concrete0 branch currently supported. Extra blocks/hash branch/ownership/size/value changes fail closed."
+}

@@ -52,7 +52,8 @@ def identify(path, application):
             assert not anchor['accepted'] and not anchor['unmask']
             raw=pe.read(anchor['start'],anchor['end']-anchor['start'])
             assert hashlib.sha256(raw).hexdigest()==anchor['bytes_sha256']
-            assert (BINARY/anchor['evidence']).is_file()
+            evidence=BINARY/anchor['evidence']
+            assert evidence.is_file() and hashlib.sha256(evidence.read_bytes()).hexdigest()==anchor['evidence_sha256'],'runtime anchor proof changed'
     candidates=[]
     for member,data in archive(library):
         obj=COFF(data)

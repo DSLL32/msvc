@@ -7,7 +7,7 @@ int feedback, pcode, input_file, already_packed, checksum_required;
 unsigned char mapped_io, is_pe_image;
 unsigned short module_count, statistics_enabled;
 char executable_name[260];
-void *directory_data, *module_data, *type_data, *symbol_data, *line_data;
+void *directory_data, *module_data, *type_data, *symbol_data, *global_type_data;
 
 int main(int argc, char **argv, char **environment)
 {
@@ -65,7 +65,7 @@ int main(int argc, char **argv, char **environment)
             for (module = 0; module < module_count; ++module) pack_module(module);
         if (is_pe_image && cvnew) strip_debug(input_file);
         free(directory_data);
-        free(line_data);
+        free(global_type_data);
         free(symbol_data);
         free(type_data);
         free(module_data);

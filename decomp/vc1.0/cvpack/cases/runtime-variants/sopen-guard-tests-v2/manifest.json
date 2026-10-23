@@ -1,0 +1,105 @@
+{
+  "schema": 2,
+  "scope": "Current exact guarded CRT transport; cached original-only controls, never Wine in regressions. Separate DLL8002 and immutable PDB8000 policies; percall CreateFile args/TF rearm/LastError/input state.",
+  "source": [
+    {
+      "path": "scripts/sopen-guard-probe.c",
+      "sha256": "622874a98654c5b8ef8b3aeac7e1f90112f81310e401d6a48ed7ba9346321595"
+    },
+    {
+      "path": "scripts/sopen-pdb-guard-probe.c",
+      "sha256": "86132d7b14ae302d76c67064754fde165f28c96d05c8f976836e9881e275bd34"
+    }
+  ],
+  "guard_sha256": "529e7229989217f9fc2fa7c961584246cf51f340a0903e8e54824345f01da4a2",
+  "cases": [
+    {
+      "name": "good-twice",
+      "restored": 2,
+      "denied": null,
+      "helper_status": 0,
+      "seconds": {
+        "setup": 0.23800580855458975,
+        "execution": 0.6641797265037894,
+        "total": 0.9242002237588167
+      }
+    },
+    {
+      "name": "first-text",
+      "restored": 0,
+      "denied": "mode",
+      "helper_status": 17,
+      "seconds": {
+        "setup": 0.23943611327558756,
+        "execution": 0.6212593400850892,
+        "total": 0.8821938214823604
+      }
+    },
+    {
+      "name": "second-text",
+      "restored": 1,
+      "denied": "mode",
+      "helper_status": 17,
+      "seconds": {
+        "setup": 0.24087171722203493,
+        "execution": 0.6712063774466515,
+        "total": 0.9332742784172297
+      }
+    },
+    {
+      "name": "second-share",
+      "restored": 1,
+      "denied": "share",
+      "helper_status": 17,
+      "seconds": {
+        "setup": 0.2396424850448966,
+        "execution": 0.6329984832555056,
+        "total": 0.8947158949449658
+      }
+    },
+    {
+      "name": "pdb-good-twice",
+      "restored": 2,
+      "denied": null,
+      "helper_status": 0,
+      "seconds": {
+        "setup": 0.23884128592908382,
+        "execution": 0.6230503348633647,
+        "total": 0.8828402832150459
+      }
+    },
+    {
+      "name": "pdb-second-write",
+      "restored": 1,
+      "denied": "mode",
+      "helper_status": 17,
+      "seconds": {
+        "setup": 0.2479736590757966,
+        "execution": 1.2510645175352693,
+        "total": 1.539072343148291
+      }
+    },
+    {
+      "name": "pdb-second-share",
+      "restored": 1,
+      "denied": "share",
+      "helper_status": 17,
+      "seconds": {
+        "setup": 0.23350055795162916,
+        "execution": 1.2938819779083133,
+        "total": 1.5493323476985097
+      }
+    },
+    {
+      "name": "pdb-second-name",
+      "restored": 1,
+      "denied": "name",
+      "helper_status": 17,
+      "seconds": {
+        "setup": 0.23793242406100035,
+        "execution": 0.8023655219003558,
+        "total": 1.0623390059918165
+      }
+    }
+  ]
+}

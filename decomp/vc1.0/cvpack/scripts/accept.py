@@ -22,7 +22,7 @@ def validate_snapshot(config,current,original,native,captured,native_receipt,tar
     assert native_receipt['executable_sha256']==sha(executable),'native executable changed since run'
 
 def compare_integer(item,descriptions,words,parameters):
-    value=words[item['slot']]
+    value=words[item.get('register',item.get('slot'))]
     actual=parameters[item['name']]
     condition=item.get('inactive_when')
     if condition:
@@ -39,9 +39,16 @@ def compare_integer(item,descriptions,words,parameters):
     assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
     return None
 
+def compare_literal(item,value,actual,pe):
+    raw=bytes.fromhex(item['bytes'])
+    assert value==item['original'] and pe.read(value,len(raw))==raw,'literal argument origin differs'
+    assert raw.endswith(b'\0') and not actual['null'] and actual['string']==raw[:-1].hex(),'literal argument bytes differ'
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',required=True)
+    parser.add_argument('--check-only',action='store_true',help='validate the complete fresh pair without accepting or copying evidence')
     parser.add_argument('--case',required=True)
     parser.add_argument('--original',required=True,type=Path)
     parser.add_argument('--native',required=True,type=Path)
@@ -68,10 +75,19 @@ def main():
     check_policy_snapshot(original,policy)
     check_policy_snapshot(native/args.case,policy)
     observations=native/args.case/'crt-returns.json'
-    crt_proof=compare_returns(events,json.loads(observations.read_text())if observations.exists()else [],seam_records)
+    crt_proof=compare_returns(events,json.loads(observations.read_text())if observations.exists()else [],seam_records,function.get('required_conditional_calls_by_case',{}).get(args.case))
     from reads import validate as validate_reads,compare as compare_reads
     read_sites=validate_reads(config,pe)if args.case=='hello-debug-dll'else []
-    read_proof=compare_reads(events,json.loads((native/args.case/'read-returns.json').read_text()),read_sites)if read_sites else []
+    native_reads=json.loads((native/args.case/'read-returns.json').read_text())if read_sites else []
+    read_proof=compare_reads(events,native_reads,read_sites)if read_sites else []
+    from pdb_read import compare as compare_pdb_reads
+    pdb_reads=json.loads((native/args.case/'pdb-read-returns.json').read_text())if (native/args.case/'pdb-read-returns.json').exists()else []
+    required_pdb=args.case=='hello-debug-dll'and function.get('required_pdb_record_proof',False)
+    pdb_read_proof=compare_pdb_reads(config,pe,events,pdb_reads,required_pdb)
+    from pdb_consumed import compare as compare_pdb_consumed
+    consumed_path=native/args.case/'pdb-consumed.json'
+    consumed_proof=compare_pdb_consumed(config,pe,events,json.loads(consumed_path.read_text())if consumed_path.exists()else [],required_pdb)
+    consumed_proof.update(reads_original=pdb_read_proof,reads_native=pdb_reads)
     old_work,new_work=original/'work',native/args.case/'work'
     assert {p.name for p in old_work.iterdir()}=={p.name for p in new_work.iterdir()},'artifact set differs'
     for path in old_work.iterdir():assert path.read_bytes()==(new_work/path.name).read_bytes(),'complete artifact bytes differ: '+path.name
@@ -109,8 +125,10 @@ def main():
     if not completed and (BINARY/'walks.json').exists():
         specifications=json.loads((BINARY/'walks.json').read_text())
         from allocations import context as allocation_context
-        definitions=allocation_context(config,pe,events,state,frontier,args.case)
-        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions)
+        definitions=allocation_context(config,pe,events,state,frontier,args.case,native_reads)
+        from public_arena import context as public_arena_context
+        arena_context=public_arena_context(config,pe,events,state)
+        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof)
     for item in ([] if completed else json.loads((BINARY/'data.json').read_text())):
         raw=bytes(memory[item['original']+i]for i in range(item['size']))
         actual=state['globals'][item['name']]
@@ -146,17 +164,20 @@ def main():
         assert actual==expected,('application state differs',item['name'],expected,actual)
         matched[item['name']]=actual
     words={int(line.split()[1]):int(line.split()[2],16) for line in events.splitlines() if line.startswith('stack ')}
+    registers=re.search(r'^registers (.*)$',events,re.M)
+    if registers:
+        fields=registers[1].split();words.update((fields[i],int(fields[i+1],16))for i in range(0,len(fields),2))
     descriptions=frontier.get('parameters',[]) if frontier else []
     inactive={}
     assert {r['name'] for r in descriptions}==set(state['parameters']),'missing ABI parameter specification'
     for item in descriptions:
-        value=words[item['slot']]
+        value=words[item.get('register',item.get('slot'))]
         actual=state['parameters'][item['name']]
         kind=item['kind']
         if kind=='integer':
             proof=compare_integer(item,descriptions,words,state['parameters'])
             if proof:inactive[item['name']]=proof
-        elif kind=='stack-output':
+        elif kind in ('stack-output','stack-input'):
             from stack_output import compare as compare_output
             inactive[item['name']]=compare_output(item,descriptions,words,state['parameters'],events,pe)
         elif kind in ('pointer','cstring'):
@@ -174,6 +195,11 @@ def main():
                     text=[];pointer=value
                     while memory[pointer]:text.append(memory[pointer]);pointer+=1
                     assert bytes(text).hex()==actual['string'],('string argument differs',item['name'])
+        elif kind=='transient-pointer':
+            from transient import compare as compare_transient
+            inactive[item['name']]=compare_transient(item,words,state['parameters'],events,pe)
+        elif kind=='literal-string':
+            compare_literal(item,value,actual,pe)
         elif kind=='argv':assert not actual['null']
         elif kind=='function':
             target=next(r for r in config['functions'] if r['original']==value)
@@ -199,12 +225,15 @@ def main():
     native_entries=(native/args.case/'trace').read_text().splitlines()
     assert entries==native_entries,('entry trace mismatch',entries,native_entries)
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
+    if args.check_only:
+        print('Fresh original/native candidate proof passes without acceptance:',args.function)
+        return
     sequence=len(config['accepted_order'])+1
     directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function))
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -219,7 +248,7 @@ def main():
     proof=dict(function=args.function,case=args.case,sequence=sequence,extent=function['extent'],
         original_frontier=address,native_frontier=frontier['native'] if frontier else 'exit',application_entries=entries,
         argc=state['argc'],argv=argv,matched_application_globals=matched,
-        matched_frontier_parameters=state['parameters'],runtime_unmasked=support,
+        matched_frontier_parameters=state['parameters'],runtime_unmasked=support,pdb_header_reads=pdb_read_proof,consumed_undefined_input=consumed_proof,
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
         read_return_observations=read_proof,

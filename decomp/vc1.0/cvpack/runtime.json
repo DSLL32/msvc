@@ -2883,6 +2883,88 @@
       ]
     },
     {
+      "name": "__assert",
+      "start": 186624,
+      "end": 186720,
+      "object": "misc\\obj\\i386\\ASSERT.OBJ",
+      "library": "LIBC.LIB",
+      "nonrelocation_bytes": 60,
+      "relocations": [
+        {
+          "offset": 2,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 234384,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 19,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 234384,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 24,
+          "symbol": "_setvbuf",
+          "kind": 20,
+          "target": 196160,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 47,
+          "symbol": ".data",
+          "kind": 6,
+          "target": 235080,
+          "section": 1,
+          "value": 0
+        },
+        {
+          "offset": 52,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 234384,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 57,
+          "symbol": "_fprintf",
+          "kind": 20,
+          "target": 181584,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 65,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 234384,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 70,
+          "symbol": "_fflush",
+          "kind": 20,
+          "target": 195808,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 78,
+          "symbol": "_abort",
+          "kind": 20,
+          "target": 195776,
+          "section": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
       "name": "__read",
       "start": 186720,
       "end": 187280,
@@ -9221,6 +9303,7 @@
       234380,
       235028,
       235076,
+      235080,
       235120,
       235256,
       235648,
@@ -9445,20 +9528,6 @@
     },
     {
       "names": [
-        "__assert"
-      ],
-      "start": 186624,
-      "member": "misc\\obj\\i386\\ASSERT.OBJ",
-      "failure": {
-        "offset": 24,
-        "symbol": "_setvbuf",
-        "kind": 20,
-        "actual": 196160,
-        "expected": []
-      }
-    },
-    {
-      "names": [
         "_signal"
       ],
       "start": 198176,
@@ -9567,7 +9636,19 @@
       "classification": "reviewed-variant-identity-only",
       "accepted": false,
       "unmask": false,
-      "evidence": "cases/runtime-variants/freebuf.json"
+      "evidence": "cases/runtime-variants/freebuf.json",
+      "evidence_sha256": "fa92d106bcd1c61074c8a2881ab00506f9bfe20b7c6aa99ffb31688b44cc66db"
+    },
+    {
+      "name": "_setvbuf",
+      "start": 196160,
+      "end": 196351,
+      "bytes_sha256": "5d445fb1eed8f3da19e4bc83b37283288fdb6accc30a4f4a59074fa1609d9dce",
+      "classification": "reviewed-variant-identity-only",
+      "accepted": false,
+      "unmask": false,
+      "evidence": "cases/runtime-variants/setvbuf.json",
+      "evidence_sha256": "ebe5bdc92257a287c5a8f48087bf48c3789a26194ba0cf2e29d6e838bd92bd86"
     }
   ]
 }

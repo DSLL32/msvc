@@ -260,11 +260,31 @@ def main():
         assert set(report['functions'])==expected and report['checked_functions']==len(expected),'incomplete Rust graph report'
     text_end=max(rebuilt.base+s['rva']+s['virtual_size'] for s in rebuilt.sections if s['flags']&0x20)
     addresses=sorted(set(linked.values())|{text_end})
+    from pdb_objects import validate as validate_pdb_objects
+    validate_pdb_objects(config,original)
+    from pdb_consumed import validate as validate_pdb_consumed
+    validate_pdb_consumed(config,original)
+    for record in config['functions']:
+        if record['name']in('type_server_read_records','type_server_signature','type_server_age'):
+            assert record.get('required_pdb_record_proof')is True,'missing PDB record/actual-consumer inventory'
+    from pdb_read import validate as validate_pdb_read
+    validate_pdb_read(config,original)
+    from public_arena import validate as validate_public_arena
+    validate_public_arena(config,original)
     checked=0
     for record in functions:
         from stack_output import validate as validate_output
         for parameter in record.get('parameters',[]):
-            if parameter['kind']=='stack-output':validate_output(parameter,original)
+            if parameter['kind']in ('stack-output','stack-input'):validate_output(parameter,original)
+            if parameter['kind']=='transient-pointer':
+                from transient import validate as validate_transient
+                validate_transient(parameter,original)
+            if parameter['kind']=='literal-string':
+                raw=bytes.fromhex(parameter['bytes']);assert raw.endswith(b'\0') and original.read(parameter['original'],len(raw))==raw,'literal ABI proof differs'
+        if record['original']in(0x2aef0,0x2b14c):
+            pdb=json.loads((BINARY/'cases/abi/pdb-input.json').read_text())['inputs'][0]['windows']
+            required=[dict(name='hello-debug.dll',mode=0x8002,share=0x40),dict(name=pdb,mode=0x8000,share=0x40)]
+            assert record.get('required_conditional_calls_by_case',{}).get('hello-debug-dll')==required,'missing mandatory PDB CRT invocation inventory'
         assert record['status'] in ('stub','candidate','accepted')
         assert record['kind']=='application'
         source=BINARY/record['source']

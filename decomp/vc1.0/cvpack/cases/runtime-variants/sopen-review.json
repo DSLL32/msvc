@@ -19,5 +19,12 @@
     "filename": "hello-debug.dll"
   },
   "guard_note": "Full mode/share/name and exact input bytes checked before every body restoration; entry INT3 reinstated after the first3-byte SUB via a validated single step; return observer verifies child CRT/error state and owned file identity through duplicated handle without changing child file position.",
-  "application_acceptance": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+  "application_acceptance": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json",
+  "read_only_PDB_extension": {
+    "policy": "Root-approved separate exact4204-byte input/path, binary8000/share40 existing-file success; every invocation guarded. Original GENERIC_READ, share3, OPEN_EXISTING, attrs128 and readonly ownership/full input bytes/result/errno/LastError/fd/osfile/type/position all retained and matched.",
+    "review": "Dedicated maintainer independently passed fresh fn47 check-only acceptance and full negatives after mandatory DLL8002/PDB8000 ordered inventory fix; root conditional approval satisfied.",
+    "evidence": "../hello-debug-dll/evidence/0047-type_server_open_file/proof.json",
+    "guard_controls": "sopen-guard-tests-v2/manifest.json",
+    "scope_limit": "Same explicitly unobserved inheritance versus CLOEXEC distinction in the singleprocess/no-child case; no broad CRT equivalence, exact-library identity or application coverage. Unknown mode/share/path/outcome denies."
+  }
 }

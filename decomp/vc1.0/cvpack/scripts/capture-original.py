@@ -23,14 +23,17 @@ def main():
     parser.add_argument('--watch-spawn',action='store_true',help='explicitly capture spawnlp inputs and return/errno')
     parser.add_argument('--inspect-context',action='store_true',help='retain encountered application globals')
     parser.add_argument('--stop-at',help='explicit identified CRT entry at which to inspect state')
-    parser.add_argument('--guard-probe',choices=['good-twice','first-text','second-text','second-share'],help='explicit original-only guard controller, never application acceptance')
+    parser.add_argument('--guard-probe',choices=['good-twice','first-text','second-text','second-share','pdb-good-twice','pdb-second-write','pdb-second-share','pdb-second-name'],help='explicit original-only guard controller, never application acceptance')
     args = parser.parse_args()
     start = time.perf_counter()
     config, original = load()
     record = case(args.case)
     if args.guard_probe:
         assert args.case=='hello-debug-dll' and not args.unmasked and args.discover_runtime
-        record=dict(record,argv=[*record['argv'],{'good-twice':'G','first-text':'F','second-text':'T','second-share':'S'}[args.guard_probe]])
+        markers={'good-twice':'G','first-text':'F','second-text':'T','second-share':'S','pdb-good-twice':'P','pdb-second-write':'W','pdb-second-share':'H','pdb-second-name':'N'}
+        probe_argv=list(record['argv'])
+        if args.guard_probe.startswith('pdb-'):probe_argv[2]=json.loads((BINARY/'cases/abi/pdb-input.json').read_text())['inputs'][0]['windows']
+        record=dict(record,argv=[*probe_argv,markers[args.guard_probe]])
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     snapshot=output/'configuration.json'
@@ -79,7 +82,7 @@ def main():
         (output/'runtime-identities.json').write_text(json.dumps(runtime,indent=2)+'\n')
         argv.extend([tool.windows(plan),tool.windows(ROOT/config['target']['path'])])
     if args.guard_probe:
-        probe=COFF((BINARY/'build/sopen-guard-probe.obj').read_bytes())
+        probe=COFF((BINARY/('build/sopen-pdb-guard-probe.obj'if args.guard_probe.startswith('pdb-')else'build/sopen-guard-probe.obj')).read_bytes())
         sections=[s for s in probe.sections if s['flags']&0x20]
         assert len(sections)==1
         section=sections[0]
@@ -109,15 +112,23 @@ def main():
     for seam in seam_records:
         assert not args.unmasked,'conditional support is masked-capture only'
         env['CVPACK_CAPTURE_SOPEN_GUARD']='%x:%x:%x'%(seam['start'],seam['end'],original.offset(seam['start']))
-        env['CVPACK_CAPTURE_SOPEN_NAME']=seam['guard']['name']
-        env['CVPACK_CAPTURE_SOPEN_INPUT']=tool.windows(ROOT/seam['input']['path'])
+        if seam['guard']['mode']==0x8002:
+            env['CVPACK_CAPTURE_SOPEN_NAME']=seam['guard']['name']
+            env['CVPACK_CAPTURE_SOPEN_INPUT']=tool.windows(ROOT/seam['input']['path'])
+        else:
+            env['CVPACK_CAPTURE_SOPEN_PDB_NAME']=seam['guard']['name']
+            env['CVPACK_CAPTURE_SOPEN_PDB_INPUT']=tool.windows(ROOT/seam['input']['path'])
+    from pdb_read import validate as validate_pdb_read
+    if validate_pdb_read(config,original)and args.case=='hello-debug-dll':env['CVPACK_CAPTURE_PDB_HEADER']='1'
     env['CVPACK_CAPTURE_READS']=','.join('%x:%x'%(r['call'],r['returned'])for r in read_sites)
     env.pop('_MSC_IDE_FLAGS',None)
     env['CVPACK_CAPTURE_ARGV0']=tool.windows(ROOT/config['target']['path'])
     env['CVPACK_CAPTURE_INSPECT']=','.join(args.inspect)
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
     env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x:%d:%d:%d'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0),r.get('count_size',4),r.get('count_limit',r['limit']),int(r.get('zero_allocation',False))) for r in walks)
-    env['CVPACK_CAPTURE_OUTPUTS']=','.join('%x:%d:%d'%(r['original'],p['slot'],json.loads((BINARY/p['evidence']).read_text())['size'])for r in config['functions']for p in r.get('parameters',[])if p['kind']=='stack-output')
+    env['CVPACK_CAPTURE_OUTPUTS']=','.join('%x:%d:%d:%d'%(r['original'],p['slot'],json.loads((BINARY/p['evidence']).read_text())['size'],int(p['kind']in('stack-input','transient-pointer')))for r in config['functions']for p in r.get('parameters',[])if p['kind']in ('stack-output','stack-input','transient-pointer'))
+    env['CVPACK_CAPTURE_ARENAS']=','.join('%x:%x:%d'%(r['original'],r['arena']['available_original'],r['arena']['capacity'])for r in walks if r.get('arena'))
+    env['CVPACK_CAPTURE_TRANSIENTS']=','.join('%x:%d:%d'%(r['original'],p['slot'],offset)for r in config['functions']for p in r.get('parameters',[])if p['kind']=='transient-pointer'for offset in json.loads((BINARY/p['evidence']).read_text())['child_fields'])
     env['CVPACK_CAPTURE_STRINGS']=','.join('%x:%d'%(r['original'],offset)for r in walks for offset in r.get('string_fields',[]))
     env['CVPACK_CAPTURE_ARRAYS']=','.join('%x:%d:%d:%d:%d:%d:%x:%x:%d'%(r['original'],a['offset'],a.get('count_offset',0xffffffff),a.get('count_shift',0),a['max_count'],a['when']['offset'],a['when']['mask'],a['when']['value'],a.get('element_size',4))for r in walks for a in r.get('arrays',[]))
     if args.inspect_context:
@@ -131,6 +142,8 @@ def main():
                     requests.append('%x:%d'%(address,len(original.string(address))+1))
         env['CVPACK_CAPTURE_INSPECT']=','.join(requests)
     if args.watch_spawn:env['CVPACK_CAPTURE_WATCH_SPAWN']='%x'%spawn['start']
+    from inputs import original as original_inputs
+    ancillary_inputs=original_inputs(record)
     setup = time.perf_counter() - start
     run = time.perf_counter()
     result = subprocess.run(argv, env=env, stdout=subprocess.PIPE,
@@ -141,7 +154,8 @@ def main():
     assert result.returncode in ((0,17)if args.guard_probe else (0,)), repr(result.stderr)
     assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during original run'
     check_policy_snapshot(output,policy_hash)
-    receipt = dict(case=args.case, unmasked=args.unmasked, command=argv,
+    assert original_inputs(record)==ancillary_inputs,'original ancillary inputs changed'
+    receipt = dict(ancillary_inputs=ancillary_inputs,case=args.case, unmasked=args.unmasked, command=argv,
         original_sha256=config['target']['sha256'], executable_sha256=sha(masked),
         debugger_sha256=sha(debugger), configuration_sha256=sha(snapshot),
         discover_runtime=args.discover_runtime,canonical_argv0=env['CVPACK_CAPTURE_ARGV0'],

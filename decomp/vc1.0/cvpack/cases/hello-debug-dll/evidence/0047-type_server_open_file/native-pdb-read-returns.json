@@ -1,0 +1,15 @@
+[
+  {
+    "descriptor": 4,
+    "returned": 64,
+    "errno": 0,
+    "last_error": 0,
+    "position": 64,
+    "osfile": 1,
+    "type": 1,
+    "owned": 1,
+    "input_matches": 1,
+    "address": 1481417088,
+    "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e0094dad96a03000000001088102c100000"
+  }
+]

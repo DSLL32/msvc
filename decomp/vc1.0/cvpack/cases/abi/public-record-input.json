@@ -1,0 +1,32 @@
+{
+  "owner": "pack_public_symbols",
+  "local": "record",
+  "size": 512,
+  "offset": 0,
+  "mode": "input",
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 152621
+    }
+  ],
+  "esp_offset": 32,
+  "callsite": {
+    "start": 152606,
+    "end": 152621,
+    "sha256": "87dfafc5c4bbb4ac2cd6b6d16981b45af03b7a64cea8df596d308ced53eeb1a8"
+  },
+  "frame": {
+    "start": 152224,
+    "end": 152234,
+    "allocation": 516,
+    "entry_bias": 28,
+    "sha256": "9e28e28b44a81bb061be734d0f7189768312cb265e47a11ec77eab2454573e91"
+  },
+  "defined_length": {
+    "offset": 0,
+    "width": 2,
+    "bias": 2
+  },
+  "explanation": "SUB ESP,204h then four saved registers. Local record starts saved-frameESP+14h. Two arguments+CALL add12bytes, so at intern_public entry record==ESP+20h. Relative to the SUB allocation record starts at4 and occupies512bytes. Copy initializes exactly the record length+2; type-index conversion touches only that prefix. Both raw512byte locals are retained; compare the complete length-defined prefix and no equality claim for untouched tail."
+}

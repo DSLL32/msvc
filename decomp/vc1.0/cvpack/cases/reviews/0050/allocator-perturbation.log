@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-native.py", line 259, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-native.py", line 253, in main
+    receipts.append(run_case(name,case_directory,args.debug))
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-native.py", line 216, in run_case
+    if expected['terminal']=='trap':assert entries and entries[-1]==expected['native_function'],entries
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ['main', 'parse_options', 'files_initialize', 'new_page', 'new_file_slot', 'open_file', 'find_cached_file', 'acquire_file_slot', 'move_file_slot', 'open_buffered_file', 'seek_buffered_file', 'allocate_file_page', 'attach_page', 'read_file_page', 'touch_page', 'initialize_type_tables', 'checked_zero', 'initialize_buffer', 'checked_alloc', 'read_image_debug', 'seek_file', 'read_file', 'read_buffered_file', 'tell_file', 'read_cv_signature', 'read_new_directory', 'compare_directory', 'initialize_modules', 'read_subsection', 'find_module', 'pack_module', 'read_module', 'read_publics', 'pack_public_symbols', 'convert_old_type', 'map_primitive', 'intern_public', 'hash_public', 'allocate_symbol', 'read_global_types', 'read_new_global_types', 'reset_local_types', 'import_type_server', 'type_server_open', 'type_server_open_file', 'type_server_read_records', 'type_server_fill_alloc']

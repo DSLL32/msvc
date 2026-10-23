@@ -12,8 +12,9 @@ typedef struct RuntimeRange {
 static RuntimeRange ranges[512];
 static unsigned range_count;
 static unsigned char original_bytes[65536];
+static unsigned char walk_bytes[524288];
 static unsigned char array_bytes[65536];
-static char object_line[131200];
+static char object_line[1048704];
 static DWORD watched_spawn, spawn_return;
 static unsigned char spawn_return_byte;
 
@@ -466,17 +467,43 @@ static int rearm_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
 static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *words)
 {
     char specifications[2048], *cursor;
-    DWORD address, slot, size, bytes, written, i;
+    DWORD address, slot, size, bytes, written, i, input;
     int consumed, used;
     if (!GetEnvironmentVariableA("CVPACK_CAPTURE_OUTPUTS", specifications, sizeof(specifications))) return 1;
     cursor = specifications;
     while (*cursor) {
-        if (sscanf(cursor, "%lx:%lu:%lu%n", &address, &slot, &size, &consumed) != 3) return 0;
+        if (sscanf(cursor, "%lx:%lu:%lu:%lu%n", &address, &slot, &size, &input, &consumed) != 4) return 0;
         if (address == entry) {
-            if (slot > 15 || !size || size > 1024 ||
+            if (input > 1 || slot > 15 || !size || size > 1024 ||
                 !ReadProcessMemory(child, (void *)words[slot], original_bytes, size, &bytes) || bytes != size) return 0;
-            used = sprintf(object_line, "output-buffer %08lx ", words[slot]);
+            used = sprintf(object_line, "%s-buffer %08lx ", input ? "input" : "output", words[slot]);
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
+            object_line[used++] = '\n';
+            if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+        }
+        cursor += consumed;
+        if (*cursor == ',') ++cursor;
+        else if (*cursor) return 0;
+    }
+    return 1;
+}
+
+static int dump_transient_children(HANDLE child, HANDLE log, DWORD entry, DWORD *words)
+{
+    char specifications[1024], *cursor;
+    unsigned char raw[12];
+    DWORD address, slot, offset, pointer, bytes, written, i;
+    int consumed, used;
+    if (!GetEnvironmentVariableA("CVPACK_CAPTURE_TRANSIENTS", specifications, sizeof(specifications))) return 1;
+    cursor = specifications;
+    while (*cursor) {
+        if (sscanf(cursor, "%lx:%lu:%lu%n", &address, &slot, &offset, &consumed) != 3) return 0;
+        if (address == entry) {
+            if (slot > 15 || offset > 112 ||
+                !ReadProcessMemory(child, (void *)(words[slot]+offset), &pointer, 4, &bytes) || bytes != 4 ||
+                !pointer || !ReadProcessMemory(child, (void *)pointer, raw, 12, &bytes) || bytes != 12) return 0;
+            used = sprintf(object_line, "transient-child %08lx %lu %08lx ", words[slot], offset, pointer);
+            for (i = 0; i < 12; ++i) used += sprintf(object_line+used, "%02x", raw[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
         }
@@ -499,7 +526,7 @@ static void dump_process_arguments(HANDLE child, HANDLE log)
 
 static int dump_walks(HANDLE child, HANDLE log)
 {
-    char specifications[4096], strings[1024], arrays[2048], *cursor, *field;
+    char specifications[4096], strings[1024], arrays[2048], arenas[512], *cursor, *field;
     unsigned char text[1024];
     const char *digits = "0123456789abcdef";
     DWORD root, size, next, limit, count_address, pointer, bytes, written, i, j, elements, count_size, count_limit, zero_allocation;
@@ -521,20 +548,41 @@ static int dump_walks(HANDLE child, HANDLE log)
             size *= elements;
         }
         if (!ReadProcessMemory(child, (void *)root, &pointer, 4, &bytes) || bytes != 4) return 0;
-        if ((!size && pointer && !zero_allocation) || zero_allocation > 1 || size > sizeof(original_bytes) || !limit || limit > 256) return 0;
+        if (GetEnvironmentVariableA("CVPACK_CAPTURE_ARENAS", arenas, sizeof(arenas))) {
+            DWORD arena_root, available_address, capacity, available;
+            field = arenas;
+            while (*field) {
+                if (sscanf(field, "%lx:%lx:%lu%n", &arena_root, &available_address,
+                    &capacity, &field_consumed) != 3) return 0;
+                if (root == arena_root) {
+                    if (capacity != 8100 || size != capacity ||
+                        !ReadProcessMemory(child, (void *)available_address, &available, 4, &bytes) ||
+                        bytes != 4 || available > capacity || (!pointer && available)) return 0;
+                    if (pointer) {
+                        if (pointer < capacity-available) return 0;
+                        pointer -= capacity-available;
+                    }
+                }
+                field += field_consumed;
+                if (*field == ',') ++field;
+                else if (*field) return 0;
+            }
+        }
+        if ((!size && pointer && !zero_allocation) || zero_allocation > 1 || size > sizeof(walk_bytes) || !limit || limit > 256) return 0;
         for (i = 0; pointer && i < limit; ++i) {
-            if (!ReadProcessMemory(child, (void *)pointer, original_bytes, size, &bytes) || bytes != size)
+            if (!ReadProcessMemory(child, (void *)pointer, walk_bytes, size, &bytes) || bytes != size)
                 return 0;
             used = sprintf(object_line, "node %08lx %lu %08lx ", root, i, pointer);
             for (j = 0; j < size; ++j) {
-                object_line[used++] = digits[original_bytes[j] >> 4];
-                object_line[used++] = digits[original_bytes[j] & 15];
+                object_line[used++] = digits[walk_bytes[j] >> 4];
+                object_line[used++] = digits[walk_bytes[j] & 15];
             }
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             if (sopen_start && size == 40 && (root == 0x38d18 || root == 0x38d1c)) {
                 DWORD flags;
-                memcpy(&flags, original_bytes+4, 4);
+                memcpy(&flags, walk_bytes+4, 4);
+                memcpy(original_bytes, walk_bytes, 40);
                 if (!(flags & 8) && !dump_file_descriptor(child, log, root, i)) return 0;
             }
             if (GetEnvironmentVariableA("CVPACK_CAPTURE_STRINGS", strings, sizeof(strings))) {
@@ -543,7 +591,7 @@ static int dump_walks(HANDLE child, HANDLE log)
                     if (sscanf(field, "%lx:%lu%n", &string_root, &offset, &field_consumed) != 2) return 0;
                     if (string_root == root) {
                         if (offset+4 > size) return 0;
-                        memcpy(&address, original_bytes+offset, 4);
+                        memcpy(&address, walk_bytes+offset, 4);
                         length = 0;
                         if (address) {
                             do {
@@ -572,12 +620,12 @@ static int dump_walks(HANDLE child, HANDLE log)
                         &flags_mask, &flags_value, &element_size, &field_consumed) != 9) return 0;
                     if (string_root == root) {
                         if (offset > size-4 || (count_offset != 0xffffffff && count_offset > size-4) || flags_offset > size-4 || shift > 31 || (element_size != 1 && element_size != 4)) return 0;
-                        memcpy(&flags, original_bytes+flags_offset, 4);
+                        memcpy(&flags, walk_bytes+flags_offset, 4);
                         if ((flags & flags_mask) == flags_value) {
-                            memcpy(&address, original_bytes+offset, 4);
+                            memcpy(&address, walk_bytes+offset, 4);
                             if (count_offset == 0xffffffff) length = maximum;
                             else {
-                                memcpy(&length, original_bytes+count_offset, 4);
+                                memcpy(&length, walk_bytes+count_offset, 4);
                                 length >>= shift;
                             }
                             if (length > maximum || length > sizeof(array_bytes)/element_size) return 0;
@@ -601,7 +649,7 @@ static int dump_walks(HANDLE child, HANDLE log)
             if (next == 0xffffffff) pointer = 0;
             else {
                 if (next+4 > size) return 0;
-                memcpy(&pointer, original_bytes+next, 4);
+                memcpy(&pointer, walk_bytes+next, 4);
             }
         }
         used = sprintf(object_line, "walk-end %08lx %lu %08lx\n", root, i, pointer);
@@ -779,6 +827,7 @@ int main(int argc, char **argv)
                     }
                 }
                 if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 15;
+                if (!dump_transient_children(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 21;
                 dump_process_arguments(child.hProcess, log);
                 dump_inspections(child.hProcess, log);
                 if (!dump_walks(child.hProcess, log)) return 13;

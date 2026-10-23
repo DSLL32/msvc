@@ -1,0 +1,11 @@
+{
+  "site": 176551,
+  "offset": 108,
+  "size": 116,
+  "native_line": 199,
+  "sources": {
+    "src/pdb.c": "e078adef8067c6cac898d8ecfe3c590fd6e9aaf4e9f6d15b0da4c3209be48e8b",
+    "src/pdb.h": "ae83b990fc54c36cbe8768a23536c57237184e41a0e87ddeba4fea9a8d09ff6d"
+  },
+  "scope": "Actual uninitialized allocation member read at CMP [ECX+108],0; ECX==caller arg1 and native same constructor-owned server. Observers retain addresses and values without initializing them. Matched concrete value is not a universal default; mismatch rejects. Raw bytes retained; published object comparison binds read to same allocation."
+}

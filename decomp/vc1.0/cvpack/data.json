@@ -119,8 +119,8 @@
     "source": "src/main.c"
   },
   {
-    "name": "line_data",
-    "symbol": "_line_data",
+    "name": "global_type_data",
+    "symbol": "_global_type_data",
     "original": 208996,
     "size": 4,
     "source": "src/main.c"
@@ -345,8 +345,8 @@
     "source": "src/types.c"
   },
   {
-    "name": "type_hash_extra_b",
-    "symbol": "_type_hash_extra_b",
+    "name": "public_symbol_hash",
+    "symbol": "_public_symbol_hash",
     "original": 225660,
     "size": 4,
     "source": "src/types.c"
@@ -422,10 +422,10 @@
     "source": "src/types.c"
   },
   {
-    "name": "debug_bytes_read",
+    "name": "cv_read_offset",
     "original": 209576,
     "size": 4,
-    "symbol": "_debug_bytes_read"
+    "symbol": "_cv_read_offset"
   },
   {
     "name": "optional_header_offset",
@@ -624,5 +624,281 @@
     "symbol": "_segment_names_size",
     "original": 227444,
     "size": 4
+  },
+  {
+    "name": "current_module_pe",
+    "symbol": "_current_module_pe",
+    "original": 210460,
+    "size": 1
+  },
+  {
+    "name": "module_type_base",
+    "symbol": "_module_type_base",
+    "original": 210448,
+    "size": 2
+  },
+  {
+    "name": "module_type_count",
+    "symbol": "_module_type_count",
+    "original": 210428,
+    "size": 2
+  },
+  {
+    "name": "module_symbol_count",
+    "symbol": "_module_symbol_count",
+    "original": 210456,
+    "size": 2
+  },
+  {
+    "name": "module_symbol_bytes",
+    "symbol": "_module_symbol_bytes",
+    "original": 210452,
+    "size": 4
+  },
+  {
+    "name": "module_line_count",
+    "symbol": "_module_line_count",
+    "original": 210464,
+    "size": 2
+  },
+  {
+    "name": "types_compacted",
+    "symbol": "_types_compacted",
+    "original": 225312,
+    "size": 4
+  },
+  {
+    "name": "type_signature",
+    "symbol": "_type_signature",
+    "original": 210396,
+    "size": 4
+  },
+  {
+    "name": "type_directory",
+    "symbol": "_type_directory",
+    "original": 211788,
+    "size": 4
+  },
+  {
+    "name": "symbol_directory",
+    "symbol": "_symbol_directory",
+    "original": 211784,
+    "size": 4
+  },
+  {
+    "name": "public_directory",
+    "symbol": "_public_directory",
+    "original": 211780,
+    "size": 4
+  },
+  {
+    "name": "line_directory",
+    "symbol": "_line_directory",
+    "original": 211776,
+    "size": 4
+  },
+  {
+    "name": "old_line_directory",
+    "symbol": "_old_line_directory",
+    "original": 211772,
+    "size": 4
+  },
+  {
+    "name": "current_precompiled",
+    "symbol": "_current_precompiled",
+    "original": 209568,
+    "size": 4
+  },
+  {
+    "name": "module_flags",
+    "symbol": "_module_flags",
+    "original": 209584,
+    "size": 2
+  },
+  {
+    "name": "current_module",
+    "symbol": "_current_module",
+    "original": 208976,
+    "size": 4
+  },
+  {
+    "name": "current_type_map",
+    "symbol": "_current_type_map",
+    "original": 208972,
+    "size": 4
+  },
+  {
+    "name": "module_record_buffer",
+    "symbol": "_module_record_buffer",
+    "original": 210096,
+    "size": 4
+  },
+  {
+    "name": "total_new_type_bytes",
+    "symbol": "_total_new_type_bytes",
+    "original": 225524,
+    "size": 4
+  },
+  {
+    "name": "total_public_bytes",
+    "symbol": "_total_public_bytes",
+    "original": 225528,
+    "size": 4
+  },
+  {
+    "name": "subsection_reads",
+    "symbol": "_subsection_reads",
+    "original": 225536,
+    "size": 2
+  },
+  {
+    "name": "public_symbol_bytes",
+    "symbol": "_public_symbol_bytes",
+    "original": 210412,
+    "size": 4
+  },
+  {
+    "name": "type_recursion_error",
+    "symbol": "_type_recursion_error",
+    "original": 225672,
+    "size": 4
+  },
+  {
+    "name": "legacy_special_types",
+    "symbol": "_legacy_special_types",
+    "original": 229920,
+    "size": 6
+  },
+  {
+    "name": "legacy_primitives",
+    "symbol": "_legacy_primitives",
+    "original": 229928,
+    "size": 256
+  },
+  {
+    "name": "public_symbols_count",
+    "symbol": "_public_symbols_count",
+    "original": 226212,
+    "size": 4
+  },
+  {
+    "name": "public_symbols_size",
+    "symbol": "_public_symbols_size",
+    "original": 226216,
+    "size": 4
+  },
+  {
+    "name": "duplicate_publics",
+    "symbol": "_duplicate_publics",
+    "original": 226220,
+    "size": 4
+  },
+  {
+    "name": "public_symbol_available",
+    "symbol": "_public_symbol_available",
+    "original": 226248,
+    "size": 4
+  },
+  {
+    "name": "public_symbol_cursor",
+    "symbol": "_public_symbol_cursor",
+    "original": 226252,
+    "size": 4
+  },
+  {
+    "name": "module_type_bytes",
+    "symbol": "_module_type_bytes",
+    "original": 210420,
+    "size": 4
+  },
+  {
+    "name": "module_types_indexed",
+    "symbol": "_module_types_indexed",
+    "original": 210424,
+    "size": 4
+  },
+  {
+    "name": "first_user_type",
+    "symbol": "_first_user_type",
+    "original": 210392,
+    "size": 2
+  },
+  {
+    "name": "local_type_count",
+    "symbol": "_local_type_count",
+    "original": 210400,
+    "size": 2
+  },
+  {
+    "name": "previous_type_count",
+    "symbol": "_previous_type_count",
+    "original": 226244,
+    "size": 2
+  },
+  {
+    "name": "local_type_records",
+    "symbol": "_local_type_records",
+    "original": 226236,
+    "size": 4
+  },
+  {
+    "name": "local_type_capacity",
+    "symbol": "_local_type_capacity",
+    "original": 226240,
+    "size": 2
+  },
+  {
+    "name": "total_local_type_bytes",
+    "symbol": "_total_local_type_bytes",
+    "original": 226232,
+    "size": 4
+  },
+  {
+    "name": "type_module_count",
+    "symbol": "_type_module_count",
+    "original": 211032,
+    "size": 2
+  },
+  {
+    "name": "current_type_server",
+    "symbol": "_current_type_server",
+    "original": 226256,
+    "size": 4
+  },
+  {
+    "name": "type_server_name",
+    "symbol": "_type_server_name",
+    "original": 211248,
+    "size": 512
+  },
+  {
+    "name": "previous_type_server_name",
+    "symbol": "_previous_type_server_name",
+    "original": 216736,
+    "size": 512
+  },
+  {
+    "name": "type_server_generation",
+    "symbol": "_type_server_generation",
+    "original": 217252,
+    "size": 2
+  },
+  {
+    "name": "cached_type_count",
+    "symbol": "_cached_type_count",
+    "original": 211764,
+    "size": 2
+  },
+  {
+    "name": "type_server_default_paths",
+    "symbol": "_type_server_default_paths",
+    "original": 227352,
+    "size": 3
+  },
+  {
+    "name": "empty_type_server_header",
+    "symbol": "_empty_type_server_header",
+    "original": 232868,
+    "size": 64
   }
 ]

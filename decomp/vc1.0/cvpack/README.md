@@ -8,12 +8,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Thirty-two application functions are accepted. The first orchestrator review passed;
-work is released toward the fifty-function review. The independent DLL case stops
-at the named `pack_module` stub. CRT startup has a
+empty stderr. Fifty application functions are accepted; reconstruction is paused for the second
+orchestrator review. The independent DLL case stops at the named
+`load_type_server_records` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and 89 rejection checks, including ownership, snapshots, conditional ABI words and
+roots, contextual initial data, library relocations, and targeted rejection checks, including ownership, snapshots, conditional ABI words and
 case-specific guarded CRT variants.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
@@ -41,7 +41,8 @@ Partial fixtures compare their frozen frontier; completed ones compare full
 streams/artifacts and projected entry traces. `/help` attempts a missing QH.EXE;
 its exact invocation and -1/errno2 response are frozen and brokered natively.
 
-`runtime-anchors.json` contains one reviewed identity-only `_freebuf` variant:
+`runtime-anchors.json` contains reviewed identity-only `_freebuf` and `_setvbuf`
+variants. For `_freebuf`,
 the original clears flag 0x8, while shipped LIBC clears 0x408. It resolves exact
 caller identities but is never an accepted/unmasked range or coverage gain. The
 mask-negative check verifies this even under the entire exact runtime closure.
@@ -110,3 +111,18 @@ allocations have source/callsite/size/lifetime identities and retain raw bytes.
 Only the reviewed pre-first-module lifetime treats their unwritten payloads as
 undefined; unknown consumers or defined writes require a new proof. A non-NULL
 zero-sized allocation has an empty payload and unique base identity.
+
+The fifty-function packet is in `cases/reviews/0050/`. Public/module/type parsing
+now reaches the linked PDB provider. Its embedded Windows filename is preserved;
+an owned frozen PDB is prepared in a private native Z: namespace. Fixtures never
+read LINK's scratch or execute LINK. The provider's real functions remain source
+functions and named stubs, separately from CRT support. Exact header/payload reads,
+requested allocation extents, initialized offset tables and typed pool links are
+compared. Undefined storage retains raw evidence and earns no equality credit.
+The original's uninitialized incremental flag is observed at its actual consumer;
+only matching concrete state is accepted. A perturbed native allocation follows
+the alternate named stub and the regression rejects it.
+
+The original capture/debug helper is under `scripts/debug-run.c`, outside the
+reconstructed source inventory. Cached CRT guard controls and rejection fixtures
+use owned evidence, with no dependency on historical scratch directories.

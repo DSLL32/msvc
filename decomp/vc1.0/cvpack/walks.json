@@ -190,7 +190,7 @@
     "pointer_array": true
   },
   {
-    "name": "type_hash_extra_b",
+    "name": "public_symbol_hash",
     "original": 225660,
     "size": 16384,
     "next": 4294967295,
@@ -395,7 +395,8 @@
     "count_native": "directory_entry_count",
     "count_original": 209564,
     "next": 4294967295,
-    "limit": 256
+    "limit": 256,
+    "resident_modules": true
   },
   {
     "name": "module_index",
@@ -445,7 +446,23 @@
     "next": 44,
     "limit": 256,
     "pointer_fields": [
+      12,
       44
+    ],
+    "arrays": [
+      {
+        "offset": 12,
+        "count_offset": 16,
+        "count_shift": 0,
+        "max_count": 65536,
+        "element_size": 1,
+        "pointers": false,
+        "when": {
+          "offset": 0,
+          "mask": 0,
+          "value": 0
+        }
+      }
     ]
   },
   {
@@ -510,5 +527,50 @@
         }
       }
     ]
+  },
+  {
+    "name": "public_symbol_cursor",
+    "original": 226252,
+    "size": 8100,
+    "next": 4294967295,
+    "limit": 1,
+    "public_arena": true,
+    "arena": {
+      "available_original": 226248,
+      "available_native": "public_symbol_available",
+      "capacity": 8100
+    }
+  },
+  {
+    "name": "local_type_records",
+    "original": 226236,
+    "size": 28,
+    "count_native": "local_type_capacity",
+    "count_original": 226240,
+    "count_size": 2,
+    "next": 4294967295,
+    "limit": 1,
+    "count_limit": 18000,
+    "pointer_stride": {
+      "start": 0,
+      "stride": 28
+    }
+  },
+  {
+    "name": "current_type_server",
+    "original": 226256,
+    "size": 116,
+    "next": 4294967295,
+    "limit": 1,
+    "pointer_fields": [
+      64,
+      68,
+      72,
+      76,
+      84,
+      88,
+      96
+    ],
+    "pdb_graph": true
   }
 ]

@@ -33,13 +33,22 @@ def run_case(name, directory, debug=False):
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
     from reads import validate as validate_reads
     read_sites=validate_reads(config,original)if name=='hello-debug-dll'else []
+    from inputs import namespace as input_namespace,relative as input_relative
+    from seams import approved as approved_seams
+    policies=[]
+    for seam in approved_seams(config,original,json.loads((BINARY/'runtime.json').read_text()),name):
+        if seam['guard']['mode']==0x8002:prepared=directory/'debug-work'/seam['guard']['name']
+        else:prepared=input_namespace(directory/'debug-work')/input_relative(dict(windows=seam['guard']['name']))
+        policies.append(dict(name=seam['guard']['name'],mode=seam['guard']['mode'],share=seam['guard']['share'],input=str(prepared),master=str(ROOT/seam['input']['path'])))
     canonical='Z:'+str(ROOT/config['target']['path']).replace('/','\\')
     script.write_text('set pagination off\nset confirm off\nset startup-with-shell on\n'
         'set disable-randomization off\nset args '+' '.join(map(shlex.quote,record['argv']))+'\n'
         'break main\nrun '+' '.join(map(shlex.quote,record['argv']))+' > '+shlex.quote(str(directory/'debug-stdout'))+' 2> '+shlex.quote(str(directory/'debug-stderr'))+'\n'
         'set argv[0] = recon_pgmptr\n'
-        +('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(str(ROOT/record['inputs'][0]['path']))+')\nend\n'if name=='hello-debug-dll'else '')+
+        +('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\n'if name=='hello-debug-dll'else '')+
         ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_read_observer"]('+repr(str(directory/'read-returns.json'))+','+repr(read_sites)+')\nend\n'if read_sites else '')+
+        ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_pdb_header_observer"]('+repr(str(directory/'pdb-read-returns.json'))+','+repr(str(BINARY/'cases/hello-debug-dll/input/msvc.pdb'))+','+repr(str(next((p['input']for p in policies if p['mode']==0x8000),'')))+')\nend\n'if name=='hello-debug-dll'else '')+
+        ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_pdb_consumed_observer"]('+repr(str(directory/'pdb-consumed.json'))+','+repr(str(BINARY/'src/pdb.c'))+','+str(next(i for i,line in enumerate((BINARY/'src/pdb.c').read_text().splitlines(),1)if line.strip()=='if (server->incremental) {'))+')\nend\n'if name=='hello-debug-dll'else '')+
         'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
@@ -48,15 +57,15 @@ def run_case(name, directory, debug=False):
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
         '  if kind==gdb.TYPE_CODE_PTR:\n'
         '   parameters[symbol.name]=dict(null=int(value)==0,address=int(value))\n'
-        '   if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.target().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
+        '   if int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.strip_typedefs().target().strip_typedefs().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
         '   for item in '+repr(data)+':\n'
         '    address=int(gdb.parse_and_eval("&"+item["name"]))\n'
         '    if address<=int(value)<address+item["size"]: parameters[symbol.name]["global"]=dict(name=item["name"],offset=int(value)-address)\n'
-        '   if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: parameters[symbol.name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
+        '   if int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: parameters[symbol.name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
         '  else: parameters[symbol.name]=int(value)\n'
         'frontier=next(r for r in '+repr(config['functions'])+' if r["native"]==current.name())\n'
         'for description in frontier.get("parameters",[]):\n'
-        ' if description["kind"]!="stack-output": continue\n'
+        ' if description["kind"]not in ("stack-output","stack-input"): continue\n'
         ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
         ' owner=current.older()\n'
         ' while owner and owner.name()!=proof["owner"]: owner=owner.older()\n'
@@ -66,6 +75,19 @@ def run_case(name, directory, debug=False):
         ' argument["local_address"]=address\n'
         ' argument["local"]=dict(owner=owner.name(),name=proof["local"],size=int(local.type.sizeof),offset=proof["offset"])\n'
         ' argument["prebytes"]=bytes(gdb.selected_inferior().read_memory(argument["address"],proof["size"])).hex()\n'
+        'for description in frontier.get("parameters",[]):\n'
+        ' if description["kind"]!="transient-pointer": continue\n'
+        ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
+        ' owner=current.older()\n'
+        ' while owner and owner.name()!="type_server_open": owner=owner.older()\n'
+        ' if not owner: raise RuntimeError("missing transient allocation owner")\n'
+        ' local=owner.read_var("server"); argument=parameters[description["name"]]\n'
+        ' if int(local)!=argument["address"] or local.type.target().sizeof!=proof["size"]: raise RuntimeError("wrong transient object identity")\n'
+        ' argument["owner_pointer"]=int(local);argument["owner"]=dict(function=owner.name(),local="server",size=int(local.type.target().sizeof))\n'
+        ' if proof.get("phase")=="header-read": argument["read_return"]=json.load(open('+repr(str(directory/'pdb-read-returns.json'))+'))[-1]\n'
+        ' raw=bytes(gdb.selected_inferior().read_memory(argument["address"],proof["size"]));argument["prebytes"]=raw.hex();argument["children"]={}\n'
+        ' for offset in proof["child_fields"]:\n'
+        '  address=int.from_bytes(raw[offset:offset+4],"little");argument["children"][str(offset)]=dict(address=address,bytes=bytes(gdb.selected_inferior().read_memory(address,12)).hex())\n'
         'frames=[]\nf=gdb.newest_frame()\n'
         'while f:\n frames.append(f.name()); f=f.older()\n'
         'f=gdb.newest_frame()\n'
@@ -86,7 +108,7 @@ def run_case(name, directory, debug=False):
         ' if item.get("kind")=="string-pointer-array": globals[name]=[value[i].string(encoding="latin1").encode("latin1").hex() for i in range(item["size"]//4)]\n'
         ' elif value.type.strip_typedefs().code==gdb.TYPE_CODE_PTR:\n'
         '  globals[name]=dict(null=int(value)==0,address=int(value))\n'
-        '  if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: globals[name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
+        '  if int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: globals[name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
         ' else: globals[name]=bytes(gdb.selected_inferior().read_memory(value.address,value.type.sizeof)).hex()\n'
         'walks={}\n'
         'for item in '+repr(walks)+':\n'
@@ -94,9 +116,16 @@ def run_case(name, directory, debug=False):
         ' count=int(gdb.parse_and_eval(item["count_native"])) if item.get("count_native") else 1\n'
         ' if count<0 or (item.get("count_native") and count>item.get("count_limit",item["limit"])): raise RuntimeError("unbounded object count")\n'
         ' size=item["size"]*count\n'
-        ' if size>65536 or (pointer and not size and not item.get("zero_allocation")): raise RuntimeError("invalid object extent")\n'
+        ' if size>524288 or (pointer and not size and not item.get("zero_allocation")): raise RuntimeError("invalid object extent")\n'
+        ' if item.get("arena"):\n'
+        '  available=int(gdb.parse_and_eval(item["arena"]["available_native"])); capacity=item["arena"]["capacity"]\n'
+        '  if not 0<=available<=capacity or (not pointer and available): raise RuntimeError("invalid public arena cursor")\n'
+        '  if pointer: pointer-=capacity-available\n'
         ' while pointer and len(nodes)<item["limit"]:\n'
         '  raw=bytes(gdb.selected_inferior().read_memory(pointer,size)) if size else b"";nodes.append(dict(address=pointer,bytes=raw.hex()))\n'
+        '  if item.get("pdb_graph"):\n'
+        '   import runpy\n'
+        '   nodes[-1]["objects"]=runpy.run_path('+repr(str(BINARY/'scripts/pdb_objects.py'))+')["capture"](pointer,lambda address,size:bytes(gdb.selected_inferior().read_memory(address,size)))\n'
         '  strings={}\n'
         '  for offset in item.get("string_fields",[]):\n'
         '   address=int.from_bytes(raw[offset:offset+4],"little");text=b""\n'
@@ -138,6 +167,8 @@ def run_case(name, directory, debug=False):
             env.pop(variable)
     env.update(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=canonical,PATH='',
                LIB='Z:'+str(ROOT/'toolchains/1.0-nt/lib').replace('/','\\'))
+    from inputs import environment as input_environment,verify as verify_inputs
+    input_environment(record,work,env)
     symbols=directory/'trace-filter'
     symbols.write_text(''.join(r['native']+'\n' for r in config['functions']))
     seen=directory/'trace-seen'
@@ -154,6 +185,7 @@ def run_case(name, directory, debug=False):
         child=subprocess.run([canonical,*record['argv']],executable=str(executable),cwd=work,env=env,
             stdout=out,stderr=err,stdin=subprocess.DEVNULL,timeout=10,
             pass_fds=(log.fileno(),processes.fileno()),preexec_fn=no_core)
+    verify_inputs(record,work)
     processes.close()
     processes.check()
     execution = time.perf_counter()-run
@@ -164,11 +196,13 @@ def run_case(name, directory, debug=False):
         # A debugger rerun starts from an independent copy of every input.
         debug_work=directory/'debug-work'
         prepare(record,debug_work)
+        input_environment(record,debug_work,env)
         debug_processes=Processes(name,debug_work,env,expected.get('spawn_requests',0))
         # GDB records frames/state; direct execution above owns fixture checks.
         debugger=subprocess.run(['/usr/bin/gdb','-q','-batch','-x',str(script),str(executable)],
             cwd=debug_work,env=env,stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30,pass_fds=(debug_processes.fileno(),))
+        verify_inputs(record,debug_work)
         debug_processes.close()
         debug_processes.check()
         (directory/'gdb.stdout').write_bytes(debugger.stdout)

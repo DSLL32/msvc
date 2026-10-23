@@ -1,0 +1,32 @@
+{
+  "size": 116,
+  "defined": [
+    [
+      64,
+      96
+    ],
+    [
+      100,
+      104
+    ]
+  ],
+  "child_fields": [
+    72,
+    84
+  ],
+  "child_size": 12,
+  "sources": {
+    "src/pdb.c": "e078adef8067c6cac898d8ecfe3c590fd6e9aaf4e9f6d15b0da4c3209be48e8b",
+    "src/pdb.h": "ae83b990fc54c36cbe8768a23536c57237184e41a0e87ddeba4fea9a8d09ff6d"
+  },
+  "instructions": [
+    {
+      "start": 178536,
+      "end": 178745,
+      "sha256": "d47034f217a541a1ed0ec3cd66536387222ce46e04c8103f301c16d6f4e6e87d"
+    }
+  ],
+  "lifetime": "malloc116 plus two malloc12 results, initialized by type_server_open before call2ba34/return2ba39; original ESI is parent; native typed constructor localserver equals callee parameter. No global publication yet.",
+  "scope": "Only reached successful three-allocation constructor boundary. All raw bytes retained; parent0..63,96..99,104..115 remain undefined and uncredited. Two separately allocated12-byte children fully initialized with explicit cursor==child+12 identity. Future consumers need actual defining writes.",
+  "review": "Root approved narrow transient typed allocation proof at function46; no broader uninitialized-byte or runtime waiver."
+}

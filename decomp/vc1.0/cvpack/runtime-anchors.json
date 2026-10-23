@@ -9,7 +9,19 @@
       "classification": "reviewed-variant-identity-only",
       "accepted": false,
       "unmask": false,
-      "evidence": "cases/runtime-variants/freebuf.json"
+      "evidence": "cases/runtime-variants/freebuf.json",
+      "evidence_sha256": "fa92d106bcd1c61074c8a2881ab00506f9bfe20b7c6aa99ffb31688b44cc66db"
+    },
+    {
+      "name": "_setvbuf",
+      "start": 196160,
+      "end": 196351,
+      "bytes_sha256": "5d445fb1eed8f3da19e4bc83b37283288fdb6accc30a4f4a59074fa1609d9dce",
+      "classification": "reviewed-variant-identity-only",
+      "accepted": false,
+      "unmask": false,
+      "evidence": "cases/runtime-variants/setvbuf.json",
+      "evidence_sha256": "ebe5bdc92257a287c5a8f48087bf48c3789a26194ba0cf2e29d6e838bd92bd86"
     }
   ]
 }

@@ -2,22 +2,25 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "pack_module"
+    "load_type_server_records"
   ],
   "allowed_case": "hello-debug-dll",
-  "first_module_only": true,
+  "first_module_only": false,
   "sources": {
-    "src/cvpack.h": "8d32c4adeff249e1049c4815a8b18a4ada71428481ba852d72894de780e11871",
+    "src/cvpack.h": "e0478763deb6fc09929433ce520bfd4a74cc908344a60526205e1713d82c9691",
     "src/diagnostics.c": "88717de8be9d57afadd1a66cef24e4346c1d03dbc40c8fe349928b5606847a45",
     "src/files.c": "bceafc3238f58167a1e6a552d487109271ec87b63c8e821137e13ab151297040",
     "src/files.h": "1c211716783eecc72ac0a500633e0e9125f03624240950a3af91b1d23d481c75",
-    "src/image.c": "936c68afa521642fde3f8c4e0274dfd9efe95f80a29b257f926d06b4f657f976",
-    "src/image.h": "1358bc82da3dd9d61c0ed4785bb97871ab9b0f7b85dde6843d0246ef86bc2c0a",
-    "src/main.c": "164b86c493deed3daa32a167374640dd3310a689cc1f2b5701c5928aa9e0c06c",
+    "src/image.c": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
+    "src/image.h": "8d6612c22ac7c5896e4dcdf2b8c2923060819a2db43592f1a7dccf0b0c902519",
+    "src/main.c": "00c081d082c9e938f6f0aed5370001a20973247944e028754a446f0b8de350cc",
+    "src/modules.c": "ad28d7fb9548e4a4ce3ecbf8c04da13a4d9a6cb9992f1ffcba219afeae2dacdb",
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
-    "src/stubs.c": "671763bf03575c132a99d74b420d23dbf92143a8855b6da11e012c52538c9846",
-    "src/types.c": "7eb5194d3c0a8d0c0e06bc0fc0da315b0097402e4e3fd6d50d466c7557111695",
-    "src/types.h": "a049ac36962c54e6d9089b3f0d13a3decfa99c9f1bce340f26604ce2fc0a9bef"
+    "src/pdb.c": "e078adef8067c6cac898d8ecfe3c590fd6e9aaf4e9f6d15b0da4c3209be48e8b",
+    "src/pdb.h": "ae83b990fc54c36cbe8768a23536c57237184e41a0e87ddeba4fea9a8d09ff6d",
+    "src/stubs.c": "deaf14e97834f1f839d552858c149b981e43ba00b09d6b36ea34789fab0da552",
+    "src/types.c": "48dd4f8a042281ae28875cd33b8acfbb72524f5ac17ae6a41bf09136b736b771",
+    "src/types.h": "09e388b03e3762bd414042292f37912ea8a0752f823f20826346049e0d7454bb"
   },
   "allocations": [
     {
@@ -31,7 +34,16 @@
       "notes": "Malloc result stored at33060; no writes before initial pack_module entry.",
       "lifetime": "creation-through-first-module-entry",
       "defined_ranges": [],
-      "size_global": "symbol_capacity"
+      "size_global": "symbol_capacity",
+      "allowed_write_sites": [
+        97897
+      ],
+      "required_defined": [
+        [
+          0,
+          4
+        ]
+      ]
     },
     {
       "name": "type_data",
@@ -71,8 +83,27 @@
       "lifetime": "creation-through-first-module-entry",
       "defined_ranges": [],
       "size_global": "global_symbol_size",
-      "maximum": 65512
+      "maximum": 65512,
+      "allowed_write_sites": [
+        97203,
+        106172
+      ],
+      "required_defined": [
+        [
+          0,
+          72
+        ]
+      ]
     }
   ],
-  "policy": "Reviewed source/original creation blocks are reached after module-table initialization and before the first pack_module entry. No intervening application write, read or free of these scratch payloads occurs. Retain all raw payload bytes but grant no equality credit for undefined bytes. The checked-zero pointer array remains fully compared; global_symbol_block0 is the currentindex0 allocation. Any different source, creation block, requestedextent, case, firstmoduleargument or frontier fails until separately reviewed. Zero-sized malloc returns retain NULL/nonNULL/base identity with an empty readable extent."
+  "policy": "Reviewed source/original creation blocks are reached after module-table initialization and before the first pack_module entry. No intervening application write, read or free of these scratch payloads occurs. Retain all raw payload bytes but grant no equality credit for undefined bytes. The checked-zero pointer array remains fully compared; global_symbol_block0 is the currentindex0 allocation. Any different source, creation block, requestedextent, case, firstmoduleargument or frontier fails until separately reviewed. Zero-sized malloc returns retain NULL/nonNULL/base identity with an empty readable extent. Reached prefix pack_module176f0..177eb only initializes scalar dispatch state and selects module_index[0]; read_module entry precedes all scratchpayload access. First read_module only fills its own newly allocated module record and attaches it to module_info+directory entry; symbol/type/module/global scratch payloads remain untouched before first read_publics. Public-symbol scratch bytes become defined only by the matched completed read at17e69. Before pack_module compares its DWORD at17999..179a3, the observed write must coverbytes0..4. Unknown write sites or unmatched allocation-relative pointers fail. First pack_public_symbols copies the fully-defined32-byte record to its local array; its firsttype conversion precedes any scratch write. Required symbol headerbytes remain defined by read_publics.",
+  "first_module_mode": "explicit_module_index",
+  "allowed_module_boundaries": [
+    {
+      "frontier": "load_type_server_records",
+      "index": 2,
+      "module": 3
+    }
+  ],
+  "lifetime_note": "Creation through explicitly listed reached ModuleIndex/current_module boundary, with defined ranges derived from each complete read. This does not authorize arbitrary later consumers."
 }

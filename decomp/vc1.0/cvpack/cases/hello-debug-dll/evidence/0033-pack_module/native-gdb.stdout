@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x5ec7: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xfffc4854, environment=0xfffc4868) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56587805 in read_module (entry=0x56cf5b70, module=0x56cf6b50) at src/stubs.c:37
+37	void read_module(const CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
