@@ -1,0 +1,212 @@
+{
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+    "base": 272629760,
+    "entry": 189382
+  },
+  "accepted": [
+    "__DllMainCRTStartup@12",
+    "__CRT_INIT@12",
+    "import:_initterm",
+    "_DllMain@12"
+  ],
+  "driver": [
+    {
+      "name": "_DllMain@12",
+      "start": 272819498,
+      "end": 272819533
+    }
+  ],
+  "status": "first lifecycle-and-exports case complete; paused; compiler exports remain trapping stubs",
+  "acceptances": [
+    {
+      "name": "__DllMainCRTStartup@12",
+      "classification": "target CRT support source",
+      "source": "src/startup.c",
+      "source_sha256": "b78eec524466a303dc418f5186f14925da6879d6a270db7fb33e9982d0e3b3c7",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-crt-entry-trial-4",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-crt-entry-native-4",
+      "original_receipt_sha256": "83e740661b58801a736a9b2e140f73b8c6d3c95d1229ce041eb51107b7978af8",
+      "native_receipt_sha256": "54af02c644048e720e1785766832eaf66ee4032bb1da31fad1a52cc5a5073056",
+      "trial_sha256": "a9ae3e2424030bf69f77fc5ab65575a0fd65de2f6d31b9bc5696fef40e5a5023",
+      "audit_sha256": "ea7833c89f1dac91dab5ec6ac9c58f944c3b9299ef3a09094221395f2b527e15",
+      "code_chunks": [
+        [
+          189382,
+          189546
+        ],
+        [
+          437427,
+          437487
+        ]
+      ],
+      "comparison": {
+        "trial": "__DllMainCRTStartup@12",
+        "frontier": "__CRT_INIT@12",
+        "raw_frontier_rva": 189546,
+        "typed_state": {
+          "process_attached": 0,
+          "raw_dll_entry": 0
+        },
+        "whole_mask_bytes_checked": 751216,
+        "audit_checked": true,
+        "durably_accepted": 0,
+        "promotion_requires_parent_review": true
+      }
+    },
+    {
+      "name": "__CRT_INIT@12",
+      "classification": "target CRT support source",
+      "source": "src/startup.c",
+      "source_sha256": "1fbab5dc6f07a832fade8cfd1d5ce722d462d80144e73876523df55c5ed76155",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-crt-init-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-crt-init-native-2",
+      "original_receipt_sha256": "59fc1d2137ac34c901f49642b76ba8848113f7587c4e38c8f41c3bf110f3880a",
+      "native_receipt_sha256": "d8fd4d0edbd7133fa78d7f45ea26ecc1d137ceff080e388413af1512f4fffb53",
+      "trial_sha256": "23b70e983ad25ab708c1a169b711c4e73a51ddee9bf6095d83f05f555d4b49ea",
+      "audit_sha256": "6abe6a682aedd6a64265375f9cf4b4fd2400b980f3535426bf08fca73c13bea2",
+      "code_chunks": [
+        [
+          189546,
+          189738
+        ],
+        [
+          437487,
+          437522
+        ]
+      ],
+      "comparison": {
+        "trial": "__CRT_INIT@12",
+        "frontier": "import:_initterm",
+        "raw_frontier_rva": 230606,
+        "typed_state": {
+          "attach_count": 0,
+          "raw_callback": "NULL",
+          "onexit_allocation_bytes": 128,
+          "initialized_heap_bytes_compared": 4,
+          "onexit_first": 0,
+          "onexit_end": "allocation+0",
+          "initializer_slots": [
+            null
+          ],
+          "exclusive_end": "table+4",
+          "adjust_fdiv": 0,
+          "last_error": 203
+        },
+        "whole_mask_bytes_checked": 751216,
+        "original_reused": true,
+        "original_trial_sha256": "23b70e983ad25ab708c1a169b711c4e73a51ddee9bf6095d83f05f555d4b49ea",
+        "current_trial_sha256": "71b1b5100d444820aecf1ec445ee8aebc39d6fddcc4f1c93bb6b57496dc1a39b",
+        "audit_checked": true,
+        "durably_accepted": 1
+      }
+    },
+    {
+      "name": "import:_initterm",
+      "classification": "linker-generated import thunk; ordinary external declaration",
+      "source": "src/c1xx.h",
+      "source_sha256": "62495df89981e3fe21aaf561a3172f3853ab418e8df4e023dd4ab6503e802c74",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-import-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-import-native-2",
+      "original_receipt_sha256": "720dfe7b9798e61116fc88a78d1a03b481416cc5ac7d9f65e4bb8f633b26fcc3",
+      "native_receipt_sha256": "f4baaaf4271e4f8761a1717fc48b49cb74837fde0717674932b19f463f757ec2",
+      "trial_sha256": "2961bac7095526cea52978c605b66ef486aef7fdc48a91c3c8098e8edcfdc288",
+      "audit_sha256": "655f69f7ad4c043f41498f64505fbcd60cb1a536b763a9d8a29e895b7a6282f4",
+      "code_chunks": [
+        [
+          230606,
+          230612
+        ]
+      ],
+      "comparison": {
+        "trial": "import:_initterm",
+        "frontier": "_DllMain@12",
+        "raw_frontier_rva": 189738,
+        "classification": "genuine linker-generated import support",
+        "typed_state": {
+          "attach_count": 1,
+          "raw_callback": null,
+          "onexit": "allocated empty 128-byte table",
+          "initializer_words": [
+            0,
+            0
+          ],
+          "adjust_fdiv": 0,
+          "last_error": 203,
+          "control_word": 639
+        },
+        "whole_mask_bytes_checked": 751216,
+        "audit_checked": true,
+        "original_reused": true
+      }
+    },
+    {
+      "name": "_DllMain@12",
+      "classification": "application source",
+      "source": "src/dllmain.c",
+      "source_sha256": "ff49354f45b57ba3cf19607f382c8c0d28b4d98baad2d219249909afb8bb3afb",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-complete-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-complete-native-2",
+      "original_receipt_sha256": "28364db3f4dca1348c2b2fde53de0b204ee63bc7db3aa8b860ccec50e331c652",
+      "native_receipt_sha256": "5ce31e1594efc530a29c8237224b99f805c5fcabba9bab1971ba6b3b72c71119",
+      "trial_sha256": "a7422ded1401546ba18093937104795d67f870994cbf8483809ebc386cfeafa9",
+      "audit_sha256": "aee9cf8bbb32a5298e929ccbdf37a895d29fc1287cf2fbea59f6db4f73407853",
+      "code_chunks": [
+        [
+          189738,
+          189773
+        ]
+      ],
+      "comparison": {
+        "trial": "_DllMain@12",
+        "frontier": "completed lifecycle",
+        "completion": true,
+        "typed_state": {
+          "returns": [
+            1,
+            1
+          ],
+          "attach_count": [
+            1,
+            0
+          ],
+          "module": "registered DLL",
+          "onexit": [
+            "allocated empty 128-byte table",
+            "begin NULL; end retains freed allocation identity"
+          ],
+          "initializer_words": [
+            0,
+            0
+          ],
+          "raw_callback": null,
+          "adjust_fdiv": 0,
+          "last_error": 203,
+          "x87_abstract_control": 589855,
+          "thread_calls_disabled": true
+        },
+        "application_trace": [
+          "DllMain"
+        ],
+        "whole_mask_bytes_checked": 751216,
+        "audit_checked": true,
+        "original_reused": true,
+        "original_seconds": 0.6663388386368752,
+        "native_seconds": 0.002153516747057438
+      }
+    }
+  ],
+  "imports": [
+    {
+      "name": "import:_initterm",
+      "start": 272860366,
+      "end": 272860372,
+      "provider": {
+        "dll": "MSVCRT.dll",
+        "name": "_initterm"
+      },
+      "classification": "linker-generated import thunk"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "__DllMainCRTStartup@12",
+    "start": 272819142,
+    "end": 272819306,
+    "pending_extent": false,
+    "evidence": {
+      "kind": "manually reconstructed target CRT vertex",
+      "analysis": "Original crtdll.obj role plus direct hot/cold continuation edges; not an exact library-byte match"
+    },
+    "code_chunks": [
+      [
+        273067187,
+        273067247
+      ]
+    ]
+  },
+  {
+    "name": "__CRT_INIT@12",
+    "start": 272819306,
+    "end": 272819498,
+    "pending_extent": false,
+    "evidence": {
+      "kind": "manually reconstructed target CRT vertex",
+      "analysis": "Original crtdll.obj role plus direct hot/cold continuation edges; not an exact library-byte match"
+    },
+    "code_chunks": [
+      [
+        273067247,
+        273067282
+      ]
+    ]
+  },
+  {
+    "name": "__initterm",
+    "start": 272860366,
+    "end": 272860372,
+    "evidence": {
+      "kind": "local-import-thunk"
+    }
+  }
+]

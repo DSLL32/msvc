@@ -58,8 +58,8 @@ def inventory(path):
                         "ordinal": ordinal_base + index,
                         "rva": u32(functions + index * 4)})
     imports = []
-    desc = fileoff(directories[1][0])
-    while any(data[desc:desc + 20]):
+    desc = fileoff(directories[1][0]) if directories[1][0] else None
+    while desc is not None and any(data[desc:desc + 20]):
         ilt, iat = u32(desc), u32(desc + 16)
         slots = []
         cursor = fileoff(ilt or iat)
@@ -75,7 +75,7 @@ def inventory(path):
         imports.append({"dll": string(u32(desc + 12)), "symbols": slots})
         desc += 20
     return {
-        "schema": 1, "target": str(path.relative_to(ROOT)),
+        "schema": 1, "target": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path),
         "sha256": hashlib.sha256(data).hexdigest(), "size": len(data),
         "machine": "i386", "image_base": base,
         "entry_rva": u32(opt + 16), "image_size": u32(opt + 56),

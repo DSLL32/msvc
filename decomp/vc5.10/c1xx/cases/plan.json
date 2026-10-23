@@ -3,8 +3,21 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "groundwork-only; reconstruction not authorized",
+  "state": "First lifecycle/export-presence case complete and verified; paused before C++ compilation",
   "cases": [
+    {
+      "id": "dll-lifecycle-and-exports",
+      "kind": "dll-lifecycle-host",
+      "status": "complete; one application function, two target CRT functions, one genuine import thunk",
+      "sequence": [
+        "CRT process attach",
+        "Resolve _AbortCompilerPass@4 ordinal1 and _InvokeCompilerPass@12 ordinal2 without invoking",
+        "CRT process detach"
+      ],
+      "exports_invoked": false,
+      "reference": "lifecycle/reference.json",
+      "validation": "lifecycle/validation.json"
+    },
     {
       "id": "minimal",
       "source": "cases/sources/minimal.cpp",
@@ -96,9 +109,8 @@
     }
   ],
   "release_gates": [
-    "Agree on DLL loader/init/export/cleanup and native harness workflow",
-    "Rust graph-audit tool available and approved for integration",
-    "Explicit orchestrator release before function reconstruction"
+    "Scaffold and first CRT promotion reviewed and approved by orchestrator",
+    "First case complete: paused; second case requires explicit release"
   ],
   "oracle_policy": "Seed source/themes only. Capture vc5.10 inputs, raw streams, output and traces explicitly; never reuse vc1.0 IR, traces, addresses or expected artifacts."
 }

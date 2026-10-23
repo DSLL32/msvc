@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Explicit original-only DLL capture; never imported by native fixtures."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import struct
+import subprocess
+import time
+
+from inventory import ROOT, TARGET, inventory
+from importlib.util import module_from_spec, spec_from_file_location
+
+spec = spec_from_file_location("original_build_transport", Path(__file__).with_name("wine-tool.py"))
+transport = module_from_spec(spec)
+spec.loader.exec_module(transport)
+PROJECT = Path(__file__).resolve().parents[1]
+SCRATCH = Path.home() / ".ai-tmp/msvc2/vc5.10/c1xx"
+CRT = ROOT / "toolchains/5.10/bin/MSVCRT.DLL"
+CRT_HASH = "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def preflight():
+    current = inventory(TARGET)
+    if current != json.loads((PROJECT / "cases/pe-inventory.json").read_text()):
+        raise ValueError("target changed")
+    if sha(CRT) != CRT_HASH or CRT.stat().st_size != 277776:
+        raise ValueError("canonical MSVCRT changed")
+    if current["tls_directory"]["rva"]:
+        raise ValueError("unexpected TLS prerequisite")
+    data = TARGET.read_bytes()
+    pe = struct.unpack_from("<I", data, 0x3c)[0]
+    opt = pe + 24
+    relocation, length = struct.unpack_from("<II", data, opt + 96 + 5 * 8)
+
+    def raw(rva):
+        for section in current["sections"]:
+            delta = rva - section["rva"]
+            if 0 <= delta < section["raw_size"]:
+                return section["raw_offset"] + delta
+        raise ValueError("unbacked relocation RVA")
+
+    at, end = raw(relocation), raw(relocation) + length
+    sites = 0
+    while at < end:
+        page, size = struct.unpack_from("<II", data, at)
+        if size < 8 or size % 2 or at + size > end:
+            raise ValueError("invalid relocation block")
+        for word in struct.unpack_from("<%dH" % ((size - 8) // 2), data, at + 8):
+            kind, offset = word >> 12, word & 0xfff
+            if not kind:
+                continue
+            if kind != 3:
+                raise ValueError("unsupported relocation type")
+            site = page + offset
+            if site <= current["entry_rva"] < site + 4:
+                raise ValueError("entry guard overlaps a relocation")
+            sites += 1
+        at += size
+    if data[raw(current["entry_rva"])] != 0x53:
+        raise ValueError("entry guard changed")
+    # Check locally supplied direct providers for a static cycle back to this
+    # target. System loader modules are independently visible in debug events.
+    local_files = {p.name.lower(): p for p in CRT.parent.iterdir() if p.is_file()}
+    for item in current["imports"]:
+        provider = local_files.get(item["dll"].lower())
+        if provider:
+            if any(x["dll"].lower() in ("c1xx.dll", "c1n32_l.dll")
+                   for x in inventory(provider)["imports"]):
+                raise ValueError("static provider import cycle into target")
+    return {"entry_byte": 0x53, "entry_relocation_overlap": False,
+            "relocation_sites": sites, "tls_directory": current["tls_directory"],
+            "direct_local_import_cycle_into_target": False}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("mode", choices=("baseline", "masked"))
+    parser.add_argument("--name", required=True)
+    parser.add_argument("--timeout", type=float, default=90)
+    args = parser.parse_args()
+    if not args.name.replace("-", "").replace("_", "").isalnum():
+        raise ValueError("invalid fresh capture name")
+    checks = preflight()
+    native = PROJECT / "build/native/c1xx-host"
+    native_sha = sha(native) if native.is_file() else None
+    if args.mode == "masked" and native_sha is None:
+        raise ValueError("masked comparison needs the current native executable")
+    output = SCRATCH / args.name
+    output.mkdir(parents=True, exist_ok=False)
+    trial_path = PROJECT / "build/trial.json"
+    if not trial_path.is_file():
+        raise ValueError("prepare the exact whole-function trial before capture")
+    trial = json.loads(trial_path.read_text())
+    snapshot = [PROJECT / "cases/lifecycle/candidate.json", PROJECT / "functions.json",
+                PROJECT / "runtime.json", PROJECT / "graph-metadata.json",
+                PROJECT / "build/c1n32_l.dll", PROJECT / "build/c1xx.map",
+                PROJECT / "build/runtime.json", trial_path]
+    inputs = {}
+    for path in snapshot:
+        item = str(path.relative_to(PROJECT))
+        destination = output / ("rebuilt-runtime.json" if item == "build/runtime.json" else path.name)
+        shutil.copy2(path, destination)
+        inputs[item] = sha(path)
+    candidate = json.loads((output / "candidate.json").read_text())
+    if candidate["target_sha256"] != sha(TARGET):
+        raise ValueError("candidate target identity differs")
+    if trial["candidate_sha256"] != sha(output / "candidate.json") or trial["ranges"] != candidate["ranges"]:
+        raise ValueError("mask trial differs from frozen candidate")
+    for item, digest in trial["bound_inputs"].items():
+        if sha(PROJECT / item) != digest:
+            raise ValueError("trial bound input changed " + item)
+    (output / "ranges.txt").write_text("".join(
+        "%x %x %d\n" % (row["start_rva"], row["end_rva"], row["entry"])
+        for row in trial["ranges"]))
+    shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
+    shutil.copy2(CRT, output / "MSVCRT.DLL")
+    command = ["wine", transport.windows(output / "dll-capture.exe"), "--debug",
+               transport.windows(TARGET), transport.windows(CRT), args.mode, "ranges.txt"]
+    started = time.perf_counter()
+    with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
+        result = subprocess.run(command, cwd=output, env=transport.environment(),
+                                stdout=stdout, stderr=stderr, timeout=args.timeout)
+    elapsed = time.perf_counter() - started
+    for item, digest in inputs.items():
+        if sha(PROJECT / item) != digest:
+            raise ValueError("configuration/build changed during original capture")
+    if native_sha is not None and sha(native) != native_sha:
+        raise ValueError("native executable changed during original capture")
+    loaded, loaded_crt = output / "loaded-target.bin", output / "loaded-msvcrt.bin"
+    if loaded.exists() and sha(loaded) != sha(TARGET):
+        raise ValueError("actual loaded target file differs")
+    if loaded_crt.exists() and sha(loaded_crt) != CRT_HASH:
+        raise ValueError("actual loaded MSVCRT file differs")
+    receipt = {"schema": 1, "kind": "explicit-original-capture", "mode": args.mode,
+               "command": command, "exit": result.returncode, "seconds": elapsed,
+               "preflight": checks, "target_sha256": sha(TARGET),
+               "canonical_crt_sha256": CRT_HASH, "snapshot_inputs": inputs,
+               "helper_sha256": sha(output / "dll-capture.exe"),
+               "artifacts": {p.name: {"sha256": sha(p), "size": p.stat().st_size}
+                             for p in sorted(output.iterdir()) if p.is_file()}}
+    if native_sha is not None:
+        receipt["native_sha256"] = native_sha
+    (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    print(json.dumps({"output": str(output), "exit": result.returncode, "seconds": elapsed}))
+    return 0 if result.returncode in (0, 125) else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

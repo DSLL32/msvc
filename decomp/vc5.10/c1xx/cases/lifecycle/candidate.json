@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "case": "dll-lifecycle-and-exports",
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "accepted": [
+    "__DllMainCRTStartup@12",
+    "__CRT_INIT@12",
+    "import:_initterm",
+    "_DllMain@12"
+  ],
+  "trial": null,
+  "ranges": [
+    {
+      "owner": "__DllMainCRTStartup@12",
+      "start_rva": 189382,
+      "end_rva": 189546,
+      "entry": 1
+    },
+    {
+      "owner": "__DllMainCRTStartup@12",
+      "start_rva": 437427,
+      "end_rva": 437487,
+      "entry": 0
+    },
+    {
+      "owner": "__CRT_INIT@12",
+      "start_rva": 189546,
+      "end_rva": 189738,
+      "entry": 1
+    },
+    {
+      "owner": "__CRT_INIT@12",
+      "start_rva": 437487,
+      "end_rva": 437522,
+      "entry": 0
+    },
+    {
+      "owner": "import:_initterm",
+      "start_rva": 230606,
+      "end_rva": 230612,
+      "entry": 1
+    },
+    {
+      "owner": "_DllMain@12",
+      "start_rva": 189738,
+      "end_rva": 189773,
+      "entry": 1
+    }
+  ],
+  "stage": "completed lifecycle/export-presence; paused before second case",
+  "expected_initial_frontier": {
+    "module_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+    "rva": 189382,
+    "native_symbol": "_DllMainCRTStartup"
+  }
+}

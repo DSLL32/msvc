@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+"""Freeze one whole-function trial for both masking and the common Rust audit."""
+import hashlib
+import json
+from pathlib import Path
+import re
+
+from inventory import ROOT, TARGET, inventory
+
+PROJECT = Path(__file__).resolve().parents[1]
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def prepare():
+    cfg = json.loads((PROJECT / "functions.json").read_text())
+    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    runtime = json.loads((PROJECT / "runtime.json").read_text())
+    if candidate["accepted"] != cfg["accepted"]:
+        raise ValueError("candidate accepted prefix differs from durable configuration")
+    indexes = {record["name"]: record for record in cfg["driver"] + runtime + cfg.get("imports", [])}
+    trial_name = candidate["trial"]
+    if trial_name is not None and (trial_name not in indexes or trial_name in cfg["accepted"]):
+        raise ValueError("trial is not exactly one new identified target function")
+    accepted = list(cfg["accepted"]) + ([trial_name] if trial_name else [])
+    base = cfg["target"]["base"]
+    expected = []
+    for name in accepted:
+        record = indexes[name]
+        for n, (first, last) in enumerate([(record["start"], record["end"])] +
+                                          [tuple(pair) for pair in record.get("code_chunks", [])]):
+            expected.append({"owner": name, "start_rva": first - base,
+                             "end_rva": last - base, "entry": int(n == 0)})
+    if candidate["ranges"] != expected:
+        raise ValueError("mask ranges do not equal whole accepted/trial bodies")
+    image = inventory(TARGET)
+    if cfg["target"]["sha256"] != image["sha256"] or candidate["target_sha256"] != image["sha256"]:
+        raise ValueError("trial target identity differs")
+    ordered = sorted(expected, key=lambda item: item["start_rva"])
+    for n, item in enumerate(ordered):
+        if item["start_rva"] >= item["end_rva"] or not any(
+                section["characteristics"] & 0x20 and section["rva"] <= item["start_rva"] and
+                item["end_rva"] <= section["rva"] + min(section["virtual_size"], section["raw_size"])
+                for section in image["sections"]):
+            raise ValueError("trial range outside file-backed code")
+        if n and ordered[n - 1]["end_rva"] > item["start_rva"]:
+            raise ValueError("overlapping restored instruction ownership")
+    rebuilt = inventory(PROJECT / "build/c1n32_l.dll")
+    publics = {}
+    pattern = re.compile(r"^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})")
+    for line in (PROJECT / "build/c1xx.map").read_text().splitlines():
+        match = pattern.match(line)
+        if match:
+            publics[match[1]] = int(match[2], 16)
+    ends = sorted(set(publics.values()) | {
+        rebuilt["image_base"] + section["rva"] + section["virtual_size"]
+        for section in rebuilt["sections"] if section["characteristics"] & 0x20})
+    rebuilt_runtime = []
+    for record in runtime:
+        if record["name"] not in publics:
+            continue
+        start = publics[record["name"]]
+        rebuilt_runtime.append({"name": record["name"], "start": start,
+                                "end": next(value for value in ends if value > start),
+                                "evidence": record.get("evidence")})
+    runtime_path = PROJECT / "build/runtime.json"
+    runtime_path.write_text(json.dumps(rebuilt_runtime, indent=2) + "\n")
+    trial = dict(cfg)
+    trial["accepted"] = accepted
+    trial["trial"] = trial_name
+    trial["ranges"] = expected
+    trial["case"] = candidate["case"]
+    trial["candidate_sha256"] = sha(PROJECT / "cases/lifecycle/candidate.json")
+    trial["bound_inputs"] = {item: sha(PROJECT / item) for item in (
+        "functions.json", "runtime.json", "graph-metadata.json", "build/runtime.json",
+        "build/c1n32_l.dll", "build/c1xx.map", "build/native/c1xx-host")}
+    path = PROJECT / "build/trial.json"
+    path.write_text(json.dumps(trial, indent=2) + "\n")
+    return trial
+
+
+if __name__ == "__main__":
+    trial = prepare()
+    print(json.dumps({"trial": trial["trial"], "restored_ranges": len(trial["ranges"]),
+                      "accepted_durably": len(trial["accepted"]) - bool(trial["trial"])}))

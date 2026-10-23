@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "case": "dll-lifecycle-and-exports",
+  "exit": 0,
+  "stdout_hex": "6174746163683d310d0a6578706f7274733d310d0a6465746163683d310d0a",
+  "stderr_hex": "",
+  "trace": "DllMain\n",
+  "registration": {
+    "name": "C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+    "flags": 2,
+    "path": "R:\\toolchains\\5.10\\bin\\C1XX.DLL"
+  },
+  "typed_state": {
+    "returns": [
+      1,
+      1
+    ],
+    "attach_count": [
+      1,
+      0
+    ],
+    "module": "registered DLL",
+    "onexit": [
+      "allocated empty 128-byte table",
+      "begin NULL; end retains freed allocation identity"
+    ],
+    "initializer_words": [
+      0,
+      0
+    ],
+    "raw_callback": null,
+    "adjust_fdiv": 0,
+    "last_error": 203,
+    "x87_abstract_control": 589855,
+    "thread_calls_disabled": true
+  },
+  "original_provenance": {
+    "capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-complete-original-1",
+    "receipt_sha256": "28364db3f4dca1348c2b2fde53de0b204ee63bc7db3aa8b860ccec50e331c652",
+    "raw_state_sha256": {
+      "events.txt": "b958dd17dea0968ed25b8f3a99fc1ecc8a848ff8c06b31472d92fb1083e3955c",
+      "state-004.bin": "0f257842099e5b7ffe3dc23f0138a65181efd53583bd0825f81b068abe8a0940",
+      "state-008.bin": "57513a99b458c199241198d71611638df905116c69c7e9dc1466c58251a24ba4"
+    },
+    "trace_derivation": "First-encounter application entries from raw trap RVAs; CRT/imports filtered; 0x2e52a maps to DllMain",
+    "validation": "validation.json"
+  }
+}
